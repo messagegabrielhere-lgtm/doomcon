@@ -21,6 +21,14 @@ describe('tally page SEO', () => {
     assert.match(html, /What do the five moods mean\?/);
     assert.match(html, /Where does Tally work on the site\?/);
     assert.match(html, /Can I use Tally in my own posts\?/);
+    assert.match(html, /What are Tally(?:'|&#39;|&apos;)s Bets\?/);
+    assert.match(html, /What is on Tally(?:'|&#39;|&apos;)s Desk\?/);
+    assert.match(html, /How do you play Tally Counts\?/);
+    assert.match(html, /FAQPage[\s\S]*What are Tally(?:'|&#39;|&apos;)s Bets\?/);
+    assert.match(html, /FAQPage[\s\S]*How do you play Tally Counts\?/);
+    assert.doesNotMatch(html, /<h3>[^<]*Tally(?:'|&#39;|&apos;)s Bets<\/h3>/);
+    assert.doesNotMatch(html, /<h3>[^<]*Tally(?:'|&#39;|&apos;)s Desk<\/h3>/);
+    assert.doesNotMatch(html, /<h3>[^<]*Tally Counts<\/h3>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);

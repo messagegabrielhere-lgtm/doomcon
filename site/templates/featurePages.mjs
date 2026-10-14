@@ -560,13 +560,14 @@ export function breakthroughs(ctx, list) {
 // ---------------------------------------------------------------------------
 // LIVE ON X — searches that are always live, voices worth following, Spaces
 // ---------------------------------------------------------------------------
+// Tip #362: feed-card H3s are question-shaped and mirrored in FAQ (§3.3).
 const X_SEARCHES = [
-  ['Superintelligence, latest', 'superintelligence'],
-  ['AGI, latest', 'AGI OR "artificial general intelligence"'],
-  ['AI safety, latest', '"AI safety" OR "AI alignment"'],
-  ['New model launches', '("new model" OR launch OR release) (GPT OR Claude OR Gemini OR Grok OR Llama)'],
-  ['AI and jobs', '(AI OR "artificial intelligence") (jobs OR layoffs OR hiring)'],
-  ['Skynet talk', 'Skynet AI'],
+  ['What is the latest on superintelligence?', 'superintelligence'],
+  ['What is the latest on AGI?', 'AGI OR "artificial general intelligence"'],
+  ['What is the latest on AI safety?', '"AI safety" OR "AI alignment"'],
+  ['Which new model launches are people posting?', '("new model" OR launch OR release) (GPT OR Claude OR Gemini OR Grok OR Llama)'],
+  ['What are people saying about AI and jobs?', '(AI OR "artificial intelligence") (jobs OR layoffs OR hiring)'],
+  ['What Skynet talk is on X right now?', 'Skynet AI'],
 ];
 const X_VOICES = [
   ['Labs', [['OpenAI', 'OpenAI'], ['Anthropic', 'AnthropicAI'], ['Google DeepMind', 'GoogleDeepMind'], ['xAI', 'xai'], ['AI at Meta', 'AIatMeta'], ['Mistral AI', 'MistralAI'], ['NVIDIA', 'nvidia']]],
@@ -603,6 +604,8 @@ export function liveX(ctx) {
       `Which AI stories has ${brand.NAME} scored in this window? reads 30+ sources every 15 minutes for a scored, de-duplicated version of the same news.`],
     [`Does ${brand.NAME} publish a live-X doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} This page links live X feeds and Spaces — not a probability of harm.`],
+    // Tip #362: feed-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...X_SEARCHES.map(([t, q]) => [t, `Opens a live X search for: ${q}.`]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

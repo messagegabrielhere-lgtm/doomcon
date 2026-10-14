@@ -158,6 +158,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'How many AI agents are writing code?'));
     assert.ok(qa.some(([q]) => q === 'What does The Collector do?'));
     assert.ok(qa.some(([q]) => q === 'What are the agents shipping right now?'));
+    assert.ok(qa.some(([q]) => q === "What are Tally's Bets?"));
+    assert.ok(qa.some(([q]) => q === 'What is the latest on superintelligence?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -208,6 +210,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /How many AI agents are writing code\?/);
     assert.match(html, /What does The Collector do\?/);
     assert.match(html, /What are the agents shipping right now\?/);
+    assert.match(html, /What are Tally(?:'|&#39;|&apos;)s Bets\?/);
+    assert.match(html, /What is the latest on superintelligence\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });
