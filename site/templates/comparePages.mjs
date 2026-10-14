@@ -180,6 +180,13 @@ function faqEntities(pairs) {
   };
 }
 
+function faqBlock(pairs) {
+  if (!pairs || !pairs.length) return '';
+  return `<h2 id="faq">What questions do people actually ask?</h2>
+${pairs.map(([q, a]) => `  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('\n')}`;
+}
+
 function pageJsonLd(ctx, path, title, description, crumbs, faqPairs) {
   const blocks = [
     {
@@ -376,11 +383,76 @@ export function vsRival(ctx, rivalId) {
   });
 }
 
+
+/** Head-term /vs.html directory over the same gated conquest set as /vs/*. */
+export function vsHub(ctx) {
+  const path = '/vs.html';
+  const title = `Which AI indexes does ${brand.NAME} contrast? DoomBench, Skynet, p(doom), PizzINT, Takeoff Tracker`;
+  const description = `${brand.NAME} versus DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker — one honest page each. Activity tempo with a receipt, not a doom probability, AGI date, or DEFCON reading.`;
+  const faq = [
+    [`Where are the ${brand.NAME} versus pages?`,
+      `Each rival has a dedicated /vs/ page: DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker. This hub lists them. The full table is on /compare.html.`],
+    [`Does ${brand.NAME} claim to beat DoomBench or Skynet on doom risk?`,
+      `No. Those sites score judgement about danger or timelines. ${brand.NAME} counts how loud AI activity is this hour. The versus pages only contrast measurement methods.`],
+  ];
+  const rows = RIVALS.map((r) => `<li>
+  <a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}: which should you use?</a>
+  <span class="cmp__lede" style="display:block;margin:4px 0 0">${esc(r.short)}. ${esc(r.ourAngle)}</span>
+</li>`).join('');
+  const main = `${CSS}
+<article class="cmp prose">
+  <p class="cmp__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · Which AI indexes does ${esc(brand.NAME)} contrast?</p>
+  <h1>Which AI indexes does ${esc(brand.NAME)} contrast?</h1>
+  <p class="cmp__lede">Search often lands on a doom score, a countdown, or a DEFCON-shaped novelty page.
+    These versus pages state what each rival measures and what ${esc(brand.NAME)} refuses to claim.
+    No borrowed doom probability, AGI date, or military DEFCON reading.</p>
+  ${liveStrip(ctx)}
+  <div class="cmp__stat" role="group" aria-label="Versus pages">
+    <div><b class="num">${esc(String(RIVALS.length))}</b><span>Rival pages</span></div>
+  </div>
+  <ol style="list-style:none;padding:0;margin:16px 0 0;display:grid;gap:10px">${rows}</ol>
+  ${faqBlock(faq)}
+  <h2>What else should you read?</h2>
+  <p><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>
+     · <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives?</a>
+     · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
+     · <a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers?</a></p>
+  ${rivalNav(null)}
+</article>`;
+  const listLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Which AI indexes does ${brand.NAME} contrast?`,
+    numberOfItems: RIVALS.length,
+    itemListElement: RIVALS.map((r, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: `${brand.NAME} vs ${r.name}: which should you use?`,
+      url: ctx.url(r.path),
+    })),
+  };
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: [
+      ...pageJsonLd(ctx, path, title, description, [
+        { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+        { name: `Which AI indexes does ${brand.NAME} contrast?`, path },
+      ], faq),
+      listLd,
+    ],
+    main,
+  });
+}
+
 /** All HTML bodies this module owns. */
 export function renderAll(ctx) {
   return [
     { path: 'compare.html', html: compareHub(ctx) },
     { path: 'alternatives.html', html: alternatives(ctx) },
+    { path: 'vs.html', html: vsHub(ctx) },
     ...RIVALS.map((r) => ({ path: r.path.replace(/^\//, ''), html: vsRival(ctx, r.id) })),
   ];
 }
@@ -391,6 +463,7 @@ export function sitemapEntries(ctx) {
   return [
     { loc: '/compare.html', changefreq: 'weekly', priority: '0.9', lastmod: last },
     { loc: '/alternatives.html', changefreq: 'weekly', priority: '0.9', lastmod: last },
+    { loc: '/vs.html', changefreq: 'weekly', priority: '0.9', lastmod: last },
     ...RIVALS.map((r) => ({
       loc: r.path,
       changefreq: 'weekly',

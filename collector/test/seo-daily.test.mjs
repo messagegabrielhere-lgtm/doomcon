@@ -146,5 +146,8 @@ describe('seo-daily surfaces', () => {
     assert.ok(OUR_SURFACES.includes('/sources.html'));
     assert.ok(OUR_SURFACES.includes('/lab/'));
     assert.ok(OUR_SURFACES.includes('/pillar/'));
+    assert.ok(OUR_SURFACES.includes('/vs.html'));
+    assert.ok(OUR_SURFACES.includes('/guides.html'));
+    assert.ok(OUR_SURFACES.includes('/guides.md'));
   });
 });

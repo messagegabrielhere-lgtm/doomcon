@@ -124,7 +124,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.ok(lines.length < 240, `${lines.length} lines`);
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
-    '/methodology.md', '/guide.md', '/agents.md', '/agents.txt', '/.well-known/api-catalog', '/compare.html', '/alternatives.html']) {
+    '/methodology.md', '/guide.md', '/guides.html', '/guides.md', '/agents.md', '/agents.txt',
+    '/.well-known/api-catalog', '/compare.html', '/vs.html', '/alternatives.html',
+    '/vs/pizzint.html', '/vs/takeofftracker.html']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.ok(txt.includes(dispatchFeedUrl()));
@@ -148,7 +150,8 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   const md = agentsMd({ url });
   assert.match(md, /^# SIREN for AI agents/);
   assert.match(md, /ChatGPT, Grok/);
-  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt']) {
+  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html',
+    '/compare.html', '/vs.html', '/agents.txt']) {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
   assert.match(md, /not a prediction|Never call it a prediction/);
