@@ -160,6 +160,45 @@ describe('people pages', () => {
     assert.doesNotMatch(html, /<h2 id="pp-archive">Older scored stories naming Sam Altman<\/h2>/);
   });
 
+  it('indexes Nadella through Kavukcuoglu people hubs that clear the substance gate', () => {
+    const roster = [
+      ['nadella', 'Satya Nadella'],
+      ['altman', 'Sam Altman'],
+      ['musk', 'Elon Musk'],
+      ['amodei', 'Dario Amodei'],
+      ['huang', 'Jensen Huang'],
+      ['zuckerberg', 'Mark Zuckerberg'],
+      ['brockman', 'Greg Brockman'],
+      ['lecun', 'Yann LeCun'],
+      ['karpathy', 'Andrej Karpathy'],
+      ['bengio', 'Yoshua Bengio'],
+      ['pichai', 'Sundar Pichai'],
+      ['hassabis', 'Demis Hassabis'],
+      ['sutskever', 'Ilya Sutskever'],
+      ['suleyman', 'Mustafa Suleyman'],
+      ['liang', 'Liang Wenfeng'],
+      ['hinton', 'Geoffrey Hinton'],
+      ['karp', 'Alex Karp'],
+      ['murati', 'Mira Murati'],
+      ['mensch', 'Arthur Mensch'],
+      ['kavukcuoglu', 'Koray Kavukcuoglu'],
+    ];
+    const withRoster = {
+      ...ctx,
+      leaders: {
+        generated_at: ctx.leaders.generated_at,
+        window_days: 7,
+        leaders: roster.map(([id, name]) => leader(id, name, { headlines: 3, week: 8, lines: 0 })),
+      },
+    };
+    for (const [id, name] of roster) {
+      assert.ok(indexablePeople(withRoster).some((p) => p.id === id), id);
+      assert.match(renderPerson(withRoster, id), new RegExp(`What press has SIREN scored about ${name}\\?`));
+      assert.doesNotMatch(renderPerson(withRoster, id), /doom score:\s*\d/i);
+      assert.ok(sitemapEntries(withRoster).some((e) => e.loc === `/people/${id}.html`));
+    }
+  });
+
   it('lets the durable archive keep a person hub above the substance gate', () => {
     const withArch = {
       ...ctx,
