@@ -300,6 +300,7 @@ context.
 | 67 | `llms.txt` / `agents.md` / home tiles advertise question-shaped Search Trends + AI prediction-markets URLs (live agent maps had omitted them after HTML-only overlay) | Agents + Google | **Done** (2026-10-14) |
 | 68 | Fix `catalogPages.mjs` DATA syntax clobber from #137 restore (`api/si-signals.json` + `api/search-trends.json`) so `collect`/`news-fast` site builds can finish again | Deploy / Google | **Done** (2026-10-14) |
 | 69 | `openapi.json` + `skill.md` + `api-catalog` / `ai.txt` / MCP `related` advertise Search Trends + AI prediction-markets (JSON + question HTML) | Agents + Google | **Done** (2026-10-14) |
+| 70 | `api/index.json` endpoints map lists `search_trends` + HTML landings so agents discovering via index.json reach the head-term pages | Agents | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
