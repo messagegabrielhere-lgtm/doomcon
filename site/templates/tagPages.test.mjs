@@ -2795,6 +2795,48 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'reliability'), /probability of doom/i);
   });
 
+  it('pages attribution, normalization, gigawatt, and next-token hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('at1', 'Error-Propagation Modeling for Failure Attribution in LLM Agents'),
+          story('at2', 'Training-Data Attribution in Online RL with BehaviorTrace'),
+          story('at3', 'Layerwise Error Attribution for Mixed-Precision Quantization'),
+          story('at4', 'ConEx: Concept-Aware Attribution for saliency maps'),
+          story('at5', 'Synthetic-Data Attribution limits for source identification'),
+          story('nm1', 'Learn the Directions, Normalize the Gains: Post-Training Normalization for LoRA'),
+          story('nm2', 'The Row Normalization Puzzle in Muon'),
+          story('nm3', 'Batch normalization alternatives for transformers'),
+          story('nm4', 'Group normalization in vision-language backbones'),
+          story('nm5', 'Weight normalization for stable preference tuning'),
+          story('gw1', 'Microsoft plans to scale its own Maia AI chips to gigawatt levels'),
+          story('gw2', 'Microsoft to expand Azure Maia system to multi-gigawatt deployments'),
+          story('gw3', 'Microsoft Prepares to Put Gigawatts of Its Chips in Data Centers'),
+          story('gw4', 'Microsoft unveils Maia 300 AI accelerator at gigawatt scale'),
+          story('gw5', 'Microsoft to scale custom AI chips in multi-gigawatt push'),
+          story('nt1', 'I built a browser tool to visualize how a small LLM picks its next-token'),
+          story('nt2', 'Controlled Decoding Attacks alter next-token distributions'),
+          story('nt3', 'Next-token prediction still anchors most pretraining recipes'),
+          story('nt4', 'Measuring next token entropy under speculative decoding'),
+          story('nt5', 'Why next-token losses understate long-horizon errors'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('attribution'));
+    assert.ok(ids.includes('normalization'));
+    assert.ok(ids.includes('gigawatt'));
+    assert.ok(ids.includes('next-token'));
+    assert.match(renderTag(rich, 'attribution'), /What has SIREN scored about AI attribution\?/);
+    assert.match(renderTag(rich, 'normalization'), /What has SIREN scored about Normalization\?/);
+    assert.match(renderTag(rich, 'gigawatt'), /What has SIREN scored about Gigawatt AI\?/);
+    assert.match(renderTag(rich, 'next-token'), /What has SIREN scored about Next-token prediction\?/);
+    assert.doesNotMatch(renderTag(rich, 'gigawatt'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'attribution'), /probability of doom/i);
+  });
+
   it('pages contrastive, gradient, optimizer, and regularization hubs', () => {
     const rich = {
       ...ctx,

@@ -1777,6 +1777,30 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Regularization research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Rr]egularization\b/,
   },
+  {
+    id: 'attribution',
+    name: 'AI attribution',
+    description: 'Attribution and explanation research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Aa]ttribution\b/,
+  },
+  {
+    id: 'normalization',
+    name: 'Normalization',
+    description: 'Normalization research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Nn]ormalization\b/,
+  },
+  {
+    id: 'gigawatt',
+    name: 'Gigawatt AI',
+    description: 'Gigawatt-scale AI infrastructure stories scored in the newsroom or archive — coverage counts, not a capacity forecast.',
+    match: /\b[Gg]igawatts?\b/,
+  },
+  {
+    id: 'next-token',
+    name: 'Next-token prediction',
+    description: 'Next-token prediction research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\bnext[- ]token\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
