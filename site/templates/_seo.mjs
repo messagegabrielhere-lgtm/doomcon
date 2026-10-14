@@ -216,6 +216,7 @@ export function organization(ctx) {
       'who is winning the AI race',
       'Which AI leaders are on the record this week',
       'Which AI stories has SIREN scored in this window',
+      'Which AI stories did SIREN score on a UTC day',
       'Which AI tags has SIREN scored stories about',
       'Which AI news tags have SIREN pages',
       'What has SIREN scored about AI agents',
