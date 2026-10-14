@@ -105,6 +105,11 @@ export function doomNews(items, n = 6) {
 }
 
 export function voicesSection(ctx, sirenLevel) {
+  const href = typeof ctx.href === 'function' ? ctx.href : (p) => p;
+  const newsQ = 'Which AI stories has SIREN scored in this window?';
+  const liveQ = 'What AI is on TV and radio right now?';
+  const dayQ = 'What happens the day after an AI catastrophe?';
+  const booksQ = 'What AI books argue both sides of the case?';
   const rows = VOICES.slice().sort((a, b) => mid(a) - mid(b) || a[0].localeCompare(b[0]));
   const ladder = rows.map((v) => {
     const [name, lo, hi, g, role, cite] = v, c = GROUPS[g][1];
@@ -140,10 +145,10 @@ export function voicesSection(ctx, sirenLevel) {
       <div class="vx-sh"><button type="button" id="vx-x" data-xpost="page" data-x-title="My p(doom) is ${start}%. Where do you sit among Hinton, Amodei, LeCun and Yudkowsky?" data-x-src="SIREN" data-x-url="${share}#voices" style="appearance:none;border:1px solid #F87171;background:#1A0A0A;color:#FCA5A5;padding:10px 14px;font:700 13px var(--mono);cursor:pointer">𝕏 Post my p(doom)</button><a id="vx-li" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent((ctx.url ? ctx.url('/p-doom.html') : 'https://siren.watch/p-doom.html'))}" target="_blank" rel="noopener">in Share on LinkedIn</a><button type="button" id="vx-cp">Copy link</button></div>
     </div>
   </div>
-  <div class="vx-news"><h3>IN THE NEWS: AI CATASTROPHE, SAFETY, p(doom)</h3><ul id="vx-news">${doomNews(ctx.news && ctx.news.items).map((x) => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a><small>${esc(x.source || '')} · ${esc(ago(x.published_at))}</small></li>`).join('') || '<li>No catastrophe-risk headlines in the last few days. <a href="news.html">All AI news →</a></li>'}</ul>
-    <p style="font-size:12.5px;margin:6px 0 0">Refreshes live from SIREN’s newsroom. <a href="news.html">All AI news →</a> · <a href="live.html">Watch: AI on TV &amp; radio, live →</a> · <a href="day-after.html">Game out the day after →</a></p></div>
+  <div class="vx-news"><h3>IN THE NEWS: AI CATASTROPHE, SAFETY, p(doom)</h3><ul id="vx-news">${doomNews(ctx.news && ctx.news.items).map((x) => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a><small>${esc(x.source || '')} · ${esc(ago(x.published_at))}</small></li>`).join('') || `<li>No catastrophe-risk headlines in the last few days. <a href="${esc(href('/news.html'))}">${esc(newsQ)} →</a></li>`}</ul>
+    <p style="font-size:12.5px;margin:6px 0 0">Refreshes live from SIREN’s newsroom. <a href="${esc(href('/news.html'))}">${esc(newsQ)} →</a> · <a href="${esc(href('/live.html'))}">${esc(liveQ)} →</a> · <a href="${esc(href('/day-after.html'))}">${esc(dayQ)} →</a></p></div>
   <div class="vx-news"><h3>POLLS &amp; SURVEYS</h3><ul>${POLLS.map((p) => `<li><b>${esc(p[0])}: ${esc(p[1])}</b>. ${esc(p[2])}. <a href="${esc(p[4])}" target="_blank" rel="noopener">${esc(p[3])}</a></li>`).join('')}</ul></div>
-  <div class="vx-news"><h3>FURTHER READING, EVERY SIDE</h3><ul>${READING.map((r) => `<li><a href="${esc(r[3])}" target="_blank" rel="noopener">${esc(r[1])}</a><small>${esc(r[0])} · ${esc(r[2])}</small></li>`).join('')}<li><a href="library.html">SIREN’s library: books from every side →</a></li></ul></div>
+  <div class="vx-news"><h3>FURTHER READING, EVERY SIDE</h3><ul>${READING.map((r) => `<li><a href="${esc(r[3])}" target="_blank" rel="noopener">${esc(r[1])}</a><small>${esc(r[0])} · ${esc(r[2])}</small></li>`).join('')}<li><a href="${esc(href('/library.html'))}">${esc(booksQ)} →</a></li></ul></div>
   <details style="margin-top:12px"><summary class="vx-src" style="cursor:pointer">Where each figure comes from</summary><ul class="vx-src">${rows.map((v) => `<li><b>${esc(v[0])}</b>: ${v[1] === v[2] ? `${v[1]}%` : `${v[1]}–${v[2]}%`} · ${esc(v[5])}</li>`).join('')}<li><b>Survey</b>: ${esc(SURVEY.label)}.</li><li>Compiled from Wikipedia’s <a href="https://en.wikipedia.org/wiki/P(doom)" target="_blank" rel="noopener">P(doom)</a> article, which cites each original. Hinton has also said his own gut figure is over 50%; we plot the 10–20% he gives “all things considered”.</li></ul></details>
 <script>(function(){var s=document.getElementById('vx-in');if(!s)return;var o=document.getElementById('vx-out'),y=document.getElementById('vx-you'),h=document.getElementById('vx-hand'),hr=document.getElementById('vx-hr'),m=document.getElementById('vx-min'),say=document.getElementById('vx-say'),x=document.getElementById('vx-x');
 var rows=[].slice.call(document.querySelectorAll('#vx-lad .vx-r'));

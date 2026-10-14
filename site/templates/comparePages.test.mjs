@@ -145,4 +145,12 @@ describe('compare / alternatives conquest pages', () => {
   it('returns empty for an unknown rival id', () => {
     assert.equal(vsRival(ctx, 'not-a-rival'), '');
   });
+
+  it('compare Also-on-this-site embed link uses the export question, not noindex embed', () => {
+    const hub = compareHub(ctx);
+    assert.match(hub, /href="\/export\.html#embed">How do I export and embed SIREN data\? →<\/a>/);
+    assert.doesNotMatch(hub, /href="\/embed\.html">Embed the live reading →<\/a>/);
+    assert.doesNotMatch(hub, /doom score:\s*\d/i);
+    assert.doesNotMatch(hub, /probability of doom/i);
+  });
 });

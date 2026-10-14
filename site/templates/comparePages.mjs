@@ -257,7 +257,7 @@ export function compareHub(ctx) {
      · <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives? →</a>
      · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)? →</a>
      · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology →</a>
-     · <a href="${esc(ctx.href('/embed.html'))}">Embed the live reading →</a></p>
+     · <a href="${esc(ctx.href('/export.html'))}#embed">How do I export and embed ${esc(brand.NAME)} data? →</a></p>
   ${rivalNav(null)}
 </article>`;
   return page({

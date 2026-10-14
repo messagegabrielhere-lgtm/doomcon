@@ -631,7 +631,7 @@ ${ruleNote}
 <p class="fresh__key">${esc(brand.DISCLAIMER_SHORT)} Thresholds read from receipt
    <code>${esc(mdl.constants.receipt_id || 'none')}</code>${mdl.constants.source === 'fallback'
      ? ' (unreadable — the published defaults are shown)' : ''}.
-   <a href="${esc(href('/methodology.html'))}">How a stage is decided →</a></p>`;
+   <a href="${esc(href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology →</a></p>`;
 
   return `${style ? styleTag() : ''}<section class="sec oven" id="oven" data-frozen="${
     mdl.frozen ? 1 : 0}"${heading ? ' aria-labelledby="oven-h"' : ' aria-label="The oven"'}>${body}
