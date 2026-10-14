@@ -178,18 +178,18 @@ export function renderOutlet(ctx, domain) {
   const others = indexableOutlets(ctx)
     .filter((o) => o.domain !== domain)
     .slice(0, 12)
-    .map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)}</a>`)
+    .map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">What has ${esc(brand.NAME)} scored from ${esc(o.domain)}?</a>`)
     .join('');
   const olderBlock = older.length
     ? `<h2>Older scored stories on ${esc(domain)}</h2>
   <p class="od__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="od__list">${itemRows(ctx, older)}</ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
     : '';
 
   const main = `${STYLE}
 <article class="od prose">
-  <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/outlet/'))}">Publishers</a> · <a href="${esc(ctx.href('/outlets.html'))}">Outlets hub</a></p>
+  <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/outlet/'))}">Which AI publishers have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a></p>
   <h1>What has ${esc(brand.NAME)} scored from ${esc(domain)}?</h1>
   <p class="od__lede">Stories this index scored whose original link is on ${esc(domain)}. The words belong to that publisher. The score is computed here and measures activity tempo inside the window, not whether the story is good or bad, and not a probability of harm.</p>
   <div class="od__stat" role="group" aria-label="Publisher counts">
@@ -202,7 +202,7 @@ export function renderOutlet(ctx, domain) {
     ? `<ol class="od__list">${itemRows(ctx, items)}</ol>`
     : '<p>No scored stories from this publisher in the current window.</p>'}
   ${items.length > OUTLET_LIST_CAP
-    ? `<p class="fresh__key">${esc(String(items.length - OUTLET_LIST_CAP))} more on the <a href="${esc(ctx.href('/news.html'))}">full newsroom</a>.</p>`
+    ? `<p class="fresh__key">${esc(String(items.length - OUTLET_LIST_CAP))} more on <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>`
     : ''}
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
@@ -235,9 +235,9 @@ export function renderOutlet(ctx, domain) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Publishers', path: '/outlet/' },
-      { name: domain, path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI publishers have ${brand.NAME} pages?`, path: '/outlet/' },
+      { name: `What has ${brand.NAME} scored from ${domain}?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -270,12 +270,12 @@ export function renderIndex(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = outlets.map((o) => `<li>
-  <a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)}</a>
-  <span class="od__meta">${esc(String(o.count))} scored${o.archived ? ` (${esc(String(o.live))} live / ${esc(String(o.archived))} archive)` : ''}</span>
+  <a href="${esc(ctx.href(outletPath(o.domain)))}">What has ${esc(brand.NAME)} scored from ${esc(o.domain)}?</a>
+  <span class="od__meta">${esc(o.domain)} · ${esc(String(o.count))} scored${o.archived ? ` (${esc(String(o.live))} live / ${esc(String(o.archived))} archive)` : ''}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="od prose">
-  <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Publishers · <a href="${esc(ctx.href('/outlets.html'))}">Outlets hub</a></p>
+  <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI publishers have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a></p>
   <h1>Which AI publishers have ${esc(brand.NAME)} pages?</h1>
   <p class="od__lede">A publisher earns a page when at least ${OUTLET_INDEX_MIN} scored stories whose original URL is on that host appear in the live window or the durable archive. Thinner domains stay on the story page only. Feed adapters live under <a href="${esc(ctx.href('/source/'))}">/source/</a>.</p>
   ${outlets.length
@@ -306,12 +306,12 @@ export function renderIndex(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(outletPath(o.domain)),
-          name: o.domain,
+          name: `What has ${brand.NAME} scored from ${o.domain}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Publishers', path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI publishers have ${brand.NAME} pages?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -349,25 +349,25 @@ export function renderOutlets(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = outlets.map((o) => `<li>
-  <a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)}</a>
-  <span class="od__meta">Publisher hub · <span class="num">${esc(String(o.count))}</span> scored${o.archived ? ` (${esc(String(o.live))} live)` : ''}</span>
+  <a href="${esc(ctx.href(outletPath(o.domain)))}">What has ${esc(brand.NAME)} scored from ${esc(o.domain)}?</a>
+  <span class="od__meta">${esc(o.domain)} · Publisher hub · <span class="num">${esc(String(o.count))}</span> scored${o.archived ? ` (${esc(String(o.live))} live)` : ''}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="od prose">
-  <p class="od__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/outlet/'))}">Publishers</a> · Outlets hub</p>
+  <p class="od__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/outlet/'))}">Which AI publishers have ${esc(brand.NAME)} pages?</a> · Which AI outlets has ${esc(brand.NAME)} scored stories from?</p>
   <h1>Which AI outlets has ${esc(brand.NAME)} scored stories from?</h1>
-  <p class="od__lede">${esc(brand.NAME)} does not publish a publisher “doom score.” It publishes an activity index and scored stories. This page lists original-URL hosts that already clear the same substance gate as <a href="${esc(ctx.href('/outlet/'))}">/outlet/</a> — at least ${OUTLET_INDEX_MIN} matching stories in the live window or archive. Feed adapters stay under <a href="${esc(ctx.href('/source/'))}">/source/</a>.</p>
+  <p class="od__lede">${esc(brand.NAME)} does not publish a publisher “doom score.” It publishes an activity index and scored stories. This page lists original-URL hosts that already clear the same substance gate as <a href="${esc(ctx.href('/outlet/'))}">Which AI publishers have ${esc(brand.NAME)} pages?</a> — at least ${OUTLET_INDEX_MIN} matching stories in the live window or archive. Feed adapters stay under <a href="${esc(ctx.href('/source/'))}">/source/</a>.</p>
   <div class="od__stat" role="group" aria-label="Outlets hub totals">
     <div><b class="num">${esc(String(outlets.length))}</b><span>Publisher hubs</span></div>
   </div>
   ${outlets.length ? `<ol class="od__list">${rows}</ol>` : '<p>No outlet hub cleared the gate in this build.</p>'}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <p class="fresh__key"><a href="${esc(ctx.href('/outlet/'))}">Publisher directory →</a>
-     · <a href="${esc(ctx.href('/sources.html'))}">AI news sources →</a>
-     · <a href="${esc(ctx.href('/tags.html'))}">AI tags →</a>
-     · <a href="${esc(ctx.href('/kinds.html'))}">AI story kinds →</a>
-     · <a href="${esc(ctx.href('/news.html'))}">Newsroom →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/outlet/'))}">Which AI publishers have ${esc(brand.NAME)} pages?</a>
+     · <a href="${esc(ctx.href('/sources.html'))}">Which AI news sources has ${esc(brand.NAME)} scored via?</a>
+     · <a href="${esc(ctx.href('/tags.html'))}">Which AI tags has ${esc(brand.NAME)} scored stories about?</a>
+     · <a href="${esc(ctx.href('/kinds.html'))}">Which AI story kinds has ${esc(brand.NAME)} scored?</a>
+     · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>
 </article>`;
   return page({
     ctx,
@@ -389,12 +389,12 @@ export function renderOutlets(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(outletPath(o.domain)),
-          name: o.domain,
+          name: `What has ${brand.NAME} scored from ${o.domain}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Compare', path: '/compare.html' },
-      { name: 'Outlets', path },
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI outlets has ${brand.NAME} scored stories from?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
