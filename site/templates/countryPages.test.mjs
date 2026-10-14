@@ -85,6 +85,12 @@ describe('country pages', () => {
   it('ships /countries.html over the same gated country set', () => {
     const html = renderCountries(ctx);
     assert.match(html, /Which AI datacentre countries has SIREN mapped\?/);
+    assert.match(html, /How many datacentres has SIREN mapped in Germany\?/);
+    assert.match(html, /Which AI doom indexes can you compare\?/);
+    assert.match(html, /Which AI datacentre countries have SIREN pages\?/);
+    assert.match(html, /fc__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/compare\.html">Compare<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/country\/">Countries<\/a>/);
     assert.match(html, /\/country\/de\.html/);
     assert.match(html, /does not publish a country/);
     assert.match(html, /Questions people actually ask/);
@@ -93,6 +99,11 @@ describe('country pages', () => {
     assert.match(html, /\/world\.html/);
     const index = renderIndex(ctx);
     assert.match(index, /Which AI datacentre countries have SIREN pages\?/);
+    assert.match(index, /How many datacentres has SIREN mapped in Germany\?/);
+    assert.match(index, /How many datacentres has SIREN mapped on Earth\?/);
+    assert.match(index, /fc__k"><a href="\/world\.html">How many datacentres has SIREN mapped on Earth\?<\/a>/);
+    assert.doesNotMatch(index, /fc__k"><a href="\/world\.html">World<\/a>/);
+    assert.doesNotMatch(index, /fc__k">[^<]*· Countries ·/);
     assert.match(index, /Questions people actually ask/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
@@ -105,7 +116,16 @@ describe('country pages', () => {
 
   it('renders the mapped count and does not claim a census of datacentres', () => {
     const html = renderCountry(ctx, 'de');
-    assert.match(html, /How many datacentres has SIREN mapped in Germany\?/);
+    assert.match(html, /<title>How many datacentres has SIREN mapped in Germany\?/);
+    assert.match(html, /<h1>How many datacentres has SIREN mapped in Germany\?<\/h1>/);
+    assert.match(html, /How many datacentres has SIREN mapped on Earth\?/);
+    assert.match(html, /Which AI datacentre countries have SIREN pages\?/);
+    assert.match(html, /Which AI datacentre countries has SIREN mapped\?/);
+    assert.match(html, /How many datacentres has SIREN mapped in France\?/);
+    assert.match(html, /fc__k"><a href="\/world\.html">How many datacentres has SIREN mapped on Earth\?<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/world\.html">World<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/country\/">Countries<\/a>/);
+    assert.doesNotMatch(html, /fc__nav"[^>]*>[\s\S]*?>France<\/a>/);
     assert.match(html, /Dataset/);
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);

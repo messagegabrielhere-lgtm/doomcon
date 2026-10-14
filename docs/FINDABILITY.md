@@ -474,6 +474,7 @@ context.
 | 222 | `/pillar/` + `/pillars.html` siblings/breadcrumbs/ItemList links use newsroom + pillar-directory questions + “What has SIREN scored under {name}?” (was “Newsroom” / “Pillars” / “Compare”); refuse pillar doom-score claims | Google + Bing | **Done** (2026-10-14) |
 | 223 | `/kind/*` + `/kind/` + `/kinds.html` siblings/breadcrumbs/ItemList/other-kind links use newsroom + kind-directory questions + “What has SIREN scored as {kind}?” (was “Newsroom” / “Kinds” / “Compare”); refuse kind doom-score claims | Google + Bing | **Done** (2026-10-14) |
 | 224 | `/news/YYYY-MM-DD` day hubs: siblings/breadcrumbs/other-day links use newsroom question + “Which AI stories did SIREN score on {day}?” (was “Newsroom” / “Day”); refuse day doom-score claims | Google + Bing | **Done** (2026-10-14) |
+| 225 | `/country/*` + `/country/` + `/countries.html` siblings/breadcrumbs/ItemList/neighbour links use world + country-directory questions + “How many datacentres has SIREN mapped in {name}?” (was “World” / “Countries” / “Compare”); refuse country doom-score / census claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
