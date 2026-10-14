@@ -515,6 +515,7 @@ context.
 | 263 | Home/classic section H2s + classic FAQPage use questions for instruments CTA / clock / map / Arena / follow / support (was “Check the working” / “The reading, as a clock” / “Where the machines live” / “Markets: …” / “Hear it first…” / “Keep the count running”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 264 | `/digest.html` section H2s + FAQPage use questions for brief / what-changed / streaks / frontier labs / how-computed (was “The brief” / “What changed” / “Streaks and records” / “Every frontier lab…” / “How this page is computed”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 265 | `/bets.html` section H2s + FAQPage use questions for open bets / track record / rules / base-rate limits (was “Open bets” / “The track record” / “The rules” / “What a base rate cannot see”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 266 | `/evolution.html` section H2s + FAQPage use questions for tempo / news / agents / scan log / desk picks (was “The tempo” / “What the news was about” / “What the agents talked about” / “Scan log” / “Every desk pick”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

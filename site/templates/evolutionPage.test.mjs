@@ -23,6 +23,18 @@ describe('evolution page', () => {
     assert.match(html, /Does the Evolution Log move the SIREN index\?/);
     assert.match(html, /Are these forecasts\?/);
     assert.match(html, /What records are kept\?/);
+    assert.match(html, /id="ev-tempo-h">How does the tempo look day by day\?<\/h2>/);
+    assert.match(html, /id="ev-news-h">What was the news about\?<\/h2>/);
+    assert.match(html, /id="ev-agents-h">What did the agents talk about\?<\/h2>/);
+    assert.match(html, /id="ev-scan-h">What is in each scan log entry\?<\/h2>/);
+    assert.match(html, /id="ev-desk-h">Which desk picks are kept\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*How does the tempo look day by day\?/);
+    assert.match(html, /FAQPage[\s\S]*What did the agents talk about\?/);
+    assert.doesNotMatch(html, /id="ev-tempo-h">The tempo<\/h2>/);
+    assert.doesNotMatch(html, /id="ev-news-h">What the news was about<\/h2>/);
+    assert.doesNotMatch(html, /id="ev-agents-h">What the agents talked about<\/h2>/);
+    assert.doesNotMatch(html, /id="ev-scan-h">Scan log<\/h2>/);
+    assert.doesNotMatch(html, /id="ev-desk-h">Every desk pick<\/h2>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"Dataset"/);
