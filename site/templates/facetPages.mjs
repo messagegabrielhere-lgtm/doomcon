@@ -546,6 +546,8 @@ function labNeedles(player) {
     instinct: ['instinct'],
     typesafe: ['typesafe ai', 'typesafe'],
     "mcdonald-s": ["mcdonald's", 'mcdonald’s', 'mcdonalds'],
+    walmart: ['walmart'],
+    netflix: ['netflix'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
