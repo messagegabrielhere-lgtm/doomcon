@@ -359,17 +359,30 @@ export function render(ctx) {
       `access, adoption and openness, ${awaiting} of them awaiting a frozen baseline before they ` +
       `can be scored. Every measured value is published. Compiled ${utc(bliss.generated_at)}.`;
 
-  // FAQ answers restate hero / axis / sources copy only (FINDABILITY §3.3).
+  // Tip #294: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const pairQ = `How do BLISS and ${brand.NAME} sit on one axis?`;
+  const pillarsQ = 'What are the five BLISS pillars?';
+  const sourcesQ = 'Which BLISS sources answered this run?';
+  const howQ = 'How is BLISS computed?';
+  // FAQ answers restate hero / axis / sources / method copy only (FINDABILITY §3.3).
   // Refuse doom-probability / forecast claims for either index.
   const faq = [
     [qTitle,
       `Every AI index measures how bad. This one measures the other direction, with the same machinery: five pillars, the same percentile normalisation against a frozen reference, the same smoothing, the same anti-flap rules. ${brand.NAME} counts takeover-adjacent tempo. BLISS counts science, medicine, access, adoption and openness. Neither is a prediction.`],
     ['Why publish BLISS beside the main SIREN number?',
       'The pairing is the instrument. Two numbers computed by identical code over different inputs can be subtracted. Two numbers produced by human or model judgement cannot. That is the whole argument for publishing both.'],
+    [pairQ,
+      `Both axes are the same 0–100 scale with the same band floors at 35, 55, 70 and 85. A score is a percentile position against that index's own frozen reference distribution — never a probability, and never a comparison between the two fields.`],
+    [pillarsQ,
+      'BLISS pillars are science, medicine, access, adoption and openness — the same five-pillar percentile machinery as the main index, over upside inputs.'],
+    [sourcesQ,
+      `${reporting} of ${total} sources answered this run — ${scored} scored, ${awaiting} awaiting a baseline, ${dark} dark. Dark sources are excluded from every number on this page, never imputed and never counted as zero.`],
+    [howQ,
+      `Every function is imported from collector/engine.mjs — the same code that computes ${brand.NAME}, not a second implementation of it. Two implementations that could disagree would destroy the only claim that makes the pairing worth anything.`],
     ['Is a BLISS score a probability?',
       "A score is a percentile position against that index's own frozen reference distribution — never a probability, and never a comparison between the two fields."],
-    ['How many BLISS sources answered this run?',
-      `${reporting} of ${total} sources answered this run — ${scored} scored, ${awaiting} awaiting a baseline, ${dark} dark. Dark sources are excluded from every number on this page, never imputed and never counted as zero.`],
+    [`Does ${brand.NAME} publish a BLISS doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} BLISS is an upside tempo reading beside the main index — not a probability of harm and not a forecast.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -390,7 +403,7 @@ export function render(ctx) {
 </section>
 
 <section class="bpair" aria-labelledby="pair-h">
-  <h2 id="pair-h" class="bh2">Both numbers, one axis</h2>
+  <h2 id="pair-h" class="bh2">${esc(pairQ)}</h2>
   <div class="bpair__axes">
     ${axisRow({
       label: 'BLISS',
@@ -420,14 +433,14 @@ export function render(ctx) {
 ${hasScore ? '' : awaitingPanel(bliss, reporting, total, awaiting, dark)}
 
 <section class="bpillars" aria-labelledby="pillars-h">
-  <h2 id="pillars-h" class="bh2">The five pillars</h2>
+  <h2 id="pillars-h" class="bh2">${esc(pillarsQ)}</h2>
   <div class="bp__grid">
     ${bliss.pillars.map((p) => pillarCard(p, seriesFor(p.id))).join('\n')}
   </div>
 </section>
 
 <section class="bsources" aria-labelledby="sources-h">
-  <h2 id="sources-h" class="bh2">Every source, and what it read</h2>
+  <h2 id="sources-h" class="bh2">${esc(sourcesQ)}</h2>
   <p class="bnote">${esc(reporting)} of ${esc(total)} sources answered this run &mdash;
      ${esc(scored)} scored, ${esc(awaiting)} awaiting a baseline, ${esc(dark)} dark.
      Dark sources are excluded from every number on this page, never imputed and never counted
@@ -436,7 +449,7 @@ ${hasScore ? '' : awaitingPanel(bliss, reporting, total, awaiting, dark)}
   ${sourceTable(bliss)}
 </section>
 
-${howComputed(ctx, bliss)}
+${howComputed(ctx, bliss, howQ)}
 
 <section class="bfaq" aria-labelledby="faq">
   <h2 id="faq">Questions people actually ask</h2>
@@ -544,12 +557,12 @@ function emptyPage(ctx) {
  * The formula, in the open. Same standard docs/SUB-INDICES.md sets for every
  * sub-index: publish the arithmetic or do not publish the number.
  */
-function howComputed(ctx, bliss) {
+function howComputed(ctx, bliss, howQ = 'How is BLISS computed?') {
   const k = bliss.constants || {};
   const w = k.composite_weights || { mean: 0.7, max: 0.3 };
 
   return `<section class="bhow" aria-labelledby="how-h">
-  <h2 id="how-h" class="bh2">How this is computed</h2>
+  <h2 id="how-h" class="bh2">${esc(howQ)}</h2>
   <ol class="bhow__list">
     <li><b>Normalise.</b> Each source value becomes an empirical percentile against a
         <b>frozen</b> reference distribution, then a pseudo-z through the inverse normal CDF,

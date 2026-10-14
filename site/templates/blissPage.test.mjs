@@ -27,7 +27,15 @@ describe('bliss page', () => {
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /Why publish BLISS beside the main SIREN number\?/);
     assert.match(html, /Is a BLISS score a probability\?/);
-    assert.match(html, /How many BLISS sources answered this run\?/);
+    assert.match(html, /Which BLISS sources answered this run\?/);
+    assert.match(html, /id="pair-h"[^>]*>How do BLISS and SIREN sit on one axis\?/);
+    assert.match(html, /id="pillars-h"[^>]*>What are the five BLISS pillars\?/);
+    assert.match(html, /id="sources-h"[^>]*>Which BLISS sources answered this run\?/);
+    assert.match(html, /id="how-h"[^>]*>How is BLISS computed\?/);
+    assert.doesNotMatch(html, /<h2 id="pair-h"[^>]*>Both numbers, one axis<\/h2>/);
+    assert.doesNotMatch(html, /<h2 id="pillars-h"[^>]*>The five pillars<\/h2>/);
+    assert.doesNotMatch(html, /<h2 id="sources-h"[^>]*>Every source, and what it read<\/h2>/);
+    assert.doesNotMatch(html, /<h2 id="how-h"[^>]*>How this is computed<\/h2>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"Dataset"/);
