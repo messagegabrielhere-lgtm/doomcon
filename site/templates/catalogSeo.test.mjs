@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { catalog, catalogEntries, catalogTitle } from './catalogPages.mjs';
+import { catalog, catalogEntries, catalogTitle, search } from './catalogPages.mjs';
 import { roomGroups } from './homeV2.mjs';
 
 const ctx = {
@@ -176,5 +176,20 @@ describe('catalog page SEO', () => {
     assert.doesNotMatch(html, /catalog of doom/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
+  });
+
+  it('search result-group H2 questions ship in FAQPage and client typeH2 map', () => {
+    const html = search(ctx, { counts: { page: 12, tool: 4, news: 80, leader: 9, faq: 20, kit: 6 } });
+    assert.match(html, /<title>How do you search everything on SIREN\?/);
+    assert.match(html, /Which rooms and pages matched\?/);
+    assert.match(html, /Which news stories matched\?/);
+    assert.match(html, /Which leaders matched\?/);
+    assert.match(html, /Which questions matched\?/);
+    assert.match(html, /Which Bunker Kit tools matched\?/);
+    assert.match(html, /FAQPage[\s\S]*Which rooms and pages matched\?/);
+    assert.match(html, /FAQPage[\s\S]*Which news stories matched\?/);
+    assert.match(html, /D\.typeH2&&D\.typeH2\[k\]/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
   });
 });

@@ -642,6 +642,8 @@ context.
 | 390 | `/si-ready.html` + `/ai-proof-job.html` quiz result-area H3s + FAQPage use questions (was bare area names); Organization `knowsAbout` mirrors those questions; refuse readiness-as-doom / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 391 | `/balance.html` section H2s + FAQPage use questions (was “SIREN and BLISS, as context” / “What this cannot say” / “Where this came from” / “Take the data”); Organization `knowsAbout` mirrors those questions; refuse net-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 392 | `/p-doom.html` voices-section H2 + FAQPage use a question (was “The voices: N named estimates, one ladder”); Organization `knowsAbout` mirrors that question; refuse SIREN-as-p(doom) / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 393 | `/balance.html` beam / matches / registers / counters H2s + FAQPage use questions (was “What the newsroom’s headlines carried” / “Every headline that matched a list” / “Documented results, both sides” / “N counters from public registries”); Organization `knowsAbout` mirrors those questions; refuse net-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 394 | `/search.html` result-group H2s + FAQPage use questions (was bare type labels from `TYPE_LABEL`; chips stay short); `search-index.json` ships `typeH2`; Organization `knowsAbout` mirrors those questions; refuse search-as-doom-oracle / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

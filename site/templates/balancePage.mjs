@@ -227,9 +227,11 @@ function beamSection(ctx, b, m) {
     ? Object.keys(nr.not_scanned.by_kind).sort().map((k) => `${esc(k)} ${count(nr.not_scanned.by_kind[k])}`).join(', ')
     : null;
   const never = arr(br.never_on).map((s) => `<li>${esc(s)}</li>`).join('');
+  // Tip #393: section H2 is question-shaped and mirrored in FAQ (§3.3).
+  const beamQ = 'What did the newsroom’s headlines carry?';
 
   return `<section class="bp__sec" id="the-beam" aria-labelledby="bp-beam-h">
-  <h2 class="bp__h" id="bp-beam-h">${icon('sec-signal')} What the newsroom’s headlines carried<span class="sec__eb">The beam</span></h2>
+  <h2 class="bp__h" id="bp-beam-h">${icon('sec-signal')} ${esc(beamQ)}<span class="sec__eb">The beam</span></h2>
   <p class="bp__l bp__l--lead">${m.sentence ? esc(m.sentence)
     : `The newsroom window is dark this build${m.error ? `: ${esc(m.error)}` : ''}. No story is counted on either side and the beam is drawn level.`}</p>
   <figure class="bp__fig">
@@ -337,9 +339,11 @@ function matchColumn(side, items, b, hrefs, lex) {
 
 function matchesSection(ctx, b, m) {
   const nr = b.newsroom || {};
+  // Tip #393: section H2 is question-shaped and mirrored in FAQ (§3.3).
+  const matchQ = 'Which headlines matched a word list?';
   if (m.state !== 'live' || !nr.matched) {
     return `<section class="bp__sec" id="the-matches" aria-labelledby="bp-match-h">
-  <h2 class="bp__h" id="bp-match-h">${icon('sec-signal')} Every headline that matched a list<span class="sec__eb">The matches</span></h2>
+  <h2 class="bp__h" id="bp-match-h">${icon('sec-signal')} ${esc(matchQ)}<span class="sec__eb">The matches</span></h2>
   <p class="bp__l">The newsroom window is dark this build, so there are no matches to list. Nothing from an earlier window is shown in its place.</p>
 </section>`;
   }
@@ -348,7 +352,7 @@ function matchesSection(ctx, b, m) {
   const lex = { negators: arr(lx.negators), reach: Number.isInteger(lx.negation_reach_words) ? lx.negation_reach_words : 0 };
   const aside = arr(nr.neither).filter((x) => x && x.set_aside);
   return `<section class="bp__sec" id="the-matches" aria-labelledby="bp-match-h">
-  <h2 class="bp__h" id="bp-match-h">${icon('sec-signal')} Every headline that matched a list<span class="sec__eb">The matches</span></h2>
+  <h2 class="bp__h" id="bp-match-h">${icon('sec-signal')} ${esc(matchQ)}<span class="sec__eb">The matches</span></h2>
   <p class="bp__l">Newest first. The marked words are the ones the rule counted; a word with “no”, “not” or
     “never” just before it was ignored and is not marked. Each headline links to its scored item page on this
     site where one exists, and to the original otherwise. A headline is reproduced exactly as published.</p>
@@ -437,8 +441,10 @@ function registersSection(L) {
   // two row counts sit side by side — the place a reader would draw the wrong
   // conclusion from them.
   const equal = honesty.find((s) => /equal/i.test(String(s))) || null;
+  // Tip #393: section H2 is question-shaped and mirrored in FAQ (§3.3).
+  const regQ = 'What documented results sit on both sides?';
   return `<section class="bp__sec" id="the-registers" aria-labelledby="bp-reg-h">
-  <h2 class="bp__h" id="bp-reg-h">${icon('sec-archive')} Documented results, both sides<span class="sec__eb">The registers</span></h2>
+  <h2 class="bp__h" id="bp-reg-h">${icon('sec-archive')} ${esc(regQ)}<span class="sec__eb">The registers</span></h2>
   <p class="bp__l bp__l--lead">${esc(L.what_this_is || 'Two registers, kept side by side.')}</p>
   <p class="bp__l">Checked by hand against every linked source as of <b>${esc(L.as_of_date || 'an unrecorded date')}</b>,
     in the register’s own order. Each row prints what was measured beside what is claimed about it; recording a
@@ -508,16 +514,18 @@ function counterCard(c) {
 
 function countersSection(b) {
   const cs = b.counters || null;
+  // Tip #393: section H2 is question-shaped and mirrored in FAQ (§3.3).
+  const ctrQ = 'Which counters come from public registries?';
   if (!cs) {
     return `<section class="bp__sec" id="the-counters" aria-labelledby="bp-ctr-h">
-  <h2 class="bp__h" id="bp-ctr-h">${icon('sec-history')} Counters from public registries<span class="sec__eb">The counters</span></h2>
+  <h2 class="bp__h" id="bp-ctr-h">${icon('sec-history')} ${esc(ctrQ)}<span class="sec__eb">The counters</span></h2>
   <p class="bp__l">No counter block in this build’s balance.json.</p>
 </section>`;
   }
   const total = SIDES.reduce((n, s) => n + arr(cs[s]).length, 0);
   const w = cs.window || {};
   return `<section class="bp__sec" id="the-counters" aria-labelledby="bp-ctr-h">
-  <h2 class="bp__h" id="bp-ctr-h">${icon('sec-history')} ${count(total)} counters from public registries<span class="sec__eb">The counters</span></h2>
+  <h2 class="bp__h" id="bp-ctr-h">${icon('sec-history')} ${esc(ctrQ)}<span class="sec__eb">The counters · ${count(total)}</span></h2>
   <p class="bp__l bp__l--lead">${count(cs.live, 'An unrecorded number')} live, ${count(cs.dark, 'an unrecorded number')} dark.
     Each is published as its publisher reports it, in its own unit and its own window, and none is set against
     any other: the page does not pair a harm counter with a benefit counter, and it adds nothing up.</p>
@@ -807,6 +815,17 @@ export function render(ctx) {
       'The matching, hedge and negation rules from the published lexicon, both word lists in full, and the dated register rows — with the stamp from collector/balance.mjs.'],
     ['Where can I take the data?',
       'The newsroom counts and every matched and unmatched headline are at /api/balance.json; the two registers are at /api/ledger.json.'],
+    // Tip #393: beam / matches / registers / counters H2s are question-shaped (§3.3).
+    ['What did the newsroom’s headlines carry?',
+      m.sentence || 'The newsroom window is dark this build. No story is counted on either side and the beam is drawn level.'],
+    ['Which headlines matched a word list?',
+      'Newest first. The marked words are the ones the rule counted; a word with “no”, “not” or “never” just before it was ignored and is not marked.'],
+    ['What documented results sit on both sides?',
+      L.what_this_is || 'Two registers, kept side by side.'],
+    ['Which counters come from public registries?',
+      cs
+        ? `${count(cs.live, 'An unrecorded number')} live, ${count(cs.dark, 'an unrecorded number')} dark. Each is published as its publisher reports it, in its own unit and its own window, and none is set against any other.`
+        : 'No counter block in this build’s balance.json.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

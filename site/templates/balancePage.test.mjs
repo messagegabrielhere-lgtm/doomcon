@@ -90,4 +90,20 @@ describe('balance page', () => {
     assert.doesNotMatch(html, /id="bp-data-h"[^>]*>[\s\S]*Take the data<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
+
+  it('beam / matches / registers / counters H2s use questions mirrored in FAQPage', () => {
+    const html = render(ctx);
+    const apo = String.raw`(?:['\u2019]|&#39;|&apos;)`;
+    assert.match(html, new RegExp(`id="bp-beam-h"[^>]*>[\\s\\S]*What did the newsroom${apo}s headlines carry\\?`));
+    assert.match(html, /id="bp-match-h"[^>]*>[\s\S]*Which headlines matched a word list\?/);
+    assert.match(html, /id="bp-reg-h"[^>]*>[\s\S]*What documented results sit on both sides\?/);
+    assert.match(html, /id="bp-ctr-h"[^>]*>[\s\S]*Which counters come from public registries\?/);
+    assert.match(html, new RegExp(`FAQPage[\\s\\S]*What did the newsroom${apo}s headlines carry\\?`));
+    assert.match(html, /FAQPage[\s\S]*Which counters come from public registries\?/);
+    assert.doesNotMatch(html, new RegExp(`id="bp-beam-h"[^>]*>[\\s\\S]*What the newsroom${apo}s headlines carried</h2>`));
+    assert.doesNotMatch(html, /id="bp-match-h"[^>]*>[\s\S]*Every headline that matched a list<\/h2>/);
+    assert.doesNotMatch(html, /id="bp-reg-h"[^>]*>[\s\S]*Documented results, both sides<\/h2>/);
+    assert.doesNotMatch(html, /id="bp-ctr-h"[^>]*>[\s\S]*\d+ counters from public registries<\/h2>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });

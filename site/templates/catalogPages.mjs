@@ -35,6 +35,20 @@ const TYPE_H2_Q = {
   feed: 'Which feeds are in the catalog?',
   embed: 'Which embeds are in the catalog?',
 };
+// Tip #394: search result-group H2s are question-shaped (chips keep short TYPE_LABEL).
+const SEARCH_TYPE_H2_Q = {
+  page: 'Which rooms and pages matched?',
+  tool: 'Which tools matched?',
+  game: 'Which games matched?',
+  video: 'Which videos matched?',
+  leader: 'Which leaders matched?',
+  news: 'Which news stories matched?',
+  data: 'Which data and API files matched?',
+  feed: 'Which feeds matched?',
+  embed: 'Which embeds matched?',
+  faq: 'Which questions matched?',
+  kit: 'Which Bunker Kit tools matched?',
+};
 // The picture a result gets when it has none of its own.
 export const TYPE_ICON = { page: 'px:doc', tool: 'px:ruler', game: 'joystick', video: 'px:film', leader: 'mic', news: 'news', data: 'px:db', feed: 'px:rss', embed: 'px:code', faq: 'px:chat', kit: 'bunker' };
 // The catalog lists the site's own things; stories, leaders, questions and the
@@ -277,6 +291,7 @@ export function searchIndex(entries, c = {}) {
     v: 1,
     at: c.at || null,
     types: TYPE_LABEL,
+    typeH2: SEARCH_TYPE_H2_Q,
     order: TYPES.map(([k]) => k),
     icons: TYPE_ICON,
     items,
@@ -377,6 +392,9 @@ export function search(ctx, stats = {}) {
       : []),
     ['Rather browse than search?',
       'The catalog lists every room, tool, game, video, data file and feed in one place.'],
+    // Tip #394: result-group H2s are question-shaped and mirrored in FAQ (§3.3).
+    ...TYPES.filter(([k]) => counts[k]).map(([k]) => [SEARCH_TYPE_H2_Q[k],
+      `${counts[k].toLocaleString('en-US')} ${PHRASE[k] || k} are searchable on this page.`]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -426,7 +444,7 @@ function render(){
   chips.innerHTML=c;chips.hidden=!all.length;empty.hidden=!!all.length;
   var h='',n=0;
   D.order.forEach(function(k){var list=by[k];if(!list||(type&&k!==type))return;var lim=type?200:(k==='news'?5:6);
-    h+='<section class="sx-g"><h2>'+S.esc(D.types[k])+' <span>'+list.length+'</span></h2><ol class="sx-l">';
+    h+='<section class="sx-g"><h2>'+S.esc((D.typeH2&&D.typeH2[k])||D.types[k])+' <span>'+list.length+'</span></h2><ol class="sx-l">';
     list.slice(0,lim).forEach(function(r){var it=r.it,ext=/^https?:/.test(it[2]);h+='<li><a class="sx-r" role="option" id="sx-r'+(n++)+'" href="'+S.esc(u(it[2]))+'"'+(ext?' target="_blank" rel="noopener"':'')+'><img src="'+S.esc(im(it))+'" width="36" height="36" alt="" loading="lazy"><span><b>'+S.hl(it[1],v)+'</b>'+(it[3]?'<small>'+S.hl(it[3],v)+'</small>':'')+'<i>'+S.esc(shown(it[2]))+(ext?' ↗':'')+'</i></span></a></li>'});
     h+='</ol>'+(list.length>lim?'<button type="button" class="sx-more" data-t="'+k+'">Show all '+list.length+' '+S.esc(D.types[k].toLowerCase())+' →</button>':'')+'</section>'});
   if(!all.length)h='<p>Nothing on the site matches “'+S.esc(v)+'”. Check the spelling, try fewer words, or browse <a href="'+BASE+'/catalog.html">Where is everything on SIREN listed?</a>.</p>';
