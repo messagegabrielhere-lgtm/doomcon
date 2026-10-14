@@ -1130,6 +1130,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI-factory datacentre and optics buildout stories scored in the newsroom or archive — coverage counts, not a capacity forecast.',
     match: /\bAI factor(?:y|ies)\b/i,
   },
+  {
+    id: 'amazon-bedrock',
+    name: 'Amazon Bedrock',
+    description: 'Amazon Bedrock / AWS Bedrock product stories scored in the newsroom or archive — coverage counts, not a vendor ranking.',
+    match: /\b(?:Amazon |AWS )?Bedrock\b/i,
+  },
+  {
+    id: 'claude-opus',
+    name: 'Claude Opus',
+    description: 'Claude Opus model stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\bClaude Opus\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

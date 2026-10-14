@@ -660,6 +660,8 @@ context.
 | 408 | `/live.html` podcast episode H3s + FAQPage use questions (was bare episode titles); Organization `knowsAbout` mirrors that question prefix; refuse endorsement-as-SIREN-claim / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 409 | Topic tags `agentic-ai` + `ai-security` (live/archive ≥5); IndexNow ALWAYS samples; refuse capability-forecast / harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 410 | Topic tag `ai-factories` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse capacity-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 411 | Topic tag `amazon-bedrock` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse vendor-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 412 | Topic tag `claude-opus` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
