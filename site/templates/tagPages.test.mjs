@@ -2775,6 +2775,48 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'iran'), /probability of doom/i);
   });
 
+  it('pages reward-model, graph-neural, generalization, and uncertainty hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('rm1', 'BiasReducer: Adaptive Bias Mitigation for Reward Models'),
+          story('rm2', 'Think Before You Score: Thinking Reward Model for Visual Generation'),
+          story('rm3', 'Diffusion Reward Models'),
+          story('rm4', 'ProgressCompass: Embodied Progress Reward Models'),
+          story('rm5', 'Test-Time Training for Personalized Reward Modeling'),
+          story('gn1', 'EDiS: Edge Disjoint Subgraph Sparsification for Graph Neural Networks'),
+          story('gn2', 'Evi-VN: Virtual Node Evidence Injection for GNN-Based Fraud Detection'),
+          story('gn3', 'Distilling Graph Geometry: Knowledge Gap from GNNs to MLPs'),
+          story('gn4', 'Beyond Trained Models: Compiling GNNs for a Sound Explainer Benchmark'),
+          story('gn5', 'MANET-GNN: Learned Decentralized Optimization of Power Allocation'),
+          story('ge1', 'Predicting Alignment Generalization with Value Representations'),
+          story('ge2', 'Diversity-Driven RL Fine-Tuning for VLA Generalization'),
+          story('ge3', 'Compositional Generalization on Quantum Processors'),
+          story('ge4', 'SIGMA: Self-Improving Alignment Generalization from a Model Spec'),
+          story('ge5', 'Arm-wise Compositional Generalization in Dual-Arm VLA Models'),
+          story('un1', 'U-Space: Uncovering When and Why Uncertainty Arises in Language Models'),
+          story('un2', 'Subspace Uncertainty and Sharp Sampling Thresholds'),
+          story('un3', 'Uncertainty-Aware Optimization for Highway Trajectory Prediction'),
+          story('un4', 'Uncertainty as a Proxy for Semantic Correctness in Medical Image Synthesis'),
+          story('un5', 'Belief-Aware Multi-Agent Path Finding under Map Uncertainty'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('reward-model'));
+    assert.ok(ids.includes('graph-neural'));
+    assert.ok(ids.includes('generalization'));
+    assert.ok(ids.includes('uncertainty'));
+    assert.match(renderTag(rich, 'reward-model'), /What has SIREN scored about Reward models\?/);
+    assert.match(renderTag(rich, 'graph-neural'), /What has SIREN scored about Graph neural networks\?/);
+    assert.match(renderTag(rich, 'generalization'), /What has SIREN scored about AI generalization\?/);
+    assert.match(renderTag(rich, 'uncertainty'), /What has SIREN scored about AI uncertainty\?/);
+    assert.doesNotMatch(renderTag(rich, 'reward-model'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'uncertainty'), /probability of doom/i);
+  });
+
   it('pages autoregressive and simulation hubs', () => {
     const rich = {
       ...ctx,
