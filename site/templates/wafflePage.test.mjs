@@ -40,4 +40,14 @@ describe('waffle page', () => {
     assert.match(html, /FAQPage/);
     assert.doesNotMatch(html, /noindex/);
   });
+
+  it('storm-kit and map body links use bunker and US-map question H1s', () => {
+    const html = render(ctx, waffle, null);
+    assert.match(html, /href="\/bunker-kit\.html">What free tools belong in a bunker kit\? →<\/a>/);
+    assert.doesNotMatch(html, /SIREN’s bunker kit →|SIREN's bunker kit →/);
+    assert.match(html, /href="\/map\.html">How many datacentres has SIREN mapped in the United States\?<\/a>/);
+    assert.doesNotMatch(html, /href="map\.html">power map<\/a>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });
+

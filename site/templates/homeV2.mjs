@@ -119,7 +119,7 @@ function shareReuse(ctx, state, href) {
       <span class="cap">CITE THIS READING</span>
       <pre class="v2-share__code" tabindex="0">${esc(cite)}</pre>
       <button type="button" class="v2-btn sm" data-copy="${esc(cite)} ${esc(pageUrl)}">Copy citation</button>
-      <p class="small"><a href="${esc(href('/api/state.json'))}">state.json</a> · <a href="${esc(href('/openapi.json'))}">OpenAPI</a> · <a href="${esc(href('/feed-level.xml'))}">level-change alerts</a></p>
+      <p class="small"><a href="${esc(href('/api/state.json'))}">state.json</a> · <a href="${esc(href('/openapi.json'))}">OpenAPI</a> · <a href="${esc(href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a></p>
     </div>
     <div class="v2-share__card">
       <span class="cap">COPY LINK</span>
@@ -664,7 +664,7 @@ export function render(ctx, { head }) {
     <button type="button" class="tag radio" id="siren-radio" data-level="${state.level}" aria-pressed="false" title="Play SIREN Radio: an original soundtrack generated in your browser. Its mood follows the level.">♪ RADIO</button>
     <a class="tag blue v2-top__x" href="${href('/history.html')}">What is the history of AI risk?</a>
     <a class="tag violet v2-top__x" href="${href('/race.html')}">Who is winning the AI race?</a>
-    <a class="tag cool v2-top__x" href="${href('/feed-level.xml')}" title="RSS that fires only when the level changes">ALERTS</a>
+    <a class="tag cool v2-top__x" href="${href('/alerts.html')}" title="RSS, email recipes and in-tab notify when the level changes">How do I get alerts when ${esc(brand.NAME)} moves?</a>
     <span class="v2-top__x">STATUS: <b class="${posture === 'DEGRADED' ? 'amber' : 'green'}">${posture}</b></span>
     <span class="v2-top__x" title="A Terminator reference. Nothing here is self-aware. Probably.">SKYNET: <b class="${state.level <= 2 ? 'amber' : 'green'}">${({ 5: 'ASLEEP', 4: 'NOT SELF-AWARE (YET)', 3: 'LEARNING AT A GEOMETRIC RATE', 2: 'ASKING QUESTIONS', 1: 'JUDGMENT DAY WATCH' })[state.level] || 'NOT SELF-AWARE (YET)'}</b></span>
   </span>
@@ -753,7 +753,7 @@ ${roomsGrid(ctx, href, img)}
   </details>
 
   <p class="v2-foot">${esc(brand.CREED)} ${esc(brand.NAME)} counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
-  <a href="${href('/methodology.html')}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">What is ${esc(brand.NAME)}?</a> · <a href="${href('/feed.xml')}">RSS</a> · <a href="${href('/sponsor.html')}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
+  <a href="${href('/methodology.html')}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> · <a href="${href('/classic.html#vfy')}">Where is the full ${esc(brand.NAME)} instrument panel?</a> · <a href="${href('/classic.html')}">Where is the full ${esc(brand.NAME)} instrument panel?</a> · <a href="${href('/about.html')}">What is ${esc(brand.NAME)}?</a> · <a href="${href('/alerts.html')}">How do I get alerts when ${esc(brand.NAME)} moves?</a> · <a href="${href('/sponsor.html')}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
   <p class="v2-foot"><b>Not advice.</b> ${esc(brand.LEGAL_NOT_ADVICE)} Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. ${esc(brand.LEGAL_AFFILIATE)} Use of this site means you accept the <a href="${href('/terms.html')}">What are the ${esc(brand.NAME)} terms of use?</a> <a href="${href('/privacy.html')}">What does ${esc(brand.NAME)} know about you?</a> <a href="${href('/disclosures.html')}">What does ${esc(brand.NAME)} disclose?</a> <a href="${href('/feedback.html')}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a></p>
 </main>
 ${nav.tabbar}

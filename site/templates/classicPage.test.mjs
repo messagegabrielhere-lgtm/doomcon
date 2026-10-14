@@ -92,6 +92,13 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /All picks and the track record →/);
   });
 
+  it('instruments embed helper links to the export question, not the noindex widget', () => {
+    const html = render(ctx, { view: 'instruments' });
+    assert.match(html, /href="\/export\.html#embed">How do I export and embed SIREN data\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/embed\.html">Preview the widget →<\/a>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
+
   it('classic markets cards and desk switcher more-links use page H1 questions', () => {
     const html = render(ctx, { view: 'classic' });
     const go = html.match(/class="mkb__go">([\s\S]*?)<\/div>/);

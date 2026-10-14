@@ -35,6 +35,12 @@ describe('home v2 footer', () => {
     assert.ok(feet.length >= 2, 'expected home v2 foot paragraphs');
     const all = feet.join('\n');
     assert.match(all, /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
+    assert.match(all, /href="\/classic\.html#vfy">Where is the full SIREN instrument panel\?<\/a>/);
+    assert.match(all, /href="\/classic\.html">Where is the full SIREN instrument panel\?<\/a>/);
+    assert.match(all, /href="\/alerts\.html">How do I get alerts when SIREN moves\?<\/a>/);
+    assert.doesNotMatch(all, /href="\/classic\.html#vfy">Verify a reading<\/a>/);
+    assert.doesNotMatch(all, /href="\/classic\.html">Full instrument panel<\/a>/);
+    assert.doesNotMatch(all, /href="\/feed\.xml">RSS<\/a>/);
     assert.match(all, /href="\/about\.html">What is SIREN\?<\/a>/);
     assert.match(all, /href="\/sponsor\.html">How do you sponsor SIREN without moving the number\?<\/a>/);
     assert.match(all, /href="\/terms\.html">What are the SIREN terms of use\?<\/a>/);
@@ -56,12 +62,15 @@ describe('home v2 footer', () => {
     assert.match(html, /href="\/alerts\.html">🔔 How do I get alerts when SIREN moves\?<\/a>/);
     assert.match(html, /href="\/export\.html">⤓ How do I export and embed SIREN data\?<\/a>/);
     assert.match(html, /href="\/news\.html"[^>]*>[\s\S]*?Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.match(html, /class="tag cool v2-top__x"[^>]*href="\/alerts\.html"[^>]*>How do I get alerts when SIREN moves\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/feed-level\.xml"[^>]*>ALERTS<\/a>/);
     assert.doesNotMatch(html, /href="\/alerts\.html">🔔 ALERTS<\/a>/);
     assert.doesNotMatch(html, /href="\/export\.html">⤓ DATA &amp; EMBED<\/a>/);
     assert.doesNotMatch(html, /NEWS &amp; ALERTS LIVE/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
 
   it('reuse embed helper links to the export question, not the noindex widget', () => {
     const html = render(ctx, { head: '' });

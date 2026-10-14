@@ -763,7 +763,7 @@ ${oven.render(ctx)}
   <div class="clip"><div class="snippet">${esc(`[![${brand.NAME}](${ctx.url('/badge.svg')})](${ctx.url('/')})`)}</div></div>
   <p><img src="${esc(ctx.href('/badge.svg'))}" alt="${esc(brand.NAME)} badge showing the current level" height="20"></p>
   <p class="fresh__key">Add <code>?theme=light</code>, <code>?theme=dark</code> or <code>?compact=1</code> to pin the look.
-     <a href="${esc(ctx.href('/embed.html'))}">Preview the widget →</a></p>
+     <a href="${esc(ctx.href('/export.html'))}#embed">How do I export and embed ${esc(brand.NAME)} data? →</a></p>
 </section>
 
 <section class="sec" id="api" aria-labelledby="api-h">
