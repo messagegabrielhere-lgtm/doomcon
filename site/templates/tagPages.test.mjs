@@ -2123,4 +2123,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'representation-learning'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'representation-learning'), /probability of doom/i);
   });
+
+  it('pages opus-5-5 and off-policy hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('o55a', 'Anthropic tests new model under Claude Opus 5.5'),
+          story('o55b', 'Claude Opus 5.5 Tops Epoch AI Leaderboard'),
+          story('o55c', 'Early Opus 5.5 evals land in the newsroom window'),
+          story('o55d', 'What Claude Opus 5.5 changes for coding agents'),
+          story('o55e', 'Labs compare Opus 5.5 against prior Claude Opus releases'),
+          story('op1', 'ReSPO: Reshaped Sequence Policy Optimization for Gradient Starvation in Off-Policy Learning'),
+          story('op2', 'Q-Learning with Scalar Adjoint Matching for off-policy control'),
+          story('op3', 'A survey of off-policy methods for large models'),
+          story('op4', 'Why off-policy learning still dominates RL papers this month'),
+          story('op5', 'New off-policy results clear the archive gate'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('opus-5-5'));
+    assert.ok(ids.includes('off-policy'));
+    assert.match(renderTag(rich, 'opus-5-5'), /What has SIREN scored about Claude Opus 5\.5\?/);
+    assert.match(renderTag(rich, 'off-policy'), /What has SIREN scored about Off-policy learning\?/);
+    assert.match(renderTag(rich, 'opus-5-5'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'off-policy'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'opus-5-5'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'off-policy'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'off-policy'), /probability of doom/i);
+  });
 });

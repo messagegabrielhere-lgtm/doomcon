@@ -1275,6 +1275,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Representation-learning research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Rr]epresentation [Ll]earning\b/i,
   },
+  {
+    id: 'opus-5-5',
+    name: 'Claude Opus 5.5',
+    description: 'Claude Opus 5.5 product stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b(?:Claude )?Opus 5\.5\b/i,
+  },
+  {
+    id: 'off-policy',
+    name: 'Off-policy learning',
+    description: 'Off-policy reinforcement-learning research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Oo]ff[- ][Pp]olicy\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
