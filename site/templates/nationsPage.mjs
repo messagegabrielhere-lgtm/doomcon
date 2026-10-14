@@ -63,11 +63,15 @@ export function render(ctx, nr) {
   const scored = nr.measures.filter((m) => m.scored).length;
   const xTitle = h ? `USA vs China in AI: the markets give American labs ${(usOdds * 100).toFixed(0)}% and Chinese labs ${(cnOdds * 100).toFixed(1)}% odds of having the best model. Scoreboard: USA ${nr.score.US}, China ${nr.score.CN}.` : 'USA vs China: the race for the best AI, scored live.';
 
+  // Tip #273: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const howQ = 'How does this scoreboard work?';
   // FAQ answers restate hero / scoreboard / how-it-works / disclaimer copy only.
   // Refuse: SIREN forecast of who wins SI, financial advice, doom-probability.
   const faq = [
     [qTitle,
       'The betting markets price which company will have the best AI model. Group those companies by home country and you get the national race, updated every hour. Add the electricity each country can generate and you have the physical side too. Each measure gives one point to whichever of the two leads it.'],
+    [howQ,
+      'Odds by country add each market\'s live prices for individual companies by home country and scale so the live legs total 100%. Electricity is annual generation from Our World in Data. Data centres mapped in OpenStreetMap are shown but not scored when mapping is sparse.'],
     ['Are the odds SIREN’s forecast of who wins?',
       'Odds are market prices for which country\'s labs hold the best model, not forecasts by SIREN. Market prices are what traders pay, not SIREN\'s view, and can move fast. Not financial advice; prediction markets are restricted in some places.'],
     ['How does the scoreboard award points?',
@@ -91,7 +95,7 @@ export function render(ctx, nr) {
   </div>
   ${nr.measures.map(measureHtml).join('')}
   <p style="margin-top:16px"><button type="button" class="nr-x" data-xpost="page" data-x-title="${esc(xTitle)}" data-x-src="SIREN" data-x-url="${share}">𝕏 Post the scoreboard</button></p>
-  <h2 style="margin-top:22px">How it works</h2>
+  <h2 id="how" style="margin-top:22px">How does this scoreboard work?</h2>
   <ul>
     <li><b>Odds by country:</b> each market's live prices for individual companies (Google, Anthropic, OpenAI, DeepSeek, Alibaba, Moonshot and others) are added up by the company's home country and scaled so the live legs total 100%.</li>
     <li><b>Kalshi:</b> its companies are not mutually exclusive, so the measure shows each country's best single lab.</li>

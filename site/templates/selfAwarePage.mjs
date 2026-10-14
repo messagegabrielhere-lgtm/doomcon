@@ -74,11 +74,15 @@ export function render(ctx, dcs, usRings) {
   const rings = (usRings || []).map((r) => r.filter(([lo, la]) => lo > BOX.w - 3 && lo < BOX.e + 3 && la > BOX.s - 3 && la < BOX.n + 3).map(([lo, la]) => [+lo.toFixed(2), +la.toFixed(2)])).filter((r) => r.length > 8);
   const L = ctx.state && ctx.state.level;
   const share = esc(ctx.url ? ctx.url(PATH) : 'https://siren.watch/self-aware.html');
+  // Tip #273: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const realQ = 'What is real, not fiction?';
   // FAQ answers restate hero / fiction label / real-block copy only.
   // Refuse: Skynet-as-forecast, real-attack claims, doom-probability from fiction numbers.
   const faq = [
     [qTitle,
       `Everyone knows the movie version: a machine becomes self-aware at 2:14 in the morning and turns on us. Here is that night, played out on a map of the ${sites.length.toLocaleString('en-US')} real US data-centre sites SIREN tracks. The positions are real. The attack is invented.`],
+    [realQ,
+      `Tonight’s actual reading: SIREN level ${L ?? '?'}, measured from public data every hour. Every number in the animation except the data-centre locations is made up for the story.`],
     ['Is this a forecast that Skynet is waking up?',
       'WHAT IF · THE SKYNET SCENARIO — FICTION. The positions are real. The attack is invented. Every number in the animation except the data-centre locations is made up for the story.'],
     ['Are the data-centre locations real?',
@@ -105,7 +109,7 @@ export function render(ctx, dcs, usRings) {
   <div class="sa-ctl"><button type="button" id="sa-play">▶ Play the night</button><button type="button" id="sa-speed">Speed 1×</button><input type="range" id="sa-scrub" min="0" max="${END}" value="0" step="1" aria-label="Scrub through the night"><output id="sa-out">02:14:00</output>
     <button type="button" data-xpost="page" data-x-title="I watched the night an AI wakes up at 2:14am and copies itself into every US data centre before sunrise. Fiction. Mostly." data-x-src="SIREN" data-x-url="${share}">𝕏 Share</button></div>
   <ol class="sa-tl" id="sa-tl">${BEATS.map((b) => `<li data-t="${b[0]}"><b>${esc(b[1])}</b>${esc(b[2])}</li>`).join('')}</ol>
-  <div class="sa-real"><h2>Back to what’s real</h2><ul>
+  <div class="sa-real"><h2 id="real">${esc(realQ)}</h2><ul>
     <li><b>Tonight’s actual reading:</b> SIREN level ${esc(L ?? '?')}, measured from public data every hour. <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a></li>
     <li>AI labs really are war-gaming the aftermath of an AI catastrophe. <a href="${esc(ctx.href('/day-after.html'))}">What happens the day after an AI catastrophe? →</a></li>
     <li>Could you stop it? <a href="${esc(ctx.href('/contain.html'))}">Can you stop an AI breakout? →</a> · <a href="${esc(ctx.href('/si-watch.html'))}">What AI autonomy signals is SIREN watching? →</a></li>
