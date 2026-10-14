@@ -892,6 +892,10 @@ context.
 | 640 | Outlet hub `/outlet/arstechnica-com` (arstechnica.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 641 | Outlet hub `/outlet/ft-com` (ft.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 642 | Outlet hub `/outlet/lesswrong-com` (lesswrong.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 643 | Topic tag `/tags/neural-networks` (neural networks, ≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 644 | Topic tag `/tags/visual-language` (visual language / VLM, ≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 645 | Topic tag `/tags/chatgpt` (ChatGPT, ≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 646 | Topic tag `/tags/learning-rate` (learning rate, ≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

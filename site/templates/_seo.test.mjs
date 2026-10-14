@@ -201,6 +201,10 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/outlet/arstechnica-com.html'));
     assert.ok(has('https://siren.watch/outlet/ft-com.html'));
     assert.ok(has('https://siren.watch/outlet/lesswrong-com.html'));
+    assert.ok(has('https://siren.watch/tags/neural-networks.html'));
+    assert.ok(has('https://siren.watch/tags/visual-language.html'));
+    assert.ok(has('https://siren.watch/tags/chatgpt.html'));
+    assert.ok(has('https://siren.watch/tags/learning-rate.html'));
     assert.ok(has('https://siren.watch/model/kimi.html'));
     assert.ok(has('https://siren.watch/model/glm.html'));
     assert.ok(has('https://siren.watch/model/grok.html'));

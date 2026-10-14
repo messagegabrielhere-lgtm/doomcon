@@ -141,6 +141,10 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/outlet/arstechnica-com.html'));
     assert.ok(OUR_SURFACES.includes('/outlet/ft-com.html'));
     assert.ok(OUR_SURFACES.includes('/outlet/lesswrong-com.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/neural-networks.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/visual-language.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/chatgpt.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/learning-rate.html'));
     assert.ok(OUR_SURFACES.includes('/model/kimi.html'));
     assert.ok(OUR_SURFACES.includes('/model/glm.html'));
     assert.ok(OUR_SURFACES.includes('/model/grok.html'));

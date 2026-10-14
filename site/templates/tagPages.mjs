@@ -1831,6 +1831,24 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Disentanglement research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Dd]isentangl(?:e|ement|ing)\w*\b/,
   },
+  {
+    id: 'visual-language',
+    name: 'Visual language',
+    description: 'Visual-language / VLM research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b(?:visual[- ]language|vision[- ]language|vlms?)\b/i,
+  },
+  {
+    id: 'chatgpt',
+    name: 'ChatGPT',
+    description: 'ChatGPT product stories scored in the newsroom or archive — coverage counts, not a product ranking.',
+    match: /\bchatgpt\b/i,
+  },
+  {
+    id: 'learning-rate',
+    name: 'Learning rate',
+    description: 'Learning-rate research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\blearning[- ]rates?\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
