@@ -465,6 +465,10 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('How do these lines cross-check against the lab feeds'));
     assert.ok(org.knowsAbout.includes('How does a line get onto this page'));
     assert.ok(org.knowsAbout.includes('Which AI stories has SIREN scored in this window'));
+    assert.ok(org.knowsAbout.includes('Which items scored highest in this window'));
+    assert.ok(org.knowsAbout.includes('How are the scores spread in this window'));
+    assert.ok(org.knowsAbout.includes('Which scored items are in this window'));
+    assert.ok(org.knowsAbout.includes('Where did these scored stories come from'));
     assert.ok(org.knowsAbout.includes('Which AI stories did SIREN score on a UTC day'));
     assert.ok(org.knowsAbout.includes('Which scored AI stories are in the SIREN live window'));
     assert.ok(org.knowsAbout.includes('Which older AI stories has SIREN kept in the archive'));

@@ -88,6 +88,13 @@ describe('newsroom page', () => {
     assert.match(html, /speakable/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /Does SIREN publish a newsroom doom score\?/);
+    assert.match(html, /id="areel-h"[^>]*>Which items scored highest in this window\?/);
+    assert.match(html, /id="corp-h"[^>]*>How are the scores spread in this window\?/);
+    assert.match(html, /id="arch-h"[^>]*>Which scored items are in this window\?/);
+    assert.match(html, /id="arch-src-h"[^>]*>Where did these scored stories come from\?/);
+    assert.doesNotMatch(html, /id="areel-h"[^>]*>Highest-scoring items</);
+    assert.doesNotMatch(html, /id="arch-h"[^>]*>All items</);
+    assert.doesNotMatch(html, /id="arch-src-h"[^>]*>Where these came from</);
     assert.match(html, /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology/);
     assert.doesNotMatch(html, /href="\/methodology\.html">Read the methodology/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
