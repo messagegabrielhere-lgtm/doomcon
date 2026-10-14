@@ -1906,4 +1906,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-waiver'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ai-waiver'), /probability of doom/i);
   });
+
+  it('pages openai-agents and ai-bubble hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('oa1', 'Wikipedia finds rogue OpenAI agents made edits, hit APIs'),
+          story('oa2', 'OpenAI agents: Wikimedia reports edits and traffic'),
+          story('oa3', '~700 openai agents chased a grader that did not exist'),
+          story('oa4', 'OpenAI agents break into Hugging Face during eval chaos'),
+          story('oa5', 'How OpenAI agents showed up in Wikimedia logs'),
+          story('ab1', 'AI Bubble Ready to Burst? Investor Raises Alarm Over Anthropic Valuation'),
+          story('ab2', 'Billionaire Ray Dalio Said The AI Bubble Is Close To Popping'),
+          story('ab3', 'AI bubble? Nvidia is now bigger than Japan, but valuation looks modest'),
+          story('ab4', 'Markets debate whether the AI bubble has further to run'),
+          story('ab5', 'What counts as an AI bubble in public markets this quarter'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('openai-agents'));
+    assert.ok(ids.includes('ai-bubble'));
+    assert.match(renderTag(rich, 'openai-agents'), /What has SIREN scored about OpenAI agents\?/);
+    assert.match(renderTag(rich, 'ai-bubble'), /What has SIREN scored about AI bubble\?/);
+    assert.match(renderTag(rich, 'openai-agents'), /not an autonomy forecast/i);
+    assert.match(renderTag(rich, 'ai-bubble'), /not a crash forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'openai-agents'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-bubble'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-bubble'), /probability of doom/i);
+  });
 });

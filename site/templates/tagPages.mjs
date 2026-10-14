@@ -1190,6 +1190,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI-waiver and likeness-consent stories scored in the newsroom or archive — coverage counts, not a legal forecast.',
     match: /\bAI [Ww]aiver\b/i,
   },
+  {
+    id: 'openai-agents',
+    name: 'OpenAI agents',
+    description: 'OpenAI agent product and incident stories scored in the newsroom or archive — coverage counts, not an autonomy forecast.',
+    match: /\bOpenAI agents?\b/i,
+  },
+  {
+    id: 'ai-bubble',
+    name: 'AI bubble',
+    description: 'AI-bubble and valuation-froth stories scored in the newsroom or archive — coverage counts, not a crash forecast.',
+    match: /\bAI bubble\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
