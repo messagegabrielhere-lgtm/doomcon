@@ -25,6 +25,16 @@ export const TYPES = [
   ['embed', 'Embeds'], ['faq', 'Questions'], ['kit', 'Bunker Kit'],
 ];
 const TYPE_LABEL = Object.fromEntries(TYPES);
+// Tip #368: catalog section H2s are question-shaped (chips keep short TYPE_LABEL).
+const TYPE_H2_Q = {
+  page: 'Which rooms and pages are in the catalog?',
+  tool: 'Which tools are in the catalog?',
+  game: 'Which games are in the catalog?',
+  video: 'Which videos are in the catalog?',
+  data: 'Which data and API files are in the catalog?',
+  feed: 'Which feeds are in the catalog?',
+  embed: 'Which embeds are in the catalog?',
+};
 // The picture a result gets when it has none of its own.
 export const TYPE_ICON = { page: 'px:doc', tool: 'px:ruler', game: 'joystick', video: 'px:film', leader: 'mic', news: 'news', data: 'px:db', feed: 'px:rss', embed: 'px:code', faq: 'px:chat', kit: 'bunker' };
 // The catalog lists the site's own things; stories, leaders, questions and the
@@ -493,7 +503,7 @@ export function catalog(ctx, entries) {
     if (t === 'page') {
       body = pageGroups.map(([g, list]) => `<div class="ct-sub"><h3>${esc(groupQ(g))}</h3><div class="ct-g">${list.map(card).join('')}</div></div>`).join('');
     } else body = `<div class="ct-g">${by[t].map(card).join('')}</div>`;
-    return `<section class="ct-s" id="ct-${t}" data-t="${t}"><h2>${esc(TYPE_LABEL[t])}<span>${by[t].length}</span></h2>${body}</section>`;
+    return `<section class="ct-s" id="ct-${t}" data-t="${t}"><h2>${esc(TYPE_H2_Q[t] || TYPE_LABEL[t])}<span>${by[t].length}</span></h2>${body}</section>`;
   }).join('');
   const total = types.reduce((n, t) => n + by[t].length, 0);
   // FAQ answers restate lede / body copy only.
@@ -509,6 +519,9 @@ export function catalog(ctx, entries) {
       'Every room, tool, game, video, data file, feed and embed on the site.'],
     ...pageGroups.map(([g, list]) => [groupQ(g),
       `${list.length} room${list.length === 1 ? '' : 's'} and pages under ${g} in the catalog.`]),
+    // Tip #368: type-section H2s are question-shaped and mirrored in FAQ (§3.3).
+    ...types.map((t) => [TYPE_H2_Q[t] || TYPE_LABEL[t],
+      `${by[t].length} ${TYPE_LABEL[t].toLowerCase()} in the catalog.`]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

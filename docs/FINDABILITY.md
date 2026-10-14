@@ -616,6 +616,8 @@ context.
 | 364 | `/vs/*` rival side-card H3s + FAQPage use questions (was bare rival name / “SIREN”); Organization `knowsAbout` mirrors those questions; refuse borrowed doom-probability / stuffing claims | Google + Bing | **Done** (2026-10-14) |
 | 365 | `/labs.html` experiment-card H3s + FAQPage use the measurable question (was bare names “The Recursion Meter” / …); Organization `knowsAbout` mirrors those questions; refuse SI-arrival / labs-as-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 366 | `/catalog.html` page-group H3s + FAQPage use questions (was “LIVE INTEL” / “PLAY & PREP” / …); Organization `knowsAbout` mirrors those questions; refuse catalog-as-doom-index / stuffing claims | Google + Bing | **Done** (2026-10-14) |
+| 367 | `/videos.html` video-card H3s + VideoObject names + FAQPage use questions (was “Meet Tally…” / “Supply drop…” / …); Organization `knowsAbout` mirrors those questions; refuse videos-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 368 | `/catalog.html` type-section H2s + FAQPage use questions (was “Rooms & pages” / “Tools” / …; filter chips keep short labels); Organization `knowsAbout` mirrors those questions; refuse catalog-as-doom-index / stuffing claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

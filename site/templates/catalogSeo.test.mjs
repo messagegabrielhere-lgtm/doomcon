@@ -154,8 +154,13 @@ describe('catalog page SEO', () => {
     assert.match(html, /What kinds of things are listed\?/);
     assert.match(html, /What is listed under LIVE INTEL\?/);
     assert.match(html, /FAQPage[\s\S]*What is listed under LIVE INTEL\?/);
+    assert.match(html, /Which rooms and pages are in the catalog\?/);
+    assert.match(html, /Which tools are in the catalog\?/);
+    assert.match(html, /FAQPage[\s\S]*Which rooms and pages are in the catalog\?/);
     assert.doesNotMatch(html, /<h3>LIVE INTEL<\/h3>/);
     assert.doesNotMatch(html, /<h3>PLAY &amp; PREP<\/h3>/);
+    assert.doesNotMatch(html, /<h2>Rooms &amp; pages<span>/);
+    assert.doesNotMatch(html, /<h2>Tools<span>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"CollectionPage"/);
