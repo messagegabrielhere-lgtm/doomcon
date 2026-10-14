@@ -740,6 +740,8 @@ context.
 | 488 | Entity lab Instinct (`/lab/instinct`, ≥3 gate); IndexNow + seo-daily; refuse product-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 489 | Model hub Jev (`/model/jev`, Jev / JEV forms, ≥3 gate); IndexNow + seo-daily; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 490 | Entity lab TypeSafe (`/lab/typesafe`, TypeSafe AI forms, ≥3 gate); IndexNow + seo-daily; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 491 | Model hub Dots (`/model/dots`, OpenAI Dots forms — no bare Dots; ≥3 gate); IndexNow + seo-daily; refuse product-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 492 | Entity lab McDonald's (`/lab/mcdonald-s`, ≥3 gate); IndexNow + seo-daily; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

@@ -266,6 +266,37 @@ describe('model pages', () => {
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/nano-banana.html'));
   });
 
+  it('indexes Dots from OpenAI-anchored title forms (not bare Dots)', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('dt1', "How OpenAI's Dots differs from Meta's Muse", []),
+          story('dt2', 'OpenAI Dots + Instacart Doesn’t Allow Cross-Store Price Comparison', []),
+          story('dt3', 'OpenAI’s Dots Full Mobile Rollout reaches Pro users', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Dots'));
+    const thin = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('bad1', 'Connect those dots in the training plot', []),
+          story('bad2', 'Introducing dots on a scatter chart', []),
+          story('bad3', 'Towerglow orchestrator ships', []),
+        ],
+      },
+    };
+    assert.ok(!indexableModels(thin).some((m) => m.name === 'Dots'));
+    const html = renderModel(rich, 'Dots');
+    assert.match(html, /What has SIREN scored about Dots\?|Dots/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/dots.html'));
+  });
+
   it('indexes Jev from decision-model title forms', () => {
     const rich = {
       ...ctx,

@@ -143,6 +143,9 @@ const ENTITY_DEFS = [
   // Jev decision-model maker — fundraising / Fortune-500 adoption headlines.
   // Prefer TypeSafe* forms (no bare “safe”) so unrelated safety copy stays out.
   { name: 'TypeSafe', kind: 'lab', forms: ['TypeSafe AI', 'Typesafe AI', 'TypeSafe'] },
+  // QSR brand — AI dynamic-pricing / franchise lawsuit headlines.
+  // Prefer McDonald’s* forms (no bare “Donald”) so unrelated names stay out.
+  { name: "McDonald's", kind: 'lab', forms: ["McDonald's", 'McDonald’s', 'McDonalds'] },
 
   // --- model families ---
   // GPT-6 Astra / Luna / Sol nicknames so /model/gpt clears when headlines
@@ -190,6 +193,9 @@ const ENTITY_DEFS = [
   // TypeSafe decision-model family — titles name Jev / JEV; word boundaries
   // keep “jevu” / unrelated tokens out. ≥ MODEL_INDEX_MIN clears /model/jev.
   { name: 'Jev', kind: 'model', forms: ['Jev', 'JEV'] },
+  // OpenAI always-on agent product — avoid bare “Dots” (too many false friends).
+  // Safe OpenAI-anchored forms clear MODEL_INDEX_MIN for /model/dots.
+  { name: 'Dots', kind: 'model', forms: ['OpenAI Dots', "OpenAI's Dots", 'OpenAI’s Dots'] },
 ];
 
 const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfaceRegex(d.forms) }));

@@ -35,6 +35,7 @@ const MODEL_LAB = {
   Codex: 'openai',
   'Nano Banana': 'google-deepmind',
   Jev: 'typesafe',
+  Dots: 'openai',
 };
 
 const MODELS = publishedEntities().filter((e) => e.kind === 'model');

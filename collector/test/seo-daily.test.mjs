@@ -40,7 +40,9 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/lab/world-labs.html'));
     assert.ok(OUR_SURFACES.includes('/model/nano-banana.html'));
     assert.ok(OUR_SURFACES.includes('/model/jev.html'));
+    assert.ok(OUR_SURFACES.includes('/model/dots.html'));
     assert.ok(OUR_SURFACES.includes('/lab/typesafe.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/mcdonald-s.html'));
     assert.ok(OUR_SURFACES.includes('/jobs.html'));
     assert.ok(OUR_SURFACES.includes('/medicine.html'));
   });
