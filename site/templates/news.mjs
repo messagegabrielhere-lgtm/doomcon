@@ -82,7 +82,7 @@ ${reel(news.items, {
   ${legend(news)}
   <ol class="nfeed">${rows.map((it) => feedRow(it)).join('')}</ol>
   <p class="nkey nkey--more">
-    <a href="${esc(archiveHref)}">All ${esc(news.total)} items in the window &rarr;</a>
+    <a href="${esc(archiveHref)}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>
   </p>
   ${newsSourceStrip(news.sources)}
 </section>`;

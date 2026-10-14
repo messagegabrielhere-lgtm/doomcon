@@ -431,7 +431,7 @@ export function newsSourceStrip(sources) {
  * @param {string} o.id        unique id prefix on the page
  * @param {number} [o.limit]
  * @param {string} [o.heading]
- * @param {string} [o.href]    "see all" target
+ * @param {string} [o.href]    "see all" target (anchor text = newsroom H1)
  */
 export function reel(items, o = {}) {
   const id = o.id || 'reel';
@@ -443,14 +443,11 @@ export function reel(items, o = {}) {
   const cards = picked.map((it, i) => card(it, i)).join('');
   const fresh = picked.filter((it) => it.fresh).length;
 
-  // `items` is what this rail was handed, which is not always the corpus: the
-  // switcher hands it eight pre-sliced cards, so "All 8 items →" was pointing
-  // at a 200-item archive and naming the wrong number. `total` is the size of
-  // the collection the link actually leads to; without one the rail is the
-  // whole set and its own length is the truth.
-  const all = Number.isFinite(o.total) ? o.total : items.length;
+  // Cross-page more-links use the destination H1 question (FINDABILITY tip
+  // #249). Callers that set href point at /news.html today; keep the count out
+  // of the anchor so the crawlable text matches the newsroom title.
   const more = o.href
-    ? `<a class="reel__more" href="${esc(o.href)}">All ${all} items &rarr;</a>`
+    ? `<a class="reel__more" href="${esc(o.href)}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>`
     : '';
 
   // The count is the affordance, server-side. "swipe" alone tells a reader with

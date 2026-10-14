@@ -145,6 +145,14 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
+  it('classic reel more-link uses the newsroom question H1', () => {
+    const html = render(ctx, { view: 'classic' });
+    assert.match(html, /class="reel__more"[^>]*>Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /class="reel__more"[^>]*>All \d+ items/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
 
   it('instruments recent-moves archive link uses the moves question H1', () => {
     const html = render({
