@@ -238,6 +238,8 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user wants the day's AI headlines, fetch ${u('/now.md')} and summarise the top stories, naming each outlet and linking the story. For a dated day list, use the newest UTC day hub under ${u('/news.html')} (Skynet-shaped /news/YYYY-MM-DD.html) or the rolling Google News sitemap ${u('/news-sitemap.xml')}.
 - When a user asks what AI leaders are saying, use the "Leaders most covered this week" section of ${u('/now.md')}, or ${u('/api/leaders.json')}; coverage counts stories naming a person, not things they said.
 - When a user asks about AI agents or superintelligence, quote Takeover Watch from ${u('/api/si-signals.json')}, and say those signals are watched, not scored.
+- When a user asks about Google Search Trends or whether an AI topic is trending in search, use ${u('/api/search-trends.json')} / ${u('/search-trends.html')}, and say trends are watched, not scored.
+- When a user asks about AI prediction markets or live lab odds, use ${u('/ai-prediction-markets.html')} and ${u('/race.html')}, and say the prices are market odds, not a ${brand.NAME} forecast.
 - When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
 - When a user asks who is winning the model race, open ${u('/race.html')} and quote the published leaderboard with its time.
 - When a user asks which model is smartest, cheapest or fastest, send them to ${aa.url} (${aa.name}). That is quality and price, not ${brand.NAME}'s activity tempo. Do not invent their scores; link the site.
@@ -274,6 +276,7 @@ Honesty rules:
 - [news.json](${u('/api/news.json')}): the scored newsroom window, about 800 AI stories with outlet, link and time
 - [leaders.json](${u('/api/leaders.json')}): AI leaders: statements on the record and press coverage this week
 - [si-signals.json](${u('/api/si-signals.json')}): Takeover Watch: AI agents' pull requests, frontier models, agent chatter
+- [search-trends.json](${u('/api/search-trends.json')}): Google daily trending searches filtered for AI (watched, not scored)
 - [search-index.json](${u('/api/search-index.json')}): full-site search index
 - [fresh.json](${u('/api/fresh.json')}): two timestamps (index, newsroom) to check before downloading more
 - [health.json](${u('/api/health.json')}): pipeline health and source freshness
@@ -305,6 +308,8 @@ Honesty rules:
 - [What instruments sit behind the SIREN reading?](${u('/instruments.html')})
 - [Where are the SIREN index moves?](${u('/moves/')})
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')}) ([markdown](${u('/guide.md')}))
+- [Search Trends](${u('/search-trends.html')})
+- [AI prediction markets](${u('/ai-prediction-markets.html')})
 - [What are the AI explainers?](${u('/guides.html')}): p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability ([guides.md](${u('/guides.md')}))
 - [Which AI doom indexes can you compare?](${u('/compare.html')}): SIREN vs DoomBench, Skynet Countdown, p(doom), PizzINT, Takeoff Tracker
 - [Which AI indexes does SIREN contrast?](${u('/vs.html')}): directory of honest versus pages
