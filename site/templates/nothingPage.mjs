@@ -17,10 +17,12 @@
 
 import { esc, num, utc, utcDay } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { mascot } from './_mascot.mjs';
 
 const PATH = '/nothing.html';
+const qTitle = `How often do dated AI claims miss?`;
 
 // ── Curated ledger ─────────────────────────────────────────────────────────
 //
@@ -249,40 +251,31 @@ const STATUS_LABEL = {
   overdue: 'OVERDUE',
 };
 
-function faqJsonLd(ctx, data) {
+// Tip #270: section H2s are question-shaped and mirrored in FAQ (§3.3).
+const ledgerQ = 'What claims are on the ledger?';
+const methodQ = 'How is the Nothing Index made?';
+
+/** FAQ pairs restated from lede / method / visible copy only (FINDABILITY §3.3). */
+function faqPairs(data) {
   const scoreLine = Number.isFinite(data.scored.score)
     ? `The Nothing Index is ${data.scored.score} of 100 (${data.band.label}): ${data.scored.miss} misses and ${data.scored.hit} hits among ${data.scored.resolved} resolved public claims.`
     : `The Nothing Index is not printed yet: ${data.scored.reason}`;
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: `What is the ${brand.NAME} Nothing Ever Happens Index?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `A skeptic's counter for AI hype: the share of dated, public AI predictions that missed, on a 0–100 scale. ${scoreLine} It does not feed the main ${brand.NAME} reading.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'How is this different from pizzint.watch’s Nothing Ever Happens Index?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'PizzINT’s NEH is the single highest probability among curated geopolitical Polymarket contracts — a panic gauge. Ours scores whether checkable AI claims landed or missed. Correlation is not causation on either page.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Does this number feed the main SIREN index?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'No. Sub-indices do not feed the composite unless their sources sit in the frozen reference. This page is a separate instrument.',
-        },
-      },
-    ],
-  };
+  return [
+    [qTitle,
+      `A skeptic's counter for AI hype: the share of dated, public AI predictions that missed, on a 0–100 scale. ${scoreLine} It does not feed the main ${brand.NAME} reading.`],
+    [ledgerQ,
+      'Every row is a public claim with a due date and a source. Hits lower the index. Misses raise it. Pending stays pending. Overdue waits for a human outcome mark so a late news story cannot silently become a miss.'],
+    [methodQ,
+      `score = 100 × (misses ÷ resolved), where resolved means rows marked hit or miss. Pending and overdue do not enter the denominator. The main ${brand.NAME} reading is a separate instrument — activity tempo from public sources — and this page never writes into it.`],
+    ['How is this different from pizzint.watch’s Nothing Ever Happens Index?',
+      'PizzINT’s NEH is the single highest probability among curated geopolitical Polymarket contracts — a panic gauge. Ours scores whether checkable AI claims landed or missed. Correlation is not causation on either page.'],
+    [`Does this number feed the main ${brand.NAME} index?`,
+      'No. Sub-indices do not feed the composite unless their sources sit in the frozen reference. This page is a separate instrument.'],
+    ['Why not auto-fail every overdue row?',
+      'Because that would print a confident miss over ambiguous public records — the same category error as a dashboard printing a confident level over a dead scraper. Overdue is a queue, not a verdict.'],
+    [`Is the Nothing Index a doom probability?`,
+      `No. ${brand.NAME} measures activity tempo on the main index. This sub-index only scores whether dated claims in the ledger missed or hit — not danger, and not a probability of harm.`],
+  ];
 }
 
 export function render(ctx) {
@@ -313,6 +306,10 @@ export function render(ctx) {
 
   const streak = data.streak;
   const quiet = data.quiet;
+  const faq = faqPairs(data);
+  const faqHtml = faq.map(([qAsk, a]) => `
+    <h3>${esc(qAsk)}</h3>
+    <p>${esc(a)}</p>`).join('');
 
   const main = `
 <style>
@@ -348,14 +345,15 @@ tr[data-status="hit"] .neh__st { background:rgba(248,113,113,.18); color:#fca5a5
 tr[data-status="pending"] .neh__st { background:rgba(148,163,184,.16); color:var(--ink-dim); }
 tr[data-status="overdue"] .neh__st { background:rgba(251,191,36,.18); color:#fde68a; }
 .neh__fine { font:400 var(--t-sm)/1.55 var(--sans); color:var(--ink-dim); max-width:72ch; }
-.neh__faq { margin:var(--s-6) 0; display:grid; gap:var(--s-3); }
-.neh__faq details { border:1px solid var(--rule); border-radius:8px; padding:12px 14px; background:var(--bg-raised, var(--bg-sunken)); }
-.neh__faq summary { cursor:pointer; font:700 var(--t-sm)/1.35 var(--sans); }
-.neh__faq p { margin:8px 0 0; color:var(--ink-dim); }
+.neh__faq { margin:var(--s-6) 0; max-width:62ch; }
+.neh__faq h2 { font:600 var(--t-lg,1.125rem)/1.2 var(--sans); margin:0 0 var(--s-3,.75rem); color:var(--ink); }
+.neh__faq h3 { font:600 var(--t-base,1rem)/1.3 var(--sans); margin:var(--s-4,1rem) 0 var(--s-2,.5rem); color:var(--ink); }
+.neh__faq p { font:400 var(--t-base,1rem)/1.55 var(--sans); color:var(--ink-dim); margin:0 0 var(--s-2,.5rem); }
+.neh__faq-key { margin-top:var(--s-4,1rem)!important; }
 </style>
 <section class="neh">
   <p class="eyebrow">Nothing Ever Happens · a ${esc(brand.NAME)} sub-index · does not feed the main number</p>
-  <div class="neh__top">${mascot({ size: 84, level })}<h1 class="neh__h1 bp__h1">Nothing Ever Happens</h1></div>
+  <div class="neh__top">${mascot({ size: 84, level })}<h1 class="neh__h1 bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">The index for people who think the AI discourse is mostly hot air — and the one that keeps public score when confident, dated claims miss. A riff on <a href="https://www.pizzint.watch/nothingeverhappens" rel="noopener">pizzint.watch’s NEH</a>, pointed at predictions instead of panic odds.</p>
 
   <div class="neh__hero">
@@ -390,7 +388,7 @@ tr[data-status="overdue"] .neh__st { background:rgba(251,191,36,.18); color:#fde
     </div>
   </div>
 
-  <h2>The ledger</h2>
+  <h2 id="ledger">${esc(ledgerQ)}</h2>
   <p class="neh__fine">Every row is a public claim with a due date and a source. Hits lower the index. Misses raise it. Pending stays pending. Overdue waits for a human outcome mark so a late news story cannot silently become a miss.</p>
   <div style="overflow-x:auto">
   <table class="neh__table">
@@ -401,41 +399,59 @@ ${rows}
   </table>
   </div>
 
-  <h2>How the number is made</h2>
+  <h2 id="method">${esc(methodQ)}</h2>
   <p class="neh__fine"><b>score = 100 × (misses ÷ resolved)</b>, where resolved means rows marked hit or miss. Pending and overdue do not enter the denominator. The main ${esc(brand.NAME)} reading is a separate instrument — activity tempo from public sources — and this page never writes into it.</p>
 
-  <div class="neh__faq">
-    <details open>
-      <summary>What is this index?</summary>
-      <p>A skeptic’s counter: the share of dated AI predictions in our ledger that missed. High means the confident calendar mostly failed. Low means the claims landed.</p>
-    </details>
-    <details>
-      <summary>How is this different from pizzint’s NEH?</summary>
-      <p>Theirs is the highest probability among curated geopolitical Polymarket contracts — a live panic gauge. Ours asks whether checkable AI claims came true. Same meme grammar, opposite evidence.</p>
-    </details>
-    <details>
-      <summary>Why not auto-fail every overdue row?</summary>
-      <p>Because that would print a confident miss over ambiguous public records — the same category error as a dashboard printing DOUGHCON 5 over a dead scraper. Overdue is a queue, not a verdict.</p>
-    </details>
-  </div>
+  <section class="neh__faq" aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    ${faqHtml}
+    <p class="neh__faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/bets.html'))}">Does the ${esc(brand.NAME)} index make forecasts?</a>
+      · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+  </section>
 
-  <p class="neh__fine">Related: <a href="${esc(ctx.href('/desk.html'))}">Tally’s Desk</a> (unserious counts, including the calm streak) · <a href="${esc(ctx.href('/bets.html'))}">Tally’s Bets</a> (our own forecasts, scored) · <a href="${esc(ctx.href('/methodology.html'))}">Methodology</a>.</p>
-</section>
-<script type="application/ld+json">${JSON.stringify(faqJsonLd(ctx, data)).replace(/</g, '\\u003c')}</script>`;
+  <p class="neh__fine">Related: <a href="${esc(ctx.href('/desk.html'))}">What unserious counts does ${esc(brand.NAME)} keep on Tally’s desk?</a> (including the calm streak) · <a href="${esc(ctx.href('/bets.html'))}">Does the ${esc(brand.NAME)} index make forecasts?</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+</section>`;
 
   const missWord = data.scored.miss === 1 ? 'miss' : 'misses';
   const hitWord = data.scored.hit === 1 ? 'hit' : 'hits';
   const desc = Number.isFinite(data.scored.score)
-    ? `Nothing Ever Happens Index at ${scoreTxt}/100 (${band.label}): ${data.scored.miss} ${missWord}, ${data.scored.hit} ${hitWord} among dated AI claims. A ${brand.NAME} sub-index.`
-    : `Nothing Ever Happens — ${brand.NAME}'s skeptic counter for dated AI predictions. Score pending until enough claims resolve.`;
+    ? `${qTitle} Nothing Index at ${scoreTxt}/100 (${band.label}): ${data.scored.miss} ${missWord}, ${data.scored.hit} ${hitWord} among dated AI claims. A ${brand.NAME} sub-index.`
+    : `${qTitle} ${brand.NAME}'s skeptic counter for dated AI predictions. Score pending until enough claims resolve.`;
+  const titleBase = Number.isFinite(data.scored.score)
+    ? `${qTitle} · ${scoreTxt}/100 ${band.label}`
+    : qTitle;
 
   return page({
     ctx,
     path: PATH,
-    title: Number.isFinite(data.scored.score)
-      ? `Nothing Ever Happens ${scoreTxt} · ${band.label} · ${brand.NAME}`
-      : `Nothing Ever Happens · ${brand.NAME}`,
+    title: `${titleBase} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
     description: desc,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: desc,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }

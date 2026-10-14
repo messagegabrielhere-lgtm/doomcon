@@ -5,6 +5,7 @@
 
 import { esc } from './_html.mjs';
 import { slugFor } from './itemPage.mjs';
+import { TOPIC_DEFS, itemMatchesTag } from './tagPages.mjs';
 import * as brand from '../brand.mjs';
 
 /** Hours a URL stays eligible for the news sitemap. Google's documented
@@ -13,24 +14,80 @@ import * as brand from '../brand.mjs';
 export const NEWS_WINDOW_HOURS = 48;
 
 /** Cap so a burst of 300+ items in a day cannot ship a multi-megabyte news
- *  sitemap. Newest first; the rest remain in the ordinary sitemap. */
+ *  sitemap. Newest first; the rest remain in the ordinary sitemap. Raised from
+ *  100 while pizzint's news-sitemap is contested again (COMPETITIVE-SEO.md). */
 export const NEWS_SITEMAP_CAP = 150;
 
 function itemStamp(item) {
   return item.published_at || (item.meta && item.meta.first_seen_at) || null;
 }
 
-function keywordsFor(item) {
-  const bits = [];
-  if (item.pillar) bits.push(item.pillar);
-  if (item.source) bits.push(String(item.source).slice(0, 40));
-  const labs = ['OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA', 'DeepSeek'];
-  const hay = `${item.title || ''} ${item.summary || ''}`;
-  for (const lab of labs) {
-    if (new RegExp(`\\b${lab}\\b`, 'i').test(hay)) bits.push(lab);
+/** High-signal lab / model surfaces for Google News contest (vs pizzint). */
+const NEWS_KEYWORD_LABS = Object.freeze([
+  'OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA',
+  'Microsoft', 'Amazon', 'AWS', 'Hugging Face', 'HuggingFace',
+  'Apple', 'Apple Intelligence', 'Palantir', 'ByteDance', 'Seed-OSS',
+  'SoftBank', 'Adobe', 'Intel', 'Samsung', 'TSMC', 'Taiwan Semiconductor',
+  'Tesla', 'Waymo', 'ASML', 'Micron',
+  'Claude', 'GPT', 'Gemini', 'Qwen', 'DeepSeek-R', 'Llama', 'Gemma',
+  'Satya Nadella', 'Sam Altman', 'Elon Musk', 'Dario Amodei', 'Jensen Huang',
+  'Mark Zuckerberg', 'Greg Brockman', 'Yann LeCun', 'Andrej Karpathy', 'Yoshua Bengio',
+  'Sundar Pichai', 'Demis Hassabis', 'Ilya Sutskever', 'Mustafa Suleyman', 'Liang Wenfeng',
+  'Geoffrey Hinton', 'Alex Karp', 'Mira Murati', 'Arthur Mensch', 'Koray Kavukcuoglu',
+  'DeepSeek', 'AMD', 'Broadcom', 'Oracle', 'Tencent', 'Qualcomm', 'Qwen', 'Alibaba', 'Alibaba Cloud',
+  'Huawei', 'Sony', 'Supermicro', 'IREN', 'OpenRouter', 'Reflection AI',
+  'Muse Wonder', 'Artificial Analysis', 'Decart', 'Sakana AI', 'Isomorphic Labs',
+  'Physical Intelligence', 'Zhipu', 'Z.ai', 'Cloudflare',
+  'Winverse AI', 'Cisco', 'Epoch AI', 'Maia', 'Maia 300', 'OpenAI Codex', 'Codex',
+  'Salesforce', 'World Labs', 'Firmus', 'SpaceX', 'HCLTech', 'Suno', 'Manus', 'Nano Banana',
+  'Jev', 'TypeSafe', 'a16z', 'Instinct', 'OpenAI Dots', "McDonald's", 'Walmart', 'Netflix',
+  'Moonshot AI', 'Moonshot', 'CoreWeave', 'Kimi', 'Kimi K2',
+  'Cognition', 'Devin', 'Groq', 'Grok', 'Grok 4.7',
+  'EmbeddingGemma', 'SynthID', 'Clef', 'Clef-omni', 'Clef-flash',
+  'Mistral Large 4', 'Le Chonk', 'Mixtral',
+  'GPT-6 Astra', 'GPT-6.1 Astra', 'GPT-6 Luna', 'GPT-6 Sol',
+  'Gemini 4 Argon', 'Gemini 4 Carbon', 'Gemini 4',
+  'GLM-5.3', 'GLM5.3', 'GLM-5', 'GLM',
+  'Claude Opus 5.5', 'Opus 5.5',
+]);
+
+/**
+ * Build news:keywords with named entities and lab surfaces first so the 12-cap
+ * does not drop them when many topic tags also match (pizzint-news-alive).
+ */
+export function keywordsFor(item) {
+  const named = [];
+  // Prefer the published entity list already on the NewsItem (falsifiable).
+  for (const name of (Array.isArray(item.entities) ? item.entities : [])) {
+    if (typeof name === 'string' && name.trim()) named.push(name.trim());
   }
-  bits.push('AI', brand.NAME);
-  return [...new Set(bits)].slice(0, 8).join(', ');
+  // Lab / model surfaces printed in the headline — before topic tags so they
+  // survive the keyword cap when a story matches a dozen topic needles.
+  const hay = `${item.title || ''} ${item.summary || ''}`;
+  for (const lab of NEWS_KEYWORD_LABS) {
+    const re = new RegExp(`(?:^|[^A-Za-z0-9])${lab.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`, 'i');
+    if (re.test(hay)) named.push(lab);
+  }
+  const topics = [];
+  for (const topic of TOPIC_DEFS) {
+    if (itemMatchesTag(item, topic)) topics.push(topic.name);
+  }
+  const meta = [];
+  if (item.pillar) meta.push(item.pillar);
+  if (item.kind) meta.push(String(item.kind));
+  // Source slug is low-signal for Google News; keep it last before brand terms.
+  if (item.source) meta.push(String(item.source).slice(0, 40));
+  const bits = [
+    ...named,
+    ...topics,
+    ...meta,
+    'AI',
+    'artificial intelligence',
+    brand.NAME,
+  ];
+  // Cap 12 so entity + topic + lab keywords stay under Google News practical limits
+  // while pizzint's thin news-sitemap is contested again (COMPETITIVE-SEO.md).
+  return [...new Set(bits)].slice(0, 12).join(', ');
 }
 
 /** Items young enough for the news sitemap, newest first. */

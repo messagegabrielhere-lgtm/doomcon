@@ -3,8 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Dispatch — 911, alerts &amp; police blather</title>
-<meta name="description" content="Live US 911 CAD calls from city open data, NWS/USGS/GDACS/NHC/EONET alerts, and a ticker of police-call chatter — public feeds only, no keys, not an…">
+<title>What public feeds does SIREN Dispatch show? · SIREN</title>
+<meta name="description" content="What public feeds does SIREN Dispatch show? Live US 911 CAD calls, NWS/USGS/GDACS/NHC/EONET alerts, and police-call blather — delayed open data only. Not an emergency service. Never moves the SIREN score.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"What public feeds does SIREN Dispatch show?","description":"A US room for three public feeds: 911/CAD calls from city open data, emergency alerts (NWS, USGS, GDACS, NHC, EONET), and police blather. Delayed public signal, not an emergency service. Never moves the SIREN score.","url":"https://siren.watch/dispatch.html","isPartOf":{"@type":"WebSite","name":"SIREN","url":"https://siren.watch/"},"speakable":{"@type":"SpeakableSpecification","cssSelector":["h1","p.dp-lede"]}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SIREN","item":"https://siren.watch/"},{"@type":"ListItem","position":2,"name":"Dispatch","item":"https://siren.watch/dispatch.html"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What public feeds does SIREN Dispatch show?","acceptedAnswer":{"@type":"Answer","text":"A US room for three public feeds the rest of the site does not carry: 911 / CAD calls from city open-data portals, emergency alerts from NWS, USGS quakes, GDACS, NHC storms, and NASA EONET, and police blather — the nature-of-call chatter from those CAD feeds."}},{"@type":"Question","name":"Is Dispatch an emergency service?","acceptedAnswer":{"@type":"Answer","text":"Not an emergency service. These are delayed public open-data feeds. Street addresses are stripped; call locations are rounded to about 1 km. Do not use this page to respond to anything."}},{"@type":"Question","name":"Does Dispatch move the SIREN score?","acceptedAnswer":{"@type":"Answer","text":"It never moves the SIREN score. A dark source is shown as dark. It is not for emergency response."}},{"@type":"Question","name":"Which cities have open CAD?","acceptedAnswer":{"@type":"Answer","text":"911 CAD: Seattle, SF, NYC, Austin, LA, Dallas, Kansas City, Montgomery County MD."}}]}
+</script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 :root{
@@ -29,10 +38,17 @@ a{color:inherit}
 .wrap{max-width:1600px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
 
 .top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
-.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto;min-width:0}
-.brand h1{margin:0;font:700 26px/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
-.brand h1 b{color:var(--accent)}
-.brand span{color:var(--mute);font-size:12.5px}
+.brand{display:flex;flex-direction:column;gap:4px;margin-right:auto;min-width:0;max-width:min(720px,100%)}
+.brand .dp-eyebrow{margin:0;font:700 12px/1 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.brand .dp-eyebrow b{color:var(--accent)}
+.brand h1{margin:0;font:700 clamp(22px,4vw,30px)/1.1 var(--f-display);letter-spacing:.02em;text-transform:none;white-space:normal}
+.brand .dp-lede{margin:0;color:var(--mute);font-size:12.5px;max-width:62ch}
+.dp-faq{margin:6px 0 0;padding:14px 16px;background:var(--panel);border:1px solid var(--line);border-radius:10px;max-width:62ch}
+.dp-faq h2{margin:0 0 10px;font:600 16px/1.2 var(--f-display);letter-spacing:.04em;text-transform:none;color:var(--ink)}
+.dp-faq h3{margin:12px 0 6px;font:600 14px/1.3 var(--f-body);color:var(--ink)}
+.dp-faq p{margin:0 0 6px;font:400 13px/1.5 var(--f-body);color:var(--mute)}
+.dp-faq-key{margin-top:12px!important}
+.dp-faq a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .clock{font:500 13px/1 var(--f-mono);color:var(--mute)}
 .em-banner{display:none;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px;border-radius:8px;border:1px solid var(--alert);background:linear-gradient(90deg,rgba(229,57,53,.22),rgba(14,19,28,.9));animation:em-pulse 2.4s ease-in-out infinite}
 .em-banner.on{display:flex}
@@ -149,8 +165,9 @@ footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
 <div class="wrap">
   <header class="top">
     <div class="brand">
-      <h1>911 <b>Dispatch</b></h1>
-      <span>CAD calls · NWS alerts · police blather · public open data</span>
+      <p class="dp-eyebrow">911 <b>DISPATCH</b> · CAD · NWS · BLATHER</p>
+      <h1>What public feeds does SIREN Dispatch show?</h1>
+      <p class="dp-lede">A US room for three public feeds the rest of the site does not carry: CAD calls, emergency alerts and police blather. Delayed open data only — not an emergency service.</p>
     </div>
     <span class="clock" id="clock">--:--:-- UTC</span>
     <a class="btn" href="monitor.html" title="World Monitor">World Monitor</a>
@@ -209,6 +226,23 @@ footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
   </main>
 
   <div class="ticker" aria-label="Police blather ticker"><span class="lab">BLATHER</span><div class="run" id="ticker"><span id="tickerText">Waiting for CAD chatter…</span></div></div>
+
+  <!-- FAQ answers restate help / note / footer copy only.
+       Refuse: emergency-response advice, dispatch-as-index-input, doom-probability. -->
+  <section class="dp-faq" aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    <h3>What public feeds does SIREN Dispatch show?</h3>
+    <p>A US room for three public feeds the rest of the site does not carry: 911 / CAD calls from city open-data portals, emergency alerts from NWS, USGS quakes, GDACS, NHC storms, and NASA EONET, and police blather — the nature-of-call chatter from those CAD feeds.</p>
+    <h3>Is Dispatch an emergency service?</h3>
+    <p>Not an emergency service. These are delayed public open-data feeds. Street addresses are stripped; call locations are rounded to about 1 km. Do not use this page to respond to anything.</p>
+    <h3>Does Dispatch move the SIREN score?</h3>
+    <p>It never moves the SIREN score. A dark source is shown as dark. It is not for emergency response.</p>
+    <h3>Which cities have open CAD?</h3>
+    <p>911 CAD: Seattle, SF, NYC, Austin, LA, Dallas, Kansas City, Montgomery County MD.</p>
+    <p class="dp-faq-key">Search-shaped sibling:
+      <a href="threats.html">What could take the machines offline tonight?</a>
+      · <a href="monitor.html">What does the SIREN World Monitor show?</a>.</p>
+  </section>
 
   <footer>
     <span>
@@ -483,7 +517,7 @@ function renderEmergency() {
   if (!em || !em.active) {
     banner.hidden = true;
     banner.classList.remove("on");
-    document.title = "Dispatch — 911, alerts & police blather";
+    document.title = "What public feeds does SIREN Dispatch show? · SIREN";
     return;
   }
   banner.hidden = false;
@@ -499,7 +533,7 @@ function renderEmergency() {
     `${em.count} trigger${em.count === 1 ? "" : "s"}${Number.isFinite(em.us_count) ? ` (${em.us_count} near the US)` : ""}`,
     "public delayed feed · not an emergency service",
   ].filter(Boolean).join(" · ");
-  document.title = `${em.label}: Dispatch`;
+  document.title = `${em.label}: What public feeds does SIREN Dispatch show? · SIREN`;
   document.body.dataset.emergency = em.label;
 }
 $("#emFocus").addEventListener("click", () => {

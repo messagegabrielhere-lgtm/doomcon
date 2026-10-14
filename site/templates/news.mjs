@@ -61,28 +61,30 @@ export function render(ctx) {
   // words, with the per-source strip underneath so the reader can see whether
   // the silence is real or whether every feed is dark.
   if (!rows.length) {
+    // Tip #331: section H2 is question-shaped (§3.3).
     return `${styleTag()}
 <section class="sec news" aria-labelledby="news-h">
-  ${liveHead(news, 'Signal feed')}
+  ${liveHead(news, 'What is the signal feed?')}
   <p class="lede">No items in the collection window. This is a measured zero, not an outage:
      the per-source strip below says which feeds answered and which did not.</p>
   ${newsSourceStrip(news.sources)}
 </section>`;
   }
 
+  // Tip #329/#331: reel + feed H2s are question-shaped (§3.3).
   return `${styleTag()}
 ${reel(news.items, {
     id: 'reel',
     limit: REEL_CARDS,
-    heading: "Today's signal",
+    heading: "What is today's signal?",
     href: archiveHref,
   })}
 <section class="sec news" aria-labelledby="news-h">
-  ${liveHead(news, 'Signal feed')}
+  ${liveHead(news, 'What is the signal feed?')}
   ${legend(news)}
   <ol class="nfeed">${rows.map((it) => feedRow(it)).join('')}</ol>
   <p class="nkey nkey--more">
-    <a href="${esc(archiveHref)}">All ${esc(news.total)} items in the window &rarr;</a>
+    <a href="${esc(archiveHref)}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>
   </p>
   ${newsSourceStrip(news.sources)}
 </section>`;
