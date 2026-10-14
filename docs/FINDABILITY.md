@@ -298,6 +298,7 @@ context.
 | 65 | Clear CodeQL “replace substring with itself” on desk share lines (`what.replace(/^headlines/, 'headlines')` → `what`) so PR #125 stays mergeable under `deploy-pending-url-lead` | Merge / deploy | **Done** (2026-10-14) |
 | 66 | Question-shaped `/search-trends.html` + `/ai-prediction-markets.html` titles/H1/H2/FAQ; IndexNow ALWAYS + `seo-daily` CORE_LIVE_SURFACES monitor both | Google + Bing | **Done** (2026-10-14) |
 | 67 | `llms.txt` / `agents.md` / home tiles advertise question-shaped Search Trends + AI prediction-markets URLs (live agent maps had omitted them after HTML-only overlay) | Agents + Google | **Done** (2026-10-14) |
+| 68 | Fix `catalogPages.mjs` DATA syntax clobber from #137 restore (`api/si-signals.json` + `api/search-trends.json`) so `collect`/`news-fast` site builds can finish again | Deploy / Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

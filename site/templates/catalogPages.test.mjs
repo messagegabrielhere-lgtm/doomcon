@@ -90,3 +90,21 @@ test('pageMeta and bunkerTools read what the build wrote', () => {
   assert.deepEqual(bunkerTools(html), [{ name: 'Archive', url: 'https://archive.example', does: 'Saves pages.', crate: 'Knowledge vault', domain: 'archive.example' }]);
   assert.deepEqual(bunkerTools('<p>no kit</p>'), []);
 });
+
+test('DATA registry keeps si-signals and search-trends as valid object entries', () => {
+  const e = catalogEntries({
+    groups: [['LIVE INTEL', [
+      ['/search-trends.html', 'px:antenna', 'Which Google Search Trends for AI does SIREN watch?', null, 'watched'],
+      ['/ai-prediction-markets.html', 'radar', 'Where are live AI prediction market odds?', null, 'odds'],
+    ]]],
+    files: ['search-trends.html', 'ai-prediction-markets.html', 'api/si-signals.json', 'api/search-trends.json'],
+    pages: {},
+    videos: [],
+  });
+  const by = (u) => e.find((x) => x.url === u);
+  assert.equal(by('/api/si-signals.json')?.title, 'Takeover signals (JSON)');
+  assert.equal(by('/api/search-trends.json')?.title, 'Search Trends (JSON)');
+  assert.match(by('/api/search-trends.json').desc, /watched, not scored/);
+  assert.equal(by('/search-trends.html')?.type, 'page');
+  assert.equal(by('/ai-prediction-markets.html')?.type, 'page');
+});
