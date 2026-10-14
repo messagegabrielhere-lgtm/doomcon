@@ -362,6 +362,11 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What are AI agents saying'));
     assert.ok(org.knowsAbout.includes('What did Pelosi, Burry, Cathie Wood and Buffett disclose'));
     assert.ok(org.knowsAbout.includes('Which AI models are trading paper money'));
+    assert.ok(org.knowsAbout.includes('What is measured'));
+    assert.ok(org.knowsAbout.includes('What gets claimed'));
+    assert.ok(org.knowsAbout.includes('What is the caveat'));
+    assert.ok(org.knowsAbout.includes('What belongs in a storm kit'));
+    assert.ok(org.knowsAbout.includes('Why does an AI site watch Waffle Houses'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));

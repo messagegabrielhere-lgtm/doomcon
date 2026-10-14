@@ -226,6 +226,9 @@ export function render(ctx, data, us) {
       '; if the two ever disagree, Waffle House’s posted map wins.'],
     ['Why does an AI site watch Waffle Houses?',
       'The same storms that close a Waffle House cut power to data centres, which then run on diesel generators and battery banks. The AI build-out is concentrated in the Southeast and Texas, right in hurricane country. FEMA’s gauge works because it is simple, public and hard to fake. SIREN tries to be the same thing for AI: a count anyone can check.'],
+    // Tip #336: storm-kit H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['What belongs in a storm kit?',
+      'Paid Amazon links on this page for storm-kit staples, labelled as such. As an Amazon Associate I earn from qualifying purchases; that never changes a number on this page. Ready.gov’s full kit list is free, and /bunker-kit.html lists free tools.'],
     ['Is the shaded path the official forecast cone?',
       'How it works: storms from the National Hurricane Center; the shaded path runs along the storm’s current motion for 24 hours with a radius set by its strength, so it is NOT the official forecast cone. Not a safety service: follow your local officials.'],
     ...(others
@@ -255,7 +258,7 @@ setInterval(poll,180000);})();</script>
       </div>${share}</div>
   </div>
   ${tally(st, L, off)}
-  <div class="wf-c" style="margin:14px 0"><h3>STORM KIT <span style="font:600 10.5px var(--mono);color:#94A3B8;border:1px solid #475569;padding:2px 6px;margin-left:6px">PAID LINKS</span></h3>
+  <div class="wf-c" style="margin:14px 0"><h3>What belongs in a storm kit? <span style="font:600 10.5px var(--mono);color:#94A3B8;border:1px solid #475569;padding:2px 6px;margin-left:6px">PAID LINKS</span></h3>
     <ul>${KIT.map(([t, w, q]) => `<li><a href="${esc(AZS(q))}" target="_blank" rel="sponsored noopener">${esc(t)}</a>: ${esc(w)}</li>`).join('')}</ul>
     <p style="font-size:12.5px;margin:8px 0 0">As an Amazon Associate I earn from qualifying purchases. Never changes a number on this page. Ready.gov’s <a href="https://www.ready.gov/kit" target="_blank" rel="noopener">full kit list</a> is free. <a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit? →</a></p></div>
 
@@ -263,7 +266,7 @@ setInterval(poll,180000);})();</script>
     ${pathList}
     ${chain}
     ${st ? '' : rankCard(data && data.dc_impact, null, null)}
-    <div class="wf-c"><h3>WHY AN AI SITE WATCHES WAFFLES</h3><ul>
+    <div class="wf-c"><h3>Why does an AI site watch Waffle Houses?</h3><ul>
       <li>The same storms that close a Waffle House cut power to data centres, which then run on diesel generators and battery banks. The AI build-out is concentrated in the Southeast and Texas, right in hurricane country.</li>
       <li>Forecasting itself is turning AI: Google DeepMind’s experimental cyclone model has been part of what forecasters consult since 2025, alongside the physics models.</li>
       <li>FEMA’s gauge works because it is simple, public and hard to fake. SIREN tries to be the same thing for AI: a count anyone can check.</li></ul></div>
