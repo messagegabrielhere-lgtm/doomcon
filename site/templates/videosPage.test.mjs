@@ -25,6 +25,17 @@ describe('videos page', () => {
     assert.match(html, /VideoObject/);
     assert.match(html, /\/radio\.html/);
     assert.match(html, /work on mute/);
+    const body = html.match(/<div class="md-vids">[\s\S]*?<section class="md-faq"/);
+    assert.ok(body, 'expected videos body before FAQ');
+    assert.match(body[0], /href="\/radio\.html">What free music does SIREN Radio play\?<\/a>/);
+    assert.match(body[0], /href="\/elon\.html">Where can you find real clips of AI leaders\?<\/a>/);
+    assert.doesNotMatch(body[0], /href="\/radio\.html">Tune in to SIREN Radio<\/a>/);
+    assert.doesNotMatch(body[0], /href="\/elon\.html">Real Clips<\/a>/);
+    const faqKey = html.match(/<p class="md-faq-key">([\s\S]*?)<\/p>/);
+    assert.ok(faqKey, 'expected md-faq-key');
+    assert.match(faqKey[1], /href="\/live\.html">What AI is on TV and radio right now\?<\/a>/);
+    assert.match(faqKey[1], /href="\/elon\.html">Where can you find real clips of AI leaders\?<\/a>/);
+    assert.doesNotMatch(html, /BreadcrumbList[\s\S]*?"name"\s*:\s*"Videos"/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /videos (are|as) (a )?forecast/i);
     assert.doesNotMatch(html, /probability of doom/i);

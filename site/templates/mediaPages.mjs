@@ -121,7 +121,7 @@ export function videos(ctx) {
     ['Can I share them?',
       'Free to share with a link back.'],
     ['Where is the soundtrack music?',
-      'Want the music on its own? Tune in to SIREN Radio.'],
+      'Want the music on its own — What free music does SIREN Radio play? Clips of the AI bosses themselves: Where can you find real clips of AI leaders?'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -131,12 +131,14 @@ export function videos(ctx) {
   <p class="eyebrow">SIREN TV</p><h1 class="bp__h1">${esc(videosQTitle)}</h1>
   <p class="lede">Short explainers about AI, the index and how to get ready, each scored by a different SIREN Radio station. Free to share with a link back. Captions are on screen, so they work on mute.</p>
   <div class="md-vids">${cards}</div>
-  <p>Want the music on its own? <a href="${esc(ctx.href('/radio.html'))}">Tune in to SIREN Radio</a>. Clips of the AI bosses themselves live in <a href="${esc(ctx.href('/elon.html'))}">Real Clips</a>.</p>
+  <p>Want the music on its own — <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a> Clips of the AI bosses themselves: <a href="${esc(ctx.href('/elon.html'))}">Where can you find real clips of AI leaders?</a></p>
   <section class="md-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}
     <p class="md-faq-key">Search-shaped sibling:
-      <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a>.</p>
+      <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a>
+      · <a href="${esc(ctx.href('/elon.html'))}">Where can you find real clips of AI leaders?</a>
+      · <a href="${esc(ctx.href('/live.html'))}">What AI is on TV and radio right now?</a>.</p>
   </section>
 </section>
 ${VIDEOS.map((v) => videoLd(ctx, v)).join('')}`;
@@ -158,7 +160,7 @@ ${VIDEOS.map((v) => videoLd(ctx, v)).join('')}`;
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Videos', path: VIDEOS_PATH },
+        { name: videosQTitle, path: VIDEOS_PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -200,7 +202,7 @@ export function radio(ctx, voice) {
     ['How do I change stations?',
       'The 📻 button in the bar at the bottom of every page flips to the next station. On a phone, check the ring/silent switch if you hear nothing.'],
     ['Where can I hear these stations in videos?',
-      'Every SIREN video is scored by one of these stations.'],
+      'Every SIREN video is scored by one of these stations. See What free AI explainer videos does SIREN publish?'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -216,14 +218,16 @@ export function radio(ctx, voice) {
   <p>The 📻 button in the bar at the bottom of every page flips to the next station. On a phone, check the ring/silent switch if you hear nothing.</p>
   ${voiceBox}
   <h2>Hear it in the videos</h2>
-  <p>Every <a href="${esc(ctx.href('/videos.html'))}">SIREN video</a> is scored by one of these stations.</p>
+  <p>Every SIREN video is scored by one of these stations. See <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a></p>
   <p><a class="md-btn ghost" href="${esc(xShare(ctx, 'SIREN Radio: six stations of music generated live in your browser while you watch AI.', RADIO_PATH))}" target="_blank" rel="noopener">𝕏 POST SIREN RADIO</a></p>
   <section class="md-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}
     <p class="md-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a>
-      · <a href="${esc(ctx.href('/games.html'))}">What free AI games can you play on SIREN?</a>.</p>
+      · <a href="${esc(ctx.href('/games.html'))}">What free AI games can you play on SIREN?</a>
+      · <a href="${esc(ctx.href('/live.html'))}">What AI is on TV and radio right now?</a>
+      · <a href="${esc(ctx.href('/elon.html'))}">Where can you find real clips of AI leaders?</a>.</p>
   </section>
 </section>
 <script>setInterval(function(){var e=document.getElementById('md-eq');if(e&&window.SirenRadio)e.classList.toggle('on',!!SirenRadio.playing)},500)</script>`;
@@ -245,7 +249,7 @@ export function radio(ctx, voice) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'SIREN Radio', path: RADIO_PATH },
+        { name: radioQTitle, path: RADIO_PATH },
       ]),
       {
         '@context': 'https://schema.org',
