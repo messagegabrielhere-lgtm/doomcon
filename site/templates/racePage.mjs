@@ -1138,7 +1138,7 @@ function howComputed(ctx, race) {
       independent intelligence, speed and cost leaderboards. ${esc(brand.NAME)} does not copy those
       scores onto this page. Money-backed odds and shipping counts answer a different question.`)}
   </dl>
-  <h3 class="rmeth__h3">What a blank reading means</h3>
+  <h3 class="rmeth__h3">What does a blank reading mean?</h3>
   <ul class="rlegend">
     ${Object.entries(ABSENCE).map(([, a]) => `<li><span class="rab">${esc(a.mark)}</span><span>${esc(a.title)}</span></li>`).join('')}
     <li><span class="rab rab--zero num">0</span><span>We looked, the channel answered, and the answer is genuinely zero. This is the only one of the six that is a measurement.</span></li>
@@ -1206,6 +1206,9 @@ export function render(ctx) {
       })()],
     [methQ,
       `Labs are ranked by a live prediction market and annotated with shipping activity and news mindshare. Every number links to the thing it came from. Not a quality ranking and not a ${brand.NAME} prediction.`],
+    // Tip #338: blank-reading H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['What does a blank reading mean?',
+      'A blank mark means we looked and the channel did not answer, or the absence legend applies. A printed zero is the only absence that is a measurement: we looked, the channel answered, and the answer is genuinely zero.'],
     [`Does ${brand.NAME} publish an AI race doom score?`,
       `No. These are market odds and observable activity. They are not a ${brand.NAME} prediction. ${brand.DISCLAIMER_SHORT}`],
   ];

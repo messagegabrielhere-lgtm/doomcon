@@ -580,6 +580,15 @@ const FAQ = [
     a: 'It is not a probability of doom, a forecast, or a statement about danger. A scale is read as ' +
        'whatever its name suggests; these level names describe the instrument rather than the danger.',
   },
+  // Tip #338: cautionary-tale H3 is question-shaped and mirrored here (§3.3).
+  {
+    q: 'What is the cautionary tale, in full?',
+    a: 'The WHO six-phase pandemic scale measured geographic spread and nothing else. When Phase 6 ' +
+       'was declared for H1N1 in 2009, the public read it as a statement about severity. The lesson: ' +
+       'a scale is read as whatever its name suggests. So SIREN level names describe the instrument ' +
+       'rather than the danger, every surface that prints a level also prints the disclaimer, and ' +
+       'the copy generator is barred from the future tense by a unit test.',
+  },
   {
     q: 'What does this index actually count?',
     a: 'Five pillars, fixed and never reordered. Each is a mean over its live public sources, ' +
@@ -898,7 +907,7 @@ ${levelLegend()}
   <h2 id="not">What does this index not claim?</h2>
   ${notClaims()}
 
-  <h3>The cautionary tale, in full, because it is ours too</h3>
+  <h3>What is the cautionary tale, in full?</h3>
   <p>The World Health Organization's six-phase pandemic scale measured <em>geographic spread</em>
     and nothing else. Phase 6 meant sustained community transmission in more than one WHO region.
     It said nothing whatsoever about severity. When it was declared for H1N1 in June 2009, the

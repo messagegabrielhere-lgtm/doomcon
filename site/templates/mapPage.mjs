@@ -295,7 +295,7 @@ function waterSection(dc, model) {
 
   <p class="bldsec__n">${esc((dc.honesty && dc.honesty[4]) || '')}</p>
 
-  <h3 class="bldsec__h3">The nine river gauges</h3>
+  <h3 class="bldsec__h3">Which nine river gauges sit beside datacentre clusters?</h3>
   <p class="bldsec__l">The same nine USGS gauges <a href="${esc(ctxHrefPlaceholder)}">What does the ${esc(brand.NAME)} infrastructure index read?</a> reads, each one beside a named
      datacentre cluster, measured against that gauge's own long-run median for this day of the year.
      ${esc(N(rel.local))} of ${esc(N(t.sites))} pins have one within 50 km; ${esc(N(rel.regional))} are regional and
@@ -538,16 +538,16 @@ function methodSection(ctx, dc, model) {
   return `<section class="bldsec" id="method" aria-labelledby="bld-method">
   <h2 class="bldsec__h" id="bld-method">${icon('sec-method')} ${esc(methodQ)}</h2>
 
-  <h3 class="bldsec__h3">Status, in words</h3>
+  <h3 class="bldsec__h3">What does each status mean in words?</h3>
   <ul class="bldleg">${statusLegend}</ul>
-  <h3 class="bldsec__h3">Confidence, in words</h3>
+  <h3 class="bldsec__h3">What does each confidence level mean in words?</h3>
   <p class="bldsec__l">Confidence is a statement about the <b>record</b>, not about the building.</p>
   <ul class="bldleg bldleg--plain">${confLegend}</ul>
 
-  <h3 class="bldsec__h3">The sources</h3>
+  <h3 class="bldsec__h3">What are the sources for this map?</h3>
   ${sourceTable(dc)}
 
-  <h3 class="bldsec__h3">Every limitation, in full</h3>
+  <h3 class="bldsec__h3">What are the limitations, in full?</h3>
   <ol class="bldlim">${honesty}</ol>
   <p class="bldsec__n">Two of the sources share one host, and the whole existing half of this map depends on a
      single volunteer-run Overpass instance. Three mirrors and a seven-day disk cache are the only redundancy
@@ -555,7 +555,7 @@ function methodSection(ctx, dc, model) {
      county line can land in the neighbouring county; ${esc(N(dc.sites.filter((s) => s.county_boundary_risk).length))}
      pins carry that flag.</p>
 
-  <h3 class="bldsec__h3">What was tried and dropped</h3>
+  <h3 class="bldsec__h3">What was tried and dropped?</h3>
   <p class="bldsec__l">The Federal Register names no datacentre projects: of 437 documents whose full text
      carries the phrase over eighteen months, four have it in the title and not one of them is a project — a
      flight-data web portal, a paediatric emergency data repository, a permitting executive order and a
@@ -1399,6 +1399,19 @@ export function render(ctx) {
       `A ranking of sites carrying an IT-power tag — a sample of a sample of the map, not a ranking of the largest datacentres in the United States.`],
     [methodQ,
       `Status and confidence are stated in words. Every limitation is published in full. This does not feed the main ${brand.NAME} number.`],
+    // Tip #337: method / water H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['Which nine river gauges sit beside datacentre clusters?',
+      `The same nine USGS gauges the infrastructure index reads, each beside a named datacentre cluster, measured against that gauge's own long-run median for this day of the year. Flow is a statement about rainfall and reservoir operation, not about consumption.`],
+    ['What does each status mean in words?',
+      'Status marks on this map are stated in words in the method section — operating, planned, and the other recorded states — as labels for mapped buildings, not for server load.'],
+    ['What does each confidence level mean in words?',
+      'Confidence is a statement about the record, not about the building. High, medium and low are defined in the method section.'],
+    ['What are the sources for this map?',
+      'The method section lists every source this map reads, including OpenStreetMap Overpass and the drought and streamflow joins.'],
+    ['What are the limitations, in full?',
+      'Every limitation is published in the method section, including Overpass dependency, county-line geocoding risk, and that this page does not feed the main index.'],
+    ['What was tried and dropped?',
+      'Federal Register full-text search, SEC address geocoding as pins, and full OpenStreetMap geometry were tried and dropped for the reasons stated in the method section.'],
     [`Does this map measure a datacentre's power or water draw?`,
       `No. Nothing here measures a datacentre's power or water draw, and the page says so above the map. What any of these buildings actually draws is not published by anyone.`],
     [`Does a state with no pins have zero datacentres?`,

@@ -28,6 +28,9 @@ describe('charts page', () => {
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /Are any of these charts estimated\?/);
     assert.match(html, /Can I post a chart to X as an image\?/);
+    assert.match(html, /id="ch-mh">How do you post this chart to 𝕏\?<\/h3>/);
+    assert.doesNotMatch(html, /id="ch-mh">POST THIS CHART TO/);
+    assert.match(html, /"name"\s*:\s*"How do you post this chart to 𝕏\?"/);
     assert.match(html, /Where is the full power race table\?/);
     assert.match(html, /What are the odds for the best AI model at the end of 2026\?/);
     assert.match(html, /Which AI bets are hottest right now\?/);
