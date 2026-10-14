@@ -495,6 +495,7 @@ context.
 | 243 | Layout `SECTIONS` footer Pages + next/prev + All-rooms palette + home dash buttons/live news chip use matching page H1 questions (was “Index” / “Stock picks” / “Newsroom” / “The Race” / “ALERTS” / “DATA & EMBED” / “NEWS & ALERTS LIVE”); pixel room banner keeps `short` chrome; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 244 | Classic markets cards + desk switcher `more` links + nations highlight + home reuse embed helper use Arena/race/news/watts/digest/leaders/bliss/nations/export questions (was “Big investors” / “AI battle” / “See today's picks” / “The full board…” / “See the full scoreboard” / “Open the widget”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 245 | Home foot/top alerts + classic embed preview + waffle storm-kit/map body links use classic/alerts/export/bunker/US-map questions (was “Verify a reading” / “Full instrument panel” / “RSS” / “ALERTS” / “level-change alerts” / “Preview the widget” / “SIREN’s bunker kit” / “power map”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 246 | `/p-doom.html` voices + compare embed + home Tally RSS + oven methodology body links use news/live/day-after/library/export/alerts/methodology questions (was “All AI news” / “Watch: AI on TV…” / “Game out the day after” / “SIREN’s library…” / “Embed the live reading” / “level-change RSS” / “How a stage is decided”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

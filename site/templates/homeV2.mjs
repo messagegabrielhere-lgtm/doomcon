@@ -743,7 +743,7 @@ ${roomsGrid(ctx, href, img)}
 
   <div class="v2-cta" id="tally" data-sec="Tally">
     <img class="v2-art bob" loading="lazy" decoding="async" src="${img('canary')}" width="88" height="88" alt="">
-    <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between. Or subscribe to <a href="${href('/feed-level.xml')}">level-change RSS</a> — maybe a handful of pings a year, if you pipe the feed.</span></div>
+    <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between. Or subscribe via <a href="${href('/alerts.html')}">How do I get alerts when ${esc(brand.NAME)} moves?</a> — maybe a handful of pings a year, if you pipe the feed.</span></div>
     <a class="v2-btn" href="https://x.com/intent/follow?screen_name=SIRENutf6">FOLLOW @SIRENutf6 →</a>
   </div>
   ${newsletterBox(href('/privacy.html')) ? `<div class="v2-nl">${newsletterBox(href('/privacy.html'))}</div>` : ''}

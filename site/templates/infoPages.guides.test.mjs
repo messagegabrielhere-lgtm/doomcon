@@ -123,4 +123,17 @@ describe('guides hub', () => {
     assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
     assert.doesNotMatch(html, /noindex/);
   });
+
+  it('p-doom voices sibling links use news/live/day-after/library question H1s', () => {
+    const html = pdoom(ctx);
+    assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\? →<\/a>/);
+    assert.match(html, /href="\/live\.html">What AI is on TV and radio right now\? →<\/a>/);
+    assert.match(html, /href="\/day-after\.html">What happens the day after an AI catastrophe\? →<\/a>/);
+    assert.match(html, /href="\/library\.html">What AI books argue both sides of the case\? →<\/a>/);
+    assert.doesNotMatch(html, /href="news\.html">All AI news →<\/a>/);
+    assert.doesNotMatch(html, /href="live\.html">Watch: AI on TV/);
+    assert.doesNotMatch(html, /href="day-after\.html">Game out the day after →<\/a>/);
+    assert.doesNotMatch(html, /href="library\.html">SIREN’s library: books from every side →<\/a>/);
+    assert.doesNotMatch(html, /probability of doom is \d/i);
+  });
 });

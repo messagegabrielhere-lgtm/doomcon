@@ -99,6 +99,16 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
+  it('oven methodology link uses the methodology question H1', () => {
+    const html = render(ctx, { view: 'instruments' });
+    const oven = html.match(/id="oven"[\s\S]*?<p class="fresh__key">([\s\S]*?)<\/p>/);
+    assert.ok(oven, 'expected oven key paragraph');
+    assert.match(oven[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology →<\/a>/);
+    assert.doesNotMatch(oven[1], /How a stage is decided →/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
   it('classic markets cards and desk switcher more-links use page H1 questions', () => {
     const html = render(ctx, { view: 'classic' });
     const go = html.match(/class="mkb__go">([\s\S]*?)<\/div>/);

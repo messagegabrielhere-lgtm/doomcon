@@ -78,6 +78,14 @@ describe('home v2 footer', () => {
     assert.doesNotMatch(html, /href="\/embed\.html">Open the widget<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
+
+  it('Tally CTA level-change subscribe uses the alerts question H1', () => {
+    const html = render(ctx, { head: '' });
+    assert.match(html, /id="tally"[\s\S]*?href="\/alerts\.html">How do I get alerts when SIREN moves\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/feed-level\.xml">level-change RSS<\/a>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
 
 
