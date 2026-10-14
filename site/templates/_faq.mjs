@@ -113,6 +113,12 @@ export function items(ctx) {
       `On /race.html, a blank mark means we looked and the channel did not answer. A printed zero is the only absence that is a measurement.`],
     ['How do you post this chart to 𝕏?',
       `On /charts.html, hit Post with image on any chart. On a phone the share sheet carries the picture and words; on a computer the picture is copied and X opens with your words.`],
+    ['What is the Overpass query?',
+      `On /world.html, the method section prints the Overpass query. Every figure on that page is arithmetic over the response.`],
+    ['How was the join done?',
+      `On /exploits.html, catalogue entries are joined to NVD records on cveID. Matched and unmatched counts are printed in the source section.`],
+    ['How do you recompute it?',
+      `On /exploits.html: two requests, no key. Fetch both feeds, join on cveID, subtract the UTC calendar dates.`],
   ];
 }
 

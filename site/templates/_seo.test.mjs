@@ -377,6 +377,16 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What is the cautionary tale, in full'));
     assert.ok(org.knowsAbout.includes('How do you filter the scored list'));
     assert.ok(org.knowsAbout.includes('What does a blank reading mean'));
+    assert.ok(org.knowsAbout.includes('What can the register say and not say'));
+    assert.ok(org.knowsAbout.includes('What is the Overpass query'));
+    assert.ok(org.knowsAbout.includes('How was geography assigned'));
+    assert.ok(org.knowsAbout.includes('What is the licence'));
+    assert.ok(org.knowsAbout.includes('How was the join done'));
+    assert.ok(org.knowsAbout.includes('How do catalogue entries become the headline series'));
+    assert.ok(org.knowsAbout.includes('Why are quantiles stated at these cohort sizes'));
+    assert.ok(org.knowsAbout.includes('What does the catalogue show for scale'));
+    assert.ok(org.knowsAbout.includes('How do you recompute it'));
+    assert.ok(org.knowsAbout.includes('How do you take the table'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));
