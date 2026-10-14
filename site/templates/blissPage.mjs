@@ -232,9 +232,15 @@ function divergence(bliss, doomState) {
 // Pillars
 // ---------------------------------------------------------------------------
 
+/** Tip #378: pillar-card H3s are question-shaped (mirrored in FAQ §3.3). */
+function pillarQ(p) {
+  return `What does the BLISS ${p.name} pillar measure?`;
+}
+
 function pillarCard(p, series) {
   const state = pillarState(p);
   const glyph = PILLAR_GLYPH[p.id] || '▪';
+  const q = pillarQ(p);
 
   const body = state === 'live'
     ? `${sparkline(series, { id: `bliss-${p.id}`, label: `${p.name} score history` })}
@@ -245,7 +251,7 @@ function pillarCard(p, series) {
 
   return `<article class="bp" data-state="${state}">
     <div class="bp__top">
-      <h3 class="bp__name"><span aria-hidden="true">${glyph}</span> ${esc(p.name)}</h3>
+      <h3 class="bp__name" aria-label="${esc(p.name)}"><span aria-hidden="true">${glyph}</span> ${esc(q)}</h3>
       <span class="bp__score num">${esc(score1(p.score))}</span>
     </div>
     <p class="bp__blurb">${esc(p.blurb || '')}</p>
@@ -392,6 +398,8 @@ export function render(ctx) {
       "A score is a percentile position against that index's own frozen reference distribution — never a probability, and never a comparison between the two fields."],
     [`Does ${brand.NAME} publish a BLISS doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} BLISS is an upside tempo reading beside the main index — not a probability of harm and not a forecast.`],
+    // Tip #378: pillar-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...(bliss.pillars || []).map((p) => [pillarQ(p), p.blurb || '']),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

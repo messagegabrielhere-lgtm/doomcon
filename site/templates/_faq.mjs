@@ -205,6 +205,10 @@ export function items(ctx) {
       `On /live-x.html: (AI OR AGI OR superintelligence) filter:spaces. Join any that are live now.`],
     ['Who is OpenAI on X?',
       `On /live-x.html: @OpenAI.`],
+    ['What is CISA Known Exploited Vulnerabilities catalogue?',
+      `On /exploits.html: Gives: cveID, vendorProject, product, dateAdded, knownRansomwareCampaignUse.`],
+    ['What does the BLISS Science pillar measure?',
+      `On /bliss.html: AI methods showing up in other people’s fields.`],
   ];
 }
 
