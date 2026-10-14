@@ -454,7 +454,7 @@ export function biasPage(ctx) {
 
 <h2 id="inputs">Where each input leans</h2>
 <div class="xt-tbl"><table><thead><tr><th>Input</th><th>Pillar</th><th>Lean</th></tr></thead><tbody>${inputs}</tbody></table></div>
-<p>Most news sources behind the <a href="${esc(ctx.href('/news.html'))}">newsroom</a> are English-language as well. The newsroom does not feed the score, but it shapes which stories sit next to it.</p>
+<p>Most news sources behind <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> are English-language as well. That newsroom does not feed the score, but it shapes which stories sit next to it.</p>
 
 <h2 id="skew">What that skews</h2>
 <ul>

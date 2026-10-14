@@ -428,7 +428,7 @@ export function terms(ctx) {
   <div class="inf__top"><h1 class="bp__h1">What are the ${esc(brand.NAME)} terms of use?</h1></div>
   <p class="lede">Last updated ${esc(TERMS_UPDATED)}. By using ${esc(brand.NAME)} — this website, its data files, feeds, embeds, badge,
     share cards and posts — you agree to these terms. If you do not agree, please do not use it.
-    A shorter map of every notice is on the <a href="${esc(ctx.href('/disclosures.html'))}">disclosures</a> page.</p>
+    A shorter map of every notice is on <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a>.</p>
 
   <div class="inf__box">
     <p><b>The short version.</b> ${esc(brand.NAME)} is an automated, independent publication for information, commentary and
@@ -535,11 +535,11 @@ export function terms(ctx) {
 
   <h2>12. Children</h2>
   <p>The site is meant for a general adult audience. It is not directed at children under 13, or under 16 where that higher age applies.
-    See the <a href="${esc(ctx.href('/privacy.html'))}">privacy page</a> for how visits are measured and how to ask for removal of something a child posted publicly via the feedback form.</p>
+    See <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a> for how visits are measured and how to ask for removal of something a child posted publicly via the feedback form.</p>
 
   <h2>13. Personal information and “do not sell”</h2>
-  <p>${esc(brand.LEGAL_NO_SELL)} Details of analytics, hosts and browser-side API calls are on the
-    <a href="${esc(ctx.href('/privacy.html'))}">privacy page</a>.</p>
+  <p>${esc(brand.LEGAL_NO_SELL)} Details of analytics, hosts and browser-side API calls are on
+    <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a>.</p>
 
   <h2>14. Copyright concerns and corrections</h2>
   <p>If you believe something on the site infringes your rights, is inaccurate, or should be removed, email ${mail}, contact ${x} or open
@@ -598,8 +598,9 @@ export function disclosures(ctx) {
 <section class="inf">
   <p class="eyebrow">Disclosures</p>
   <div class="inf__top"><h1 class="bp__h1">What does ${esc(brand.NAME)} disclose?</h1></div>
-  <p class="lede">Every notice ${esc(brand.NAME)} makes in one place. The full contracts are the
-    <a href="${esc(ctx.href('/terms.html'))}">terms</a> and <a href="${esc(ctx.href('/privacy.html'))}">privacy</a> pages; this page is the map.</p>
+  <p class="lede">Every notice ${esc(brand.NAME)} makes in one place. The full contracts are
+    <a href="${esc(ctx.href('/terms.html'))}">What are the ${esc(brand.NAME)} terms of use?</a> and
+    <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a>; this page is the map.</p>
 
   <h2>What the index is</h2>
   <ul>
@@ -1011,7 +1012,7 @@ export function press(ctx) {
     ${n ? `<li><b>Readings published:</b> ${esc(n.toLocaleString('en-US'))}, each with a receipt. <a href="${esc(ctx.href('/moves/'))}">Archive</a>.</li>` : ''}
     <li><b>Update cadence:</b> the index is scored hourly; the newsroom refreshes every minute.</li>
     <li><b>What it is not:</b> a probability, a prediction, or a measure of how bad anything is.</li>
-    <li><b>Checkable:</b> <a href="${esc(ctx.href('/#vfy'))}">verify the readings in your browser</a>, read the <a href="${esc(ctx.href('/methodology.html'))}">method</a>, or the <a href="${esc(brand.REPO_URL)}" rel="noopener">source</a>.</li>
+    <li><b>Checkable:</b> <a href="${esc(ctx.href('/#vfy'))}">verify the readings in your browser</a>, read <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>, or the <a href="${esc(brand.REPO_URL)}" rel="noopener">source</a>.</li>
     <li><b>Jobs and medicine:</b> sourced, caveated pages on <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a> and <a href="${esc(ctx.href('/medicine.html'))}">Is AI curing anything?</a>.</li>
     <li><b>Mascot:</b> Tally, the duty canary. The helmet colour and the face follow the level.</li>
   </ul>
@@ -1023,7 +1024,7 @@ export function press(ctx) {
     <li><a href="${esc(ctx.href('/cards/state-portrait.png'))}">Portrait card</a> for stories and vertical video</li>
     <li><a href="${esc(ctx.href('/badge.svg'))}">Level badge</a> (SVG) and <a href="${esc(ctx.href('/favicon.svg'))}">mark</a> (SVG)</li>
     <li><a href="${esc(ctx.href('/brand.html'))}">Where is the SIREN brand guide?</a> — Tally in five moods to download</li>
-    <li><a href="${esc(ctx.href('/embed.html'))}">Embeddable widget</a>; the code is on the <a href="${esc(ctx.href('/instruments.html'))}#embed">instruments page</a></li>
+    <li><a href="${esc(ctx.href('/embed.html'))}">Embeddable widget</a>; the code is on <a href="${esc(ctx.href('/instruments.html'))}#embed">What instruments sit behind the ${esc(brand.NAME)} reading?</a></li>
   </ul>
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}

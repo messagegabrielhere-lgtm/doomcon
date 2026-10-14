@@ -36,6 +36,8 @@ describe('self-aware page', () => {
     assert.match(html, /The attack is invented/);
     assert.match(html, /\/si-watch\.html/);
     assert.match(html, /\/threats\.html/);
+    assert.match(html, /href="\/day-after\.html">What happens the day after an AI catastrophe\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/day-after\.html">Play The Day After →<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /Skynet is waking up\./i);
     assert.doesNotMatch(html, /the attack is real/i);

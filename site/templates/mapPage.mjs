@@ -577,7 +577,7 @@ function methodSection(ctx, dc, model) {
 function siblingCard(ctx) {
   return `<aside class="bldsib">
   <p class="bldsib__k">Same subject, different instrument</p>
-  <h2 class="bldsib__h"><a href="${esc(ctx.href('/watts.html'))}">The infrastructure index</a></h2>
+  <h2 class="bldsib__h"><a href="${esc(ctx.href('/watts.html'))}">What does the ${esc(brand.NAME)} infrastructure index read?</a></h2>
   <p class="bldsib__p">This page asks <b>where the buildings are</b>. Watts asks <b>how the substrate is
      holding up</b>: grid overnight floors in three control regions, streamflow at the nine gauges above,
      drought across ten states, and the SEC and Federal Register paper trail, scored on to a five-stop scale.

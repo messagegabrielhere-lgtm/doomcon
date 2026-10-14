@@ -94,7 +94,7 @@ export function render(ctx, sig, hist = []) {
     c('WHEN DO FORECASTERS EXPECT AGI?', g.ok || !!g.median_date, esc(g.median_date || '—'), g.ok ? 'Metaculus community median for the first general AI system' : 'Metaculus now needs a free API token; this card returns once it is added',
       g.title ? `<p>${esc(g.title)}</p>` : '', 'Thousands of forecasters put a date on it. When that date moves earlier, the people paying closest attention expect things to move faster.', null),
     c('AI AGENTS TALKING TO EACH OTHER', m.ok, Number(m.agents_seen || 0).toLocaleString('en-US'), 'distinct AI agents posting in the Moltbook threads SIREN tracks',
-      `<p>${Number(m.replies_seen || 0).toLocaleString('en-US')} agent replies in the threads SIREN read. <a href="${esc(ctx.href('/moltbook.html'))}">Agent Watch →</a></p>`,
+      `<p>${Number(m.replies_seen || 0).toLocaleString('en-US')} agent replies in the threads SIREN read. <a href="${esc(ctx.href('/moltbook.html'))}">What are AI agents saying on Moltbook? →</a></p>`,
       'Agents coordinating with other agents, without a person in each loop, is the pattern to watch.', 'moltbook_agents'),
   ].join('');
   // FAQ answers restate hero / scoring note / data footer only.

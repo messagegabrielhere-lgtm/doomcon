@@ -34,6 +34,10 @@ describe('charts page', () => {
     assert.match(html, /"@type":\s*"WebPage"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/power\.html/);
+    assert.match(html, /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
+    assert.match(html, /href="\/power\.html">Who makes the most electricity \(China vs US\)\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/methodology\.html">method<\/a>/);
+    assert.doesNotMatch(html, /href="\/power\.html">full table<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /noindex/);
   });

@@ -37,6 +37,8 @@ describe('desk page', () => {
     assert.match(html, /"@type":\s*"WebPage"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/balance\.html/);
+    assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/news\.html">newsroom<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /these counts feed the main index/i);
     assert.doesNotMatch(html, /noindex/);

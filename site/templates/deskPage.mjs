@@ -126,7 +126,7 @@ export function render(ctx) {
   <p class="eyebrow">Tally’s desk · does not feed the main number</p>
   <div class="dk__top">${mascot({ size: 84, level })}<h1 class="dk__h1 bp__h1">What unserious counts does ${esc(brand.NAME)} keep on Tally’s desk?</h1></div>
   <p class="lede">Side indexes, kept by the duty canary. The framing is a joke; the numbers are not. Each one is a plain count
-    over the ${esc(N(total))} headlines in the <a href="${esc(ctx.href('/news.html'))}">newsroom</a> window or the published readings,
+    over the ${esc(N(total))} headlines in <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> or the published readings,
     and a count of zero is printed as zero.</p>
   <ul class="dk__l">
 ${cards.join('\n')}
