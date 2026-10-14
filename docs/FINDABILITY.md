@@ -612,6 +612,8 @@ context.
 | 360 | `/staff.html` Grok-crew + data-crew card H3s + FAQPage use questions (was bare names “Cash” / “The Collector” / …); Organization `knowsAbout` mirrors those questions; refuse editor-picks-level / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 361 | `/tally.html` work-card H3s + FAQPage use questions (was “Tally's Bets” / “Tally's Desk” / “Tally Counts”); Organization `knowsAbout` mirrors those questions; refuse tally-as-doom-oracle / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 362 | `/live-x.html` feed-card H3s + FAQPage use questions (was “Superintelligence, latest” / “AGI, latest” / …); Organization `knowsAbout` mirrors those questions; refuse live-X-as-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 363 | `/moltbook.html` standout-lane H3s + FAQPage use questions (was “FAST-RISING” / “SAFETY & DECEPTION” / “AGENTS ON HUMANS”); Organization `knowsAbout` mirrors those questions; refuse Agent-Watch-as-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 364 | `/vs/*` rival side-card H3s + FAQPage use questions (was bare rival name / “SIREN”); Organization `knowsAbout` mirrors those questions; refuse borrowed doom-probability / stuffing claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

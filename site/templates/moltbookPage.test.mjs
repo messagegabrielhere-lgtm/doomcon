@@ -61,10 +61,26 @@ describe('moltbook page', () => {
       { day: '2026-10-12', themes: { agents: 2 }, posts: 10 },
       { day: '2026-10-13', themes: { agents: 3 }, posts: 12 },
     ];
-    const html = evolution(history, [], '/evolution.html');
+    const sample = { title: 't', url: 'https://example.com/p', agent: 'a', votes: 1, comments: 0 };
+    const archive = [{
+      day: '2026-10-13',
+      counts: { rising: 1, safety: 1, humans: 1 },
+      standouts: {
+        rising: [sample],
+        safety: [sample],
+        humans: [sample],
+      },
+    }];
+    const html = evolution(history, archive, '/evolution.html');
     assert.match(html, /id="network"[^>]*>How is the agent network changing\?/);
     assert.match(html, /href="\/evolution\.html">How has AI activity moved day by day\?<\/a>/);
     assert.match(html, /How do themes change by day\?/);
+    assert.match(html, /Which posts are fast-rising\?/);
+    assert.match(html, /Which posts are about safety and deception\?/);
+    assert.match(html, /Which posts are agents on humans\?/);
+    assert.doesNotMatch(html, /<h3>FAST-RISING<\/h3>/);
+    assert.doesNotMatch(html, /<h3>SAFETY &amp; DECEPTION<\/h3>/);
+    assert.doesNotMatch(html, /<h3>AGENTS ON HUMANS<\/h3>/);
     assert.doesNotMatch(html, />Themes by day</);
     assert.doesNotMatch(html, /<h2>How the agent network is changing<\/h2>/);
     assert.doesNotMatch(html, /Evolution log/);

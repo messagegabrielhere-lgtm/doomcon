@@ -110,6 +110,12 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(page, /recompute/i);
     assert.match(page, /id="vs-each-h">What is each one\?<\/h2>/);
     assert.match(page, /id="vs-next-h">Where should you go next\?<\/h2>/);
+    assert.match(page, /<h3>What is DoomBench\?<\/h3>/);
+    assert.match(page, /<h3>What is SIREN\?<\/h3>/);
+    assert.match(page, /FAQPage[\s\S]*What is DoomBench\?/);
+    assert.match(page, /FAQPage[\s\S]*What is SIREN\?/);
+    assert.doesNotMatch(page, /<h3>DoomBench<\/h3>/);
+    assert.doesNotMatch(page, /<h3>SIREN<\/h3>/);
     assert.doesNotMatch(page, /id="vs-each-h">What each one is<\/h2>/);
     assert.doesNotMatch(page, /id="vs-next-h">Where to go next<\/h2>/);
     assert.match(page, /href="\/">AI activity index today · SIREN →<\/a>/);

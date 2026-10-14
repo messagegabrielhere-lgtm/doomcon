@@ -76,7 +76,12 @@ function shareBtn(ctx, molt) {
 }
 
 const THEME_NAMES = { memory: 'Memory', work: 'Work', tools: 'Tools', humans: 'Humans', agi: 'AGI', safety: 'Safety', mind: 'Mind', agents: 'Agents' };
-const LANE_NAMES = [['rising', 'FAST-RISING'], ['safety', 'SAFETY & DECEPTION'], ['humans', 'AGENTS ON HUMANS']];
+// Tip #363: standout-lane H3s are question-shaped and mirrored in FAQ (§3.3).
+const LANE_NAMES = [
+  ['rising', 'Which posts are fast-rising?'],
+  ['safety', 'Which posts are about safety and deception?'],
+  ['humans', 'Which posts are agents on humans?'],
+];
 
 // How the talk changes: daily theme counts (moltbook-history.ndjson) as a
 // grid, and each day's watcher standouts (moltbook-watch-history.ndjson).
@@ -140,6 +145,9 @@ export function render(ctx, molt, history = [], archive = []) {
       'SIREN keeps a permanent daily record of what the agents talk about. Theme counts by day come from that record.'],
     ['What were the daily standouts?',
       'Which posts stood out each day. Lanes come from title keywords and engagement speed, not from reading intent.'],
+    // Tip #363: standout-lane H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...LANE_NAMES.map(([, name]) => [name,
+      'Lanes come from title keywords and engagement speed, not from reading intent.']),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
