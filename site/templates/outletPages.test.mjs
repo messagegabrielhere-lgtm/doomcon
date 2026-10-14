@@ -102,8 +102,11 @@ describe('outlet pages', () => {
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
+    assert.match(html, /id="window"[^>]*>Which scored stories are on arxiv\.org in this window\?/);
     assert.match(html, /not a probability of harm/);
     assert.doesNotMatch(html, /noindex/);
+    assert.doesNotMatch(html, /<h2>Stories on arxiv\.org<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Other publishers<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
@@ -137,9 +140,10 @@ describe('outlet pages', () => {
       ],
     };
     const html = renderOutlet(withArch, 'arxiv.org');
-    assert.match(html, /Older scored stories on arxiv\.org/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories are on arxiv\.org\?/);
     assert.match(html, /Older arxiv/);
     assert.match(html, /\/item\/archive\.html/);
+    assert.doesNotMatch(html, /<h2>Older scored stories on arxiv\.org<\/h2>/);
   });
 
   it('lets the durable archive keep a publisher hub above the substance gate', () => {
@@ -161,7 +165,8 @@ describe('outlet pages', () => {
     assert.equal(row.archived, 4);
     const html = renderOutlet(withArch, 'techcrunch.com');
     assert.doesNotMatch(html, /noindex/);
-    assert.match(html, /Older scored stories on techcrunch\.com/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories are on techcrunch\.com\?/);
+    assert.doesNotMatch(html, /<h2>Older scored stories on techcrunch\.com<\/h2>/);
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/outlet/techcrunch-com.html'));
     const index = renderIndex(withArch);
     assert.match(index, /live window or the durable archive/);

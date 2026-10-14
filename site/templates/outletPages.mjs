@@ -166,22 +166,39 @@ export function renderOutlet(ctx, domain) {
     `${total} scored stories whose original URL is on ${domain} on ${brand.NAME} (live window plus archive). The publisher wrote them. The score is tempo, not a forecast.`,
     160,
   );
+  // Tip #292: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const windowQ = `Which scored stories are on ${domain} in this window?`;
+  const olderQ = `Which older scored stories are on ${domain}?`;
+  const othersQ = 'Which other publishers have scored stories?';
+  const peerOutlets = indexableOutlets(ctx)
+    .filter((o) => o.domain !== domain)
+    .slice(0, 12);
+  const others = peerOutlets
+    .map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">What has ${esc(brand.NAME)} scored from ${esc(o.domain)}?</a>`)
+    .join('');
   const faq = [
     [`What has ${brand.NAME} scored from ${domain}?`,
       `${total} scored stories whose original URL is on ${domain} (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). The words belong to that publisher; the score measures activity tempo.`],
+    [windowQ,
+      items.length
+        ? `${items.length} scored ${items.length === 1 ? 'story' : 'stories'} whose original URL is on ${domain} in the current window. The words belong to that publisher — not a publisher doom score.`
+        : 'No scored stories from this publisher in the current window.'],
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
+    ...(peerOutlets.length
+      ? [[othersQ,
+        `Other publisher hosts that clear the substance gate, each linking What has ${brand.NAME} scored from that domain?`]]
+      : []),
     [`Does ${brand.NAME} publish a ${domain} doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} An outlet page lists scored stories from that host — not a ranking of how dangerous the publisher is.`],
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
-  const others = indexableOutlets(ctx)
-    .filter((o) => o.domain !== domain)
-    .slice(0, 12)
-    .map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">What has ${esc(brand.NAME)} scored from ${esc(o.domain)}?</a>`)
-    .join('');
   const olderBlock = older.length
-    ? `<h2>Older scored stories on ${esc(domain)}</h2>
+    ? `<h2 id="older">${esc(olderQ)}</h2>
   <p class="od__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="od__list">${itemRows(ctx, older)}</ol>
   <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
@@ -197,7 +214,7 @@ export function renderOutlet(ctx, domain) {
     <div><b class="num">${esc(String(items.length))}</b><span>In live window</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
-  <h2>Stories on ${esc(domain)}</h2>
+  <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="od__list">${itemRows(ctx, items)}</ol>`
     : '<p>No scored stories from this publisher in the current window.</p>'}
@@ -207,9 +224,8 @@ export function renderOutlet(ctx, domain) {
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  ${others ? `<h2>Other publishers</h2><nav class="od__nav" aria-label="Other publishers">${others}</nav>` : ''}
+  ${peerOutlets.length ? `<h2 id="other-publishers">${esc(othersQ)}</h2><nav class="od__nav" aria-label="Other publishers">${others}</nav>` : ''}
 </article>`;
-
   return page({
     ctx,
     path,
