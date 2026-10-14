@@ -1482,6 +1482,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI cybersecurity and security-industry stories scored in the newsroom or archive — coverage counts, not a threat forecast.',
     match: /\bcybersecurity\b/i,
   },
+  {
+    id: 'privacy',
+    name: 'AI privacy',
+    description: 'AI privacy and data-protection stories scored in the newsroom or archive — coverage counts, not a harm forecast.',
+    match: /\bprivacy\b/i,
+  },
+  {
+    id: 'ai-math',
+    name: 'AI math',
+    description: 'AI math and machine-generated proof stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\bAI math\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
