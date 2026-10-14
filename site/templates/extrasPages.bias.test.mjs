@@ -30,6 +30,17 @@ describe('bias page', () => {
     assert.match(html, /What does that skew\?/);
     assert.match(html, /How do new sources get into the score\?/);
     assert.match(html, /Is the biased reading a doom probability\?/);
+    assert.match(html, /Would other-language Wikipedia pageviews help\?/);
+    assert.match(html, /Would EUR-Lex widen governance\?/);
+    assert.match(html, /Would China MIIT and CAC notices help\?/);
+    assert.match(html, /Would Japan METI publications help\?/);
+    assert.match(html, /Would India MeitY notices help\?/);
+    assert.match(html, /FAQPage[\s\S]*Would other-language Wikipedia pageviews help\?/);
+    assert.doesNotMatch(html, />Other-language Wikipedia pageviews</);
+    assert.doesNotMatch(html, />EUR-Lex</);
+    assert.doesNotMatch(html, />China: MIIT and CAC notices</);
+    assert.doesNotMatch(html, />Japan: METI</);
+    assert.doesNotMatch(html, />India: MeitY</);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);

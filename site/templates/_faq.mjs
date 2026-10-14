@@ -151,6 +151,10 @@ export function items(ctx) {
       `On /alerts.html: paste a feed URL into Blogtrottr for one email per new item. Your address goes to them, not to ${brand.NAME}.`],
     ['What badge works when iframes are stripped?',
       `On /export.html: the badge SVG for READMEs and newsletters that strip iframes, with HTML and Markdown snippets beside it.`],
+    ['How do I download every reading as CSV?',
+      `On /export.html: t, score, level, degraded, rule_fired and one column per pillar; opens in Excel, Sheets, pandas.`],
+    ['Would other-language Wikipedia pageviews help?',
+      `On /bias.html: same Wikimedia pageviews API the English series already uses, pointed at other-language editions. Same method, same receipts.`],
     ['What are the agents shipping right now?',
       `On /si-watch.html: GitHub’s own cards for each agent pull request in the live sample.`],
   ];

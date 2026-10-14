@@ -339,13 +339,14 @@ export function exportPage(ctx) {
   const sheets = `=IMPORTDATA("${ctx.url('/api/history.csv')}")`;
   const attribution = `Data: ${brand.NAME} (${ctx.url('/')}), ${brand.LICENSE}. Activity tempo, not probability of harm.`;
 
+  // Tip #351: download-card H3s are question-shaped and mirrored in FAQ (§3.3).
   const dl = [
-    ['api/history.csv', 'Every reading as CSV', `t, score, level, degraded, rule_fired and one column per pillar. ${Array.isArray(ctx.history) ? ctx.history.length : 0} rows today; opens in Excel, Sheets, pandas.`],
-    ['api/history.json', 'Every reading as JSON', 'The same observations plus every per-source score.'],
-    ['api/pillars.csv', 'Current pillars as CSV', 'The five pillars right now: score, percentile, sources ok, dark and uncalibrated flags.'],
-    ['api/state.json', 'Current reading as JSON', 'Everything on the homepage, including each source\'s raw value and its receipt hash.'],
-    ['api/latest.txt', 'Current reading as one line of text', 'For shell prompts, status bars and chat bots: curl it and print it.'],
-    ['api/index.json', 'API index', 'Every endpoint, including per-reading receipts at api/receipts/{id}.json.'],
+    ['api/history.csv', 'How do I download every reading as CSV?', `t, score, level, degraded, rule_fired and one column per pillar. ${Array.isArray(ctx.history) ? ctx.history.length : 0} rows today; opens in Excel, Sheets, pandas.`],
+    ['api/history.json', 'How do I download every reading as JSON?', 'The same observations plus every per-source score.'],
+    ['api/pillars.csv', 'How do I download current pillars as CSV?', 'The five pillars right now: score, percentile, sources ok, dark and uncalibrated flags.'],
+    ['api/state.json', 'How do I download the current reading as JSON?', 'Everything on the homepage, including each source\'s raw value and its receipt hash.'],
+    ['api/latest.txt', 'How do I download the current reading as one line of text?', 'For shell prompts, status bars and chat bots: curl it and print it.'],
+    ['api/index.json', 'Where is the API index?', 'Every endpoint, including per-reading receipts at api/receipts/{id}.json.'],
   ].map(([p, t, d]) => `<div class="xt-card"><h3><a href="${esc(ctx.href(`/${p}`))}" download>${esc(t)}</a></h3><p><code>/${esc(p)}</code></p><p>${esc(d)}</p></div>`).join('');
 
   const snippet = (id, label, code) => `<h3 style="margin-top:18px">${esc(label)}</h3><pre id="${id}">${esc(code)}</pre><button type="button" class="xt-btn sm ghost" data-copy-from="${id}">COPY</button>`;
@@ -374,6 +375,19 @@ export function exportPage(ctx) {
       'No key, no rate limit beyond GitHub\'s own. The site sends Access-Control-Allow-Origin: *, so these files can be fetched from any web page without a proxy. Please cache: data changes about once an hour.'],
     [`Does exporting move the ${brand.NAME} score?`,
       `It never moves the ${brand.NAME} score. Downloads, embeds and API fetches are separate from the tempo index.`],
+    // Tip #351: download-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How do I download every reading as CSV?',
+      `t, score, level, degraded, rule_fired and one column per pillar. ${Array.isArray(ctx.history) ? ctx.history.length : 0} rows today; opens in Excel, Sheets, pandas.`],
+    ['How do I download every reading as JSON?',
+      'The same observations plus every per-source score.'],
+    ['How do I download current pillars as CSV?',
+      'The five pillars right now: score, percentile, sources ok, dark and uncalibrated flags.'],
+    ['How do I download the current reading as JSON?',
+      'Everything on the homepage, including each source\'s raw value and its receipt hash.'],
+    ['How do I download the current reading as one line of text?',
+      'For shell prompts, status bars and chat bots: curl it and print it.'],
+    ['Where is the API index?',
+      'Every endpoint, including per-reading receipts at api/receipts/{id}.json.'],
     // Tip #350: badge / snippet H3s are question-shaped and mirrored in FAQ (§3.3).
     ['How do I use it live in Google Sheets?',
       'Paste the Sheets formula from this page into a cell. Files rebuild with each hourly reading.'],
@@ -488,12 +502,13 @@ export function biasPage(ctx) {
     ['Polymarket, Kalshi, Manifold', 'Markets (uncalibrated)', 'English-language questions written mostly by and for US traders. What they choose to list is itself a filter.'],
   ].map(([n, p, d]) => `<tr><td><b>${esc(n)}</b></td><td>${esc(p)}</td><td>${esc(d)}</td></tr>`).join('');
 
+  // Tip #352: candidate-card H3s are question-shaped and mirrored in FAQ (§3.3).
   const candidates = [
-    ['Other-language Wikipedia pageviews', 'Attention', 'Same Wikimedia pageviews API the English series already uses, pointed at the German, French, Spanish, Japanese, Chinese and other editions. The cheapest fix on this list: same method, same receipts.'],
-    ['EUR-Lex', 'Governance', 'The EU\'s official journal and legal database. Counting AI-related acts, implementing decisions and consultations would add the jurisdiction with the most active AI rulebook.'],
-    ['China: MIIT and CAC notices', 'Governance', 'Public notices from the Ministry of Industry and Information Technology and the Cyberspace Administration of China, including published batches of registered generative AI services.'],
-    ['Japan: METI', 'Governance', 'The Ministry of Economy, Trade and Industry\'s AI guidelines, study groups and policy publications.'],
-    ['India: MeitY', 'Governance', 'The Ministry of Electronics and Information Technology\'s advisories, IndiaAI programme notices and consultations.'],
+    ['Would other-language Wikipedia pageviews help?', 'Attention', 'Same Wikimedia pageviews API the English series already uses, pointed at the German, French, Spanish, Japanese, Chinese and other editions. The cheapest fix on this list: same method, same receipts.'],
+    ['Would EUR-Lex widen governance?', 'Governance', 'The EU\'s official journal and legal database. Counting AI-related acts, implementing decisions and consultations would add the jurisdiction with the most active AI rulebook.'],
+    ['Would China MIIT and CAC notices help?', 'Governance', 'Public notices from the Ministry of Industry and Information Technology and the Cyberspace Administration of China, including published batches of registered generative AI services.'],
+    ['Would Japan METI publications help?', 'Governance', 'The Ministry of Economy, Trade and Industry\'s AI guidelines, study groups and policy publications.'],
+    ['Would India MeitY notices help?', 'Governance', 'The Ministry of Electronics and Information Technology\'s advisories, IndiaAI programme notices and consultations.'],
   ].map(([n, p, d]) => `<div class="xt-card"><h3>${esc(n)}</h3><p><span class="xt-pill">${esc(p)}</span></p><p>${esc(d)}</p></div>`).join('');
 
   // Tip #268: section H2s are question-shaped and mirrored in FAQ (§3.3).
@@ -520,6 +535,17 @@ export function biasPage(ctx) {
       'A new source never goes straight into the score. It is collected and published as an uncalibrated signal first, then run as a shadow score beside the official one, and promoted only under the published rule on how the baseline gets updated.'],
     [`Is the biased reading a doom probability?`,
       `No. ${brand.NAME} measures activity tempo. The level reads how busy the English-speaking AI world is — not danger, and not a probability of harm.`],
+    // Tip #352: candidate-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['Would other-language Wikipedia pageviews help?',
+      'Same Wikimedia pageviews API the English series already uses, pointed at the German, French, Spanish, Japanese, Chinese and other editions. The cheapest fix on this list: same method, same receipts.'],
+    ['Would EUR-Lex widen governance?',
+      'The EU\'s official journal and legal database. Counting AI-related acts, implementing decisions and consultations would add the jurisdiction with the most active AI rulebook.'],
+    ['Would China MIIT and CAC notices help?',
+      'Public notices from the Ministry of Industry and Information Technology and the Cyberspace Administration of China, including published batches of registered generative AI services.'],
+    ['Would Japan METI publications help?',
+      'The Ministry of Economy, Trade and Industry\'s AI guidelines, study groups and policy publications.'],
+    ['Would India MeitY notices help?',
+      'The Ministry of Electronics and Information Technology\'s advisories, IndiaAI programme notices and consultations.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
