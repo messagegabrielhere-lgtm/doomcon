@@ -1875,4 +1875,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'gpt-6-astra'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'gpt-6-astra'), /probability of doom/i);
   });
+
+  it('pages gemini-4 and ai-waiver hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('g41', 'Google Evaluates Gemini 4 Carbon As It Seeks To Close AI Coding Gap'),
+          story('g42', 'Gemini 4 Argon: our next era of frontier intelligence'),
+          story('g43', 'Google Tests Carbon, Gemini 4 Model for Advanced Programming'),
+          story('g44', 'Google announces Gemini 4 Argon AI model, but you cannot use it yet'),
+          story('g45', 'Gemini 4 Argon has a 1M-token output limit'),
+          story('aw1', 'Nicolas Cage refused Amazon’s AI waiver and may not work with it again'),
+          story('aw2', 'Nicolas Cage Refuses AI Waiver on Spider-Noir and Vows to Cut Ties With Amazon'),
+          story('aw3', 'Nicolas Cage refused an AI waiver on Spider-Noir and expects to lose Amazon over it'),
+          story('aw4', 'Actors push back as studios demand a broad AI waiver'),
+          story('aw5', 'What an AI waiver means for likeness rights in film contracts'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('gemini-4'));
+    assert.ok(ids.includes('ai-waiver'));
+    assert.match(renderTag(rich, 'gemini-4'), /What has SIREN scored about Gemini 4\?/);
+    assert.match(renderTag(rich, 'ai-waiver'), /What has SIREN scored about AI waiver\?/);
+    assert.match(renderTag(rich, 'gemini-4'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'ai-waiver'), /not a legal forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'gemini-4'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-waiver'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-waiver'), /probability of doom/i);
+  });
 });

@@ -244,6 +244,18 @@ test('news sitemap keywords include GPT-6 Astra / Luna / Sol surfaces', () => {
   assert.match(kw, /GPT-6 Astra|GPT-6\.1 Astra|GPT-6 Luna|GPT-6 Sol/);
 });
 
+test('news sitemap keywords include Gemini 4 Argon / Carbon surfaces', () => {
+  const kw = keywordsFor({
+    title: 'Google announces Gemini 4 Argon AI model',
+    summary: 'Gemini 4 Carbon and Gemini 4 Argon nicknames appear in product coverage.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'hn',
+    entities: [],
+  });
+  assert.match(kw, /Gemini 4 Argon|Gemini 4 Carbon|Gemini 4/);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',
