@@ -1262,6 +1262,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI-demand and chip-demand stories scored in the newsroom or archive — coverage counts, not a market forecast.',
     match: /\bAI [Dd]emand\b/i,
   },
+  {
+    id: 'decision-models',
+    name: 'Decision models',
+    description: 'Decision-model and decision-scoring product stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Dd]ecision[- ][Mm]odels?\b/i,
+  },
+  {
+    id: 'representation-learning',
+    name: 'Representation learning',
+    description: 'Representation-learning research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Rr]epresentation [Ll]earning\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

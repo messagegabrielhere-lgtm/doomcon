@@ -2092,4 +2092,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-demand'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ai-demand'), /probability of doom/i);
   });
+
+  it('pages decision-models and representation-learning hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('dm1', 'Microsoft unveils Microsoft-Decision-1, a fast decision-scoring model'),
+          story('dm2', 'Nace.AI Drex 1.5: 9B Decision Model Scores 58.08'),
+          story('dm3', 'How decision models show up in enterprise scoring stacks'),
+          story('dm4', 'Labs publish decision model benchmarks for routing tasks'),
+          story('dm5', 'What decision models mean for cheap high-volume inference'),
+          story('rl1', 'HRIL: Learning Multimodal Synergy via Higher-Order Tensor Modeling'),
+          story('rl2', 'DSReg: Provably Recovering Individual World Latents without Reconstruction'),
+          story('rl3', 'A survey of representation learning for robotics'),
+          story('rl4', 'Why representation learning still dominates self-supervised papers'),
+          story('rl5', 'New representation learning results land in the newsroom window'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('decision-models'));
+    assert.ok(ids.includes('representation-learning'));
+    assert.match(renderTag(rich, 'decision-models'), /What has SIREN scored about Decision models\?/);
+    assert.match(renderTag(rich, 'representation-learning'), /What has SIREN scored about Representation learning\?/);
+    assert.match(renderTag(rich, 'decision-models'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'representation-learning'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'decision-models'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'representation-learning'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'representation-learning'), /probability of doom/i);
+  });
 });
