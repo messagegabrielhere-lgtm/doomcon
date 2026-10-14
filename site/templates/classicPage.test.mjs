@@ -92,6 +92,23 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /All picks and the track record →/);
   });
 
+  it('classic markets cards and desk switcher more-links use page H1 questions', () => {
+    const html = render(ctx, { view: 'classic' });
+    const go = html.match(/class="mkb__go">([\s\S]*?)<\/div>/);
+    assert.ok(go, 'expected markets go row');
+    assert.match(go[1], /href="[^"]*#investors">What does SIREN Arena show\?<\/a>/);
+    assert.match(go[1], /href="[^"]*#battle">What does SIREN Arena show\?<\/a>/);
+    assert.doesNotMatch(go[1], />Big investors</);
+    assert.doesNotMatch(go[1], />AI battle</);
+    assert.match(html, /id="mkb-tk">What does SIREN Arena show\?<\/b>/);
+    assert.doesNotMatch(html, /id="mkb-tk">See today's picks<\/b>/);
+    assert.match(html, /class="sw__more"[^>]*>Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /class="sw__more"[^>]*>The full board/);
+    assert.doesNotMatch(html, /class="sw__more"[^>]*>All \d+ items, each score decomposed/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
+
+
   it('instruments recent-moves archive link uses the moves question H1', () => {
     const html = render({
       ...ctx,

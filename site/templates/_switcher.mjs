@@ -1089,7 +1089,7 @@ export function panels(ctx) {
         ? { text: `${nnew} new`, title: `${nnew} items published since the previous observation at ${String(moved.priorAt).slice(11, 16)}Z` }
         : null,
       head: { title: 'The newsroom', stamp: `compiled ${clock(news.generated_at) || ''}` },
-      more: { href: ctx.href('/news.html'), text: `All ${news.total} items, each score decomposed` },
+      more: { href: ctx.href('/news.html'), text: `Which AI stories has ${brand.NAME} scored in this window?` },
       body: () => signalPanel(ctx, news, nnew),
     });
   }
@@ -1105,7 +1105,7 @@ export function panels(ctx) {
       countTitle: `${race.players.length} labs on live prediction-market odds`,
       state: dark ? 'dark' : 'live',
       head: { title: 'The race', stamp: `read ${clock(race.generated_at) || ''}` },
-      more: { href: ctx.href('/race.html'), text: 'The full board, and the six things an empty cell can mean' },
+      more: { href: ctx.href('/race.html'), text: 'Who is winning the AI race?' },
       body: () => racePanel(ctx, race),
     });
     out.push({
@@ -1120,7 +1120,7 @@ export function panels(ctx) {
       // verbatim is the point: one watch floor, one definition of "posture",
       // and no second copy to drift.
       head: false,
-      more: { href: ctx.href('/race.html'), text: 'Every lab, every channel, every blank cell' },
+      more: { href: ctx.href('/race.html'), text: 'Who is winning the AI race?' },
       body: () => labs.render(ctx),
     });
   }
@@ -1153,7 +1153,7 @@ export function panels(ctx) {
       countTitle: `${n} keyless grid, drought and build-out sources`,
       state,
       head: { title: 'The infrastructure index', stamp: `read ${clock(infra.generated_at) || ''}` },
-      more: { href: ctx.href('/watts.html'), text: 'The full substrate board, corridor by corridor' },
+      more: { href: ctx.href('/watts.html'), text: `What does the ${brand.NAME} infrastructure index read?` },
       body: () => substratePanel(ctx, infra),
     });
   }
@@ -1168,7 +1168,7 @@ export function panels(ctx) {
       countTitle: `${dg.items.length} items that cleared the corroboration rule`,
       state: 'live',
       head: { title: 'The digest', stamp: `compiled ${clock(dg.d.as_of || dg.d.generated_at) || ''}` },
-      more: { href: ctx.href('/digest.html'), text: 'The full digest, with what changed and why' },
+      more: { href: ctx.href('/digest.html'), text: `What is the ${brand.NAME} daily brief?` },
       body: () => digestPanel(ctx, dg),
     });
   }
@@ -1187,7 +1187,7 @@ export function panels(ctx) {
       countTitle: `${onRecord} of ${rows.length} leaders on the record this week`,
       state: onRecord ? 'live' : 'uncal',
       head: { title: 'AI leaders, on the record', stamp: `read ${clock(ctx.leaders.generated_at) || ''}` },
-      more: { href: ctx.href('/leaders.html'), text: 'Every leader, including the silent ones' },
+      more: { href: ctx.href('/leaders.html'), text: 'Which AI leaders are on the record this week?' },
       body: () => leaderwire.render(ctx, { heading: null }),
     });
   }
@@ -1202,7 +1202,7 @@ export function panels(ctx) {
       countTitle: Number.isFinite(bl.score) ? `BLISS score ${num(bl.score, 1)} of 100` : 'No BLISS score yet',
       state: Number.isFinite(bl.score) ? 'live' : 'uncal',
       head: { title: 'The upside index', stamp: `read ${clock(bl.generated_at) || ''}` },
-      more: { href: ctx.href('/bliss.html'), text: 'The full board' },
+      more: { href: ctx.href('/bliss.html'), text: `What is BLISS, the ${brand.NAME} upside index?` },
       body: () => blissPanel(ctx, bl),
     });
   }
