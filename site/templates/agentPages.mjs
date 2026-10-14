@@ -70,7 +70,15 @@ export function tally(ctx) {
     ['/game.html', 'joystick', 'How do you play Tally Counts?', 'Thirty seconds: count signals, ignore predictions.'],
   ];
   const L = lvl(ctx);
-  const moods = [5, 4, 3, 2, 1].map((n) => `<div class="ag-card" style="align-items:center;text-align:center">${mascot({ size: 96, level: n })}<h3 style="justify-content:center">SIREN ${n}</h3><p>Tally is ${esc(MOODS[n])}.</p></div>`).join('');
+  // Tip #369: mood-card H3s are question-shaped and mirrored in FAQ (§3.3).
+  const moodCards = [5, 4, 3, 2, 1].map((n) => [
+    `What does Tally look like at SIREN ${n}?`,
+    `Tally is ${MOODS[n]}.`,
+  ]);
+  const moods = moodCards.map(([q, a], i) => {
+    const n = [5, 4, 3, 2, 1][i];
+    return `<div class="ag-card" style="align-items:center;text-align:center">${mascot({ size: 96, level: n })}<h3 style="justify-content:center">${esc(q)}</h3><p>${esc(a)}</p></div>`;
+  }).join('');
   // FAQ answers restate lede / mood / desk copy only.
   // Refuse: tally-as-doom-oracle, mood-as-severity, doom-probability.
   const faq = [
@@ -83,6 +91,7 @@ export function tally(ctx) {
     [useQ,
       `Use Tally in posts, slides and videos about AI with a link back to ${brand.NAME}.`],
     ...workCards.map(([, , q, d]) => [q, d]),
+    ...moodCards,
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

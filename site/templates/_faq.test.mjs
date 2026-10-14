@@ -166,6 +166,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'What is listed under LIVE INTEL?'));
     assert.ok(qa.some(([q]) => q === 'What is the road to superintelligence from 1950 to 2056?'));
     assert.ok(qa.some(([q]) => q === 'Which rooms and pages are in the catalog?'));
+    assert.ok(qa.some(([q]) => q === 'What does Tally look like at SIREN 5?'));
+    assert.ok(qa.some(([q]) => q === 'What does SIREN FM play?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -224,6 +226,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /What is listed under LIVE INTEL\?/);
     assert.match(html, /What is the road to superintelligence from 1950 to 2056\?/);
     assert.match(html, /Which rooms and pages are in the catalog\?/);
+    assert.match(html, /What does Tally look like at SIREN 5\?/);
+    assert.match(html, /What does SIREN FM play\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

@@ -189,6 +189,10 @@ export function items(ctx) {
       `On /videos.html: from Turing’s question to ChatGPT and AI Nobel prizes, then one plausible path to 2056. The future part is speculation, not a prediction.`],
     ['Which rooms and pages are in the catalog?',
       `On /catalog.html: the Rooms & pages type section of the site directory.`],
+    ['What does Tally look like at SIREN 5?',
+      `On /tally.html: Tally is asleep on the perch.`],
+    ['What does SIREN FM play?',
+      `On /radio.html: Dark synth whose tempo and tension follow the live level.`],
   ];
 }
 
