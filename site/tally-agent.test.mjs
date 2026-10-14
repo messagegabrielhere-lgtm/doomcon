@@ -8,6 +8,12 @@ describe('tally-agent planTools', () => {
   it('grounds level questions on get_reading', () => {
     const t = planTools('What is the level now?');
     assert.ok(t.includes('get_reading'));
+    assert.ok(!t.includes('search_guide'), 'level asks should not pad with room-map hits');
+  });
+
+  it('still searches the guide for "what is siren"', () => {
+    const t = planTools('what is siren');
+    assert.ok(t.includes('search_guide'));
   });
 
   it('pulls breaking + news for breaking questions', () => {

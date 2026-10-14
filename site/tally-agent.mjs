@@ -123,10 +123,11 @@ export function planTools(text, memory = {}) {
     for (const id of memory.lastTools) picked.add(id);
   }
 
-  // Navigation / FAQ / "where is X" always search the room map.
-  if (/\b(where|page|room|link|how (do|does|to)|what is|who is|explain|job|prepare|prepper|bunker|breakthrough|video|clip|arena|api|radio|sponsor|staff|tally|canary)\b/i.test(q)) {
-    picked.add('search_guide');
-  }
+  // Navigation / FAQ / "where is X" search the room map. Skip for clear dial
+  // asks ("what is the level now?") so the reply is not padded with weak room hits.
+  const wantsGuide = /\b(where|page|room|link|how (do|does|to)|who is|explain|job|prepare|prepper|bunker|breakthrough|video|clip|arena|api|radio|sponsor|staff|tally|canary)\b/i.test(q)
+    || (/\bwhat is\b/i.test(q) && !/\b(level|score|reading|siren\s*[1-5])\b/i.test(q));
+  if (wantsGuide) picked.add('search_guide');
 
   // Default grounding: anything about "now" or unmatched gets the reading.
   if (picked.size === 0 || /\b(now|today|currently)\b/i.test(q)) picked.add('get_reading');
@@ -393,7 +394,7 @@ export function greet(state, base = '') {
   const mood = L ? MOOD[L] || 'watching' : 'watching';
   const html = `Tweet! I'm <b>Tally</b>, SIREN's duty canary. SIREN stands for <b>Superintelligence Real-time Early Notice</b>: I count how loud AI is, every hour`
     + (L ? `, and right now it's <b>SIREN ${esc(L)}</b>${sc ? ` (${esc(sc)}/100)` : ''}, so I'm ${esc(mood)}` : '')
-    + `. Ask me anything — I check the live dials myself. Type, tap 🎙 to talk, or flip 🔊 and I speak.`;
+    + `. Ask me anything — I check the live dials myself. Type a question, use the mic, or flip Speak and I read the answer aloud.`;
   const speak = `Tweet! I'm Tally, SIREN's duty canary. SIREN stands for Superintelligence Real-time Early Notice. I count how loud AI is, every hour`
     + (L ? `, and right now it's SIREN ${L}${sc ? `, ${sc} out of 100` : ''}, so I'm ${mood}` : '')
     + `. Ask me anything. I check the live dials myself.`;

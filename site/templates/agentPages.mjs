@@ -63,7 +63,7 @@ export function tally(ctx) {
     <a class="ag-btn ghost" href="${esc(xShare(ctx, `Tally the duty canary is ${MOODS[L]} at SIREN ${L}. How loud is AI right now?`, '/tally.html'))}" target="_blank" rel="noopener">𝕏 POST TALLY</a></div>
   </div>
   <h2 id="talk">Talk to Tally</h2>
-  <p>The green <b>Talk to Tally</b> button on every page opens the duty canary. She plans tools against the live public dials (level, pillars, news, breaking clusters, lab status, agent PRs, her bets), answers in the open, and — when you flip the speaker — reads the answer aloud in your browser. Nothing you type leaves the page.</p>
+  <p>The green <b>Talk to Tally</b> button on every page opens the duty canary. She plans tools against the live public dials (level, pillars, news, breaking clusters, lab status, agent PRs, her bets), answers in the open, and — when you flip <b>Speak</b> — reads the answer aloud in your browser. On a phone the chat opens as a sheet above the site bar. Nothing you type leaves the page.</p>
   <h2>One bird, five moods</h2>
   <p>Tally's face is the reading. The mood says how <b>loud</b> AI is, never how bad: the index counts tempo, and so does the bird.</p>
   <div class="ag-grid" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr))">${moods}</div>
