@@ -127,6 +127,10 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/lab/tencent.html'));
     assert.ok(has('https://siren.watch/lab/qwen.html'));
     assert.ok(has('https://siren.watch/lab/qualcomm.html'));
+    assert.ok(has('https://siren.watch/lab/microsoft.html'));
+    assert.ok(has('https://siren.watch/lab/nvidia.html'));
+    assert.ok(has('https://siren.watch/lab/amazon.html'));
+    assert.ok(has('https://siren.watch/lab/hugging-face.html'));
     assert.ok(has('https://siren.watch/model/kimi.html'));
     assert.ok(has('https://siren.watch/model/glm.html'));
     assert.ok(has('https://siren.watch/model/grok.html'));
