@@ -22,6 +22,11 @@ describe('bias page', () => {
     assert.match(html, /<title>What can SIREN not see\?/);
     assert.match(html, /<h1>What can SIREN not see\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="inputs">Where does each input lean\?<\/h2>/);
+    assert.match(html, /id="skew">What does that skew\?<\/h2>/);
+    assert.match(html, /id="candidates">Which sources are under consideration\?<\/h2>/);
+    assert.match(html, /id="propose">How do I propose a source\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*Where does each input lean\?/);
     assert.match(html, /What does that skew\?/);
     assert.match(html, /How do new sources get into the score\?/);
     assert.match(html, /Is the biased reading a doom probability\?/);
@@ -37,6 +42,8 @@ describe('bias page', () => {
     assert.match(html, /How do I report a problem or send an idea to SIREN\?/);
     assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(html, /href="\/news\.html">newsroom<\/a>/);
+    assert.doesNotMatch(html, /id="inputs">Where each input leans<\/h2>/);
+    assert.doesNotMatch(html, /id="candidates">Under consideration<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);

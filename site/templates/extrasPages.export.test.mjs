@@ -22,6 +22,11 @@ describe('export page', () => {
     assert.match(html, /<title>How do I export and embed SIREN data\?/);
     assert.match(html, /<h1>How do I export and embed SIREN data\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="download">What can I download\?<\/h2>/);
+    assert.match(html, /id="embed">How do I embed the current reading\?<\/h2>/);
+    assert.match(html, /id="api">How do I use it from code\?<\/h2>/);
+    assert.match(html, /id="licence">What is the licence and credit\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*What can I download\?/);
     assert.match(html, /What files can I download\?/);
     assert.match(html, /Do I need an API key\?/);
     assert.match(html, /Does exporting move the SIREN score\?/);
@@ -35,6 +40,8 @@ describe('export page', () => {
     assert.match(html, /\/agents\.html/);
     assert.match(html, /How do I get alerts when SIREN moves\?/);
     assert.match(html, /How should AI agents use SIREN\?/);
+    assert.doesNotMatch(html, /id="download">Download<\/h2>/);
+    assert.doesNotMatch(html, /id="embed">Embed<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
