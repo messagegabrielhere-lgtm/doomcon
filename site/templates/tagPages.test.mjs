@@ -2795,6 +2795,48 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'reliability'), /probability of doom/i);
   });
 
+  it('pages neural-networks, visual-language, chatgpt, and learning-rate hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('nn1', 'Constructive Bounds for the Topological Expressivity of Neural Networks'),
+          story('nn2', 'Training deep neural networks with sparse attention'),
+          story('nn3', 'Neural networks that prune recover accuracy after compression'),
+          story('nn4', 'Benchmarking neural networks kernels on GPUs'),
+          story('nn5', 'Graph neural networks for molecular property prediction'),
+          story('vl1', 'When VLMs Destroy What They Know: Spatial Representations'),
+          story('vl2', 'Visual-language models for document agents'),
+          story('vl3', 'Vision-language pretraining for robotics'),
+          story('vl4', 'A VLM benchmark for visual reasoning'),
+          story('vl5', 'Visual language grounding for UI agents'),
+          story('cg1', 'Report finds ChatGPT for Teens fails to deliver on safety promises'),
+          story('cg2', 'Use ChatGPT Plus? Switching plans could cut your bill'),
+          story('cg3', 'Enterprises adopt ChatGPT Enterprise for support desks'),
+          story('cg4', 'ChatGPT API rate limits change for developers'),
+          story('cg5', 'Schools debate ChatGPT classroom policies'),
+          story('lr1', 'A Solvable Model of Adaptive Learning Rate Rescaling'),
+          story('lr2', 'Learning-rate schedules for large-batch training'),
+          story('lr3', 'Warmup learning rates stabilize transformer training'),
+          story('lr4', 'Cosine learning-rate decay in preference tuning'),
+          story('lr5', 'Layer-wise learning rates for continual learning'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('neural-networks'));
+    assert.ok(ids.includes('visual-language'));
+    assert.ok(ids.includes('chatgpt'));
+    assert.ok(ids.includes('learning-rate'));
+    assert.match(renderTag(rich, 'neural-networks'), /What has SIREN scored about Neural networks\?/);
+    assert.match(renderTag(rich, 'visual-language'), /What has SIREN scored about Visual language\?/);
+    assert.match(renderTag(rich, 'chatgpt'), /What has SIREN scored about ChatGPT\?/);
+    assert.match(renderTag(rich, 'learning-rate'), /What has SIREN scored about Learning rate\?/);
+    assert.doesNotMatch(renderTag(rich, 'chatgpt'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'learning-rate'), /probability of doom/i);
+  });
+
   it('pages disentanglement hub', () => {
     const rich = {
       ...ctx,
