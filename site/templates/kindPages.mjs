@@ -169,18 +169,35 @@ export function renderKind(ctx, id) {
     `${total} scored ${def.name.toLowerCase()} stories on ${brand.NAME} (live window plus archive). ${def.description} Tempo, not a forecast.`,
     160,
   );
+  // Tip #291: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const kindWord = def.name.toLowerCase();
+  const windowQ = `Which scored ${kindWord} are in this window?`;
+  const olderQ = `Which older scored ${kindWord} are kept?`;
+  const othersQ = 'Which other kinds have scored stories?';
+  const others = indexableKinds(ctx).filter((k) => k.id !== def.id);
   const faq = [
     [`What has ${brand.NAME} scored as ${def.name}?`,
       `${total} scored stories carry the ${def.name} collector label on ${brand.NAME} (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). ${def.description}`],
+    [windowQ,
+      items.length
+        ? `${items.length} scored ${items.length === 1 ? 'story' : 'stories'} carry the ${def.name} collector label in the current window. Kind is a label — not a kind doom score.`
+        : 'No scored story of this kind in the current window.'],
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
+    ...(others.length
+      ? [[othersQ,
+        `Other collector kinds that clear the substance gate, each linking What has ${brand.NAME} scored as that kind?`]]
+      : []),
     [`Does ${brand.NAME} publish a ${def.name} doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} A kind page lists scored stories with that collector label — not a judgement about quality or harm.`],
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
-  const others = indexableKinds(ctx).filter((k) => k.id !== def.id);
   const olderBlock = older.length
-    ? `<h2>Older scored ${esc(def.name.toLowerCase())}</h2>
+    ? `<h2 id="older">${esc(olderQ)}</h2>
   <p class="kd__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="kd__list">${storyRows(ctx, older)}</ol>
   <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
@@ -196,7 +213,7 @@ export function renderKind(ctx, id) {
     <div><b class="num">${esc(String(items.length))}</b><span>In live window</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
-  <h2>${esc(def.name)} in this window</h2>
+  <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="kd__list">${storyRows(ctx, items)}</ol>`
     : '<p>No scored story of this kind in the current window.</p>'}
@@ -206,10 +223,9 @@ export function renderKind(ctx, id) {
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  ${others.length ? `<h2>Other kinds</h2>
+  ${others.length ? `<h2 id="other-kinds">${esc(othersQ)}</h2>
   <nav class="kd__nav" aria-label="Other kinds">${others.map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">What has ${esc(brand.NAME)} scored as ${esc(k.name)}?</a>`).join('')}</nav>` : ''}
 </article>`;
-
   return page({
     ctx,
     path,

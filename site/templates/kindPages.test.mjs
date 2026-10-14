@@ -95,9 +95,12 @@ describe('kind pages', () => {
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
+    assert.match(html, /id="window"[^>]*>Which scored papers are in this window\?/);
     assert.match(html, /paper p0/);
     assert.match(html, /not a judgement about quality or harm/);
     assert.doesNotMatch(html, /noindex/);
+    assert.doesNotMatch(html, /<h2>Papers in this window<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Other kinds<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.match(renderIndex(ctx), /Which AI story kinds have SIREN pages\?/);
   });
@@ -110,9 +113,10 @@ describe('kind pages', () => {
       ],
     };
     const html = renderKind(withArch, 'paper');
-    assert.match(html, /Older scored papers/);
+    assert.match(html, /id="older"[^>]*>Which older scored papers are kept\?/);
     assert.match(html, /Archived paper from last week/);
     assert.match(html, /\/item\/archive\.html/);
+    assert.doesNotMatch(html, /<h2>Older scored papers<\/h2>/);
   });
 
   it('lets the durable archive keep a kind hub above the substance gate', () => {
@@ -130,7 +134,8 @@ describe('kind pages', () => {
     assert.ok(ids.includes('paper'));
     const html = renderKind(withArch, 'forum');
     assert.doesNotMatch(html, /noindex/);
-    assert.match(html, /Older scored forums/);
+    assert.match(html, /id="older"[^>]*>Which older scored forums are kept\?/);
+    assert.doesNotMatch(html, /<h2>Older scored forums<\/h2>/);
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/kind/forum.html'));
     assert.match(renderIndex(withArch), /live window or the durable archive/);
   });
