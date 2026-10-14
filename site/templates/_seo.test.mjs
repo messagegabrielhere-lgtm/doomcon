@@ -396,6 +396,10 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What is the rule on both sides'));
     assert.ok(org.knowsAbout.includes('What moved on the index'));
     assert.ok(org.knowsAbout.includes('What are the three source states'));
+    assert.ok(org.knowsAbout.includes('What kinds of work are all agents doing'));
+    assert.ok(org.knowsAbout.includes('What does shape mean on this map'));
+    assert.ok(org.knowsAbout.includes('What does colour mean on this map'));
+    assert.ok(org.knowsAbout.includes('Why is every pin one colour'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));

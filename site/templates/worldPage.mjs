@@ -543,6 +543,13 @@ export function render(ctx) {
       'Countries were assigned against Natural Earth admin-0 countries. Drawing outlines use a coarser file; a pin\'s country came from the finer file.'],
     ['What is the licence?',
       '© OpenStreetMap contributors under the Open Database License (ODbL) v1.0. Attribution is a term of that licence, not a courtesy.'],
+    // Tip #346: world legend H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What does shape mean on this map?',
+      'Shape is status. Status is read from the OpenStreetMap tag that set it: construction, proposed or planned, or operating. Every pin carries its status in the JSON.'],
+    ['Why is every pin one colour?',
+      'Neither drought nor capacity joins exist outside the United States, so here every pin is the same size and the same colour, and nothing is being said by either.'],
+    ['What is not drawn?',
+      'Countries with no mapped datacentre, sites outside the drawn frame, and pins with no usable coordinate are listed in the legend rather than dragged onto the map empty.'],
     [dataQ,
       `Published beside this page byte-identical to the committed files — /api/world.json carries every number on this page.`],
     [`Does a country with none mapped have zero datacentres?`,

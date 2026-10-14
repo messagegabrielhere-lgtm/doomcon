@@ -428,15 +428,15 @@ export function worldLegend(model) {
 
   return `<div class="usm__legend">
   <div class="usm__lg">
-    <h3 class="usm__lh">Shape is status</h3>
+    <h3 class="usm__lh">What does shape mean on this map?</h3>
     <ul class="usm__ll">${shapes}</ul>
     <p class="usm__lp">Distinguishable in greyscale and in a screenshot. Status is read from the
       OpenStreetMap tag that set it: a construction tag is under construction, a proposed or planned
       tag is announced, anything else with a datacentre tag is operating. Every pin carries its
-      status in the JSON.</p>
+      status in the JSON. Shape is status.</p>
   </div>
   <div class="usm__lg">
-    <h3 class="usm__lh">Colour is one colour</h3>
+    <h3 class="usm__lh">Why is every pin one colour?</h3>
     <ul class="usm__ll">
       <li><span class="usm__sw usm__sw--world" aria-hidden="true"></span>
         <b>every pin</b> <span class="usm__n num">${N(t.pinned)}</span></li>
@@ -447,7 +447,7 @@ export function worldLegend(model) {
       and is drawn exactly where OpenStreetMap places the object.</p>
   </div>
   <div class="usm__lg">
-    <h3 class="usm__lh">What is not drawn</h3>
+    <h3 class="usm__lh">What is not drawn?</h3>
     <ul class="usm__ll">
       <li><b>${notDrawn || 'nothing'}</b> <span class="usm__n num">0</span></li>
       <li><b>no outline, pins drawn</b> <span class="usm__n num">${N(t.unoutlinedSites)}</span></li>

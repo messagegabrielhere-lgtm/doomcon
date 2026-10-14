@@ -1412,6 +1412,13 @@ export function render(ctx) {
       'Every limitation is published in the method section, including Overpass dependency, county-line geocoding risk, and that this page does not feed the main index.'],
     ['What was tried and dropped?',
       'Federal Register full-text search, SEC address geocoding as pins, and full OpenStreetMap geometry were tried and dropped for the reasons stated in the method section.'],
+    // Tip #346: map legend H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What does shape mean on this map?',
+      'Shape is status. Distinguishable in greyscale and in a screenshot. Status is read from the OpenStreetMap tag that set it, and every pin carries that tag in the JSON.'],
+    ['What does colour mean on this map?',
+      'Colour is the drought in that county. US Drought Monitor categories are printed in words beside the ramp so a reader who cannot separate two hues still gets the number.'],
+    ['What does size mean on this map?',
+      'Size is capacity, where it is published. A fixed dot means known site with capacity unpublished; a ringed and scaled pin means an IT-power tag exists.'],
     [`Does this map measure a datacentre's power or water draw?`,
       `No. Nothing here measures a datacentre's power or water draw, and the page says so above the map. What any of these buildings actually draws is not published by anyone.`],
     [`Does a state with no pins have zero datacentres?`,
