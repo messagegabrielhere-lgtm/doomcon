@@ -41,7 +41,7 @@ const STATIONS = [
   ['ambient', 'BUNKER AMBIENT', 'Slow drones and distant bells for the long wait underground.', '#4FB3FF'],
   ['chip', 'CANARY CHIPTUNE', '8-bit bleeps straight from Tally’s perch.', '#FFD23F'],
   ['industrial', 'JUDGMENT DAY', 'Industrial march. Metal on metal. Clanging alarms.', '#F87171'],
-  ['lofi', 'DATA RAIN LO-FI', 'Swung beats and soft chords to watch the index to.', '#A5B4FC'],
+  ['lofi', 'DATA RAIN LO-FI', 'Swung beats and soft chords to watch the index to.', '#56B0E0'],
 ];
 
 const CSS = `<style>

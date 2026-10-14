@@ -46,7 +46,7 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 #sitebar.stale .dot{background:#d97706;animation:none}
 #sitebar .fb{all:unset;cursor:pointer;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}#sitebar .fb:hover{opacity:1}#sitebar .fb:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
 #sitebar .ago{opacity:.65}#sitebar .kofi{color:#1d4ed8;opacity:1;text-decoration:none}@media (max-width:440px){#sitebar a.fb.kofi{display:none}}
-#sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.st{padding:4px 7px}#sitebar button.rad[aria-pressed=true]{background:#818CF8;border-color:#818CF8;color:#000;opacity:1}
+#sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.st{padding:4px 7px}#sitebar button.rad[aria-pressed=true]{background:#56B0E0;border-color:#56B0E0;color:#000;opacity:1}
 #siren-intro{position:fixed;left:12px;bottom:12px;z-index:9998;max-width:min(300px,calc(100vw - 24px));border-radius:8px;overflow:hidden;background:#000;border:1px solid #232C3B;box-shadow:0 10px 30px rgba(0,0,0,.5)}
 #siren-intro video{display:block;width:100%;height:auto}
 #siren-intro .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 8px;font:600 11px/1 system-ui,sans-serif;color:#AEB7C3;letter-spacing:.06em}
