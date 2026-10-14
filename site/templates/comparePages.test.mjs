@@ -153,4 +153,20 @@ describe('compare / alternatives conquest pages', () => {
     assert.doesNotMatch(hub, /doom score:\s*\d/i);
     assert.doesNotMatch(hub, /probability of doom/i);
   });
+
+  it('vs related sibling links use page H1 questions, not bare path stems', () => {
+    const pdoom = vsRival(ctx, 'pdoom');
+    assert.match(pdoom, /href="\/p-doom\.html">What is p\(doom\)\? →<\/a>/);
+    assert.match(pdoom, /href="\/ai-doomsday-clock\.html">Is there an AI doomsday clock\? →<\/a>/);
+    assert.doesNotMatch(pdoom, /href="\/p-doom\.html">p-doom →<\/a>/);
+    assert.doesNotMatch(pdoom, /href="\/ai-doomsday-clock\.html">ai-doomsday-clock →<\/a>/);
+    const pizza = vsRival(ctx, 'pizzint');
+    assert.match(pizza, /href="\/guide\.html">How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\? →<\/a>/);
+    assert.doesNotMatch(pizza, /href="\/guide\.html">guide →<\/a>/);
+    const takeoff = vsRival(ctx, 'takeofftracker');
+    assert.match(takeoff, /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology →<\/a>/);
+    assert.doesNotMatch(takeoff, /href="\/methodology\.html">methodology →<\/a>/);
+    assert.doesNotMatch(pdoom, /doom score:\s*\d/i);
+    assert.doesNotMatch(pdoom, /probability of doom is \d/i);
+  });
 });
