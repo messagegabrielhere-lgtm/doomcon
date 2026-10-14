@@ -78,9 +78,12 @@ describe('pillar facets', () => {
 
   it('renders a CollectionPage with breadcrumb and head-term title', () => {
     const html = renderPillar(ctx, 'capability');
-    assert.match(html, /<title>Capability AI activity/);
+    assert.match(html, /<title>What has SIREN scored under Capability\?/);
+    assert.match(html, /<h1>What has SIREN scored under Capability\?<\/h1>/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /BreadcrumbList/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /speakable/);
     assert.match(html, /pillar\/attention\.html/);
     assert.doesNotMatch(html, /noindex/);
     assert.equal(pillarPath('capability'), '/pillar/capability.html');
@@ -102,9 +105,12 @@ describe('lab facets', () => {
 
   it('renders lab landings under /lab/', () => {
     const html = renderLab(ctx, ctx.race.players[0]);
-    assert.match(html, /<title>OpenAI AI activity/);
+    assert.match(html, /<title>What has SIREN scored about OpenAI\?/);
+    assert.match(html, /<h1>What has SIREN scored about OpenAI\?<\/h1>/);
     assert.match(html, /lab\/anthropic\.html/);
     assert.match(html, /CollectionPage/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /speakable/);
     assert.equal(labPath('openai'), '/lab/openai.html');
   });
 
@@ -116,7 +122,7 @@ describe('lab facets', () => {
     assert.ok(ms);
     assert.equal(labIndexable(ctx, ms), true);
     const html = renderLab(ctx, ms);
-    assert.match(html, /<title>Microsoft: AI stories this index scored/);
+    assert.match(html, /<title>What has SIREN scored about Microsoft\?/);
     assert.match(html, /does not invent market odds/);
     assert.doesNotMatch(html, /Market odds \(best model\)/);
   });
@@ -195,8 +201,10 @@ describe('outlet facets', () => {
 
   it('renders an outlet page that lists its stories', () => {
     const html = renderSource(ctx, 'hn');
-    assert.match(html, /<h1>hn<\/h1>/);
+    assert.match(html, /<h1>What has SIREN scored via hn\?<\/h1>/);
     assert.match(html, /CollectionPage/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /speakable/);
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /item\//);
   });
@@ -215,7 +223,7 @@ describe('outlet facets', () => {
       }],
     };
     const html = renderSource(withArch, 'hn');
-    assert.match(html, /Older scored stories from hn/);
+    assert.match(html, /Which older scored stories are from hn\?/);
     assert.match(html, /Archived HN story about agents/);
     assert.match(html, /\/item\/archive\.html/);
   });

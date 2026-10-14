@@ -130,26 +130,48 @@ export function renderPillar(ctx, pillarId) {
   const meta = brand.pillarMeta(pillarId);
   const items = itemsForPillar(ctx, pillarId);
   const st = pillarState(ctx, pillarId);
+  // Live-window gate only while deploy-pending (FINDABILITY §4) — do not
+  // widen indexability via archive counts until the live sitemap leads.
   const indexable = items.length >= PILLAR_INDEX_MIN;
   const path = pillarPath(pillarId);
   const scoreTxt = st && Number.isFinite(st.score) ? num(st.score, 1) : null;
   const status = st && st.dark ? 'dark this hour'
     : (scoreTxt != null ? `${scoreTxt} of 100 this hour` : 'awaiting a baseline');
-  const title = `${meta.name} AI activity · ${brand.NAME} pillar`;
+  // Head-term title: people search “{pillar} AI activity” / pillar doom score.
+  const title = `What has ${brand.NAME} scored under ${meta.name}? AI activity, not a pillar score`;
   const description = clip(
     `${brand.NAME} ${meta.name} pillar: ${status}. ${meta.description} ${items.length} scored stories in the current newsroom window.`,
     160,
   );
-
-  const otherPillars = brand.PILLARS
-    .filter((p) => p.id !== pillarId)
-    .map((p) => `<a href="${esc(ctx.href(pillarPath(p.id)))}">${esc(p.name)}</a>`)
+  // Tip #287: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const windowQ = `Which scored stories are under ${meta.name} in this window?`;
+  const othersQ = 'Which other pillars have scored stories?';
+  const peerPillars = brand.PILLARS.filter((p) => p.id !== pillarId);
+  const otherPillars = peerPillars
+    .map((p) => `<a href="${esc(ctx.href(pillarPath(p.id)))}">What has ${esc(brand.NAME)} scored under ${esc(p.name)}?</a>`)
     .join('');
+  const faq = [
+    [`What has ${brand.NAME} scored under ${meta.name}?`,
+      `${items.length} scored stories under the ${meta.name} pillar in the live window. ${meta.description} Current reading: ${status}.`],
+    [windowQ,
+      items.length
+        ? `${items.length} scored ${items.length === 1 ? 'story' : 'stories'} under ${meta.name} in the current window. A pillar filter on the newsroom — not a pillar doom score.`
+        : 'No scored stories in the current window for this pillar. The page stays up so the pillar reading remains addressable; it is not submitted to the sitemap while empty.'],
+    ...(peerPillars.length
+      ? [[othersQ,
+        `The other ${brand.NAME} pillars, each linking What has ${brand.NAME} scored under that pillar?`]]
+      : []),
+    [`Does ${brand.NAME} publish a ${meta.name} doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} A pillar page lists scored stories and the live tempo reading against this index’s frozen reference.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Pillar</p>
-  <h1>${esc(meta.name)} AI activity</h1>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/pillar/'))}">Which AI activity pillars have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a></p>
+  <h1>What has ${esc(brand.NAME)} scored under ${esc(meta.name)}?</h1>
   <p class="fc__lede">${esc(meta.description)}</p>
   <div class="fc__stat" role="group" aria-label="Current pillar reading">
     <div><b class="num">${esc(scoreTxt != null ? scoreTxt : '—')}</b><span>Pillar score / 100</span></div>
@@ -157,15 +179,18 @@ export function renderPillar(ctx, pillarId) {
     <div><b>${esc(st && st.dark ? 'DARK' : (st && st.uncalibrated ? 'CALIBRATING' : 'LIVE'))}</b><span>Source posture</span></div>
   </div>
   <p class="fresh__key">This page is the crawlable face of the ${esc(meta.name)} filter on the newsroom.
-     The composite ${esc(brand.NAME)} reading still lives on the <a href="${esc(ctx.href('/'))}">homepage</a>;
-     the method is on <a href="${esc(ctx.href('/methodology.html'))}">methodology</a>.</p>
-  <h2>Stories scored under ${esc(meta.name)}</h2>
+     The composite ${esc(brand.NAME)} reading still lives on <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>;
+     the method is on <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+  <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>
-       ${items.length > 40 ? `<p class="fresh__key">${esc(String(items.length - 40))} more in the window — see <a href="${esc(ctx.href('/item/'))}">every scored item</a>.</p>` : ''}`
+       ${items.length > 40 ? `<p class="fresh__key">${esc(String(items.length - 40))} more in the window — see <a href="${esc(ctx.href('/item/'))}">Which scored AI stories are in the ${esc(brand.NAME)} live window?</a>.</p>` : ''}`
     : `<p>No scored stories in the current window for this pillar. The page stays up so the pillar reading remains addressable; it is not submitted to the sitemap while empty.</p>`}
-  <h2>Other pillars</h2>
-  <nav class="fc__pillars" aria-label="SIREN pillars">${otherPillars}</nav>
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  ${peerPillars.length ? `<h2 id="other-pillars">${esc(othersQ)}</h2>
+  <nav class="fc__pillars" aria-label="SIREN pillars">${otherPillars}</nav>` : ''}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a>.</p>
 </article>`;
 
   return page({
@@ -187,6 +212,7 @@ export function renderPillar(ctx, pillarId) {
         description: meta.description,
         creator: { '@type': 'Organization', name: brand.PUBLICATION, url: ctx.url('/') },
       },
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: Math.min(items.length, 40),
@@ -199,8 +225,17 @@ export function renderPillar(ctx, pillarId) {
       },
     }, breadcrumbs(ctx, [
       { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
-      { name: meta.name, path },
-    ])],
+      { name: `Which AI activity pillars have ${brand.NAME} pages?`, path: '/pillar/' },
+      { name: `What has ${brand.NAME} scored under ${meta.name}?`, path },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -307,53 +342,78 @@ function fmtPct(p) {
 export function renderLab(ctx, player) {
   const path = labPath(player.id);
   const items = itemsForLab(ctx, player);
+  // Live-window / race-row gate only while deploy-pending — no archive widen.
   const indexable = labIndexable(ctx, player);
   const m = player.market || {};
   const entityOnly = Boolean(player.entityOnly);
+  // Head-term title: people search “{lab} AI stories” / company doom score.
   const title = entityOnly
-    ? `${player.name}: AI stories this index scored · ${brand.NAME}`
-    : `${player.name} AI activity & market odds · ${brand.NAME}`;
+    ? `What has ${brand.NAME} scored about ${player.name}? AI stories, not a company score`
+    : `What has ${brand.NAME} scored about ${player.name}? AI stories & market odds`;
   const description = clip(
     entityOnly
       ? `${player.name} on ${brand.NAME}: ${items.length} related scored stories in the current window. No prediction-market row for this lab — story counts only.`
       : `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)}, shipping and mindshare when reported, plus ${items.length} related scored stories.`,
     160,
   );
-
-  const labs = allLabs(ctx)
-    .filter((p) => p.id !== player.id)
-    .map((p) => `<a href="${esc(ctx.href(labPath(p.id)))}">${esc(p.name)}</a>`)
+  // Tip #286: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const windowQ = `Which related scored stories name ${player.name} in this window?`;
+  const othersQ = 'Which other labs have scored stories?';
+  const peerLabs = allLabs(ctx).filter((p) => p.id !== player.id);
+  const labs = peerLabs
+    .map((p) => `<a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>`)
     .join('');
+  const faq = [
+    [`What has ${brand.NAME} scored about ${player.name}?`,
+      entityOnly
+        ? `${items.length} scored stories name ${player.name} on ${brand.NAME} in the live window. Story counts only — this page does not invent market odds.`
+        : `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)} when published, plus ${items.length} related scored stories in the live window.`],
+    [windowQ,
+      items.length
+        ? `${items.length} scored ${items.length === 1 ? 'story names' : 'stories name'} ${player.name} in the current window. Story counts only — not a company doom score.`
+        : `No scored story in the current window names ${player.name}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}`],
+    ...(peerLabs.length
+      ? [[othersQ,
+        `Other labs that clear the substance gate, each linking What has ${brand.NAME} scored about that lab?`]]
+      : []),
+    [`Does ${brand.NAME} publish a ${player.name} doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Numbers here are story counts${entityOnly ? '' : ' and, where published, prediction-market prices'} — not a ranking of how dangerous a company is.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   const stats = entityOnly
     ? `<div class="fc__stat" role="group" aria-label="Lab signals">
     <div><b class="num">${esc(String(items.length))}</b><span>Related scored stories</span></div>
   </div>
-  <p class="fresh__key">Not on the <a href="${esc(ctx.href('/race.html'))}">race board</a> this build — this page is a newsroom facet only.
+  <p class="fresh__key">Not on <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> this build — this page is a newsroom facet only.
      Stories match the published entity list or the lab's common name forms.</p>`
     : `<div class="fc__stat" role="group" aria-label="Lab signals">
     <div><b class="num">${esc(fmtPct(m.probability))}</b><span>Market odds (best model)</span></div>
     <div><b class="num">${esc(Number.isFinite(m.change_7d) ? `${m.change_7d >= 0 ? '+' : '−'}${Math.abs(m.change_7d * 100).toFixed(1)} pts` : '—')}</b><span>7-day change</span></div>
     <div><b class="num">${esc(String(items.length))}</b><span>Related scored stories</span></div>
   </div>
-  <p class="fresh__key"><a href="${esc(ctx.href('/race.html'))}">Full race board →</a>
+  <p class="fresh__key"><a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a>
      · Odds are prediction-market prices, not ${esc(brand.NAME)} judgements.</p>`;
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> · Lab</p>
-  <h1>${esc(player.name)}</h1>
+  <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> · <a href="${esc(ctx.href('/lab/'))}">Which AI labs have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a></p>
+  <h1>What has ${esc(brand.NAME)} scored about ${esc(player.name)}?</h1>
   <p class="fc__lede">${esc(player.principal ? `${player.name}, principal ${player.principal}.` : player.name)}
      ${entityOnly
     ? 'Stories are scored newsroom items that name this lab. This page does not invent market odds.'
     : 'Odds and shipping signals come from the public race board; stories are scored newsroom items that name this lab.'}</p>
   ${stats}
-  <h2>Related stories in this window</h2>
+  <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
     : `<p>No scored story in the current window names ${esc(player.name)}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}</p>`}
-  <h2>Other labs</h2>
-  <nav class="fc__labs" aria-label="Labs">${labs}</nav>
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  ${peerLabs.length ? `<h2 id="other-labs">${esc(othersQ)}</h2>
+  <nav class="fc__labs" aria-label="Labs">${labs}</nav>` : ''}
 </article>`;
 
   return page({
@@ -370,6 +430,7 @@ export function renderLab(ctx, player) {
       description,
       about: { '@type': 'Organization', name: player.name },
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: Math.min(items.length, 40),
@@ -382,8 +443,17 @@ export function renderLab(ctx, player) {
       },
     }, breadcrumbs(ctx, [
       { name: 'Who is winning the AI race?', path: '/race.html' },
-      { name: player.name, path },
-    ])],
+      { name: `Which AI labs have ${brand.NAME} pages?`, path: '/lab/' },
+      { name: `What has ${brand.NAME} scored about ${player.name}?`, path },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -457,40 +527,71 @@ export function renderSource(ctx, sourceId) {
   const archivedAll = archiveItemsForSource(ctx, sourceId);
   const older = archivedAll.slice(0, 12);
   const label = sourceLabel(sourceId);
+  // Live-window gate only while deploy-pending — archive lists older stories
+  // on the page but does not widen sitemap indexability.
   const indexable = items.length >= SOURCE_INDEX_MIN;
   const path = sourcePath(sourceId);
-  const title = `${label}: AI stories this index scored · ${brand.NAME}`;
+  // Head-term title: people search “{source} AI stories” / source doom score.
+  const title = `What has ${brand.NAME} scored via ${label}? AI stories, not a source score`;
   const description = clip(
     `${items.length} scored stories from ${label} in the current ${brand.NAME} newsroom window. The outlet wrote them. The score is ours. Tempo, not a forecast.`,
     160,
   );
-  const others = indexableSources(ctx)
+  // Tip #288: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const windowQ = `Which scored stories are from ${label} in this window?`;
+  const olderQ = `Which older scored stories are from ${label}?`;
+  const othersQ = 'Which other outlets have scored stories?';
+  const peerSources = indexableSources(ctx)
     .filter((s) => s.id !== sourceId)
-    .slice(0, 12)
-    .map((s) => `<a href="${esc(ctx.href(sourcePath(s.id)))}">${esc(s.label)}</a>`)
+    .slice(0, 12);
+  const others = peerSources
+    .map((s) => `<a href="${esc(ctx.href(sourcePath(s.id)))}">What has ${esc(brand.NAME)} scored via ${esc(s.label)}?</a>`)
     .join('');
+  const faq = [
+    [`What has ${brand.NAME} scored via ${label}?`,
+      `${items.length} scored stories arrived through the ${label} feed adapter in the live window${archivedAll.length ? ` (${archivedAll.length} older in the archive)` : ''}. The words belong to the outlet; the score measures activity tempo.`],
+    [windowQ,
+      items.length
+        ? `${items.length} scored ${items.length === 1 ? 'story' : 'stories'} from ${label} in the current window. The words belong to the outlet; the score measures activity tempo — not a source doom score.`
+        : 'No scored stories from this outlet in the current window.'],
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
+    ...(peerSources.length
+      ? [[othersQ,
+        `Other feed adapters that clear the substance gate, each linking What has ${brand.NAME} scored via that outlet?`]]
+      : []),
+    [`Does ${brand.NAME} publish a ${label} doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} A source page lists scored stories from that feed adapter — not a ranking of how dangerous the outlet is.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const olderBlock = older.length
-    ? `<h2>Older scored stories from ${esc(label)}</h2>
+    ? `<h2 id="older">${esc(olderQ)}</h2>
   <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
     : '';
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a></p>
-  <h1>${esc(label)}</h1>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/sources.html'))}">Which AI news sources has ${esc(brand.NAME)} scored via?</a></p>
+  <h1>What has ${esc(brand.NAME)} scored via ${esc(label)}?</h1>
   <p class="fc__lede">Stories this index scored from ${esc(label)}. The words belong to the outlet. The score is computed here, and it measures how much the item moved inside the window, not whether the story is good or bad.</p>
   <div class="fc__stat" role="group" aria-label="Outlet counts">
     <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
-  <h2>Stories from ${esc(label)}</h2>
+  <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
     : '<p>No scored stories from this outlet in the current window.</p>'}
   ${olderBlock}
-  ${others ? `<h2>Other outlets</h2><nav class="fc__labs" aria-label="Other outlets">${others}</nav>` : ''}
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  ${peerSources.length ? `<h2 id="other-outlets">${esc(othersQ)}</h2><nav class="fc__labs" aria-label="Other outlets">${others}</nav>` : ''}
 </article>`;
 
   return page({
@@ -507,6 +608,7 @@ export function renderSource(ctx, sourceId) {
       description,
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       about: { '@type': 'NewsMediaOrganization', name: label },
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: Math.min(items.length, 40),
@@ -520,8 +622,16 @@ export function renderSource(ctx, sourceId) {
     }, breadcrumbs(ctx, [
       { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
       { name: `Which AI feed adapters have ${brand.NAME} pages?`, path: '/source/' },
-      { name: label, path },
-    ])],
+      { name: `What has ${brand.NAME} scored via ${label}?`, path },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -529,22 +639,35 @@ export function renderSource(ctx, sourceId) {
 export function renderSourceIndex(ctx) {
   const sources = indexableSources(ctx);
   const path = '/source/';
-  const title = `AI news outlets this index scores · ${brand.NAME}`;
+  // Head-term title: people search “AI news sources” / feed adapters directory.
+  const title = `Which AI feed adapters have ${brand.NAME} pages?`;
   const description = clip(
     `${sources.length} outlets with at least ${SOURCE_INDEX_MIN} scored stories in the current ${brand.NAME} window. Each page lists those stories.`,
     160,
   );
+  const faq = [
+    [`Which AI feed adapters have ${brand.NAME} pages?`,
+      `${sources.length} feed adapters clear the substance gate of at least ${SOURCE_INDEX_MIN} matching stories in the live window. Each hub lists those stories — not a source doom score.`],
+    [`Does ${brand.NAME} publish a source doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count scored stories from a feed adapter. Publisher hosts stay under /outlets.html.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = sources.map((s) => `<li>
-  <a href="${esc(ctx.href(sourcePath(s.id)))}">${esc(s.label)}</a>
-  <span class="fc__meta">${esc(s.id)}</span>
+  <a href="${esc(ctx.href(sourcePath(s.id)))}">What has ${esc(brand.NAME)} scored via ${esc(s.label)}?</a>
+  <span class="fc__meta">${esc(s.label)} · ${esc(s.id)}</span>
   <span class="fc__sc num">${esc(String(s.count))}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI feed adapters have ${esc(brand.NAME)} pages?</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI feed adapters have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/sources.html'))}">Which AI news sources has ${esc(brand.NAME)} scored via?</a></p>
   <h1>Which AI feed adapters have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">An outlet earns a page when the current window holds at least ${SOURCE_INDEX_MIN} scored stories from it. Fewer than that stays on the story page only, so a one-off item does not become its own URL.</p>
   <ol class="fc__list">${rows}</ol>
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/sources.html'))}">Which AI news sources has ${esc(brand.NAME)} scored via?</a>.</p>
 </article>`;
   return page({
     ctx,
@@ -558,6 +681,7 @@ export function renderSourceIndex(ctx) {
       name: title,
       url: ctx.url('/source/'),
       description,
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: sources.length,
@@ -565,13 +689,21 @@ export function renderSourceIndex(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(sourcePath(s.id)),
-          name: s.label,
+          name: `What has ${brand.NAME} scored via ${s.label}?`,
         })),
       },
     }, breadcrumbs(ctx, [
       { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
       { name: `Which AI feed adapters have ${brand.NAME} pages?`, path: '/source/' },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
