@@ -185,6 +185,10 @@ export function items(ctx) {
       `On /labs.html: The Recursion Meter — a daily share of agent-authored PRs merged into core AI stacks, with a 30-day trend line.`],
     ['What is listed under LIVE INTEL?',
       `On /catalog.html: rooms and pages under the LIVE INTEL group in the catalog.`],
+    ['What is the road to superintelligence from 1950 to 2056?',
+      `On /videos.html: from Turing’s question to ChatGPT and AI Nobel prizes, then one plausible path to 2056. The future part is speculation, not a prediction.`],
+    ['Which rooms and pages are in the catalog?',
+      `On /catalog.html: the Rooms & pages type section of the site directory.`],
   ];
 }
 

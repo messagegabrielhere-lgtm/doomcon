@@ -36,6 +36,16 @@ describe('videos page', () => {
     assert.match(body[0], /href="\/si-ready\.html">Ready for superintelligence\? →<\/a>/);
     assert.match(body[0], /href="\/ai-proof-job\.html">How do I AI-proof my job\? →<\/a>/);
     assert.match(body[0], /href="\/bunker-kit\.html">What free tools belong in a bunker kit\? →<\/a>/);
+    assert.match(body[0], /What is the road to superintelligence from 1950 to 2056\?/);
+    assert.match(body[0], /What is SIREN in 42 seconds\?/);
+    assert.match(body[0], /Who is Tally, SIREN.s duty canary\?/);
+    assert.match(body[0], /How loud is AI right now\?/);
+    assert.match(body[0], /How can regular people prepare for superintelligence\?/);
+    assert.match(body[0], /How do you AI-proof your job in five moves\?/);
+    assert.match(body[0], /What is in the SIREN bunker kit supply drop\?/);
+    assert.doesNotMatch(body[0], /Meet Tally, SIREN/);
+    assert.doesNotMatch(body[0], /Supply drop: the SIREN bunker kit/);
+    assert.doesNotMatch(body[0], /AI-proof your job in five moves<\/h3>/);
     assert.doesNotMatch(body[0], /Open the page →/);
     assert.doesNotMatch(body[0], /href="\/radio\.html">Tune in to SIREN Radio<\/a>/);
     assert.doesNotMatch(body[0], /href="\/elon\.html">Real Clips<\/a>/);

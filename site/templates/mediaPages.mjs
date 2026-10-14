@@ -9,20 +9,21 @@ import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
+// Tip #367: video-card H3s / VideoObject names are question-shaped (mirrored in FAQ §3.3).
 export const VIDEOS = [
-  { id: 'road-to-si', file: 'siren-road-to-si', title: 'The road to superintelligence: 1950 to 2056 in 101 seconds', secs: 101, station: 'SIREN FM',
+  { id: 'road-to-si', file: 'siren-road-to-si', title: 'What is the road to superintelligence from 1950 to 2056?', secs: 101, station: 'SIREN FM',
     blurb: 'From Turing’s question to ChatGPT and AI Nobel prizes, then one plausible path to 2056. The future part is speculation, not a prediction.', page: '/history.html', pageLabel: 'What is the history of AI risk?' },
-  { id: 'explainer', file: 'siren-explainer', title: 'What is SIREN? A 42-second tour', secs: 42, station: 'SIREN FM',
+  { id: 'explainer', file: 'siren-explainer', title: 'What is SIREN in 42 seconds?', secs: 42, station: 'SIREN FM',
     blurb: 'The hourly reading, the five levels, and the rooms worth opening.', page: '/', pageLabel: 'AI activity index today · SIREN' },
-  { id: 'tally', file: 'siren-tally', title: 'Meet Tally, SIREN’s duty canary', secs: 22, station: 'CANARY CHIPTUNE',
+  { id: 'tally', file: 'siren-tally', title: 'Who is Tally, SIREN’s duty canary?', secs: 22, station: 'CANARY CHIPTUNE',
     blurb: 'Five moods for five levels, and why a canary watches AI.', page: '/tally.html', pageLabel: 'Who is Tally, the SIREN duty canary?' },
-  { id: 'skynet', file: 'siren-skynet', title: 'Skynet status report: how loud is AI right now?', secs: 26, station: 'JUDGMENT DAY',
+  { id: 'skynet', file: 'siren-skynet', title: 'How loud is AI right now?', secs: 26, station: 'JUDGMENT DAY',
     blurb: 'The five pillars behind the number: compute, markets, models, attention, policy.', page: '/methodology.html', pageLabel: 'How the SIREN AI activity index is computed · methodology' },
-  { id: 'si-ready', file: 'siren-si-ready', title: 'How regular people can prepare for superintelligence', secs: 26, station: 'BUNKER AMBIENT',
+  { id: 'si-ready', file: 'siren-si-ready', title: 'How can regular people prepare for superintelligence?', secs: 26, station: 'BUNKER AMBIENT',
     blurb: 'Four calm steps: learn the tools, build a cushion, verify, stay human.', page: '/si-ready.html', pageLabel: 'Ready for superintelligence?' },
-  { id: 'ai-proof-job', file: 'siren-ai-proof-job', title: 'AI-proof your job in five moves', secs: 26, station: 'DATA RAIN LO-FI',
+  { id: 'ai-proof-job', file: 'siren-ai-proof-job', title: 'How do you AI-proof your job in five moves?', secs: 26, station: 'DATA RAIN LO-FI',
     blurb: 'Map your tasks, automate yourself first, own the judgement.', page: '/ai-proof-job.html', pageLabel: 'How do I AI-proof my job?' },
-  { id: 'supply-drop', file: 'siren-supply-drop', title: 'Supply drop: the SIREN bunker kit', secs: 22, station: 'CANARY CHIPTUNE',
+  { id: 'supply-drop', file: 'siren-supply-drop', title: 'What is in the SIREN bunker kit supply drop?', secs: 22, station: 'CANARY CHIPTUNE',
     blurb: 'Six crates of gear, 50 free tools and a prepper checklist.', page: '/bunker-kit.html', pageLabel: 'What free tools belong in a bunker kit?' },
 ];
 
@@ -122,6 +123,8 @@ export function videos(ctx) {
       'Free to share with a link back.'],
     ['Where is the soundtrack music?',
       'Want the music on its own — What free music does SIREN Radio play? Clips of the AI bosses themselves: Where can you find real clips of AI leaders?'],
+    // Tip #367: video-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...VIDEOS.map((v) => [v.title, v.blurb]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
