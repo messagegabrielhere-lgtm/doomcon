@@ -47,6 +47,7 @@
 
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 import { iconSprite, icon, stateIcon } from './_icons.mjs';
@@ -60,6 +61,14 @@ const SPRITE = ['sec-signal', 'sec-archive', 'sec-history', 'sec-bliss', 'sec-me
   'state-live', 'state-dark', 'state-awaiting'];
 
 const SIDE_NAME = Object.freeze({ benefit: 'Benefit', harm: 'Harm' });
+
+/** Tip #379: side-column H3s are question-shaped (mirrored in FAQ §3.3). */
+function sideColQ(side, kind) {
+  const name = SIDE_NAME[side] || side;
+  if (kind === 'language') return `Which headlines matched ${name} language?`;
+  if (kind === 'register') return `What is in the ${name} register?`;
+  return `Which counters are on the ${name} side?`;
+}
 const LIST_NAME = Object.freeze({ benefit: 'the benefit list', harm: 'the harm list' });
 const CASE_NAME = Object.freeze({ benefit: 'The utopia case', harm: 'The doom case' });
 
@@ -218,9 +227,11 @@ function beamSection(ctx, b, m) {
     ? Object.keys(nr.not_scanned.by_kind).sort().map((k) => `${esc(k)} ${count(nr.not_scanned.by_kind[k])}`).join(', ')
     : null;
   const never = arr(br.never_on).map((s) => `<li>${esc(s)}</li>`).join('');
+  // Tip #393: section H2 is question-shaped and mirrored in FAQ (§3.3).
+  const beamQ = 'What did the newsroom’s headlines carry?';
 
   return `<section class="bp__sec" id="the-beam" aria-labelledby="bp-beam-h">
-  <h2 class="bp__h" id="bp-beam-h">${icon('sec-signal')} What the newsroom’s headlines carried<span class="sec__eb">The beam</span></h2>
+  <h2 class="bp__h" id="bp-beam-h">${icon('sec-signal')} ${esc(beamQ)}<span class="sec__eb">The beam</span></h2>
   <p class="bp__l bp__l--lead">${m.sentence ? esc(m.sentence)
     : `The newsroom window is dark this build${m.error ? `: ${esc(m.error)}` : ''}. No story is counted on either side and the beam is drawn level.`}</p>
   <figure class="bp__fig">
@@ -251,7 +262,7 @@ function beamSection(ctx, b, m) {
     real span moves with how busy the news is, and any series built from these counts has to use shares, not raw counts.
     ${kinds ? `Not scanned, by kind: ${kinds}, ${count(nr.not_scanned.total)} in all, because vendor blogs never report their own harms and arXiv abstracts discuss attacks as subject matter.` : ''}
     ${it && Number.isFinite(it.hedged_headlines) ? `${count(it.hedged_headlines)} scanned ${plural(it.hedged_headlines, 'headline', 'headlines')} tripped the hedge rule.` : ''}</p>
-  ${never ? `<h3 class="bp__h3">What the beam never tilts on</h3><ul class="bp__lim bp__lim--plain">${never}</ul>` : ''}
+  ${never ? `<h3 class="bp__h3">What does the beam never tilt on?</h3><ul class="bp__lim bp__lim--plain">${never}</ul>` : ''}
   ${br.print ? `<p class="bp__n"><b>What is printed.</b> ${esc(br.print)}.</p>` : ''}
 </section>`;
 }
@@ -319,17 +330,20 @@ function matchColumn(side, items, b, hrefs, lex) {
     : `<p class="bp__empty">No story in this window matched ${LIST_NAME[side]}${Number.isFinite(scanned) ? `, of ${count(scanned)} scanned` : ''}.
         That is a measured zero: the list exists, it is printed in full below, and it was applied to every
         scanned headline by the same rule as the other side.</p>`;
+  const q = sideColQ(side, 'language');
   return `<div class="bp__col" data-side="${side}">
-    <h3 class="bp__colh">${esc(SIDE_NAME[side])} language<span class="bp__eb">${Number.isFinite(listCount) ? `${count(listCount)} ${plural(listCount, 'story', 'stories')}` : 'count not in the file'}</span></h3>
+    <h3 class="bp__colh" aria-label="${esc(SIDE_NAME[side])} language">${esc(q)}<span class="bp__eb">${Number.isFinite(listCount) ? `${count(listCount)} ${plural(listCount, 'story', 'stories')}` : 'count not in the file'}</span></h3>
     ${body}
   </div>`;
 }
 
 function matchesSection(ctx, b, m) {
   const nr = b.newsroom || {};
+  // Tip #393: section H2 is question-shaped and mirrored in FAQ (§3.3).
+  const matchQ = 'Which headlines matched a word list?';
   if (m.state !== 'live' || !nr.matched) {
     return `<section class="bp__sec" id="the-matches" aria-labelledby="bp-match-h">
-  <h2 class="bp__h" id="bp-match-h">${icon('sec-signal')} Every headline that matched a list<span class="sec__eb">The matches</span></h2>
+  <h2 class="bp__h" id="bp-match-h">${icon('sec-signal')} ${esc(matchQ)}<span class="sec__eb">The matches</span></h2>
   <p class="bp__l">The newsroom window is dark this build, so there are no matches to list. Nothing from an earlier window is shown in its place.</p>
 </section>`;
   }
@@ -338,14 +352,14 @@ function matchesSection(ctx, b, m) {
   const lex = { negators: arr(lx.negators), reach: Number.isInteger(lx.negation_reach_words) ? lx.negation_reach_words : 0 };
   const aside = arr(nr.neither).filter((x) => x && x.set_aside);
   return `<section class="bp__sec" id="the-matches" aria-labelledby="bp-match-h">
-  <h2 class="bp__h" id="bp-match-h">${icon('sec-signal')} Every headline that matched a list<span class="sec__eb">The matches</span></h2>
+  <h2 class="bp__h" id="bp-match-h">${icon('sec-signal')} ${esc(matchQ)}<span class="sec__eb">The matches</span></h2>
   <p class="bp__l">Newest first. The marked words are the ones the rule counted; a word with “no”, “not” or
     “never” just before it was ignored and is not marked. Each headline links to its scored item page on this
     site where one exists, and to the original otherwise. A headline is reproduced exactly as published.</p>
   <div class="bp__cols">
     ${SIDES.map((side) => matchColumn(side, arr(nr.matched[side]), b, hrefs, lex)).join('')}
   </div>
-  ${aside.length ? `<h3 class="bp__h3">Set aside by the rule, with a list word in them: ${count(aside.length)}</h3>
+  ${aside.length ? `<h3 class="bp__h3">Which items were set aside by the rule? <span class="bp__ver">${count(aside.length)}</span></h3>
   <p class="bp__l">These carried a word from one of the lists and still counted on neither side. They are listed
     so the rule can be checked in the direction that does not flatter it.</p>
   <ul class="bp__aside">${aside.map((x) => `<li>
@@ -412,8 +426,9 @@ function registerColumn(side, L) {
   const conf = t && t.by_confidence
     ? Object.keys(t.by_confidence).sort().map((k) => `${count(t.by_confidence[k])} ${esc(k)}`).join(', ')
     : 'confidence not totalled';
+  const q = sideColQ(side, 'register');
   return `<div class="bp__col" data-side="${side}">
-    <h3 class="bp__colh">${esc(SIDE_NAME[side])} register<span class="bp__eb">${esc(CASE_NAME[side])}</span></h3>
+    <h3 class="bp__colh" aria-label="${esc(SIDE_NAME[side])} register">${esc(q)}<span class="bp__eb">${esc(CASE_NAME[side])}</span></h3>
     <p class="bp__colsub">${count(rows.length)} ${plural(rows.length, 'row', 'rows')} · ${t ? count(t.numbers) : 'an untotalled number of'} sourced numbers · ${conf}</p>
     <ul class="bp__lg" aria-label="${esc(SIDE_NAME[side])} status words">${legend}</ul>
     ${rows.map((r) => registerEntry(r, side, words)).join('')}
@@ -426,8 +441,10 @@ function registersSection(L) {
   // two row counts sit side by side — the place a reader would draw the wrong
   // conclusion from them.
   const equal = honesty.find((s) => /equal/i.test(String(s))) || null;
+  // Tip #393: section H2 is question-shaped and mirrored in FAQ (§3.3).
+  const regQ = 'What documented results sit on both sides?';
   return `<section class="bp__sec" id="the-registers" aria-labelledby="bp-reg-h">
-  <h2 class="bp__h" id="bp-reg-h">${icon('sec-archive')} Documented results, both sides<span class="sec__eb">The registers</span></h2>
+  <h2 class="bp__h" id="bp-reg-h">${icon('sec-archive')} ${esc(regQ)}<span class="sec__eb">The registers</span></h2>
   <p class="bp__l bp__l--lead">${esc(L.what_this_is || 'Two registers, kept side by side.')}</p>
   <p class="bp__l">Checked by hand against every linked source as of <b>${esc(L.as_of_date || 'an unrecorded date')}</b>,
     in the register’s own order. Each row prints what was measured beside what is claimed about it; recording a
@@ -497,26 +514,31 @@ function counterCard(c) {
 
 function countersSection(b) {
   const cs = b.counters || null;
+  // Tip #393: section H2 is question-shaped and mirrored in FAQ (§3.3).
+  const ctrQ = 'Which counters come from public registries?';
   if (!cs) {
     return `<section class="bp__sec" id="the-counters" aria-labelledby="bp-ctr-h">
-  <h2 class="bp__h" id="bp-ctr-h">${icon('sec-history')} Counters from public registries<span class="sec__eb">The counters</span></h2>
+  <h2 class="bp__h" id="bp-ctr-h">${icon('sec-history')} ${esc(ctrQ)}<span class="sec__eb">The counters</span></h2>
   <p class="bp__l">No counter block in this build’s balance.json.</p>
 </section>`;
   }
   const total = SIDES.reduce((n, s) => n + arr(cs[s]).length, 0);
   const w = cs.window || {};
   return `<section class="bp__sec" id="the-counters" aria-labelledby="bp-ctr-h">
-  <h2 class="bp__h" id="bp-ctr-h">${icon('sec-history')} ${count(total)} counters from public registries<span class="sec__eb">The counters</span></h2>
+  <h2 class="bp__h" id="bp-ctr-h">${icon('sec-history')} ${esc(ctrQ)}<span class="sec__eb">The counters · ${count(total)}</span></h2>
   <p class="bp__l bp__l--lead">${count(cs.live, 'An unrecorded number')} live, ${count(cs.dark, 'an unrecorded number')} dark.
     Each is published as its publisher reports it, in its own unit and its own window, and none is set against
     any other: the page does not pair a harm counter with a benefit counter, and it adds nothing up.</p>
   <p class="bp__l">Window for the windowed ones: <b>${esc(w.from || 'unrecorded')} to ${esc(w.to || 'unrecorded')}</b>,
     ${esc(cs.window_rule || 'rule not recorded')}. A counter that failed is dark, with its error, and never a zero or an earlier run’s figure.</p>
   <div class="bp__cols">
-    ${SIDES.map((side) => `<div class="bp__col" data-side="${side}">
-      <h3 class="bp__colh">${esc(SIDE_NAME[side])} side<span class="bp__eb">${count(arr(cs[side]).length)} ${plural(arr(cs[side]).length, 'counter', 'counters')}</span></h3>
+    ${SIDES.map((side) => {
+      const q = sideColQ(side, 'side');
+      return `<div class="bp__col" data-side="${side}">
+      <h3 class="bp__colh" aria-label="${esc(SIDE_NAME[side])} side">${esc(q)}<span class="bp__eb">${count(arr(cs[side]).length)} ${plural(arr(cs[side]).length, 'counter', 'counters')}</span></h3>
       ${arr(cs[side]).map(counterCard).join('') || '<p class="bp__empty">No counter on this side in this build.</p>'}
-    </div>`).join('')}
+    </div>`;
+    }).join('')}
   </div>
 </section>`;
 }
@@ -581,8 +603,10 @@ function indicesSection(ctx, b) {
       so every value is published and none is scored. That is awaiting baseline, not dark, and it is never printed as a number.
       ${arr(bl.failed_sources).length ? `Dark this run: ${esc(arr(bl.failed_sources).join(', '))}.` : ''}</p>`;
   }
+  // Tip #391: section H2 is question-shaped (mirrored in FAQ §3.3).
+  const ixQ = `How do ${brand.NAME} and BLISS sit beside the beam?`;
   return `<section class="bp__sec" id="the-indices" aria-labelledby="bp-ix-h">
-  <h2 class="bp__h" id="bp-ix-h">${icon('sec-bliss')} SIREN and BLISS, as context</h2>
+  <h2 class="bp__h" id="bp-ix-h">${icon('sec-bliss')} ${esc(ixQ)}</h2>
   <p class="bp__l bp__l--lead">${esc(ix.note || 'Context only. Neither index feeds the beam.')}</p>
   <div class="bp__ixs">
     ${indexCell(ix.doomcon || null, brand.NAME)}
@@ -591,8 +615,8 @@ function indicesSection(ctx, b) {
   ${blissLine}
   ${blissTable(ctx.bliss)}
   <p class="bp__n">Both are percentile positions in two separate frozen reference distributions of activity
-    tempo, not measures of harm or benefit. <a href="${esc(ctx.href('/bliss.html'))}">The upside index, in full →</a>
-    · <a href="${esc(ctx.href('/'))}">${esc(brand.NAME)}, in full →</a></p>
+    tempo, not measures of harm or benefit. <a href="${esc(ctx.href('/bliss.html'))}">What is BLISS, the ${esc(brand.NAME)} upside index? →</a>
+    · <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a></p>
 </section>`;
 }
 
@@ -604,12 +628,14 @@ function limitsSection(b, L) {
   const a = arr(b.honesty).map((s) => `<li>${esc(s)}</li>`).join('');
   const c = arr(L.honesty).map((s) => `<li>${esc(s)}</li>`).join('');
   const meas = b.lexicon && b.lexicon.measured ? b.lexicon.measured : null;
+  // Tip #391: section H2 is question-shaped (mirrored in FAQ §3.3).
+  const limQ = 'What can this page not say?';
   return `<section class="bp__sec" id="limits" aria-labelledby="bp-lim-h">
-  <h2 class="bp__h" id="bp-lim-h">${icon('sec-signal')} What this cannot say</h2>
+  <h2 class="bp__h" id="bp-lim-h">${icon('sec-signal')} ${esc(limQ)}</h2>
   <p class="bp__l">Published in the two files and printed here unedited: the collector’s five lines about the
     counts, then the registers’ lines about the rows.</p>
-  ${a ? `<h3 class="bp__h3">About the counts</h3><ul class="bp__lim">${a}</ul>` : ''}
-  ${c ? `<h3 class="bp__h3">About the registers</h3><ul class="bp__lim">${c}</ul>` : ''}
+  ${a ? `<h3 class="bp__h3">What do the honesty lines say about the counts?</h3><ul class="bp__lim">${a}</ul>` : ''}
+  ${c ? `<h3 class="bp__h3">What do the honesty lines say about the registers?</h3><ul class="bp__lim">${c}</ul>` : ''}
   ${meas && meas.in_sample === true ? `<p class="bp__n"><b>Every precision figure for the word lists is in-sample.</b>
     The lists were tuned on the same headlines they were scored on, by one labeller; the first honest test is
     the next window. The benefit side’s precision rests on ${count(meas.benefit_all_history && meas.benefit_all_history.matched, 'an unrecorded number of')} matches in all history.</p>` : ''}
@@ -652,10 +678,12 @@ function methodSection(b, L) {
   const dropped = arr(L.dropped).map((d) => `<li><b>${esc(d.item || d.id)}</b> (${esc(d.side || 'side not recorded')},
       noted in <a href="#reg-${esc(d.noted_in || '')}">${esc(d.noted_in || 'no row')}</a>). ${esc(d.reason || 'No reason recorded.')}</li>`).join('');
   const retired = arr(L.retired);
+  // Tip #391: section H2 is question-shaped (mirrored in FAQ §3.3).
+  const methodQ = 'Where did this come from?';
   return `<section class="bp__sec" id="method" aria-labelledby="bp-method-h">
-  <h2 class="bp__h" id="bp-method-h">${icon('sec-method')} Where this came from</h2>
+  <h2 class="bp__h" id="bp-method-h">${icon('sec-method')} ${esc(methodQ)}</h2>
 
-  <h3 class="bp__h3">The rule, the same on both sides</h3>
+  <h3 class="bp__h3">What is the rule on both sides?</h3>
   <ul class="bp__lim bp__lim--plain">
     ${rule.matching ? `<li><b>Matching.</b> ${esc(rule.matching)}.</li>` : ''}
     ${lx.not_scanned_kinds ? `<li><b>Not scanned.</b> Items of kind ${chips(lx.not_scanned_kinds)}.</li>` : ''}
@@ -665,24 +693,24 @@ function methodSection(b, L) {
     ${rule.same_rule_both_sides === true ? '<li><b>Symmetry.</b> One rule, applied to both lists in the same pass.</li>' : ''}
   </ul>
 
-  <h3 class="bp__h3">The harm list, ${count(sizes.harm, 'an unrecorded number of')} terms <span class="bp__ver">lexicon ${esc(lx.version || 'unversioned')}</span></h3>
+  <h3 class="bp__h3">What is on the harm list? <span class="bp__ver">${count(sizes.harm, 'an unrecorded number of')} terms · lexicon ${esc(lx.version || 'unversioned')}</span></h3>
   <p class="bp__chips">${chips(lx.harm_terms) || 'Not in the file.'}</p>
-  <h3 class="bp__h3">The benefit list, ${count(sizes.benefit, 'an unrecorded number of')} terms</h3>
+  <h3 class="bp__h3">What is on the benefit list? <span class="bp__ver">${count(sizes.benefit, 'an unrecorded number of')} terms</span></h3>
   <p class="bp__chips">${chips(lx.benefit_terms) || 'Not in the file.'}</p>
   <p class="bp__n">The two lists differ in size and reach. Both are printed in full so the difference is
     visible, and it is not corrected by any weighting. Any edit to either list makes a new instrument.</p>
-  <h3 class="bp__h3">Hedge words and negators</h3>
+  <h3 class="bp__h3">Which hedge words and negators apply?</h3>
   <p class="bp__chips"><span class="bp__chk">Hedges</span> ${chips(lx.hedge_terms) || 'not in the file'}</p>
   <p class="bp__chips"><span class="bp__chk">Negators</span> ${chips(lx.negators) || 'not in the file'}</p>
   ${arr(drop.harm).length || arr(drop.benefit).length ? `<p class="bp__n"><b>Dropped from the previous version</b> after
     producing false positives: harm ${chips(drop.harm) || 'none'}; benefit ${chips(drop.benefit) || 'none'}.</p>` : ''}
 
-  ${meas ? `<h3 class="bp__h3">Measured precision</h3>
+  ${meas ? `<h3 class="bp__h3">What is the measured precision?</h3>
   <p class="bp__l">${esc(meas.labels || '')} Sample: ${esc(meas.sample || 'not recorded')}.
     ${Number.isFinite(meas.matched_both_lists) ? `${count(meas.matched_both_lists)} ${plural(meas.matched_both_lists, 'item', 'items')} in the sample matched both lists.` : ''}</p>
   ${precisionTable(meas)}` : ''}
 
-  <h3 class="bp__h3">The registers</h3>
+  <h3 class="bp__h3">What are the registers?</h3>
   <p class="bp__l">${esc(L.curation || 'No curation policy in the file.')}</p>
   ${dropped ? `<p class="bp__l"><b>Left out of individual rows, and why:</b></p><ul class="bp__lim bp__lim--plain">${dropped}</ul>` : ''}
   <p class="bp__n">${retired.length ? `${count(retired.length)} ${plural(retired.length, 'row has', 'rows have')} been retired and ${plural(retired.length, 'is', 'are')} kept in the file with the date and the reason.` : 'No row has been retired.'}
@@ -696,8 +724,10 @@ function methodSection(b, L) {
 }
 
 function dataSection(ctx, b, L) {
+  // Tip #391: section H2 is question-shaped (mirrored in FAQ §3.3).
+  const dataQ = 'Where can I take the data?';
   return `<section class="bp__sec" id="data" aria-labelledby="bp-data-h">
-  <h2 class="bp__h" id="bp-data-h">${icon('sec-api')} Take the data</h2>
+  <h2 class="bp__h" id="bp-data-h">${icon('sec-api')} ${esc(dataQ)}</h2>
   <ul class="bp__dl">
     <li><a href="${esc(ctx.href('/api/balance.json'))}"><code class="bp__code">/api/balance.json</code></a>
       <span>The newsroom counts and every matched and unmatched headline, the beam rule, the six counters with
@@ -724,10 +754,82 @@ export function render(ctx) {
   const hb = m.state === 'live'
     ? `${count(m.harm)} harm-language and ${count(m.benefit)} benefit-language ${plural(m.benefit, 'story', 'stories')}`
     : 'newsroom dark';
+  const qTitle = `How does ${brand.NAME} count AI harm and benefit side by side?`;
   const description =
-    `Harm and benefit, side by side and never summed. ${m.sentence || 'The newsroom window is dark this build.'} `
+    `${qTitle} Harm and benefit, side by side and never summed. ${m.sentence || 'The newsroom window is dark this build.'} `
     + `Beside it: ${count(arr(L.benefit).length)} benefit and ${count(arr(L.harm).length)} harm register rows, each dated and sourced, `
     + `${cs ? `${count(cs.live, 'no')} live counters from public registries, ` : ''}and both word lists in full. No net score.`;
+
+  // FAQ answers restate hero / honesty / stamp copy only (FINDABILITY §3.3).
+  // Refuse net scores, doom/good verdicts, and doom-probability claims.
+  const noNet = arr(b.honesty).find((s) => /No net score/i.test(String(s)))
+    || 'No net score. Nothing in this file adds a harm to a benefit, subtracts one from the other or divides one by the other, because the two sides share no unit.';
+  const faq = [
+    [qTitle,
+      'The utopia case, as far as it has receipts: what AI has measurably done for people, beside what it has measurably done to them. Three layers, each on its own terms — a count of two word lists in the same headlines, six counters read from public registries, and two registers of dated, sourced results — and one refusal. Nothing here is added up, netted or divided into a verdict, because the two sides share no unit.'],
+    [`Does the balance feed the main ${brand.NAME} number?`,
+      `The balance · a ${brand.NAME} view · does not feed the main number. This page does not feed the ${brand.NAME} index and has no route into it.`],
+    ['Is there a net score of harm versus benefit?',
+      noNet],
+    ['What do the newsroom word-list counts measure?',
+      m.sentence || 'The newsroom window is dark this build.'],
+    // Tip #343: method / limits H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What does the beam never tilt on?',
+      arr(b.beam_rule && b.beam_rule.never_on).join(' ')
+      || 'The beam section lists what never moves either pan when those lines are in the file.'],
+    ['What do the honesty lines say about the counts?',
+      'Published in the two files and printed here unedited: the collector’s five lines about the counts.'],
+    ['What do the honesty lines say about the registers?',
+      'Published in the two files and printed here unedited: the registers’ lines about the rows.'],
+    ['What is the rule on both sides?',
+      (b.lexicon && b.lexicon.rule && b.lexicon.rule.same_rule_both_sides === true
+        ? 'One rule, applied to both lists in the same pass.'
+        : 'The matching, hedge and negation rules from the published lexicon, applied on both sides.')],
+    ['What is on the harm list?',
+      'Both word lists are printed in full so the difference is visible, and it is not corrected by any weighting.'],
+    ['What is on the benefit list?',
+      'Both word lists are printed in full so the difference is visible, and it is not corrected by any weighting. Any edit to either list makes a new instrument.'],
+    ['Which hedge words and negators apply?',
+      'A word with “no”, “not” or “never” just before it was ignored and is not marked. The hedge and negator chips are printed under the method section.'],
+    ['What is the measured precision?',
+      'Every precision figure for the word lists is in-sample. The lists were tuned on the same headlines they were scored on, by one labeller; the first honest test is the next window.'],
+    ['What are the registers?',
+      L.curation || 'Dated, sourced register rows, each carrying what was measured beside what is claimed about it.'],
+    ['Which items were set aside by the rule?',
+      'These carried a word from one of the lists and still counted on neither side. They are listed so the rule can be checked in the direction that does not flatter it.'],
+    // Tip #379: side-column H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...SIDES.flatMap((side) => [
+      [sideColQ(side, 'language'),
+        `Headlines in the newsroom window that matched the ${SIDE_NAME[side]} word list — a measured count, never a net against the other side.`],
+      [sideColQ(side, 'register'),
+        `Dated, sourced ${SIDE_NAME[side]} register rows (${CASE_NAME[side]}), each carrying what was measured beside what is claimed about it.`],
+      [sideColQ(side, 'side'),
+        `${SIDE_NAME[side]} counters from public registries — each published as its publisher reports it, and never paired with the other side.`],
+    ]),
+    // Tip #391: section H2s are question-shaped and mirrored in FAQ (§3.3).
+    [`How do ${brand.NAME} and BLISS sit beside the beam?`,
+      'Context only. Neither index feeds the beam. Both are percentile positions in two separate frozen reference distributions of activity tempo, not measures of harm or benefit.'],
+    ['What can this page not say?',
+      'Published in the two files and printed here unedited: the collector’s five lines about the counts, then the registers’ lines about the rows.'],
+    ['Where did this come from?',
+      'The matching, hedge and negation rules from the published lexicon, both word lists in full, and the dated register rows — with the stamp from collector/balance.mjs.'],
+    ['Where can I take the data?',
+      'The newsroom counts and every matched and unmatched headline are at /api/balance.json; the two registers are at /api/ledger.json.'],
+    // Tip #393: beam / matches / registers / counters H2s are question-shaped (§3.3).
+    ['What did the newsroom’s headlines carry?',
+      m.sentence || 'The newsroom window is dark this build. No story is counted on either side and the beam is drawn level.'],
+    ['Which headlines matched a word list?',
+      'Newest first. The marked words are the ones the rule counted; a word with “no”, “not” or “never” just before it was ignored and is not marked.'],
+    ['What documented results sit on both sides?',
+      L.what_this_is || 'Two registers, kept side by side.'],
+    ['Which counters come from public registries?',
+      cs
+        ? `${count(cs.live, 'An unrecorded number')} live, ${count(cs.dark, 'an unrecorded number')} dark. Each is published as its publisher reports it, in its own unit and its own window, and none is set against any other.`
+        : 'No counter block in this build’s balance.json.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   const main = `<style>${balanceCss()}${pageCss()}</style>
 ${iconSprite({ only: SPRITE })}
@@ -735,7 +837,7 @@ ${iconSprite({ only: SPRITE })}
 
 <section class="bp__hero">
   <p class="bp__eyebrow">The balance · a ${esc(brand.NAME)} view · does not feed the main number</p>
-  <h1 class="bp__h1">Harm and benefit, side by side</h1>
+  <h1 class="bp__h1">How does ${esc(brand.NAME)} count AI harm and benefit side by side?</h1>
   <p class="bp__sub">Newsroom window <time datetime="${esc(nr.generated_at || '')}">${esc(stamp(nr.generated_at, 'not recorded'))}</time>
     · registers checked by hand as of ${esc(L.as_of_date || 'an unrecorded date')}
     ${cs ? `· ${count(cs.live, 'no')} of ${count(SIDES.reduce((n, s) => n + arr(cs[s]).length, 0))} counters live` : ''}</p>
@@ -769,32 +871,55 @@ ${limitsSection(b, L)}
 ${methodSection(b, L)}
 
 ${dataSection(ctx, b, L)}
+
+<section class="bp__faq" aria-labelledby="faq">
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="bp__faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/bliss.html'))}">What is BLISS, the ${esc(brand.NAME)} upside index?</a>.</p>
+</section>
 </div>`;
 
   return page({
     ctx,
     path: PATH,
-    title: `Harm and benefit, side by side — ${hb} · ${brand.NAME}`,
-    ogTitle: `${brand.NAME}: harm and benefit, side by side`,
+    title: `${qTitle} · ${hb} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('balance') : null,
     ogImageAlt: `${brand.NAME} balance: ${hb} in the newsroom window, drawn as a two-pan scale`,
-    jsonld: [dataset(ctx, b, L, m)],
+    jsonld: [
+      dataset(ctx, b, L, m, qTitle),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
 
 /** Either file absent. Builds, says so plainly, and carries noindex. */
 function emptyPage(ctx) {
+  const qTitle = `How does ${brand.NAME} count AI harm and benefit side by side?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `Harm and benefit, side by side · ${brand.NAME}`,
+    title: `${qTitle} · ${brand.NAME}`,
     description: 'The harm-and-benefit page is not in this build.',
     main: `<style>${pageCss()}</style><div class="bp"><section class="bp__hero">
   <p class="bp__eyebrow">The balance · a ${esc(brand.NAME)} view</p>
-  <h1 class="bp__h1">Harm and benefit, side by side</h1>
+  <h1 class="bp__h1">How does ${esc(brand.NAME)} count AI harm and benefit side by side?</h1>
   <p class="bp__lede">This build carries no <code>data/balance.json</code> or no valid
     <code>data/ledger.json</code>, so there is nothing to draw. The page exists and says so rather than
     inventing a balance. Run <code>collector/balance.mjs</code> and rebuild.</p>
@@ -802,7 +927,7 @@ function emptyPage(ctx) {
   });
 }
 
-function dataset(ctx, b, L, m) {
+function dataset(ctx, b, L, m, title) {
   const cs = b.counters || {};
   const vars = [
     { name: 'newsroom stories matching the harm list only', value: m.harm },
@@ -819,7 +944,7 @@ function dataset(ctx, b, L, m) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${brand.NAME} — harm and benefit of AI, counted side by side`,
+    name: title || `How does ${brand.NAME} count AI harm and benefit side by side?`,
     description:
       'Two word lists applied by one rule to the same newsroom headlines, six counters read from public '
       + 'registries, and two hand-verified registers of dated, sourced results on the benefit and harm sides of AI. '
@@ -830,6 +955,7 @@ function dataset(ctx, b, L, m) {
     creator: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
     ...(typeof b.generated_at === 'string' ? { dateModified: b.generated_at } : {}),
     keywords: ['artificial intelligence', 'AI harms', 'AI benefits', 'incidents', 'registers'],
+    speakable: speakable(['h1.bp__h1', 'p.bp__lede']),
     distribution: [
       { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: ctx.url('/api/balance.json') },
       { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: ctx.url('/api/ledger.json') },
@@ -1019,6 +1145,12 @@ function pageCss() {
 .bp__dl li{font:400 var(--t-xs)/1.65 var(--sans);color:var(--ink-faint);max-width:72ch}
 .bp__dl a{display:inline-block;margin-right:6px;text-decoration:none}
 .bp__dl a:hover .bp__code{border-color:var(--accent-2);color:var(--ink)}
+
+.bp__faq{margin:var(--sec) 0 var(--s-5);max-width:62ch}
+.bp__faq h2{font:600 var(--t-lg)/1.2 var(--sans);margin:0 0 var(--s-3)}
+.bp__faq h3{font:600 var(--t-base)/1.3 var(--sans);margin:var(--s-4) 0 var(--s-2)}
+.bp__faq p{font:400 var(--t-base)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2)}
+.bp__faq-key{margin-top:var(--s-4)!important}
 
 @media (prefers-reduced-motion: no-preference){
   .bp__srcs a,.bp__it__a{transition:color 120ms ease,border-color 120ms ease,text-decoration-color 120ms ease}

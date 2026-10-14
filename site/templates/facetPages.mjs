@@ -148,7 +148,7 @@ export function renderPillar(ctx, pillarId) {
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Pillar</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Pillar</p>
   <h1>${esc(meta.name)} AI activity</h1>
   <p class="fc__lede">${esc(meta.description)}</p>
   <div class="fc__stat" role="group" aria-label="Current pillar reading">
@@ -198,7 +198,7 @@ export function renderPillar(ctx, pillarId) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
       { name: meta.name, path },
     ])],
     main,
@@ -341,7 +341,7 @@ export function renderLab(ctx, player) {
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">The Race</a> · Lab</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> · Lab</p>
   <h1>${esc(player.name)}</h1>
   <p class="fc__lede">${esc(player.principal ? `${player.name}, principal ${player.principal}.` : player.name)}
      ${entityOnly
@@ -381,7 +381,7 @@ export function renderLab(ctx, player) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'The Race', path: '/race.html' },
+      { name: 'Who is winning the AI race?', path: '/race.html' },
       { name: player.name, path },
     ])],
     main,
@@ -478,7 +478,7 @@ export function renderSource(ctx, sourceId) {
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/source/'))}">Outlets</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a></p>
   <h1>${esc(label)}</h1>
   <p class="fc__lede">Stories this index scored from ${esc(label)}. The words belong to the outlet. The score is computed here, and it measures how much the item moved inside the window, not whether the story is good or bad.</p>
   <div class="fc__stat" role="group" aria-label="Outlet counts">
@@ -518,8 +518,8 @@ export function renderSource(ctx, sourceId) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Outlets', path: '/source/' },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI feed adapters have ${brand.NAME} pages?`, path: '/source/' },
       { name: label, path },
     ])],
     main,
@@ -541,8 +541,8 @@ export function renderSourceIndex(ctx) {
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Outlets</p>
-  <h1>Outlets this index scores</h1>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI feed adapters have ${esc(brand.NAME)} pages?</p>
+  <h1>Which AI feed adapters have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">An outlet earns a page when the current window holds at least ${SOURCE_INDEX_MIN} scored stories from it. Fewer than that stays on the story page only, so a one-off item does not become its own URL.</p>
   <ol class="fc__list">${rows}</ol>
 </article>`;
@@ -569,8 +569,8 @@ export function renderSourceIndex(ctx) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Outlets', path: '/source/' },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI feed adapters have ${brand.NAME} pages?`, path: '/source/' },
     ])],
     main,
   });

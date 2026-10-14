@@ -8,6 +8,7 @@
 
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 const CSS = `<style>
@@ -38,6 +39,11 @@ const CSS = `<style>
 .fx-meta{font:500 12px/1.4 var(--mono);color:var(--ink-faint,#6B7686);margin-top:4px}
 .fx-pill{display:inline-block;font:600 11px/1 var(--mono);letter-spacing:.06em;padding:4px 7px;border:1px solid var(--rule);border-radius:3px;margin-right:6px;color:var(--ink-dim)}
 .fx-note{font-size:13px;color:var(--ink-faint,#6B7686);margin-top:24px}
+.fx-faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.fx-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.fx-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.fx-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.fx-faq-key{margin-top:var(--s-4,1rem)!important}
 .fx-x{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--rule);border-radius:4px;color:var(--ink);text-decoration:none;font:600 13px/1 var(--mono);margin:4px 6px 4px 0}
 .fx-x:hover{border-color:var(--accent,#4ADE80)}
 @media print{.fx-btn,.fx-q{break-inside:avoid}}
@@ -69,8 +75,9 @@ function quiz({ id, questions, areas, intro }) {
       keys.forEach(function(k){total+=got[k]||0;tmax+=max[k]||0;});
       var pct=Math.round(100*total/(tmax||1));
       var ranked=keys.slice().sort(function(a,b){return ((got[a]||0)/(max[a]||1))-((got[b]||0)/(max[b]||1));});
-      var h='<h3>Your readiness: '+pct+'%</h3><div class="fx-meter"><i style="width:'+pct+'%"></i></div><p>Start with your weakest areas. Each has three moves you can make this month.</p>';
-      ranked.forEach(function(k,i){var s=Math.round(100*(got[k]||0)/(max[k]||1));h+='<h3 style="margin-top:16px">'+(i+1)+'. '+AREAS[k].name+' <span class="fx-pill">'+s+'%</span></h3><ul>'+AREAS[k].moves.map(function(m){return '<li>'+m+'</li>';}).join('')+'</ul>';});
+      var h='<h3>What is your readiness score? '+pct+'%</h3><div class="fx-meter"><i style="width:'+pct+'%"></i></div><p>Start with your weakest areas. Each has three moves you can make this month.</p>';
+      // Tip #390: per-area result H3s are question-shaped (mirrored in FAQ §3.3).
+      ranked.forEach(function(k,i){var s=Math.round(100*(got[k]||0)/(max[k]||1));var aq=AREAS[k].q||('How ready are you on '+AREAS[k].name+'?');h+='<h3 style="margin-top:16px">'+(i+1)+'. '+aq+' <span class="fx-pill">'+s+'%</span></h3><ul>'+AREAS[k].moves.map(function(m){return '<li>'+m+'</li>';}).join('')+'</ul>';});
       h+='<p><button class="fx-btn ghost" type="button" onclick="window.print()">PRINT MY PLAN</button></p>';
       out.innerHTML=h;out.hidden=false;out.scrollIntoView({behavior:'smooth',block:'start'});
     }
@@ -84,27 +91,27 @@ function quiz({ id, questions, areas, intro }) {
 // PREPARE FOR SUPERINTELLIGENCE
 // ---------------------------------------------------------------------------
 const SI_AREAS = {
-  work: { name: 'Work and skills', moves: [
+  work: { name: 'Work and skills', q: 'How ready are you on Work and skills?', moves: [
     'Use an AI assistant for one real task every day for a month, and write down what it got wrong.',
     'List the parts of your job that need judgment, trust or hands; move your time toward them.',
     'Learn to check AI output fast: sources, numbers, code that runs. Checking is the scarce skill.'] },
-  money: { name: 'Money and resilience', moves: [
+  money: { name: 'Money and resilience', q: 'How ready are you on Money and resilience?', moves: [
     'Build an emergency fund that covers several months of costs, in a plain savings account.',
     'Cut fixed monthly costs so a pay cut or job change would not be a crisis.',
     'Talk to a licensed financial adviser before making big moves on AI hype. This page is not financial advice.'] },
-  info: { name: 'Information and deepfakes', moves: [
+  info: { name: 'Information and deepfakes', q: 'How ready are you on Information and deepfakes?', moves: [
     'Agree a family code word for urgent calls or voice notes asking for money.',
     'Check where a clip was uploaded before you share it; the Real Clips room does this for you.',
     'Follow a few sources that publish their method, and fewer that only publish takes.'] },
-  security: { name: 'Privacy and security', moves: [
+  security: { name: 'Privacy and security', q: 'How ready are you on Privacy and security?', moves: [
     'Turn on two-factor sign-in (an app or passkey, not SMS) for email, bank and phone carrier.',
     'Use a password manager; never reuse a password.',
     'Remove yourself from people-search sites, and keep paper copies of key documents.'] },
-  people: { name: 'Health, people and community', moves: [
+  people: { name: 'Health, people and community', q: 'How ready are you on Health, people and community?', moves: [
     'Keep in-person friendships that do not run through a screen; they are the hardest thing to automate.',
-    'Have a household plan for outages: water, food, power and a meeting place (see the Prepper Checklist).',
+    'Have a household plan for outages: water, food, power and a meeting place (see What belongs in a 72-hour prepper kit?).',
     'Talk with your kids about AI: what it is good at, and that it can be wrong with confidence.'] },
-  voice: { name: 'Civic voice', moves: [
+  voice: { name: 'Civic voice', q: 'How ready are you on Civic voice?', moves: [
     'Read one primary source on AI policy where you live, not a summary of it.',
     'Tell your elected representatives what you want from AI rules; they count letters.',
     'Support groups doing AI safety and evaluation work, with time or money, if you can.'] },
@@ -130,20 +137,20 @@ const SI_GUIDE = [
   ['Understand what is (and isn\'t) coming', [
     '<b>Superintelligence</b> means AI that is better than the best humans at most thinking work. Nobody knows if or when it arrives; serious estimates run from a few years to never. Plan for a range, not a date.',
     'What is already happening is easier to plan for: AI that writes, codes, summarises, translates, draws and talks well enough to change how many jobs are done.',
-    'Follow measured signals, not hype. SIREN counts activity hourly; the <a href="/doomcon/methodology.html">method</a> shows what it can and cannot tell you.']],
+    'Follow measured signals, not hype. SIREN counts activity hourly; <a href="/doomcon/methodology.html">How the SIREN AI activity index is computed · methodology</a> shows what it can and cannot tell you.']],
   ['Your work: get ahead of the change', [
     '<b>Audit your week.</b> List your tasks and mark each: routine screen work, judgment, people, or hands-on. Routine screen work is what AI absorbs first.',
     '<b>Learn the tools in your field now.</b> An hour a day for a month with the assistant your industry uses beats any course. Keep notes on where it fails.',
     '<b>Grow the durable skills:</b> judgment under uncertainty, explaining things to people, negotiating, managing, caring, physical trades, and checking AI work.',
     '<b>Keep a side option.</b> A second skill, a certification, or a small side income makes a layoff a setback instead of a crisis.',
-    'Use the <a href="/doomcon/ai-proof-job.html">AI-proof your job</a> plan for step-by-step moves.']],
+    'Use the <a href="/doomcon/ai-proof-job.html">How do I AI-proof my job?</a> plan for step-by-step moves.']],
   ['Your money: resilience over prediction', [
     'Build an emergency fund that covers several months of essential costs, in an ordinary insured savings account.',
     'Pay down high-interest debt; it is the surest return there is.',
     'Do not bet your savings on AI hype, AI coins or "superintelligence funds". Scammers love a frightening headline.',
     'Spread risk and get advice from a licensed, fee-only financial adviser. Nothing here is financial advice.']],
   ['Your information: don\'t get fooled', [
-    'Assume any voice, video or photo can be faked. Check <b>where it was posted first</b> and by whom; the <a href="/doomcon/elon.html">Real Clips</a> room does this for video.',
+    'Assume any voice, video or photo can be faked. Check <b>where it was posted first</b> and by whom; <a href="/doomcon/elon.html">Where can you find real clips of AI leaders?</a> does this for video.',
     'Agree a <b>family code word</b> for any urgent call or message asking for money or secrets. Voice-clone scams target parents and grandparents.',
     'Slow down on anything that makes you angry or scared in seconds; that is how manipulation works, human or AI.',
     'Keep a few sources that publish corrections and methods. Drop the ones that only publish certainty.']],
@@ -156,7 +163,7 @@ const SI_GUIDE = [
   ['Your household: ready for outages', [
     'More automation means more systems that can fail together. Keep water, food, light, power and cash for at least three days, ideally two weeks.',
     'Know how to reach family if phones and the internet are down: a meeting place and an out-of-area contact.',
-    'The <a href="/doomcon/prepper-checklist.html">Prepper Checklist</a> sizes it for your household.']],
+    '<a href="/doomcon/prepper-checklist.html">What belongs in a 72-hour prepper kit?</a> sizes it for your household.']],
   ['Your kids and family', [
     'Teach AI literacy early: AI can be helpful and confidently wrong at the same time.',
     'Talk about fakes, scams and why people should never share personal details or photos with strangers, human or bot.',
@@ -184,60 +191,146 @@ const SI_DONT = [
   'Assume it is all hype, or that it is all over. Both are bets, and neither is a plan.',
 ];
 function siGuide() {
-  return `<h2>The full guide: how regular people can prepare</h2>
+  // Tip #305: section H2s are question-shaped (mirrored in siReady FAQ §3.3).
+  const guideQ = 'What is the full guide for how regular people can prepare?';
+  const plan30Q = 'What is a 30-day starter plan for SI readiness?';
+  const dontQ = 'What should you not do when preparing for SI?';
+  return `<h2>${esc(guideQ)}</h2>
   <p>Practical steps for anyone, whatever happens with superintelligence. Open a section to read it.</p>
   ${SI_GUIDE.map(([t, items], i) => `<details class="fx-card" style="margin:8px 0"${i === 0 ? ' open' : ''}><summary style="cursor:pointer;font:700 1.05rem/1.3 var(--sans);color:var(--ink)">${t}</summary><ul style="margin:10px 0 0">${items.map((x) => `<li>${x}</li>`).join('')}</ul></details>`).join('')}
-  <h2>A 30-day starter plan</h2>
-  <div class="fx-grid">${SI_30.map(([w, d]) => `<div class="fx-card"><h3>${w}</h3><p>${d}</p></div>`).join('')}</div>
-  <h2>What not to do</h2>
+  <h2>${esc(plan30Q)}</h2>
+  <div class="fx-grid">${SI_30.map(([w, d]) => `<div class="fx-card"><h3>What do you do in ${w} of the SI plan?</h3><p>${d}</p></div>`).join('')}</div>
+  <h2>${esc(dontQ)}</h2>
   <ul>${SI_DONT.map((d) => `<li>${d}</li>`).join('')}</ul>`;
 }
 
 export function siReady(ctx) {
+  const PATH = '/si-ready.html';
+  const qTitle = 'Ready for superintelligence?';
+  // FAQ answers restate hero / note / six-areas copy only.
+  // Refuse: SI arrival dates, doom-probability titles, financial advice claims.
+  // Tip #305: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const areasQ = 'What are the six readiness areas?';
+  const checkQ = 'What is the 3-minute readiness check?';
+  const guideQ = 'What is the full guide for how regular people can prepare?';
+  const plan30Q = 'What is a 30-day starter plan for SI readiness?';
+  const dontQ = 'What should you not do when preparing for SI?';
+  const keepQ = 'Where can you keep going from here?';
+  const faq = [
+    [qTitle,
+      'Nobody knows when, or if, AI becomes smarter than people at most things. You can still get ready for a world that keeps getting more automated, whichever way it goes. Answer twelve questions and get a plan for your weakest areas first. Nothing leaves your browser.'],
+    [areasQ,
+      'Six areas: work and skills, money and resilience, information and deepfakes, privacy and security, health, people and community, and civic voice.'],
+    [checkQ,
+      'Answer twelve questions and get a plan for your weakest areas first. Nothing leaves your browser.'],
+    [guideQ,
+      'Practical steps for anyone, whatever happens with superintelligence. Open a section to read it.'],
+    [plan30Q,
+      'Four weeks of concrete moves: two-factor and a password manager, audit your work week, build a 72-hour kit, talk with your family about AI and fakes.'],
+    [dontQ,
+      'Do not panic-sell, quit your job or move your life on a headline. Do not buy fear products. Do not trust a video because it looks real. Do not hand an AI app your passwords or bank logins.'],
+    [keepQ,
+      'Continue with How do I AI-proof my job?, the 72-hour prepper kit, and What AI breakthroughs has SIREN tracked.'],
+    ['Does this page predict when superintelligence arrives?',
+      `${brand.NAME} counts AI activity; it does not predict superintelligence. General information, not financial, legal, career or medical advice.`],
+    ['What does the 3-minute check cover?',
+      'Six areas: work and skills, money and resilience, information and deepfakes, privacy and security, health, people and community, and civic voice. Answer twelve questions and get a plan for your weakest areas first.'],
+    ['Does anything from the quiz leave my browser?',
+      'Nothing leaves your browser. Answer twelve questions and get a plan for your weakest areas first.'],
+    [`Does ${brand.NAME} publish an SI-ready doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} This page is a personal readiness check — not a probability of harm or an arrival date.`],
+    // Tip #357: readiness-area + 30-day week H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...Object.values(SI_AREAS).map((a) => [`What does the ${a.name} area cover?`, a.moves[0]]),
+    ...SI_30.map(([w, d]) => [`What do you do in ${w} of the SI plan?`, d]),
+    // Tip #390: quiz result-area H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...Object.values(SI_AREAS).map((a) => [a.q, a.moves[0]]),
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}
 <section class="fx">
   <p class="eyebrow">PREPARE FOR SUPERINTELLIGENCE · A PERSONAL PLAN IN 3 MINUTES</p>
-  <h1 class="bp__h1">Ready for superintelligence?</h1>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Nobody knows when, or if, AI becomes smarter than people at most things. You can still get ready for a world that keeps getting more automated, whichever way it goes. Answer twelve questions and get a plan for your weakest areas first. Nothing leaves your browser.</p>
-  ${shareBtn(ctx, 'Are you ready for superintelligence? Take the 3-minute check:', '/si-ready.html')}
-  <h2>The six areas</h2>
-  <div class="fx-grid">${Object.values(SI_AREAS).map((a) => `<div class="fx-card"><h3>${esc(a.name)}</h3><p>${esc(a.moves[0])}</p></div>`).join('')}</div>
-  <h2>Your check</h2>
+  ${shareBtn(ctx, 'Are you ready for superintelligence? Take the 3-minute check:', PATH)}
+  <h2>${esc(areasQ)}</h2>
+  <div class="fx-grid">${Object.values(SI_AREAS).map((a) => `<div class="fx-card"><h3>What does the ${esc(a.name)} area cover?</h3><p>${esc(a.moves[0])}</p></div>`).join('')}</div>
+  <h2>${esc(checkQ)}</h2>
   ${quiz({ id: 'siq', questions: SI_QS, areas: SI_AREAS })}
   ${siGuide().replace(/\/doomcon\//g, ctx.href('/'))}
-  <h2>Keep going</h2>
+  <h2>${esc(keepQ)}</h2>
   <div class="fx-grid">
-    <a class="fx-card" href="${esc(ctx.href('/ai-proof-job.html'))}"><h3>AI-proof your job →</h3><p>Where AI hits your work, and how to grow with it.</p></a>
-    <a class="fx-card" href="${esc(ctx.href('/prepper-checklist.html'))}"><h3>Prepper Checklist →</h3><p>The physical side: water, food, power, documents.</p></a>
-    <a class="fx-card" href="${esc(ctx.href('/breakthroughs.html'))}"><h3>Breakthroughs →</h3><p>The good news, because there is a lot of it.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/ai-proof-job.html'))}"><h3>How do I AI-proof my job? →</h3><p>Where AI hits your work, and how to grow with it.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/prepper-checklist.html'))}"><h3>What belongs in a 72-hour prepper kit? →</h3><p>The physical side: water, food, power, documents.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/breakthroughs.html'))}"><h3>What AI breakthroughs has ${esc(brand.NAME)} tracked? →</h3><p>The good news, because there is a lot of it.</p></a>
   </div>
   <p class="fx-note">General information, not financial, legal, career or medical advice. ${esc(brand.NAME)} counts AI activity; it does not predict superintelligence.</p>
+  <section class="fx-faq" aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    ${faqHtml}
+    <p class="fx-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/ai-proof-job.html'))}">How do I AI-proof my job?</a>
+      · <a href="${esc(ctx.href('/prepper-checklist.html'))}">What belongs in a 72-hour prepper kit?</a>
+      · <a href="${esc(ctx.href('/breakthroughs.html'))}">What AI breakthroughs has ${esc(brand.NAME)} tracked?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/si-ready.html', title: `Prepare for superintelligence: a 3-minute personal plan · ${brand.NAME}`,
-    description: 'How to prepare for superintelligence and an AI-driven world: a free 3-minute check across work, money, deepfakes, security, community and civic voice, with a printable plan.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · 3-minute personal plan · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} A free 3-minute check across work, money, deepfakes, security, community and civic voice, with a printable plan. Nothing leaves your browser. ${brand.NAME} does not predict superintelligence.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: 'A free 3-minute personal check for an AI-driven world: work, money, deepfakes, security, community and civic voice. Nothing leaves the browser; not a superintelligence prediction.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
 
 // ---------------------------------------------------------------------------
 // AI-PROOF YOUR JOB
 // ---------------------------------------------------------------------------
 const JOB_AREAS = {
-  tasks: { name: 'Move toward the work AI is worst at', moves: [
+  tasks: { name: 'Move toward the work AI is worst at', q: 'How ready are you to move toward the work AI is worst at?', moves: [
     'Write down your week by task. Mark each one routine, judgment, people or hands-on.',
     'Volunteer for the judgment and people work: decisions, negotiations, client trust, mentoring.',
     'Own an outcome, not a task: "I make X happen" survives automation better than "I do step 3".'] },
-  tools: { name: 'Become the person who runs the AI', moves: [
+  tools: { name: 'Become the person who runs the AI', q: 'How ready are you to become the person who runs the AI?', moves: [
     'Pick the AI tool your field uses most and get properly good at it this month.',
     'Automate one boring task of your own and show your team how you did it.',
     'Keep a running doc of prompts and checks that work in your job; it becomes a playbook others need.'] },
-  proof: { name: 'Make your value visible', moves: [
+  proof: { name: 'Make your value visible', q: 'How ready are you to make your value visible?', moves: [
     'Track results in numbers your boss cares about: time saved, revenue, errors caught.',
     'Share what you learn about AI at work; the explainer becomes the leader.',
     'Keep your CV and portfolio current every quarter, not when you need them.'] },
-  learn: { name: 'Keep learning on purpose', moves: [
+  learn: { name: 'Keep learning on purpose', q: 'How ready are you to keep learning on purpose?', moves: [
     'Spend two hours a week on a skill one step away from your job, ideally one that pairs with AI.',
     'Take a short course with a project at the end, not just videos.',
     'Find a peer group or community in your field that is figuring out AI too.'] },
-  net: { name: 'Build a safety net', moves: [
+  net: { name: 'Build a safety net', q: 'How ready are you to build a safety net?', moves: [
     'Grow a network outside your company: a coffee a month adds up.',
     'Keep a few months of costs saved so you can choose your next move, not just take one.',
     'Know your options now: adjacent roles, retraining support, and where your skills transfer.'] },
@@ -256,22 +349,109 @@ const JOB_QS = [
 ];
 
 export function jobProof(ctx) {
+  const PATH = '/ai-proof-job.html';
+  const qTitle = 'How do I AI-proof my job?';
+  // Tip #306: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const movesQ = 'What five moves keep working as AI changes tasks?';
+  const planQ = 'How do I build my AI-proof job plan?';
+  const countedQ = 'What job effects has SIREN actually counted?';
+  // FAQ answers restate hero / five-moves / jobs-room / note copy only.
+  // Refuse: job-security guarantees, career/financial advice claims, mass-unemployment doom.
+  const faq = [
+    [qTitle,
+      'AI changes tasks before it changes jobs. The people who do best are usually the ones who learn the tools first, move toward the work AI is worst at, and make their value easy to see. Ten questions, then a plan in the order that matters for you.'],
+    [movesQ,
+      'Move toward the work AI is worst at; become the person who runs the AI; make your value visible; keep learning on purpose; build a safety net.'],
+    [planQ,
+      'Ten questions, then a plan in the order that matters for you. Nothing leaves your browser.'],
+    [countedQ,
+      'Forecasts of jobs lost to AI disagree wildly. See Is AI taking jobs? — it lists only what has been measured, with sources, and says what the counts do not show.'],
+    ['Does this plan guarantee I keep my job?',
+      'General information, not career, legal or financial advice. AI changes tasks before it changes jobs; the check builds a personal plan, not a guarantee.'],
+    ['What are the five moves on this page?',
+      'Move toward the work AI is worst at; become the person who runs the AI; make your value visible; keep learning on purpose; build a safety net.'],
+    ['Where does SIREN count measured job effects?',
+      'Forecasts of jobs lost to AI disagree wildly. See Is AI taking jobs? — it lists only what has been measured, with sources, and says what the counts do not show.'],
+    [`Does ${brand.NAME} publish an AI-proof-job doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} This page is a personal job-readiness check — not a mass-unemployment forecast.`],
+    // Tip #358: five-move card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How do I move toward the work AI is worst at?',
+      JOB_AREAS.tasks.moves[0]],
+    ['How do I become the person who runs the AI?',
+      JOB_AREAS.tools.moves[0]],
+    ['How do I make my value visible?',
+      JOB_AREAS.proof.moves[0]],
+    ['How do I keep learning on purpose?',
+      JOB_AREAS.learn.moves[0]],
+    ['How do I build a safety net?',
+      JOB_AREAS.net.moves[0]],
+    // Tip #390: quiz result-area H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...Object.values(JOB_AREAS).map((a) => [a.q, a.moves[0]]),
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}
 <section class="fx">
   <p class="eyebrow">AI-PROOF YOUR JOB · EVOLVE WITH IT</p>
-  <h1 class="bp__h1">Don't lose your job to AI. Grow with it.</h1>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">AI changes tasks before it changes jobs. The people who do best are usually the ones who learn the tools first, move toward the work AI is worst at, and make their value easy to see. Ten questions, then a plan in the order that matters for you.</p>
-  ${shareBtn(ctx, 'How exposed is your job to AI, and what to do about it. A 2-minute plan:', '/ai-proof-job.html')}
-  <h2>Five moves that keep working</h2>
-  <div class="fx-grid">${Object.values(JOB_AREAS).map((a) => `<div class="fx-card"><h3>${esc(a.name)}</h3><p>${esc(a.moves[0])}</p></div>`).join('')}</div>
-  <h2>Your plan</h2>
+  ${shareBtn(ctx, 'How exposed is your job to AI, and what to do about it. A 2-minute plan:', PATH)}
+  <h2>${esc(movesQ)}</h2>
+  <div class="fx-grid">
+    <div class="fx-card"><h3>How do I move toward the work AI is worst at?</h3><p>${esc(JOB_AREAS.tasks.moves[0])}</p></div>
+    <div class="fx-card"><h3>How do I become the person who runs the AI?</h3><p>${esc(JOB_AREAS.tools.moves[0])}</p></div>
+    <div class="fx-card"><h3>How do I make my value visible?</h3><p>${esc(JOB_AREAS.proof.moves[0])}</p></div>
+    <div class="fx-card"><h3>How do I keep learning on purpose?</h3><p>${esc(JOB_AREAS.learn.moves[0])}</p></div>
+    <div class="fx-card"><h3>How do I build a safety net?</h3><p>${esc(JOB_AREAS.net.moves[0])}</p></div>
+  </div>
+  <h2>${esc(planQ)}</h2>
   ${quiz({ id: 'jobq', questions: JOB_QS, areas: JOB_AREAS })}
-  <h2>What has actually been counted</h2>
-  <p>Forecasts of jobs lost to AI disagree wildly. The <a href="${esc(ctx.href('/jobs.html'))}">Jobs room</a> lists only what has been measured, with sources, and says what the counts do not show.</p>
+  <h2>${esc(countedQ)}</h2>
+  <p>Forecasts of jobs lost to AI disagree wildly. See <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a> — it lists only what has been measured, with sources, and says what the counts do not show.</p>
   <p class="fx-note">General information, not career, legal or financial advice.</p>
+  <section class="fx-faq" aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    ${faqHtml}
+    <p class="fx-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/si-ready.html'))}">Ready for superintelligence?</a>
+      · <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a>
+      · <a href="${esc(ctx.href('/prepper-checklist.html'))}">What belongs in a 72-hour prepper kit?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/ai-proof-job.html', title: `AI-proof your job: a 2-minute plan to grow with AI · ${brand.NAME}`,
-    description: 'Will AI take your job? A free 2-minute check of your exposure, and a personal plan: move toward judgment work, master the tools, show your value, keep learning, build a safety net.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · 2-minute plan · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} A free 2-minute check of your exposure, and a personal plan: move toward judgment work, master the tools, show your value, keep learning, build a safety net. General information, not career advice.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: 'A free 2-minute personal plan to grow with AI at work: judgment work, tools, visible value, learning, and a safety net. Not career, legal or financial advice.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -296,66 +476,215 @@ export function mergeBreakthroughs(prev, fresh, max = 300) {
 }
 
 export function breakthroughs(ctx, list) {
+  const PATH = '/breakthroughs.html';
+  const qTitle = `What AI breakthroughs has ${brand.NAME} tracked?`;
   const fields = ['All', ...new Set(list.map((b) => b.field))];
   const rows = list.map((b) => `<li data-field="${esc(b.field)}"><a href="${esc(b.url)}" rel="noopener" target="_blank">${esc(b.title)}</a>
     <div class="fx-meta"><span class="fx-pill">${esc(b.field.toUpperCase())}</span>${esc(String(b.source).toUpperCase())} · ${esc(String(b.published_at).slice(0, 10))}
     · <a href="${esc(`https://x.com/intent/post?text=${encodeURIComponent(`AI breakthrough: ${b.title}`)}&url=${encodeURIComponent(b.url)}&via=SIRENutf6`)}" target="_blank" rel="noopener">𝕏 Post</a></div></li>`).join('');
+
+  // Tip #307: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const moreQ = 'Where else can you find more of the AI upside?';
+  // FAQ answers restate hero / archive copy only (FINDABILITY §3.3).
+  // Refuse: verified cures, forecasts, doom-probability claims.
+  const faq = [
+    [qTitle,
+      'Not every AI story is about risk. These are the ones about AI helping: new drugs and diagnoses, solved math problems, better forecasts, restored senses. Picked automatically from the newsroom\'s sources and kept as an archive; a headline is the outlet\'s claim, so open the story before you share it.'],
+    [moreQ,
+      'More of the upside: the Upside index (the same machinery, pointed at the good direction) and Medicine (trials and approvals of AI in medicine, counted).'],
+    ['Is every headline here a verified breakthrough?',
+      'A headline is the outlet\'s claim, so open the story before you share it.'],
+    ['What kinds of upside stories appear on this page?',
+      'These are the ones about AI helping: new drugs and diagnoses, solved math problems, better forecasts, restored senses.'],
+    ['Where else does SIREN track the upside of AI?',
+      'More of the upside: the Upside index (the same machinery, pointed at the good direction) and Medicine (trials and approvals of AI in medicine, counted).'],
+    [`Does ${brand.NAME} publish a breakthroughs doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} This page archives upside headlines — not a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}
 <section class="fx">
   <p class="eyebrow">THE GOOD NEWS · TRACKED FROM ${esc(brand.NAME)}'S NEWSROOM</p>
-  <h1 class="bp__h1">AI breakthroughs</h1>
+  <h1 class="bp__h1">What AI breakthroughs has ${esc(brand.NAME)} tracked?</h1>
   <p class="lede">Not every AI story is about risk. These are the ones about AI helping: new drugs and diagnoses, solved math problems, better forecasts, restored senses. Picked automatically from the newsroom's sources and kept as an archive; a headline is the outlet's claim, so open the story before you share it.</p>
-  ${shareBtn(ctx, 'The good side of AI, tracked: new medicines, solved problems, restored senses.', '/breakthroughs.html')}
+  ${shareBtn(ctx, 'The good side of AI, tracked: new medicines, solved problems, restored senses.', PATH)}
   <p>${fields.map((f, i) => `<button type="button" class="fx-btn${i ? ' ghost' : ''}" data-f="${esc(f)}" style="margin:4px 6px 4px 0">${esc(f.toUpperCase())}</button>`).join('')}</p>
   ${list.length ? `<ul class="fx-list" id="bt">${rows}</ul>` : '<p>No breakthrough stories in the current window. The newsroom refreshes every 15 minutes.</p>'}
-  <h2>More of the upside</h2>
+  <h2>${esc(moreQ)}</h2>
   <div class="fx-grid">
-    <a class="fx-card" href="${esc(ctx.href('/bliss.html'))}"><h3>The Upside index →</h3><p>The same machinery, pointed at the good direction.</p></a>
-    <a class="fx-card" href="${esc(ctx.href('/medicine.html'))}"><h3>Medicine →</h3><p>Trials and approvals of AI in medicine, counted.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/bliss.html'))}"><h3>What is BLISS, the ${esc(brand.NAME)} upside index? →</h3><p>The same machinery, pointed at the good direction.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/medicine.html'))}"><h3>Is AI curing anything? →</h3><p>Trials and approvals of AI in medicine, counted.</p></a>
   </div>
+  <section class="fx-faq" aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    ${faqHtml}
+    <p class="fx-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/bliss.html'))}">What is BLISS, the ${esc(brand.NAME)} upside index?</a>.</p>
+  </section>
 </section>
 <script>
 (function(){var bs=document.querySelectorAll('[data-f]');bs.forEach(function(b){b.onclick=function(){var f=b.getAttribute('data-f');bs.forEach(function(x){x.classList.toggle('ghost',x!==b);});document.querySelectorAll('#bt li').forEach(function(li){li.hidden=f!=='All'&&li.getAttribute('data-field')!==f;});};});})();
 </script>`;
-  return page({ ctx, path: '/breakthroughs.html', title: `AI breakthroughs: the good news, tracked · ${brand.NAME}`,
-    description: 'Positive AI breakthroughs, tracked automatically: new drugs and diagnoses, solved math problems, climate and accessibility wins. Sourced from 30+ AI news feeds, updated every 15 minutes.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Positive AI breakthroughs, tracked automatically: new drugs and diagnoses, solved math problems, climate and accessibility wins. A headline is the outlet's claim. Sourced from the newsroom feeds.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: qTitle,
+        description: 'Positive AI breakthroughs tracked from the newsroom: medicine, math and science, climate and accessibility. Headlines are the outlet\'s claims.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
 
 // ---------------------------------------------------------------------------
 // LIVE ON X — searches that are always live, voices worth following, Spaces
 // ---------------------------------------------------------------------------
+// Tip #362: feed-card H3s are question-shaped and mirrored in FAQ (§3.3).
 const X_SEARCHES = [
-  ['Superintelligence, latest', 'superintelligence'],
-  ['AGI, latest', 'AGI OR "artificial general intelligence"'],
-  ['AI safety, latest', '"AI safety" OR "AI alignment"'],
-  ['New model launches', '("new model" OR launch OR release) (GPT OR Claude OR Gemini OR Grok OR Llama)'],
-  ['AI and jobs', '(AI OR "artificial intelligence") (jobs OR layoffs OR hiring)'],
-  ['Skynet talk', 'Skynet AI'],
+  ['What is the latest on superintelligence?', 'superintelligence'],
+  ['What is the latest on AGI?', 'AGI OR "artificial general intelligence"'],
+  ['What is the latest on AI safety?', '"AI safety" OR "AI alignment"'],
+  ['Which new model launches are people posting?', '("new model" OR launch OR release) (GPT OR Claude OR Gemini OR Grok OR Llama)'],
+  ['What are people saying about AI and jobs?', '(AI OR "artificial intelligence") (jobs OR layoffs OR hiring)'],
+  ['What Skynet talk is on X right now?', 'Skynet AI'],
 ];
+// Tip #375: Spaces-card H3s are question-shaped (mirrored in FAQ §3.3).
+const X_SPACES = [
+  ['What AI Spaces are live on X?', '(AI OR AGI OR superintelligence) filter:spaces', 'AI Spaces'],
+  ['What chatbot Spaces are live on X?', '(ChatGPT OR Claude OR Grok OR Gemini) filter:spaces', 'Chatbot Spaces'],
+  ['What AI safety Spaces are live on X?', '("AI safety" OR alignment) filter:spaces', 'AI safety Spaces'],
+];
+// Tip #376: voice-card H3s are question-shaped (mirrored in FAQ §3.3).
 const X_VOICES = [
   ['Labs', [['OpenAI', 'OpenAI'], ['Anthropic', 'AnthropicAI'], ['Google DeepMind', 'GoogleDeepMind'], ['xAI', 'xai'], ['AI at Meta', 'AIatMeta'], ['Mistral AI', 'MistralAI'], ['NVIDIA', 'nvidia']]],
   ['Leaders', [['Sam Altman', 'sama'], ['Dario Amodei', 'DarioAmodei'], ['Demis Hassabis', 'demishassabis'], ['Elon Musk', 'elonmusk'], ['Yann LeCun', 'ylecun'], ['Andrej Karpathy', 'karpathy'], ['Greg Brockman', 'gdb'], ['Mustafa Suleyman', 'mustafasuleyman'], ['Satya Nadella', 'satyanadella'], ['Sundar Pichai', 'sundarpichai']]],
 ];
+const voiceQ = (name) => `Who is ${name} on X?`;
 export function liveX(ctx) {
+  const PATH = '/live-x.html';
+  const qTitle = 'Where are live X feeds and Spaces on AI?';
   const search = (q, live = true) => `https://x.com/search?q=${encodeURIComponent(q)}&src=typed_query${live ? '&f=live' : ''}`;
+
+  // Tip #307: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const feedsQ = 'Which live X feeds on AI are linked here?';
+  const spacesQ = 'Which AI Spaces can you join on X?';
+  const labsQ = 'Which AI labs should you follow on X?';
+  const leadersQ = 'Which AI leaders should you follow on X?';
+  const labVoices = X_VOICES[0][1];
+  const leaderVoices = X_VOICES[1][1];
+  // FAQ answers restate lede / Spaces / note copy only (FINDABILITY §3.3).
+  // Refuse: doom-probability, SIREN-as-X-oracle, stuffing.
+  const faq = [
+    [qTitle,
+      `Every link below opens a live X feed, newest first, so it is never out of date. For a scored, de-duplicated version of the same news, Which AI stories has ${brand.NAME} scored in this window? reads 30+ sources every 15 minutes.`],
+    [feedsQ,
+      'Live X searches for superintelligence, AGI, AI safety, new model launches, AI and jobs, and Skynet talk — newest first.'],
+    [spacesQ,
+      'X Spaces are live audio conversations. These open X\'s search for Spaces about AI, chatbot Spaces, and AI safety Spaces; join any that are live now.'],
+    [labsQ,
+      'Lab accounts linked here include OpenAI, Anthropic, Google DeepMind, xAI, AI at Meta, Mistral AI, and NVIDIA.'],
+    [leadersQ,
+      'Leader accounts linked here include Sam Altman, Dario Amodei, Demis Hassabis, Elon Musk, Yann LeCun, Andrej Karpathy, and others.'],
+    ['Does this page embed X?',
+      `${brand.NAME} does not embed X on this page, so nothing loads from X until you click. Links go to X; what you see there is X's, under X's rules and privacy policy.`],
+    ['What Spaces links are on this page?',
+      'X Spaces are live audio conversations. These open X\'s search for Spaces about AI, chatbot Spaces, and AI safety Spaces; join any that are live now.'],
+    ['Where is a scored version of the same AI news?',
+      `Which AI stories has ${brand.NAME} scored in this window? reads 30+ sources every 15 minutes for a scored, de-duplicated version of the same news.`],
+    [`Does ${brand.NAME} publish a live-X doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} This page links live X feeds and Spaces — not a probability of harm.`],
+    // Tip #362: feed-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...X_SEARCHES.map(([t, q]) => [t, `Opens a live X search for: ${q}.`]),
+    // Tip #375: Spaces-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...X_SPACES.map(([q, query]) => [q, `${query}. Join any that are live now.`]),
+    // Tip #376: voice-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...labVoices.map(([n, h]) => [voiceQ(n), `@${h}`]),
+    ...leaderVoices.map(([n, h]) => [voiceQ(n), `@${h}`]),
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}
 <section class="fx">
   <p class="eyebrow">LIVE ON X · AI AS IT HAPPENS</p>
-  <h1 class="bp__h1">Live X feeds and Spaces on AI</h1>
-  <p class="lede">Every link below opens a live X feed, newest first, so it is never out of date. For a scored, de-duplicated version of the same news, the <a href="${esc(ctx.href('/news.html'))}">Newsroom</a> reads 30+ sources every 15 minutes.</p>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
+  <p class="lede">Every link below opens a live X feed, newest first, so it is never out of date. For a scored, de-duplicated version of the same news, <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> reads 30+ sources every 15 minutes.</p>
   <p><a class="fx-btn" href="https://x.com/SIRENutf6" target="_blank" rel="noopener">FOLLOW @SIRENutf6 ON X →</a></p>
-  <h2>Live feeds</h2>
+  <h2>${esc(feedsQ)}</h2>
   <div class="fx-grid">${X_SEARCHES.map(([t, q]) => `<a class="fx-card" href="${esc(search(q))}" target="_blank" rel="noopener"><h3>${esc(t)} ↗</h3><p class="fx-meta">${esc(q)}</p></a>`).join('')}</div>
-  <h2>Spaces: live audio rooms on AI</h2>
+  <h2>${esc(spacesQ)}</h2>
   <p>X Spaces are live audio conversations. These open X's search for Spaces about AI; join any that are live now.</p>
-  <p>
-    <a class="fx-x" href="${esc(search('(AI OR AGI OR superintelligence) filter:spaces', false))}" target="_blank" rel="noopener">🎙 AI Spaces ↗</a>
-    <a class="fx-x" href="${esc(search('(ChatGPT OR Claude OR Grok OR Gemini) filter:spaces', false))}" target="_blank" rel="noopener">🎙 Chatbot Spaces ↗</a>
-    <a class="fx-x" href="${esc(search('("AI safety" OR alignment) filter:spaces', false))}" target="_blank" rel="noopener">🎙 AI safety Spaces ↗</a>
-  </p>
-  ${X_VOICES.map(([g, list]) => `<h2>${esc(g)} to follow</h2><p>${list.map(([n, h]) => `<a class="fx-x" href="https://x.com/${esc(h)}" target="_blank" rel="noopener">${esc(n)} <span class="fx-meta">@${esc(h)}</span></a>`).join('')}</p>`).join('')}
+  <div class="fx-grid">${X_SPACES.map(([q, query, short]) => `<a class="fx-card" href="${esc(search(query, false))}" target="_blank" rel="noopener" aria-label="${esc(short)}"><h3>${esc(q)} ↗</h3><p class="fx-meta">${esc(query)}</p></a>`).join('')}</div>
+  <h2>${esc(labsQ)}</h2>
+  <div class="fx-grid">${labVoices.map(([n, h]) => `<a class="fx-card" href="https://x.com/${esc(h)}" target="_blank" rel="noopener" aria-label="${esc(n)}"><h3>${esc(voiceQ(n))} ↗</h3><p class="fx-meta">@${esc(h)}</p></a>`).join('')}</div>
+  <h2>${esc(leadersQ)}</h2>
+  <div class="fx-grid">${leaderVoices.map(([n, h]) => `<a class="fx-card" href="https://x.com/${esc(h)}" target="_blank" rel="noopener" aria-label="${esc(n)}"><h3>${esc(voiceQ(n))} ↗</h3><p class="fx-meta">@${esc(h)}</p></a>`).join('')}</div>
   <p class="fx-note">Links go to X; what you see there is X's, under X's rules and privacy policy. ${esc(brand.NAME)} does not embed X on this page, so nothing loads from X until you click.</p>
+  <section class="fx-faq" aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    ${faqHtml}
+    <p class="fx-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/live.html'))}">What AI is on TV and radio right now?</a>
+      · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/live-x.html', title: `Live X feeds and Spaces on AI · ${brand.NAME}`,
-    description: 'Live X (Twitter) feeds on superintelligence, AGI, AI safety and model launches, live AI Spaces, and the AI labs and leaders worth following.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Live X (Twitter) feeds on superintelligence, AGI, AI safety and model launches, live AI Spaces, and the AI labs and leaders worth following. ${brand.NAME} does not embed X on this page.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `Live X feeds and Spaces on AI, newest first. Links open X; nothing loads from X until you click. Which AI stories has ${brand.NAME} scored in this window? scores the same news from 30+ sources.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }

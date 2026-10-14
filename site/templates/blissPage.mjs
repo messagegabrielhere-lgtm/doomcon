@@ -49,6 +49,7 @@
 import { esc, num, signed, utc, utcDay } from './_html.mjs';
 import { page } from './layout.mjs';
 import { sparkline } from './_charts.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 const PATH = '/bliss.html';
@@ -231,9 +232,15 @@ function divergence(bliss, doomState) {
 // Pillars
 // ---------------------------------------------------------------------------
 
+/** Tip #378: pillar-card H3s are question-shaped (mirrored in FAQ §3.3). */
+function pillarQ(p) {
+  return `What does the BLISS ${p.name} pillar measure?`;
+}
+
 function pillarCard(p, series) {
   const state = pillarState(p);
   const glyph = PILLAR_GLYPH[p.id] || '▪';
+  const q = pillarQ(p);
 
   const body = state === 'live'
     ? `${sparkline(series, { id: `bliss-${p.id}`, label: `${p.name} score history` })}
@@ -244,7 +251,7 @@ function pillarCard(p, series) {
 
   return `<article class="bp" data-state="${state}">
     <div class="bp__top">
-      <h3 class="bp__name"><span aria-hidden="true">${glyph}</span> ${esc(p.name)}</h3>
+      <h3 class="bp__name" aria-label="${esc(p.name)}"><span aria-hidden="true">${glyph}</span> ${esc(q)}</h3>
       <span class="bp__score num">${esc(score1(p.score))}</span>
     </div>
     <p class="bp__blurb">${esc(p.blurb || '')}</p>
@@ -344,23 +351,64 @@ export function render(ctx) {
     ? ctx.blissSeriesFor
     : () => [];
 
+  const qTitle = `What is BLISS, the ${brand.NAME} upside index?`;
   const title = hasScore
-    ? `BLISS ${bliss.level} ${bliss.level_name} — the upside index · ${brand.NAME}`
-    : `The upside index — BLISS, awaiting baseline · ${brand.NAME}`;
+    ? `${qTitle} · BLISS ${bliss.level} ${bliss.level_name} · ${brand.NAME}`
+    : `${qTitle} · awaiting baseline · ${brand.NAME}`;
 
   const description = hasScore
-    ? `BLISS ${bliss.level}, ${bliss.level_name}. Upside tempo at ${num(bliss.score, 1)} of 100 ` +
+    ? `${qTitle} BLISS ${bliss.level}, ${bliss.level_name}. Upside tempo at ${num(bliss.score, 1)} of 100 ` +
       `against SIREN's ${score1(doom?.score)}, computed from the same five-pillar percentile ` +
       `machinery over ${total} sources in science, medicine, access, adoption and openness. ` +
       `Compiled ${utc(bliss.generated_at)}.`
-    : `The upside index: ${reporting} of ${total} sources reporting across science, medicine, ` +
+    : `${qTitle} ${reporting} of ${total} sources reporting across science, medicine, ` +
       `access, adoption and openness, ${awaiting} of them awaiting a frozen baseline before they ` +
       `can be scored. Every measured value is published. Compiled ${utc(bliss.generated_at)}.`;
+
+  // Tip #294 / #323: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const pairQ = `How do BLISS and ${brand.NAME} sit on one axis?`;
+  const pillarsQ = 'What are the five BLISS pillars?';
+  const sourcesQ = 'Which BLISS sources answered this run?';
+  const howQ = 'How is BLISS computed?';
+  const noScoreQ = 'Why does BLISS have no score in this build?';
+  const baselineQ = 'Why is BLISS awaiting its baseline?';
+  // FAQ answers restate hero / axis / sources / method / cold-start copy only (FINDABILITY §3.3).
+  // Refuse doom-probability / forecast claims for either index.
+  const faq = [
+    [qTitle,
+      `Every AI index measures how bad. This one measures the other direction, with the same machinery: five pillars, the same percentile normalisation against a frozen reference, the same smoothing, the same anti-flap rules. ${brand.NAME} counts takeover-adjacent tempo. BLISS counts science, medicine, access, adoption and openness. Neither is a prediction.`],
+    ['Why publish BLISS beside the main SIREN number?',
+      'The pairing is the instrument. Two numbers computed by identical code over different inputs can be subtracted. Two numbers produced by human or model judgement cannot. That is the whole argument for publishing both.'],
+    [pairQ,
+      `Both axes are the same 0–100 scale with the same band floors at 35, 55, 70 and 85. A score is a percentile position against that index's own frozen reference distribution — never a probability, and never a comparison between the two fields.`],
+    ...(hasScore
+      ? []
+      : bliss.posture === 'awaiting-baseline'
+        ? [[baselineQ,
+          `${reporting} of ${total} sources are reporting and ${awaiting} of them have no frozen reference distribution to be scored against yet. Awaiting baseline means the measurement is arriving and the ruler has not been built yet — not the same thing as dark.`]]
+        : [[noScoreQ,
+          `Every pillar is dark: ${dark} of ${total} sources failed to answer. The index is not reporting a low number — it is reporting no number.`]]),
+    [pillarsQ,
+      'BLISS pillars are science, medicine, access, adoption and openness — the same five-pillar percentile machinery as the main index, over upside inputs.'],
+    [sourcesQ,
+      `${reporting} of ${total} sources answered this run — ${scored} scored, ${awaiting} awaiting a baseline, ${dark} dark. Dark sources are excluded from every number on this page, never imputed and never counted as zero.`],
+    [howQ,
+      `Every function is imported from collector/engine.mjs — the same code that computes ${brand.NAME}, not a second implementation of it. Two implementations that could disagree would destroy the only claim that makes the pairing worth anything.`],
+    ['Is a BLISS score a probability?',
+      "A score is a percentile position against that index's own frozen reference distribution — never a probability, and never a comparison between the two fields."],
+    [`Does ${brand.NAME} publish a BLISS doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} BLISS is an upside tempo reading beside the main index — not a probability of harm and not a forecast.`],
+    // Tip #378: pillar-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...(bliss.pillars || []).map((p) => [pillarQ(p), p.blurb || '']),
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   const main = `<style>${blissCss()}</style>
 <section class="bintro">
   <p class="eyebrow">BLISS</p>
-  <h1 class="bintro__h1">The upside index</h1>
+  <h1 class="bintro__h1">What is BLISS, the ${esc(brand.NAME)} upside index?</h1>
   <p class="bintro__tag">The other ending.</p>
   <p class="lede">Every AI index measures how bad. This one measures the other direction, with the
      same machinery: five pillars, the same percentile normalisation against a frozen reference,
@@ -372,7 +420,7 @@ export function render(ctx) {
 </section>
 
 <section class="bpair" aria-labelledby="pair-h">
-  <h2 id="pair-h" class="bh2">Both numbers, one axis</h2>
+  <h2 id="pair-h" class="bh2">${esc(pairQ)}</h2>
   <div class="bpair__axes">
     ${axisRow({
       label: 'BLISS',
@@ -399,17 +447,17 @@ export function render(ctx) {
      distribution &mdash; never a probability, and never a comparison between the two fields.</p>
 </section>
 
-${hasScore ? '' : awaitingPanel(bliss, reporting, total, awaiting, dark)}
+${hasScore ? '' : awaitingPanel(bliss, reporting, total, awaiting, dark, { noScoreQ, baselineQ })}
 
 <section class="bpillars" aria-labelledby="pillars-h">
-  <h2 id="pillars-h" class="bh2">The five pillars</h2>
+  <h2 id="pillars-h" class="bh2">${esc(pillarsQ)}</h2>
   <div class="bp__grid">
     ${bliss.pillars.map((p) => pillarCard(p, seriesFor(p.id))).join('\n')}
   </div>
 </section>
 
 <section class="bsources" aria-labelledby="sources-h">
-  <h2 id="sources-h" class="bh2">Every source, and what it read</h2>
+  <h2 id="sources-h" class="bh2">${esc(sourcesQ)}</h2>
   <p class="bnote">${esc(reporting)} of ${esc(total)} sources answered this run &mdash;
      ${esc(scored)} scored, ${esc(awaiting)} awaiting a baseline, ${esc(dark)} dark.
      Dark sources are excluded from every number on this page, never imputed and never counted
@@ -418,7 +466,14 @@ ${hasScore ? '' : awaitingPanel(bliss, reporting, total, awaiting, dark)}
   ${sourceTable(bliss)}
 </section>
 
-${howComputed(ctx, bliss)}
+${howComputed(ctx, bliss, howQ)}
+
+<section class="bfaq" aria-labelledby="faq">
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="bfaq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/watts.html'))}">What does the ${esc(brand.NAME)} infrastructure index read?</a>.</p>
+</section>
 `;
 
   return page({
@@ -427,13 +482,28 @@ ${howComputed(ctx, bliss)}
     title,
     ogTitle: hasScore
       ? `BLISS ${bliss.level} ${bliss.level_name} · ${brand.NAME}`
-      : `The upside index — BLISS · ${brand.NAME}`,
+      : `${qTitle} · ${brand.NAME}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('bliss') : null,
     ogImageAlt: hasScore
       ? `BLISS ${bliss.level} ${bliss.level_name}, ${num(bliss.score, 1)} of 100`
       : `BLISS, the upside index, awaiting baseline`,
-    jsonld: [dataset(ctx, bliss)],
+    jsonld: [
+      dataset(ctx, bliss, qTitle),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
@@ -446,10 +516,12 @@ ${howComputed(ctx, bliss)}
  * the count of sources that ARE reporting, and what has to happen next — and it
  * never uses the word dark about a source that answered.
  */
-function awaitingPanel(bliss, reporting, total, awaiting, dark) {
+function awaitingPanel(bliss, reporting, total, awaiting, dark, qs = {}) {
+  const noScoreQ = qs.noScoreQ || 'Why does BLISS have no score in this build?';
+  const baselineQ = qs.baselineQ || 'Why is BLISS awaiting its baseline?';
   if (bliss.posture !== 'awaiting-baseline') {
     return `<section class="bwait" data-kind="dark">
-      <h2 class="bh2">BLISS has no score in this build</h2>
+      <h2 class="bh2">${esc(noScoreQ)}</h2>
       <p class="bnote">Every pillar is dark: ${esc(String(dark))} of ${esc(String(total))} sources
          failed to answer. The index is not reporting a low number &mdash; it is reporting no number.
          Per-source errors are in the table below.</p>
@@ -457,7 +529,7 @@ function awaitingPanel(bliss, reporting, total, awaiting, dark) {
   }
 
   return `<section class="bwait" data-kind="baseline">
-    <h2 class="bh2">BLISS is awaiting its baseline</h2>
+    <h2 class="bh2">${esc(baselineQ)}</h2>
     <p class="bnote"><b>${esc(String(reporting))} of ${esc(String(total))} sources are reporting</b>
        and ${esc(String(awaiting))} of them have no frozen reference distribution to be scored
        against yet${dark ? `, while ${esc(String(dark))} did not answer this run` : ''}.
@@ -480,16 +552,17 @@ function awaitingPanel(bliss, reporting, total, awaiting, dark) {
  * page that Google has cached is worse than no page.
  */
 function emptyPage(ctx) {
+  const qTitle = `What is BLISS, the ${brand.NAME} upside index?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `The upside index — BLISS · ${brand.NAME}`,
+    title: `${qTitle} · ${brand.NAME}`,
     description: `${brand.NAME}'s upside index has not published a run yet.`,
     main: `<style>${blissCss()}</style>
 <section class="bintro">
   <p class="eyebrow">BLISS</p>
-  <h1 class="bintro__h1">The upside index</h1>
+  <h1 class="bintro__h1">What is BLISS, the ${esc(brand.NAME)} upside index?</h1>
   <p class="bintro__tag">The other ending.</p>
   <p class="lede">No BLISS run has been published in this build. This is not an empty result
      &mdash; it is the absence of a result, and the two are different states. When
@@ -503,12 +576,12 @@ function emptyPage(ctx) {
  * The formula, in the open. Same standard docs/SUB-INDICES.md sets for every
  * sub-index: publish the arithmetic or do not publish the number.
  */
-function howComputed(ctx, bliss) {
+function howComputed(ctx, bliss, howQ = 'How is BLISS computed?') {
   const k = bliss.constants || {};
   const w = k.composite_weights || { mean: 0.7, max: 0.3 };
 
   return `<section class="bhow" aria-labelledby="how-h">
-  <h2 id="how-h" class="bh2">How this is computed</h2>
+  <h2 id="how-h" class="bh2">${esc(howQ)}</h2>
   <ol class="bhow__list">
     <li><b>Normalise.</b> Each source value becomes an empirical percentile against a
         <b>frozen</b> reference distribution, then a pseudo-z through the inverse normal CDF,
@@ -538,18 +611,18 @@ function howComputed(ctx, bliss) {
        : 'not yet built'} ·
      compiled <time datetime="${esc(bliss.generated_at)}">${esc(utc(bliss.generated_at))}</time>.</p>
   <p class="bhow__links">
-    <a href="${esc(ctx.href('/methodology.html'))}">Full methodology</a>
-    <a href="${esc(ctx.href('/'))}">${esc(brand.NAME)} index</a>
+    <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
+    <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>
   </p>
 </section>`;
 }
 
 /** Schema.org Dataset. Modest and accurate: it describes what is actually here. */
-function dataset(ctx, bliss) {
+function dataset(ctx, bliss, title) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `BLISS — ${brand.NAME}'s upside index`,
+    name: title || `What is BLISS, the ${brand.NAME} upside index?`,
     description:
       'Five-pillar upside index for AI: science, medicine, access, adoption and openness, ' +
       'normalised as percentiles against a frozen reference distribution and published beside ' +
@@ -559,6 +632,7 @@ function dataset(ctx, bliss) {
     isAccessibleForFree: true,
     creator: { '@type': 'Organization', name: brand.NAME },
     dateModified: bliss.generated_at,
+    speakable: speakable(['h1.bintro__h1', 'p.lede']),
     variableMeasured: (bliss.pillars || []).map((p) => ({
       '@type': 'PropertyValue',
       name: `BLISS ${p.name}`,
@@ -685,6 +759,12 @@ function blissCss() {
 .bhow__list li { margin-bottom: 7px; }
 .bhow__list b { color: var(--ink); }
 .bhow__links { display: flex; flex-wrap: wrap; gap: 14px; font-size: var(--t-sm); margin: 12px 0 0; }
+
+.bfaq { margin: var(--sec) 0 var(--s-5); max-width: 62ch; }
+.bfaq h2 { font: 600 var(--t-lg)/1.2 var(--sans); margin: 0 0 var(--s-3); }
+.bfaq h3 { font: 600 var(--t-base)/1.3 var(--sans); margin: var(--s-4) 0 var(--s-2); }
+.bfaq p { font: 400 var(--t-base)/1.55 var(--sans); color: var(--ink-dim); margin: 0 0 var(--s-2); }
+.bfaq-key { margin-top: var(--s-4) !important; }
 
 @media (min-width: 720px) {
   .bp__grid { grid-template-columns: repeat(2, 1fr); }
