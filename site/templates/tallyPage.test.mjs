@@ -15,6 +15,9 @@ describe('tally page SEO', () => {
     assert.match(html, /<title>Who is Tally, the SIREN duty canary\?/);
     assert.match(html, /<h1 class="bp__h1">Who is Tally, the SIREN duty canary\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="moods"[^>]*>What do the five moods mean\?/);
+    assert.match(html, /id="work"[^>]*>Where does Tally work on the site\?/);
+    assert.match(html, /id="use"[^>]*>Can I use Tally in my own posts\?/);
     assert.match(html, /What do the five moods mean\?/);
     assert.match(html, /Where does Tally work on the site\?/);
     assert.match(html, /Can I use Tally in my own posts\?/);
@@ -27,6 +30,9 @@ describe('tally page SEO', () => {
     assert.match(html, /What unserious counts does SIREN keep on Tally.s desk\?/);
     assert.match(html, /Does the SIREN index make forecasts\?/);
     assert.match(html, /never how bad/);
+    assert.doesNotMatch(html, /<h2>One bird, five moods<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Where Tally works<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Tally for your stuff<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /doom oracle|probability of doom/i);
     assert.doesNotMatch(html, /mood means severity|how bad AI is/i);
