@@ -1113,7 +1113,7 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
     · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a>.</p>
   <h2>Where to go next</h2>
-  <p><a href="${esc(ctx.href('/'))}">The current reading →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> ·
+  <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> ·
     <a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers?</a> ·
     <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> ·
     <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a> ·
@@ -1204,7 +1204,7 @@ Because nobody needs the scale explained twice. "Five is calm, one is not" is al
 
 ## Where to go next
 
-- [The current reading](${ctx.url('/')})
+- [AI activity index today · ${brand.NAME}](${ctx.url('/')})
 - [How the ${brand.NAME} AI activity index is computed · methodology](${ctx.url('/methodology.html')}) · [methodology.md](${ctx.url('/methodology.md')})
 - [Which AI doom indexes can you compare?](${ctx.url('/compare.html')}) · [Which AI indexes does ${brand.NAME} contrast?](${ctx.url('/vs.html')}) · [What are AI doom index alternatives?](${ctx.url('/alternatives.html')})
 - [${brand.NAME} vs PizzINT: which should you use?](${ctx.url('/vs/pizzint.html')})

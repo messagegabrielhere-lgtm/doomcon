@@ -277,7 +277,7 @@ export function renderIndex(ctx) {
 <article class="od prose">
   <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI publishers have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a></p>
   <h1>Which AI publishers have ${esc(brand.NAME)} pages?</h1>
-  <p class="od__lede">A publisher earns a page when at least ${OUTLET_INDEX_MIN} scored stories whose original URL is on that host appear in the live window or the durable archive. Thinner domains stay on the story page only. Feed adapters live under <a href="${esc(ctx.href('/source/'))}">/source/</a>.</p>
+  <p class="od__lede">A publisher earns a page when at least ${OUTLET_INDEX_MIN} scored stories whose original URL is on that host appear in the live window or the durable archive. Thinner domains stay on the story page only. Feed adapters live under <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a>.</p>
   ${outlets.length
     ? `<ol class="od__list">${rows}</ol>`
     : '<p>No publisher has cleared the gate in this build.</p>'}
@@ -356,7 +356,7 @@ export function renderOutlets(ctx) {
 <article class="od prose">
   <p class="od__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/outlet/'))}">Which AI publishers have ${esc(brand.NAME)} pages?</a> · Which AI outlets has ${esc(brand.NAME)} scored stories from?</p>
   <h1>Which AI outlets has ${esc(brand.NAME)} scored stories from?</h1>
-  <p class="od__lede">${esc(brand.NAME)} does not publish a publisher “doom score.” It publishes an activity index and scored stories. This page lists original-URL hosts that already clear the same substance gate as <a href="${esc(ctx.href('/outlet/'))}">Which AI publishers have ${esc(brand.NAME)} pages?</a> — at least ${OUTLET_INDEX_MIN} matching stories in the live window or archive. Feed adapters stay under <a href="${esc(ctx.href('/source/'))}">/source/</a>.</p>
+  <p class="od__lede">${esc(brand.NAME)} does not publish a publisher “doom score.” It publishes an activity index and scored stories. This page lists original-URL hosts that already clear the same substance gate as <a href="${esc(ctx.href('/outlet/'))}">Which AI publishers have ${esc(brand.NAME)} pages?</a> — at least ${OUTLET_INDEX_MIN} matching stories in the live window or archive. Feed adapters stay under <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a>.</p>
   <div class="od__stat" role="group" aria-label="Outlets hub totals">
     <div><b class="num">${esc(String(outlets.length))}</b><span>Publisher hubs</span></div>
   </div>

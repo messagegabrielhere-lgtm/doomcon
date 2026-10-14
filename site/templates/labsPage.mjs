@@ -46,12 +46,12 @@ export const LABS = {
   ],
   // Earlier ideas that are already live on the site.
   shipped: [
-    ['/si-watch.html#coding', 'What AI agents are coding'],
-    ['/self-aware.html', 'The night it wakes up'],
-    ['/charts.html', 'This week in charts'],
-    ['/status.html', 'Is AI down? (live status)'],
-    ['/power.html', 'The power race'],
-    ['/p-doom.html#voices', 'The p(doom) voices'],
+    ['/si-watch.html#coding', 'What AI autonomy signals is SIREN watching?'],
+    ['/self-aware.html', 'What if an AI wakes up at 2:14 a.m.?'],
+    ['/charts.html', 'What AI charts does SIREN publish?'],
+    ['/status.html', 'Is ChatGPT down? Is Claude down?'],
+    ['/power.html', 'Who makes the most electricity (China vs US)?'],
+    ['/p-doom.html#voices', 'What is p(doom)?'],
   ],
 };
 

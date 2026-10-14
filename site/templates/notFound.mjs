@@ -53,7 +53,7 @@ export function render(ctx) {
     <li><span>Probability it comes back by itself</span><b>not a prediction site</b></li>
     <li><span>Receipt</span><b>this one: 404</b></li>
   </ul>
-  <p><a class="nf__go" href="${esc(ctx.href('/'))}">Back to the index →</a></p>
+  <p><a class="nf__go" href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a></p>
 </section>`;
   return page({
     ctx,

@@ -35,6 +35,8 @@ test('guide.html ships question H1, visible FAQ matching FAQPage, and speakable 
   assert.match(html, /\/methodology\.html/);
   assert.match(html, /\/p-doom\.html/);
   assert.match(html, /What is the history of AI risk\?/);
+  assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+  assert.doesNotMatch(html, /href="\/">The current reading →<\/a>/);
   assert.doesNotMatch(html, /<h1 class="bp__h1">SIREN, DEFCON, the Doomsday Clock and p\(doom\)<\/h1>/);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
   assert.doesNotMatch(html, /probability of doom is \d/i);
@@ -50,6 +52,8 @@ test('guide.md mirrors the HTML guide claims', () => {
   assert.match(md, /methodology\.md/);
   assert.match(md, /\/vs\/pizzint\.html/);
   assert.match(md, /PizzINT/);
+  assert.match(md, /AI activity index today · SIREN/);
+  assert.doesNotMatch(md, /\[The current reading\]/);
   assert.ok(md.includes(brand.NAME));
 });
 

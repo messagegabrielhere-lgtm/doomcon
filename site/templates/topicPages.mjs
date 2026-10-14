@@ -92,7 +92,7 @@ function entry(ctx, e, glosses, t) {
     <h3 class="tp__k">What gets claimed</h3><p>${esc(e.what_is_claimed)}</p>
     <h3 class="tp__k">The caveat</h3><p>${esc(e.caveat)}</p>
     <p class="tp__f">Sources ${srcs} · <a class="tp__x" rel="noopener" target="_blank" href="https://x.com/intent/post?text=${encodeURIComponent(line.slice(0, 230))}&amp;url=${encodeURIComponent(ctx.url(`${t.path}#${e.id}`))}">Post this on X</a> ·
-      <a href="${esc(ctx.href(`/balance.html#reg-${e.id}`))}">In the register →</a></p>
+      <a href="${esc(ctx.href(`/balance.html#reg-${e.id}`))}">How does ${esc(brand.NAME)} count AI harm and benefit side by side? →</a></p>
   </article>`;
 }
 
