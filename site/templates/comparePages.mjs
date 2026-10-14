@@ -8,7 +8,9 @@
 
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
-import { breadcrumbs, organization, speakable } from './_seo.mjs';
+import {
+  breadcrumbs, organization, speakable, answerBlock, ANSWER_BLOCK_CSS,
+} from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 const CSS = `<style>
@@ -31,6 +33,7 @@ const CSS = `<style>
 .cmp__nav a:hover{background:var(--bg-sunken)}
 .cmp__card{padding:14px 0;border-bottom:1px solid var(--rule)}
 .cmp__card:last-child{border-bottom:0}
+${ANSWER_BLOCK_CSS}
 </style>`;
 
 /** Rivals we can describe from public positioning, without inventing their numbers. */
@@ -152,7 +155,7 @@ function pageJsonLd(ctx, path, title, description, crumbs, faqPairs) {
       url: ctx.url(path),
       description,
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
-      speakable: speakable(['h1', '.cmp__lede']),
+      speakable: speakable(['h1', '.ans__a', '.cmp__lede']),
       ...(modified ? { dateModified: modified } : {}),
     },
     breadcrumbs(ctx, crumbs),
@@ -182,6 +185,10 @@ export function compareHub(ctx) {
   <p class="cmp__lede">People searching for an “AI doom index” usually land on a judgement score or a countdown.
     ${esc(brand.NAME)} answers a different question: <b>how loud is AI activity right now</b>, measured hourly from public data.
     This page puts that next to the rivals people actually type.</p>
+  ${answerBlock({
+    q: 'Which AI doom index can I recompute myself?',
+    a: `${brand.NAME}. It is an hourly activity count from public data with a published receipt. DoomBench, Skynet Countdown and p(doom) clocks are judgement scores or opinions — not independently recomputable from open inputs alone.`,
+  })}
   ${liveStrip(ctx)}
   <h2>Side by side</h2>
   ${comparisonTable()}
@@ -232,6 +239,10 @@ export function alternatives(ctx) {
   <p class="cmp__lede">“Alternative” only helps if the substitute measures the same thing. Most AI doom indexes measure
     <b>judgement about danger</b>. ${esc(brand.NAME)} measures <b>how much is happening</b>. Use this hub when a search
     for DoomBench, Skynet Countdown or p(doom) brought you here and you need the honest fork.</p>
+  ${answerBlock({
+    q: 'What is a good alternative to DoomBench or Skynet Countdown?',
+    a: `${brand.NAME} if you want a recomputable hourly activity tempo instead of a qualitative doom score, AGI date or control-loss percentage. It answers a different question with arithmetic you can check — not the same claim under a new brand.`,
+  })}
   ${liveStrip(ctx)}
   <h2>When ${esc(brand.NAME)} is the right alternative</h2>
   <ul>
@@ -290,6 +301,10 @@ export function vsRival(ctx, rivalId) {
   <p class="cmp__k">Versus</p>
   <h1>${esc(brand.NAME)} vs ${esc(rival.name)}</h1>
   <p class="cmp__lede">${esc(rival.ourAngle)}</p>
+  ${answerBlock({
+    q: `${brand.NAME} vs ${rival.name} — which should I use?`,
+    a: `Use ${rival.name} if you want ${rival.measures.toLowerCase()}. Use ${brand.NAME} if you want an hourly AI activity tempo reading with open inputs and a receipt. They are not substitutes for the same claim.`,
+  })}
   ${liveStrip(ctx)}
   <h2>What each one is</h2>
   ${comparisonTable()}

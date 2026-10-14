@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import {
   organization, breadcrumbs, speakable, webPage, faqPage, evergreenJsonLd,
+  answerBlock, ANSWER_BLOCK_CSS,
 } from './_seo.mjs';
 import { locsFromSitemap, defaultUrlList, INDEXNOW_KEY } from '../../collector/indexnow.mjs';
 
@@ -105,5 +106,25 @@ describe('IndexNow', () => {
     assert.equal(blocks[0].dateModified, '2026-10-14T01:00:00.000Z');
     assert.equal(blocks[1]['@type'], 'BreadcrumbList');
     assert.equal(blocks[2]['@type'], 'FAQPage');
+    assert.ok(blocks[0].speakable.cssSelector.includes('.ans__a'));
+  });
+
+  it('answerBlock emits a short extractable fragment with escaped text', () => {
+    const html = answerBlock({
+      q: 'What is SIREN?',
+      a: 'An hourly AI activity index <not html>.',
+    });
+    assert.match(html, /class="ans"/);
+    assert.match(html, /class="ans__q"/);
+    assert.match(html, /class="ans__a"/);
+    assert.match(html, /What is SIREN\?/);
+    assert.match(html, /&lt;not html&gt;/);
+    assert.ok(!html.includes('<not html>'));
+    assert.match(ANSWER_BLOCK_CSS, /\.ans__/);
+  });
+
+  it('answerBlock returns empty when there is no answer text', () => {
+    assert.equal(answerBlock({ a: '' }), '');
+    assert.equal(answerBlock({ a: '   ' }), '');
   });
 });

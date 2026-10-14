@@ -33,12 +33,14 @@ describe('compare / alternatives conquest pages', () => {
     }
   });
 
-  it('puts head-term titles and FAQ schema on the hubs', () => {
+  it('puts head-term titles, FAQ schema and answer blocks on the hubs', () => {
     const hub = compareHub(ctx);
     assert.match(hub, /AI doom indexes compared/);
     assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
     assert.match(hub, /"dateModified"\s*:\s*"2026-10-10T14:00:00Z"/);
     assert.match(hub, /article:modified_time/);
+    assert.match(hub, /class="ans__a"/);
+    assert.match(hub, /Which AI doom index can I recompute myself/);
     assert.match(hub, /DoomBench/);
     assert.match(hub, /Skynet Countdown/);
     assert.match(hub, /SIREN 4/);
@@ -50,6 +52,7 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(alt, /AI doom index alternatives/);
     assert.match(alt, /DoomBench alternative/i);
     assert.match(alt, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(alt, /class="ans__a"/);
     assert.match(alt, /Artificial Analysis/);
     assert.match(alt, /artificialanalysis\.ai/);
   });

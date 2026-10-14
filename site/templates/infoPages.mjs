@@ -5,7 +5,7 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
-import { evergreenJsonLd } from './_seo.mjs';
+import { evergreenJsonLd, answerBlock, ANSWER_BLOCK_CSS } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { MONETIZE, on as mzOn } from '../monetize.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
@@ -22,6 +22,7 @@ const CSS = `<style>
 .inf th, .inf td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--rule); color: var(--ink-dim); }
 .inf th { font: 700 var(--t-xs)/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); }
 .inf__scroll { overflow-x: auto; position: relative; }
+${ANSWER_BLOCK_CSS}
 </style>`;
 
 const level = (ctx) => (ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null);
@@ -552,6 +553,10 @@ export function pdoom(ctx) {
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What is p(doom)?</h1></div>
   <p class="lede"><b>p(doom) is shorthand for “probability of doom”: one person’s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity.</b>
     It is an opinion expressed as a number. There is no agreed method for producing it and no way to check one.</p>
+  ${answerBlock({
+    q: 'What is p(doom)?',
+    a: 'p(doom) is one person’s stated probability that advanced AI ends in catastrophe. It is an opinion as a percentage — not a measurement, and not something you can recompute. SIREN does not publish a p(doom); it counts hourly AI activity with a receipt.',
+  })}
   ${nowLine(ctx)}
   ${voicesSection(ctx, ctx.state && ctx.state.level)}
   <h2>Where does the term p(doom) come from?</h2>
@@ -577,7 +582,7 @@ export function pdoom(ctx) {
     jsonld: evergreenJsonLd(ctx, {
       path, name: title, description,
       crumbs: [{ name: 'p(doom)', path }],
-      speakable: ['h1.bp__h1', '.lede'],
+      speakable: ['h1.bp__h1', '.ans__a', '.lede'],
       faq,
     }),
     main,
@@ -604,6 +609,10 @@ export function aiClock(ctx) {
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">The AI Doomsday Clock: is there one?</h1></div>
   <p class="lede"><b>The Doomsday Clock is not an AI clock, though it now takes AI into account. Several AI-specific “clocks” exist, and all of them are set by judgement.
     ${esc(brand.NAME)} is the nearest thing that is counted instead: an hourly reading of AI activity that anyone can verify.</b></p>
+  ${answerBlock({
+    q: 'Is there an AI Doomsday Clock?',
+    a: `No official AI clock. The Bulletin’s Doomsday Clock includes AI among other risks and is set by judgement, usually yearly. AI-specific “clocks” are also judgement. ${brand.NAME} is an hourly, recomputable count of AI activity tempo — not a countdown to midnight.`,
+  })}
   ${nowLine(ctx)}
   <p><a href="${esc(ctx.href('/p-doom.html#voices'))}"><b>Set your own AI doomsday clock →</b></a> Drag a dial, see where you sit among 28 named experts from LeCun (0.01%) to Yudkowsky (95%+), and post it.</p>
   <style>${TCLK_CSS}</style>
@@ -632,7 +641,7 @@ export function aiClock(ctx) {
     jsonld: evergreenJsonLd(ctx, {
       path, name: title, description,
       crumbs: [{ name: 'AI doomsday clock', path }],
-      speakable: ['h1.bp__h1', '.lede'],
+      speakable: ['h1.bp__h1', '.ans__a', '.lede'],
       faq,
     }),
     main,
@@ -796,6 +805,10 @@ export function guide(ctx) {
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">SIREN, DEFCON, the Doomsday Clock and p(doom)</h1></div>
   <p class="lede">Five numbers people reach for when they want to know how worried to be. They measure different things, and
     only one of them is a count you can check. ${now}</p>
+  ${answerBlock({
+    q: 'What does each doom number measure?',
+    a: `${brand.NAME} counts how loud AI activity is this hour (recomputable). DEFCON is US military readiness. The Doomsday Clock is a yearly judgement. p(doom) is one person’s probability opinion. Only ${brand.NAME} ships a receipt you can re-check.`,
+  })}
   ${nowLine(ctx)}
   <h2>What does each number measure?</h2>
   <div class="inf__scroll"><table>
@@ -837,7 +850,7 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
     jsonld: evergreenJsonLd(ctx, {
       path, name: title, description,
       crumbs: [{ name: 'Guide', path }],
-      speakable: ['h1.bp__h1', '.lede'],
+      speakable: ['h1.bp__h1', '.ans__a', '.lede'],
       faq,
     }),
     main,
@@ -866,6 +879,10 @@ export function guideMd(ctx) {
 > HTML: ${ctx.url('/guide.html')}
 
 Five numbers people reach for when they want to know how worried to be. They measure different things, and only one of them is a count you can check. ${now}
+
+## In short
+
+**What does each doom number measure?** ${brand.NAME} counts how loud AI activity is this hour (recomputable). DEFCON is US military readiness. The Doomsday Clock is a yearly judgement. p(doom) is one person’s probability opinion. Only ${brand.NAME} ships a receipt you can re-check.
 
 ## What does each number measure?
 

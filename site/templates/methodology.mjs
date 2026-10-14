@@ -6,15 +6,21 @@
 import { esc } from './_html.mjs';
 import { renderMarkdown, stripMarkup } from './_markdown.mjs';
 import { page } from './layout.mjs';
+import { answerBlock, ANSWER_BLOCK_CSS, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 export function render(ctx) {
   const { html, sections } = renderMarkdown(ctx.methodologyMd);
 
-  const main = `<article class="prose">${html}</article>`;
-
   const description = firstParagraph(html) ||
     `How ${brand.NAME} turns public data into a 0-100 score and a level, in full.`;
+  const ans = answerBlock({
+    q: `How is the ${brand.NAME} index computed?`,
+    a: `Every hour a collector reads public sources across five pillars, scores each against a frozen reference, and combines them into a 0–100 composite and a level from 5 (quietest) to 1 (loudest). Every formula and constant is on this page; every reading ships a receipt you can recompute.`,
+  });
+  const main = `<style>${ANSWER_BLOCK_CSS}</style>
+${ans}
+<article class="prose">${html}</article>`;
 
   return page({
     ctx,
@@ -63,6 +69,7 @@ function buildJsonLd(ctx, sections) {
     dateModified: ctx.state.generated_at,
     license: 'https://creativecommons.org/licenses/by/4.0/',
     author: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
+    speakable: speakable(['.ans__a', 'h1', 'article.prose > p']),
   }];
 
   const faqs = sections
@@ -73,8 +80,18 @@ function buildJsonLd(ctx, sections) {
       acceptedAnswer: { '@type': 'Answer', text: stripMarkup(s.body, 900) },
     }));
 
-  if (faqs.length) {
-    blocks.push({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs });
+  // Lead FAQ mirrors the visible answer block above the article.
+  const lead = {
+    '@type': 'Question',
+    name: `How is the ${brand.NAME} index computed?`,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: `Every hour a collector reads public sources across five pillars, scores each against a frozen reference, and combines them into a 0–100 composite and a level from 5 (quietest) to 1 (loudest). Every formula and constant is on this page; every reading ships a receipt you can recompute.`,
+    },
+  };
+  const mainEntity = [lead, ...faqs.filter((f) => f.name !== lead.name)];
+  if (mainEntity.length) {
+    blocks.push({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity });
   }
   return blocks;
 }

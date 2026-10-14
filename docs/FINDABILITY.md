@@ -239,6 +239,27 @@ Engineering priority after this study: structure + freshness + CWV on pages that
 already answer head terms. Authority and Reddit/Quora are operator work;
 `llms.txt` expansion is maintenance, not a citation strategy.
 
+### 2.7 Perplexity / AI-search discovery (2026-10-14)
+
+Reddit’s lawsuit filings and follow-on reporting
+([thread](https://x.com/alexgroberman/status/2110360320418226605)) describe AI
+answer engines that **discover pages via Google (and Bing) SERPs**, then chunk
+retrieved HTML into short vector fragments for citation. Practical implication
+for this site — without buying backlinks or “AI SEO” packages:
+
+| Signal the engines appear to use | Our honest move |
+|---|---|
+| Rank / presence in Google top results | Keep foundational SEO (§1): titles, sitemap, substance gates, IndexNow, GSC |
+| Authority domains + real referring links | Earn cites; **refuse bought DR50+ packages** (§2.5, `MONETIZE.md`) |
+| Clean structure, question H2s | Already shipping (§2.6 / checklist #17) |
+| Short answer / TLDR blocks (reusable fragments) | **Ship** visible `.ans` blocks on evergreen explainers, compare hubs, methodology, and item pages (`answerBlock` in `_seo.mjs`) |
+| Recency / time decay | Hourly rebuild + `dateModified` / `article:modified_time` from `state.generated_at` |
+| Semantic clarity over long essay form | Answer first, tables and receipts second — house voice already |
+
+Do **not** treat special AI files as a Google lever (§2.5). Do keep Google
+crawl hygiene strong, because discovery for Perplexity-class systems still
+starts from a filtered, ranked web.
+
 ---
 
 ## 3. Ranked checklist
@@ -273,6 +294,7 @@ already answer head terms. Authority and Reddit/Quora are operator work;
 | 15 | People pages + news day hubs (DoomBench/Skynet URL shape) | Google | Open PR #86 |
 | 16 | `/agents.txt` + `/agents.json` + `/.well-known/api-catalog` + skills index + MCP server card | Agent discovery | **Done** (this pass) |
 | 17 | Question-shaped H2s + `dateModified` / `article:modified_time` + FAQ/WebPage/Speakable on evergreen explainers (`/guide`, `/p-doom`, `/ai-doomsday-clock`, compare hubs) | ChatGPT + Google | **Done** (2026-10-14) — SE Ranking study §2.6 |
+| 18 | Short extractable answer blocks (`.ans`) on guide / p-doom / clock / compare / methodology / item pages + Speakable `.ans__a` | Perplexity + ChatGPT + Google | **Done** (2026-10-14) — discovery study §2.7 |
 
 ### 3.3 Refusals (search edition)
 
