@@ -31,6 +31,17 @@ describe('alerts page', () => {
     assert.match(html, /Does SIREN ask for my email\?/);
     assert.match(html, /Can I get notified without a feed reader\?/);
     assert.match(html, /Do alerts move the SIREN score\?/);
+    assert.match(html, /<h3>How do I email alerts with Blogtrottr\?<\/h3>/);
+    assert.match(html, /<h3>How do I email alerts with FeedRabbit\?<\/h3>/);
+    assert.match(html, /<h3>How do I pipe a feed through IFTTT\?<\/h3>/);
+    assert.match(html, /<h3>How do I pipe a feed through Zapier\?<\/h3>/);
+    assert.match(html, /<h3>How do I pipe a feed through Make\?<\/h3>/);
+    assert.match(html, /<h3>How do I subscribe in Slack directly\?<\/h3>/);
+    assert.match(html, /FAQPage[\s\S]*How do I email alerts with Blogtrottr\?/);
+    assert.match(html, /FAQPage[\s\S]*How do I subscribe in Slack directly\?/);
+    assert.doesNotMatch(html, /<h3>Blogtrottr \(free\)<\/h3>/);
+    assert.doesNotMatch(html, /<h3>IFTTT<\/h3>/);
+    assert.doesNotMatch(html, /<h3>Slack directly<\/h3>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);

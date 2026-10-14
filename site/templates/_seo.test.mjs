@@ -404,6 +404,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What is in the news about AI catastrophe, safety, and p(doom)'));
     assert.ok(org.knowsAbout.includes('How do you run the agent kit'));
     assert.ok(org.knowsAbout.includes('How do themes change by day'));
+    assert.ok(org.knowsAbout.includes('How do I email alerts with Blogtrottr'));
+    assert.ok(org.knowsAbout.includes('What badge works when iframes are stripped'));
+    assert.ok(org.knowsAbout.includes('What are the agents shipping right now'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));

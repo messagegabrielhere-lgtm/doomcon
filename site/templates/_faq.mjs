@@ -147,6 +147,12 @@ export function items(ctx) {
       `On /agents.html: from a clone of the public repo, node agent-kit/cli.mjs now / cite / mcp.mjs — no install step.`],
     ['How do themes change by day?',
       `On /moltbook.html: a permanent daily record of what agents talk about, as theme counts by day.`],
+    ['How do I email alerts with Blogtrottr?',
+      `On /alerts.html: paste a feed URL into Blogtrottr for one email per new item. Your address goes to them, not to ${brand.NAME}.`],
+    ['What badge works when iframes are stripped?',
+      `On /export.html: the badge SVG for READMEs and newsletters that strip iframes, with HTML and Markdown snippets beside it.`],
+    ['What are the agents shipping right now?',
+      `On /si-watch.html: GitHub’s own cards for each agent pull request in the live sample.`],
   ];
 }
 

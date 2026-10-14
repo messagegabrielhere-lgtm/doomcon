@@ -30,6 +30,17 @@ describe('export page', () => {
     assert.match(html, /What files can I download\?/);
     assert.match(html, /Do I need an API key\?/);
     assert.match(html, /Does exporting move the SIREN score\?/);
+    assert.match(html, /What badge works when iframes are stripped\?/);
+    assert.match(html, /How do I use it live in Google Sheets\?/);
+    assert.match(html, /How do I embed the widget iframe\?/);
+    assert.match(html, /How do I add the badge in HTML\?/);
+    assert.match(html, /How do I fetch it from JavaScript\?/);
+    assert.match(html, /What attribution line should I use\?/);
+    assert.match(html, /FAQPage[\s\S]*What badge works when iframes are stripped\?/);
+    assert.doesNotMatch(html, />Badge, for READMEs and newsletters that strip iframes</);
+    assert.doesNotMatch(html, />Live in Google Sheets</);
+    assert.doesNotMatch(html, />Widget \(iframe\)</);
+    assert.doesNotMatch(html, />JavaScript</);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);
