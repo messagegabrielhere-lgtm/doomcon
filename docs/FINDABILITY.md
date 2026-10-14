@@ -936,6 +936,34 @@ context.
 | 684 | Outlet hub `/outlet/ad-hoc-news-de` (ad-hoc-news.de, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 685 | Outlet hub `/outlet/chosun-com` (chosun.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 686 | Outlet hub `/outlet/newsbytesapp-com` (newsbytesapp.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 687 | Topic tag `/tags/coding` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 688 | Topic tag `/tags/regulation` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 689 | Topic tag `/tags/foundation-models` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 690 | Topic tag `/tags/labor` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 691 | Topic tag `/tags/vision-language` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 692 | Topic tag `/tags/security` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 693 | Topic tag `/tags/diffusion` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 694 | Topic tag `/tags/ai-chips` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 695 | Topic tag `/tags/military` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 696 | Topic tag `/tags/ipo` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 697 | Topic tag `/tags/cloud` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 698 | Topic tag `/tags/embeddings` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 699 | Topic tag `/tags/video-generation` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 700 | Topic tag `/tags/huggingface` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 701 | Topic tag `/tags/on-policy-distillation` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 702 | Topic tag `/tags/coding-agents` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 703 | Outlet hub `/outlet/cnbc-com` (cnbc.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 704 | Outlet hub `/outlet/pasqualepillitteri-it` (pasqualepillitteri.it, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 705 | Outlet hub `/outlet/theglobeandmail-com` (theglobeandmail.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 706 | Outlet hub `/outlet/latent-space` (latent.space, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 707 | Outlet hub `/outlet/news-mit-edu` (news.mit.edu, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 708 | Outlet hub `/outlet/simonwillison-net` (simonwillison.net, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 709 | Outlet hub `/outlet/tradingview-com` (tradingview.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 710 | Outlet hub `/outlet/bbc-co-uk` (bbc.co.uk, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 711 | Outlet hub `/outlet/benzinga-com` (benzinga.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 712 | Outlet hub `/outlet/infoq-com` (infoq.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 713 | Outlet hub `/outlet/nature-com` (nature.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 714 | Outlet hub `/outlet/technologyreview-com` (technologyreview.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
