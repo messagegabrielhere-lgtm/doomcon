@@ -778,6 +778,10 @@ context.
 | 526 | Topic tag `verifier` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 527 | Topic tag `softmax` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 528 | Topic tag `throughput` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 529 | Topic tag `latency` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 530 | Topic tag `logits` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 531 | Topic tag `adversarial` (live/archive ≥5); IndexNow + seo-daily; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 532 | Topic tag `robustness` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims; refuse `inference-time` synonym doorway of existing `inference` | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

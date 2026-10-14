@@ -214,6 +214,10 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/tags/verifier.html'));
     assert.ok(has('https://siren.watch/tags/softmax.html'));
     assert.ok(has('https://siren.watch/tags/throughput.html'));
+    assert.ok(has('https://siren.watch/tags/latency.html'));
+    assert.ok(has('https://siren.watch/tags/logits.html'));
+    assert.ok(has('https://siren.watch/tags/adversarial.html'));
+    assert.ok(has('https://siren.watch/tags/robustness.html'));
     assert.ok(has('https://siren.watch/model/mixtral.html'));
     assert.ok(has('https://siren.watch/tags/tsmc.html'));
     assert.ok(has('https://siren.watch/world.html'));
