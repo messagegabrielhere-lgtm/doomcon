@@ -853,6 +853,26 @@ context.
 | 601 | Model hub `/model/deepseek-r` (DeepSeek-R, ≥3); IndexNow + seo-daily; refuse model-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 602 | Model hub `/model/llama` (Llama, ≥3); IndexNow + seo-daily; refuse model-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 603 | Model hub `/model/gemma` (Gemma, ≥3); IndexNow + seo-daily; refuse model-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 604 | People hub `/people/nadella` (Satya Nadella, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 605 | People hub `/people/altman` (Sam Altman, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 606 | People hub `/people/musk` (Elon Musk, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 607 | People hub `/people/amodei` (Dario Amodei, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 608 | People hub `/people/huang` (Jensen Huang, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 609 | People hub `/people/zuckerberg` (Mark Zuckerberg, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 610 | People hub `/people/brockman` (Greg Brockman, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 611 | People hub `/people/lecun` (Yann LeCun, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 612 | People hub `/people/karpathy` (Andrej Karpathy, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 613 | People hub `/people/bengio` (Yoshua Bengio, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 614 | People hub `/people/pichai` (Sundar Pichai, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 615 | People hub `/people/hassabis` (Demis Hassabis, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 616 | People hub `/people/sutskever` (Ilya Sutskever, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 617 | People hub `/people/suleyman` (Mustafa Suleyman, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 618 | People hub `/people/liang` (Liang Wenfeng, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 619 | People hub `/people/hinton` (Geoffrey Hinton, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 620 | People hub `/people/karp` (Alex Karp, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 621 | People hub `/people/murati` (Mira Murati, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 622 | People hub `/people/mensch` (Arthur Mensch, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 623 | People hub `/people/kavukcuoglu` (Koray Kavukcuoglu, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
