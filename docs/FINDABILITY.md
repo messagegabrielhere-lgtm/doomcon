@@ -262,6 +262,7 @@ context.
 | 29 | `/guides.html` + `/guides.md` evergreen explainer hub + `/vs.html` conquest directory (linked; were unwritten) | Google + agents | **Done** (2026-10-14) |
 | 30 | Question-shaped titles/H2s + WebPage/Speakable/Breadcrumb/FAQ on `/p-doom.html` + `/ai-doomsday-clock.html` (visible FAQ matches schema) | Google | **Done** (2026-10-14) |
 | 31 | Question-shaped `/guide.html` + `/guide.md` + IndexNow ALWAYS evergreen rooms (history/instruments/map/…) for post-deploy crawl | Google + Bing | **Done** (2026-10-14) |
+| 32 | Question-shaped `/compare.html` `/alternatives.html` `/vs/*` hubs + methodology title/H2s (METHODOLOGY.md FAQ from visible questions) | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

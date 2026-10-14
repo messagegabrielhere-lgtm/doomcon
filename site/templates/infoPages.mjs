@@ -907,7 +907,7 @@ export function guide(ctx) {
     [`Does a loud ${brand.NAME} reading mean AI is more dangerous?`,
       'No. A loud reading means a lot shipped, was spent, was written or was regulated. It does not say whether any of it was good or bad, and it is not a forecast.'],
     [nextQ,
-      `Open the live index, methodology, AI explainers hub, compare and vs pages, the PizzINT contrast, alternatives, history of AI risk, or Tally’s desk.`],
+      `Open the live index, methodology, AI explainers hub, compare and vs pages, the PizzINT and Takeoff Tracker contrasts, alternatives, history of AI risk, or Tally’s desk.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -959,6 +959,7 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
     <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> ·
     <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a> ·
     <a href="${esc(ctx.href('/vs/pizzint.html'))}">${esc(brand.NAME)} vs PizzINT: which should you use?</a> ·
+    <a href="${esc(ctx.href('/vs/takeofftracker.html'))}">${esc(brand.NAME)} vs Takeoff Tracker: which should you use?</a> ·
     <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives?</a> ·
     <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk?</a> · <a href="${esc(ctx.href('/desk.html'))}">What unserious counts does ${esc(brand.NAME)} keep on Tally’s desk?</a></p>
 </section>`;
@@ -1049,6 +1050,7 @@ Because nobody needs the scale explained twice. "Five is calm, one is not" is al
 - [How the ${brand.NAME} AI activity index is computed · methodology](${ctx.url('/methodology.html')}) · [methodology.md](${ctx.url('/methodology.md')})
 - [Which AI doom indexes can you compare?](${ctx.url('/compare.html')}) · [Which AI indexes does ${brand.NAME} contrast?](${ctx.url('/vs.html')}) · [What are AI doom index alternatives?](${ctx.url('/alternatives.html')})
 - [${brand.NAME} vs PizzINT: which should you use?](${ctx.url('/vs/pizzint.html')})
+- [${brand.NAME} vs Takeoff Tracker: which should you use?](${ctx.url('/vs/takeofftracker.html')})
 - [What is the history of AI risk?](${ctx.url('/history.html')})
 - [What are the AI explainers?](${ctx.url('/guides.html')})
 `;

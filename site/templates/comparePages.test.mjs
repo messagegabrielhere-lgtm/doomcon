@@ -23,7 +23,7 @@ const ctx = {
 };
 
 describe('compare / alternatives conquest pages', () => {
-  it('ships one hub, one alternatives page, vs directory, and one vs page per rival', () => {
+  it('ships compare, alternatives, vs hub, and one vs page per rival', () => {
     const pages = renderAll(ctx);
     assert.equal(pages.length, 3 + RIVALS.length);
     assert.ok(pages.every((p) => p.html && /<!doctype html>/i.test(p.html)));
@@ -35,50 +35,106 @@ describe('compare / alternatives conquest pages', () => {
     }
   });
 
-  it('puts head-term titles and FAQ schema on the hubs', () => {
+  it('puts matching question H1 and FAQ schema on the compare hub', () => {
     const hub = compareHub(ctx);
-    assert.match(hub, /AI doom indexes compared/);
+    assert.match(hub, /<title>Which AI doom indexes can you compare\?/);
+    assert.match(hub, /<h1>Which AI doom indexes can you compare\?<\/h1>/);
+    assert.match(hub, /cmp__k">Which AI doom indexes can you compare\?<\/p>/);
+    assert.doesNotMatch(hub, /cmp__k">Compare<\/p>/);
+    assert.match(hub, /SIREN vs DoomBench: which should you use\?/);
+    assert.match(hub, /cmp__nav"[^>]*>[\s\S]*?Which AI doom indexes can you compare\?/);
+    assert.doesNotMatch(hub, /cmp__nav"[^>]*>[\s\S]*?>Full comparison</);
+    assert.doesNotMatch(hub, /compare honestly\?/);
+    assert.match(hub, /Takeoff Tracker/);
     assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(hub, /What questions do people actually ask\?/);
+    assert.match(hub, /What is the difference between SIREN and DoomBench/);
+    assert.match(hub, /Does a louder SIREN reading mean AI is more dangerous/);
     assert.match(hub, /DoomBench/);
     assert.match(hub, /Skynet Countdown/);
+    assert.match(hub, /PizzINT/);
     assert.match(hub, /SIREN 4/);
     assert.match(hub, /55\.5/);
-    assert.match(hub, /Complementary \(not a doom index\)/);
+    assert.match(hub, /id="cmp-side-h">How do they compare side by side\?<\/h2>/);
+    assert.match(hub, /id="cmp-pick-h">Which rival should you pick\?<\/h2>/);
+    assert.match(hub, /id="cmp-comp-h">Which complementary index is not a doom index\?<\/h2>/);
+    assert.match(hub, /id="cmp-also-h">What else is on this site\?<\/h2>/);
+    assert.match(hub, /FAQPage[\s\S]*How do they compare side by side\?/);
+    assert.doesNotMatch(hub, /id="cmp-side-h">Side by side<\/h2>/);
+    assert.doesNotMatch(hub, /id="cmp-comp-h">Complementary \(not a doom index\)<\/h2>/);
     assert.match(hub, /artificialanalysis\.ai/);
+    assert.match(hub, /\/vs\.html/);
+    assert.match(hub, /Which AI indexes does SIREN contrast/);
+    assert.match(hub, /\/methodology\.html/);
+    assert.match(hub, /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.doesNotMatch(hub, /href="\/">Live dial →<\/a>/);
+    assert.doesNotMatch(hub, /noindex/);
 
     const alt = alternatives(ctx);
-    assert.match(alt, /AI doom index alternatives/);
+    assert.match(alt, /<title>What are AI doom index alternatives\?/);
+    assert.match(alt, /<h1>What are AI doom index alternatives\?<\/h1>/);
+    assert.match(alt, /cmp__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.doesNotMatch(alt, /cmp__k">Alternatives<\/p>/);
+    assert.match(alt, /SIREN vs DoomBench: which should you use\?/);
+    assert.doesNotMatch(alt, /and what is each one\?/);
     assert.match(alt, /DoomBench alternative/i);
+    assert.match(alt, /PizzINT/);
     assert.match(alt, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(alt, /What questions do people actually ask\?/);
+    assert.match(alt, /What is a good alternative to DoomBench/);
+    assert.match(alt, /id="alt-right-h">When is SIREN the right alternative\?<\/h2>/);
+    assert.match(alt, /id="alt-wrong-h">When is SIREN the wrong alternative\?<\/h2>/);
+    assert.match(alt, /id="alt-one-h">Where is one page per rival\?<\/h2>/);
+    assert.match(alt, /id="alt-all-h">Where can you compare everything\?<\/h2>/);
+    assert.doesNotMatch(alt, /id="alt-right-h">When SIREN is the right alternative<\/h2>/);
     assert.match(alt, /Artificial Analysis/);
     assert.match(alt, /artificialanalysis\.ai/);
+    assert.match(alt, /Which AI doom indexes can you compare/);
+    assert.match(alt, /\/compare\.html/);
+    assert.doesNotMatch(alt, /noindex/);
   });
+
 
   it('keeps vs pages honest: no borrowed doom probability claim for SIREN', () => {
     const page = vsRival(ctx, 'doombench');
-    assert.match(page, /SIREN vs DoomBench/);
+    assert.match(page, /<title>SIREN vs DoomBench: which should you use\?/);
+    assert.match(page, /<h1>SIREN vs DoomBench: which should you use\?<\/h1>/);
+    assert.match(page, /"name"\s*:\s*"SIREN vs DoomBench: which should you use\?"/);
+    assert.match(page, /cmp__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.match(page, /href="\/vs\.html">Which AI indexes does SIREN contrast\?<\/a>/);
+    assert.doesNotMatch(page, /cmp__k">Versus<\/p>/);
+    assert.doesNotMatch(page, /"name"\s*:\s*"Compare"/);
+    assert.doesNotMatch(page, /SIREN vs DoomBench — which should/);
+    assert.match(page, /What questions do people actually ask\?/);
     assert.match(page, /does not score takeover risk/i);
     assert.match(page, /recompute/i);
+    assert.match(page, /id="vs-each-h">What is each one\?<\/h2>/);
+    assert.match(page, /id="vs-next-h">Where should you go next\?<\/h2>/);
+    assert.match(page, /<h3>What is DoomBench\?<\/h3>/);
+    assert.match(page, /<h3>What is SIREN\?<\/h3>/);
+    assert.match(page, /FAQPage[\s\S]*What is DoomBench\?/);
+    assert.match(page, /FAQPage[\s\S]*What is SIREN\?/);
+    assert.doesNotMatch(page, /<h3>DoomBench<\/h3>/);
+    assert.doesNotMatch(page, /<h3>SIREN<\/h3>/);
+    assert.doesNotMatch(page, /id="vs-each-h">What each one is<\/h2>/);
+    assert.doesNotMatch(page, /id="vs-next-h">Where to go next<\/h2>/);
+    assert.match(page, /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.doesNotMatch(page, /href="\/">Current SIREN reading →<\/a>/);
     assert.doesNotMatch(page, /SIREN.*p\(doom\) of \d/i);
-  });
-
-  it('ships PizzINT and Takeoff Tracker conquest pages without borrowing their claims', () => {
-    assert.ok(RIVALS.some((r) => r.id === 'pizzint'));
-    assert.ok(RIVALS.some((r) => r.id === 'takeofftracker'));
     const pizza = vsRival(ctx, 'pizzint');
-    assert.match(pizza, /SIREN vs PizzINT/);
-    assert.match(pizza, /does not publish a DEFCON level/i);
-    assert.match(pizza, /Pentagon Pizza Index with DEFCON/);
-    assert.doesNotMatch(pizza, /current DEFCON level is/i);
+    assert.match(pizza, /<title>SIREN vs PizzINT: which should you use\?/);
+    assert.match(pizza, /<h1>SIREN vs PizzINT: which should you use\?<\/h1>/);
+    assert.match(pizza, /What questions do people actually ask\?/);
+    assert.match(pizza, /does not publish a DEFCON/i);
+    assert.match(pizza, /Doomsday Clock/i);
+    assert.doesNotMatch(pizza, /SIREN.*DEFCON \d/i);
     const takeoff = vsRival(ctx, 'takeofftracker');
-    assert.match(takeoff, /SIREN vs Takeoff Tracker/);
+    assert.match(takeoff, /<title>SIREN vs Takeoff Tracker: which should you use\?/);
+    assert.match(takeoff, /<h1>SIREN vs Takeoff Tracker: which should you use\?<\/h1>/);
+    assert.match(takeoff, /What questions do people actually ask\?/);
     assert.match(takeoff, /does not publish an AGI timeline/i);
-    assert.match(takeoff, /AGI metrics dashboard/);
-    const alt = alternatives(ctx);
-    assert.match(alt, /PizzINT/);
-    assert.match(alt, /Takeoff Tracker/);
-    assert.match(alt, /Pentagon Pizza Index alternative/i);
-    assert.match(alt, /\/vs\/pizzint\.html/);
+    assert.match(takeoff, /takeoff dashboard/i);
+    assert.doesNotMatch(takeoff, /SIREN.*p\(doom\) of \d/i);
   });
 
   it('sitemaps every conquest URL', () => {
@@ -88,8 +144,6 @@ describe('compare / alternatives conquest pages', () => {
     assert.ok(entries.some((e) => e.loc === '/compare.html'));
     assert.ok(entries.some((e) => e.loc === '/vs.html'));
     assert.ok(entries.some((e) => e.loc === '/vs/doombench.html'));
-    assert.ok(entries.some((e) => e.loc === '/vs/pizzint.html'));
-    assert.ok(entries.some((e) => e.loc === '/vs/takeofftracker.html'));
   });
 
   it('ships /vs.html as a head-term directory with ItemList schema', () => {
@@ -106,11 +160,34 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(html, /Takeoff Tracker/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /What questions do people actually ask\?/);
-    assert.match(html, /\/guides\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('returns empty for an unknown rival id', () => {
     assert.equal(vsRival(ctx, 'not-a-rival'), '');
+  });
+
+  it('compare Also-on-this-site embed link uses the export question, not noindex embed', () => {
+    const hub = compareHub(ctx);
+    assert.match(hub, /href="\/export\.html#embed">How do I export and embed SIREN data\? →<\/a>/);
+    assert.doesNotMatch(hub, /href="\/embed\.html">Embed the live reading →<\/a>/);
+    assert.doesNotMatch(hub, /doom score:\s*\d/i);
+    assert.doesNotMatch(hub, /probability of doom/i);
+  });
+
+  it('vs related sibling links use page H1 questions, not bare path stems', () => {
+    const pdoom = vsRival(ctx, 'pdoom');
+    assert.match(pdoom, /href="\/p-doom\.html">What is p\(doom\)\? →<\/a>/);
+    assert.match(pdoom, /href="\/ai-doomsday-clock\.html">Is there an AI doomsday clock\? →<\/a>/);
+    assert.doesNotMatch(pdoom, /href="\/p-doom\.html">p-doom →<\/a>/);
+    assert.doesNotMatch(pdoom, /href="\/ai-doomsday-clock\.html">ai-doomsday-clock →<\/a>/);
+    const pizza = vsRival(ctx, 'pizzint');
+    assert.match(pizza, /href="\/guide\.html">How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\? →<\/a>/);
+    assert.doesNotMatch(pizza, /href="\/guide\.html">guide →<\/a>/);
+    const takeoff = vsRival(ctx, 'takeofftracker');
+    assert.match(takeoff, /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology →<\/a>/);
+    assert.doesNotMatch(takeoff, /href="\/methodology\.html">methodology →<\/a>/);
+    assert.doesNotMatch(pdoom, /doom score:\s*\d/i);
+    assert.doesNotMatch(pdoom, /probability of doom is \d/i);
   });
 });
