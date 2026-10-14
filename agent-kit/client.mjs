@@ -51,6 +51,7 @@ export function createClient(opts = {}) {
     news: () => get('/api/news.json'),
     leaders: () => get('/api/leaders.json'),
     siSignals: () => get('/api/si-signals.json'),
+    searchTrends: () => get('/api/search-trends.json'),
     fresh: () => get('/api/fresh.json'),
     health: () => get('/api/health.json'),
     index: () => get('/api/index.json'),
