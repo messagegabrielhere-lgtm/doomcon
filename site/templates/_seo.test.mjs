@@ -110,7 +110,11 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/lab/netflix.html'));
     assert.ok(has('https://siren.watch/lab/moonshot-ai.html'));
     assert.ok(has('https://siren.watch/lab/coreweave.html'));
+    assert.ok(has('https://siren.watch/lab/cognition.html'));
+    assert.ok(has('https://siren.watch/lab/groq.html'));
     assert.ok(has('https://siren.watch/model/kimi.html'));
+    assert.ok(has('https://siren.watch/model/glm.html'));
+    assert.ok(has('https://siren.watch/model/grok.html'));
     assert.ok(has('https://siren.watch/tags/agent-skills.html'));
     assert.ok(has('https://siren.watch/tags/neoclouds.html'));
     assert.ok(has('https://siren.watch/tags/ai-slop.html'));

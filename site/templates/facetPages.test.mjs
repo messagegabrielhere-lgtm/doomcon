@@ -1178,6 +1178,49 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/netflix.html'));
   });
 
+  it('indexes Cognition and Groq entity labs when archive headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'cg1', title: 'Cognition Supports ChatGPT Personal Subscription Payment for Devin', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cg1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'cg2', title: 'Alex Stamos is joining Cognition as its new chief security officer', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cg2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'cg3', title: 'Hone, founded by former OpenAI and Cognition staffers, raises for AI agents', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/cg3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'gq1', title: 'Former Groq engineers file a lawsuit in Delaware against Groq', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/gq1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'gq2', title: 'Groq inference stack cuts latency for open-weight models', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/gq2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'gq3', title: 'Cloud buyers evaluate Groq against GPU incumbents', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/gq3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+      ],
+    };
+    const cognition = labsFromEntities(withArch).find((p) => p.id === 'cognition');
+    const groq = labsFromEntities(withArch).find((p) => p.id === 'groq');
+    assert.ok(cognition, 'Cognition clears ENTITY_LAB_MIN');
+    assert.ok(groq, 'Groq clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, cognition), /What has SIREN scored about Cognition\?/);
+    assert.match(renderLab(withArch, groq), /What has SIREN scored about Groq\?/);
+    assert.doesNotMatch(renderLab(withArch, cognition), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderLab(withArch, groq), /probability of doom/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/cognition.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/groq.html'));
+  });
+
   it('indexes Moonshot AI and CoreWeave entity labs when archive headlines clear the gate', () => {
     const withArch = {
       ...ctx,

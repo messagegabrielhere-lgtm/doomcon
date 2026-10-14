@@ -31,11 +31,12 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Salesforce', 'World Labs', 'Firmus', 'SpaceX', 'HCLTech', 'Suno', 'Manus', 'Nano Banana',
   'Jev', 'TypeSafe', 'a16z', 'Instinct', 'OpenAI Dots', "McDonald's", 'Walmart', 'Netflix',
   'Moonshot AI', 'Moonshot', 'CoreWeave', 'Kimi', 'Kimi K2',
+  'Cognition', 'Devin', 'Groq', 'Grok', 'Grok 4.7',
   'EmbeddingGemma', 'SynthID', 'Clef', 'Clef-omni', 'Clef-flash',
   'Mistral Large 4', 'Le Chonk', 'Mixtral',
   'GPT-6 Astra', 'GPT-6.1 Astra', 'GPT-6 Luna', 'GPT-6 Sol',
   'Gemini 4 Argon', 'Gemini 4 Carbon', 'Gemini 4',
-  'GLM-5.3', 'GLM5.3', 'GLM-5',
+  'GLM-5.3', 'GLM5.3', 'GLM-5', 'GLM',
   'Claude Opus 5.5', 'Opus 5.5',
 ]);
 
