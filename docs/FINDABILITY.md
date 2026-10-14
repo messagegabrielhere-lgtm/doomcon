@@ -810,6 +810,10 @@ context.
 | 558 | Lab hub `/lab/physical-intelligence` (Physical Intelligence entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 559 | Lab hub `/lab/zhipu` (Zhipu / Z.ai forms, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 560 | Lab hub `/lab/cloudflare` (Cloudflare entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 561 | Lab hub `/lab/deepseek` (DeepSeek entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 562 | Lab hub `/lab/mistral` (Mistral entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 563 | Lab hub `/lab/amd` (AMD entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 564 | Lab hub `/lab/broadcom` (Broadcom entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
