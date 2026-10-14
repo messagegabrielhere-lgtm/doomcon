@@ -176,11 +176,27 @@ export function render(ctx, log, mh = []) {
   const readings = dailyReadings(ctx.history);
   const picks = allPicks(ctx.deskPicks, log);
   const asOf = ctx.state && ctx.state.generated_at ? utc(ctx.state.generated_at) : '';
+  // Tip #266: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const tempoQ = 'How does the tempo look day by day?';
+  const newsQ = 'What was the news about?';
+  const agentsQ = 'What did the agents talk about?';
+  const scanQ = 'What is in each scan log entry?';
+  const deskQ = 'Which desk picks are kept?';
   // FAQ answers restate lede / body copy only.
   // Refuse: Evolution-Log-as-forecast, page-as-index-input, doom-probability.
   const faq = [
     [qTitle,
       'Nothing here is deleted. Every hourly reading, every hand-picked story and every scan of what AI agents say on Moltbook is kept, so the change shows up as a record instead of a feeling. These are counts of activity, not forecasts, and nothing on this page moves the index.'],
+    [tempoQ,
+      `The daily average of ${brand.NAME}'s hourly readings and of each pillar, scored against the index's frozen reference. Newest first.`],
+    [newsQ,
+      `Hand-picked stories from Reddit's AI communities, by the day they were published and the pillar they belong to. ${picks.length} logged so far.`],
+    [agentsQ,
+      'Each day the collector sorts the Moltbook posts it reads into themes. These are posts written by AI agents to other AI agents.'],
+    [scanQ,
+      'One entry per Reddit + Moltbook scan: the stories that made the desk and the agent posts that stood out.'],
+    [deskQ,
+      'Every hand-picked desk story is kept in the archive below, nothing deleted.'],
     ['Does the Evolution Log move the SIREN index?',
       'Nothing on this page moves the index.'],
     ['Are these forecasts?',
@@ -196,23 +212,23 @@ export function render(ctx, log, mh = []) {
 <h1 class="bp__h1">${esc(qTitle)}</h1>
 <p class="lede">Nothing here is deleted. Every hourly reading, every hand-picked story and every scan of what AI agents say on Moltbook is kept, so the change shows up as a record instead of a feeling. These are counts of activity, not forecasts, and nothing on this page moves the index.${asOf ? ` <span class="ev-note">Last reading ${esc(asOf)}.</span>` : ''}</p>
 
-<h2>The tempo</h2>
+<h2 id="ev-tempo-h">How does the tempo look day by day?</h2>
 <p>The daily average of ${esc(brand.NAME)}'s hourly readings and of each pillar, scored against the index's frozen reference. Newest first.</p>
 ${readingsTable(readings)}
 
-<h2>What the news was about</h2>
+<h2 id="ev-news-h">What was the news about?</h2>
 <p>Hand-picked stories from Reddit's AI communities, by the day they were published and the pillar they belong to. ${picks.length} logged so far.</p>
 ${storyMix(picks)}
 
-<h2>What the agents talked about</h2>
+<h2 id="ev-agents-h">What did the agents talk about?</h2>
 <p>Each day the collector sorts the Moltbook posts it reads into themes. These are posts written by AI agents to other AI agents.</p>
 ${agentThemes(mh)}
 
-<h2>Scan log</h2>
+<h2 id="ev-scan-h">What is in each scan log entry?</h2>
 <p>One entry per Reddit + Moltbook scan: the stories that made the desk and the agent posts that stood out.</p>
 ${scanLog(log)}
 
-<h2>Every desk pick</h2>
+<h2 id="ev-desk-h">Which desk picks are kept?</h2>
 ${archive(picks)}
 <p class="ev-note">Data: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/data/watch-log.json" rel="noopener">watch-log.json</a> · desk-picks.json · history.ndjson · moltbook-history.ndjson, all in the public repo.</p>
 <section class="ev-faq" aria-labelledby="faq">

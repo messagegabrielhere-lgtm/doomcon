@@ -237,6 +237,11 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What is the track record so far'));
     assert.ok(org.knowsAbout.includes('What are the rules for these bets'));
     assert.ok(org.knowsAbout.includes('What can a base rate not see'));
+    assert.ok(org.knowsAbout.includes('How does the tempo look day by day'));
+    assert.ok(org.knowsAbout.includes('What was the news about'));
+    assert.ok(org.knowsAbout.includes('What did the agents talk about'));
+    assert.ok(org.knowsAbout.includes('What is in each scan log entry'));
+    assert.ok(org.knowsAbout.includes('Which desk picks are kept'));
     assert.ok(org.knowsAbout.includes('Waffle House Index'));
     assert.ok(org.knowsAbout.includes('is the Waffle House open'));
     assert.ok(org.knowsAbout.includes('AI threat board'));
