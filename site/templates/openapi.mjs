@@ -132,6 +132,19 @@ export function render(ctx) {
           },
         },
       },
+      '/api/search-trends.json': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Google daily trending searches filtered for AI (watched for findability; not scored into the index)',
+          operationId: 'getSearchTrends',
+          responses: {
+            200: {
+              description: 'AI-related trending titles, geos, and head-term watchlist hits',
+              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
       '/api/now.txt': {
         get: {
           tags: ['index'],

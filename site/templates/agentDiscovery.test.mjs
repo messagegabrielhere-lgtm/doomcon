@@ -47,6 +47,7 @@ test('api-catalog is an RFC 9727 linkset pointing at the live surfaces', () => {
   const items = cat.linkset[0].item.map((i) => i.href);
   for (const p of [
     '/openapi.json', '/api/state.json', '/api/now.txt', '/api/news.json', '/news-sitemap.xml', '/news.html',
+    '/api/search-trends.json', '/search-trends.html', '/ai-prediction-markets.html',
     '/agents.md', '/agents.txt',
     '/skill.md', '/llms.txt', '/.well-known/mcp/server-card.json', '/.well-known/agent-skills/index.json',
   ]) {
@@ -77,6 +78,9 @@ test('MCP server card documents stdio transport and the tool names', () => {
   assert.equal(card.related.news_sitemap, 'https://siren.watch/news-sitemap.xml');
   assert.equal(card.related.newsroom, 'https://siren.watch/news.html');
   assert.equal(card.related.news, 'https://siren.watch/api/news.json');
+  assert.equal(card.related.search_trends, 'https://siren.watch/api/search-trends.json');
+  assert.equal(card.related.search_trends_html, 'https://siren.watch/search-trends.html');
+  assert.equal(card.related.ai_prediction_markets, 'https://siren.watch/ai-prediction-markets.html');
 });
 
 test('ai.txt points agents at the discovery stack', () => {
@@ -85,10 +89,13 @@ test('ai.txt points agents at the discovery stack', () => {
   for (const p of [
     '/agents.md', '/agents.txt', '/skill.md', '/llms.txt', '/api/now.txt', '/.well-known/api-catalog',
     '/now.md', '/api/news.json', '/news-sitemap.xml', '/news.html',
+    '/api/search-trends.json', '/search-trends.html', '/ai-prediction-markets.html',
   ]) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.match(txt, /Google News rolling sitemap/);
   assert.match(txt, /Which AI stories has SIREN scored in this window\?/);
+  assert.match(txt, /Which Google Search Trends for AI does SIREN watch\?/);
+  assert.match(txt, /Where are live AI prediction market odds\?/);
   assert.match(txt, /not a probability of harm/);
 });
