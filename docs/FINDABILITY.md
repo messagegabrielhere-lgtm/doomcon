@@ -814,6 +814,10 @@ context.
 | 562 | Lab hub `/lab/mistral` (Mistral entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 563 | Lab hub `/lab/amd` (AMD entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 564 | Lab hub `/lab/broadcom` (Broadcom entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 565 | Lab hub `/lab/oracle` (Oracle entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 566 | Lab hub `/lab/tencent` (Tencent entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 567 | Lab hub `/lab/qwen` (Alibaba Qwen entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 568 | Lab hub `/lab/qualcomm` (Qualcomm entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

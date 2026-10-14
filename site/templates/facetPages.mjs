@@ -496,6 +496,7 @@ function labNeedles(player) {
     'hugging-face': ['hugging face', 'huggingface'],
     bytedance: ['bytedance', 'seed-oss'],
     oracle: ['oracle'],
+    tencent: ['tencent'],
     palantir: ['palantir'],
     adobe: ['adobe'],
     broadcom: ['broadcom', 'vmware'],
