@@ -66,5 +66,16 @@ describe('layout SECTIONS question labels', () => {
     assert.ok(pages, 'expected footer Pages list');
     assert.match(pages[0], /Which AI stories has SIREN scored in this window\?/);
   });
+
+  it('Data foot note points at instruments with the page H1 question (tip #256)', () => {
+    const html = shell('/news.html');
+    assert.match(
+      html,
+      /foot__note[\s\S]*href="\/instruments\.html#api">What instruments sit behind the SIREN reading\?<\/a>/,
+    );
+    assert.doesNotMatch(html, /href="\/instruments\.html#api">Public JSON API<\/a>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
 
