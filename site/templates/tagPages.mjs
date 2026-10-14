@@ -1396,6 +1396,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI-era product and research stories scored in the newsroom or archive — coverage counts, not a market forecast.',
     match: /\bAI [Ee]ra\b/,
   },
+  {
+    id: 'south-korea',
+    name: 'South Korea AI',
+    description: 'South Korea AI policy and industry stories scored in the newsroom or archive — coverage counts, not a national ranking.',
+    match: /\bSouth Korea\b/i,
+  },
+  {
+    id: 'singapore',
+    name: 'Singapore AI',
+    description: 'Singapore AI policy and industry stories scored in the newsroom or archive — coverage counts, not a national ranking.',
+    match: /\bSingapore\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
