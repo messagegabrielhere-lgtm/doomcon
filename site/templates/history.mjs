@@ -893,7 +893,7 @@ ${pillarLegend()}
 <article class="prose">
   <p>The full arithmetic — the percentile normalisation, the NowCast smoothing and the six
     anti-flap layers that stop the level oscillating — is in the
-    <a href="${esc(ctx.href('/methodology.html'))}">methodology</a>, and every observation is
+    <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>, and every observation is
     written to a <a href="${esc(ctx.href('/moves/'))}">hash-chained receipt</a> carrying the inputs
     it was computed from.</p>
   <p>Three source states exist, and they stay distinct, because collapsing them is how an index

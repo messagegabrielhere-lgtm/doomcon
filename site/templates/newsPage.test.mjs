@@ -84,6 +84,8 @@ describe('newsroom page', () => {
     assert.match(html, /speakable/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /Does SIREN publish a newsroom doom score\?/);
+    assert.match(html, /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology/);
+    assert.doesNotMatch(html, /href="\/methodology\.html">Read the methodology/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.match(html, /OpenAI ships a model/);
   });

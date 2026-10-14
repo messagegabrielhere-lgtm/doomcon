@@ -33,6 +33,10 @@ describe('bliss page', () => {
     assert.match(html, /"@type":\s*"Dataset"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/watts\.html/);
+    const links = html.match(/<p class="bhow__links">([\s\S]*?)<\/p>/);
+    assert.ok(links, 'expected bliss methodology links');
+    assert.match(links[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
+    assert.doesNotMatch(links[1], /href="\/methodology\.html">Full methodology<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /doom probability/i);
     assert.doesNotMatch(html, /noindex/);

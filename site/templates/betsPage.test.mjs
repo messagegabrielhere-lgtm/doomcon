@@ -30,6 +30,8 @@ describe('bets page', () => {
     assert.match(html, /\/si-watch\.html/);
     assert.match(html, /\/instruments\.html/);
     assert.match(html, /The index does not predict/);
+    assert.match(html, /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology →<\/a>/);
+    assert.doesNotMatch(html, /href="\/methodology\.html">How the index is computed →<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /the index predicts/i);
     assert.doesNotMatch(html, /these are bets about the world/i);

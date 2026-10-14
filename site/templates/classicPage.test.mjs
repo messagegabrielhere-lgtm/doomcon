@@ -51,4 +51,32 @@ describe('classic page', () => {
     assert.match(html, /rel="canonical" href="https:\/\/siren\.watch\/"/);
     assert.doesNotMatch(html, /Where is the full SIREN instrument panel\?/);
   });
+
+  it('support earn cards and verify methodology link use question H1s', () => {
+    const html = render(ctx, { view: 'classic' });
+    const earn = html.match(/<div class="earn">([\s\S]*?)<\/div>/);
+    assert.ok(earn, 'expected support earn cards');
+    assert.match(earn[1], /href="\/library\.html"><b>What AI books argue both sides of the case\?<\/b>/);
+    assert.match(earn[1], /href="\/bunker-kit\.html"><b>What free tools belong in a bunker kit\?<\/b>/);
+    assert.match(earn[1], /href="\/sponsor\.html"><b>How do you sponsor SIREN without moving the number\?<\/b>/);
+    assert.doesNotMatch(earn[1], /<b>The reading list<\/b>/);
+    assert.doesNotMatch(earn[1], /<b>The Bunker Kit<\/b>/);
+    assert.doesNotMatch(earn[1], /<b>Sponsor the index<\/b>/);
+    const vfy = html.match(/id="vfy"[\s\S]*?<p class="fresh__key">([\s\S]*?)<\/p>/);
+    assert.ok(vfy, 'expected verify key paragraph');
+    assert.match(vfy[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
+    assert.doesNotMatch(vfy[1], /href="\/methodology\.html">method<\/a>/);
+  });
+
+  it('instruments record and FAQ methodology links use the question H1', () => {
+    const html = render(ctx, { view: 'instruments' });
+    const record = html.match(/id="record"[\s\S]*?<\/section>/);
+    assert.ok(record, 'expected instruments record section');
+    assert.match(record[0], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology →<\/a>/);
+    assert.doesNotMatch(record[0], /href="\/methodology\.html">methodology page →<\/a>/);
+    const faq = html.match(/class="inst__faq-key">([\s\S]*?)<\/p>/);
+    assert.ok(faq, 'expected instruments FAQ sibling');
+    assert.match(faq[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
+    assert.doesNotMatch(faq[1], /href="\/methodology\.html">How the AI activity index is computed<\/a>/);
+  });
 });
