@@ -570,6 +570,8 @@ context.
 | 318 | `/library.html` section H2s + FAQPage use questions for shelves / gear / more-ways (was “The case for worry” / “The case for doubt” / “The view from the builders” / “Put AI to work” / “The long view” / “Run AI at home” / “More ways to keep this running”); Organization `knowsAbout` mirrors those questions; refuse library-as-index-input / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 319 | `/guides.html` section H2 + FAQPage + markdown mirror use a question for the also-links block (was “Also”); Organization `knowsAbout` mirrors that question; refuse SIREN-as-doom-probability / stuffing synonym doorways | Google + Bing + agents | **Done** (2026-10-14) |
 | 320 | `/search.html` empty-state H2s + FAQPage use questions for try-first / popular-rooms (was “Try one of these” / “Popular rooms”); Organization `knowsAbout` mirrors those questions; refuse search-as-doom-oracle / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 321 | `/waffle.html` other-storms H2 + FAQPage use a question when the list is visible (was “Other active storms”); Organization `knowsAbout` mirrors that question; refuse official-FEMA / outage-report / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 322 | `/radio.html` section H2s + FAQPage use questions for Tally voice / hear-in-videos (was “Tally’s voice update” / “Hear it in the videos”); Organization `knowsAbout` mirrors those questions; refuse Radio-as-index-input / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

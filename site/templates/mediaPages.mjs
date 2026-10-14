@@ -181,13 +181,19 @@ const radioQTitle = 'What free music does SIREN Radio play?';
 
 export function radio(ctx, voice) {
   const L = ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : 4;
+  // Tip #322: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const voiceQ = 'What is Tally’s voice update?';
+  const hearQ = 'Where can I hear these stations in videos?';
+  const voiceNote = voice && voice.audio
+    ? `Recorded ${String(voice.generated_at || '').slice(0, 16).replace('T', ' ')} UTC.`
+    : 'Read aloud by your browser’s own voice until Tally’s recorded voice is switched on.';
   const st = STATIONS.map(([id, name, tag, c], i) => `<button type="button" data-siren-station="${id}" aria-pressed="false" style="--c:${c}"><b>${String(i + 1).padStart(2, '0')} · ${esc(name)}</b><span>${esc(tag)}</span><i>TAP TO TUNE IN</i></button>`).join('');
-  const voiceBox = `<h2>Tally’s voice update</h2>
+  const voiceBox = `<h2>${esc(voiceQ)}</h2>
   <div class="md-voice" id="tally-voice">
     <button type="button" class="md-btn" data-voice>🔊 HEAR TALLY</button>
     <blockquote data-voice-text>${esc(voice && voice.text ? voice.text : `SIREN ${L}. ${ctx.state ? `The score is ${Number(ctx.state.score).toFixed(1)} out of 100.` : ''} I'm keeping watch.`)}</blockquote>
   </div>
-  <p style="font-size:13px">${voice && voice.audio ? `Recorded ${esc(String(voice.generated_at || '').slice(0, 16).replace('T', ' '))} UTC.` : 'Read aloud by your browser’s own voice until Tally’s recorded voice is switched on.'}</p>
+  <p style="font-size:13px">${esc(voiceNote)}</p>
   <script>(function(){var b=document.querySelector('[data-voice]');if(!b)return;var src=${JSON.stringify(voice && voice.audio ? ctx.href(`/media/${voice.audio}`) : '')};var a=null;
   b.addEventListener('click',function(){if(src){if(!a){a=new Audio(src)}if(a.paused){a.play();b.textContent='⏸ PAUSE'}else{a.pause();b.textContent='🔊 HEAR TALLY'}a.onended=function(){b.textContent='🔊 HEAR TALLY'};return}
   if(!('speechSynthesis' in window)){b.textContent='NO VOICE IN THIS BROWSER';return}if(speechSynthesis.speaking){speechSynthesis.cancel();b.textContent='🔊 HEAR TALLY';return}
@@ -201,7 +207,8 @@ export function radio(ctx, voice) {
       'No audio files, no ads, no licence fees.'],
     ['How do I change stations?',
       'The 📻 button in the bar at the bottom of every page flips to the next station. On a phone, check the ring/silent switch if you hear nothing.'],
-    ['Where can I hear these stations in videos?',
+    [voiceQ, voiceNote],
+    [hearQ,
       'Every SIREN video is scored by one of these stations. See What free AI explainer videos does SIREN publish?'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
@@ -217,7 +224,7 @@ export function radio(ctx, voice) {
   <div class="md-st">${st}</div>
   <p>The 📻 button in the bar at the bottom of every page flips to the next station. On a phone, check the ring/silent switch if you hear nothing.</p>
   ${voiceBox}
-  <h2>Hear it in the videos</h2>
+  <h2>${esc(hearQ)}</h2>
   <p>Every SIREN video is scored by one of these stations. See <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a></p>
   <p><a class="md-btn ghost" href="${esc(xShare(ctx, 'SIREN Radio: six stations of music generated live in your browser while you watch AI.', RADIO_PATH))}" target="_blank" rel="noopener">𝕏 POST SIREN RADIO</a></p>
   <section class="md-faq" aria-labelledby="faq">
