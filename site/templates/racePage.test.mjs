@@ -36,6 +36,16 @@ describe('race page', () => {
     assert.match(html, /Dataset/);
     assert.match(html, /Does SIREN publish an AI race doom score\?/);
     assert.match(html, /market odds and observable activity/i);
+    assert.match(html, /id="rgfx-h"[^>]*>How do the labs sit on one axis\?/);
+    assert.match(html, /id="rgfx-move-h"[^>]*>How did each lab change over seven days\?/);
+    assert.match(html, /id="rpart-h"[^>]*>How are the odds split across the board\?/);
+    assert.match(html, /id="rtb-h"[^>]*>Who leads the AI race board\?/);
+    assert.match(html, /id="rsrc-h"[^>]*>How healthy are the race sources\?/);
+    assert.match(html, /id="rmeth-h"[^>]*>How is the race board computed\?/);
+    assert.doesNotMatch(html, /id="rgfx-h"[^>]*>Every lab on one axis</);
+    assert.doesNotMatch(html, /id="rtb-h"[^>]*>The leaderboard</);
+    assert.doesNotMatch(html, /id="rsrc-h"[^>]*>Source health</);
+    assert.doesNotMatch(html, /id="rmeth-h"[^>]*>How this is computed</);
     assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(html, /href="\/news\.html">the signal feed<\/a>/);
     assert.match(html, /rpill__name"><a href="\/lab\/openai\.html">What has SIREN scored about OpenAI\?<\/a>/);
