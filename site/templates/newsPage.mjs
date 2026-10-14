@@ -106,9 +106,24 @@ export function render(ctx) {
     `Every AI news item ${brand.NAME} scored in the current window: ${total} items across ` +
     `${days} days, ranked, pillar-tagged and linked to the source that carried each one. ` +
     `Compiled ${utc(news.generated_at)}.`;
+  // Tip #297: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const topQ = 'Which items scored highest in this window?';
+  const spreadQ = 'How are the scores spread in this window?';
+  const allQ = 'Which scored items are in this window?';
+  const srcQ = 'Where did these scored stories come from?';
   const faq = [
     [`Which AI stories has ${brand.NAME} scored in this window?`,
       `${total} scored ${total === 1 ? 'item' : 'items'} across ${days} day${days === 1 ? '' : 's'} in the current collection window. Each headline links to the source that carried it — not a newsroom doom score.`],
+    [topQ,
+      `The highest-scoring items in the current collection window, each linked to the source that carried it. Scores rank items against each other inside this window — not a newsroom doom score.`],
+    [spreadQ,
+      corpus.total
+        ? 'Bar height is a count of items; position along the axis is the score those items were given. Each bar is stacked by pillar. Scores are not a probability of anything.'
+        : 'No items in the collection window, so there is no distribution to draw. This is a measured zero and not an outage.'],
+    [allQ,
+      `${total} scored ${total === 1 ? 'item' : 'items'} in the current collection window, ranked by score and tagged to the pillar each one feeds.`],
+    [srcQ,
+      'Scores rank items against each other inside this window; they are not a probability of anything and they do not move the index on their own. The composite score and the level are computed from the five pillars, not from this list.'],
     [`Does ${brand.NAME} publish a newsroom doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} Scores rank items against each other inside this window; they are not a probability of anything and they do not move the index on their own.`],
   ];
@@ -136,12 +151,12 @@ ${breakingStrip(ctx, { href: ctx.href })}
   ${archiveHubNav(ctx)}
 </section>
 
-${reel(items, { id: 'areel', limit: REEL_CARDS, heading: 'Highest-scoring items' })}
+${reel(items, { id: 'areel', limit: REEL_CARDS, heading: topQ })}
 
-${corpusSection(ctx, news, corpus)}
+${corpusSection(ctx, news, corpus, spreadQ)}
 
 <section class="sec narch" aria-labelledby="arch-h">
-  <h2 class="sec__h" id="arch-h">All items</h2>
+  <h2 class="sec__h" id="arch-h">${esc(allQ)}</h2>
   ${listKey(corpus)}
   <h3 class="vh">Filter the list</h3>
   ${filterInputs(news, corpus)}
@@ -150,7 +165,7 @@ ${corpusSection(ctx, news, corpus)}
 </section>
 
 <section class="sec" aria-labelledby="arch-src-h">
-  <h2 class="sec__h" id="arch-src-h">Where these came from</h2>
+  <h2 class="sec__h" id="arch-src-h">${esc(srcQ)}</h2>
   ${sourceYield(news, corpus)}
   ${speedBox(ctx, { href: ctx.href })}
   ${newsSourceStrip(news.sources)}
@@ -1015,10 +1030,10 @@ function yieldPlot(rows, axis, g, tid, did, variantCls) {
 // THE CORPUS SECTION
 // ---------------------------------------------------------------------------
 
-function corpusSection(ctx, news, corpus) {
+function corpusSection(ctx, news, corpus, spreadQ = 'How are the scores spread in this window?') {
   if (!corpus.total) {
     return `<section class="sec ncorp" aria-labelledby="corp-h">
-  <h2 class="sec__h" id="corp-h">How the scores are spread<span class="sec__eb">The shape of this window</span></h2>
+  <h2 class="sec__h" id="corp-h">${esc(spreadQ)}<span class="sec__eb">The shape of this window</span></h2>
   <p class="nkey">No items in the collection window, so there is no distribution to draw.
      This is a measured zero and not an outage &mdash; the per-source strip below says which
      feeds answered and which did not.</p>
@@ -1026,7 +1041,7 @@ function corpusSection(ctx, news, corpus) {
   }
 
   return `<section class="sec ncorp" aria-labelledby="corp-h">
-  <h2 class="sec__h" id="corp-h">How the scores are spread<span class="sec__eb">The shape of this window</span></h2>
+  <h2 class="sec__h" id="corp-h">${esc(spreadQ)}<span class="sec__eb">The shape of this window</span></h2>
   <p class="nkey">Bar height is a <b>count of items</b>; position along the axis is the
      <b>score</b> those items were given. Each bar is stacked by pillar, bottom to top, in the
      order printed in the key below it.</p>
