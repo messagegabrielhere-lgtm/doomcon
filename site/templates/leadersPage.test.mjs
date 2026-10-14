@@ -36,6 +36,9 @@ describe('leaders page', () => {
     assert.match(html, /CollectionPage/);
     assert.match(html, /Does SIREN invent quotations for AI leaders\?/);
     assert.match(html, /never writes a quotation/i);
+    assert.match(html, /lwc__n" href="\/people\/altman\.html">What press has SIREN scored about Sam Altman\?<\/a>/);
+    assert.match(html, /lwc__n" href="\/people\/amodei\.html">What press has SIREN scored about Dario Amodei\?<\/a>/);
+    assert.doesNotMatch(html, /lwc__n" href="\/people\/altman\.html">Sam Altman<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 });
