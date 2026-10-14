@@ -596,6 +596,8 @@ context.
 | 344 | `/digest.html` changed / streaks / method H3s + FAQPage use questions (was “The index” / “Sources” / “The leaderboard” / “Arrivals” / “First sightings” / “Running streaks” / “Highs and lows…” / “The arithmetic” / “Velocity” / “Engagement thresholds” / “The three source states”); Organization `knowsAbout` mirrors those questions; refuse digest-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 345 | `/si-watch.html` coding-section H3s + FAQPage use questions (was “KINDS OF WORK…” / “BY AGENT” / “LANGUAGES” / “JUST OPENED” / “BUSIEST REPOSITORIES…”); Organization `knowsAbout` mirrors those questions; refuse takeover-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 346 | `/map.html` + `/world.html` legend H3s + FAQPage use questions (was “Shape is status” / “Colour is the drought…” / “Size is capacity…” / “Colour is one colour” / “What is not drawn”); Organization `knowsAbout` mirrors those questions; refuse map-as-draw / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 347 | `/p-doom.html` voices H3s + classic oven gates H3 + FAQPage use questions (was “IN THE NEWS…” / “POLLS & SURVEYS” / “FURTHER READING…” / “What would move it”); Organization `knowsAbout` mirrors those questions; refuse SIREN-as-p(doom) / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 348 | `/moltbook.html` evolution H3s + `/agents.html` kit/assistant H3s + FAQPage use questions (was “Themes by day” / “Daily standouts” / “Run the agent kit” / “Use SIREN in ChatGPT…”); Organization `knowsAbout` mirrors those questions; refuse Agent-Watch-as-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

@@ -64,6 +64,8 @@ describe('moltbook page', () => {
     const html = evolution(history, [], '/evolution.html');
     assert.match(html, /id="network"[^>]*>How is the agent network changing\?/);
     assert.match(html, /href="\/evolution\.html">How has AI activity moved day by day\?<\/a>/);
+    assert.match(html, /How do themes change by day\?/);
+    assert.doesNotMatch(html, />Themes by day</);
     assert.doesNotMatch(html, /<h2>How the agent network is changing<\/h2>/);
     assert.doesNotMatch(html, /Evolution log/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);

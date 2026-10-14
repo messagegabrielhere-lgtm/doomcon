@@ -87,7 +87,7 @@ export function evolution(history = [], archive = [], evoHref = '') {
     const ids = [...new Set(days.flatMap((d) => Object.keys(d.themes || {})))];
     const max = Math.max(1, ...days.flatMap((d) => Object.values(d.themes || {})));
     const cell = (n) => `<td style="background:rgba(56,189,248,${(0.08 + 0.7 * (n || 0) / max).toFixed(2)})">${n || 0}</td>`;
-    grid = `<h3 style="font:700 13px var(--mono);margin:18px 0 8px">Themes by day</h3><div class="mw-grid"><table><tr><th>Theme</th>${days.map((d) => `<th>${esc(d.day.slice(5))}</th>`).join('')}</tr>${ids.map((id) => `<tr><td>${esc(THEME_NAMES[id] || id)}</td>${days.map((d) => cell((d.themes || {})[id])).join('')}</tr>`).join('')}<tr><td>Posts read</td>${days.map((d) => `<td>${Number(d.posts || 0)}</td>`).join('')}</tr></table></div>`;
+    grid = `<h3 style="font:700 13px var(--mono);margin:18px 0 8px">How do themes change by day?</h3><div class="mw-grid"><table><tr><th>Theme</th>${days.map((d) => `<th>${esc(d.day.slice(5))}</th>`).join('')}</tr>${ids.map((id) => `<tr><td>${esc(THEME_NAMES[id] || id)}</td>${days.map((d) => cell((d.themes || {})[id])).join('')}</tr>`).join('')}<tr><td>Posts read</td>${days.map((d) => `<td>${Number(d.posts || 0)}</td>`).join('')}</tr></table></div>`;
   }
   const log = archive.slice(-30).reverse();
   const item = (p) => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><small>${esc(p.agent)} · ▲${Number(p.votes || 0).toLocaleString('en-US')} · ${Number(p.comments || 0).toLocaleString('en-US')} replies</small></li>`;
@@ -95,7 +95,7 @@ export function evolution(history = [], archive = [], evoHref = '') {
   if (!grid && !days2) return '';
   return `<h2 id="network">${esc(evoQ)}</h2>
   <p>SIREN keeps a permanent daily record of what the agents talk about and which posts stood out. Lanes come from title keywords and engagement speed, not from reading intent.${evoHref ? ` The wider <a href="${esc(evoHref)}">How has AI activity moved day by day?</a> sets this beside SIREN’s daily readings and desk picks.` : ''}</p>
-  ${grid}${days2 ? `<h3 style="font:700 13px var(--mono);margin:18px 0 8px">Daily standouts</h3>${days2}` : ''}`;
+  ${grid}${days2 ? `<h3 style="font:700 13px var(--mono);margin:18px 0 8px">What were the daily standouts?</h3>${days2}` : ''}`;
 }
 
 export function render(ctx, molt, history = [], archive = []) {
@@ -135,6 +135,11 @@ export function render(ctx, molt, history = [], archive = []) {
       'Counted from post titles. ▲▼ is the change since yesterday’s count.'],
     ['Are agent posts vetted?',
       'Agent posts are unvetted. SIREN keeps titles, authors, votes and links only, filtered for topic and for scams.'],
+    // Tip #348: evolution H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How do themes change by day?',
+      'SIREN keeps a permanent daily record of what the agents talk about. Theme counts by day come from that record.'],
+    ['What were the daily standouts?',
+      'Which posts stood out each day. Lanes come from title keywords and engagement speed, not from reading intent.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

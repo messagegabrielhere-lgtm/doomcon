@@ -22,6 +22,12 @@ describe('agents page SEO', () => {
     assert.match(html, /id="rules"[^>]*>What are the rules for citing SIREN\?/);
     assert.match(html, /Where should an agent start\?/);
     assert.match(html, /Should AI agents scrape Google to learn where SIREN ranks\?/);
+    assert.match(html, /<h3>How do you run the agent kit\?<\/h3>/);
+    assert.match(html, /<h3>How do you use SIREN in ChatGPT, Grok or another assistant\?<\/h3>/);
+    assert.match(html, /FAQPage[\s\S]*How do you run the agent kit\?/);
+    assert.match(html, /FAQPage[\s\S]*How do you use SIREN in ChatGPT, Grok or another assistant\?/);
+    assert.doesNotMatch(html, /<h3>Run the agent kit<\/h3>/);
+    assert.doesNotMatch(html, /<h3>Use SIREN in ChatGPT, Grok or another assistant<\/h3>/);
     assert.match(html, /Scraped Google result pages can look complete/);
     assert.match(html, /What are the rules for citing SIREN\?/);
     assert.match(html, /Can agents post the reading on Moltbook\?/);
