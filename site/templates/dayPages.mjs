@@ -128,12 +128,12 @@ export function renderDay(ctx, day) {
     ? `<h2>Older scored stories from ${esc(day)}</h2>
   <p class="nd__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="nd__list">${storyRows(ctx, older)}</ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
     : '';
 
   const main = `${STYLE}
 <article class="nd prose">
-  <p class="nd__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Day</p>
+  <p class="nd__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI stories did ${esc(brand.NAME)} score on ${esc(day)}?</p>
   <h1>Which AI stories did ${esc(brand.NAME)} score on ${esc(day)}?</h1>
   <p class="nd__lede">${esc(items.length)} scored ${items.length === 1 ? 'story' : 'stories'} with a published time on this UTC day in the live window${archivedAll.length ? `; ${esc(String(archivedAll.length))} more kept in the archive` : ''}.
      A day hub is a list of what the newsroom already scored — not a forecast and not a probability of harm.</p>
@@ -146,11 +146,11 @@ export function renderDay(ctx, day) {
     ? `<ol class="nd__list">${storyRows(ctx, items)}</ol>`
     : '<p>No scored story falls on this UTC day in the current window.</p>'}
   ${items.length > DAY_LIST_CAP
-    ? `<p class="fresh__key">${esc(String(items.length - DAY_LIST_CAP))} more on the <a href="${esc(ctx.href('/news.html'))}">full newsroom</a>.</p>`
-    : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Full newsroom →</a></p>`}
+    ? `<p class="fresh__key">${esc(String(items.length - DAY_LIST_CAP))} more on <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>`
+    : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>`}
   ${olderBlock}
   ${others.length ? `<h2>Other days</h2>
-  <nav class="nd__nav" aria-label="Other days">${others.map((d) => `<a href="${esc(ctx.href(dayPath(d.day)))}">${esc(d.day)} <span class="num">(${esc(String(d.count))})</span></a>`).join('')}</nav>` : ''}
+  <nav class="nd__nav" aria-label="Other days">${others.map((d) => `<a href="${esc(ctx.href(dayPath(d.day)))}">Which AI stories did ${esc(brand.NAME)} score on ${esc(d.day)}?</a>`).join('')}</nav>` : ''}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
 </article>`;
@@ -181,8 +181,8 @@ export function renderDay(ctx, day) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: day, path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI stories did ${brand.NAME} score on ${day}?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
