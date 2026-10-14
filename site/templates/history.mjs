@@ -510,6 +510,17 @@ const TIMELINE = [
 // rich-result surface — but structured data describing content a visitor cannot
 // see is a manual-action risk and, more to the point, a small lie. One source,
 // two renderings, no chance of drift.
+
+/** Tip #374: level-legend H3s are question-shaped (mirrored in FAQ §3.3). */
+function levelQ(l) {
+  return `What does ${brand.NAME} ${l.level} · ${l.name} mean?`;
+}
+
+/** Tip #374: pillar-legend H3s are question-shaped (mirrored in FAQ §3.3). */
+function pillarQ(p) {
+  return `What does the ${p.name} pillar count?`;
+}
+
 const FAQ = [
   {
     // Matches the page H1 / <title> head term (FINDABILITY §3.3).
@@ -575,6 +586,11 @@ const FAQ = [
        'about where the composite sits in this index\'s own frozen reference distribution. Not one of ' +
        'them is a statement about danger.',
   },
+  // Tip #374: level-legend H3s are question-shaped and mirrored here (§3.3).
+  ...brand.LEVELS.map((l) => ({
+    q: levelQ(l),
+    a: `${l.epithet}. ${l.description}`,
+  })),
   {
     q: 'What does this index not claim?',
     a: 'It is not a probability of doom, a forecast, or a statement about danger. A scale is read as ' +
@@ -595,6 +611,11 @@ const FAQ = [
        'normalised against a frozen reference distribution built once from backfill and never touched ' +
        'again.',
   },
+  // Tip #374: pillar-legend H3s are question-shaped and mirrored here (§3.3).
+  ...brand.PILLARS.map((p) => ({
+    q: pillarQ(p),
+    a: p.description,
+  })),
   {
     q: 'Is SIREN a p(doom)?',
     a: 'No. The SIREN composite is a percentile of observed public activity across five pillars, ' +
@@ -704,7 +725,7 @@ function levelLegend() {
     <li class="lore-lv__row">
       <span class="lore-lv__badge num" aria-hidden="true">${esc(l.level)}</span>
       <div class="lore-lv__body">
-        <h3 class="lore-lv__h">${esc(brand.NAME)} ${esc(l.level)} · ${esc(l.name)}<span
+        <h3 class="lore-lv__h" aria-label="${esc(`${brand.NAME} ${l.level} · ${l.name}`)}">${esc(levelQ(l))}<span
           class="lore-lv__band num">${esc(l.band[0])}–${esc(l.band[1])}</span></h3>
         <p class="lore-lv__ep">${esc(l.epithet)}</p>
         <p class="lore-lv__d">${esc(l.description)}</p>
@@ -716,7 +737,7 @@ function levelLegend() {
 function pillarLegend() {
   const rows = brand.PILLARS.map((p) => `
     <li class="lore-pl__row">
-      <h3 class="lore-pl__h">${esc(p.name)}</h3>
+      <h3 class="lore-pl__h" aria-label="${esc(p.name)}">${esc(pillarQ(p))}</h3>
       <p class="lore-pl__d">${esc(p.description)}</p>
     </li>`).join('');
   return `<ol class="lore-pl">${rows}</ol>`;

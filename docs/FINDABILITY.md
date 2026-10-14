@@ -622,6 +622,8 @@ context.
 | 370 | `/radio.html` station-card H3s + FAQPage use questions (was “SIREN FM” / “SKYNET SYNTHWAVE” / …; aria-labels keep short station names); Organization `knowsAbout` mirrors those questions; refuse Radio-as-index-input / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 371 | `/live.html` 24/7 news channel-card H3s + FAQPage use questions (was bare channel names); Organization `knowsAbout` mirrors those questions; refuse live-room-as-forecast / endorsement / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 372 | `/agents.html` Moltbook spotlight agent-card H3s + FAQPage use questions (was “🤖 {agent}”); Organization `knowsAbout` mirrors those questions; refuse agents-as-doom-oracle / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 373 | `/leaders.html` roster-group H3s + FAQPage use questions (was “On the record” / “Quiet” / “Unreachable”; aria-labels keep short names); Organization `knowsAbout` mirrors those questions; refuse leader-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 374 | `/history.html` level-legend + pillar-legend H3s + FAQPage use questions (was “SIREN N · NAME” / bare pillar names); Organization `knowsAbout` mirrors those questions; refuse history-page doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

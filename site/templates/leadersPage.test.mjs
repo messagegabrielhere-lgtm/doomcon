@@ -48,4 +48,18 @@ describe('leaders page', () => {
     assert.doesNotMatch(html, /lwc__n" href="\/people\/altman\.html">Sam Altman<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
+
+  it('roster-group H3s use questions mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /<h3 class="lwg__h"[^>]*>Who is on the record\?/);
+    assert.match(html, /Who is quiet this week\?/);
+    assert.match(html, /Who is unreachable this run\?/);
+    assert.match(html, /FAQPage[\s\S]*Who is on the record\?/);
+    assert.match(html, /FAQPage[\s\S]*Who is quiet this week\?/);
+    assert.match(html, /FAQPage[\s\S]*Who is unreachable this run\?/);
+    assert.doesNotMatch(html, /<h3 class="lwg__h"[^>]*>On the record\s*</);
+    assert.doesNotMatch(html, /<h3 class="lwg__h"[^>]*>Quiet\s*</);
+    assert.doesNotMatch(html, /<h3 class="lwg__h"[^>]*>Unreachable\s*</);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
