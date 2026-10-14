@@ -35,11 +35,26 @@ function resolvedRow(b) {
 export function render(ctx) {
   const B = ctx.bets; const s = B.summary || {};
   const level = ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null;
+  // Tip #265: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const openQ = 'Which bets are open right now?';
+  const trackQ = 'What is the track record so far?';
+  const rulesQ = 'What are the rules for these bets?';
+  const limitQ = 'What can a base rate not see?';
   // FAQ answers restate lede / rules copy only.
   // Refuse: index-as-prediction, world/AI forecasts as SIREN bets, doom-probability.
   const faq = [
     [qTitle,
       'The index does not predict, and that has not changed. This page is something else: once a day Tally writes down a few small forecasts about the index itself, each with a probability and a due date, and every one is marked right or wrong in public when it falls due.'],
+    [openQ,
+      B.open.length
+        ? `${B.open.length} open bet${B.open.length === 1 ? '' : 's'} about the index itself, each with a probability and a due date.`
+        : 'No open bets. The next set is written at the first reading of the next UTC day.'],
+    [trackQ,
+      `${s.resolved || 0} bets settled so far${s.resolved ? `, ${s.hits} of them happened` : ''}. Mean Brier score is published; 0 is perfect; always saying 50% scores 0.250.`],
+    [rulesQ,
+      'Nobody’s opinion sets the number. Each probability is a base rate from the index’s own history. Every bet has a due date, a yes-or-no outcome, and a Brier score. Bets are never edited or deleted.'],
+    [limitQ,
+      'It knows how often something happened before and nothing else. It does not know that the score is sitting just under a boundary today, or that a big release is due. That is a limit of the method, stated here so the first miss is not a surprise.'],
     ['Are these bets about the world or what AI does next?',
       'They are bets about the index only. Not about the world, not about what AI does next, and they do not feed the index.'],
     ['How are the probabilities set?',
@@ -85,10 +100,10 @@ export function render(ctx) {
   <p class="lede">The index does not predict, and that has not changed. This page is something else: once a day Tally writes down a few
     small forecasts <b>about the index itself</b>, each with a probability and a due date, and every one is marked right or wrong in public when it falls due.</p>
 
-  <h2 class="sec__h">Open bets</h2>
+  <h2 class="sec__h" id="bt-open-h">Which bets are open right now?</h2>
   ${B.open.length ? `<ol class="bt__l">${B.open.map(openRow).join('\n')}</ol>` : '<p>No open bets. The next set is written at the first reading of the next UTC day.</p>'}
 
-  <h2 class="sec__h">The track record</h2>
+  <h2 class="sec__h" id="bt-track-h">What is the track record so far?</h2>
   <div class="bt__score">
     <p><b class="num">${esc(s.resolved || 0)}</b><span>bets settled so far</span></p>
     <p><b class="num">${s.resolved ? esc(s.hits) : '—'}</b><span>of them happened</span></p>
@@ -99,7 +114,7 @@ export function render(ctx) {
     <tbody>${B.resolved.slice(0, 60).map(resolvedRow).join('\n')}</tbody>
   </table></div>` : '<p>Nothing has fallen due yet. The first bets settle a day after they were made, and this table fills in from there. An empty record is printed as empty.</p>'}
 
-  <h2 class="sec__h">The rules</h2>
+  <h2 class="sec__h" id="bt-rules-h">What are the rules for these bets?</h2>
   <ul>
     <li><b>Nobody\u2019s opinion sets the number.</b> Each probability is a base rate from the index\u2019s own history: how often the same thing happened before, smoothed as (k + 1) / (n + 2). The k and n are printed on every bet.</li>
     <li><b>Every bet has a due date and a yes-or-no outcome,</b> settled by the first reading published after the due time.</li>
@@ -107,7 +122,7 @@ export function render(ctx) {
     <li><b>Bets are never edited or deleted.</b> The file is <a href="${esc(ctx.href('/api/bets.json'))}">public JSON</a> and the code is in the repository.</li>
     <li><b>They are bets about the index only.</b> Not about the world, not about what AI does next, and they do not feed the index.</li>
   </ul>
-  <h2 class="sec__h">What a base rate cannot see</h2>
+  <h2 class="sec__h" id="bt-limit-h">What can a base rate not see?</h2>
   <p>It knows how often something happened before and nothing else. It does not know that the score is sitting just under a boundary today,
     or that a big release is due. The history is also short${B.open[0] ? `: the 24-hour bets rest on ${esc(B.open[0].basis.n)} past cases` : ''}, and a level that has never moved gives a base rate that says it never will. That is a limit of the method, stated here so the first miss is not a surprise.</p>
   <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology →</a></p>
