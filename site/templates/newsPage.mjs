@@ -67,6 +67,7 @@ import { PILLAR_GLYPH } from './_charts.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 import { breakingStrip, speedBox, breakingCss } from './_breaking.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 
 const PATH = '/news.html';
 const REEL_CARDS = 10;
@@ -94,11 +95,45 @@ export function render(ctx) {
   // strip, the filter chips and the rows can never disagree about a count.
   const corpus = readCorpus(news);
 
+  // Head-term title: people search “AI news” / scored stories this window.
+  const title = `Which AI stories has ${brand.NAME} scored in this window?`;
+  const description =
+    `Every AI news item ${brand.NAME} scored in the current window: ${total} items across ` +
+    `${days} days, ranked, pillar-tagged and linked to the source that carried each one. ` +
+    `Compiled ${utc(news.generated_at)}.`;
+  const topQ = 'Which items scored highest in this window?';
+  const spreadQ = 'How are the scores spread in this window?';
+  const allQ = 'Which scored items are in this window?';
+  const srcQ = 'Where did these scored stories come from?';
+  const faq = [
+    [title,
+      `${total} scored ${total === 1 ? 'item' : 'items'} across ${days} day${days === 1 ? '' : 's'} in the current collection window. Each headline links to the source that carried it — not a newsroom doom score.`],
+    [topQ,
+      'The highest-scoring items in the current collection window, each linked to the source that carried it. Scores rank items against each other inside this window — not a newsroom doom score.'],
+    [spreadQ,
+      corpus.total
+        ? 'Bar height is a count of items; position along the axis is the score those items were given. Each bar is stacked by pillar. Scores are not a probability of anything.'
+        : 'No items in the collection window, so there is no distribution to draw. This is a measured zero and not an outage.'],
+    [allQ,
+      `${total} scored ${total === 1 ? 'item' : 'items'} in the current collection window, ranked by score and tagged to the pillar each one feeds.`],
+    ['How do you filter the scored list?',
+      'Use the filter controls above the scored-item list to narrow by pillar, source or score without leaving the newsroom window. Filtering never invents items or changes a score.'],
+    ['Which incident terms fired in this window?',
+      'Tier is the weight of the term that matched, not a judgement about the event — the matched words are printed beside each one. Every entry jumps to its row in the list. Scores are not a newsroom doom score.'],
+    [srcQ,
+      'Scores rank items against each other inside this window; they are not a probability of anything and they do not move the index on their own. The composite score and the level are computed from the five pillars, not from this list.'],
+    [`Does ${brand.NAME} publish a newsroom doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Scores rank items against each other inside this window; they are not a probability of anything and they do not move the index on their own.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<style>${newsCss()}${archiveCss(pillarsPresent(news))}${breakingCss()}</style>${pillarSprite()}
 ${breakingStrip(ctx, { href: ctx.href })}
 <section class="narch__intro">
   <p class="eyebrow">AI signal feed</p>
-  <h1 class="narch__h1">The newsroom</h1>
+  <h1 class="narch__h1">Which AI stories has ${esc(brand.NAME)} scored in this window?</h1>
   <p class="lede">Every item ${esc(brand.NAME)} scored in the current collection window &mdash;
      ${esc(total)} item${total === 1 ? '' : 's'} across ${esc(days)} day${days === 1 ? '' : 's'},
      ranked by score and tagged to the pillar each one feeds. These are the inputs behind the
@@ -108,43 +143,69 @@ ${breakingStrip(ctx, { href: ctx.href })}
   ${legend(news)}
 </section>
 
-${reel(items, { id: 'areel', limit: REEL_CARDS, heading: 'Highest-scoring items' })}
+${reel(items, { id: 'areel', limit: REEL_CARDS, heading: topQ })}
 
-${corpusSection(ctx, news, corpus)}
+${corpusSection(ctx, news, corpus, spreadQ)}
 
 <section class="sec narch" aria-labelledby="arch-h">
-  <h2 class="sec__h" id="arch-h">All items</h2>
+  <h2 class="sec__h" id="arch-h">${esc(allQ)}</h2>
   ${listKey(corpus)}
-  <h3 class="vh">Filter the list</h3>
+  <h3 class="vh">How do you filter the scored list?</h3>
   ${filterInputs(news, corpus)}
   ${filterBar(news, corpus)}
   <ol class="nfeed narch__list">${items.map(archiveRow).join('')}</ol>
 </section>
 
 <section class="sec" aria-labelledby="arch-src-h">
-  <h2 class="sec__h" id="arch-src-h">Where these came from</h2>
+  <h2 class="sec__h" id="arch-src-h">${esc(srcQ)}</h2>
   ${sourceYield(news, corpus)}
   ${speedBox(ctx, { href: ctx.href })}
   ${newsSourceStrip(news.sources)}
   <p class="nkey">Scores rank items against each other inside this window; they are not a
      probability of anything and they do not move the index on their own. The composite score and
      the level are computed from the five pillars, not from this list.
-     <a href="${esc(ctx.href('/methodology.html'))}">Read the methodology &rarr;</a></p>
+     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology &rarr;</a></p>
+</section>
+
+<section class="sec" aria-labelledby="faq">
+  <h2 class="sec__h" id="faq">Questions about this newsroom window</h2>
+  ${faqHtml}
 </section>`;
 
   return page({
     ctx,
     motion: true,
     path: PATH,
-    title: `The newsroom — ${total} scored items · ${brand.NAME}`,
-    ogTitle: `${brand.NAME} signal feed — ${total} scored items`,
-    description:
-      `Every AI news item ${brand.NAME} scored in the current window: ${total} items across ` +
-      `${days} days, ranked, pillar-tagged and linked to the source that carried each one. ` +
-      `Compiled ${utc(news.generated_at)}.`,
+    title,
+    ogTitle: title,
+    description,
     ogImage: ctx.cardFor && ctx.state ? ctx.cardFor(ctx.state.receipt_id) : null,
     ogImageAlt: `${brand.NAME} share card`,
-    jsonld: [collectionPage(ctx, news), itemList(ctx, news)],
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: title,
+        url: ctx.url(PATH),
+        description,
+        inLanguage: 'en',
+        isAccessibleForFree: true,
+        dateModified: news.generated_at,
+        speakable: speakable(['.narch__h1', '.lede']),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+      },
+      itemList(ctx, news),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([q, a]) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+      breadcrumbs(ctx, [{ name: title, path: PATH }]),
+    ],
     main,
   });
 }
@@ -155,16 +216,17 @@ ${corpusSection(ctx, news, corpus)}
  * build.mjs can also just skip writing this file; hasNews(ctx) is the guard.
  */
 function emptyPage(ctx) {
+  const title = `Which AI stories has ${brand.NAME} scored in this window?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `The newsroom · ${brand.NAME}`,
+    title,
     description: `${brand.NAME} news collection has not published a window yet.`,
     main: `<style>${newsCss()}${archiveCss()}</style>${pillarSprite()}
 <section class="narch__intro">
   <p class="eyebrow">AI signal feed</p>
-  <h1 class="narch__h1">The newsroom</h1>
+  <h1 class="narch__h1">${esc(title)}</h1>
   <p class="lede">No collection window has been published in this build. This page is not
      an empty result &mdash; it is the absence of a result, and the two are different states.
      When <code>data/news.json</code> is present it is rendered here in full.</p>
@@ -874,10 +936,10 @@ function yieldPlot(rows, axis, g, tid, did, variantCls) {
 // THE CORPUS SECTION
 // ---------------------------------------------------------------------------
 
-function corpusSection(ctx, news, corpus) {
+function corpusSection(ctx, news, corpus, heading = 'How are the scores spread in this window?') {
   if (!corpus.total) {
     return `<section class="sec ncorp" aria-labelledby="corp-h">
-  <h2 class="sec__h" id="corp-h">How the scores are spread<span class="sec__eb">The shape of this window</span></h2>
+  <h2 class="sec__h" id="corp-h">${esc(heading)}<span class="sec__eb">The shape of this window</span></h2>
   <p class="nkey">No items in the collection window, so there is no distribution to draw.
      This is a measured zero and not an outage &mdash; the per-source strip below says which
      feeds answered and which did not.</p>
@@ -885,7 +947,7 @@ function corpusSection(ctx, news, corpus) {
   }
 
   return `<section class="sec ncorp" aria-labelledby="corp-h">
-  <h2 class="sec__h" id="corp-h">How the scores are spread<span class="sec__eb">The shape of this window</span></h2>
+  <h2 class="sec__h" id="corp-h">${esc(heading)}<span class="sec__eb">The shape of this window</span></h2>
   <p class="nkey">Bar height is a <b>count of items</b>; position along the axis is the
      <b>score</b> those items were given. Each bar is stacked by pillar, bottom to top, in the
      order printed in the key below it.</p>
@@ -988,9 +1050,8 @@ function tierStrip(corpus) {
   }).join('');
 
   return `<section class="ntier" aria-labelledby="ntier-h">
-  <h3 class="ntier__h3" id="ntier-h">Incident terms fired on ${esc(corpus.banded.length)} of
-     ${esc(corpus.total)} items</h3>
-  <p class="nkey">${esc(counts)}. Tier is the weight of the term that matched, not a judgement
+  <h3 class="ntier__h3" id="ntier-h">Which incident terms fired in this window?</h3>
+  <p class="nkey">${esc(corpus.banded.length)} of ${esc(corpus.total)} items. ${esc(counts)}. Tier is the weight of the term that matched, not a judgement
      about the event &mdash; the matched words are printed beside each one. Every entry jumps to
      its row in the list.</p>
   <ol class="ntier__l">${rows}</ol>
@@ -1175,10 +1236,11 @@ function clip(text, max) {
 // ---------------------------------------------------------------------------
 
 function collectionPage(ctx, news) {
+  const name = `Which AI stories has ${brand.NAME} scored in this window?`;
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: `${brand.NAME} AI signal feed`,
+    name,
     url: ctx.url(PATH),
     description:
       `Every AI news item ${brand.NAME} scored in the current collection window, ranked by ` +
@@ -1187,6 +1249,7 @@ function collectionPage(ctx, news) {
     isAccessibleForFree: true,
     dateModified: news.generated_at,
     license: 'https://creativecommons.org/licenses/by/4.0/',
+    speakable: speakable(['.narch__h1', '.lede']),
     isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
   };
 }

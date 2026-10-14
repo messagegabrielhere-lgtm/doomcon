@@ -247,6 +247,7 @@ context.
 | 14 | `/agents.md` + Grok/xAI named Allow + ChatGPT query routing in `llms.txt` | ChatGPT + Grok | **Done** (2026-10-11) |
 | 15 | People pages + news day hubs (DoomBench/Skynet URL shape) | Google | Open PR #86 |
 | 16 | `/agents.txt` + `/agents.json` + `/.well-known/api-catalog` + skills index + MCP server card | Agent discovery | **Done** (this pass) |
+| 17 | `/news.html` question-shaped title/H1/H2s + FAQPage + Speakable + BreadcrumbList (live page still titled “The newsroom — N scored items”) — slim hotfix while full findability tree waits in PR #125 | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
