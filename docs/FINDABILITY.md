@@ -306,6 +306,7 @@ context.
 | 73 | Outrank-style free-tool landings: `/verify.html` (receipt checker + WebApplication) + `/free-tools.html` listicle; IndexNow / sitemap / `llms.txt` / agents / catalog / home tiles | Google + AI mentions | **Done** (2026-10-14) |
 | 74 | Live `llms.txt` / `agents.md` / `skill.md` + sitemap locs advertise `/verify.html` + `/free-tools.html` (main had #73; gh-pages agent maps lagged until overlay — lab/day-hub lines preserved) | Agents + Bing | **Done** (2026-10-14) |
 | 75 | `ai.txt` + RFC 9727 `api-catalog` + MCP `related` advertise `/verify.html` + `/free-tools.html` (Outrank free-tool discovery beyond llms/agents) | Agents | **Done** (2026-10-14) |
+| 76 | `agents.txt` comment lines advertise free-tools + verify + Search Trends (agents-txt.com probes that never open `llms.txt`) | Agents | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

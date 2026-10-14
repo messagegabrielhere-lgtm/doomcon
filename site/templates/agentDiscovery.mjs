@@ -44,6 +44,8 @@ export function agentsTxt(ctx) {
 # Short fetch-first entry: ${u('/agents.md')}
 # Scored stories: ${u('/now.md')} · ${u('/api/news.json')} · ${u('/news.html')}
 # Google News sitemap: ${u('/news-sitemap.xml')}
+# Free tools: ${u('/free-tools.html')} · Verify a reading: ${u('/verify.html')}
+# Search Trends (watched, not scored): ${u('/search-trends.html')} · ${u('/api/search-trends.json')}
 
 Skills: ${u('/skill.md')}
 Skills: ${u(SKILL_PATH)}
