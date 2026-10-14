@@ -266,6 +266,37 @@ describe('model pages', () => {
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/nano-banana.html'));
   });
 
+  it('indexes Jev from decision-model title forms', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('jv1', 'Jev AI model creator TypeSafe raises $870M at $7.5B valuation', []),
+          story('jv2', 'Microsoft Launches Decision 1, a Qwen Decision Model Aimed at Jev', []),
+          story('jv3', 'Can Jev be Your Q or Policy in Reinforcement Learning?', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Jev'));
+    const thin = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('bad1', 'A decision note without naming the model', []),
+          story('bad2', 'ollama v0.40.3 release notes', []),
+          story('bad3', 'Towerglow orchestrator ships', []),
+        ],
+      },
+    };
+    assert.ok(!indexableModels(thin).some((m) => m.name === 'Jev'));
+    const html = renderModel(rich, 'Jev');
+    assert.match(html, /What has SIREN scored about Jev\?|Jev/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/jev.html'));
+  });
+
   it('indexes Codex from OpenAI Codex / Codex CLI forms (not bare Codex)', () => {
     const rich = {
       ...ctx,

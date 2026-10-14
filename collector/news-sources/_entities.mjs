@@ -140,6 +140,9 @@ const ENTITY_DEFS = [
   // AI agent startup — Muse-rival / Personal Agent Protocol headlines.
   // Distinctive single token (word boundaries keep “instinctively” out).
   { name: 'Instinct', kind: 'lab', forms: ['Instinct'] },
+  // Jev decision-model maker — fundraising / Fortune-500 adoption headlines.
+  // Prefer TypeSafe* forms (no bare “safe”) so unrelated safety copy stays out.
+  { name: 'TypeSafe', kind: 'lab', forms: ['TypeSafe AI', 'Typesafe AI', 'TypeSafe'] },
 
   // --- model families ---
   // GPT-6 Astra / Luna / Sol nicknames so /model/gpt clears when headlines
@@ -184,6 +187,9 @@ const ENTITY_DEFS = [
   { name: 'Codex', kind: 'model', forms: ['OpenAI Codex', 'Codex CLI', 'Codex Hackathon', 'ChatGPT and Codex'] },
   // Google image-gen family — require “Nano Banana” (no bare “Banana”).
   { name: 'Nano Banana', kind: 'model', forms: ['Nano Banana 2.1', 'Nano Banana 2', 'Nano Banana'] },
+  // TypeSafe decision-model family — titles name Jev / JEV; word boundaries
+  // keep “jevu” / unrelated tokens out. ≥ MODEL_INDEX_MIN clears /model/jev.
+  { name: 'Jev', kind: 'model', forms: ['Jev', 'JEV'] },
 ];
 
 const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfaceRegex(d.forms) }));

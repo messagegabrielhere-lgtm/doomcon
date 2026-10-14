@@ -544,6 +544,7 @@ function labNeedles(player) {
     coinbase: ['coinbase'],
     a16z: ['a16z', 'andreessen horowitz'],
     instinct: ['instinct'],
+    typesafe: ['typesafe ai', 'typesafe'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
