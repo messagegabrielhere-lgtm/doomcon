@@ -2588,4 +2588,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'security-incidents'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'security-incidents'), /probability of doom/i);
   });
+
+  it('pages artificial-intelligence and chatbots hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ai1', 'Warren Buffett Bought This Magnificent Artificial Intelligence (AI) Stock'),
+          story('ai2', 'Facebook parent Meta has unveiled a new artificial intelligence (AI) model'),
+          story('ai3', 'Studying Comics at Scale with Artificial Intelligence: The PAGE Framework'),
+          story('ai4', 'Artificial Intelligence tools reshape warehouse staffing plans'),
+          story('ai5', 'How Artificial Intelligence Shows Up in Local School Board Minutes'),
+          story('cb1', 'Chatbot developer Anthropic seeks PA — but only humans need apply'),
+          story('cb2', 'Black Box: The Chatbots | The Line | Ep 5 - podcast'),
+          story('cb3', 'Vermont Discourages ChatGPT-Style Chatbots Through Eighth Grade'),
+          story('cb4', 'Anthropic Bans Needless Cruelty Toward Its Claude AI Chatbot'),
+          story('cb5', 'Schools debate classroom rules for chatbots after parent complaints'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('artificial-intelligence'));
+    assert.ok(ids.includes('chatbots'));
+    assert.match(renderTag(rich, 'artificial-intelligence'), /What has SIREN scored about Artificial intelligence\?/);
+    assert.match(renderTag(rich, 'chatbots'), /What has SIREN scored about Chatbots\?/);
+    assert.match(renderTag(rich, 'artificial-intelligence'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'chatbots'), /not a product score/i);
+    assert.doesNotMatch(renderTag(rich, 'artificial-intelligence'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'chatbots'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'chatbots'), /probability of doom/i);
+  });
 });
