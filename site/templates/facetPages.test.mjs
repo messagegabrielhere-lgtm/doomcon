@@ -1247,6 +1247,75 @@ describe('lab facets', () => {
     }
   });
 
+  it('indexes SoftBank, Adobe, Cisco, and Intel entity labs', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'sb1', title: 'SoftBank expands AI fund bets across chip startups', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/sb1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'sb2', title: 'SoftBank Vision Fund returns to AI infrastructure deals', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/sb2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'sb3', title: 'SoftBank partners on AI data-centre buildouts in Asia', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sb3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'ad1', title: 'Adobe Firefly expands generative image and video tools', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ad1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'ad2', title: 'Adobe adds AI assistants across Creative Cloud apps', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ad2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'ad3', title: 'Enterprises adopt Adobe AI for marketing workflows', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ad3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'ci1', title: 'Cisco AI networking gear targets GPU cluster fabrics', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ci1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'ci2', title: 'Cisco security stack adds AI threat detection modules', pillar: 'attention', source: 'hn',
+          url: 'https://example.test/ci2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'ci3', title: 'Cisco partners with hyperscalers on AI data-centre switching', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ci3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+        {
+          id: 'in1', title: 'Intel Gaudi accelerators win new AI training orders', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/in1', published_at: '2026-09-01T04:00:00Z', score: 40,
+        },
+        {
+          id: 'in2', title: 'Intel foundry pitches AI chip packaging capacity', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/in2', published_at: '2026-09-02T04:00:00Z', score: 41,
+        },
+        {
+          id: 'in3', title: 'Investors weigh Intel AI silicon against AMD rivals', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/in3', published_at: '2026-09-03T04:00:00Z', score: 42,
+        },
+      ],
+    };
+    for (const [id, name] of [
+      ['softbank', 'SoftBank'],
+      ['adobe', 'Adobe'],
+      ['cisco', 'Cisco'],
+      ['intel', 'Intel'],
+    ]) {
+      const lab = labsFromEntities(withArch).find((p) => p.id === id);
+      assert.ok(lab, `${name} clears ENTITY_LAB_MIN`);
+      assert.match(renderLab(withArch, lab), new RegExp(`What has SIREN scored about ${name}\\?`));
+      assert.doesNotMatch(renderLab(withArch, lab), /doom score:\s*\d/i);
+      assert.ok(sitemapEntries(withArch).some((e) => e.loc === `/lab/${id}.html`));
+    }
+  });
+
   it('indexes Reflection AI, Apple, Palantir, and ByteDance entity labs', () => {
     const withArch = {
       ...ctx,
