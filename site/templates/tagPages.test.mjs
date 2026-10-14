@@ -2278,4 +2278,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-generated'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ai-generated'), /probability of doom/i);
   });
+
+  it('pages policy-optimization and white-house hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('po1', 'Matched-Context Group Policy Optimization for LLM Agent Training'),
+          story('po2', 'Closing the Horizon Gap in Policy Optimization for Adversarial MDPs'),
+          story('po3', 'On KL-Regularized Policy Optimization'),
+          story('po4', 'Rationale-Guided Policy Optimization: Learning to Reason with Adaptive Scaffolding'),
+          story('po5', 'Role-Adaptive Policy Optimization for Offline Reinforcement Learning'),
+          story('wh1', 'White House reverses course and restores UK AI Safety Institute access'),
+          story('wh2', 'Exclusive: Anthropic breaches spark White House AI reporting mandate'),
+          story('wh3', 'White House blocks Microsoft from foreign worker hiring programme'),
+          story('wh4', 'UK regains pre-release access to US AI models after White House reversal'),
+          story('wh5', 'White House restores UK access to frontier AI models after 17 day freeze'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('policy-optimization'));
+    assert.ok(ids.includes('white-house'));
+    assert.match(renderTag(rich, 'policy-optimization'), /What has SIREN scored about Policy optimization\?/);
+    assert.match(renderTag(rich, 'white-house'), /What has SIREN scored about White House AI\?/);
+    assert.match(renderTag(rich, 'policy-optimization'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'white-house'), /not a policy forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'policy-optimization'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'white-house'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'white-house'), /probability of doom/i);
+  });
 });
