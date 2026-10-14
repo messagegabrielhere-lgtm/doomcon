@@ -118,6 +118,8 @@ describe('classic page', () => {
     assert.ok(oven, 'expected oven key paragraph');
     assert.match(oven[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology →<\/a>/);
     assert.doesNotMatch(oven[1], /How a stage is decided →/);
+    assert.match(html, /class="oven__gsh">What would move it\?<\/h3>/);
+    assert.doesNotMatch(html, /class="oven__gsh">What would move it<\/h3>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
   });

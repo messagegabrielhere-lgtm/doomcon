@@ -139,6 +139,14 @@ export function items(ctx) {
       `On /map.html and /world.html: shape is status, read from the OpenStreetMap tag on each pin.`],
     ['What does colour mean on this map?',
       `On /map.html: colour is the US Drought Monitor category in that county, also printed in words beside the ramp.`],
+    ['What would move it?',
+      `On the classic oven: the published gates as numbers beside the current reading. Nothing there says any of them is met.`],
+    ['What is in the news about AI catastrophe, safety, and p(doom)?',
+      `On /p-doom.html: catastrophe-risk headlines from the newsroom when present. ${brand.NAME} still does not publish a p(doom).`],
+    ['How do you run the agent kit?',
+      `On /agents.html: from a clone of the public repo, node agent-kit/cli.mjs now / cite / mcp.mjs — no install step.`],
+    ['How do themes change by day?',
+      `On /moltbook.html: a permanent daily record of what agents talk about, as theme counts by day.`],
   ];
 }
 

@@ -169,6 +169,19 @@ describe('guides hub', () => {
     assert.doesNotMatch(html, /probability of doom is \d/i);
   });
 
+  it('p-doom voices section H3s use questions mirrored in FAQPage', () => {
+    const html = pdoom(ctx);
+    assert.match(html, /<h3>What is in the news about AI catastrophe, safety, and p\(doom\)\?<\/h3>/);
+    assert.match(html, /<h3>Which polls and surveys report p\(doom\)\?<\/h3>/);
+    assert.match(html, /<h3>What further reading covers every side\?<\/h3>/);
+    assert.match(html, /"name"\s*:\s*"What is in the news about AI catastrophe, safety, and p\(doom\)\?"/);
+    assert.match(html, /"name"\s*:\s*"Which polls and surveys report p\(doom\)\?"/);
+    assert.doesNotMatch(html, /<h3>IN THE NEWS: AI CATASTROPHE/);
+    assert.doesNotMatch(html, /<h3>POLLS &amp; SURVEYS<\/h3>/);
+    assert.doesNotMatch(html, /<h3>FURTHER READING, EVERY SIDE<\/h3>/);
+    assert.doesNotMatch(html, /probability of doom is \d/i);
+  });
+
   it('p-doom voices sibling links use news/live/day-after/library question H1s', () => {
     const html = pdoom(ctx);
     assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\? →<\/a>/);

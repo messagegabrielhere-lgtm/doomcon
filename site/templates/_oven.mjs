@@ -617,7 +617,7 @@ ${pinTrack(mdl)}
 <p class="oven__crit">${critLine}</p>
 <p class="oven__held">${heldLine}</p>
 
-<h3 class="oven__gsh">What would move it</h3>
+<h3 class="oven__gsh">What would move it?</h3>
 <p class="oven__gp oven__gp--intro">The published gates, as numbers. Each row is a requirement beside the
    current reading; nothing here says any of them is met. Heating is measured over ${esc(upLabels)};
    standing down over ${esc(downLabels)} — cooling is deliberately the slower move, so a stage this index

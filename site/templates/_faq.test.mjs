@@ -141,6 +141,10 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'What kinds of work are all agents doing?'));
     assert.ok(qa.some(([q]) => q === 'What does shape mean on this map?'));
     assert.ok(qa.some(([q]) => q === 'What does colour mean on this map?'));
+    assert.ok(qa.some(([q]) => q === 'What would move it?'));
+    assert.ok(qa.some(([q]) => q === 'What is in the news about AI catastrophe, safety, and p(doom)?'));
+    assert.ok(qa.some(([q]) => q === 'How do you run the agent kit?'));
+    assert.ok(qa.some(([q]) => q === 'How do themes change by day?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -174,6 +178,10 @@ describe('homepage FAQ', () => {
     assert.match(html, /What kinds of work are all agents doing\?/);
     assert.match(html, /What does shape mean on this map\?/);
     assert.match(html, /What does colour mean on this map\?/);
+    assert.match(html, /What would move it\?/);
+    assert.match(html, /What is in the news about AI catastrophe, safety, and p\(doom\)\?/);
+    assert.match(html, /How do you run the agent kit\?/);
+    assert.match(html, /How do themes change by day\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });
