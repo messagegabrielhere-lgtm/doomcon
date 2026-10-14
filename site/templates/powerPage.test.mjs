@@ -31,6 +31,11 @@ describe('power page', () => {
     assert.match(html, /<title>Who makes the most electricity \(China vs US\)\?/);
     assert.match(html, /<h1 class="bp__h1">Who makes the most electricity \(China vs US\)\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="race">Who is winning the electricity race by year\?<\/h2>/);
+    assert.match(html, /id="top20">Which countries are the top 20 generators in 2024\?<\/h2>/);
+    assert.match(html, /id="percap">Who makes the most electricity per person\?<\/h2>/);
+    assert.match(html, /id="fast">Which countries grew generation fastest\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*Who is winning the electricity race by year\?/);
     assert.match(html, /Is this generation or consumption\?/);
     assert.match(html, /Why does electricity matter for AI on this site\?/);
     assert.match(html, /Where does the data come from\?/);
@@ -47,6 +52,8 @@ describe('power page', () => {
     assert.doesNotMatch(related[1], /AI.s power draw/);
     assert.doesNotMatch(related[1], /US data-centre map/);
     assert.doesNotMatch(related[1], /World data centres/);
+    assert.doesNotMatch(html, /id="race">THE RACE:/);
+    assert.doesNotMatch(html, /id="percap">MOST PER PERSON/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /noindex/);
   });

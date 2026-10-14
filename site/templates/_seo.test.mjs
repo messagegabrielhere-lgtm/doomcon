@@ -199,6 +199,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('what AI charts does SIREN publish'));
     assert.ok(org.knowsAbout.includes('who makes the most electricity'));
     assert.ok(org.knowsAbout.includes('China vs US electricity'));
+    assert.ok(org.knowsAbout.includes('Who is winning the electricity race by year'));
+    assert.ok(org.knowsAbout.includes('Who makes the most electricity per person'));
+    assert.ok(org.knowsAbout.includes('Which countries grew generation fastest'));
     assert.ok(org.knowsAbout.includes('SIREN daily brief'));
     assert.ok(org.knowsAbout.includes('what is the SIREN daily brief'));
     assert.ok(org.knowsAbout.includes('CVE exploit lag'));
