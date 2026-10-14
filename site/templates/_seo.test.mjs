@@ -195,6 +195,15 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('how many datacentres mapped in the United States'));
     assert.ok(org.knowsAbout.includes('SIREN infrastructure index'));
     assert.ok(org.knowsAbout.includes('what does the SIREN infrastructure index read'));
+    assert.ok(org.knowsAbout.includes('What should you read before the Watts charts'));
+    assert.ok(org.knowsAbout.includes('Which datacentre regions does Watts cover'));
+    assert.ok(org.knowsAbout.includes('What does overnight grid load show'));
+    assert.ok(org.knowsAbout.includes('What does river flow at the gauges show'));
+    assert.ok(org.knowsAbout.includes('Which filings mention datacentres'));
+    assert.ok(org.knowsAbout.includes('What state is every Watts source in'));
+    assert.ok(org.knowsAbout.includes('What can this index not tell you'));
+    assert.ok(org.knowsAbout.includes('How is the Watts number made'));
+    assert.ok(org.knowsAbout.includes('Which sources were tried and left out'));
     assert.ok(org.knowsAbout.includes('AI charts'));
     assert.ok(org.knowsAbout.includes('what AI charts does SIREN publish'));
     assert.ok(org.knowsAbout.includes('who makes the most electricity'));
