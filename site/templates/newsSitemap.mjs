@@ -15,8 +15,9 @@ export const NEWS_WINDOW_HOURS = 48;
 
 /** Cap so a burst of 300+ items in a day cannot ship a multi-megabyte news
  *  sitemap. Newest first; the rest remain in the ordinary sitemap. Raised from
- *  100 while pizzint's news-sitemap is contested again (COMPETITIVE-SEO.md). */
-export const NEWS_SITEMAP_CAP = 150;
+ *  150 while pizzint's news-sitemap flaps thin↔alive again (COMPETITIVE-SEO.md,
+ *  FINDABILITY #50) — 48h window often holds 300–400 scored items. */
+export const NEWS_SITEMAP_CAP = 200;
 
 function itemStamp(item) {
   return item.published_at || (item.meta && item.meta.first_seen_at) || null;
@@ -49,6 +50,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Gemini 4 Argon', 'Gemini 4 Carbon', 'Gemini 4',
   'GLM-5.3', 'GLM5.3', 'GLM-5', 'GLM',
   'Claude Opus 5.5', 'Opus 5.5',
+  // FINDABILITY #50 — surfaces scoring in the live 48h window this pass.
+  'Google DeepMind', 'Nemotron', 'o-series', 'Alibaba Qwen',
 ]);
 
 /**
@@ -75,15 +78,17 @@ export function keywordsFor(item) {
   const meta = [];
   if (item.pillar) meta.push(item.pillar);
   if (item.kind) meta.push(String(item.kind));
-  // Source slug is low-signal for Google News; keep it last before brand terms.
+  // Source slug is low-signal for Google News; keep it after head terms.
   if (item.source) meta.push(String(item.source).slice(0, 40));
+  // Head terms before pillar/source meta so thin rows still read as AI news
+  // (live deploy used to ship "attention, <source>, AI, SIREN" — FINDABILITY #50).
   const bits = [
     ...named,
     ...topics,
-    ...meta,
     'AI',
     'artificial intelligence',
     brand.NAME,
+    ...meta,
   ];
   // Cap 12 so entity + topic + lab keywords stay under Google News practical limits
   // while pizzint's thin news-sitemap is contested again (COMPETITIVE-SEO.md).

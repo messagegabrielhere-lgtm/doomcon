@@ -43,7 +43,7 @@ test('render emits a valid empty news sitemap when nothing is fresh', () => {
 });
 
 test('render keywords include scored entities and stay under the news cap', () => {
-  assert.equal(NEWS_SITEMAP_CAP, 150);
+  assert.equal(NEWS_SITEMAP_CAP, 200);
   const xml = render({
     news: {
       items: [{
@@ -60,6 +60,39 @@ test('render keywords include scored entities and stay under the news cap', () =
   });
   assert.match(xml, /<news:keywords>[^<]*OpenAI/);
   assert.match(xml, /artificial intelligence/);
+});
+
+test('keywordsFor puts AI head terms before pillar/source meta on thin rows', () => {
+  const kw = keywordsFor({
+    title: 'A thin story with no named lab',
+    summary: 'No entity list.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'bluesky-ai',
+    entities: [],
+  });
+  const parts = kw.split(',').map((s) => s.trim());
+  const aiAt = parts.indexOf('AI');
+  const pillarAt = parts.indexOf('attention');
+  const sourceAt = parts.indexOf('bluesky-ai');
+  assert.ok(aiAt >= 0, kw);
+  assert.ok(parts.includes('artificial intelligence'), kw);
+  assert.ok(parts.includes('SIREN'), kw);
+  if (pillarAt >= 0) assert.ok(aiAt < pillarAt, kw);
+  if (sourceAt >= 0) assert.ok(aiAt < sourceAt, kw);
+});
+
+test('news sitemap keywords include Nemotron / Google DeepMind surfaces', () => {
+  const kw = keywordsFor({
+    title: 'NVIDIA Nemotron models expand as Google DeepMind ships evals',
+    summary: 'Nemotron and Google DeepMind appear in coverage.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'hn',
+    entities: [],
+  });
+  assert.match(kw, /Nemotron/);
+  assert.match(kw, /Google DeepMind|DeepMind/);
 });
 
 test('render keywords include matching topic-tag names for Google News contest', () => {

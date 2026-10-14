@@ -443,7 +443,7 @@ export function deriveGaps(report) {
       gaps.push({
         id: 'google-news-open',
         severity: 'medium',
-        text: `pizzint news-sitemap is empty while ours has ${ours.news_sitemap_urls} <loc> (local cap 150) — hold the Google News lane; keep the rolling window full and keyword-rich`,
+        text: `pizzint news-sitemap is empty while ours has ${ours.news_sitemap_urls} <loc> (local cap 200) — hold the Google News lane; keep the rolling window full and keyword-rich`,
       });
     }
   }

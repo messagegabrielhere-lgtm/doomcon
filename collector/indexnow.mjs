@@ -341,7 +341,8 @@ export function defaultUrlList({ outDir = join(ROOT, 'public') } = {}) {
   const newsPath = join(outDir, 'news-sitemap.xml');
   if (existsSync(newsPath)) {
     try {
-      urls.push(...locsFromSitemap(readFileSync(newsPath, 'utf8'), 100));
+      // Match raised NEWS_SITEMAP_CAP (FINDABILITY #50) while Google News contested.
+      urls.push(...locsFromSitemap(readFileSync(newsPath, 'utf8'), 200));
     } catch { /* publish without a news sitemap is fine */ }
   }
   // Preferential: UTC day hubs on disk (FINDABILITY #49) — Bing learns Skynet-shaped
