@@ -670,6 +670,8 @@ context.
 | 418 | Topic tag `gpt-6-astra` (live/archive ≥5); GPT model forms add `GPT-6 Astra` / `GPT-6 Luna` / `GPT-6 Sol`; `news:keywords` surfaces those nicknames; IndexNow + seo-daily; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 419 | Topic tag `gemini-4` (live/archive ≥5); Gemini model forms add `Gemini 4` / `Gemini 4 Argon` / `Gemini 4 Carbon`; `news:keywords` surfaces those nicknames; IndexNow + seo-daily; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 420 | Topic tag `ai-waiver` (live/archive ≥5); IndexNow + seo-daily monitor; refuse legal-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 421 | Topic tag `openai-agents` (live/archive ≥5); IndexNow + seo-daily monitor; refuse autonomy-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 422 | Topic tag `ai-bubble` (live/archive ≥5); IndexNow + seo-daily monitor; refuse crash-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
