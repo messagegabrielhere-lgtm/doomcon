@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-14T05:23:44.347Z",
+  "generated_at": "2026-10-14T05:31:22.196Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -124,6 +124,7 @@
       "corroboration": 2,
       "sources": [
         "bloomberg-tech",
+        "bluesky-ai",
         "wires-ai"
       ],
       "rule": [
@@ -150,11 +151,27 @@
           "tier1": true
         },
         {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "ASML Raises Full-Year Sales Outlook as AI Boom Drives Demand",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNcm1heDMtc0U2WVhvVjlZaGNmT1RWS1h1M25veGtJRkNBSE9Id1hvYlhsYkpMX1NKUHdrNU5EWkxkVDMzWjVkdnpoWHBDNFF5MGJLRk1VbW1NdnlhWUh3OFFYc25rSkFDekw0STlDNEtNN2diRVZ4M2N0WVdoc0k5cVpabm5Hc2ZYcDN3cXBGb3BhcHMtcHNvV1lSQ3JDSm1FaXZONXdjSTVOeEZOUHd3SA?oc=5",
+          "published_at": "2026-10-14T05:12:00.000Z",
+          "tier1": true
+        },
+        {
           "source": "bloomberg-tech",
           "outlet": "bloomberg.com",
           "title": "ASML Raises Full-Year Sales Outlook as AI Boom Drives Demand",
           "url": "https://bloomberg.com/news/articles/2026-10-14/asml-raises-full-year-sales-outlook-as-ai-boom-drives-demand",
           "published_at": "2026-10-14T05:12:36.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "reuters.com",
+          "title": "ASML forecasts Q4 sales above expectations on AI chip demand",
+          "url": "https://bsky.app/profile/reuters.com/post/3mxssx4obmk2p",
+          "published_at": "2026-10-14T05:23:44.347Z",
           "tier1": true
         }
       ],
@@ -419,11 +436,15 @@
         "chosun.com",
         "ddnews.gov.in",
         "decodingvibes.com",
+        "firstpost.com",
         "inquirer.net",
         "insurancejournal.com",
         "iraqinews.com",
+        "jpost.com",
+        "lemonde.fr",
         "nbcnews.com",
         "sofx.com",
+        "tech-insider.org",
         "techwireasia.com",
         "wsj.com"
       ],
@@ -431,7 +452,7 @@
         "bloomberg.com",
         "wsj.com"
       ],
-      "corroboration": 16,
+      "corroboration": 20,
       "sources": [
         "gnews-ai",
         "hn-fresh-ai",
@@ -460,6 +481,7 @@
         "2ee331c31673528d",
         "3078a3d5f80e4f06",
         "3666ba1e02facdbf",
+        "47b1c61501a00890",
         "498e7103353530ca",
         "4a54f7b4772a9f04",
         "4e5e343645d9b16e",
@@ -469,17 +491,20 @@
         "6a4e9c58ab96750e",
         "6f50953e835c2929",
         "71c4fcc4657d0e85",
+        "75ba7a8d40a186e5",
+        "7ab5ca330a7fb693",
         "7b81f020bba10b6e",
         "8219752ac62fd8fd",
         "857784a13d802c95",
         "98900f3d4137eee5",
         "9d8b36e643a962f3",
+        "a36c7092ff3f06fa",
         "ab7a33ca44988fff",
+        "ae917e88045050f3",
         "cea958964187da36",
         "d41e6ab15389daf7",
         "d50d6c31d5f992ba",
         "d605364fbe7f3945",
-        "e9f2bdcdd1071740",
         "fa2ea8d9a139a09c",
         "fcb1fb129c1b49ec",
         "ff33ad5305bb522f"
@@ -558,6 +583,14 @@
           "tier1": false
         },
         {
+          "source": "gnews-ai",
+          "outlet": "lemonde.fr",
+          "title": "Saudi employee arrested for allegedly bugging OpenAI office",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQM2s4NWJsTWJ2Mi1vUWVIVW8tV2JwdzhTQXRna2ZiMHJ3N0NuMHl3MnhVMlI2M2hSYzVtby1oNFBOR3lfRTYwM0VHdkZBZnpIa2xSajRFOE9Galo1R2IzTlg4djZYU3YzMVJGaU56N1dHMWM2R0pwV2xIYWZnQkE1ZlZ0bWlrTEN5ODZMOWo4N3B5aWRsbkZ1MjdKSnRIY0xQbkdoS2JDaEVRb0dyWHNUTGJsSkpxckg2aVlFbWRKZGRQemRLeGc?oc=5",
+          "published_at": "2026-10-14T00:25:34.358Z",
+          "tier1": false
+        },
+        {
           "source": "techmeme",
           "outlet": "techmeme.com",
           "title": "Filing: Abdulrahman Alfozan, the OpenAI staffer charged with bugging a conference room, used a Seeed Xiao ESP32-S3 Sense dev board; a website sells it for $14 (Bloomberg)",
@@ -572,14 +605,6 @@
           "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPVlAtM0gxcXhQZndzdWNLb0IwZXZ2dVYwenVYbHlBSFBBd1dvc3JjZGdHQk43dnZLM2VicUNEMnZLYXczYWJLM3dHa1lIMlFlLWRINy13eFo4N3UwMmRHaFpkRmM3T2xqVDhuVUd6ZTNnVWJJZTlIQ1dmQUJkT1A1cEo0WWlhTGh1VnFVZU52Zkk?oc=5",
           "published_at": "2026-10-14T01:27:49.234Z",
           "tier1": true
-        },
-        {
-          "source": "hn-fresh-ai",
-          "outlet": "decodingvibes.com",
-          "title": "OpenAI Employee Uses \"Unnamed Chatbot\" to Spy on OpenAI, Gets Arrested by FBI",
-          "url": "https://decodingvibes.com/blog/openai-employee-uses-unnamed-chatbot-to-spy-on-openai-gets-arrested-by-fbi",
-          "published_at": "2026-10-14T02:42:35.000Z",
-          "tier1": false
         }
       ],
       "live": true
@@ -1823,10 +1848,10 @@
     },
     {
       "id": "b5f87e0a86b9f",
-      "title": "Google launches flagship AI model Gemini 4 Argon for developers, businesses",
-      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQclhsaXp4NUtqeVJDQTNIUjVXQVdJcnNXYnpYZUFTZm4wY3UxcTM1SzJvdzRBNE9HaURlNG1obzFGQ0o3R0pWNVJfNGFDOUdFZnhfdEJxSkszQ2hZQlowMjdCbVliRE9uX3A5ak1CYkJHOEV1elBYRWgtUHBwdF9lcWEyUGdjbmhQb2JONkpNeWhLTHgzQzRhRFRnZTEwcDRCa3k3RkpxY0c5Z1RsSlFCSmQwNmRmQQ?oc=5",
-      "source": "wires-ai",
-      "outlet": "reuters.com",
+      "title": "Gemini 4 Argon vs Claude Opus 5.5: Which AI Model Is Better for Coding, Research and Business?",
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQbmJYT1ZZMzltTlE3bjdGMUhIR0YyemxVQnpjMmhzeGhOZlVFeVh1eFBENFhSUDdya1BwNXZEVWpZRi1VWENHTzRBaHdBNUVxQTBTUmZ2Z3F3UndzNmZKdmlUVlo4eDlGamlNZEV4UG9Xd0J0aDJVT1k0QkhYSGdvMjFKSDVhYXM3ak5Wc1VTcFZhYVJRd1MyMDF4UVRQdWVZcVVsN1pMSDFxMGJ2bmRESUxzTGhjR3c?oc=5",
+      "source": "gnews-ai",
+      "outlet": "trak.in",
       "outlets": [
         "bignewsnetwork.com",
         "dailyhunt.in",
@@ -1847,8 +1872,6 @@
       "breaking_at": "2026-10-13T19:25:49.978Z",
       "item_ids": [
         "245a93b148052096",
-        "313c3cb41f294b95",
-        "4e31b829ae688591",
         "7e287484b11db457",
         "b099d4bca8ecc92f",
         "bf4af32df7b2226a"
