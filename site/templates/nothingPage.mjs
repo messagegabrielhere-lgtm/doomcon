@@ -251,6 +251,10 @@ const STATUS_LABEL = {
   overdue: 'OVERDUE',
 };
 
+// Tip #270: section H2s are question-shaped and mirrored in FAQ (§3.3).
+const ledgerQ = 'What claims are on the ledger?';
+const methodQ = 'How is the Nothing Index made?';
+
 /** FAQ pairs restated from lede / method / visible copy only (FINDABILITY §3.3). */
 function faqPairs(data) {
   const scoreLine = Number.isFinite(data.scored.score)
@@ -259,6 +263,10 @@ function faqPairs(data) {
   return [
     [qTitle,
       `A skeptic's counter for AI hype: the share of dated, public AI predictions that missed, on a 0–100 scale. ${scoreLine} It does not feed the main ${brand.NAME} reading.`],
+    [ledgerQ,
+      'Every row is a public claim with a due date and a source. Hits lower the index. Misses raise it. Pending stays pending. Overdue waits for a human outcome mark so a late news story cannot silently become a miss.'],
+    [methodQ,
+      `score = 100 × (misses ÷ resolved), where resolved means rows marked hit or miss. Pending and overdue do not enter the denominator. The main ${brand.NAME} reading is a separate instrument — activity tempo from public sources — and this page never writes into it.`],
     ['How is this different from pizzint.watch’s Nothing Ever Happens Index?',
       'PizzINT’s NEH is the single highest probability among curated geopolitical Polymarket contracts — a panic gauge. Ours scores whether checkable AI claims landed or missed. Correlation is not causation on either page.'],
     [`Does this number feed the main ${brand.NAME} index?`,
@@ -380,7 +388,7 @@ tr[data-status="overdue"] .neh__st { background:rgba(251,191,36,.18); color:#fde
     </div>
   </div>
 
-  <h2>The ledger</h2>
+  <h2 id="ledger">${esc(ledgerQ)}</h2>
   <p class="neh__fine">Every row is a public claim with a due date and a source. Hits lower the index. Misses raise it. Pending stays pending. Overdue waits for a human outcome mark so a late news story cannot silently become a miss.</p>
   <div style="overflow-x:auto">
   <table class="neh__table">
@@ -391,7 +399,7 @@ ${rows}
   </table>
   </div>
 
-  <h2>How the number is made</h2>
+  <h2 id="method">${esc(methodQ)}</h2>
   <p class="neh__fine"><b>score = 100 × (misses ÷ resolved)</b>, where resolved means rows marked hit or miss. Pending and overdue do not enter the denominator. The main ${esc(brand.NAME)} reading is a separate instrument — activity tempo from public sources — and this page never writes into it.</p>
 
   <section class="neh__faq" aria-labelledby="faq">
