@@ -265,9 +265,10 @@ function railCaption(infra, priorScore) {
 // ---------------------------------------------------------------------------
 
 function warning() {
+  const warnQ = 'What should you read before the Watts charts?';
   return `
 <section class="iwarn" aria-labelledby="iwarn-h">
-  <h2 class="iwarn__h" id="iwarn-h">Read this before the charts</h2>
+  <h2 class="iwarn__h" id="iwarn-h">${esc(warnQ)}</h2>
   <p class="iwarn__p"><b>Nothing on this page measures datacentre power or datacentre water.</b>
      No public feed separates datacentre load from any other industrial load, and no arithmetic
      downstream can recover a split the input never contained. What is measured here is the
@@ -384,9 +385,10 @@ function corridorBoard(infra) {
 
   const withGrid = CORRIDORS.filter((c) => c.grid).length;
 
+  const corrQ = 'Which datacentre regions does Watts cover?';
   return `
 <section class="isec" aria-labelledby="icorr-h">
-  <h2 class="isec__h" id="icorr-h">${CORRIDORS.length === 9 ? 'Nine' : String(CORRIDORS.length)} datacentre regions<span class="sec__eb">The corridors</span></h2>
+  <h2 class="isec__h" id="icorr-h">${esc(corrQ)}<span class="sec__eb">The corridors</span></h2>
   <p class="isec__l">Nine places where the American build-out actually is, and what each of the three
      pillars can and cannot see there. <b>${esc(String(withGrid))} of ${esc(String(CORRIDORS.length))}
      have a free real-time demand feed.</b> The other ${esc(String(CORRIDORS.length - withGrid))} say
@@ -625,9 +627,10 @@ function gridPanel(infra) {
         ? `${t.baseline_n} of ${infra.thresholds.min_baseline_n}` : '')}</p>
     </div>`;
 
+  const gridQ = 'What does overnight grid load show?';
   return `
 <section class="isec" aria-labelledby="igrid-h">
-  <h2 class="isec__h" id="igrid-h">Overnight grid load<span class="sec__eb">The grid</span></h2>
+  <h2 class="isec__h" id="igrid-h">${esc(gridQ)}<span class="sec__eb">The grid</span></h2>
   <p class="isec__l">Every grid has a daily minimum — the hour when air conditioning, offices and
      traffic have all gone home. What is still drawing power at four in the morning is the load that
      never stops, and a datacentre is one of very few large loads that runs flat out at that hour.
@@ -675,9 +678,10 @@ function waterPanel(infra) {
 
   const wMeta = w?.meta ?? {};
 
+  const waterQ = 'What does river flow at the gauges show?';
   return `
 <section class="isec" aria-labelledby="iwater-h">
-  <h2 class="isec__h" id="iwater-h">River flow at the gauges<span class="sec__eb">The water</span></h2>
+  <h2 class="isec__h" id="iwater-h">${esc(waterQ)}<span class="sec__eb">The water</span></h2>
   <p class="isec__l">Cooling a datacentre consumes water, and the argument about how much is one of
      the loudest live public fights about this industry. <b>Nobody publishes the consumption.</b>
      What is published, free and keyless, is the state of the water the clusters have to draw on:
@@ -750,9 +754,10 @@ function buildoutPanel(infra) {
   </div>`;
   }).join('');
 
+  const buildQ = 'Which filings mention datacentres?';
   return `
 <section class="isec" aria-labelledby="ibuild-h">
-  <h2 class="isec__h" id="ibuild-h">Filings that mention datacentres<span class="sec__eb">The build-out</span></h2>
+  <h2 class="isec__h" id="ibuild-h">${esc(buildQ)}<span class="sec__eb">The build-out</span></h2>
   <p class="isec__l">Power and water are what a training cluster consumes. This is what it costs,
      and it is the one part of the story American public companies are legally obliged to write
      down. A company can decline to say how large its next model is. It cannot decline to tell its
@@ -785,9 +790,10 @@ function sourceTable(infra) {
       esc(String(s.baseline_note ?? ''))}. The reading above is real and is printed; it is simply not
       yet scored, and it is excluded from every average on this page.</td></tr>` : ''}`).join('');
 
+  const srcQ = 'What state is every Watts source in?';
   return `
 <section class="isec" aria-labelledby="isrc-h">
-  <h2 class="isec__h" id="isrc-h">Every source, every state</h2>
+  <h2 class="isec__h" id="isrc-h">${esc(srcQ)}</h2>
   <p class="isec__l">Three states, kept apart everywhere they appear.
      <b>${stateTag('live')}</b> the feed answered and there is enough baseline to score it.
      <b>${stateTag('awaiting-baseline')}</b> the feed answered, the number is real and printed, and
@@ -853,9 +859,10 @@ function cannotTell(infra) {
      'than it may be.'],
   ];
 
+  const cantQ = 'What can this index not tell you?';
   return `
 <section class="isec icant" aria-labelledby="icant-h">
-  <h2 class="isec__h" id="icant-h">What this cannot tell you</h2>
+  <h2 class="isec__h" id="icant-h">${esc(cantQ)}</h2>
   <p class="isec__l">The difference between an instrument and a conspiracy chart is that the
      instrument publishes this list.</p>
   <dl class="icant__l">${items.map(([k, v]) => `
@@ -869,9 +876,10 @@ function cannotTell(infra) {
 
 function howComputed(ctx, infra) {
   const t = infra.thresholds ?? {};
+  const howQ = 'How is the Watts number made?';
   return `
 <section class="isec" aria-labelledby="ihow-h">
-  <h2 class="isec__h" id="ihow-h">How the number is made</h2>
+  <h2 class="isec__h" id="ihow-h">${esc(howQ)}</h2>
   <ol class="ihow">
     <li><b>Each source returns one scalar</b> where higher always means more activity. A source that
         naturally points the other way is negated inside its own adapter, so nothing downstream has
@@ -1115,9 +1123,10 @@ function exclusions() {
       <p class="iex__v">${esc(e.verdict)}</p>
     </div>`).join('');
 
+  const exQ = 'Which sources were tried and left out?';
   return `
 <section class="isec iex" aria-labelledby="iex-h">
-  <h2 class="isec__h" id="iex-h">Sources tried and left out<span class="sec__eb">Measured exclusions</span></h2>
+  <h2 class="isec__h" id="iex-h">${esc(exQ)}<span class="sec__eb">Measured exclusions</span></h2>
   <p class="isec__l">Eight candidate sources were requested against their live endpoints and left
      out. They are published here, rather than dropped quietly, because a list of what was tried is
      the only evidence a reader has that the included list was <i>chosen</i> and not just assembled
@@ -1148,6 +1157,16 @@ export function render(ctx) {
     `It does not measure datacentre power draw, and the page says why. ` +
     `Compiled ${utc(infra.generated_at)}.`;
 
+  // Tip #298: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const warnQ = 'What should you read before the Watts charts?';
+  const corrQ = 'Which datacentre regions does Watts cover?';
+  const gridQ = 'What does overnight grid load show?';
+  const waterQ = 'What does river flow at the gauges show?';
+  const buildQ = 'Which filings mention datacentres?';
+  const srcQ = 'What state is every Watts source in?';
+  const cantQ = 'What can this index not tell you?';
+  const howQ = 'How is the Watts number made?';
+  const exQ = 'Which sources were tried and left out?';
   // FAQ answers restate hero / warning / cannot-tell copy only (FINDABILITY §3.3).
   const scoreAnswer = Number.isFinite(infra.score)
     ? `${num(infra.score, 1)} of 100 sits in SUBSTRATE ${infra.level} · ${infra.level_name}. ` +
@@ -1156,6 +1175,26 @@ export function render(ctx) {
     : 'No reading on this build. Every pillar is dark and nothing was computed.';
   const faq = [
     [title, scoreAnswer],
+    [warnQ,
+      'Nothing on this page measures datacentre power or datacentre water. No public feed separates ' +
+      'datacentre load from any other industrial load. What is measured here is the condition of the substrate ' +
+      'those datacentres are being built into.'],
+    [corrQ,
+      `${CORRIDORS.length} places where the American build-out actually is, and what each of the three pillars can and cannot see there.`],
+    [gridQ,
+      'Every grid has a daily minimum — the hour when air conditioning, offices and traffic have all gone home. What is still drawing power at four in the morning is the load that never stops. The overnight floor is the cleanest public proxy for always-on industrial demand that exists without a utility contract.'],
+    [waterQ,
+      'Cooling a datacentre consumes water, and nobody publishes the consumption. What is published, free and keyless, is the state of the water the clusters have to draw on: the flow in the river beside them.'],
+    [buildQ,
+      'Power and water are what a training cluster consumes. This is what it costs, and it is the one part of the story American public companies are legally obliged to write down.'],
+    [srcQ,
+      'Three states, kept apart everywhere they appear: live, awaiting-baseline, and dark. Merging awaiting into dark would claim an outage that is not happening.'],
+    [cantQ,
+      'The difference between an instrument and a conspiracy chart is that the instrument publishes this list. It cannot separate a datacentre from a smelter, and it cannot measure water consumption.'],
+    [howQ,
+      `Each source returns one scalar where higher always means more activity, then normalises against that source's baseline. This index does not feed the main ${brand.NAME} number.`],
+    [exQ,
+      'Candidate sources were requested against their live endpoints and left out. They are published here, rather than dropped quietly, because a list of what was tried is the only evidence a reader has that the included list was chosen.'],
     ['Does Watts measure datacentre power or water draw?',
       'Nothing on this page measures datacentre power or datacentre water. No public feed separates ' +
       'datacentre load from any other industrial load, and no arithmetic downstream can recover a ' +
@@ -1168,6 +1207,8 @@ export function render(ctx) {
       `SUBSTRATE ${infra.level ?? '—'} does not mean the grid is in trouble. It means the composite ` +
       'of these readings sits in that band of the distribution this index has observed. A young ' +
       'index has a short record, and a short record makes every reading look more ordinary than it may be.'],
+    [`Does ${brand.NAME} publish a Watts doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Watts is an infrastructure tempo reading — not a probability of harm and not a forecast.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
