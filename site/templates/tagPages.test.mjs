@@ -2795,6 +2795,50 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'reliability'), /probability of doom/i);
   });
 
+  it('pages observability, verifier, softmax, and throughput hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ob1', 'Ontology‐Driven Observability: Building the E2E Knowledge Graph at Netflix Scale'),
+          story('ob2', 'AI agent observability platforms track tool calls end to end'),
+          story('ob3', 'OpenTelemetry for LLM observability in production stacks'),
+          story('ob4', 'Tracing observability for multi-agent workflows'),
+          story('ob5', 'Why observability matters for retrieval agents'),
+          story('vf1', 'TRACE: Diagnosing Verifier Brittleness in Agentic Evaluation'),
+          story('vf2', 'DiVeR: Dense Verifiers for process supervision'),
+          story('vf3', 'Training a process verifier for math reasoning'),
+          story('vf4', 'Outcome verifiers fail under distribution shift'),
+          story('vf5', 'How verifier models score chain-of-thought drafts'),
+          story('sm1', 'Two-Level Softmax Sampling Done Right'),
+          story('sm2', 'Multilinguality in Hybrid Attention LLMs with softmax routing'),
+          story('sm3', 'HLA-W: Hierarchical softmax for long-context models'),
+          story('sm4', 'Softmax bottleneck analysis in large vocabulary models'),
+          story('sm5', 'Stable softmax kernels for GPU inference'),
+          story('th1', 'DualQuant improves LLM serving throughput under load'),
+          story('th2', 'Measuring decode throughput for MoE serving'),
+          story('th3', 'Prefill throughput vs batch size in disaggregated stacks'),
+          story('th4', 'Token throughput ceilings for speculative decoding'),
+          story('th5', 'Hardware knobs that raise inference throughput'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('observability'));
+    assert.ok(ids.includes('verifier'));
+    assert.ok(ids.includes('softmax'));
+    assert.ok(ids.includes('throughput'));
+    assert.match(renderTag(rich, 'observability'), /What has SIREN scored about AI observability\?/);
+    assert.match(renderTag(rich, 'verifier'), /What has SIREN scored about AI verifiers\?/);
+    assert.match(renderTag(rich, 'softmax'), /What has SIREN scored about Softmax\?/);
+    assert.match(renderTag(rich, 'throughput'), /What has SIREN scored about AI throughput\?/);
+    assert.doesNotMatch(renderTag(rich, 'observability'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'verifier'), /probability of doom/i);
+    assert.doesNotMatch(renderTag(rich, 'softmax'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'throughput'), /probability of doom/i);
+  });
+
   it('pages financial, evaluation, serving, and bayesian hubs', () => {
     const rich = {
       ...ctx,

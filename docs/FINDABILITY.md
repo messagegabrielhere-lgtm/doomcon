@@ -774,6 +774,10 @@ context.
 | 522 | Model hub `/model/synthid` (SynthID / SynthID Bio / Detector forms, ≥3); IndexNow + seo-daily; refuse model-doom-score / harm-forecast claims | Google + Bing | **Done** (2026-10-14) |
 | 523 | Topic tag `reliability` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 524 | Model hub `/model/clef` (Clef / Clef-omni / Clef-flash forms, ≥3); IndexNow + seo-daily; refuse model-doom-score / capability-ranking claims; refuse `autoencoder` synonym doorway of existing `autoencoders` | Google + Bing | **Done** (2026-10-14) |
+| 525 | Topic tag `observability` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 526 | Topic tag `verifier` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 527 | Topic tag `softmax` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 528 | Topic tag `throughput` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
