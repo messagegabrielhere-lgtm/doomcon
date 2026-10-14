@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-14T15:02Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
+**Measured:** 2026-10-14T16:10Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
 Companion to `docs/COMPETITIVE.md` (Sept inventory) and `docs/FINDABILITY.md`
 (our playbook).
 
@@ -20,7 +20,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,244** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
 | **pizzint.watch** | **1,018** | **empty (0 `<loc>`)** (flapped to 14 earlier 2026-10-14) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **693** live → **~5,972** local Ready (`seo-daily` 2026-10-14T15:43Z; `deploy-pending-url-lead` until merge — clears DoomBench 2090 / Skynet 1244 / pizzint 1018) | **150** local news-sitemap cap (100 live until deploy) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + `/companies.html` `/models.html` `/tags/*` `/kind/*` `/outlet/*` `/people/*` `/model/*` `/lab/*` + day hubs | **yes** |
+| **siren.watch** | **693** live → **~5,980** local Ready (`seo-daily` 2026-10-14T16:10Z; `deploy-pending-url-lead` until merge — clears DoomBench 2090 / Skynet 1244 / pizzint 1018) | **150** local news-sitemap cap (100 live until deploy) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + `/companies.html` `/models.html` `/tags/*` `/kind/*` `/outlet/*` `/people/*` `/model/*` `/lab/*` + `/guides.html` `/vs.html` + day hubs | **yes** |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 

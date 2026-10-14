@@ -260,6 +260,7 @@ context.
 | 27 | `/pillars.html` + `/pillar/` index + `/sources.html` (linked from country/outlet pages; were unwritten) | Google | **Done** (2026-10-14) |
 | 28 | Conquest `/vs/pizzint.html` + `/vs/takeofftracker.html` (DEFCON/takeoff head terms without borrowing claims) | Google | **Done** (2026-10-14) |
 | 29 | `/guides.html` + `/guides.md` evergreen explainer hub + `/vs.html` conquest directory (linked; were unwritten) | Google + agents | **Done** (2026-10-14) |
+| 30 | Question-shaped titles/H2s + WebPage/Speakable/Breadcrumb/FAQ on `/p-doom.html` + `/ai-doomsday-clock.html` (visible FAQ matches schema) | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

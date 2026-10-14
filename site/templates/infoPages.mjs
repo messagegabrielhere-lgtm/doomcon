@@ -28,6 +28,27 @@ const level = (ctx) => (ctx.state && Number.isFinite(ctx.state.level) ? ctx.stat
 
 const mail = `<a href="mailto:${esc(brand.CONTACT_EMAIL)}">${esc(brand.CONTACT_EMAIL)}</a>`;
 
+/** WebPage + speakable + breadcrumbs + FAQ for evergreen explainers (FINDABILITY schema rule). */
+function explainerJsonLd(ctx, path, title, description, faqEntities, crumbName) {
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      speakable: speakable(['h1', '.lede']),
+    },
+    breadcrumbs(ctx, [{ name: crumbName, path }]),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqEntities,
+    },
+  ];
+}
+
 export function about(ctx) {
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
   const main = `${CSS}
@@ -530,68 +551,156 @@ export const TCLK_CSS = `
 function nowLine(ctx) {
   const st = ctx.state;
   return st && Number.isFinite(st.level)
-    ? `<p><b>Right now:</b> ${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}, composite ${esc(Number(st.score).toFixed(1))} of 100, observed ${esc(utc(st.generated_at))}. <a href="${esc(ctx.href('/'))}">See the live reading →</a></p>` : '';
+    ? `<p><b>Right now:</b> ${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}, composite ${esc(Number(st.score).toFixed(1))} of 100, observed ${esc(utc(st.generated_at))}. <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a></p>` : '';
 }
 
 export function pdoom(ctx) {
+  const path = '/p-doom.html';
+  // Head-term question (FINDABILITY tip #201): glossary query, not a
+  // SIREN doom-probability claim. H1 must match <title>.
+  const qTitle = 'What is p(doom)?';
+  // Tip #312: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const originQ = 'Where does the term p(doom) come from?';
+  const differQ = 'Why do p(doom) estimates differ so much?';
+  const cannotQ = 'What can p(doom) not tell you?';
+  const differentQ = `How is ${brand.NAME} different from p(doom)?`;
+  const moreQ = 'What else should you read about p(doom)?';
+  // FAQ answers restate lede / differ / SIREN-instead / voices copy only (§3.3).
+  // Refuse: SIREN-as-p(doom), SIREN-as-doom-probability, forecast.
+  // Visible FAQ + FAQPage from the SAME array (schema without HTML was a gap).
+  // voicesFaq() supplies named-estimate Q&As; map to pairs so HTML matches schema.
+  const faq = [
+    [qTitle,
+      'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.'],
+    [originQ,
+      'It started as informal slang among people who work on and argue about AI risk, as a quick way to ask “how worried are you?” It spread into interviews and headlines once prominent researchers and executives began giving their own figures in public.'],
+    [differQ,
+      'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.'],
+    [cannotQ,
+      'It cannot be verified or recomputed, and it does not tell you what is happening today. A room of experts with very different figures can all be looking at the same facts.'],
+    [differentQ,
+      `${brand.NAME} does not estimate the chance of anything. It counts how much is happening in AI, hourly, and reports it as a level from 5 (quietest) to 1 (loudest). Everyone has a p(doom); nobody has a receipt.`],
+    [`Does ${brand.NAME} publish a p(doom) or a doom probability?`,
+      `No. ${brand.NAME} measures activity tempo — how much is happening in AI this hour — not danger and not a probability of harm. Everyone has a p(doom); nobody has a receipt.`],
+    [moreQ,
+      `Compare ${brand.NAME} to DEFCON, the Doomsday Clock and p(doom); read the AI doomsday clock explainer; browse AI books that argue both sides; or open the history of AI risk.`],
+    ...voicesFaq().map((e) => [e.name, e.acceptedAnswer.text]),
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const description = `${qTitle} 28 named, sourced estimates on one chart, from 0% to 99.9%, plus a dial to set your own. An opinion as a percentage — not a recomputable measurement.`;
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Explainer</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What is p(doom)?</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede"><b>p(doom) is shorthand for “probability of doom”: one person’s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity.</b>
     It is an opinion expressed as a number. There is no agreed method for producing it and no way to check one.</p>
   ${voicesSection(ctx, ctx.state && ctx.state.level)}
-  <h2>Where the term comes from</h2>
+  <h2>${esc(originQ)}</h2>
   <p>It started as informal slang among people who work on and argue about AI risk, as a quick way to ask “how worried are you?” It spread into interviews and headlines once prominent researchers and executives began giving their own figures in public.</p>
-  <h2>Why the numbers differ so much</h2>
+  <h2>${esc(differQ)}</h2>
   <ul>
     <li><b>“Doom” is not defined.</b> Some people mean human extinction, others mean permanent loss of control, others something milder. Two people can give the same number and mean different things.</li>
     <li><b>The time frame varies.</b> Ten years, this century, ever.</li>
     <li><b>It is a judgement, not a measurement.</b> Estimates given in public run from near zero to near certain, and the same person’s figure can move with the news.</li>
   </ul>
-  <h2>What p(doom) cannot tell you</h2>
+  <h2>${esc(cannotQ)}</h2>
   <p>It cannot be verified or recomputed, and it does not tell you what is happening today. A room of experts with very different figures can all be looking at the same facts.</p>
-  <h2>How ${esc(brand.NAME)} is different</h2>
+  <h2>${esc(differentQ)}</h2>
   <p>${esc(brand.NAME)} does not estimate the chance of anything. It counts how much is happening in AI, hourly, and reports it as a level from 5 (quietest) to 1 (loudest).
     Every reading ships with a receipt, and a button on the home page lets you <a href="${esc(ctx.href('/#vfy'))}">re-check the published record in your own browser</a>.
     The site’s line is: everyone has a p(doom), nobody has a receipt.</p>
   ${nowLine(ctx)}
-  <h2>Read more</h2>
-  <p><a href="${esc(ctx.href('/guide.html'))}">p(doom) next to DEFCON and the Doomsday Clock →</a> · <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock? →</a> ·
-    <a href="${esc(ctx.href('/library.html'))}">Books from every side of the argument →</a> · <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a></p>
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p>Search-shaped sibling:
+    <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
+    · <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock?</a>
+    · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+  <h2>${esc(moreQ)}</h2>
+  <p><a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)? →</a> ·
+    <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock? →</a> ·
+    <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a> ·
+    <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a></p>
 </section>`;
   return page({
-    ctx, path: '/p-doom.html',
-    title: `p(doom): Hinton, Amodei, Musk, LeCun and 24 more, plus yours · ${brand.NAME}`,
-    description: `28 named, sourced p(doom) estimates on one chart, from 0% to 99.9%, plus a dial to set your own and see who you agree with. What p(doom) is and what it cannot tell you.`,
-    jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
-      { '@type': 'Question', name: 'What is p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.' } },
-      { '@type': 'Question', name: 'Why do p(doom) estimates differ so much?', acceptedAnswer: { '@type': 'Answer', text: 'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.' } },
-      ...voicesFaq(),
-    ] }],
+    ctx, path,
+    title: `${qTitle} Hinton, Amodei, Musk, LeCun and 24 more · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
+    jsonld: explainerJsonLd(
+      ctx,
+      path,
+      qTitle,
+      description,
+      faq.map(([qAsk, a]) => ({
+        '@type': 'Question',
+        name: qAsk,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+      'p(doom)',
+    ),
     main,
   });
 }
 
 export function aiClock(ctx) {
+  const path = '/ai-doomsday-clock.html';
+  // Head-term question (FINDABILITY tip #200): disambiguation query, not a
+  // doom-probability claim. H1 must match <title>.
+  const qTitle = 'Is there an AI doomsday clock?';
+  // Tip #313: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const bulletinQ = 'What is the Bulletin’s Doomsday Clock?';
+  const expertsQ = 'Where does expert opinion sit on an AI clock?';
+  const specificQ = 'What are AI-specific clocks and scores?';
+  const insteadQ = `What does ${brand.NAME} do instead of a doomsday clock?`;
+  const whichQ = 'Which clock should you use?';
+  // FAQ answers restate lede / Bulletin / experts / SIREN-instead copy only (§3.3).
+  // Refuse: SIREN-as-doomsday-clock, SIREN-as-doom-probability, forecast.
+  // Visible FAQ + FAQPage from the SAME array (schema without HTML was a gap).
+  const faq = [
+    [qTitle,
+      `The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. ${brand.NAME} publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.`],
+    [bulletinQ,
+      'The Bulletin of the Atomic Scientists has published the Doomsday Clock since 1947. A board of experts decides, usually once a year, how close to “midnight” to set it. It is a considered judgement, not a calculation, and it is not updated between announcements.'],
+    [expertsQ,
+      `Ask the people building AI how likely it is to end in catastrophe and you get a cloud, not a number. The loudest cluster sits around 10–20%. The largest survey of AI researchers gives a median of ${SURVEY.median}%. On a clock where 100% is midnight, 15% is about 51 minutes to go.`],
+    [specificQ,
+      'A number of sites publish an AI risk clock, countdown or score. What they share is the method: a person, a panel or a language model decides the setting. That makes them statements of opinion, not something a reader can recompute.'],
+    [insteadQ,
+      `${brand.NAME} counts releases, compute and capital, attention, governance and markets from public sources every hour. It reports tempo, not danger; each reading has a receipt; and it moves hourly, not yearly.`],
+    [whichQ,
+      `If you want an expert body’s considered view of overall risk, read the Bulletin’s statement. If you want to know how much is happening in AI this week, and to be able to check the answer, that is what ${brand.NAME} is for.`],
+    ['How close is the AI doomsday clock to midnight?',
+      `There is no official AI clock. Expert estimates of AI catastrophe cluster around 10–20%; the largest researcher survey has a median of ${SURVEY.median}%. On a clock where 100% is midnight, 15% is about 51 minutes to go.`],
+    ['Who sets the AI doomsday clock?',
+      `Nobody officially. Sites that publish one set it by their own judgement. ${brand.NAME}’s reading is computed hourly from public data and can be re-checked in the browser.`],
+    [`Is ${brand.NAME} a doomsday clock or a doom probability?`,
+      `No. ${brand.NAME} measures activity tempo — how much is happening in AI this hour — not danger and not a probability of harm. The dial borrows countdown grammar only.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const description = `${qTitle} The Bulletin’s clock is yearly judgement, not AI-specific. Expert p(doom) clusters around 10–20%. ${brand.NAME} is an hourly AI activity count anyone can verify.`;
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Explainer</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">The AI Doomsday Clock: is there one?</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede"><b>The Doomsday Clock is not an AI clock, though it now takes AI into account. Several AI-specific “clocks” exist, and all of them are set by judgement.
     ${esc(brand.NAME)} is the nearest thing that is counted instead: an hourly reading of AI activity that anyone can verify.</b></p>
   <p><a href="${esc(ctx.href('/p-doom.html#voices'))}"><b>Set your own AI doomsday clock →</b></a> Drag a dial, see where you sit among 28 named experts from LeCun (0.01%) to Yudkowsky (95%+), and post it.</p>
   <style>${TCLK_CSS}</style>
   ${tempoClock(ctx, { size: 260 })}
-  <h2>The Doomsday Clock</h2>
+  <h2>${esc(bulletinQ)}</h2>
   <p>The Bulletin of the Atomic Scientists has published the Doomsday Clock since 1947. It is a symbol: a board of experts decides, usually once a year, how close to “midnight” to set it.
     It began as a warning about nuclear weapons and has since widened to include climate change and disruptive technologies, AI among them. It is a considered judgement, not a calculation, and it is not updated between announcements.</p>
-  <h2>The experts’ clock: where opinion sits</h2>
+  <h2>${esc(expertsQ)}</h2>
   <p>Ask the people building AI how likely it is to end in catastrophe and you get a cloud, not a number. The loudest cluster sits around <b>10–20%</b> (Geoffrey Hinton; Elon Musk says 10–30%; Dario Amodei 10–25%). The largest survey of AI researchers gives a median of <b>${SURVEY.median}%</b>. The tails run from Yann LeCun’s <b>under 0.01%</b> to Eliezer Yudkowsky’s <b>over 95%</b>.
     On a clock where 100% is midnight, 15% is about 51 minutes to go. <a href="${esc(ctx.href('/p-doom.html#voices'))}">See all ${VOICES.length} voices on one chart and set the clock to your own number →</a></p>
-  <h2>AI-specific clocks and scores</h2>
+  <h2>${esc(specificQ)}</h2>
   <p>A number of sites publish an AI risk clock, countdown or score. What they share is the method: a person, a panel or a language model decides the setting. That makes them statements of opinion. Useful ones, sometimes, but not something a reader can recompute.</p>
-  <h2>What ${esc(brand.NAME)} does instead</h2>
+  <h2>${esc(insteadQ)}</h2>
   <ul>
     <li><b>It counts.</b> Releases, compute and capital, attention, governance and markets, from public sources, every hour.</li>
     <li><b>It reports tempo, not danger.</b> The level runs from 5 (quietest) to 1 (loudest). Loud means a lot is happening; it does not mean things are going badly.</li>
@@ -599,19 +708,33 @@ export function aiClock(ctx) {
     <li><b>It moves when the world does.</b> Hourly, not yearly.</li>
   </ul>
   ${nowLine(ctx)}
-  <h2>Which should you use?</h2>
+  <h2>${esc(whichQ)}</h2>
   <p>If you want an expert body’s considered view of overall risk, read the Bulletin’s statement. If you want to know how much is happening in AI this week, and to be able to check the answer, that is what this site is for. They answer different questions.</p>
-  <p><a href="${esc(ctx.href('/guide.html'))}">The side-by-side comparison →</a> · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)? →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the index is computed →</a></p>
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p>Search-shaped sibling:
+    <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
+    · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a>
+    · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+  <p><a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a> · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a></p>
 </section>`;
   return page({
-    ctx, path: '/ai-doomsday-clock.html',
-    title: `AI Doomsday Clock: expert p(doom), set your own · ${brand.NAME}`,
-    description: `AI Doomsday Clock: expert p(doom) clusters at 10–20%. Set your own on a dial, or read ${brand.NAME}, an hourly AI index anyone can verify.`,
-    jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
-      { '@type': 'Question', name: 'Is there an AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. SIREN publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.' } },
-      { '@type': 'Question', name: 'How close is the AI Doomsday Clock to midnight?', acceptedAnswer: { '@type': 'Answer', text: 'There is no official AI clock. Expert estimates of AI catastrophe cluster around 10–20%; the largest researcher survey has a median of 5%. On a clock where 100% is midnight, 15% is about 51 minutes to go.' } },
-      { '@type': 'Question', name: 'Who sets the AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'Nobody officially. Sites that publish one set it by their own judgement. SIREN’s reading is computed hourly from public data and can be re-checked in the browser.' } },
-    ] }],
+    ctx, path,
+    title: `${qTitle} Bulletin vs verifiable count · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
+    jsonld: explainerJsonLd(
+      ctx,
+      path,
+      qTitle,
+      description,
+      faq.map(([qAsk, a]) => ({
+        '@type': 'Question',
+        name: qAsk,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+      'AI doomsday clock',
+    ),
     main,
   });
 }

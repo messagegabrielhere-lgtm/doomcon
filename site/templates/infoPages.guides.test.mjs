@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { GUIDES, guides, guidesMd } from './infoPages.mjs';
+import { GUIDES, aiClock, guides, guidesMd, pdoom } from './infoPages.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
@@ -72,5 +72,34 @@ describe('guides hub', () => {
     assert.match(html, /"name"\s*:\s*"What else sits next to these AI explainers\?"/);
     assert.match(html, /the both-sides library/);
     assert.doesNotMatch(html, /probability of doom is \d/i);
+  });
+
+  it('ai-doomsday-clock ships matching question H1 and visible FAQ', () => {
+    const html = aiClock(ctx);
+    assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.match(html, /<title>Is there an AI doomsday clock\? Bulletin vs verifiable count/);
+    assert.match(html, /<h1 class="bp__h1">Is there an AI doomsday clock\?<\/h1>/);
+    assert.match(html, /What questions do people actually ask\?/);
+    assert.match(html, /"@type"\s*:\s*"WebPage"/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /BreadcrumbList/);
+    assert.doesNotMatch(html, /<h1 class="bp__h1">The AI Doomsday Clock: is there one\?<\/h1>/);
+    assert.doesNotMatch(html, /probability of doom is \d/i);
+    assert.doesNotMatch(html, /noindex/);
+  });
+
+  it('p-doom ships matching question title and FAQ schema', () => {
+    const html = pdoom(ctx);
+    assert.match(html, /<title>What is p\(doom\)\? Hinton, Amodei, Musk, LeCun/);
+    assert.match(html, /<h1 class="bp__h1">What is p\(doom\)\?<\/h1>/);
+    assert.match(html, /What questions do people actually ask\?/);
+    assert.match(html, /Does SIREN publish a p\(doom\) or a doom probability\?/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /"@type"\s*:\s*"WebPage"/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /BreadcrumbList/);
+    assert.doesNotMatch(html, /probability of doom is \d/i);
+    assert.doesNotMatch(html, /noindex/);
   });
 });
