@@ -200,6 +200,13 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Where did the world map data come from'));
     assert.ok(org.knowsAbout.includes('Where can you take the world map data'));
     assert.ok(org.knowsAbout.includes('how many datacentres mapped in the United States'));
+    assert.ok(org.knowsAbout.includes('What can this US map not show you'));
+    assert.ok(org.knowsAbout.includes('Where are the mapped US datacentres'));
+    assert.ok(org.knowsAbout.includes('Which counties with mapped sites are in drought'));
+    assert.ok(org.knowsAbout.includes('Which grid sits under each pin'));
+    assert.ok(org.knowsAbout.includes('What does one pin say'));
+    assert.ok(org.knowsAbout.includes('Which are the largest tagged sites'));
+    assert.ok(org.knowsAbout.includes('How was this US map built, and what is wrong with it'));
     assert.ok(org.knowsAbout.includes('SIREN infrastructure index'));
     assert.ok(org.knowsAbout.includes('what does the SIREN infrastructure index read'));
     assert.ok(org.knowsAbout.includes('What should you read before the Watts charts'));
