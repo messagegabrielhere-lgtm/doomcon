@@ -177,7 +177,7 @@ ${corpusSection(ctx, news, corpus)}
     jsonld: [
       collectionPage(ctx, news, { name: title, description }),
       itemList(ctx, news),
-      breadcrumbs(ctx, [{ name: 'Newsroom', path: PATH }]),
+      breadcrumbs(ctx, [{ name: `Which AI stories has ${brand.NAME} scored in this window?`, path: PATH }]),
       {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
@@ -226,17 +226,17 @@ function uniqueDays(items) {
  */
 function entityDirNav(ctx) {
   const links = [
-    ['/companies.html', 'Companies'],
-    ['/models.html', 'Models'],
-    ['/people.html', 'People'],
-    ['/pillars.html', 'Pillars'],
-    ['/tags.html', 'Tags'],
-    ['/kinds.html', 'Kinds'],
-    ['/outlets.html', 'Outlets'],
-    ['/sources.html', 'Sources'],
+    ['/companies.html', `Which AI companies has ${brand.NAME} scored stories about?`],
+    ['/models.html', `Which AI models has ${brand.NAME} scored stories about?`],
+    ['/people.html', `Which AI people has ${brand.NAME} scored press about?`],
+    ['/pillars.html', `Which AI activity pillars has ${brand.NAME} scored?`],
+    ['/tags.html', `Which AI tags has ${brand.NAME} scored stories about?`],
+    ['/kinds.html', `Which AI story kinds has ${brand.NAME} scored?`],
+    ['/outlets.html', `Which AI outlets has ${brand.NAME} scored stories from?`],
+    ['/sources.html', `Which AI news sources has ${brand.NAME} scored via?`],
   ];
   if (ctx.routes && ctx.routes.world && ctx.world) {
-    links.push(['/countries.html', 'Countries']);
+    links.push(['/countries.html', `Which AI datacentre countries has ${brand.NAME} mapped?`]);
   }
   const html = links
     .map(([href, label]) => `<a href="${esc(ctx.href(href))}">${esc(label)}</a>`)
@@ -257,7 +257,7 @@ function dayHubNav(ctx, items) {
   }).filter(Boolean));
   const links = days
     .filter((d) => present.has(d.day))
-    .map((d) => `<a href="${esc(ctx.href(dayPath(d.day)))}">${esc(d.day)} <span class="num">(${esc(String(d.count))})</span></a>`)
+    .map((d) => `<a href="${esc(ctx.href(dayPath(d.day)))}">Which AI stories did ${esc(brand.NAME)} score on ${esc(d.day)}? <span class="num">(${esc(String(d.count))})</span></a>`)
     .join('');
   if (!links) return '';
   return `<nav class="narch__days" aria-label="News by UTC day">
@@ -271,10 +271,10 @@ function tagHubNav(ctx) {
   const tags = indexableTags(ctx);
   if (!tags.length) return '';
   const links = tags
-    .map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)} <span class="num">(${esc(String(t.count))})</span></a>`)
+    .map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">What has ${esc(brand.NAME)} scored about ${esc(t.name)}? <span class="num">(${esc(String(t.count))})</span></a>`)
     .join('');
   return `<nav class="narch__days" aria-label="News by topic tag">
-  <p class="narch__days-k">By topic · <a href="${esc(ctx.href('/tags/'))}">all tags</a> · <a href="${esc(ctx.href('/tags.html'))}">tags hub</a></p>
+  <p class="narch__days-k">By topic · <a href="${esc(ctx.href('/tags/'))}">Which AI news tags have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/tags.html'))}">Which AI tags has ${esc(brand.NAME)} scored stories about?</a></p>
   <div class="narch__days-links">${links}</div>
 </nav>`;
 }
@@ -284,10 +284,10 @@ function kindHubNav(ctx) {
   const kinds = indexableKinds(ctx);
   if (!kinds.length) return '';
   const links = kinds
-    .map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)} <span class="num">(${esc(String(k.count))})</span></a>`)
+    .map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">What has ${esc(brand.NAME)} scored as ${esc(k.name)}? <span class="num">(${esc(String(k.count))})</span></a>`)
     .join('');
   return `<nav class="narch__days" aria-label="News by story kind">
-  <p class="narch__days-k">By kind · <a href="${esc(ctx.href('/kind/'))}">all kinds</a> · <a href="${esc(ctx.href('/kinds.html'))}">kinds hub</a></p>
+  <p class="narch__days-k">By kind · <a href="${esc(ctx.href('/kind/'))}">Which AI story kinds have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/kinds.html'))}">Which AI story kinds has ${esc(brand.NAME)} scored?</a></p>
   <div class="narch__days-links">${links}</div>
 </nav>`;
 }
@@ -297,10 +297,10 @@ function outletHubNav(ctx) {
   const outlets = indexableOutlets(ctx).slice(0, 12);
   if (!outlets.length) return '';
   const links = outlets
-    .map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)} <span class="num">(${esc(String(o.count))})</span></a>`)
+    .map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">What has ${esc(brand.NAME)} scored from ${esc(o.domain)}? <span class="num">(${esc(String(o.count))})</span></a>`)
     .join('');
   return `<nav class="narch__days" aria-label="News by publisher">
-  <p class="narch__days-k">By publisher · <a href="${esc(ctx.href('/outlet/'))}">all publishers</a> · <a href="${esc(ctx.href('/outlets.html'))}">outlets hub</a></p>
+  <p class="narch__days-k">By publisher · <a href="${esc(ctx.href('/outlet/'))}">Which AI publishers have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a></p>
   <div class="narch__days-links">${links}</div>
 </nav>`;
 }
@@ -312,9 +312,9 @@ function archiveHubNav(ctx) {
   const pages = archivePageCount(ctx);
   return `<nav class="narch__days" aria-label="Older scored stories">
   <p class="narch__days-k">Older scored stories</p>
-  <div class="narch__days-links"><a href="${esc(ctx.href(archivePagePath(1)))}">Story archive</a>
+  <div class="narch__days-links"><a href="${esc(ctx.href(archivePagePath(1)))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a>
     <span class="num">(${esc(String(n))} across ${esc(String(pages))} page${pages === 1 ? '' : 's'})</span>
-    · <a href="${esc(ctx.href('/item/'))}">live window</a></div>
+    · <a href="${esc(ctx.href('/item/'))}">Which scored AI stories are in the ${esc(brand.NAME)} live window?</a></div>
 </nav>`;
 }
 

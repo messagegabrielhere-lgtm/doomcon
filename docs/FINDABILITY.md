@@ -478,6 +478,7 @@ context.
 | 226 | `/item/*` + `/item/` + `/item/archive*` siblings/breadcrumbs use newsroom + live-window + pillar questions + “Which older AI stories has SIREN kept in the archive?” (was “Newsroom” / “Live window” / pillar name); refuse item/archive doom-score claims | Google + Bing | **Done** (2026-10-14) |
 | 227 | `/compare.html` + `/alternatives.html` + `/vs.html` + `/vs/*` crumbs/breadcrumbs/ItemList/rival-nav links use compare + vs + alternatives questions + “SIREN vs {rival}: which should you use?” (was “Compare” / “Versus” / “Alternatives” / rival name); refuse borrowed doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 228 | `/guide.html` + `/guides.html` + GUIDES + guide.md + home FAQ + `/live-x.html` + terms/disclosures/ai-clock footers use explainer + compare + newsroom questions (was “Guide” / “Guides” / “AI doom indexes compared” / “Alternatives hub” / “Newsroom”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 229 | `/news.html` directory + day/tag/kind/outlet/archive nav + breadcrumbs, and `/live.html` siblings/FAQ/breadcrumbs, use newsroom + facet + live-media questions (was “Newsroom” / “Companies” / “all tags” / “Live on X” / “the Newsroom”); refuse newsroom doom-score claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

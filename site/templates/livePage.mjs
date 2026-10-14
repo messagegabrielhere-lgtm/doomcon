@@ -200,7 +200,7 @@ export function render(ctx, data) {
     ['Does SIREN endorse these streams?',
       `${brand.NAME} picks nothing by hand and endorses nothing here: it is a filtered list of what is on.`],
     ['Where else is live AI on SIREN?',
-      'More live AI: Live on X, Real Clips, the Newsroom.'],
+      `More live AI: Where are live X feeds and Spaces on AI?; Where can you find real clips of AI leaders?; Which AI stories has ${brand.NAME} scored in this window?`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -216,13 +216,15 @@ export function render(ctx, data) {
   ${tvSection(d.tv)}
   ${radioSection(d.radio)}
   <h2>About this room</h2>
-  <p class="lv-note">Video thumbnails come from YouTube (i.ytimg.com), so Google sees your IP address when the page loads; the player is YouTube’s privacy-enhanced one (youtube-nocookie.com) and loads only when you click. Podcast artwork and audio come from each show’s host. ${esc(brand.NAME)} picks nothing by hand and endorses nothing here: it is a filtered list of what is on. Machine-readable: <a href="${esc(ctx.href('/api/live-media.json'))}">api/live-media.json</a>. More live AI: <a href="${esc(ctx.href('/live-x.html'))}">Live on X</a>, <a href="${esc(ctx.href('/elon.html'))}">Real Clips</a>, <a href="${esc(ctx.href('/news.html'))}">the Newsroom</a>.</p>
+  <p class="lv-note">Video thumbnails come from YouTube (i.ytimg.com), so Google sees your IP address when the page loads; the player is YouTube’s privacy-enhanced one (youtube-nocookie.com) and loads only when you click. Podcast artwork and audio come from each show’s host. ${esc(brand.NAME)} picks nothing by hand and endorses nothing here: it is a filtered list of what is on. Machine-readable: <a href="${esc(ctx.href('/api/live-media.json'))}">api/live-media.json</a>. More live AI: <a href="${esc(ctx.href('/live-x.html'))}">Where are live X feeds and Spaces on AI?</a>, <a href="${esc(ctx.href('/elon.html'))}">Where can you find real clips of AI leaders?</a>, <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>
   <section class="lv-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}
     <p class="lv-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a>
-      · <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a>.</p>
+      · <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a>
+      · <a href="${esc(ctx.href('/live-x.html'))}">Where are live X feeds and Spaces on AI?</a>
+      · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>
   </section>
 </section>
 ${SCRIPT}`;
@@ -244,7 +246,7 @@ ${SCRIPT}`;
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'AI on TV & radio', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
