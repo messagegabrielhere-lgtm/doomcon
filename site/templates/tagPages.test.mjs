@@ -2309,4 +2309,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'white-house'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'white-house'), /probability of doom/i);
   });
+
+  it('pages ai-tools and ai-risks hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('at1', 'Honeyjar offers AI tools to improve PR and comms at every company'),
+          story('at2', 'Why do some people with ADHD find AI tools so useful?'),
+          story('at3', 'Amazon\'s new AI tool being used to suggest more personalized products'),
+          story('at4', 'AI Tool May Aid Clinicians Sorting Seizure Cases'),
+          story('at5', 'US software developer job postings rise despite AI tools in the workplace'),
+          story('ar1', 'Britain steps up national defences against growing AI risks'),
+          story('ar2', 'OpenAI fires 3 safety researchers in dispute over AI risks'),
+          story('ar3', 'Most US voters say Trump, Congress don\'t take AI risks seriously, poll finds'),
+          story('ar4', 'China is ready to address AI risks, just not on US terms'),
+          story('ar5', 'OpenAI Defends Firing of Three Safety Researchers as AI Risks are Highlighted'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('ai-tools'));
+    assert.ok(ids.includes('ai-risks'));
+    assert.match(renderTag(rich, 'ai-tools'), /What has SIREN scored about AI tools\?/);
+    assert.match(renderTag(rich, 'ai-risks'), /What has SIREN scored about AI risks\?/);
+    assert.match(renderTag(rich, 'ai-tools'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'ai-risks'), /not a harm forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-tools'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-risks'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-risks'), /probability of doom/i);
+  });
 });
