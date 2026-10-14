@@ -649,7 +649,7 @@ export function render(ctx, { head }) {
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
       <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${pillarStatusLine(state)}</p>
-      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
+      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>
     </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;
@@ -658,7 +658,7 @@ export function render(ctx, { head }) {
 <div class="v2-top"><div class="v2-wrap">
   <span class="v2-chip v2-top__x">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
   <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}">SIREN SCORE UPDATED <b>${esc(hhmm(state.generated_at))}</b> · HOURLY</span>
-  <a class="v2-chip v2-live" href="${href('/news.html')}" title="The newsroom checks its sources every minute and Dispatch alerts refresh through the hour. Only the SIREN score is hourly."><i aria-hidden="true"></i>NEWS &amp; ALERTS LIVE</a>
+  <a class="v2-chip v2-live" href="${href('/news.html')}" title="The newsroom checks its sources every minute and Dispatch alerts refresh through the hour. Only the SIREN score is hourly."><i aria-hidden="true"></i>Which AI stories has ${esc(brand.NAME)} scored in this window?</a>
   <span class="v2-chip v2-top__x" title="${dark ? `${dark} source${dark === 1 ? '' : 's'} failed this pass` : 'Every source answered'}">${icon('eye', 2)}${reporting}/${sources.length} REPORTING${dark ? ` · ${dark} DARK` : ''} · ${scored} SCORED</span>
   <span class="right">
     <button type="button" class="tag radio" id="siren-radio" data-level="${state.level}" aria-pressed="false" title="Play SIREN Radio: an original soundtrack generated in your browser. Its mood follows the level.">♪ RADIO</button>
