@@ -328,6 +328,52 @@ describe('model pages', () => {
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/jev.html'));
   });
 
+  it('indexes EmbeddingGemma, SynthID, and Clef model hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('eg1', 'EmbeddingGemma 2: an open, lightweight multimodal embedding model', []),
+          story('eg2', 'Google DeepMind launches EmbeddingGemma 2, a 740M-parameter model', []),
+          story('eg3', 'Open-source Mac app that runs EmbeddingGemma 2 locally', []),
+          story('sy1', 'Google rolls out improved SynthID AI content detector', []),
+          story('sy2', 'Google DeepMind introduces SynthID Bio for AI-designed proteins', []),
+          story('sy3', 'Step-by-step guide: How to use Google’s SynthID detector', []),
+          story('cl1', 'Cloudflare debuts open-weight multimodal decision models Clef and Clef-flash', []),
+          story('cl2', 'Cloudflare debuts Clef-omni, an open-weight decision model', []),
+          story('cl3', 'Cloudflare Open Sources Decision Models for AI Agents including Clef', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'EmbeddingGemma'));
+    assert.ok(indexableModels(rich).some((m) => m.name === 'SynthID'));
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Clef'));
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/embeddinggemma.html'));
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/synthid.html'));
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/clef.html'));
+    assert.match(renderModel(rich, 'EmbeddingGemma'), /What has SIREN scored about EmbeddingGemma\?|EmbeddingGemma/);
+    assert.match(renderModel(rich, 'SynthID'), /What has SIREN scored about SynthID\?|SynthID/);
+    assert.match(renderModel(rich, 'Clef'), /What has SIREN scored about Clef\?|Clef/);
+    assert.doesNotMatch(renderModel(rich, 'EmbeddingGemma'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderModel(rich, 'SynthID'), /probability of doom/i);
+    assert.doesNotMatch(renderModel(rich, 'Clef'), /doom score:\s*\d/i);
+    const thin = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('bad1', 'A gemma stone metaphor in a poem', []),
+          story('bad2', 'Towerglow orchestrator ships', []),
+          story('bad3', 'An open-weight decision note without naming the product', []),
+        ],
+      },
+    };
+    assert.ok(!indexableModels(thin).some((m) => m.name === 'EmbeddingGemma'));
+    assert.ok(!indexableModels(thin).some((m) => m.name === 'SynthID'));
+    assert.ok(!indexableModels(thin).some((m) => m.name === 'Clef'));
+  });
+
   it('indexes Codex from OpenAI Codex / Codex CLI forms (not bare Codex)', () => {
     const rich = {
       ...ctx,

@@ -770,6 +770,10 @@ context.
 | 518 | Topic tag `evaluation` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 519 | Topic tag `serving` (LLM/MoE/disaggregated serving forms, ≥5); IndexNow + seo-daily; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 520 | Topic tag `bayesian` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 521 | Model hub `/model/embeddinggemma` (EmbeddingGemma forms, ≥3); IndexNow + seo-daily; refuse model-doom-score / capability-ranking claims | Google + Bing | **Done** (2026-10-14) |
+| 522 | Model hub `/model/synthid` (SynthID / SynthID Bio / Detector forms, ≥3); IndexNow + seo-daily; refuse model-doom-score / harm-forecast claims | Google + Bing | **Done** (2026-10-14) |
+| 523 | Topic tag `reliability` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 524 | Model hub `/model/clef` (Clef / Clef-omni / Clef-flash forms, ≥3); IndexNow + seo-daily; refuse model-doom-score / capability-ranking claims; refuse `autoencoder` synonym doorway of existing `autoencoders` | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

@@ -200,6 +200,14 @@ const ENTITY_DEFS = [
   // OpenAI always-on agent product — avoid bare “Dots” (too many false friends).
   // Safe OpenAI-anchored forms clear MODEL_INDEX_MIN for /model/dots.
   { name: 'Dots', kind: 'model', forms: ['OpenAI Dots', "OpenAI's Dots", 'OpenAI’s Dots'] },
+  // Google DeepMind embedding family — require EmbeddingGemma (no bare Gemma clash
+  // with the existing Gemma model entity; forms are distinct product strings).
+  { name: 'EmbeddingGemma', kind: 'model', forms: ['EmbeddingGemma 2', 'EmbeddingGemma'] },
+  // Google DeepMind watermark / detector family — SynthID and SynthID Bio / Detector.
+  { name: 'SynthID', kind: 'model', forms: ['SynthID Bio', 'SynthID Detector', 'SynthID'] },
+  // Cloudflare decision-model family — Clef / Clef-omni / Clef-flash. Bare “Clef”
+  // clears MODEL_INDEX_MIN in current wire; music-clef false friends stay rare.
+  { name: 'Clef', kind: 'model', forms: ['Clef-omni', 'Clef-flash', 'Clef'] },
 ];
 
 const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfaceRegex(d.forms) }));

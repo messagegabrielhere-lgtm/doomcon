@@ -1699,6 +1699,12 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Bayesian optimization and inference research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Bb]ayesian\b/,
   },
+  {
+    id: 'reliability',
+    name: 'AI reliability',
+    description: 'Reliability and agent-assurance research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Rr]eliability\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
