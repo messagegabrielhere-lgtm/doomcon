@@ -226,6 +226,8 @@ export function organization(ctx) {
       'What has SIREN scored about AI agents',
       'AI IPOs this index scored',
       'scored AI stories this index kept',
+      'Which scored AI stories are in the SIREN live window',
+      'Which older AI stories has SIREN kept in the archive',
       'AI doom index alternatives',
       'What are AI doom index alternatives',
       'SIREN vs DoomBench: which should you use',
