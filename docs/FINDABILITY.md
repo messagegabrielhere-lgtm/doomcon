@@ -690,6 +690,8 @@ context.
 | 438 | Topic tag `manipulation-tasks` (live/archive ≥5); IndexNow + seo-daily monitor; refuse robotics-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 439 | Topic tag `safety-concerns` (live/archive ≥5); IndexNow + seo-daily monitor; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 440 | Topic tag `chatgpt-teens` (live/archive ≥5); IndexNow + seo-daily monitor; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 441 | Topic tag `large-language-models` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 442 | Topic tag `frontier-ai` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
