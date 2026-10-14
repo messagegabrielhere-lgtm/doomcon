@@ -39,6 +39,7 @@ const MODEL_LAB = {
   EmbeddingGemma: 'google-deepmind',
   SynthID: 'google-deepmind',
   Clef: 'cloudflare',
+  Kimi: 'moonshot-ai',
 };
 
 const MODELS = publishedEntities().filter((e) => e.kind === 'model');

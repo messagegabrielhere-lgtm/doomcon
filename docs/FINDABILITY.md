@@ -794,6 +794,10 @@ context.
 | 542 | Topic tag `unsupervised` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 543 | Topic tag `backdoor` (live/archive ≥5); IndexNow + seo-daily; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 544 | Topic tag `out-of-distribution` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 545 | Lab hub `/lab/moonshot-ai` (Moonshot AI entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 546 | Model hub `/model/kimi` (Kimi / Kimi K2 forms, ≥3); IndexNow + seo-daily; refuse model-doom-score / capability-ranking claims | Google + Bing | **Done** (2026-10-14) |
+| 547 | Lab hub `/lab/coreweave` (CoreWeave entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 548 | Topic tag `disentanglement` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims; refuse noisy `citation` / `cuda` doorways | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

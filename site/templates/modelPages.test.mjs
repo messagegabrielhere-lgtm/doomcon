@@ -328,6 +328,36 @@ describe('model pages', () => {
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/jev.html'));
   });
 
+  it('indexes Kimi from Moonshot-family title forms', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('km1', 'Intel CEO Says DeepSeek, Kimi, GLM Are Good Enough', []),
+          story('km2', 'Ecosia switches to open-weight AI models including Qwen, GLM, Kimi', []),
+          story('km3', 'Kimi K2 open-weight release expands agent workloads', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Kimi'));
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/kimi.html'));
+    assert.match(renderModel(rich, 'Kimi'), /What has SIREN scored about Kimi\?|Kimi/);
+    assert.doesNotMatch(renderModel(rich, 'Kimi'), /doom score:\s*\d/i);
+    const thin = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('bad1', 'A kimono metaphor in a design essay', []),
+          story('bad2', 'Towerglow orchestrator ships', []),
+          story('bad3', 'An open-weight note without naming the model', []),
+        ],
+      },
+    };
+    assert.ok(!indexableModels(thin).some((m) => m.name === 'Kimi'));
+  });
+
   it('indexes EmbeddingGemma, SynthID, and Clef model hubs', () => {
     const rich = {
       ...ctx,

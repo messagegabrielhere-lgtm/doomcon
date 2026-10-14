@@ -48,6 +48,9 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/lab/mcdonald-s.html'));
     assert.ok(OUR_SURFACES.includes('/lab/walmart.html'));
     assert.ok(OUR_SURFACES.includes('/lab/netflix.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/moonshot-ai.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/coreweave.html'));
+    assert.ok(OUR_SURFACES.includes('/model/kimi.html'));
     assert.ok(OUR_SURFACES.includes('/tags/on-policy.html'));
     assert.ok(OUR_SURFACES.includes('/tags/long-horizon.html'));
     assert.ok(OUR_SURFACES.includes('/tags/compositional.html'));
@@ -95,6 +98,7 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/tags/unsupervised.html'));
     assert.ok(OUR_SURFACES.includes('/tags/backdoor.html'));
     assert.ok(OUR_SURFACES.includes('/tags/out-of-distribution.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/disentanglement.html'));
     assert.ok(OUR_SURFACES.includes('/jobs.html'));
     assert.ok(OUR_SURFACES.includes('/medicine.html'));
   });

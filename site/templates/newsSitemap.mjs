@@ -30,6 +30,7 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Winverse AI', 'Cisco', 'Epoch AI', 'Maia', 'Maia 300', 'OpenAI Codex', 'Codex',
   'Salesforce', 'World Labs', 'Firmus', 'SpaceX', 'HCLTech', 'Suno', 'Manus', 'Nano Banana',
   'Jev', 'TypeSafe', 'a16z', 'Instinct', 'OpenAI Dots', "McDonald's", 'Walmart', 'Netflix',
+  'Moonshot AI', 'Moonshot', 'CoreWeave', 'Kimi', 'Kimi K2',
   'EmbeddingGemma', 'SynthID', 'Clef', 'Clef-omni', 'Clef-flash',
   'Mistral Large 4', 'Le Chonk', 'Mixtral',
   'GPT-6 Astra', 'GPT-6.1 Astra', 'GPT-6 Luna', 'GPT-6 Sol',

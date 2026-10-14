@@ -548,6 +548,7 @@ function labNeedles(player) {
     "mcdonald-s": ["mcdonald's", 'mcdonald’s', 'mcdonalds'],
     walmart: ['walmart'],
     netflix: ['netflix'],
+    'moonshot-ai': ['moonshot ai', 'moonshot'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
