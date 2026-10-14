@@ -178,6 +178,8 @@ export function organization(ctx) {
       'what free tools belong in a bunker kit',
       'Takeover Watch',
       'what AI autonomy signals is SIREN watching',
+      'What are the AI agents coding',
+      'Which signals are on the way',
       "Tally's bets",
       'Does the SIREN index make forecasts',
       'Skynet scenario',
