@@ -722,6 +722,8 @@ context.
 | 470 | Topic tag `ai-math` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 471 | Topic tag `proofs` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 472 | Topic tag `math-problems` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 473 | Topic tag `consciousness` (live/archive ≥5); IndexNow + seo-daily monitor; refuse sentience-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 474 | Topic tag `ads` (live/archive ≥5); IndexNow + seo-daily monitor; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

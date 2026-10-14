@@ -1506,6 +1506,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI math-problem and conjecture stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\bmath problems?\b/i,
   },
+  {
+    id: 'consciousness',
+    name: 'AI consciousness',
+    description: 'AI consciousness and model-sentience debate stories scored in the newsroom or archive — coverage counts, not a sentience forecast.',
+    match: /\bconsciousness\b/i,
+  },
+  {
+    id: 'ads',
+    name: 'AI ads',
+    description: 'AI advertising and ad-product stories scored in the newsroom or archive — coverage counts, not a market forecast.',
+    match: /\bads\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
