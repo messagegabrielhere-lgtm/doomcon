@@ -28,9 +28,6 @@ export function render(ctx) {
     [`Is an index move a doom forecast?`,
       `No. ${brand.NAME} measures activity tempo. A move records score and level change with a receipt. It is not a probability of harm and not a forecast.`],
   ];
-  const faqHtml = faq.map(([qAsk, a]) => `
-  <h3>${esc(qAsk)}</h3>
-  <p>${esc(a)}</p>`).join('');
 
   const shown = ctx.moves.slice(0, MAX_ROWS);
   const days = new Map();
@@ -39,9 +36,18 @@ export function render(ctx) {
     if (!days.has(day)) days.set(day, []);
     days.get(day).push(m);
   }
+  // Tip #398: day-section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const dayQ = (day) => `Which ${brand.NAME} index moves were scored on ${day}?`;
+  for (const [day, list] of days) {
+    faq.push([dayQ(day),
+      `${list.length} scored observation${list.length === 1 ? '' : 's'} on ${day} in this archive window — each with inputs and a hash-chained receipt.`]);
+  }
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   const body = [...days.entries()].map(([day, list]) => `
-    <h2 id="d${esc(day)}">${esc(day)}</h2>
+    <h2 id="d${esc(day)}">${esc(dayQ(day))}</h2>
     <ul class="moves">${list.map((m) => rowFor(ctx, m)).join('')}</ul>`).join('');
 
   const truncated = ctx.moves.length > shown.length

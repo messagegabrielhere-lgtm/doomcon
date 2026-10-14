@@ -78,6 +78,17 @@ export function render(ctx, nr) {
       'Each measure gives one point to whichever of the two leads it. Odds by country add each market\'s live prices for individual companies by home country and scale so the live legs total 100%. Electricity is annual generation from Our World in Data. Data centres mapped in OpenStreetMap are shown but not scored when mapping is sparse.'],
     ['How is this different from the lab race page?',
       'Related: the lab race ranks companies on live prediction-market odds; this page groups those companies by home country and adds electricity and mapped data centres.'],
+    // Tip #397: measure H2s are question-shaped and mirrored in FAQ (§3.3).
+    ...nr.measures.map((m) => [m.label,
+      m.id === 'dc'
+        ? (m.note || 'Data centres mapped by OpenStreetMap volunteers. Mapping in China is sparse, so this is shown but not scored.')
+        : m.id === 'power'
+          ? 'Electricity is annual generation from Our World in Data. Training and running AI is limited by power.'
+          : m.id === 'labs'
+            ? 'How many of each country’s companies the market lists at all.'
+            : m.id === 'kalshi'
+              ? 'Kalshi’s companies are not mutually exclusive, so the measure shows each country’s best single lab.'
+              : 'Odds by country add each market’s live prices for individual companies by home country and scale so the live legs total 100%.']),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

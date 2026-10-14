@@ -196,6 +196,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'Which news stories matched?'));
     assert.ok(qa.some(([q]) => q === 'When does the idea of AI risk arrive before the machines?'));
     assert.ok(qa.some(([q]) => q === 'What is the pause letter?'));
+    assert.ok(qa.some(([q]) => q === 'Which frontier labs are the markets pricing by country?'));
+    assert.ok(qa.some(([q]) => q === 'Which SIREN index moves were scored on a UTC day?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -284,6 +286,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /Which news stories matched\?/);
     assert.match(html, /When does the idea of AI risk arrive before the machines\?/);
     assert.match(html, /What is the pause letter\?/);
+    assert.match(html, /Which frontier labs are the markets pricing by country\?/);
+    assert.match(html, /Which SIREN index moves were scored on a UTC day\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

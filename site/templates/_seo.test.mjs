@@ -489,6 +489,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Where did the capability jumps land'));
     assert.ok(org.knowsAbout.includes('What test did Turing propose instead of a definition'));
     assert.ok(org.knowsAbout.includes('What is the pause letter'));
+    assert.ok(org.knowsAbout.includes('Which frontier labs are the markets pricing by country'));
+    assert.ok(org.knowsAbout.includes('How many data centres does OpenStreetMap map by country'));
+    assert.ok(org.knowsAbout.includes('Which SIREN index moves were scored on'));
     assert.ok(org.knowsAbout.includes('What AI Spaces are live on X'));
     assert.ok(org.knowsAbout.includes('Who is OpenAI on X'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));

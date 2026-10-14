@@ -794,6 +794,13 @@ export function organization(ctx) {
       'How did Good describe the intelligence explosion',
       'What is the pause letter',
       'When did the EU AI Act enter into force, on a staircase',
+      'What are the odds the best AI model is theirs by',
+      'What is each country’s best single-lab chance of a top-ranked model this year',
+      'Which frontier labs are the markets pricing by country',
+      'How much electricity did each country generate',
+      'How many data centres does OpenStreetMap map by country',
+      'Which SIREN index moves were scored on',
+
 
       'How do these lines cross-check against the lab feeds',
       'How does a line get onto this page',
