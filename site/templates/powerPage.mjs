@@ -115,7 +115,7 @@ export function render(ctx, d) {
   <p>Related: <a href="${esc(ctx.href('/watts.html'))}">What does the ${esc(brand.NAME)} infrastructure index read?</a> · <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a> · <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a> · <a href="${esc(ctx.href('/charts.html'))}">What AI charts does ${esc(brand.NAME)} publish?</a></p>
   <p style="font-size:12.5px;margin-top:14px">Source: <a href="https://github.com/owid/energy-data" target="_blank" rel="noopener">Our World in Data energy dataset</a> (Ember and the Energy Institute), CC BY 4.0. Annual figures, latest year ${esc(d.year || '?')}; refreshed daily. Generation, not consumption; imports and exports are not netted out. <a href="api/power.json">JSON</a></p>
 <section class="pwfaq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="pwfaq__key">Search-shaped sibling:
     <a href="${esc(ctx.href('/watts.html'))}">What does the ${esc(brand.NAME)} infrastructure index read?</a>

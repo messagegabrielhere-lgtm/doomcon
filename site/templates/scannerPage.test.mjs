@@ -11,7 +11,7 @@ describe('scanner page SEO', () => {
   it('ships a question-shaped title, speakable WebPage, and matching FAQPage', () => {
     assert.match(html, /<title>What does the SIREN Capitulation Scanner show\?/);
     assert.match(html, /<h1>What does the SIREN Capitulation Scanner show\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Is the Scanner financial advice\?/);
     assert.match(html, /Does the Scanner move the SIREN score\?/);
     assert.match(html, /Where does the market data come from\?/);

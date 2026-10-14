@@ -156,7 +156,7 @@ export function render(ctx, sig, hist = []) {
   ${prWallJs()}
   <p style="font-size:12.5px">Updated ${esc(String((sig && sig.generated_at) || '').slice(0, 16).replace('T', ' '))} UTC. Data: GitHub search, Epoch AI (CC-BY), Metaculus, Moltbook. <a href="${esc(ctx.href('/api/si-signals.json'))}">JSON</a>.</p>
   <section class="sw-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="sw-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/threats.html'))}">What could take the machines offline tonight?</a>

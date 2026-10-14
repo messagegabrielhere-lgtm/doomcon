@@ -21,7 +21,7 @@ describe('sponsor page', () => {
     const html = sponsor(ctx);
     assert.match(html, /<title>How do you sponsor SIREN without moving the number\?/);
     assert.match(html, /<h1 class="bp__h1">How do you sponsor SIREN without moving the number\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /What does a sponsor get\?/);
     assert.match(html, /What does a sponsor not get\?/);
     assert.match(html, /Does sponsorship turn SIREN into a doom forecast\?/);

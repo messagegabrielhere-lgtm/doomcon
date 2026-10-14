@@ -117,7 +117,7 @@ export function render(ctx, nr) {
   <p>Related: <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> · <a href="${esc(ctx.href('/power.html'))}">Who makes the most electricity (China vs US)?</a> · <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a> · <a href="${esc(ctx.href('/charts.html'))}">What AI charts does ${esc(brand.NAME)} publish?</a></p>
   <p style="font-size:12.5px">Market prices are what traders pay, not SIREN's view, and can move fast. Not financial advice; prediction markets are restricted in some places. Company names belong to their owners. <a href="${esc(ctx.href('/api/nations.json'))}">JSON</a></p>
   <section class="nr-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="nr-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a>

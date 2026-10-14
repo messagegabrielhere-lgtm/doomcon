@@ -11,7 +11,7 @@ describe('monitor page SEO', () => {
   it('ships a question-shaped title, speakable WebPage, and matching FAQPage', () => {
     assert.match(html, /<title>What does the SIREN World Monitor show\?/);
     assert.match(html, /<h1>What does the SIREN World Monitor show\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /What is the country stress index\?/);
     assert.match(html, /Is the World Monitor a forecast\?/);
     assert.match(html, /What sources feed the map\?/);

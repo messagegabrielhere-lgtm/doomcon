@@ -11,7 +11,7 @@ describe('bunker-kit page', () => {
   it('ships a question-shaped title, speakable WebPage, and matching FAQPage', () => {
     assert.match(html, /<title>What free tools belong in a bunker kit\?/);
     assert.match(html, /<h1>What free tools belong in a bunker kit\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Are the 50 tools run by SIREN\?/);
     assert.match(html, /Are the supply-drop links paid\?/);
     assert.match(html, /Where is the household prepper checklist\?/);

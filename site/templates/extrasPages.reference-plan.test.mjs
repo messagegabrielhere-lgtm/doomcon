@@ -27,7 +27,7 @@ describe('reference-plan page', () => {
     });
     assert.match(html, /<title>How does the SIREN baseline get updated\?/);
     assert.match(html, /<h1>How does the SIREN baseline get updated\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="v1">What is reference v1, and why is it frozen\?<\/h2>/);
     assert.match(html, /id="addenda">How do addenda run as a shadow score\?<\/h2>/);
     assert.match(html, /id="promotion">When is an addendum promoted\?<\/h2>/);

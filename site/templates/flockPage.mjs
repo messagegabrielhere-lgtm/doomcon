@@ -1539,7 +1539,7 @@ ${secOperators}
 ${methodSection(ctx, f, m)}
 
 <section class="flk__faq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="flk__faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a>.</p>

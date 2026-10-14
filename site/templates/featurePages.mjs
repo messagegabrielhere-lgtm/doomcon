@@ -268,7 +268,7 @@ export function siReady(ctx) {
   </div>
   <p class="fx-note">General information, not financial, legal, career or medical advice. ${esc(brand.NAME)} counts AI activity; it does not predict superintelligence.</p>
   <section class="fx-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="fx-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/ai-proof-job.html'))}">How do I AI-proof my job?</a>
@@ -412,7 +412,7 @@ export function jobProof(ctx) {
   <p>Forecasts of jobs lost to AI disagree wildly. See <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a> — it lists only what has been measured, with sources, and says what the counts do not show.</p>
   <p class="fx-note">General information, not career, legal or financial advice.</p>
   <section class="fx-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="fx-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/si-ready.html'))}">Ready for superintelligence?</a>
@@ -519,7 +519,7 @@ export function breakthroughs(ctx, list) {
     <a class="fx-card" href="${esc(ctx.href('/medicine.html'))}"><h3>Is AI curing anything? →</h3><p>Trials and approvals of AI in medicine, counted.</p></a>
   </div>
   <section class="fx-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="fx-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/bliss.html'))}">What is BLISS, the ${esc(brand.NAME)} upside index?</a>.</p>
@@ -648,7 +648,7 @@ export function liveX(ctx) {
   <div class="fx-grid">${leaderVoices.map(([n, h]) => `<a class="fx-card" href="https://x.com/${esc(h)}" target="_blank" rel="noopener" aria-label="${esc(n)}"><h3>${esc(voiceQ(n))} ↗</h3><p class="fx-meta">@${esc(h)}</p></a>`).join('')}</div>
   <p class="fx-note">Links go to X; what you see there is X's, under X's rules and privacy policy. ${esc(brand.NAME)} does not embed X on this page, so nothing loads from X until you click.</p>
   <section class="fx-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="fx-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/live.html'))}">What AI is on TV and radio right now?</a>

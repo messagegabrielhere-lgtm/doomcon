@@ -222,7 +222,7 @@ export function renderOutlet(ctx, domain) {
     ? `<p class="fresh__key">${esc(String(items.length - OUTLET_LIST_CAP))} more on <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>`
     : ''}
   ${olderBlock}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   ${peerOutlets.length ? `<h2 id="other-publishers">${esc(othersQ)}</h2><nav class="od__nav" aria-label="Other publishers">${others}</nav>` : ''}
 </article>`;
@@ -297,7 +297,7 @@ export function renderIndex(ctx) {
   ${outlets.length
     ? `<ol class="od__list">${rows}</ol>`
     : '<p>No publisher has cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a>.</p>
 </article>`;
@@ -377,7 +377,7 @@ export function renderOutlets(ctx) {
     <div><b class="num">${esc(String(outlets.length))}</b><span>Publisher hubs</span></div>
   </div>
   ${outlets.length ? `<ol class="od__list">${rows}</ol>` : '<p>No outlet hub cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/outlet/'))}">Which AI publishers have ${esc(brand.NAME)} pages?</a>
      · <a href="${esc(ctx.href('/sources.html'))}">Which AI news sources has ${esc(brand.NAME)} scored via?</a>

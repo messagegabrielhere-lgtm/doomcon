@@ -44,7 +44,7 @@ describe('breakthroughs page', () => {
     const html = breakthroughs(ctx, sample);
     assert.match(html, /<title>What AI breakthroughs has SIREN tracked\?/);
     assert.match(html, /<h1 class="bp__h1">What AI breakthroughs has SIREN tracked\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Is every headline here a verified breakthrough\?/);
     assert.match(html, /What kinds of upside stories appear on this page\?/);
     assert.match(html, /Where else does SIREN track the upside of AI\?/);
@@ -77,7 +77,7 @@ describe('si-ready page', () => {
     const html = siReady(ctx);
     assert.match(html, /<title>Ready for superintelligence\?/);
     assert.match(html, /<h1 class="bp__h1">Ready for superintelligence\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does this page predict when superintelligence arrives\?/);
     assert.match(html, /What does the 3-minute check cover\?/);
     assert.match(html, /Does anything from the quiz leave my browser\?/);
@@ -141,7 +141,7 @@ describe('ai-proof-job page', () => {
     const html = jobProof(ctx);
     assert.match(html, /<title>How do I AI-proof my job\?/);
     assert.match(html, /<h1 class="bp__h1">How do I AI-proof my job\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does this plan guarantee I keep my job\?/);
     assert.match(html, /What are the five moves on this page\?/);
     assert.match(html, /Where does SIREN count measured job effects\?/);
@@ -187,7 +187,7 @@ describe('live-x page', () => {
     const html = liveX(ctx);
     assert.match(html, /<title>Where are live X feeds and Spaces on AI\?/);
     assert.match(html, /<h1 class="bp__h1">Where are live X feeds and Spaces on AI\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does this page embed X\?/);
     assert.match(html, /What Spaces links are on this page\?/);
     assert.match(html, /Where is a scored version of the same AI news\?/);

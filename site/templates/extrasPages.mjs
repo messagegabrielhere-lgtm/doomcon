@@ -63,7 +63,7 @@ export const CSS = `<style>
 .xt-log>li{border-left:3px solid var(--rule);padding:6px 0 12px 14px;margin:0 0 6px}
 .xt-log>li.lv{border-left-color:#F87171}
 .xt-log>li.big{border-left-color:#FBBF24}
-.xt-log .hd{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;font:600 13px/1.4 var(--mono);color:var(--ink)}
+.xt-log .hd{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;font:600 13px/1.4 var(--mono);color:var(--ink);margin:0}
 .xt-log .hd a{color:var(--ink)}
 .xt-log .hd .t{color:var(--ink-faint,#6B7686);font-weight:500}
 .xt-log .news{list-style:none;padding:0;margin:6px 0 0}
@@ -224,7 +224,7 @@ ${list}
 </div>
 <p class="xt-note">${esc(brand.DISCLAIMER)}</p>
 <section class="xt-faq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="xt-faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/export.html'))}">How do I export and embed ${esc(brand.NAME)} data?</a>
@@ -440,7 +440,7 @@ ${snippet('xs-curl', 'How do I fetch it from the shell?', `curl -s ${ctx.url('/a
 ${snippet('xs-attr', 'What attribution line should I use?', attribution)}
 <p class="xt-note">${esc(brand.DISCLAIMER)} Want an alert instead of a file? See <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>.</p>
 <section class="xt-faq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="xt-faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>
@@ -575,7 +575,7 @@ export function biasPage(ctx) {
 <h2 id="propose">How do I propose a source?</h2>
 <p>Know a public, non-English or non-Western dataset that counts AI activity? Send it through the <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a> form with a link to its API or download, how far back it goes, and its licence. The more of those three you can answer, the faster it can be tested.</p>
 <section class="xt-faq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="xt-faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
@@ -731,7 +731,7 @@ ${shadowHtml}
 
 <p class="xt-note">Why the care: an index that quietly rebases can make any trend it likes. Ours can only change in public, with the old arithmetic still checkable. See also <a href="${esc(ctx.href('/bias.html'))}">What can ${esc(brand.NAME)} not see?</a> and <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
 <section class="xt-faq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="xt-faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/bias.html'))}">What can ${esc(brand.NAME)} not see?</a>
@@ -780,6 +780,8 @@ export function changelogPage(ctx) {
   const qTitle = `What moved the ${brand.NAME} score this hour?`;
   const entries = hourlyEntries(ctx, 48);
   const srcName = (id) => id;
+  // Tip #402: hour-row H3s are question-shaped and mirrored in FAQ (§3.3).
+  const hourQ = (at) => `What moved at ${utcDay(at)} ${utcClock(at)} UTC?`;
 
   const li = entries.map((e) => {
     const big = Math.abs(e.score_delta) >= DELTA_THRESHOLD;
@@ -799,14 +801,15 @@ export function changelogPage(ctx) {
       : '';
     const gap = e.gap_hours > 1.75 ? ` <span class="t">(vs ${Math.round(e.gap_hours)} h earlier: no reading in between)</span>` : '';
     const anchor = `h-${e.hour.slice(0, 13)}`;
+    const hq = hourQ(e.at);
     return `<li id="${esc(anchor)}" class="${e.level_change ? 'lv' : big ? 'big' : ''}">
-<div class="hd"><a href="${esc(ctx.href(readingPath(ctx, e.at)))}">${esc(utcDay(e.at))} ${esc(utcClock(e.at))} UTC</a><span>${esc(brand.NAME)} ${esc(e.level)} · ${esc(num(e.score, 1))} <span class="${cls(e.score_delta)}">${esc(dTxt(e.score_delta))}</span></span>${e.degraded ? '<span class="t">degraded</span>' : ''}${gap}</div>
+<h3 class="hd"><a href="${esc(ctx.href(readingPath(ctx, e.at)))}">${esc(hq)}</a><span>${esc(brand.NAME)} ${esc(e.level)} · ${esc(num(e.score, 1))} <span class="${cls(e.score_delta)}">${esc(dTxt(e.score_delta))}</span></span>${e.degraded ? '<span class="t">degraded</span>' : ''}${gap}</h3>
 ${lvl || pills || srcs ? `<div>${lvl}${pills}${srcs}</div>` : '<div class="xt-note">No pillar moved by 0.1 or more.</div>'}
 ${news}
 </li>`;
   }).join('\n');
 
-  // FAQ answers restate lede / note / alerts copy only (FINDABILITY §3.3).
+  // FAQ answers restate lede / note / alerts / hour-row copy only (FINDABILITY §3.3).
   // Refuse: doom-probability, newsroom-as-cause, stuffing.
   const faq = [
     [qTitle,
@@ -818,6 +821,10 @@ ${news}
     [`Is an hourly move a doom probability?`,
       `No. ${brand.NAME} measures activity tempo hour by hour. ▲ is louder and ▼ is quieter — not danger, and not a probability of harm.`],
   ];
+  for (const e of entries) {
+    faq.push([hourQ(e.at),
+      `${brand.NAME} ${e.level} · ${num(e.score, 1)} (${dTxt(e.score_delta)}) at that hour — pillars, sources, and top news below the heading when they moved.`]);
+  }
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
   <p>${esc(a)}</p>`).join('');
@@ -829,7 +836,7 @@ ${news}
 ${entries.length ? `<ol class="xt-log">\n${li}\n</ol>` : '<p>Not enough readings yet: the changelog starts with the second hour on record.</p>'}
 <p class="xt-note">News items are context, not cause: the newsroom does not feed the score. ${esc(brand.DISCLAIMER)}</p>
 <section class="xt-faq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="xt-faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>

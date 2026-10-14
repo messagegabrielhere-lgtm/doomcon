@@ -24,7 +24,7 @@ describe('flock page', () => {
     const html = render(ctx);
     assert.match(html, /<title>How many Flock ALPR cameras has SIREN mapped\?/);
     assert.match(html, /<h1 class="flk__h1">How many Flock ALPR cameras has SIREN mapped\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does a county with no pins have zero Flock cameras\?/);
     assert.match(html, /Does the Flock register feed the main SIREN number\?/);
     assert.match(html, /Is this a complete census of Flock cameras\?/);

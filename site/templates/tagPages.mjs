@@ -1268,7 +1268,7 @@ export function renderTag(ctx, id) {
     ? `<p class="fresh__key">${esc(String(items.length - TAG_LIST_CAP))} more on <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>`
     : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>`}
   ${olderBlock}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   ${others.length ? `<h2 id="other-tags">${esc(othersQ)}</h2>
   <nav class="tg__nav" aria-label="Other tags">${others.map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">What has ${esc(brand.NAME)} scored about ${esc(t.name)}?</a>`).join('')}</nav>` : ''}
@@ -1344,7 +1344,7 @@ export function renderIndex(ctx) {
   <h1>Which AI news tags have ${esc(brand.NAME)} pages?</h1>
   <p class="tg__lede">A topic earns a page when at least ${TAG_INDEX_MIN} scored stories match a published needle in the live window or the durable archive. Thinner matches stay on the story page only.</p>
   ${tags.length ? `<ol class="tg__list">${rows}</ol>` : '<p>No tag cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/tags.html'))}">Which AI tags has ${esc(brand.NAME)} scored stories about?</a>.</p>
 </article>`;
@@ -1424,7 +1424,7 @@ export function renderTags(ctx) {
     <div><b class="num">${esc(String(tags.length))}</b><span>Topic hubs</span></div>
   </div>
   ${tags.length ? `<ol class="tg__list">${rows}</ol>` : '<p>No tag hub cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/tags/'))}">Which AI news tags have ${esc(brand.NAME)} pages?</a>
      · <a href="${esc(ctx.href('/models.html'))}">Which AI models has ${esc(brand.NAME)} scored stories about?</a>

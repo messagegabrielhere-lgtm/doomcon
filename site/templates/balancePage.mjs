@@ -873,7 +873,7 @@ ${methodSection(b, L)}
 ${dataSection(ctx, b, L)}
 
 <section class="bp__faq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="bp__faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/bliss.html'))}">What is BLISS, the ${esc(brand.NAME)} upside index?</a>.</p>

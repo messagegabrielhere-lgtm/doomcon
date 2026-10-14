@@ -811,7 +811,7 @@ ${oven.render(ctx)}
 </section>
 
 <section class="inst__faq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${instrumentsFaqHtml}
   <p class="inst__faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
@@ -1078,7 +1078,7 @@ ${style}`;
 </section>`;
     const classicFaqSec = `
 <section class="clx-faq" aria-labelledby="classic-faq">
-  <h2 id="classic-faq">Questions people actually ask</h2>
+  <h2 id="classic-faq">What questions do people actually ask?</h2>
   ${classicFaqHtml}
   <p class="clx-faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/instruments.html'))}">What instruments sit behind the ${esc(brand.NAME)} reading?</a>

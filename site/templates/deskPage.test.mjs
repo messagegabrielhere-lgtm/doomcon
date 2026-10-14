@@ -28,7 +28,7 @@ describe('desk page', () => {
     const html = render(ctx);
     assert.match(html, /<title>What unserious counts does SIREN keep on Tally.s desk\?/);
     assert.match(html, /<h1 class="dk__h1 bp__h1">What unserious counts does SIREN keep on Tally.s desk\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Do Tally.s desk counts feed the main SIREN number\?/);
     assert.match(html, /Are these side indexes a signal or a forecast\?/);
     assert.match(html, /What does a headline count on this page measure\?/);

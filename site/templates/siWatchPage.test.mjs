@@ -18,7 +18,7 @@ describe('si-watch page', () => {
     const html = render(ctx, sig, []);
     assert.match(html, /<title>What AI autonomy signals is SIREN watching\?/);
     assert.match(html, /<h1 class="bp__h1">What AI autonomy signals is SIREN watching\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="coding">What are the AI agents coding\?<\/h2>/);
     assert.match(html, /id="coming">Which signals are on the way\?<\/h2>/);
     assert.match(html, /FAQPage[\s\S]*What are the AI agents coding\?/);

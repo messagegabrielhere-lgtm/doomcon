@@ -24,7 +24,7 @@ test('about.html ships matching question H1, speakable, breadcrumbs, and visible
   assert.match(html, /"@type"\s*:\s*"FAQPage"/);
   assert.match(html, /SpeakableSpecification/);
   assert.match(html, /BreadcrumbList/);
-  assert.match(html, /Questions people actually ask/);
+  assert.match(html, /What questions do people actually ask\?/);
   assert.match(html, /Who runs SIREN\?/);
   assert.match(html, /Does SIREN publish a doom probability\?/);
   assert.match(html, /<h2>What does the name SIREN mean\?<\/h2>/);

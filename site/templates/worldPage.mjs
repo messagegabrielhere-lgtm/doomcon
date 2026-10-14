@@ -595,7 +595,7 @@ ${methodSection(ctx, w, outline)}
 ${dataSection(ctx, w, m, orbital)}
 
 <section class="wld__faq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="wld__faq-key">Search-shaped directory:
     <a href="${esc(ctx.href('/countries.html'))}">Which AI datacentre countries has ${esc(brand.NAME)} mapped?</a>.</p>

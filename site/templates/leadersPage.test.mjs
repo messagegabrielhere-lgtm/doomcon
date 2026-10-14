@@ -30,7 +30,7 @@ describe('leaders page', () => {
     const html = render(ctx);
     assert.match(html, /<title>Which AI leaders are on the record this week\?/);
     assert.match(html, /<h1 class="lwp__h1">Which AI leaders are on the record this week\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /CollectionPage/);

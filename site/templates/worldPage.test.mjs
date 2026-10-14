@@ -55,7 +55,7 @@ describe('world page', () => {
     const html = render(ctx);
     assert.match(html, /<title>How many datacentres has SIREN mapped on Earth\?/);
     assert.match(html, /<h1 class="wld__h1">How many datacentres has SIREN mapped on Earth\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does a country with none mapped have zero datacentres\?/);
     assert.match(html, /Does the world map feed the main SIREN number\?/);
     assert.match(html, /id="wld-warn-h"[\s\S]*?What should you read before the world map\?/);

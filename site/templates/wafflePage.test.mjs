@@ -18,7 +18,7 @@ describe('waffle page', () => {
     const html = render(ctx, waffle, null);
     assert.match(html, /<title>Is the Waffle House open\?/);
     assert.match(html, /<h1 class="bp__h1">Is the Waffle House open\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Is this an official Waffle House or FEMA status map\?/);
     assert.match(html, /Why does an AI site watch Waffle Houses\?/);
     assert.match(html, /Is the shaded path the official forecast cone\?/);

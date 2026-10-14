@@ -77,7 +77,7 @@ describe('outlet pages', () => {
     assert.doesNotMatch(html, /od__k"><a href="\/compare\.html">Compare<\/a>/);
     assert.doesNotMatch(html, /od__k"><a href="\/outlet\/">Publishers<\/a>/);
     assert.match(html, /does not publish a publisher/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /\/tags\.html/);
@@ -99,7 +99,7 @@ describe('outlet pages', () => {
     assert.doesNotMatch(html, /od__k"><a href="\/outlet\/">Publishers<\/a>/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /ItemList/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /id="window"[^>]*>Which scored stories are on arxiv\.org in this window\?/);
@@ -117,7 +117,7 @@ describe('outlet pages', () => {
     assert.match(index, /Which AI stories has SIREN scored in this window\?/);
     assert.match(index, /od__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(index, /od__k"><a href="\/news\.html">Newsroom<\/a>/);
-    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /What questions do people actually ask\?/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
     assert.match(index, /href="\/source\/">Which AI feed adapters have SIREN pages\?<\/a>/);

@@ -403,7 +403,7 @@ ${rows}
   <p class="neh__fine"><b>score = 100 × (misses ÷ resolved)</b>, where resolved means rows marked hit or miss. Pending and overdue do not enter the denominator. The main ${esc(brand.NAME)} reading is a separate instrument — activity tempo from public sources — and this page never writes into it.</p>
 
   <section class="neh__faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="neh__faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/bets.html'))}">Does the ${esc(brand.NAME)} index make forecasts?</a>

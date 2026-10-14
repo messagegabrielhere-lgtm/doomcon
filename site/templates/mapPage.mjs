@@ -1483,7 +1483,7 @@ ${largestSection(dc, model)}
 ${methodSection(ctx, dc, model)}
 
 <section class="bldfaq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="bldfaq__key">Search-shaped sibling:
     <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a>.</p>

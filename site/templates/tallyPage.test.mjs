@@ -14,7 +14,7 @@ describe('tally page SEO', () => {
     const html = tally(ctx);
     assert.match(html, /<title>Who is Tally, the SIREN duty canary\?/);
     assert.match(html, /<h1 class="bp__h1">Who is Tally, the SIREN duty canary\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="moods"[^>]*>What do the five moods mean\?/);
     assert.match(html, /id="work"[^>]*>Where does Tally work on the site\?/);
     assert.match(html, /id="use"[^>]*>Can I use Tally in my own posts\?/);

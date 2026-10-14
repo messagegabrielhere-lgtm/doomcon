@@ -218,7 +218,7 @@ export function renderModel(ctx, name) {
   <h2 id="window">${esc(windowQ)}</h2>
   ${items.length ? `<ol class="fc__list">${storyRows(ctx, items)}</ol>` : '<p>No scored story in this window names this model.</p>'}
   ${olderBlock}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   ${others.length ? `<h2 id="other-models">${esc(othersQ)}</h2>
   <nav class="fc__nav" aria-label="Other model families">${others.map((m) => `<a href="${esc(ctx.href(modelPath(m.name)))}">What has ${esc(brand.NAME)} scored about ${esc(m.name)}?</a>`).join('')}</nav>` : ''}
@@ -294,7 +294,7 @@ export function renderIndex(ctx) {
   <h1>Which AI model families have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">A model family earns a page when at least ${MODEL_INDEX_MIN} scored stories name it in the live window or the durable archive (same published entity list). Thinner names stay on the story page only. No model “doom score” is computed.</p>
   ${rows ? `<ol class="fc__list">${rows}</ol>` : '<p>No model family clears the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/models.html'))}">Which AI models has ${esc(brand.NAME)} scored stories about?</a>.</p>
 </article>`;
@@ -373,7 +373,7 @@ export function renderModels(ctx) {
     <div><b class="num">${esc(String(models.length))}</b><span>Model family hubs</span></div>
   </div>
   ${models.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No model hub cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/model/'))}">Which AI model families have ${esc(brand.NAME)} pages?</a>
      · <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a>

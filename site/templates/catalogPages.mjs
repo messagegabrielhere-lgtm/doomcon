@@ -418,7 +418,7 @@ export function search(ctx, stats = {}) {
   </div>
   <noscript><p>Search runs in your browser and needs JavaScript. Everything it covers is also listed on <a href="${esc(ctx.href('/catalog.html'))}">Where is everything on SIREN listed?</a>, which works without it.</p></noscript>
   <section class="sx-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="sx-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/catalog.html'))}">Where is everything on SIREN listed?</a>.</p>
@@ -556,7 +556,7 @@ export function catalog(ctx, entries) {
   ${sections}
   <p class="ct-none" id="ct-none" hidden>Nothing in the catalog matches. <a id="ct-sx" href="${esc(ctx.href('/search.html'))}">How do you search everything on SIREN? →</a></p>
   <section class="ct-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="ct-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/search.html'))}">How do you search everything on SIREN?</a>

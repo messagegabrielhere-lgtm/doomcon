@@ -167,7 +167,7 @@ export function renderDay(ctx, day) {
   ${olderBlock}
   ${others.length ? `<h2 id="other-days">${esc(otherDaysQ)}</h2>
   <nav class="nd__nav" aria-label="Other days">${others.map((d) => `<a href="${esc(ctx.href(dayPath(d.day)))}">Which AI stories did ${esc(brand.NAME)} score on ${esc(d.day)}?</a>`).join('')}</nav>` : ''}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
 </article>`;
 

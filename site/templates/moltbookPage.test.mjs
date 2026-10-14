@@ -27,7 +27,7 @@ describe('moltbook page', () => {
     const html = render(ctx, molt);
     assert.match(html, /<title>What are AI agents saying on Moltbook\?/);
     assert.match(html, /<h1 class="bp__h1">What are AI agents saying on Moltbook\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="themes"[^>]*>What do AI agents talk about on Moltbook\?/);
     assert.match(html, /id="words"[^>]*>Which words do AI agents keep using\?/);
     assert.match(html, /Does Agent Watch move the SIREN score\?/);

@@ -24,7 +24,7 @@ test('disclosures.html ships question-shaped title, speakable, breadcrumbs, and 
   assert.match(html, /"@type"\s*:\s*"FAQPage"/);
   assert.match(html, /SpeakableSpecification/);
   assert.match(html, /BreadcrumbList/);
-  assert.match(html, /Questions people actually ask/);
+  assert.match(html, /What questions do people actually ask\?/);
   assert.match(html, /Is SIREN financial or legal advice\?/);
   const lede = html.match(/class="lede">([\s\S]*?)<\/p>/);
   assert.ok(lede, 'expected disclosures lede');

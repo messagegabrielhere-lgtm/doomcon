@@ -35,7 +35,7 @@ describe('nations page', () => {
     const html = render(ctx, sample);
     assert.match(html, /<title>USA vs China: who is winning the race to superintelligence\?/);
     assert.match(html, /<h1 class="bp__h1">USA vs China: who is winning the race to superintelligence\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="how"[^>]*>How does this scoreboard work\?<\/h2>/);
     assert.match(html, /FAQPage[\s\S]*How does this scoreboard work\?/);
     assert.match(html, /Are the odds SIREN’s forecast of who wins\?/);

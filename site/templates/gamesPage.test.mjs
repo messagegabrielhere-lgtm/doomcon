@@ -14,7 +14,7 @@ describe('games page', () => {
     const html = render(ctx);
     assert.match(html, /<title>What free AI games can you play on SIREN\?/);
     assert.match(html, /<h1 class="bp__h1">What free AI games can you play on SIREN\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Do I need an account or install\?/);
     assert.match(html, /Where is Containment\?/);
     assert.match(html, /Is there music while you play\?/);

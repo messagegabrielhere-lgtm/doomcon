@@ -24,7 +24,7 @@ test('privacy.html ships matching question H1, speakable, breadcrumbs, and visib
   assert.match(html, /"@type"\s*:\s*"FAQPage"/);
   assert.match(html, /SpeakableSpecification/);
   assert.match(html, /BreadcrumbList/);
-  assert.match(html, /Questions people actually ask/);
+  assert.match(html, /What questions do people actually ask\?/);
   assert.match(html, /Does SIREN sell personal data\?/);
   assert.match(html, /\/about\.html/);
   assert.match(html, /What is SIREN\?/);

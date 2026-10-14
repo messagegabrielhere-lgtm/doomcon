@@ -285,7 +285,7 @@ export function renderPerson(ctx, id) {
   ${headlines.length ? `<h2 id="pp-press">${esc(pressQ)}</h2>
   <ol class="pp__list">${headlineRows(headlines)}</ol>` : '<p>No press headlines in the current coverage pull.</p>'}
   ${olderBlock}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href(`/leaders.html#lw-${leader.id}`))}">Which AI leaders are on the record this week?</a>
      · <a href="${esc(ctx.href('/api/leaders.json'))}">api/leaders.json</a></p>
@@ -364,7 +364,7 @@ export function renderIndex(ctx) {
   <h1>Which AI leaders have press coverage pages on ${esc(brand.NAME)}?</h1>
   <p class="pp__lede">A person earns a page when the wire or the durable archive holds at least ${PEOPLE_INDEX_MIN} press headlines, on-record lines, a 7-day coverage count at that floor, or scored stories naming them. Each page lists headlines as printed. It does not invent quotations.</p>
   ${rows ? `<ol class="pp__list">${rows}</ol>` : '<p>No person clears the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/people.html'))}">Which AI people has ${esc(brand.NAME)} scored press about?</a>
      · <a href="${esc(ctx.href('/leaders.html'))}">Which AI leaders are on the record this week?</a></p>
@@ -450,7 +450,7 @@ export function renderPeople(ctx) {
     <div><b class="num">${esc(String(people.length))}</b><span>People hubs</span></div>
   </div>
   ${people.length ? `<ol class="pp__list">${rows}</ol>` : '<p>No people hub cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/people/'))}">Which AI leaders have press coverage pages on ${esc(brand.NAME)}?</a>
      · <a href="${esc(ctx.href('/leaders.html'))}">Which AI leaders are on the record this week?</a>

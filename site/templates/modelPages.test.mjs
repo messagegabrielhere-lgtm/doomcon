@@ -64,10 +64,10 @@ describe('model pages', () => {
     assert.match(html, /\/companies\.html/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     const index = renderIndex(ctx);
     assert.match(index, /Which AI model families have SIREN pages\?/);
-    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /What questions do people actually ask\?/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
     assert.match(index, /\/models\.html/);
@@ -87,7 +87,7 @@ describe('model pages', () => {
     assert.match(html, /CollectionPage/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does SIREN publish a Claude doom score\?/);
     assert.match(html, /id="window"[^>]*>Which scored stories name Claude in this window\?/);
     assert.match(html, /Claude one/);

@@ -695,6 +695,8 @@ export function organization(ctx) {
       'How do official and candidate scores compare this reading',
       'SIREN changelog',
       'What moved the SIREN score this hour',
+      'What moved at',
+      'What questions do people actually ask',
       'SIREN Labs',
       'What is SIREN Labs measuring this week',
       'What is on the bench this week',

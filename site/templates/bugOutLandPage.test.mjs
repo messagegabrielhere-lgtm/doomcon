@@ -19,7 +19,7 @@ describe('bug-out-land page', () => {
     assert.match(html, /id="checklist"[^>]*>What is the checklist before you buy\?/);
     assert.match(html, /id="listings"[^>]*>Where is land listed\?/);
     assert.match(html, /id="stock"[^>]*>What else does SIREN cover for supplies\?/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Is this a forecast that Skynet is coming\?/);
     assert.match(html, /Is this real-estate or financial advice\?/);
     assert.match(html, /What else does SIREN cover for supplies\?/);

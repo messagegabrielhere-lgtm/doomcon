@@ -145,7 +145,7 @@ ${cards.join('\n')}
     “The Godfather” would count; the newsroom only keeps AI stories, which is why that has not happened yet.</p>
   <p><a href="${esc(ctx.href('/game.html'))}">How do you play Tally Counts? →</a></p>
   <section class="dk__faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="dk__faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/balance.html'))}">How does ${esc(brand.NAME)} count AI harm and benefit side by side?</a>.</p>

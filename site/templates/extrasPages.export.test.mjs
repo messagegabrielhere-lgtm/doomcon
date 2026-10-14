@@ -21,7 +21,7 @@ describe('export page', () => {
     const html = exportPage(ctx);
     assert.match(html, /<title>How do I export and embed SIREN data\?/);
     assert.match(html, /<h1>How do I export and embed SIREN data\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="download">What can I download\?<\/h2>/);
     assert.match(html, /id="embed">How do I embed the current reading\?<\/h2>/);
     assert.match(html, /id="api">How do I use it from code\?<\/h2>/);

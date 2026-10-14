@@ -30,7 +30,7 @@ describe('race page', () => {
     const html = render(ctx);
     assert.match(html, /<title>Who is winning the AI race\?/);
     assert.match(html, /<h1 class="rintro__h1">Who is winning the AI race\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /Dataset/);

@@ -221,7 +221,7 @@ export function renderKind(ctx, id) {
     ? `<p class="fresh__key">${esc(String(items.length - KIND_LIST_CAP))} more on <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>`
     : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>`}
   ${olderBlock}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   ${others.length ? `<h2 id="other-kinds">${esc(othersQ)}</h2>
   <nav class="kd__nav" aria-label="Other kinds">${others.map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">What has ${esc(brand.NAME)} scored as ${esc(k.name)}?</a>`).join('')}</nav>` : ''}
@@ -297,7 +297,7 @@ export function renderIndex(ctx) {
   <h1>Which AI story kinds have ${esc(brand.NAME)} pages?</h1>
   <p class="kd__lede">A kind earns a page when at least ${KIND_INDEX_MIN} scored stories with that collector label appear in the live window or the durable archive. Thinner kinds stay on the story page only.</p>
   ${kinds.length ? `<ol class="kd__list">${rows}</ol>` : '<p>No kind cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/kinds.html'))}">Which AI story kinds has ${esc(brand.NAME)} scored?</a>.</p>
 </article>`;
@@ -376,7 +376,7 @@ export function renderKinds(ctx) {
     <div><b class="num">${esc(String(kinds.length))}</b><span>Kind hubs</span></div>
   </div>
   ${kinds.length ? `<ol class="kd__list">${rows}</ol>` : '<p>No kind hub cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/kind/'))}">Which AI story kinds have ${esc(brand.NAME)} pages?</a>
      · <a href="${esc(ctx.href('/tags.html'))}">Which AI tags has ${esc(brand.NAME)} scored stories about?</a>

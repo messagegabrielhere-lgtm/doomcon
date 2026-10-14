@@ -24,7 +24,7 @@ describe('map page', () => {
     const html = render(ctx);
     assert.match(html, /<title>How many datacentres has SIREN mapped in the United States\?/);
     assert.match(html, /<h1 class="bldhero__h1">How many datacentres has SIREN mapped in the United States\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does this map measure a datacentre's power or water draw\?/);
     assert.match(html, /Does a state with no pins have zero datacentres\?/);
     assert.match(html, /Does the US map feed the main SIREN number\?/);

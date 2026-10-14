@@ -24,7 +24,7 @@ describe('bliss page', () => {
     const html = render(ctx);
     assert.match(html, /<title>What is BLISS, the SIREN upside index\?/);
     assert.match(html, /<h1 class="bintro__h1">What is BLISS, the SIREN upside index\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Why publish BLISS beside the main SIREN number\?/);
     assert.match(html, /Is a BLISS score a probability\?/);
     assert.match(html, /Which BLISS sources answered this run\?/);

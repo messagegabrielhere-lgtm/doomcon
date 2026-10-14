@@ -494,6 +494,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Which SIREN index moves were scored on'));
     assert.ok(org.knowsAbout.includes('Is ChatGPT down right now'));
     assert.ok(org.knowsAbout.includes('How many AI-cited US job cuts has Challenger counted'));
+    assert.ok(org.knowsAbout.includes('What questions do people actually ask'));
+    assert.ok(org.knowsAbout.includes('What moved at'));
     assert.ok(org.knowsAbout.includes('How many AI medical devices has the FDA authorised'));
     assert.ok(org.knowsAbout.includes('What AI Spaces are live on X'));
     assert.ok(org.knowsAbout.includes('Who is OpenAI on X'));

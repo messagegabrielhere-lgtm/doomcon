@@ -307,7 +307,7 @@ export function render(ctx, item, related = []) {
       ${scoreCell(r, 'it__rm')}
     </li>`).join('')}</ul>
   </section>` : ''}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
 </article>`;
 
@@ -439,7 +439,7 @@ ${pages ? `<p class="it__n">Archive hubs: ${Array.from({ length: Math.min(pages,
   <a href="${esc(ctx.href(`/item/${slugFor(i)}.html`))}">${esc(i.title)}</a>
   ${scoreCell(i, 'it__rm num')}
 </li>`).join('')}</ol>
-<h2 id="faq">Questions people actually ask</h2>
+<h2 id="faq">What questions do people actually ask?</h2>
 ${faqHtml}
 </article>`,
   });
@@ -525,7 +525,7 @@ export function renderArchivePage(ctx, pageNum = 1) {
   ${scoreCell(i, 'it__rm num')}
 </li>`).join('')}</ol>
   ${pager}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
 </article>`,
   });

@@ -14,7 +14,7 @@ describe('videos page', () => {
     const html = videos(ctx);
     assert.match(html, /<title>What free AI explainer videos does SIREN publish\?/);
     assert.match(html, /<h1 class="bp__h1">What free AI explainer videos does SIREN publish\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Do the videos work on mute\?/);
     assert.match(html, /Can I share them\?/);
     assert.match(html, /Where is the soundtrack music\?/);

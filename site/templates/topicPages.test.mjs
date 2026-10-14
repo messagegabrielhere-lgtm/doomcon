@@ -59,7 +59,7 @@ describe('jobs / medicine topic pages', () => {
     assert.match(jobs, /SpeakableSpecification/);
     assert.match(jobs, /BreadcrumbList/);
     assert.match(jobs, /"@type"\s*:\s*"FAQPage"/);
-    assert.match(jobs, /Questions people actually ask/);
+    assert.match(jobs, /What questions do people actually ask\?/);
     assert.match(jobs, /Does SIREN publish a jobs forecast/);
     assert.match(jobs, /href="\/balance\.html#reg-challenger-ai-cited-cuts">How does SIREN count AI harm and benefit side by side\? →<\/a>/);
     assert.doesNotMatch(jobs, /href="\/balance\.html#reg-challenger-ai-cited-cuts">In the register →<\/a>/);
@@ -89,7 +89,7 @@ describe('jobs / medicine topic pages', () => {
     assert.match(med, /SpeakableSpecification/);
     assert.match(med, /BreadcrumbList/);
     assert.match(med, /"@type"\s*:\s*"FAQPage"/);
-    assert.match(med, /Questions people actually ask/);
+    assert.match(med, /What questions do people actually ask\?/);
     assert.match(med, /Does an FDA authorisation mean a measured patient benefit/);
     assert.doesNotMatch(med, /SIREN.*p\(doom\) of \d/i);
   });

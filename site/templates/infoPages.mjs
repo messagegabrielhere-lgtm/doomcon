@@ -109,7 +109,7 @@ export function about(ctx) {
   <h2>${esc(contactQ)}</h2>
   <p>Corrections, data sources and press questions: ${mail}, message ${x} on X, or open an issue on the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. A correction that changes a number is recorded in the open.</p>
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p>Search-shaped sibling:
     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
@@ -308,7 +308,7 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
   <h2>${esc(embedQ)}</h2>
   <p>The iframe embed and the README badge are static files. They set no cookies and load nothing from third parties on the pages that use them.</p>
 
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p>Search-shaped sibling:
     <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a>
@@ -404,7 +404,7 @@ export function feedback(ctx) {
     <p class="note">Opens GitHub with this filled in; you press <b>Create</b> there (a free GitHub account is needed). Issues are <b>public</b>, so please leave out personal information. Nothing is sent to or stored by this site.</p>
     <p class="note">Or browse <a href="${esc(repo)}/issues" rel="noopener">open issues</a>.</p>
   </form>
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="note fb-faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a>
@@ -660,7 +660,7 @@ export function terms(ctx) {
     you accept it. If any part is found unenforceable, the rest still applies. Nothing in these terms limits any right you have
     that the law does not allow to be limited. This page is not a substitute for advice from your own lawyer.</p>
 
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
 
   <p><a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a> · <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a> · <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a></p>
@@ -763,7 +763,7 @@ export function disclosures(ctx) {
   <p>${esc(brand.LICENSE_BLURB)}. Third-party data stays under its own licence, credited on the page that uses it.
     See the <a href="${esc(brand.REPO_URL)}/blob/main/LICENSE" rel="noopener">LICENSE</a> file in the repository.</p>
 
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
 
   <h2>${esc(contactQ)}</h2>
@@ -901,7 +901,7 @@ export function pdoom(ctx) {
     Every reading ships with a receipt, and a button on the home page lets you <a href="${esc(ctx.href('/#vfy'))}">re-check the published record in your own browser</a>.
     The site’s line is: everyone has a p(doom), nobody has a receipt.</p>
   ${nowLine(ctx)}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p>Search-shaped sibling:
     <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
@@ -999,7 +999,7 @@ export function aiClock(ctx) {
   ${nowLine(ctx)}
   <h2>${esc(whichQ)}</h2>
   <p>If you want an expert body’s considered view of overall risk, read the Bulletin’s statement. If you want to know how much is happening in AI this week, and to be able to check the answer, that is what this site is for. They answer different questions.</p>
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p>Search-shaped sibling:
     <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
@@ -1140,7 +1140,7 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
     <li><a href="${esc(ctx.href('/cards/state.png'))}">Current reading card</a> · <a href="${esc(ctx.href('/cards/state-portrait.png'))}">portrait card</a></li>
     <li>Tally, all five moods: the download links above</li>
   </ul>
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p><a href="${esc(ctx.href('/press.html'))}">Where is the SIREN press kit? →</a></p>
 </section>`;
@@ -1232,7 +1232,7 @@ export function press(ctx) {
     <li><a href="${esc(ctx.href('/brand.html'))}">Where is the SIREN brand guide?</a> — Tally in five moods to download</li>
     <li><a href="${esc(ctx.href('/embed.html'))}">Embeddable widget</a>; the code is on <a href="${esc(ctx.href('/instruments.html'))}#embed">What instruments sit behind the ${esc(brand.NAME)} reading?</a></li>
   </ul>
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <h2>${esc(contactQ)}</h2>
   <p>Email ${mail} or message ${x} on X. Corrections that change a number are recorded in the open on the <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>.</p>
@@ -1328,7 +1328,7 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
   <h2>${esc(grammarQ)}</h2>
   <p>Because nobody needs the scale explained twice. "Five is calm, one is not" is already in most people's heads. The borrowing
     stops at the grammar: ${esc(brand.NAME)} is not a readiness level and is not issued by any government body.</p>
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p>Search-shaped sibling:
     <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk?</a>
@@ -1539,7 +1539,7 @@ export function guides(ctx) {
      · <a href="${esc(ctx.href('/guides.md'))}">What are the AI explainers?</a>
      · <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a>
      · <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a></p>
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p>Search-shaped sibling:
     <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>

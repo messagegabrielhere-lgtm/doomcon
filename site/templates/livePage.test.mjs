@@ -14,7 +14,7 @@ describe('live page', () => {
     const html = render(ctx, { live: { items: [] }, tv: { items: [] }, radio: { items: [] }, news_247: [] });
     assert.match(html, /<title>What AI is on TV and radio right now\?/);
     assert.match(html, /<h1 class="bp__h1">What AI is on TV and radio right now\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="live-now"[^>]*>Which AI streams are live now\?/);
     assert.match(html, /id="news-247"[^>]*>Which 24\/7 news channels can you open live\?/);
     assert.match(html, /id="on-tv"[^>]*>Which AI segments are on TV\?/);

@@ -63,7 +63,7 @@ export function render(ctx) {
   ${truncated}
   ${shown.length ? body : '<p>No observations recorded yet.</p>'}
   <section class="moves-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="fresh__key">Search-shaped sibling:
       <a href="${esc(ctx.href('/changelog.html'))}">What moved the ${esc(brand.NAME)} score this hour?</a>

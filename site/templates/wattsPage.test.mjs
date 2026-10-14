@@ -24,7 +24,7 @@ describe('watts page', () => {
     const html = render(ctx);
     assert.match(html, /<title>What does the SIREN infrastructure index read\?/);
     assert.match(html, /<h1 class="ihero__h1">What does the SIREN infrastructure index read\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does Watts measure datacentre power or water draw\?/);
     assert.match(html, /Does Watts feed the main SIREN number\?/);
     assert.match(html, /Does SUBSTRATE mean the grid is in trouble\?/);

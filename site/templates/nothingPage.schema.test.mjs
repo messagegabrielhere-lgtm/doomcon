@@ -24,7 +24,7 @@ describe('nothing page schema', () => {
     const html = render(ctx);
     assert.match(html, /<title>How often do dated AI claims miss\?/);
     assert.match(html, /<h1 class="neh__h1 bp__h1">How often do dated AI claims miss\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="ledger">What claims are on the ledger\?<\/h2>/);
     assert.match(html, /id="method">How is the Nothing Index made\?<\/h2>/);
     assert.match(html, /FAQPage[\s\S]*What claims are on the ledger\?/);

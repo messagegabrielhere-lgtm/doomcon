@@ -148,7 +148,7 @@ describe('catalog page SEO', () => {
     const html = catalog(ctx, entries);
     assert.match(html, /<title>Where is everything on SIREN listed\?/);
     assert.match(html, /<h1 class="bp__h1">Where is everything on SIREN listed\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /How do I filter the catalog\?/);
     assert.match(html, /Where do I find stories, leaders and Bunker Kit tools\?/);
     assert.match(html, /What kinds of things are listed\?/);

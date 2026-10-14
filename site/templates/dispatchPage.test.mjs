@@ -11,7 +11,7 @@ describe('dispatch page SEO', () => {
   it('ships a question-shaped title, speakable WebPage, and matching FAQPage', () => {
     assert.match(html, /<title>What public feeds does SIREN Dispatch show\?/);
     assert.match(html, /<h1>What public feeds does SIREN Dispatch show\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Is Dispatch an emergency service\?/);
     assert.match(html, /Does Dispatch move the SIREN score\?/);
     assert.match(html, /Which cities have open CAD\?/);

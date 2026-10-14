@@ -1265,7 +1265,7 @@ ${exclusions()}
 ${howComputed(ctx, infra)}
 
 <section class="ifaq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="ifaq__key">Search-shaped sibling:
     <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a>.</p>
