@@ -290,7 +290,7 @@ function card(l, asOf = null, { ctx = null, covAt = null } = {}) {
     ? (ctx && typeof ctx.href === 'function' ? ctx.href(personHref) : personHref)
     : '';
   const nameHtml = personUrl
-    ? `<a class="lwc__n" href="${esc(personUrl)}">${esc(l.name)}</a>`
+    ? `<a class="lwc__n" href="${esc(personUrl)}">What press has ${esc(brand.NAME)} scored about ${esc(l.name)}?</a>`
     : `<b class="lwc__n">${esc(l.name)}</b>`;
 
   return `<li class="lwr__i lwc" id="lw-${esc(l.id)}" data-state="${esc(l.state)}" data-group="${esc(groupOf(l))}"` +

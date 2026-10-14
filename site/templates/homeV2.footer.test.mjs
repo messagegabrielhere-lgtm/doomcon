@@ -115,6 +115,19 @@ describe('home v2 footer', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('every-room card titles use destination question H1s', () => {
+    const html = render(ctx, { head: '' });
+    assert.match(html, /href="\/race\.html"[^>]*>[\s\S]*?<b>Who is winning the AI race\?<\/b>/);
+    assert.match(html, /href="\/news\.html"[^>]*>[\s\S]*?<b>Which AI stories has SIREN scored in this window\?<\/b>/);
+    assert.match(html, /href="\/contain\.html"[^>]*>[\s\S]*?<b>Can you stop an AI breakout\?<\/b>/);
+    assert.match(html, /href="\/games\.html"[^>]*>[\s\S]*?<b>What free AI games can you play on SIREN\?<\/b>/);
+    assert.match(html, /href="\/p-doom\.html"[^>]*>[\s\S]*?<b>What is p\(doom\)\?<\/b>/);
+    assert.doesNotMatch(html, /v2-room__t"><b>THE RACE<\/b>/);
+    assert.doesNotMatch(html, /v2-room__t"><b>NEWSROOM<\/b>/);
+    assert.doesNotMatch(html, /v2-room__t"><b>Containment<\/b>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });
 
 

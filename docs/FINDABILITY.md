@@ -504,6 +504,7 @@ context.
 | 252 | Homepage FAQ `linkifyAnswer` path anchors use destination H1 questions and cover more hubs (was bare `/compare.html` / `/people/` / `/p-doom.html` …); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 253 | `/item/` entity chips (model/tag/people/outlet/country/source) + `/games.html` card titles use destination question H1s (was bare entity/domain names / “Containment” / “Signal or Noise” …); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 254 | Race board lab names + model/people “Lab page” notes + newsroom pillar legend use destination question H1s (was bare “OpenAI” / “Anthropic” / “Capability” …); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 255 | Homepage every-room card titles + leaders-wire indexable person names use destination question H1s; unique room tile icons (was uppercase “THE RACE” / “NEWSROOM” / bare “Sam Altman” / shared news/updown/clock art …); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
