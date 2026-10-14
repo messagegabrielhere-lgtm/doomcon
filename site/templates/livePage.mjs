@@ -17,6 +17,12 @@ import { NEWS_247 } from '../../collector/live-media.mjs';
 
 const PATH = '/live.html';
 const qTitle = 'What AI is on TV and radio right now?';
+// Tip #276: section H2s are question-shaped and mirrored in FAQ (§3.3).
+const liveNowQ = 'Which AI streams are live now?';
+const news247Q = 'Which 24/7 news channels can you open live?';
+const onTvQ = 'Which AI segments are on TV?';
+const radioQ = 'What AI talk radio can you leave playing?';
+const aboutQ = 'How does this live room work?';
 
 const CSS = `<style>
 .lv{max-width:1100px;overflow-wrap:anywhere}
@@ -121,12 +127,12 @@ function liveSection(ctx, live) {
   else if (live && live.status === 'no-key') body = `<div class="lv-empty"><b>No AI live streams right now.</b> The live search is switched off on this build, so this shelf stays empty. The 24/7 news channels below are always on.</div>`;
   else if (live && live.status === 'error') body = `<div class="lv-empty"><b>No AI live streams right now.</b> The last live search did not answer (${esc(live.error || 'error')}); it tries again within the hour. Meanwhile the 24/7 news channels below are always on.</div>`;
   else body = `<div class="lv-empty"><b>No AI live streams right now.</b> Nothing live about AI passed the filter at the last check. The 24/7 news channels below are always on.</div>`;
-  return `<h2 id="live-now">Live now</h2><p class="lv-upd">${upd}</p>${body}`;
+  return `<h2 id="live-now">${esc(liveNowQ)}</h2><p class="lv-upd">${upd}</p>${body}`;
 }
 
 function newsSection(list) {
   const rows = (list && list.length ? list : NEWS_247).filter((c) => /^UC[\w-]{22}$/.test(c.id));
-  return `<h2 id="news-247">24/7 news channels</h2><p class="lv-upd">ALWAYS ON · OPENS ON YOUTUBE</p>
+  return `<h2 id="news-247">${esc(news247Q)}</h2><p class="lv-upd">ALWAYS ON · OPENS ON YOUTUBE</p>
   <div class="lv-247">${rows.map((c) => `<a href="https://www.youtube.com/channel/${esc(c.id)}/live" target="_blank" rel="noopener"><b>${esc(c.name)} ↗</b><span>${esc(c.blurb || '')}</span></a>`).join('')}</div>
   <p class="lv-note">Each link opens whatever that channel is streaming live right now. General news, not only AI.</p>`;
 }
@@ -140,7 +146,7 @@ function tvSection(tv) {
     ? `<div class="lv-grid">${items.map((v) => videoCard(v)).join('')}</div>`
     : `<div class="lv-empty"><b>No AI segments to show yet.</b> ${!(tv && tv.fetched_at) ? 'The channel feeds have not been checked yet; they are read every 15 minutes.' : srcs.length && !ok ? 'None of the channel feeds answered at the last check; it retries every 15 minutes.' : 'None of the news channels we follow posted an AI story in the last 72 hours.'}</div>`;
   const names = srcs.filter((s) => s.ok).map((s) => s.name);
-  return `<h2 id="on-tv">AI on TV</h2><p class="lv-upd">${upd}</p>${body}
+  return `<h2 id="on-tv">${esc(onTvQ)}</h2><p class="lv-upd">${upd}</p>${body}
   ${names.length ? `<p class="lv-note">From the YouTube channels of ${esc(names.join(', '))}. Headlines are matched on AI terms; newest first.</p>` : ''}`;
 }
 
@@ -149,14 +155,14 @@ function radioSection(radio) {
   const srcs = (radio && radio.sources) || [];
   const upd = radio && radio.fetched_at ? `UPDATED ${esc(hhmm(radio.fetched_at))} · ${srcs.filter((s) => s.ok).length} OF ${srcs.length} SHOWS ANSWERED` : 'NOT CHECKED YET';
   if (!items.length) {
-    return `<h2 id="radio">AI talk radio</h2><p class="lv-upd">${upd}</p><div class="lv-empty"><b>No episodes to play right now.</b> ${radio && radio.fetched_at ? 'The podcast feeds did not answer at the last check; the list refreshes every hour.' : 'The podcast feeds have not been read yet; the list refreshes every hour.'}</div>`;
+    return `<h2 id="radio">${esc(radioQ)}</h2><p class="lv-upd">${upd}</p><div class="lv-empty"><b>No episodes to play right now.</b> ${radio && radio.fetched_at ? 'The podcast feeds did not answer at the last check; the list refreshes every hour.' : 'The podcast feeds have not been read yet; the list refreshes every hour.'}</div>`;
   }
   const queue = items.map((e) => ({ t: e.title, s: e.show, a: e.audio, i: e.image || '', l: e.link || '', d: e.published_at || '' }));
   const list = items.map((e, i) => `<li class="lv-ep" data-i="${i}" aria-current="false">
     <button type="button" data-play="${i}" aria-label="Play: ${esc(e.title)}">▶</button>${e.image ? `<img loading="lazy" decoding="async" width="40" height="40" alt="" src="${esc(e.image)}">` : ''}
     <div><h3>${esc(e.title)}</h3><p class="lv-meta">${esc(e.show)} · ${esc(when(e.published_at))}${e.duration ? ` · ${esc(mins(e.duration))}` : ''}</p>
     <div class="lv-acts">${xBtn(e.title, e.show, e.link || e.audio)}${e.link ? ext(e.link, 'Episode page ↗') : ''}</div></div></li>`).join('');
-  return `<h2 id="radio">AI talk radio</h2><p class="lv-upd">${upd}</p>
+  return `<h2 id="radio">${esc(radioQ)}</h2><p class="lv-upd">${upd}</p>
   <div class="lv-radio" id="lv-radio">
     <div class="lv-now"><img id="lv-art" alt="" width="64" height="64" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><div><small id="lv-state">READY · ${items.length} EPISODES QUEUED</small><strong id="lv-title">${esc(items[0].title)}</strong><em id="lv-show">${esc(items[0].show)}</em></div></div>
     <audio id="lv-audio" controls preload="none"></audio>
@@ -190,11 +196,21 @@ window.LiveRadio={get index(){return i},get queue(){return Q},next:function(){lo
 export function render(ctx, data) {
   const d = data || {};
   const counts = [(d.live && d.live.items || []).length, (d.tv && d.tv.items || []).length, (d.radio && d.radio.items || []).length];
-  // FAQ answers restate lede / about copy only.
+  // FAQ answers restate lede / about / section copy only (FINDABILITY §3.3).
   // Refuse: live-room-as-forecast, endorsement-as-SIREN-claim, doom-probability.
   const faq = [
     [qTitle,
       'Live broadcasts about artificial intelligence, the latest AI segments from the big news channels, and AI talk radio you can leave playing. Everything opens on demand: nothing plays and no player loads until you press play.'],
+    [liveNowQ,
+      'Streams are found by a YouTube search for AI news, at most once an hour, so one may have ended since. Channels marked ✓ are established news or tech outlets and are listed first; the rest passed a filter for AI topics and against music loops and crypto scams.'],
+    [news247Q,
+      'Each link opens whatever that channel is streaming live right now. General news, not only AI. Always on; opens on YouTube.'],
+    [onTvQ,
+      'AI segments from the big news channels’ last 72 hours. Headlines are matched on AI terms; newest first. Channel feeds are read every 15 minutes.'],
+    [radioQ,
+      'Plays the newest episodes from AI podcasts back to back, newest first, and moves on by itself when one ends. Audio streams straight from each show’s own host when you press play.'],
+    [aboutQ,
+      `Video thumbnails come from YouTube (i.ytimg.com), so Google sees your IP address when the page loads; the player is YouTube’s privacy-enhanced one (youtube-nocookie.com) and loads only when you click. Podcast artwork and audio come from each show’s host. ${brand.NAME} picks nothing by hand and endorses nothing here: it is a filtered list of what is on.`],
     ['Does anything autoplay?',
       'Everything opens on demand: nothing plays and no player loads until you press play.'],
     ['Does SIREN endorse these streams?',
@@ -215,7 +231,7 @@ export function render(ctx, data) {
   ${newsSection(d.news_247)}
   ${tvSection(d.tv)}
   ${radioSection(d.radio)}
-  <h2>About this room</h2>
+  <h2 id="about">${esc(aboutQ)}</h2>
   <p class="lv-note">Video thumbnails come from YouTube (i.ytimg.com), so Google sees your IP address when the page loads; the player is YouTube’s privacy-enhanced one (youtube-nocookie.com) and loads only when you click. Podcast artwork and audio come from each show’s host. ${esc(brand.NAME)} picks nothing by hand and endorses nothing here: it is a filtered list of what is on. Machine-readable: <a href="${esc(ctx.href('/api/live-media.json'))}">api/live-media.json</a>. More live AI: <a href="${esc(ctx.href('/live-x.html'))}">Where are live X feeds and Spaces on AI?</a>, <a href="${esc(ctx.href('/elon.html'))}">Where can you find real clips of AI leaders?</a>, <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>
   <section class="lv-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
