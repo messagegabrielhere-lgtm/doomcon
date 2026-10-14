@@ -160,8 +160,9 @@ const MAP_HREF = '__MAP_HREF__';
 function theCaveat(w) {
   const copy = w.copy || {};
   const asOf = w.as_of_date || 'the day it was read';
+  const warnQ = 'What should you read before the world map?';
   return `<section class="wld__warn" aria-labelledby="wld-warn-h">
-  <h2 class="wld__warn__h" id="wld-warn-h">${icon('sec-signal')} Read this before you read the map</h2>
+  <h2 class="wld__warn__h" id="wld-warn-h">${icon('sec-signal')} ${esc(warnQ)}</h2>
   <p class="wld__warn__p wld__warn__p--lead">${esc(copy.what_zero_means || '')}</p>
   <p class="wld__warn__p">Every figure on this page counts map objects carrying a datacentre tag in
     OpenStreetMap on ${esc(asOf)}. Coverage follows volunteers, not deployments: a dense country is a
@@ -190,8 +191,9 @@ function mapCaption(w, m) {
 
 function mapSection(w, m) {
   const t = m.totals;
+  const mapQ = 'Where are the mapped datacentres on Earth?';
   return `<section class="wld__sec" id="the-map" aria-labelledby="wld-map-h">
-  <h2 class="wld__sec__h" id="wld-map-h">${icon('sec-map')} The map
+  <h2 class="wld__sec__h" id="wld-map-h">${icon('sec-map')} ${esc(mapQ)}
     <span class="wld__count num">${N(t.pinned)}</span></h2>
   <p class="wld__sec__l">One pin per mapped site, drawn exactly where OpenStreetMap places the object. The
     picture needs no JavaScript and every figure in it is a number in the table below. With it, the map pans
@@ -223,8 +225,9 @@ function countrySection(ctx, w, m) {
       <span class="num">${N(c.count)}</span><span class="wld__cont__p num">${t.sites ? pct(c.count / t.sites) : '—'}</span></li>`).join('');
   const top = m.countries[0] || null;
 
+  const countryQ = 'Which countries have a mapped datacentre site?';
   return `<section class="wld__sec" id="by-country" aria-labelledby="wld-country-h">
-  <h2 class="wld__sec__h" id="wld-country-h">${icon('sec-substrate')} Every country with a mapped site
+  <h2 class="wld__sec__h" id="wld-country-h">${icon('sec-substrate')} ${esc(countryQ)}
     <span class="wld__count num">${count(t.countriesWithSites, '—')}/${count(t.countriesInRoster, '—')}</span></h2>
   <p class="wld__sec__l">Ranked by sites mapped. ${top ? `${esc(top.name)} tops the ranking with ${N(top.total)} —
     ${t.sites ? pct(top.total / t.sites) : '—'} of every mapped site on Earth — and that is a fact about where
@@ -326,8 +329,9 @@ function orbitTable(o) {
 function orbitSection(o) {
   const t = o.totals || {};
   const honesty = (Array.isArray(o.honesty) ? o.honesty : []).map((s) => `<li>${esc(s)}</li>`).join('');
+  const orbitQ = 'How much computing hardware is in orbit?';
   return `<section class="wld__sec" id="orbit" aria-labelledby="wld-orbit-h">
-  <h2 class="wld__sec__h" id="wld-orbit-h">${icon('sec-substrate')} Computing hardware in orbit<span class="sec__eb">Off the planet</span>
+  <h2 class="wld__sec__h" id="wld-orbit-h">${icon('sec-substrate')} ${esc(orbitQ)}<span class="sec__eb">Off the planet</span>
     <span class="wld__count num">${N(o.totals && Number.isFinite(o.totals.in_orbit_spacecraft)
       ? o.totals.in_orbit_spacecraft : o.programmes.length)}</span></h2>
   <p class="wld__sec__l wld__sec__l--lead">${esc(o.verdict || '')}</p>
@@ -355,8 +359,9 @@ function limitsSection(w, m) {
   const t = w.totals || {};
   const honesty = (Array.isArray(w.honesty) ? w.honesty : []).map((s) => `<li>${esc(s)}</li>`).join('');
   const disagree = (Array.isArray(w.sites) ? w.sites : []).filter((s) => s.tag_disagrees).length;
+  const limQ = 'What can this world map say and not say?';
   return `<section class="wld__sec" id="limits" aria-labelledby="wld-lim-h">
-  <h2 class="wld__sec__h" id="wld-lim-h">${icon('sec-signal')} What this can and cannot say</h2>
+  <h2 class="wld__sec__h" id="wld-lim-h">${icon('sec-signal')} ${esc(limQ)}</h2>
   <p class="wld__sec__l wld__sec__l--lead">${esc(copy.what_zero_means || '')}</p>
   <p class="wld__sec__l">Published by the collector, printed here unedited.</p>
   <ul class="wld__lim">${honesty}</ul>
@@ -382,8 +387,9 @@ function methodSection(ctx, w, outline) {
   const simp = outline.simplify || {};
   const oc = outline.counts || {};
   const variants = Array.isArray(s.tag_variants) ? s.tag_variants : [];
+  const methodQ = 'Where did the world map data come from?';
   return `<section class="wld__sec" id="method" aria-labelledby="wld-method-h">
-  <h2 class="wld__sec__h" id="wld-method-h">${icon('sec-method')} Where this came from</h2>
+  <h2 class="wld__sec__h" id="wld-method-h">${icon('sec-method')} ${esc(methodQ)}</h2>
 
   <p class="wld__sec__l"><b>${esc(s.label || 'OpenStreetMap via Overpass')}.</b> One planet-wide query against
     <code class="wld__tag">${esc(s.endpoint || 'the Overpass endpoint')}</code>, keyless, for
@@ -431,8 +437,9 @@ function methodSection(ctx, w, outline) {
 
 function dataSection(ctx, w, m, orbital) {
   const t = m.totals;
+  const dataQ = 'Where can you take the world map data?';
   return `<section class="wld__sec" id="data" aria-labelledby="wld-data-h">
-  <h2 class="wld__sec__h" id="wld-data-h">${icon('sec-api')} Take the data</h2>
+  <h2 class="wld__sec__h" id="wld-data-h">${icon('sec-api')} ${esc(dataQ)}</h2>
   <p class="wld__sec__l">Published beside this page byte-identical to the committed files — the build copies
     them verbatim rather than re-serialising, so the checksum of the file in the repository is the checksum of
     the file served here.</p>
@@ -503,14 +510,38 @@ export function render(ctx) {
     + `Open Database Licence data, © OpenStreetMap contributors. `
     + (w.generated_at ? `Compiled ${utc(w.generated_at)}.` : '');
 
+  // Tip #299: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const warnQ = 'What should you read before the world map?';
+  const mapQ = 'Where are the mapped datacentres on Earth?';
+  const countryQ = 'Which countries have a mapped datacentre site?';
+  const orbitQ = 'How much computing hardware is in orbit?';
+  const limQ = 'What can this world map say and not say?';
+  const methodQ = 'Where did the world map data come from?';
+  const dataQ = 'Where can you take the world map data?';
   // FAQ answers restates visible hero / caveat copy only (FINDABILITY §3.3).
   const faq = [
     [`How many datacentres has ${brand.NAME} mapped on Earth?`,
       `${N(t.sites)} map objects carrying a datacentre tag in OpenStreetMap, ${q}. That is a count of map objects, not ${copy.never_say || 'the number of datacentres in the world'}.`],
+    [warnQ,
+      `Every figure on this page counts map objects carrying a datacentre tag in OpenStreetMap. Coverage follows volunteers, not deployments: a dense country is a country somebody mapped.`],
+    [mapQ,
+      `One pin per mapped site, drawn exactly where OpenStreetMap places the object. ${N(m.totals.pinned)} pins on an Equal Earth projection.`],
+    [countryQ,
+      `Ranked by sites mapped. Countries in the roster with none mapped are outside the ranking, because nobody has looked — not because there are none.`],
+    ...(orbital ? [[orbitQ,
+      `Spacecraft in orbit carrying compute hardware against satellites filed or planned for it. The two numbers are printed together everywhere on this page, because the second one printed alone is a press release.`]] : []),
+    [limQ,
+      copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped rather than a country with none. This is a snapshot and not a time series.'],
+    [methodQ,
+      `One planet-wide Overpass query against OpenStreetMap, keyless. Attribution is a term of the ODbL licence, not a courtesy.`],
+    [dataQ,
+      `Published beside this page byte-identical to the committed files — /api/world.json carries every number on this page.`],
     [`Does a country with none mapped have zero datacentres?`,
       copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped rather than a country with none.'],
     [`Does the world map feed the main ${brand.NAME} number?`,
       `No. This page is a ${brand.NAME} sub-index. It draws, attributes, and counts mapped sites — it does not feed the hourly activity index.`],
+    [`Does ${brand.NAME} publish a world-map doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} The world map counts OpenStreetMap datacentre tags — not a probability of harm and not a forecast.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
