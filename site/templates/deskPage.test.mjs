@@ -53,4 +53,13 @@ describe('desk page', () => {
     assert.match(html, /What unserious counts does SIREN keep on Tally.s desk\?/);
     assert.match(html, /noindex/);
   });
+
+  it('streak card H2 uses a question mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /<h2 class="dk__h">How long has Nothing Ever Changed\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2 class="dk__h">Nothing Ever Changes<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"How long has Nothing Ever Changed\?"/);
+    assert.match(html, /consecutive readings at level/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });

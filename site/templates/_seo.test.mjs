@@ -321,9 +321,13 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('SIREN upside index'));
     assert.ok(org.knowsAbout.includes('what is BLISS, the SIREN upside index'));
     assert.ok(org.knowsAbout.includes('How do BLISS and SIREN sit on one axis'));
+    assert.ok(org.knowsAbout.includes('Why does BLISS have no score in this build'));
+    assert.ok(org.knowsAbout.includes('Why is BLISS awaiting its baseline'));
     assert.ok(org.knowsAbout.includes('What are the five BLISS pillars'));
     assert.ok(org.knowsAbout.includes('Which BLISS sources answered this run'));
     assert.ok(org.knowsAbout.includes('How is BLISS computed'));
+    assert.ok(org.knowsAbout.includes('How long has Nothing Ever Changed'));
+    assert.ok(org.knowsAbout.includes('What is in the war room'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));

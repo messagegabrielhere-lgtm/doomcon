@@ -62,11 +62,13 @@ export function render(ctx) {
   const level = ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null;
   const qTitle = `What unserious counts does ${brand.NAME} keep on Tally’s desk?`;
 
+  // Tip #324: streak card H2 is question-shaped and mirrored in FAQ (§3.3).
+  const streakQ = 'How long has Nothing Ever Changed?';
   const cards = [];
   if (st) {
     const line = `${brand.NAME} has read level ${st.level}, ${st.name}, for ${N(st.n)} readings in a row, since ${utc(st.since)}.`;
     cards.push(`<li class="dk__c" id="streak">
-      <h2 class="dk__h">Nothing Ever Changes</h2>
+      <h2 class="dk__h">${esc(streakQ)}</h2>
       <p class="dk__n num">${esc(N(st.n))}</p>
       <p class="dk__u">consecutive readings at level ${esc(st.level)}, ${esc(st.name)}, since ${esc(utc(st.since))}</p>
       <p class="dk__j">The dial works. It is just not moving. When it does, this resets to one and somebody posts about it.</p>
@@ -85,11 +87,15 @@ export function render(ctx) {
     </li>`);
   }
 
-  // FAQ answers restate hero / fine-print copy only (FINDABILITY §3.3).
+  // FAQ answers restate hero / fine-print / streak copy only (FINDABILITY §3.3).
   // Refuse: signal, forecast, or input to the main index.
   const faq = [
     [qTitle,
       `Side indexes, kept by the duty canary. The framing is a joke; the numbers are not. Each one is a plain count over the ${N(total)} headlines in the newsroom window or the published readings, and a count of zero is printed as zero.`],
+    ...(st
+      ? [[streakQ,
+        `The dial works. It is just not moving: ${N(st.n)} consecutive readings at level ${st.level}, ${st.name}, since ${utc(st.since)}. When it does move, this resets to one.`]]
+      : []),
     [`Do Tally’s desk counts feed the main ${brand.NAME} number?`,
       `Tally’s desk · does not feed the main number. What these are not: a signal, a forecast, or an input to ${brand.NAME}.`],
     ['Are these side indexes a signal or a forecast?',

@@ -51,4 +51,15 @@ describe('homepage FAQ', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('includes Meet Tally and war-room questions mirrored from home H2s', () => {
+    const qa = items(ctx);
+    assert.ok(qa.some(([q]) => q === 'Who is Tally, the duty canary?'));
+    assert.ok(qa.some(([q]) => q === 'What is in the war room?'));
+    assert.ok(!qa.some(([q]) => q === 'Who is Tally?'));
+    const html = render(ctx);
+    assert.match(html, /Who is Tally, the duty canary\?/);
+    assert.match(html, /What is in the war room\?/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
