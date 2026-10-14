@@ -68,12 +68,8 @@ const SECTIONS = [
       ? { v: num(ctx.state.score, 1), k: 'composite score' } : null) },
   // A side project on its own data track (scanner-data, investors-data,
   // arena-data), so no count here: its numbers load in the page itself.
-  { href: '/arena.html', label: 'Stock picks', short: 'Picks',
-    blurb: 'Today\'s rule-based stock picks with their track record, big investors\' disclosed trades, and the AI trading battle.' },
   // A side project on its own data track (elon-data), like Stock picks above: no
   // count here, the clip index loads in the page itself.
-  { href: '/elon.html', label: 'Real Clips', short: 'Clips',
-    blurb: 'Real clips of Elon Musk and of superintelligence talks, only from the channels that filmed them. Paste a link to check a clip.' },
   { href: '/race.html', label: 'The Race', short: 'Race', needs: 'race',
     blurb: 'Frontier labs ranked on live prediction-market odds.',
     count: raceCount },
@@ -194,8 +190,6 @@ const SECTIONS = [
     blurb: 'Every formula and constant. Recompute the number yourself.' },
   { href: '/instruments.html', label: 'Instruments', short: 'Instruments',
     blurb: 'Score history, source health, the five pillars, moves, embed and API.' },
-  { href: '/bets.html', label: 'Tally’s Bets', short: 'Bets',
-    blurb: 'Daily forecasts about the index, with probabilities, scored in public.' },
   { href: '/ai-doomsday-clock.html', label: 'The Clock', short: 'Clock',
     blurb: 'The reading as a clock face, and what the other clocks are.' },
   { href: '/nothing.html', label: 'Nothing Ever Happens', short: 'Nothing', needs: 'nothing',
@@ -209,10 +203,6 @@ const SECTIONS = [
     blurb: 'The unserious counts: robots, godfathers, question marks.' },
   { href: '/game.html', label: 'Game', short: 'Game',
     blurb: 'Tally Counts: thirty seconds of counting signals and ignoring predictions.' },
-  { href: '/library.html', label: 'Reading list', short: 'Books',
-    blurb: 'Books from every side of the AI argument. Paid links.' },
-  { href: '/bunker-kit.html', label: 'Bunker Kit', short: 'Bunker',
-    blurb: 'Fifty free tools and one crate of gear.' },
   { href: '/history.html', label: 'History', short: 'History',
     blurb: 'Sixty years of the same argument, dated and attributed.',
     count: (ctx) => (Array.isArray(ctx.history) && ctx.history.length
@@ -833,7 +823,6 @@ function serpDescription(description) {
 const PAL_EXTRA = [
   { href: '/about.html', label: 'About', blurb: 'Who runs this and how it is paid for.' },
   { href: '/guide.html', label: 'Guide to the levels', blurb: 'What each of the five levels means.' },
-  { href: '/p-doom.html', label: 'What is p(doom)?', blurb: 'The number nobody can check, explained.' },
   { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock', blurb: 'What exists, and the one you can verify.' },
   { href: '/moves/', label: 'Every reading', blurb: 'The full record, each with its receipt.' },
   { href: '/sponsor.html', label: 'Sponsor', blurb: 'One named sponsor at a time.' },
@@ -1463,7 +1452,6 @@ function footer(ctx, sections, path) {
   // no account, and a dead "support us" link is worse than none.
   const source = [
     { href: '/about.html', label: 'About', blurb: 'What this is, who runs it, how it is paid for, and how to get in touch.' },
-    { href: '/p-doom.html', label: 'What is p(doom)?', blurb: 'The probability-of-doom number, explained.' },
     { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock?', blurb: 'What exists, and one you can verify.' },
     { href: '/guide.html', label: 'Guide', blurb: 'SIREN, DEFCON, the Doomsday Clock and p(doom): what each one measures.' },
     { href: '/sponsor.html', label: 'Sponsor', blurb: 'One labelled sponsor at a time, with no say over the number.' },

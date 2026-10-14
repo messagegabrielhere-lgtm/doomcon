@@ -51,7 +51,6 @@ export function render(ctx, d) {
   const main = `${CSS}<section class="pw">
   <p class="eyebrow">THE POWER RACE · ELECTRICITY = STRENGTH?</p>
   <h1 class="bp__h1">Who makes the most electricity</h1>
-  <blockquote class="pw-q">“Electricity production is the best metric for the true strength of any large-scale economy imo”<cite>ELON MUSK, OCT 10, 2026 · <a href="https://x.com/elonmusk/status/2108952286030356925" target="_blank" rel="noopener">ON X</a></cite></blockquote>
   <p class="lede">So here is the scoreboard. Every country’s electricity generation from the open energy record, the race between the two biggest, and who makes the most per person. It matters for AI too: the data centres SIREN tracks are the fastest-growing new load on the grid.</p>
   ${top.length ? `<div class="pw-k">
     <div style="--c:#F87171"><span>#1 GENERATOR</span><b>${esc(cn ? cn.name : top[0].name)}</b><small>${fmt((cn || top[0]).twh)} TWh in ${esc(d.year)}</small></div>

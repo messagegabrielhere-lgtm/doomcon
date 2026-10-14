@@ -146,6 +146,19 @@ const AI_TOKENS = surfaceRegex([
   'robotaxi', 'humanoid', 'prompt injection', 'model weights',
 ]);
 
+/**
+ * Adult / porn-spam headlines. Google News and other aggregators occasionally
+ * surface SEO spam ("... secret porno clips ... xxx ...") that matches an AI
+ * token. Nothing on this list belongs in the newsroom, so it is dropped before
+ * scoring regardless of source.
+ */
+// Spam vocabulary only: legitimate reporting on deepfake porn uses "porn",
+// not "porno"/"xxx"/"sex movie", so this does not drop real news about abuse.
+const ADULT_RE = /\b(porno\w*|xxx+|sex\s*(movie|video|tape|clip|scene)s?|hentai|milfs?|camgirls?)\b/i;
+export function isAdultSpam(text) {
+  return !!text && ADULT_RE.test(String(text));
+}
+
 export function isAiRelevant(text) {
   if (!text) return false;
   if (AI_TOKENS.test(text)) return true;
