@@ -1247,6 +1247,75 @@ describe('lab facets', () => {
     }
   });
 
+  it('indexes Oracle, Tencent, Alibaba Qwen, and Qualcomm entity labs', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'or1', title: 'How Oracle turns days of work into minutes with ChatGPT and Codex', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/or1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'or2', title: 'Oracle cloud AI deals expand hyperscaler capacity bookings', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/or2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'or3', title: 'Investors track Oracle AI infrastructure spend against rivals', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/or3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'te1', title: 'Tencent Tells Investors Its $5 Billion Bond Mainly for AI Capex', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/te1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'te2', title: 'Sources: Tencent is planning a ~$5B bond offering for AI buildout', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/te2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'te3', title: 'DeepSeek Backs Ex-Tencent AI Scientist’s $400 Million Robot Lab', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/te3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'qw1', title: 'Qwen open-weight models expand Alibaba Cloud AI distribution', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/qw1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'qw2', title: 'Alibaba Cloud showcases Qwen multimodal checkpoints for enterprise', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/qw2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'qw3', title: 'Developers adopt Qwen for open-source agent stacks', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/qw3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+        {
+          id: 'qc1', title: 'Qualcomm CEO says future smartphones could run 100B-parameter AI models', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/qc1', published_at: '2026-09-01T04:00:00Z', score: 40,
+        },
+        {
+          id: 'qc2', title: 'Qualcomm on-device AI chips target phone-side inference', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/qc2', published_at: '2026-09-02T04:00:00Z', score: 41,
+        },
+        {
+          id: 'qc3', title: 'Investors weigh Qualcomm AI smartphone silicon against AMD', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/qc3', published_at: '2026-09-03T04:00:00Z', score: 42,
+        },
+      ],
+    };
+    for (const [id, name] of [
+      ['oracle', 'Oracle'],
+      ['tencent', 'Tencent'],
+      ['qwen', 'Alibaba Qwen'],
+      ['qualcomm', 'Qualcomm'],
+    ]) {
+      const lab = labsFromEntities(withArch).find((p) => p.id === id);
+      assert.ok(lab, `${name} clears ENTITY_LAB_MIN`);
+      assert.match(renderLab(withArch, lab), new RegExp(`What has SIREN scored about ${name}\\?`));
+      assert.doesNotMatch(renderLab(withArch, lab), /doom score:\s*\d/i);
+      assert.ok(sitemapEntries(withArch).some((e) => e.loc === `/lab/${id}.html`));
+    }
+  });
+
   it('indexes Sakana AI, Physical Intelligence, Zhipu, and Cloudflare entity labs', () => {
     const withArch = {
       ...ctx,
