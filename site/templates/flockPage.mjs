@@ -1152,8 +1152,9 @@ function counters(f, m) {
 
 function theCaveat(f) {
   const cov = f.coverage;
+  const warnQ = 'What should you read before the Flock map?';
   return `<section class="flk__warn" aria-labelledby="flk-warn-h">
-  <h2 class="flk__warn__h" id="flk-warn-h">${icon('sec-signal')} Read this before you read the map</h2>
+  <h2 class="flk__warn__h" id="flk-warn-h">${icon('sec-signal')} ${esc(warnQ)}</h2>
   <p class="flk__warn__p flk__warn__p--lead">${esc(cov.what_zero_means || '')}</p>
   <p class="flk__warn__p">${esc(cov.why_it_is_uneven || '')}</p>
   <p class="flk__warn__p">${esc(cov.not_reconciled_with_vendor_figures || '')}</p>
@@ -1166,13 +1167,13 @@ function theCaveat(f) {
 }
 
 const JUMPS = [
-  ['#the-map', 'The map'],
-  ['#jurisdictions', 'Jurisdictions'],
-  ['#direction', 'Which way they look'],
-  ['#fields', 'What the tags carry'],
-  ['#operators', 'Operators'],
-  ['#limits', 'What this is not'],
-  ['#method', 'Method'],
+  ['#the-map', 'Where are the mapped Flock ALPR cameras?'],
+  ['#jurisdictions', 'Which jurisdictions have mapped Flock cameras?'],
+  ['#direction', 'Which way do the cameras look?'],
+  ['#fields', 'How complete is the Flock tag data?'],
+  ['#operators', 'Who is recorded as operating them?'],
+  ['#limits', 'What is this Flock register not?'],
+  ['#method', 'Where did the Flock map data come from?'],
 ];
 
 /**
@@ -1210,8 +1211,9 @@ function methodSection(ctx, f, m) {
       <tr><th scope="row">${esc(k.seed)}</th><td>${N(k.counted)}</td><td>${N(k.collected)}</td>
         <td>${k.shortfall ? '<b class="flk__bad">shortfall</b>' : 'no shortfall'}</td></tr>`).join('');
 
+  const methodQ = 'Where did the Flock map data come from?';
   return `<section class="flk__sec" id="method" aria-labelledby="flk-method-h">
-  <h2 class="flk__sec__h" id="flk-method-h">${icon('sec-method')} Where this came from</h2>
+  <h2 class="flk__sec__h" id="flk-method-h">${icon('sec-method')} ${esc(methodQ)}</h2>
 
   <p class="flk__sec__l"><b>${esc(s.label || 'OpenStreetMap via Overpass')}.</b> Every camera here is
     an OpenStreetMap object tagged ${(s.base_filter || []).map((x) => `<code class="flk__tag">${esc(x)}</code>`).join(' and ')},
@@ -1314,8 +1316,9 @@ function directionSection(f) {
   const fov = d.field_of_view;
   const widths = (fov && Array.isArray(fov.widths_deg)) ? fov.widths_deg : [];
 
+  const dirQ = 'Which way do the cameras look?';
   return `<section class="flk__sec" id="direction" aria-labelledby="flk-dir-h">
-  <h2 class="flk__sec__h" id="flk-dir-h">${icon('sec-signal')} Which way they look
+  <h2 class="flk__sec__h" id="flk-dir-h">${icon('sec-signal')} ${esc(dirQ)}
     <span class="flk__count num">${N(parsed)}</span></h2>
   <p class="flk__sec__l">${esc(d.note || '')} ${esc(d.units ? `Units: ${d.units}.` : '')}</p>
   <div class="flk__split">
@@ -1347,8 +1350,9 @@ function directionSection(f) {
 function fieldsSection(f) {
   const body = completeness(f);
   if (!body) return '';
+  const fieldsQ = 'How complete is the Flock tag data?';
   return `<section class="flk__sec" id="fields" aria-labelledby="flk-fields-h">
-  <h2 class="flk__sec__h" id="flk-fields-h">${icon('sec-api')} How complete the data is<span class="sec__eb">What the tags carry</span></h2>
+  <h2 class="flk__sec__h" id="flk-fields-h">${icon('sec-api')} ${esc(fieldsQ)}<span class="sec__eb">What the tags carry</span></h2>
   <p class="flk__sec__l">A tag is only present if a volunteer typed it. This is the completeness of
     each field across the ${N(f.totals.mapped_worldwide)} mapped objects — the honest denominator for
     every figure on this page, and the reason the operator ranking below is a fact about attribution
@@ -1361,8 +1365,9 @@ function operatorsSection(f) {
   const cov = fieldCoverage(f).operating_agency;
   const table = agencies(f);
   if (!cov || !table) return '';
+  const opsQ = 'Who is recorded as operating them?';
   return `<section class="flk__sec" id="operators" aria-labelledby="flk-ops-h">
-  <h2 class="flk__sec__h" id="flk-ops-h">${icon('sec-substrate')} Who is recorded as operating them
+  <h2 class="flk__sec__h" id="flk-ops-h">${icon('sec-substrate')} ${esc(opsQ)}
     <span class="flk__count num">${pct(cov.share_present)}</span></h2>
   <p class="flk__sec__l flk__sec__l--warn"><b>Do not read this as a deployment ranking.</b> Only
     ${N(cov.present)} of ${N(f.totals.mapped_worldwide)} cameras record an operator at all. A chain
@@ -1406,18 +1411,47 @@ export function render(ctx) {
     + `Open Database Licence data, © OpenStreetMap contributors. `
     + `Compiled ${utc(f.generated_at)}.`;
 
+  // Tip #301: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const warnQ = 'What should you read before the Flock map?';
+  const mapQ = 'Where are the mapped Flock ALPR cameras?';
+  const jurQ = 'Which jurisdictions have mapped Flock cameras?';
+  const dirQ = 'Which way do the cameras look?';
+  const fieldsQ = 'How complete is the Flock tag data?';
+  const opsQ = 'Who is recorded as operating them?';
+  const limQ = 'What is this Flock register not?';
+  const methodQ = 'Where did the Flock map data come from?';
   // FAQ answers restate hero / caveat copy only (FINDABILITY §3.3).
   // Refuse copy.never_say: all/every Flock cameras, national total, etc.
   const faq = [
     [title,
       `${N(t.mapped_worldwide)} cameras, ${q}. That is the number of map objects, not the number of cameras. ` +
       `${cov.what_zero_means || ''}`],
+    [warnQ,
+      `So the only claim any figure on this page makes is the one in its own caption: this many cameras are written down in OpenStreetMap. Comparing two regions on this page is partly comparing two regions' mapping effort.`],
+    [mapQ,
+      `Every camera is binned into a cell and each occupied cell is drawn as its own projected quadrilateral, shaded by how many are in it. Land with no mapped camera is hatched, not left blank.`],
+    [jurQ,
+      `Ranked by cameras mapped. A state that looks saturated and a state that looks empty may differ only in how many people were looking.`],
+    [dirQ,
+      dirOn
+        ? `${N(parsedDir)} cameras state which way they face and the bearings are plotted. The untagged are not in the rose.`
+        : `Direction tags are not in this build.`],
+    [fieldsQ,
+      `A tag is only present if a volunteer typed it. This is the completeness of each field across the mapped objects — the honest denominator for every figure on this page.`],
+    [opsQ,
+      `Do not read the operator table as a deployment ranking. Only cameras that record an operator appear. This table measures who is easy to attribute.`],
+    [limQ,
+      `This is a snapshot and not a time series. Nothing here says when a camera was installed or whether it is switched on — only that an OpenStreetMap object exists.`],
+    [methodQ,
+      `Every camera here is an OpenStreetMap object with Flock tags, unioned so unknown overlaps are not double-counted. Open Database Licence data, © OpenStreetMap contributors.`],
     ['Does a county with no pins have zero Flock cameras?',
       f.copy.empty_state || 'A county with no pins is a county nobody has mapped. It is not a county with no cameras.'],
     [`Does the Flock register feed the main ${brand.NAME} number?`,
       `Plate readers · a ${brand.NAME} register · does not feed the main number.`],
     ['Is this a complete census of Flock cameras?',
       'This page is a register of the ones somebody has written down in OpenStreetMap — a public, openly-licensed map that anyone can read and anyone can edit — and it is a register of nothing else.'],
+    [`Does ${brand.NAME} publish a Flock doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} The Flock register counts OpenStreetMap ALPR objects — not a probability of harm.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -1446,7 +1480,7 @@ ${theCaveat(f)}
 ${jumpNav(present)}
 
 <section class="flk__sec" id="the-map" aria-labelledby="flk-map-h">
-  <h2 class="flk__sec__h" id="flk-map-h">${icon('sec-map')} The map
+  <h2 class="flk__sec__h" id="flk-map-h">${icon('sec-map')} ${esc(mapQ)}
     <span class="flk__count num">${N(m.drawnCameras)}</span></h2>
   <p class="flk__sec__l">Every camera is binned into a cell ${m.cellDeg}° on a side — about 28 km of
     latitude — and each occupied cell is drawn as its own projected quadrilateral, shaded by how many
@@ -1459,7 +1493,7 @@ ${jumpNav(present)}
 </section>
 
 <section class="flk__sec" id="jurisdictions" aria-labelledby="flk-jur-h">
-  <h2 class="flk__sec__h" id="flk-jur-h">${icon('sec-substrate')} Jurisdictions
+  <h2 class="flk__sec__h" id="flk-jur-h">${icon('sec-substrate')} ${esc(jurQ)}
     <span class="flk__count num">${N(cov.states_with_mapped_cameras)}/${N(cov.states_and_territories_in_roster)}</span></h2>
   <p class="flk__sec__l">Ranked by cameras mapped. Read the <b>counties with none mapped</b> column
     beside every row: ${esc(m.states[0] && m.states[0].name || '')} tops the ranking with
@@ -1479,7 +1513,7 @@ ${secFields}
 ${secOperators}
 
 <section class="flk__sec" id="limits" aria-labelledby="flk-lim-h">
-  <h2 class="flk__sec__h" id="flk-lim-h">${icon('sec-signal')} What this is not</h2>
+  <h2 class="flk__sec__h" id="flk-lim-h">${icon('sec-signal')} ${esc(limQ)}</h2>
   <p class="flk__sec__l">Published by the collector, printed here unedited.</p>
   ${limits(f)}
   <p class="flk__sec__n">This is a snapshot and not a time series. Nothing here says when a camera was

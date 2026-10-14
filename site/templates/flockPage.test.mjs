@@ -28,6 +28,16 @@ describe('flock page', () => {
     assert.match(html, /Does a county with no pins have zero Flock cameras\?/);
     assert.match(html, /Does the Flock register feed the main SIREN number\?/);
     assert.match(html, /Is this a complete census of Flock cameras\?/);
+    assert.match(html, /id="flk-warn-h"[\s\S]*?What should you read before the Flock map\?/);
+    assert.match(html, /id="flk-map-h"[\s\S]*?Where are the mapped Flock ALPR cameras\?/);
+    assert.match(html, /id="flk-jur-h"[\s\S]*?Which jurisdictions have mapped Flock cameras\?/);
+    assert.match(html, /id="flk-lim-h"[\s\S]*?What is this Flock register not\?/);
+    assert.match(html, /id="flk-method-h"[\s\S]*?Where did the Flock map data come from\?/);
+    assert.doesNotMatch(html, /id="flk-warn-h"[\s\S]{0,200}Read this before you read the map</);
+    assert.doesNotMatch(html, /id="flk-map-h"[\s\S]{0,200}> The map\s*</);
+    assert.doesNotMatch(html, /id="flk-jur-h"[\s\S]{0,200}> Jurisdictions\s*</);
+    assert.doesNotMatch(html, /id="flk-method-h"[\s\S]{0,200}Where this came from</);
+    assert.match(html, /Does SIREN publish a Flock doom score\?/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"Dataset"/);
