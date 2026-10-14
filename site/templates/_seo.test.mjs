@@ -354,6 +354,10 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What moved the SIREN score this hour'));
     assert.ok(org.knowsAbout.includes('SIREN Labs'));
     assert.ok(org.knowsAbout.includes('What is SIREN Labs measuring this week'));
+    assert.ok(org.knowsAbout.includes('What is on the bench this week'));
+    assert.ok(org.knowsAbout.includes('What is coming up on the bench'));
+    assert.ok(org.knowsAbout.includes('What were earlier weeks'));
+    assert.ok(org.knowsAbout.includes('What are the lab rules'));
     assert.ok(org.knowsAbout.includes('SIREN reading list'));
     assert.ok(org.knowsAbout.includes('What AI books argue both sides of the case'));
     assert.ok(org.knowsAbout.includes('SIREN sponsor'));
