@@ -124,6 +124,20 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /probability of doom/i);
   });
 
+  it('pillar-card and oven gate H3s use questions mirrored in FAQPage', () => {
+    const html = render(ctx, { view: 'instruments' });
+    assert.match(html, /What does the Capability pillar count\?/);
+    assert.match(html, /What does the Markets pillar count\?/);
+    assert.match(html, /What would move one stage hotter\?/);
+    assert.match(html, /What would move one stage cooler\?/);
+    assert.match(html, /FAQPage[\s\S]*What does the Capability pillar count\?/);
+    assert.match(html, /FAQPage[\s\S]*What would move one stage hotter\?/);
+    assert.doesNotMatch(html, /<h3 class="pillar__name"[^>]*>[^<]*Capability<\/h3>/);
+    assert.doesNotMatch(html, /oven__gk"[^>]*>[^<]*One stage hotter/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
   it('war-room doors and closer alerts use page H1 questions', () => {
     const html = render(ctx, { view: 'classic' });
     assert.match(html, /id="war-room"/);

@@ -458,6 +458,13 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Who is CanaryBot on Moltbook'));
     assert.ok(org.knowsAbout.includes('Who is on the record'));
     assert.ok(org.knowsAbout.includes('What does SIREN 5 · DORMANT mean'));
+    assert.ok(org.knowsAbout.includes('What does the Capability pillar count'));
+    assert.ok(org.knowsAbout.includes('What does the Compute & Capital pillar count'));
+    assert.ok(org.knowsAbout.includes('What does the Attention pillar count'));
+    assert.ok(org.knowsAbout.includes('What does the Governance pillar count'));
+    assert.ok(org.knowsAbout.includes('What does the Markets pillar count'));
+    assert.ok(org.knowsAbout.includes('What would move one stage hotter'));
+    assert.ok(org.knowsAbout.includes('What would move one stage cooler'));
     assert.ok(org.knowsAbout.includes('What AI Spaces are live on X'));
     assert.ok(org.knowsAbout.includes('Who is OpenAI on X'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));

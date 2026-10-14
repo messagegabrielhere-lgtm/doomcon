@@ -632,6 +632,8 @@ context.
 | 380 | Home `/` lab-card H3s + FAQPage use questions (was bare lab names); Organization `knowsAbout` mirrors those questions; refuse race-as-doom-oracle / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 381 | `/map.html` jurisdiction-table H3 + FAQPage use a question (was “Every jurisdiction, ranked”); Organization `knowsAbout` mirrors that question; refuse map-as-draw / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 382 | `/watts.html` corridor-card H3s + FAQPage use questions (was bare “Texas” / “Northern Virginia” / …); Organization `knowsAbout` mirrors those questions; refuse Watts doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 383 | `/instruments.html` + `/classic.html` pillar-card H3s + FAQPage use questions (was bare pillar names); Organization `knowsAbout` mirrors those questions; refuse pillar-as-doom / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 384 | Oven gate-card H3s on `/instruments.html` + `/classic.html` use questions (was “One stage hotter” / “One stage cooler”); Organization `knowsAbout` mirrors those questions; refuse oven-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

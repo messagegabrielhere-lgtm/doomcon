@@ -501,7 +501,9 @@ function gateRows(mdl, dir) {
 
 function gateCard(mdl, dir) {
   const g = dir === 'hot' ? mdl.hotter : mdl.cooler;
-  const kicker = dir === 'hot' ? 'One stage hotter' : 'One stage cooler';
+  // Tip #384: gate-card H3 kickers are question-shaped (mirrored in FAQ §3.3).
+  const kickerShort = dir === 'hot' ? 'One stage hotter' : 'One stage cooler';
+  const kicker = dir === 'hot' ? 'What would move one stage hotter?' : 'What would move one stage cooler?';
   const glyph = dir === 'hot' ? '▲' : '▼';
 
   if (!g) {
@@ -511,7 +513,7 @@ function gateCard(mdl, dir) {
       : `${brand.NAME} 5 is the floor of the scale. Zero is the bottom of the range every score on this ` +
         'site is measured against, and a quiet hour on the instruments is not the same thing as safety.';
     return `<article class="oven__gate" data-dir="${esc(dir)}" data-end="1">
-        <h3 class="oven__gh"><span class="oven__gk"><i aria-hidden="true">${glyph}</i> ${esc(kicker)}</span>
+        <h3 class="oven__gh" aria-label="${esc(kickerShort)}"><span class="oven__gk"><i aria-hidden="true">${glyph}</i> ${esc(kicker)}</span>
           <span class="oven__gn">none — end of scale</span></h3>
         <p class="oven__gp">${esc(endCopy)}</p>
       </article>`;
@@ -519,7 +521,7 @@ function gateCard(mdl, dir) {
 
   const meta = brand.levelMeta(g.level);
   return `<article class="oven__gate" data-dir="${esc(dir)}">
-      <h3 class="oven__gh"><span class="oven__gk"><i aria-hidden="true">${glyph}</i> ${esc(kicker)}</span>
+      <h3 class="oven__gh" aria-label="${esc(kickerShort)}"><span class="oven__gk"><i aria-hidden="true">${glyph}</i> ${esc(kicker)}</span>
         <span class="oven__gn">${esc(brand.NAME)} ${esc(g.level)} · ${esc(meta.name)}</span></h3>
       <dl class="oven__rows">${gateRows(mdl, dir)}</dl>
     </article>`;

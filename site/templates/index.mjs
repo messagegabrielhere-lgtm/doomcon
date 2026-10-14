@@ -711,6 +711,16 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
       'One iframe. No script, no tracking, no key. It renders light or dark to match the page it sits in, and the number inside it is server-rendered too.'],
     [instrumentsApiQ,
       `Static JSON under /api/: state, history, health and per-reading receipts. No key, no rate limit, ${brand.LICENSE}. Attribution: ${brand.DOMAIN}.`],
+    // Tip #383: pillar-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...brand.PILLARS.map((p) => [
+      `What does the ${p.name} pillar count?`,
+      p.blurb || `${p.name} is one of the five pillars behind the reading.`,
+    ]),
+    // Tip #384: oven gate-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What would move one stage hotter?',
+      'The published heating gates, as numbers beside the current reading. Nothing here says any of them is met.'],
+    ['What would move one stage cooler?',
+      'The published cooling gates, as numbers beside the current reading. Cooling is deliberately the slower move.'],
   ];
   const instrumentsFaqHtml = instrumentsFaq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -1028,6 +1038,16 @@ ${style}`;
         `${brand.NAME} is free, the number will never be behind a paywall, and visit counts are disclosed on the privacy page. It pays its way four ways, all labelled.`],
       [`Is the classic panel a doom probability?`,
         `No. ${brand.NAME} measures activity tempo. This page is the full instrument panel for the same hourly count — not danger, and not a probability of harm.`],
+      // Tip #383: pillar-card H3s are question-shaped and mirrored in FAQ (§3.3).
+      ...brand.PILLARS.map((p) => [
+        `What does the ${p.name} pillar count?`,
+        p.blurb || `${p.name} is one of the five pillars behind the reading.`,
+      ]),
+      // Tip #384: oven gate-card H3s are question-shaped and mirrored in FAQ (§3.3).
+      ['What would move one stage hotter?',
+        'The published heating gates, as numbers beside the current reading. Nothing here says any of them is met.'],
+      ['What would move one stage cooler?',
+        'The published cooling gates, as numbers beside the current reading. Cooling is deliberately the slower move.'],
     ];
     const classicFaqHtml = classicFaq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
