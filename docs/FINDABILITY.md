@@ -676,6 +676,8 @@ context.
 | 424 | Topic tag `recursive-self-improvement` (live/archive ≥5); GLM model forms add `GLM-5` / `GLM5.3`; `news:keywords` surfaces those nicknames; IndexNow + seo-daily; refuse autonomy-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 425 | Topic tag `ai-boom` (live/archive ≥5); IndexNow + seo-daily monitor; refuse growth-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 426 | Topic tag `deep-learning` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 427 | Topic tag `ai-spending` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capital-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 428 | Topic tag `ai-training` (live/archive ≥5); IndexNow + seo-daily monitor; refuse skills-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

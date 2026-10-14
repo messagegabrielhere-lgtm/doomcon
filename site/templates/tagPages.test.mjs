@@ -1999,4 +1999,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'deep-learning'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'deep-learning'), /probability of doom/i);
   });
+
+  it('pages ai-spending and ai-training hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('as1', 'Tencent Said to Plan $5 Billion Bond Sale to Fund AI Spending'),
+          story('as2', 'Amazon Wants Investors to Finance $8 Billion of Nvidia Chips. Is AI Spending Getting Hot?'),
+          story('as3', 'How Investors Are Reacting To Amazon.com AI Spending Surge'),
+          story('as4', 'Cloud providers disclose another wave of AI spending'),
+          story('as5', 'What AI spending figures show about infra demand this quarter'),
+          story('at1', 'Teamland Brings Claude AI Workshops to Boston, Orlando and Online, Expands Corporate AI Training'),
+          story('at2', 'Enterprises expand AI training budgets for software teams'),
+          story('at3', 'Universities add AI training tracks for working engineers'),
+          story('at4', 'Vendors package AI training with cloud credits'),
+          story('at5', 'How AI training programs show up in hiring pipelines'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('ai-spending'));
+    assert.ok(ids.includes('ai-training'));
+    assert.match(renderTag(rich, 'ai-spending'), /What has SIREN scored about AI spending\?/);
+    assert.match(renderTag(rich, 'ai-training'), /What has SIREN scored about AI training\?/);
+    assert.match(renderTag(rich, 'ai-spending'), /not a capital forecast/i);
+    assert.match(renderTag(rich, 'ai-training'), /not a skills forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-spending'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-training'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-training'), /probability of doom/i);
+  });
 });
