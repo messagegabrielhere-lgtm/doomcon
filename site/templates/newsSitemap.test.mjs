@@ -268,6 +268,18 @@ test('news sitemap keywords include GLM-5 / GLM5.3 surfaces', () => {
   assert.match(kw, /GLM-5\.3|GLM5\.3|GLM-5/);
 });
 
+test('news sitemap keywords include Claude Opus 5.5 surfaces', () => {
+  const kw = keywordsFor({
+    title: 'Anthropic tests new model under Claude Opus 5.5',
+    summary: 'Opus 5.5 nickname appears in product coverage.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'hn',
+    entities: [],
+  });
+  assert.match(kw, /Claude Opus 5\.5|Opus 5\.5/);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',

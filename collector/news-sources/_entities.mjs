@@ -122,7 +122,9 @@ const ENTITY_DEFS = [
   // use the product codename without a bare “GPT-6” token nearby.
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6.1 Astra', 'GPT-6 Astra', 'GPT-6 Luna', 'GPT-6 Sol', 'GPT-6', 'ChatGPT', 'GPT'] },
   { name: 'o-series', kind: 'model', forms: ['o1-preview', 'o1', 'o3-mini', 'o3', 'o4-mini', 'o4'] },
-  { name: 'Claude', kind: 'model', forms: ['Claude', 'Claude Code', 'Opus', 'Sonnet', 'Haiku'] },
+  // Opus 5.5 nickname so /model/claude clears when headlines use the version
+  // string without a bare “Claude” token nearby.
+  { name: 'Claude', kind: 'model', forms: ['Claude', 'Claude Code', 'Opus 5.5', 'Opus', 'Sonnet', 'Haiku'] },
   // Gemini 4 Argon / Carbon nicknames so /model/gemini clears when headlines
   // use the product codename without a bare “Gemini” token nearby.
   { name: 'Gemini', kind: 'model', forms: ['Gemini 4 Argon', 'Gemini 4 Carbon', 'Gemini 4', 'Gemini'] },

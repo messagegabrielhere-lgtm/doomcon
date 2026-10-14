@@ -684,6 +684,8 @@ context.
 | 432 | Topic tag `ai-demand` (live/archive ≥5); IndexNow + seo-daily monitor; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 433 | Topic tag `decision-models` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 434 | Topic tag `representation-learning` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 435 | Topic tag `opus-5-5` (live/archive ≥5); Claude model forms add `Opus 5.5`; `news:keywords` surfaces those nicknames; IndexNow + seo-daily; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 436 | Topic tag `off-policy` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
