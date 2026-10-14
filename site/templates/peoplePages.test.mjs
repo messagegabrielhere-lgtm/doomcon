@@ -78,6 +78,12 @@ describe('people pages', () => {
   it('ships /people.html over the same gated people set', () => {
     const html = renderPeople(ctx);
     assert.match(html, /Which AI people has SIREN scored press about\?/);
+    assert.match(html, /What press has SIREN scored about Sam Altman\?/);
+    assert.match(html, /Which AI doom indexes can you compare\?/);
+    assert.match(html, /Which AI leaders are on the record this week\?/);
+    assert.match(html, /pp__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.doesNotMatch(html, /pp__k"><a href="\/compare\.html">Compare<\/a>/);
+    assert.doesNotMatch(html, /pp__k"><a href="\/leaders\.html">Leaders<\/a>/);
     assert.match(html, /\/people\/altman\.html/);
     assert.match(html, /does not publish a person/);
     assert.match(html, /Questions people actually ask/);
@@ -87,6 +93,10 @@ describe('people pages', () => {
     assert.match(html, /\/models\.html/);
     const index = renderIndex(ctx);
     assert.match(index, /Which AI leaders have press coverage pages on SIREN\?/);
+    assert.match(index, /What press has SIREN scored about Sam Altman\?/);
+    assert.match(index, /Which AI leaders are on the record this week\?/);
+    assert.match(index, /pp__k"><a href="\/leaders\.html">Which AI leaders are on the record this week\?<\/a>/);
+    assert.doesNotMatch(index, /pp__k"><a href="\/leaders\.html">Leaders<\/a>/);
     assert.match(index, /Questions people actually ask/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
@@ -96,13 +106,23 @@ describe('people pages', () => {
 
   it('lists headlines and refuses to invent quotations', () => {
     const html = renderPerson(ctx, 'altman');
-    assert.match(html, /<title>Sam Altman: AI press coverage this week/);
+    assert.match(html, /<title>What press has SIREN scored about Sam Altman\?/);
+    assert.match(html, /<h1 class="pp__name">What press has SIREN scored about Sam Altman\?<\/h1>/);
+    assert.match(html, /Which AI leaders are on the record this week\?/);
+    assert.match(html, /Which AI leaders have press coverage pages on SIREN\?/);
+    assert.match(html, /Which AI people has SIREN scored press about\?/);
+    assert.match(html, /pp__k"><a href="\/leaders\.html">Which AI leaders are on the record this week\?<\/a>/);
+    assert.doesNotMatch(html, /pp__k"><a href="\/leaders\.html">Leaders<\/a>/);
+    assert.doesNotMatch(html, /pp__k"><a href="\/people\/">People<\/a>/);
     assert.match(html, /ProfilePage/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /Questions people actually ask/);
     assert.match(html, /Sam Altman in the news 0/);
     assert.match(html, /never writes a quotation/i);
     assert.match(html, /\/people\.html/);
     assert.doesNotMatch(html, /noindex/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.match(html, /not a person doom score/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('links older archived stories that name the person', () => {
