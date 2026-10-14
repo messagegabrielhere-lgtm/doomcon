@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { GUIDES, aiClock, guides, guidesMd, pdoom } from './infoPages.mjs';
+import { GUIDES, aiClock, guide, guideMd, guides, guidesMd, pdoom } from './infoPages.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
@@ -101,5 +101,22 @@ describe('guides hub', () => {
     assert.match(html, /BreadcrumbList/);
     assert.doesNotMatch(html, /probability of doom is \d/i);
     assert.doesNotMatch(html, /noindex/);
+  });
+
+  it('guide ships matching question H1, FAQ schema, and markdown mirror', () => {
+    const html = guide(ctx);
+    assert.match(html, /<title>How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?/);
+    assert.match(html, /<h1 class="bp__h1">How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?<\/h1>/);
+    assert.match(html, /What is the short version of the comparison\?/);
+    assert.match(html, /What questions do people actually ask\?/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /"@type"\s*:\s*"WebPage"/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /\/vs\/pizzint\.html/);
+    assert.doesNotMatch(html, /<h1 class="bp__h1">SIREN, DEFCON, the Doomsday Clock and p\(doom\)<\/h1>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    const md = guideMd(ctx);
+    assert.match(md, /^# How does SIREN compare to DEFCON/m);
+    assert.match(md, /^## What is the short version of the comparison\?/m);
   });
 });

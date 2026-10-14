@@ -13,11 +13,13 @@ const ctx = {
 
 test('guide.md mirrors the HTML guide claims', () => {
   const md = guideMd(ctx);
-  assert.match(md, /^# SIREN, DEFCON/);
+  assert.match(md, /^# How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?/m);
   assert.match(md, /HTML: https:\/\/siren\.watch\/guide\.html/);
   assert.match(md, /\*\*SIREN 4, ROUTINE\*\*/);
   assert.match(md, /\| \*\*DEFCON\*\*/);
   assert.match(md, /methodology\.md/);
+  assert.match(md, /^## What is the short version of the comparison\?/m);
+  assert.match(md, /^## How do you read the SIREN dial\?/m);
   assert.ok(md.includes(brand.NAME));
 });
 

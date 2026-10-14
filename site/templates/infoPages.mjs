@@ -877,13 +877,49 @@ export function guide(ctx) {
   const st = ctx.state;
   const now = st && Number.isFinite(st.level)
     ? `Right now it reads <b>${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}</b>.` : '';
+  const path = '/guide.html';
+  // Head-term question (FINDABILITY tip #199): strangers search the comparison.
+  const qTitle = `How does ${brand.NAME} compare to DEFCON, the Doomsday Clock and p(doom)?`;
+  // Tip #314: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const shortQ = 'What is the short version of the comparison?';
+  const dialQ = `How do you read the ${brand.NAME} dial?`;
+  const loudQ = 'What does a loud reading tell you, and what does it not?';
+  const grammarQ = "Why borrow DEFCON's grammar at all?";
+  const nextQ = 'Where should you go next?';
+  // FAQ answers restate the comparison table / dial / refuse copy only (§3.3).
+  // Refuse: guide-as-doom-probability, DEFCON/Doomsday brand hijack, forecast.
+  // Visible FAQ + FAQPage from the SAME array (schema without HTML was a gap).
+  const faq = [
+    [qTitle,
+      `${brand.NAME} measures how much is happening in AI — tempo, not danger — from a published formula over public data, hourly, and you can recompute it from the receipt. DEFCON is US military readiness; the Bulletin’s Doomsday Clock is a yearly symbolic judgement; p(doom) is one person’s opinion as a percentage.`],
+    [shortQ,
+      `${brand.NAME} is a recomputable hourly count of AI activity. DEFCON is US military readiness. The Doomsday Clock is a yearly symbolic judgement. The Pentagon Pizza Index reads shop busyness as a hint. p(doom) is one person’s opinion as a percentage.`],
+    [dialQ,
+      `The scale runs from 5 to 1 and 1 is the loudest. The level is the band the 0–100 composite score falls in, built from five pillars scored against the index’s own frozen record.`],
+    [loudQ,
+      'A loud reading tells you a lot shipped, a lot was spent, a lot was written or a lot was regulated, and the pillar breakdown says which. It does not tell you whether any of it was good or bad, and it is not a forecast of what happens next.'],
+    [grammarQ,
+      `Because nobody needs the scale explained twice. “Five is calm, one is not” is already in most people’s heads. The borrowing stops at the grammar: ${brand.NAME} is not a readiness level and is not issued by any government body.`],
+    [`Is ${brand.NAME} a DEFCON level or the Bulletin’s Doomsday Clock?`,
+      `No. ${brand.NAME} borrows the countdown grammar only. It is not a military readiness level and does not publish the Bulletin’s clock. Sites that put those phrases in an AI title for traffic are doing brand hijack; see /vs/pizzint.html.`],
+    ['What is p(doom)?',
+      'p(doom) is one person’s stated probability that AI ends very badly. It is an opinion expressed as a number — not a recomputable measurement. See /p-doom.html.'],
+    [`Does a loud ${brand.NAME} reading mean AI is more dangerous?`,
+      'No. A loud reading means a lot shipped, was spent, was written or was regulated. It does not say whether any of it was good or bad, and it is not a forecast.'],
+    [nextQ,
+      `Open the live index, methodology, AI explainers hub, compare and vs pages, the PizzINT contrast, alternatives, history of AI risk, or Tally’s desk.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const description = `${qTitle} DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, PizzINT borrows those titles, and ${brand.NAME} is an hourly count of AI activity you can recompute.`;
   const main = `${CSS}
 <section class="inf">
-  <p class="eyebrow"><a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers?</a> · Guide</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">SIREN, DEFCON, the Doomsday Clock and p(doom)</h1></div>
+  <p class="eyebrow"><a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers?</a> · How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</p>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">Five numbers people reach for when they want to know how worried to be. They measure different things, and
     only one of them is a count you can check. ${now}</p>
-  <h2>The short version</h2>
+  <h2>${esc(shortQ)}</h2>
   <div class="inf__scroll"><table>
     <thead><tr><th>Number</th><th>What it measures</th><th>Who sets it</th><th>Can you recompute it?</th></tr></thead>
     <tbody>
@@ -894,7 +930,7 @@ export function guide(ctx) {
       <tr><td><b>p(doom)</b></td><td>One person's stated probability that AI ends very badly</td><td>Whoever is asked</td><td>No. It is an opinion expressed as a number</td></tr>
     </tbody>
   </table></div>
-  <h2>How to read the SIREN dial</h2>
+  <h2>${esc(dialQ)}</h2>
   <p>The scale runs from 5 to 1 and <b>1 is the loudest</b>. The level is the band the 0–100 composite score falls in:</p>
   <div class="inf__scroll"><table>
     <thead><tr><th>Level</th><th>Name</th><th>Score band</th><th>In a few words</th></tr></thead>
@@ -904,26 +940,58 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
   </table></div>
   <p>The score is built from five pillars: ${brand.PILLARS.map((p) => `<b>${esc(p.name)}</b> (${esc(p.blurb.replace(/\.$/, '').toLowerCase())})`).join(', ')}.
     Each is scored against the index's own frozen record, so a reading says how today compares with what the index has seen before.</p>
-  <h2>What a loud reading does and does not tell you</h2>
+  <h2>${esc(loudQ)}</h2>
   <p>A loud reading tells you a lot shipped, a lot was spent, a lot was written or a lot was regulated, and the pillar
     breakdown says which. It does not tell you whether any of it was good or bad, and it is not a forecast of what happens next.
     That is why the home page is stamped "not a prediction".</p>
-  <h2>Why borrow DEFCON's grammar at all</h2>
+  <h2>${esc(grammarQ)}</h2>
   <p>Because nobody needs the scale explained twice. "Five is calm, one is not" is already in most people's heads. The borrowing
     stops at the grammar: ${esc(brand.NAME)} is not a readiness level and is not issued by any government body.</p>
-  <h2>Where to go next</h2>
-  <p><a href="${esc(ctx.href('/'))}">The current reading →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Every formula →</a> ·
-    <a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers? →</a> ·
-    <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared (DoomBench, Skynet, p(doom)) →</a> ·
-    <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast? →</a> ·
-    <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a> ·
-    <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a> · <a href="${esc(ctx.href('/desk.html'))}">Tally's desk →</a></p>
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p>Search-shaped sibling:
+    <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk?</a>
+    · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
+    · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a>.</p>
+  <h2>${esc(nextQ)}</h2>
+  <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> ·
+    <a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers?</a> ·
+    <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> ·
+    <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a> ·
+    <a href="${esc(ctx.href('/vs/pizzint.html'))}">${esc(brand.NAME)} vs PizzINT: which should you use?</a> ·
+    <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives?</a> ·
+    <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk?</a> · <a href="${esc(ctx.href('/desk.html'))}">What unserious counts does ${esc(brand.NAME)} keep on Tally’s desk?</a></p>
 </section>`;
   return page({
-    ctx, path: '/guide.html',
-    title: `SIREN vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`,
-    description: `A plain guide to four doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, and ${brand.NAME} is an hourly count of AI activity you can recompute.`,
+    ctx, path,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
     head: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/guide.md'))}" title="Guide (markdown)">`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        url: ctx.url(path),
+        description,
+        isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
@@ -945,19 +1013,19 @@ export function guideMd(ctx) {
   const pillars = brand.PILLARS
     .map((p) => `**${p.name}** (${p.blurb.replace(/\.$/, '').toLowerCase()})`)
     .join(', ');
-  return `# SIREN, DEFCON, the Doomsday Clock and p(doom)
+  return `# How does ${brand.NAME} compare to DEFCON, the Doomsday Clock and p(doom)?
 
 > HTML: ${ctx.url('/guide.html')}
 
 Five numbers people reach for when they want to know how worried to be. They measure different things, and only one of them is a count you can check. ${now}
 
-## The short version
+## What is the short version of the comparison?
 
 | Number | What it measures | Who sets it | Can you recompute it? |
 |---|---|---|---|
 ${compareRows.map(([a, b, c, d]) => `| **${a}** | ${b} | ${c} | ${d} |`).join('\n')}
 
-## How to read the SIREN dial
+## How do you read the ${brand.NAME} dial?
 
 The scale runs from 5 to 1 and **1 is the loudest**. The level is the band the 0–100 composite score falls in:
 
@@ -967,19 +1035,22 @@ ${bands.map((l) => `| **${l.level}** | ${l.name} | ${l.band[0]}–${l.band[1]} |
 
 The score is built from five pillars: ${pillars}. Each is scored against the index's own frozen record, so a reading says how today compares with what the index has seen before.
 
-## What a loud reading does and does not tell you
+## What does a loud reading tell you, and what does it not?
 
 A loud reading tells you a lot shipped, a lot was spent, a lot was written or a lot was regulated, and the pillar breakdown says which. It does not tell you whether any of it was good or bad, and it is not a forecast of what happens next. That is why the home page is stamped "not a prediction".
 
-## Why borrow DEFCON's grammar at all
+## Why borrow DEFCON's grammar at all?
 
 Because nobody needs the scale explained twice. "Five is calm, one is not" is already in most people's heads. The borrowing stops at the grammar: ${brand.NAME} is not a readiness level and is not issued by any government body.
 
-## Where to go next
+## Where should you go next?
 
-- [The current reading](${ctx.url('/')})
-- [Every formula](${ctx.url('/methodology.html')}) · [methodology.md](${ctx.url('/methodology.md')})
-- [Sixty years of the same argument](${ctx.url('/history.html')})
+- [AI activity index today · ${brand.NAME}](${ctx.url('/')})
+- [How the ${brand.NAME} AI activity index is computed · methodology](${ctx.url('/methodology.html')}) · [methodology.md](${ctx.url('/methodology.md')})
+- [Which AI doom indexes can you compare?](${ctx.url('/compare.html')}) · [Which AI indexes does ${brand.NAME} contrast?](${ctx.url('/vs.html')}) · [What are AI doom index alternatives?](${ctx.url('/alternatives.html')})
+- [${brand.NAME} vs PizzINT: which should you use?](${ctx.url('/vs/pizzint.html')})
+- [What is the history of AI risk?](${ctx.url('/history.html')})
+- [What are the AI explainers?](${ctx.url('/guides.html')})
 `;
 }
 
