@@ -652,6 +652,8 @@ context.
 | 400 | `/jobs.html` + `/medicine.html` register-entry H2s + FAQPage use questions (was bare claim titles); Organization `knowsAbout` mirrors those questions; refuse jobs/medicine forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 401 | Sitewide FAQ chrome H2s + FAQPage use questions (was “Questions people ask” / “Questions people actually ask”); Organization `knowsAbout` mirrors that question; PRIMARY/footer chrome stays short; refuse FAQ-stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 402 | `/changelog.html` hour-row H3s + FAQPage use questions (was bare `YYYY-MM-DD HH:MM UTC` stamps); Organization `knowsAbout` mirrors the hour-question pattern; refuse hourly-move-as-doom / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 403 | Topic tags `agent-skills` + `neoclouds` (live/archive ≥5); IndexNow ALWAYS samples those hubs | Google + Bing | **Done** (2026-10-14) |
+| 404 | Entity lab Manus (`/lab/manus`, distinctive single-token form, ≥3 gate); `news:keywords` + IndexNow + seo-daily monitor | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
