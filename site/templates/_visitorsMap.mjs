@@ -108,10 +108,10 @@ export function visitorsAwaitingPanel({ titleHtml } = {}) {
   <div class="v2-sec"><h2 id="v2-vmap-h">${heading}</h2>
     <span>DAILY · COUNTRY COUNTS · NO SNAPSHOT YET</span></div>
   <div class="v2-vmap__box v2-vmap__box--await">
-    <p class="v2-vmap__await">No country counts on this build. The daily GoatCounter refresh fills
+    <p class="v2-vmap__await">No country counts on this build yet. The daily GoatCounter refresh fills
       this section with an equal-area map of where SIREN readers are —
       aggregate country totals only, from a truncated IP that is not stored.
-      Until that file is here, the page shows no invented numbers.</p>
+      Until then, the page shows no invented numbers.</p>
   </div>
 </section>`;
 }
@@ -178,7 +178,7 @@ export function visitorsHomePanel(model, { href, titleHtml } = {}) {
 }
 
 export const VISITORS_MAP_CSS = `
-.v2-vmap{margin:18px 0 8px}
+.v2-vmap{margin:18px 0 8px;scroll-margin-top:76px}
 .v2-vmap__box{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(200px,0.9fr);gap:16px;align-items:stretch;border:2px solid #232C3B;background:#0E131D;padding:16px}
 .v2-vmap__box--await{grid-template-columns:1fr}
 .v2-vmap__await{margin:0;font-size:14px;line-height:1.55;color:#AEB7C3;max-width:62ch}
