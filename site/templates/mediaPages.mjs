@@ -37,13 +37,14 @@ export const INTRO_FOR = {
   'race.html': 'siren-skynet', 'monitor.html': 'siren-skynet', 'dispatch.html': 'siren-skynet', 'news.html': 'siren-skynet', 'changelog.html': 'siren-skynet',
 };
 
+// Tip #370: station-card H3s are question-shaped and mirrored in FAQ (§3.3).
 const STATIONS = [
-  ['siren', 'SIREN FM', 'Dark synth whose tempo and tension follow the live level.', '#4ADE80'],
-  ['synthwave', 'SKYNET SYNTHWAVE', 'Neon drive music for the machine age. Four on the floor.', '#EC4899'],
-  ['ambient', 'BUNKER AMBIENT', 'Slow drones and distant bells for the long wait underground.', '#4FB3FF'],
-  ['chip', 'CANARY CHIPTUNE', '8-bit bleeps straight from Tally’s perch.', '#FFD23F'],
-  ['industrial', 'JUDGMENT DAY', 'Industrial march. Metal on metal. Clanging alarms.', '#F87171'],
-  ['lofi', 'DATA RAIN LO-FI', 'Swung beats and soft chords to watch the index to.', '#A5B4FC'],
+  ['siren', 'SIREN FM', 'What does SIREN FM play?', 'Dark synth whose tempo and tension follow the live level.', '#4ADE80'],
+  ['synthwave', 'SKYNET SYNTHWAVE', 'What does Skynet Synthwave play?', 'Neon drive music for the machine age. Four on the floor.', '#EC4899'],
+  ['ambient', 'BUNKER AMBIENT', 'What does Bunker Ambient play?', 'Slow drones and distant bells for the long wait underground.', '#4FB3FF'],
+  ['chip', 'CANARY CHIPTUNE', 'What does Canary Chiptune play?', '8-bit bleeps straight from Tally’s perch.', '#FFD23F'],
+  ['industrial', 'JUDGMENT DAY', 'What does Judgment Day play?', 'Industrial march. Metal on metal. Clanging alarms.', '#F87171'],
+  ['lofi', 'DATA RAIN LO-FI', 'What does Data Rain Lo-Fi play?', 'Swung beats and soft chords to watch the index to.', '#A5B4FC'],
 ];
 
 const CSS = `<style>
@@ -56,7 +57,7 @@ const CSS = `<style>
 .md-st button:hover,.md-st button:focus-visible{border-color:var(--c)}
 .md-st button:focus-visible{outline:2px solid #E2A03B;outline-offset:2px}
 .md-st button[aria-pressed=true]{border-color:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 30%,transparent)}
-.md-st b{font:700 15px/1.2 var(--mono);letter-spacing:.08em;color:var(--c)}
+.md-st b,.md-st h3{font:700 15px/1.2 var(--mono);letter-spacing:.08em;color:var(--c);margin:0}
 .md-st span{color:var(--ink-dim);font-size:14px;line-height:1.45}
 .md-st i{font:600 11px/1 var(--mono);letter-spacing:.12em;color:var(--ink-faint,#6B7686);font-style:normal;margin-top:auto}
 .md-st button[aria-pressed=true] i::before{content:"● ON AIR · ";color:var(--c)}
@@ -190,7 +191,7 @@ export function radio(ctx, voice) {
   const voiceNote = voice && voice.audio
     ? `Recorded ${String(voice.generated_at || '').slice(0, 16).replace('T', ' ')} UTC.`
     : 'Read aloud by your browser’s own voice until Tally’s recorded voice is switched on.';
-  const st = STATIONS.map(([id, name, tag, c], i) => `<button type="button" data-siren-station="${id}" aria-pressed="false" style="--c:${c}"><b>${String(i + 1).padStart(2, '0')} · ${esc(name)}</b><span>${esc(tag)}</span><i>TAP TO TUNE IN</i></button>`).join('');
+  const st = STATIONS.map(([id, name, q, tag, c], i) => `<button type="button" data-siren-station="${id}" aria-pressed="false" style="--c:${c}" aria-label="${esc(name)}"><h3>${String(i + 1).padStart(2, '0')} · ${esc(q)}</h3><span>${esc(tag)}</span><i>TAP TO TUNE IN</i></button>`).join('');
   const voiceBox = `<h2>${esc(voiceQ)}</h2>
   <div class="md-voice" id="tally-voice">
     <button type="button" class="md-btn" data-voice>🔊 HEAR TALLY</button>
@@ -213,6 +214,8 @@ export function radio(ctx, voice) {
     [voiceQ, voiceNote],
     [hearQ,
       'Every SIREN video is scored by one of these stations. See What free AI explainer videos does SIREN publish?'],
+    // Tip #370: station-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...STATIONS.map(([, , q, tag]) => [q, tag]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

@@ -50,4 +50,19 @@ describe('radio page', () => {
     assert.match(html, /browser(?:'|’|&apos;|&#39;)s own voice/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('station-card H3s use questions mirrored in FAQPage', () => {
+    const html = radio(ctx, null);
+    assert.match(html, /<h3>01 · What does SIREN FM play\?<\/h3>/);
+    assert.match(html, /What does Skynet Synthwave play\?/);
+    assert.match(html, /What does Bunker Ambient play\?/);
+    assert.match(html, /What does Canary Chiptune play\?/);
+    assert.match(html, /What does Judgment Day play\?/);
+    assert.match(html, /What does Data Rain Lo-Fi play\?/);
+    assert.match(html, /FAQPage[\s\S]*What does SIREN FM play\?/);
+    assert.match(html, /FAQPage[\s\S]*What does Data Rain Lo-Fi play\?/);
+    assert.doesNotMatch(html, /<b>01 · SIREN FM<\/b>/);
+    assert.doesNotMatch(html, /<b>\d+ · SKYNET SYNTHWAVE<\/b>/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
