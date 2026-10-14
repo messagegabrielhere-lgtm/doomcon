@@ -25,6 +25,7 @@ function itemStamp(item) {
 /** High-signal lab / model surfaces for Google News contest (vs pizzint). */
 const NEWS_KEYWORD_LABS = Object.freeze([
   'OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA',
+  'Microsoft', 'Amazon', 'AWS', 'Hugging Face', 'HuggingFace',
   'DeepSeek', 'AMD', 'Broadcom', 'Oracle', 'Tencent', 'Qualcomm', 'Qwen', 'Alibaba', 'Alibaba Cloud',
   'Huawei', 'Sony', 'Supermicro', 'IREN', 'OpenRouter', 'Reflection AI',
   'Muse Wonder', 'Artificial Analysis', 'Decart', 'Sakana AI', 'Isomorphic Labs',

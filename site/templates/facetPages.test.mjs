@@ -1247,6 +1247,75 @@ describe('lab facets', () => {
     }
   });
 
+  it('indexes Microsoft, NVIDIA, Amazon, and Hugging Face entity labs', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'ms1', title: 'Microsoft expands Azure OpenAI capacity for enterprise agents', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ms1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'ms2', title: 'Microsoft Copilot updates land across Office and Windows', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ms2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'ms3', title: 'Investors track Microsoft AI capex against cloud rivals', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ms3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'nv1', title: 'NVIDIA ships new AI GPUs for training clusters', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/nv1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'nv2', title: 'NVIDIA CUDA software stack adds inference optimizations', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/nv2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'nv3', title: 'Data-centre buyers extend NVIDIA backlog for AI racks', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/nv3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'amz1', title: 'Amazon Bedrock adds new foundation model endpoints', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/amz1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'amz2', title: 'AWS trainium chips expand Amazon AI infrastructure', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/amz2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'amz3', title: 'Amazon cloud AI demand lifts hyperscaler guidance', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/amz3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+        {
+          id: 'hf1', title: 'Hugging Face hosts new open-weight multimodal checkpoints', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/hf1', published_at: '2026-09-01T04:00:00Z', score: 40,
+        },
+        {
+          id: 'hf2', title: 'Developers pull HuggingFace models for agent eval harnesses', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/hf2', published_at: '2026-09-02T04:00:00Z', score: 41,
+        },
+        {
+          id: 'hf3', title: 'Hugging Face dataset cards expand enterprise model docs', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/hf3', published_at: '2026-09-03T04:00:00Z', score: 42,
+        },
+      ],
+    };
+    for (const [id, name] of [
+      ['microsoft', 'Microsoft'],
+      ['nvidia', 'NVIDIA'],
+      ['amazon', 'Amazon'],
+      ['hugging-face', 'Hugging Face'],
+    ]) {
+      const lab = labsFromEntities(withArch).find((p) => p.id === id);
+      assert.ok(lab, `${name} clears ENTITY_LAB_MIN`);
+      assert.match(renderLab(withArch, lab), new RegExp(`What has SIREN scored about ${name}\\?`));
+      assert.doesNotMatch(renderLab(withArch, lab), /doom score:\s*\d/i);
+      assert.ok(sitemapEntries(withArch).some((e) => e.loc === `/lab/${id}.html`));
+    }
+  });
+
   it('indexes Oracle, Tencent, Alibaba Qwen, and Qualcomm entity labs', () => {
     const withArch = {
       ...ctx,
