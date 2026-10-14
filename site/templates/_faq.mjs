@@ -173,6 +173,10 @@ export function items(ctx) {
       `On /staff.html: reads 14 public sources and files raw readings with receipts.`],
     ['What are the agents shipping right now?',
       `On /si-watch.html: GitHub’s own cards for each agent pull request in the live sample.`],
+    ["What are Tally's Bets?",
+      `On /tally.html: daily forecasts about the index, scored in public.`],
+    ['What is the latest on superintelligence?',
+      `On /live-x.html: opens a live X search for superintelligence.`],
   ];
 }
 

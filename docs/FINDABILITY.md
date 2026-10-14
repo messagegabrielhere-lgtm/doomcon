@@ -610,6 +610,8 @@ context.
 | 358 | `/ai-proof-job.html` five-move card H3s + FAQPage use questions (was “Move toward the work AI is worst at” / “Become the person who runs the AI” / …); Organization `knowsAbout` mirrors those questions; refuse job-guarantee / mass-unemployment / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 359 | `/si-watch.html` signal-card H3s + FAQPage use questions (was “AI AGENTS WRITING CODE” / “FRONTIER MODELS” / “WHEN DO FORECASTERS EXPECT AGI?” / “AI AGENTS TALKING TO EACH OTHER”); Organization `knowsAbout` mirrors those questions; refuse takeover-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 360 | `/staff.html` Grok-crew + data-crew card H3s + FAQPage use questions (was bare names “Cash” / “The Collector” / …); Organization `knowsAbout` mirrors those questions; refuse editor-picks-level / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 361 | `/tally.html` work-card H3s + FAQPage use questions (was “Tally's Bets” / “Tally's Desk” / “Tally Counts”); Organization `knowsAbout` mirrors those questions; refuse tally-as-doom-oracle / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 362 | `/live-x.html` feed-card H3s + FAQPage use questions (was “Superintelligence, latest” / “AGI, latest” / …); Organization `knowsAbout` mirrors those questions; refuse live-X-as-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

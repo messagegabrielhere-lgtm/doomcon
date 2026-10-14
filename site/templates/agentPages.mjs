@@ -63,6 +63,12 @@ export function tally(ctx) {
   const moodsQ = 'What do the five moods mean?';
   const workQ = 'Where does Tally work on the site?';
   const useQ = 'Can I use Tally in my own posts?';
+  // Tip #361: work-card H3s are question-shaped and mirrored in FAQ (§3.3).
+  const workCards = [
+    ['/bets.html', 'dice', "What are Tally's Bets?", 'Daily forecasts about the index, scored in public.'],
+    ['/desk.html', 'canary', "What is on Tally's Desk?", 'The unserious counts: robots and godfathers.'],
+    ['/game.html', 'joystick', 'How do you play Tally Counts?', 'Thirty seconds: count signals, ignore predictions.'],
+  ];
   const L = lvl(ctx);
   const moods = [5, 4, 3, 2, 1].map((n) => `<div class="ag-card" style="align-items:center;text-align:center">${mascot({ size: 96, level: n })}<h3 style="justify-content:center">SIREN ${n}</h3><p>Tally is ${esc(MOODS[n])}.</p></div>`).join('');
   // FAQ answers restate lede / mood / desk copy only.
@@ -76,10 +82,13 @@ export function tally(ctx) {
       "Tally's Bets, Tally's Desk and Tally Counts."],
     [useQ,
       `Use Tally in posts, slides and videos about AI with a link back to ${brand.NAME}.`],
+    ...workCards.map(([, , q, d]) => [q, d]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
   <p>${esc(a)}</p>`).join('');
+  const workCardsHtml = workCards.map(([href, a, q, d]) =>
+    `<a class="ag-card" href="${esc(ctx.href(href))}"><h3><img src="${art(ctx, a)}" alt="">${esc(q)}</h3><p>${esc(d)}</p></a>`).join('');
   const main = `${CSS}
 <section class="ag">
   <div class="ag-hero">${mascot({ size: 150, level: L })}
@@ -93,9 +102,7 @@ export function tally(ctx) {
   <div class="ag-grid" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr))">${moods}</div>
   <h2 id="work">${esc(workQ)}</h2>
   <div class="ag-grid">
-    <a class="ag-card" href="${esc(ctx.href('/bets.html'))}"><h3><img src="${art(ctx, 'dice')}" alt="">Tally's Bets</h3><p>Daily forecasts about the index, scored in public.</p></a>
-    <a class="ag-card" href="${esc(ctx.href('/desk.html'))}"><h3><img src="${art(ctx, 'canary')}" alt="">Tally's Desk</h3><p>The unserious counts: robots and godfathers.</p></a>
-    <a class="ag-card" href="${esc(ctx.href('/game.html'))}"><h3><img src="${art(ctx, 'joystick')}" alt="">Tally Counts</h3><p>Thirty seconds: count signals, ignore predictions.</p></a>
+    ${workCardsHtml}
   </div>
   <h2 id="use">${esc(useQ)}</h2>
   <p>Use Tally in posts, slides and videos about AI with a link back to ${esc(brand.NAME)}. Download the current-level Tally:</p>
