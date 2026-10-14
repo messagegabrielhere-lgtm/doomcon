@@ -2712,4 +2712,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'math-problems'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'math-problems'), /probability of doom/i);
   });
+
+  it('pages consciousness and ads hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('co1', 'David Sacks Explains Why Anthropic Hinting At AI Consciousness Is Dangerous'),
+          story('co2', 'Belief In AI Consciousness Will Lead To The Birth Of A New Religion'),
+          story('co3', 'Questions for believers in AI consciousness'),
+          story('co4', 'If possible mind-space is vast, we should assume the same for consciousness'),
+          story('co5', 'Interviews with religious leaders about machine consciousness claims'),
+          story('ad1', "Is Meta AI taking cues from ChatGPT's ads playbook? Industry experts weigh in"),
+          story('ad2', 'OpenAI seeks Agency Partner to turn ChatGPT ads trials into recurring media spends'),
+          story('ad3', 'Hackers abuse Google Ads, Bing redirects to push Claude ClickFix attacks'),
+          story('ad4', 'Revlon tests AI-personalized streaming ads with Amazon'),
+          story('ad5', 'Publishers debate how AI chat ads should be labeled'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('consciousness'));
+    assert.ok(ids.includes('ads'));
+    assert.match(renderTag(rich, 'consciousness'), /What has SIREN scored about AI consciousness\?/);
+    assert.match(renderTag(rich, 'ads'), /What has SIREN scored about AI ads\?/);
+    assert.match(renderTag(rich, 'consciousness'), /not a sentience forecast/i);
+    assert.match(renderTag(rich, 'ads'), /not a market forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'consciousness'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ads'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ads'), /probability of doom/i);
+  });
 });
