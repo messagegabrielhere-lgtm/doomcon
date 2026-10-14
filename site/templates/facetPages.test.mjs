@@ -1071,6 +1071,7 @@ describe('outlet facets', () => {
     assert.match(html, /Which AI stories has SIREN scored in this window\?/);
     assert.match(html, /Which AI feed adapters have SIREN pages\?/);
     assert.match(html, /Which AI news sources has SIREN scored via\?/);
+    assert.match(html, /id="window"[^>]*>Which scored stories are from hn in this window\?/);
     assert.match(html, /fc__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(html, /fc__k"><a href="\/news\.html">Newsroom<\/a>/);
     assert.doesNotMatch(html, /fc__k"><a href="\/source\/">Feed adapters<\/a>/);
@@ -1079,6 +1080,8 @@ describe('outlet facets', () => {
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.doesNotMatch(html, /noindex/);
+    assert.doesNotMatch(html, /<h2>Stories from hn<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Other outlets<\/h2>/);
     assert.match(html, /item\//);
     assert.match(html, /\/sources\.html/);
   });
@@ -1125,9 +1128,10 @@ describe('outlet facets', () => {
       }],
     };
     const html = renderSource(withArch, 'hn');
-    assert.match(html, /Older scored stories from hn/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories are from hn\?/);
     assert.match(html, /Archived HN story about agents/);
     assert.match(html, /\/item\/archive\.html/);
+    assert.doesNotMatch(html, /<h2>Older scored stories from hn<\/h2>/);
   });
 
   it('lets the durable archive keep a feed-adapter hub above the substance gate', () => {
@@ -1167,6 +1171,7 @@ describe('outlet facets', () => {
     assert.ok(indexableSources(withArch).some((s) => s.id === 'techcrunch'));
     const html = renderSource(withArch, 'techcrunch');
     assert.doesNotMatch(html, /noindex/);
-    assert.match(html, /Older scored stories/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories are from techcrunch\?/);
+    assert.doesNotMatch(html, /<h2>Older scored stories from techcrunch<\/h2>/);
   });
 });
