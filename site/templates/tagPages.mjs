@@ -1578,6 +1578,30 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Simulation and sim-to-real research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Ss]imulation\b/i,
   },
+  {
+    id: 'reward-model',
+    name: 'Reward models',
+    description: 'Reward-model and preference-scoring research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Rr]eward [Mm]odels?\b|\b[Rr]eward [Mm]odeling\b/i,
+  },
+  {
+    id: 'graph-neural',
+    name: 'Graph neural networks',
+    description: 'Graph neural network (GNN) research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Gg]raph [Nn]eural\b|\bGNNs?\b/,
+  },
+  {
+    id: 'generalization',
+    name: 'AI generalization',
+    description: 'Generalization research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Gg]eneralization\b/i,
+  },
+  {
+    id: 'uncertainty',
+    name: 'AI uncertainty',
+    description: 'Uncertainty estimation research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Uu]ncertainty\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

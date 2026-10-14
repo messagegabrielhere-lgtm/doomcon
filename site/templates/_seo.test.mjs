@@ -186,6 +186,10 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/tags/latent.html'));
     assert.ok(has('https://siren.watch/tags/autoregressive.html'));
     assert.ok(has('https://siren.watch/tags/simulation.html'));
+    assert.ok(has('https://siren.watch/tags/reward-model.html'));
+    assert.ok(has('https://siren.watch/tags/graph-neural.html'));
+    assert.ok(has('https://siren.watch/tags/generalization.html'));
+    assert.ok(has('https://siren.watch/tags/uncertainty.html'));
     assert.ok(has('https://siren.watch/model/mixtral.html'));
     assert.ok(has('https://siren.watch/tags/tsmc.html'));
     assert.ok(has('https://siren.watch/world.html'));
