@@ -23,6 +23,17 @@ describe('bets page', () => {
     assert.match(html, /Are these bets about the world or what AI does next\?/);
     assert.match(html, /How are the probabilities set\?/);
     assert.match(html, /Can bets be edited or deleted\?/);
+    assert.match(html, /id="bt-open-h">Which bets are open right now\?<\/h2>/);
+    assert.match(html, /id="bt-track-h">What is the track record so far\?<\/h2>/);
+    assert.match(html, /id="bt-rules-h">What are the rules for these bets\?<\/h2>/);
+    assert.match(html, /id="bt-limit-h">What can a base rate not see\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*Which bets are open right now\?/);
+    assert.match(html, /FAQPage[\s\S]*What is the track record so far\?/);
+    assert.match(html, /FAQPage[\s\S]*What can a base rate not see\?/);
+    assert.doesNotMatch(html, /id="bt-open-h">Open bets<\/h2>/);
+    assert.doesNotMatch(html, /id="bt-track-h">The track record<\/h2>/);
+    assert.doesNotMatch(html, /id="bt-rules-h">The rules<\/h2>/);
+    assert.doesNotMatch(html, /id="bt-limit-h">What a base rate cannot see<\/h2>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"Dataset"/);
