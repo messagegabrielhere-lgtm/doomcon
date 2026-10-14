@@ -1247,6 +1247,75 @@ describe('lab facets', () => {
     }
   });
 
+  it('indexes Samsung, Supermicro, TSMC, and Huawei entity labs', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'sa1', title: 'Samsung HBM memory expands AI GPU supply deals', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sa1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'sa2', title: 'Samsung foundry pitches advanced nodes for AI ASICs', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sa2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'sa3', title: 'Samsung on-device AI features land in new phones', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sa3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'sm1', title: 'Supermicro AI server racks ship to new neoclouds', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sm1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'sm2', title: 'Super Micro expands liquid-cooled AI cluster designs', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sm2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'sm3', title: 'Supermicro wins GPU server orders from AI labs', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/sm3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'ts1', title: 'TSMC expands CoWoS capacity for AI accelerators', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ts1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'ts2', title: 'Taiwan Semiconductor raises AI chip packaging forecasts', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ts2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'ts3', title: 'TSMC customers book advanced nodes for AI ASICs', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ts3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+        {
+          id: 'hu1', title: 'Huawei Ascend chips expand domestic AI training options', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/hu1', published_at: '2026-09-01T04:00:00Z', score: 40,
+        },
+        {
+          id: 'hu2', title: 'Huawei cloud AI services add new model endpoints', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/hu2', published_at: '2026-09-02T04:00:00Z', score: 41,
+        },
+        {
+          id: 'hu3', title: 'Enterprises trial Huawei AI stacks amid export limits', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/hu3', published_at: '2026-09-03T04:00:00Z', score: 42,
+        },
+      ],
+    };
+    for (const [id, name] of [
+      ['samsung', 'Samsung'],
+      ['supermicro', 'Supermicro'],
+      ['tsmc', 'TSMC'],
+      ['huawei', 'Huawei'],
+    ]) {
+      const lab = labsFromEntities(withArch).find((p) => p.id === id);
+      assert.ok(lab, `${name} clears ENTITY_LAB_MIN`);
+      assert.match(renderLab(withArch, lab), new RegExp(`What has SIREN scored about ${name}\\?`));
+      assert.doesNotMatch(renderLab(withArch, lab), /doom score:\s*\d/i);
+      assert.ok(sitemapEntries(withArch).some((e) => e.loc === `/lab/${id}.html`));
+    }
+  });
+
   it('indexes SoftBank, Adobe, Cisco, and Intel entity labs', () => {
     const withArch = {
       ...ctx,
