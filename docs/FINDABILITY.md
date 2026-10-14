@@ -806,6 +806,10 @@ context.
 | 554 | Lab hub `/lab/iren` (IREN entity, ≥3); IndexNow + seo-daily monitor; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 555 | Model hub `/model/muse-wonder` (Muse Wonder forms, ≥3); IndexNow + seo-daily monitor; refuse model-doom-score / capability-ranking claims | Google + Bing | **Done** (2026-10-14) |
 | 556 | Lab hub `/lab/openrouter` (OpenRouter entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 557 | Lab hub `/lab/sakana-ai` (Sakana AI entity, ≥3); IndexNow + seo-daily monitor; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 558 | Lab hub `/lab/physical-intelligence` (Physical Intelligence entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 559 | Lab hub `/lab/zhipu` (Zhipu / Z.ai forms, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 560 | Lab hub `/lab/cloudflare` (Cloudflare entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
