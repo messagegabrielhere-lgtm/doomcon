@@ -35,6 +35,8 @@ describe('balance page', () => {
     assert.match(html, /"@type":\s*"Dataset"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/bliss\.html/);
+    assert.match(html, /href="\/bliss\.html">What is BLISS, the SIREN upside index\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/bliss\.html">The upside index, in full →<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /net score of good versus evil/i);
     assert.doesNotMatch(html, /noindex/);
