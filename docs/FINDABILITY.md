@@ -285,6 +285,7 @@ context.
 | 52 | Pillar/lab/source CollectionPage ItemList includes visible archive rows (≤12) after live rows (≤40) — same schema=HTML rule as #51 | Google | **Done** (2026-10-14) |
 | 53 | Shared `storyItemListEntity` on tag/outlet/model/country (+ day/facet reuse) so every entity hub ItemList includes visible archive rows | Google | **Done** (2026-10-14) |
 | 54 | Kind hubs use `storyItemListEntity`; people ProfilePages emit archive-story ItemList beside Person mainEntity when older rows are shown | Google | **Done** (2026-10-14) |
+| 55 | `llms.txt` / `agents.md`: question-shaped day hubs (newest 5), news-sitemap discovery, “today’s headlines” tip — AI-search path while `google-news-open` | Agents + Google News | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

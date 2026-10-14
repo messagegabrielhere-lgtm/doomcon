@@ -125,9 +125,11 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
     '/methodology.md', '/guide.md', '/guides.md', '/agents.md', '/agents.txt', '/.well-known/api-catalog', '/guides.html', '/compare.html', '/vs.html', '/alternatives.html',
-    '/vs/pizzint.html', '/pillars.html', '/sources.html', '/countries.html']) {
+    '/vs/pizzint.html', '/pillars.html', '/sources.html', '/countries.html', '/news-sitemap.xml', '/news.html']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
+  assert.match(txt, /Which AI stories has SIREN scored by UTC day\?/);
+  assert.match(txt, /news-sitemap\.xml/);
   assert.ok(txt.includes(dispatchFeedUrl()));
   assert.match(dispatchFeedUrl(), /^https:\/\/raw\.githubusercontent\.com\/[^/]+\/[^/]+\/dispatch-data\/emergency\.json$/);
   assert.match(txt, /## Use SIREN with your human/);
@@ -151,7 +153,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   const md = agentsMd({ url });
   assert.match(md, /^# SIREN for AI agents/);
   assert.match(md, /ChatGPT, Grok/);
-  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt']) {
+  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html']) {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
   assert.match(md, /not a prediction|Never call it a prediction/);
@@ -161,7 +163,26 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /agent-kit/);
   assert.match(md, /siren_now|cli\.mjs/);
   assert.match(md, /api-catalog|agents\.txt/);
-  assert.ok(md.split('\n').length < 105, 'keep it short for assistants');
+  assert.match(md, /Google News rolling sitemap|YYYY-MM-DD/);
+  assert.ok(md.split('\n').length < 110, `keep it short for assistants (got ${md.split('\n').length})`);
+});
+
+test('llms.txt lists newest UTC day hubs when the archive clears the gate', () => {
+  const ctx = {
+    url,
+    news: { items: [] },
+    itemArchive: Array.from({ length: 5 }, (_, i) => ({
+      id: `d${i}`,
+      title: `Day story ${i}`,
+      published_at: '2026-10-12T12:00:00Z',
+      source: 'hn',
+      pillar: 'capability',
+      score: 40,
+    })),
+  };
+  const txt = llmsTxt(ctx);
+  assert.match(txt, /Which AI stories did SIREN score on 2026-10-12\?/);
+  assert.ok(txt.includes('https://siren.watch/news/2026-10-12.html'));
 });
 
 test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {
