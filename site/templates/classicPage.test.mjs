@@ -169,6 +169,20 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /probability of doom/i);
   });
 
+  it('switcher moved-strip H3 uses a question when history can difference', () => {
+    const pillars = { capability: 40, compute: 45, attention: 50, governance: 35, markets: 55 };
+    const html = render({
+      ...ctx,
+      history: [
+        { generated_at: '2026-10-14T15:00:00Z', score: 48, level: 4, pillars },
+        { generated_at: '2026-10-14T16:00:00Z', score: 49.1, level: 4, pillars: { ...pillars, attention: 52 } },
+      ],
+    }, { view: 'classic' });
+    assert.match(html, /id="sw-moved-h">What moved this hour\?<\/h3>/);
+    assert.doesNotMatch(html, /id="sw-moved-h">What moved<\/h3>/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
   it('explainers guide card uses the guide question H1', () => {
     const html = render(ctx, { view: 'classic' });
     assert.match(html, /href="\/guide\.html"><b>How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?<\/b>/);
@@ -187,6 +201,10 @@ describe('classic page', () => {
     assert.doesNotMatch(go[1], />AI battle</);
     assert.match(html, /id="mkb-tk">What does SIREN Arena show\?<\/b>/);
     assert.doesNotMatch(html, /id="mkb-tk">See today's picks<\/b>/);
+    assert.match(html, /<h3>What did Pelosi, Burry, Cathie Wood and Buffett disclose\?<\/h3>/);
+    assert.match(html, /id="mkb-bt">Which AI models are trading paper money\?<\/h3>/);
+    assert.doesNotMatch(html, /<h3>What Pelosi, Burry, Cathie Wood and Buffett disclosed<\/h3>/);
+    assert.doesNotMatch(html, /id="mkb-bt">AI models trading paper money<\/h3>/);
     assert.match(html, /class="sw__more"[^>]*>Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(html, /class="sw__more"[^>]*>The full board/);
     assert.doesNotMatch(html, /class="sw__more"[^>]*>All \d+ items, each score decomposed/);

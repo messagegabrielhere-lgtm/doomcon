@@ -281,6 +281,8 @@ export function organization(ctx) {
       'Which unconventional signals are watched',
       'Which AI prediction markets are live',
       'What are AI agents saying',
+      'What did Pelosi, Burry, Cathie Wood and Buffett disclose',
+      'Which AI models are trading paper money',
       'AI breakthroughs tracked',
       'what AI breakthroughs has SIREN tracked',
       'Where else can you find more of the AI upside',

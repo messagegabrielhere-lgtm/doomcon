@@ -118,6 +118,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'Which unconventional signals are watched?'));
     assert.ok(qa.some(([q]) => q === 'Which AI prediction markets are live?'));
     assert.ok(qa.some(([q]) => q === 'What are AI agents saying?'));
+    assert.ok(qa.some(([q]) => q === 'What did Pelosi, Burry, Cathie Wood and Buffett disclose?'));
+    assert.ok(qa.some(([q]) => q === 'Which AI models are trading paper money?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -128,6 +130,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /Which unconventional signals are watched\?/);
     assert.match(html, /Which AI prediction markets are live\?/);
     assert.match(html, /What are AI agents saying\?/);
+    assert.match(html, /What did Pelosi, Burry, Cathie Wood and Buffett disclose\?/);
+    assert.match(html, /Which AI models are trading paper money\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

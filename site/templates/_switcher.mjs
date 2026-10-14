@@ -449,7 +449,7 @@ function movedBand(m) {
 
   return `<section class="sw__moved" aria-labelledby="sw-moved-h">
   <div class="sw__mhd">
-    <h3 class="sw__mh" id="sw-moved-h">What moved</h3>
+    <h3 class="sw__mh" id="sw-moved-h">What moved this hour?</h3>
     <p class="sw__mk">last two observations &middot; ${esc(span)} apart &middot; ${esc(String(m.priorAt).slice(11, 16))}Z &rarr; ${esc(String(m.at).slice(11, 16))}Z</p>
   </div>
   <div class="sw__mtop">${score}${level}</div>
