@@ -146,6 +146,11 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What does this index not claim'));
     assert.ok(org.knowsAbout.includes('What does this index actually count'));
     assert.ok(org.knowsAbout.includes('How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)'));
+    assert.ok(org.knowsAbout.includes('What is the short version of the comparison'));
+    assert.ok(org.knowsAbout.includes('How do you read the SIREN dial'));
+    assert.ok(org.knowsAbout.includes('What does a loud reading tell you, and what does it not'));
+    assert.ok(org.knowsAbout.includes('Why borrow DEFCON\'s grammar at all'));
+    assert.ok(org.knowsAbout.includes('Where should you go next'));
     assert.ok(org.knowsAbout.includes('Which AI doom indexes can you compare'));
     assert.ok(org.knowsAbout.includes('Which AI indexes does SIREN contrast'));
     assert.ok(org.knowsAbout.includes('What are AI doom index alternatives'));

@@ -43,6 +43,22 @@ test('guide.html ships question H1, visible FAQ matching FAQPage, and speakable 
   assert.doesNotMatch(html, /noindex/);
 });
 
+test('guide.html section H2s use questions mirrored in FAQPage', () => {
+  const html = guide(ctx);
+  assert.match(html, /<h2>What is the short version of the comparison\?<\/h2>/);
+  assert.match(html, /<h2>How do you read the SIREN dial\?<\/h2>/);
+  assert.match(html, /<h2>What does a loud reading tell you, and what does it not\?<\/h2>/);
+  assert.match(html, /<h2>Why borrow DEFCON(?:'|&#39;|&apos;)s grammar at all\?<\/h2>/);
+  assert.match(html, /<h2>Where should you go next\?<\/h2>/);
+  assert.doesNotMatch(html, /<h2>The short version<\/h2>/);
+  assert.doesNotMatch(html, /<h2>How to read the SIREN dial<\/h2>/);
+  assert.doesNotMatch(html, /<h2>What a loud reading does and does not tell you<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Where to go next<\/h2>/);
+  assert.match(html, /"name"\s*:\s*"What is the short version of the comparison\?"/);
+  assert.match(html, /"name"\s*:\s*"How do you read the SIREN dial\?"/);
+  assert.doesNotMatch(html, /probability of doom is \d/i);
+});
+
 test('guide.md mirrors the HTML guide claims', () => {
   const md = guideMd(ctx);
   assert.match(md, /^# How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?/);
