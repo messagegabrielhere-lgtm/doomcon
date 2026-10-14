@@ -507,6 +507,7 @@ context.
 | 255 | Homepage every-room card titles + leaders-wire indexable person names use destination question H1s; unique room tile icons (was uppercase “THE RACE” / “NEWSROOM” / bare “Sam Altman” / shared news/updown/clock art …); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 256 | Shared rooms keyboard-help + layout Data foot note use search/catalog/instruments destination H1 questions (was “full search” / “catalog” / “Public JSON API”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 257 | Header/home What’s New strip + rooms-dialog NEW entries use destination H1 questions (was “USA vs China” / “The Arcade” / “Live alerts” …); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 258 | BreadcrumbList root + relatedHtml / rooms-dialog home row use “AI activity index today · SIREN” and drop duplicate Home `/` crumbs (was bare “SIREN” / “Home” / “Index”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

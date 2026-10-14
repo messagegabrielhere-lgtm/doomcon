@@ -11,6 +11,7 @@
 
 import { pixelText } from './templates/_pixel.mjs';
 import { SEARCH_CORE_JS } from './searchcore.mjs';
+import { homeCrumbName } from './templates/_seo.mjs';
 
 export const HEADER_MARK = 'data-siteheader';
 export const NAV_JS_PATH = 'nav/site-nav.js';
@@ -269,7 +270,7 @@ export function relatedHtml(rooms, rel, base = '') {
   const pn = prev || next ? `<div class="sh-pn">${prev ? `<a href="${esc(base + prev[0])}" data-sh-prev rel="prev"><small>← Previous · [</small><b>${esc(prev[2])}</b></a>` : ''}${next ? `<a href="${esc(base + next[0])}" data-sh-next rel="next"><small>Next · ] →</small><b>${esc(next[2])}</b></a>` : ''}</div>` : '';
   return `
 <nav class="sh-rel" ${HEADER_MARK}-rel aria-label="You are here">
-<ol class="sh-crumb"><li><a href="${esc(`${base}/`)}">Home</a></li><li><a href="${esc(`${base}/#rooms`)}" data-sh-rooms-group="${esc(group)}">${esc(gTitle)}</a></li><li><span aria-current="page">${esc(label)}</span></li></ol>
+<ol class="sh-crumb"><li><a href="${esc(`${base}/`)}">${esc(homeCrumbName())}</a></li><li><a href="${esc(`${base}/#rooms`)}" data-sh-rooms-group="${esc(group)}">${esc(gTitle)}</a></li><li><span aria-current="page">${esc(label)}</span></li></ol>
 ${pn}
 ${pick.length ? `<p class="sh-rel__h">Related rooms · ${esc(gTitle)}</p>
 <div class="sh-rel__g">${pick.map(([h, art, l, b]) => `<a class="sh-rel__a" href="${esc(base + h)}"><img src="${esc(imgOf(base, art))}" width="40" height="40" alt="" loading="lazy" decoding="async"><span><b>${esc(l)}</b><small>${esc(b)}</small></span></a>`).join('')}</div>` : ''}
@@ -297,7 +298,8 @@ function build(){
   if(secs.length){h+='<li class="sh-rooms__g">ON THIS PAGE</li>';secs.forEach(function(s){var l=s.getAttribute('data-sec');h+='<li><a class="sh-rooms__i" href="#'+e(s.id)+'" data-k="'+e((l+' on this page section').toLowerCase())+'"><span><b>'+e(l)+'</b><small>On this page</small></span></a></li>'})}
   // Home first, then the rooms you used last, then every group once.
   var homeK='index home war room level score dashboard';
-  h+='<li><a class="sh-rooms__i sh-rooms__i--p" href="'+e(D.base+'/')+'" data-k="'+homeK+'"'+(cur('/')?' aria-current="page"':'')+'><img src="'+e(img('siren'))+'" width="34" height="34" alt="" loading="lazy"><span><b>Index</b><small>The level, the score and the war room</small></span></a></li>';
+  // Tip #258: rooms-dialog home row matches the live home title (not bare “Index”).
+  h+='<li><a class="sh-rooms__i sh-rooms__i--p" href="'+e(D.base+'/')+'" data-k="'+homeK+'"'+(cur('/')?' aria-current="page"':'')+'><img src="'+e(img('siren'))+'" width="34" height="34" alt="" loading="lazy"><span><b>${homeCrumbName().replace(/\\/g, '\\\\').replace(/'/g, "\\'")}</b><small>The level, the score and the war room</small></span></a></li>';
   var byP={},uniq=[],seenP={};D.rooms.forEach(function(r){var k=r[0].split('#')[0];if(!byP[r[0]])byP[r[0]]=r;if(seenP[r[0]])return;seenP[r[0]]=1;uniq.push(r)});
   var rec=recent().filter(function(p){return byP[p]&&!cur(p)}).slice(0,5);
   if(rec.length){h+='<li class="sh-rooms__g sh-rooms__g--rec">RECENT</li>';rec.forEach(function(p){var r=byP[p];h+='<li><a class="sh-rooms__i sh-rooms__i--p" href="'+e(D.base+r[0])+'" data-k="'+e((r[2]+' '+r[3]).toLowerCase())+'"><img src="'+e(img(r[1]))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(r[2])+'</b><small>'+e(r[3])+'</small></span></a></li>'})}

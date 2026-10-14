@@ -244,13 +244,25 @@ export function organization(ctx) {
   };
 }
 
+/** Visible + schema label for the site root (matches the live home title). */
+export function homeCrumbName() {
+  return `AI activity index today · ${brand.NAME}`;
+}
+
 /**
  * BreadcrumbList for SERP hierarchy.
+ * Tip #258: root uses the home title (not bare brand / “Home”), and duplicate
+ * `/` crumbs from callers are dropped so Google does not see SIREN → Home → page.
  * @param {object} ctx
  * @param {{ name: string, path: string }[]} crumbs  root-first; last is current page
  */
 export function breadcrumbs(ctx, crumbs) {
-  const items = [{ name: brand.NAME, path: '/' }, ...crumbs];
+  const home = homeCrumbName();
+  const rest = (crumbs || []).filter((c) => {
+    const p = String(c?.path ?? '').replace(/\/index\.html$/i, '') || '/';
+    return p !== '/';
+  });
+  const items = [{ name: home, path: '/' }, ...rest];
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
