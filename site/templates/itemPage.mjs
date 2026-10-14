@@ -186,7 +186,7 @@ function namedLine(ctx, item) {
   if (!names.length) return '';
   const bits = names.map((name) => (
     modelIndexable(ctx, name)
-      ? `<a href="${esc(ctx.href(modelPath(name)))}">${esc(name)}</a>`
+      ? `<a href="${esc(ctx.href(modelPath(name)))}">What has ${esc(brand.NAME)} scored about ${esc(name)}?</a>`
       : esc(name)
   ));
   return `<p class="it__src">Names in this headline: ${bits.join(', ')}. A name is a match against the published entity list, not a claim the subject wrote the story.</p>`;
@@ -195,28 +195,28 @@ function namedLine(ctx, item) {
 function topicLine(ctx, item) {
   const tags = tagsForItem(ctx, item);
   if (!tags.length) return '';
-  const bits = tags.map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)}</a>`);
+  const bits = tags.map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">What has ${esc(brand.NAME)} scored about ${esc(t.name)}?</a>`);
   return `<p class="it__src">Topics: ${bits.join(', ')}. A topic link means the title or summary matched a published needle with enough other stories to clear the tag gate.</p>`;
 }
 
 function peopleLine(ctx, item) {
   const people = peopleForItem(ctx, item);
   if (!people.length) return '';
-  const bits = people.map((p) => `<a href="${esc(ctx.href(peoplePath(p.id)))}">${esc(p.name)}</a>`);
+  const bits = people.map((p) => `<a href="${esc(ctx.href(peoplePath(p.id)))}">What press has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>`);
   return `<p class="it__src">People: ${bits.join(', ')}. A name link means the full name appears in the title or summary and that person already cleared the people-page coverage gate.</p>`;
 }
 
 function publisherLine(ctx, item) {
   const outlets = outletsForItem(ctx, item);
   if (!outlets.length) return '';
-  const bits = outlets.map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)}</a>`);
+  const bits = outlets.map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">What has ${esc(brand.NAME)} scored from ${esc(o.domain)}?</a>`);
   return `<p class="it__src">Publisher: ${bits.join(', ')}. A publisher link means the original URL host cleared the outlet gate (≥${OUTLET_INDEX_MIN} scored stories in this window).</p>`;
 }
 
 function countryLine(ctx, item) {
   const countries = countriesForItem(ctx, item).slice(0, 4);
   if (!countries.length) return '';
-  const bits = countries.map((c) => `<a href="${esc(ctx.href(countryPath(c.iso2)))}">${esc(c.name)}</a>`);
+  const bits = countries.map((c) => `<a href="${esc(ctx.href(countryPath(c.iso2)))}">How many datacentres has ${esc(brand.NAME)} mapped in ${esc(c.name)}?</a>`);
   return `<p class="it__src">Countries: ${bits.join(', ')}. A country link means the title or summary named that place and the country already clears the mapped-datacentre gate on the world map.</p>`;
 }
 
@@ -247,7 +247,7 @@ export function render(ctx, item, related = []) {
 
   <p class="it__src">
     Source: ${outletHref
-      ? `<a href="${esc(outletHref)}">${esc(outletName)}</a> · <a href="${esc(item.url)}" rel="nofollow noopener">original</a>`
+      ? `<a href="${esc(outletHref)}">What has ${esc(brand.NAME)} scored via ${esc(outletName)}?</a> · <a href="${esc(item.url)}" rel="nofollow noopener">original</a>`
       : `<a href="${esc(item.url)}" rel="nofollow noopener">${esc(outletName || item.source)}</a>`}
     · first seen by this index at <time datetime="${esc(firstSeen)}">${esc(utc(firstSeen))}</time>
   </p>

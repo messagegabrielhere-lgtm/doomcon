@@ -113,10 +113,12 @@ describe('model pages', () => {
 
   it('links an indexable model from the story page and leaves a thin name as text', () => {
     const claude = renderItem(ctx, ctx.news.items[0]);
-    assert.match(claude, /href="\/model\/claude\.html"/);
+    assert.match(claude, /href="\/model\/claude\.html">What has SIREN scored about Claude\?<\/a>/);
+    assert.doesNotMatch(claude, /href="\/model\/claude\.html">Claude<\/a>/);
     const grok = renderItem(ctx, ctx.news.items[3]);
     assert.doesNotMatch(grok, /\/model\/grok\.html/);
     assert.match(grok, /Names in this headline: Grok/);
+    assert.doesNotMatch(grok, /What has SIREN scored about Grok\?/);
   });
 
   it('lets the durable archive keep a model hub above the substance gate', () => {

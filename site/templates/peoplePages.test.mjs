@@ -199,7 +199,8 @@ describe('people pages', () => {
     const names = peopleForItem(ctx, item).map((p) => p.id).sort();
     assert.deepEqual(names, ['altman']);
     const html = renderItem({ ...ctx, news: { generated_at: ctx.state.generated_at, items: [item] } }, item);
-    assert.match(html, /href="\/people\/altman\.html"/);
+    assert.match(html, /href="\/people\/altman\.html">What press has SIREN scored about Sam Altman\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/people\/altman\.html">Sam Altman<\/a>/);
     assert.doesNotMatch(html, /\/people\/karp\.html/);
   });
 });

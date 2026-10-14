@@ -123,7 +123,10 @@ describe('outlet pages', () => {
     const outs = outletsForItem(ctx, ctx.news.items[0]);
     assert.equal(outs.length, 1);
     const html = renderItem(ctx, ctx.news.items[0]);
-    assert.match(html, /href="\/outlet\/arxiv-org\.html"/);
+    assert.match(html, /href="\/outlet\/arxiv-org\.html">What has SIREN scored from arxiv\.org\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/outlet\/arxiv-org\.html">arxiv\.org<\/a>/);
+    assert.match(html, /href="\/source\/hn\.html">What has SIREN scored via hn\?<\/a>/);
+    assert.doesNotMatch(html, /Source: <a href="\/source\/hn\.html">hn<\/a>/);
   });
 
   it('links older archived stories on the same publisher host', () => {

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { worldTable } from './_worldmap.mjs';
+import { render as renderItem } from './itemPage.mjs';
 import {
   COUNTRY_INDEX_MIN,
   countryPath,
@@ -173,5 +174,8 @@ describe('country pages', () => {
     assert.ok(!itemMatchesCountry({ title: 'Using GPUs in the cloud', summary: '' }, us));
     const hits = countriesForItem(ctx, ctx.news.items[0]).map((c) => c.iso2);
     assert.deepEqual(hits, ['DE']);
+    const itemHtml = renderItem(ctx, ctx.news.items[0]);
+    assert.match(itemHtml, /href="\/country\/de\.html">How many datacentres has SIREN mapped in Germany\?<\/a>/);
+    assert.doesNotMatch(itemHtml, /href="\/country\/de\.html">Germany<\/a>/);
   });
 });
