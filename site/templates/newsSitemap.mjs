@@ -59,6 +59,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Character.AI', 'Character AI', 'Mythos', 'Sarah Friar', 'Sachin Katti',
   'Prime Intellect', 'Moondream', 'ollama', 'Bank of America', 'Chainalysis',
   'x402', 'Coinbase', 'Base', 'YouTube Music', 'Caterpillar',
+  // FINDABILITY #78 — google-news-open; live 48h surfaces after stale gh-pages news-sitemap.
+  'Claude Code', 'claude-code', 'YouTube',
 ]);
 
 /**

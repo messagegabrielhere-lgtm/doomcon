@@ -138,6 +138,45 @@ test('news sitemap keywords include Character.AI / Mythos / Prime Intellect surf
   assert.match(b, /Prime Intellect|Moondream|Sachin Katti|Sarah Friar|Bank of America/);
 });
 
+test('news sitemap keywords include Claude Code / YouTube Music / x402 surfaces', () => {
+  const a = keywordsFor({
+    title: 'anthropics/claude-code v2.1.300',
+    summary: '',
+    pillar: 'capability',
+    kind: 'release',
+    source: 'github-releases',
+    entities: [],
+  });
+  assert.match(a, /Claude Code|claude-code|Claude/);
+  const a2 = keywordsFor({
+    title: 'Anthropic ships Claude Code improvements for agent workflows',
+    summary: '',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'hn',
+    entities: [],
+  });
+  assert.match(a2, /Claude Code/);
+  const b = keywordsFor({
+    title: 'YouTube Music launches new labels as AI-generated music floods streaming platforms',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'techcrunch-ai',
+    entities: [],
+  });
+  assert.match(b, /YouTube Music|YouTube/);
+  const c = keywordsFor({
+    title: 'Chainalysis Finds AI Agents Made 138 Million x402 Payments on Coinbase Base',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(c, /x402|Chainalysis|Coinbase|Base/);
+});
+
 test('news sitemap keywords include Trail of Bits / DualEntry / Qwen N1 surfaces', () => {
   const a = keywordsFor({
     title: 'OpenAI Weighs Deal for One-Time Security Partner Trail of Bits',
