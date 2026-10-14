@@ -1154,6 +1154,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'OpenAI Intelligent UI / ChatGPT interactive-response stories scored in the newsroom or archive — coverage counts, not a product score.',
     match: /\bIntelligent UI\b/i,
   },
+  {
+    id: 'gpt-6',
+    name: 'GPT-6',
+    description: 'GPT-6 / GPT-6.x product stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\bGPT-6(?:\.\d+)?\b/i,
+  },
+  {
+    id: 'emergency-brake',
+    name: 'AI emergency brake',
+    description: 'Emergency-brake-on-AI policy and Nadella-quote stories scored in the newsroom or archive — coverage counts, not a containment forecast.',
+    match: /\bEmergency Brake\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
