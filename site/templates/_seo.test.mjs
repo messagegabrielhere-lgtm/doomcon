@@ -311,6 +311,10 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Which scored stories are from an outlet in this window'));
     assert.ok(org.knowsAbout.includes('Which older scored stories are from an outlet'));
     assert.ok(org.knowsAbout.includes('Which other outlets have scored stories'));
+    assert.ok(org.knowsAbout.includes('Which on-record lines name a person in this newsroom window'));
+    assert.ok(org.knowsAbout.includes('Which press coverage names a person'));
+    assert.ok(org.knowsAbout.includes('Which older scored stories name a person'));
+    assert.ok(org.knowsAbout.includes('Which other people are on the wire'));
     assert.ok(org.knowsAbout.includes('ready for superintelligence'));
     assert.ok(org.knowsAbout.includes('Ready for SI personal plan'));
     assert.ok(org.knowsAbout.includes('USA vs China AI race'));

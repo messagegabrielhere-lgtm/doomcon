@@ -128,10 +128,13 @@ describe('people pages', () => {
     assert.match(html, /ProfilePage/);
     assert.match(html, /FAQPage/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="pp-press"[^>]*>Which press coverage names Sam Altman\?/);
     assert.match(html, /Sam Altman in the news 0/);
     assert.match(html, /never writes a quotation/i);
     assert.match(html, /\/people\.html/);
     assert.doesNotMatch(html, /noindex/);
+    assert.doesNotMatch(html, /<h2 id="pp-press">Press coverage sample<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Other people on the wire<\/h2>/);
     assert.match(html, /not a person doom score/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
@@ -151,9 +154,10 @@ describe('people pages', () => {
       }],
     };
     const html = renderPerson(withArch, 'altman');
-    assert.match(html, /Older scored stories naming Sam Altman/);
+    assert.match(html, /id="pp-archive"[^>]*>Which older scored stories name Sam Altman\?/);
     assert.match(html, /Sam Altman discussed compute last month/);
     assert.match(html, /\/item\/archive\.html/);
+    assert.doesNotMatch(html, /<h2 id="pp-archive">Older scored stories naming Sam Altman<\/h2>/);
   });
 
   it('lets the durable archive keep a person hub above the substance gate', () => {
@@ -188,7 +192,8 @@ describe('people pages', () => {
     assert.ok(ids.includes('altman'));
     const html = renderPerson(withArch, 'quiet');
     assert.doesNotMatch(html, /noindex/);
-    assert.match(html, /Older scored stories naming Quiet Person/);
+    assert.match(html, /id="pp-archive"[^>]*>Which older scored stories name Quiet Person\?/);
+    assert.doesNotMatch(html, /<h2 id="pp-archive">Older scored stories naming Quiet Person<\/h2>/);
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/people/quiet.html'));
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/people.html'));
   });

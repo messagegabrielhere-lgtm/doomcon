@@ -224,9 +224,30 @@ export function renderPerson(ctx, id) {
   const others = indexablePeople(ctx).filter((p) => p.id !== leader.id).slice(0, 12);
   const archivedAll = archiveItemsForPerson(ctx, leader);
   const older = archivedAll.slice(0, 12);
+  // Tip #289: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const linesQ = `Which on-record lines name ${leader.name} in this newsroom window?`;
+  const pressQ = `Which press coverage names ${leader.name}?`;
+  const olderQ = `Which older scored stories name ${leader.name}?`;
+  const othersQ = 'Which other people are on the wire?';
   const faq = [
     [`What press has ${brand.NAME} scored about ${leader.name}?`,
       `${Number.isFinite(week) ? week : headlines.length} press stories naming ${leader.name} in the last 7 days on ${brand.NAME}${archivedAll.length ? `, plus ${archivedAll.length} older in the archive` : ''}. Coverage counts only — not a person doom score.`],
+    ...(lines.length
+      ? [[linesQ,
+        'Outlet headlines that matched a speech cue in the current newsroom window — never a quotation invented here.']]
+      : []),
+    ...(headlines.length
+      ? [[pressQ,
+        `${headlines.length} headline${headlines.length === 1 ? '' : 's'} from the current coverage pull, reproduced as the publication printed them.`]]
+      : []),
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast. Titles only; not quotations.']]
+      : []),
+    ...(others.length
+      ? [[othersQ,
+        `Other people on the AI leader wire that clear the substance gate, each linking What press has ${brand.NAME} scored about that person?`]]
+      : []),
     [`Does ${brand.NAME} invent quotations for ${leader.name}?`,
       `No. Every attributed string on this page is a headline reproduced as the publication printed it. ${brand.DISCLAIMER_SHORT}`],
   ];
@@ -234,7 +255,7 @@ export function renderPerson(ctx, id) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const olderBlock = older.length
-    ? `<h2 id="pp-archive">Older scored stories naming ${esc(leader.name)}</h2>
+    ? `<h2 id="pp-archive">${esc(olderQ)}</h2>
   <p class="pp__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast. Titles only; not quotations.</p>
   <ol class="pp__list">${archiveStoryRows(ctx, older)}</ol>
   <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
@@ -259,19 +280,18 @@ export function renderPerson(ctx, id) {
   </div>
   <p class="pp__rule"><b>This page never writes a quotation.</b> Every string below is a headline, reproduced as the publication printed it${labLink}</p>
   ${extract ? `<p class="pp__wiki">${esc(extract)}${wiki ? ` <a href="${esc(wiki)}" rel="noopener noreferrer">Wikipedia</a> (CC BY-SA).` : ''}</p>` : ''}
-  ${lines.length ? `<h2 id="pp-lines">On the record in this newsroom window</h2>
+  ${lines.length ? `<h2 id="pp-lines">${esc(linesQ)}</h2>
   <ol class="pp__list">${lineRows(ctx, lines)}</ol>` : ''}
-  ${headlines.length ? `<h2 id="pp-press">Press coverage sample</h2>
+  ${headlines.length ? `<h2 id="pp-press">${esc(pressQ)}</h2>
   <ol class="pp__list">${headlineRows(headlines)}</ol>` : '<p>No press headlines in the current coverage pull.</p>'}
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href(`/leaders.html#lw-${leader.id}`))}">Which AI leaders are on the record this week?</a>
      · <a href="${esc(ctx.href('/api/leaders.json'))}">api/leaders.json</a></p>
-  ${others.length ? `<h2>Other people on the wire</h2>
+  ${others.length ? `<h2 id="other-people">${esc(othersQ)}</h2>
   <nav class="pp__nav" aria-label="Other people">${others.map((p) => `<a href="${esc(ctx.href(peoplePath(p.id)))}">What press has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>`).join('')}</nav>` : ''}
 </article>`;
-
   return page({
     ctx,
     path,
