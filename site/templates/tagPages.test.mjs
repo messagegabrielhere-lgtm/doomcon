@@ -2247,4 +2247,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'frontier-ai'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'frontier-ai'), /probability of doom/i);
   });
+
+  it('pages local-ai and ai-generated hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('la1', 'Private, offline and yours: how to search the literature with local AI systems'),
+          story('la2', 'Local AI Goes Mainstream as Privacy Concerns Drive On-Device Shift'),
+          story('la3', 'Learning to use local AI is exciting, overwhelming, and frustrating'),
+          story('la4', 'Microsoft turns Windows into agent OS, targets developers with local AI'),
+          story('la5', 'NVIDIA DGX Spark Gives Developers More Ways to Build and Scale Local AI'),
+          story('ag1', 'Prize-winning image which sparked backlash was AI-generated, Nikon rules'),
+          story('ag2', 'Survey Finds AI-Generated Code Increases Debugging and Failure Rates'),
+          story('ag3', 'Her AI-Generated Video Swayed the Judge. The Court Said it Carried Undue Weight'),
+          story('ag4', 'OpenAI is adding an invisible watermark to AI-generated text'),
+          story('ag5', 'Video of car suspended by electrical cables in India is AI-generated'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('local-ai'));
+    assert.ok(ids.includes('ai-generated'));
+    assert.match(renderTag(rich, 'local-ai'), /What has SIREN scored about Local AI\?/);
+    assert.match(renderTag(rich, 'ai-generated'), /What has SIREN scored about AI-generated content\?/);
+    assert.match(renderTag(rich, 'local-ai'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'ai-generated'), /not a harm forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'local-ai'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-generated'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-generated'), /probability of doom/i);
+  });
 });

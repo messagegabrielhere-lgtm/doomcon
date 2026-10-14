@@ -182,6 +182,8 @@ const ALWAYS = Object.freeze([
   '/tags/chatgpt-teens.html',
   '/tags/large-language-models.html',
   '/tags/frontier-ai.html',
+  '/tags/local-ai.html',
+  '/tags/ai-generated.html',
   '/model/mixtral.html',
   '/tags/tsmc.html',
   '/people/',
