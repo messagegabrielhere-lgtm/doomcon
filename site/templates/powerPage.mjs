@@ -95,13 +95,16 @@ export function render(ctx, d) {
     <div class="pw-c"><h2>FASTEST GROWING, 5 YEARS</h2><table class="pw-t"><tbody>${fast}</tbody></table><p style="font-size:12px;margin:6px 0 0;color:var(--ink-dim)">Countries generating at least 50 TWh.</p></div>
   </div>
   <p><button type="button" data-xpost="page" data-x-title="China now generates ${esc(ratio || '?')}× the electricity the US does (${fmt(cn && cn.twh)} vs ${fmt(us && us.twh)} TWh). If power is the truest measure of a large economy, who is ahead on electricity generation?" data-x-src="Our World in Data" data-x-url="${share}" style="appearance:none;border:1px solid #FACC15;background:#14120A;color:#FDE68A;padding:10px 14px;font:700 13px var(--mono);cursor:pointer">𝕏 Post the power race</button></p>` : '<p>The power data has not been collected yet.</p>'}
-  <p>Related: <a href="${esc(ctx.href('/watts.html'))}">AI’s power draw</a> · <a href="${esc(ctx.href('/map.html'))}">US data-centre map</a> · <a href="${esc(ctx.href('/world.html'))}">World data centres</a> · <a href="${esc(ctx.href('/charts.html'))}">What AI charts does ${esc(brand.NAME)} publish?</a></p>
+  <p>Related: <a href="${esc(ctx.href('/watts.html'))}">What does the ${esc(brand.NAME)} infrastructure index read?</a> · <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a> · <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a> · <a href="${esc(ctx.href('/charts.html'))}">What AI charts does ${esc(brand.NAME)} publish?</a></p>
   <p style="font-size:12.5px;margin-top:14px">Source: <a href="https://github.com/owid/energy-data" target="_blank" rel="noopener">Our World in Data energy dataset</a> (Ember and the Energy Institute), CC BY 4.0. Annual figures, latest year ${esc(d.year || '?')}; refreshed daily. Generation, not consumption; imports and exports are not netted out. <a href="api/power.json">JSON</a></p>
 <section class="pwfaq" aria-labelledby="faq">
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
   <p class="pwfaq__key">Search-shaped sibling:
-    <a href="${esc(ctx.href('/watts.html'))}">What does the ${esc(brand.NAME)} infrastructure index read?</a>.</p>
+    <a href="${esc(ctx.href('/watts.html'))}">What does the ${esc(brand.NAME)} infrastructure index read?</a>
+    · <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a>
+    · <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a>
+    · <a href="${esc(ctx.href('/charts.html'))}">What AI charts does ${esc(brand.NAME)} publish?</a>.</p>
 </section>
 </section>`;
   return page({

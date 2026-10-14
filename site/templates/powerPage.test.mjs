@@ -39,6 +39,14 @@ describe('power page', () => {
     assert.match(html, /"@type":\s*"Dataset"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/watts\.html/);
+    const related = html.match(/Related:([\s\S]*?)<\/p>/);
+    assert.ok(related, 'expected Related links');
+    assert.match(related[1], /What does the SIREN infrastructure index read\?/);
+    assert.match(related[1], /How many datacentres has SIREN mapped in the United States\?/);
+    assert.match(related[1], /How many datacentres has SIREN mapped on Earth\?/);
+    assert.doesNotMatch(related[1], /AI.s power draw/);
+    assert.doesNotMatch(related[1], /US data-centre map/);
+    assert.doesNotMatch(related[1], /World data centres/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /noindex/);
   });

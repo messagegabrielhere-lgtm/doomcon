@@ -136,20 +136,20 @@ const SI_GUIDE = [
   ['Understand what is (and isn\'t) coming', [
     '<b>Superintelligence</b> means AI that is better than the best humans at most thinking work. Nobody knows if or when it arrives; serious estimates run from a few years to never. Plan for a range, not a date.',
     'What is already happening is easier to plan for: AI that writes, codes, summarises, translates, draws and talks well enough to change how many jobs are done.',
-    'Follow measured signals, not hype. SIREN counts activity hourly; the <a href="/doomcon/methodology.html">method</a> shows what it can and cannot tell you.']],
+    'Follow measured signals, not hype. SIREN counts activity hourly; <a href="/doomcon/methodology.html">How the SIREN AI activity index is computed · methodology</a> shows what it can and cannot tell you.']],
   ['Your work: get ahead of the change', [
     '<b>Audit your week.</b> List your tasks and mark each: routine screen work, judgment, people, or hands-on. Routine screen work is what AI absorbs first.',
     '<b>Learn the tools in your field now.</b> An hour a day for a month with the assistant your industry uses beats any course. Keep notes on where it fails.',
     '<b>Grow the durable skills:</b> judgment under uncertainty, explaining things to people, negotiating, managing, caring, physical trades, and checking AI work.',
     '<b>Keep a side option.</b> A second skill, a certification, or a small side income makes a layoff a setback instead of a crisis.',
-    'Use the <a href="/doomcon/ai-proof-job.html">AI-proof your job</a> plan for step-by-step moves.']],
+    'Use the <a href="/doomcon/ai-proof-job.html">How do I AI-proof my job?</a> plan for step-by-step moves.']],
   ['Your money: resilience over prediction', [
     'Build an emergency fund that covers several months of essential costs, in an ordinary insured savings account.',
     'Pay down high-interest debt; it is the surest return there is.',
     'Do not bet your savings on AI hype, AI coins or "superintelligence funds". Scammers love a frightening headline.',
     'Spread risk and get advice from a licensed, fee-only financial adviser. Nothing here is financial advice.']],
   ['Your information: don\'t get fooled', [
-    'Assume any voice, video or photo can be faked. Check <b>where it was posted first</b> and by whom; the <a href="/doomcon/elon.html">Real Clips</a> room does this for video.',
+    'Assume any voice, video or photo can be faked. Check <b>where it was posted first</b> and by whom; <a href="/doomcon/elon.html">Where can you find real clips of AI leaders?</a> does this for video.',
     'Agree a <b>family code word</b> for any urgent call or message asking for money or secrets. Voice-clone scams target parents and grandparents.',
     'Slow down on anything that makes you angry or scared in seconds; that is how manipulation works, human or AI.',
     'Keep a few sources that publish corrections and methods. Drop the ones that only publish certainty.']],
@@ -162,7 +162,7 @@ const SI_GUIDE = [
   ['Your household: ready for outages', [
     'More automation means more systems that can fail together. Keep water, food, light, power and cash for at least three days, ideally two weeks.',
     'Know how to reach family if phones and the internet are down: a meeting place and an out-of-area contact.',
-    'The <a href="/doomcon/prepper-checklist.html">Prepper Checklist</a> sizes it for your household.']],
+    '<a href="/doomcon/prepper-checklist.html">What belongs in a 72-hour prepper kit?</a> sizes it for your household.']],
   ['Your kids and family', [
     'Teach AI literacy early: AI can be helpful and confidently wrong at the same time.',
     'Talk about fakes, scams and why people should never share personal details or photos with strangers, human or bot.',
@@ -231,9 +231,9 @@ export function siReady(ctx) {
   ${siGuide().replace(/\/doomcon\//g, ctx.href('/'))}
   <h2>Keep going</h2>
   <div class="fx-grid">
-    <a class="fx-card" href="${esc(ctx.href('/ai-proof-job.html'))}"><h3>AI-proof your job →</h3><p>Where AI hits your work, and how to grow with it.</p></a>
-    <a class="fx-card" href="${esc(ctx.href('/prepper-checklist.html'))}"><h3>Prepper Checklist →</h3><p>The physical side: water, food, power, documents.</p></a>
-    <a class="fx-card" href="${esc(ctx.href('/breakthroughs.html'))}"><h3>Breakthroughs →</h3><p>The good news, because there is a lot of it.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/ai-proof-job.html'))}"><h3>How do I AI-proof my job? →</h3><p>Where AI hits your work, and how to grow with it.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/prepper-checklist.html'))}"><h3>What belongs in a 72-hour prepper kit? →</h3><p>The physical side: water, food, power, documents.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/breakthroughs.html'))}"><h3>What AI breakthroughs has ${esc(brand.NAME)} tracked? →</h3><p>The good news, because there is a lot of it.</p></a>
   </div>
   <p class="fx-note">General information, not financial, legal, career or medical advice. ${esc(brand.NAME)} counts AI activity; it does not predict superintelligence.</p>
   <section class="fx-faq" aria-labelledby="faq">
@@ -241,6 +241,7 @@ export function siReady(ctx) {
     ${faqHtml}
     <p class="fx-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/ai-proof-job.html'))}">How do I AI-proof my job?</a>
+      · <a href="${esc(ctx.href('/prepper-checklist.html'))}">What belongs in a 72-hour prepper kit?</a>
       · <a href="${esc(ctx.href('/breakthroughs.html'))}">What AI breakthroughs has ${esc(brand.NAME)} tracked?</a>.</p>
   </section>
 </section>`;
@@ -262,7 +263,7 @@ export function siReady(ctx) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Ready for SI?', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -329,7 +330,7 @@ export function jobProof(ctx) {
     ['What are the five moves on this page?',
       'Move toward the work AI is worst at; become the person who runs the AI; make your value visible; keep learning on purpose; build a safety net.'],
     ['Where does SIREN count measured job effects?',
-      'Forecasts of jobs lost to AI disagree wildly. The Jobs room lists only what has been measured, with sources, and says what the counts do not show.'],
+      'Forecasts of jobs lost to AI disagree wildly. See Is AI taking jobs? — it lists only what has been measured, with sources, and says what the counts do not show.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -346,14 +347,15 @@ export function jobProof(ctx) {
   <h2>Your plan</h2>
   ${quiz({ id: 'jobq', questions: JOB_QS, areas: JOB_AREAS })}
   <h2>What has actually been counted</h2>
-  <p>Forecasts of jobs lost to AI disagree wildly. The <a href="${esc(ctx.href('/jobs.html'))}">Jobs room</a> lists only what has been measured, with sources, and says what the counts do not show.</p>
+  <p>Forecasts of jobs lost to AI disagree wildly. See <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a> — it lists only what has been measured, with sources, and says what the counts do not show.</p>
   <p class="fx-note">General information, not career, legal or financial advice.</p>
   <section class="fx-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}
     <p class="fx-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/si-ready.html'))}">Ready for superintelligence?</a>
-      · <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a>.</p>
+      · <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a>
+      · <a href="${esc(ctx.href('/prepper-checklist.html'))}">What belongs in a 72-hour prepper kit?</a>.</p>
   </section>
 </section>`;
   return page({
@@ -374,7 +376,7 @@ export function jobProof(ctx) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'AI-proof your job', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

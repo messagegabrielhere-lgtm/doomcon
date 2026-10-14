@@ -34,6 +34,10 @@ describe('alerts page', () => {
     assert.match(html, /\/feedback\.html/);
     assert.match(html, /How do I export and embed SIREN data\?/);
     assert.match(html, /How do I report a problem or send an idea to SIREN\?/);
+    const back = html.match(/<p class="xt-back">([\s\S]*?)<\/p>/);
+    assert.ok(back, 'expected extras back links');
+    assert.match(back[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
+    assert.doesNotMatch(back[1], /href="\/methodology\.html">Methodology<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
