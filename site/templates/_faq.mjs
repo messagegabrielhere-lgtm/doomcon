@@ -39,8 +39,10 @@ export function items(ctx) {
       `One person runs it. It is free. Visits are counted with Google Analytics and cookieless GoatCounter, both disclosed on the privacy page. The paid links are the Amazon links on the reading list and in the Bunker Kit's supplies crate, which are labelled; there is room for one named sponsor with no say over the number, and a donate link to the project's X account.`],
     ['How can I cite, embed or share it?',
       `The site's text and data are licensed ${brand.LICENSE}. There is an iframe embed and a README badge on the home page, a public JSON API, two RSS feeds, and a "Post on X" link on every card.`],
-    ['Who is Tally?',
+    ['Who is Tally, the duty canary?',
       `Tally is the duty canary, the mascot. The helmet is painted in the current level's colour and the face follows the level: asleep at 5, in full squawk at 1. Tally also keeps the unserious counts and runs the counting game.`],
+    ['What is in the war room?',
+      `Live panels on the homepage for the current reading: jobs and medicine, Tally’s bets, and other desks that refresh with each hourly observation. It is a jump board into those rooms, not a second index.`],
   ];
 }
 

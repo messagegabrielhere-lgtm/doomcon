@@ -1601,7 +1601,7 @@ function warRoom(ctx) {
   const n = Array.isArray(ctx.history) ? ctx.history.length : null;
   return `<section class="wr" id="war-room" aria-labelledby="wr-h" style="--lvl:var(--heat-${esc(st.level)})">
   <div class="wr__top">
-    <h2 class="wr__h" id="wr-h"><span class="wr__live" aria-hidden="true"></span>War room</h2>
+    <h2 class="wr__h" id="wr-h"><span class="wr__live" aria-hidden="true"></span>What is in the war room?</h2>
     <p class="wr__k">${n ? `Reading no. ${esc(n)} · ` : ''}${panels.length} panels<span class="wr__age" data-at="${esc(st.generated_at)}"></span><span class="wr__keys"> · keys 1–${Math.min(9, panels.length)} jump</span></p>
     <a class="wr__new" href="${esc(ctx.href('/'))}" hidden>New reading in · reload</a>
     <nav class="wr__nav" aria-label="Jump to a panel">${panels.map((p) => `<a href="#wr-${esc(p.id)}" style="--ph:${WR_HUE[p.id] || 'var(--accent)'}">${esc(p.name)}</a>`).join('')}</nav>
@@ -1681,8 +1681,9 @@ function explainers(ctx) {
 function meetTally(ctx) {
   const cur = Number.isFinite(ctx.state.level) ? ctx.state.level : null;
   const levels = [...brand.LEVELS].sort((a, b) => b.level - a.level);
+  // Tip #324: section H2 is question-shaped and mirrored in home FAQ (§3.3).
   return `<section class="sec mt" id="tally" aria-labelledby="mt-h">
-  <h2 class="sec__h" id="mt-h">Meet Tally</h2>
+  <h2 class="sec__h" id="mt-h">Who is Tally, the duty canary?</h2>
   <p class="lede">The duty canary keeps the count. The helmet is the level's colour and the face is the level's mood, so one look tells you how loud things are.${cur ? ` Today Tally is ${esc(MOODS[cur])}.` : ''}</p>
   <ol class="mt__l">
 ${levels.map((l) => `    <li class="mt__i${l.level === cur ? ' mt__i--on' : ''}" style="--lvl:var(--heat-${l.level})"${l.level === cur ? ' aria-current="true"' : ''}>

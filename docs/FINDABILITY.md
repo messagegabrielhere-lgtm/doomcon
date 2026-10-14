@@ -572,6 +572,8 @@ context.
 | 320 | `/search.html` empty-state H2s + FAQPage use questions for try-first / popular-rooms (was “Try one of these” / “Popular rooms”); Organization `knowsAbout` mirrors those questions; refuse search-as-doom-oracle / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 321 | `/waffle.html` other-storms H2 + FAQPage use a question when the list is visible (was “Other active storms”); Organization `knowsAbout` mirrors that question; refuse official-FEMA / outage-report / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 322 | `/radio.html` section H2s + FAQPage use questions for Tally voice / hear-in-videos (was “Tally’s voice update” / “Hear it in the videos”); Organization `knowsAbout` mirrors those questions; refuse Radio-as-index-input / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 323 | `/bliss.html` cold-start H2 + FAQPage use questions for no-score / awaiting-baseline (was “BLISS has no score in this build” / “BLISS is awaiting its baseline”); Organization `knowsAbout` mirrors those questions; refuse doom-probability / forecast claims | Google + Bing | **Done** (2026-10-14) |
+| 324 | Home Meet Tally + War room H2s + homepage FAQ, and `/desk.html` streak card H2 + FAQPage, use questions (was “Meet Tally” / “War room” / “Nothing Ever Changes”); Organization `knowsAbout` mirrors desk/war-room questions; PRIMARY nav chrome stays short; refuse desk-feeds-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

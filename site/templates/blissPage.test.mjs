@@ -57,4 +57,14 @@ describe('bliss page', () => {
     assert.match(html, /What is BLISS, the SIREN upside index\?/);
     assert.match(html, /noindex/);
   });
+
+  it('cold-start section H2 uses a question mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /<h2 class="bh2">Why is BLISS awaiting its baseline\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2 class="bh2">BLISS is awaiting its baseline<\/h2>/);
+    assert.doesNotMatch(html, /<h2 class="bh2">BLISS has no score in this build<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"Why is BLISS awaiting its baseline\?"/);
+    assert.match(html, /ruler has not been built yet/);
+    assert.doesNotMatch(html, /doom probability/i);
+  });
 });

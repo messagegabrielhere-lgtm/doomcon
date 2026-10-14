@@ -359,12 +359,14 @@ export function render(ctx) {
       `access, adoption and openness, ${awaiting} of them awaiting a frozen baseline before they ` +
       `can be scored. Every measured value is published. Compiled ${utc(bliss.generated_at)}.`;
 
-  // Tip #294: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  // Tip #294 / #323: section H2s are question-shaped and mirrored in FAQ (§3.3).
   const pairQ = `How do BLISS and ${brand.NAME} sit on one axis?`;
   const pillarsQ = 'What are the five BLISS pillars?';
   const sourcesQ = 'Which BLISS sources answered this run?';
   const howQ = 'How is BLISS computed?';
-  // FAQ answers restate hero / axis / sources / method copy only (FINDABILITY §3.3).
+  const noScoreQ = 'Why does BLISS have no score in this build?';
+  const baselineQ = 'Why is BLISS awaiting its baseline?';
+  // FAQ answers restate hero / axis / sources / method / cold-start copy only (FINDABILITY §3.3).
   // Refuse doom-probability / forecast claims for either index.
   const faq = [
     [qTitle,
@@ -373,6 +375,13 @@ export function render(ctx) {
       'The pairing is the instrument. Two numbers computed by identical code over different inputs can be subtracted. Two numbers produced by human or model judgement cannot. That is the whole argument for publishing both.'],
     [pairQ,
       `Both axes are the same 0–100 scale with the same band floors at 35, 55, 70 and 85. A score is a percentile position against that index's own frozen reference distribution — never a probability, and never a comparison between the two fields.`],
+    ...(hasScore
+      ? []
+      : bliss.posture === 'awaiting-baseline'
+        ? [[baselineQ,
+          `${reporting} of ${total} sources are reporting and ${awaiting} of them have no frozen reference distribution to be scored against yet. Awaiting baseline means the measurement is arriving and the ruler has not been built yet — not the same thing as dark.`]]
+        : [[noScoreQ,
+          `Every pillar is dark: ${dark} of ${total} sources failed to answer. The index is not reporting a low number — it is reporting no number.`]]),
     [pillarsQ,
       'BLISS pillars are science, medicine, access, adoption and openness — the same five-pillar percentile machinery as the main index, over upside inputs.'],
     [sourcesQ,
@@ -430,7 +439,7 @@ export function render(ctx) {
      distribution &mdash; never a probability, and never a comparison between the two fields.</p>
 </section>
 
-${hasScore ? '' : awaitingPanel(bliss, reporting, total, awaiting, dark)}
+${hasScore ? '' : awaitingPanel(bliss, reporting, total, awaiting, dark, { noScoreQ, baselineQ })}
 
 <section class="bpillars" aria-labelledby="pillars-h">
   <h2 id="pillars-h" class="bh2">${esc(pillarsQ)}</h2>
@@ -499,10 +508,12 @@ ${howComputed(ctx, bliss, howQ)}
  * the count of sources that ARE reporting, and what has to happen next — and it
  * never uses the word dark about a source that answered.
  */
-function awaitingPanel(bliss, reporting, total, awaiting, dark) {
+function awaitingPanel(bliss, reporting, total, awaiting, dark, qs = {}) {
+  const noScoreQ = qs.noScoreQ || 'Why does BLISS have no score in this build?';
+  const baselineQ = qs.baselineQ || 'Why is BLISS awaiting its baseline?';
   if (bliss.posture !== 'awaiting-baseline') {
     return `<section class="bwait" data-kind="dark">
-      <h2 class="bh2">BLISS has no score in this build</h2>
+      <h2 class="bh2">${esc(noScoreQ)}</h2>
       <p class="bnote">Every pillar is dark: ${esc(String(dark))} of ${esc(String(total))} sources
          failed to answer. The index is not reporting a low number &mdash; it is reporting no number.
          Per-source errors are in the table below.</p>
@@ -510,7 +521,7 @@ function awaitingPanel(bliss, reporting, total, awaiting, dark) {
   }
 
   return `<section class="bwait" data-kind="baseline">
-    <h2 class="bh2">BLISS is awaiting its baseline</h2>
+    <h2 class="bh2">${esc(baselineQ)}</h2>
     <p class="bnote"><b>${esc(String(reporting))} of ${esc(String(total))} sources are reporting</b>
        and ${esc(String(awaiting))} of them have no frozen reference distribution to be scored
        against yet${dark ? `, while ${esc(String(dark))} did not answer this run` : ''}.
