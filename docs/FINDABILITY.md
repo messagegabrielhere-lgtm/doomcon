@@ -662,6 +662,8 @@ context.
 | 410 | Topic tag `ai-factories` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse capacity-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 411 | Topic tag `amazon-bedrock` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse vendor-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 412 | Topic tag `claude-opus` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 413 | Topic tag `claude-haiku` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 414 | Topic tag `intelligent-ui` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse product-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

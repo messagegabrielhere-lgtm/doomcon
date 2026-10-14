@@ -1782,4 +1782,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'claude-opus'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'claude-opus'), /probability of doom/i);
   });
+
+  it('pages claude-haiku and intelligent-ui hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ch1', 'Claude Haiku 5.5 is out and cheaper'),
+          story('ch2', 'Introducing Claude Haiku 5.5 on AWS'),
+          story('ch3', 'Anthropic Launches Claude Haiku 5.5: Faster, Lower-Cost AI'),
+          story('ch4', 'Claude Haiku Expands Anthropic’s AI Model Lineup'),
+          story('ch5', 'Developers try Claude Haiku for high-volume tasks'),
+          story('iu1', 'GPT-6 and Intelligent UI for everyone'),
+          story('iu2', 'OpenAI rolls out GPT-6 Luna with Intelligent UI to free ChatGPT users'),
+          story('iu3', 'ChatGPT’s Intelligent UI update fills responses with charts and buttons'),
+          story('iu4', 'OpenAI says Intelligent UI is rolling out in ChatGPT'),
+          story('iu5', 'What Intelligent UI means for ChatGPT answers'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('claude-haiku'));
+    assert.ok(ids.includes('intelligent-ui'));
+    assert.match(renderTag(rich, 'claude-haiku'), /What has SIREN scored about Claude Haiku\?/);
+    assert.match(renderTag(rich, 'intelligent-ui'), /What has SIREN scored about Intelligent UI\?/);
+    assert.match(renderTag(rich, 'claude-haiku'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'intelligent-ui'), /not a product score/i);
+    assert.doesNotMatch(renderTag(rich, 'claude-haiku'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'intelligent-ui'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'intelligent-ui'), /probability of doom/i);
+  });
 });
