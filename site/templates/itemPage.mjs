@@ -235,14 +235,12 @@ export function render(ctx, item, related = []) {
     ? ctx.href(kindPath(item.kind))
     : null;
   const kindLabel = kindDef ? kindDef.name : (item.kind || '');
+  const newsroomQ = `Which AI stories has ${brand.NAME} scored in this window?`;
+  const pillarQ = `What has ${brand.NAME} scored under ${pillarName}?`;
+  const kindQ = kindLabel ? `What has ${brand.NAME} scored as ${kindLabel}?` : '';
   const main = `${styleTag()}
 <article class="it">
-  <p class="it__k">
-    <a href="${esc(ctx.href('/news.html'))}">Newsroom</a> ·
-    ${pillarHref ? `<a href="${esc(pillarHref)}">${esc(pillarName)}</a>` : esc(pillarName)}
-    ${kindLabel ? ` · ${kindHref ? `<a href="${esc(kindHref)}">${esc(kindLabel)}</a>` : esc(kindLabel)}` : ''} ·
-    <time datetime="${esc(item.published_at)}">${esc(utc(item.published_at))}</time>
-  </p>
+  <p class="it__k"><a href="${esc(ctx.href('/news.html'))}">${esc(newsroomQ)}</a> · ${pillarHref ? `<a href="${esc(pillarHref)}">${esc(pillarQ)}</a>` : esc(pillarName)}${kindLabel ? ` · ${kindHref ? `<a href="${esc(kindHref)}">${esc(kindQ)}</a>` : esc(kindLabel)}` : ''} · <time datetime="${esc(item.published_at)}">${esc(utc(item.published_at))}</time></p>
 
   <h1 class="it__h">${esc(item.title)}</h1>
   ${item.summary ? `<blockquote class="lede" cite="${esc(item.url)}"><p>${esc(clipX(item.summary, 200))}</p><footer>— excerpt from ${esc(item.source)}; the full story and its rights belong to them.</footer></blockquote>` : ''}
@@ -312,8 +310,8 @@ export function render(ctx, item, related = []) {
       speakable: speakable(['h1.it__h', 'blockquote.lede']),
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      ...(item.pillar ? [{ name: pillarName, path: `/pillar/${item.pillar}.html` }] : []),
+      { name: newsroomQ, path: '/news.html' },
+      ...(item.pillar ? [{ name: pillarQ, path: `/pillar/${item.pillar}.html` }] : []),
       { name: item.title, path },
     ])],
     main,
@@ -380,8 +378,8 @@ export function renderIndex(ctx) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Live window', path: '/item/' },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: title, path: '/item/' },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -393,6 +391,7 @@ export function renderIndex(ctx) {
     }],
     main: `${styleTag()}
 <article class="it">
+<p class="it__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which scored AI stories are in the ${esc(brand.NAME)} live window?</p>
 <h1>Which scored AI stories are in the ${esc(brand.NAME)} live window?</h1>
 <p class="lede">${esc(items.length)} items in the rolling window. Each has a permanent page
    carrying how it scored and who else carried it.${archiveNote}</p>
@@ -465,9 +464,9 @@ export function renderArchivePage(ctx, pageNum = 1) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Live window', path: '/item/' },
-      { name: n === 1 ? 'Archive' : `Archive ${n}`, path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which scored AI stories are in the ${brand.NAME} live window?`, path: '/item/' },
+      { name: title, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -479,7 +478,7 @@ export function renderArchivePage(ctx, pageNum = 1) {
     }],
     main: `${styleTag()}
 <article class="it">
-  <p class="it__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/item/'))}">Live window</a></p>
+  <p class="it__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/item/'))}">Which scored AI stories are in the ${esc(brand.NAME)} live window?</a></p>
   <h1 class="it__h">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</h1>
   <p class="lede">${esc(String(all.length))} older scored stories kept after they left the live window.
      Each page still carries the score decomposition from when it was measured. This is not a
