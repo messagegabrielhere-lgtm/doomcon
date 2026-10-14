@@ -85,10 +85,10 @@ export function about(ctx) {
   <p>One person, independently. It is not affiliated with any AI lab, government body or the organisations whose scales it
     borrows its grammar from. It is free to read, carries no display-ad network and has no investors.</p>
   <h2>How it is paid for</h2>
-  <p>Hosting is free. The <a href="${esc(ctx.href('/bunker-kit.html'))}">Bunker Kit</a> and the
-    <a href="${esc(ctx.href('/library.html'))}">reading list</a> carry Amazon links that are paid links: as an Amazon Associate,
-    ${esc(brand.NAME)} earns from qualifying purchases. They are labelled where they appear. There is room for
-    <a href="${esc(ctx.href('/sponsor.html'))}">one named sponsor</a>, who gets no say over the number, and a donate link to ${x}.</p>
+  <p>Hosting is free. <a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a> and
+    <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case?</a> carry Amazon links that are paid links: as an Amazon Associate,
+    ${esc(brand.NAME)} earns from qualifying purchases. They are labelled where they appear. There is room for one named sponsor via
+    <a href="${esc(ctx.href('/sponsor.html'))}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a> — with no say over the number — and a donate link to ${x}.</p>
   <h2>Contact</h2>
   <p>Corrections, data sources and press questions: ${mail}, message ${x} on X, or open an issue on the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. A correction that changes a number is recorded in the open.</p>

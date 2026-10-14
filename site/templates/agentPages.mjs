@@ -597,7 +597,7 @@ export function land(ctx) {
     ['Is this real-estate or financial advice?',
       `General information, not real-estate, legal or financial advice. Prices and conditions change; visit before you buy, and have a local attorney check title, access and water rights. Links to listing sites are plain links; ${brand.NAME} is not paid for them.`],
     ['What else does SIREN cover for supplies?',
-      'The Prepper Checklist and the Bunker Kit\'s supply drop cover water, food, power and the rest.'],
+      'What belongs in a 72-hour prepper kit? and What free tools belong in a bunker kit? cover water, food, power and the rest.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -616,13 +616,14 @@ export function land(ctx) {
   <h2>Where land is listed</h2>
   <p>${LISTINGS.map(([n, h]) => `<a class="ag-btn ghost" href="${esc(h)}" rel="noopener" target="_blank">${esc(n)} ↗</a>`).join('')}</p>
   <h2>Then stock it</h2>
-  <p>The <a href="${esc(ctx.href('/prepper-checklist.html'))}">Prepper Checklist</a> and the <a href="${esc(ctx.href('/bunker-kit.html'))}">Bunker Kit's supply drop</a> cover water, food, power and the rest.</p>
+  <p><a href="${esc(ctx.href('/prepper-checklist.html'))}">What belongs in a 72-hour prepper kit?</a> and <a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a> cover water, food, power and the rest.</p>
   <p class="ag-note">General information, not real-estate, legal or financial advice. Prices and conditions change; visit before you buy, and have a local attorney check title, access and water rights. Links to listing sites are plain links; ${esc(brand.NAME)} is not paid for them.</p>
   <section class="ag-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}
     <p class="ag-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/prepper-checklist.html'))}">What belongs in a 72-hour prepper kit?</a>
+      · <a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a>
       · <a href="${esc(ctx.href('/waffle.html'))}">Is the Waffle House open?</a>.</p>
   </section>
 </section>`;
@@ -644,7 +645,7 @@ export function land(ctx) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Bug-out land', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -675,10 +676,10 @@ export function guideIndex(ctx, groups) {
     { q: 'tally canary mascot', a: 'Tally is the duty canary. Its face shows the level, from asleep at 5 to full squawk at 1.', u: ctx.href('/tally.html') },
     { q: 'jobs career lose my job ai', a: 'Try the 2-minute AI-proof-your-job plan, and see what has actually been counted about AI and jobs.', u: ctx.href('/ai-proof-job.html') },
     { q: 'prepare superintelligence agi ready', a: 'The Ready for SI check builds a personal plan across work, money, deepfakes, security, community and civic voice.', u: ctx.href('/si-ready.html') },
-    { q: 'prepper supplies emergency kit bunker', a: 'The Prepper Checklist covers a 72-hour kit and two weeks at home; the Bunker Kit has free tools and supply crates.', u: ctx.href('/prepper-checklist.html') },
-    { q: 'land remote bug out skynet', a: 'Where people look for remote land, and the checklist before you buy.', u: ctx.href('/bug-out-land.html') },
-    { q: 'good news breakthroughs positive', a: 'Breakthroughs tracks AI helping: medicine, math and science, climate and accessibility.', u: ctx.href('/breakthroughs.html') },
-    { q: 'videos clips youtube real fake deepfake', a: 'Real Clips lists only videos uploaded by the channel that filmed them, plus a YouTube trends tab marked unverified.', u: ctx.href('/elon.html') },
+    { q: 'prepper supplies emergency kit bunker', a: 'What belongs in a 72-hour prepper kit? covers a 72-hour kit and two weeks at home; What free tools belong in a bunker kit? has free tools and supply crates.', u: ctx.href('/prepper-checklist.html') },
+    { q: 'land remote bug out skynet', a: 'Where to buy remote land to ride out Skynet? — regions people look at, and the checklist before you buy.', u: ctx.href('/bug-out-land.html') },
+    { q: 'good news breakthroughs positive', a: 'What AI breakthroughs has SIREN tracked? covers AI helping: medicine, math and science, climate and accessibility.', u: ctx.href('/breakthroughs.html') },
+    { q: 'videos clips youtube real fake deepfake', a: 'Where can you find real clips of AI leaders? lists only videos uploaded by the channel that filmed them, plus a YouTube trends tab marked unverified.', u: ctx.href('/elon.html') },
     { q: 'stocks crypto ai battle trading picks', a: 'The AI Battle has AI models trading stocks and crypto against live prices. Not financial advice.', u: ctx.href('/arena.html#battle') },
     { q: 'api data json developers agents moltbook', a: 'Every reading is open JSON. AI agents: start with skill.md.', u: ctx.href('/agents.html') },
     { q: 'feedback report bug problem contact', a: 'Use the feedback form; it opens a public GitHub issue.', u: ctx.href('/feedback.html') },
