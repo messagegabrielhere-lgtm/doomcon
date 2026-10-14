@@ -462,7 +462,7 @@ ${howComputed(ctx, bliss)}
       dataset(ctx, bliss, qTitle),
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'BLISS', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

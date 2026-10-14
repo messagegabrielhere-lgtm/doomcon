@@ -478,7 +478,7 @@ export function breakthroughs(ctx, list) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Breakthroughs', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

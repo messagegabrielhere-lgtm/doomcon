@@ -138,7 +138,7 @@ export function render(ctx) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: "Tally’s bets", path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

@@ -242,7 +242,7 @@ ${archive(picks)}
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Evolution Log', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

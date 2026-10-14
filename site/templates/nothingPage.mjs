@@ -432,7 +432,7 @@ ${rows}
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Nothing Ever Happens', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

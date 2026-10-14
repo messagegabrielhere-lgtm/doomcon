@@ -105,7 +105,7 @@ export function render(ctx, d) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Threat board', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

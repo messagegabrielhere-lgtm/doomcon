@@ -443,7 +443,7 @@ fetch(IDX).then(function(r){return r.json()}).then(function(d){D=d;rows=S.prep(d
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Search', path: SEARCH_PATH },
+        { name: searchQTitle, path: SEARCH_PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -540,7 +540,7 @@ var p=new URLSearchParams(location.search);q.value=p.get('q')||'';type=p.get('ty
     },
     breadcrumbs(ctx, [
       { name: 'Home', path: '/' },
-      { name: 'Catalog', path: CATALOG_PATH },
+      { name: catalogQTitle, path: CATALOG_PATH },
     ]),
     {
       '@context': 'https://schema.org',

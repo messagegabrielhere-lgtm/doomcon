@@ -270,7 +270,7 @@ document.querySelectorAll('#xn-level,#xn-delta-on,#xn-delta,#xn-pillar-on,#xn-pi
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Alerts', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -393,7 +393,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Export and embed', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -498,7 +498,7 @@ export function biasPage(ctx) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Known biases', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -637,7 +637,7 @@ ${shadowHtml}
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Reference plan', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -735,7 +735,7 @@ ${entries.length ? `<ol class="xt-log">\n${li}\n</ol>` : '<p>Not enough readings
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Changelog', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

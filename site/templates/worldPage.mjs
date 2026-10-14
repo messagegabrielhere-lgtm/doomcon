@@ -571,7 +571,7 @@ ${dataSection(ctx, w, m, orbital)}
       dataset(ctx, w, m, title),
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'World', path: PATH },
+        { name: title, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

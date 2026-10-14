@@ -140,7 +140,7 @@ ${method(ctx, wire, onRecord, quiet)}
     jsonld: [
       collectionPage(ctx, wire, { name: title, description }),
       itemList(ctx, wire),
-      breadcrumbs(ctx, [{ name: 'Leaders', path: PATH }]),
+      breadcrumbs(ctx, [{ name: title, path: PATH }]),
       {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',

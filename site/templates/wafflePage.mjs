@@ -292,7 +292,7 @@ setInterval(poll,180000);})();</script>
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Waffle House Index', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

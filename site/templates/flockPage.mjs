@@ -1510,7 +1510,7 @@ ${methodSection(ctx, f, m)}
       dataset(ctx, f, m, title),
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Flock', path: PATH },
+        { name: title, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

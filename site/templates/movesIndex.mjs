@@ -87,7 +87,7 @@ export function render(ctx) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Index moves', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

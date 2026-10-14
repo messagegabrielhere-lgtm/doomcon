@@ -131,7 +131,7 @@ export function render(ctx, nr) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Nations race', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
