@@ -1215,18 +1215,34 @@ export function guide(ctx) {
   const path = '/guide.html';
   // Head-term question (FINDABILITY tip #199): strangers search the comparison.
   const qTitle = `How does ${brand.NAME} compare to DEFCON, the Doomsday Clock and p(doom)?`;
+  // Tip #314: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const shortQ = 'What is the short version of the comparison?';
+  const dialQ = `How do you read the ${brand.NAME} dial?`;
+  const loudQ = 'What does a loud reading tell you, and what does it not?';
+  const grammarQ = "Why borrow DEFCON's grammar at all?";
+  const nextQ = 'Where should you go next?';
   // FAQ answers restate the comparison table / dial / refuse copy only (§3.3).
   // Refuse: guide-as-doom-probability, DEFCON/Doomsday brand hijack, forecast.
   // Visible FAQ + FAQPage from the SAME array (schema without HTML was a gap).
   const faq = [
     [qTitle,
       `${brand.NAME} measures how much is happening in AI — tempo, not danger — from a published formula over public data, hourly, and you can recompute it from the receipt. DEFCON is US military readiness; the Bulletin’s Doomsday Clock is a yearly symbolic judgement; p(doom) is one person’s opinion as a percentage.`],
+    [shortQ,
+      `${brand.NAME} is a recomputable hourly count of AI activity. DEFCON is US military readiness. The Doomsday Clock is a yearly symbolic judgement. The Pentagon Pizza Index reads shop busyness as a hint. p(doom) is one person’s opinion as a percentage.`],
+    [dialQ,
+      `The scale runs from 5 to 1 and 1 is the loudest. The level is the band the 0–100 composite score falls in, built from five pillars scored against the index’s own frozen record.`],
+    [loudQ,
+      'A loud reading tells you a lot shipped, a lot was spent, a lot was written or a lot was regulated, and the pillar breakdown says which. It does not tell you whether any of it was good or bad, and it is not a forecast of what happens next.'],
+    [grammarQ,
+      `Because nobody needs the scale explained twice. “Five is calm, one is not” is already in most people’s heads. The borrowing stops at the grammar: ${brand.NAME} is not a readiness level and is not issued by any government body.`],
     [`Is ${brand.NAME} a DEFCON level or the Bulletin’s Doomsday Clock?`,
       `No. ${brand.NAME} borrows the countdown grammar only. It is not a military readiness level and does not publish the Bulletin’s clock. Sites that put those phrases in an AI title for traffic are doing brand hijack; see /vs/pizzint.html.`],
     ['What is p(doom)?',
       'p(doom) is one person’s stated probability that AI ends very badly. It is an opinion expressed as a number — not a recomputable measurement. See /p-doom.html.'],
     [`Does a loud ${brand.NAME} reading mean AI is more dangerous?`,
       'No. A loud reading means a lot shipped, was spent, was written or was regulated. It does not say whether any of it was good or bad, and it is not a forecast.'],
+    [nextQ,
+      `Open the live index, methodology, AI explainers hub, compare and vs pages, the PizzINT contrast, alternatives, history of AI risk, or Tally’s desk.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -1238,7 +1254,7 @@ export function guide(ctx) {
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">Five numbers people reach for when they want to know how worried to be. They measure different things, and
     only one of them is a count you can check. ${now}</p>
-  <h2>The short version</h2>
+  <h2>${esc(shortQ)}</h2>
   <div class="inf__scroll"><table>
     <thead><tr><th>Number</th><th>What it measures</th><th>Who sets it</th><th>Can you recompute it?</th></tr></thead>
     <tbody>
@@ -1249,7 +1265,7 @@ export function guide(ctx) {
       <tr><td><b>p(doom)</b></td><td>One person's stated probability that AI ends very badly</td><td>Whoever is asked</td><td>No. It is an opinion expressed as a number</td></tr>
     </tbody>
   </table></div>
-  <h2>How to read the SIREN dial</h2>
+  <h2>${esc(dialQ)}</h2>
   <p>The scale runs from 5 to 1 and <b>1 is the loudest</b>. The level is the band the 0–100 composite score falls in:</p>
   <div class="inf__scroll"><table>
     <thead><tr><th>Level</th><th>Name</th><th>Score band</th><th>In a few words</th></tr></thead>
@@ -1259,11 +1275,11 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
   </table></div>
   <p>The score is built from five pillars: ${brand.PILLARS.map((p) => `<b>${esc(p.name)}</b> (${esc(p.blurb.replace(/\.$/, '').toLowerCase())})`).join(', ')}.
     Each is scored against the index's own frozen record, so a reading says how today compares with what the index has seen before.</p>
-  <h2>What a loud reading does and does not tell you</h2>
+  <h2>${esc(loudQ)}</h2>
   <p>A loud reading tells you a lot shipped, a lot was spent, a lot was written or a lot was regulated, and the pillar
     breakdown says which. It does not tell you whether any of it was good or bad, and it is not a forecast of what happens next.
     That is why the home page is stamped "not a prediction".</p>
-  <h2>Why borrow DEFCON's grammar at all</h2>
+  <h2>${esc(grammarQ)}</h2>
   <p>Because nobody needs the scale explained twice. "Five is calm, one is not" is already in most people's heads. The borrowing
     stops at the grammar: ${esc(brand.NAME)} is not a readiness level and is not issued by any government body.</p>
   <h2 id="faq">Questions people actually ask</h2>
@@ -1272,7 +1288,7 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
     <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk?</a>
     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
     · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a>.</p>
-  <h2>Where to go next</h2>
+  <h2>${esc(nextQ)}</h2>
   <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> ·
     <a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers?</a> ·
     <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> ·
