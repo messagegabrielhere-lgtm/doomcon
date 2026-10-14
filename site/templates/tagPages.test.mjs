@@ -2650,4 +2650,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'cybersecurity'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'cybersecurity'), /probability of doom/i);
   });
+
+  it('pages privacy and ai-math hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('pr1', 'AI shopping with Grok sparks privacy debate'),
+          story('pr2', 'Grok Sued Over Biometric Privacy 10/12/2026'),
+          story('pr3', 'From Pixels to Privacy-Sensitive Features in language models'),
+          story('pr4', 'Researchers propose privacy budgets for agent tool use'),
+          story('pr5', 'State AGs press AI labs on privacy disclosures'),
+          story('am1', 'OpenAI Retracted 3 AI Math Papers Over One Sign Error'),
+          story('am2', 'AI Math Challenges — US Scholar Criticizes OpenAI’s Rushed Proofs'),
+          story('am3', 'A mountain of AI math, a few precious bytes'),
+          story('am4', 'Fields Medalists debate AI math benchmarks after retractions'),
+          story('am5', 'Campus seminars fill up for AI math and formal proof tools'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('privacy'));
+    assert.ok(ids.includes('ai-math'));
+    assert.match(renderTag(rich, 'privacy'), /What has SIREN scored about AI privacy\?/);
+    assert.match(renderTag(rich, 'ai-math'), /What has SIREN scored about AI math\?/);
+    assert.match(renderTag(rich, 'privacy'), /not a harm forecast/i);
+    assert.match(renderTag(rich, 'ai-math'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'privacy'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-math'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-math'), /probability of doom/i);
+  });
 });
