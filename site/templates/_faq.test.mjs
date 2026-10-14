@@ -138,6 +138,9 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'What is the rule on both sides?'));
     assert.ok(qa.some(([q]) => q === 'What moved on the index?'));
     assert.ok(qa.some(([q]) => q === 'What are the three source states?'));
+    assert.ok(qa.some(([q]) => q === 'What kinds of work are all agents doing?'));
+    assert.ok(qa.some(([q]) => q === 'What does shape mean on this map?'));
+    assert.ok(qa.some(([q]) => q === 'What does colour mean on this map?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -168,6 +171,9 @@ describe('homepage FAQ', () => {
     assert.match(html, /What is the rule on both sides\?/);
     assert.match(html, /What moved on the index\?/);
     assert.match(html, /What are the three source states\?/);
+    assert.match(html, /What kinds of work are all agents doing\?/);
+    assert.match(html, /What does shape mean on this map\?/);
+    assert.match(html, /What does colour mean on this map\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

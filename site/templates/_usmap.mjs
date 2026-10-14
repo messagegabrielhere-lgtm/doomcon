@@ -1341,7 +1341,7 @@ export function mapLegend(model) {
 
   return `<div class="usm__legend">
   <div class="usm__lg">
-    <h3 class="usm__lh">Shape is status</h3>
+    <h3 class="usm__lh">What does shape mean on this map?</h3>
     <ul class="usm__ll">${shapes}</ul>
     <p class="usm__lp">Distinguishable in greyscale and in a screenshot. These three are the map's
       small-scale form of the same three statuses the rest of this page marks with the site's own
@@ -1350,15 +1350,15 @@ export function mapLegend(model) {
       pin carries that tag in the JSON.</p>
   </div>
   <div class="usm__lg">
-    <h3 class="usm__lh">Colour is the drought in that county</h3>
+    <h3 class="usm__lh">What does colour mean on this map?</h3>
     <ul class="usm__ll usm__ll--ramp">${ramp}</ul>
     <p class="usm__lp">US Drought Monitor, week of ${esc(model.usdm_map_date || 'unknown')}. Every count here
       is also printed in words, because a reader who cannot separate two of these hues still gets the number.
       ${esc(String(t.inDrought.toLocaleString('en-US')))} of ${esc(String(t.sites.toLocaleString('en-US')))}
-      pins sit in a county carrying a category.</p>
+      pins sit in a county carrying a category. Colour is the drought in that county.</p>
   </div>
   <div class="usm__lg">
-    <h3 class="usm__lh">Size is capacity, where it is published</h3>
+    <h3 class="usm__lh">What does size mean on this map?</h3>
     <ul class="usm__ll">
       <li><span class="usm__g usm__g--dot" aria-hidden="true"></span><b>fixed dot</b>
         <span class="usm__n num">${(t.sites - model.states.reduce((a, s) => a + s.withCapacity, 0)).toLocaleString('en-US')}</span>
@@ -1369,7 +1369,7 @@ export function mapLegend(model) {
       <li>${gaugeSwatch()}<b>river gauge</b>
         <span class="usm__n num">${t.gaugesPlotted}</span> — one of the ${t.gaugesTotal} Watts reads</li>
     </ul>
-    <p class="usm__lp">${esc(PIN_SIZE_RULE)}</p>
+    <p class="usm__lp">Size is capacity, where it is published. ${esc(PIN_SIZE_RULE)}</p>
   </div>
 </div>`;
 }

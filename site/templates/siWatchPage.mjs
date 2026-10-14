@@ -61,14 +61,14 @@ function codingSection(ctx, w, at) {
   return `<h2 id="coding">What are the AI agents coding?</h2>
   <p>A live sample of the newest pull requests from each coding agent: ${tot.toLocaleString('en-US')} PRs read this hour, sorted into kinds of work by their titles, with each repository’s main language.</p>
   ${prWall(w.latest, at)}
-  <div class="ac"><h3>KINDS OF WORK, ALL AGENTS</h3>${stack(all)}<div class="ac-leg">${leg}</div></div>
+  <div class="ac"><h3>What kinds of work are all agents doing?</h3>${stack(all)}<div class="ac-leg">${leg}</div></div>
   <div class="ac-g">
-    <div class="ac"><h3>BY AGENT</h3>${agents.map(([a, c, n]) => `<div class="ac-row"><b>${esc(a)}</b>${stack(c)}<span>${n}</span></div>`).join('')}</div>
-    <div class="ac"><h3>LANGUAGES</h3>${(w.languages || []).length ? w.languages.map((l) => `<div class="ac-row"><b>${esc(l.name)}</b><div class="ac-bar" style="width:${(l.n / maxL * 100).toFixed(1)}%"></div><span>${l.n}</span></div>`).join('') : '<p>Languages fill in as repositories are looked up.</p>'}</div>
+    <div class="ac"><h3>How does the work break down by agent?</h3>${agents.map(([a, c, n]) => `<div class="ac-row"><b>${esc(a)}</b>${stack(c)}<span>${n}</span></div>`).join('')}</div>
+    <div class="ac"><h3>Which languages show up in the sample?</h3>${(w.languages || []).length ? w.languages.map((l) => `<div class="ac-row"><b>${esc(l.name)}</b><div class="ac-bar" style="width:${(l.n / maxL * 100).toFixed(1)}%"></div><span>${l.n}</span></div>`).join('') : '<p>Languages fill in as repositories are looked up.</p>'}</div>
   </div>
   <div class="ac-g">
-    <div class="ac"><h3>JUST OPENED</h3><ul class="ac-feed">${(w.latest || []).slice(0, 12).map((x) => { const k = KIND[x.kind] || KIND.other; return `<li><span class="ac-tag" style="background:${k[1]}">${esc(k[0].split(' ')[0].toUpperCase())}</span><a href="${esc(x.url)}" target="_blank" rel="noopener nofollow">${esc(x.title)}</a><small>${esc(x.agent)} · ${esc(x.repo)}${x.language ? ` · ${esc(x.language)}` : ''} · ${esc(ago(x.at, now))}</small></li>`; }).join('')}</ul></div>
-    <div class="ac"><h3>BUSIEST REPOSITORIES IN THE SAMPLE</h3><ul class="ac-feed">${(w.top_repos || []).map((r) => `<li><a href="https://github.com/${esc(r.repo)}" target="_blank" rel="noopener nofollow">${esc(r.repo)}</a><small>${r.n} agent PR${r.n === 1 ? '' : 's'} in the sample</small></li>`).join('')}</ul>
+    <div class="ac"><h3>Which pull requests just opened?</h3><ul class="ac-feed">${(w.latest || []).slice(0, 12).map((x) => { const k = KIND[x.kind] || KIND.other; return `<li><span class="ac-tag" style="background:${k[1]}">${esc(k[0].split(' ')[0].toUpperCase())}</span><a href="${esc(x.url)}" target="_blank" rel="noopener nofollow">${esc(x.title)}</a><small>${esc(x.agent)} · ${esc(x.repo)}${x.language ? ` · ${esc(x.language)}` : ''} · ${esc(ago(x.at, now))}</small></li>`; }).join('')}</ul></div>
+    <div class="ac"><h3>Which repositories are busiest in the sample?</h3><ul class="ac-feed">${(w.top_repos || []).map((r) => `<li><a href="https://github.com/${esc(r.repo)}" target="_blank" rel="noopener nofollow">${esc(r.repo)}</a><small>${r.n} agent PR${r.n === 1 ? '' : 's'} in the sample</small></li>`).join('')}</ul>
     <p style="font-size:12.5px;margin-top:10px">How it works: the newest 30 PRs from each agent’s own GitHub account and 20 from each agent’s default branch name, read hourly from GitHub search. Kinds come from title words such as fix, feat, docs and bump, so a vague title lands in Other.</p></div>
   </div>`;
 }
@@ -115,6 +115,17 @@ export function render(ctx, sig, hist = []) {
       'A signal that stops answering says so.'],
     ['Where does the data come from?',
       'Data: GitHub search, Epoch AI (CC-BY), Metaculus, Moltbook.'],
+    // Tip #345: coding-section H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What kinds of work are all agents doing?',
+      'A live sample of the newest pull requests from each coding agent, sorted into kinds of work by their titles.'],
+    ['How does the work break down by agent?',
+      'Each coding agent’s share of the sample, stacked by kind of work from PR titles.'],
+    ['Which languages show up in the sample?',
+      'Each repository’s main language, looked up as repositories are resolved. Languages fill in as repositories are looked up.'],
+    ['Which pull requests just opened?',
+      'The newest pull requests in the sample, labelled by kind from title words such as fix, feat, docs and bump.'],
+    ['Which repositories are busiest in the sample?',
+      'Repositories with the most agent PRs in this hour’s sample. How it works: the newest 30 PRs from each agent’s own GitHub account and 20 from each agent’s default branch name.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

@@ -72,6 +72,15 @@ describe('world page', () => {
     assert.doesNotMatch(html, /class="wld__sec__h3">Licence<\/h3>/);
     assert.match(html, /"name"\s*:\s*"What is the Overpass query\?"/);
     assert.match(html, /"name"\s*:\s*"How was geography assigned\?"/);
+    assert.match(html, /class="usm__lh">What does shape mean on this map\?<\/h3>/);
+    assert.match(html, /class="usm__lh">Why is every pin one colour\?<\/h3>/);
+    assert.match(html, /class="usm__lh">What is not drawn\?<\/h3>/);
+    assert.match(html, /"name"\s*:\s*"What does shape mean on this map\?"/);
+    assert.match(html, /"name"\s*:\s*"Why is every pin one colour\?"/);
+    assert.match(html, /"name"\s*:\s*"What is not drawn\?"/);
+    assert.doesNotMatch(html, /class="usm__lh">Shape is status<\/h3>/);
+    assert.doesNotMatch(html, /class="usm__lh">Colour is one colour<\/h3>/);
+    assert.doesNotMatch(html, /class="usm__lh">What is not drawn<\/h3>/);
     assert.doesNotMatch(html, /id="wld-warn-h"[\s\S]{0,200}Read this before you read the map</);
     assert.doesNotMatch(html, /id="wld-map-h"[\s\S]{0,200}> The map\s*</);
     assert.doesNotMatch(html, /id="wld-method-h"[\s\S]{0,200}Where this came from</);

@@ -133,6 +133,12 @@ export function items(ctx) {
       `On /digest.html: composite and pillar moves since the previous observation, with level hold or change and the anti-flap rule that fired.`],
     ['What are the three source states?',
       `On /digest.html: live, dark, and awaiting baseline — kept apart so a missing baseline is never reported as an outage.`],
+    ['What kinds of work are all agents doing?',
+      `On /si-watch.html: newest coding-agent PRs sorted into kinds of work by title words. Watched, not scored into the ${brand.NAME} level.`],
+    ['What does shape mean on this map?',
+      `On /map.html and /world.html: shape is status, read from the OpenStreetMap tag on each pin.`],
+    ['What does colour mean on this map?',
+      `On /map.html: colour is the US Drought Monitor category in that county, also printed in words beside the ramp.`],
   ];
 }
 

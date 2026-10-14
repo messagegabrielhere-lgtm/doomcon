@@ -46,6 +46,14 @@ describe('map page', () => {
     assert.doesNotMatch(html, /class="bldsec__h3">The sources<\/h3>/);
     assert.match(html, /"name"\s*:\s*"Which nine river gauges sit beside datacentre clusters\?"/);
     assert.match(html, /"name"\s*:\s*"What was tried and dropped\?"/);
+    assert.match(html, /class="usm__lh">What does shape mean on this map\?<\/h3>/);
+    assert.match(html, /class="usm__lh">What does colour mean on this map\?<\/h3>/);
+    assert.match(html, /class="usm__lh">What does size mean on this map\?<\/h3>/);
+    assert.match(html, /"name"\s*:\s*"What does shape mean on this map\?"/);
+    assert.match(html, /"name"\s*:\s*"What does colour mean on this map\?"/);
+    assert.doesNotMatch(html, /class="usm__lh">Shape is status<\/h3>/);
+    assert.doesNotMatch(html, /class="usm__lh">Colour is the drought in that county<\/h3>/);
+    assert.doesNotMatch(html, /class="usm__lh">Size is capacity, where it is published<\/h3>/);
     assert.doesNotMatch(html, /id="bld-claim"[\s\S]{0,200}What this map cannot show you</);
     assert.doesNotMatch(html, /id="bld-map"[\s\S]{0,200}> The map\s*</);
     assert.doesNotMatch(html, /id="bld-water"[\s\S]{0,200}Drought, by county</);

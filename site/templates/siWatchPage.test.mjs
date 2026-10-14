@@ -23,6 +23,17 @@ describe('si-watch page', () => {
     assert.match(html, /id="coming">Which signals are on the way\?<\/h2>/);
     assert.match(html, /FAQPage[\s\S]*What are the AI agents coding\?/);
     assert.match(html, /FAQPage[\s\S]*Which signals are on the way\?/);
+    assert.match(html, /<h3>What kinds of work are all agents doing\?<\/h3>/);
+    assert.match(html, /<h3>How does the work break down by agent\?<\/h3>/);
+    assert.match(html, /<h3>Which languages show up in the sample\?<\/h3>/);
+    assert.match(html, /<h3>Which pull requests just opened\?<\/h3>/);
+    assert.match(html, /<h3>Which repositories are busiest in the sample\?<\/h3>/);
+    assert.match(html, /FAQPage[\s\S]*What kinds of work are all agents doing\?/);
+    assert.match(html, /FAQPage[\s\S]*Which repositories are busiest in the sample\?/);
+    assert.doesNotMatch(html, /<h3>KINDS OF WORK, ALL AGENTS<\/h3>/);
+    assert.doesNotMatch(html, /<h3>BY AGENT<\/h3>/);
+    assert.doesNotMatch(html, /<h3>JUST OPENED<\/h3>/);
+    assert.doesNotMatch(html, /<h3>BUSIEST REPOSITORIES IN THE SAMPLE<\/h3>/);
     assert.match(html, /Do these signals move the SIREN level\?/);
     assert.match(html, /What happens when a signal stops answering\?/);
     assert.match(html, /Where does the data come from\?/);
