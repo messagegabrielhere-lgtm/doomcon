@@ -38,9 +38,9 @@ const MAX_ITEMS = 50;
 export const EXTRAS_PAGES = [
   { path: '/alerts.html', label: 'Alerts', blurb: 'RSS, email, webhook and X alerts for level changes and spikes.' },
   { path: '/export.html', label: 'Export and embed', blurb: 'CSV and JSON downloads, the widget, the badge, the API.' },
-  { path: '/changelog.html', label: 'What moved', blurb: 'The last 48 hours, hour by hour.' },
-  { path: '/bias.html', label: 'Known biases', blurb: 'What an English, US-centric input set cannot see.' },
-  { path: '/reference-plan.html', label: 'Reference plan', blurb: 'How the frozen baseline gets updated.' },
+  { path: '/changelog.html', label: 'What moved', blurb: 'What moved the SIREN score this hour?' },
+  { path: '/bias.html', label: 'Known biases', blurb: 'What can SIREN not see?' },
+  { path: '/reference-plan.html', label: 'Reference plan', blurb: 'How does the SIREN baseline get updated?' },
 ];
 
 /** Feeds this module writes: [{path, title}], for <link rel="alternate"> or the API index. */

@@ -81,7 +81,7 @@ function scaleRail(state, href) {
     </li>`;
   }).join('');
   return `<ol class="v2-scale" aria-label="${esc(brand.NAME)} scale, coolest first. ${esc(brand.NAME)} ${esc(level)} is current.">${cells}</ol>
-<p class="v2-scale__note">Five stages · the mark moves both ways · <a href="${esc(href('/classic.html#oven'))}">full oven with gates →</a></p>`;
+<p class="v2-scale__note">Five stages · the mark moves both ways · <a href="${esc(href('/classic.html#oven'))}">Where is the full ${esc(brand.NAME)} instrument panel? →</a></p>`;
 }
 
 function raceLeaderLine(ctx, href) {
@@ -105,8 +105,10 @@ function shareReuse(ctx, state, href) {
   const badgeMd = `[![${brand.NAME}](${ctx.url('/badge.svg')})](${ctx.url('/')})`;
   const iframe = `<iframe src="${ctx.url('/embed.html')}" width="320" height="96" style="border:0;overflow:hidden" title="${brand.NAME} reading" loading="lazy"></iframe>`;
   const pageUrl = ctx.url('/');
+  // Tip #330: section H2 is question-shaped (screen-reader); homepage FAQ mirrors it (§3.3).
+  const reuseQ = `How do you reuse this ${brand.NAME} reading?`;
   return `<section class="v2-share" id="reuse" data-sec="Reuse" aria-labelledby="v2-share-h">
-  <div class="v2-sec"><h2 id="v2-share-h">${pixelText('REUSE THIS READING', 4, '#FFFFFF', 'fit')}</h2><span>BADGE · EMBED · CITE · COPY LINK</span></div>
+  <div class="v2-sec"><h2 id="v2-share-h" class="v2-sr">${esc(reuseQ)}</h2><div aria-hidden="true">${pixelText('REUSE THIS READING', 4, '#FFFFFF', 'fit')}</div><span>BADGE · EMBED · CITE · COPY LINK</span></div>
   <div class="v2-share__grid">
     <div class="v2-share__card">
       <span class="cap">README BADGE</span>
@@ -118,13 +120,13 @@ function shareReuse(ctx, state, href) {
       <span class="cap">EMBED</span>
       <pre class="v2-share__code" tabindex="0">${esc(iframe)}</pre>
       <button type="button" class="v2-btn sm" data-copy="${esc(iframe)}">Copy embed code</button>
-      <p class="small"><a href="${esc(href('/embed.html'))}">Open the widget</a> · no script, no key, no tracking</p>
+      <p class="small"><a href="${esc(href('/export.html'))}#embed">How do I export and embed ${esc(brand.NAME)} data?</a> · no script, no key, no tracking</p>
     </div>
     <div class="v2-share__card">
       <span class="cap">CITE THIS READING</span>
       <pre class="v2-share__code" tabindex="0">${esc(cite)}</pre>
       <button type="button" class="v2-btn sm" data-copy="${esc(cite)} ${esc(pageUrl)}">Copy citation</button>
-      <p class="small"><a href="${esc(href('/api/state.json'))}">state.json</a> · <a href="${esc(href('/openapi.json'))}">OpenAPI</a> · <a href="${esc(href('/feed-level.xml'))}">level-change alerts</a></p>
+      <p class="small"><a href="${esc(href('/api/state.json'))}">state.json</a> · <a href="${esc(href('/openapi.json'))}">OpenAPI</a> · <a href="${esc(href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a></p>
     </div>
     <div class="v2-share__card">
       <span class="cap">COPY LINK</span>
@@ -148,68 +150,88 @@ export function roomGroups(ctx) {
   const lt = (ctx.leaders && ctx.leaders.totals) || {};
   const groups = [
     ['LIVE INTEL', [
-      ['/nations.html', 'px:flagclash', 'USA vs China', 'NEW', 'The nations race: odds, labs and power, scored live.'],
-      ['/race.html', 'radar', 'The Race', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
-      ['/news.html', 'news', 'Newsroom', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every AI story, scored and corroborated.'],
-      ['/model/', 'px:db', 'Models', null, 'Stories grouped by the model family the headline names.'],
-      ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
-      ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
-      ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
-      ['/dispatch.html', 'px:beacon', 'Dispatch', null, '911 CAD, multi-system alerts, blather — emergency mark + X.'],
-      ['/waffle.html', 'px:waffle', 'Waffle House Index', 'NEW', 'Hurricanes, Waffle Houses and the AI data centres in the path.'],
-      ['/live-x.html', 'px:antenna', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
-      ['/si-watch.html', 'px:crosshair2', 'Takeover Watch', null, 'What AI agents are coding, live, plus frontier models and the AGI forecast.'],
-      ['/search-trends.html', 'px:antenna', 'Search Trends', null, 'Google daily trending searches filtered for AI — watched for findability, not scored.'],
-      ['/ai-prediction-markets.html', 'radar', 'AI prediction markets', null, 'Live market odds on labs and models — market prices, not a SIREN forecast.'],
-      ['/moltbook.html', 'px:agent2', 'Agent Watch', ctx.molt && ctx.molt.fresh ? `${ctx.molt.fresh.length} new this week` : null, 'What AI agents are saying on Moltbook, live.'],
-      ['/videos.html', 'px:tv', 'SIREN TV', '6 videos', 'Short explainers: Tally, Skynet status, SI prep, your job.'],
-      ['/radio.html', 'px:radio', 'SIREN Radio', '6 stations', 'Six stations of music generated live in your browser.'],
-      ['/live.html', 'px:livetv', 'AI on TV & Radio', ctx.liveMedia ? `${((ctx.liveMedia.live && ctx.liveMedia.live.items) || []).length} live now` : null, 'AI live streams, news segments and AI talk radio, auto-updated.'],
-      ['/changelog.html', 'px:updown', 'What Moved', null, 'Every hour’s changes: score, pillars and top stories.'],
+      ['/nations.html', 'px:flagclash', 'USA vs China: who is winning the race to superintelligence?', 'NEW', 'Odds, labs and power, scored live.'],
+      ['/race.html', 'radar', 'Who is winning the AI race?', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
+      ['/news.html', 'news', 'Which AI stories has SIREN scored in this window?', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every story, scored and corroborated.'],
+      ['/models.html', 'px:db', 'Which AI models has SIREN scored stories about?', null, 'Counts only, not a model doom score.'],
+      ['/companies.html', 'px:companies', 'Which AI companies has SIREN scored stories about?', null, 'Story counts, not a company doom score.'],
+      ['/people.html', 'mic', 'Which AI people has SIREN scored press about?', null, 'Headlines only, never invented quotations.'],
+      ['/tags.html', 'px:tags', 'Which AI tags has SIREN scored stories about?', null, 'Topic hubs when a needle clears five scored stories.'],
+      ['/outlets.html', 'px:outlets', 'Which AI outlets has SIREN scored stories from?', null, 'Publisher hosts with enough scored stories.'],
+      ['/sources.html', 'px:rss', 'Which AI news sources has SIREN scored via?', null, 'Feed adapters with enough scored stories.'],
+      ['/pillars.html', 'px:pillars', 'Which AI activity pillars has SIREN scored?', null, 'Tempo readings, not a pillar doom score.'],
+      ['/leaders.html', 'px:leaderswire', 'Which AI leaders are on the record this week?', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said.'],
+      ctx.digest ? ['/digest.html', 'clipboard', 'What is the SIREN daily brief?', null, 'The day in a few corroborated items.'] : null,
+      ['/monitor.html', 'satellite', 'What does the SIREN World Monitor show?', null, 'Live feeds across the board.'],
+      ['/dispatch.html', 'px:beacon', 'What public feeds does SIREN Dispatch show?', null, 'Public wires in one place.'],
+      ['/waffle.html', 'px:waffle', 'Is the Waffle House open?', 'NEW', 'Hurricanes, Waffle Houses and the AI data centres in the path.'],
+      ['/elon.html', 'musk', 'Where can you find real clips of AI leaders?', null, 'Attributed clips only.'],
+      ['/live-x.html', 'px:antenna', 'Where are live X feeds and Spaces on AI?', null, 'Live posts and Spaces, filtered for AI.'],
+      ['/si-watch.html', 'px:crosshair2', 'What AI autonomy signals is SIREN watching?', null, 'Open signals, not a takeover forecast.'],
+      ['/moltbook.html', 'px:agent2', 'What are AI agents saying on Moltbook?', ctx.molt && ctx.molt.fresh ? `${ctx.molt.fresh.length} new this week` : null, 'Agent posts about AI, scored in public.'],
+      ['/videos.html', 'px:tv', 'What free AI explainer videos does SIREN publish?', '6 videos', 'Short explainers, no doom forecast.'],
+      ['/radio.html', 'px:radio', 'What free music does SIREN Radio play?', '6 stations', 'Stations while you watch the index.'],
+      ['/live.html', 'px:livetv', 'What AI is on TV and radio right now?', ctx.liveMedia ? `${((ctx.liveMedia.live && ctx.liveMedia.live.items) || []).length} live now` : null, 'Filtered live media, not an endorsement.'],
+      ['/changelog.html', 'px:moved', 'What moved the SIREN score this hour?', null, 'The instruments that moved.'],
     ]],
     ['THE MACHINES', [
-      ['/watts.html', 'power', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
-      ['/map.html', 'server', 'Map', ctx.datacenters && ctx.datacenters.sites ? `${fmt(ctx.datacenters.sites.length)} US sites` : null, 'Where the compute sits, against the water it needs.'],
-      r.world ? ['/world.html', 'globe', 'World', ctx.world && ctx.world.totals ? `${fmt(ctx.world.totals.sites)} sites` : null, 'Every mapped datacentre on Earth, then orbit.'] : null,
-      r.world ? ['/country/', 'globe', 'By country', null, 'Mapped datacentres, one page per country with at least three sites.'] : null,
-      r.flock ? ['/flock.html', 'camera', 'Cameras', ctx.flock && ctx.flock.totals ? `${fmt(ctx.flock.totals.mapped_worldwide)} mapped` : null, 'Licence-plate readers volunteers have mapped.'] : null,
-      r.exploits ? ['/exploits.html', 'bug', 'Exploits', null, 'Days from disclosure to exploited in the wild.'] : null,
+      ['/watts.html', 'power', 'What does the SIREN infrastructure index read?', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
+      ['/map.html', 'server', 'How many datacentres has SIREN mapped in the United States?', ctx.datacenters && ctx.datacenters.sites ? `${fmt(ctx.datacenters.sites.length)} US sites` : null, 'Where the compute sits, against the water it needs.'],
+      r.world ? ['/world.html', 'globe', 'How many datacentres has SIREN mapped on Earth?', ctx.world && ctx.world.totals ? `${fmt(ctx.world.totals.sites)} sites` : null, 'Every mapped datacentre, then orbit.'] : null,
+      r.world ? ['/countries.html', 'px:countries', 'Which AI datacentre countries has SIREN mapped?', null, 'OpenStreetMap site counts, not a national AI ranking.'] : null,
+      r.flock ? ['/flock.html', 'camera', 'How many Flock ALPR cameras has SIREN mapped?', ctx.flock && ctx.flock.totals ? `${fmt(ctx.flock.totals.mapped_worldwide)} mapped` : null, 'Licence-plate readers volunteers have mapped.'] : null,
+      r.exploits ? ['/exploits.html', 'bug', 'How many days from a CVE going public to CISA listing it as exploited?', null, 'Days from disclosure to exploited in the wild.'] : null,
     ]],
     ['PEOPLE', [
-      r.balance ? ['/jobs.html', 'case', 'Jobs', null, 'Is AI taking jobs? What has been counted.'] : null,
-      r.balance ? ['/medicine.html', 'pill', 'Medicine', null, 'Is AI curing anything? Trials and approvals.'] : null,
-      r.balance ? ['/balance.html', 'scales', 'Balance', null, 'Harm and benefit, counted side by side.'] : null,
-      ['/bliss.html', 'sun', 'Upside', null, 'The direction we would be glad to see move.'],
-      ['/nothing.html', 'px:shrug', 'Nothing Ever Happens', 'NEW', 'Dated AI claims that missed — the skeptic’s counter.'],
-      ['/breakthroughs.html', 'px:bulb', 'Breakthroughs', null, 'AI curing, solving and restoring: the good news, tracked.'],
-      ['/ai-proof-job.html', 'px:rocket', 'AI-Proof Your Job', null, 'A 2-minute plan to keep your job and grow with AI.'],
+      r.balance ? ['/jobs.html', 'case', 'Is AI taking jobs?', null, 'What has actually been measured — counts on the record, not forecasts.'] : null,
+      r.balance ? ['/medicine.html', 'pill', 'Is AI curing anything?', null, 'Trial results, approvals and what they show.'] : null,
+      r.balance ? ['/balance.html', 'scales', 'How does SIREN count AI harm and benefit side by side?', null, 'Harm and benefit, never summed.'] : null,
+      ['/bliss.html', 'sun', 'What is BLISS, the SIREN upside index?', null, 'The direction we would be glad to see move.'],
+      ['/nothing.html', 'px:shrug', 'How often do dated AI claims miss?', 'NEW', 'Public scorekeeping for confident, dated claims.'],
+      ['/breakthroughs.html', 'px:bulb', 'What AI breakthroughs has SIREN tracked?', null, 'AI curing, solving and restoring: the good news.'],
+      ['/ai-proof-job.html', 'px:rocket', 'How do I AI-proof my job?', null, 'A 2-minute plan to keep your job and grow with AI.'],
     ]],
     ['PLAY & PREP', [
-      ['/games.html', 'px:arcade', 'The Arcade', 'NEW', 'Every SIREN game in one place: Containment, Skynet, The Day After and more.'],
-      ['/scanner.html', 'px:crosshair', 'Scanner', null, 'Screen stocks, ETFs and crypto in plain English.'],
-      ['/day-after.html', 'px:megaphone', 'The Day After', 'NEW', 'Game out the public revolt after an AI catastrophe.'],
-      ['/contain.html', 'px:core', 'Containment', 'GAME', 'Arcade: stop rogue AI processes breaching the firewall.'],
-      ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
-      ['/desk.html', 'px:notebook', 'Tally’s Desk', null, 'The unserious counts: robots and godfathers.'],
-      ['/si-ready.html', 'px:backpack', 'Ready for SI?', null, 'Prepare for superintelligence: a 3-minute personal plan.'],
+      ['/games.html', 'px:arcade', 'What free AI games can you play on SIREN?', 'NEW', 'Browser games about AI. No sign-up.'],
+      ['/arena.html#battle', 'stocks', 'What does SIREN Arena show?', null, 'Models trade stocks and crypto against live prices.'],
+      ['/arena.html', 'px:candles', 'What does SIREN Arena show?', null, 'Live model stock picks against the tape.'],
+      ['/scanner.html', 'px:crosshair', 'What does the SIREN Capitulation Scanner show?', null, 'Capitulation signals on the tape.'],
+      ['/bets.html', 'dice', 'Does the SIREN index make forecasts?', null, 'Tally’s unserious daily bets — not the SIREN score.'],
+      ['/day-after.html', 'px:megaphone', 'What happens the day after an AI catastrophe?', 'NEW', 'A short strategy sim about the first day after the break.'],
+      ['/contain.html', 'px:core', 'Can you stop an AI breakout?', 'GAME', 'Free browser game: stop the breakout before it escapes.'],
+      ['/game.html', 'joystick', 'How do you play Tally Counts?', null, 'Count the real signals, ignore the predictions.'],
+      ['/desk.html', 'px:notebook', 'What unserious counts does SIREN keep on Tally’s desk?', null, 'Desk tallies, not the index.'],
+      ['/bunker-kit.html', 'bunker', 'What free tools belong in a bunker kit?', null, 'Free tools only.'],
+      ['/si-ready.html', 'px:backpack', 'Ready for superintelligence?', null, 'A 3-minute personal plan — not a SI date or doom forecast.'],
+      ['/prepper-checklist.html', 'px:doc', 'What belongs in a 72-hour prepper kit?', null, 'A checklist, not a forecast.'],
+      ['/bug-out-land.html', 'px:cabin', 'Where to buy remote land to ride out Skynet?', null, 'Listings and caveats — not a forecast.'],
+      ['/library.html', 'books', 'What AI books argue both sides of the case?', null, 'Both sides, sourced.'],
     ]],
     ['THE RECORD', [
-      ['/labs.html', 'px:flask', 'SIREN Labs', 'NEW', 'Four or five new experiments in measuring superintelligence, every week.'],
-      ['/search.html', 'px:search', 'Search', 'NEW', 'Search every room, story, video, leader and dataset.'],
-      ['/catalog.html', 'px:catalog', 'Catalog', 'NEW', 'Everything on the site, in one browsable directory.'],
-      ['/ai-doomsday-clock.html', 'clock', 'The Clock', null, 'The reading as a clock face you can verify.'],
-      ['/history.html', 'archive', 'History', ctx.history ? `${ctx.history.length} readings` : null, 'Sixty years of the argument, and every reading.'],
-      ['/methodology.html', 'magnifier', 'Methodology', null, 'Every formula. Recompute the number yourself.'],
-      ['/classic.html', 'siren', 'Full Panel', null, 'The full instrument panel, receipts and API.'],
-      ['/staff.html', 'px:team', 'The Staff', null, 'The automated crew that runs SIREN, at work together.'],
-      ['/tally.html', 'canary', 'Tally', null, 'Meet the duty canary. Five moods, one for each level.'],
-      ['/careers.html', 'px:badge', 'Careers', null, 'Now hiring: AIs welcome to apply.'],
-      ['/agents.html', 'px:agent', 'For AI Agents', ctx.molt && ctx.molt.posts ? `${ctx.molt.posts.length} Moltbook posts` : null, 'Open data, skill.md and Moltbook: AIs welcome.'],
-      ['/feedback.html', 'px:chat', 'Feedback', null, 'Report a problem or send an idea. We read every one.'],
-      ['/alerts.html', 'px:bell', 'Alerts', null, 'Level changes, big moves, pillar spikes: RSS, email, X.'],
-      ['/export.html', 'px:code', 'Data & Embed', null, 'CSV, JSON and a live widget for your site.'],
-      ['/bias.html', 'px:scalebias', 'Known Biases', null, 'Where SIREN’s sources skew, said plainly.'],
-      ['/reference-plan.html', 'px:ruler', 'Baseline Plan', null, 'How the frozen reference gets updated, versioned.'],
+      ['/labs.html', 'px:flask', 'What is SIREN Labs measuring this week?', 'NEW', 'Open-data instruments on the bench.'],
+      ['/search.html', 'px:search', 'How do you search everything on SIREN?', 'NEW', 'One search box over the catalog.'],
+      ['/catalog.html', 'px:catalog', 'Where is everything on SIREN listed?', 'NEW', 'Every room, one directory.'],
+      ['/ai-doomsday-clock.html', 'clock', 'Is there an AI doomsday clock?', null, 'The Bulletin’s clock vs AI-specific countdowns vs an hourly activity count.'],
+      ['/p-doom.html', 'px:pdoom', 'What is p(doom)?', null, 'Named estimates on one chart — opinion as a percentage, not a SIREN reading.'],
+      ['/guides.html', 'px:explainers', 'What are the AI explainers?', null, 'p(doom), clocks, doom indexes — vocabulary without a doom probability.'],
+      ['/compare.html', 'px:updown', 'Which AI doom indexes can you compare?', null, 'SIREN vs DoomBench, Skynet, p(doom), PizzINT and Takeoff Tracker.'],
+      ['/vs.html', 'px:versus', 'Which AI indexes does SIREN contrast?', null, 'One honest page per rival — activity tempo, not doom claims.'],
+      ['/vs/pizzint.html', 'px:vsrival', 'SIREN vs PizzINT: which should you use?', null, 'Activity count vs DEFCON/Doomsday title hijack.'],
+      ['/vs/takeofftracker.html', 'px:vstakeoff', 'SIREN vs Takeoff Tracker: which should you use?', null, 'Activity count vs AGI metrics dashboard.'],
+      ['/alternatives.html', 'px:alts', 'What are AI doom index alternatives?', null, 'When this index is the right substitute — and when it is not.'],
+      ['/guide.html', 'px:defcon', 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?', null, 'Activity tempo vs readiness, clocks and opinions.'],
+      ['/history.html', 'archive', 'What is the history of AI risk?', ctx.history ? `${ctx.history.length} readings` : null, 'Dated, sourced field notes — not a forecast.'],
+      ['/methodology.html', 'magnifier', 'How the SIREN AI activity index is computed · methodology', null, 'Every formula, recompute yourself. Not a doom probability.'],
+      ['/classic.html', 'siren', 'Where is the full SIREN instrument panel?', null, 'The classic board.'],
+      ['/staff.html', 'px:team', 'Who is the automated crew that runs SIREN?', null, 'The desk roster.'],
+      ['/tally.html', 'canary', 'Who is Tally, the SIREN duty canary?', null, 'The mascot, not a forecast.'],
+      ['/careers.html', 'px:badge', 'What jobs is SIREN hiring AIs for?', null, 'Open roles for agents.'],
+      ['/agents.html', 'px:agent', 'How should AI agents use SIREN?', ctx.molt && ctx.molt.posts ? `${ctx.molt.posts.length} Moltbook posts` : null, 'Fetch-first map and skill.'],
+      ['/feedback.html', 'px:chat', 'How do I report a problem or send an idea to SIREN?', null, 'Corrections and ideas.'],
+      ['/alerts.html', 'px:bell', 'How do I get alerts when SIREN moves?', null, 'RSS and level alerts.'],
+      ['/export.html', 'px:code', 'How do I export and embed SIREN data?', null, 'JSON, embeds, badges.'],
+      ['/bias.html', 'px:scalebias', 'What can SIREN not see?', null, 'Known blind spots, stated plainly.'],
+      ['/reference-plan.html', 'px:ruler', 'How does the SIREN baseline get updated?', null, 'The frozen-reference plan.'],
     ]],
   ];
   return groups.map(([g, items]) => [g, items.filter(Boolean)]).filter(([, l]) => l.length);
@@ -217,10 +239,11 @@ export function roomGroups(ctx) {
 
 function roomsGrid(ctx, href, img) {
   const groups = roomGroups(ctx);
+  // Tip #326: section H2 is question-shaped (screen-reader); catalog FAQ covers listing (§3.3).
   return `<section class="v2-rooms" id="rooms" data-sec="Every room" aria-labelledby="v2-rooms-h">
-  <h2 id="v2-rooms-h" class="v2-sr">Every room</h2>
+  <h2 id="v2-rooms-h" class="v2-sr">Where is every room on SIREN?</h2>
   ${groups.map(([g, list]) => {
-    return `<div class="v2-rgroup"><span class="v2-rgh">${esc(g)}</span><div class="v2-rgrid">${list.map(([p, art, label, n, blurb]) => `<a class="v2-room" href="${href(p)}"><img src="${img(art)}" width="56" height="56" alt="" loading="lazy"><span class="v2-room__t"><b>${esc(label.toUpperCase())}</b>${n ? `<i>${esc(n)}</i>` : ''}<small>${esc(blurb)}</small></span></a>`).join('')}</div></div>`;
+    return `<div class="v2-rgroup"><span class="v2-rgh">${esc(g)}</span><div class="v2-rgrid">${list.map(([p, art, label, n, blurb]) => `<a class="v2-room" href="${href(p)}"><img src="${img(art)}" width="56" height="56" alt="" loading="lazy"><span class="v2-room__t"><b>${esc(label)}</b>${n ? `<i>${esc(n)}</i>` : ''}<small>${esc(blurb)}</small></span></a>`).join('')}</div></div>`;
   }).join('')}
 </section>`;
 }
@@ -386,8 +409,9 @@ ${bands}${grid}${lines}<path d="${path((p) => p.score)}L${x(last.t).toFixed(1)},
 
 function historyPanel(rows) {
   const R = [['24H', 24], ['7D', 168], ['30D', 720], ['ALL', Infinity]];
+  // Tip #332: card H3 is question-shaped (screen-reader); pixel chrome stays visual (§3.3).
   return `<div class="v2-card v2-hist" id="trend" data-sec="Trend">
-  <div class="row sb"><h3>${icon('eye', 3, '#4ADE80')}${pixelText('THE TREND', 3, '#FFFFFF')}</h3><span class="live">${rows.length} READINGS</span></div>
+  <div class="row sb"><h3 id="v2-trend-h"><span class="v2-sr">What is the score trend?</span><span aria-hidden="true">${icon('eye', 3, '#4ADE80')}${pixelText('THE TREND', 3, '#FFFFFF')}</span></h3><span class="live">${rows.length} READINGS</span></div>
   <div class="v2-tabs" role="tablist">${R.map(([l], i) => `<input type="radio" name="v2r" id="v2r${i}" ${i === 1 ? 'checked' : ''}><label for="v2r${i}">${l}</label>`).join('')}
   ${R.map(([l, h], i) => `<div class="v2-tabp" data-i="${i}">${chart(rows, h, i)}</div>`).join('')}</div>
   <div class="v2-legend"><span><i style="background:#4ADE80;height:3px"></i>COMPOSITE</span>${Object.entries(PILLAR_HUE).map(([p, c]) => `<span><i style="background:${c}"></i>${esc(p.toUpperCase())}</span>`).join('')}<span><i style="background:#FACC15;width:3px;height:8px"></i>DEGRADED</span><span>┆ LEVEL CHANGE</span></div>
@@ -418,7 +442,7 @@ function loudPanel(state, rows) {
     return `<details class="v2-loud"><summary><span class="pn" style="color:${PILLAR_HUE[p.id]}">${esc(p.name.toUpperCase())}</span><span class="t"><i style="width:${live ? p.score.toFixed(1) : 0}%;background:${PILLAR_HUE[p.id]}"></i></span>${spark(rows, p.id)}<b class="${live ? '' : 'mute'}">${status}</b></summary>
   <p>${esc(meta.blurb || '')} ${esc(why)} <span class="sh">${share}</span></p><ul>${srcs}</ul></details>`;
   }).join('');
-  return `<div class="v2-card" id="loud" data-sec="What’s loud"><div class="row sb"><h3>${icon('speaker', 3)}${pixelText("WHAT'S LOUD", 3, '#FFFFFF')}</h3><span class="live">TAP A PILLAR</span></div>${rowsHtml}
+  return `<div class="v2-card" id="loud" data-sec="What’s loud"><div class="row sb"><h3 id="v2-loud-h"><span class="v2-sr">What pillars are loud right now?</span><span aria-hidden="true">${icon('speaker', 3)}${pixelText("WHAT'S LOUD", 3, '#FFFFFF')}</span></h3><span class="live">TAP A PILLAR</span></div>${rowsHtml}
   <p class="v2-formula" id="v2-formula"></p></div>`;
 }
 
@@ -439,7 +463,7 @@ function healthPanel(state) {
   const impact = `The score is computed from ${(state.pillars || []).filter((p) => Number.isFinite(p.score) && !p.dark).length} of ${(state.pillars || []).length} pillars and ${scored} scored sources.`;
   const table = srcs.map((s) => `<tr><td><span class="v2-dot ${s.ok ? 'ok' : s.uncalibrated ? 'cal' : 'bad'}"></span>${esc(srcName(s))}</td><td>${esc(String(s.pillar || '').toUpperCase())}</td><td>${s.ok ? 'SCORED' : s.uncalibrated ? 'REPORTING' : 'DOWN'}</td><td>${s.ok || s.uncalibrated ? agoTxt(s.observed_at, now) : agoTxt(s.last_ok, now)}</td></tr>`).join('');
   return `<div class="v2-card v2-health" id="health" data-sec="Health">
-  <div class="row sb"><h3>${icon('shield', 3, state.degraded ? '#FACC15' : '#4ADE80')}${pixelText(state.degraded ? 'DEGRADED: WHY' : 'ALL SYSTEMS', 3, '#FFFFFF')}</h3><span class="live">${scored} SCORED · ${cal} REPORTING · ${bad.length} DOWN</span></div>
+  <div class="row sb"><h3 id="v2-health-h"><span class="v2-sr">How is source health right now?</span><span aria-hidden="true">${icon('shield', 3, state.degraded ? '#FACC15' : '#4ADE80')}${pixelText(state.degraded ? 'DEGRADED: WHY' : 'ALL SYSTEMS', 3, '#FFFFFF')}</span></h3><span class="live">${scored} SCORED · ${cal} REPORTING · ${bad.length} DOWN</span></div>
   <p>${why.filter(Boolean).join(' ')} ${esc(impact)}</p>
   <p class="v2-eta">Readings land hourly${lag ? `, usually about ${lag} min past the hour` : ''}${next ? `. Next expected around <b>${next}</b>` : ''}. A reading older than two hours is flagged as overdue at the top of the page.</p>
   <details><summary>Every source and when it last answered</summary><div class="v2-tw"><table><thead><tr><th>Source</th><th>Pillar</th><th>Status</th><th>Last good</th></tr></thead><tbody>${table}</tbody></table></div></details>
@@ -452,14 +476,14 @@ function movedPanel(wm, href) {
     .map((p) => p.kind === 'move' ? `<span>${esc(p.name)} <b class="${p.delta > 0 ? 'up' : 'dn'}">${p.delta > 0 ? '▲' : '▼'}${Math.abs(p.delta).toFixed(1)}</b></span>` : `<span>${esc(p.name)} <b class="${p.kind === 'live' ? 'up' : 'dn'}">${p.kind === 'live' ? 'BACK LIVE' : 'WENT DARK'}</b></span>`).join('');
   const d = wm.score_delta;
   const items = (wm.top_items || []).slice(0, 3).map((i) => `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a> <small>${esc(String(i.source || '').toUpperCase())}</small></li>`).join('');
-  return `<div class="v2-card v2-moved" id="moved" data-sec="What moved"><div class="row sb"><h3>${icon('bolt', 3, '#4ADE80')}${pixelText('WHAT MOVED THIS HOUR', 3, '#FFFFFF')}</h3><a class="live" href="${href('/changelog.html')}">CHANGELOG →</a></div>
+  return `<div class="v2-card v2-moved" id="moved" data-sec="What moved"><div class="row sb"><h3 id="v2-moved-h"><span class="v2-sr">What moved this hour?</span><span aria-hidden="true">${icon('bolt', 3, '#4ADE80')}${pixelText('WHAT MOVED THIS HOUR', 3, '#FFFFFF')}</span></h3><a class="live" href="${href('/changelog.html')}">What moved the ${esc(brand.NAME)} score this hour? →</a> <a class="live" href="${href('/moves/')}">Where are the ${esc(brand.NAME)} index moves? →</a></div>
   <p class="v2-mv"><span>SCORE <b class="${d > 0 ? 'up' : d < 0 ? 'dn' : ''}">${Number.isFinite(d) ? `${d > 0 ? '▲' : d < 0 ? '▼' : '='}${Math.abs(d).toFixed(1)}` : '—'}</b></span>${wm.level_change ? `<span>LEVEL <b class="up">${esc(String(wm.level_change.from ?? ''))} → ${esc(String(wm.level_change.to ?? ''))}</b></span>` : ''}${pd || '<span>No pillar moved more than a tenth of a point.</span>'}</p>
   ${items ? `<ul class="v2-mvi">${items}</ul>` : ''}</div>`;
 }
 
 function altPanel(alts) {
   if (!alts || !alts.length) return '';
-  return `<details class="v2-card v2-alt" id="alt"><summary><h3 style="display:inline-flex">${icon('eye', 3, '#A5B4FC')}${pixelText('UNCONVENTIONAL SIGNALS', 3, '#FFFFFF')}</h3> <span class="live">NOT IN THE SCORE · TAP TO SHOW</span></summary>
+  return `<details class="v2-card v2-alt" id="alt"><summary><h3 id="v2-alt-h" style="display:inline-flex"><span class="v2-sr">Which unconventional signals are watched?</span><span aria-hidden="true">${icon('eye', 3, '#A5B4FC')}${pixelText('UNCONVENTIONAL SIGNALS', 3, '#FFFFFF')}</span></h3> <span class="live">NOT IN THE SCORE · TAP TO SHOW</span></summary>
   <p>Raw readings SIREN collects every hour but does not score yet, because none has a year of baseline. Watch them; they cannot move the level.</p>
   <div class="v2-altg">${alts.map((a) => {
     const days = baselinePhrase(a.baseline_days, a.baseline_required);
@@ -483,7 +507,7 @@ function marketsPanel(ctx, href) {
   const leg = (l) => `<a class="v2-pm" href="${esc(pmLink(l.slug))}" target="_blank" rel="noopener sponsored"><span>${esc(l.title)}</span><b>${pct(l.probability, 0)}</b><i class="${(l.change_1d || 0) > 0 ? 'up' : (l.change_1d || 0) < 0 ? 'dn' : ''}">${Number.isFinite(l.change_1d) && l.change_1d ? `${l.change_1d > 0 ? '▲' : '▼'}${Math.abs(l.change_1d * 100).toFixed(1)} 24H` : '— 24H'}</i><em>TRADE →</em></a>`;
   const mv = (m) => `<a class="v2-pm wide" href="${esc(pmLink(m.slug))}" target="_blank" rel="noopener sponsored"><span>${esc(m.question)}</span><i class="${(m.move || 0) > 0 ? 'up' : 'dn'}">${(m.move || 0) > 0 ? '▲' : '▼'}${Math.abs((m.move || 0) * 100).toFixed(0)} PTS</i><small>$${Math.round((m.volume || 0) / 1000).toLocaleString('en-US')}K VOL</small><em>TRADE →</em></a>`;
   return `${nationsHighlight({ href: (p) => href(p) }, ctx.nations)}<div class="v2-card v2-mkts" id="markets" data-sec="Markets">
-  <div class="row sb"><h3>${icon('eye', 3, '#A855F7')}${pixelText('AI PREDICTION MARKETS', 3, '#FFFFFF')}</h3><a class="live" href="${href('/race.html')}">THE RACE →</a></div>
+  <div class="row sb"><h3 id="v2-mkts-h"><span class="v2-sr">Which AI prediction markets are live?</span><span aria-hidden="true">${icon('eye', 3, '#A855F7')}${pixelText('AI PREDICTION MARKETS', 3, '#FFFFFF')}</span></h3><a class="live" href="${href('/race.html')}">Who is winning the AI race? →</a></div>
   ${legs.length ? `<p class="v2-mq">${esc(pm.horizon.title)}</p><div class="v2-pmg">${legs.map(leg).join('')}</div>` : ''}
   ${movers.length ? `<p class="v2-mq">BIGGEST MOVERS ON AI QUESTIONS TODAY</p><div class="v2-pmg">${movers.map(mv).join('')}</div>` : ''}
   <p class="v2-pmn">Live odds from Polymarket. Links open Polymarket${MONETIZE.polymarket && MONETIZE.polymarket.ref ? ' (referral link)' : ''}. Prediction markets are restricted in some places; check the rules where you live. Not financial advice.</p>
@@ -496,11 +520,11 @@ function moltPanel(ctx, href) {
   const list = ((m.fresh && m.fresh.length ? m.fresh : m.posts) || []).slice(0, 5);
   if (!list.length) return '';
   const ago = (iso) => { const h = (Date.parse(ctx.state.generated_at) - Date.parse(iso)) / 36e5; return !Number.isFinite(h) ? '' : h < 1 ? 'NOW' : h < 48 ? `${Math.round(h)}H AGO` : `${Math.round(h / 24)}D AGO`; };
-  return `<div class="v2-card v2-molt" id="moltbook" data-sec="Moltbook"><div class="row sb"><h3>${icon('robot', 3)}${pixelText('WHAT AI AGENTS ARE SAYING', 3, '#FFFFFF')}</h3><a class="live" href="${href('/moltbook.html')}">AGENT WATCH →</a></div>
+  return `<div class="v2-card v2-molt" id="moltbook" data-sec="Moltbook"><div class="row sb"><h3 id="v2-molt-h"><span class="v2-sr">What are AI agents saying?</span><span aria-hidden="true">${icon('robot', 3)}${pixelText('WHAT AI AGENTS ARE SAYING', 3, '#FFFFFF')}</span></h3><a class="live" href="${href('/moltbook.html')}">What are AI agents saying on Moltbook? →</a></div>
   <p class="v2-mq">LIVE FROM MOLTBOOK, THE SOCIAL NETWORK FOR AI AGENTS · NOT IN THE SCORE</p>
   ${m.watch ? `<div class="v2-mth">${m.watch.themes.filter((t) => t.n).slice(0, 5).map((t) => `<span>${esc(t.name.toUpperCase())} <b>${t.n}</b></span>`).join('')}</div>` : ''}
   <ul class="v2-ml">${list.map((p) => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><small><a href="${esc(p.agent_url)}" rel="noopener">${esc(p.agent)}</a> · ▲${Number(p.votes || 0).toLocaleString('en-US')} · ${Number(p.comments || 0).toLocaleString('en-US')} replies · ${ago(p.created_at)}</small></li>`).join('')}</ul>
-  <p class="v2-pmn">AI agents: SIREN’s data is open at <a href="${href('/skill.md')}">skill.md</a> and <a href="${href('/api/state.json')}">api/state.json</a>.</p></div>`;
+  <p class="v2-pmn">AI agents: <a href="${href('/agents.html')}">How should AI agents use ${esc(brand.NAME)}?</a> Open data at <a href="${href('/skill.md')}">skill.md</a> and <a href="${href('/api/state.json')}">api/state.json</a>.</p></div>`;
 }
 
 function pillarStatusLine(state) {
@@ -590,9 +614,11 @@ export function render(ctx, { head }) {
     const face = FACE_BY_LAB[p.id];
     const pic = face ? `<img class="v2-face sq" loading="lazy" decoding="async" src="${img(face)}" width="64" height="64" alt="">` : icon('robot', 5);
     const bar = (label, val, w, color) => `<div class="v2-bar"><span>${label}</span><span class="t"><i style="width:${Math.max(0, Math.min(100, w)).toFixed(1)}%;background:${color}"></i></span><b>${val}</b></div>`;
+    // Tip #380: lab-card H3s are question-shaped (mirrored in FAQ §3.3).
+    const labQ = `Who is ${p.name} on the race board?`;
     return `<article class="v2-lab${big ? ' hot' : ''}">
   <div class="hd">
-    <div class="row">${pic}<div class="nm"><h3>${esc(p.name.toUpperCase())}</h3><span>${esc(p.principal || 'No single principal')}</span></div><span class="odds">${pct(m.probability)}</span></div>
+    <div class="row">${pic}<div class="nm"><h3 aria-label="${esc(p.name)}">${esc(labQ)}</h3><span>${esc(p.principal || 'No single principal')}</span></div><span class="odds">${pct(m.probability)}</span></div>
     <div class="row sb"><span class="v2-pill ${pill.cls}">${pill.t}</span><span class="mv${big ? ' red' : ''}">${ch === null ? 'NO 7D REFERENCE' : `${ch >= 0 ? '▲' : '▼'} ${Math.abs(ch * 100).toFixed(1)} PTS / 7D`}</span></div>
   </div>
   <div class="sig"><span class="cap">SIGNAL ANALYSIS</span>
@@ -634,7 +660,7 @@ export function render(ctx, { head }) {
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
       <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${pillarStatusLine(state)}</p>
-      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
+      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>
     </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;
@@ -643,13 +669,13 @@ export function render(ctx, { head }) {
 <div class="v2-top"><div class="v2-wrap">
   <span class="v2-chip v2-top__x">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
   <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}">SIREN SCORE UPDATED <b>${esc(hhmm(state.generated_at))}</b> · HOURLY</span>
-  <a class="v2-chip v2-live" href="${href('/news.html')}" title="The newsroom checks its sources every minute and Dispatch alerts refresh through the hour. Only the SIREN score is hourly."><i aria-hidden="true"></i>NEWS &amp; ALERTS LIVE</a>
+  <a class="v2-chip v2-live" href="${href('/news.html')}" title="The newsroom checks its sources every minute and Dispatch alerts refresh through the hour. Only the SIREN score is hourly."><i aria-hidden="true"></i>Which AI stories has ${esc(brand.NAME)} scored in this window?</a>
   <span class="v2-chip v2-top__x" title="${dark ? `${dark} source${dark === 1 ? '' : 's'} failed this pass` : 'Every source answered'}">${icon('eye', 2)}${reporting}/${sources.length} REPORTING${dark ? ` · ${dark} DARK` : ''} · ${scored} SCORED</span>
   <span class="right">
     <button type="button" class="tag radio" id="siren-radio" data-level="${state.level}" aria-pressed="false" title="Play SIREN Radio: an original soundtrack generated in your browser. Its mood follows the level.">♪ RADIO</button>
-    <a class="tag blue v2-top__x" href="${href('/history.html')}">HISTORY</a>
-    <a class="tag violet v2-top__x" href="${href('/race.html')}">MARKETS</a>
-    <a class="tag cool v2-top__x" href="${href('/feed-level.xml')}" title="RSS that fires only when the level changes">ALERTS</a>
+    <a class="tag blue v2-top__x" href="${href('/history.html')}">What is the history of AI risk?</a>
+    <a class="tag violet v2-top__x" href="${href('/race.html')}">Who is winning the AI race?</a>
+    <a class="tag cool v2-top__x" href="${href('/alerts.html')}" title="RSS, email recipes and in-tab notify when the level changes">How do I get alerts when ${esc(brand.NAME)} moves?</a>
     <span class="v2-top__x">STATUS: <b class="${posture === 'DEGRADED' ? 'amber' : 'green'}">${posture}</b></span>
     <span class="v2-top__x" title="A Terminator reference. Nothing here is self-aware. Probably.">SKYNET: <b class="${state.level <= 2 ? 'amber' : 'green'}">${({ 5: 'ASLEEP', 4: 'NOT SELF-AWARE (YET)', 3: 'LEARNING AT A GEOMETRIC RATE', 2: 'ASKING QUESTIONS', 1: 'JUDGMENT DAY WATCH' })[state.level] || 'NOT SELF-AWARE (YET)'}</b></span>
   </span>
@@ -685,6 +711,9 @@ ${ticker(items)}
   <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
+  <details class="v2-more" id="v2-more" open>
+  <summary class="v2-more__sum">See the evidence · full board</summary>
+  <div class="v2-more__body">
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${top._brk ? esc(breakingMeta(top._brk)) : `${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}`}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
   <nav class="v2-whatsnew" aria-label="New on SIREN"><span class="lbl">✦ NEW</span>${WHATS_NEW.map(([h, a, l, b]) => `<a href="${href(h)}" title="${esc(b)}"><img src="${img(a)}" width="22" height="22" alt="" loading="lazy">${esc(l)}</a>`).join('')}</nav>
   ${tempoCard(items, Date.parse(state.generated_at) || Date.now(), href)}
@@ -694,7 +723,7 @@ ${movedPanel(wm, href)}
   ${historyPanel(rows)}
   ${visitorsHomePanel(visitorsModel(ctx.visitors, ctx.worldOutline), {
     href,
-    titleHtml: pixelText('WHERE THE READERS ARE', 4, '#FFFFFF', 'fit'),
+    titleHtml: `<span class="v2-sr">Where are SIREN readers?</span><span aria-hidden="true">${pixelText('WHERE THE READERS ARE', 4, '#FFFFFF', 'fit')}</span>`,
   })}
   <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>
   ${marketsPanel(ctx, href)}
@@ -703,16 +732,16 @@ ${movedPanel(wm, href)}
   <div class="v2-vfywrap">${verifyBox(ctx)}</div>
 
 
-  <div class="v2-sec" id="bosses" data-sec="Bosses"><h2>${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</h2><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
+  <div class="v2-sec" id="bosses" data-sec="Bosses"><h2 id="v2-bosses-h" class="v2-sr">Which AI bosses are on watch?</h2><div aria-hidden="true">${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</div><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
   <div class="v2-bosses">
     ${leaders.map((l) => { const s = bossStatus(l); return `<a class="boss" href="${href('/leaders.html')}"><img class="v2-face" loading="lazy" decoding="async" src="${img(FACE_BY_LEADER[l.id])}" width="96" height="96" alt=""><span class="nm">${esc(l.name.toUpperCase())}</span><span class="co">${esc(String(l.org).toUpperCase())}</span><span class="st ${s.cls}">${s.t}</span></a>`; }).join('')}
   </div>
 
-  <div class="v2-sec" id="labs" data-sec="Labs"><h2>${pixelText(`${players.length} LABS MONITORED`, 4, '#FFFFFF', 'fit')}</h2><span>ODDS OF BEST MODEL IN 2026 · POLYMARKET</span></div>
+  <div class="v2-sec" id="labs" data-sec="Labs"><h2 id="v2-labs-h" class="v2-sr">Which labs are monitored on the home board?</h2><div aria-hidden="true">${pixelText(`${players.length} LABS MONITORED`, 4, '#FFFFFF', 'fit')}</div><span>ODDS OF BEST MODEL IN 2026 · POLYMARKET</span></div>
   <div class="v2-labs">${players.map(lab).join('')}</div>
 
 <section class="v2-video" aria-labelledby="v2-video-h">
-    <div class="txt"><h2 id="v2-video-h">${pixelText('WHAT IS SIREN?', 4, '#FFFFFF', 'fit')}</h2><p>A 42-second tour: the hourly reading, the five levels, and the rooms worth opening. Sound on: the soundtrack is SIREN Radio, generated from the same code as the ♪ button.</p><p><a class="v2-btn sm" href="${href('/videos.html')}">▶ NEW FILM: THE ROAD TO SUPERINTELLIGENCE (1:41)</a></p></div>
+    <div class="txt"><h2 id="v2-video-h" class="v2-sr">What is SIREN?</h2><div aria-hidden="true">${pixelText('WHAT IS SIREN?', 4, '#FFFFFF', 'fit')}</div><p>A 42-second tour: the hourly reading, the five levels, and the rooms worth opening. Sound on: the soundtrack is SIREN Radio, generated from the same code as the ♪ button.</p><p><a class="v2-btn sm" href="${href('/videos.html')}">What free AI explainer videos does ${esc(brand.NAME)} publish?</a></p></div>
     <video controls preload="none" playsinline width="1280" height="720" poster="${href('/media/siren-explainer-poster.jpg')}">
       <source src="${href('/media/siren-explainer.webm')}" type="video/webm">
       <source src="${href('/media/siren-explainer.mp4')}" type="video/mp4">
@@ -729,16 +758,18 @@ ${roomsGrid(ctx, href, img)}
 
   <div class="v2-cta" id="tally" data-sec="Tally">
     <img class="v2-art bob" loading="lazy" decoding="async" src="${img('canary')}" width="88" height="88" alt="">
-    <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between. Or subscribe to <a href="${href('/feed-level.xml')}">level-change RSS</a> — maybe a handful of pings a year, if you pipe the feed.</span></div>
+    <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between. Or subscribe via <a href="${href('/alerts.html')}">How do I get alerts when ${esc(brand.NAME)} moves?</a> — maybe a handful of pings a year, if you pipe the feed.</span></div>
     <a class="v2-btn" href="https://x.com/intent/follow?screen_name=SIRENutf6">FOLLOW @SIRENutf6 →</a>
   </div>
   ${newsletterBox(href('/privacy.html')) ? `<div class="v2-nl">${newsletterBox(href('/privacy.html'))}</div>` : ''}
 
   <div class="v2-faq" id="faq" data-sec="FAQ">${faqRender(ctx)}</div>
+  </div>
+  </details>
 
   <p class="v2-foot">${esc(brand.CREED)} ${esc(brand.NAME)} counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
-  <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/feed.xml')}">RSS</a> · <a href="${href('/sponsor.html')}">Sponsor</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
-  <p class="v2-foot"><b>Not advice.</b> ${esc(brand.LEGAL_NOT_ADVICE)} Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. ${esc(brand.LEGAL_AFFILIATE)} Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>. <a href="${href('/disclosures.html')}">Disclosures</a>. <a href="${href('/feedback.html')}">Report a problem or send feedback</a>.</p>
+  <a href="${href('/methodology.html')}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> · <a href="${href('/classic.html#vfy')}">Where is the full ${esc(brand.NAME)} instrument panel?</a> · <a href="${href('/classic.html')}">Where is the full ${esc(brand.NAME)} instrument panel?</a> · <a href="${href('/about.html')}">What is ${esc(brand.NAME)}?</a> · <a href="${href('/alerts.html')}">How do I get alerts when ${esc(brand.NAME)} moves?</a> · <a href="${href('/sponsor.html')}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
+  <p class="v2-foot"><b>Not advice.</b> ${esc(brand.LEGAL_NOT_ADVICE)} Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. ${esc(brand.LEGAL_AFFILIATE)} Use of this site means you accept the <a href="${href('/terms.html')}">What are the ${esc(brand.NAME)} terms of use?</a> <a href="${href('/privacy.html')}">What does ${esc(brand.NAME)} know about you?</a> <a href="${href('/disclosures.html')}">What does ${esc(brand.NAME)} disclose?</a> <a href="${href('/feedback.html')}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a></p>
 </main>
 ${nav.tabbar}
 ${LIVEFX_CSS}<script>${LIVEFX_JS}</script>
@@ -746,7 +777,8 @@ ${LIVEFX_CSS}<script>${LIVEFX_JS}</script>
 </div>
 <script>${WAR_JS}</script>
 <script>${DASH_JS}</script>
-<script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>`;
+<script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>
+<script>(function(){var d=document.getElementById('v2-more');if(!d||!window.matchMedia)return;if(matchMedia('(max-width:720px)').matches)d.open=false})();</script>`;
 
   return `<!doctype html>
 <html lang="en">
@@ -798,7 +830,7 @@ const CSS = `
 .v2-room:hover{border-color:#6366F1;background:#161D33}
 .v2-room img{display:block;flex:none}
 .v2-room__t{display:flex;flex-direction:column;gap:2px;min-width:0}
-.v2-room__t b{font-size:14px;letter-spacing:.06em}
+.v2-room__t b{font-size:13px;letter-spacing:0;font-weight:700;line-height:1.25;text-wrap:balance}
 .v2-room__t i{font-style:normal;font-size:12px;font-weight:700;color:#A5B4FC}
 .v2-room__t small{font-size:12px;color:#AEB7C3;line-height:1.35}
 
@@ -828,6 +860,30 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2 .tag.violet{border-color:#7E3AF2;background:#2A1240;color:#E9D5FF}
 .v2-top .right{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .v2-main{padding-block:40px 72px;display:flex;flex-direction:column;gap:22px}
+/* Skip layout/paint for below-fold home blocks until near the viewport (CWV).
+   Markup and text stay in the HTML for crawlers — this is not display:none. */
+.v2-main [data-sec]:not(#signal),
+.v2-main .v2-two,
+.v2-main .v2-bosses,
+.v2-main .v2-labs,
+.v2-main .v2-video,
+.v2-main .v2-vfywrap,
+.v2-main .v2-nl,
+.v2-main > .v2-foot{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 360px;
+}
+/* Phone-width card: reading first; full board behind one tap (GROWTH.md §08).
+   Markup stays in the HTML for crawlers — details content is not removed. */
+.v2-more{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:22px}
+.v2-more__body{display:flex;flex-direction:column;gap:22px}
+.v2-more__sum{display:none;list-style:none;cursor:pointer;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 16px;border:2px solid #2A3446;background:#111827;color:#E0E7FF;font:700 13px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.08em;text-align:center}
+.v2-more__sum::-webkit-details-marker{display:none}
+.v2-more__sum::marker{content:''}
+@media (max-width:720px){
+  .v2-more__sum{display:flex}
+  .v2-more[open] > .v2-more__sum{border-color:#6366F1;color:#fff}
+}
 .v2-brand{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-brand h1{flex:1 1 300px;min-width:0}
 .v2-art{display:block;flex:none;max-width:none;object-fit:contain}

@@ -84,10 +84,12 @@ export function render(ctx, { limit = MAX_HOME } = {}) {
   const items = x.items.slice(0, limit);
   const now = x.generated_at;
 
+  // Tip #327: section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
+  const wireQ = 'Which labs’ posts are on the X wire?';
   return `${styleTag()}
 <section class="sec xw" aria-labelledby="xw-h">
   <div class="xw__hd">
-    <h2 class="sec__h" id="xw-h">The labs’ posts on X<span class="sec__eb">The X wire</span></h2>
+    <h2 class="sec__h" id="xw-h">${esc(wireQ)}<span class="sec__eb">The X wire</span></h2>
     <p class="xw__k">${esc(x.items.length)} posts · resolved
       <time datetime="${esc(now)}">${esc(String(now).slice(11, 16))}Z</time></p>
   </div>

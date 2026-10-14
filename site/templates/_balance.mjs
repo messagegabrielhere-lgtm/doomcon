@@ -69,6 +69,7 @@
 // integrator can place it blind. See the integration note at the bottom.
 
 import { esc, utc } from './_html.mjs';
+import * as brand from '../brand.mjs';
 
 const PAGE_HREF = '/balance.html';
 const MINUS = '−';
@@ -407,14 +408,16 @@ function pickList(ctx, rows) {
  *
  * @param {object} ctx  build context; reads ctx.balance, ctx.ledger, ctx.href.
  * @param {object} [opts]
- * @param {string} [opts.heading]  the plain <h2> (docs/WORDING.md).
+ * @param {string} [opts.heading]  question-shaped <h2> (tip #262; FINDABILITY §3.3).
  * @param {number} [opts.picks]    register lines per side, 1 to 3. Two by
  *                                 default: measured at 1280 wide, three a side
  *                                 put the section at 392px against its ~320px
  *                                 budget, and two brought it inside it.
  * @returns {string} HTML fragment, or '' when there is nothing to draw from.
  */
-export function render(ctx, { heading = 'Harm and benefit, side by side', picks = 2 } = {}) {
+export function render(ctx, { heading, picks = 2 } = {}) {
+  // Tip #262: default H2 matches /balance.html H1 question.
+  const h2 = heading ?? `How does ${brand.NAME} count AI harm and benefit side by side?`;
   const m = model(ctx, { picks: Math.max(1, Math.min(3, Number(picks) || 2)) });
   if (!m) return '';
   const sentence = m.sentence
@@ -425,7 +428,7 @@ export function render(ctx, { heading = 'Harm and benefit, side by side', picks 
 
   return `${styleTag()}
 <section class="sec bal bal-t" id="balance" aria-labelledby="bal-h">
-  <h2 class="sec__h" id="bal-h">${esc(heading)}<span class="sec__eb">Both at once</span></h2>
+  <h2 class="sec__h" id="bal-h">${esc(h2)}<span class="sec__eb">Both at once</span></h2>
   <div class="bal__grid">
     <figure class="bal__fig">
       ${scaleSvg(m, { size: 'module', id: 'bal' })}
@@ -444,7 +447,7 @@ export function render(ctx, { heading = 'Harm and benefit, side by side', picks 
         </div>
       </div>
       <p class="bal__note">Strongest evidence first on each side. A status word describes the evidence, not the importance.</p>
-      <p class="bal__more"><a class="bal__go" href="${esc(hrefOf(ctx, PAGE_HREF))}">See the whole balance →</a>
+      <p class="bal__more"><a class="bal__go" href="${esc(hrefOf(ctx, PAGE_HREF))}">How does ${esc(brand.NAME)} count AI harm and benefit side by side? →</a>
         <span>${N(m.ledger.rows.benefit)} benefit and ${N(m.ledger.rows.harm)} harm rows checked by hand${rows}${counters}. None of it is summed.</span></p>
     </div>
   </div>

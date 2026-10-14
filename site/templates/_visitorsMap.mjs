@@ -111,7 +111,7 @@ export function visitorsHomePanel(model, { href, titleHtml } = {}) {
   const located = Number(model.totals.visitors_located)
     || model.ranked.reduce((a, c) => a + c.count, 0);
   const asOf = model.as_of_date || String(model.generated_at || '').slice(0, 10);
-  const heading = titleHtml || `<span class="v2-sr">Where the readers are</span>`;
+  const heading = titleHtml || `<span class="v2-sr">Where are SIREN readers?</span>`;
 
   const land = model.lands.map((l) => {
     const d = l.polys.map((poly) => poly.map((p, i) => (

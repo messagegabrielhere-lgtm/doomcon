@@ -135,8 +135,7 @@ var strip = document.createElement("div"); strip.className = "lf-strip"; strip.s
 strip.style.setProperty("--lv", col.trim());
 var meter = ""; for (var m = 5; m >= 1; m--) meter += '<s class="' + (m >= lv && lv ? "on" : "") + '"></s>';
 var first = heads.length ? heads.slice(0, 6).join("   ◆   ") : "Live AI news, alerts and the hourly SIREN score";
-strip.innerHTML = '<span class="tag"><i></i>LIVE</span><div class="run"><span>' + (bk ? '<a target="_blank" rel="noopener"></a>' : "<b></b>") + '</span></div><span class="meter" aria-hidden="true">' + meter + '</span><span class="lv">SIREN ' + (lv || "?") + (scoreM ? " · " + scoreM : "") + '</span><button type="button" aria-label="Hide the live strip">✕</button>';
-if (bk) strip.querySelector(".run a").setAttribute("href", bk.getAttribute("href"));
+strip.innerHTML = '<span class="tag"><i></i>LIVE</span><div class="run"><span>' + (bk ? '<a href="' + bk.getAttribute("href") + '" target="_blank" rel="noopener"></a>' : "<b></b>") + '</span></div><span class="meter" aria-hidden="true">' + meter + '</span><span class="lv">SIREN ' + (lv || "?") + (scoreM ? " · " + scoreM : "") + '</span><button type="button" aria-label="Hide the live strip">✕</button>';
 (strip.querySelector(".run a") || strip.querySelector(".run b")).textContent = first;
 document.body.appendChild(strip);
 var closed = false;

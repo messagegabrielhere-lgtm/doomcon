@@ -10,6 +10,7 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { mascot } from './_mascot.mjs';
 
@@ -20,27 +21,43 @@ export const TOPICS = {
     path: '/jobs.html',
     leadId: 'challenger-ai-cited-cuts',
     eyebrow: 'Jobs · a view of the registers · does not feed the main number',
-    h1: 'AI and jobs: what has been measured',
+    // Head-term question (FINDABILITY tip #209): H1 must match <title> stem.
+    h1: 'Is AI taking jobs? What has actually been measured',
     lede: 'Everybody has a forecast for what AI does to work. This page has no forecast. It lists what has been counted so far, who counted it, and what the count does not show.',
     pick: (e) => /labou?r|jobs|employment|work/i.test(String(e.domain)),
     rx: /\b(layoffs?|laid off|job cuts?|jobs?|hiring|workforce|unemployment|redundanc\w+|headcount)\b/i,
     what: 'jobs, layoffs, hiring or the workforce',
-    title: `AI and jobs: what has actually been measured · ${brand.NAME}`,
+    title: `Is AI taking jobs? What has actually been measured · ${brand.NAME}`,
     description: 'Announced job cuts that cite AI, and measured effects on freelancers, with sources and caveats. Counts on the record, not forecasts.',
     not: 'A count of announced cuts is not a count of jobs lost to AI, and none of these entries says what happens next.',
+    crumb: 'Jobs',
+    faq: [
+      ['Is AI taking jobs? What has actually been measured',
+        'This page does not answer with a forecast. It lists announced job cuts that cite AI and measured effects on freelancers, each with a source and a caveat. A count of announcements is not a count of jobs lost to AI.'],
+      ['Does SIREN publish a jobs forecast?',
+        'No. SIREN’s main index is an hourly AI activity count. The jobs page is a view of the hand-verified registers and does not feed the main number.'],
+    ],
   },
   medicine: {
     path: '/medicine.html',
     leadId: 'fda-ai-devices',
     eyebrow: 'Medicine · a view of the registers · does not feed the main number',
-    h1: 'AI in medicine: results on the record',
+    // Head-term question (FINDABILITY tip #209): H1 must match <title> stem.
+    h1: 'Is AI curing anything? Trial results, approvals and what they show',
     lede: 'Breakthrough is a headline word. This page lists the medical results that have a trial, an authorisation list or a database behind them, with what each one does and does not show.',
     pick: (e) => /drug|medical|protein|clinic|health/i.test(String(e.domain)) || e.id === 'co-scientist',
     rx: /\b(drugs?|cancer|clinical|FDA|medical|medicine|patients?|diseases?|therap\w+|biotech|hospitals?|vaccines?)\b/i,
     what: 'drugs, patients, trials or medicine',
-    title: `AI in medicine: trial results, approvals and what they show · ${brand.NAME}`,
+    title: `Is AI curing anything? Trial results, approvals and what they show · ${brand.NAME}`,
     description: 'AI-designed drugs in trials, FDA-authorised AI devices, screening trials and AlphaFold, each with its numbers, sources and caveats.',
     not: 'An authorisation is not a measured patient benefit, a Phase 2 result is not an approval, and a structure prediction is not a drug.',
+    crumb: 'Medicine',
+    faq: [
+      ['Is AI curing anything? Trial results, approvals and what they show',
+        'This page does not claim a cure. It lists medical results that have a trial, an authorisation list, or a database behind them, each with what was measured and the caveat.'],
+      ['Does an FDA authorisation mean a measured patient benefit?',
+        'No. An authorisation is not a measured patient benefit, a Phase 2 result is not an approval, and a structure prediction is not a drug. Each entry states that distinction in its own caveat.'],
+    ],
   },
 };
 
@@ -53,12 +70,31 @@ export function entries(ctx, key) {
 
 export function hasTopic(ctx, key) { return entries(ctx, key).length > 0; }
 
+// Tip #400: register-entry H2s are question-shaped (mirrored in FAQ §3.3).
+const ENTRY_Q = Object.freeze({
+  'challenger-ai-cited-cuts': 'How many AI-cited US job cuts has Challenger counted?',
+  'hui-freelancer-earnings': 'What happened to Upwork freelancer earnings after ChatGPT?',
+  'drug-rentosertib': 'What did the AI-designed drug Rentosertib show in Phase 2a?',
+  'drug-ai-pipeline': 'How often do AI-discovered molecules pass Phase I and Phase II?',
+  'fda-ai-devices': 'How many AI medical devices has the FDA authorised?',
+  'mammography-masai': 'Was AI-supported mammography non-inferior to double reading?',
+  alphafold: 'How many open structure predictions has AlphaFold published?',
+  'co-scientist': 'Which Co-Scientist hypotheses were confirmed in the lab?',
+});
+
+export function entryQ(e) {
+  if (!e) return '';
+  if (ENTRY_Q[e.id]) return ENTRY_Q[e.id];
+  const t = String(e.title || '');
+  return t.endsWith('?') ? t : `What does the register record about ${t}?`;
+}
+
 /** The lead figure of a topic, for the home page and the nav tile. */
 export function lead(ctx, key) {
   const all = entries(ctx, key);
   const e = all.find((x) => x.id === TOPICS[key].leadId) || all[0];
   const n = e && Array.isArray(e.numbers) ? e.numbers[0] : null;
-  return n ? { value: String(n.value), unit: String(n.unit), date: String(n.date), id: e.id, title: e.title } : null;
+  return n ? { value: String(n.value), unit: String(n.unit), date: String(n.date), id: e.id, title: entryQ(e) } : null;
 }
 
 function entry(ctx, e, glosses, t) {
@@ -66,16 +102,17 @@ function entry(ctx, e, glosses, t) {
   const srcs = (Array.isArray(e.sources) ? e.sources : []).map((u, i) => `<a href="${esc(u)}" rel="noopener" title="${esc(u)}">${i + 1}</a>`).join(' ');
   const gloss = glosses && glosses[e.side] && glosses[e.side][e.status];
   const first = Array.isArray(e.numbers) && e.numbers[0];
-  const line = first ? `${first.value} ${first.unit} (${first.date}). ${e.title}` : e.title;
+  const q = entryQ(e);
+  const line = first ? `${first.value} ${first.unit} (${first.date}). ${q}` : q;
   return `<article class="tp__e" id="${esc(e.id)}" data-side="${esc(e.side)}">
     <p class="tp__chips"><span class="tp__chip"${gloss ? ` title="${esc(gloss)}"` : ''}>${esc(e.status)}</span><span class="tp__chip tp__chip--q">${esc(e.domain)}</span><span class="tp__asof">checked ${esc(e.as_of)}</span></p>
-    <h2 class="tp__h">${esc(e.title)}</h2>
+    <h2 class="tp__h">${esc(q)}</h2>
     ${nums ? `<ul class="tp__nums">${nums}</ul>` : ''}
-    <h3 class="tp__k">What is measured</h3><p>${esc(e.what_is_measured)}</p>
-    <h3 class="tp__k">What gets claimed</h3><p>${esc(e.what_is_claimed)}</p>
-    <h3 class="tp__k">The caveat</h3><p>${esc(e.caveat)}</p>
+    <h3 class="tp__k">What is measured?</h3><p>${esc(e.what_is_measured)}</p>
+    <h3 class="tp__k">What gets claimed?</h3><p>${esc(e.what_is_claimed)}</p>
+    <h3 class="tp__k">What is the caveat?</h3><p>${esc(e.caveat)}</p>
     <p class="tp__f">Sources ${srcs} · <a class="tp__x" rel="noopener" target="_blank" href="https://x.com/intent/post?text=${encodeURIComponent(line.slice(0, 230))}&amp;url=${encodeURIComponent(ctx.url(`${t.path}#${e.id}`))}">Post this on X</a> ·
-      <a href="${esc(ctx.href(`/balance.html#reg-${e.id}`))}">In the register →</a></p>
+      <a href="${esc(ctx.href(`/balance.html#reg-${e.id}`))}">How does ${esc(brand.NAME)} count AI harm and benefit side by side? →</a></p>
   </article>`;
 }
 
@@ -88,6 +125,26 @@ export function render(ctx, key) {
   const at = ctx.news && ctx.news.generated_at ? utc(ctx.news.generated_at) : null;
   const level = ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null;
   const other = key === 'jobs' ? TOPICS.medicine : TOPICS.jobs;
+  // Tip #326: newsroom H2 is question-shaped and mirrored in FAQ (§3.3).
+  const newsQ = 'Which headlines mention this in the newsroom now?';
+  const newsA = `${N(hits.length)} of ${N(items.length)} headlines in the newsroom window mention ${t.what}${at ? `, as of ${at}` : ''}. Matched by word, so read them before trusting the count.`;
+  // Tip #335: entry H3s are question-shaped and mirrored in FAQ (§3.3).
+  const measuredQ = 'What is measured?';
+  const claimedQ = 'What gets claimed?';
+  const caveatQ = 'What is the caveat?';
+  const measuredA = `Each register entry states what is counted for ${t.what}: the figure, its unit and the source date — not a forecast.`;
+  const claimedA = `Each entry states what the source claims about ${t.what}. Claims are not the same as verified outcomes.`;
+  const caveatA = `Each entry states the caveat that keeps the figure from being read as a ${brand.NAME} forecast or doom probability.`;
+  const faqPairs = [
+    ...(Array.isArray(t.faq) ? t.faq : []),
+    [newsQ, newsA],
+    [measuredQ, measuredA],
+    [claimedQ, claimedA],
+    [caveatQ, caveatA],
+    // Tip #400: entry H2s are question-shaped and mirrored in FAQ (§3.3).
+    ...list.map((e) => [entryQ(e),
+      `${e.what_is_measured || e.title} ${e.caveat || ''}`.trim()]),
+  ];
 
   const main = `
 <style>
@@ -119,14 +176,49 @@ export function render(ctx, key) {
   <p class="fresh__key">${esc(N(list.length))} ${list.length === 1 ? 'entry' : 'entries'} from the hand-verified registers${L && L.as_of_date ? `, checked as of ${esc(L.as_of_date)}` : ''}.
     ${esc(t.not)}</p>
 ${list.map((e) => entry(ctx, e, L && L.status_words, t)).join('\n')}
-  <h2 class="sec__h tp__sec" id="in-the-news">In the newsroom now</h2>
+  <h2 class="sec__h tp__sec" id="in-the-news">${esc(newsQ)}</h2>
   <p class="fresh__key"><b>${esc(N(hits.length))} of ${esc(N(items.length))}</b> headlines in the newsroom window mention ${esc(t.what)}${at ? `, as of ${esc(at)}` : ''}.
     Matched by word, so read them before trusting the count.</p>
   ${hits.length ? `<ul class="tp__news">${hits.slice(0, 12).map((i) => `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a><small>${esc(i.source)} · ${esc(String(i.published_at).slice(0, 10))}</small></li>`).join('')}</ul>` : ''}
-  <p><a href="${esc(ctx.href(other.path))}">${esc(other.h1)} →</a> · <a href="${esc(ctx.href('/balance.html'))}">Every register entry, both sides →</a> · <a href="${esc(ctx.href('/library.html'))}">Books on the argument (paid links) →</a>${brand.X_URL ? ` · <a href="https://x.com/intent/follow?screen_name=${esc(brand.X_HANDLE.replace(/^@/, ''))}" rel="noopener">Follow ${esc(brand.X_HANDLE)} for updates to these numbers →</a>` : ''}</p>
+  <h2 class="sec__h tp__sec" id="faq">What questions do people actually ask?</h2>
+${faqPairs.map(([q, a]) => `  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('\n')}
+  <p><a href="${esc(ctx.href(other.path))}">${esc(other.h1)} →</a> · <a href="${esc(ctx.href('/balance.html'))}">How does ${esc(brand.NAME)} count AI harm and benefit side by side? →</a> · <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a>${brand.X_URL ? ` · <a href="https://x.com/intent/follow?screen_name=${esc(brand.X_HANDLE.replace(/^@/, ''))}" rel="noopener">Follow ${esc(brand.X_HANDLE)} for updates to these numbers →</a>` : ''}</p>
 </section>`;
 
-  return page({ ctx, path: t.path, title: t.title, description: t.description, main });
+  const jsonld = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: t.h1,
+      url: ctx.url(t.path),
+      description: t.description,
+      isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      speakable: speakable(['h1', '.lede']),
+    },
+    breadcrumbs(ctx, [{ name: t.h1, path: t.path }]),
+  ];
+  if (faqPairs.length) {
+    jsonld.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqPairs.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    });
+  }
+
+  return page({
+    ctx,
+    path: t.path,
+    title: t.title,
+    ogTitle: `${brand.NAME}: ${t.h1}`,
+    description: t.description,
+    jsonld,
+    main,
+  });
 }
 
 /** The home-page pair: one card per question, each with its lead figure. */
@@ -141,8 +233,9 @@ export function homeCards(ctx) {
     </a>`;
   });
   if (!cards.length) return '';
+  // Tip #326: section H2 is question-shaped; home FAQ mirrors it (§3.3).
   return `<section class="sec tq" id="two-questions" aria-labelledby="tq-h">
-  <h2 class="sec__h" id="tq-h">The two questions everyone asks</h2>
+  <h2 class="sec__h" id="tq-h">What are the two questions everyone asks?</h2>
   <div class="tq__l">${cards.join('')}</div>
   <p class="fresh__key">The pictures on these cards are generated illustrations. The numbers are not.</p>
 </section>`;

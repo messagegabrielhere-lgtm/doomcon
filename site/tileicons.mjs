@@ -169,6 +169,49 @@ export const TILE_ICONS = {
   tugofwar: [{ a: '#60A5FA', c: '#F87171', f: '#D6A35C', d: '#FACC15' }, [
     '................', '................', '................', '.aa..........cc.', 'aaaa........cccc', 'aaaa........cccc', '.aa..........cc.', '.aaa.ffffff.ccc.',
     'aaaaffffffffcccc', '.aa....d.....cc.', '.aa....d.....cc.', '.a.a...d....c.c.', '.a..a..d...c..c.', 'a....a.d..c....c', '................', '................']],
+  // Tip #255: unique homepage room icons (no shared tile art).
+  tags: [{ a: '#38BDF8', b: '#0B1020', c: '#FACC15', d: '#E5E7EB' }, [
+    '................', '..aaaaaaaaaaaa..', '.adddddddddddda.', '.adaaaaaaaaaada.', '.ada.c....c.ada.', '.adaaaaaaaaaada.', '.ada.c.c.c..ada.', '.adaaaaaaaaaada.',
+    '.ada....c...ada.', '.adaaaaaaaaaada.', '.ada.c.c.c.c.ada', '.adaaaaaaaaaada.', '.adddddddddddda.', '..aaaaaaaaaaaa..', '................', '................']],
+  outlets: [{ a: '#A78BFA', b: '#1E1B4B', c: '#E5E7EB', d: '#F472B6' }, [
+    '................', '..aaaaaaaaaaaa..', '.abbbbbbbbbbbba.', '.abccccccccccba.', '.abcaaaaaaacba..', '.abca.dd.aacba..', '.abcaaaaaaacba..', '.abccccccccccba.',
+    '.abbbbbbbbbbbba.', '.aaaaaaaaaaaaaa.', '.aa..........aa.', '.aa.aaaaaaaa.aa.', '.aa.a......a.aa.', '.aaaaaaaaaaaaaa.', '................', '................']],
+  companies: [{ a: '#60A5FA', b: '#0B1020', c: '#FACC15' }, [
+    '................', '....aaaaaaaa....', '...abbbbbbbba...', '...abccccccba...', '...abbbbbbbba...', '...aaaaaaaaaa...', '..aaaaaaaaaaaa..', '.aaaaaaaaaaaaaa.',
+    '.aa.aa.aa.aa.aa.', '.aaaaaaaaaaaaaa.', '.aa..........aa.', '.aa.aaaaaaaa.aa.', '.aa.a......a.aa.', '.aaaaaaaaaaaaaa.', '................', '................']],
+  leaderswire: [{ a: '#F472B6', b: '#0B1020', c: '#FFFFFF', d: '#FACC15' }, [
+    '.......dd.......', '......dddd......', '.......dd.......', '......aaaa......', '.....aaaaaa.....', '.....abbbba.....', '.....acccca.....', '.....aaaaaa.....',
+    '......aaaa......', '....aaaaaaaa....', '...aaaaaaaaaa...', '..aaaaaaaaaaaa..', '.aaaaaaaaaaaaaa.', 'aaaaaaaaaaaaaaaa', '................', '................']],
+  pillars: [{ a: '#E5E7EB', b: '#64748B', c: '#4ADE80', d: '#F87171', e: '#60A5FA' }, [
+    '................', '.c..d..e..c..d..', '.c..d..e..c..d..', '.c..d..e..c..d..', '.c..d..e..c..d..', '.c..d..e..c..d..', '.c..d..e..c..d..', '.c..d..e..c..d..',
+    '.c..d..e..c..d..', '.c..d..e..c..d..', '.aaaaaaaaaaaaaa.', '.aaaaaaaaaaaaaa.', '................', '................', '................', '................']],
+  moved: [{ a: '#4ADE80', b: '#F87171', c: '#FACC15', d: '#E5E7EB' }, [
+    '................', '....a...........', '...aaa..........', '..aaaaa....bbb..', '....a......bbb..', '....a...c..bbb..', '....a..ccc.bbb..', '....a...c.......',
+    '....a...........', '....a.....dddd..', '....a.....dddd..', '....a......dd...', '....a.......d...', '................', '................', '................']],
+  versus: [{ a: '#F87171', b: '#60A5FA', c: '#E5E7EB' }, [
+    '................', '.aa..........bb.', '.aaa........bbb.', '..aa........bb..', '...aa......bb...', '....aa....bb....', '.....aa..bb.....', '......aabb......',
+    '......bbaa......', '.....bb..aa.....', '....bb....aa....', '...bb......aa...', '..bb........aa..', '.bbb........aaa.', '.bb..........aa.', '................']],
+  vsrival: [{ a: '#FB923C', b: '#38BDF8', c: '#FACC15' }, [
+    '................', 'aaaaaaaa..bbbbbb', 'a......a..b....b', 'a..cc..a..b..ccb', 'a......a..b....b', 'aaaaaaaa..bbbbbb', '................', '....cccccccc....',
+    '....c......c....', '....c..aa..c....', '....c......c....', '....cccccccc....', '................', '................', '................', '................']],
+  vstakeoff: [{ a: '#A78BFA', b: '#4ADE80', c: '#FACC15' }, [
+    '.......cc.......', '......cccc......', '.......cc.......', '......bbbb......', '.....bbbbbb.....', '....bbbbbbbb....', '...bbbbbbbbbb...', '..bbbbbbbbbbbb..',
+    '.aaaaaaaaaaaaaa.', '.a............a.', '.a.bbbbbbbbbb.a.', '.a............a.', '.aaaaaaaaaaaaaa.', '................', '................', '................']],
+  alts: [{ a: '#94A3B8', b: '#0B1020', c: '#4ADE80', d: '#F87171' }, [
+    '................', '..aaaaaaaaaaaa..', '.abbbbbbbbbbbba.', '.abaaaaaaaaaaba.', '.aba.c....d.aba.', '.abaaaaaaaaaaba.', '.aba......c.aba.', '.abaaaaaaaaaaba.',
+    '.aba.d........ba', '.abaaaaaaaaaaba.', '.abbbbbbbbbbbba.', '..aaaaaaaaaaaa..', '................', '................', '................', '................']],
+  countries: [{ a: '#34D399', b: '#0B1020', c: '#60A5FA', d: '#FACC15' }, [
+    '................', '....aaaaaaaa....', '...abbbbbbbba...', '..abccbbbbbcba..', '.abbbbbbbbbbbba.', '.abbbddbbbbbbba.', '.abbbbbbbbbbbba.', '.abbbbbccbbbbba.',
+    '.abbbbbbbbbbbba.', '.abbbbddbbbbbba.', '..abbbbbbbbbba..', '...abbbbbbbba...', '....aaaaaaaa....', '................', '................', '................']],
+  pdoom: [{ a: '#A78BFA', b: '#1E1B4B', c: '#FACC15', d: '#F87171' }, [
+    '......aaaa......', '....aabbbaaa....', '...aabbbbbbaa...', '..aabbbccbbbaa..', '..abbbccccbbba..', '.abbbbccccbbbba.', '.abbbbcdccbbbba.', '.abbbbccccbbbba.',
+    '.abbbbccccbbbba.', '..abbbccccbbba..', '..aabbbccbbbaa..', '...aabbbbbbaa...', '....aaabbbaa....', '......aaaa......', '................', '................']],
+  explainers: [{ a: '#38BDF8', b: '#0B1020', c: '#FFFFFF', d: '#FACC15' }, [
+    '................', '..aaaaaaaaaaaa..', '.abbbbbbbbbbbba.', '.abccccccccccba.', '.abcddddddcccba.', '.abccccccccccba.', '.abcddddddcccba.', '.abccccccccccba.',
+    '.abcddddddcccba.', '.abccccccccccba.', '.abbbbbbbbbbbba.', '..aaaaaaaaaaaa..', '.......dd.......', '......dddd......', '.......dd.......', '................']],
+  defcon: [{ a: '#F87171', b: '#0B1020', c: '#FACC15', d: '#4ADE80' }, [
+    '......cccc......', '.....cccccc.....', '....cccccccc....', '...cccccccccc...', '..cccccccccccc..', '.cccccccccccccc.', 'cccccccccccccccc', 'cccccbbbbbbccccc',
+    'ccccbbaaaabbcccc', 'ccccbbaaaabbcccc', 'cccccbbbbbbccccc', 'cccccccccccccccc', '.ccccccddcccccc.', '..cccccccccccc..', '................', '................']],
 };
 
 export function tileSvg(name, bg = '#0B1220') {

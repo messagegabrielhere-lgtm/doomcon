@@ -410,7 +410,8 @@ function cell(rd, ctx) {
 // Public
 // ---------------------------------------------------------------------------
 
-const DEFAULT_HEADING = 'Recent readings';
+// Tip #329: default section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
+const DEFAULT_HEADING = 'Which readings are most recent?';
 
 /**
  * The strip.
@@ -436,7 +437,7 @@ export function render(ctx, opts = {}) {
   const h2 = showHeading ? `<h2 class="rd__h" id="${hid}">${esc(headingText)}</h2>` : '';
 
   const historyHref = ctx && typeof ctx.href === 'function' ? ctx.href('/history.html') : '/history.html';
-  const more = `<a href="${esc(historyHref)}">The full history &rarr;</a>`;
+  const more = `<a href="${esc(historyHref)}">What is the history of AI risk? &rarr;</a>`;
 
   // Fewer than READINGS.MIN: a sentence with the count in it, never an empty
   // strip and never a strip of one.

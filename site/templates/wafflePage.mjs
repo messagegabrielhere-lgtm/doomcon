@@ -4,6 +4,7 @@
 // AI data centres under the same clouds. Data: collector/waffle.mjs.
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 const CSS = `<style>
@@ -53,6 +54,11 @@ const CSS = `<style>
 .wf-rk .bar{height:5px;border-radius:3px;background:#1F2937;margin-top:6px;overflow:hidden}.wf-rk .bar i{display:block;height:100%;background:var(--c)}
 .wf-rk .t{font:800 12px var(--mono);color:var(--c);text-align:right}.wf-rk .t span{display:block;font-size:20px}
 @media (prefers-reduced-motion:reduce){.wf-syrup{animation:none}}
+.wf-faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.wf-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.wf-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.wf-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.wf-faq-key{margin-top:var(--s-4,1rem)!important}
 </style>`;
 
 // Equirectangular map of a lon/lat box, x stretched by cos(mid-latitude).
@@ -163,7 +169,10 @@ const fmt = (n) => Number(n || 0).toLocaleString('en-US');
 
 function rankCard(list, inPath, name) {
   list = list || [];
-  const head = name ? `DATA CENTRES RANKED BY IMPACT IF ${esc(name.toUpperCase())}’S WAFFLE HOUSES GO DARK` : 'DATA CENTRES NEXT TO CLOSED WAFFLE HOUSES';
+  // Tip #342: rank-card H3 is question-shaped (§3.3).
+  const head = name
+    ? `Which data centres would be hit if ${esc(name)}’s Waffle Houses go dark?`
+    : 'Which data centres sit next to closed Waffle Houses?';
   const col = (t) => (t === 'HIGH' ? '#F87171' : t === 'ELEVATED' ? '#FB923C' : '#FACC15');
   const rows = list.slice(0, 12).map((d, i) => `<li style="--c:${col(d.tier)}"><span class="n">${i + 1}</span><div><b>${esc(d.name)}</b>${d.operator && d.operator !== d.name ? ` · ${esc(d.operator)}` : ''}<small>${esc([d.city, d.state].filter(Boolean).join(', '))}${d.city || d.state ? ' · ' : ''}${esc(d.reasons.join(' · '))}</small><div class="bar"><i style="width:${d.score}%"></i></div></div><span class="t"><span>${d.score}</span>${esc(d.tier)}</span></li>`).join('');
   return `<div class="wf-c" style="grid-column:1/-1"><h3>${head}</h3>${rows ? `<ol class="wf-rk">${rows}</ol>` : `<p>${inPath ? `${inPath} data centres sit in the rough path, and none has closed Waffle Houses around it yet.` : 'No data centre has a cluster of closed Waffle Houses around it right now.'}</p>`}
@@ -196,15 +205,60 @@ export function render(ctx, data, us) {
         <div><b>${off ? fmt(off.closed) : '—'}</b><span>TEMPORARILY CLOSED, CHAIN-WIDE</span></div>
         <div><b>${off ? fmt(off.limited) : '—'}</b><span>POSTED HOURS NOT 24/7</span></div>
         <div><b>0</b><span>ACTIVE STORMS NEAR THE US</span></div>`;
-  const chain = off ? `<div class="wf-c"><h3>RIGHT NOW, CHAIN-WIDE: ${fmt(off.closed)} OF ${fmt(all.length)} CLOSED</h3>
+  // Tip #342: chain / path H3s are question-shaped (§3.3).
+  const chain = off ? `<div class="wf-c"><h3>How many Waffle Houses are closed chain-wide right now?</h3>
+      <p style="font:700 14px var(--mono);margin:0 0 8px;color:#FDE68A">${fmt(off.closed)} of ${fmt(all.length)} temporarily closed</p>
       ${off.by_state && off.by_state.length ? `<div class="wf-st">${off.by_state.slice(0, 14).map((b) => `<span>${esc(b.state)} ${b.n}</span>`).join('')}</div>` : ''}
       ${off.closed_list && off.closed_list.length ? `<ul>${off.closed_list.slice(0, 120).map((c) => `<li>${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">` : ''}#${esc(c.no)} ${esc(c.city || '')}${c.state ? `, ${esc(c.state)}` : ''}${c.url ? '</a>' : ''}</li>`).join('')}</ul>` : '<p>Every Waffle House on the locator is open.</p>'}
       <p style="font-size:12.5px;margin:8px 0 0">Straight from Waffle House’s own store locator, which flags each store “temporarily closed”. Some closures are always there (remodels, staffing); a storm shows up as a cluster.</p></div>` : '';
-  const pathList = st ? `<div class="wf-c"><h3>${st.google ? `WAFFLE HOUSES CLOSED IN ${esc(st.name.toUpperCase())}’S PATH` : 'WAFFLE HOUSES CLOSEST TO THE PATH'}</h3>${st.google ? (st.google.places.filter((q) => q.closed || q.limited).length ? `<ul>${st.google.places.filter((q) => q.closed || q.limited).slice(0, 60).map((q) => `<li>${q.url ? `<a href="${esc(q.url)}" target="_blank" rel="noopener">` : ''}${esc(q.address || q.name)}${q.url ? '</a>' : ''} · ${q.closed ? 'closed' : 'short hours'}</li>`).join('')}</ul>` : `<p>All ${st.google.known} Waffle Houses in the path are open.</p>`) : (st.stores.length ? `<ul>${st.stores.slice(0, 30).map((q) => `<li>${esc(q.city || 'Waffle House')}${q.state ? `, ${esc(q.state)}` : ''} · ${q.d} km from the path</li>`).join('')}</ul>` : '<p>No Waffle Houses in the rough path.</p>')}</div>
+  const pathList = st ? `<div class="wf-c"><h3>${st.google ? `Which Waffle Houses are closed in ${esc(st.name)}’s path?` : 'Which Waffle Houses are closest to the path?'}</h3>${st.google ? (st.google.places.filter((q) => q.closed || q.limited).length ? `<ul>${st.google.places.filter((q) => q.closed || q.limited).slice(0, 60).map((q) => `<li>${q.url ? `<a href="${esc(q.url)}" target="_blank" rel="noopener">` : ''}${esc(q.address || q.name)}${q.url ? '</a>' : ''} · ${q.closed ? 'closed' : 'short hours'}</li>`).join('')}</ul>` : `<p>All ${st.google.known} Waffle Houses in the path are open.</p>`) : (st.stores.length ? `<ul>${st.stores.slice(0, 30).map((q) => `<li>${esc(q.city || 'Waffle House')}${q.state ? `, ${esc(q.state)}` : ''} · ${q.d} km from the path</li>`).join('')}</ul>` : '<p>No Waffle Houses in the rough path.</p>')}</div>
     ${rankCard(st.dc_impact, st.datacenters_in_path, st.name)}` : '';
+
+  const PATH = '/waffle.html';
+  const qTitle = 'Is the Waffle House open?';
+  // Tip #321: other-storms H2 is question-shaped and mirrored in FAQ when visible (§3.3).
+  const othersQ = 'Which other storms are active?';
+  // FAQ answers restate hero / unofficial / why / how-it-works / others copy only.
+  // Refuse: official FEMA claim, outage report, doom-probability titles.
+  const faq = [
+    [qTitle,
+      'FEMA’s unofficial disaster gauge: if the Waffle House is open, the town is fine; short hours and a limited menu mean trouble; closed means very bad. SIREN maps every Waffle House in the country' +
+      (live ? ', reads which ones Waffle House itself marks closed,' : '') +
+      ' and lays each active hurricane’s rough path over them, with the AI data centres under the same storm. The restaurants that never close and the machines that never sleep.'],
+    ['Is this an official Waffle House or FEMA status map?',
+      'Unofficial. Waffle House has warned that some storm trackers are inaccurate and posts its own status map on @WaffleHouse. SIREN reads ' +
+      (live ? 'Waffle House’s own store locator, not a third-party tracker' : 'public data this hour because Waffle House’s locator was unreachable') +
+      '; if the two ever disagree, Waffle House’s posted map wins.'],
+    ['Why does an AI site watch Waffle Houses?',
+      'The same storms that close a Waffle House cut power to data centres, which then run on diesel generators and battery banks. The AI build-out is concentrated in the Southeast and Texas, right in hurricane country. FEMA’s gauge works because it is simple, public and hard to fake. SIREN tries to be the same thing for AI: a count anyone can check.'],
+    // Tip #336: storm-kit H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['What belongs in a storm kit?',
+      'Paid Amazon links on this page for storm-kit staples, labelled as such. As an Amazon Associate I earn from qualifying purchases; that never changes a number on this page. Ready.gov’s full kit list is free, and /bunker-kit.html lists free tools.'],
+    // Tip #342: chain / path / rank H3s mirrored in FAQ when those blocks can appear (§3.3).
+    ...(off ? [['How many Waffle Houses are closed chain-wide right now?',
+      `Straight from Waffle House’s own store locator: ${fmt(off.closed)} of ${fmt(all.length)} flagged temporarily closed. Some closures are always there; a storm shows up as a cluster.`]] : []),
+    ...(st ? [[st.google ? `Which Waffle Houses are closed in ${st.name}’s path?` : 'Which Waffle Houses are closest to the path?',
+      st.google
+        ? `Waffle Houses in ${st.name}’s rough path that the locator marks closed or short-hours, listed on this page.`
+        : 'Waffle Houses closest to the storm’s rough path, listed on this page.'],
+      [st.name
+        ? `Which data centres would be hit if ${st.name}’s Waffle Houses go dark?`
+        : 'Which data centres sit next to closed Waffle Houses?',
+        'Impact score 0–100 is a heuristic for where to look, not an outage report. Closed waffles mean no power, no staff or no safe roads — the same things a data centre needs.']] : []),
+    ['Is the shaded path the official forecast cone?',
+      'How it works: storms from the National Hurricane Center; the shaded path runs along the storm’s current motion for 24 hours with a radius set by its strength, so it is NOT the official forecast cone. Not a safety service: follow your local officials.'],
+    ...(others
+      ? [[othersQ,
+        'Other active storms listed on this page, each with category, Waffle Houses and data centres in the path.']]
+      : []),
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}<section class="wf">
   <p class="eyebrow">STORM DESK · THE WAFFLE HOUSE INDEX, AI EDITION</p>
-  <div class="wf-head">${waffleSvg(idx.level === 'RED' ? 'closed' : idx.level === 'YELLOW' ? 'limited' : 'open', 'hero')}<h1 class="bp__h1">Is the Waffle House open?</h1></div>
+  <div class="wf-head">${waffleSvg(idx.level === 'RED' ? 'closed' : idx.level === 'YELLOW' ? 'limited' : 'open', 'hero')}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">FEMA’s unofficial disaster gauge: if the Waffle House is open, the town is fine; short hours and a limited menu mean trouble; closed means very bad. SIREN maps every Waffle House in the country${live ? ', reads which ones Waffle House itself marks closed,' : ''} and lays each active hurricane’s rough path over them, with the AI data centres under the same storm. The restaurants that never close and the machines that never sleep.</p>
   <p class="wf-off" style="border-left:3px solid #FACC15;background:#14120A;padding:10px 14px;font-size:14px;color:#FDE68A;margin:14px 0 0">Unofficial. Waffle House has <a href="https://x.com/WaffleHouse/status/2108701286145421425" target="_blank" rel="noopener">warned</a> that some storm trackers are inaccurate and posts its own status map on <a href="https://x.com/WaffleHouse" target="_blank" rel="noopener">@WaffleHouse</a>. SIREN reads ${live ? 'Waffle House’s own store locator, not a third-party tracker' : 'public data this hour because Waffle House’s locator was unreachable'}; if the two ever disagree, Waffle House’s posted map wins.</p>
   <p id="wf-fresh" data-gen="${esc((data && data.generated_at) || '')}" style="font:600 12px var(--mono);color:#4ADE80;margin:10px 0 0"><span aria-hidden="true">●</span> LIVE · Waffle House status checked <span id="wf-ago">${esc(String((data && data.generated_at) || '').slice(11, 16))} UTC</span> · refreshes every 15 minutes</p>
@@ -220,22 +274,61 @@ setInterval(poll,180000);})();</script>
       </div>${share}</div>
   </div>
   ${tally(st, L, off)}
-  <div class="wf-c" style="margin:14px 0"><h3>STORM KIT <span style="font:600 10.5px var(--mono);color:#94A3B8;border:1px solid #475569;padding:2px 6px;margin-left:6px">PAID LINKS</span></h3>
+  <div class="wf-c" style="margin:14px 0"><h3>What belongs in a storm kit? <span style="font:600 10.5px var(--mono);color:#94A3B8;border:1px solid #475569;padding:2px 6px;margin-left:6px">PAID LINKS</span></h3>
     <ul>${KIT.map(([t, w, q]) => `<li><a href="${esc(AZS(q))}" target="_blank" rel="sponsored noopener">${esc(t)}</a>: ${esc(w)}</li>`).join('')}</ul>
-    <p style="font-size:12.5px;margin:8px 0 0">As an Amazon Associate I earn from qualifying purchases. Never changes a number on this page. Ready.gov’s <a href="https://www.ready.gov/kit" target="_blank" rel="noopener">full kit list</a> is free. <a href="bunker-kit.html">SIREN’s bunker kit →</a></p></div>
+    <p style="font-size:12.5px;margin:8px 0 0">As an Amazon Associate I earn from qualifying purchases. Never changes a number on this page. Ready.gov’s <a href="https://www.ready.gov/kit" target="_blank" rel="noopener">full kit list</a> is free. <a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit? →</a></p></div>
 
   <div class="wf-g">
     ${pathList}
     ${chain}
     ${st ? '' : rankCard(data && data.dc_impact, null, null)}
-    <div class="wf-c"><h3>WHY AN AI SITE WATCHES WAFFLES</h3><ul>
+    <div class="wf-c"><h3>Why does an AI site watch Waffle Houses?</h3><ul>
       <li>The same storms that close a Waffle House cut power to data centres, which then run on diesel generators and battery banks. The AI build-out is concentrated in the Southeast and Texas, right in hurricane country.</li>
       <li>Forecasting itself is turning AI: Google DeepMind’s experimental cyclone model has been part of what forecasters consult since 2025, alongside the physics models.</li>
       <li>FEMA’s gauge works because it is simple, public and hard to fake. SIREN tries to be the same thing for AI: a count anyone can check.</li></ul></div>
   </div>
-  ${others ? `<h2>Other active storms</h2><ul>${others}</ul>` : ''}
-  <p style="font-size:12.5px;margin-top:18px">How it works: storms from the <a href="https://www.nhc.noaa.gov/" target="_blank" rel="noopener">National Hurricane Center</a>; the shaded path runs along the storm’s current motion for 24 hours with a radius set by its strength, so it is NOT the official forecast cone. ${live ? `Every Waffle House location and its open/closed flag come from <a href="https://locations.wafflehouse.com/" target="_blank" rel="noopener">Waffle House’s own store locator</a> (${fmt(all.length)} stores); orange means a store’s posted hours aren’t 24/7, which is a hint, not a storm flag. Waffle House’s “limited menu” state isn’t public, so it never moves the index; yellow and red come only from stores marked closed.` : `Waffle Houses from ${esc((data && data.stores_source) || 'OpenStreetMap')} (${fmt(data && data.stores_total)} mapped); Waffle House’s own locator was unreachable this hour${data && data.google && data.google.enabled ? ', so open/closed comes from Google Maps' : ''}.`} Data centres from SIREN’s <a href="map.html">power map</a>. Refreshed hourly. Not a safety service: follow your local officials. Updated ${esc(String((data && data.generated_at) || '').slice(0, 16).replace('T', ' '))} UTC. <a href="api/waffle.json">JSON</a>.</p>
+  ${others ? `<h2>${esc(othersQ)}</h2><ul>${others}</ul>` : ''}
+  <p style="font-size:12.5px;margin-top:18px">How it works: storms from the <a href="https://www.nhc.noaa.gov/" target="_blank" rel="noopener">National Hurricane Center</a>; the shaded path runs along the storm’s current motion for 24 hours with a radius set by its strength, so it is NOT the official forecast cone. ${live ? `Every Waffle House location and its open/closed flag come from <a href="https://locations.wafflehouse.com/" target="_blank" rel="noopener">Waffle House’s own store locator</a> (${fmt(all.length)} stores); orange means a store’s posted hours aren’t 24/7, which is a hint, not a storm flag. Waffle House’s “limited menu” state isn’t public, so it never moves the index; yellow and red come only from stores marked closed.` : `Waffle Houses from ${esc((data && data.stores_source) || 'OpenStreetMap')} (${fmt(data && data.stores_total)} mapped); Waffle House’s own locator was unreachable this hour${data && data.google && data.google.enabled ? ', so open/closed comes from Google Maps' : ''}.`} Data centres from SIREN’s <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a>. Refreshed hourly. Not a safety service: follow your local officials. Updated ${esc(String((data && data.generated_at) || '').slice(0, 16).replace('T', ' '))} UTC. <a href="api/waffle.json">JSON</a>.</p>
+  <section class="wf-faq" aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    ${faqHtml}
+    <p class="wf-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/waffle.html', title: `Waffle House Index: hurricanes, waffles and AI data centres · ${brand.NAME}`,
-    description: 'Live hurricane tracking with the Waffle House Index: every Waffle House in the US, which ones Waffle House marks closed, the storm’s rough path, and the AI data centres under the same storm.', main });
+
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · Waffle House Index · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Live hurricane tracking with the Waffle House Index: every Waffle House in the US, which ones Waffle House marks closed, the storm’s rough path, and the AI data centres under the same storm. Unofficial; not a safety service.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Dataset',
+        name: qTitle,
+        description: 'Waffle House Index, AI edition: every Waffle House in the US, open/closed flags, active hurricane rough paths, and AI data centres under the same storms. Unofficial heuristic, not an outage report.',
+        url: ctx.url(PATH),
+        creator: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
+        isAccessibleForFree: true,
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+        ...(typeof (data && data.generated_at) === 'string' ? { dateModified: data.generated_at } : {}),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }

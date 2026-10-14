@@ -42,12 +42,30 @@ export function render(ctx, move) {
     ? `${brand.NAME} ${move.previous_level} → ${brand.NAME} ${move.level}: ${move.level_name}`
     : `${brand.NAME} ${move.level} holds at ${num(move.score, 1)}`;
 
+  // Tip #326: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const pillarsQ = 'Which pillars scored at this observation?';
+  const inputsQ = 'Which inputs did the engine see?';
+  const receiptQ = 'What is the receipt for this observation?';
+  const inputsA = 'Every reading the engine saw, exactly as fetched. Dark sources are listed as dark and were excluded from the arithmetic; none of them was imputed or treated as zero.';
+  const receiptA = 'This observation is sealed into an append-only hash chain. The hash is the SHA-256 of this receipt’s canonical JSON with the hash field removed; prev_hash is the previous receipt’s hash. Change any input after the fact and every subsequent hash breaks.';
+  // FAQ answers restate lede / inputs / receipt copy only. Refuse doom-probability / forecast.
+  const faq = [
+    [pillarsQ, rationale(move)],
+    [inputsQ, inputsA],
+    [receiptQ, receiptA],
+    [`Does this move mean a doom probability?`,
+      `No. ${brand.NAME} measures activity tempo. A move is a score change with a receipt — not a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `
 <article class="prose">
-  <p class="eyebrow"><a href="${esc(ctx.href('/moves/'))}">Index moves</a> · ${esc(utcDay(move.generated_at))}</p>
+  <p class="eyebrow"><a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves?</a> · ${esc(utcDay(move.generated_at))}</p>
   <h1>${esc(headline)}</h1>
   ${move.newer
-    ? `<p class="bstamp bstamp--old"><a href="${esc(ctx.href('/'))}">Superseded · current reading →</a></p>`
+    ? `<p class="bstamp bstamp--old"><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a></p>`
     : `<p class="bstamp">Current bulletin</p>`}
   <p class="lede">Observed <time datetime="${esc(move.generated_at)}">${esc(utc(move.generated_at))}</time>.
      ${esc(rationale(move))}</p>
@@ -80,24 +98,26 @@ export function render(ctx, move) {
     ${row('Engine version', `<code>${esc(r.engine_version ?? 'unrecorded')}</code>`)}
   </div>
 
-  <h2 id="pillars">Pillars at this observation</h2>
+  <h2 id="pillars">${esc(pillarsQ)}</h2>
   ${pillarTable(r)}
 
-  <h2 id="inputs">Inputs</h2>
-  <p>Every reading the engine saw, exactly as fetched. Dark sources are listed as dark and were
-     excluded from the arithmetic; none of them was imputed or treated as zero.</p>
+  <h2 id="inputs">${esc(inputsQ)}</h2>
+  <p>${esc(inputsA)}</p>
   ${inputList(r)}
 
-  <h2 id="receipt">Receipt</h2>
-  <p>This observation is sealed into an append-only hash chain. The hash below is the SHA-256 of
-     this receipt’s canonical JSON with the hash field removed; <code>prev_hash</code> is the
-     previous receipt’s hash. Change any input after the fact and every subsequent hash breaks.</p>
+  <h2 id="receipt">${esc(receiptQ)}</h2>
+  <p>${esc(receiptA)}</p>
   <div class="kv">
     ${row('Receipt id', `<code>${esc(r.id)}</code>`)}
     ${row('Hash', `<span class="hash">${esc(r.hash ?? 'unrecorded')}</span>`)}
     ${row('Previous hash', `<span class="hash">${esc(r.prev_hash ?? 'unrecorded')}</span>`)}
     ${row('Raw receipt', `<a href="${esc(ctx.href(`/api/receipts/${r.id}.json`))}">api/receipts/${esc(r.id)}.json</a>`)}
   </div>
+
+  <section aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    ${faqHtml}
+  </section>
 
   <p class="fresh__key" style="margin-top:22px">
     ${move.newer ? `<a href="${esc(ctx.href(`/moves/${move.newer}.html`))}">← Newer observation</a>` : ''}
@@ -134,9 +154,17 @@ export function render(ctx, move) {
       description: rationale(move),
       speakable: speakable(['h1', 'p.lede']),
     }, breadcrumbs(ctx, [
-      { name: 'Readings', path: '/moves/' },
+      { name: `Where are the ${brand.NAME} index moves?`, path: '/moves/' },
       { name: headline, path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([qAsk, a]) => ({
+        '@type': 'Question',
+        name: qAsk,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

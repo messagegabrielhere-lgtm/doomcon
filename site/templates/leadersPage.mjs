@@ -38,6 +38,8 @@ import { esc, utc, utcDay } from './_html.mjs';
 import { lineItem, wireStyles, legend, silenceBlock, groupOf } from './_leaderwire.mjs';
 import { avatarPortrait, avatarSprite, personIdFor, portraitCss, PEOPLE, faceHref } from './_avatars.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
+import { peoplePath, personIndexable } from './peoplePages.mjs';
 import * as brand from '../brand.mjs';
 
 const PATH = '/leaders.html';
@@ -60,11 +62,45 @@ export function render(ctx) {
   const onRecord = wire.leaders.filter((l) => l.state === 'on_record');
   const quiet = wire.leaders.filter((l) => l.state === 'no_line');
 
+  // Head-term title: people search “AI leaders on the record” / who spoke.
+  const title = `Which AI leaders are on the record this week?`;
+  const description =
+    `What the people running AI said on the record in the last ${wire.window_days} days: ` +
+    `${t.lines} headline${t.lines === 1 ? '' : 's'} naming ${t.on_record} of ${t.leaders} ` +
+    `leaders, each reproduced exactly as its publication printed it and linked to the source. ` +
+    `Compiled ${utc(wire.generated_at)}.`;
+  // Tip #295: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const neverQ = 'What does this page never do?';
+  const rosterQ = 'Who is on the AI leaders roster?';
+  const crossQ = 'How do these lines cross-check against the lab feeds?';
+  const methodQ = 'How does a line get onto this page?';
+  const faq = [
+    [`Which AI leaders are on the record this week?`,
+      `${t.on_record} of ${t.leaders} are on the record this week across ${t.lines} line${t.lines === 1 ? '' : 's'} in the last ${wire.window_days} days. Each line is a publication headline naming them beside a speech cue — not a leader doom score.`],
+    [neverQ,
+      'It never writes a quotation. Not a paraphrase, not a summary, not a tightened version of what somebody said. The only words attributed to a named person anywhere on this page are the headline, reproduced exactly as the publication printed it and linked to that publication.'],
+    [rosterQ,
+      `${t.leaders} people on a fixed roster. The faces are generated caricatures — illustrations, not photographs. The name printed beside each one is the identification.`],
+    [crossQ,
+      "The race page tracks a loudness signal for each lab's principal. This wire measures a different thing: what publications printed. Where the floor is empty and the wire has lines, the wire is the better reading of whether the person spoke."],
+    [methodQ,
+      'A headline in data/news.json is a line when it names a roster member — whole word, against the published alias table — and carries a speech cue. Both conditions, every time.'],
+    [`Does ${brand.NAME} invent quotations for AI leaders?`,
+      `No. It never writes a quotation. The only words attributed to a named person anywhere on this page are the headline, reproduced exactly as the publication printed it. ${brand.DISCLAIMER_SHORT}`],
+    [`Does ${brand.NAME} publish a leader doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} The leader wire lists on-record headlines — not a ranking of how dangerous a person is.`],
+    // Tip #373: roster-group H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...GROUPS.map(([, q, , blurb]) => [q, blurb]),
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<style>${wireStyles()}${portraitCss()}${pageCss()}</style>
 ${avatarSprite()}
 <section class="lwp__intro">
   <p class="eyebrow">The leader wire</p>
-  <h1 class="lwp__h1">AI leaders, on the record</h1>
+  <h1 class="lwp__h1">Which AI leaders are on the record this week?</h1>
   <p class="lede">What the people running AI said on the record in the last
      ${esc(wire.window_days)} days, in the words their publications printed.
      ${esc(t.on_record)} of ${esc(t.leaders)} are on the record this week across
@@ -79,7 +115,7 @@ ${avatarSprite()}
 </section>
 
 <section class="sec lwp__rule" aria-labelledby="lwp-rule-h">
-  <h2 class="sec__h" id="lwp-rule-h">What this page never does</h2>
+  <h2 class="sec__h" id="lwp-rule-h">${esc(neverQ)}</h2>
   <p class="lwp__ruletext"><b>It never writes a quotation.</b> Not a paraphrase, not a summary, not
      a tightened version of what somebody said. The only words attributed to a named person
      anywhere on this page are the headline, reproduced exactly as the publication printed it and
@@ -93,7 +129,7 @@ ${avatarSprite()}
 
 ${legend(wire)}
 <section class="sec lw" aria-labelledby="lwp-wire-h">
-  <h2 class="sec__h" id="lwp-wire-h">The roster</h2>
+  <h2 class="sec__h" id="lwp-wire-h">${esc(rosterQ)}</h2>
   <p class="lwp__marks">The faces below are <b>generated caricatures</b>, drawn for this site in a
      retro game style: illustrations, not photographs, and not a claim about anyone.
      <b>The name printed beside each one is the identification</b>.</p>
@@ -101,23 +137,37 @@ ${legend(wire)}
   ${rosterGroups(wire, ctx)}
 </section>
 
-${crossCheck(wire)}
+${crossCheck(wire, crossQ)}
 
-${method(ctx, wire, onRecord, quiet)}`;
+${method(ctx, wire, onRecord, quiet, methodQ)}
+
+<section class="sec" aria-labelledby="faq">
+  <h2 class="sec__h" id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+</section>`;
 
   return page({
     ctx,
     path: PATH,
-    title: `AI leaders, on the record — ${t.on_record} of ${t.leaders} · ${brand.NAME}`,
+    title,
     ogTitle: `${brand.NAME} leader wire — ${t.on_record} of ${t.leaders} on the record`,
-    description:
-      `What the people running AI said on the record in the last ${wire.window_days} days: ` +
-      `${t.lines} headline${t.lines === 1 ? '' : 's'} naming ${t.on_record} of ${t.leaders} ` +
-      `leaders, each reproduced exactly as its publication printed it and linked to the source. ` +
-      `Compiled ${utc(wire.generated_at)}.`,
+    description,
     ogImage: ctx.cardFor && ctx.state ? ctx.cardFor(ctx.state.receipt_id) : null,
     ogImageAlt: `${brand.NAME} share card`,
-    jsonld: [collectionPage(ctx, wire), itemList(ctx, wire)],
+    jsonld: [
+      collectionPage(ctx, wire, { name: title, description }),
+      itemList(ctx, wire),
+      breadcrumbs(ctx, [{ name: title, path: PATH }]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([q, a]) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
     bodyEnd: `<script>${PAGE_JS}</script>`,
   });
@@ -133,12 +183,12 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `AI leaders, on the record · ${brand.NAME}`,
+    title: `Which AI leaders are on the record this week?`,
     description: `${brand.NAME} has not published a leader wire in this build.`,
     main: `<style>${wireStyles()}${pageCss()}</style>
 <section class="lwp__intro">
   <p class="eyebrow">The leader wire</p>
-  <h1 class="lwp__h1">AI leaders, on the record</h1>
+  <h1 class="lwp__h1">Which AI leaders are on the record this week?</h1>
   <p class="lede">No wire was published in this build. This is the absence of a result, not a
      result: it does not mean nobody spoke this week, it means <code>data/leaders.json</code> was
      not present when this page was generated. When it is, every one of the fifteen people on the
@@ -173,19 +223,21 @@ function emptyPage(ctx) {
  */
 // The roster in three groups, each in fixed roster order. A silent person is
 // never dropped; they move to the group that says WHICH silence it is.
+// Tip #373: roster-group H3s are question-shaped (mirrored in FAQ §3.3).
+// Short aria labels keep the old chrome names for assistive tech / filters.
 const GROUPS = [
-  ['on_record', 'On the record', 'At least one line in the window, from the press or from their own official feed.'],
-  ['quiet', 'Quiet', 'Nothing in the window. Their sources answered (or they have none but the press), so this is a reading of them.'],
-  ['unreachable', 'Unreachable', 'Nothing in the window, and none of their official sources answered this run — this silence may be ours, not theirs.'],
+  ['on_record', 'Who is on the record?', 'On the record', 'At least one line in the window, from the press or from their own official feed.'],
+  ['quiet', 'Who is quiet this week?', 'Quiet', 'Nothing in the window. Their sources answered (or they have none but the press), so this is a reading of them.'],
+  ['unreachable', 'Who is unreachable this run?', 'Unreachable', 'Nothing in the window, and none of their official sources answered this run — this silence may be ours, not theirs.'],
 ];
 
 function rosterGroups(wire, ctx = null) {
   const asOf = wire.generated_at;
   const covAt = (wire.coverage && wire.coverage.generated_at) || asOf;
-  const groups = GROUPS.map(([key, label, blurb]) => {
+  const groups = GROUPS.map(([key, q, short, blurb]) => {
     const rows = wire.leaders.filter((l) => groupOf(l) === key);
     if (!rows.length) return '';
-    return `<h3 class="lwg__h" id="lwg-${esc(key)}" data-group="${esc(key)}">${esc(label)}
+    return `<h3 class="lwg__h" id="lwg-${esc(key)}" data-group="${esc(key)}" aria-label="${esc(short)}">${esc(q)}
       <span class="lwg__n num">${esc(rows.length)}</span></h3>
   <p class="lwg__b">${esc(blurb)}</p>
   <ol class="lwr lwr--g" aria-labelledby="lwg-${esc(key)}">${rows.map((l) => card(l, asOf, { ctx, covAt })).join('')}</ol>`;
@@ -252,12 +304,20 @@ function card(l, asOf = null, { ctx = null, covAt = null } = {}) {
   const sortAttrs = ` data-cov7d="${c7 === null ? -1 : esc(c7)}" data-count="${esc(l.count)}"` +
     ` data-silent="${Number.isFinite(l.days_silent) ? esc(l.days_silent) : -1}"`;
 
+  const personHref = personIndexable(l, ctx) ? peoplePath(l.id) : '';
+  const personUrl = personHref
+    ? (ctx && typeof ctx.href === 'function' ? ctx.href(personHref) : personHref)
+    : '';
+  const nameHtml = personUrl
+    ? `<a class="lwc__n" href="${esc(personUrl)}">What press has ${esc(brand.NAME)} scored about ${esc(l.name)}?</a>`
+    : `<b class="lwc__n">${esc(l.name)}</b>`;
+
   return `<li class="lwr__i lwc" id="lw-${esc(l.id)}" data-state="${esc(l.state)}" data-group="${esc(groupOf(l))}"` +
     `${pid ? ` data-person="${esc(pid)}"` : ''} data-org="${esc(l.org_id)}"${sortAttrs}>
   <div class="lwc__hd">
     ${portrait}
     <div class="lwc__who">
-      <b class="lwc__n">${esc(l.name)}</b>
+      ${nameHtml}
       <span class="lwc__o">${esc(l.role)} · ${esc(l.org)}</span>
       ${profileLine(l)}
       ${state}
@@ -732,7 +792,7 @@ function n2(v) {
  * the row, so this page and /race cannot drift into two different sentences
  * about the same person.
  */
-function crossCheck(wire) {
+function crossCheck(wire, crossQ = 'How do these lines cross-check against the lab feeds?') {
   const tracked = wire.leaders.filter((l) => l.watch_floor && l.watch_floor.tracked);
   const untracked = wire.leaders.filter((l) => !l.watch_floor || !l.watch_floor.tracked);
   if (!tracked.length) return '';
@@ -745,7 +805,7 @@ function crossCheck(wire) {
   };
 
   return `<section class="sec lwp__cc" aria-labelledby="lwp-cc-h">
-  <h2 class="sec__h" id="lwp-cc-h">Cross-check against the lab feeds<span class="sec__eb">The watch floor</span></h2>
+  <h2 class="sec__h" id="lwp-cc-h">${esc(crossQ)}<span class="sec__eb">The watch floor</span></h2>
   <p class="lwp__ruletext">The race page tracks a loudness signal for each lab's principal, and
      seven of its eight cells are empty — not because those people are quiet, but because
      <b>the floor measures feeds we may lawfully fetch</b> and almost none of them publish one.
@@ -807,13 +867,13 @@ function coverageMethod(wire) {
 }
 
 /** The published vocabulary: how a line gets here, and what it cost. */
-function method(ctx, wire, onRecord, quiet) {
+function method(ctx, wire, onRecord, quiet, methodQ = 'How does a line get onto this page?') {
   const c = wire.corpus;
   const cues = wire.cues || { core: [], extended: [] };
   const classes = (cues.class_means && Object.entries(cues.class_means)) || [];
 
   return `<section class="sec lwp__m" aria-labelledby="lwp-m-h">
-  <h2 class="sec__h" id="lwp-m-h">How a line gets here</h2>
+  <h2 class="sec__h" id="lwp-m-h">${esc(methodQ)}</h2>
   <dl class="lwp__dl">
     <div><dt>The test</dt><dd>A headline in <code>data/news.json</code> is a line when it
       <b>names a roster member</b> — whole word, against the published alias table below — <b>and
@@ -864,18 +924,21 @@ function method(ctx, wire, onRecord, quiet) {
 // Structured data
 // ---------------------------------------------------------------------------
 
-function collectionPage(ctx, wire) {
+function collectionPage(ctx, wire, opts = {}) {
+  const name = opts.name || 'Which AI leaders are on the record this week?';
+  const description = opts.description
+    || (`Headlines from the last ${wire.window_days} days naming the people running AI, each `
+      + `reproduced exactly as its publication printed it and linked to the source.`);
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'The leader wire',
+    name,
     url: ctx.url(PATH),
+    description,
+    speakable: speakable(['h1.lwp__h1', 'p.lede']),
     isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
     datePublished: wire.generated_at,
     dateModified: wire.generated_at,
-    description:
-      `Headlines from the last ${wire.window_days} days naming the people running AI, each ` +
-      `reproduced exactly as its publication printed it and linked to the source.`,
   };
 }
 
@@ -997,7 +1060,8 @@ function pageCss() {
 .lwc__hd { display: flex; gap: var(--s-3); align-items: flex-start; min-width: 0; }
 .lwc__who { min-width: 0; flex: 1 1 auto; }
 .lwc__n { display: block; font-size: var(--t-lg); font-weight: 700; line-height: 1.1;
-  letter-spacing: -0.01em; color: var(--ink); overflow-wrap: anywhere; }
+  letter-spacing: -0.01em; color: var(--ink); overflow-wrap: anywhere; text-decoration: none; }
+a.lwc__n:hover { text-decoration: underline; }
 .lwc__o { display: block; margin-top: 5px; font-family: var(--mono); font-size: var(--t-2xs);
   letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
 .lwc__st {

@@ -501,7 +501,9 @@ function gateRows(mdl, dir) {
 
 function gateCard(mdl, dir) {
   const g = dir === 'hot' ? mdl.hotter : mdl.cooler;
-  const kicker = dir === 'hot' ? 'One stage hotter' : 'One stage cooler';
+  // Tip #384: gate-card H3 kickers are question-shaped (mirrored in FAQ §3.3).
+  const kickerShort = dir === 'hot' ? 'One stage hotter' : 'One stage cooler';
+  const kicker = dir === 'hot' ? 'What would move one stage hotter?' : 'What would move one stage cooler?';
   const glyph = dir === 'hot' ? '▲' : '▼';
 
   if (!g) {
@@ -511,7 +513,7 @@ function gateCard(mdl, dir) {
       : `${brand.NAME} 5 is the floor of the scale. Zero is the bottom of the range every score on this ` +
         'site is measured against, and a quiet hour on the instruments is not the same thing as safety.';
     return `<article class="oven__gate" data-dir="${esc(dir)}" data-end="1">
-        <h3 class="oven__gh"><span class="oven__gk"><i aria-hidden="true">${glyph}</i> ${esc(kicker)}</span>
+        <h3 class="oven__gh" aria-label="${esc(kickerShort)}"><span class="oven__gk"><i aria-hidden="true">${glyph}</i> ${esc(kicker)}</span>
           <span class="oven__gn">none — end of scale</span></h3>
         <p class="oven__gp">${esc(endCopy)}</p>
       </article>`;
@@ -519,7 +521,7 @@ function gateCard(mdl, dir) {
 
   const meta = brand.levelMeta(g.level);
   return `<article class="oven__gate" data-dir="${esc(dir)}">
-      <h3 class="oven__gh"><span class="oven__gk"><i aria-hidden="true">${glyph}</i> ${esc(kicker)}</span>
+      <h3 class="oven__gh" aria-label="${esc(kickerShort)}"><span class="oven__gk"><i aria-hidden="true">${glyph}</i> ${esc(kicker)}</span>
         <span class="oven__gn">${esc(brand.NAME)} ${esc(g.level)} · ${esc(meta.name)}</span></h3>
       <dl class="oven__rows">${gateRows(mdl, dir)}</dl>
     </article>`;
@@ -602,7 +604,7 @@ export function render(ctx, opts = {}) {
 
   const body = `
 ${heading ? `<div class="oven__hd">
-  <h2 class="sec__h" id="oven-h">Where the index sits<span class="sec__eb">The oven</span></h2>
+  <h2 class="sec__h" id="oven-h">Where does the index sit?<span class="sec__eb">The oven</span></h2>
 </div>` : ''}
 <p class="oven__k">Observed position · the mark moves both ways · not a prediction</p>
 <p class="lede">Five stages, coolest on the left, lit at the one the index is in as of
@@ -617,7 +619,7 @@ ${pinTrack(mdl)}
 <p class="oven__crit">${critLine}</p>
 <p class="oven__held">${heldLine}</p>
 
-<h3 class="oven__gsh">What would move it</h3>
+<h3 class="oven__gsh">What would move it?</h3>
 <p class="oven__gp oven__gp--intro">The published gates, as numbers. Each row is a requirement beside the
    current reading; nothing here says any of them is met. Heating is measured over ${esc(upLabels)};
    standing down over ${esc(downLabels)} — cooling is deliberately the slower move, so a stage this index
@@ -631,7 +633,7 @@ ${ruleNote}
 <p class="fresh__key">${esc(brand.DISCLAIMER_SHORT)} Thresholds read from receipt
    <code>${esc(mdl.constants.receipt_id || 'none')}</code>${mdl.constants.source === 'fallback'
      ? ' (unreadable — the published defaults are shown)' : ''}.
-   <a href="${esc(href('/methodology.html'))}">How a stage is decided →</a></p>`;
+   <a href="${esc(href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology →</a></p>`;
 
   return `${style ? styleTag() : ''}<section class="sec oven" id="oven" data-frozen="${
     mdl.frozen ? 1 : 0}"${heading ? ' aria-labelledby="oven-h"' : ' aria-label="The oven"'}>${body}

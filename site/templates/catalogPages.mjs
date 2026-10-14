@@ -13,6 +13,7 @@
 
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor, hasItems } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 import { SEARCH_CORE_JS } from '../searchcore.mjs';
@@ -24,6 +25,30 @@ export const TYPES = [
   ['embed', 'Embeds'], ['faq', 'Questions'], ['kit', 'Bunker Kit'],
 ];
 const TYPE_LABEL = Object.fromEntries(TYPES);
+// Tip #368: catalog section H2s are question-shaped (chips keep short TYPE_LABEL).
+const TYPE_H2_Q = {
+  page: 'Which rooms and pages are in the catalog?',
+  tool: 'Which tools are in the catalog?',
+  game: 'Which games are in the catalog?',
+  video: 'Which videos are in the catalog?',
+  data: 'Which data and API files are in the catalog?',
+  feed: 'Which feeds are in the catalog?',
+  embed: 'Which embeds are in the catalog?',
+};
+// Tip #394: search result-group H2s are question-shaped (chips keep short TYPE_LABEL).
+const SEARCH_TYPE_H2_Q = {
+  page: 'Which rooms and pages matched?',
+  tool: 'Which tools matched?',
+  game: 'Which games matched?',
+  video: 'Which videos matched?',
+  leader: 'Which leaders matched?',
+  news: 'Which news stories matched?',
+  data: 'Which data and API files matched?',
+  feed: 'Which feeds matched?',
+  embed: 'Which embeds matched?',
+  faq: 'Which questions matched?',
+  kit: 'Which Bunker Kit tools matched?',
+};
 // The picture a result gets when it has none of its own.
 export const TYPE_ICON = { page: 'px:doc', tool: 'px:ruler', game: 'joystick', video: 'px:film', leader: 'mic', news: 'news', data: 'px:db', feed: 'px:rss', embed: 'px:code', faq: 'px:chat', kit: 'bunker' };
 // The catalog lists the site's own things; stories, leaders, questions and the
@@ -38,32 +63,53 @@ const TOOLS = new Set(['/search.html', '/catalog.html', '/scanner.html', '/si-re
 // written that is in neither list still turns up, from its own <title>.
 const MORE_PAGES = [
   ['/', 'siren', 'Home', 'The live SIREN level, the score and the war room.'],
-  ['/instruments.html', 'px:updown', 'Instruments', 'Score history, source health, the five pillars and the API.'],
-  ['/guide.html', 'clock', 'SIREN vs DEFCON vs the Clock', 'Four doom numbers and what each one actually measures.'],
-  ['/compare.html', 'px:updown', 'AI doom indexes compared', 'SIREN vs DoomBench, Skynet Countdown and p(doom) clocks.'],
-  ['/alternatives.html', 'px:updown', 'AI doom index alternatives', 'When SIREN is the right substitute — and when it is not.'],
-  ['/vs/doombench.html', 'px:updown', 'SIREN vs DoomBench', 'Activity count vs qualitative doom index.'],
-  ['/vs/skynet-countdown.html', 'px:updown', 'SIREN vs Skynet Countdown', 'Activity count vs AGI timeline and control-loss odds.'],
-  ['/vs/pdoom.html', 'px:updown', 'SIREN vs p(doom) clocks', 'Activity count vs opinion expressed as a percentage.'],
+  ['/instruments.html', 'px:updown', 'What instruments sit behind the SIREN reading?', 'Score history, source health, the five pillars and the API.'],
+  ['/methodology.html', 'magnifier', 'How the SIREN AI activity index is computed · methodology', 'Every formula — recompute yourself. Not a doom probability.'],
+  ['/guide.html', 'clock', 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?', 'What each measure is — and is not.'],
+  ['/guides.html', 'clock', 'What are the AI explainers?', 'p(doom), clocks, doom indexes — vocabulary without a doom probability.'],
+  ['/compare.html', 'px:updown', 'Which AI doom indexes can you compare?', 'SIREN vs DoomBench, Skynet Countdown, p(doom), PizzINT and Takeoff Tracker.'],
+  ['/vs.html', 'px:updown', 'Which AI indexes does SIREN contrast?', 'Directory of honest versus pages — activity tempo, not doom claims.'],
+  ['/alternatives.html', 'px:updown', 'What are AI doom index alternatives?', 'When SIREN is the right substitute — and when it is not.'],
+  ['/vs/doombench.html', 'px:updown', 'SIREN vs DoomBench: which should you use?', 'Activity count vs qualitative doom index.'],
+  ['/vs/skynet-countdown.html', 'px:updown', 'SIREN vs Skynet Countdown: which should you use?', 'Activity count vs AGI timeline and control-loss odds.'],
+  ['/vs/pdoom.html', 'px:updown', 'SIREN vs p(doom) clocks: which should you use?', 'Activity count vs opinion expressed as a percentage.'],
+  ['/vs/pizzint.html', 'px:updown', 'SIREN vs PizzINT: which should you use?', 'Activity count vs DEFCON/Doomsday title hijack — honest refuse.'],
+  ['/vs/takeofftracker.html', 'px:updown', 'SIREN vs Takeoff Tracker: which should you use?', 'Activity count vs AGI metrics dashboard — honest refuse.'],
   ['/p-doom.html', 'dice', 'What is p(doom)?', 'The probability-of-doom number, explained.'],
-  ['/moves/', 'px:updown', 'Every move', 'Each hourly reading that moved, with what moved it.'],
-  ['/item/', 'news', 'Every story', 'One permanent page per scored story.'],
-  ['/source/', 'news', 'Outlets', 'Scored stories grouped by the outlet that published them.'],
-  ['/model/', 'news', 'Model families', 'Scored stories grouped by the model family the headline names.'],
-  ['/country/', 'globe', 'Datacentres by country', 'Mapped datacentre sites, one page per country that clears the count.'],
-  ['/pillar/capability.html', 'px:updown', 'Capability pillar', 'Stories and the live Capability reading.'],
-  ['/pillar/compute.html', 'px:updown', 'Compute pillar', 'Stories and the live Compute & Capital reading.'],
-  ['/pillar/attention.html', 'px:updown', 'Attention pillar', 'Stories and the live Attention reading.'],
-  ['/pillar/governance.html', 'px:updown', 'Governance pillar', 'Stories and the live Governance reading.'],
-  ['/pillar/markets.html', 'px:updown', 'Markets pillar', 'Stories and the live Markets reading.'],
-  ['/api/receipts/', 'archive', 'Receipts', 'Every reading’s receipt, hash-chained so none can be rewritten.'],
-  ['/about.html', 'px:doc', 'About', 'What SIREN is, who runs it and how it is paid for.'],
-  ['/press.html', 'news', 'Press kit', 'Facts, a liftable paragraph, images and a contact.'],
-  ['/brand.html', 'canary', 'Brand guide', 'Level colours, typefaces, voice rules and Tally.'],
-  ['/sponsor.html', 'px:badge', 'Sponsor', 'One named sponsor at a time, with no say over the number.'],
-  ['/privacy.html', 'px:doc', 'Privacy', 'What a visit measures, including analytics and third parties.'],
-  ['/terms.html', 'px:doc', 'Terms', 'Information and commentary, not advice.'],
-  ['/disclosures.html', 'px:doc', 'Disclosures', 'Affiliate, finance, privacy and satire notices.'],
+  ['/moves/', 'px:updown', 'Where are the SIREN index moves?', 'Each hourly reading that moved, with what moved it — first-party archive.'],
+  ['/item/', 'news', 'Which scored AI stories are in the SIREN live window?', 'One permanent page per scored story in the live window.'],
+  ['/item/archive.html', 'archive', 'Which older AI stories has SIREN kept in the archive?', 'Older scored stories kept after they leave the live window.'],
+  ['/source/', 'news', 'Which AI feed adapters have SIREN pages?', 'Scored stories grouped by the feed adapter that carried them.'],
+  ['/sources.html', 'news', 'Which AI news sources has SIREN scored via?', 'Feed-adapter directory — same gated adapters, story counts only.'],
+  ['/outlet/', 'news', 'Which AI publishers have SIREN pages?', 'Scored stories grouped by the publisher host on the original URL.'],
+  ['/outlets.html', 'news', 'Which AI outlets has SIREN scored stories from?', 'Publisher directory — same gated hosts, story counts only.'],
+  ['/model/', 'news', 'Which AI model families have SIREN pages?', 'Scored stories grouped by the model family the headline names.'],
+  ['/models.html', 'news', 'Which AI models has SIREN scored stories about?', 'Model directory — same gated families, story counts only, not a model doom score.'],
+  ['/lab/', 'px:flask', 'Which AI labs have SIREN pages?', 'Scored stories grouped by the lab or company the headline names.'],
+  ['/companies.html', 'px:flask', 'Which AI companies has SIREN scored stories about?', 'Lab/company directory — same gated roster, story counts only, not a company doom score.'],
+  ['/people/', 'mic', 'Which AI leaders have press coverage pages on SIREN?', 'AI leaders with enough press coverage for their own page.'],
+  ['/people.html', 'mic', 'Which AI people has SIREN scored press about?', 'DoomBench-shaped people directory — same gated roster, headlines only.'],
+  ['/tags/', 'news', 'Which AI news tags have SIREN pages?', 'Scored stories grouped by curated topic needles (agents, GPUs, safety, …).'],
+  ['/tags.html', 'news', 'Which AI tags has SIREN scored stories about?', 'Skynet-shaped tags directory — same gated topics, story counts only.'],
+  ['/kind/', 'news', 'Which AI story kinds have SIREN pages?', 'Scored stories grouped by collector kind (press, forum, paper, …).'],
+  ['/kinds.html', 'news', 'Which AI story kinds has SIREN scored?', 'Kind directory — same gated labels, story counts only.'],
+  ['/country/', 'globe', 'Which AI datacentre countries have SIREN pages?', 'Mapped datacentre sites, one page per country that clears the count.'],
+  ['/countries.html', 'globe', 'Which AI datacentre countries has SIREN mapped?', 'Country directory — same gated map counts, not a national AI ranking.'],
+  ['/pillar/', 'px:updown', 'Which AI activity pillars have SIREN pages?', 'Scored stories grouped by the five activity pillars.'],
+  ['/pillars.html', 'px:updown', 'Which AI activity pillars has SIREN scored?', 'Pillar directory — same gated pillars, tempo readings and story counts only.'],
+  ['/pillar/capability.html', 'px:updown', 'What has SIREN scored under Capability?', 'Stories and the live Capability reading — tempo only, not a pillar doom score.'],
+  ['/pillar/compute.html', 'px:updown', 'What has SIREN scored under Compute & Capital?', 'Stories and the live Compute & Capital reading — tempo only, not a pillar doom score.'],
+  ['/pillar/attention.html', 'px:updown', 'What has SIREN scored under Attention?', 'Stories and the live Attention reading — tempo only, not a pillar doom score.'],
+  ['/pillar/governance.html', 'px:updown', 'What has SIREN scored under Governance?', 'Stories and the live Governance reading — tempo only, not a pillar doom score.'],
+  ['/pillar/markets.html', 'px:updown', 'What has SIREN scored under Markets?', 'Stories and the live Markets reading — tempo only, not a pillar doom score.'],
+  ['/api/receipts/', 'archive', 'Where are the SIREN reading receipts?', 'Every reading’s receipt, hash-chained so none can be rewritten.'],
+  ['/about.html', 'px:doc', 'What is SIREN?', 'An independent AI activity index — who runs it and how it is paid for.'],
+  ['/press.html', 'news', 'Where is the SIREN press kit?', 'Facts, a liftable paragraph, images and how to cite a reading.'],
+  ['/brand.html', 'canary', 'Where is the SIREN brand guide?', 'Name, colours, type, voice and Tally.'],
+  ['/sponsor.html', 'px:badge', 'How do you sponsor SIREN without moving the number?', 'One named sponsor at a time, with no say over the number.'],
+  ['/privacy.html', 'px:doc', 'What does SIREN know about you?', 'Privacy policy — what a visit measures, including analytics.'],
+  ['/terms.html', 'px:doc', 'What are the SIREN terms of use?', 'Disclaimers and what the index is not.'],
+  ['/disclosures.html', 'px:doc', 'What does SIREN disclose?', 'Affiliate, finance, privacy and satire notices in one place.'],
 ];
 
 // Machine-readable files. Only the ones the build actually wrote are listed.
@@ -95,7 +141,6 @@ const DATA = {
   'api/bets.json': ['Tally’s bets (JSON)', 'Daily forecasts and how they scored.'],
   'api/live-media.json': ['AI on TV & radio (JSON)', 'Live AI broadcasts, AI segments from news channels and AI podcast episodes.'],
   'api/si-signals.json': ['Takeover signals (JSON)', 'AI agent PRs, frontier models, the AGI forecast.'],
-  'api/search-trends.json': ['Search Trends (JSON)', 'Google daily trending searches filtered for AI.'],
   'api/guide.json': ['Room guide (JSON)', 'Every room with its pitch, for agents.'],
   'api/search-index.json': ['Search index (JSON)', 'This catalog and the site’s content, packed for search.'],
   'api/receipts/index.json': ['Receipts index (JSON)', 'Every receipt id, newest first.'],
@@ -128,6 +173,21 @@ const EMBEDS = [
 
 const unent = (s) => String(s || '').replace(/&#39;/g, '’').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 const clip = (s, n) => { const t = String(s || '').replace(/\s+/g, ' ').trim(); return t.length > n ? `${t.slice(0, n - 1).replace(/\s+\S*$/, '')}…` : t; };
+
+// Home room tiles keep short labels ("Tags", "Compare indexes", "Methodology").
+// When those groups feed the catalog, prefer a search-shaped title from
+// MORE_PAGES or from the blurb so internal links match the page <title> / H1
+// (tips #213–#214). Methodology uses a How-stem without a trailing "?".
+const MORE_TITLE_BY_URL = new Map(MORE_PAGES.map(([href, , label]) => [href, label]));
+const SEARCH_SHAPED = /^(How|What|Where|Which|Who|Is|Does|Can)\b|\?/;
+export function catalogTitle(href, label, blurb) {
+  if (/\?/.test(label || '')) return label;
+  const more = MORE_TITLE_BY_URL.get(href);
+  // Prefer MORE_PAGES How/What stems even without a trailing "?" (methodology).
+  if (more && SEARCH_SHAPED.test(more)) return more;
+  const m = String(blurb || '').match(/([^?]+\?)/);
+  return m ? m[1].trim() : label;
+}
 const mmss = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 
 /** <title> and description of a written page, for pages no list describes. */
@@ -169,7 +229,7 @@ export function catalogEntries(o = {}) {
     for (const [href, icon, label, , blurb] of list) {
       if (o.files && !has(href)) continue;
       const type = GAMES.has(href) ? 'game' : TOOLS.has(href) ? 'tool' : 'page';
-      add({ type, title: label, url: href, desc: blurb || '', group, icon, keys: group.toLowerCase() });
+      add({ type, title: catalogTitle(href, label, blurb), url: href, desc: blurb || '', group, icon, keys: group.toLowerCase() });
     }
   }
   for (const [href, icon, label, blurb] of MORE_PAGES) {
@@ -231,6 +291,7 @@ export function searchIndex(entries, c = {}) {
     v: 1,
     at: c.at || null,
     types: TYPE_LABEL,
+    typeH2: SEARCH_TYPE_H2_Q,
     order: TYPES.map(([k]) => k),
     icons: TYPE_ICON,
     items,
@@ -285,6 +346,11 @@ const CSS = `<style>
 .ct h2 span{color:var(--ink-faint);font-weight:600;margin-left:6px}
 .ct h3{font:600 11px/1.2 var(--mono);letter-spacing:.14em;color:var(--ink-faint);margin:14px 0 8px}
 .ct-none{padding:16px;border:1px dashed var(--rule);border-radius:6px}
+.ct-faq,.sx-faq{margin:34px 0 12px;max-width:62ch}
+.ct-faq h2,.sx-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink);letter-spacing:normal;text-transform:none}
+.ct-faq h3,.sx-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink);letter-spacing:normal;text-transform:none}
+.ct-faq p,.sx-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.ct-faq-key,.sx-faq-key{margin-top:var(--s-4,1rem)!important}
 @media (max-width:700px){.ct-bar{position:static}}
 @media (max-width:560px){.sx-f button{padding:0 14px}.sx-r b{font-size:14.5px}}
 </style>`;
@@ -295,6 +361,12 @@ function imgFn(ctx) {
   return (n) => (String(n).startsWith('px:') ? ctx.href(`/img/px-${String(n).slice(3)}.svg`) : ctx.href(`/img/art-${n}.webp`));
 }
 
+const SEARCH_PATH = '/search.html';
+const searchQTitle = 'How do you search everything on SIREN?';
+// Tip #320: empty-state H2s are question-shaped and mirrored in FAQ (§3.3).
+const tryQ = 'Which search queries should you try first?';
+const popularQ = 'Which rooms do people open most?';
+
 /** /search.html. stats: { counts: { type: n } } from the index. */
 export function search(ctx, stats = {}) {
   const counts = stats.counts || {};
@@ -303,10 +375,34 @@ export function search(ctx, stats = {}) {
   const parts = TYPES.filter(([k]) => counts[k]).map(([k]) => `${counts[k].toLocaleString('en-US')} ${PHRASE[k] || k}`);
   const img = imgFn(ctx);
   const popular = (stats.popular || []).slice(0, 6);
+  // FAQ answers restate lede / empty-state / noscript copy only.
+  // Refuse: search-as-doom-oracle, stuffing, doom-probability.
+  const faq = [
+    [searchQTitle,
+      `One box for the whole site: ${parts.join(', ') || 'rooms, tools, stories and data'}. Results appear as you type; ↑ ↓ to move, Enter to open, / to come back here.`],
+    ['How do results work?',
+      'Results appear as you type; ↑ ↓ to move, Enter to open, / to come back here.'],
+    ['Does search need JavaScript?',
+      'Search runs in your browser and needs JavaScript. Everything it covers is also listed in the catalog, which works without it.'],
+    [tryQ,
+      `Starter queries on this page: ${SUGGEST.join(', ')}.`],
+    ...(popular.length
+      ? [[popularQ,
+        `Rooms linked from the empty state: ${popular.map((e) => e.title).join(', ')}.`]]
+      : []),
+    ['Rather browse than search?',
+      'The catalog lists every room, tool, game, video, data file and feed in one place.'],
+    // Tip #394: result-group H2s are question-shaped and mirrored in FAQ (§3.3).
+    ...TYPES.filter(([k]) => counts[k]).map(([k]) => [SEARCH_TYPE_H2_Q[k],
+      `${counts[k].toLocaleString('en-US')} ${PHRASE[k] || k} are searchable on this page.`]),
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}<section class="sx">
-  <p class="eyebrow">SEARCH · ${total.toLocaleString('en-US')} THINGS ON ${esc(brand.NAME)}</p><h1 class="bp__h1">Search</h1>
+  <p class="eyebrow">SEARCH · ${total.toLocaleString('en-US')} THINGS ON ${esc(brand.NAME)}</p><h1 class="bp__h1">${esc(searchQTitle)}</h1>
   <p class="lede">One box for the whole site: ${esc(parts.join(', '))}. Results appear as you type; ↑ ↓ to move, Enter to open, / to come back here.</p>
-  <form class="sx-f" action="${esc(ctx.href('/search.html'))}" method="get" role="search">
+  <form class="sx-f" action="${esc(ctx.href(SEARCH_PATH))}" method="get" role="search">
     <label class="v2-sr" for="sx-q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search the site</label>
     <input id="sx-q" name="q" type="search" data-site-search autocomplete="off" spellcheck="false" placeholder="Try “agents”, “datacentre” or “csv”" role="combobox" aria-expanded="false" aria-controls="sx-res" aria-autocomplete="list">
     <button type="submit">Search</button>
@@ -315,12 +411,18 @@ export function search(ctx, stats = {}) {
   <p class="sx-stat" id="sx-stat" aria-live="polite"></p>
   <div id="sx-res" role="listbox" aria-label="Results"></div>
   <div class="sx-empty" id="sx-empty">
-    <h2>Try one of these</h2>
-    <ul class="sx-sug">${SUGGEST.map((s) => `<li><a href="${esc(ctx.href(`/search.html?q=${encodeURIComponent(s)}`))}" data-q="${esc(s)}">${esc(s)}</a></li>`).join('')}</ul>
-    ${popular.length ? `<h2>Popular rooms</h2><div class="ct-g">${popular.map((e) => `<a class="ct-c" href="${esc(ctx.href(e.url))}"><img src="${esc(img(e.icon))}" width="40" height="40" alt="" loading="lazy"><span><b>${esc(e.title)}</b><small>${esc(e.desc)}</small></span></a>`).join('')}</div>` : ''}
-    <p>Rather browse? The <a href="${esc(ctx.href('/catalog.html'))}">catalog</a> lists every room, tool, game, video, data file and feed in one place.</p>
+    <h2>${esc(tryQ)}</h2>
+    <ul class="sx-sug">${SUGGEST.map((s) => `<li><a href="${esc(ctx.href(`${SEARCH_PATH}?q=${encodeURIComponent(s)}`))}" data-q="${esc(s)}">${esc(s)}</a></li>`).join('')}</ul>
+    ${popular.length ? `<h2>${esc(popularQ)}</h2><div class="ct-g">${popular.map((e) => `<a class="ct-c" href="${esc(ctx.href(e.url))}"><img src="${esc(img(e.icon))}" width="40" height="40" alt="" loading="lazy"><span><b>${esc(e.title)}</b><small>${esc(e.desc)}</small></span></a>`).join('')}</div>` : ''}
+    <p>Rather browse? <a href="${esc(ctx.href('/catalog.html'))}">Where is everything on SIREN listed?</a> lists every room, tool, game, video, data file and feed in one place.</p>
   </div>
-  <noscript><p>Search runs in your browser and needs JavaScript. Everything it covers is also listed in the <a href="${esc(ctx.href('/catalog.html'))}">catalog</a>, which works without it.</p></noscript>
+  <noscript><p>Search runs in your browser and needs JavaScript. Everything it covers is also listed on <a href="${esc(ctx.href('/catalog.html'))}">Where is everything on SIREN listed?</a>, which works without it.</p></noscript>
+  <section class="sx-faq" aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    ${faqHtml}
+    <p class="sx-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/catalog.html'))}">Where is everything on SIREN listed?</a>.</p>
+  </section>
 </section>
 <script>${SEARCH_CORE_JS}
 (function(){
@@ -342,10 +444,10 @@ function render(){
   chips.innerHTML=c;chips.hidden=!all.length;empty.hidden=!!all.length;
   var h='',n=0;
   D.order.forEach(function(k){var list=by[k];if(!list||(type&&k!==type))return;var lim=type?200:(k==='news'?5:6);
-    h+='<section class="sx-g"><h2>'+S.esc(D.types[k])+' <span>'+list.length+'</span></h2><ol class="sx-l">';
+    h+='<section class="sx-g"><h2>'+S.esc((D.typeH2&&D.typeH2[k])||D.types[k])+' <span>'+list.length+'</span></h2><ol class="sx-l">';
     list.slice(0,lim).forEach(function(r){var it=r.it,ext=/^https?:/.test(it[2]);h+='<li><a class="sx-r" role="option" id="sx-r'+(n++)+'" href="'+S.esc(u(it[2]))+'"'+(ext?' target="_blank" rel="noopener"':'')+'><img src="'+S.esc(im(it))+'" width="36" height="36" alt="" loading="lazy"><span><b>'+S.hl(it[1],v)+'</b>'+(it[3]?'<small>'+S.hl(it[3],v)+'</small>':'')+'<i>'+S.esc(shown(it[2]))+(ext?' ↗':'')+'</i></span></a></li>'});
     h+='</ol>'+(list.length>lim?'<button type="button" class="sx-more" data-t="'+k+'">Show all '+list.length+' '+S.esc(D.types[k].toLowerCase())+' →</button>':'')+'</section>'});
-  if(!all.length)h='<p>Nothing on the site matches “'+S.esc(v)+'”. Check the spelling, try fewer words, or browse the <a href="'+BASE+'/catalog.html">catalog</a>.</p>';
+  if(!all.length)h='<p>Nothing on the site matches “'+S.esc(v)+'”. Check the spelling, try fewer words, or browse <a href="'+BASE+'/catalog.html">Where is everything on SIREN listed?</a>.</p>';
   res.innerHTML=h;links=[].slice.call(res.querySelectorAll('.sx-r'));q.setAttribute('aria-expanded',links.length?'true':'false');
   stat.textContent=all.length?(all.length+' result'+(all.length===1?'':'s')+' for “'+v+'”'+(type?' in '+D.types[type]:'')+' · '+(Date.now()-t0)+' ms'):'';
   mark(links.length&&sel>=0?0:-1)}
@@ -360,9 +462,42 @@ stat.textContent=q.value?'Loading the index…':'';
 fetch(IDX).then(function(r){return r.json()}).then(function(d){D=d;rows=S.prep(d);t0=Date.now();render();if(!q.value)q.focus()}).catch(function(){stat.textContent='The search index did not load. The catalog lists everything instead.'});
 })();
 </script>`;
-  return page({ ctx, path: '/search.html', title: `Search every room, story and dataset · ${brand.NAME}`,
-    description: `Search all of ${brand.NAME}: the rooms, tools and games, the scored AI news, the leaders, the videos, the open data and the feeds, instantly in your browser.`, main });
+  return page({
+    ctx,
+    path: SEARCH_PATH,
+    title: `${searchQTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${searchQTitle}`,
+    description: `${searchQTitle} One box for rooms, tools, games, scored AI news, leaders, videos, open data and feeds — results appear as you type.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: searchQTitle,
+        description: `One box for the whole of ${brand.NAME}: rooms, tools, scored stories, leaders, videos, data and feeds. Results appear as you type.`,
+        url: ctx.url(SEARCH_PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: searchQTitle, path: SEARCH_PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
+
+const CATALOG_PATH = '/catalog.html';
+const catalogQTitle = 'Where is everything on SIREN listed?';
 
 /** /catalog.html: every entry, grouped, with type chips and a text filter. */
 export function catalog(ctx, entries) {
@@ -371,19 +506,47 @@ export function catalog(ctx, entries) {
   for (const e of entries) (by[e.type] = by[e.type] || []).push(e);
   const card = (e) => `<a class="ct-c" href="${esc(ctx.href(e.url))}" data-k="${esc(`${e.title} ${e.desc} ${e.keys || ''} ${e.group || ''} ${e.url}`.toLowerCase())}"><img src="${esc(img(e.icon || TYPE_ICON[e.type]))}" width="40" height="40" alt="" loading="lazy"><span><b>${esc(e.title)}</b>${e.desc ? `<small>${esc(e.desc)}</small>` : ''}<i>${esc(e.meta || (e.url === '/' ? 'home' : e.url.replace(/^\//, '')))}</i></span></a>`;
   const types = CATALOG_TYPES.filter((t) => by[t]);
+  // Tip #366: page-group H3s are question-shaped and mirrored in FAQ (§3.3).
+  const groupQ = (g) => `What is listed under ${g}?`;
+  const pageGroups = [];
+  if (by.page) {
+    for (const e of by.page) {
+      let g = pageGroups.find((x) => x[0] === e.group);
+      if (!g) pageGroups.push(g = [e.group, []]);
+      g[1].push(e);
+    }
+  }
   const sections = types.map((t) => {
     let body;
     if (t === 'page') {
-      const groups = [];
-      for (const e of by.page) { let g = groups.find((x) => x[0] === e.group); if (!g) groups.push(g = [e.group, []]); g[1].push(e); }
-      body = groups.map(([g, list]) => `<div class="ct-sub"><h3>${esc(g)}</h3><div class="ct-g">${list.map(card).join('')}</div></div>`).join('');
+      body = pageGroups.map(([g, list]) => `<div class="ct-sub"><h3>${esc(groupQ(g))}</h3><div class="ct-g">${list.map(card).join('')}</div></div>`).join('');
     } else body = `<div class="ct-g">${by[t].map(card).join('')}</div>`;
-    return `<section class="ct-s" id="ct-${t}" data-t="${t}"><h2>${esc(TYPE_LABEL[t])}<span>${by[t].length}</span></h2>${body}</section>`;
+    return `<section class="ct-s" id="ct-${t}" data-t="${t}"><h2>${esc(TYPE_H2_Q[t] || TYPE_LABEL[t])}<span>${by[t].length}</span></h2>${body}</section>`;
   }).join('');
   const total = types.reduce((n, t) => n + by[t].length, 0);
+  // FAQ answers restate lede / body copy only.
+  // Refuse: catalog-as-doom-index, stuffing synonyms, doom-probability.
+  const faq = [
+    [catalogQTitle,
+      'Every room, tool, game, video, data file, feed and embed on the site, in one directory. Filter by type or by word; for stories, leaders and the Bunker Kit’s tools, use Search.'],
+    ['How do I filter the catalog?',
+      'Filter by type or by word.'],
+    ['Where do I find stories, leaders and Bunker Kit tools?',
+      'For stories, leaders and the Bunker Kit’s tools, use How do you search everything on SIREN?'],
+    ['What kinds of things are listed?',
+      'Every room, tool, game, video, data file, feed and embed on the site.'],
+    ...pageGroups.map(([g, list]) => [groupQ(g),
+      `${list.length} room${list.length === 1 ? '' : 's'} and pages under ${g} in the catalog.`]),
+    // Tip #368: type-section H2s are question-shaped and mirrored in FAQ (§3.3).
+    ...types.map((t) => [TYPE_H2_Q[t] || TYPE_LABEL[t],
+      `${by[t].length} ${TYPE_LABEL[t].toLowerCase()} in the catalog.`]),
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}<section class="ct">
-  <p class="eyebrow">CATALOG · ${total} THINGS</p><h1 class="bp__h1">Everything on ${esc(brand.NAME)}</h1>
-  <p class="lede">Every room, tool, game, video, data file, feed and embed on the site, in one directory. Filter by type or by word; for stories, leaders and the Bunker Kit’s tools, use <a href="${esc(ctx.href('/search.html'))}">Search</a>.</p>
+  <p class="eyebrow">CATALOG · ${total} THINGS</p><h1 class="bp__h1">${esc(catalogQTitle)}</h1>
+  <p class="lede">Every room, tool, game, video, data file, feed and embed on the site, in one directory. Filter by type or by word; for stories, leaders and the Bunker Kit’s tools, use <a href="${esc(ctx.href('/search.html'))}">How do you search everything on SIREN?</a>.</p>
   <div class="ct-bar">
     <label for="ct-q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Filter the catalog</label>
     <input class="ct-q" id="ct-q" type="search" autocomplete="off" spellcheck="false" placeholder="Filter the catalog…">
@@ -391,7 +554,14 @@ export function catalog(ctx, entries) {
   </div>
   <p class="sx-stat" id="ct-n" aria-live="polite"></p>
   ${sections}
-  <p class="ct-none" id="ct-none" hidden>Nothing in the catalog matches. <a id="ct-sx" href="${esc(ctx.href('/search.html'))}">Search everything →</a></p>
+  <p class="ct-none" id="ct-none" hidden>Nothing in the catalog matches. <a id="ct-sx" href="${esc(ctx.href('/search.html'))}">How do you search everything on SIREN? →</a></p>
+  <section class="ct-faq" aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    ${faqHtml}
+    <p class="ct-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/search.html'))}">How do you search everything on SIREN?</a>
+      · <a href="${esc(ctx.href('/live.html'))}">What AI is on TV and radio right now?</a>.</p>
+  </section>
 </section>
 <script>(function(){
 var q=document.getElementById('ct-q'),n=document.getElementById('ct-n'),none=document.getElementById('ct-none'),sx=document.getElementById('ct-sx'),type='';
@@ -407,10 +577,38 @@ q.addEventListener('input',apply);
 chips.forEach(function(b){b.addEventListener('click',function(){type=b.getAttribute('data-t')||'';apply()})});
 var p=new URLSearchParams(location.search);q.value=p.get('q')||'';type=p.get('type')||'';if(q.value||type)apply();
 })();</script>`;
-  const jsonld = [{
-    '@context': 'https://schema.org', '@type': 'CollectionPage', name: `${brand.NAME} catalog`, url: ctx.url('/catalog.html'),
-    mainEntity: { '@type': 'ItemList', numberOfItems: total, itemListElement: types.flatMap((t) => by[t]).slice(0, 100).map((e, i) => ({ '@type': 'ListItem', position: i + 1, name: e.title, url: ctx.url(e.url) })) },
-  }];
-  return page({ ctx, path: '/catalog.html', title: `Catalog: every room, tool, video and dataset · ${brand.NAME}`,
-    description: `A browsable directory of everything on ${brand.NAME}: ${total} rooms, tools, games, videos, data downloads, feeds and embeds, each with a one-line description.`, main, jsonld });
+  const jsonld = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: catalogQTitle,
+      description: `A browsable directory of everything on ${brand.NAME}: rooms, tools, games, videos, data downloads, feeds and embeds.`,
+      url: ctx.url(CATALOG_PATH),
+      isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+      speakable: speakable(['h1.bp__h1', 'p.lede']),
+      mainEntity: { '@type': 'ItemList', numberOfItems: total, itemListElement: types.flatMap((t) => by[t]).slice(0, 100).map((e, i) => ({ '@type': 'ListItem', position: i + 1, name: e.title, url: ctx.url(e.url) })) },
+    },
+    breadcrumbs(ctx, [
+      { name: 'Home', path: '/' },
+      { name: catalogQTitle, path: CATALOG_PATH },
+    ]),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([qAsk, a]) => ({
+        '@type': 'Question',
+        name: qAsk,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    },
+  ];
+  return page({
+    ctx,
+    path: CATALOG_PATH,
+    title: `${catalogQTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${catalogQTitle}`,
+    description: `${catalogQTitle} A browsable directory of ${total} rooms, tools, games, videos, data downloads, feeds and embeds on ${brand.NAME}.`,
+    main,
+    jsonld,
+  });
 }

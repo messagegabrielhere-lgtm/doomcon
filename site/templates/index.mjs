@@ -69,6 +69,7 @@ import { homeCards as topicCards, lead as topicLead } from './topicPages.mjs';
 import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs';
 import { indexHistoryChart, pillarRanked } from './_charts.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import * as news from './news.mjs';
 import * as gauge from './_gauge.mjs';
@@ -226,7 +227,7 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
 }
 .sec__h[id]::after { background: linear-gradient(90deg, var(--sh, var(--rule)) 0%, var(--rule) 45%); }
 /* No chip on a phone. Measured at 375px: its 16px pushed five sticky headings
-   onto an extra line - "Where the index sits" from 19px to 46 - and a sticky
+   onto an extra line - "Where does the index sit?" from 19px to 46 - and a sticky
    heading is the worst place to spend a line. The coloured rule stays. */
 @media (max-width: 560px) { .sec__h[id]::before { display: none; } }
 /* On paper the neon hues wash out, so they are deepened rather than dropped. */
@@ -675,10 +676,66 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
   // These sections were the lower two thirds of a 12,574px home page
   // (measured 2026-10-04, 19 sections). They are unchanged; they have their
   // own address now, and the home page links to it.
+  const instrumentsQ = `What instruments sit behind the ${brand.NAME} reading?`;
+  // FAQ answers restate hero / record / embed / API copy only (FINDABILITY §3.3).
+  // Refuse: doom-probability, forecast, or "the instruments predict" claims.
+  // Tip #260–#262: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const instrumentsApiQ = `What public JSON files does ${brand.NAME} expose?`;
+  const instrumentsBalanceQ = `How does ${brand.NAME} count AI harm and benefit side by side?`;
+  const instrumentsOvenQ = 'Where does the index sit?';
+  const instrumentsRecordQ = 'Where does the score sit over time?';
+  const instrumentsHealthQ = 'What does source health on this page report?';
+  const instrumentsPillarsQ = 'What are the five pillars on this page?';
+  const instrumentsMovesQ = `Where are the recent ${brand.NAME} index moves?`;
+  const instrumentsEmbedQ = 'How do I put the index on my site?';
+  const instrumentsFaq = [
+    [instrumentsQ,
+      'The home page gives the reading. This page shows the working: where the score sits, how it has moved, which sources reported, what each pillar is doing, and how to take the number with you.'],
+    [instrumentsBalanceQ,
+      'Harm and benefit are counted side by side and never summed. Strongest evidence first on each side; a status word describes the evidence, not the importance.'],
+    [instrumentsOvenQ,
+      `Five stages, coolest on the left, lit at the one the index is in. Hotter means more is happening — not that anything is worse. The stages are the ${brand.NAME} levels themselves, not a second scale that could disagree with the first.`],
+    [instrumentsRecordQ,
+      'This page charts every scored observation over time. The history of AI risk page and the methodology page explain the frozen reference curve that never updates live.'],
+    [instrumentsHealthQ,
+      healthSentence(state)],
+    [instrumentsPillarsQ,
+      'Which part of the field is loudest today. Each bar is linear in score from 0 to 100, so the ordering is the comparison; the cards underneath carry each pillar\'s own history.'],
+    [instrumentsMovesQ,
+      moves
+        ? `Recent scored moves are listed on this page, with the full archive at Where are the ${brand.NAME} index moves?`
+        : 'No scored observations recorded yet. Moves appear here the first time the index is computed twice.'],
+    ['Where is the frozen reference distribution explained?',
+      'Where today sits inside the frozen reference distribution, and why that curve is never updated live, is drawn and explained on the methodology page.'],
+    [instrumentsEmbedQ,
+      'One iframe. No script, no tracking, no key. It renders light or dark to match the page it sits in, and the number inside it is server-rendered too.'],
+    [instrumentsApiQ,
+      `Static JSON under /api/: state, history, health and per-reading receipts. No key, no rate limit, ${brand.LICENSE}. Attribution: ${brand.DOMAIN}.`],
+    // Tip #383: pillar-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...brand.PILLARS.map((p) => [
+      `What does the ${p.name} pillar count?`,
+      p.blurb || `${p.name} is one of the five pillars behind the reading.`,
+    ]),
+    // Tip #384: oven gate-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What would move one stage hotter?',
+      'The published heating gates, as numbers beside the current reading. Nothing here says any of them is met.'],
+    ['What would move one stage cooler?',
+      'The published cooling gates, as numbers beside the current reading. Cooling is deliberately the slower move.'],
+  ];
+  const instrumentsFaqHtml = instrumentsFaq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const instruments = `
+<style>
+.inst__faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.inst__faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem)}
+.inst__faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem)}
+.inst__faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.inst__faq-key{margin-top:var(--s-4,1rem)!important}
+</style>
 <section class="inst__top">
   <p class="eyebrow">The instrument room · everything behind the reading</p>
-  <h1 class="bp__h1">The instruments</h1>
+  <h1 class="bp__h1">What instruments sit behind the ${esc(brand.NAME)} reading?</h1>
   <p class="lede">The home page gives the reading. This page shows the working: where the score sits, how it has moved,
     which sources reported, what each pillar is doing, and how to take the number with you.</p>
 </section>
@@ -693,18 +750,18 @@ ${balanceModule(ctx)}
 ${oven.render(ctx)}
 
 <section class="sec" id="record" aria-labelledby="record-h">
-  <h2 class="sec__h" id="record-h">The score over time<span class="sec__eb">The record</span></h2>
+  <h2 class="sec__h" id="record-h">${esc(instrumentsRecordQ)}<span class="sec__eb">The record</span></h2>
   <p class="lede">${esc(recordLede(obs))}</p>
   ${indexHistoryChart(ctx.history, { id: 'home', now: state.score })}
   <p class="fresh__key">${esc(recordKey(obs))}
-     <a href="${esc(ctx.href('/history.html'))}">Full history and every observation →</a></p>
+     <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a></p>
   <p class="fresh__key">Where today sits inside the frozen reference distribution, and why that curve
      is never updated live, is drawn and explained on the
-     <a href="${esc(ctx.href('/methodology.html'))}">methodology page →</a></p>
+     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology →</a></p>
 </section>
 
 <section class="fresh" aria-labelledby="fresh-h">
-  <h2 class="sec__h" id="fresh-h">Source health</h2>
+  <h2 class="sec__h" id="fresh-h">${esc(instrumentsHealthQ)}</h2>
   <p class="lede">${esc(healthSentence(state))}</p>
   ${healthBar(state)}
   <details class="fresh__more">
@@ -714,7 +771,7 @@ ${oven.render(ctx)}
 </section>
 
 <section class="sec" aria-labelledby="pillars-h">
-  <h2 class="sec__h" id="pillars-h">The five pillars</h2>
+  <h2 class="sec__h" id="pillars-h">${esc(instrumentsPillarsQ)}</h2>
   <p class="lede">Which part of the field is loudest today. Each bar is linear in score from 0 to 100,
      so the ordering is the comparison; the cards underneath carry each pillar's own history.</p>
   ${pillarRanked(state.pillars, { id: 'home' })}
@@ -723,15 +780,15 @@ ${oven.render(ctx)}
 </section>
 
 <section class="sec" aria-labelledby="moves-h">
-  <h2 class="sec__h" id="moves-h">Recent moves</h2>
+  <h2 class="sec__h" id="moves-h">${esc(instrumentsMovesQ)}</h2>
   ${moves
     ? `<ul class="moves">${moves}</ul>
-       <p class="fresh__key"><a href="${esc(ctx.href('/moves/'))}">Full archive →</a></p>`
+       <p class="fresh__key"><a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves? →</a></p>`
     : `<p class="fresh__key">No scored observations recorded yet. Moves appear here the first time the index is computed twice.</p>`}
 </section>
 
 <section class="sec" id="embed" aria-labelledby="embed-h">
-  <h2 class="sec__h" id="embed-h">Put the index on your site</h2>
+  <h2 class="sec__h" id="embed-h">${esc(instrumentsEmbedQ)}</h2>
   <p class="lede">One iframe. No script, no tracking, no key. It renders light or dark to match
      the page it sits in, and the number inside it is server-rendered too.</p>
   <div class="clip"><div class="snippet">${esc(snippet)}</div></div>
@@ -739,11 +796,11 @@ ${oven.render(ctx)}
   <div class="clip"><div class="snippet">${esc(`[![${brand.NAME}](${ctx.url('/badge.svg')})](${ctx.url('/')})`)}</div></div>
   <p><img src="${esc(ctx.href('/badge.svg'))}" alt="${esc(brand.NAME)} badge showing the current level" height="20"></p>
   <p class="fresh__key">Add <code>?theme=light</code>, <code>?theme=dark</code> or <code>?compact=1</code> to pin the look.
-     <a href="${esc(ctx.href('/embed.html'))}">Preview the widget →</a></p>
+     <a href="${esc(ctx.href('/export.html'))}#embed">How do I export and embed ${esc(brand.NAME)} data? →</a></p>
 </section>
 
 <section class="sec" id="api" aria-labelledby="api-h">
-  <h2 class="sec__h" id="api-h">Public JSON API</h2>
+  <h2 class="sec__h" id="api-h">${esc(instrumentsApiQ)}</h2>
   <ul class="apilist">
     <li><code>${esc(ctx.url('/api/state.json'))}</code> <span>current level, score, pillars and per-source health</span></li>
     <li><code>${esc(ctx.url('/api/history.json'))}</code> <span>every scored observation</span></li>
@@ -753,7 +810,17 @@ ${oven.render(ctx)}
   <p class="fresh__key">Static files. No key, no rate limit, ${esc(brand.LICENSE)}. Attribution: ${esc(brand.DOMAIN)}.</p>
 </section>
 
+<section class="inst__faq" aria-labelledby="faq">
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${instrumentsFaqHtml}
+  <p class="inst__faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+</section>
+
 ${style}`;
+
+  // Classic view demotes the live verdict to h2 so the panel question can own H1.
+  const answerHtml = answer(ctx, { answerTag: view === 'classic' ? 'h2' : 'h1' });
 
   const main = `
 ${news.styleTag()}
@@ -765,7 +832,7 @@ ${gauge.styleTag()}
        first thing read, and the stage keeps a dark palette in both themes
        because the picture is dark in both. -->
   <div class="stage" style="--stage:url('${esc(ctx.href('/img/hero-siren.jpg'))}');--stage-set:image-set(url('${esc(ctx.href('/img/hero-siren.avif'))}') type('image/avif'), url('${esc(ctx.href('/img/hero-siren.jpg'))}') type('image/jpeg'))">
-  ${answer(ctx)}
+  ${answerHtml}
   <p class="hero__headline">${headline(ctx)}</p>
   ${Number.isFinite(state.score) ? langStrip(state) : ''}
   <p class="stage__credit">Background: a generated illustration, not a photograph.</p>
@@ -854,22 +921,22 @@ ${switcher.render(ctx)}
 
 
 <section class="sec inst" id="instruments" aria-labelledby="inst-h">
-  <h2 class="sec__h" id="inst-h">Check the working</h2>
+  <h2 class="sec__h" id="inst-h">Where do I check the working behind the number?</h2>
   <p class="lede">The score over time, source health, the five pillars, every recent move, the harm and benefit scale,
     the embed code and the public JSON API all live in one place.</p>
-  <p><a class="bunk__go" href="${esc(ctx.href('/instruments.html'))}">Open the instrument room →</a></p>
+  <p><a class="bunk__go" href="${esc(ctx.href('/instruments.html'))}">What instruments sit behind the ${esc(brand.NAME)} reading? →</a></p>
 </section>
 
  ${faq.render(ctx)}
 
 <section class="sec supp" id="support" aria-labelledby="support-h">
-  <h2 class="sec__h" id="support-h">Keep the count running</h2>
+  <h2 class="sec__h" id="support-h">How does ${esc(brand.NAME)} stay free without a paywall?</h2>
   <p class="lede">${esc(brand.NAME)} is free, the number will never be behind a paywall, and visit counts are disclosed on the privacy page:
     a number you have to pay to check is not a number anybody can check. It pays its way four ways, all labelled.</p>
   <div class="earn">
-    <a class="earn__c" href="${esc(ctx.href('/library.html'))}"><b>The reading list</b><span>${esc(BOOK_COUNT)} books from every side of the AI argument.</span><i>Paid links</i></a>
-    <a class="earn__c" href="${esc(ctx.href('/bunker-kit.html'))}"><b>The Bunker Kit</b><span>50 free tools, and one crate of gear that is not free.</span><i>Paid links</i></a>
-    <a class="earn__c" href="${esc(ctx.href('/sponsor.html'))}"><b>Sponsor the index</b><span>One named sponsor at a time, with no say over the number.</span><i>Open</i></a>
+    <a class="earn__c" href="${esc(ctx.href('/library.html'))}"><b>What AI books argue both sides of the case?</b><span>${esc(BOOK_COUNT)} books from every side of the AI argument.</span><i>Paid links</i></a>
+    <a class="earn__c" href="${esc(ctx.href('/bunker-kit.html'))}"><b>What free tools belong in a bunker kit?</b><span>50 free tools, and one crate of gear that is not free.</span><i>Paid links</i></a>
+    <a class="earn__c" href="${esc(ctx.href('/sponsor.html'))}"><b>How do you sponsor ${esc(brand.NAME)} without moving the number?</b><span>One named sponsor at a time, with no say over the number.</span><i>Open</i></a>
     ${brand.X_URL ? `<a class="earn__c" href="${esc(brand.X_URL)}" rel="noopener"><b>Donate with X Money</b><span>Open ${esc(brand.X_HANDLE)} and use the Money ($) button on the profile.</span><i>Any amount</i></a>` : ''}
   </div>
   <p class="fresh__key">As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases. Paid links are marked wherever they appear, and nothing a reader buys changes a number.</p>
@@ -916,9 +983,145 @@ ${style}`;
     return page({
       ctx,
       path: '/instruments.html',
-      title: `The instruments: score history, source health, pillars and API · ${brand.NAME}`,
-      description: `Everything behind the ${brand.NAME} reading: the score over time, per-source health, the five pillars, recent moves, the embed and the public JSON API.`,
+      title: `${instrumentsQ} · ${brand.NAME}`,
+      ogTitle: `${brand.NAME}: ${instrumentsQ}`,
+      description: `${instrumentsQ} Everything behind the ${brand.NAME} reading: the score over time, per-source health, the five pillars, recent moves, the embed and the public JSON API.`,
+      jsonld: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: instrumentsQ,
+          description: `Everything behind the ${brand.NAME} reading: score history, source health, pillars, embed and public JSON API.`,
+          url: ctx.url('/instruments.html'),
+          isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+          speakable: speakable(['h1.bp__h1', 'p.lede']),
+        },
+        breadcrumbs(ctx, [
+          { name: 'Home', path: '/' },
+          { name: instrumentsQ, path: '/instruments.html' },
+        ]),
+        {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: instrumentsFaq.map(([qAsk, a]) => ({
+            '@type': 'Question',
+            name: qAsk,
+            acceptedAnswer: { '@type': 'Answer', text: a },
+          })),
+        },
+      ],
       main: instruments,
+    });
+  }
+
+  if (view === 'classic') {
+    // /classic.html used to re-emit the homepage head (canonical `/`), so
+    // Google saw two URLs for one document. Own path, question title, FAQ.
+    const classicQ = `Where is the full ${brand.NAME} instrument panel?`;
+    // FAQ answers restate lede / instruments link / home split only (§3.3).
+    // Refuse: classic-as-doom-index, forecast, stuffing.
+    // Tip #263: classic/home section H2s are question-shaped and mirrored here (§3.3).
+    const classicFaq = [
+      [classicQ,
+        `The full instrument panel: live reading, war room, oven, pillars, moves, embed, API and the questions strangers ask — kept at /classic.html after the shorter home page shipped.`],
+      ['How is this different from the home page?',
+        `The home page is the short reading. This page is the longer panel the short page replaced, still rebuilt every hour with the same receipts.`],
+      ['Where do I check the working behind the number?',
+        'Open the instrument room at /instruments.html for score history, source health, pillars, embed and API without the full classic panel.'],
+      ['What does the reading look like as a clock?',
+        'Everyone asks for a doomsday clock. This is the honest version: one hand, showing how loud AI is right now, that you can check.'],
+      [`What does ${brand.NAME} Arena show today?`,
+        'Daily screen, disclosed trades and a paper-money AI battle — stock picks, big-investor filings and model wallets, not financial advice.'],
+      [`How do I hear when ${brand.NAME} moves first?`,
+        'This page only tells you something when you open it. The X account posts level changes with the receipt; X is the alert.'],
+      [`How does ${brand.NAME} stay free without a paywall?`,
+        `${brand.NAME} is free, the number will never be behind a paywall, and visit counts are disclosed on the privacy page. It pays its way four ways, all labelled.`],
+      [`Is the classic panel a doom probability?`,
+        `No. ${brand.NAME} measures activity tempo. This page is the full instrument panel for the same hourly count — not danger, and not a probability of harm.`],
+      // Tip #383: pillar-card H3s are question-shaped and mirrored in FAQ (§3.3).
+      ...brand.PILLARS.map((p) => [
+        `What does the ${p.name} pillar count?`,
+        p.blurb || `${p.name} is one of the five pillars behind the reading.`,
+      ]),
+      // Tip #384: oven gate-card H3s are question-shaped and mirrored in FAQ (§3.3).
+      ['What would move one stage hotter?',
+        'The published heating gates, as numbers beside the current reading. Nothing here says any of them is met.'],
+      ['What would move one stage cooler?',
+        'The published cooling gates, as numbers beside the current reading. Cooling is deliberately the slower move.'],
+      // Tip #385: war-room panel H3s are question-shaped and mirrored in FAQ (§3.3).
+      ['What does the Signal panel show?',
+        'The current reading on the 0–100 scale, its recent sparkline, and the move since the comparison point.'],
+      ['What is in The brief?',
+        'A thirty-second set of measured lines: level, move, loudest pillar, top story, and race lead when those facts exist.'],
+      ['What is in the Newsroom panel?',
+        'The highest-scoring stories in the window, as their publishers wrote them.'],
+      ['What does The race panel show?',
+        'Who leads the live prediction-market odds among frontier labs on this reading.'],
+    ];
+    const classicFaqHtml = classicFaq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+    const classicIntro = `
+<style>
+.clx-faq{margin:34px 0 12px;max-width:62ch}
+.clx-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.clx-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.clx-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.clx-faq-key{margin-top:var(--s-4,1rem)!important}
+.clx-top{margin:0 0 var(--s-5,1.25rem);max-width:62ch}
+.clx-top h1{font:600 var(--t-xl,1.35rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.clx-top .lede{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0}
+</style>
+<section class="clx-top">
+  <h1 class="bp__h1">${esc(classicQ)}</h1>
+  <p class="lede">The full instrument panel: live reading, war room, oven, pillars, moves, embed, API and the questions strangers ask — kept here after the shorter home page shipped.</p>
+</section>`;
+    const classicFaqSec = `
+<section class="clx-faq" aria-labelledby="classic-faq">
+  <h2 id="classic-faq">What questions do people actually ask?</h2>
+  ${classicFaqHtml}
+  <p class="clx-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/instruments.html'))}">What instruments sit behind the ${esc(brand.NAME)} reading?</a>
+    · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+</section>`;
+    const description = `${classicQ} The longer ${brand.NAME} panel with the live reading, war room, oven, pillars, moves, embed and API — same hourly count as the short home page.`;
+    return page({
+      ctx,
+      motion: true,
+      path: '/classic.html',
+      title: `${classicQ} · ${brand.NAME}`,
+      ogTitle: `${brand.NAME}: ${classicQ}`,
+      description,
+      ogImage: ctx.cardFor(state.receipt_id),
+      head: `<link rel="preload" as="image" type="image/avif" href="${esc(ctx.href('/img/hero-siren.avif'))}" fetchpriority="high">`,
+      ogImageAlt: `${brand.NAME} ${state.level}, ${state.level_name}, score ${scoreTxt} of 100`,
+      showDegraded: true,
+      jsonld: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: classicQ,
+          description: `Full ${brand.NAME} instrument panel: live reading, war room, oven, pillars, moves, embed and API.`,
+          url: ctx.url('/classic.html'),
+          dateModified: state.generated_at,
+          isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+          speakable: speakable(['h1.bp__h1', 'p.lede']),
+        },
+        breadcrumbs(ctx, [
+          { name: 'Home', path: '/' },
+          { name: classicQ, path: '/classic.html' },
+        ]),
+        {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: classicFaq.map(([qAsk, a]) => ({
+            '@type': 'Question',
+            name: qAsk,
+            acceptedAnswer: { '@type': 'Answer', text: a },
+          })),
+        },
+      ],
+      main: classicIntro + main + classicFaqSec,
     });
   }
 
@@ -1236,13 +1439,16 @@ function loudest(state) {
   return scored.length ? scored.reduce((a, b) => (b.score > a.score ? b : a)) : null;
 }
 
-function answer(ctx) {
+function answer(ctx, { answerTag = 'h1' } = {}) {
+  // On /classic.html the page H1 is the search-shaped panel question; the
+  // live verdict stays an answerTag (h2) so the document keeps one H1.
+  const tag = answerTag === 'h2' ? 'h2' : 'h1';
   const st = ctx.state;
   const n = Array.isArray(ctx.history) ? ctx.history.length : null;
   const meta = `<p class="ans__meta"><span class="ans__live">Live</span>${n ? `<span>Reading No.&nbsp;${esc(n)}</span>` : ''}<span>Observed <time datetime="${esc(st.generated_at)}">${esc(utc(st.generated_at))}</time></span><span>A count, not a forecast</span></p>`;
   if (!Number.isFinite(st.score) || !VERDICT[st.level]) {
     return `<p class="ans__q">Should you care about AI today?</p>
-  <h1 class="ans__a"><b>No reading.</b> <span>Not enough sources reported to say.</span></h1>
+  <${tag} class="ans__a"><b>No reading.</b> <span>Not enough sources reported to say.</span></${tag}>
   ${meta}`;
   }
   const [yes, gloss] = VERDICT[st.level];
@@ -1257,7 +1463,7 @@ function answer(ctx) {
       : `The overall score is ${num(mag, 1)} ${d.delta > 0 ? 'higher' : 'lower'} ${when}.`);
   }
   return `<p class="ans__q">Should you care about AI today?</p>
-  <h1 class="ans__a" style="--lvl:var(--heat-${esc(st.level)})"><b>${esc(yes)}</b> <span>${esc(gloss)}</span></h1>
+  <${tag} class="ans__a" style="--lvl:var(--heat-${esc(st.level)})"><b>${esc(yes)}</b> <span>${esc(gloss)}</span></${tag}>
   <p class="ans__why">AI activity is at level ${esc(st.level)} on a scale where 5 is quiet and 1 is loudest. ${esc(bits.join(' '))}</p>
   <p class="ans__cta">${brand.X_URL ? `<a class="cta cta--pri" href="${esc(brand.X_URL)}" rel="noopener">Get the alert on X</a>` : ''}<a class="cta cta--sec" href="#war-room">See why <span aria-hidden="true">›</span></a></p>
   <p class="hero__badge" aria-hidden="true">${mascot({ size: 44, level: st.level })}<span class="hero__badge-t"><b>${esc(brand.NAME)} ${esc(st.level)}</b><span>${esc(st.level_name)} · ${esc(num(st.score, 1))} of 100</span></span></p>
@@ -1291,14 +1497,53 @@ function sourceStrip(st) {
 // number is computed here that its own page does not also print.
 const WR_HUE = { signal: 'var(--lvl, var(--accent))', pillars: '#ff7a00', news: '#00a3ff', race: '#00e676', flock: '#00e5ff', datacenters: '#c9a0ff', exploits: '#ff5f56', leaders: '#ffb020', people: '#ff73c8', bets: '#8b9cff', corrob: '#5fd08a', brief: '#ffd166' };
 const WR_NAME = { race: 'The race', flock: 'Cameras', datacenters: 'Machines', exploits: 'Exploits', news: 'Corroboration', leaders: 'Leaders' };
+/** Tip #385: war-room panel H3s are question-shaped (mirrored in FAQ §3.3). */
+function wrPanelQ(name) {
+  const q = {
+    Signal: 'What does the Signal panel show?',
+    'The brief': 'What is in The brief?',
+    'The five pillars': 'What are the five pillars in the war room?',
+    Newsroom: 'What is in the Newsroom panel?',
+    'The race': 'What does The race panel show?',
+    Cameras: 'What does the Cameras panel show?',
+    Machines: 'What does the Machines panel show?',
+    Exploits: 'What does the Exploits panel show?',
+    Corroboration: 'What does the Corroboration panel show?',
+    Leaders: 'What does the Leaders panel show?',
+    'Jobs & medicine': 'What does the Jobs & medicine panel show?',
+    'Tally’s bets': 'What does Tally’s bets panel show?',
+  };
+  return q[name] || `What does the ${name} panel show?`;
+}
+/** Visible war-room door labels match the target page H1 (FINDABILITY tip #247). */
+function wrGoQuestion(href) {
+  const base = String(href || '').replace(/^https?:\/\/[^/]+/, '').split(/[?#]/)[0] || '';
+  const q = {
+    '/instruments.html': `What instruments sit behind the ${brand.NAME} reading?`,
+    '/digest.html': `What is the ${brand.NAME} daily brief?`,
+    '/news.html': `Which AI stories has ${brand.NAME} scored in this window?`,
+    '/race.html': 'Who is winning the AI race?',
+    '/flock.html': `How many Flock ALPR cameras has ${brand.NAME} mapped?`,
+    '/map.html': `How many datacentres has ${brand.NAME} mapped in the United States?`,
+    '/exploits.html': 'How many days from a CVE going public to CISA listing it as exploited?',
+    '/leaders.html': 'Which AI leaders are on the record this week?',
+    '/jobs.html': 'Is AI taking jobs? What has actually been measured',
+    '/bets.html': `Does the ${brand.NAME} index make forecasts?`,
+  };
+  return q[base] || null;
+}
 function warRoom(ctx) {
   const st = ctx.state;
   if (!Number.isFinite(st.score)) return '';
   const panels = [];
-  const panel = (id, name, href, body, { wide = false, meta = '' } = {}) => panels.push({ id, name,
+  const panel = (id, name, href, body, { wide = false, meta = '' } = {}) => {
+    const go = wrGoQuestion(href) || `Open ${name}`;
+    const q = wrPanelQ(name);
+    panels.push({ id, name,
     html: `<article class="wr__p${wide ? ' wr__p--w' : ''}" id="wr-${esc(id)}" tabindex="-1" style="--ph:${WR_HUE[id] || 'var(--accent)'}">
-    <header class="wr__ph"><span class="wr__dot" aria-hidden="true"></span><h3 class="wr__pn">${esc(name)}</h3>${meta ? `<span class="wr__pm">${esc(meta)}</span>` : ''}<a class="wr__go" href="${esc(href)}" aria-label="Open ${esc(name)}">Open →</a></header>
+    <header class="wr__ph"><span class="wr__dot" aria-hidden="true"></span><h3 class="wr__pn" aria-label="${esc(name)}">${esc(q)}</h3>${meta ? `<span class="wr__pm">${esc(meta)}</span>` : ''}<a class="wr__go" href="${esc(href)}" aria-label="${esc(go)}">${esc(go)} →</a></header>
     <div class="wr__pb">${body}</div></article>` });
+  };
 
   // SIGNAL: the score and its own recent record, drawn on the range it used.
   const rows = (Array.isArray(ctx.history) ? ctx.history : []).slice(-72).filter((r) => Number.isFinite(r.score));
@@ -1404,7 +1649,7 @@ function warRoom(ctx) {
   const n = Array.isArray(ctx.history) ? ctx.history.length : null;
   return `<section class="wr" id="war-room" aria-labelledby="wr-h" style="--lvl:var(--heat-${esc(st.level)})">
   <div class="wr__top">
-    <h2 class="wr__h" id="wr-h"><span class="wr__live" aria-hidden="true"></span>War room</h2>
+    <h2 class="wr__h" id="wr-h"><span class="wr__live" aria-hidden="true"></span>What is in the war room?</h2>
     <p class="wr__k">${n ? `Reading no. ${esc(n)} · ` : ''}${panels.length} panels<span class="wr__age" data-at="${esc(st.generated_at)}"></span><span class="wr__keys"> · keys 1–${Math.min(9, panels.length)} jump</span></p>
     <a class="wr__new" href="${esc(ctx.href('/'))}" hidden>New reading in · reload</a>
     <nav class="wr__nav" aria-label="Jump to a panel">${panels.map((p) => `<a href="#wr-${esc(p.id)}" style="--ph:${WR_HUE[p.id] || 'var(--accent)'}">${esc(p.name)}</a>`).join('')}</nav>
@@ -1425,7 +1670,7 @@ function closer(ctx) {
   return `<section class="close rv" aria-label="Follow for level changes" style="--lvl:var(--heat-${esc(st.level)})">
   <h2 class="close__h">${esc(v ? v[1] : `${brand.NAME} ${st.level}.`)} <span>Hear it the hour that changes.</span></h2>
   <p class="close__p">One post when the level moves, with the receipt. Nothing in between.</p>
-  <p class="ans__cta"><a class="cta cta--pri" href="${esc(brand.X_URL)}" rel="noopener">Follow ${esc(brand.X_HANDLE)}</a><a class="cta cta--sec" href="${esc(ctx.href('/feed-level.xml'))}">Level alerts by RSS <span aria-hidden="true">›</span></a></p>
+  <p class="ans__cta"><a class="cta cta--pri" href="${esc(brand.X_URL)}" rel="noopener">Follow ${esc(brand.X_HANDLE)}</a><a class="cta cta--sec" href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves? <span aria-hidden="true">›</span></a></p>
 </section>`;
 }
 
@@ -1465,14 +1710,14 @@ function statStrip(ctx) {
 function explainers(ctx) {
   const card = (href, q, a) => `<a class="xp__c" href="${esc(ctx.href(href))}"><b>${esc(q)}</b><span>${esc(a)}</span><i>Read →</i></a>`;
   return `<section class="sec xp" id="clock" aria-labelledby="xp-h">
-  <h2 class="sec__h" id="xp-h">The reading, as a clock</h2>
+  <h2 class="sec__h" id="xp-h">What does the reading look like as a clock?</h2>
   <p class="lede">Everyone asks for a doomsday clock. This is the honest version: one hand, showing how loud AI is right now, that you can check.</p>
   <div class="xp__grid">
     ${tempoClock(ctx, { size: 280 })}
     <div class="xp__l">
       ${card('/ai-doomsday-clock.html', 'Is there an AI doomsday clock?', 'What exists, who sets it, and the one you can verify.')}
       ${card('/p-doom.html', 'What is p(doom)?', 'The probability-of-doom number, and why nobody can check one.')}
-      ${card('/guide.html', 'SIREN vs DEFCON vs the Clock', 'Five numbers side by side, and what each one measures.')}
+      ${card('/guide.html', `How does ${brand.NAME} compare to DEFCON, the Doomsday Clock and p(doom)?`, 'Five numbers side by side, and what each one measures.')}
     </div>
   </div>
 </section>`;
@@ -1484,8 +1729,9 @@ function explainers(ctx) {
 function meetTally(ctx) {
   const cur = Number.isFinite(ctx.state.level) ? ctx.state.level : null;
   const levels = [...brand.LEVELS].sort((a, b) => b.level - a.level);
+  // Tip #324: section H2 is question-shaped and mirrored in home FAQ (§3.3).
   return `<section class="sec mt" id="tally" aria-labelledby="mt-h">
-  <h2 class="sec__h" id="mt-h">Meet Tally</h2>
+  <h2 class="sec__h" id="mt-h">Who is Tally, the duty canary?</h2>
   <p class="lede">The duty canary keeps the count. The helmet is the level's colour and the face is the level's mood, so one look tells you how loud things are.${cur ? ` Today Tally is ${esc(MOODS[cur])}.` : ''}</p>
   <ol class="mt__l">
 ${levels.map((l) => `    <li class="mt__i${l.level === cur ? ' mt__i--on' : ''}" style="--lvl:var(--heat-${l.level})"${l.level === cur ? ' aria-current="true"' : ''}>
@@ -1493,7 +1739,7 @@ ${levels.map((l) => `    <li class="mt__i${l.level === cur ? ' mt__i--on' : ''}"
       <b class="mt__n">${esc(l.level)} · ${esc(l.name)}</b><span class="mt__m">${esc(MOODS[l.level])}</span>
     </li>`).join('\n')}
   </ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/bets.html'))}">Tally's bets: scored forecasts →</a> · <a href="${esc(ctx.href('/desk.html'))}">Tally's desk: the unserious counts →</a> · <a href="${esc(ctx.href('/game.html'))}">Play Tally Counts →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/bets.html'))}">Does the ${esc(brand.NAME)} index make forecasts? →</a> · <a href="${esc(ctx.href('/desk.html'))}">What unserious counts does ${esc(brand.NAME)} keep on Tally’s desk? →</a> · <a href="${esc(ctx.href('/game.html'))}">How do you play Tally Counts? →</a></p>
 </section>`;
 }
 
@@ -1529,7 +1775,7 @@ function homeMap(ctx) {
     return `<circle cx="${bx * CELL + CELL / 2}" cy="${by * CELL + CELL / 2}" r="${r.toFixed(1)}"/>`;
   }).join('');
   return `<section class="sec hmap" id="where" aria-labelledby="hmap-h">
-  <h2 class="sec__h" id="hmap-h">Where the machines live</h2>
+  <h2 class="sec__h" id="hmap-h">Where do the machines live?</h2>
   <p class="lede"><b>${esc(n(t.sites))}</b> datacentre sites in <b>${esc(n(t.countries_with_sites))}</b> countries, ${esc(q)}.
     ${esc(n(t.countries_with_none))} countries have none mapped, which means nobody has mapped one there, not that none exists.</p>
   <figure class="hmap__ph">
@@ -1542,9 +1788,9 @@ function homeMap(ctx) {
       <path class="hmap__land" d="${land}"/><g class="hmap__dots">${dots}</g>
     </svg>
   </a>
-  <p class="fresh__key">Dots are sites grouped by area; bigger means more. <a href="${esc(ctx.href('/world.html'))}">The full map, every site and country →</a> ·
-    <a href="${esc(ctx.href('/country/'))}">By country →</a> ·
-    <a href="${esc(ctx.href('/map.html'))}">US sites, drought and the grid →</a> · <a href="${esc(ctx.href('/flock.html'))}">Cameras →</a></p>
+  <p class="fresh__key">Dots are sites grouped by area; bigger means more. <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth? →</a> ·
+    <a href="${esc(ctx.href('/country/'))}">Which AI datacentre countries have ${esc(brand.NAME)} pages? →</a> ·
+    <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States? →</a> · <a href="${esc(ctx.href('/flock.html'))}">How many Flock ALPR cameras has ${esc(brand.NAME)} mapped? →</a></p>
 </section>`;
 }
 
@@ -1596,13 +1842,13 @@ function picksBand(ctx) {
 @media (max-width:720px){.mkb__top,.mkb__two{grid-template-columns:1fr}}
 </style>
   <div class="mkb__hd">
-    <h2 class="sec__h" id="mkb-h">Markets: today's picks, big investors, AI battle<span class="sec__eb">Markets</span></h2>
+    <h2 class="sec__h" id="mkb-h">What does ${esc(brand.NAME)} Arena show today?<span class="sec__eb">Markets</span></h2>
     <p class="mkb__k" id="mkb-as">Daily screen · disclosed trades · paper-money AI battle</p>
   </div>
   <div class="mkb__top">
     <a class="mkb__potd" id="mkb-potd" href="${esc(arena)}">
       <small>&#9733; Pick of the day</small>
-      <b class="tk" id="mkb-tk">See today's picks</b>
+      <b class="tk" id="mkb-tk">What does ${esc(brand.NAME)} Arena show?</b>
       <span class="nm" id="mkb-nm">A fixed RSI(2) pullback screen of about 150 large US stocks, with every past pick scored.</span>
       <div class="st" id="mkb-st"></div>
     </a>
@@ -1610,25 +1856,25 @@ function picksBand(ctx) {
   </div>
   <div class="mkb__two">
     <a class="mkb__card" href="${esc(arena)}#investors">
-      <small>Big investors</small>
-      <h3>What Pelosi, Burry, Cathie Wood and Buffett disclosed</h3>
+      <small>What does ${esc(brand.NAME)} Arena show?</small>
+      <h3>What did Pelosi, Burry, Cathie Wood and Buffett disclose?</h3>
       <ul class="mkb__rows" id="mkb-inv"><li><span>13F holdings, ARK's daily trades and House trade reports, from the filings.</span></li></ul>
-      <span class="cta">All disclosed trades →</span>
+      <span class="cta">What does ${esc(brand.NAME)} Arena show? →</span>
       <span class="ft">Filings are delayed: up to 45 days after a trade or a quarter.</span>
     </a>
     <a class="mkb__card" href="${esc(arena)}#battle">
-      <small>AI battle</small>
-      <h3 id="mkb-bt">AI models trading paper money</h3>
+      <small>What does ${esc(brand.NAME)} Arena show?</small>
+      <h3 id="mkb-bt">Which AI models are trading paper money?</h3>
       <ul class="mkb__rows" id="mkb-bat"><li><span>Crypto and US stocks at live prices; a server checks every trade against fixed rules.</span></li></ul>
-      <span class="cta">The standings and every trade →</span>
+      <span class="cta">What does ${esc(brand.NAME)} Arena show? →</span>
       <span class="ft" id="mkb-bft">Paper money: prices are real, fills and wallets are simulated.</span>
     </a>
   </div>
   <div class="mkb__go">
-    <a class="pri" href="${esc(arena)}">All picks and the track record →</a>
-    <a href="${esc(arena)}#investors">Big investors</a>
-    <a href="${esc(arena)}#battle">AI battle</a>
-    <a href="${esc(ctx.href('/scanner.html'))}">Scanner</a>
+    <a class="pri" href="${esc(arena)}">What does ${esc(brand.NAME)} Arena show? →</a>
+    <a href="${esc(arena)}#investors">What does ${esc(brand.NAME)} Arena show?</a>
+    <a href="${esc(arena)}#battle">What does ${esc(brand.NAME)} Arena show?</a>
+    <a href="${esc(ctx.href('/scanner.html'))}">What does the ${esc(brand.NAME)} Capitulation Scanner show?</a>
   </div>
   <p class="mkb__note" id="mkb-rec">Picks come from an automated, hypothetical screen. Not financial advice; we are not financial advisors.</p>
 <script>
@@ -1681,7 +1927,7 @@ function picksBand(ctx) {
     var start = S.startCash || 1000, base = {hodl:1, rsi:1};
     var R = S.roster.map(function(a){ var w = S.wallets[a.id] || {}; return {a:a, r:((w.equity || start) / start - 1) * 100}; }).sort(function(x, y){ return y.r - x.r; });
     var lead = R[0];
-    $("mkb-bt").textContent = lead ? lead.a.name + (lead.a.standin ? " (stand-in)" : base[lead.a.id] ? " (baseline)" : lead.a.house ? " (house bot)" : "") + " leads" : "AI models trading paper money";
+    $("mkb-bt").textContent = lead ? lead.a.name + (lead.a.standin ? " (stand-in)" : base[lead.a.id] ? " (baseline)" : lead.a.house ? " (house bot)" : "") + " leads" : "Which AI models are trading paper money?";
     $("mkb-bat").innerHTML = R.slice(0, 4).map(function(x, i){ return '<li><span>' + (i + 1) + '. ' + esc(x.a.name) + (x.a.standin ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">stand-in</small>' : base[x.a.id] ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">baseline</small>' : x.a.house ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">house bot</small>' : '') + '</span><span class="' + (x.r >= 0 ? "mkb__up" : "mkb__dn") + '">' + sg(x.r) + '</span></li>'; }).join("");
     var n = S.roster.filter(function(a){ return a.standin; }).length;
     if(n) $("mkb-bft").textContent = "Paper money. " + n + " AI slots have no API key yet and trade a labelled rule-based stand-in, not the model.";
@@ -1695,7 +1941,7 @@ function followBand(ctx) {
   if (!brand.X_URL) return '';
   const handle = brand.X_HANDLE.replace(/^@/, '');
   return `<section class="sec fol" id="follow" aria-labelledby="fol-h">
-  <h2 class="sec__h" id="fol-h">Hear it first: follow ${esc(brand.X_HANDLE)}</h2>
+  <h2 class="sec__h" id="fol-h">How do I hear when ${esc(brand.NAME)} moves first?</h2>
   <p class="lede">This page only tells you something when you open it. The X account tells you when something changes.
     If you want to know that AI got louder before your feed fills up with takes about it, that is where it lands.</p>
   <ul class="fol__l">
