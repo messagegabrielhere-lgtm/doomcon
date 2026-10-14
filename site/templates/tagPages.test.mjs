@@ -1937,4 +1937,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-bubble'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ai-bubble'), /probability of doom/i);
   });
+
+  it('pages openai-revenue and recursive-self-improvement hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('or1', 'OpenAI Revenue and Valuation Statistics (October 2026)'),
+          story('or2', 'OpenAI revenue shock drags Korea stocks lower as foreigners sell'),
+          story('or3', 'OpenAI Revenue Run Rate $20bn Less Than Previous Indications'),
+          story('or4', 'Markets digest the latest OpenAI revenue print'),
+          story('or5', 'What OpenAI revenue figures mean for AI infrastructure spend'),
+          story('rsi1', 'RSI-Anything: Unlocking Recursive Self-Improvement with World Models'),
+          story('rsi2', 'When AI Builds AI: 2026 Breakthroughs in Recursive Self-Improvement Technology'),
+          story('rsi3', 'Memento 3: Model-Based Recursive Self-Improvement through Reflective Rulebooks'),
+          story('rsi4', 'A survey of recursive self-improvement research this year'),
+          story('rsi5', 'Labs publish papers on recursive self improvement loops'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('openai-revenue'));
+    assert.ok(ids.includes('recursive-self-improvement'));
+    assert.match(renderTag(rich, 'openai-revenue'), /What has SIREN scored about OpenAI revenue\?/);
+    assert.match(renderTag(rich, 'recursive-self-improvement'), /What has SIREN scored about Recursive self-improvement\?/);
+    assert.match(renderTag(rich, 'openai-revenue'), /not a valuation forecast/i);
+    assert.match(renderTag(rich, 'recursive-self-improvement'), /not an autonomy forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'openai-revenue'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'recursive-self-improvement'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'recursive-self-improvement'), /probability of doom/i);
+  });
 });

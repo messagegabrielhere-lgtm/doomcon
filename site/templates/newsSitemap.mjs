@@ -32,6 +32,7 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Mistral Large 4', 'Le Chonk', 'Mixtral',
   'GPT-6 Astra', 'GPT-6.1 Astra', 'GPT-6 Luna', 'GPT-6 Sol',
   'Gemini 4 Argon', 'Gemini 4 Carbon', 'Gemini 4',
+  'GLM-5.3', 'GLM5.3', 'GLM-5',
 ]);
 
 /**

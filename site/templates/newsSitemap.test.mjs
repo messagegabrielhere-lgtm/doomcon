@@ -256,6 +256,18 @@ test('news sitemap keywords include Gemini 4 Argon / Carbon surfaces', () => {
   assert.match(kw, /Gemini 4 Argon|Gemini 4 Carbon|Gemini 4/);
 });
 
+test('news sitemap keywords include GLM-5 / GLM5.3 surfaces', () => {
+  const kw = keywordsFor({
+    title: 'Strata for GLM5.3 Flash is here for some',
+    summary: 'GLM-5 and GLM5.3 nicknames appear in model coverage.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'hn',
+    entities: [],
+  });
+  assert.match(kw, /GLM-5\.3|GLM5\.3|GLM-5/);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',
