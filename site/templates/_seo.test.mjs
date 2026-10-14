@@ -422,6 +422,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes("What is on Tally's Desk"));
     assert.ok(org.knowsAbout.includes('What is the latest on superintelligence'));
     assert.ok(org.knowsAbout.includes('What Skynet talk is on X right now'));
+    assert.ok(org.knowsAbout.includes('Which posts are fast-rising'));
+    assert.ok(org.knowsAbout.includes('What is DoomBench'));
+    assert.ok(org.knowsAbout.includes('What is SIREN'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));

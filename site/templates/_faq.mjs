@@ -177,6 +177,10 @@ export function items(ctx) {
       `On /tally.html: daily forecasts about the index, scored in public.`],
     ['What is the latest on superintelligence?',
       `On /live-x.html: opens a live X search for superintelligence.`],
+    ['Which posts are fast-rising?',
+      `On /moltbook.html: standout lane from title keywords and engagement speed, not from reading intent.`],
+    ['What is DoomBench?',
+      `On /vs/doombench.html: rival side-card under What is each one? — public claim, measures, who sets it, and whether a stranger can recompute it.`],
   ];
 }
 

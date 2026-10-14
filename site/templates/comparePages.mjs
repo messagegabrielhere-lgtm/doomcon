@@ -449,6 +449,9 @@ export function vsRival(ctx, rivalId) {
   const qTitle = `${brand.NAME} vs ${rival.name}: which should you use?`;
   const title = `${qTitle} Activity count vs ${rival.short}`;
   const description = `${qTitle} ${rival.measures}. ${rival.recomputableNote}. ${brand.NAME} publishes an hourly recomputable activity score instead.`;
+  // Tip #364: side-card H3s are question-shaped and mirrored in FAQ (§3.3).
+  const rivalQ = `What is ${rival.name}?`;
+  const sirenQ = `What is ${brand.NAME}?`;
   const faq = [
     [qTitle,
       `Use ${rival.name} if you want ${rival.measures.toLowerCase()}. Use ${brand.NAME} if you want an hourly AI activity tempo reading with open inputs and a receipt. They are not substitutes for the same claim.`],
@@ -456,6 +459,10 @@ export function vsRival(ctx, rivalId) {
       rival.recomputableNote],
     [`Does ${brand.NAME} publish the same number as ${rival.name}?`,
       `No. ${brand.NAME} does not score ${rival.short.toLowerCase()}. It scores observable activity across five pillars and says so on every page.`],
+    [rivalQ,
+      `${rival.name}: ${rival.short}. Measures ${rival.measures}. Set by ${rival.whoSets}.`],
+    [sirenQ,
+      `${brand.NAME} measures AI activity tempo across capability, compute & capital, attention, governance and markets with a published formula over public data, hourly.`],
   ];
   const relatedQ = {
     '/p-doom.html': 'What is p(doom)?',
@@ -477,7 +484,7 @@ export function vsRival(ctx, rivalId) {
   ${liveStrip(ctx)}
   <h2 id="vs-each-h">What is each one?</h2>
   ${comparisonTable()}
-  <h3>${esc(rival.name)}</h3>
+  <h3>${esc(rivalQ)}</h3>
   <ul>
     <li><b>Public claim:</b> ${esc(rival.short)}.</li>
     <li><b>Measures:</b> ${esc(rival.measures)}.</li>
@@ -486,7 +493,7 @@ export function vsRival(ctx, rivalId) {
     <li><b>Also ships:</b> ${esc(rival.also)}.</li>
     <li><b>Their site:</b> <a href="${esc(rival.url)}" rel="noopener">${esc(rival.url.replace(/^https?:\/\//, ''))}</a></li>
   </ul>
-  <h3>${esc(brand.NAME)}</h3>
+  <h3>${esc(sirenQ)}</h3>
   <ul>
     <li><b>Measures:</b> AI activity tempo across capability, compute &amp; capital, attention, governance and markets.</li>
     <li><b>Set by:</b> a published formula over public data, hourly.</li>
