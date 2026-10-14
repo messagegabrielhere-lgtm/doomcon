@@ -1097,6 +1097,23 @@ async function main() {
     catch (err) { warn(`data/world-outline.json unreadable (${err.message}); building without /world.`); }
   }
 
+  // Reader-location choropleth for the homepage. Written daily by
+  // collector/visitors.mjs from GoatCounter country stats. Optional: without
+  // the file the homepage simply omits the map section.
+  let visitors = null;
+  let visitorsText = null;
+  const visitorsFile = path.join(args.data, 'visitors.json');
+  if (existsSync(visitorsFile)) {
+    try {
+      visitorsText = await readFile(visitorsFile, 'utf8');
+      visitors = JSON.parse(visitorsText);
+    } catch (err) {
+      visitors = null;
+      visitorsText = null;
+      warn(`data/visitors.json unreadable (${err.message}); homepage builds without the readers map.`);
+    }
+  }
+
   // The orbital register. Hand-compiled, sourced row by row, and not part of
   // the /world gate: a broken register loses its section and its endpoint,
   // never the map above it.
@@ -1222,6 +1239,7 @@ async function main() {
     // re-serialisation of these objects.
     world,
     worldOutline,
+    visitors,
     orbital,
     // /balance and the homepage module. The parsed payloads only; what
     // /api/balance.json and /api/ledger.json serve is the verbatim text.
@@ -1919,6 +1937,11 @@ async function main() {
     written.push(await write(args.out, 'api/world.json', worldText));
     if (orbitalText !== null) written.push(await write(args.out, 'api/orbital.json', orbitalText));
   }
+  // Verbatim reader-location snapshot. Optional: only published when the
+  // collector wrote a parseable data/visitors.json.
+  if (visitorsText !== null) {
+    written.push(await write(args.out, 'api/visitors.json', visitorsText));
+  }
   // Both verbatim, and on the ROUTE, for /world's reason: the footer's Data
   // column links them under hasSection('balance'), which reads the same flag,
   // so a link cannot outlive its file. The route requires both parses, and a
@@ -1955,6 +1978,7 @@ async function main() {
       receipt: `${ctx.url('/api/receipts/')}{id}.json`,
       receipts: ctx.url('/api/receipts/'),
       news: ctx.news ? ctx.url('/api/news.json') : undefined,
+      visitors: ctx.visitors ? ctx.url('/api/visitors.json') : undefined,
       leaders: ctx.url('/api/leaders.json'),
       si_signals: ctx.url('/api/si-signals.json'),
       fresh: ctx.url('/api/fresh.json'),

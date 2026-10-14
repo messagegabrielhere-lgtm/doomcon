@@ -46,6 +46,7 @@ collector/engine.mjs         raw -> score, level, anti-flap state machine
 collector/receipts.mjs       hash-chained receipt writer
 collector/posts.mjs          index state -> post text variants
 collector/card.mjs           index state -> share-card SVG
+collector/visitors.mjs       GoatCounter country counts -> data/visitors.json (daily)
 site/build.mjs               data/ -> public/  (static site generator)
 site/templates/*.mjs         page templates, each exporting render(ctx)
 agent-kit/                   CLI + MCP for external AI agents (public API client)

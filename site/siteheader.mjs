@@ -35,6 +35,7 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
+  ['/#readers', 'globe', 'Where readers are', 'A daily map of SIREN readers by country, from GoatCounter.'],
   ['/nations.html', 'px:tugofwar', 'USA vs China', 'The nations race to superintelligence, scored live.'],
   ['/labs.html', 'px:beaker', 'SIREN Labs', 'This week’s experiments in measuring superintelligence.'],
   ['/games.html', 'px:joystick', 'The Arcade', 'Every SIREN game in one place, one click from any page.'],
