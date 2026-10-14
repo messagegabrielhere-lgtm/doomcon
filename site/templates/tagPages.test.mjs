@@ -1751,4 +1751,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-factories'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ai-security'), /probability of doom/i);
   });
+
+  it('pages amazon-bedrock and claude-opus hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ab1', 'Accessing OpenAI GPT models on Amazon Bedrock'),
+          story('ab2', 'AWS Bedrock adds a new foundation model'),
+          story('ab3', 'Enterprises wire agents through Amazon Bedrock'),
+          story('ab4', 'Bedrock Guardrails expand for regulated workloads'),
+          story('ab5', 'How teams price tokens on Amazon Bedrock'),
+          story('co1', 'Claude Opus leads a public coding leaderboard'),
+          story('co2', 'Anthropic ships a Claude Opus update'),
+          story('co3', 'Agents burn tokens on Claude Opus for tiny gains'),
+          story('co4', 'Claude Opus pricing compared with other frontier models'),
+          story('co5', 'Developers debate when to call Claude Opus'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('amazon-bedrock'));
+    assert.ok(ids.includes('claude-opus'));
+    assert.match(renderTag(rich, 'amazon-bedrock'), /What has SIREN scored about Amazon Bedrock\?/);
+    assert.match(renderTag(rich, 'claude-opus'), /What has SIREN scored about Claude Opus\?/);
+    assert.match(renderTag(rich, 'amazon-bedrock'), /not a vendor ranking/i);
+    assert.match(renderTag(rich, 'claude-opus'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'amazon-bedrock'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'claude-opus'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'claude-opus'), /probability of doom/i);
+  });
 });
