@@ -153,6 +153,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'What did the scan at a given UTC time find?'));
     assert.ok(qa.some(([q]) => q === 'What does a Translator do?'));
     assert.ok(qa.some(([q]) => q === 'Why look at Wyoming for remote land?'));
+    assert.ok(qa.some(([q]) => q === 'What does the Work and skills area cover?'));
+    assert.ok(qa.some(([q]) => q === 'How do I move toward the work AI is worst at?'));
     assert.ok(qa.some(([q]) => q === 'What are the agents shipping right now?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
@@ -199,6 +201,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /What did the scan at a given UTC time find\?/);
     assert.match(html, /What does a Translator do\?/);
     assert.match(html, /Why look at Wyoming for remote land\?/);
+    assert.match(html, /What does the Work and skills area cover\?/);
+    assert.match(html, /How do I move toward the work AI is worst at\?/);
     assert.match(html, /What are the agents shipping right now\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });

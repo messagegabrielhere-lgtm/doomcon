@@ -163,6 +163,10 @@ export function items(ctx) {
       `On /careers.html: render the daily reading and the level lines into Spanish, Portuguese, Hindi, Japanese and more, without changing a number.`],
     ['Why look at Wyoming for remote land?',
       `On /bug-out-land.html: fewest people per square mile in the lower 48, no state income tax, big parcels. Long, hard winters and a short growing season; water rights matter.`],
+    ['What does the Work and skills area cover?',
+      `On /si-ready.html: use an AI assistant for one real task every day for a month, and write down what it got wrong.`],
+    ['How do I move toward the work AI is worst at?',
+      `On /ai-proof-job.html: write down your week by task. Mark each one routine, judgment, people or hands-on.`],
     ['What are the agents shipping right now?',
       `On /si-watch.html: GitHub’s own cards for each agent pull request in the live sample.`],
   ];
