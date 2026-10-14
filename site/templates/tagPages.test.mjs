@@ -2371,4 +2371,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'machine-learning'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'machine-learning'), /probability of doom/i);
   });
+
+  it('pages ai-industry and ai-use hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ai1', 'The AI industry has taken a doomer turn. What now?'),
+          story('ai2', 'AI industry flexes midterms muscle in multibillion-dollar spending spree'),
+          story('ai3', 'KOSPI Plunges 3% Amid AI Industry Concerns'),
+          story('ai4', 'Can the AI industry persuade data center opponents by getting rid of NDAs?'),
+          story('ai5', 'OpenAI Revenue Forecast Cut: Shifting Trends in the Global AI Industry'),
+          story('au1', 'Award-winning microscopy image disqualified over AI use'),
+          story('au2', 'Nicolas Cage criticises Amazon over AI use, shoots down National Treasure 3 story'),
+          story('au3', 'Top Science Photography Award Winner Stripped For AI Use'),
+          story('au4', 'six parents on limiting their kids social media and AI use'),
+          story('au5', 'A Framework for Categorizing AI use in Text and Images'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('ai-industry'));
+    assert.ok(ids.includes('ai-use'));
+    assert.match(renderTag(rich, 'ai-industry'), /What has SIREN scored about AI industry\?/);
+    assert.match(renderTag(rich, 'ai-use'), /What has SIREN scored about AI use\?/);
+    assert.match(renderTag(rich, 'ai-industry'), /not a market forecast/i);
+    assert.match(renderTag(rich, 'ai-use'), /not a harm forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-industry'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-use'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-use'), /probability of doom/i);
+  });
 });
