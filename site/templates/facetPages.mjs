@@ -495,6 +495,7 @@ function labNeedles(player) {
     amazon: ['amazon', 'aws', 'bedrock'],
     'hugging-face': ['hugging face', 'huggingface'],
     bytedance: ['bytedance', 'seed-oss'],
+    apple: ['apple', 'apple intelligence'],
     oracle: ['oracle'],
     tencent: ['tencent'],
     palantir: ['palantir'],

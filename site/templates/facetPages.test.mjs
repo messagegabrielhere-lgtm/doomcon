@@ -1247,6 +1247,75 @@ describe('lab facets', () => {
     }
   });
 
+  it('indexes Reflection AI, Apple, Palantir, and ByteDance entity labs', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'ra1', title: 'Reflection AI raises for autonomous coding agents', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ra1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'ra2', title: 'Reflection AI demos long-horizon software agents', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ra2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'ra3', title: 'Labs watch Reflection AI as agent eval scores climb', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ra3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'ap1', title: 'Apple Intelligence expands on-device model features', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ap1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'ap2', title: 'Apple ships Private Cloud Compute updates for AI', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ap2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'ap3', title: 'Developers test Apple Foundation Models for apps', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ap3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'pa1', title: 'Palantir AIP wins new government AI contracts', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/pa1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'pa2', title: 'Palantir ontology platform adds agent workflows', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/pa2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'pa3', title: 'Investors track Palantir AI software bookings', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/pa3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+        {
+          id: 'bd1', title: 'ByteDance Seed-OSS models expand open-weight lineup', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/bd1', published_at: '2026-09-01T04:00:00Z', score: 40,
+        },
+        {
+          id: 'bd2', title: 'ByteDance AI research publishes new multimodal results', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/bd2', published_at: '2026-09-02T04:00:00Z', score: 41,
+        },
+        {
+          id: 'bd3', title: 'Enterprises trial ByteDance foundation models in APAC', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/bd3', published_at: '2026-09-03T04:00:00Z', score: 42,
+        },
+      ],
+    };
+    for (const [id, name] of [
+      ['reflection-ai', 'Reflection AI'],
+      ['apple', 'Apple'],
+      ['palantir', 'Palantir'],
+      ['bytedance', 'ByteDance'],
+    ]) {
+      const lab = labsFromEntities(withArch).find((p) => p.id === id);
+      assert.ok(lab, `${name} clears ENTITY_LAB_MIN`);
+      assert.match(renderLab(withArch, lab), new RegExp(`What has SIREN scored about ${name}\\?`));
+      assert.doesNotMatch(renderLab(withArch, lab), /doom score:\s*\d/i);
+      assert.ok(sitemapEntries(withArch).some((e) => e.loc === `/lab/${id}.html`));
+    }
+  });
+
   it('indexes Microsoft, NVIDIA, Amazon, and Hugging Face entity labs', () => {
     const withArch = {
       ...ctx,
