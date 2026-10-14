@@ -150,6 +150,12 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Is AI curing anything? Trial results, approvals and what they show'));
     assert.ok(org.knowsAbout.includes('what is SIREN'));
     assert.ok(org.knowsAbout.includes('What is SIREN'));
+    assert.ok(org.knowsAbout.includes('What does the name SIREN mean'));
+    assert.ok(org.knowsAbout.includes('What is SIREN as a publication'));
+    assert.ok(org.knowsAbout.includes('Who runs SIREN'));
+    assert.ok(org.knowsAbout.includes('How is SIREN paid for'));
+    assert.ok(org.knowsAbout.includes('How do you contact SIREN'));
+    assert.ok(org.knowsAbout.includes('What are the terms, in plain words'));
     assert.ok(org.knowsAbout.includes('SIREN privacy'));
     assert.ok(org.knowsAbout.includes('What does SIREN know about you'));
     assert.ok(org.knowsAbout.includes('SIREN press kit'));
