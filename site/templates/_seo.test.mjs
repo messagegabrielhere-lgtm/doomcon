@@ -292,6 +292,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Where is land listed'));
     assert.ok(org.knowsAbout.includes('What else does SIREN cover for supplies'));
     assert.ok(org.knowsAbout.includes('How do I apply'));
+    assert.ok(org.knowsAbout.includes('Which scored stories are in the live window'));
+    assert.ok(org.knowsAbout.includes('Which older scored stories are from a UTC day'));
+    assert.ok(org.knowsAbout.includes('Which other days have scored stories'));
     assert.ok(org.knowsAbout.includes('ready for superintelligence'));
     assert.ok(org.knowsAbout.includes('Ready for SI personal plan'));
     assert.ok(org.knowsAbout.includes('USA vs China AI race'));
