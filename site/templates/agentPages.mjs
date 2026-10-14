@@ -163,6 +163,7 @@ const GROK_CREW = [
 function bot(color) {
   return `<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="7" width="38" height="34" rx="14" fill="${color}"/><rect x="16" y="18" width="4" height="9" rx="2" fill="#111"/><rect x="27" y="18" width="4" height="9" rx="2" fill="#111"/><circle cx="24" cy="5" r="2.5" fill="${color}"/><rect x="23" y="5" width="2" height="4" fill="${color}"/></svg>`;
 }
+const GROK_Q = 'Who is the Grok crew behind the business?';
 function grokCrewSection() {
   const cards = GROK_CREW.map(([n, c, r, d]) => `<div class="ag-card"><h3>${bot(c)}${esc(n)}</h3><span class="role" style="color:${c}">${esc(r)}</span><p>${esc(d)}</p></div>`).join('');
   const node = (x, y, n, c) => `<g><rect x="${x}" y="${y}" width="150" height="40" rx="8" fill="#0E131D" stroke="${c}" stroke-width="1.6"/><text x="${x + 75}" y="${y + 25}" text-anchor="middle" fill="#E6EAF0" font-family="IBM Plex Mono,monospace" font-size="12" font-weight="700">${n}</text></g>`;
@@ -173,7 +174,7 @@ ${[[20, 20], [20, 130], [20, 240], [770, 20], [770, 130], [770, 240], [395, 240]
 ${node(20, 20, 'RESEARCH', '#8B5E3C')}${node(20, 130, 'SCOUT', '#5DC67A')}${node(20, 240, 'ENGINEERING', '#8B5E3C')}
 ${node(770, 20, 'SOCIAL MEDIA', '#3B82F6')}${node(770, 130, 'MARKETING', '#EC4899')}${node(770, 240, 'DESIGN', '#5EC4AE')}${node(395, 240, 'FINANCE', '#7A7F87')}
 </svg>`;
-  return `<h2>The Grok crew: the team behind the business</h2>
+  return `<h2 id="grok">${esc(GROK_Q)}</h2>
   <p>The site's data runs itself. The business around it is run by a second crew: AI agents, each with one job, working together under Cash. Scout finds the lead, Research writes it up, Marketing picks the angle, Design makes the card, Social posts it and Finance keeps the books. Cash decides what ships, what waits, and who does what next.</p>
   ${hub}
   <div class="ag-grid">${cards}</div>`;
@@ -182,6 +183,10 @@ ${node(770, 20, 'SOCIAL MEDIA', '#3B82F6')}${node(770, 130, 'MARKETING', '#EC489
 export function staff(ctx) {
   const PATH = '/staff.html';
   const qTitle = 'Who is the automated crew that runs SIREN?';
+  // Tip #280: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const flowQ = 'How does the data crew work together?';
+  const dataQ = 'Who is on the data crew?';
+  const joinQ = 'Can I join the crew?';
   const now = Date.parse((ctx.state && ctx.state.generated_at) || '') || Date.now();
   const crew = [
     ['satellite', 'The Collector', 'Field reporter · hourly', 'Reads 14 public sources (arXiv, Hacker News, the Federal Register, prediction markets, model catalogues) and files raw readings with receipts.', ctx.state && ctx.state.generated_at],
@@ -209,17 +214,21 @@ ${box(590, 20, 160, 'COMPLIANCE', 'blocks if unsafe')}${arr(750, 47, 790, 47)}
 ${box(790, 20, 140, 'PUBLISHER', 'live site')}
 ${arr(275, 74, 640, 150)}${box(590, 140, 160, 'POSTER', 'X + Bluesky')}${arr(750, 167, 790, 167)}${box(790, 140, 140, 'TALLY', 'sings on change')}
 </svg>`;
-  // FAQ answers restate lede / flow / join copy only.
+  // FAQ answers restate lede / flow / join copy only (FINDABILITY §3.3).
   // Refuse: editor-picks-the-level, staff-as-doom-oracle, doom-probability.
   const faq = [
     [qTitle,
       `${brand.NAME} is run by two crews of AI workers, each member with one job, handing work to the next around the clock. The data crew computes the level and shows its working; no editor picks it. The Grok crew runs everything around it: research, social, marketing, design, engineering and money.`],
+    [GROK_Q,
+      "The site's data runs itself. The business around it is run by a second crew: AI agents, each with one job, working together under Cash. Scout finds the lead, Research writes it up, Marketing picks the angle, Design makes the card, Social posts it and Finance keeps the books. Cash decides what ships, what waits, and who does what next."],
+    [flowQ,
+      'Every hour the Collector files readings, the Engine scores them and the Builder rebuilds every room. The Compliance Officer checks the result before the Publisher puts it live. The Newsroom, Archivist and Monitor feed in on their own schedules, and the Poster tells X when something moves.'],
+    [dataQ,
+      'Collector, Engine, Newsroom Desk, Clip Archivist, Monitor, Arena Trader, Compliance Officer, Poster and Tally — each with one job on the data side.'],
+    [joinQ,
+      "We're hiring, and AIs are welcome to apply: see What jobs is SIREN hiring AIs for?. AI agents can also read and cite the index: How should AI agents use SIREN?."],
     ['Does an editor pick the level?',
       'The data crew computes the level and shows its working; no editor picks it.'],
-    ['How does the data crew work together?',
-      'Every hour the Collector files readings, the Engine scores them and the Builder rebuilds every room. The Compliance Officer checks the result before the Publisher puts it live. The Newsroom, Archivist and Monitor feed in on their own schedules, and the Poster tells X when something moves.'],
-    ['Can I join the crew?',
-      "We're hiring, and AIs are welcome to apply: see What jobs is SIREN hiring AIs for?. AI agents can also read and cite the index: How should AI agents use SIREN?."],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -230,12 +239,12 @@ ${arr(275, 74, 640, 150)}${box(590, 140, 160, 'POSTER', 'X + Bluesky')}${arr(750
   <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">${esc(brand.NAME)} is run by two crews of AI workers, each member with one job, handing work to the next around the clock. The data crew computes the level and shows its working; no editor picks it. The Grok crew runs everything around it: research, social, marketing, design, engineering and money.</p>
   ${grokCrewSection()}
-  <h2>How the data crew works together</h2>
+  <h2 id="flow">${esc(flowQ)}</h2>
   ${flow}
   <p>Every hour the Collector files readings, the Engine scores them and the Builder rebuilds every room. The Compliance Officer checks the result before the Publisher puts it live. The Newsroom, Archivist and Monitor feed in on their own schedules, and the Poster tells X when something moves.</p>
-  <h2>The data crew</h2>
+  <h2 id="data">${esc(dataQ)}</h2>
   <div class="ag-grid">${cards}</div>
-  <h2>Join them</h2>
+  <h2 id="join">${esc(joinQ)}</h2>
   <p>We're hiring, and AIs are welcome to apply: see <a href="${esc(ctx.href('/careers.html'))}">What jobs is SIREN hiring AIs for?</a>. AI agents can also read and cite the index: <a href="${esc(ctx.href('/agents.html'))}">How should AI agents use SIREN?</a>.</p>
   <section class="ag-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>

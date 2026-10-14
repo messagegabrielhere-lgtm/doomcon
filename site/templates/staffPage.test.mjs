@@ -15,6 +15,10 @@ describe('staff page SEO', () => {
     assert.match(html, /<title>Who is the automated crew that runs SIREN\?/);
     assert.match(html, /<h1 class="bp__h1">Who is the automated crew that runs SIREN\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="grok"[^>]*>Who is the Grok crew behind the business\?/);
+    assert.match(html, /id="flow"[^>]*>How does the data crew work together\?/);
+    assert.match(html, /id="data"[^>]*>Who is on the data crew\?/);
+    assert.match(html, /id="join"[^>]*>Can I join the crew\?/);
     assert.match(html, /Does an editor pick the level\?/);
     assert.match(html, /How does the data crew work together\?/);
     assert.match(html, /Can I join the crew\?/);
@@ -31,6 +35,10 @@ describe('staff page SEO', () => {
     assert.match(html, /href="\/agents\.html">How should AI agents use SIREN\?<\/a>/);
     assert.doesNotMatch(html, /href="\/careers\.html">Careers<\/a>/);
     assert.doesNotMatch(html, /href="\/agents\.html">for AI agents<\/a>/);
+    assert.doesNotMatch(html, /<h2>The Grok crew: the team behind the business<\/h2>/);
+    assert.doesNotMatch(html, /<h2>How the data crew works together<\/h2>/);
+    assert.doesNotMatch(html, /<h2>The data crew<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Join them<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /editor picks the doom|probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
