@@ -344,6 +344,12 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('How do I propose a source'));
     assert.ok(org.knowsAbout.includes('SIREN baseline'));
     assert.ok(org.knowsAbout.includes('How does the SIREN baseline get updated'));
+    assert.ok(org.knowsAbout.includes('What is reference v1, and why is it frozen'));
+    assert.ok(org.knowsAbout.includes('How do addenda run as a shadow score'));
+    assert.ok(org.knowsAbout.includes('When is an addendum promoted'));
+    assert.ok(org.knowsAbout.includes('What happens at cutover'));
+    assert.ok(org.knowsAbout.includes('How does a permanent baseline shift work'));
+    assert.ok(org.knowsAbout.includes('How do official and candidate scores compare this reading'));
     assert.ok(org.knowsAbout.includes('SIREN changelog'));
     assert.ok(org.knowsAbout.includes('What moved the SIREN score this hour'));
     assert.ok(org.knowsAbout.includes('SIREN Labs'));
