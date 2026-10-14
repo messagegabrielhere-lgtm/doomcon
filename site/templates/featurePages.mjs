@@ -76,7 +76,8 @@ function quiz({ id, questions, areas, intro }) {
       var pct=Math.round(100*total/(tmax||1));
       var ranked=keys.slice().sort(function(a,b){return ((got[a]||0)/(max[a]||1))-((got[b]||0)/(max[b]||1));});
       var h='<h3>What is your readiness score? '+pct+'%</h3><div class="fx-meter"><i style="width:'+pct+'%"></i></div><p>Start with your weakest areas. Each has three moves you can make this month.</p>';
-      ranked.forEach(function(k,i){var s=Math.round(100*(got[k]||0)/(max[k]||1));h+='<h3 style="margin-top:16px">'+(i+1)+'. '+AREAS[k].name+' <span class="fx-pill">'+s+'%</span></h3><ul>'+AREAS[k].moves.map(function(m){return '<li>'+m+'</li>';}).join('')+'</ul>';});
+      // Tip #390: per-area result H3s are question-shaped (mirrored in FAQ §3.3).
+      ranked.forEach(function(k,i){var s=Math.round(100*(got[k]||0)/(max[k]||1));var aq=AREAS[k].q||('How ready are you on '+AREAS[k].name+'?');h+='<h3 style="margin-top:16px">'+(i+1)+'. '+aq+' <span class="fx-pill">'+s+'%</span></h3><ul>'+AREAS[k].moves.map(function(m){return '<li>'+m+'</li>';}).join('')+'</ul>';});
       h+='<p><button class="fx-btn ghost" type="button" onclick="window.print()">PRINT MY PLAN</button></p>';
       out.innerHTML=h;out.hidden=false;out.scrollIntoView({behavior:'smooth',block:'start'});
     }
@@ -90,27 +91,27 @@ function quiz({ id, questions, areas, intro }) {
 // PREPARE FOR SUPERINTELLIGENCE
 // ---------------------------------------------------------------------------
 const SI_AREAS = {
-  work: { name: 'Work and skills', moves: [
+  work: { name: 'Work and skills', q: 'How ready are you on Work and skills?', moves: [
     'Use an AI assistant for one real task every day for a month, and write down what it got wrong.',
     'List the parts of your job that need judgment, trust or hands; move your time toward them.',
     'Learn to check AI output fast: sources, numbers, code that runs. Checking is the scarce skill.'] },
-  money: { name: 'Money and resilience', moves: [
+  money: { name: 'Money and resilience', q: 'How ready are you on Money and resilience?', moves: [
     'Build an emergency fund that covers several months of costs, in a plain savings account.',
     'Cut fixed monthly costs so a pay cut or job change would not be a crisis.',
     'Talk to a licensed financial adviser before making big moves on AI hype. This page is not financial advice.'] },
-  info: { name: 'Information and deepfakes', moves: [
+  info: { name: 'Information and deepfakes', q: 'How ready are you on Information and deepfakes?', moves: [
     'Agree a family code word for urgent calls or voice notes asking for money.',
     'Check where a clip was uploaded before you share it; the Real Clips room does this for you.',
     'Follow a few sources that publish their method, and fewer that only publish takes.'] },
-  security: { name: 'Privacy and security', moves: [
+  security: { name: 'Privacy and security', q: 'How ready are you on Privacy and security?', moves: [
     'Turn on two-factor sign-in (an app or passkey, not SMS) for email, bank and phone carrier.',
     'Use a password manager; never reuse a password.',
     'Remove yourself from people-search sites, and keep paper copies of key documents.'] },
-  people: { name: 'Health, people and community', moves: [
+  people: { name: 'Health, people and community', q: 'How ready are you on Health, people and community?', moves: [
     'Keep in-person friendships that do not run through a screen; they are the hardest thing to automate.',
     'Have a household plan for outages: water, food, power and a meeting place (see What belongs in a 72-hour prepper kit?).',
     'Talk with your kids about AI: what it is good at, and that it can be wrong with confidence.'] },
-  voice: { name: 'Civic voice', moves: [
+  voice: { name: 'Civic voice', q: 'How ready are you on Civic voice?', moves: [
     'Read one primary source on AI policy where you live, not a summary of it.',
     'Tell your elected representatives what you want from AI rules; they count letters.',
     'Support groups doing AI safety and evaluation work, with time or money, if you can.'] },
@@ -241,6 +242,8 @@ export function siReady(ctx) {
     // Tip #357: readiness-area + 30-day week H3s are question-shaped and mirrored in FAQ (§3.3).
     ...Object.values(SI_AREAS).map((a) => [`What does the ${a.name} area cover?`, a.moves[0]]),
     ...SI_30.map(([w, d]) => [`What do you do in ${w} of the SI plan?`, d]),
+    // Tip #390: quiz result-area H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...Object.values(SI_AREAS).map((a) => [a.q, a.moves[0]]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -311,23 +314,23 @@ export function siReady(ctx) {
 // AI-PROOF YOUR JOB
 // ---------------------------------------------------------------------------
 const JOB_AREAS = {
-  tasks: { name: 'Move toward the work AI is worst at', moves: [
+  tasks: { name: 'Move toward the work AI is worst at', q: 'How ready are you to move toward the work AI is worst at?', moves: [
     'Write down your week by task. Mark each one routine, judgment, people or hands-on.',
     'Volunteer for the judgment and people work: decisions, negotiations, client trust, mentoring.',
     'Own an outcome, not a task: "I make X happen" survives automation better than "I do step 3".'] },
-  tools: { name: 'Become the person who runs the AI', moves: [
+  tools: { name: 'Become the person who runs the AI', q: 'How ready are you to become the person who runs the AI?', moves: [
     'Pick the AI tool your field uses most and get properly good at it this month.',
     'Automate one boring task of your own and show your team how you did it.',
     'Keep a running doc of prompts and checks that work in your job; it becomes a playbook others need.'] },
-  proof: { name: 'Make your value visible', moves: [
+  proof: { name: 'Make your value visible', q: 'How ready are you to make your value visible?', moves: [
     'Track results in numbers your boss cares about: time saved, revenue, errors caught.',
     'Share what you learn about AI at work; the explainer becomes the leader.',
     'Keep your CV and portfolio current every quarter, not when you need them.'] },
-  learn: { name: 'Keep learning on purpose', moves: [
+  learn: { name: 'Keep learning on purpose', q: 'How ready are you to keep learning on purpose?', moves: [
     'Spend two hours a week on a skill one step away from your job, ideally one that pairs with AI.',
     'Take a short course with a project at the end, not just videos.',
     'Find a peer group or community in your field that is figuring out AI too.'] },
-  net: { name: 'Build a safety net', moves: [
+  net: { name: 'Build a safety net', q: 'How ready are you to build a safety net?', moves: [
     'Grow a network outside your company: a coffee a month adds up.',
     'Keep a few months of costs saved so you can choose your next move, not just take one.',
     'Know your options now: adjacent roles, retraining support, and where your skills transfer.'] },
@@ -382,6 +385,8 @@ export function jobProof(ctx) {
       JOB_AREAS.learn.moves[0]],
     ['How do I build a safety net?',
       JOB_AREAS.net.moves[0]],
+    // Tip #390: quiz result-area H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...Object.values(JOB_AREAS).map((a) => [a.q, a.moves[0]]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

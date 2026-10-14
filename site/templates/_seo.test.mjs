@@ -474,6 +474,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('How did Google DeepMind fare in this window'));
     assert.ok(org.knowsAbout.includes('Which incident terms fired in this window'));
     assert.ok(org.knowsAbout.includes('What moves between collects'));
+    assert.ok(org.knowsAbout.includes('What was CISA actually cataloguing in 2022-H1'));
+    assert.ok(org.knowsAbout.includes('How ready are you on Work and skills'));
+    assert.ok(org.knowsAbout.includes('How ready are you to move toward the work AI is worst at'));
     assert.ok(org.knowsAbout.includes('What AI Spaces are live on X'));
     assert.ok(org.knowsAbout.includes('Who is OpenAI on X'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));

@@ -229,6 +229,10 @@ export function items(ctx) {
       'On /news.html: tier is the weight of the term that matched, not a judgement about the event — matched words are printed beside each item.'],
     ['What moves between collects?',
       'On /map.html: balancing authorities that publish a number without an account — the only figures that can differ from the previous collect.'],
+    ['What was CISA actually cataloguing in the launch half-year?',
+      'On /exploits.html: the backfill window shows how many KEV listings had CVE records older than two years — a filing decision, not an attack.'],
+    ['How ready are you on Work and skills?',
+      'On /si-ready.html after the quiz: use an AI assistant for one real task every day for a month, and write down what it got wrong.'],
   ];
 }
 

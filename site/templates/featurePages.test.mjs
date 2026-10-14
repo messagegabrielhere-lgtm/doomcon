@@ -96,6 +96,11 @@ describe('si-ready page', () => {
     assert.match(html, /What do you do in Week 4 of the SI plan\?/);
     assert.match(html, /FAQPage[\s\S]*What does the Work and skills area cover\?/);
     assert.match(html, /FAQPage[\s\S]*What do you do in Week 1 of the SI plan\?/);
+    assert.match(html, /How ready are you on Work and skills\?/);
+    assert.match(html, /How ready are you on Civic voice\?/);
+    assert.match(html, /FAQPage[\s\S]*How ready are you on Work and skills\?/);
+    assert.match(html, /AREAS\[k\]\.q\|\|/);
+    assert.doesNotMatch(html, /\.name\+' <span class="fx-pill">/);
     assert.doesNotMatch(html, /<h3>Work and skills<\/h3>/);
     assert.doesNotMatch(html, /<h3>Week 1<\/h3>/);
     assert.doesNotMatch(html, /<h2>The six areas<\/h2>/);
@@ -150,6 +155,11 @@ describe('ai-proof-job page', () => {
     assert.match(html, /How do I build a safety net\?/);
     assert.match(html, /FAQPage[\s\S]*How do I move toward the work AI is worst at\?/);
     assert.match(html, /FAQPage[\s\S]*How do I build a safety net\?/);
+    assert.match(html, /How ready are you to move toward the work AI is worst at\?/);
+    assert.match(html, /How ready are you to build a safety net\?/);
+    assert.match(html, /FAQPage[\s\S]*How ready are you to move toward the work AI is worst at\?/);
+    assert.match(html, /AREAS\[k\]\.q\|\|/);
+    assert.doesNotMatch(html, /\.name\+' <span class="fx-pill">/);
     assert.doesNotMatch(html, /<h3>Move toward the work AI is worst at<\/h3>/);
     assert.doesNotMatch(html, /<h3>Build a safety net<\/h3>/);
     assert.doesNotMatch(html, /<h2>Five moves that keep working<\/h2>/);

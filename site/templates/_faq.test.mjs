@@ -186,6 +186,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'How did OpenAI fare in this window?'));
     assert.ok(qa.some(([q]) => q === 'Which incident terms fired in this window?'));
     assert.ok(qa.some(([q]) => q === 'What moves between collects?'));
+    assert.ok(qa.some(([q]) => q === 'What was CISA actually cataloguing in the launch half-year?'));
+    assert.ok(qa.some(([q]) => q === 'How ready are you on Work and skills?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -264,6 +266,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /How did OpenAI fare in this window\?/);
     assert.match(html, /Which incident terms fired in this window\?/);
     assert.match(html, /What moves between collects\?/);
+    assert.match(html, /What was CISA actually cataloguing in the launch half-year\?/);
+    assert.match(html, /How ready are you on Work and skills\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });
