@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-14T17:06:07.633Z",
+  "generated_at": "2026-10-14T17:42:32.742Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 12,
+  "live": 10,
   "fresh": "b8c39013b03cf",
   "clusters": [
     {
@@ -151,12 +151,16 @@
       "outlet": "bloomberg.com",
       "outlets": [
         "bloomberg.com",
-        "datacenterdynamics.com"
+        "cnbc.com",
+        "datacenterdynamics.com",
+        "qz.com",
+        "yahoo.com"
       ],
       "tier1_outlets": [
-        "bloomberg.com"
+        "bloomberg.com",
+        "cnbc.com"
       ],
-      "corroboration": 2,
+      "corroboration": 5,
       "sources": [
         "bloomberg-tech",
         "bluesky-ai",
@@ -165,6 +169,7 @@
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-14T15:41:43.000Z",
@@ -173,8 +178,11 @@
       "breaking_at": "2026-10-14T16:36:33.474Z",
       "item_ids": [
         "1329ad037a7166fd",
+        "13685d875d99abf3",
         "26e984b41a938291",
         "4adc659ac29aed21",
+        "5c3a2404fcbf8b3a",
+        "a9c114f7f8fc440a",
         "b7a3f9a43a69d720"
       ],
       "sightings": [
@@ -224,6 +232,30 @@
           "title": "OpenAI again shakes up compute leadership, with xAI exec Uday Ruddarraju to lead and Sachin Katti to leave",
           "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxNSUxwQzhzNUhnRmJnbmNnVkpXU1pLZjBJOFAyXzlsb241XzhhMFFUV0c0NTJpUUR0Tk5ZQ0IySks4bHNHNTgzZnNHV0JPeTJncmZ5eVNVcWpkcXRXRUFVb1ZzRkVvUzk1OFN5SXZ6QzhhSGR4YjhxU3N0aDBUZGo0d1V2LV8wdk1seDNiaHpQOXJGQ05CUDY4YUJtY294dDdyMzlXejNCZHRBdGtaaHVHX2hyZUtBNk1EYV9BNUY3VFVoRkpxcUl5Vm5IRzhlZkF4aUk5NS1TekpBdWVhU1ZUQkxXYw?oc=5",
           "published_at": "2026-10-14T16:35:25.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "yahoo.com",
+          "title": "OpenAI infrastructure lead Sachin Katti to depart next month, WSJ reports",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOLVRkZ1Z6ZXFhQ3R4a2dRSzEtM2JnamxNVXN2eXVzZXVsODVTbk1meTM0RmJkMFpOQnI0TDI3TEdtVG1KOG1pMk5xTGd3RTlzelNNMFNkdF82a3ZlR29UUVNxZ2h1bE53RlUySG00WDd4YWt3VE1uQXhrVEx3LXFjV1BYVW1qZkZYNXV5U3dkWFF3cm13YmJ3YWtHWVpkbG1KLXlsNURB?oc=5",
+          "published_at": "2026-10-14T16:49:58.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "cnbc.com",
+          "title": "OpenAI’s Sachin Katti to leave infrastructure role, stay on as advisor",
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQU0JzN09IZDJjcHJLS1lCWnZKYlpOLVBJLUl1RDFoV2t1eFNZVEtONFdFR19qYURJX3poOTJvUmNrZGxTczB3MFZRWVIzQnZPNzJ6YXVpZHNlQ2NDVWJNTXNCUnNRQ0F2VTVEcUVVbWx6OTJmZDEzbndaSmdSOTJ4SnZCSllZNWo1blVTVFB0RG1pUTNrd0F4Wk9pZk1iRGpVVXdhUjktOGbSAa4BQVVfeXFMT28zWXA2LU9ySEV3c3pscnlJNVFkY05ZN2ZwaTc4cTZNOTQwazg1ckJaSm1ObTNIa0w1TThkUXBiNGx5SVhwZWJHYTgwaktsdnYteFU4d0VwaE5Mam1ON2FlSWp5NjdwQ3NLUF8wQnVsc1VoVFpGWllGcEs1VTBULXJUbHdTUy1NYmxlSlF6VTVrWGN4WTNrbXZWOER4VEpLUjI0WmVjbF9JaTNtVDdB?oc=5",
+          "published_at": "2026-10-14T17:25:34.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "qz.com",
+          "title": "OpenAI's computing chief is set to leave amid a $750 billion infrastructure push",
+          "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9HQWxERzdXeDdYbTk1eXJwU2xNaUM5b2Y5aDVWeVIyTVdfLUxfNEtGYUVlU0tUeFN1WnhRNXVDYU1pNUdWOXBnQ1p3MnBVbVNVeWUzTUplOGRLV0dFQ0xaNnhmVTU4N3IyWWFQTXlIYjROMnM?oc=5",
+          "published_at": "2026-10-14T17:25:36.000Z",
           "tier1": false
         }
       ],
@@ -507,7 +539,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b52060aa49d72",
@@ -518,16 +550,14 @@
       "outlets": [
         "arstechnica.com",
         "foxbusiness.com",
-        "nacionale.com",
-        "reuters.com",
+        "inc.com",
         "theverge.com"
       ],
       "tier1_outlets": [
         "arstechnica.com",
-        "reuters.com",
         "theverge.com"
       ],
-      "corroboration": 5,
+      "corroboration": 4,
       "sources": [
         "arstechnica-ai",
         "bluesky-ai",
@@ -538,7 +568,7 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-14T11:11:00.898Z",
+      "earliest_published_at": "2026-10-14T12:55:06.000Z",
       "first_seen_at": "2026-10-14T04:01:00.381Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -547,21 +577,13 @@
         "0546dceeffe46dd8",
         "21e7ded87d1e2500",
         "25a1fb29d96c2c18",
-        "3953516e369e33d9",
         "5600b362632bca30",
+        "5a304c39f5cbf7a9",
         "5c998e059454924e",
         "cd362c6e99f07921",
-        "eb49ecfab0a51d3a"
+        "cfabe5d40c1487d7"
       ],
       "sightings": [
-        {
-          "source": "bluesky-ai",
-          "outlet": "reuters.com",
-          "title": "PODCAST: Self-replicating AI warning, Katie Zacharia and F1's Africa return",
-          "url": "https://bsky.app/profile/reuters.com/post/3mxtjlddqzl2a",
-          "published_at": "2026-10-14T11:11:00.898Z",
-          "tier1": true
-        },
         {
           "source": "arstechnica-ai",
           "outlet": "arstechnica.com",
@@ -604,18 +626,18 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "nacionale.com",
-          "title": "Anthropic Warns of the Self-Replication Risk of Small AI Models",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOeG9WY1E0OVlDbVFBSzZQQUxKM1gwdHRxS0EyTk00dnlUVXBiTUU1QzVhZ3pETFk2YkZOYU5vcnFTRHdFR3FiUTVpWWFZQ0pZWXRXV3ZVczZVNFo2VFdZcmZDcGNkS3pkWHZ1WkZMY1JYMVc4SlRiaW41YmdoVjRPSWZRVlRCVGRIOV9vSmQ4UWJPVlQ4VnktSUd3?oc=5",
-          "published_at": "2026-10-14T15:32:43.000Z",
+          "outlet": "foxbusiness.com",
+          "title": "Anthropic warns of 'AI worms' that might infect smart homes",
+          "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBlbEliWWJ6RTRodnNQRVVfbHhZOTFpcWR6ZVBuTXBfYjVYRHlMQmRNZVRkWHdHdGl6VEx6cHUzbjlZRjMtd2lsYTZnNzQ1S0JISV9ORVl5ZUk0N2c?oc=5",
+          "published_at": "2026-10-14T17:26:21.000Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "foxbusiness.com",
-          "title": "Anthropic warns AI models could replicate across smart home devices",
-          "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5YNDAwLW14WElqZDc4Ylc3TjR5SGNGd2VTWmRfWkpMSnhIWVNGVEZyaURBMmg0QTdhQTU1aVdNczJOWmNPQm9KN0ZIZjBVcTNvdmVFRjF1QUdZMjQ?oc=5",
-          "published_at": "2026-10-14T15:32:52.000Z",
+          "outlet": "inc.com",
+          "title": "Anthropic Researchers Warn That Self-Replicating Worms Could Infest These Kinds of Smart Devices",
+          "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQdlRTUmw5UGxockxBTndlemUtc016Tm5BTVRkQWZEOXZYczBPc2lfQ2J6c1hFVU5NcXVjQTFqQVVJX09CN2RPbUNzOTVsSXJtQ3dZOFRfS1ZDLUtTZFlSRE5INmNsREFfUy1qMHNPdUNQMGlNMUdkSnVRdEVIUWtyWGhvU1p5b3Y1XzBSQWNBdlZibVJGN214MjAxSV9JT3Z3QVZ4Q2NLalNWWEhjb1ZXOHpvRlN0ZDgydEVrR2k2eFprbXVIY3NIcjUxZS1pbTNk?oc=5",
+          "published_at": "2026-10-14T17:34:54.000Z",
           "tier1": false
         }
       ],
@@ -623,52 +645,30 @@
     },
     {
       "id": "bf9dcd0a70de9",
-      "title": "Exclusive: Nvidia and ChipAgents Launch Evaluation For AI-Powered Chip Design",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNMVlDaG9fR0pKSnNHYzdxRmUyTXdCbW4wNmk4bGpnbWJsVk9JZDRCTXJ4NUNLMkRXQ3J6WWNwTEZYZnQ4dE5LVWtWZkx0cTdDeVZpRGxXYXU4QnJvOTBNZG5lcGo5UXpZaWFmb3pDY0tpUGtjQVRmTTY2YVN5eFlJZlVobmJPV0FNSE9WSjFzb1E1ZjA1VjR4S2hyTFB1YWNCRFlqNGJfb0t1bzQyUnc?oc=5",
+      "title": "ChipAgents Collaborates With NVIDIA to Launch Build-A-Chip-Bench for Autonomous Chip Design and Implementation",
+      "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxNNVNGdExHRDhlWkxNcnJLVXg3WVB2WE9tV2V1MWlabGN1Sk43bDVEcHJYdFg0bzJmZk54V2xaZDMtZnlFdnh0VjdGLWVZbWNlQm5NbndZLWZqSnQ2YzlVb3B2SFUzbHpjNkY0a3JyMzNITkNEbXB0WlNpOW1pSUlHNnEydHFOckpRakFaVlZ1YThpYlhKVlFGR0xZaEQ2V29IQTk4Sm1xUW92ZFRUUXNpdWVNLVRHamdmSi1oSzJ1OWZkQXYtT0JaZTB5NHhtVG81MmF6OUR0NkxkSWluVkRLa2FUZUswQ05DTjZFZHVKTENlM1F5eER6Q2pERQ?oc=5",
       "source": "gnews-ai",
-      "outlet": "theinformation.com",
+      "outlet": "businesswire.com",
       "outlets": [
-        "businessupturn.com",
         "businesswire.com",
-        "techbuzz.ai",
-        "theinformation.com"
+        "natlawreview.com"
       ],
-      "tier1_outlets": [
-        "theinformation.com"
-      ],
-      "corroboration": 4,
+      "tier1_outlets": [],
+      "corroboration": 2,
       "sources": [
         "gnews-ai"
       ],
       "rule": [
-        "tier-one outlet plus one more"
+        "two outlets within 20 min"
       ],
-      "earliest_published_at": "2026-10-14T15:10:00.000Z",
+      "earliest_published_at": "2026-10-14T16:10:00.000Z",
       "first_seen_at": "2026-10-14T14:39:37.228Z",
       "latency_s": 0,
       "breaking_at": "2026-10-14T15:31:20.453Z",
       "item_ids": [
-        "22e181df932dd612",
-        "3fc7546533c15d87",
-        "6d80dbea652740b5"
+        "3fc7546533c15d87"
       ],
       "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "theinformation.com",
-          "title": "Exclusive: Nvidia and ChipAgents Launch Evaluation For AI-Powered Chip Design",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNMVlDaG9fR0pKSnNHYzdxRmUyTXdCbW4wNmk4bGpnbWJsVk9JZDRCTXJ4NUNLMkRXQ3J6WWNwTEZYZnQ4dE5LVWtWZkx0cTdDeVZpRGxXYXU4QnJvOTBNZG5lcGo5UXpZaWFmb3pDY0tpUGtjQVRmTTY2YVN5eFlJZlVobmJPV0FNSE9WSjFzb1E1ZjA1VjR4S2hyTFB1YWNCRFlqNGJfb0t1bzQyUnc?oc=5",
-          "published_at": "2026-10-14T15:10:00.000Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "businessupturn.com",
-          "title": "Nvidia and ChipAgents launch evaluation for AI powered chip design",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQZWk1a2VwQmQ3V0JLaVFDb01OU0dTUDI2U29yeVNMOHlpSDhUMHg2N18wSjNOdVZPOVFySjhBaDlBMU43X2RDeUpSbDN1aXVMVFV4cHpBLW9nYUNxTUFnSHlfTXRnYzVxcTdlcGlXNERlNy1JN3MzS2R2SmE3d0dTZnNBVVZwX2ZaUmd5NWhJTFoyRXVTU0hxcmlONHFYc3lQdWZMcWJUempPaDY4UjJ0QUpn?oc=5",
-          "published_at": "2026-10-14T15:31:20.453Z",
-          "tier1": false
-        },
         {
           "source": "gnews-ai",
           "outlet": "businesswire.com",
@@ -679,10 +679,10 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "techbuzz.ai",
-          "title": "NVIDIA Unveils cuPotential Library for AI-Powered Chip Design",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxON3JadG0wZzlWNjRkRjVCb2YxWnFBMmFqOHNERUtibVlRTUY3TnVjNjFMdDRyVHVEU0NncnlzS1ZNZkRBRXV5MnIweW5oRXFzcmRqQktkdldaTGpOXzl4MjlHLTBrQnEwX0FGaE9oci1aTExtUWR3SXR0MzNZYlJhU0Q4MHJfc0JTS3RPY2JLb3RhR0RQZkxnNURB?oc=5",
-          "published_at": "2026-10-14T16:42:00.000Z",
+          "outlet": "natlawreview.com",
+          "title": "ChipAgents Collaborates With NVIDIA to Launch Build-A-Chip-Bench for Autonomous Chip Design and Implementation",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQcFlkb1NKbURkMFR6eEk1OUxYWGxrc1ZyUFd2MUVjcGVqcWt3MWFLVzFVY1hINTh1dV9aRE5HQ1hqelM0ZXVDc0N2Y0w1QTE2WlVxN0RpaHh3LU1wWFcxektlaXdsQkY5bVdZWDhsS3RNbVFucGNmNXZxZHVDRExSRkZrQlc5cmJZVjh2UE5IN3hvbHZGT25DV2g5SS1acmcyRXVKQ0lYQ0pOMFpfcmJJ?oc=5",
+          "published_at": "2026-10-14T16:28:26.048Z",
           "tier1": false
         }
       ],
@@ -877,11 +877,12 @@
       "source": "wires-ai",
       "outlet": "businesswire.com",
       "outlets": [
+        "01net.it",
         "businesswire.com",
         "reflector.com"
       ],
       "tier1_outlets": [],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "wires-ai"
       ],
@@ -910,6 +911,14 @@
           "title": "Rownd Launches Economical, Autonomous Drones to Keep America Safe",
           "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOektHdHJHSExUZVVnLVdUdUdJNDJERDNIbXA5Slotbm9NSUxjRWxqVy0tVEdsX2dmc0RTQTdDTWY1WG5OcklkWkR6XzRCYTJEVzJKUnY2QUt3YkpPcE05emlrT3hqdWEyeHVfU2RqR2NWRHBPVW5DdFNleFJJZTBNQzhoUloycEhvbUo0V2Jveks3d1hxRlcyZUgtVGQ1ZFJMa0JpLVRZemo1UzYxZWFKZlRsZW4zZ0d4MmI5N1ExR01fZVQxU3k0ZnJoZWduWFR4TnlpaFJXLXlEa1F2Z0J1OFN3REhIOFZHOHc?oc=5",
           "published_at": "2026-10-14T14:08:42.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "01net.it",
+          "title": "Rownd Launches Economical, Autonomous Drones to Keep America Safe",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNanZRX0pST0VPc0NSV2duMVZ1bzZLUnFYOWJZNVVqLUJQSlpveWN4OG5tcFAxV2hYbUczcFpJcGxPZFd5a09ma2o0aTJnMHltZ3g0WFdIenBtMDRic3M5aS0tTUMwZDdXNkl6VTgyQUpMZ0tfNHJyVmVEOWJiVzRfR2xjc1phU05FRll6ak9Cbw?oc=5",
+          "published_at": "2026-10-14T14:25:20.770Z",
           "tier1": false
         }
       ],
@@ -1034,21 +1043,18 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "9to5mac.com",
-        "al-monitor.com",
         "arstechnica.com",
         "bbc.co.uk",
-        "euronews.com",
+        "cnet.com",
+        "fortune.com",
         "ft.com",
-        "ksby.com",
+        "protos.com",
         "reuters.com",
-        "sfstandard.com",
         "the-decoder.com",
         "theverge.com",
         "washingtonexaminer.com",
         "wired.com",
-        "wsj.com",
-        "wtvbam.com"
+        "wsj.com"
       ],
       "tier1_outlets": [
         "arstechnica.com",
@@ -1059,7 +1065,7 @@
         "wired.com",
         "wsj.com"
       ],
-      "corroboration": 15,
+      "corroboration": 12,
       "sources": [
         "arstechnica-ai",
         "bbc-tech",
@@ -1085,21 +1091,19 @@
         "0343a01e6ce9dfac",
         "043aba25a09a5b5c",
         "18ff78a815c5e459",
-        "1d103a6beca16a7b",
         "2444a8e5a9bf9dd7",
         "2e6054e7455816ca",
-        "35008a47ca39b2e0",
         "3666ba1e02facdbf",
-        "36affe3a1113ea47",
         "43d76aafc8c3b7ef",
         "4e5e343645d9b16e",
-        "654b8dd5345a08f1",
+        "6513dbe4a2ff3422",
         "66f5e62202fa6571",
         "696752d8a38cefda",
         "6986f04e2795a0c1",
         "75aa40e09badce18",
         "bab59c5f7007dae1",
         "cea958964187da36",
+        "d9aa739a40cda42c",
         "fdcf029b66aaffa6"
       ],
       "sightings": [
@@ -1136,38 +1140,6 @@
           "tier1": false
         },
         {
-          "source": "gnews-ai",
-          "outlet": "sfstandard.com",
-          "title": "OpenAI engineer arrested in bugging of executive conference room",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNa0EtOHBxMjFkbFRXX0V2ZThiUmlJdG55NFN6dGVhNWgtRW9CMHhfS3JUOEF2T3N2ZmRrUGZiTnZVUXhneVZWbGREejNaTm9rRUFOaWFNSElZME1wY05yOEtsNjhPVk5yclYtc2FaUDNLYVBYSG4zZnhsMDRXbmRLRkZ6X09weGo2VmRfN1NweGFMbnpYU2dGXzRIallMZzd1VUEw?oc=5",
-          "published_at": "2026-10-14T14:59:47.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "euronews.com",
-          "title": "Saudi OpenAI employee allegedly planted a recording device at OpenAI",
-          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNaUlRMkZRSDd4V1AzLXhueHpPQVptdzJsa1hQTEl3VWFhWlBNR2x5TzU0WTlBR1JxMXVuZ1pCS0hxSkdNcXBDSjByejA1SGMtalg0X2NMNGxkMGZnVkJJT1NqWS1QbWd4R3ZLTERZSGZfUUJULVBsWUg3OThLN1pDR0tNU3ZiakNnNzN5Q080Z2FIU3FsTjdpcmY2OEJJd2JzeDEtendHOUxMb0R2STFPMy1xeFNXY2RjS3c?oc=5",
-          "published_at": "2026-10-14T15:08:40.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "al-monitor.com",
-          "title": "Who is Abdulrahman Alfozan, Saudi national charged in bugging OpenAI meetings?",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQYjdZQ3hndE1OVFFBWVFVNXhUN2tUM3JFRGdGQjJJZmhmWWthLVZ0Y0JVUmVYQVNVRkp6VzlrVFdyU25NLVBTR1FUUzJlZ0JyckxCRFVUbzJjSVZQb2lsdmNpeDlNWGl2Rk1XT2dDTjBOdXBKUmZKcVJPODdZbnBYT24tYXBIX1hwOWVETFhnUkV3TjlJSm14TGUweWEtMTlkSmpYak9MZzN4NUpwUnM4RjdDYzlOUQ?oc=5",
-          "published_at": "2026-10-14T15:17:52.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "9to5mac.com",
-          "title": "OpenAI alleges ex-employee took ‘highly confidential’ device files to Apple",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOLTZLTFRhcjFvbUdndVFQS1NrMVNGVTY2NlUyUzZFbFZjaWpuTkFqOWN6QkdOSXZLbWNJakFUYkF3ZE05R2VvYTc4RHNmaThhajBYUTdCczRMTTFMaDVVUEllYmFwbzRpTVpuaklFYWxTR3ZSOUhhSWpDa3VSRmY0NkptMmZRR1p0aDh6c1JSd1RJRzBDVWJBaXRzYUNaZG9DZEk1TDk0bDE?oc=5",
-          "published_at": "2026-10-14T15:31:20.453Z",
-          "tier1": false
-        },
-        {
           "source": "wires-ai",
           "outlet": "reuters.com",
           "title": "OpenAI employee who left for Apple took files about unreleased device, OpenAI alleges",
@@ -1193,11 +1165,43 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "wtvbam.com",
-          "title": "OpenAI employee who left for Apple took files about unreleased device, OpenAI alleges",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQM3pZM2lZVXRIanVNaDQ3N1NRcElheUJiZlJlY2ZHWmp4TFVtZExlVEJwSC15b1BoNThCazFLX3RlWUxTLTRLZk9KWkNmNWJsUTJVblRNeE5YNEZuQ2o2b3dBU3Z6RGJPOVZ3X3dhdGtVN0gzQlZKbXRWTUhXbGVpRHdWNEE3NHV6cmtidFQxM1NYSm5xUklrcWxCWV96cE9WWC1uR1hrTEdHZkhBb29kV2V1Vzlsdw?oc=5",
-          "published_at": "2026-10-14T15:31:20.453Z",
+          "outlet": "washingtonexaminer.com",
+          "title": "FBI arrests Saudi OpenAI employee accused of bugging office: What to know",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPRHZoNlVQbi1IRkNjeUZEejdDMFJxQkhlaDg3c0YxcFFULUZfTng5R0xTZ3lEZVlhdnF2emxyUUoydFhWNXdfZGZROGZjTWJRdHNBeHRaUGpOM2dYUDBMLUNxRXpWSWN0eTlLem84UUc2RlhTNzkxT3o0TDdyZDk2OFotTzk3bUtucmM1Q1BOeTJlT0lYV2RQeHRrUmpSdw?oc=5",
+          "published_at": "2026-10-14T15:35:00.000Z",
           "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "wired.com",
+          "title": "What We Know About the OpenAI Engineer Charged With Installing a Hidden Recording Device",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQNExsdHktWUxKUlFXcG9XY3VwaE1OVERFSkFFVU5yWVBKRndIQkNmMl9yT3VSQVBXcTNuM0t6UGU4R2NKb2p0UENNSEdySU9YSkRwWnY1Z0k5czBUVUFsLVlOc3kwOFkxcTVRLTBpSVc1RHdWbkxJQ2RwdTJ5RHF2WHI5VjdjR1EzdTZGLUFJbWdhV3hsNHpBQ3h6RjVXclhlXzE0d1JLMU5FbUIxZ0tUeWxZVnFVeXNua0RqYkVKQQ?oc=5",
+          "published_at": "2026-10-14T15:37:23.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "wsj.com",
+          "title": "OpenAI Engineer Allegedly Hid Toilet Paper-Wrapped Mic in Conference Room",
+          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPVlAtM0gxcXhQZndzdWNLb0IwZXZ2dVYwenVYbHlBSFBBd1dvc3JjZGdHQk43dnZLM2VicUNEMnZLYXczYWJLM3dHa1lIMlFlLWRINy13eFo4N3UwMmRHaFpkRmM3T2xqVDhuVUd6ZTNnVWJJZTlIQ1dmQUJkT1A1cEo0WWlhTGh1VnFVZU52Zkk?oc=5",
+          "published_at": "2026-10-14T15:44:00.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bbc-tech",
+          "outlet": "bbc.co.uk",
+          "title": "Toilet paper and secret recorders: What we know about the arrest of the Saudi OpenAI engineer",
+          "url": "https://bbc.co.uk/news/articles/cm04054ykqqqo",
+          "published_at": "2026-10-14T15:54:04.000Z",
+          "tier1": true
+        },
+        {
+          "source": "arstechnica-ai",
+          "outlet": "arstechnica.com",
+          "title": "Recording device hidden in toilet paper found in top-secret OpenAI meeting room",
+          "url": "https://arstechnica.com/tech-policy/2026/10/fbi-arrests-openai-engineer-suspected-of-planting-bug-in-conference-room",
+          "published_at": "2026-10-14T16:41:49.000Z",
+          "tier1": true
         }
       ],
       "live": true
@@ -1879,7 +1883,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     }
   ],
   "speed": {
