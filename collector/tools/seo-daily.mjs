@@ -170,11 +170,7 @@ export function deriveGaps(report) {
 
 /** Static open items the daily agent should keep in view until closed in FINDABILITY. */
 export const OPEN_ENGINEERING = Object.freeze([
-  {
-    id: 'people-day-hubs',
-    severity: 'medium',
-    text: 'People pages + news day hubs (FINDABILITY #15) — DoomBench/Skynet URL shape still open',
-  },
+  // #15 people pages + news day hubs shipped 2026-10-14 (cursor/seo-daily-20261014-4dfe).
   {
     id: 'mobile-cwv',
     severity: 'low',

@@ -1,7 +1,8 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-10 (live HTTP fetches). Companion to `docs/COMPETITIVE.md`
-(Sept inventory) and `docs/FINDABILITY.md` (our playbook).
+**Measured:** 2026-10-14T15:02Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
+Companion to `docs/COMPETITIVE.md` (Sept inventory) and `docs/FINDABILITY.md`
+(our playbook).
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool
@@ -16,19 +17,20 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 
 | Site | Sitemap URLs | News sitemap | Home `<title>` tactic | Schema on home | Faceted entity URLs | `llms.txt` / OpenAPI |
 |---|---:|---|---|---|---|---|
-| **DoomBench** | **2,081** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
-| **Skynet Countdown** | **1,237** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
-| **pizzint.watch** | **1,018** | **empty (0 `<loc>`)** | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **~530** (+ facets in this PR) | **100 rolling / 48h** with `news:keywords` | Brand-first live title (head-term title in SEO PR) | Rich: Dataset, FAQ, WebSite, VideoObject, WebApplication… | `/item/*` only → **`/pillar/*` + `/lab/*` shipping** | **yes** |
+| **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
+| **Skynet Countdown** | **1,244** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
+| **pizzint.watch** | **1,018** | **empty (0 `<loc>`)** (flapped to 14 earlier 2026-10-14) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
+| **siren.watch** | **693** live (this PR adds gated `/people/*` + `/news/YYYY-MM-DD` day hubs) | **100** rolling / 48h with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` + `/pillar/*` + `/lab/*` + `/model/*` + `/people/*` + day hubs | **yes** |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
 ### Resolved from COMPETITIVE.md §0.1
 
-pizzint’s `/news-sitemap.xml` is **alive as a file and dead as a channel**: valid
-Google News XML with **zero URLs** on 2026-10-10. Their ordinary sitemap still
-rolls (`lastmod` up to the same day). Google News is **not** their current
-advantage; URL count + title hijack + brief schema still are.
+pizzint’s `/news-sitemap.xml` flaps between empty and a thin rolling set
+(0 `<loc>` at 2026-10-14T15:02Z; 14 earlier the same day). Their ordinary
+sitemap still rolls. Google News is **contested when it wakes**; URL count +
+title hijack + brief schema remain their main organic levers. Keep our rolling
+news-sitemap full and keyword-rich.
 
 ---
 
