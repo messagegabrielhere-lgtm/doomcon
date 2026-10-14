@@ -192,7 +192,8 @@ export function roomGroups(ctx) {
       ['/si-ready.html', 'px:backpack', 'Ready for SI?', null, 'Prepare for superintelligence: a 3-minute personal plan.'],
     ]],
     ['THE RECORD', [
-      ['/labs.html', 'px:flask', 'SIREN Labs', 'NEW', 'Four or five new experiments in measuring superintelligence, every week.'],
+      ['/labs.html', 'px:flask', 'SIREN Labs', 'LIVE', 'Four or five new experiments in measuring superintelligence, every week.'],
+      ['/bench.html', 'px:agentcode', 'Labs bench', 'NEW', 'This week live: recursion, horizons, jumps, compute, silence.'],
       ['/search.html', 'px:search', 'Search', 'NEW', 'Search every room, story, video, leader and dataset.'],
       ['/catalog.html', 'px:catalog', 'Catalog', 'NEW', 'Everything on the site, in one browsable directory.'],
       ['/ai-doomsday-clock.html', 'clock', 'The Clock', null, 'The reading as a clock face you can verify.'],
