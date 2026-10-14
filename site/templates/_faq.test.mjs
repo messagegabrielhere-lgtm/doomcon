@@ -128,6 +128,9 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'How do you filter the scored list?'));
     assert.ok(qa.some(([q]) => q === 'What does a blank reading mean?'));
     assert.ok(qa.some(([q]) => q === 'How do you post this chart to 𝕏?'));
+    assert.ok(qa.some(([q]) => q === 'What is the Overpass query?'));
+    assert.ok(qa.some(([q]) => q === 'How was the join done?'));
+    assert.ok(qa.some(([q]) => q === 'How do you recompute it?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -148,6 +151,9 @@ describe('homepage FAQ', () => {
     assert.match(html, /How do you filter the scored list\?/);
     assert.match(html, /What does a blank reading mean\?/);
     assert.match(html, /How do you post this chart to 𝕏\?/);
+    assert.match(html, /What is the Overpass query\?/);
+    assert.match(html, /How was the join done\?/);
+    assert.match(html, /How do you recompute it\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

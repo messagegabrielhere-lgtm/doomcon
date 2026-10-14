@@ -345,7 +345,7 @@ function orbitSection(o) {
   ${orbitStatusChips(o)}
   ${orbitTable(o)}
   <p class="wld__sec__l">${esc(o.what_this_is || '')}</p>
-  ${honesty ? `<h3 class="wld__sec__h3">What the register can and cannot say</h3>
+  ${honesty ? `<h3 class="wld__sec__h3">What can the register say and not say?</h3>
   <ul class="wld__lim">${honesty}</ul>` : ''}
 </section>`;
 }
@@ -401,14 +401,14 @@ function methodSection(ctx, w, outline) {
     <b>${w.generated_at ? esc(utc(w.generated_at)) : 'at an unpublished time'}</b>
     (${esc(s.harvest_origin || 'origin not recorded')}, refreshed every ${count(s.refresh_days, '—')} days).</p>
 
-  <h3 class="wld__sec__h3">The query</h3>
+  <h3 class="wld__sec__h3">What is the Overpass query?</h3>
   <p class="wld__sec__l">Sent as the <code class="wld__tag">data=</code> field of a GET, which Overpass accepts
     identically to a form-encoded POST. Every figure on this page is arithmetic over the response.</p>
   <pre class="wld__pre"><code>${esc(s.query_template || '')}</code></pre>
   ${variants.length ? `<p class="wld__sec__n">The ${N(variants.length)} tag variants, unioned:
     ${variants.map((v) => `<code class="wld__tag">${esc(v)}</code>`).join(' ')}</p>` : ''}
 
-  <h3 class="wld__sec__h3">Geography</h3>
+  <h3 class="wld__sec__h3">How was geography assigned?</h3>
   <p class="wld__sec__l">Countries were assigned against <b>${esc(g.label || 'Natural Earth admin-0 countries')}</b>
     ${g.version ? `(${esc(g.version)})` : ''}, ${count(g.countries, 'an unpublished number of')} polygons,
     ${esc(g.licence || 'licence not recorded')}, read from
@@ -422,7 +422,7 @@ function methodSection(ctx, w, outline) {
     Drawing is not attribution: a pin's country came from the finer file, and the coarser one is only the
     picture under it. ${esc(copy.outline_credit || '')}</p>
 
-  <h3 class="wld__sec__h3">Licence</h3>
+  <h3 class="wld__sec__h3">What is the licence?</h3>
   <p class="wld__sec__l"><b>${esc(copy.attribution_required || '© OpenStreetMap contributors')}</b> —
     <a href="${esc(copy.attribution_url || 'https://www.openstreetmap.org/copyright')}" rel="license noopener">${esc(copy.attribution_url || 'https://www.openstreetmap.org/copyright')}</a>.
     ${esc((s.licence && s.licence.data) || 'Open Database License (ODbL) v1.0')}. Attribution is a term of that
@@ -534,6 +534,15 @@ export function render(ctx) {
       copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped rather than a country with none. This is a snapshot and not a time series.'],
     [methodQ,
       `One planet-wide Overpass query against OpenStreetMap, keyless. Attribution is a term of the ODbL licence, not a courtesy.`],
+    // Tip #339: method / orbit H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What can the register say and not say?',
+      'Honesty limits for the orbital-compute register are listed under that heading when the register is present — what the filings can and cannot establish.'],
+    ['What is the Overpass query?',
+      'The method section prints the Overpass query sent as the data= field of a GET. Every figure on this page is arithmetic over the response.'],
+    ['How was geography assigned?',
+      'Countries were assigned against Natural Earth admin-0 countries. Drawing outlines use a coarser file; a pin\'s country came from the finer file.'],
+    ['What is the licence?',
+      '© OpenStreetMap contributors under the Open Database License (ODbL) v1.0. Attribution is a term of that licence, not a courtesy.'],
     [dataQ,
       `Published beside this page byte-identical to the committed files — /api/world.json carries every number on this page.`],
     [`Does a country with none mapped have zero datacentres?`,

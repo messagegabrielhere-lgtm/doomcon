@@ -588,6 +588,8 @@ context.
 | 336 | `/waffle.html` storm-kit + why-watch H3s + FAQPage use questions (was “STORM KIT” / “WHY AN AI SITE WATCHES WAFFLES”); Organization `knowsAbout` mirrors those questions; refuse official-FEMA / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 337 | `/map.html` method + river-gauge H3s + FAQPage use questions (was “The nine river gauges” / “Status, in words” / “Confidence, in words” / “The sources” / “Every limitation, in full” / “What was tried and dropped”); Organization `knowsAbout` mirrors those questions; refuse map-as-draw / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 338 | `/charts.html` post-modal H3, `/history.html` cautionary-tale H3, `/news.html` filter H3, `/race.html` blank-reading H3 + FAQPage use questions; Organization `knowsAbout` mirrors those questions; refuse chart/history/news/race doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 339 | `/world.html` method + register H3s + FAQPage use questions (was “The query” / “Geography” / “Licence” / “What the register can and cannot say”); Organization `knowsAbout` mirrors those questions; refuse world-map-as-draw / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 340 | `/exploits.html` source-section H3s + FAQPage use questions (was “The join” / “Quantiles…” / “The catalogue, for scale” / “Recompute it” / “Take the table”); Organization `knowsAbout` mirrors those questions; refuse exploit-lag-as-doom / AI-acceleration claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
