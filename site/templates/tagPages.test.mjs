@@ -64,6 +64,12 @@ describe('tag pages', () => {
   it('ships /tags.html over the same gated tag set', () => {
     const html = renderTags(ctx);
     assert.match(html, /Which AI tags has SIREN scored stories about\?/);
+    assert.match(html, /What has SIREN scored about AI agents\?/);
+    assert.match(html, /Which AI doom indexes can you compare\?/);
+    assert.match(html, /Which AI news tags have SIREN pages\?/);
+    assert.match(html, /tg__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.doesNotMatch(html, /tg__k"><a href="\/compare\.html">Compare<\/a>/);
+    assert.doesNotMatch(html, /tg__k"><a href="\/tags\/">Tags<\/a>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /Questions people actually ask/);
@@ -77,6 +83,13 @@ describe('tag pages', () => {
   it('lists stories with ItemList schema and refuses doom claims', () => {
     const html = renderTag(ctx, 'agents');
     assert.match(html, /<title>What has SIREN scored about AI agents\?/);
+    assert.match(html, /<h1>What has SIREN scored about AI agents\?<\/h1>/);
+    assert.match(html, /Which AI stories has SIREN scored in this window\?/);
+    assert.match(html, /Which AI news tags have SIREN pages\?/);
+    assert.match(html, /Which AI tags has SIREN scored stories about\?/);
+    assert.match(html, /tg__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /tg__k"><a href="\/news\.html">Newsroom<\/a>/);
+    assert.doesNotMatch(html, /tg__k"><a href="\/tags\/">Tags<\/a>/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
@@ -91,6 +104,10 @@ describe('tag pages', () => {
   it('renders the tag index and links from story pages', () => {
     const index = renderIndex(ctx);
     assert.match(index, /Which AI news tags have SIREN pages\?/);
+    assert.match(index, /What has SIREN scored about AI agents\?/);
+    assert.match(index, /Which AI stories has SIREN scored in this window\?/);
+    assert.match(index, /tg__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(index, /tg__k"><a href="\/news\.html">Newsroom<\/a>/);
     assert.match(index, /Questions people actually ask/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
