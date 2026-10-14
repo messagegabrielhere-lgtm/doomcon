@@ -57,6 +57,7 @@ export function peoplePath(id) {
   return `/people/${String(id || '').toLowerCase()}.html`;
 }
 
+/** Wire-only substance: press headlines, on-record lines, or a 7-day floor. */
 export function personSubstance(leader) {
   if (!leader || !leader.id || !leader.name) return 0;
   const headlines = (leader.coverage && Array.isArray(leader.coverage.headlines))
@@ -67,24 +68,74 @@ export function personSubstance(leader) {
   return Math.max(headlines, lines, week >= PEOPLE_INDEX_MIN ? PEOPLE_INDEX_MIN : 0);
 }
 
-export function personIndexable(leader) {
+/**
+ * Wire substance plus archive story count — archive can keep a person hub
+ * alive after the live coverage window rolls (same idea as model/tag hubs).
+ */
+export function personStoryCount(ctx, leader) {
+  return personSubstance(leader) + archiveItemsForPerson(ctx, leader).length;
+}
+
+export function personIndexable(leader, ctx) {
+  if (ctx) return personStoryCount(ctx, leader) >= PEOPLE_INDEX_MIN;
   return personSubstance(leader) >= PEOPLE_INDEX_MIN;
 }
 
 export function indexablePeople(ctx) {
   return leadersList(ctx)
-    .filter(personIndexable)
+    .filter((p) => personIndexable(p, ctx))
     .slice()
     .sort((a, b) => {
-      const ca = Number(a.coverage && a.coverage.count_7d) || 0;
-      const cb = Number(b.coverage && b.coverage.count_7d) || 0;
-      return (cb - ca) || String(a.name).localeCompare(String(b.name));
+      const ca = personStoryCount(ctx, a);
+      const cb = personStoryCount(ctx, b);
+      const wa = Number(a.coverage && a.coverage.count_7d) || 0;
+      const wb = Number(b.coverage && b.coverage.count_7d) || 0;
+      return (cb - ca) || (wb - wa) || String(a.name).localeCompare(String(b.name));
     });
 }
 
 export function personById(ctx, id) {
   const key = String(id || '').toLowerCase();
   return leadersList(ctx).find((l) => l && String(l.id).toLowerCase() === key) || null;
+}
+
+/** Full-name match (word boundaries) so "Karpathy" does not light up "Karp". */
+function nameInText(name, hay) {
+  const n = String(name || '').trim();
+  if (n.length < 4 || !hay) return false;
+  const escaped = n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(?<![A-Za-z0-9])${escaped}(?![A-Za-z0-9])`, 'i').test(hay);
+}
+
+/**
+ * Indexable people whose full name appears in a story title/summary.
+ * Full-name match only (word boundaries) so "Karpathy" does not light up "Karp".
+ */
+export function peopleForItem(ctx, item) {
+  const hay = `${item?.title || ''} ${item?.summary || ''}`;
+  if (!hay.trim()) return [];
+  return indexablePeople(ctx).filter((person) => nameInText(person.name, hay));
+}
+
+/** Older scored stories naming this person, kept in the durable item archive. */
+export function archiveItemsForPerson(ctx, person) {
+  const name = person && person.name;
+  if (!name) return [];
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  return archived
+    .filter((it) => nameInText(name, `${it?.title || ''} ${it?.summary || ''}`))
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
+function archiveStoryRows(ctx, items) {
+  return items.slice(0, 12).map((it) => {
+    const when = it.published_at ? utc(it.published_at) : '';
+    return `<li>
+  <a href="${esc(ctx.href(`/item/${slugFor(it)}.html`))}">${esc(it.title)}</a>
+  <span class="pp__meta">${esc(String(it.source || '').toUpperCase())}${when ? ` · <time datetime="${esc(it.published_at)}">${esc(when)}</time>` : ''}</span>
+</li>`;
+  }).join('');
 }
 
 function faceBlock(leader) {
@@ -149,7 +200,8 @@ export function renderPerson(ctx, id) {
   const week = Number(leader.coverage && leader.coverage.count_7d);
   const day = Number(leader.coverage && leader.coverage.count_24h);
   const roleLine = [leader.role, leader.org].filter(Boolean).join(', ');
-  const title = `${leader.name}: AI press coverage this week · ${brand.NAME}`;
+  // Head-term title: people search “{name} AI press” / person doom score.
+  const title = `What press has ${brand.NAME} scored about ${leader.name}?`;
   const description = clip(
     `${leader.name}${roleLine ? ` (${roleLine})` : ''}: ${Number.isFinite(week) ? week : headlines.length} press stories naming them in the last 7 days on ${brand.NAME}. Coverage counts, not quotations.`,
     160,
@@ -160,19 +212,63 @@ export function renderPerson(ctx, id) {
   const extract = leader.profile && leader.profile.extract
     ? clip(leader.profile.extract, 280)
     : '';
+  const labName = (() => {
+    if (!leader.org_id) return '';
+    const players = (ctx.race && Array.isArray(ctx.race.players)) ? ctx.race.players : [];
+    const player = players.find((p) => p && p.id === leader.org_id);
+    return (player && player.name) || leader.org || leader.org_id;
+  })();
   const labLink = leader.org_id
-    ? ` Lab page: <a href="${esc(ctx.href(`/lab/${leader.org_id}.html`))}">${esc(leader.org || leader.org_id)}</a>.`
+    ? ` Lab page: <a href="${esc(ctx.href(`/lab/${leader.org_id}.html`))}">What has ${esc(brand.NAME)} scored about ${esc(labName)}?</a>.`
     : '';
   const others = indexablePeople(ctx).filter((p) => p.id !== leader.id).slice(0, 12);
+  const archivedAll = archiveItemsForPerson(ctx, leader);
+  const older = archivedAll.slice(0, 12);
+  // Tip #289: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const linesQ = `Which on-record lines name ${leader.name} in this newsroom window?`;
+  const pressQ = `Which press coverage names ${leader.name}?`;
+  const olderQ = `Which older scored stories name ${leader.name}?`;
+  const othersQ = 'Which other people are on the wire?';
+  const faq = [
+    [`What press has ${brand.NAME} scored about ${leader.name}?`,
+      `${Number.isFinite(week) ? week : headlines.length} press stories naming ${leader.name} in the last 7 days on ${brand.NAME}${archivedAll.length ? `, plus ${archivedAll.length} older in the archive` : ''}. Coverage counts only — not a person doom score.`],
+    ...(lines.length
+      ? [[linesQ,
+        'Outlet headlines that matched a speech cue in the current newsroom window — never a quotation invented here.']]
+      : []),
+    ...(headlines.length
+      ? [[pressQ,
+        `${headlines.length} headline${headlines.length === 1 ? '' : 's'} from the current coverage pull, reproduced as the publication printed them.`]]
+      : []),
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast. Titles only; not quotations.']]
+      : []),
+    ...(others.length
+      ? [[othersQ,
+        `Other people on the AI leader wire that clear the substance gate, each linking What press has ${brand.NAME} scored about that person?`]]
+      : []),
+    [`Does ${brand.NAME} invent quotations for ${leader.name}?`,
+      `No. Every attributed string on this page is a headline reproduced as the publication printed it. ${brand.DISCLAIMER_SHORT}`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const olderBlock = older.length
+    ? `<h2 id="pp-archive">${esc(olderQ)}</h2>
+  <p class="pp__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast. Titles only; not quotations.</p>
+  <ol class="pp__list">${archiveStoryRows(ctx, older)}</ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
+    : '';
 
   const main = `${STYLE}${avatarSprite()}
 <article class="pp prose">
-  <p class="pp__k"><a href="${esc(ctx.href('/leaders.html'))}">Leaders</a> · <a href="${esc(ctx.href('/people/'))}">People</a></p>
+  <p class="pp__k"><a href="${esc(ctx.href('/leaders.html'))}">Which AI leaders are on the record this week?</a> · <a href="${esc(ctx.href('/people/'))}">Which AI leaders have press coverage pages on ${esc(brand.NAME)}?</a> · <a href="${esc(ctx.href('/people.html'))}">Which AI people has ${esc(brand.NAME)} scored press about?</a></p>
   <div class="pp__head">
     ${faceBlock(leader)}
     <div>
-      <h1 class="pp__name">${esc(leader.name)}</h1>
-      <p class="pp__lede">${esc(roleLine || 'On the AI leader wire')}.
+      <h1 class="pp__name">What press has ${esc(brand.NAME)} scored about ${esc(leader.name)}?</h1>
+      <p class="pp__lede">${esc(leader.name)}${roleLine ? ` · ${esc(roleLine)}` : ' · On the AI leader wire'}.
          Press coverage counts stories that name this person. On-record lines are outlet headlines that matched a speech cue — never a quotation invented here.</p>
     </div>
   </div>
@@ -180,25 +276,28 @@ export function renderPerson(ctx, id) {
     <div><b class="num">${esc(Number.isFinite(week) ? String(week) : '—')}</b><span>Press stories · 7 days</span></div>
     <div><b class="num">${esc(Number.isFinite(day) ? String(day) : '—')}</b><span>Press stories · 24 hours</span></div>
     <div><b class="num">${esc(String(lines.length))}</b><span>On-record lines this window</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <p class="pp__rule"><b>This page never writes a quotation.</b> Every string below is a headline, reproduced as the publication printed it${labLink}</p>
   ${extract ? `<p class="pp__wiki">${esc(extract)}${wiki ? ` <a href="${esc(wiki)}" rel="noopener noreferrer">Wikipedia</a> (CC BY-SA).` : ''}</p>` : ''}
-  ${lines.length ? `<h2 id="pp-lines">On the record in this newsroom window</h2>
+  ${lines.length ? `<h2 id="pp-lines">${esc(linesQ)}</h2>
   <ol class="pp__list">${lineRows(ctx, lines)}</ol>` : ''}
-  ${headlines.length ? `<h2 id="pp-press">Press coverage sample</h2>
+  ${headlines.length ? `<h2 id="pp-press">${esc(pressQ)}</h2>
   <ol class="pp__list">${headlineRows(headlines)}</ol>` : '<p>No press headlines in the current coverage pull.</p>'}
-  <p class="fresh__key"><a href="${esc(ctx.href(`/leaders.html#lw-${leader.id}`))}">On the full leader wire →</a>
+  ${olderBlock}
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="fresh__key"><a href="${esc(ctx.href(`/leaders.html#lw-${leader.id}`))}">Which AI leaders are on the record this week?</a>
      · <a href="${esc(ctx.href('/api/leaders.json'))}">api/leaders.json</a></p>
-  ${others.length ? `<h2>Other people on the wire</h2>
-  <nav class="pp__nav" aria-label="Other people">${others.map((p) => `<a href="${esc(ctx.href(peoplePath(p.id)))}">${esc(p.name)}</a>`).join('')}</nav>` : ''}
+  ${others.length ? `<h2 id="other-people">${esc(othersQ)}</h2>
+  <nav class="pp__nav" aria-label="Other people">${others.map((p) => `<a href="${esc(ctx.href(peoplePath(p.id)))}">What press has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>`).join('')}</nav>` : ''}
 </article>`;
-
   return page({
     ctx,
     path,
     title,
     description,
-    noindex: !personIndexable(leader),
+    noindex: !personIndexable(leader, ctx),
     jsonld: [{
       '@context': 'https://schema.org',
       '@type': 'ProfilePage',
@@ -215,10 +314,18 @@ export function renderPerson(ctx, id) {
       },
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
     }, breadcrumbs(ctx, [
-      { name: 'Leaders', path: '/leaders.html' },
-      { name: 'People', path: '/people/' },
-      { name: leader.name, path },
-    ])],
+      { name: 'Which AI leaders are on the record this week?', path: '/leaders.html' },
+      { name: `Which AI leaders have press coverage pages on ${brand.NAME}?`, path: '/people/' },
+      { name: `What press has ${brand.NAME} scored about ${leader.name}?`, path },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -226,27 +333,41 @@ export function renderPerson(ctx, id) {
 export function renderIndex(ctx) {
   const people = indexablePeople(ctx);
   const path = '/people/';
-  const title = `AI leaders: press coverage pages · ${brand.NAME}`;
+  // Head-term title: people search “AI leaders” / coverage pages.
+  const title = `Which AI leaders have press coverage pages on ${brand.NAME}?`;
   const description = clip(
-    `${people.length} people on the ${brand.NAME} leader wire with enough press coverage for their own page. Coverage counts stories naming them — not quotations.`,
+    `${people.length} people on the ${brand.NAME} leader wire with enough press coverage for their own page (live wire plus archive). Coverage counts stories naming them — not quotations.`,
     160,
   );
+  const faq = [
+    [`Which AI leaders have press coverage pages on ${brand.NAME}?`,
+      `${people.length} people clear the substance gate of at least ${PEOPLE_INDEX_MIN} press headlines, on-record lines, a 7-day coverage floor, or scored archive stories naming them. Each page lists headlines as printed — not invented quotations.`],
+    [`Does ${brand.NAME} invent quotations for AI leaders?`,
+      `No. Every attributed string on a person page is a headline reproduced as the publication printed it. ${brand.DISCLAIMER_SHORT}`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = people.map((p) => {
     const week = Number(p.coverage && p.coverage.count_7d);
+    const archived = archiveItemsForPerson(ctx, p).length;
     return `<li>
-  <a href="${esc(ctx.href(peoplePath(p.id)))}">${esc(p.name)}</a>
-  <span class="pp__meta">${esc([p.role, p.org].filter(Boolean).join(' · '))}${Number.isFinite(week) ? ` · ${esc(String(week))} stories / 7d` : ''}</span>
+  <a href="${esc(ctx.href(peoplePath(p.id)))}">What press has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>
+  <span class="pp__meta">${esc(p.name)} · ${esc([p.role, p.org].filter(Boolean).join(' · '))}${Number.isFinite(week) ? ` · ${esc(String(week))} stories / 7d` : ''}${archived ? ` · ${esc(String(archived))} archive` : ''}</span>
 </li>`;
   }).join('');
 
   // Reuse list styles; keep the index light.
   const main = `${STYLE}
 <article class="pp prose">
-  <p class="pp__k"><a href="${esc(ctx.href('/leaders.html'))}">Leaders</a> · People</p>
-  <h1>AI leaders with a coverage page</h1>
-  <p class="pp__lede">A person earns a page when the wire holds at least ${PEOPLE_INDEX_MIN} press headlines, on-record lines, or a 7-day coverage count at that floor. Each page lists headlines as printed. It does not invent quotations.</p>
+  <p class="pp__k"><a href="${esc(ctx.href('/leaders.html'))}">Which AI leaders are on the record this week?</a> · Which AI leaders have press coverage pages on ${esc(brand.NAME)}? · <a href="${esc(ctx.href('/people.html'))}">Which AI people has ${esc(brand.NAME)} scored press about?</a></p>
+  <h1>Which AI leaders have press coverage pages on ${esc(brand.NAME)}?</h1>
+  <p class="pp__lede">A person earns a page when the wire or the durable archive holds at least ${PEOPLE_INDEX_MIN} press headlines, on-record lines, a 7-day coverage count at that floor, or scored stories naming them. Each page lists headlines as printed. It does not invent quotations.</p>
   ${rows ? `<ol class="pp__list">${rows}</ol>` : '<p>No person clears the gate in this build.</p>'}
-  <p class="fresh__key"><a href="${esc(ctx.href('/leaders.html'))}">Full leader wire →</a></p>
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/people.html'))}">Which AI people has ${esc(brand.NAME)} scored press about?</a>
+     · <a href="${esc(ctx.href('/leaders.html'))}">Which AI leaders are on the record this week?</a></p>
 </article>`;
 
   return page({
@@ -261,6 +382,7 @@ export function renderIndex(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.pp__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: people.length,
@@ -268,13 +390,109 @@ export function renderIndex(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(peoplePath(p.id)),
-          name: p.name,
+          name: `What press has ${brand.NAME} scored about ${p.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Leaders', path: '/leaders.html' },
-      { name: 'People', path },
-    ])],
+      { name: 'Which AI leaders are on the record this week?', path: '/leaders.html' },
+      { name: `Which AI leaders have press coverage pages on ${brand.NAME}?`, path },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
+    main,
+  });
+}
+
+/**
+ * DoomBench-shaped /people head-term hub. Same gated roster as /people/,
+ * different title and lede for “AI people” / “AI leaders” queries — coverage
+ * counts only, never invented quotations or a person doom score.
+ */
+export function renderPeople(ctx) {
+  const people = indexablePeople(ctx);
+  const path = '/people.html';
+  // Head-term title: people search “AI people” / which leaders SIREN covers.
+  const title = `Which AI people has ${brand.NAME} scored press about?`;
+  const description = clip(
+    `${people.length} AI leaders with press-coverage hubs on ${brand.NAME}. Each row links /people pages — headlines and story counts only, not quotations or a person doom score.`,
+    160,
+  );
+  const faq = [
+    [`Which AI people has ${brand.NAME} scored press about?`,
+      `${people.length} leaders clear the substance gate of at least ${PEOPLE_INDEX_MIN} headlines, on-record lines, a 7-day coverage floor, or scored archive stories naming them. Each hub lists those headlines — not a person doom score.`],
+    [`Does ${brand.NAME} publish a person doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count press coverage that names a leader on the wire.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const rows = people.map((p) => {
+    const week = Number(p.coverage && p.coverage.count_7d);
+    const archived = archiveItemsForPerson(ctx, p).length;
+    const total = personStoryCount(ctx, p);
+    return `<li>
+  <a href="${esc(ctx.href(peoplePath(p.id)))}">What press has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>
+  <span class="pp__meta">${esc(p.name)} · ${esc([p.role, p.org].filter(Boolean).join(' · ') || 'Coverage hub')} · <span class="num">${esc(String(total))}</span> signal${archived ? ` (${esc(String(archived))} archive)` : ''}${Number.isFinite(week) ? ` · ${esc(String(week))} / 7d` : ''}</span>
+</li>`;
+  }).join('');
+  const main = `${STYLE}
+<article class="pp prose">
+  <p class="pp__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/leaders.html'))}">Which AI leaders are on the record this week?</a> · <a href="${esc(ctx.href('/people/'))}">Which AI leaders have press coverage pages on ${esc(brand.NAME)}?</a> · Which AI people has ${esc(brand.NAME)} scored press about?</p>
+  <h1>Which AI people has ${esc(brand.NAME)} scored press about?</h1>
+  <p class="pp__lede">${esc(brand.NAME)} does not publish a person “doom score.” It publishes an activity index and press coverage counts. This page lists leaders who already clear the same substance gate as <a href="${esc(ctx.href('/people/'))}">Which AI leaders have press coverage pages on ${esc(brand.NAME)}?</a> — at least ${PEOPLE_INDEX_MIN} headlines, on-record lines, a 7-day coverage floor, or scored archive stories naming them. Headlines only; never invented quotations.</p>
+  <div class="pp__stat" role="group" aria-label="People hub totals">
+    <div><b class="num">${esc(String(people.length))}</b><span>People hubs</span></div>
+  </div>
+  ${people.length ? `<ol class="pp__list">${rows}</ol>` : '<p>No people hub cleared the gate in this build.</p>'}
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="fresh__key"><a href="${esc(ctx.href('/people/'))}">Which AI leaders have press coverage pages on ${esc(brand.NAME)}?</a>
+     · <a href="${esc(ctx.href('/leaders.html'))}">Which AI leaders are on the record this week?</a>
+     · <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a>
+     · <a href="${esc(ctx.href('/models.html'))}">Which AI models has ${esc(brand.NAME)} scored stories about?</a>
+     · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: people.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      speakable: speakable(['h1', '.pp__lede']),
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: people.length,
+        itemListElement: people.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(peoplePath(p.id)),
+          name: `What press has ${brand.NAME} scored about ${p.name}?`,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI people has ${brand.NAME} scored press about?`, path },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -288,6 +506,7 @@ export function sitemapEntries(ctx) {
     || (ctx.state && ctx.state.generated_at);
   return [
     { loc: '/people/', changefreq: 'hourly', priority: '0.7', lastmod: last },
+    { loc: '/people.html', changefreq: 'hourly', priority: '0.75', lastmod: last },
     ...people.map((p) => ({
       loc: peoplePath(p.id),
       changefreq: 'hourly',

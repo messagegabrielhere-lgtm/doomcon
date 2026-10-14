@@ -14,7 +14,7 @@ export const NEWS_WINDOW_HOURS = 48;
 
 /** Cap so a burst of 300+ items in a day cannot ship a multi-megabyte news
  *  sitemap. Newest first; the rest remain in the ordinary sitemap. */
-export const NEWS_SITEMAP_CAP = 100;
+export const NEWS_SITEMAP_CAP = 150;
 
 function itemStamp(item) {
   return item.published_at || (item.meta && item.meta.first_seen_at) || null;

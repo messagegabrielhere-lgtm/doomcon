@@ -206,9 +206,12 @@ import * as comparePages from './templates/comparePages.mjs';
 import * as peoplePages from './templates/peoplePages.mjs';
 import * as dayPages from './templates/dayPages.mjs';
 import * as tagPages from './templates/tagPages.mjs';
+import * as kindPages from './templates/kindPages.mjs';
+import * as outletPages from './templates/outletPages.mjs';
 import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 import { INDEXNOW_KEY } from '../collector/indexnow.mjs';
+import { loadArchive, archiveOnlyItems } from '../collector/item-archive.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -760,8 +763,36 @@ async function writeTagPages(ctx, outDir, write, written) {
   written.push(await write(outDir, 'tags/index.html', tagPages.renderIndex(ctx)));
 }
 
+async function writeKindPages(ctx, outDir, write, written) {
+  const kinds = kindPages.indexableKinds(ctx);
+  if (!kinds.length) return;
+  for (const kind of kinds) {
+    written.push(await write(outDir, `kind/${kind.id}.html`, kindPages.renderKind(ctx, kind.id)));
+  }
+  written.push(await write(outDir, 'kind/index.html', kindPages.renderIndex(ctx)));
+  written.push(await write(outDir, 'kinds.html', kindPages.renderKinds(ctx)));
+}
+
+async function writeOutletPages(ctx, outDir, write, written) {
+  const outlets = outletPages.indexableOutlets(ctx);
+  if (!outlets.length) return;
+  for (const o of outlets) {
+    written.push(await write(outDir, `outlet/${o.slug}.html`, outletPages.renderOutlet(ctx, o.domain)));
+  }
+  written.push(await write(outDir, 'outlet/index.html', outletPages.renderIndex(ctx)));
+  written.push(await write(outDir, 'outlets.html', outletPages.renderOutlets(ctx)));
+}
+
 function tagAliases(ctx) {
   return tagPages.indexableTags(ctx).map((tag) => `tags/${tag.id}`);
+}
+
+function kindAliases(ctx) {
+  return kindPages.indexableKinds(ctx).map((kind) => `kind/${kind.id}`);
+}
+
+function outletAliases(ctx) {
+  return outletPages.indexableOutlets(ctx).map((o) => `outlet/${o.slug}`);
 }
 
 function modelAndCountryAliases(ctx) {
@@ -926,6 +957,15 @@ async function main() {
     }
   } else {
     warn('data/news.json is absent; building without the newsroom. Run collector/news.mjs first.');
+  }
+
+  // Permanent /item/ long-tail beyond the live newsroom cap. Absent or unreadable
+  // → empty archive; the live window still builds.
+  let itemArchiveDoc = { items: [], updated_at: null };
+  try {
+    itemArchiveDoc = await loadArchive(path.join(args.data, 'item-archive.json'));
+  } catch (err) {
+    warn(`data/item-archive.json unreadable (${err.message}); building without the item archive.`);
   }
 
   // Same separate-failure-domain rule as news: /race going dark must not stop
@@ -1234,10 +1274,19 @@ async function main() {
   const cssName = `s-${createHash('sha256').update(sheet).digest('hex').slice(0, 12)}.css`;
   const cssHref = `${brand.BASE_PATH}/${cssName}`;
 
+  const liveNewsItems = (news && Array.isArray(news.items)) ? news.items : [];
+  const archivedItems = archiveOnlyItems(itemArchiveDoc, liveNewsItems);
+
   const ctx = {
     state,
     logos,
     news,
+    // Scored stories outside the live newsroom cap — sitemap + /item/ pages.
+    itemArchive: archivedItems,
+    itemArchiveMeta: {
+      updated_at: itemArchiveDoc.updated_at || null,
+      total: Array.isArray(itemArchiveDoc.items) ? itemArchiveDoc.items.length : 0,
+    },
     breaking,
     deskPicks,
     race,
@@ -1437,13 +1486,32 @@ async function main() {
         written.push(await write(args.out, rel, itemPage.render(ctx, it, related)));
         itemRewritten += 1;
       }
+      // Archived scored stories keep their permanent pages across news-only
+      // ticks. Do not delete them when they leave the live window.
+      for (const it of (ctx.itemArchive || [])) {
+        if (!it || !it.id) continue;
+        const slug = itemPage.slugFor(it);
+        keep.add(`${slug}.html`);
+        const rel = `item/${slug}.html`;
+        const abs = path.join(args.out, rel);
+        if (existsSync(abs)) {
+          itemSkipped += 1;
+          continue;
+        }
+        const related = (byPillar.get(it.pillar) || [])
+          .filter((r) => r.id !== it.id)
+          .slice(0, 5);
+        written.push(await write(args.out, rel, itemPage.render(ctx, it, related)));
+        itemRewritten += 1;
+      }
       const itemDir = path.join(args.out, 'item');
       if (existsSync(itemDir)) {
         // GRACE PERIOD. The hourly pages (balance, lab/*, pillar/*, model/*,
         // news-sitemap) still link items that rotated out on a fast tick, and
         // deleting their briefs at once left those links 404ing until the next
         // full build (17 dead /item links in the 2026-10-13 crawl). A brief
-        // that left the window stays for ITEM_GRACE_MS before it is pruned.
+        // that left the window stays for ITEM_GRACE_MS before it is pruned —
+        // unless it is in the durable item archive (kept above).
         const ITEM_GRACE_MS = 72 * 3600_000;
         const nowMs = Date.now();
         for (const name of await readdir(itemDir)) {
@@ -1468,6 +1536,8 @@ async function main() {
     await writeModelAndCountryPages(ctx, args.out, write, written);
     await writePeopleAndDayPages(ctx, args.out, write, written);
     await writeTagPages(ctx, args.out, write, written);
+    await writeKindPages(ctx, args.out, write, written);
+    await writeOutletPages(ctx, args.out, write, written);
     // Keep the crawl surfaces in step with the newsroom window (item + facet
     // URLs change every fast pass; a stale sitemap is how Google News goes quiet).
     written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
@@ -1485,6 +1555,8 @@ async function main() {
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
       ...tagAliases(ctx),
+      ...kindAliases(ctx),
+      ...outletAliases(ctx),
     ], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
     if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
@@ -1751,6 +1823,8 @@ async function main() {
   await writePeopleAndDayPages(ctx, args.out, write, written);
   // Topic tags (Skynet /tags/* shape): curated needles, substance gate.
   await writeTagPages(ctx, args.out, write, written);
+  await writeKindPages(ctx, args.out, write, written);
+  await writeOutletPages(ctx, args.out, write, written);
   // /flock. The ALPR camera map, from OpenStreetMap via Overpass.
   //
   // ctx.routes.flock — set immediately after ctx is built, above — is the ONE
@@ -1793,6 +1867,7 @@ async function main() {
   // gets 997 of its 1,018 sitemap URLs. Each of ours carries the score
   // decomposition and the corroboration set, so these are unique computed
   // pages rather than the thin doorway pages this pattern usually produces.
+  // Live window + data/item-archive.json (cap overflow and aged-off rows).
   if (itemPage.hasItems(ctx)) {
     const items = ctx.news.items;
     const byPillar = new Map();
@@ -1801,6 +1876,12 @@ async function main() {
       byPillar.get(it.pillar).push(it);
     }
     for (const it of items) {
+      const related = (byPillar.get(it.pillar) || [])
+        .filter((r) => r.id !== it.id)
+        .slice(0, 5);
+      written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
+    }
+    for (const it of (ctx.itemArchive || [])) {
       const related = (byPillar.get(it.pillar) || [])
         .filter((r) => r.id !== it.id)
         .slice(0, 5);
@@ -1845,6 +1926,8 @@ async function main() {
       ...modelAndCountryAliases(ctx),
       ...peopleAliases(ctx),
       ...tagAliases(ctx),
+      ...kindAliases(ctx),
+      ...outletAliases(ctx),
     ],
     write,
     written,

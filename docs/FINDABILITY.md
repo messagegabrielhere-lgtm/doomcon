@@ -250,6 +250,10 @@ context.
 | 17 | Homepage below-fold `content-visibility:auto` (CWV; crawlers still see full HTML) | Google CWV | **Done** (2026-10-14) |
 | 18 | `/source/*` adapter hubs link older archive stories; phone-width home board deferral | Google CWV | **Done** (2026-10-14) |
 | 19 | `/tags/*` topic hubs (Skynet URL shape; curated needles, ≥5 stories) | Google | **Done** (2026-10-14) |
+| 20 | `/kind/*` story-kind hubs (press/forum/paper; ≥5 stories) | Google | **Done** (2026-10-14) |
+| 21 | Durable `data/item-archive.json` (ARCHIVE_MAX 5000) for `/item/` long-tail + newsroom cap 800 | Google | **Done** (2026-10-14) |
+| 22 | News-sitemap cap 150 with richer keywords | Google News | **Done** (2026-10-14) |
+| 23 | `/outlet/*` publisher hubs (≥5 scored stories) | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
