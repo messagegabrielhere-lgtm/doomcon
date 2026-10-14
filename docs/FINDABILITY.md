@@ -704,6 +704,8 @@ context.
 | 452 | Topic tag `ai-use` (live/archive ≥5); IndexNow + seo-daily monitor; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 453 | Topic tag `ai-cloud` (live/archive ≥5); IndexNow + seo-daily monitor; refuse supply-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 454 | Topic tag `ai-era` (live/archive ≥5); IndexNow + seo-daily monitor; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 455 | Topic tag `south-korea` (live/archive ≥5); IndexNow + seo-daily monitor; refuse national-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 456 | Topic tag `singapore` (live/archive ≥5); IndexNow + seo-daily monitor; refuse national-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

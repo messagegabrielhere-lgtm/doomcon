@@ -2433,4 +2433,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-era'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ai-era'), /probability of doom/i);
   });
+
+  it('pages south-korea and singapore hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('sk1', 'South Korea unveils first military AI training base'),
+          story('sk2', 'South Korea Job Postings Shift From Computer Skills to Claude'),
+          story('sk3', 'Foreign selling on OpenAI bubble fears sinks South Korea stocks'),
+          story('sk4', 'South Korea links MSS-NTS support to ease taxes for AI firms'),
+          story('sk5', 'South Korea Investigates Possible Use of A.I. in Hackings on Its Banks'),
+          story('sg1', 'Speaking in Singapore, Broadcom CEO Hock Tan warns about capital access'),
+          story('sg2', 'Meta Donates 1,000 AI Glasses to Singapore\'s Disability Community'),
+          story('sg3', 'Singapore\'s President warns of AI\'s risk to employment for fresh graduates'),
+          story('sg4', 'AI scale-up PhysicsX comes to Singapore with ambition to accelerate industrial innovation'),
+          story('sg5', 'Singapore-based data center operator DayOne files for a US IPO'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('south-korea'));
+    assert.ok(ids.includes('singapore'));
+    assert.match(renderTag(rich, 'south-korea'), /What has SIREN scored about South Korea AI\?/);
+    assert.match(renderTag(rich, 'singapore'), /What has SIREN scored about Singapore AI\?/);
+    assert.match(renderTag(rich, 'south-korea'), /not a national ranking/i);
+    assert.match(renderTag(rich, 'singapore'), /not a national ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'south-korea'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'singapore'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'singapore'), /probability of doom/i);
+  });
 });
