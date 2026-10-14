@@ -267,6 +267,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes("what unserious counts does SIREN keep on Tally's desk"));
     assert.ok(org.knowsAbout.includes('AI breakthroughs tracked'));
     assert.ok(org.knowsAbout.includes('what AI breakthroughs has SIREN tracked'));
+    assert.ok(org.knowsAbout.includes('Where else can you find more of the AI upside'));
     assert.ok(org.knowsAbout.includes('SIREN instruments'));
     assert.ok(org.knowsAbout.includes('what instruments sit behind the SIREN reading'));
     assert.ok(org.knowsAbout.includes('What public JSON files does SIREN expose'));
@@ -456,6 +457,10 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What does SIREN Arena show'));
     assert.ok(org.knowsAbout.includes('Live on X'));
     assert.ok(org.knowsAbout.includes('Where are live X feeds and Spaces on AI'));
+    assert.ok(org.knowsAbout.includes('Which live X feeds on AI are linked here'));
+    assert.ok(org.knowsAbout.includes('Which AI Spaces can you join on X'));
+    assert.ok(org.knowsAbout.includes('Which AI labs should you follow on X'));
+    assert.ok(org.knowsAbout.includes('Which AI leaders should you follow on X'));
     assert.ok(org.knowsAbout.includes('SIREN feedback'));
     assert.ok(org.knowsAbout.includes('How do I report a problem or send an idea to SIREN'));
     assert.ok(org.knowsAbout.includes('SIREN alerts'));

@@ -458,17 +458,23 @@ export function breakthroughs(ctx, list) {
     <div class="fx-meta"><span class="fx-pill">${esc(b.field.toUpperCase())}</span>${esc(String(b.source).toUpperCase())} · ${esc(String(b.published_at).slice(0, 10))}
     · <a href="${esc(`https://x.com/intent/post?text=${encodeURIComponent(`AI breakthrough: ${b.title}`)}&url=${encodeURIComponent(b.url)}&via=SIRENutf6`)}" target="_blank" rel="noopener">𝕏 Post</a></div></li>`).join('');
 
+  // Tip #307: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const moreQ = 'Where else can you find more of the AI upside?';
   // FAQ answers restate hero / archive copy only (FINDABILITY §3.3).
   // Refuse: verified cures, forecasts, doom-probability claims.
   const faq = [
     [qTitle,
       'Not every AI story is about risk. These are the ones about AI helping: new drugs and diagnoses, solved math problems, better forecasts, restored senses. Picked automatically from the newsroom\'s sources and kept as an archive; a headline is the outlet\'s claim, so open the story before you share it.'],
+    [moreQ,
+      'More of the upside: the Upside index (the same machinery, pointed at the good direction) and Medicine (trials and approvals of AI in medicine, counted).'],
     ['Is every headline here a verified breakthrough?',
       'A headline is the outlet\'s claim, so open the story before you share it.'],
     ['What kinds of upside stories appear on this page?',
       'These are the ones about AI helping: new drugs and diagnoses, solved math problems, better forecasts, restored senses.'],
     ['Where else does SIREN track the upside of AI?',
       'More of the upside: the Upside index (the same machinery, pointed at the good direction) and Medicine (trials and approvals of AI in medicine, counted).'],
+    [`Does ${brand.NAME} publish a breakthroughs doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} This page archives upside headlines — not a probability of harm.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -482,10 +488,10 @@ export function breakthroughs(ctx, list) {
   ${shareBtn(ctx, 'The good side of AI, tracked: new medicines, solved problems, restored senses.', PATH)}
   <p>${fields.map((f, i) => `<button type="button" class="fx-btn${i ? ' ghost' : ''}" data-f="${esc(f)}" style="margin:4px 6px 4px 0">${esc(f.toUpperCase())}</button>`).join('')}</p>
   ${list.length ? `<ul class="fx-list" id="bt">${rows}</ul>` : '<p>No breakthrough stories in the current window. The newsroom refreshes every 15 minutes.</p>'}
-  <h2>More of the upside</h2>
+  <h2>${esc(moreQ)}</h2>
   <div class="fx-grid">
-    <a class="fx-card" href="${esc(ctx.href('/bliss.html'))}"><h3>The Upside index →</h3><p>The same machinery, pointed at the good direction.</p></a>
-    <a class="fx-card" href="${esc(ctx.href('/medicine.html'))}"><h3>Medicine →</h3><p>Trials and approvals of AI in medicine, counted.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/bliss.html'))}"><h3>What is BLISS, the ${esc(brand.NAME)} upside index? →</h3><p>The same machinery, pointed at the good direction.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/medicine.html'))}"><h3>Is AI curing anything? →</h3><p>Trials and approvals of AI in medicine, counted.</p></a>
   </div>
   <section class="fx-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
@@ -551,17 +557,32 @@ export function liveX(ctx) {
   const qTitle = 'Where are live X feeds and Spaces on AI?';
   const search = (q, live = true) => `https://x.com/search?q=${encodeURIComponent(q)}&src=typed_query${live ? '&f=live' : ''}`;
 
+  // Tip #307: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const feedsQ = 'Which live X feeds on AI are linked here?';
+  const spacesQ = 'Which AI Spaces can you join on X?';
+  const labsQ = 'Which AI labs should you follow on X?';
+  const leadersQ = 'Which AI leaders should you follow on X?';
   // FAQ answers restate lede / Spaces / note copy only (FINDABILITY §3.3).
   // Refuse: doom-probability, SIREN-as-X-oracle, stuffing.
   const faq = [
     [qTitle,
       `Every link below opens a live X feed, newest first, so it is never out of date. For a scored, de-duplicated version of the same news, Which AI stories has ${brand.NAME} scored in this window? reads 30+ sources every 15 minutes.`],
+    [feedsQ,
+      'Live X searches for superintelligence, AGI, AI safety, new model launches, AI and jobs, and Skynet talk — newest first.'],
+    [spacesQ,
+      'X Spaces are live audio conversations. These open X\'s search for Spaces about AI, chatbot Spaces, and AI safety Spaces; join any that are live now.'],
+    [labsQ,
+      'Lab accounts linked here include OpenAI, Anthropic, Google DeepMind, xAI, AI at Meta, Mistral AI, and NVIDIA.'],
+    [leadersQ,
+      'Leader accounts linked here include Sam Altman, Dario Amodei, Demis Hassabis, Elon Musk, Yann LeCun, Andrej Karpathy, and others.'],
     ['Does this page embed X?',
       `${brand.NAME} does not embed X on this page, so nothing loads from X until you click. Links go to X; what you see there is X's, under X's rules and privacy policy.`],
     ['What Spaces links are on this page?',
       'X Spaces are live audio conversations. These open X\'s search for Spaces about AI, chatbot Spaces, and AI safety Spaces; join any that are live now.'],
     ['Where is a scored version of the same AI news?',
       `Which AI stories has ${brand.NAME} scored in this window? reads 30+ sources every 15 minutes for a scored, de-duplicated version of the same news.`],
+    [`Does ${brand.NAME} publish a live-X doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} This page links live X feeds and Spaces — not a probability of harm.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -573,16 +594,19 @@ export function liveX(ctx) {
   <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Every link below opens a live X feed, newest first, so it is never out of date. For a scored, de-duplicated version of the same news, <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> reads 30+ sources every 15 minutes.</p>
   <p><a class="fx-btn" href="https://x.com/SIRENutf6" target="_blank" rel="noopener">FOLLOW @SIRENutf6 ON X →</a></p>
-  <h2>Live feeds</h2>
+  <h2>${esc(feedsQ)}</h2>
   <div class="fx-grid">${X_SEARCHES.map(([t, q]) => `<a class="fx-card" href="${esc(search(q))}" target="_blank" rel="noopener"><h3>${esc(t)} ↗</h3><p class="fx-meta">${esc(q)}</p></a>`).join('')}</div>
-  <h2>Spaces: live audio rooms on AI</h2>
+  <h2>${esc(spacesQ)}</h2>
   <p>X Spaces are live audio conversations. These open X's search for Spaces about AI; join any that are live now.</p>
   <p>
     <a class="fx-x" href="${esc(search('(AI OR AGI OR superintelligence) filter:spaces', false))}" target="_blank" rel="noopener">🎙 AI Spaces ↗</a>
     <a class="fx-x" href="${esc(search('(ChatGPT OR Claude OR Grok OR Gemini) filter:spaces', false))}" target="_blank" rel="noopener">🎙 Chatbot Spaces ↗</a>
     <a class="fx-x" href="${esc(search('("AI safety" OR alignment) filter:spaces', false))}" target="_blank" rel="noopener">🎙 AI safety Spaces ↗</a>
   </p>
-  ${X_VOICES.map(([g, list]) => `<h2>${esc(g)} to follow</h2><p>${list.map(([n, h]) => `<a class="fx-x" href="https://x.com/${esc(h)}" target="_blank" rel="noopener">${esc(n)} <span class="fx-meta">@${esc(h)}</span></a>`).join('')}</p>`).join('')}
+  <h2>${esc(labsQ)}</h2>
+  <p>${X_VOICES[0][1].map(([n, h]) => `<a class="fx-x" href="https://x.com/${esc(h)}" target="_blank" rel="noopener">${esc(n)} <span class="fx-meta">@${esc(h)}</span></a>`).join('')}</p>
+  <h2>${esc(leadersQ)}</h2>
+  <p>${X_VOICES[1][1].map(([n, h]) => `<a class="fx-x" href="https://x.com/${esc(h)}" target="_blank" rel="noopener">${esc(n)} <span class="fx-meta">@${esc(h)}</span></a>`).join('')}</p>
   <p class="fx-note">Links go to X; what you see there is X's, under X's rules and privacy policy. ${esc(brand.NAME)} does not embed X on this page, so nothing loads from X until you click.</p>
   <section class="fx-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
