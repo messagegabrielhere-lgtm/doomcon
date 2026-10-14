@@ -130,7 +130,9 @@ const ENTITY_DEFS = [
   // Archive rows often only carry the lab name; model hubs re-match forms on
   // title/summary so /model/deepseek-r stays indexable (DoomBench shape).
   { name: 'DeepSeek-R', kind: 'model', forms: ['DeepSeek-R1', 'DeepSeek-V3', 'DeepSeek-V4', 'DeepSeek-V2', 'DeepSeek R1', 'DeepSeek V3', 'DeepSeek'] },
-  { name: 'Mixtral', kind: 'model', forms: ['Mixtral', 'Magistral', 'Devstral', 'Codestral', 'Mistral Large', 'Mistral Small', 'Mistral Nemo'] },
+  // Le Chonk / Mistral Large 4 nickname forms so /model/mixtral clears when
+  // headlines use the product nickname without “Mistral Large”.
+  { name: 'Mixtral', kind: 'model', forms: ['Mixtral', 'Magistral', 'Devstral', 'Codestral', 'Mistral Large 4', 'Mistral Large', 'Mistral Small', 'Mistral Nemo', 'Le Chonk', 'le Chonk'] },
   { name: 'Phi', kind: 'model', forms: ['Phi-3', 'Phi-4'] },
   { name: 'Command R', kind: 'model', forms: ['Command R', 'Command A'] },
   { name: 'Kimi', kind: 'model', forms: ['Kimi', 'Kimi K2'] },

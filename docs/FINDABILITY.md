@@ -654,6 +654,8 @@ context.
 | 402 | `/changelog.html` hour-row H3s + FAQPage use questions (was bare `YYYY-MM-DD HH:MM UTC` stamps); Organization `knowsAbout` mirrors the hour-question pattern; refuse hourly-move-as-doom / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 403 | Topic tags `agent-skills` + `neoclouds` (live/archive ≥5); IndexNow ALWAYS samples those hubs | Google + Bing | **Done** (2026-10-14) |
 | 404 | Entity lab Manus (`/lab/manus`, distinctive single-token form, ≥3 gate); `news:keywords` + IndexNow + seo-daily monitor | Google + Bing | **Done** (2026-10-14) |
+| 405 | Topic tags `ai-slop` + `gulf-ai` (live/archive ≥5); IndexNow ALWAYS samples; refuse harm-forecast / financial-advice claims | Google + Bing | **Done** (2026-10-14) |
+| 406 | Mixtral model forms add `Mistral Large 4` + `Le Chonk`; `news:keywords` + IndexNow `/model/mixtral.html` + seo-daily monitor | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

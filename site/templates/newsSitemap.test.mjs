@@ -220,6 +220,18 @@ test('render keywords include Nano Banana model surface', () => {
   assert.match(xml, /<news:keywords>[^<]*Nano Banana/);
 });
 
+test('news sitemap keywords include Le Chonk / Mistral Large 4 surfaces', () => {
+  const kw = keywordsFor({
+    title: 'Mistral Says Its New AI Model ‘Le Chonk’ Is the Best Open-Weight Offering',
+    summary: 'Mistral Large 4 nicknamed Le Chonk ships as an open-weight model.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'hn',
+    entities: [],
+  });
+  assert.match(kw, /Le Chonk|Mistral Large 4|Mixtral/);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',
