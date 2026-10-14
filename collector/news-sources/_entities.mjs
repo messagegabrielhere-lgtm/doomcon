@@ -116,6 +116,11 @@ const ENTITY_DEFS = [
   // China-origin AI agent product (Butterfly Effect) — distinctive single token
   // (lookaround boundaries keep “manuscripts” from matching).
   { name: 'Manus', kind: 'lab', forms: ['Manus'] },
+  // Russia’s Yandex / YandexGPT / Yandex Cloud — datacentre and chatbot stories.
+  // Prefer Yandex* forms so bare “Russia’s Google” nicknames stay out.
+  { name: 'Yandex', kind: 'lab', forms: ['YandexGPT', 'Yandex Cloud', 'Yandex'] },
+  // TikTok product brand (distinct from ByteDance lab) — CEO / product AI stories.
+  { name: 'TikTok', kind: 'lab', forms: ['TikTok'] },
 
   // --- model families ---
   // GPT-6 Astra / Luna / Sol nicknames so /model/gpt clears when headlines

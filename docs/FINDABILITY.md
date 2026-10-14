@@ -728,6 +728,8 @@ context.
 | 476 | Topic tag `iran` (live/archive ≥5); IndexNow + seo-daily monitor; refuse national-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 477 | Topic tag `email` (live/archive ≥5); IndexNow + seo-daily monitor; refuse product-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 478 | Topic tag `cruelty` (live/archive ≥5); IndexNow + seo-daily monitor; refuse sentience-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 479 | Entity lab Yandex (`/lab/yandex`, YandexGPT / Yandex Cloud forms, ≥3 gate); IndexNow + seo-daily; refuse national-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 480 | Entity lab TikTok (`/lab/tiktok`, distinct from ByteDance, ≥3 gate); IndexNow + seo-daily; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
