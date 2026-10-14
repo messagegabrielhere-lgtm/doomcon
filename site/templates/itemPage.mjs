@@ -21,7 +21,7 @@
 
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
-import { breadcrumbs, speakable } from './_seo.mjs';
+import { breadcrumbs, speakable, answerBlock, ANSWER_BLOCK_CSS } from './_seo.mjs';
 import { modelIndexable, modelPath } from './modelPages.mjs';
 import * as brand from '../brand.mjs';
 import { sourceIndexable, sourceLabel, sourcePath } from './facetPages.mjs';
@@ -201,6 +201,12 @@ export function render(ctx, item, related = []) {
   </p>
 
   <h1 class="it__h">${esc(item.title)}</h1>
+  ${answerBlock({
+    label: 'In one line',
+    a: hasScore(item)
+      ? `${brand.NAME} scored this story ${num(item.score, 1)} of 100 on the ${pillarName} pillar in its rolling newsroom window. The score ranks corroboration and lead inside the window; it is not a judgement of world importance.`
+      : `${brand.NAME} indexed this story without a score. Unscored items stay in the window and keep their page rather than printing a zero.`,
+  })}
   ${item.summary ? `<blockquote class="lede" cite="${esc(item.url)}"><p>${esc(clipX(item.summary, 200))}</p><footer>— excerpt from ${esc(item.source)}; the full story and its rights belong to them.</footer></blockquote>` : ''}
 
   <p class="it__src">
@@ -261,7 +267,7 @@ export function render(ctx, item, related = []) {
       datePublished: item.published_at || undefined,
       publisher: { '@type': 'Organization', name: brand.PUBLICATION, url: ctx.url('/') },
       description: clipX(String(item.summary || item.title), 200),
-      speakable: speakable(['h1.it__h', 'blockquote.lede']),
+      speakable: speakable(['h1.it__h', '.ans__a', 'blockquote.lede']),
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
@@ -292,6 +298,7 @@ export function renderIndex(ctx) {
 
 export function styleTag() {
   return `<style>
+${ANSWER_BLOCK_CSS}
 .it__k{font-family:var(--mono);font-size: var(--t-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
 .it__h{margin:var(--s-2) 0;max-width:24ch;font-size:clamp(22px,4vw,34px);line-height:1.15}
 .it__src{font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-dim)}

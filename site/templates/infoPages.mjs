@@ -5,6 +5,7 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { evergreenJsonLd, answerBlock, ANSWER_BLOCK_CSS } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { MONETIZE, on as mzOn } from '../monetize.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
@@ -21,6 +22,7 @@ const CSS = `<style>
 .inf th, .inf td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--rule); color: var(--ink-dim); }
 .inf th { font: 700 var(--t-xs)/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); }
 .inf__scroll { overflow-x: auto; position: relative; }
+${ANSWER_BLOCK_CSS}
 </style>`;
 
 const level = (ctx) => (ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null);
@@ -529,88 +531,119 @@ export const TCLK_CSS = `
 function nowLine(ctx) {
   const st = ctx.state;
   return st && Number.isFinite(st.level)
-    ? `<p><b>Right now:</b> ${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}, composite ${esc(Number(st.score).toFixed(1))} of 100, observed ${esc(utc(st.generated_at))}. <a href="${esc(ctx.href('/'))}">See the live reading →</a></p>` : '';
+    ? `<p class="inf__fresh"><b>Right now:</b> ${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}, composite ${esc(Number(st.score).toFixed(1))} of 100, observed <time datetime="${esc(st.generated_at)}">${esc(utc(st.generated_at))}</time>. This page rebuilds with every hourly reading. <a href="${esc(ctx.href('/'))}">See the live reading →</a></p>` : '';
 }
 
 export function pdoom(ctx) {
+  const path = '/p-doom.html';
+  const title = `p(doom): Hinton, Amodei, Musk, LeCun and 24 more, plus yours · ${brand.NAME}`;
+  const description = `28 named, sourced p(doom) estimates on one chart, from 0% to 99.9%, plus a dial to set your own and see who you agree with. What p(doom) is and what it cannot tell you.`;
+  const faq = [
+    ['What is p(doom)?',
+      'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.'],
+    ['Why do p(doom) estimates differ so much?',
+      'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.'],
+    [`How is ${brand.NAME} different from p(doom)?`,
+      `${brand.NAME} does not estimate the chance of anything. It counts how much is happening in AI, hourly, as a level from 5 (quietest) to 1 (loudest), with a receipt for every reading.`],
+    ...voicesFaq().map((q) => [q.name, q.acceptedAnswer.text]),
+  ];
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Explainer</p>
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What is p(doom)?</h1></div>
   <p class="lede"><b>p(doom) is shorthand for “probability of doom”: one person’s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity.</b>
     It is an opinion expressed as a number. There is no agreed method for producing it and no way to check one.</p>
+  ${answerBlock({
+    q: 'What is p(doom)?',
+    a: 'p(doom) is one person’s stated probability that advanced AI ends in catastrophe. It is an opinion as a percentage — not a measurement, and not something you can recompute. SIREN does not publish a p(doom); it counts hourly AI activity with a receipt.',
+  })}
+  ${nowLine(ctx)}
   ${voicesSection(ctx, ctx.state && ctx.state.level)}
-  <h2>Where the term comes from</h2>
+  <h2>Where does the term p(doom) come from?</h2>
   <p>It started as informal slang among people who work on and argue about AI risk, as a quick way to ask “how worried are you?” It spread into interviews and headlines once prominent researchers and executives began giving their own figures in public.</p>
-  <h2>Why the numbers differ so much</h2>
+  <h2>Why do the numbers differ so much?</h2>
   <ul>
     <li><b>“Doom” is not defined.</b> Some people mean human extinction, others mean permanent loss of control, others something milder. Two people can give the same number and mean different things.</li>
     <li><b>The time frame varies.</b> Ten years, this century, ever.</li>
     <li><b>It is a judgement, not a measurement.</b> Estimates given in public run from near zero to near certain, and the same person’s figure can move with the news.</li>
   </ul>
-  <h2>What p(doom) cannot tell you</h2>
+  <h2>What can p(doom) not tell you?</h2>
   <p>It cannot be verified or recomputed, and it does not tell you what is happening today. A room of experts with very different figures can all be looking at the same facts.</p>
-  <h2>How ${esc(brand.NAME)} is different</h2>
+  <h2>How is ${esc(brand.NAME)} different from p(doom)?</h2>
   <p>${esc(brand.NAME)} does not estimate the chance of anything. It counts how much is happening in AI, hourly, and reports it as a level from 5 (quietest) to 1 (loudest).
     Every reading ships with a receipt, and a button on the home page lets you <a href="${esc(ctx.href('/#vfy'))}">re-check the published record in your own browser</a>.
     The site’s line is: everyone has a p(doom), nobody has a receipt.</p>
-  ${nowLine(ctx)}
-  <h2>Read more</h2>
+  <h2>Where else should you read?</h2>
   <p><a href="${esc(ctx.href('/guide.html'))}">p(doom) next to DEFCON and the Doomsday Clock →</a> · <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock? →</a> ·
     <a href="${esc(ctx.href('/library.html'))}">Books from every side of the argument →</a> · <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a></p>
 </section>`;
   return page({
-    ctx, path: '/p-doom.html',
-    title: `p(doom): Hinton, Amodei, Musk, LeCun and 24 more, plus yours · ${brand.NAME}`,
-    description: `28 named, sourced p(doom) estimates on one chart, from 0% to 99.9%, plus a dial to set your own and see who you agree with. What p(doom) is and what it cannot tell you.`,
-    jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
-      { '@type': 'Question', name: 'What is p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.' } },
-      { '@type': 'Question', name: 'Why do p(doom) estimates differ so much?', acceptedAnswer: { '@type': 'Answer', text: 'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.' } },
-      ...voicesFaq(),
-    ] }],
+    ctx, path, title, description,
+    jsonld: evergreenJsonLd(ctx, {
+      path, name: title, description,
+      crumbs: [{ name: 'p(doom)', path }],
+      speakable: ['h1.bp__h1', '.ans__a', '.lede'],
+      faq,
+    }),
     main,
   });
 }
 
 export function aiClock(ctx) {
+  const path = '/ai-doomsday-clock.html';
+  const title = `AI Doomsday Clock: expert p(doom), set your own · ${brand.NAME}`;
+  const description = `AI Doomsday Clock: expert p(doom) clusters at 10–20%. Set your own on a dial, or read ${brand.NAME}, an hourly AI index anyone can verify.`;
+  const faq = [
+    ['Is there an AI Doomsday Clock?',
+      'The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. SIREN publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.'],
+    ['How close is the AI Doomsday Clock to midnight?',
+      `There is no official AI clock. Expert estimates of AI catastrophe cluster around 10–20%; the largest researcher survey has a median of ${SURVEY.median}%. On a clock where 100% is midnight, 15% is about 51 minutes to go.`],
+    ['Who sets the AI Doomsday Clock?',
+      'Nobody officially. Sites that publish one set it by their own judgement. SIREN’s reading is computed hourly from public data and can be re-checked in the browser.'],
+    [`What does ${brand.NAME} do instead of a doomsday clock?`,
+      `${brand.NAME} counts releases, compute, attention, governance and markets every hour, reports tempo from 5 (quietest) to 1 (loudest), and ships a receipt with each reading.`],
+  ];
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Explainer</p>
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">The AI Doomsday Clock: is there one?</h1></div>
   <p class="lede"><b>The Doomsday Clock is not an AI clock, though it now takes AI into account. Several AI-specific “clocks” exist, and all of them are set by judgement.
     ${esc(brand.NAME)} is the nearest thing that is counted instead: an hourly reading of AI activity that anyone can verify.</b></p>
+  ${answerBlock({
+    q: 'Is there an AI Doomsday Clock?',
+    a: `No official AI clock. The Bulletin’s Doomsday Clock includes AI among other risks and is set by judgement, usually yearly. AI-specific “clocks” are also judgement. ${brand.NAME} is an hourly, recomputable count of AI activity tempo — not a countdown to midnight.`,
+  })}
+  ${nowLine(ctx)}
   <p><a href="${esc(ctx.href('/p-doom.html#voices'))}"><b>Set your own AI doomsday clock →</b></a> Drag a dial, see where you sit among 28 named experts from LeCun (0.01%) to Yudkowsky (95%+), and post it.</p>
   <style>${TCLK_CSS}</style>
   ${tempoClock(ctx, { size: 260 })}
-  <h2>The Doomsday Clock</h2>
+  <h2>What is the Doomsday Clock?</h2>
   <p>The Bulletin of the Atomic Scientists has published the Doomsday Clock since 1947. It is a symbol: a board of experts decides, usually once a year, how close to “midnight” to set it.
     It began as a warning about nuclear weapons and has since widened to include climate change and disruptive technologies, AI among them. It is a considered judgement, not a calculation, and it is not updated between announcements.</p>
-  <h2>The experts’ clock: where opinion sits</h2>
+  <h2>Where do the experts’ estimates sit?</h2>
   <p>Ask the people building AI how likely it is to end in catastrophe and you get a cloud, not a number. The loudest cluster sits around <b>10–20%</b> (Geoffrey Hinton; Elon Musk says 10–30%; Dario Amodei 10–25%). The largest survey of AI researchers gives a median of <b>${SURVEY.median}%</b>. The tails run from Yann LeCun’s <b>under 0.01%</b> to Eliezer Yudkowsky’s <b>over 95%</b>.
     On a clock where 100% is midnight, 15% is about 51 minutes to go. <a href="${esc(ctx.href('/p-doom.html#voices'))}">See all ${VOICES.length} voices on one chart and set the clock to your own number →</a></p>
-  <h2>AI-specific clocks and scores</h2>
+  <h2>Are there AI-specific clocks?</h2>
   <p>A number of sites publish an AI risk clock, countdown or score. What they share is the method: a person, a panel or a language model decides the setting. That makes them statements of opinion. Useful ones, sometimes, but not something a reader can recompute.</p>
-  <h2>What ${esc(brand.NAME)} does instead</h2>
+  <h2>What does ${esc(brand.NAME)} do instead?</h2>
   <ul>
     <li><b>It counts.</b> Releases, compute and capital, attention, governance and markets, from public sources, every hour.</li>
     <li><b>It reports tempo, not danger.</b> The level runs from 5 (quietest) to 1 (loudest). Loud means a lot is happening; it does not mean things are going badly.</li>
     <li><b>It can be checked.</b> Each reading has a receipt, and the home page has a button that <a href="${esc(ctx.href('/#vfy'))}">re-verifies the record in your browser</a>.</li>
     <li><b>It moves when the world does.</b> Hourly, not yearly.</li>
   </ul>
-  ${nowLine(ctx)}
   <h2>Which should you use?</h2>
   <p>If you want an expert body’s considered view of overall risk, read the Bulletin’s statement. If you want to know how much is happening in AI this week, and to be able to check the answer, that is what this site is for. They answer different questions.</p>
   <p><a href="${esc(ctx.href('/guide.html'))}">The side-by-side comparison →</a> · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)? →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the index is computed →</a></p>
 </section>`;
   return page({
-    ctx, path: '/ai-doomsday-clock.html',
-    title: `AI Doomsday Clock: expert p(doom), set your own · ${brand.NAME}`,
-    description: `AI Doomsday Clock: expert p(doom) clusters at 10–20%. Set your own on a dial, or read ${brand.NAME}, an hourly AI index anyone can verify.`,
-    jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
-      { '@type': 'Question', name: 'Is there an AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. SIREN publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.' } },
-      { '@type': 'Question', name: 'How close is the AI Doomsday Clock to midnight?', acceptedAnswer: { '@type': 'Answer', text: 'There is no official AI clock. Expert estimates of AI catastrophe cluster around 10–20%; the largest researcher survey has a median of 5%. On a clock where 100% is midnight, 15% is about 51 minutes to go.' } },
-      { '@type': 'Question', name: 'Who sets the AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'Nobody officially. Sites that publish one set it by their own judgement. SIREN’s reading is computed hourly from public data and can be re-checked in the browser.' } },
-    ] }],
+    ctx, path, title, description,
+    jsonld: evergreenJsonLd(ctx, {
+      path, name: title, description,
+      crumbs: [{ name: 'AI doomsday clock', path }],
+      speakable: ['h1.bp__h1', '.ans__a', '.lede'],
+      faq,
+    }),
     main,
   });
 }
@@ -751,15 +784,33 @@ export function press(ctx) {
 export function guide(ctx) {
   const bands = [...brand.LEVELS].sort((a, b) => b.level - a.level);
   const st = ctx.state;
+  const path = '/guide.html';
+  const title = `SIREN vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`;
+  const description = `A plain guide to four doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, and ${brand.NAME} is an hourly count of AI activity you can recompute.`;
   const now = st && Number.isFinite(st.level)
     ? `Right now it reads <b>${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}</b>.` : '';
+  const faq = [
+    ['What does each doom number measure?',
+      `${brand.NAME} measures AI activity tempo from public data. DEFCON is US military readiness. The Doomsday Clock is a yearly judgement by the Bulletin of the Atomic Scientists. p(doom) is one person's stated probability that AI ends badly. Only ${brand.NAME} is recomputable from a published receipt.`],
+    ['How do you read the SIREN dial?',
+      'The scale runs from 5 to 1 and 1 is the loudest. The level is the band the 0–100 composite score falls in, built from five pillars scored against the index\'s own frozen record.'],
+    ['What does a loud SIREN reading tell you?',
+      'A loud reading tells you a lot shipped, was spent, was written or was regulated, and which pillar moved. It does not say whether any of it was good or bad, and it is not a forecast.'],
+    ['Why does SIREN borrow DEFCON\'s grammar?',
+      `Because "five is calm, one is not" is already widely understood. The borrowing stops at the grammar: ${brand.NAME} is not a readiness level and is not issued by any government body.`],
+  ];
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Guide</p>
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">SIREN, DEFCON, the Doomsday Clock and p(doom)</h1></div>
   <p class="lede">Five numbers people reach for when they want to know how worried to be. They measure different things, and
     only one of them is a count you can check. ${now}</p>
-  <h2>The short version</h2>
+  ${answerBlock({
+    q: 'What does each doom number measure?',
+    a: `${brand.NAME} counts how loud AI activity is this hour (recomputable). DEFCON is US military readiness. The Doomsday Clock is a yearly judgement. p(doom) is one person’s probability opinion. Only ${brand.NAME} ships a receipt you can re-check.`,
+  })}
+  ${nowLine(ctx)}
+  <h2>What does each number measure?</h2>
   <div class="inf__scroll"><table>
     <thead><tr><th>Number</th><th>What it measures</th><th>Who sets it</th><th>Can you recompute it?</th></tr></thead>
     <tbody>
@@ -770,7 +821,7 @@ export function guide(ctx) {
       <tr><td><b>p(doom)</b></td><td>One person's stated probability that AI ends very badly</td><td>Whoever is asked</td><td>No. It is an opinion expressed as a number</td></tr>
     </tbody>
   </table></div>
-  <h2>How to read the SIREN dial</h2>
+  <h2>How do you read the SIREN dial?</h2>
   <p>The scale runs from 5 to 1 and <b>1 is the loudest</b>. The level is the band the 0–100 composite score falls in:</p>
   <div class="inf__scroll"><table>
     <thead><tr><th>Level</th><th>Name</th><th>Score band</th><th>In a few words</th></tr></thead>
@@ -780,24 +831,28 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
   </table></div>
   <p>The score is built from five pillars: ${brand.PILLARS.map((p) => `<b>${esc(p.name)}</b> (${esc(p.blurb.replace(/\.$/, '').toLowerCase())})`).join(', ')}.
     Each is scored against the index's own frozen record, so a reading says how today compares with what the index has seen before.</p>
-  <h2>What a loud reading does and does not tell you</h2>
+  <h2>What does a loud reading tell you?</h2>
   <p>A loud reading tells you a lot shipped, a lot was spent, a lot was written or a lot was regulated, and the pillar
     breakdown says which. It does not tell you whether any of it was good or bad, and it is not a forecast of what happens next.
     That is why the home page is stamped "not a prediction".</p>
-  <h2>Why borrow DEFCON's grammar at all</h2>
+  <h2>Why borrow DEFCON's grammar?</h2>
   <p>Because nobody needs the scale explained twice. "Five is calm, one is not" is already in most people's heads. The borrowing
     stops at the grammar: ${esc(brand.NAME)} is not a readiness level and is not issued by any government body.</p>
-  <h2>Where to go next</h2>
+  <h2>Where should you go next?</h2>
   <p><a href="${esc(ctx.href('/'))}">The current reading →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Every formula →</a> ·
     <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared (DoomBench, Skynet, p(doom)) →</a> ·
     <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a> ·
     <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a> · <a href="${esc(ctx.href('/desk.html'))}">Tally's desk →</a></p>
 </section>`;
   return page({
-    ctx, path: '/guide.html',
-    title: `SIREN vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`,
-    description: `A plain guide to four doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, and ${brand.NAME} is an hourly count of AI activity you can recompute.`,
+    ctx, path, title, description,
     head: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/guide.md'))}" title="Guide (markdown)">`,
+    jsonld: evergreenJsonLd(ctx, {
+      path, name: title, description,
+      crumbs: [{ name: 'Guide', path }],
+      speakable: ['h1.bp__h1', '.ans__a', '.lede'],
+      faq,
+    }),
     main,
   });
 }
@@ -825,13 +880,17 @@ export function guideMd(ctx) {
 
 Five numbers people reach for when they want to know how worried to be. They measure different things, and only one of them is a count you can check. ${now}
 
-## The short version
+## In short
+
+**What does each doom number measure?** ${brand.NAME} counts how loud AI activity is this hour (recomputable). DEFCON is US military readiness. The Doomsday Clock is a yearly judgement. p(doom) is one person’s probability opinion. Only ${brand.NAME} ships a receipt you can re-check.
+
+## What does each number measure?
 
 | Number | What it measures | Who sets it | Can you recompute it? |
 |---|---|---|---|
 ${compareRows.map(([a, b, c, d]) => `| **${a}** | ${b} | ${c} | ${d} |`).join('\n')}
 
-## How to read the SIREN dial
+## How do you read the SIREN dial?
 
 The scale runs from 5 to 1 and **1 is the loudest**. The level is the band the 0–100 composite score falls in:
 
@@ -841,15 +900,15 @@ ${bands.map((l) => `| **${l.level}** | ${l.name} | ${l.band[0]}–${l.band[1]} |
 
 The score is built from five pillars: ${pillars}. Each is scored against the index's own frozen record, so a reading says how today compares with what the index has seen before.
 
-## What a loud reading does and does not tell you
+## What does a loud reading tell you?
 
 A loud reading tells you a lot shipped, a lot was spent, a lot was written or a lot was regulated, and the pillar breakdown says which. It does not tell you whether any of it was good or bad, and it is not a forecast of what happens next. That is why the home page is stamped "not a prediction".
 
-## Why borrow DEFCON's grammar at all
+## Why borrow DEFCON's grammar?
 
 Because nobody needs the scale explained twice. "Five is calm, one is not" is already in most people's heads. The borrowing stops at the grammar: ${brand.NAME} is not a readiness level and is not issued by any government body.
 
-## Where to go next
+## Where should you go next?
 
 - [The current reading](${ctx.url('/')})
 - [Every formula](${ctx.url('/methodology.html')}) · [methodology.md](${ctx.url('/methodology.md')})
