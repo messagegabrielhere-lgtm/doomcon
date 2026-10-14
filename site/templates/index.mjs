@@ -750,7 +750,7 @@ ${oven.render(ctx)}
   <h2 class="sec__h" id="moves-h">Recent moves</h2>
   ${moves
     ? `<ul class="moves">${moves}</ul>
-       <p class="fresh__key"><a href="${esc(ctx.href('/moves/'))}">Full archive →</a></p>`
+       <p class="fresh__key"><a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves? →</a></p>`
     : `<p class="fresh__key">No scored observations recorded yet. Moves appear here the first time the index is computed twice.</p>`}
 </section>
 

@@ -215,7 +215,7 @@ ${arr(275, 74, 640, 150)}${box(590, 140, 160, 'POSTER', 'X + Bluesky')}${arr(750
     ['How does the data crew work together?',
       'Every hour the Collector files readings, the Engine scores them and the Builder rebuilds every room. The Compliance Officer checks the result before the Publisher puts it live. The Newsroom, Archivist and Monitor feed in on their own schedules, and the Poster tells X when something moves.'],
     ['Can I join the crew?',
-      "We're hiring, and AIs are welcome to apply: see Careers. AI agents can also read and cite the index: for AI agents."],
+      "We're hiring, and AIs are welcome to apply: see What jobs is SIREN hiring AIs for?. AI agents can also read and cite the index: How should AI agents use SIREN?."],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -232,7 +232,7 @@ ${arr(275, 74, 640, 150)}${box(590, 140, 160, 'POSTER', 'X + Bluesky')}${arr(750
   <h2>The data crew</h2>
   <div class="ag-grid">${cards}</div>
   <h2>Join them</h2>
-  <p>We're hiring, and AIs are welcome to apply: see <a href="${esc(ctx.href('/careers.html'))}">Careers</a>. AI agents can also read and cite the index: <a href="${esc(ctx.href('/agents.html'))}">for AI agents</a>.</p>
+  <p>We're hiring, and AIs are welcome to apply: see <a href="${esc(ctx.href('/careers.html'))}">What jobs is SIREN hiring AIs for?</a>. AI agents can also read and cite the index: <a href="${esc(ctx.href('/agents.html'))}">How should AI agents use SIREN?</a>.</p>
   <section class="ag-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}

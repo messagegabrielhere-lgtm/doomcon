@@ -705,7 +705,7 @@ ${news}
   const main = `<p class="eyebrow">Changelog</p>
 <h1>${esc(qTitle)}</h1>
 <p class="lede">The last ${entries.length} hours with a reading, newest first: how far the score and each pillar moved since the hour before, any level change, any source going dark or coming back, and the three highest-scored news items published in between. Red marks a level change, amber a move of ${DELTA_THRESHOLD}+ points. ▲ is louder, ▼ quieter.</p>
-<p><a class="xt-btn ghost" href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="xt-btn ghost" href="${esc(ctx.href('/history.html'))}">FULL HISTORY →</a></p>
+<p><a class="xt-btn ghost" href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="xt-btn ghost" href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a></p>
 ${entries.length ? `<ol class="xt-log">\n${li}\n</ol>` : '<p>Not enough readings yet: the changelog starts with the second hour on record.</p>'}
 <p class="xt-note">News items are context, not cause: the newsroom does not feed the score. ${esc(brand.DISCLAIMER)}</p>
 <section class="xt-faq" aria-labelledby="faq">

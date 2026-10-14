@@ -89,4 +89,23 @@ describe('classic page', () => {
     assert.match(html, /href="\/scanner\.html">What does the SIREN Capitulation Scanner show\?<\/a>/);
     assert.doesNotMatch(html, /href="\/scanner\.html">Scanner<\/a>/);
   });
+
+  it('instruments recent-moves archive link uses the moves question H1', () => {
+    const html = render({
+      ...ctx,
+      moves: [{
+        id: 'm1',
+        generated_at: '2026-10-13T20:00:00Z',
+        score: 48,
+        previous_score: 47.5,
+        level: 4,
+        previous_level: 4,
+        level_name: 'ROUTINE',
+        level_changed: false,
+        delta: 0.5,
+      }],
+    }, { view: 'instruments' });
+    assert.match(html, /href="\/moves\/">Where are the SIREN index moves\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/moves\/">Full archive →<\/a>/);
+  });
 });

@@ -38,6 +38,16 @@ describe('self-aware page', () => {
     assert.match(html, /\/threats\.html/);
     assert.match(html, /href="\/day-after\.html">What happens the day after an AI catastrophe\? →<\/a>/);
     assert.doesNotMatch(html, /href="\/day-after\.html">Play The Day After →<\/a>/);
+    assert.match(html, /href="\/contain\.html">Can you stop an AI breakout\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/contain\.html">Try the Containment game →<\/a>/);
+    assert.match(html, /href="\/si-watch\.html">What AI autonomy signals is SIREN watching\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/si-watch\.html">Watch what AI agents are doing right now →<\/a>/);
+    assert.match(html, /href="\/threats\.html">What could take the machines offline tonight\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/threats\.html">the live threat board →<\/a>/);
+    assert.match(html, /href="\/map\.html">How many datacentres has SIREN mapped in the United States\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/map\.html">power map<\/a>/);
+    assert.match(html, /href="\/p-doom\.html#voices">What is p\(doom\)\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/p-doom\.html#voices">28 named p\(doom\) estimates →<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /Skynet is waking up\./i);
     assert.doesNotMatch(html, /the attack is real/i);

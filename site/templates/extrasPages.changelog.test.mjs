@@ -53,6 +53,8 @@ describe('changelog page', () => {
     assert.match(html, /\/reference-plan\.html/);
     assert.match(html, /How do I get alerts when SIREN moves\?/);
     assert.match(html, /How does the SIREN baseline get updated\?/);
+    assert.match(html, /href="\/history\.html">What is the history of AI risk\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/history\.html">FULL HISTORY →<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
