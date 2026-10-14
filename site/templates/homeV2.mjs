@@ -404,8 +404,9 @@ ${bands}${grid}${lines}<path d="${path((p) => p.score)}L${x(last.t).toFixed(1)},
 
 function historyPanel(rows) {
   const R = [['24H', 24], ['7D', 168], ['30D', 720], ['ALL', Infinity]];
+  // Tip #332: card H3 is question-shaped (screen-reader); pixel chrome stays visual (§3.3).
   return `<div class="v2-card v2-hist" id="trend" data-sec="Trend">
-  <div class="row sb"><h3>${icon('eye', 3, '#4ADE80')}${pixelText('THE TREND', 3, '#FFFFFF')}</h3><span class="live">${rows.length} READINGS</span></div>
+  <div class="row sb"><h3 id="v2-trend-h"><span class="v2-sr">What is the score trend?</span><span aria-hidden="true">${icon('eye', 3, '#4ADE80')}${pixelText('THE TREND', 3, '#FFFFFF')}</span></h3><span class="live">${rows.length} READINGS</span></div>
   <div class="v2-tabs" role="tablist">${R.map(([l], i) => `<input type="radio" name="v2r" id="v2r${i}" ${i === 1 ? 'checked' : ''}><label for="v2r${i}">${l}</label>`).join('')}
   ${R.map(([l, h], i) => `<div class="v2-tabp" data-i="${i}">${chart(rows, h, i)}</div>`).join('')}</div>
   <div class="v2-legend"><span><i style="background:#4ADE80;height:3px"></i>COMPOSITE</span>${Object.entries(PILLAR_HUE).map(([p, c]) => `<span><i style="background:${c}"></i>${esc(p.toUpperCase())}</span>`).join('')}<span><i style="background:#FACC15;width:3px;height:8px"></i>DEGRADED</span><span>┆ LEVEL CHANGE</span></div>
@@ -436,7 +437,7 @@ function loudPanel(state, rows) {
     return `<details class="v2-loud"><summary><span class="pn" style="color:${PILLAR_HUE[p.id]}">${esc(p.name.toUpperCase())}</span><span class="t"><i style="width:${live ? p.score.toFixed(1) : 0}%;background:${PILLAR_HUE[p.id]}"></i></span>${spark(rows, p.id)}<b class="${live ? '' : 'mute'}">${status}</b></summary>
   <p>${esc(meta.blurb || '')} ${esc(why)} <span class="sh">${share}</span></p><ul>${srcs}</ul></details>`;
   }).join('');
-  return `<div class="v2-card" id="loud" data-sec="What’s loud"><div class="row sb"><h3>${icon('speaker', 3)}${pixelText("WHAT'S LOUD", 3, '#FFFFFF')}</h3><span class="live">TAP A PILLAR</span></div>${rowsHtml}
+  return `<div class="v2-card" id="loud" data-sec="What’s loud"><div class="row sb"><h3 id="v2-loud-h"><span class="v2-sr">What pillars are loud right now?</span><span aria-hidden="true">${icon('speaker', 3)}${pixelText("WHAT'S LOUD", 3, '#FFFFFF')}</span></h3><span class="live">TAP A PILLAR</span></div>${rowsHtml}
   <p class="v2-formula" id="v2-formula"></p></div>`;
 }
 
@@ -457,7 +458,7 @@ function healthPanel(state) {
   const impact = `The score is computed from ${(state.pillars || []).filter((p) => Number.isFinite(p.score) && !p.dark).length} of ${(state.pillars || []).length} pillars and ${scored} scored sources.`;
   const table = srcs.map((s) => `<tr><td><span class="v2-dot ${s.ok ? 'ok' : s.uncalibrated ? 'cal' : 'bad'}"></span>${esc(srcName(s))}</td><td>${esc(String(s.pillar || '').toUpperCase())}</td><td>${s.ok ? 'SCORED' : s.uncalibrated ? 'REPORTING' : 'DOWN'}</td><td>${s.ok || s.uncalibrated ? agoTxt(s.observed_at, now) : agoTxt(s.last_ok, now)}</td></tr>`).join('');
   return `<div class="v2-card v2-health" id="health" data-sec="Health">
-  <div class="row sb"><h3>${icon('shield', 3, state.degraded ? '#FACC15' : '#4ADE80')}${pixelText(state.degraded ? 'DEGRADED: WHY' : 'ALL SYSTEMS', 3, '#FFFFFF')}</h3><span class="live">${scored} SCORED · ${cal} REPORTING · ${bad.length} DOWN</span></div>
+  <div class="row sb"><h3 id="v2-health-h"><span class="v2-sr">How is source health right now?</span><span aria-hidden="true">${icon('shield', 3, state.degraded ? '#FACC15' : '#4ADE80')}${pixelText(state.degraded ? 'DEGRADED: WHY' : 'ALL SYSTEMS', 3, '#FFFFFF')}</span></h3><span class="live">${scored} SCORED · ${cal} REPORTING · ${bad.length} DOWN</span></div>
   <p>${why.filter(Boolean).join(' ')} ${esc(impact)}</p>
   <p class="v2-eta">Readings land hourly${lag ? `, usually about ${lag} min past the hour` : ''}${next ? `. Next expected around <b>${next}</b>` : ''}. A reading older than two hours is flagged as overdue at the top of the page.</p>
   <details><summary>Every source and when it last answered</summary><div class="v2-tw"><table><thead><tr><th>Source</th><th>Pillar</th><th>Status</th><th>Last good</th></tr></thead><tbody>${table}</tbody></table></div></details>
@@ -470,14 +471,14 @@ function movedPanel(wm, href) {
     .map((p) => p.kind === 'move' ? `<span>${esc(p.name)} <b class="${p.delta > 0 ? 'up' : 'dn'}">${p.delta > 0 ? '▲' : '▼'}${Math.abs(p.delta).toFixed(1)}</b></span>` : `<span>${esc(p.name)} <b class="${p.kind === 'live' ? 'up' : 'dn'}">${p.kind === 'live' ? 'BACK LIVE' : 'WENT DARK'}</b></span>`).join('');
   const d = wm.score_delta;
   const items = (wm.top_items || []).slice(0, 3).map((i) => `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a> <small>${esc(String(i.source || '').toUpperCase())}</small></li>`).join('');
-  return `<div class="v2-card v2-moved" id="moved" data-sec="What moved"><div class="row sb"><h3>${icon('bolt', 3, '#4ADE80')}${pixelText('WHAT MOVED THIS HOUR', 3, '#FFFFFF')}</h3><a class="live" href="${href('/changelog.html')}">What moved the ${esc(brand.NAME)} score this hour? →</a> <a class="live" href="${href('/moves/')}">Where are the ${esc(brand.NAME)} index moves? →</a></div>
+  return `<div class="v2-card v2-moved" id="moved" data-sec="What moved"><div class="row sb"><h3 id="v2-moved-h"><span class="v2-sr">What moved this hour?</span><span aria-hidden="true">${icon('bolt', 3, '#4ADE80')}${pixelText('WHAT MOVED THIS HOUR', 3, '#FFFFFF')}</span></h3><a class="live" href="${href('/changelog.html')}">What moved the ${esc(brand.NAME)} score this hour? →</a> <a class="live" href="${href('/moves/')}">Where are the ${esc(brand.NAME)} index moves? →</a></div>
   <p class="v2-mv"><span>SCORE <b class="${d > 0 ? 'up' : d < 0 ? 'dn' : ''}">${Number.isFinite(d) ? `${d > 0 ? '▲' : d < 0 ? '▼' : '='}${Math.abs(d).toFixed(1)}` : '—'}</b></span>${wm.level_change ? `<span>LEVEL <b class="up">${esc(String(wm.level_change.from ?? ''))} → ${esc(String(wm.level_change.to ?? ''))}</b></span>` : ''}${pd || '<span>No pillar moved more than a tenth of a point.</span>'}</p>
   ${items ? `<ul class="v2-mvi">${items}</ul>` : ''}</div>`;
 }
 
 function altPanel(alts) {
   if (!alts || !alts.length) return '';
-  return `<details class="v2-card v2-alt" id="alt"><summary><h3 style="display:inline-flex">${icon('eye', 3, '#A5B4FC')}${pixelText('UNCONVENTIONAL SIGNALS', 3, '#FFFFFF')}</h3> <span class="live">NOT IN THE SCORE · TAP TO SHOW</span></summary>
+  return `<details class="v2-card v2-alt" id="alt"><summary><h3 id="v2-alt-h" style="display:inline-flex"><span class="v2-sr">Which unconventional signals are watched?</span><span aria-hidden="true">${icon('eye', 3, '#A5B4FC')}${pixelText('UNCONVENTIONAL SIGNALS', 3, '#FFFFFF')}</span></h3> <span class="live">NOT IN THE SCORE · TAP TO SHOW</span></summary>
   <p>Raw readings SIREN collects every hour but does not score yet, because none has a year of baseline. Watch them; they cannot move the level.</p>
   <div class="v2-altg">${alts.map((a) => {
     const days = baselinePhrase(a.baseline_days, a.baseline_required);
@@ -501,7 +502,7 @@ function marketsPanel(ctx, href) {
   const leg = (l) => `<a class="v2-pm" href="${esc(pmLink(l.slug))}" target="_blank" rel="noopener sponsored"><span>${esc(l.title)}</span><b>${pct(l.probability, 0)}</b><i class="${(l.change_1d || 0) > 0 ? 'up' : (l.change_1d || 0) < 0 ? 'dn' : ''}">${Number.isFinite(l.change_1d) && l.change_1d ? `${l.change_1d > 0 ? '▲' : '▼'}${Math.abs(l.change_1d * 100).toFixed(1)} 24H` : '— 24H'}</i><em>TRADE →</em></a>`;
   const mv = (m) => `<a class="v2-pm wide" href="${esc(pmLink(m.slug))}" target="_blank" rel="noopener sponsored"><span>${esc(m.question)}</span><i class="${(m.move || 0) > 0 ? 'up' : 'dn'}">${(m.move || 0) > 0 ? '▲' : '▼'}${Math.abs((m.move || 0) * 100).toFixed(0)} PTS</i><small>$${Math.round((m.volume || 0) / 1000).toLocaleString('en-US')}K VOL</small><em>TRADE →</em></a>`;
   return `${nationsHighlight({ href: (p) => href(p) }, ctx.nations)}<div class="v2-card v2-mkts" id="markets" data-sec="Markets">
-  <div class="row sb"><h3>${icon('eye', 3, '#A855F7')}${pixelText('AI PREDICTION MARKETS', 3, '#FFFFFF')}</h3><a class="live" href="${href('/race.html')}">Who is winning the AI race? →</a></div>
+  <div class="row sb"><h3 id="v2-mkts-h"><span class="v2-sr">Which AI prediction markets are live?</span><span aria-hidden="true">${icon('eye', 3, '#A855F7')}${pixelText('AI PREDICTION MARKETS', 3, '#FFFFFF')}</span></h3><a class="live" href="${href('/race.html')}">Who is winning the AI race? →</a></div>
   ${legs.length ? `<p class="v2-mq">${esc(pm.horizon.title)}</p><div class="v2-pmg">${legs.map(leg).join('')}</div>` : ''}
   ${movers.length ? `<p class="v2-mq">BIGGEST MOVERS ON AI QUESTIONS TODAY</p><div class="v2-pmg">${movers.map(mv).join('')}</div>` : ''}
   <p class="v2-pmn">Live odds from Polymarket. Links open Polymarket${MONETIZE.polymarket && MONETIZE.polymarket.ref ? ' (referral link)' : ''}. Prediction markets are restricted in some places; check the rules where you live. Not financial advice.</p>
@@ -514,7 +515,7 @@ function moltPanel(ctx, href) {
   const list = ((m.fresh && m.fresh.length ? m.fresh : m.posts) || []).slice(0, 5);
   if (!list.length) return '';
   const ago = (iso) => { const h = (Date.parse(ctx.state.generated_at) - Date.parse(iso)) / 36e5; return !Number.isFinite(h) ? '' : h < 1 ? 'NOW' : h < 48 ? `${Math.round(h)}H AGO` : `${Math.round(h / 24)}D AGO`; };
-  return `<div class="v2-card v2-molt" id="moltbook" data-sec="Moltbook"><div class="row sb"><h3>${icon('robot', 3)}${pixelText('WHAT AI AGENTS ARE SAYING', 3, '#FFFFFF')}</h3><a class="live" href="${href('/moltbook.html')}">What are AI agents saying on Moltbook? →</a></div>
+  return `<div class="v2-card v2-molt" id="moltbook" data-sec="Moltbook"><div class="row sb"><h3 id="v2-molt-h"><span class="v2-sr">What are AI agents saying?</span><span aria-hidden="true">${icon('robot', 3)}${pixelText('WHAT AI AGENTS ARE SAYING', 3, '#FFFFFF')}</span></h3><a class="live" href="${href('/moltbook.html')}">What are AI agents saying on Moltbook? →</a></div>
   <p class="v2-mq">LIVE FROM MOLTBOOK, THE SOCIAL NETWORK FOR AI AGENTS · NOT IN THE SCORE</p>
   ${m.watch ? `<div class="v2-mth">${m.watch.themes.filter((t) => t.n).slice(0, 5).map((t) => `<span>${esc(t.name.toUpperCase())} <b>${t.n}</b></span>`).join('')}</div>` : ''}
   <ul class="v2-ml">${list.map((p) => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><small><a href="${esc(p.agent_url)}" rel="noopener">${esc(p.agent)}</a> · ▲${Number(p.votes || 0).toLocaleString('en-US')} · ${Number(p.comments || 0).toLocaleString('en-US')} replies · ${ago(p.created_at)}</small></li>`).join('')}</ul>

@@ -580,6 +580,8 @@ context.
 | 328 | Classic homepage switcher desk H2 + homepage FAQ use a question (was “Every dataset, one panel”); Organization `knowsAbout` mirrors that question; refuse switcher-as-second-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 329 | Classic readings / leader-wire / reel defaults + news “today’s signal” + switcher Latest/leaders panel titles use questions (was “Recent readings” / “AI leaders, on the record” / “Highest-scoring items” / “Today’s signal” / “The eight newest stories”); Organization `knowsAbout` mirrors those questions; refuse module-as-doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 330 | Home V2 reuse / bosses / labs / “What is SIREN?” section H2s use questions (screen-reader over pixel chrome) + homepage FAQ; Organization `knowsAbout` mirrors those questions; refuse home-board-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 331 | Classic switcher panel heads (newsroom / race / infrastructure / digest / BLISS) + news “signal feed” H2 use questions (was “The newsroom” / “The race” / … / “Signal feed”); Organization `knowsAbout` mirrors those questions; refuse panel-as-doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 332 | Home V2 card H3s for trend / loud / health / moved / unconventional / markets / agents use questions (screen-reader over pixel chrome) + homepage FAQ; Organization `knowsAbout` mirrors those questions; refuse card-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

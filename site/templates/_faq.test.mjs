@@ -106,4 +106,28 @@ describe('homepage FAQ', () => {
     assert.match(html, /Which labs are monitored on the home board\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('includes switcher panel and homeV2 card questions mirrored from section headings', () => {
+    const qa = items(ctx);
+    assert.ok(qa.some(([q]) => q === 'What is in the newsroom?'));
+    assert.ok(qa.some(([q]) => q === 'What is the signal feed?'));
+    assert.ok(qa.some(([q]) => q === 'What is the score trend?'));
+    assert.ok(qa.some(([q]) => q === 'What pillars are loud right now?'));
+    assert.ok(qa.some(([q]) => q === 'How is source health right now?'));
+    assert.ok(qa.some(([q]) => q === 'What moved this hour?'));
+    assert.ok(qa.some(([q]) => q === 'Which unconventional signals are watched?'));
+    assert.ok(qa.some(([q]) => q === 'Which AI prediction markets are live?'));
+    assert.ok(qa.some(([q]) => q === 'What are AI agents saying?'));
+    const html = render(ctx);
+    assert.match(html, /What is in the newsroom\?/);
+    assert.match(html, /What is the signal feed\?/);
+    assert.match(html, /What is the score trend\?/);
+    assert.match(html, /What pillars are loud right now\?/);
+    assert.match(html, /How is source health right now\?/);
+    assert.match(html, /What moved this hour\?/);
+    assert.match(html, /Which unconventional signals are watched\?/);
+    assert.match(html, /Which AI prediction markets are live\?/);
+    assert.match(html, /What are AI agents saying\?/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });

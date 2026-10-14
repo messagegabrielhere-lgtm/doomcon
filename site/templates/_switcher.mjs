@@ -1088,7 +1088,8 @@ export function panels(ctx) {
       delta: Number.isFinite(nnew) && nnew > 0
         ? { text: `${nnew} new`, title: `${nnew} items published since the previous observation at ${String(moved.priorAt).slice(11, 16)}Z` }
         : null,
-      head: { title: 'The newsroom', stamp: `compiled ${clock(news.generated_at) || ''}` },
+      // Tip #331: panel head titles are question-shaped (§3.3).
+      head: { title: 'What is in the newsroom?', stamp: `compiled ${clock(news.generated_at) || ''}` },
       more: { href: ctx.href('/news.html'), text: `Which AI stories has ${brand.NAME} scored in this window?` },
       body: () => signalPanel(ctx, news, nnew),
     });
@@ -1104,7 +1105,7 @@ export function panels(ctx) {
       count: race.players.length,
       countTitle: `${race.players.length} labs on live prediction-market odds`,
       state: dark ? 'dark' : 'live',
-      head: { title: 'The race', stamp: `read ${clock(race.generated_at) || ''}` },
+      head: { title: 'Who is winning the AI race?', stamp: `read ${clock(race.generated_at) || ''}` },
       more: { href: ctx.href('/race.html'), text: 'Who is winning the AI race?' },
       body: () => racePanel(ctx, race),
     });
@@ -1152,7 +1153,7 @@ export function panels(ctx) {
       count: n,
       countTitle: `${n} keyless grid, drought and build-out sources`,
       state,
-      head: { title: 'The infrastructure index', stamp: `read ${clock(infra.generated_at) || ''}` },
+      head: { title: `What does the ${brand.NAME} infrastructure index read?`, stamp: `read ${clock(infra.generated_at) || ''}` },
       more: { href: ctx.href('/watts.html'), text: `What does the ${brand.NAME} infrastructure index read?` },
       body: () => substratePanel(ctx, infra),
     });
@@ -1167,7 +1168,7 @@ export function panels(ctx) {
       count: dg.items.length,
       countTitle: `${dg.items.length} items that cleared the corroboration rule`,
       state: 'live',
-      head: { title: 'The digest', stamp: `compiled ${clock(dg.d.as_of || dg.d.generated_at) || ''}` },
+      head: { title: `What is the ${brand.NAME} daily brief?`, stamp: `compiled ${clock(dg.d.as_of || dg.d.generated_at) || ''}` },
       more: { href: ctx.href('/digest.html'), text: `What is the ${brand.NAME} daily brief?` },
       body: () => digestPanel(ctx, dg),
     });
@@ -1201,7 +1202,7 @@ export function panels(ctx) {
       count: Number.isFinite(bl.score) ? num(bl.score, 1) : 0,
       countTitle: Number.isFinite(bl.score) ? `BLISS score ${num(bl.score, 1)} of 100` : 'No BLISS score yet',
       state: Number.isFinite(bl.score) ? 'live' : 'uncal',
-      head: { title: 'The upside index', stamp: `read ${clock(bl.generated_at) || ''}` },
+      head: { title: `What is BLISS, the ${brand.NAME} upside index?`, stamp: `read ${clock(bl.generated_at) || ''}` },
       more: { href: ctx.href('/bliss.html'), text: `What is BLISS, the ${brand.NAME} upside index?` },
       body: () => blissPanel(ctx, bl),
     });

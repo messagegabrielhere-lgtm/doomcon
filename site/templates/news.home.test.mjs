@@ -28,4 +28,11 @@ describe('homepage news module', () => {
     assert.doesNotMatch(html, /id="reel-h">Today(?:'|&#39;|&apos;)s signal<\/h2>/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('signal feed H2 uses a question', () => {
+    const html = render(ctx);
+    assert.match(html, /id="news-h">What is the signal feed\?<\/h2>/);
+    assert.doesNotMatch(html, /id="news-h">Signal feed<\/h2>/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
