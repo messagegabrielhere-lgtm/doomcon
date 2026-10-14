@@ -1142,6 +1142,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Claude Opus model stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\bClaude Opus\b/i,
   },
+  {
+    id: 'claude-haiku',
+    name: 'Claude Haiku',
+    description: 'Claude Haiku model stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\bClaude Haiku\b/i,
+  },
+  {
+    id: 'intelligent-ui',
+    name: 'Intelligent UI',
+    description: 'OpenAI Intelligent UI / ChatGPT interactive-response stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\bIntelligent UI\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
