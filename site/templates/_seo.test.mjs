@@ -229,6 +229,11 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('what is the SIREN daily brief'));
     assert.ok(org.knowsAbout.includes('CVE exploit lag'));
     assert.ok(org.knowsAbout.includes('how many days from a CVE going public to CISA listing it as exploited'));
+    assert.ok(org.knowsAbout.includes('How has the lag changed over time'));
+    assert.ok(org.knowsAbout.includes('Why does the collapse look like a backlog'));
+    assert.ok(org.knowsAbout.includes('What does one catalogue entry look like in full'));
+    assert.ok(org.knowsAbout.includes('What can this exploit-lag data not do'));
+    assert.ok(org.knowsAbout.includes('Where did this exploit-lag data come from, and how do you recompute it'));
     assert.ok(org.knowsAbout.includes('Flock ALPR camera map'));
     assert.ok(org.knowsAbout.includes('how many Flock ALPR cameras has SIREN mapped'));
     assert.ok(org.knowsAbout.includes('What should you read before the Flock map'));
