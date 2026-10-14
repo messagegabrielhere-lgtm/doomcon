@@ -264,6 +264,7 @@ context.
 | 31 | Question-shaped `/guide.html` + `/guide.md` + IndexNow ALWAYS evergreen rooms (history/instruments/map/…) for post-deploy crawl | Google + Bing | **Done** (2026-10-14) |
 | 32 | Question-shaped `/compare.html` `/alternatives.html` `/vs/*` hubs + methodology title/H2s (METHODOLOGY.md FAQ from visible questions) | Google | **Done** (2026-10-14) |
 | 33 | IndexNow ALWAYS covers gated hubs this build already emits (labs/models/tags/sources missing from ping set) | Bing | **Done** (2026-10-14) |
+| 34 | Newsroom question H1 + FAQ + entity-directory nav (companies/models/tags/guides/vs…) so post-deploy hubs are not orphans | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
