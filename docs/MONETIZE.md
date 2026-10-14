@@ -12,7 +12,7 @@ changes until then.
 | Sponsor | sold directly (see /sponsor.html) | `sponsor.name`, `url`, `line`, `until` (ISO date, it switches off itself) | Line on every page + homepage strip; "spot is open" house line until then |
 | Affiliates | each program's partner page (Incogni, DeleteMe, Proton, NordVPN, 1Password, ElevenLabs, Descript; usually via Impact or PartnerStack) | the `aff` link on that entry | Bunker Kit "Paid upgrades" crate switches to the tracked link, marked Paid link |
 | Analytics | analytics.google.com (GA4) and/or goatcounter.com | `analytics.gtag` (`G-…`) and/or `analytics.goatcounter` | gtag in every page `<head>`; GoatCounter before `</body>`; privacy page disclosure |
-| Readers map | GoatCounter Settings → API | GitHub Actions secret `GOATCOUNTER_API_KEY` (optional `GOATCOUNTER_CODE`) | Daily country choropleth on the homepage + `/api/visitors.json`. Soft no-op until the key is set. |
+| Readers map | GoatCounter Settings → API (token needs **Stats** permission) | GitHub Actions secret `GOATCOUNTER_API_KEY` (optional `GOATCOUNTER_CODE`) | Daily country choropleth on the homepage (`/#readers`) + `/api/visitors.json`. Soft no-op until the key is set; the collect step prints a `::warning::` and the homepage keeps an honest empty section rather than inventing counts. |
 
 ## SEO rules the code keeps
 - `rel="sponsored noopener"` on every paid link.
