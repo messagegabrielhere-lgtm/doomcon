@@ -80,6 +80,8 @@ export function organization(ctx) {
       'Which AI feed adapters have SIREN pages',
       'What has SIREN scored via hn',
       'AI activity pillars this index scored',
+      'Which AI activity pillars has SIREN scored',
+      'Which AI activity pillars have SIREN pages',
       'What has SIREN scored under Capability',
       'What has SIREN scored under Compute & Capital',
       'What has SIREN scored under Attention',

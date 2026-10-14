@@ -471,6 +471,7 @@ context.
 | 219 | `/tags/*` + `/tags/` + `/tags.html` siblings/breadcrumbs/ItemList/other-tag links use newsroom + tag-directory questions + “What has SIREN scored about {topic}?” (was “Newsroom” / “Tags” / “Compare”); refuse topic doom-score claims | Google + Bing | **Done** (2026-10-14) |
 | 220 | `/people/*` + `/people/` + `/people.html` H1/title/siblings/breadcrumbs/ItemList/other-person links use leaders + people-directory questions + “What press has SIREN scored about {name}?” (was name-only H1 / “Leaders” / “Compare”); FAQ from visible copy; refuse person doom-score / invented-quotation claims | Google + Bing | **Done** (2026-10-14) |
 | 221 | `/source/*` + `/source/` + `/sources.html` siblings/breadcrumbs/ItemList/other-adapter links use newsroom + feed-adapter + sources questions + “What has SIREN scored via {label}?” (was “Newsroom” / “Feed adapters” / “Compare”); refuse source doom-score claims | Google + Bing | **Done** (2026-10-14) |
+| 222 | `/pillar/` + `/pillars.html` siblings/breadcrumbs/ItemList links use newsroom + pillar-directory questions + “What has SIREN scored under {name}?” (was “Newsroom” / “Pillars” / “Compare”); refuse pillar doom-score claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
