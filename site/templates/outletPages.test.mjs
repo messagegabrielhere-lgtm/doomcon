@@ -81,6 +81,8 @@ describe('outlet pages', () => {
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /\/tags\.html/);
+    assert.match(html, /href="\/source\/">Which AI feed adapters have SIREN pages\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/source\/">\/source\/<\/a>/);
     assert.match(renderIndex(ctx), /\/outlets\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
@@ -115,6 +117,8 @@ describe('outlet pages', () => {
     assert.match(index, /Questions people actually ask/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
+    assert.match(index, /href="\/source\/">Which AI feed adapters have SIREN pages\?<\/a>/);
+    assert.doesNotMatch(index, /href="\/source\/">\/source\/<\/a>/);
     assert.match(index, /\/outlet\/arxiv-org\.html/);
     const outs = outletsForItem(ctx, ctx.news.items[0]);
     assert.equal(outs.length, 1);

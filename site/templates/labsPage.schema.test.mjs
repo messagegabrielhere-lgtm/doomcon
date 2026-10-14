@@ -35,6 +35,14 @@ describe('labs page schema', () => {
     assert.match(html, /\/feedback\.html/);
     assert.match(html, /What AI autonomy signals is SIREN watching\?/);
     assert.match(html, /How do I report a problem or send an idea to SIREN\?/);
+    assert.match(html, /href="\/self-aware\.html">What if an AI wakes up at 2:14 a\.m\.\?<\/a>/);
+    assert.match(html, /href="\/charts\.html">What AI charts does SIREN publish\?<\/a>/);
+    assert.match(html, /href="\/status\.html">Is ChatGPT down\? Is Claude down\?<\/a>/);
+    assert.match(html, /href="\/power\.html">Who makes the most electricity \(China vs US\)\?<\/a>/);
+    assert.match(html, /href="\/p-doom\.html#voices">What is p\(doom\)\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/self-aware\.html">The night it wakes up<\/a>/);
+    assert.doesNotMatch(html, /href="\/charts\.html">This week in charts<\/a>/);
+    assert.doesNotMatch(html, /href="\/power\.html">The power race<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);

@@ -61,6 +61,8 @@ describe('jobs / medicine topic pages', () => {
     assert.match(jobs, /"@type"\s*:\s*"FAQPage"/);
     assert.match(jobs, /Questions people actually ask/);
     assert.match(jobs, /Does SIREN publish a jobs forecast/);
+    assert.match(jobs, /href="\/balance\.html#reg-challenger-ai-cited-cuts">How does SIREN count AI harm and benefit side by side\? →<\/a>/);
+    assert.doesNotMatch(jobs, /href="\/balance\.html#reg-challenger-ai-cited-cuts">In the register →<\/a>/);
     assert.doesNotMatch(jobs, /probability of doom is \d/i);
 
     const med = render(ctx, 'medicine');
