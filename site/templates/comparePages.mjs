@@ -141,6 +141,9 @@ function faqEntities(pairs) {
 }
 
 function pageJsonLd(ctx, path, title, description, crumbs, faqPairs) {
+  const modified = ctx.state && typeof ctx.state.generated_at === 'string'
+    ? ctx.state.generated_at
+    : undefined;
   const blocks = [
     {
       '@context': 'https://schema.org',
@@ -150,6 +153,7 @@ function pageJsonLd(ctx, path, title, description, crumbs, faqPairs) {
       description,
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       speakable: speakable(['h1', '.cmp__lede']),
+      ...(modified ? { dateModified: modified } : {}),
     },
     breadcrumbs(ctx, crumbs),
     organization(ctx),
