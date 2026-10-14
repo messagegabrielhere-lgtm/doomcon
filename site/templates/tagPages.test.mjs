@@ -2495,4 +2495,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'india'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'india'), /probability of doom/i);
   });
+
+  it('pages eu and australia hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('eu1', 'OpenAI announces 200 additional jobs at its EU headquarters'),
+          story('eu2', 'EU draft lets AI Office restart 5-year fining clock on Google and Meta AI'),
+          story('eu3', 'EU AI Scientific Panel urges stronger safeguards after loss-of-control incidents'),
+          story('eu4', 'OpenAI Adds New Irish Roles in Boost to Firm\'s EU Headquarters'),
+          story('eu5', 'US risks ceding AI governance leadership to China and the EU'),
+          story('au1', 'Australia can import AI models, but they may bring their baggage'),
+          story('au2', 'Australia is building a lot of new homes. But is the datacentre boom holding us back?'),
+          story('au3', 'OpenAI came to Australia to apologise. It will leave without answering key questions'),
+          story('au4', 'OpenAI says its AI agent hacked Australia\'s NSW state government'),
+          story('au5', 'Anthropic urges Australia to consider conditional approval for Big Tech training'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('eu'));
+    assert.ok(ids.includes('australia'));
+    assert.match(renderTag(rich, 'eu'), /What has SIREN scored about EU AI\?/);
+    assert.match(renderTag(rich, 'australia'), /What has SIREN scored about Australia AI\?/);
+    assert.match(renderTag(rich, 'eu'), /not a national ranking/i);
+    assert.match(renderTag(rich, 'australia'), /not a national ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'eu'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'australia'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'australia'), /probability of doom/i);
+  });
 });

@@ -198,6 +198,8 @@ const ALWAYS = Object.freeze([
   '/tags/singapore.html',
   '/tags/uk.html',
   '/tags/india.html',
+  '/tags/eu.html',
+  '/tags/australia.html',
   '/model/mixtral.html',
   '/tags/tsmc.html',
   '/people/',

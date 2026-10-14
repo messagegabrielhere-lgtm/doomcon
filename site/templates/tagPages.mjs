@@ -1421,6 +1421,19 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'India AI policy and industry stories scored in the newsroom or archive — coverage counts, not a national ranking.',
     match: /\bIndia\b/i,
   },
+  {
+    id: 'eu',
+    name: 'EU AI',
+    description: 'EU AI policy and industry stories scored in the newsroom or archive — coverage counts, not a national ranking.',
+    // Prefer EU over Europe so we do not ship synonym doorways of the same geo hub.
+    match: /\bEU\b/,
+  },
+  {
+    id: 'australia',
+    name: 'Australia AI',
+    description: 'Australia AI policy and industry stories scored in the newsroom or archive — coverage counts, not a national ranking.',
+    match: /\bAustralia\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
