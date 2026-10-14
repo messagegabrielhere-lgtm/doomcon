@@ -1228,7 +1228,7 @@ ${howComputed(ctx, infra)}
       dataset(ctx, infra, title),
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Watts', path: PATH },
+        { name: title, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

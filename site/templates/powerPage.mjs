@@ -145,7 +145,7 @@ export function render(ctx, d) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Power', path: PATH },
+        { name: title, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

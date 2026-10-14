@@ -164,7 +164,7 @@ export function render(ctx, nowMs = Date.now()) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'SIREN Labs', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

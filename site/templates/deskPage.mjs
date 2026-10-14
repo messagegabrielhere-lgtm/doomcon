@@ -161,7 +161,7 @@ ${cards.join('\n')}
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: "Tally’s desk", path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

@@ -143,7 +143,7 @@ ${GEAR.map(([q, title, blurb]) => `    <li class="shp__b"><a href="${esc(amazonS
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Reading list', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -231,7 +231,7 @@ export function sponsor(ctx) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Sponsor', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

@@ -1445,7 +1445,7 @@ ${siblingCard(ctx)}
       dataset(ctx, dc, model, title),
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'US map', path: PATH },
+        { name: title, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

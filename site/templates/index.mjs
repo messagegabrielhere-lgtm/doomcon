@@ -965,7 +965,7 @@ ${style}`;
         },
         breadcrumbs(ctx, [
           { name: 'Home', path: '/' },
-          { name: 'Instruments', path: '/instruments.html' },
+          { name: instrumentsQ, path: '/instruments.html' },
         ]),
         {
           '@context': 'https://schema.org',
@@ -1048,7 +1048,7 @@ ${style}`;
         },
         breadcrumbs(ctx, [
           { name: 'Home', path: '/' },
-          { name: 'Full instrument panel', path: '/classic.html' },
+          { name: classicQ, path: '/classic.html' },
         ]),
         {
           '@context': 'https://schema.org',

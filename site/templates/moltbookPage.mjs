@@ -158,7 +158,7 @@ export function render(ctx, molt, history = [], archive = []) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Agent Watch', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

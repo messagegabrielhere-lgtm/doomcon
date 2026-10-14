@@ -1233,7 +1233,7 @@ ${instrumentStrip(race)}
     jsonld: [
       itemList(ctx, race),
       dataset(ctx, race, { name: title, description }),
-      breadcrumbs(ctx, [{ name: 'Race', path: PATH }]),
+      breadcrumbs(ctx, [{ name: title, path: PATH }]),
       {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',

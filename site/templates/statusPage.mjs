@@ -114,7 +114,7 @@ poll();setInterval(poll,60000);})();</script>`;
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'AI status', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       ...(faq.length ? [{
         '@context': 'https://schema.org',

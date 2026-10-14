@@ -123,7 +123,7 @@ export function tally(ctx) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Tally', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -259,7 +259,7 @@ ${arr(275, 74, 640, 150)}${box(590, 140, 160, 'POSTER', 'X + Bluesky')}${arr(750
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Staff', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -340,7 +340,7 @@ export function careers(ctx) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Careers', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
@@ -477,7 +477,7 @@ node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, 
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'For AI agents', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

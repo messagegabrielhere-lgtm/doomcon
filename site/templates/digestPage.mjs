@@ -111,7 +111,7 @@ ${rulesSection(d)}
       itemListLd(ctx, brief),
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Daily brief', path: PATH },
+        { name: title, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

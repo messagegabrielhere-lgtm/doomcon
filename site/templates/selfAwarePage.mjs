@@ -186,7 +186,7 @@ if(reduce){t=END;draw();btn.textContent='↺ Replay';}else{draw();
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Self-aware', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',

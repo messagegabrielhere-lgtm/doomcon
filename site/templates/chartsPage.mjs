@@ -349,7 +349,7 @@ oddsRace();bubbles();siren();setInterval(function(){oddsRace();bubbles();},12000
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Charts', path: '/charts.html' },
+        { name: title, path: '/charts.html' },
       ]),
       {
         '@context': 'https://schema.org',

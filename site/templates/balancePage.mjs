@@ -810,7 +810,7 @@ ${dataSection(ctx, b, L)}
       dataset(ctx, b, L, m, qTitle),
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Balance', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
