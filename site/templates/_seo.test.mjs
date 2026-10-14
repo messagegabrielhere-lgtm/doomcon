@@ -19,7 +19,7 @@ describe('SEO helpers', () => {
     assert.ok(org.alternateName.includes('SIREN'));
   });
 
-  it('builds breadcrumbs with Home first and current last', () => {
+  it('builds breadcrumbs with home title first and current last (tip #258)', () => {
     const bc = breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
       { name: 'A story', path: '/item/a.html' },
@@ -27,8 +27,21 @@ describe('SEO helpers', () => {
     assert.equal(bc['@type'], 'BreadcrumbList');
     assert.equal(bc.itemListElement.length, 3);
     assert.equal(bc.itemListElement[0].item, 'https://siren.watch/');
+    assert.equal(bc.itemListElement[0].name, 'AI activity index today · SIREN');
+    assert.notEqual(bc.itemListElement[0].name, 'SIREN');
     assert.equal(bc.itemListElement[2].name, 'A story');
     assert.equal(bc.itemListElement[2].position, 3);
+  });
+
+  it('drops duplicate Home `/` crumbs so the root is not repeated', () => {
+    const bc = breadcrumbs(ctx, [
+      { name: 'Home', path: '/' },
+      { name: 'What free AI games can you play on SIREN?', path: '/games.html' },
+    ]);
+    assert.equal(bc.itemListElement.length, 2);
+    assert.equal(bc.itemListElement[0].name, 'AI activity index today · SIREN');
+    assert.equal(bc.itemListElement[1].name, 'What free AI games can you play on SIREN?');
+    assert.doesNotMatch(JSON.stringify(bc), /"name":"Home"/);
   });
 
   it('wraps speakable selectors', () => {
