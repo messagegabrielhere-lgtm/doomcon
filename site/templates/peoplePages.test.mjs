@@ -104,6 +104,17 @@ describe('people pages', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
+  it('links the lab page with the destination question H1', () => {
+    const withRace = {
+      ...ctx,
+      race: { players: [{ id: 'openai', name: 'OpenAI' }] },
+    };
+    const html = renderPerson(withRace, 'altman');
+    assert.match(html, /href="\/lab\/openai\.html">What has SIREN scored about OpenAI\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/lab\/openai\.html">OpenAI<\/a>/);
+    assert.doesNotMatch(html, /href="\/lab\/openai\.html">Example Labs<\/a>/);
+  });
+
   it('lists headlines and refuses to invent quotations', () => {
     const html = renderPerson(ctx, 'altman');
     assert.match(html, /<title>What press has SIREN scored about Sam Altman\?/);

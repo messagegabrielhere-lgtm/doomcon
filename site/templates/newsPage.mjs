@@ -1052,7 +1052,7 @@ function pillarKey(ctx, corpus) {
     return `<li class="nlg__i" data-pillar="${esc(p.id)}">
       <span class="nlg__ord num" aria-hidden="true">${i + 1}</span>
       ${pillarSigil(p.id)}
-      <b class="nlg__n"><a href="${esc(ctx.href(`/pillar/${p.id}.html`))}">${esc(p.name)}</a></b>
+      <b class="nlg__n"><a href="${esc(ctx.href(`/pillar/${p.id}.html`))}">What has ${esc(brand.NAME)} scored under ${esc(p.name)}?</a></b>
       <span class="nlg__c num">${esc(p.count)}</span>
       <span class="nlg__pct num">${esc(pct)}%</span>
       <span class="nlg__sp num">${esc(span)}</span>
