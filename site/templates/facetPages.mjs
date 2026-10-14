@@ -533,6 +533,7 @@ function labNeedles(player) {
     spacex: ['spacex'],
     hcltech: ['hcltech', 'hcl tech'],
     suno: ['suno'],
+    manus: ['manus'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

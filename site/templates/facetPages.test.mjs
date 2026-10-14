@@ -883,6 +883,36 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/suno.html'));
   });
 
+  it('indexes Manus entity lab when archive agent headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'mn1', title: 'China’s Manus raises over $500M in first funding round since split with Meta', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/mn1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'mn2', title: 'Manus debuts Manus 2.0, its latest AI agent, and Cue', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/mn2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'mn3', title: 'OpenAI Revenue Forecast Cut, Manus Raises $500M', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/mn3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'mnbad', title: 'A codex of medieval manuscripts goes online', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/mnbad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+      ],
+    };
+    const manus = labsFromEntities(withArch).find((p) => p.id === 'manus');
+    assert.ok(manus, 'Manus clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, manus), /What has SIREN scored about Manus\?/);
+    assert.doesNotMatch(renderLab(withArch, manus), /medieval manuscripts/);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/manus.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,

@@ -1088,6 +1088,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI drug-discovery stories scored in the newsroom or archive — coverage counts, not a science forecast.',
     match: /\bdrug discovery\b/i,
   },
+  {
+    id: 'agent-skills',
+    name: 'Agent skills',
+    description: 'Agent-skill and Claude-Skills marketplace stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\b(agent skills?|Claude Skills?)\b/i,
+  },
+  {
+    id: 'neoclouds',
+    name: 'Neoclouds',
+    description: 'Neocloud GPU-rental and AI-infra provider stories scored in the newsroom or archive — coverage counts, not a vendor ranking.',
+    match: /\bneoclouds?\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

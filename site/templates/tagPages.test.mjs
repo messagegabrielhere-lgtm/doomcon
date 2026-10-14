@@ -1655,4 +1655,31 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'drug-discovery'), /What has SIREN scored about Drug discovery\?/);
     assert.doesNotMatch(renderTag(rich, 'protein-design'), /doom score:\s*\d/i);
   });
+
+  it('pages agent-skills and neoclouds hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('as1', 'Skill Constellations: Tracing the Supply Chain of Agent Skills on GitHub'),
+          story('as2', 'Mining Agent Skills from Production Traces'),
+          story('as3', 'Show HN: Skills Hub for managing AI agent skills'),
+          story('as4', 'Claude Skills marketplace expands for coding agents'),
+          story('as5', 'Report: Progressive Disclosure of Agent Skills'),
+          story('nc1', 'Nvidia GPUs fuel AI boom with over 300 neoclouds renting chips'),
+          story('nc2', 'Nvidia-backed neocloud Lambda is raising up to $4B'),
+          story('nc3', 'How do the AI Labs and neoclouds impact Cloud'),
+          story('nc4', 'Neocloud GPU rental margins under pressure'),
+          story('nc5', 'Which neoclouds host the newest Blackwell clusters'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('agent-skills'));
+    assert.ok(ids.includes('neoclouds'));
+    assert.match(renderTag(rich, 'agent-skills'), /What has SIREN scored about Agent skills\?/);
+    assert.match(renderTag(rich, 'neoclouds'), /What has SIREN scored about Neoclouds\?/);
+    assert.doesNotMatch(renderTag(rich, 'agent-skills'), /doom score:\s*\d/i);
+  });
 });
