@@ -1542,6 +1542,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI cruelty-policy and model-welfare stories scored in the newsroom or archive — coverage counts, not a sentience forecast.',
     match: /\bcruelty\b/i,
   },
+  {
+    id: 'on-policy',
+    name: 'On-policy learning',
+    description: 'On-policy reinforcement-learning research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Oo]n[- ][Pp]olicy\b/i,
+  },
+  {
+    id: 'long-horizon',
+    name: 'Long-horizon AI',
+    description: 'Long-horizon agent and planning research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Ll]ong[- ][Hh]orizon\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

@@ -146,6 +146,10 @@ const ENTITY_DEFS = [
   // QSR brand — AI dynamic-pricing / franchise lawsuit headlines.
   // Prefer McDonald’s* forms (no bare “Donald”) so unrelated names stay out.
   { name: "McDonald's", kind: 'lab', forms: ["McDonald's", 'McDonald’s', 'McDonalds'] },
+  // Retailer — AI shopping-assistant / Personal Agent Protocol headlines.
+  { name: 'Walmart', kind: 'lab', forms: ['Walmart'] },
+  // Streaming / studio — AI layoff, salary, and datacentre-comparison headlines.
+  { name: 'Netflix', kind: 'lab', forms: ['Netflix'] },
 
   // --- model families ---
   // GPT-6 Astra / Luna / Sol nicknames so /model/gpt clears when headlines

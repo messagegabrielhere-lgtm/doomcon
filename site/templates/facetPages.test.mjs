@@ -1125,6 +1125,59 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/coinbase.html'));
   });
 
+  it('indexes Walmart and Netflix entity labs when archive headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'w1', title: 'Walmart won’t hike prices based on your shopping history, CEO says', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/w1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'w2', title: 'Walmart CEO says the company will not use its AI shopping assistant to change prices', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/w2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'w3', title: 'Meta, Walmart, Instinct publish the Personal Agent Protocol', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/w3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'wbad', title: 'A retail note without naming the chain', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/wbad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+        {
+          id: 'n1', title: 'After Amazon, Netflix Also Faces Layoffs amid AI investment shift', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/n1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'n2', title: 'Amazon, Netflix cut jobs amid overhiring and AI investment shift', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/n2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'n3', title: 'Amazon CEO points to Netflix as data centre backlash grows', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/n3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'nbad', title: 'A streaming note without naming the studio', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/nbad', published_at: '2026-09-04T02:00:00Z', score: 30,
+        },
+      ],
+    };
+    const walmart = labsFromEntities(withArch).find((p) => p.id === 'walmart');
+    const netflix = labsFromEntities(withArch).find((p) => p.id === 'netflix');
+    assert.ok(walmart, 'Walmart clears ENTITY_LAB_MIN');
+    assert.ok(netflix, 'Netflix clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, walmart), /What has SIREN scored about Walmart\?/);
+    assert.match(renderLab(withArch, netflix), /What has SIREN scored about Netflix\?/);
+    assert.doesNotMatch(renderLab(withArch, walmart), /without naming the chain/);
+    assert.doesNotMatch(renderLab(withArch, netflix), /without naming the studio/);
+    assert.doesNotMatch(renderLab(withArch, walmart), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderLab(withArch, netflix), /probability of doom/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/walmart.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/netflix.html'));
+  });
+
   it('indexes McDonald\'s entity lab when archive headlines clear the gate', () => {
     const withArch = {
       ...ctx,

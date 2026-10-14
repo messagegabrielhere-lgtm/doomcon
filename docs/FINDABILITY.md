@@ -742,6 +742,10 @@ context.
 | 490 | Entity lab TypeSafe (`/lab/typesafe`, TypeSafe AI forms, ≥3 gate); IndexNow + seo-daily; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 491 | Model hub Dots (`/model/dots`, OpenAI Dots forms — no bare Dots; ≥3 gate); IndexNow + seo-daily; refuse product-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 492 | Entity lab McDonald's (`/lab/mcdonald-s`, ≥3 gate); IndexNow + seo-daily; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 493 | Topic tag `on-policy` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 494 | Topic tag `long-horizon` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 495 | Entity lab Walmart (`/lab/walmart`, ≥3 gate); IndexNow + seo-daily; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 496 | Entity lab Netflix (`/lab/netflix`, ≥3 gate); IndexNow + seo-daily; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

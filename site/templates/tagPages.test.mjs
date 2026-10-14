@@ -2775,6 +2775,36 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'iran'), /probability of doom/i);
   });
 
+  it('pages on-policy and long-horizon hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('op1', 'On-Policy Distillation Teaches New Skills but Not New Knowledge'),
+          story('op2', 'DIAL-OPD: Learning More from Fewer Tokens in On-Policy Distillation'),
+          story('op3', 'Gains and Collapse in On-Policy Distillation'),
+          story('op4', 'On-Policy Distillation with Negative-Policy Rollouts'),
+          story('op5', 'FastOPD: On-Policy Distillation for Lightweight VLA Deployment'),
+          story('lh1', 'Opera: A Verbal Critic Framework for Long-horizon Coding Agents'),
+          story('lh2', 'What Did the Agent Actually Do? Oversight for Long-Horizon Agents'),
+          story('lh3', 'SatNav: A Scalable Benchmark for Long-Horizon UAV Navigation'),
+          story('lh4', 'Probing for Long-Horizon Deductive Reasoning Capabilities'),
+          story('lh5', 'SWE-Journey: Long-Horizon Multi-Turn Interaction for Coding Assistants'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('on-policy'));
+    assert.ok(ids.includes('long-horizon'));
+    assert.match(renderTag(rich, 'on-policy'), /What has SIREN scored about On-policy learning\?/);
+    assert.match(renderTag(rich, 'long-horizon'), /What has SIREN scored about Long-horizon AI\?/);
+    assert.match(renderTag(rich, 'on-policy'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'long-horizon'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'on-policy'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'long-horizon'), /probability of doom/i);
+  });
+
   it('pages email and cruelty hubs', () => {
     const rich = {
       ...ctx,

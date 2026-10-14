@@ -29,7 +29,7 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Muse Wonder', 'Artificial Analysis', 'Decart', 'Sakana AI', 'Isomorphic Labs',
   'Winverse AI', 'Cisco', 'Epoch AI', 'Maia', 'Maia 300', 'OpenAI Codex', 'Codex',
   'Salesforce', 'World Labs', 'Firmus', 'SpaceX', 'HCLTech', 'Suno', 'Manus', 'Nano Banana',
-  'Jev', 'TypeSafe', 'a16z', 'Instinct', 'OpenAI Dots', "McDonald's",
+  'Jev', 'TypeSafe', 'a16z', 'Instinct', 'OpenAI Dots', "McDonald's", 'Walmart', 'Netflix',
   'Mistral Large 4', 'Le Chonk', 'Mixtral',
   'GPT-6 Astra', 'GPT-6.1 Astra', 'GPT-6 Luna', 'GPT-6 Sol',
   'Gemini 4 Argon', 'Gemini 4 Carbon', 'Gemini 4',

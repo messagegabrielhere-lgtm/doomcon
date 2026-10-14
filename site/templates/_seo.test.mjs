@@ -103,6 +103,8 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/lab/instinct.html'));
     assert.ok(has('https://siren.watch/lab/typesafe.html'));
     assert.ok(has('https://siren.watch/lab/mcdonald-s.html'));
+    assert.ok(has('https://siren.watch/lab/walmart.html'));
+    assert.ok(has('https://siren.watch/lab/netflix.html'));
     assert.ok(has('https://siren.watch/tags/agent-skills.html'));
     assert.ok(has('https://siren.watch/tags/neoclouds.html'));
     assert.ok(has('https://siren.watch/tags/ai-slop.html'));
@@ -178,6 +180,8 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/tags/iran.html'));
     assert.ok(has('https://siren.watch/tags/email.html'));
     assert.ok(has('https://siren.watch/tags/cruelty.html'));
+    assert.ok(has('https://siren.watch/tags/on-policy.html'));
+    assert.ok(has('https://siren.watch/tags/long-horizon.html'));
     assert.ok(has('https://siren.watch/model/mixtral.html'));
     assert.ok(has('https://siren.watch/tags/tsmc.html'));
     assert.ok(has('https://siren.watch/world.html'));
