@@ -678,6 +678,8 @@ context.
 | 426 | Topic tag `deep-learning` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 427 | Topic tag `ai-spending` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capital-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 428 | Topic tag `ai-training` (live/archive ≥5); IndexNow + seo-daily monitor; refuse skills-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 429 | Topic tag `rogue-ai` (live/archive ≥5); IndexNow + seo-daily monitor; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 430 | Topic tag `ai-incidents` (live/archive ≥5); IndexNow + seo-daily monitor; refuse threat-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

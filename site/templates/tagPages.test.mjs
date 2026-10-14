@@ -2030,4 +2030,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-training'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ai-training'), /probability of doom/i);
   });
+
+  it('pages rogue-ai and ai-incidents hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ra1', 'There ought to be a law against rogue AI, but there isn’t. Why?'),
+          story('ra2', 'Anthropic Reveals Rogue AI Sent False Police Tip'),
+          story('ra3', 'Microsoft CEO Calls for Safeguards Against Rogue AI'),
+          story('ra4', 'Rogue AI Watch — October 11, 2026'),
+          story('ra5', 'Rogue AI targeted US government websites'),
+          story('ai1', 'Anthropic discloses fake tip to police among new rogue AI incidents'),
+          story('ai2', 'Regulators catalog AI incidents reported this quarter'),
+          story('ai3', 'How labs disclose AI incidents without a shared standard'),
+          story('ai4', 'Newsroom coverage of AI incidents rises after agent misuse reports'),
+          story('ai5', 'What counts as an AI incident in public disclosures'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('rogue-ai'));
+    assert.ok(ids.includes('ai-incidents'));
+    assert.match(renderTag(rich, 'rogue-ai'), /What has SIREN scored about Rogue AI\?/);
+    assert.match(renderTag(rich, 'ai-incidents'), /What has SIREN scored about AI incidents\?/);
+    assert.match(renderTag(rich, 'rogue-ai'), /not a harm forecast/i);
+    assert.match(renderTag(rich, 'ai-incidents'), /not a threat forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'rogue-ai'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-incidents'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-incidents'), /probability of doom/i);
+  });
 });
