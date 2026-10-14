@@ -153,6 +153,17 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /probability of doom/i);
   });
 
+  it('classic leader-wire more-link uses the leaders question H1', () => {
+    const html = render({
+      ...ctx,
+      leaders: JSON.parse(readFileSync(new URL('../../data/leaders.json', import.meta.url), 'utf8')),
+    }, { view: 'classic' });
+    assert.match(html, /class="lw__more"><a href="\/leaders\.html">Which AI leaders are on the record this week\?<\/a>/);
+    assert.doesNotMatch(html, /Every line, every leader, and the watch-floor/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
 
   it('instruments recent-moves archive link uses the moves question H1', () => {
     const html = render({

@@ -120,6 +120,29 @@ describe('pillar facets', () => {
     assert.match(html, /\/item\/archive\.html/);
   });
 
+  it('overflow more-link uses the live-window item question H1', () => {
+    const fat = {
+      ...ctx,
+      news: {
+        ...ctx.news,
+        items: Array.from({ length: 45 }, (_, i) => ({
+          id: `cap-fat${i}`,
+          title: `Capability fat story ${i}`,
+          pillar: 'capability',
+          source: 'hn',
+          url: `https://example.test/fat${i}`,
+          published_at: '2026-10-10T01:00:00Z',
+          score: 50,
+        })),
+      },
+    };
+    const html = renderPillar(fat, 'capability');
+    assert.match(html, /href="\/item\/">Which scored AI stories are in the SIREN live window\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/item\/">every scored item<\/a>/);
+    assert.doesNotMatch(html, /pillar doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
   it('lets the durable archive keep a thin pillar above the substance gate', () => {
     const withArch = {
       ...ctx,

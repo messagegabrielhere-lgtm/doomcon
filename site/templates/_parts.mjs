@@ -649,7 +649,10 @@ export function newPulse(counts, { href = null } = {}) {
   });
 
   const note = newCoverageNote(counts);
-  const more = href ? ` <a href="${esc(href)}">Every item, scored &rarr;</a>` : '';
+  // Cross-page more-link uses the destination H1 question (FINDABILITY tip #250).
+  const more = href
+    ? ` <a href="${esc(href)}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>`
+    : '';
 
   return `<div class="npulse" data-partial="${hour.complete ? 0 : 1}" data-zero="${hour.count === 0 ? 1 : 0}">
   <div class="npulse__lead">
