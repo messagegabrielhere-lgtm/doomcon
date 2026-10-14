@@ -221,6 +221,10 @@ export function items(ctx) {
       `On /instruments.html and /classic.html: What shipped, and what got written down.`],
     ['What would move one stage hotter?',
       `On the oven: the published heating gates, as numbers beside the current reading. Nothing here says any of them is met.`],
+    ['What does the Signal panel show?',
+      `On /classic.html war room: the current reading on the 0–100 scale, its recent sparkline, and the move since the comparison point.`],
+    ['How did OpenAI fare in this window?',
+      `On /digest.html: items in window, share of corpus, and market position from Who is winning the AI race?.`],
   ];
 }
 

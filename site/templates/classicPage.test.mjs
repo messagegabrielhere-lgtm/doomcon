@@ -150,6 +150,33 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /probability of doom/i);
   });
 
+  it('war-room panel H3s use questions mirrored in FAQPage', () => {
+    const pillars = { capability: 40, compute: 45, attention: 50, governance: 35, markets: 55 };
+    const html = render({
+      ...ctx,
+      history: [
+        { generated_at: '2026-10-14T15:00:00Z', score: 48, level: 4, pillars },
+        { generated_at: '2026-10-14T16:00:00Z', score: 49.1, level: 4, pillars: { ...pillars, attention: 52 } },
+        { generated_at: '2026-10-14T17:00:00Z', score: 49.5, level: 4, pillars: { ...pillars, attention: 53 } },
+        { generated_at: '2026-10-14T18:00:00Z', score: 49.1, level: 4, pillars },
+      ],
+      race: {
+        players: [
+          { id: 'openai', name: 'OpenAI', market: { state: 'live', probability: 0.22 } },
+          { id: 'anthropic', name: 'Anthropic', market: { state: 'live', probability: 0.18 } },
+        ],
+      },
+    }, { view: 'classic' });
+    assert.match(html, /What does the Signal panel show\?/);
+    assert.match(html, /What is in The brief\?/);
+    assert.match(html, /What is in the Newsroom panel\?/);
+    assert.match(html, /FAQPage[\s\S]*What does the Signal panel show\?/);
+    assert.doesNotMatch(html, /<h3 class="wr__pn">Signal<\/h3>/);
+    assert.doesNotMatch(html, /<h3 class="wr__pn">Newsroom<\/h3>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
   it('home module and switcher section H2s use questions mirrored in FAQ', () => {
     const html = render({
       ...ctx,

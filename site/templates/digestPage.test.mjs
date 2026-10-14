@@ -76,4 +76,13 @@ describe('digest page', () => {
     assert.match(html, /What is the SIREN daily brief\?/);
     assert.match(html, /noindex/);
   });
+
+  it('per-lab H3s use questions mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /How did OpenAI fare in this window\?/);
+    assert.match(html, /How did Anthropic fare in this window\?/);
+    assert.match(html, /FAQPage[\s\S]*How did OpenAI fare in this window\?/);
+    assert.doesNotMatch(html, /<h3 class="dg__labh">[^<]*OpenAI<\/h3>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });

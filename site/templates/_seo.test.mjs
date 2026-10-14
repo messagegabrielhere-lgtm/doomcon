@@ -465,6 +465,13 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What does the Markets pillar count'));
     assert.ok(org.knowsAbout.includes('What would move one stage hotter'));
     assert.ok(org.knowsAbout.includes('What would move one stage cooler'));
+    assert.ok(org.knowsAbout.includes('What does the Signal panel show'));
+    assert.ok(org.knowsAbout.includes('What is in The brief'));
+    assert.ok(org.knowsAbout.includes('What is in the Newsroom panel'));
+    assert.ok(org.knowsAbout.includes('What does The race panel show'));
+    assert.ok(org.knowsAbout.includes('How did OpenAI fare in this window'));
+    assert.ok(org.knowsAbout.includes('How did Anthropic fare in this window'));
+    assert.ok(org.knowsAbout.includes('How did Google DeepMind fare in this window'));
     assert.ok(org.knowsAbout.includes('What AI Spaces are live on X'));
     assert.ok(org.knowsAbout.includes('Who is OpenAI on X'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
