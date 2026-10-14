@@ -17,9 +17,9 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
     ai_trends: [{ title: 'chatgpt update', traffic: 20000, traffic_raw: '20000+', geo: 'US', head_terms: ['chatgpt'], news: [] }],
     head_terms: [{ id: 'chatgpt', label: 'ChatGPT', path: '/lab/openai.html', trending: true, titles: [{ geo: 'US', title: 'chatgpt update' }] }],
   }, []);
-  assert.match(html, /Google Search Trends for AI/);
+  assert.match(html, /Which Google Search Trends for AI does/);
   assert.match(html, /chatgpt update/);
-  assert.match(html, /Head-term watchlist/);
+  assert.match(html, /Which head terms already have/);
   assert.match(html, /"@type"\s*:\s*"FAQPage"/);
   assert.match(html, /Mintieo/);
   assert.match(html, /api\/search-trends\.json/);
@@ -35,6 +35,7 @@ test('aiPredictionMarketsPage targets the head term without forecasting', () => 
     generated_at: '2026-10-14T15:00:00.000Z',
     players: [{ rank: 1, name: 'Anthropic', market: { probability: 0.425 } }],
   });
+  assert.match(html, /Where are live AI prediction market odds\?/);
   assert.match(html, /AI prediction markets/);
   assert.match(html, /42\.5%/);
   assert.match(html, /not a .* forecast/i);

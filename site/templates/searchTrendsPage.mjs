@@ -38,6 +38,10 @@ function traffic(n, raw) {
 function faqBlocks() {
   return [
     {
+      q: `Which Google Search Trends for AI does ${brand.NAME} watch?`,
+      a: `Daily trending searches from Google’s public RSS, filtered for AI-related titles. ${brand.NAME} publishes the firehose and a head-term watchlist on this page so crawlable answers exist before a spike.`,
+    },
+    {
       q: `Does ${brand.NAME} publish Google Trends scores?`,
       a: `No. Daily Google trending searches are watched for findability and published on this page. They do not move the ${brand.NAME} level. Longer search curiosity still comes from Wikipedia pageviews in the attention pillar.`,
     },
@@ -85,29 +89,30 @@ export function render(ctx, trends, hist = []) {
 
   const main = `${CSS}<section class="st">
   <p class="eyebrow">SEARCH TRENDS · WATCHED, NOT SCORED</p>
-  <h1 class="bp__h1 speakable-summary">Google Search Trends for AI</h1>
+  <h1 class="bp__h1 speakable-summary">Which Google Search Trends for AI does ${esc(brand.NAME)} watch?</h1>
   <p class="lede speakable-lede">Daily trending searches from Google’s public RSS, filtered for AI. ${brand.NAME} watches these for findability — when a head term spikes, the matching page should already answer it. Trends here do not move the index.</p>
   <p>${geosOk.length ? `Geos answering: ${esc(geosOk.map((g) => g.geo).join(', '))}.` : 'No geos answering.'}${at ? ` Updated ${esc(at)}.` : ''} <a href="${esc(ctx.href('/api/search-trends.json'))}">JSON</a> · <a href="${esc(ctx.href('/ai-prediction-markets.html'))}">AI prediction markets →</a></p>
-  <h2>AI-related in the firehose</h2>
+  <h2>Which AI queries are in today’s firehose?</h2>
   ${cards}
-  <h2>Head-term watchlist</h2>
+  <h2>Which head terms already have a ${esc(brand.NAME)} page?</h2>
   <p>Terms ${brand.NAME} already has a crawlable answer for. A “Yes” means the phrase (or a close match) is inside today’s Google trending RSS.</p>
   ${watch}
   ${histBits}
-  <h2>Longer horizon</h2>
+  <h2>Where does longer-horizon search curiosity show up?</h2>
   <p>Interest-over-time for AI topics still comes from <a href="${esc(ctx.href('/methodology.html'))}">Wikipedia pageviews in the attention pillar</a> — Google’s explore API is not a stable keyless feed. This page is the spike detector; Wikipedia is the baseline.</p>
   <h2>FAQ</h2>
   ${faqHtml}
   <p style="font-size:12.5px">Source: <a href="https://trends.google.com/trending/rss" rel="noopener">trends.google.com/trending/rss</a>. Approximate traffic bands are Google’s. Not financial advice; not a ${esc(brand.NAME)} forecast.</p>
 </section>`;
 
+  const pageTitle = `Which Google Search Trends for AI does ${brand.NAME} watch?`;
   const jsonld = [
     organization(ctx),
-    breadcrumbs(ctx, [{ name: 'Search Trends', path: '/search-trends.html' }]),
+    breadcrumbs(ctx, [{ name: pageTitle, path: '/search-trends.html' }]),
     {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      name: `Google Search Trends for AI · ${brand.NAME}`,
+      name: pageTitle,
       url: ctx.url('/search-trends.html'),
       dateModified: trends && trends.generated_at ? trends.generated_at : undefined,
       speakable: speakable(['.speakable-summary', '.speakable-lede']),
@@ -127,7 +132,7 @@ export function render(ctx, trends, hist = []) {
   return page({
     ctx,
     path: '/search-trends.html',
-    title: `Google Search Trends for AI · head-term watchlist · ${brand.NAME}`,
+    title: pageTitle,
     description: 'Daily Google trending searches filtered for AI, plus the head terms SIREN already answers. Watched for findability; not scored into the index.',
     main,
     jsonld,

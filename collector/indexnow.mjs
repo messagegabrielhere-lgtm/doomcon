@@ -49,6 +49,8 @@ const ALWAYS = Object.freeze([
   '/ai-doomsday-clock.html',
   '/jobs.html',
   '/race.html',
+  '/search-trends.html',
+  '/ai-prediction-markets.html',
   '/sitemap.xml',
   '/news-sitemap.xml',
   '/llms.txt',
