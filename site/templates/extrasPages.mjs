@@ -80,7 +80,7 @@ export const CSS = `<style>
 
 function shell(ctx, { path, title, description, ogTitle, main, head, bodyEnd, jsonld }) {
   // No "back to the index" link: the shared header's brand does that on every page.
-  const back = `<p class="xt-back"><a href="${esc(ctx.href('/methodology.html'))}">Methodology</a> · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a></p>`;
+  const back = `<p class="xt-back"><a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a></p>`;
   return page({
     ctx, path, title: `${title} · ${brand.NAME}`, description, ogTitle,
     main: `${CSS}\n<section class="xt">\n${main}\n${back}\n</section>`,
