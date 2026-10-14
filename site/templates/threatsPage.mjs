@@ -74,7 +74,7 @@ export function render(ctx, d) {
     <div class="th-c"><h2>SPACE WEATHER ALERTS (NOAA)</h2>${spBox}</div>
     <div class="th-c"><h2>NATURAL EVENTS (NASA EONET)</h2>${eoList}</div>
   </div>
-  <p style="margin-top:16px">Related: <a href="${esc(ctx.href('/status.html'))}">Is ChatGPT down?</a> · <a href="${esc(ctx.href('/dispatch.html'))}">Live quakes &amp; weather</a> · <a href="${esc(ctx.href('/waffle.html'))}">Waffle House Index</a> · <a href="${esc(ctx.href('/self-aware.html'))}">The night it wakes up (fiction)</a></p>
+  <p style="margin-top:16px">Related: <a href="${esc(ctx.href('/status.html'))}">Is ChatGPT down? Is Claude down?</a> · <a href="${esc(ctx.href('/dispatch.html'))}">What public feeds does ${esc(brand.NAME)} Dispatch show?</a> · <a href="${esc(ctx.href('/waffle.html'))}">Is the Waffle House open?</a> · <a href="${esc(ctx.href('/self-aware.html'))}">What if an AI wakes up at 2:14 a.m.?</a></p>
   <p style="font-size:12.5px;margin-top:10px">Sources: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV</a>, <a href="https://feodotracker.abuse.ch/" target="_blank" rel="noopener">abuse.ch Feodo Tracker</a>, <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA SWPC</a>, <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA EONET</a>. A dark feed shows as “—”, never as all clear. Source list adapted from <a href="https://github.com/simplifaisoul/osiris" target="_blank" rel="noopener">OSIRIS</a> (MIT). Updated ${esc(String(d.generated_at || '').slice(0, 16).replace('T', ' '))} UTC · <a href="api/threats.json">JSON</a></p>
   <section class="th-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>

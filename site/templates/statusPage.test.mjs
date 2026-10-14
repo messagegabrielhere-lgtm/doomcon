@@ -26,6 +26,12 @@ describe('status page', () => {
     assert.match(html, /"@type":\s*"WebPage"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/threats\.html/);
+    assert.match(html, /href="\/dispatch\.html">What public feeds does SIREN Dispatch show\?<\/a>/);
+    assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.match(html, /href="\/threats\.html">What could take the machines offline tonight\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/dispatch\.html">Live alerts<\/a>/);
+    assert.doesNotMatch(html, /href="\/news\.html">AI news<\/a>/);
+    assert.doesNotMatch(html, /href="\/threats\.html">Threat board<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /UNKNOWN means (the service is )?up/i);
     assert.doesNotMatch(html, /noindex/);

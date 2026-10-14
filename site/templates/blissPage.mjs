@@ -580,7 +580,7 @@ function howComputed(ctx, bliss) {
      compiled <time datetime="${esc(bliss.generated_at)}">${esc(utc(bliss.generated_at))}</time>.</p>
   <p class="bhow__links">
     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
-    <a href="${esc(ctx.href('/'))}">${esc(brand.NAME)} index</a>
+    <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>
   </p>
 </section>`;
 }

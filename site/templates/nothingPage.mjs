@@ -402,7 +402,7 @@ ${rows}
       · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
   </section>
 
-  <p class="neh__fine">Related: <a href="${esc(ctx.href('/desk.html'))}">Tally’s Desk</a> (unserious counts, including the calm streak) · <a href="${esc(ctx.href('/bets.html'))}">Does the ${esc(brand.NAME)} index make forecasts?</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+  <p class="neh__fine">Related: <a href="${esc(ctx.href('/desk.html'))}">What unserious counts does ${esc(brand.NAME)} keep on Tally’s desk?</a> (including the calm streak) · <a href="${esc(ctx.href('/bets.html'))}">Does the ${esc(brand.NAME)} index make forecasts?</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
 </section>`;
 
   const missWord = data.scored.miss === 1 ? 'miss' : 'misses';

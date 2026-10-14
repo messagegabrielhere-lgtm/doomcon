@@ -28,6 +28,15 @@ describe('threats page', () => {
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/status\.html/);
     assert.match(html, /\/exploits\.html/);
+    const related = html.match(/>Related:([\s\S]*?)<\/p>/);
+    assert.ok(related, 'expected Related paragraph');
+    assert.match(related[1], /href="\/status\.html">Is ChatGPT down\? Is Claude down\?<\/a>/);
+    assert.match(related[1], /href="\/dispatch\.html">What public feeds does SIREN Dispatch show\?<\/a>/);
+    assert.match(related[1], /href="\/waffle\.html">Is the Waffle House open\?<\/a>/);
+    assert.match(related[1], /href="\/self-aware\.html">What if an AI wakes up at 2:14 a\.m\.\?<\/a>/);
+    assert.doesNotMatch(related[1], /href="\/dispatch\.html">Live quakes/);
+    assert.doesNotMatch(related[1], /href="\/waffle\.html">Waffle House Index<\/a>/);
+    assert.doesNotMatch(related[1], /href="\/self-aware\.html">The night it wakes up/);
     // Never-say: refuse offline-tonight forecast / dark-feed-as-clear.
     assert.doesNotMatch(html, /machines will go offline tonight/i);
     assert.doesNotMatch(html, /dark feed means (all )?clear/i);

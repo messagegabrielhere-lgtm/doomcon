@@ -45,6 +45,16 @@ describe('nations page', () => {
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/race\.html/);
     assert.match(html, /\/power\.html/);
+    const related = html.match(/>Related:([\s\S]*?)<\/p>/);
+    assert.ok(related, 'expected Related paragraph');
+    assert.match(related[1], /href="\/race\.html">Who is winning the AI race\?<\/a>/);
+    assert.match(related[1], /href="\/power\.html">Who makes the most electricity \(China vs US\)\?<\/a>/);
+    assert.match(related[1], /href="\/world\.html">How many datacentres has SIREN mapped on Earth\?<\/a>/);
+    assert.match(related[1], /href="\/charts\.html">What AI charts does SIREN publish\?<\/a>/);
+    assert.doesNotMatch(related[1], /href="\/race\.html">the lab race<\/a>/);
+    assert.doesNotMatch(related[1], /href="\/power\.html">the power race<\/a>/);
+    assert.doesNotMatch(related[1], /href="\/world\.html">world data centres<\/a>/);
+    assert.doesNotMatch(related[1], /href="\/charts\.html">charts<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /SIREN (predicts|forecasts) who wins/i);
     assert.doesNotMatch(html, /this is financial advice/i);

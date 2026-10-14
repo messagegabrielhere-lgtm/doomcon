@@ -38,6 +38,10 @@ describe('nothing page schema', () => {
     assert.match(html, /\/methodology\.html/);
     assert.match(html, /Does the SIREN index make forecasts\?/);
     assert.match(html, /How the SIREN AI activity index is computed · methodology/);
+    const related = html.match(/class="neh__fine">Related:([\s\S]*?)<\/p>/);
+    assert.ok(related, 'expected Related fine print');
+    assert.match(related[1], /href="\/desk\.html">What unserious counts does SIREN keep on Tally’s desk\?<\/a>/);
+    assert.doesNotMatch(related[1], /href="\/desk\.html">Tally’s Desk<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);

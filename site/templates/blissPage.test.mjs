@@ -36,7 +36,9 @@ describe('bliss page', () => {
     const links = html.match(/<p class="bhow__links">([\s\S]*?)<\/p>/);
     assert.ok(links, 'expected bliss methodology links');
     assert.match(links[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
+    assert.match(links[1], /href="\/">AI activity index today · SIREN<\/a>/);
     assert.doesNotMatch(links[1], /href="\/methodology\.html">Full methodology<\/a>/);
+    assert.doesNotMatch(links[1], /href="\/">SIREN index<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /doom probability/i);
     assert.doesNotMatch(html, /noindex/);
