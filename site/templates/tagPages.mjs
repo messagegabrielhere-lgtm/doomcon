@@ -1753,6 +1753,30 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Robustness and distribution-shift research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Rr]obustness\b/,
   },
+  {
+    id: 'contrastive',
+    name: 'Contrastive learning',
+    description: 'Contrastive learning research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Cc]ontrastive\b/,
+  },
+  {
+    id: 'gradient',
+    name: 'Gradients',
+    description: 'Gradient and optimization-signal research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Gg]radients?\b/,
+  },
+  {
+    id: 'optimizer',
+    name: 'Optimizers',
+    description: 'Optimizer research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Oo]ptimizers?\b/,
+  },
+  {
+    id: 'regularization',
+    name: 'Regularization',
+    description: 'Regularization research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Rr]egularization\b/,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

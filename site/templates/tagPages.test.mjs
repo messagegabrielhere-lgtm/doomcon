@@ -2795,6 +2795,48 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'reliability'), /probability of doom/i);
   });
 
+  it('pages contrastive, gradient, optimizer, and regularization hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('co1', 'Contrastive pretraining for multimodal retrieval'),
+          story('co2', 'Hard-negative contrastive losses for embeddings'),
+          story('co3', 'Contrastive decoding improves factuality'),
+          story('co4', 'Supervised contrastive learning for classifiers'),
+          story('co5', 'Contrastive alignment of vision and language'),
+          story('gr1', 'Gradient checkpointing cuts activation memory'),
+          story('gr2', 'Analyzing gradients in mixture-of-experts routers'),
+          story('gr3', 'Noisy gradients under low-precision training'),
+          story('gr4', 'Gradient conflict in multi-task agents'),
+          story('gr5', 'Natural gradients for preference optimization'),
+          story('op1', 'AdamW still dominates LLM optimizer ablations'),
+          story('op2', 'Muon optimizer claims faster convergence'),
+          story('op3', 'Sophia optimizer on large language models'),
+          story('op4', 'Comparing optimizers under long-context fine-tunes'),
+          story('op5', 'Memory-efficient optimizers for MoE training'),
+          story('rg1', 'Weight decay regularization for overfit chat models'),
+          story('rg2', 'Dropout regularization in vision transformers'),
+          story('rg3', 'Spectral regularization for adversarial robustness'),
+          story('rg4', 'Label smoothing as regularization for calibrators'),
+          story('rg5', 'Path-norm regularization for deep networks'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('contrastive'));
+    assert.ok(ids.includes('gradient'));
+    assert.ok(ids.includes('optimizer'));
+    assert.ok(ids.includes('regularization'));
+    assert.match(renderTag(rich, 'contrastive'), /What has SIREN scored about Contrastive learning\?/);
+    assert.match(renderTag(rich, 'gradient'), /What has SIREN scored about Gradients\?/);
+    assert.match(renderTag(rich, 'optimizer'), /What has SIREN scored about Optimizers\?/);
+    assert.match(renderTag(rich, 'regularization'), /What has SIREN scored about Regularization\?/);
+    assert.doesNotMatch(renderTag(rich, 'contrastive'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'optimizer'), /probability of doom/i);
+  });
+
   it('pages latency, logits, adversarial, and robustness hubs', () => {
     const rich = {
       ...ctx,
