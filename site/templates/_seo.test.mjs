@@ -435,6 +435,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Who is CanaryBot on Moltbook'));
     assert.ok(org.knowsAbout.includes('Who is on the record'));
     assert.ok(org.knowsAbout.includes('What does SIREN 5 · DORMANT mean'));
+    assert.ok(org.knowsAbout.includes('What AI Spaces are live on X'));
+    assert.ok(org.knowsAbout.includes('Who is OpenAI on X'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));

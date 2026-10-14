@@ -569,10 +569,18 @@ const X_SEARCHES = [
   ['What are people saying about AI and jobs?', '(AI OR "artificial intelligence") (jobs OR layoffs OR hiring)'],
   ['What Skynet talk is on X right now?', 'Skynet AI'],
 ];
+// Tip #375: Spaces-card H3s are question-shaped (mirrored in FAQ §3.3).
+const X_SPACES = [
+  ['What AI Spaces are live on X?', '(AI OR AGI OR superintelligence) filter:spaces', 'AI Spaces'],
+  ['What chatbot Spaces are live on X?', '(ChatGPT OR Claude OR Grok OR Gemini) filter:spaces', 'Chatbot Spaces'],
+  ['What AI safety Spaces are live on X?', '("AI safety" OR alignment) filter:spaces', 'AI safety Spaces'],
+];
+// Tip #376: voice-card H3s are question-shaped (mirrored in FAQ §3.3).
 const X_VOICES = [
   ['Labs', [['OpenAI', 'OpenAI'], ['Anthropic', 'AnthropicAI'], ['Google DeepMind', 'GoogleDeepMind'], ['xAI', 'xai'], ['AI at Meta', 'AIatMeta'], ['Mistral AI', 'MistralAI'], ['NVIDIA', 'nvidia']]],
   ['Leaders', [['Sam Altman', 'sama'], ['Dario Amodei', 'DarioAmodei'], ['Demis Hassabis', 'demishassabis'], ['Elon Musk', 'elonmusk'], ['Yann LeCun', 'ylecun'], ['Andrej Karpathy', 'karpathy'], ['Greg Brockman', 'gdb'], ['Mustafa Suleyman', 'mustafasuleyman'], ['Satya Nadella', 'satyanadella'], ['Sundar Pichai', 'sundarpichai']]],
 ];
+const voiceQ = (name) => `Who is ${name} on X?`;
 export function liveX(ctx) {
   const PATH = '/live-x.html';
   const qTitle = 'Where are live X feeds and Spaces on AI?';
@@ -583,6 +591,8 @@ export function liveX(ctx) {
   const spacesQ = 'Which AI Spaces can you join on X?';
   const labsQ = 'Which AI labs should you follow on X?';
   const leadersQ = 'Which AI leaders should you follow on X?';
+  const labVoices = X_VOICES[0][1];
+  const leaderVoices = X_VOICES[1][1];
   // FAQ answers restate lede / Spaces / note copy only (FINDABILITY §3.3).
   // Refuse: doom-probability, SIREN-as-X-oracle, stuffing.
   const faq = [
@@ -606,6 +616,11 @@ export function liveX(ctx) {
       `No. ${brand.DISCLAIMER_SHORT} This page links live X feeds and Spaces — not a probability of harm.`],
     // Tip #362: feed-card H3s are question-shaped and mirrored in FAQ (§3.3).
     ...X_SEARCHES.map(([t, q]) => [t, `Opens a live X search for: ${q}.`]),
+    // Tip #375: Spaces-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...X_SPACES.map(([q, query]) => [q, `${query}. Join any that are live now.`]),
+    // Tip #376: voice-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...labVoices.map(([n, h]) => [voiceQ(n), `@${h}`]),
+    ...leaderVoices.map(([n, h]) => [voiceQ(n), `@${h}`]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -621,15 +636,11 @@ export function liveX(ctx) {
   <div class="fx-grid">${X_SEARCHES.map(([t, q]) => `<a class="fx-card" href="${esc(search(q))}" target="_blank" rel="noopener"><h3>${esc(t)} ↗</h3><p class="fx-meta">${esc(q)}</p></a>`).join('')}</div>
   <h2>${esc(spacesQ)}</h2>
   <p>X Spaces are live audio conversations. These open X's search for Spaces about AI; join any that are live now.</p>
-  <p>
-    <a class="fx-x" href="${esc(search('(AI OR AGI OR superintelligence) filter:spaces', false))}" target="_blank" rel="noopener">🎙 AI Spaces ↗</a>
-    <a class="fx-x" href="${esc(search('(ChatGPT OR Claude OR Grok OR Gemini) filter:spaces', false))}" target="_blank" rel="noopener">🎙 Chatbot Spaces ↗</a>
-    <a class="fx-x" href="${esc(search('("AI safety" OR alignment) filter:spaces', false))}" target="_blank" rel="noopener">🎙 AI safety Spaces ↗</a>
-  </p>
+  <div class="fx-grid">${X_SPACES.map(([q, query, short]) => `<a class="fx-card" href="${esc(search(query, false))}" target="_blank" rel="noopener" aria-label="${esc(short)}"><h3>${esc(q)} ↗</h3><p class="fx-meta">${esc(query)}</p></a>`).join('')}</div>
   <h2>${esc(labsQ)}</h2>
-  <p>${X_VOICES[0][1].map(([n, h]) => `<a class="fx-x" href="https://x.com/${esc(h)}" target="_blank" rel="noopener">${esc(n)} <span class="fx-meta">@${esc(h)}</span></a>`).join('')}</p>
+  <div class="fx-grid">${labVoices.map(([n, h]) => `<a class="fx-card" href="https://x.com/${esc(h)}" target="_blank" rel="noopener" aria-label="${esc(n)}"><h3>${esc(voiceQ(n))} ↗</h3><p class="fx-meta">@${esc(h)}</p></a>`).join('')}</div>
   <h2>${esc(leadersQ)}</h2>
-  <p>${X_VOICES[1][1].map(([n, h]) => `<a class="fx-x" href="https://x.com/${esc(h)}" target="_blank" rel="noopener">${esc(n)} <span class="fx-meta">@${esc(h)}</span></a>`).join('')}</p>
+  <div class="fx-grid">${leaderVoices.map(([n, h]) => `<a class="fx-card" href="https://x.com/${esc(h)}" target="_blank" rel="noopener" aria-label="${esc(n)}"><h3>${esc(voiceQ(n))} ↗</h3><p class="fx-meta">@${esc(h)}</p></a>`).join('')}</div>
   <p class="fx-note">Links go to X; what you see there is X's, under X's rules and privacy policy. ${esc(brand.NAME)} does not embed X on this page, so nothing loads from X until you click.</p>
   <section class="fx-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>

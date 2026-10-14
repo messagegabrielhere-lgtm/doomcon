@@ -624,6 +624,8 @@ context.
 | 372 | `/agents.html` Moltbook spotlight agent-card H3s + FAQPage use questions (was “🤖 {agent}”); Organization `knowsAbout` mirrors those questions; refuse agents-as-doom-oracle / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 373 | `/leaders.html` roster-group H3s + FAQPage use questions (was “On the record” / “Quiet” / “Unreachable”; aria-labels keep short names); Organization `knowsAbout` mirrors those questions; refuse leader-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 374 | `/history.html` level-legend + pillar-legend H3s + FAQPage use questions (was “SIREN N · NAME” / bare pillar names); Organization `knowsAbout` mirrors those questions; refuse history-page doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 375 | `/live-x.html` Spaces-card H3s + FAQPage use questions (was “AI Spaces” / “Chatbot Spaces” / “AI safety Spaces” chips); Organization `knowsAbout` mirrors those questions; refuse live-X doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 376 | `/live-x.html` lab + leader voice-card H3s + FAQPage use questions (was bare names + @handles as chips); Organization `knowsAbout` mirrors those questions; refuse live-X doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

@@ -201,6 +201,10 @@ export function items(ctx) {
       `On /leaders.html: at least one line in the window, from the press or from their own official feed.`],
     ['What does SIREN 5 · DORMANT mean?',
       `On /history.html: Needle at rest. The floor of the scale.`],
+    ['What AI Spaces are live on X?',
+      `On /live-x.html: (AI OR AGI OR superintelligence) filter:spaces. Join any that are live now.`],
+    ['Who is OpenAI on X?',
+      `On /live-x.html: @OpenAI.`],
   ];
 }
 
