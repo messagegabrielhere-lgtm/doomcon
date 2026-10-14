@@ -125,6 +125,11 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('AI activity index today'));
     assert.ok(org.knowsAbout.includes('AI doomsday clock'));
     assert.ok(org.knowsAbout.includes('verifiable AI doomsday clock'));
+    assert.ok(org.knowsAbout.includes('What is the Bulletin’s Doomsday Clock'));
+    assert.ok(org.knowsAbout.includes('Where does expert opinion sit on an AI clock'));
+    assert.ok(org.knowsAbout.includes('What are AI-specific clocks and scores'));
+    assert.ok(org.knowsAbout.includes('What does SIREN do instead of a doomsday clock'));
+    assert.ok(org.knowsAbout.includes('Which clock should you use'));
     assert.ok(org.knowsAbout.includes('what is p(doom)'));
     assert.ok(org.knowsAbout.includes('What is p(doom)'));
     assert.ok(org.knowsAbout.includes('Where does the term p(doom) come from'));

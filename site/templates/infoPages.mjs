@@ -939,12 +939,28 @@ export function aiClock(ctx) {
   // Head-term question (FINDABILITY tip #200): disambiguation query, not a
   // doom-probability claim. H1 must match <title>.
   const qTitle = 'Is there an AI doomsday clock?';
+  // Tip #313: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const bulletinQ = 'What is the Bulletin’s Doomsday Clock?';
+  const expertsQ = 'Where does expert opinion sit on an AI clock?';
+  const specificQ = 'What are AI-specific clocks and scores?';
+  const insteadQ = `What does ${brand.NAME} do instead of a doomsday clock?`;
+  const whichQ = 'Which clock should you use?';
   // FAQ answers restate lede / Bulletin / experts / SIREN-instead copy only (§3.3).
   // Refuse: SIREN-as-doomsday-clock, SIREN-as-doom-probability, forecast.
   // Visible FAQ + FAQPage from the SAME array (schema without HTML was a gap).
   const faq = [
     [qTitle,
       `The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. ${brand.NAME} publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.`],
+    [bulletinQ,
+      'The Bulletin of the Atomic Scientists has published the Doomsday Clock since 1947. A board of experts decides, usually once a year, how close to “midnight” to set it. It is a considered judgement, not a calculation, and it is not updated between announcements.'],
+    [expertsQ,
+      `Ask the people building AI how likely it is to end in catastrophe and you get a cloud, not a number. The loudest cluster sits around 10–20%. The largest survey of AI researchers gives a median of ${SURVEY.median}%. On a clock where 100% is midnight, 15% is about 51 minutes to go.`],
+    [specificQ,
+      'A number of sites publish an AI risk clock, countdown or score. What they share is the method: a person, a panel or a language model decides the setting. That makes them statements of opinion, not something a reader can recompute.'],
+    [insteadQ,
+      `${brand.NAME} counts releases, compute and capital, attention, governance and markets from public sources every hour. It reports tempo, not danger; each reading has a receipt; and it moves hourly, not yearly.`],
+    [whichQ,
+      `If you want an expert body’s considered view of overall risk, read the Bulletin’s statement. If you want to know how much is happening in AI this week, and to be able to check the answer, that is what ${brand.NAME} is for.`],
     ['How close is the AI doomsday clock to midnight?',
       `There is no official AI clock. Expert estimates of AI catastrophe cluster around 10–20%; the largest researcher survey has a median of ${SURVEY.median}%. On a clock where 100% is midnight, 15% is about 51 minutes to go.`],
     ['Who sets the AI doomsday clock?',
@@ -965,15 +981,15 @@ export function aiClock(ctx) {
   <p><a href="${esc(ctx.href('/p-doom.html#voices'))}"><b>Set your own AI doomsday clock →</b></a> Drag a dial, see where you sit among 28 named experts from LeCun (0.01%) to Yudkowsky (95%+), and post it.</p>
   <style>${TCLK_CSS}</style>
   ${tempoClock(ctx, { size: 260 })}
-  <h2>The Doomsday Clock</h2>
+  <h2>${esc(bulletinQ)}</h2>
   <p>The Bulletin of the Atomic Scientists has published the Doomsday Clock since 1947. It is a symbol: a board of experts decides, usually once a year, how close to “midnight” to set it.
     It began as a warning about nuclear weapons and has since widened to include climate change and disruptive technologies, AI among them. It is a considered judgement, not a calculation, and it is not updated between announcements.</p>
-  <h2>The experts’ clock: where opinion sits</h2>
+  <h2>${esc(expertsQ)}</h2>
   <p>Ask the people building AI how likely it is to end in catastrophe and you get a cloud, not a number. The loudest cluster sits around <b>10–20%</b> (Geoffrey Hinton; Elon Musk says 10–30%; Dario Amodei 10–25%). The largest survey of AI researchers gives a median of <b>${SURVEY.median}%</b>. The tails run from Yann LeCun’s <b>under 0.01%</b> to Eliezer Yudkowsky’s <b>over 95%</b>.
     On a clock where 100% is midnight, 15% is about 51 minutes to go. <a href="${esc(ctx.href('/p-doom.html#voices'))}">See all ${VOICES.length} voices on one chart and set the clock to your own number →</a></p>
-  <h2>AI-specific clocks and scores</h2>
+  <h2>${esc(specificQ)}</h2>
   <p>A number of sites publish an AI risk clock, countdown or score. What they share is the method: a person, a panel or a language model decides the setting. That makes them statements of opinion. Useful ones, sometimes, but not something a reader can recompute.</p>
-  <h2>What ${esc(brand.NAME)} does instead</h2>
+  <h2>${esc(insteadQ)}</h2>
   <ul>
     <li><b>It counts.</b> Releases, compute and capital, attention, governance and markets, from public sources, every hour.</li>
     <li><b>It reports tempo, not danger.</b> The level runs from 5 (quietest) to 1 (loudest). Loud means a lot is happening; it does not mean things are going badly.</li>
@@ -981,7 +997,7 @@ export function aiClock(ctx) {
     <li><b>It moves when the world does.</b> Hourly, not yearly.</li>
   </ul>
   ${nowLine(ctx)}
-  <h2>Which should you use?</h2>
+  <h2>${esc(whichQ)}</h2>
   <p>If you want an expert body’s considered view of overall risk, read the Bulletin’s statement. If you want to know how much is happening in AI this week, and to be able to check the answer, that is what this site is for. They answer different questions.</p>
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
