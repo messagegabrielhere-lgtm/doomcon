@@ -525,6 +525,7 @@ context.
 | 273 | `/self-aware.html` + `/nations.html` section H2s + FAQPage use questions for real-not-fiction / scoreboard-how (was “Back to what’s real” / “How it works”); Organization `knowsAbout` mirrors those questions; refuse doom-probability / Skynet-forecast claims | Google + Bing | **Done** (2026-10-14) |
 | 274 | `/power.html` section H2s + FAQPage use questions for race / top-20 / per-person / fastest-growing (was “THE RACE: …” / “TOP 20 GENERATORS…” / “MOST PER PERSON…” / “FASTEST GROWING…”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 275 | `/threats.html` section H2s + FAQPage use questions for KEV / botnets / space weather / natural events (was “NEWLY EXPLOITED SOFTWARE…” / “BOTNET FAMILIES…” / “SPACE WEATHER ALERTS…” / “NATURAL EVENTS…”); Organization `knowsAbout` mirrors those questions; refuse offline-tonight forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 276 | `/live.html` section H2s + FAQPage use questions for live-now / 24/7 news / AI on TV / talk radio / about (was “Live now” / “24/7 news channels” / “AI on TV” / “AI talk radio” / “About this room”); Organization `knowsAbout` mirrors those questions; refuse live-room-as-forecast / endorsement-as-SIREN-claim / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

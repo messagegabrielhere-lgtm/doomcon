@@ -262,6 +262,11 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Which botnet families are online'));
     assert.ok(org.knowsAbout.includes('What space weather alerts are active'));
     assert.ok(org.knowsAbout.includes('Which natural events is NASA tracking'));
+    assert.ok(org.knowsAbout.includes('Which AI streams are live now'));
+    assert.ok(org.knowsAbout.includes('Which 24/7 news channels can you open live'));
+    assert.ok(org.knowsAbout.includes('Which AI segments are on TV'));
+    assert.ok(org.knowsAbout.includes('What AI talk radio can you leave playing'));
+    assert.ok(org.knowsAbout.includes('How does this live room work'));
     assert.ok(org.knowsAbout.includes('ready for superintelligence'));
     assert.ok(org.knowsAbout.includes('Ready for SI personal plan'));
     assert.ok(org.knowsAbout.includes('USA vs China AI race'));
