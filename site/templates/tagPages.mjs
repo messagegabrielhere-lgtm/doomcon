@@ -1336,6 +1336,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI-generated media and text stories scored in the newsroom or archive — coverage counts, not a harm forecast.',
     match: /\bAI[- ]generated\b/i,
   },
+  {
+    id: 'policy-optimization',
+    name: 'Policy optimization',
+    description: 'Policy-optimization research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Pp]olicy [Oo]ptimization\b/,
+  },
+  {
+    id: 'white-house',
+    name: 'White House AI',
+    description: 'White House AI policy stories scored in the newsroom or archive — coverage counts, not a policy forecast.',
+    match: /\bWhite House\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
