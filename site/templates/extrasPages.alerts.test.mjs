@@ -21,6 +21,13 @@ describe('alerts page', () => {
     assert.match(html, /<title>How do I get alerts when SIREN moves\?/);
     assert.match(html, /<h1>How do I get alerts when SIREN moves\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="pick">1 · Which triggers should you pick\?<\/h2>/);
+    assert.match(html, /id="feeds">2 · What are your feed URLs\?<\/h2>/);
+    assert.match(html, /id="email">3 · How do I turn a feed into email\?<\/h2>/);
+    assert.match(html, /id="webhook">4 · How do I send it to a webhook, Slack or Discord\?<\/h2>/);
+    assert.match(html, /id="x">5 · How do I follow on X\?<\/h2>/);
+    assert.match(html, /id="tab">6 · How do I get notified while this tab is open\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*Which triggers should you pick\?/);
     assert.match(html, /Does SIREN ask for my email\?/);
     assert.match(html, /Can I get notified without a feed reader\?/);
     assert.match(html, /Do alerts move the SIREN score\?/);
@@ -38,6 +45,8 @@ describe('alerts page', () => {
     assert.ok(back, 'expected extras back links');
     assert.match(back[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
     assert.doesNotMatch(back[1], /href="\/methodology\.html">Methodology<\/a>/);
+    assert.doesNotMatch(html, /id="pick">1 · Pick your triggers<\/h2>/);
+    assert.doesNotMatch(html, /id="feeds">2 · Your feed URLs<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);

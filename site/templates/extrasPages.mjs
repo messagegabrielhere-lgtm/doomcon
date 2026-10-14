@@ -130,11 +130,30 @@ export function alertsPage(ctx) {
   const xUrl = brand.X_URL || 'https://x.com/SIRENutf6';
   const handle = brand.X_HANDLE || '@SIRENutf6';
 
+  // Tip #268: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const pickQ = 'Which triggers should you pick?';
+  const feedsQ = 'What are your feed URLs?';
+  const emailQ = 'How do I turn a feed into email?';
+  const hookQ = 'How do I send it to a webhook, Slack or Discord?';
+  const xQ = 'How do I follow on X?';
+  const tabQ = 'How do I get notified while this tab is open?';
   // FAQ answers restate lede / email note / in-tab note only (FINDABILITY §3.3).
   // Refuse: private email intake, alerts-as-index-input, doom-probability.
   const faq = [
     [qTitle,
       `Pick what counts as news to you: a level change, a big swing in the score, or one pillar spiking. Every trigger is a plain RSS feed rebuilt with each hourly reading, so it works in any feed reader and can be piped to email, Slack, Discord or a webhook with free tools. Nothing to sign up for here.`],
+    [pickQ,
+      'A level change, a big swing in the score, or one pillar spiking — each trigger is a plain RSS feed rebuilt with each hourly reading.'],
+    [feedsQ,
+      'Copy a URL into your feed reader, or open it straight in Feedly or Inoreader. OPML imports several feeds at once.'],
+    [emailQ,
+      `Your address goes to the third-party email tools (Blogtrottr, FeedRabbit), not to ${brand.NAME}; this site never asks for it.`],
+    [hookQ,
+      'Pipe an RSS feed URL through IFTTT, Zapier, Make or Slack\'s RSS app. Feeds rebuild about hourly.'],
+    [xQ,
+      `${brand.NAME} posts level changes and notable readings on X. Follow, then tap the bell and choose "All posts".`],
+    [tabQ,
+      'Leave this page open in a tab. Your browser checks the current reading every 10 minutes and shows a desktop notification when one of your thresholds trips. It stops when you close the tab.'],
     [`Does ${brand.NAME} ask for my email?`,
       `Your address goes to the third-party email tools (Blogtrottr, FeedRabbit), not to ${brand.NAME}; this site never asks for it.`],
     ['Can I get notified without a feed reader?',
@@ -150,24 +169,24 @@ export function alertsPage(ctx) {
 <h1>${esc(qTitle)}</h1>
 <p class="lede">Pick what counts as news to you: a level change, a big swing in the score, or one pillar spiking. Every trigger below is a plain RSS feed rebuilt with each hourly reading, so it works in any feed reader and can be piped to email, Slack, Discord or a webhook with free tools. Nothing to sign up for here.</p>
 
-<h2 id="pick">1 · Pick your triggers</h2>
+<h2 id="pick">1 · Which triggers should you pick?</h2>
 <div class="xt-checks" id="xt-picks">${checks}</div>
 
-<h2 id="feeds">2 · Your feed URLs</h2>
+<h2 id="feeds">2 · What are your feed URLs?</h2>
 <p>Copy a URL into your feed reader, or open it straight in Feedly or Inoreader.</p>
 <ul class="xt-feeds" id="xt-feeds">
 ${list}
 </ul>
 <p class="xt-row"><button type="button" class="xt-btn ghost" id="xt-opml">DOWNLOAD SELECTED AS OPML</button><span class="xt-note">OPML imports several feeds at once into most readers.</span></p>
 
-<h2 id="email">3 · Turn a feed into email</h2>
+<h2 id="email">3 · How do I turn a feed into email?</h2>
 <div class="xt-grid">
   <div class="xt-card"><h3>Blogtrottr (free)</h3><p>Open <a href="https://blogtrottr.com/" target="_blank" rel="noopener">blogtrottr.com</a>, paste a feed URL from step 2, enter your address on their site and choose "real-time". You get one email per new item.</p></div>
   <div class="xt-card"><h3>FeedRabbit (free tier)</h3><p>At <a href="https://feedrabbit.com/" target="_blank" rel="noopener">feedrabbit.com</a>, add the feed URL and pick instant or a daily digest.</p></div>
 </div>
 <p class="xt-note">Both are independent third-party services with their own terms and privacy policies. Your address goes to them, not to ${esc(brand.NAME)}; this site never asks for it.</p>
 
-<h2 id="webhook">4 · Or send it to a webhook, Slack or Discord</h2>
+<h2 id="webhook">4 · How do I send it to a webhook, Slack or Discord?</h2>
 <div class="xt-grid">
   <div class="xt-card"><h3>IFTTT</h3><p>Create an applet: <b>If</b> "RSS Feed → New feed item" (paste the URL), <b>Then</b> "Webhooks → Make a web request", or Discord, Slack, SMS, phone notification.</p></div>
   <div class="xt-card"><h3>Zapier</h3><p>Trigger "RSS by Zapier → New Item in Feed", action "Webhooks by Zapier → POST" (or Slack / Discord / Teams). Item title, link and description are available as fields.</p></div>
@@ -176,11 +195,11 @@ ${list}
 </div>
 <p class="xt-note">Feeds rebuild once per reading (about hourly), so polling more often than every 15 minutes gains nothing. Each item's &lt;guid&gt; is fixed per reading time, so reruns never double-post.</p>
 
-<h2 id="x">5 · Follow on X</h2>
+<h2 id="x">5 · How do I follow on X?</h2>
 <p>${esc(brand.NAME)} posts level changes and notable readings on X as <a href="${esc(xUrl)}" target="_blank" rel="noopener">${esc(handle)}</a>. Follow, then tap the bell on the profile and choose "All posts" to get a push notification on your phone.</p>
 <p><a class="xt-btn" href="${esc(xUrl)}" target="_blank" rel="noopener">FOLLOW ${esc(handle)} ON X →</a></p>
 
-<h2 id="tab">6 · Notify me while this tab is open</h2>
+<h2 id="tab">6 · How do I get notified while this tab is open?</h2>
 <p>No feed reader at all? Leave this page open in a tab. Your browser checks the <a href="${esc(ctx.href('/api/state.json'))}">current reading</a> every 10 minutes and shows a desktop notification when one of your thresholds trips. Your settings stay in this browser's local storage and are never sent anywhere. It stops when you close the tab.</p>
 <div class="xt-card">
   <div class="xt-row"><label class="xt-row"><input type="checkbox" id="xn-level" checked> Level changes</label></div>
@@ -318,11 +337,24 @@ export function exportPage(ctx) {
 
   const snippet = (id, label, code) => `<h3 style="margin-top:18px">${esc(label)}</h3><pre id="${id}">${esc(code)}</pre><button type="button" class="xt-btn sm ghost" data-copy-from="${id}">COPY</button>`;
 
+  // Tip #268: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const dlQ = 'What can I download?';
+  const embQ = 'How do I embed the current reading?';
+  const codeQ = 'How do I use it from code?';
+  const licQ = 'What is the licence and credit?';
   // FAQ answers restate lede / download / CORS / licence copy only (FINDABILITY §3.3).
   // Refuse: paid API / export-as-index-input / doom-probability.
   const faq = [
     [qTitle,
       `Every number ${brand.NAME} publishes is downloadable, embeddable and free to reuse under ${brand.LICENSE} with a credit line. Files rebuild with each hourly reading.`],
+    [dlQ,
+      'Every reading as CSV or JSON, current pillars as CSV, the current reading as JSON or one line of text, and an API index that lists every endpoint including per-reading receipts.'],
+    [embQ,
+      'The widget is a 320×152 box that redraws with every reading and matches light or dark pages. It renders the number server-side, so it still shows with scripts blocked.'],
+    [codeQ,
+      'No key, no rate limit beyond GitHub\'s own. The site sends Access-Control-Allow-Origin: *, so these files can be fetched from any web page without a proxy. Please cache: data changes about once an hour.'],
+    [licQ,
+      `Text and data are ${brand.LICENSE}. Reuse anything, commercially too, with a credit line next to it.`],
     ['What files can I download?',
       'Every reading as CSV or JSON, current pillars as CSV, the current reading as JSON or one line of text, and an API index that lists every endpoint including per-reading receipts.'],
     ['Do I need an API key?',
@@ -338,11 +370,11 @@ export function exportPage(ctx) {
 <h1>${esc(qTitle)}</h1>
 <p class="lede">Every number ${esc(brand.NAME)} publishes is downloadable, embeddable and free to reuse under ${esc(brand.LICENSE)} with a credit line. Files rebuild with each hourly reading${s && s.generated_at ? `; this page was built from the reading at ${esc(utc(s.generated_at))}` : ''}.</p>
 
-<h2 id="download">Download</h2>
+<h2 id="download">What can I download?</h2>
 <div class="xt-grid">${dl}</div>
 ${snippet('xs-sheets', 'Live in Google Sheets', sheets)}
 
-<h2 id="embed">Embed the current reading</h2>
+<h2 id="embed">How do I embed the current reading?</h2>
 <p>The widget is a 320×152 box that redraws with every reading and matches light or dark pages. It renders the number server-side, so it still shows with scripts blocked.</p>
 <iframe src="${esc(ctx.href('/embed.html'))}" width="320" height="152" style="border:0;max-width:100%" loading="lazy" title="${esc(brand.NAME)} widget preview"></iframe>
 ${snippet('xs-iframe', 'Widget (iframe)', embedSnippet)}
@@ -352,12 +384,12 @@ ${snippet('xs-badge-html', 'Badge (HTML)', badgeHtml)}
 ${snippet('xs-badge-md', 'Badge (Markdown)', badgeMd)}
 ${snippet('xs-card', 'Share card image (1200×675 PNG)', cardHtml)}
 
-<h2 id="api">Use it from code</h2>
+<h2 id="api">How do I use it from code?</h2>
 ${snippet('xs-js', 'JavaScript', jsSnippet)}
 ${snippet('xs-curl', 'Shell', `curl -s ${ctx.url('/api/latest.txt')}`)}
 <p><b>CORS:</b> the site is served by GitHub Pages, which sends <code>Access-Control-Allow-Origin: *</code>, so these files can be fetched from any web page without a proxy. No key, no rate limit beyond GitHub's own. Please cache: data changes about once an hour.</p>
 
-<h2 id="licence">Licence and credit</h2>
+<h2 id="licence">What is the licence and credit?</h2>
 <p>Text and data are ${esc(brand.LICENSE)}. Reuse anything, commercially too, with this line (or an equivalent) next to it:</p>
 ${snippet('xs-attr', 'Attribution line', attribution)}
 <p class="xt-note">${esc(brand.DISCLAIMER)} Want an alert instead of a file? See <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>.</p>
@@ -432,11 +464,24 @@ export function biasPage(ctx) {
     ['India: MeitY', 'Governance', 'The Ministry of Electronics and Information Technology\'s advisories, IndiaAI programme notices and consultations.'],
   ].map(([n, p, d]) => `<div class="xt-card"><h3>${esc(n)}</h3><p><span class="xt-pill">${esc(p)}</span></p><p>${esc(d)}</p></div>`).join('');
 
+  // Tip #268: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const leanQ = 'Where does each input lean?';
+  const skewQ = 'What does that skew?';
+  const candQ = 'Which sources are under consideration?';
+  const propQ = 'How do I propose a source?';
   // FAQ answers restate lede / skew / candidates copy only (FINDABILITY §3.3).
   // Refuse: doom-probability, stuffing, bias-as-excuse-to-hide-method.
   const faq = [
     [qTitle,
       `An index is only as wide as its inputs. Ours are public, free and recomputable, and that choice comes with a tilt: almost everything ${brand.NAME} counts is published in English, and most of it in the United States.`],
+    [leanQ,
+      'Almost everything counted is published in English, and most of it in the United States. The table below names the lean of each input.'],
+    [skewQ,
+      'Timing (events outside the English-speaking web reach inputs late or never), size (the level reads how busy the English-speaking AI world is), governance (US and UK calendar, not the world\'s), and attention (stories ignored on Hacker News do not exist to that pillar).'],
+    [candQ,
+      'Each candidate has to be public, free to read without a private agreement, machine-readable, with enough history to build a reference year, and licensed so the counts can be republished with receipts.'],
+    [propQ,
+      `Know a public, non-English or non-Western dataset that counts AI activity? Send it through the feedback form with a link to its API or download, how far back it goes, and its licence.`],
     ['What does that skew?',
       'Timing (events outside the English-speaking web reach inputs late or never), size (the level reads how busy the English-speaking AI world is), governance (US and UK calendar, not the world\'s), and attention (stories ignored on Hacker News do not exist to that pillar).'],
     ['How do new sources get into the score?',
@@ -452,11 +497,11 @@ export function biasPage(ctx) {
 <h1>${esc(qTitle)}</h1>
 <p class="lede">An index is only as wide as its inputs. Ours are public, free and recomputable, and that choice comes with a tilt: almost everything ${esc(brand.NAME)} counts is published in English, and most of it in the United States. This page says where that bends the reading, and what we are looking at to straighten it.</p>
 
-<h2 id="inputs">Where each input leans</h2>
+<h2 id="inputs">Where does each input lean?</h2>
 <div class="xt-tbl"><table><thead><tr><th>Input</th><th>Pillar</th><th>Lean</th></tr></thead><tbody>${inputs}</tbody></table></div>
 <p>Most news sources behind <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> are English-language as well. That newsroom does not feed the score, but it shapes which stories sit next to it.</p>
 
-<h2 id="skew">What that skews</h2>
+<h2 id="skew">What does that skew?</h2>
 <ul>
 <li><b>Timing.</b> A launch, rule or funding round outside the English-speaking web reaches our inputs late, when English coverage catches up, or never. The score can lag real events by days.</li>
 <li><b>Size.</b> Activity is measured against each source's own history, so a source that systematically misses one region also has a quieter baseline. The bias is consistent rather than random, which keeps hour-to-hour moves meaningful but means the level reads "how busy is the English-speaking AI world".</li>
@@ -464,12 +509,12 @@ export function biasPage(ctx) {
 <li><b>Attention.</b> A story that is huge in Seoul or São Paulo and ignored on Hacker News does not exist as far as this pillar knows.</li>
 </ul>
 
-<h2 id="candidates">Sources under consideration</h2>
+<h2 id="candidates">Which sources are under consideration?</h2>
 <p>Each candidate has to meet the same bar as today's inputs: public, free to read without a private agreement, machine-readable, with enough history to build a reference year, and licensed so the counts can be republished with receipts. Anyone has to be able to recompute the number.</p>
 <div class="xt-grid">${candidates}</div>
 <p>A new source never goes straight into the score. It is collected and published as an <b>uncalibrated</b> signal first, then run as a shadow score beside the official one, and promoted only under the published rule on <a href="${esc(ctx.href('/reference-plan.html'))}">How does the ${esc(brand.NAME)} baseline get updated?</a>.</p>
 
-<h2 id="propose">Propose a source</h2>
+<h2 id="propose">How do I propose a source?</h2>
 <p>Know a public, non-English or non-Western dataset that counts AI activity? Send it through the <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a> form with a link to its API or download, how far back it goes, and its licence. The more of those three you can answer, the faster it can be tested.</p>
 <section class="xt-faq" aria-labelledby="faq">
   <h2 id="faq">Questions people actually ask</h2>
