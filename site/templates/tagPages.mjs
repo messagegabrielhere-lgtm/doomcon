@@ -1650,6 +1650,30 @@ export const TOPIC_DEFS = Object.freeze([
     description: '3D assets, worlds, and graphics research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b3D\b/,
   },
+  {
+    id: 'personalization',
+    name: 'AI personalization',
+    description: 'Personalization research stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\b[Pp]ersonalization\b/i,
+  },
+  {
+    id: 'pruning',
+    name: 'Model pruning',
+    description: 'Pruning and sparse-inference research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Pp]runing\b/i,
+  },
+  {
+    id: 'steering',
+    name: 'AI steering',
+    description: 'Activation-steering and controllable-generation research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Ss]teering\b/i,
+  },
+  {
+    id: 'prefill',
+    name: 'LLM prefill',
+    description: 'Prefill/decode serving research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Pp]refill\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

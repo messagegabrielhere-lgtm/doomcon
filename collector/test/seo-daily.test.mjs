@@ -63,6 +63,10 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/tags/counterfactual.html'));
     assert.ok(OUR_SURFACES.includes('/tags/retrieval.html'));
     assert.ok(OUR_SURFACES.includes('/tags/3d.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/personalization.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/pruning.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/steering.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/prefill.html'));
     assert.ok(OUR_SURFACES.includes('/jobs.html'));
     assert.ok(OUR_SURFACES.includes('/medicine.html'));
   });
