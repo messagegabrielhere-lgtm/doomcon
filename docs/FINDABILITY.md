@@ -638,6 +638,8 @@ context.
 | 386 | `/digest.html` per-lab H3s + FAQPage use questions (was bare lab names); Organization `knowsAbout` mirrors those questions; refuse digest-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 387 | `/news.html` incident-tier H3 + FAQPage use a question (was “Incident terms fired on N of M items”); Organization `knowsAbout` mirrors that question; refuse newsroom doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 388 | `/map.html` moves-panel H3 + FAQPage use a question (was “What moves between collects” without `?`); Organization `knowsAbout` mirrors that question; refuse map-as-draw / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 389 | `/exploits.html` backfill-window H3 + FAQPage use a question (was “What CISA was actually cataloguing…” without `?`); Organization `knowsAbout` mirrors that question; refuse exploit-lag doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 390 | `/si-ready.html` + `/ai-proof-job.html` quiz result-area H3s + FAQPage use questions (was bare area names); Organization `knowsAbout` mirrors those questions; refuse readiness-as-doom / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
