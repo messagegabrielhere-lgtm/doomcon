@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, it } from 'node:test';
@@ -107,6 +107,22 @@ describe('IndexNow', () => {
       assert.ok(urls.includes('https://siren.watch/item/old-b.html'));
       assert.ok(urls.includes('https://siren.watch/tags/agents.html'));
       assert.ok(urls.includes('https://siren.watch/lab/openai.html'));
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it('pings UTC day hubs from public/news/ even without a sitemap', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'siren-indexnow-days-'));
+    try {
+      mkdirSync(join(dir, 'news'));
+      writeFileSync(join(dir, 'news', '2026-10-12.html'), '<html></html>');
+      writeFileSync(join(dir, 'news', '2026-10-14.html'), '<html></html>');
+      writeFileSync(join(dir, 'news', 'readme.txt'), 'ignore');
+      const urls = defaultUrlList({ outDir: dir });
+      assert.ok(urls.includes('https://siren.watch/news/2026-10-14.html'));
+      assert.ok(urls.includes('https://siren.watch/news/2026-10-12.html'));
+      assert.ok(urls.includes('https://siren.watch/source/arxiv-newest.html'));
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-14T17:07Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
+**Measured:** 2026-10-14T17:26Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
 Companion to `docs/COMPETITIVE.md` (Sept inventory) and `docs/FINDABILITY.md`
 (our playbook).
 
@@ -19,17 +19,17 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 |---|---:|---|---|---|---|---|
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,244** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
-| **pizzint.watch** | **1,018** | **14** (flaps empty↔thin) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **697** live → **~6,002** local Ready (`seo-daily` 2026-10-14T17:07Z; `deploy-pending-url-lead` until merge — clears DoomBench 2090 / Skynet 1244 / pizzint 1018) | **150** local news-sitemap cap (100 live until deploy) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + `/companies.html` `/models.html` `/tags/*` `/kind/*` `/outlet/*` `/people/*` `/model/*` `/lab/*` + `/guides.html` `/vs.html` + day hubs; IndexNow ALWAYS rooms + sitemap facet/archive sample | **yes** |
+| **pizzint.watch** | **1,018** | **0** (empty again; flaps empty↔thin) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
+| **siren.watch** | **697** live → **~6,016** local Ready (`seo-daily` 2026-10-14T17:26Z; `deploy-pending-url-lead` until merge — clears DoomBench 2090 / Skynet 1244 / pizzint 1018) | **150** local news-sitemap cap (100 live until deploy); `google-news-open` while pizzint is empty | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + `/companies.html` `/models.html` `/tags/*` `/kind/*` `/outlet/*` `/people/*` `/model/*` `/lab/*` + `/guides.html` `/vs.html` + day hubs; IndexNow ALWAYS + day-hub disk ping + sitemap facet/archive sample | **yes** |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
 ### Resolved from COMPETITIVE.md §0.1
 
-pizzint’s `/news-sitemap.xml` flaps between empty and a thin rolling set
-(**14** `<loc>` at 2026-10-14T17:07Z). Their ordinary sitemap still rolls.
-Google News is **contested when it wakes**; URL count + title hijack + brief
-schema remain their main organic levers. Keep our rolling news-sitemap full
+pizzint’s `/news-sitemap.xml` is **empty** again at 2026-10-14T17:26Z (was
+**14** earlier the same day). Their ordinary sitemap still rolls. Google News
+is **open for us while they sleep**; URL count + title hijack + brief schema
+remain their main ordinary-search levers. Keep our rolling news-sitemap full
 and keyword-rich (local cap 150).
 
 ---

@@ -9,7 +9,7 @@
 // Key file is published at /{KEY}.txt by site/build.mjs. Failures are
 // non-fatal: a search-engine outage must not red the collect job.
 
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -272,6 +272,23 @@ const ALWAYS = Object.freeze([
   '/source/techcrunch-ai.html',
   '/source/techmeme.html',
   '/source/wires-ai.html',
+  // FINDABILITY #48/#49: archive-widened feed adapters — Bing path after deploy.
+  '/source/arxiv-newest.html',
+  '/source/verge-ai.html',
+  '/source/reddit-openai.html',
+  '/source/arstechnica-ai.html',
+  '/source/openai.html',
+  '/source/mit-news-ai.html',
+  '/source/huggingface-blog.html',
+  '/source/wired-ai.html',
+  '/source/bbc-tech.html',
+  '/source/hf-trending-models.html',
+  '/source/latent-space.html',
+  '/source/reddit-technology.html',
+  '/source/nvidia-blog.html',
+  '/source/deepmind.html',
+  '/source/anthropic-status.html',
+  '/source/simon-willison.html',
   '/tags/chatbots.html',
   '/tags/cybersecurity.html',
   '/tags/frontier-models.html',
@@ -303,6 +320,22 @@ export function locsFromSitemap(xml, cap = 80) {
   return out;
 }
 
+/** Newest UTC day hubs built under public/news/ (Skynet freshness signal). */
+export function dayHubPathsFromOutDir(outDir, cap = 30) {
+  const newsDir = join(outDir, 'news');
+  if (!existsSync(newsDir)) return [];
+  try {
+    return readdirSync(newsDir)
+      .filter((f) => /^\d{4}-\d{2}-\d{2}\.html$/.test(f))
+      .sort()
+      .reverse()
+      .slice(0, cap)
+      .map((f) => `/news/${f}`);
+  } catch {
+    return [];
+  }
+}
+
 export function defaultUrlList({ outDir = join(ROOT, 'public') } = {}) {
   const urls = ALWAYS.map(abs);
   const newsPath = join(outDir, 'news-sitemap.xml');
@@ -311,6 +344,9 @@ export function defaultUrlList({ outDir = join(ROOT, 'public') } = {}) {
       urls.push(...locsFromSitemap(readFileSync(newsPath, 'utf8'), 100));
     } catch { /* publish without a news sitemap is fine */ }
   }
+  // Preferential: UTC day hubs on disk (FINDABILITY #49) — Bing learns Skynet-shaped
+  // freshness landings even when sitemap.xml is not yet rebuilt in this tree.
+  urls.push(...dayHubPathsFromOutDir(outDir, 30).map(abs));
   // Sample the ordinary sitemap so archived /item/* and new facets get
   // notified without submitting every Ready URL every hour (tip #45).
   const smPath = join(outDir, 'sitemap.xml');

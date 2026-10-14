@@ -279,6 +279,7 @@ context.
 | 46 | `seo-daily`: monitor live rooms; collapse undeployed surface-404 flood into `surfaces-awaiting-deploy` while `deploy-pending-url-lead`; decode rival title entities | Daily agent | **Done** (2026-10-14) |
 | 47 | Pillar/lab pages list older archive stories + word-bound lab matching (FAQ/H2 mirrored); **live-window index gates unchanged** while deploy-pending | Google | **Done** (2026-10-14) |
 | 48 | `/source/*` durable gate: live + archive story count (same as tags/kinds/outlets/models) — ~+16 feed-adapter hubs when archive fills thin adapters | Google | **Done** (2026-10-14) |
+| 49 | IndexNow ALWAYS covers #48 archive-widened `/source/*` hubs + `defaultUrlList` pings UTC `/news/YYYY-MM-DD` day hubs from disk; `seo-daily` `google-news-open` while pizzint news-sitemap is empty | Bing + Google News | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

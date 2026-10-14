@@ -437,6 +437,15 @@ export function deriveGaps(report) {
         text: `pizzint news-sitemap has ${s.news_sitemap_urls} URLs again — Google News is contested; keep our rolling news-sitemap full and keyword-rich`,
       });
     }
+    if (s.id === 'pizzint'
+      && (s.news_sitemap_urls === 0 || s.news_sitemap_urls == null)
+      && ours.news_sitemap_urls > 0) {
+      gaps.push({
+        id: 'google-news-open',
+        severity: 'medium',
+        text: `pizzint news-sitemap is empty while ours has ${ours.news_sitemap_urls} <loc> (local cap 150) — hold the Google News lane; keep the rolling window full and keyword-rich`,
+      });
+    }
   }
 
   const coreLive = new Set(CORE_LIVE_SURFACES);
@@ -711,6 +720,27 @@ function selftest() {
   if (deployIds.has('surface-/companies.html')) throw new Error('surface flood should yield to deploy-pending');
   if (!OUR_SURFACES.includes('/methodology.html') || !OUR_SURFACES.includes('/news.html')) {
     throw new Error('OUR_SURFACES missing live rooms');
+  }
+  // pizzint news empty + our news alive → hold the Google News lane (FINDABILITY #49).
+  const openNewsGaps = deriveGaps({
+    ...report,
+    sites: [
+      {
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 700, news_sitemap_urls: 100, schema_types: ['WebSite'],
+      },
+      {
+        id: 'pizzint', name: 'pizzint', ours: false, ok: true,
+        title: 'x', sitemap_urls: 1000, news_sitemap_urls: 0, schema_types: [],
+      },
+    ],
+    local_ready: null,
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!openNewsGaps.some((g) => g.id === 'google-news-open')) {
+    throw new Error(`google-news-open gap missing: ${openNewsGaps.map((g) => g.id)}`);
   }
 
   const md = formatMarkdown({
