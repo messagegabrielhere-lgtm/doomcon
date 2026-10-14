@@ -41,6 +41,8 @@ import * as moltbookPage from './templates/moltbookPage.mjs';
 import * as evolutionPage from './templates/evolutionPage.mjs';
 import * as livePage from './templates/livePage.mjs';
 import * as siWatchPage from './templates/siWatchPage.mjs';
+import * as searchTrendsPage from './templates/searchTrendsPage.mjs';
+import * as aiPredictionMarketsPage from './templates/aiPredictionMarketsPage.mjs';
 import * as wafflePage from './templates/wafflePage.mjs';
 import * as statusPage from './templates/statusPage.mjs';
 import * as selfAwarePage from './templates/selfAwarePage.mjs';
@@ -1645,6 +1647,12 @@ async function main() {
     try { sh = (await readFile(path.join(args.data, 'si-signals-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { sh = []; }
     written.push(await write(args.out, 'si-watch.html', siWatchPage.render(ctx, sig, sh)));
     if (sig) written.push(await write(args.out, 'api/si-signals.json', JSON.stringify(sig, null, 2) + '\n'));
+    let trends = null, th = [];
+    try { trends = JSON.parse(await readFile(path.join(args.data, 'search-trends.json'), 'utf8')); } catch { trends = null; }
+    try { th = (await readFile(path.join(args.data, 'search-trends-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { th = []; }
+    written.push(await write(args.out, 'search-trends.html', searchTrendsPage.render(ctx, trends, th)));
+    if (trends) written.push(await write(args.out, 'api/search-trends.json', JSON.stringify(trends, null, 2) + '\n'));
+    written.push(await write(args.out, 'ai-prediction-markets.html', aiPredictionMarketsPage.render(ctx, ctx.race)));
   }
   written.push(await write(args.out, 'bug-out-land.html', agentPages.land(ctx)));
   // skill.md (+ discovery mirrors) is written in writeAgentText so the news

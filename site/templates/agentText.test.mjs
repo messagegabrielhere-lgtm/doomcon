@@ -123,8 +123,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(lines[2], /^> /);
   assert.ok(lines.length < 240, `${lines.length} lines`);
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
-    '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
-    '/methodology.md', '/guide.md', '/agents.md', '/agents.txt', '/.well-known/api-catalog', '/compare.html', '/alternatives.html']) {
+    '/api/si-signals.json', '/api/search-trends.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
+    '/methodology.md', '/guide.md', '/agents.md', '/agents.txt', '/.well-known/api-catalog', '/compare.html', '/alternatives.html',
+    '/search-trends.html', '/ai-prediction-markets.html']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.ok(txt.includes(dispatchFeedUrl()));

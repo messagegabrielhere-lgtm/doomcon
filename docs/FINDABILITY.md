@@ -227,6 +227,22 @@ context.
 - [ ] Spot-check: ask ChatGPT / Perplexity / Claude "What is SIREN / DOOMCON AI index right now?" and "Is there an AI doomsday clock?" — record whether they cite us, and which URL.
 - [ ] Register the site in Google Merchant / News only if we ship a real news sitemap with dated `NewsArticle` pages — not before.
 
+### 3.1a Google Search Trends watch (shipping)
+
+`collector/search-trends.mjs` reads Google’s public Trending Now RSS (US + GB),
+filters for AI, and checks a frozen head-term watchlist (prediction markets,
+doom clock, p(doom), lab names, brand). Output: `data/search-trends.json`,
+`/search-trends.html`, `/api/search-trends.json`. **Watched, not scored** —
+same posture as Takeover Watch. Interest-over-time still comes from Wikipedia
+pageviews in the attention pillar; Trends explore has no stable keyless API.
+
+Companion evergreen: `/ai-prediction-markets.html` answers the “AI prediction
+markets” head term honestly (live odds on The Race; SIREN is not a forecast).
+
+Brand queries with **zero crawlable pages** (example from ops: “ai prediction
+mintieo”) will not rank. Google needs an indexed URL that answers the query —
+Trends monitoring alone does not create one.
+
 ### 3.2 Engineering, ranked by expected findability per unit of work
 
 | # | Change | Channel | Status |

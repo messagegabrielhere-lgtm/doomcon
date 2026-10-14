@@ -95,6 +95,7 @@ const DATA = {
   'api/bets.json': ['Tally’s bets (JSON)', 'Daily forecasts and how they scored.'],
   'api/live-media.json': ['AI on TV & radio (JSON)', 'Live AI broadcasts, AI segments from news channels and AI podcast episodes.'],
   'api/si-signals.json': ['Takeover signals (JSON)', 'AI agent PRs, frontier models, the AGI forecast.'],
+  'api/search-trends.json': ['Search Trends (JSON)', 'Google daily trending searches filtered for AI.'],
   'api/guide.json': ['Room guide (JSON)', 'Every room with its pitch, for agents.'],
   'api/search-index.json': ['Search index (JSON)', 'This catalog and the site’s content, packed for search.'],
   'api/receipts/index.json': ['Receipts index (JSON)', 'Every receipt id, newest first.'],
