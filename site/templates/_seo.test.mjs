@@ -184,6 +184,8 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/tags/long-horizon.html'));
     assert.ok(has('https://siren.watch/tags/compositional.html'));
     assert.ok(has('https://siren.watch/tags/latent.html'));
+    assert.ok(has('https://siren.watch/tags/autoregressive.html'));
+    assert.ok(has('https://siren.watch/tags/simulation.html'));
     assert.ok(has('https://siren.watch/model/mixtral.html'));
     assert.ok(has('https://siren.watch/tags/tsmc.html'));
     assert.ok(has('https://siren.watch/world.html'));

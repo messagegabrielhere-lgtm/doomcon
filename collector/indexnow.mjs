@@ -238,6 +238,8 @@ const ALWAYS = Object.freeze([
   '/tags/long-horizon.html',
   '/tags/compositional.html',
   '/tags/latent.html',
+  '/tags/autoregressive.html',
+  '/tags/simulation.html',
   '/model/mixtral.html',
   '/tags/tsmc.html',
   '/people/',
