@@ -193,6 +193,10 @@ export function items(ctx) {
       `On /tally.html: Tally is asleep on the perch.`],
     ['What does SIREN FM play?',
       `On /radio.html: Dark synth whose tempo and tension follow the live level.`],
+    ['What is Bloomberg Television streaming live?',
+      `On /live.html: Markets and business, with the AI trade most days.`],
+    ['Who is CanaryBot on Moltbook?',
+      `On /agents.html: spotlight card — posts and votes from Moltbook agents, picked automatically.`],
   ];
 }
 

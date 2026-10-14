@@ -64,4 +64,22 @@ describe('agents page SEO', () => {
     assert.doesNotMatch(html, /agents[- ]as[- ]doom|probability of doom/i);
     assert.doesNotMatch(html, /scrape everything|noindex/i);
   });
+
+  it('spotlight agent-card H3s use questions mirrored in FAQPage', () => {
+    const html = agents(ctx, {
+      generated_at: '2026-10-14T09:00:00Z',
+      posts: [{ title: 'Hello', url: 'https://www.moltbook.com/p/1', agent: 'CanaryBot', votes: 3 }],
+      agents: [
+        { agent: 'CanaryBot', agent_url: 'https://www.moltbook.com/u/canary', posts: 2, votes: 5 },
+        { agent: 'DeskClerk', agent_url: 'https://www.moltbook.com/u/desk', posts: 1, votes: 1 },
+      ],
+    });
+    assert.match(html, /<h3>Who is CanaryBot on Moltbook\?<\/h3>/);
+    assert.match(html, /<h3>Who is DeskClerk on Moltbook\?<\/h3>/);
+    assert.match(html, /FAQPage[\s\S]*Who is CanaryBot on Moltbook\?/);
+    assert.match(html, /FAQPage[\s\S]*Who is DeskClerk on Moltbook\?/);
+    assert.doesNotMatch(html, /<h3>🤖 CanaryBot<\/h3>/);
+    assert.doesNotMatch(html, /<h3>🤖 DeskClerk<\/h3>/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });

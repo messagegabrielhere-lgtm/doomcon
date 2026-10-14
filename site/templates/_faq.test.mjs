@@ -168,6 +168,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'Which rooms and pages are in the catalog?'));
     assert.ok(qa.some(([q]) => q === 'What does Tally look like at SIREN 5?'));
     assert.ok(qa.some(([q]) => q === 'What does SIREN FM play?'));
+    assert.ok(qa.some(([q]) => q === 'What is Bloomberg Television streaming live?'));
+    assert.ok(qa.some(([q]) => q === 'Who is CanaryBot on Moltbook?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -228,6 +230,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /Which rooms and pages are in the catalog\?/);
     assert.match(html, /What does Tally look like at SIREN 5\?/);
     assert.match(html, /What does SIREN FM play\?/);
+    assert.match(html, /What is Bloomberg Television streaming live\?/);
+    assert.match(html, /Who is CanaryBot on Moltbook\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

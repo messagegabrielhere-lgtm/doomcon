@@ -60,8 +60,8 @@ const CSS = `<style>
 .lv-247{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:10px;margin:10px 0}
 .lv-247 a{display:block;padding:12px 14px;border:1px solid var(--rule);border-radius:6px;background:var(--bg-raised,#0E131D);text-decoration:none;color:var(--ink)}
 .lv-247 a:hover,.lv-247 a:focus-visible{border-color:#F87171}
-.lv-247 b{display:block;font:700 14px/1.3 var(--sans)}
-.lv-247 b::before{content:"● ";color:#F87171}
+.lv-247 h3{display:block;margin:0;font:700 14px/1.3 var(--sans);color:var(--ink)}
+.lv-247 h3::before{content:"● ";color:#F87171}
 .lv-247 span{display:block;font-size:13px;color:var(--ink-dim);margin-top:4px}
 .lv-radio{border:1px solid var(--rule);border-radius:6px;background:#000;padding:14px;margin:10px 0}
 .lv-now{display:flex;gap:12px;align-items:center;min-width:0}
@@ -130,10 +130,19 @@ function liveSection(ctx, live) {
   return `<h2 id="live-now">${esc(liveNowQ)}</h2><p class="lv-upd">${upd}</p>${body}`;
 }
 
+/** Tip #371: 24/7 channel-card H3s are question-shaped (mirrored in FAQ §3.3). */
+function channelQ(name) {
+  return `What is ${name} streaming live?`;
+}
+
+function newsRows(list) {
+  return (list && list.length ? list : NEWS_247).filter((c) => /^UC[\w-]{22}$/.test(c.id));
+}
+
 function newsSection(list) {
-  const rows = (list && list.length ? list : NEWS_247).filter((c) => /^UC[\w-]{22}$/.test(c.id));
+  const rows = newsRows(list);
   return `<h2 id="news-247">${esc(news247Q)}</h2><p class="lv-upd">ALWAYS ON · OPENS ON YOUTUBE</p>
-  <div class="lv-247">${rows.map((c) => `<a href="https://www.youtube.com/channel/${esc(c.id)}/live" target="_blank" rel="noopener"><b>${esc(c.name)} ↗</b><span>${esc(c.blurb || '')}</span></a>`).join('')}</div>
+  <div class="lv-247">${rows.map((c) => `<a href="https://www.youtube.com/channel/${esc(c.id)}/live" target="_blank" rel="noopener" aria-label="${esc(c.name)}"><h3>${esc(channelQ(c.name))}</h3><span>${esc(c.blurb || '')}</span></a>`).join('')}</div>
   <p class="lv-note">Each link opens whatever that channel is streaming live right now. General news, not only AI.</p>`;
 }
 
@@ -217,6 +226,8 @@ export function render(ctx, data) {
       `${brand.NAME} picks nothing by hand and endorses nothing here: it is a filtered list of what is on.`],
     ['Where else is live AI on SIREN?',
       `More live AI: Where are live X feeds and Spaces on AI?; Where can you find real clips of AI leaders?; Which AI stories has ${brand.NAME} scored in this window?`],
+    // Tip #371: 24/7 channel-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...newsRows(d.news_247).map((c) => [channelQ(c.name), c.blurb || 'Always on; opens on YouTube.']),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
