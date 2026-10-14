@@ -19,18 +19,19 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 |---|---:|---|---|---|---|---|
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,245** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
-| **pizzint.watch** | **1,018** | **14** (`pizzint-news-alive` again) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **6,246** live (clears DoomBench 2090 / Skynet 1245 / pizzint 1018) | **200** news-sitemap (contested vs pizzint 14; keep keyword-rich) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + day hubs + `/verify.html` + `/free-tools.html` | **yes** |
+| **pizzint.watch** | **1,018** | **0** (`google-news-open` / flaps) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
+| **siren.watch** | **6,246** live (clears DoomBench 2090 / Skynet 1245 / pizzint 1018) | **200** news-sitemap (`google-news-open` while pizzint empty; keep keyword-rich) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + day hubs + `/verify.html` + `/free-tools.html` | **yes** |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
 ### Resolved from COMPETITIVE.md §0.1
 
-pizzint’s `/news-sitemap.xml` is **alive again** at 2026-10-14T22:12Z with
-**14** URLs (flaps empty↔thin). Google News is **contested**; keep our rolling
-news-sitemap full and keyword-rich (local cap **200**; head terms before
-topic/pillar slugs). Outrank-style free-tool URLs (`/verify.html`,
-`/free-tools.html`) are the next citation/LLM-mention lever beyond URL count.
+pizzint’s `/news-sitemap.xml` **flaps** empty↔thin (empty again at 2026-10-14T22:57Z;
+was 14 earlier). Google News stays **contested**; keep our rolling news-sitemap
+full and keyword-rich (local cap **200**; head terms before topic/pillar slugs).
+Outrank free-tool URLs (`/verify.html`, `/free-tools.html`) plus `robots.txt` /
+`agents.txt` / OpenAPI discovery tips are the citation/LLM-mention lever beyond
+URL count.
 
 ---
 
