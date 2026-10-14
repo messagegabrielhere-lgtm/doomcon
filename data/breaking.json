@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-14T17:54:14.070Z",
+  "generated_at": "2026-10-14T18:14:16.997Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 10,
+  "live": 11,
   "fresh": "b8c39013b03cf",
   "clusters": [
     {
@@ -152,6 +152,7 @@
       "outlets": [
         "bloomberg.com",
         "cnbc.com",
+        "cryptobriefing.com",
         "datacenterdynamics.com",
         "qz.com",
         "yahoo.com"
@@ -160,7 +161,7 @@
         "bloomberg.com",
         "cnbc.com"
       ],
-      "corroboration": 5,
+      "corroboration": 6,
       "sources": [
         "bloomberg-tech",
         "bluesky-ai",
@@ -257,6 +258,14 @@
           "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9HQWxERzdXeDdYbTk1eXJwU2xNaUM5b2Y5aDVWeVIyTVdfLUxfNEtGYUVlU0tUeFN1WnhRNXVDYU1pNUdWOXBnQ1p3MnBVbVNVeWUzTUplOGRLV0dFQ0xaNnhmVTU4N3IyWWFQTXlIYjROMnM?oc=5",
           "published_at": "2026-10-14T17:25:36.000Z",
           "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "cryptobriefing.com",
+          "title": "OpenAI’s Sachin Katti steps back from infrastructure role, stays on as advisor",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE95aExleXFVMVZLekNYUXNSVHlpLTE5QnRDWWh3elVTWHhzR0xTNE9nSXJJRXEydEdPSWZMNTh4N2JlMHoxOVFDSGhVRnAweDlhdUhNRzNCWVVaTnhEOG56bllzdTVfN1g1dWhVZ0hNT0dVRjhlNTZ2S2dR?oc=5",
+          "published_at": "2026-10-14T17:42:32.742Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -279,8 +288,7 @@
       "sources": [
         "bluesky-ai",
         "gnews-ai",
-        "mit-news-ai",
-        "verge-ai"
+        "mit-news-ai"
       ],
       "rule": [
         "two outlets within 20 min",
@@ -303,14 +311,6 @@
           "url": "https://news.mit.edu/2026/researchers-improve-weather-forecasts-looking-two-six-weeks-out-1014",
           "published_at": "2026-10-14T15:00:00.000Z",
           "tier1": false
-        },
-        {
-          "source": "verge-ai",
-          "outlet": "theverge.com",
-          "title": "Microsoft has a new machine learning tool to improve weather forecasts",
-          "url": "https://theverge.com/science/1011127/ai-weather-forecast-microsoft",
-          "published_at": "2026-10-14T16:05:21.000Z",
-          "tier1": true
         },
         {
           "source": "bluesky-ai",
@@ -483,31 +483,38 @@
     },
     {
       "id": "b43c6c68a8065",
-      "title": "Nvidia, worth $5.5tn, donates $250m to UK for AI safety research",
-      "url": "https://theguardian.com/technology/2026/oct/14/nvidia-donates-to-uk-ai-safety-research",
-      "source": "guardian-ai",
-      "outlet": "theguardian.com",
+      "title": "Nvidia CEO Says He Would Cut Off Customers Who Build Unsafe AI",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOSnhxakNaMklvT25NQjFreTNHYVhMME45SHh4QkhBSGhVNFlPUFFCTmNyaGhYWFJobXZSMFZSUGtlUE5JNkxicGNhOVIzUkowVFo1UjlfZmliN2lFVmlJVDN6UGNUMFhDN0twbnJ6ejdpU19xQ01jSUR5Y3lnWnkxM0pUdGVDQnNiNFdkenE2dG9Zcm1DakdFUUdnbFZqTXc4TVR1c2hHX0hWV2I3aGFFcmhTcw?oc=5",
+      "source": "wires-ai",
+      "outlet": "bloomberg.com",
       "outlets": [
-        "lemonde.fr",
+        "bloomberg.com",
+        "fortune.com",
         "medicaldevice-network.com",
-        "pharmtech.com"
+        "qz.com"
       ],
-      "tier1_outlets": [],
-      "corroboration": 3,
+      "tier1_outlets": [
+        "bloomberg.com"
+      ],
+      "corroboration": 4,
       "sources": [
-        "gnews-ai"
+        "bloomberg-tech",
+        "gnews-ai",
+        "wires-ai"
       ],
       "rule": [
-        "two outlets within 20 min"
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-14T15:14:35.000Z",
+      "earliest_published_at": "2026-10-14T15:52:22.000Z",
       "first_seen_at": "2026-10-14T06:29:32.444Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-10-14T15:31:20.453Z",
       "item_ids": [
-        "184c8e2959b77923",
-        "2199a6271ce2f196",
+        "05d76df97f1c99b4",
+        "065a1613beb409db",
+        "2e628ae44f935c02",
         "30f6cbd45dfa74c8",
         "4396c4b347c1dbe4",
         "b9459727e28a2545",
@@ -516,30 +523,46 @@
       "sightings": [
         {
           "source": "gnews-ai",
-          "outlet": "pharmtech.com",
-          "title": "NVIDIA’s $250M Agentic AI Safety Bet: What GMP Gains",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOajVaSVQzMEFVUFlTbEN2RVlLaDlwR1loRzBwOG1yaHBtTHRVcGhGMk9feXJZWUJ0SzlEZVlNZnExUHBIX0JqMUZ1dmdha1FpYkVOY2ZnV0Y5NlB1aktqQzVoaF9rTDFNNU1UVU5weG81c1RkcFhYTTJFNU5NNFNfeGVYTUo3VVI1?oc=5",
-          "published_at": "2026-10-14T15:14:35.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "lemonde.fr",
-          "title": "Nvidia CEO Jensen Huang 'optimistic' on AI risks, sovereignty and jobs",
-          "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPeVNuZndDRk9kcGNna2F1Q3hqeTJMQUdqekJYSGFrMmtxWDhka1BEU3BPd2hldV9HdkwwX0ZwSFhGdTI1bjl5V3FrQTVQT1lRZWp2UjhRblNKbWVCODJjQlBSTGhWYXJaRWVNaUJnTWMyUzRXYWNSX0F2cmk5OUFGNzRCRU9UbVdqSVlrWENNNGxxX05hQXFWa2k2M1A2Y3VxWnBpTVZBYm94WTh4ZFVFQkRqMW91cXh5ZHNoX2cxbUJQem5GbzhZR3YyQmdjRHNnQnc?oc=5",
-          "published_at": "2026-10-14T15:29:53.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
           "outlet": "medicaldevice-network.com",
           "title": "NVIDIA donates $250m to support UK’s AI research and security",
           "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPMjEyVGRGWVhUeEhTaWFKRFQyNWxXY1NJNXpoQzE0VlhQcnhLV2VsUlJudk50bGFaWFUzNnYtYVB4WGg0ZG9kR0JsdmhMUldJYlBwNVlkbG1ZcGk5M0kyd3BpTlpTaWhCUC1Za05wd3pFdWMyUEpHRTlHd2hZYkFNY3Q1TVF3NGo4SjMwRDR4VElMTE9jVm5XQU02M2hWZHB6ZDJIUw?oc=5",
           "published_at": "2026-10-14T15:52:22.000Z",
           "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "Nvidia CEO Says He Would Cut Off Customers Who Build Unsafe AI",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOSnhxakNaMklvT25NQjFreTNHYVhMME45SHh4QkhBSGhVNFlPUFFCTmNyaGhYWFJobXZSMFZSUGtlUE5JNkxicGNhOVIzUkowVFo1UjlfZmliN2lFVmlJVDN6UGNUMFhDN0twbnJ6ejdpU19xQ01jSUR5Y3lnWnkxM0pUdGVDQnNiNFdkenE2dG9Zcm1DakdFUUdnbFZqTXc4TVR1c2hHX0hWV2I3aGFFcmhTcw?oc=5",
+          "published_at": "2026-10-14T17:34:47.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bloomberg-tech",
+          "outlet": "bloomberg.com",
+          "title": "Nvidia CEO Says He Would Cut Off Customers Who Build Unsafe AI",
+          "url": "https://bloomberg.com/news/articles/2026-10-14/nvidia-ceo-says-he-would-cut-off-customers-who-build-unsafe-ai",
+          "published_at": "2026-10-14T17:34:47.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "fortune.com",
+          "title": "Nvidia’s Jensen Huang wants “no incidents” of AI cybersecurity, and says AI doomers “ought to stop working on” the technology",
+          "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOLVNXMEVqSGxEa1RhSEI0WjVxM3QtbE14ak1sOHFRWkk3aFd6MkxfNmFrcWdoZFVHVmR2dlNRY1RKbUY2Z21UZVg5ZXJuZUpZLUJ4bktaWl9XNGtSQ2NaQ3hIWUJxWGNZWThYaTcyQUp4b0VXaG1FcUh5eUI2YmtyWkxQSGc2NU51SmE1QVRSLUZMQVpNQjlqMy1jSm8tNUtrYmROQ1lPa2tFNGhWMjhtM0U2RHhUdHl5RFp6cGhIcWtSdUJSYmJlWGxRel8xeDBHQVNjelNyclk5NVdoVzgtTjB4YWhUcGJCbXc?oc=5",
+          "published_at": "2026-10-14T18:03:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "qz.com",
+          "title": "Nvidia CEO Jensen Huang would cut off unsafe AI developers",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9MYVBVdE5KUFNTZDFnZmE4YTMyZTFVYXdqdmczeDZHeHlOY2FuOGtNQXNfeUxlak9EODNYdE81TXFFNExZQXFZMng3ZkdmblZ5ZWpWLVlVTXltNVRJVGFucVNPYkRMLUdQbEhxNkFLZ3c1VVBXVzFWbA?oc=5",
+          "published_at": "2026-10-14T18:05:03.000Z",
+          "tier1": false
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "b52060aa49d72",
@@ -639,7 +662,7 @@
           "outlet": "inc.com",
           "title": "Anthropic Researchers Warn That Self-Replicating Worms Could Infest These Kinds of Smart Devices",
           "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQdlRTUmw5UGxockxBTndlemUtc016Tm5BTVRkQWZEOXZYczBPc2lfQ2J6c1hFVU5NcXVjQTFqQVVJX09CN2RPbUNzOTVsSXJtQ3dZOFRfS1ZDLUtTZFlSRE5INmNsREFfUy1qMHNPdUNQMGlNMUdkSnVRdEVIUWtyWGhvU1p5b3Y1XzBSQWNBdlZibVJGN214MjAxSV9JT3Z3QVZ4Q2NLalNWWEhjb1ZXOHpvRlN0ZDgydEVrR2k2eFprbXVIY3NIcjUxZS1pbTNk?oc=5",
-          "published_at": "2026-10-14T17:37:30.000Z",
+          "published_at": "2026-10-14T17:39:02.000Z",
           "tier1": false
         },
         {
@@ -1084,7 +1107,6 @@
         "hn-fresh-ai",
         "techmeme",
         "the-decoder",
-        "verge-ai",
         "wires-ai"
       ],
       "rule": [
@@ -1174,7 +1196,7 @@
           "tier1": true
         },
         {
-          "source": "gnews-ai",
+          "source": "wires-ai",
           "outlet": "wsj.com",
           "title": "OpenAI Engineer Allegedly Hid Toilet Paper-Wrapped Mic in Conference Room",
           "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPVlAtM0gxcXhQZndzdWNLb0IwZXZ2dVYwenVYbHlBSFBBd1dvc3JjZGdHQk43dnZLM2VicUNEMnZLYXczYWJLM3dHa1lIMlFlLWRINy13eFo4N3UwMmRHaFpkRmM3T2xqVDhuVUd6ZTNnVWJJZTlIQ1dmQUJkT1A1cEo0WWlhTGh1VnFVZU52Zkk?oc=5",
@@ -1198,19 +1220,19 @@
           "tier1": true
         },
         {
-          "source": "verge-ai",
-          "outlet": "theverge.com",
-          "title": "OpenAI claims an ex-employee took its product plans and presented them to Apple",
-          "url": "https://theverge.com/ai-artificial-intelligence/1011276/openai-employee-unreleased-product-plans",
-          "published_at": "2026-10-14T16:43:24.000Z",
-          "tier1": true
-        },
-        {
           "source": "bluesky-ai",
           "outlet": "arstechnica.com",
           "title": "FBI arrests OpenAI engineer suspected of planting bug in conference room",
           "url": "https://bsky.app/profile/arstechnica.com/post/3mxtykwdddx2a",
           "published_at": "2026-10-14T16:43:33.354Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "theverge.com",
+          "title": "OpenAI claims an ex-employee took its product plans and presented them to Apple",
+          "url": "https://bsky.app/profile/theverge.com/post/3mxtzqmzpyo2w",
+          "published_at": "2026-10-14T17:04:37.877Z",
           "tier1": true
         }
       ],
