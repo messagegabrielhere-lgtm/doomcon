@@ -17,7 +17,16 @@
 //   (a) two INDEPENDENT outlets carried it within 20 minutes of each other, or
 //   (b) a TIER-ONE outlet (a lab's own channel, or a Reuters/AP/Bloomberg/BBC/
 //       NYT/Verge/TechCrunch-class newsroom) carried it, plus one more
-//       independent outlet at any point in the window.
+//       independent outlet at any point in the window, or
+//   (c) a TIER-ONE outlet carried a headline with a strong escalation signal
+//       (rogue / escaped / containment / self-replication — the same published
+//       vocabulary as collector/news-stories.mjs), and SIREN first saw that
+//       item inside the window. One outlet is enough: these are the "something
+//       got out" claims that should not wait for a second desk. The clock for
+//       (c) is first_seen_at, so a delayed RSS row still trips on scrape; the
+//       outlet's published_at may sit hours earlier. Headlines older than 24h
+//       when first seen stay out (backfill). Ordinary tier-one stories still
+//       need (a) or (b).
 //
 // "Independent" means a different publisher, not a different feed: outlets
 // are registrable domains (the OpenAI blog and the OpenAI status page are one
@@ -37,9 +46,10 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { registrableDomain, isTier1, TIER1_OUTLETS } from './news-sources/_outlets.mjs';
+import { hasStrongSignal } from './news-stories.mjs';
 
 export const BREAKING_RULES = Object.freeze({
-  VERSION: '1.0.0',
+  VERSION: '1.1.0',
   WINDOW_HOURS: 6,
   PAIR_MINUTES: 20,
   KEEP: 30,
@@ -48,6 +58,9 @@ export const BREAKING_RULES = Object.freeze({
   MAX_SAMPLE_HOURS: 24,
   SEEN_TTL_DAYS: 8,
 });
+
+/** Rule label when a tier-one desk prints an escalation-signal headline. */
+export const ESCALATION_RULE = 'tier-one escalation signal';
 
 const DATA = new URL('../data/', import.meta.url);
 const BREAKING_URL = new URL('breaking.json', DATA);
@@ -125,6 +138,39 @@ export function clusterItems(items) {
 }
 
 /**
+ * Tier-one items in this cluster whose titles carry a strong escalation signal
+ * and that SIREN first saw inside the breaking window. Uses first_seen_at (not
+ * the outlet's published_at) so a delayed RSS row still trips the moment we
+ * read it — the "immediately" path for rogue / escaped / containment headlines.
+ * Headlines older than SPEED_WINDOW_HOURS when first seen stay out (backfill).
+ */
+export function escalationHits(clusterItemsList, nowMs, rules = BREAKING_RULES) {
+  const since = nowMs - rules.WINDOW_HOURS * 3_600_000;
+  const maxAge = rules.SPEED_WINDOW_HOURS * 3_600_000;
+  const hits = [];
+  for (const it of Array.isArray(clusterItemsList) ? clusterItemsList : []) {
+    if (!it || !hasStrongSignal(it) || it.meta?.unvetted) continue;
+    const seen = Date.parse(it.meta?.first_seen_at ?? '');
+    if (!Number.isFinite(seen) || seen < since || seen > nowMs + 10 * 60_000) continue;
+    const pub = Date.parse(it.published_at ?? it.meta?.corroboration?.primary_published_at ?? '');
+    if (Number.isFinite(pub) && nowMs - pub > maxAge) continue;
+    const outlet = outletOf({ source: it.source, url: it.url, outlet: it.meta?.outlet_domain });
+    if (!outlet || RELAYS.has(outlet) || !isTier1(outlet)) continue;
+    hits.push({
+      source: it.source,
+      url: it.url,
+      title: it.title,
+      published_at: it.published_at,
+      outlet,
+      unvetted: false,
+      t: Number.isFinite(pub) ? Math.min(pub, seen) : seen,
+      escalation: true,
+    });
+  }
+  return hits;
+}
+
+/**
  * Does this cluster meet the rule at `nowMs`? Pure.
  * Returns null when it does not, else the evidence.
  */
@@ -135,29 +181,45 @@ export function evaluateCluster(clusterItemsList, nowMs, rules = BREAKING_RULES)
     .filter((s) => s.outlet && s.t >= since && s.t <= nowMs + 10 * 60_000);
   // Only vetted publishers count toward the rule.
   const sightings = all.filter((s) => !s.unvetted && !RELAYS.has(s.outlet));
+  const escHits = escalationHits(clusterItemsList, nowMs, rules);
 
   const earliestByOutlet = new Map();
   for (const s of sightings) {
     const prev = earliestByOutlet.get(s.outlet);
     if (!prev || s.t < prev.t) earliestByOutlet.set(s.outlet, s);
   }
+  // Escalation sightings join the outlet map so a single delayed tier-one
+  // "rogue" row still produces a cluster record with a named outlet.
+  for (const s of escHits) {
+    const prev = earliestByOutlet.get(s.outlet);
+    if (!prev || s.t < prev.t) earliestByOutlet.set(s.outlet, s);
+  }
   const outlets = [...earliestByOutlet.keys()].sort();
-  if (outlets.length < 2) return null;
+  if (outlets.length < 1) return null;
 
   const pairMs = rules.PAIR_MINUTES * 60_000;
   let pair = null;
-  const sorted = sightings.slice().sort((a, b) => a.t - b.t || String(a.outlet).localeCompare(String(b.outlet)));
-  for (let i = 0; i < sorted.length && !pair; i++) {
-    for (let j = i + 1; j < sorted.length; j++) {
-      if (sorted[j].t - sorted[i].t > pairMs) break;
-      if (sorted[j].outlet !== sorted[i].outlet) { pair = [sorted[i], sorted[j]]; break; }
+  if (outlets.length >= 2) {
+    const sorted = sightings.slice().sort((a, b) => a.t - b.t || String(a.outlet).localeCompare(String(b.outlet)));
+    for (let i = 0; i < sorted.length && !pair; i++) {
+      for (let j = i + 1; j < sorted.length; j++) {
+        if (sorted[j].t - sorted[i].t > pairMs) break;
+        if (sorted[j].outlet !== sorted[i].outlet) { pair = [sorted[i], sorted[j]]; break; }
+      }
     }
   }
   const tier1 = outlets.filter(isTier1);
-  const rule = [pair ? `two outlets within ${rules.PAIR_MINUTES} min` : null, tier1.length ? 'tier-one outlet plus one more' : null].filter(Boolean);
+  const escalation = escHits.length > 0;
+  const rule = [
+    pair ? `two outlets within ${rules.PAIR_MINUTES} min` : null,
+    tier1.length && outlets.length >= 2 ? 'tier-one outlet plus one more' : null,
+    escalation ? ESCALATION_RULE : null,
+  ].filter(Boolean);
   if (!rule.length) return null;
-  const shown = all.slice().sort((a, b) => a.t - b.t || String(a.outlet).localeCompare(String(b.outlet)));
-  return { sightings: shown, outlets, tier1, rule, pair };
+  const shown = [...all, ...escHits.filter((s) => !all.some((a) => a.outlet === s.outlet && a.url === s.url))]
+    .slice()
+    .sort((a, b) => a.t - b.t || String(a.outlet).localeCompare(String(b.outlet)));
+  return { sightings: shown, outlets, tier1, rule, pair, escalation };
 }
 
 function hash(s, n = 12) {
@@ -370,8 +432,10 @@ export async function breakingPass({
       text:
         `BREAKING when, inside ${BREAKING_RULES.WINDOW_HOURS}h, two independent outlets carry one event within ` +
         `${BREAKING_RULES.PAIR_MINUTES} minutes of each other, or one tier-one outlet (a lab's own channel, or a ` +
-        'wire / paper-of-record / major tech desk) plus one more independent outlet. Outlets are publishers, not feeds; ' +
-        'unvetted social accounts never count, and relays (Techmeme, Hacker News, Reddit) are listed but not counted.',
+        'wire / paper-of-record / major tech desk) plus one more independent outlet, or one tier-one outlet alone when ' +
+        'the headline carries a strong escalation signal (rogue / escaped / containment / self-replication). ' +
+        'Outlets are publishers, not feeds; unvetted social accounts never count, and relays (Techmeme, Hacker News, ' +
+        'Reddit) are listed but not counted.',
       tier1_outlets: [...TIER1_OUTLETS].sort(),
       relays_not_counted: [...RELAYS].sort(),
     },
