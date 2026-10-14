@@ -710,7 +710,7 @@ export const TCLK_CSS = `
 function nowLine(ctx) {
   const st = ctx.state;
   return st && Number.isFinite(st.level)
-    ? `<p><b>Right now:</b> ${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}, composite ${esc(Number(st.score).toFixed(1))} of 100, observed ${esc(utc(st.generated_at))}. <a href="${esc(ctx.href('/'))}">See the live reading →</a></p>` : '';
+    ? `<p><b>Right now:</b> ${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}, composite ${esc(Number(st.score).toFixed(1))} of 100, observed ${esc(utc(st.generated_at))}. <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a></p>` : '';
 }
 
 export function pdoom(ctx) {
@@ -1315,7 +1315,7 @@ export function guides(ctx) {
     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
   <h2>Also</h2>
   <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a>
-     · <a href="${esc(ctx.href('/guides.md'))}">Markdown mirror →</a>
+     · <a href="${esc(ctx.href('/guides.md'))}">What are the AI explainers?</a>
      · <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a>
      · <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a></p>
 </section>`;

@@ -29,6 +29,14 @@ describe('videos page', () => {
     assert.ok(body, 'expected videos body before FAQ');
     assert.match(body[0], /href="\/radio\.html">What free music does SIREN Radio play\?<\/a>/);
     assert.match(body[0], /href="\/elon\.html">Where can you find real clips of AI leaders\?<\/a>/);
+    assert.match(body[0], /href="\/history\.html">What is the history of AI risk\? →<\/a>/);
+    assert.match(body[0], /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.match(body[0], /href="\/tally\.html">Who is Tally, the SIREN duty canary\? →<\/a>/);
+    assert.match(body[0], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology →<\/a>/);
+    assert.match(body[0], /href="\/si-ready\.html">Ready for superintelligence\? →<\/a>/);
+    assert.match(body[0], /href="\/ai-proof-job\.html">How do I AI-proof my job\? →<\/a>/);
+    assert.match(body[0], /href="\/bunker-kit\.html">What free tools belong in a bunker kit\? →<\/a>/);
+    assert.doesNotMatch(body[0], /Open the page →/);
     assert.doesNotMatch(body[0], /href="\/radio\.html">Tune in to SIREN Radio<\/a>/);
     assert.doesNotMatch(body[0], /href="\/elon\.html">Real Clips<\/a>/);
     const faqKey = html.match(/<p class="md-faq-key">([\s\S]*?)<\/p>/);

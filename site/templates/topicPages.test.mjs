@@ -63,6 +63,10 @@ describe('jobs / medicine topic pages', () => {
     assert.match(jobs, /Does SIREN publish a jobs forecast/);
     assert.match(jobs, /href="\/balance\.html#reg-challenger-ai-cited-cuts">How does SIREN count AI harm and benefit side by side\? →<\/a>/);
     assert.doesNotMatch(jobs, /href="\/balance\.html#reg-challenger-ai-cited-cuts">In the register →<\/a>/);
+    assert.match(jobs, /href="\/balance\.html">How does SIREN count AI harm and benefit side by side\? →<\/a>/);
+    assert.doesNotMatch(jobs, /href="\/balance\.html">Every register entry, both sides →<\/a>/);
+    assert.match(jobs, /href="\/library\.html">What AI books argue both sides of the case\? →<\/a>/);
+    assert.doesNotMatch(jobs, /href="\/library\.html">Books on the argument \(paid links\) →<\/a>/);
     assert.doesNotMatch(jobs, /probability of doom is \d/i);
 
     const med = render(ctx, 'medicine');
