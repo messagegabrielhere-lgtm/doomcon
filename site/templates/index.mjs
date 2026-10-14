@@ -911,7 +911,7 @@ ${switcher.render(ctx)}
 
 
 <section class="sec inst" id="instruments" aria-labelledby="inst-h">
-  <h2 class="sec__h" id="inst-h">Check the working</h2>
+  <h2 class="sec__h" id="inst-h">Where do I check the working behind the number?</h2>
   <p class="lede">The score over time, source health, the five pillars, every recent move, the harm and benefit scale,
     the embed code and the public JSON API all live in one place.</p>
   <p><a class="bunk__go" href="${esc(ctx.href('/instruments.html'))}">What instruments sit behind the ${esc(brand.NAME)} reading? →</a></p>
@@ -920,7 +920,7 @@ ${switcher.render(ctx)}
  ${faq.render(ctx)}
 
 <section class="sec supp" id="support" aria-labelledby="support-h">
-  <h2 class="sec__h" id="support-h">Keep the count running</h2>
+  <h2 class="sec__h" id="support-h">How does ${esc(brand.NAME)} stay free without a paywall?</h2>
   <p class="lede">${esc(brand.NAME)} is free, the number will never be behind a paywall, and visit counts are disclosed on the privacy page:
     a number you have to pay to check is not a number anybody can check. It pays its way four ways, all labelled.</p>
   <div class="earn">
@@ -1010,13 +1010,22 @@ ${style}`;
     const classicQ = `Where is the full ${brand.NAME} instrument panel?`;
     // FAQ answers restate lede / instruments link / home split only (§3.3).
     // Refuse: classic-as-doom-index, forecast, stuffing.
+    // Tip #263: classic/home section H2s are question-shaped and mirrored here (§3.3).
     const classicFaq = [
       [classicQ,
         `The full instrument panel: live reading, war room, oven, pillars, moves, embed, API and the questions strangers ask — kept at /classic.html after the shorter home page shipped.`],
       ['How is this different from the home page?',
         `The home page is the short reading. This page is the longer panel the short page replaced, still rebuilt every hour with the same receipts.`],
-      ['Where do I check just the working behind the number?',
+      ['Where do I check the working behind the number?',
         'Open the instrument room at /instruments.html for score history, source health, pillars, embed and API without the full classic panel.'],
+      ['What does the reading look like as a clock?',
+        'Everyone asks for a doomsday clock. This is the honest version: one hand, showing how loud AI is right now, that you can check.'],
+      [`What does ${brand.NAME} Arena show today?`,
+        'Daily screen, disclosed trades and a paper-money AI battle — stock picks, big-investor filings and model wallets, not financial advice.'],
+      [`How do I hear when ${brand.NAME} moves first?`,
+        'This page only tells you something when you open it. The X account posts level changes with the receipt; X is the alert.'],
+      [`How does ${brand.NAME} stay free without a paywall?`,
+        `${brand.NAME} is free, the number will never be behind a paywall, and visit counts are disclosed on the privacy page. It pays its way four ways, all labelled.`],
       [`Is the classic panel a doom probability?`,
         `No. ${brand.NAME} measures activity tempo. This page is the full instrument panel for the same hourly count — not danger, and not a probability of harm.`],
     ];
@@ -1653,7 +1662,7 @@ function statStrip(ctx) {
 function explainers(ctx) {
   const card = (href, q, a) => `<a class="xp__c" href="${esc(ctx.href(href))}"><b>${esc(q)}</b><span>${esc(a)}</span><i>Read →</i></a>`;
   return `<section class="sec xp" id="clock" aria-labelledby="xp-h">
-  <h2 class="sec__h" id="xp-h">The reading, as a clock</h2>
+  <h2 class="sec__h" id="xp-h">What does the reading look like as a clock?</h2>
   <p class="lede">Everyone asks for a doomsday clock. This is the honest version: one hand, showing how loud AI is right now, that you can check.</p>
   <div class="xp__grid">
     ${tempoClock(ctx, { size: 280 })}
@@ -1717,7 +1726,7 @@ function homeMap(ctx) {
     return `<circle cx="${bx * CELL + CELL / 2}" cy="${by * CELL + CELL / 2}" r="${r.toFixed(1)}"/>`;
   }).join('');
   return `<section class="sec hmap" id="where" aria-labelledby="hmap-h">
-  <h2 class="sec__h" id="hmap-h">Where the machines live</h2>
+  <h2 class="sec__h" id="hmap-h">Where do the machines live?</h2>
   <p class="lede"><b>${esc(n(t.sites))}</b> datacentre sites in <b>${esc(n(t.countries_with_sites))}</b> countries, ${esc(q)}.
     ${esc(n(t.countries_with_none))} countries have none mapped, which means nobody has mapped one there, not that none exists.</p>
   <figure class="hmap__ph">
@@ -1784,7 +1793,7 @@ function picksBand(ctx) {
 @media (max-width:720px){.mkb__top,.mkb__two{grid-template-columns:1fr}}
 </style>
   <div class="mkb__hd">
-    <h2 class="sec__h" id="mkb-h">Markets: today's picks, big investors, AI battle<span class="sec__eb">Markets</span></h2>
+    <h2 class="sec__h" id="mkb-h">What does ${esc(brand.NAME)} Arena show today?<span class="sec__eb">Markets</span></h2>
     <p class="mkb__k" id="mkb-as">Daily screen · disclosed trades · paper-money AI battle</p>
   </div>
   <div class="mkb__top">
@@ -1883,7 +1892,7 @@ function followBand(ctx) {
   if (!brand.X_URL) return '';
   const handle = brand.X_HANDLE.replace(/^@/, '');
   return `<section class="sec fol" id="follow" aria-labelledby="fol-h">
-  <h2 class="sec__h" id="fol-h">Hear it first: follow ${esc(brand.X_HANDLE)}</h2>
+  <h2 class="sec__h" id="fol-h">How do I hear when ${esc(brand.NAME)} moves first?</h2>
   <p class="lede">This page only tells you something when you open it. The X account tells you when something changes.
     If you want to know that AI got louder before your feed fills up with takes about it, that is where it lands.</p>
   <ul class="fol__l">
