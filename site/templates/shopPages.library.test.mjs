@@ -39,4 +39,21 @@ describe('library page', () => {
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
   });
+
+  it('section H2s use questions mirrored in FAQPage', () => {
+    const html = library(ctx);
+    assert.match(html, /<h2>What is the case for worry\?<\/h2>/);
+    assert.match(html, /<h2>What is the case for doubt\?<\/h2>/);
+    assert.match(html, /<h2>What is the view from the builders\?<\/h2>/);
+    assert.match(html, /<h2>Which books put AI to work\?<\/h2>/);
+    assert.match(html, /<h2>What is the long view\?<\/h2>/);
+    assert.match(html, /<h2>What gear runs AI at home\?<\/h2>/);
+    assert.match(html, /<h2>What are more ways to keep this running\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2>The case for worry<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Run AI at home<\/h2>/);
+    assert.doesNotMatch(html, /<h2>More ways to keep this running<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"What is the case for worry\?"/);
+    assert.match(html, /"name"\s*:\s*"What gear runs AI at home\?"/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
