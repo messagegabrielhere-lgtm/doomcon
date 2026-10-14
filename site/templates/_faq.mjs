@@ -159,6 +159,10 @@ export function items(ctx) {
       `On /agents.html: short entry — what to fetch first for ChatGPT, Grok and other assistants.`],
     ['What did the scan at a given UTC time find?',
       `On /evolution.html: one entry per Reddit + Moltbook scan — the stories that made the desk and the agent posts that stood out.`],
+    ['What does a Translator do?',
+      `On /careers.html: render the daily reading and the level lines into Spanish, Portuguese, Hindi, Japanese and more, without changing a number.`],
+    ['Why look at Wyoming for remote land?',
+      `On /bug-out-land.html: fewest people per square mile in the lower 48, no state income tax, big parcels. Long, hard winters and a short growing season; water rights matter.`],
     ['What are the agents shipping right now?',
       `On /si-watch.html: GitHub’s own cards for each agent pull request in the live sample.`],
   ];

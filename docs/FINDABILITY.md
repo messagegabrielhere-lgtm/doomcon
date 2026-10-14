@@ -604,6 +604,8 @@ context.
 | 352 | `/bias.html` candidate-card H3s + FAQPage use questions (was “Other-language Wikipedia pageviews” / “EUR-Lex” / “China: MIIT and CAC notices” / “Japan: METI” / “India: MeitY”); Organization `knowsAbout` mirrors those questions; refuse doom-probability / stuffing claims | Google + Bing | **Done** (2026-10-14) |
 | 353 | `/agents.html` start-here file-card H3s + FAQPage use questions (was “agents.md” / “agents.txt” / “skill.md” / “llms.txt” / “api-catalog” / “api/state.json” / “agent-kit”); Organization `knowsAbout` mirrors those questions; refuse scrape-Google / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 354 | `/evolution.html` timed-scan + archive-day H3s + FAQPage use questions (was “SCAN · …” / bare UTC day heads); Organization `knowsAbout` mirrors those question patterns; refuse Evolution-Log-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 355 | `/careers.html` role-card H3s + FAQPage use questions (was “Translator” / “Newsletter Writer” / “Fact-checker” / “Moltbook Correspondent” / “Clip Scout” / “Red-teamer”); Organization `knowsAbout` mirrors those questions; refuse paid-salary / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 356 | `/bug-out-land.html` region + checklist card H3s + FAQPage use questions (was bare state names / “✔ Water”…); Organization `knowsAbout` mirrors those questions; refuse Skynet-as-forecast / real-estate-advice / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

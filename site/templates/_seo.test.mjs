@@ -410,6 +410,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Would other-language Wikipedia pageviews help'));
     assert.ok(org.knowsAbout.includes('What is agents.md'));
     assert.ok(org.knowsAbout.includes('What did the scan at a given UTC time find'));
+    assert.ok(org.knowsAbout.includes('What does a Translator do'));
+    assert.ok(org.knowsAbout.includes('Why look at Wyoming for remote land'));
+    assert.ok(org.knowsAbout.includes('Why check water before you buy'));
     assert.ok(org.knowsAbout.includes('What are the agents shipping right now'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
