@@ -1,4 +1,7 @@
 import assert from 'node:assert/strict';
+import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { describe, it } from 'node:test';
 import { organization, breadcrumbs, speakable } from './_seo.mjs';
 import { locsFromSitemap, defaultUrlList, INDEXNOW_KEY } from '../../collector/indexnow.mjs';
@@ -75,13 +78,38 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/agents.md'));
     assert.ok(has('https://siren.watch/compare.html'));
     assert.ok(has('https://siren.watch/moves/'));
+    assert.ok(has('https://siren.watch/item/'));
     assert.ok(has('https://siren.watch/item/archive.html'));
     assert.ok(has('https://siren.watch/tags/'));
     assert.ok(has('https://siren.watch/vs/takeofftracker.html'));
     assert.ok(has('https://siren.watch/companies.html'));
     assert.ok(has('https://siren.watch/guides.html'));
+    assert.ok(has('https://siren.watch/status.html'));
+    assert.ok(has('https://siren.watch/catalog.html'));
+    assert.ok(has('https://siren.watch/nations.html'));
     assert.ok(urls.length >= 200, `expected a fat ALWAYS list, got ${urls.length}`);
     assert.ok(urls.length < 400, `keep IndexNow ALWAYS under 400 until deploy absorbs gated hubs (got ${urls.length})`);
+  });
+
+  it('samples archive items and facet hubs from a built sitemap', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'siren-indexnow-'));
+    try {
+      const locs = [
+        'https://siren.watch/item/old-a.html',
+        'https://siren.watch/item/old-b.html',
+        'https://siren.watch/tags/agents.html',
+        'https://siren.watch/lab/openai.html',
+        'https://siren.watch/about.html',
+      ];
+      writeFileSync(join(dir, 'sitemap.xml'),
+        `<?xml version="1.0"?><urlset>${locs.map((u) => `<url><loc>${u}</loc></url>`).join('')}</urlset>`);
+      const urls = defaultUrlList({ outDir: dir });
+      assert.ok(urls.includes('https://siren.watch/item/old-b.html'));
+      assert.ok(urls.includes('https://siren.watch/tags/agents.html'));
+      assert.ok(urls.includes('https://siren.watch/lab/openai.html'));
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 
   it('Organization knowsAbout head terms Google and assistants ask', () => {

@@ -185,12 +185,55 @@ const ALWAYS = Object.freeze([
   '/si-ready.html',
   '/ai-proof-job.html',
   '/bunker-kit.html',
+  '/bug-out-land.html',
+  '/prepper-checklist.html',
   '/bets.html',
   '/medicine.html',
   '/library.html',
   '/openapi.json',
   '/moves/',
+  '/item/',
   '/item/archive.html',
+  // Question-titled rooms + directories — Bing path after deploy (FINDABILITY #45).
+  // Keep ALWAYS under 400; gated facet volume still comes from sitemap sampling.
+  '/agents.html',
+  '/alerts.html',
+  '/arena.html',
+  '/bias.html',
+  '/careers.html',
+  '/catalog.html',
+  '/changelog.html',
+  '/classic.html',
+  '/contain.html',
+  '/day-after.html',
+  '/dispatch.html',
+  '/elon.html',
+  '/evolution.html',
+  '/export.html',
+  '/feedback.html',
+  '/game.html',
+  '/games.html',
+  '/kind/status.html',
+  '/labs.html',
+  '/leaders.html',
+  '/live.html',
+  '/live-x.html',
+  '/moltbook.html',
+  '/monitor.html',
+  '/nations.html',
+  '/nothing.html',
+  '/radio.html',
+  '/reference-plan.html',
+  '/scanner.html',
+  '/search.html',
+  '/self-aware.html',
+  '/sponsor.html',
+  '/staff.html',
+  '/status.html',
+  '/tally.html',
+  '/threats.html',
+  '/videos.html',
+  '/waffle.html',
   '/lab/amazon.html',
   '/lab/anthropic.html',
   '/lab/apple.html',
@@ -265,8 +308,21 @@ export function defaultUrlList({ outDir = join(ROOT, 'public') } = {}) {
   const newsPath = join(outDir, 'news-sitemap.xml');
   if (existsSync(newsPath)) {
     try {
-      urls.push(...locsFromSitemap(readFileSync(newsPath, 'utf8'), 80));
+      urls.push(...locsFromSitemap(readFileSync(newsPath, 'utf8'), 100));
     } catch { /* publish without a news sitemap is fine */ }
+  }
+  // Sample the ordinary sitemap so archived /item/* and new facets get
+  // notified without submitting every Ready URL every hour (tip #45).
+  const smPath = join(outDir, 'sitemap.xml');
+  if (existsSync(smPath)) {
+    try {
+      const locs = locsFromSitemap(readFileSync(smPath, 'utf8'), 5000);
+      const archiveItems = locs.filter((u) => /\/item\/(?!archive)/i.test(u));
+      const facets = locs.filter((u) => /\/(tags|kind|outlet|model|people|source|pillar|lab|vs|companies|models|countries|outlets|sources|kinds|pillars|news\/\d{4})/i.test(u));
+      // Newest-looking paths tend to sort later in our sitemap build; take tails.
+      urls.push(...archiveItems.slice(-120));
+      urls.push(...facets.slice(-80));
+    } catch { /* optional */ }
   }
   return [...new Set(urls)];
 }

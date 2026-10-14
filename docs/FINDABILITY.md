@@ -275,6 +275,7 @@ context.
 | 42 | Static rooms + nations/nothing/power/moves/news-sitemap question H1/H2 + FAQ (arena/bunker/contain/dispatch/…) | Google | **Done** (2026-10-14) |
 | 43 | Race/watts/world/threats/status/si-watch/self-aware/shop/topic/radio/videos/tally/staff/press/privacy/terms question H1/H2 + FAQ | Google | **Done** (2026-10-14) |
 | 44 | Pillar/lab/source detail + `/source/` directory: question H1/title/FAQ/speakable (live-window gates only — no archive-widen while `deploy-pending-url-lead`) | Google | **Done** (2026-10-14) |
+| 45 | IndexNow ALWAYS covers question-titled rooms (`/status` `/catalog` `/nations` …) + `defaultUrlList` samples sitemap archive/facet tails (news cap 100) — Bing path after merge | Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
