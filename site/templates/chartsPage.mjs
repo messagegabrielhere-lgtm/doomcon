@@ -215,16 +215,40 @@ export function render(ctx, { history = [], race = null, power = null } = {}) {
   }
 
   const title = `What AI charts does ${brand.NAME} publish?`;
+  // Tip #304: chart section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const oddsQ = 'What are the odds for the best AI model at the end of 2026?';
+  const betsQ = 'Which AI bets are hottest right now?';
+  const dialQ = 'What does the SIREN dial read?';
+  const heatQ = 'What does a week of SIREN look like as a heat strip?';
+  const pillarsQ = 'What is driving the index: the pillars?';
+  const powerQ = 'Who is winning the power race since 2000?';
+  const waffleQ = 'How is the world\'s electricity split in 100 squares?';
   // FAQ answers restate hero / footer / card copy only (FINDABILITY §3.3).
   const faq = [
     [title,
       `Seven charts on AI activity tempo and electricity, live where the data allows: the Polymarket odds race for best AI model, the hottest AI bets, the ${brand.NAME} dial and week heat strip, pillar drivers, the China–US power race, and the world electricity waffle.`],
+    [oddsQ,
+      raceTk || 'Polymarket odds race: best AI model at the end of 2026.'],
+    [betsQ,
+      'Bubble size is money traded in the last 24 hours; green rose this week, red fell.'],
+    [dialQ,
+      dialTk || `The ${brand.NAME} dial shows the current reading.`],
+    [heatQ,
+      heatTk || 'A week of AI, hour by hour.'],
+    [pillarsQ,
+      pTk || 'SIREN pillar readings, hourly.'],
+    [powerQ,
+      pwTk || 'Electricity generated per year since 2000.'],
+    [waffleQ,
+      wafTk || 'World electricity in 100 squares.'],
     ['Are any of these charts estimated?',
       'Every chart is drawn from the data shown; nothing is estimated. A dark feed keeps the build-time chart.'],
     ['Can I post a chart to X as an image?',
       'Hit Post with image on any chart to post it to X as a picture, with your own words. On a phone this opens your share sheet with the picture and words; on a computer the picture is copied and X opens with your words.'],
     ['Where is the full power race table?',
       'The power race chart links to the full Our World in Data table on the power page.'],
+    [`Does ${brand.NAME} publish a charts-page doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These charts show activity tempo and electricity — not a probability of harm.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -235,13 +259,13 @@ export function render(ctx, { history = [], race = null, power = null } = {}) {
   <h1 class="bp__h1">What AI charts does ${esc(brand.NAME)} publish?</h1>
   <p class="lede">Seven charts on AI activity tempo and electricity, live where the data allows. Hit <b>🖼 Post with image</b> on any chart to post it to X as a picture, with your own words.</p>
   <nav class="ch-toc" aria-label="Charts"><a href="#odds-race">Odds race</a><a href="#bubbles">Hottest bets</a><a href="#dial">The dial</a><a href="#heat">Week heat strip</a><a href="#pillars">Drivers</a><a href="#power">Power race</a><a href="#waffle">World waffle</a></nav>
-  ${card('odds-race', 1, 'The odds race: best AI model at the end of 2026', raceTk, raceSvg, `Polymarket${pmH && pmH.url ? ` · <a href="${esc(polymarketUrl(pmH.url, 'charts'))}" target="_blank" rel="noopener">trade it</a>` : ''}`, raceTk ? `The best-AI-model race on Polymarket: ${raceTk.replace(/ to have the best.*$/, '')}` : 'Polymarket odds: best AI model at the end of 2026', true, share)}
-  ${card('bubbles', 2, 'The hottest AI bets right now', 'Bubble size is money traded in the last 24 hours; green rose this week, red fell.', '<p>Loading live markets…</p>', 'Polymarket, ranked by 24-hour volume', 'The hottest AI bets on Polymarket right now', true, share)}
-  ${card('dial', 3, 'The SIREN dial', dialTk, dialSvg, `SIREN, hourly · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>`, dialTk, true, share)}
-  ${card('heat', 4, 'The week as a heat strip', heatTk, heatSvg, 'SIREN hourly readings', heatTk || 'A week of AI, hour by hour', true, share)}
-  ${card('pillars', 5, 'What’s driving it: the pillars', pTk, pSvg, 'SIREN pillar readings, hourly', pTk ? `What moved AI this week: ${pTk.replace('Biggest mover this week: ', '')}` : 'What moved AI this week', true, share)}
-  ${card('power', 6, 'The power race since 2000 (TWh a year)', pwTk, pwSvg, `Our World in Data · <a href="${esc(ctx.href('/power.html'))}">Who makes the most electricity (China vs US)?</a>`, pwTk, false, share)}
-  ${card('waffle', 7, 'The world’s electricity in 100 squares', wafTk, wafSvg, `Our World in Data · ${esc(power && power.year || '')}`, wafTk, false, share)}
+  ${card('odds-race', 1, oddsQ, raceTk, raceSvg, `Polymarket${pmH && pmH.url ? ` · <a href="${esc(polymarketUrl(pmH.url, 'charts'))}" target="_blank" rel="noopener">trade it</a>` : ''}`, raceTk ? `The best-AI-model race on Polymarket: ${raceTk.replace(/ to have the best.*$/, '')}` : 'Polymarket odds: best AI model at the end of 2026', true, share)}
+  ${card('bubbles', 2, betsQ, 'Bubble size is money traded in the last 24 hours; green rose this week, red fell.', '<p>Loading live markets…</p>', 'Polymarket, ranked by 24-hour volume', 'The hottest AI bets on Polymarket right now', true, share)}
+  ${card('dial', 3, dialQ, dialTk, dialSvg, `SIREN, hourly · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>`, dialTk, true, share)}
+  ${card('heat', 4, heatQ, heatTk, heatSvg, 'SIREN hourly readings', heatTk || 'A week of AI, hour by hour', true, share)}
+  ${card('pillars', 5, pillarsQ, pTk, pSvg, 'SIREN pillar readings, hourly', pTk ? `What moved AI this week: ${pTk.replace('Biggest mover this week: ', '')}` : 'What moved AI this week', true, share)}
+  ${card('power', 6, powerQ, pwTk, pwSvg, `Our World in Data · <a href="${esc(ctx.href('/power.html'))}">Who makes the most electricity (China vs US)?</a>`, pwTk, false, share)}
+  ${card('waffle', 7, waffleQ, wafTk, wafSvg, `Our World in Data · ${esc(power && power.year || '')}`, wafTk, false, share)}
   <p style="font-size:12.5px">Polymarket links carry SIREN’s tracking tag. Prediction markets are restricted in some places. Not financial advice. Every chart is drawn from the data shown; nothing is estimated. A dark feed keeps the build-time chart.</p>
 <section class="chfaq" aria-labelledby="faq">
   <h2 id="faq">Questions people actually ask</h2>

@@ -224,6 +224,13 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Which sources were tried and left out'));
     assert.ok(org.knowsAbout.includes('AI charts'));
     assert.ok(org.knowsAbout.includes('what AI charts does SIREN publish'));
+    assert.ok(org.knowsAbout.includes('What are the odds for the best AI model at the end of 2026'));
+    assert.ok(org.knowsAbout.includes('Which AI bets are hottest right now'));
+    assert.ok(org.knowsAbout.includes('What does the SIREN dial read'));
+    assert.ok(org.knowsAbout.includes('What does a week of SIREN look like as a heat strip'));
+    assert.ok(org.knowsAbout.includes('What is driving the index: the pillars'));
+    assert.ok(org.knowsAbout.includes('Who is winning the power race since 2000'));
+    assert.ok(org.knowsAbout.includes("How is the world's electricity split in 100 squares"));
     assert.ok(org.knowsAbout.includes('who makes the most electricity'));
     assert.ok(org.knowsAbout.includes('China vs US electricity'));
     assert.ok(org.knowsAbout.includes('Who is winning the electricity race by year'));

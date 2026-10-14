@@ -29,6 +29,18 @@ describe('charts page', () => {
     assert.match(html, /Are any of these charts estimated\?/);
     assert.match(html, /Can I post a chart to X as an image\?/);
     assert.match(html, /Where is the full power race table\?/);
+    assert.match(html, /What are the odds for the best AI model at the end of 2026\?/);
+    assert.match(html, /Which AI bets are hottest right now\?/);
+    assert.match(html, /What does the SIREN dial read\?/);
+    assert.match(html, /What does a week of SIREN look like as a heat strip\?/);
+    assert.match(html, /What is driving the index: the pillars\?/);
+    assert.match(html, /Who is winning the power race since 2000\?/);
+    assert.match(html, /How is the world's electricity split in 100 squares\?/);
+    assert.doesNotMatch(html, />The odds race: best AI model at the end of 2026</);
+    assert.doesNotMatch(html, />The hottest AI bets right now</);
+    assert.doesNotMatch(html, />The SIREN dial</);
+    assert.doesNotMatch(html, />The week as a heat strip</);
+    assert.match(html, /Does SIREN publish a charts-page doom score\?/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);
