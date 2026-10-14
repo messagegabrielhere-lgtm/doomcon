@@ -44,16 +44,56 @@ export function items(ctx) {
   ];
 }
 
+/**
+ * Published site paths that appear in FAQ prose → destination H1 questions
+ * (FINDABILITY tip #252). Longer paths first so /item/archive.html wins over
+ * a shorter /item/ stem if one is added later.
+ */
+export function faqPathLabels() {
+  const n = brand.NAME;
+  return [
+    ['/item/archive.html', `Which older AI stories has ${n} kept in the archive?`],
+    ['/vs/pizzint.html', `${n} vs PizzINT: which should you use?`],
+    ['/ai-doomsday-clock.html', 'Is there an AI doomsday clock?'],
+    ['/alternatives.html', 'What are AI doom index alternatives?'],
+    ['/methodology.html', `How the ${n} AI activity index is computed · methodology`],
+    ['/companies.html', `Which AI companies has ${n} scored stories about?`],
+    ['/countries.html', `Which AI datacentre countries has ${n} mapped?`],
+    ['/compare.html', 'Which AI doom indexes can you compare?'],
+    ['/outlets.html', `Which AI outlets has ${n} scored stories from?`],
+    ['/sources.html', `Which AI news sources has ${n} scored via?`],
+    ['/pillars.html', `Which AI activity pillars has ${n} scored?`],
+    ['/models.html', `Which AI models has ${n} scored stories about?`],
+    ['/people.html', `Which AI people has ${n} scored press about?`],
+    ['/guides.html', 'What are the AI explainers?'],
+    ['/kinds.html', `Which AI story kinds has ${n} scored?`],
+    ['/tags.html', `Which AI tags has ${n} scored stories about?`],
+    ['/p-doom.html', 'What is p(doom)?'],
+    ['/guide.html', `How does ${n} compare to DEFCON, the Doomsday Clock and p(doom)?`],
+    ['/news.html', `Which AI stories has ${n} scored in this window?`],
+    ['/vs.html', `Which AI indexes does ${n} contrast?`],
+    ['/country/', `Which AI datacentre countries have ${n} pages?`],
+    ['/outlet/', `Which AI publishers have ${n} pages?`],
+    ['/source/', `Which AI feed adapters have ${n} pages?`],
+    ['/pillar/', `Which AI activity pillars have ${n} pages?`],
+    ['/people/', `Which AI leaders have press coverage pages on ${n}?`],
+    ['/model/', `Which AI model families have ${n} pages?`],
+    ['/kind/', `Which AI story kinds have ${n} pages?`],
+    ['/tags/', `Which AI news tags have ${n} pages?`],
+    ['/lab/', `Which AI labs have ${n} pages?`],
+  ];
+}
+
 /** Turn published site paths in FAQ answers into crawlable internal links. */
 export function linkifyAnswer(ctx, text) {
   const href = (path) => esc(ctx.href(path));
-  return esc(text).replace(
-    /\/(?:(people|tags|kind)\/|(compare|alternatives|guide|ai-doomsday-clock|p-doom|methodology|news|item\/archive|vs\/pizzint)\.html)/g,
-    (raw, dir, page) => {
-      const path = dir ? `/${dir}/` : `/${page}.html`;
-      return `<a href="${href(path)}">${path}</a>`;
-    },
-  );
+  const labels = faqPathLabels();
+  const re = new RegExp(labels.map(([p]) => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g');
+  const byPath = new Map(labels);
+  return esc(text).replace(re, (path) => {
+    const label = byPath.get(path) || path;
+    return `<a href="${href(path)}">${esc(label)}</a>`;
+  });
 }
 
 export function render(ctx) {
