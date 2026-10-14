@@ -231,6 +231,14 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('how many days from a CVE going public to CISA listing it as exploited'));
     assert.ok(org.knowsAbout.includes('Flock ALPR camera map'));
     assert.ok(org.knowsAbout.includes('how many Flock ALPR cameras has SIREN mapped'));
+    assert.ok(org.knowsAbout.includes('What should you read before the Flock map'));
+    assert.ok(org.knowsAbout.includes('Where are the mapped Flock ALPR cameras'));
+    assert.ok(org.knowsAbout.includes('Which jurisdictions have mapped Flock cameras'));
+    assert.ok(org.knowsAbout.includes('Which way do the cameras look'));
+    assert.ok(org.knowsAbout.includes('How complete is the Flock tag data'));
+    assert.ok(org.knowsAbout.includes('Who is recorded as operating them'));
+    assert.ok(org.knowsAbout.includes('What is this Flock register not'));
+    assert.ok(org.knowsAbout.includes('Where did the Flock map data come from'));
     assert.ok(org.knowsAbout.includes('SIREN upside index'));
     assert.ok(org.knowsAbout.includes('what is BLISS, the SIREN upside index'));
     assert.ok(org.knowsAbout.includes('How do BLISS and SIREN sit on one axis'));
