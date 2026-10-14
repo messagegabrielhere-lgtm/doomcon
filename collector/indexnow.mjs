@@ -189,6 +189,7 @@ const ALWAYS = Object.freeze([
   '/medicine.html',
   '/library.html',
   '/openapi.json',
+  '/moves/',
   '/item/archive.html',
   '/lab/amazon.html',
   '/lab/anthropic.html',

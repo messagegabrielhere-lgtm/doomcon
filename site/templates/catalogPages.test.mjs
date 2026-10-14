@@ -46,9 +46,14 @@ test('searchIndex packs entries and content into compact rows', () => {
   });
   assert.equal(idx.v, 1);
   assert.deepEqual(idx.order, TYPES.map(([k]) => k));
+  assert.equal(idx.typeH2.page, 'Which rooms and pages matched?');
+  assert.equal(idx.typeH2.news, 'Which news stories matched?');
+  assert.equal(idx.typeH2.leader, 'Which leaders matched?');
+  assert.equal(idx.typeH2.kit, 'Which Bunker Kit tools matched?');
   for (const row of idx.items) {
     assert.equal(row.length, 6);
     assert.ok(idx.types[row[0]], `known type ${row[0]}`);
+    assert.ok(idx.typeH2[row[0]], `typeH2 for ${row[0]}`);
     assert.ok(/^(\/|https:\/\/)/.test(row[2]), `url ${row[2]}`);
   }
   const news = idx.items.find((r) => r[0] === 'news');
