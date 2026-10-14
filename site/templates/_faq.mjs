@@ -267,6 +267,12 @@ export function items(ctx) {
       'On /history.html: Turing’s 1950 imitation game — a test instead of a definition of machine intelligence.'],
     ['What is the pause letter?',
       'On /history.html: the Future of Life Institute’s March 2023 call for a six-month halt past GPT-4; no pause took place.'],
+    ['Which frontier labs are the markets pricing by country?',
+      'On /nations.html: how many of each country’s companies the market lists at all.'],
+    ['How many data centres does OpenStreetMap map by country?',
+      'On /nations.html: sites mapped by OpenStreetMap volunteers — shown but not scored when mapping is sparse.'],
+    [`Which ${brand.NAME} index moves were scored on a UTC day?`,
+      'On /moves/: each day section lists scored observations for that UTC day with inputs and a hash-chained receipt.'],
   ];
 }
 

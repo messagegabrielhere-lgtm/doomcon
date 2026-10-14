@@ -64,6 +64,19 @@ describe('nations page', () => {
     assert.doesNotMatch(html, /noindex/);
   });
 
+  it('measure H2s use questions mirrored in FAQPage', () => {
+    const html = render(ctx, sample);
+    assert.match(html, /id="odds-2026"[^>]*>[\s\S]*What are the odds the best AI model is theirs by/);
+    assert.match(html, /id="labs"[^>]*>[\s\S]*Which frontier labs are the markets pricing by country\?/);
+    assert.match(html, /id="power"[^>]*>[\s\S]*How much electricity did each country generate in 2025 \(TWh\)\?/);
+    assert.match(html, /id="dc"[^>]*>[\s\S]*How many data centres does OpenStreetMap map by country\?/);
+    assert.match(html, /FAQPage[\s\S]*Which frontier labs are the markets pricing by country\?/);
+    assert.match(html, /FAQPage[\s\S]*How many data centres does OpenStreetMap map by country\?/);
+    assert.doesNotMatch(html, /id="labs"[^>]*>[\s\S]*Frontier labs the markets are pricing<\/h2>/);
+    assert.doesNotMatch(html, /id="dc"[^>]*>[\s\S]*Data centres mapped in OpenStreetMap<\/h2>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
+
   it('keeps the question title when measures are empty', () => {
     const html = render(ctx, { measures: [], score: { US: 0, CN: 0 } });
     assert.match(html, /USA vs China: who is winning the race to superintelligence\?/);

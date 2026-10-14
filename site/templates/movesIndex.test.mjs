@@ -49,4 +49,13 @@ describe('moves index SEO', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('day-section H2s use questions mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /id="d2026-10-13">Which SIREN index moves were scored on 2026-10-13\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*Which SIREN index moves were scored on 2026-10-13\?/);
+    assert.doesNotMatch(html, /id="d2026-10-13">2026-10-13<\/h2>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
