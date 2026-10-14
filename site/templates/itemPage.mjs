@@ -238,6 +238,38 @@ export function render(ctx, item, related = []) {
   const newsroomQ = `Which AI stories has ${brand.NAME} scored in this window?`;
   const pillarQ = `What has ${brand.NAME} scored under ${pillarName}?`;
   const kindQ = kindLabel ? `What has ${brand.NAME} scored as ${kindLabel}?` : '';
+  // Tip #293: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const scoreQ = 'What is the score on this story?';
+  const corrQ = 'How many sources carried this story?';
+  const relQ = 'Which related stories are in this window?';
+  const corr = (item.meta || {}).corroboration;
+  const corrCount = corr && Number.isFinite(corr.count) ? corr.count : 1;
+  const scoreNote = hasScore(item)
+    ? `Every term is published and every input is public, so this number can be
+       recomputed. It ranks the item inside the ${esc(ctx.news.items.length)}-item window; it is
+       not a judgement about importance in the world.`
+    : `Unscored items stay in the ${esc(ctx.news.items.length)}-item window and keep their page;
+         they are simply not ranked by a number. The page says so rather than printing a zero,
+         because a zero would read as "measured, and it measured nothing".`;
+  const faq = [
+    [scoreQ,
+      hasScore(item)
+        ? `Scored ${num(item.score, 1)} of 100. Every term is published and every input is public, so this number can be recomputed. It ranks the item inside the ${ctx.news.items.length}-item window — not a judgement about importance in the world and not an item doom score.`
+        : `This item carries no score: the collector did not score it. Unscored items stay in the ${ctx.news.items.length}-item window and keep their page; they are simply not ranked by a number.`],
+    [corrQ,
+      corrCount >= 2
+        ? `${corrCount} sources carried this. Independent carriers count toward any lead claim; derived carriers are labelled mechanical and excluded.`
+        : 'Carried by one source. That is the normal case — most items are reported once — and it is stated rather than left blank so a single-source item cannot be mistaken for a corroborated one.'],
+    ...(related.length
+      ? [[relQ,
+        `${related.length} related ${related.length === 1 ? 'story' : 'stories'} in the same window, each with its own permanent scored page.`]]
+      : []),
+    [`Does ${brand.NAME} publish an item doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} A permanent story page carries a tempo score decomposition and corroboration set, not a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${styleTag()}
 <article class="it">
   <p class="it__k"><a href="${esc(ctx.href('/news.html'))}">${esc(newsroomQ)}</a> · ${pillarHref ? `<a href="${esc(pillarHref)}">${esc(pillarQ)}</a>` : esc(pillarName)}${kindLabel ? ` · ${kindHref ? `<a href="${esc(kindHref)}">${esc(kindQ)}</a>` : esc(kindLabel)}` : ''} · <time datetime="${esc(item.published_at)}">${esc(utc(item.published_at))}</time></p>
@@ -258,29 +290,25 @@ export function render(ctx, item, related = []) {
   ${countryLine(ctx, item)}
 
   <section class="it__s" aria-labelledby="it-score">
-    <h2 id="it-score">The score</h2>
+    <h2 id="it-score">${esc(scoreQ)}</h2>
     ${components(item)}
-    <p class="it__n">${hasScore(item)
-      ? `Every term is published and every input is public, so this number can be
-       recomputed. It ranks the item inside the ${esc(ctx.news.items.length)}-item window; it is
-       not a judgement about importance in the world.`
-      : `Unscored items stay in the ${esc(ctx.news.items.length)}-item window and keep their page;
-         they are simply not ranked by a number. The page says so rather than printing a zero,
-         because a zero would read as "measured, and it measured nothing".`}</p>
+    <p class="it__n">${scoreNote}</p>
   </section>
 
   <section class="it__s" aria-labelledby="it-corr">
-    <h2 id="it-corr">How many sources carried it<span class="sec__eb">Corroboration</span></h2>
+    <h2 id="it-corr">${esc(corrQ)}<span class="sec__eb">Corroboration</span></h2>
     ${corroboration(item)}
   </section>
 
   ${related.length ? `<section class="it__s" aria-labelledby="it-rel">
-    <h2 id="it-rel">Related in this window</h2>
+    <h2 id="it-rel">${esc(relQ)}</h2>
     <ul class="it__rel">${related.map((r) => `<li>
       <a href="${esc(ctx.href(`/item/${slugFor(r)}.html`))}">${esc(r.title)}</a>
       ${scoreCell(r, 'it__rm')}
     </li>`).join('')}</ul>
   </section>` : ''}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
 </article>`;
 
   const path = `/item/${slugFor(item)}.html`;
@@ -313,7 +341,15 @@ export function render(ctx, item, related = []) {
       { name: newsroomQ, path: '/news.html' },
       ...(item.pillar ? [{ name: pillarQ, path: `/pillar/${item.pillar}.html` }] : []),
       { name: item.title, path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

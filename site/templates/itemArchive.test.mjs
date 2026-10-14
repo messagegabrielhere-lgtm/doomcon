@@ -90,4 +90,17 @@ describe('item archive hubs', () => {
     assert.doesNotMatch(html, /href="\/pillar\/capability\.html">Capability<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
+
+  it('item pages use question-shaped section H2s and FAQPage', () => {
+    const html = render(ctx, ctx.news.items[0], [ctx.news.items[1]]);
+    assert.match(html, /id="it-score"[^>]*>What is the score on this story\?/);
+    assert.match(html, /id="it-corr"[^>]*>How many sources carried this story\?/);
+    assert.match(html, /id="it-rel"[^>]*>Which related stories are in this window\?/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /Live two/);
+    assert.doesNotMatch(html, /<h2 id="it-score">The score<\/h2>/);
+    assert.doesNotMatch(html, /<h2 id="it-rel">Related in this window<\/h2>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });
