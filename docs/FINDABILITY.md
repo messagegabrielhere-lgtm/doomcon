@@ -301,6 +301,7 @@ context.
 | 68 | Fix `catalogPages.mjs` DATA syntax clobber from #137 restore (`api/si-signals.json` + `api/search-trends.json`) so `collect`/`news-fast` site builds can finish again | Deploy / Google | **Done** (2026-10-14) |
 | 69 | `openapi.json` + `skill.md` + `api-catalog` / `ai.txt` / MCP `related` advertise Search Trends + AI prediction-markets (JSON + question HTML) | Agents + Google | **Done** (2026-10-14) |
 | 70 | `api/index.json` endpoints map lists `search_trends` + HTML landings so agents discovering via index.json reach the head-term pages | Agents | **Done** (2026-10-14) |
+| 71 | Live `/` + `/catalog.html` list question-shaped Search Trends + AI prediction-markets (LIVE INTEL tiles + catalog DATA) — durable on `main`; gh-pages overlay until a full collect Publish sticks (schedule churn cancels mid-build) | Agents + Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
