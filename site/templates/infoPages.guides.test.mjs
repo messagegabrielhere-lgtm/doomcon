@@ -99,6 +99,23 @@ describe('guides hub', () => {
     assert.doesNotMatch(html, /noindex/);
   });
 
+  it('ai-doomsday-clock section H2s use questions mirrored in FAQPage', () => {
+    const html = aiClock(ctx);
+    assert.match(html, /<h2>What is the Bulletin.s Doomsday Clock\?<\/h2>/);
+    assert.match(html, /<h2>Where does expert opinion sit on an AI clock\?<\/h2>/);
+    assert.match(html, /<h2>What are AI-specific clocks and scores\?<\/h2>/);
+    assert.match(html, /<h2>What does SIREN do instead of a doomsday clock\?<\/h2>/);
+    assert.match(html, /<h2>Which clock should you use\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2>The Doomsday Clock<\/h2>/);
+    assert.doesNotMatch(html, /<h2>The experts. clock: where opinion sits<\/h2>/);
+    assert.doesNotMatch(html, /<h2>AI-specific clocks and scores<\/h2>/);
+    assert.doesNotMatch(html, /<h2>What SIREN does instead<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Which should you use\?<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"What is the Bulletin.s Doomsday Clock\?"/);
+    assert.match(html, /"name"\s*:\s*"What does SIREN do instead of a doomsday clock\?"/);
+    assert.doesNotMatch(html, /probability of doom is \d/i);
+  });
+
   it('p-doom ships matching question H1 and visible FAQ', () => {
     const html = pdoom(ctx);
     assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
