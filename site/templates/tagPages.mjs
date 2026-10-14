@@ -1518,6 +1518,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI advertising and ad-product stories scored in the newsroom or archive — coverage counts, not a market forecast.',
     match: /\bads\b/i,
   },
+  {
+    id: 'russia',
+    name: 'Russia AI',
+    description: 'Russia AI policy and influence stories scored in the newsroom or archive — coverage counts, not a national ranking.',
+    match: /\bRussia\b/i,
+  },
+  {
+    id: 'iran',
+    name: 'Iran AI',
+    description: 'Iran AI influence and policy stories scored in the newsroom or archive — coverage counts, not a national ranking.',
+    match: /\bIran\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

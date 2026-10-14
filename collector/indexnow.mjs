@@ -214,6 +214,8 @@ const ALWAYS = Object.freeze([
   '/tags/math-problems.html',
   '/tags/consciousness.html',
   '/tags/ads.html',
+  '/tags/russia.html',
+  '/tags/iran.html',
   '/model/mixtral.html',
   '/tags/tsmc.html',
   '/people/',

@@ -2743,4 +2743,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ads'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ads'), /probability of doom/i);
   });
+
+  it('pages russia and iran hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ru1', 'OpenAI Disrupts 2 Influence Operations Linked to Russia and Iran'),
+          story('ru2', 'Is Russia using AI for disinformation in CAR?'),
+          story('ru3', 'Russia’s Latest Propaganda? A.I.-Generated War Songs.'),
+          story('ru4', 'U.S., Russia stripped human oversight from global AI weapons pact'),
+          story('ru5', 'Trump Announces Diesel Deal with Russia, Claude Goes Rogue, More'),
+          story('ir1', 'Iran spread anti-Israel, US disinformation to global media through fake journalists, OpenAI says'),
+          story('ir2', 'OpenAI: Iran made fake journalists to send global media anti-US, Israel hoaxes'),
+          story('ir3', 'Iran-based Network Used AI And Fake Journalists To Place Articles On News Sites'),
+          story('ir4', 'Iran used ChatGPT and fake bylines to infiltrate Western news sites, OpenAI finds'),
+          story('ir5', 'OpenAI disrupts Russia and Iran AI-enabled influence operations'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('russia'));
+    assert.ok(ids.includes('iran'));
+    assert.match(renderTag(rich, 'russia'), /What has SIREN scored about Russia AI\?/);
+    assert.match(renderTag(rich, 'iran'), /What has SIREN scored about Iran AI\?/);
+    assert.match(renderTag(rich, 'russia'), /not a national ranking/i);
+    assert.match(renderTag(rich, 'iran'), /not a national ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'russia'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'iran'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'iran'), /probability of doom/i);
+  });
 });
