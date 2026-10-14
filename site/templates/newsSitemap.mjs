@@ -52,6 +52,9 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Claude Opus 5.5', 'Opus 5.5',
   // FINDABILITY #50 — surfaces scoring in the live 48h window this pass.
   'Google DeepMind', 'Nemotron', 'o-series', 'Alibaba Qwen',
+  // FINDABILITY #59 — surfaces in the live 48h window this pass (google-news-open).
+  'Trail of Bits', 'DualEntry', 'Qwen N1', 'Grok Voice', 'HomeView',
+  'AA-AgentPerf', 'Thomson Reuters', 'DeepSeek V4.1', 'MI355X',
 ]);
 
 /**

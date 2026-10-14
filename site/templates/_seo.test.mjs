@@ -76,6 +76,10 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/ai-doomsday-clock.html'));
     assert.ok(has('https://siren.watch/news-sitemap.xml'));
     assert.ok(has('https://siren.watch/agents.md'));
+    assert.ok(has('https://siren.watch/skill.md'));
+    assert.ok(has('https://siren.watch/skills/siren-ai-index/SKILL.md'));
+    assert.ok(has('https://siren.watch/api/news.json'));
+    assert.ok(has('https://siren.watch/ai.txt'));
     assert.ok(has('https://siren.watch/compare.html'));
     assert.ok(has('https://siren.watch/moves/'));
     assert.ok(has('https://siren.watch/item/'));

@@ -57,6 +57,8 @@ const ALWAYS = Object.freeze([
   '/agents.json',
   '/ai.txt',
   '/skill.md',
+  '/skills/siren-ai-index/SKILL.md',
+  '/api/news.json',
   '/.well-known/api-catalog',
   '/now.md',
   '/tags.html',

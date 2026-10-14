@@ -116,6 +116,29 @@ test('news sitemap keywords include Nemotron / Google DeepMind surfaces', () => 
   assert.match(kw, /Google DeepMind|DeepMind/);
 });
 
+test('news sitemap keywords include Trail of Bits / DualEntry / Qwen N1 surfaces', () => {
+  const a = keywordsFor({
+    title: 'OpenAI Weighs Deal for One-Time Security Partner Trail of Bits',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'techmeme',
+    entities: [],
+  });
+  assert.match(a, /Trail of Bits/);
+  const b = keywordsFor({
+    title: "Google's Gemini 4 Argon Is the Most Accurate AI Model on DualEntry Benchmark",
+    summary: 'Qwen N1 and Grok Voice also appear in adjacent coverage.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'hn',
+    entities: [],
+  });
+  assert.match(b, /DualEntry/);
+  assert.match(b, /Qwen N1|Qwen/);
+  assert.match(b, /Grok Voice|Grok/);
+});
+
 test('render keywords include matching topic-tag names for Google News contest', () => {
   const xml = render({
     news: {
