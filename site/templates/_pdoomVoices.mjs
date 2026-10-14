@@ -122,9 +122,11 @@ export function voicesSection(ctx, sirenLevel) {
   const medianAll = (() => { const m = rows.map(mid).sort((a, b) => a - b); return m[Math.floor(m.length / 2)]; })();
   const start = 15;
   const ticks = Array.from({ length: 12 }, (_, i) => { const a = (i * 30) * Math.PI / 180; return `<line x1="${(60 + 46 * Math.sin(a)).toFixed(1)}" y1="${(60 - 46 * Math.cos(a)).toFixed(1)}" x2="${(60 + 52 * Math.sin(a)).toFixed(1)}" y2="${(60 - 52 * Math.cos(a)).toFixed(1)}" stroke="#475569" stroke-width="${i ? 1.5 : 3}"/>`; }).join('');
+  // Tip #392: voices-section H2 is question-shaped (mirrored in FAQ §3.3).
+  const voicesQ = `Where do ${VOICES.length} named p(doom) estimates sit on one ladder?`;
   return `${VOICES_CSS}<section class="vx" id="voices" aria-labelledby="vx-h">
   <blockquote class="vx-q">“At some stage therefore we should have to expect the machines to take control.”<cite>ALAN TURING, 1951 · “INTELLIGENT MACHINERY, A HERETICAL THEORY”</cite></blockquote>
-  <h2 id="vx-h">The voices: ${VOICES.length} named estimates, one ladder</h2>
+  <h2 id="vx-h">${esc(voicesQ)}</h2>
   <p class="sub">Each bar is one person’s publicly stated p(doom), with where they said it. A range means they gave a range. The dashed line is the survey median (${SURVEY.median}% of ${SURVEY.n.toLocaleString('en-US')} researchers); the middle voice here says ${medianAll}%. Figures as compiled ${esc(VOICES_AS_OF)}; people revise them.</p>
   <div class="vx-chips" role="group" aria-label="Filter voices">${chips}</div>
   <div class="vx-lad" id="vx-lad">
@@ -175,6 +177,8 @@ export function voicesFaq() {
   const out = VOICES.filter((v) => pick.includes(v[0])).map((v) => ({ '@type': 'Question', name: `What is ${v[0]}’s p(doom)?`,
     acceptedAnswer: { '@type': 'Answer', text: `${v[0]} (${v[4]}) has put it at ${v[1] === v[2] ? `${v[1]}%` : `${v[1]}–${v[2]}%`} (${v[5]}). People revise these figures; SIREN plots it beside ${VOICES.length - 1} other named estimates.` } }));
   out.push({ '@type': 'Question', name: 'What do AI researchers think the chance of AI doom is?', acceptedAnswer: { '@type': 'Answer', text: 'In the largest survey, 2,778 AI researchers gave a median of 5% (mean 9%) for an outcome as bad as human extinction (Grace et al., 2024). Named public figures range from under 0.01% (Yann LeCun) to over 95% (Eliezer Yudkowsky).' } });
+  // Tip #392: voices-section H2 is question-shaped and mirrored in FAQ (§3.3).
+  out.push({ '@type': 'Question', name: `Where do ${VOICES.length} named p(doom) estimates sit on one ladder?`, acceptedAnswer: { '@type': 'Answer', text: `Each bar is one person’s publicly stated p(doom), with where they said it. A range means they gave a range. Figures as compiled ${VOICES_AS_OF}; people revise them. SIREN does not publish a p(doom).` } });
   // Tip #347: voices-section H3s are question-shaped and mirrored in FAQ (§3.3).
   out.push({ '@type': 'Question', name: 'What is in the news about AI catastrophe, safety, and p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'Refreshes live from SIREN’s newsroom. Catastrophe-risk headlines when present; otherwise the newsroom says none landed in the last few days.' } });
   out.push({ '@type': 'Question', name: 'Which polls and surveys report p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'Named polls and surveys are listed under that heading on /p-doom.html, each with a figure and a source link.' } });

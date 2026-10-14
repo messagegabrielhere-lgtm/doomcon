@@ -233,6 +233,12 @@ export function items(ctx) {
       'On /exploits.html: the backfill window shows how many KEV listings had CVE records older than two years — a filing decision, not an attack.'],
     ['How ready are you on Work and skills?',
       'On /si-ready.html after the quiz: use an AI assistant for one real task every day for a month, and write down what it got wrong.'],
+    [`How do ${brand.NAME} and BLISS sit beside the beam?`,
+      'On /balance.html: context only. Neither index feeds the beam.'],
+    ['What can this page not say?',
+      'On /balance.html: the honesty lines from the published files about the counts and the registers.'],
+    ['Where do 28 named p(doom) estimates sit on one ladder?',
+      'On /p-doom.html: each bar is one person’s publicly stated p(doom). SIREN does not publish a p(doom).'],
   ];
 }
 

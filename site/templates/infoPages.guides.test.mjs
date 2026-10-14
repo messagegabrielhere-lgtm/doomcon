@@ -159,13 +159,16 @@ describe('guides hub', () => {
     assert.match(html, /<h2>What can p\(doom\) not tell you\?<\/h2>/);
     assert.match(html, /<h2>How is SIREN different from p\(doom\)\?<\/h2>/);
     assert.match(html, /<h2>What else should you read about p\(doom\)\?<\/h2>/);
+    assert.match(html, /id="vx-h">Where do 28 named p\(doom\) estimates sit on one ladder\?<\/h2>/);
     assert.doesNotMatch(html, /<h2>Where the term comes from<\/h2>/);
     assert.doesNotMatch(html, /<h2>Why the numbers differ so much<\/h2>/);
     assert.doesNotMatch(html, /<h2>What p\(doom\) cannot tell you<\/h2>/);
     assert.doesNotMatch(html, /<h2>How SIREN is different<\/h2>/);
     assert.doesNotMatch(html, /<h2>Read more<\/h2>/);
+    assert.doesNotMatch(html, /id="vx-h">The voices: 28 named estimates, one ladder<\/h2>/);
     assert.match(html, /"name"\s*:\s*"Where does the term p\(doom\) come from\?"/);
     assert.match(html, /"name"\s*:\s*"How is SIREN different from p\(doom\)\?"/);
+    assert.match(html, /"name"\s*:\s*"Where do 28 named p\(doom\) estimates sit on one ladder\?"/);
     assert.doesNotMatch(html, /probability of doom is \d/i);
   });
 

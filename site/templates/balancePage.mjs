@@ -595,8 +595,10 @@ function indicesSection(ctx, b) {
       so every value is published and none is scored. That is awaiting baseline, not dark, and it is never printed as a number.
       ${arr(bl.failed_sources).length ? `Dark this run: ${esc(arr(bl.failed_sources).join(', '))}.` : ''}</p>`;
   }
+  // Tip #391: section H2 is question-shaped (mirrored in FAQ §3.3).
+  const ixQ = `How do ${brand.NAME} and BLISS sit beside the beam?`;
   return `<section class="bp__sec" id="the-indices" aria-labelledby="bp-ix-h">
-  <h2 class="bp__h" id="bp-ix-h">${icon('sec-bliss')} SIREN and BLISS, as context</h2>
+  <h2 class="bp__h" id="bp-ix-h">${icon('sec-bliss')} ${esc(ixQ)}</h2>
   <p class="bp__l bp__l--lead">${esc(ix.note || 'Context only. Neither index feeds the beam.')}</p>
   <div class="bp__ixs">
     ${indexCell(ix.doomcon || null, brand.NAME)}
@@ -618,8 +620,10 @@ function limitsSection(b, L) {
   const a = arr(b.honesty).map((s) => `<li>${esc(s)}</li>`).join('');
   const c = arr(L.honesty).map((s) => `<li>${esc(s)}</li>`).join('');
   const meas = b.lexicon && b.lexicon.measured ? b.lexicon.measured : null;
+  // Tip #391: section H2 is question-shaped (mirrored in FAQ §3.3).
+  const limQ = 'What can this page not say?';
   return `<section class="bp__sec" id="limits" aria-labelledby="bp-lim-h">
-  <h2 class="bp__h" id="bp-lim-h">${icon('sec-signal')} What this cannot say</h2>
+  <h2 class="bp__h" id="bp-lim-h">${icon('sec-signal')} ${esc(limQ)}</h2>
   <p class="bp__l">Published in the two files and printed here unedited: the collector’s five lines about the
     counts, then the registers’ lines about the rows.</p>
   ${a ? `<h3 class="bp__h3">What do the honesty lines say about the counts?</h3><ul class="bp__lim">${a}</ul>` : ''}
@@ -666,8 +670,10 @@ function methodSection(b, L) {
   const dropped = arr(L.dropped).map((d) => `<li><b>${esc(d.item || d.id)}</b> (${esc(d.side || 'side not recorded')},
       noted in <a href="#reg-${esc(d.noted_in || '')}">${esc(d.noted_in || 'no row')}</a>). ${esc(d.reason || 'No reason recorded.')}</li>`).join('');
   const retired = arr(L.retired);
+  // Tip #391: section H2 is question-shaped (mirrored in FAQ §3.3).
+  const methodQ = 'Where did this come from?';
   return `<section class="bp__sec" id="method" aria-labelledby="bp-method-h">
-  <h2 class="bp__h" id="bp-method-h">${icon('sec-method')} Where this came from</h2>
+  <h2 class="bp__h" id="bp-method-h">${icon('sec-method')} ${esc(methodQ)}</h2>
 
   <h3 class="bp__h3">What is the rule on both sides?</h3>
   <ul class="bp__lim bp__lim--plain">
@@ -710,8 +716,10 @@ function methodSection(b, L) {
 }
 
 function dataSection(ctx, b, L) {
+  // Tip #391: section H2 is question-shaped (mirrored in FAQ §3.3).
+  const dataQ = 'Where can I take the data?';
   return `<section class="bp__sec" id="data" aria-labelledby="bp-data-h">
-  <h2 class="bp__h" id="bp-data-h">${icon('sec-api')} Take the data</h2>
+  <h2 class="bp__h" id="bp-data-h">${icon('sec-api')} ${esc(dataQ)}</h2>
   <ul class="bp__dl">
     <li><a href="${esc(ctx.href('/api/balance.json'))}"><code class="bp__code">/api/balance.json</code></a>
       <span>The newsroom counts and every matched and unmatched headline, the beam rule, the six counters with
@@ -790,6 +798,15 @@ export function render(ctx) {
       [sideColQ(side, 'side'),
         `${SIDE_NAME[side]} counters from public registries — each published as its publisher reports it, and never paired with the other side.`],
     ]),
+    // Tip #391: section H2s are question-shaped and mirrored in FAQ (§3.3).
+    [`How do ${brand.NAME} and BLISS sit beside the beam?`,
+      'Context only. Neither index feeds the beam. Both are percentile positions in two separate frozen reference distributions of activity tempo, not measures of harm or benefit.'],
+    ['What can this page not say?',
+      'Published in the two files and printed here unedited: the collector’s five lines about the counts, then the registers’ lines about the rows.'],
+    ['Where did this come from?',
+      'The matching, hedge and negation rules from the published lexicon, both word lists in full, and the dated register rows — with the stamp from collector/balance.mjs.'],
+    ['Where can I take the data?',
+      'The newsroom counts and every matched and unmatched headline are at /api/balance.json; the two registers are at /api/ledger.json.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

@@ -640,6 +640,8 @@ context.
 | 388 | `/map.html` moves-panel H3 + FAQPage use a question (was “What moves between collects” without `?`); Organization `knowsAbout` mirrors that question; refuse map-as-draw / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 389 | `/exploits.html` backfill-window H3 + FAQPage use a question (was “What CISA was actually cataloguing…” without `?`); Organization `knowsAbout` mirrors that question; refuse exploit-lag doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 390 | `/si-ready.html` + `/ai-proof-job.html` quiz result-area H3s + FAQPage use questions (was bare area names); Organization `knowsAbout` mirrors those questions; refuse readiness-as-doom / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 391 | `/balance.html` section H2s + FAQPage use questions (was “SIREN and BLISS, as context” / “What this cannot say” / “Where this came from” / “Take the data”); Organization `knowsAbout` mirrors those questions; refuse net-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 392 | `/p-doom.html` voices-section H2 + FAQPage use a question (was “The voices: N named estimates, one ladder”); Organization `knowsAbout` mirrors that question; refuse SIREN-as-p(doom) / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
