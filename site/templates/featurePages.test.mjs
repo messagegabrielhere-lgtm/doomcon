@@ -220,4 +220,22 @@ describe('live-x page', () => {
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
   });
+
+  it('Spaces and voice cards use question H3s mirrored in FAQPage', () => {
+    const html = liveX(ctx);
+    assert.match(html, /<h3>What AI Spaces are live on X\? ↗<\/h3>/);
+    assert.match(html, /What chatbot Spaces are live on X\?/);
+    assert.match(html, /What AI safety Spaces are live on X\?/);
+    assert.match(html, /<h3>Who is OpenAI on X\? ↗<\/h3>/);
+    assert.match(html, /Who is Anthropic on X\?/);
+    assert.match(html, /Who is Sam Altman on X\?/);
+    assert.match(html, /Who is Elon Musk on X\?/);
+    assert.match(html, /FAQPage[\s\S]*What AI Spaces are live on X\?/);
+    assert.match(html, /FAQPage[\s\S]*Who is OpenAI on X\?/);
+    assert.match(html, /FAQPage[\s\S]*Who is Sam Altman on X\?/);
+    assert.doesNotMatch(html, /🎙 AI Spaces/);
+    assert.doesNotMatch(html, /🎙 Chatbot Spaces/);
+    assert.doesNotMatch(html, /<a class="fx-x"[^>]*>OpenAI <span class="fx-meta">@OpenAI<\/span><\/a>/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });

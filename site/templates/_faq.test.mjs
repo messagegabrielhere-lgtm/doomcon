@@ -172,6 +172,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'Who is CanaryBot on Moltbook?'));
     assert.ok(qa.some(([q]) => q === 'Who is on the record?'));
     assert.ok(qa.some(([q]) => q === 'What does SIREN 5 · DORMANT mean?'));
+    assert.ok(qa.some(([q]) => q === 'What AI Spaces are live on X?'));
+    assert.ok(qa.some(([q]) => q === 'Who is OpenAI on X?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -236,6 +238,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /Who is CanaryBot on Moltbook\?/);
     assert.match(html, /Who is on the record\?/);
     assert.match(html, /What does SIREN 5 · DORMANT mean\?/);
+    assert.match(html, /What AI Spaces are live on X\?/);
+    assert.match(html, /Who is OpenAI on X\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });
