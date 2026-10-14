@@ -63,14 +63,14 @@ export function render(ctx) {
   <div class="faq__l">
 ${qa.map(([q, a]) => `    <details class="faq__i"><summary class="faq__q">${esc(q)}</summary><p class="faq__a">${linkifyAnswer(ctx, a)}</p></details>`).join('\n')}
   </div>
-  <p class="fresh__key"><a href="${esc(ctx.href('/guide.html'))}">The longer version: SIREN, DEFCON, the Doomsday Clock and p(doom) →</a>
-     · <a href="${esc(ctx.href('/guides.html'))}">AI explainers hub →</a>
-     · <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared →</a>
-     · <a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a>
-     · <a href="${esc(ctx.href('/vs/pizzint.html'))}">vs PizzINT →</a>
-     · <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a>
-     · <a href="${esc(ctx.href('/people/'))}">People →</a>
-     · <a href="${esc(ctx.href('/tags/'))}">Tags →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/guide.html'))}">How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?</a>
+     · <a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers?</a>
+     · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>
+     · <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does SIREN contrast?</a>
+     · <a href="${esc(ctx.href('/vs/pizzint.html'))}">SIREN vs PizzINT: which should you use?</a>
+     · <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives?</a>
+     · <a href="${esc(ctx.href('/people/'))}">Which AI leaders have press coverage pages on SIREN?</a>
+     · <a href="${esc(ctx.href('/tags/'))}">Which AI news tags have SIREN pages?</a></p>
 </section>`;
 }
 

@@ -128,6 +128,9 @@ describe('live-x page', () => {
     assert.match(html, /\/news\.html/);
     assert.match(html, /What AI is on TV and radio right now\?/);
     assert.match(html, /Which AI stories has SIREN scored in this window\?/);
+    assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/news\.html">Newsroom<\/a>/);
+    assert.doesNotMatch(html, /"name"\s*:\s*"Live on X"/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);

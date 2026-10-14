@@ -105,8 +105,8 @@ export function about(ctx) {
     <li>Third-party data is shown under its own licence, credited on the page that uses it. ${esc(brand.LICENSE_BLURB)}.</li>
     <li>The joke pages (Tally's desk, the game, the Bunker Kit) are jokes. Their numbers are still real counts.</li>
   </ul>
-  <p>The full version is on the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a> page.
-    A one-page map of every disclosure is on <a href="${esc(ctx.href('/disclosures.html'))}">disclosures</a>.</p>
+  <p>The full version is on <a href="${esc(ctx.href('/terms.html'))}">What are the ${esc(brand.NAME)} terms of use?</a>.
+    A one-page map of every disclosure is on <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a>.</p>
   <p><a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you? →</a>
     · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)? →</a></p>
 </section>`;
@@ -560,7 +560,7 @@ export function terms(ctx) {
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
 
-  <p><a href="${esc(ctx.href('/disclosures.html'))}">Disclosures →</a> · <a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/about.html'))}">About →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Method →</a></p>
+  <p><a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a> · <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a> · <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a></p>
 </section>`;
   return page({
     ctx,
@@ -571,7 +571,7 @@ export function terms(ctx) {
       '@type': 'Question',
       name: q,
       acceptedAnswer: { '@type': 'Answer', text: a },
-    })), 'Terms'),
+    })), `What are the ${brand.NAME} terms of use?`),
     main,
   });
 }
@@ -640,7 +640,7 @@ export function disclosures(ctx) {
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. Security reports: see
     <a href="${esc(brand.REPO_URL)}/blob/main/SECURITY.md" rel="noopener">SECURITY.md</a>.</p>
 
-  <p><a href="${esc(ctx.href('/terms.html'))}">Full terms →</a> · <a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/about.html'))}">About →</a></p>
+  <p><a href="${esc(ctx.href('/terms.html'))}">What are the ${esc(brand.NAME)} terms of use?</a> · <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a> · <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a></p>
 </section>`;
   return page({
     ctx,
@@ -651,7 +651,7 @@ export function disclosures(ctx) {
       '@type': 'Question',
       name: q,
       acceptedAnswer: { '@type': 'Answer', text: a },
-    })), 'Disclosures'),
+    })), `What does ${brand.NAME} disclose?`),
     main,
   });
 }
@@ -844,7 +844,7 @@ export function aiClock(ctx) {
     <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
     · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a>
     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
-  <p><a href="${esc(ctx.href('/guide.html'))}">The side-by-side comparison →</a> · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)? →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the index is computed →</a></p>
+  <p><a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a> · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a></p>
 </section>`;
   return page({
     ctx, path,
@@ -1073,7 +1073,7 @@ export function guide(ctx) {
   const description = `${qTitle} DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, PizzINT borrows those titles, and ${brand.NAME} is an hourly count of AI activity you can recompute.`;
   const main = `${CSS}
 <section class="inf">
-  <p class="eyebrow">Guide</p>
+  <p class="eyebrow"><a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers?</a> · How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</p>
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">Five numbers people reach for when they want to know how worried to be. They measure different things, and
     only one of them is a count you can check. ${now}</p>
@@ -1112,13 +1112,13 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
     · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a>.</p>
   <h2>Where to go next</h2>
-  <p><a href="${esc(ctx.href('/'))}">The current reading →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Every formula →</a> ·
-    <a href="${esc(ctx.href('/guides.html'))}">All AI explainers →</a> ·
-    <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared (DoomBench, Skynet, p(doom), PizzINT, Takeoff Tracker) →</a> ·
-    <a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a> ·
-    <a href="${esc(ctx.href('/vs/pizzint.html'))}">${esc(brand.NAME)} vs PizzINT / Pentagon Pizza Index →</a> ·
-    <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a> ·
-    <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a> · <a href="${esc(ctx.href('/desk.html'))}">Tally's desk →</a></p>
+  <p><a href="${esc(ctx.href('/'))}">The current reading →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> ·
+    <a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers?</a> ·
+    <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> ·
+    <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a> ·
+    <a href="${esc(ctx.href('/vs/pizzint.html'))}">${esc(brand.NAME)} vs PizzINT: which should you use?</a> ·
+    <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives?</a> ·
+    <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk?</a> · <a href="${esc(ctx.href('/desk.html'))}">What unserious counts does ${esc(brand.NAME)} keep on Tally’s desk?</a></p>
 </section>`;
   return page({
     ctx, path,
@@ -1204,11 +1204,11 @@ Because nobody needs the scale explained twice. "Five is calm, one is not" is al
 ## Where to go next
 
 - [The current reading](${ctx.url('/')})
-- [Every formula](${ctx.url('/methodology.html')}) · [methodology.md](${ctx.url('/methodology.md')})
-- [AI doom indexes compared](${ctx.url('/compare.html')}) · [Versus directory](${ctx.url('/vs.html')}) · [Alternatives hub](${ctx.url('/alternatives.html')})
-- [${brand.NAME} vs PizzINT / Pentagon Pizza Index](${ctx.url('/vs/pizzint.html')})
-- [Sixty years of the same argument](${ctx.url('/history.html')})
-- [AI explainers hub](${ctx.url('/guides.html')})
+- [How the ${brand.NAME} AI activity index is computed · methodology](${ctx.url('/methodology.html')}) · [methodology.md](${ctx.url('/methodology.md')})
+- [Which AI doom indexes can you compare?](${ctx.url('/compare.html')}) · [Which AI indexes does ${brand.NAME} contrast?](${ctx.url('/vs.html')}) · [What are AI doom index alternatives?](${ctx.url('/alternatives.html')})
+- [${brand.NAME} vs PizzINT: which should you use?](${ctx.url('/vs/pizzint.html')})
+- [What is the history of AI risk?](${ctx.url('/history.html')})
+- [What are the AI explainers?](${ctx.url('/guides.html')})
 `;
 }
 
@@ -1241,17 +1241,17 @@ export const GUIDES = Object.freeze([
   },
   {
     path: '/compare.html',
-    name: 'AI doom indexes compared',
+    name: 'Which AI doom indexes can you compare?',
     blurb: 'Side-by-side with DoomBench, Skynet Countdown, p(doom), PizzINT and Takeoff Tracker.',
   },
   {
     path: '/vs.html',
-    name: 'SIREN vs other AI indexes',
+    name: 'Which AI indexes does SIREN contrast?',
     blurb: 'Directory of honest versus pages — activity tempo, not doom claims.',
   },
   {
     path: '/alternatives.html',
-    name: 'AI doom index alternatives',
+    name: 'What are AI doom index alternatives?',
     blurb: 'When this index is the right substitute — and when it is not.',
   },
   {
@@ -1299,7 +1299,7 @@ export function guides(ctx) {
   <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="inf">
-  <p class="eyebrow">Guides</p>
+  <p class="eyebrow"><a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a> · What are the AI explainers?</p>
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">Search often lands on a doom score, a countdown, or a DEFCON-shaped novelty page.
     These pages answer the vocabulary questions without inventing a probability of harm.
