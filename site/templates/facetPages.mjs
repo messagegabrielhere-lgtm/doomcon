@@ -570,21 +570,45 @@ export function archiveItemsForSource(ctx, sourceId) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
-export function sourceIndexable(ctx, sourceId) {
-  return itemsForSource(ctx, sourceId).length >= SOURCE_INDEX_MIN;
+/** Live + archive scored stories from this feed adapter. */
+export function sourceStoryCount(ctx, sourceId) {
+  return itemsForSource(ctx, sourceId).length + archiveItemsForSource(ctx, sourceId).length;
 }
 
-/** Outlets with enough scored stories to be a page, busiest first. */
+export function sourceIndexable(ctx, sourceId) {
+  // Same durable gate as tags/kinds/outlets/models — archive keeps hubs above
+  // SOURCE_INDEX_MIN when the live window thins (FINDABILITY #48).
+  return sourceStoryCount(ctx, sourceId) >= SOURCE_INDEX_MIN;
+}
+
+/** Feed adapters with enough scored stories to be a page, busiest first. */
 export function indexableSources(ctx) {
-  const counts = new Map();
+  const liveCounts = new Map();
+  const archCounts = new Map();
   const items = (ctx.news && Array.isArray(ctx.news.items)) ? ctx.news.items : [];
   for (const it of items) {
     if (!it || !it.source) continue;
-    counts.set(it.source, (counts.get(it.source) || 0) + 1);
+    liveCounts.set(it.source, (liveCounts.get(it.source) || 0) + 1);
   }
-  return [...counts.entries()]
-    .filter(([, n]) => n >= SOURCE_INDEX_MIN)
-    .map(([id, count]) => ({ id, count, label: sourceLabel(id) }))
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  for (const it of archived) {
+    if (!it || !it.source) continue;
+    archCounts.set(it.source, (archCounts.get(it.source) || 0) + 1);
+  }
+  const ids = new Set([...liveCounts.keys(), ...archCounts.keys()]);
+  return [...ids]
+    .map((id) => {
+      const live = liveCounts.get(id) || 0;
+      const archivedCount = archCounts.get(id) || 0;
+      return {
+        id,
+        live,
+        archived: archivedCount,
+        count: live + archivedCount,
+        label: sourceLabel(id),
+      };
+    })
+    .filter((s) => s.count >= SOURCE_INDEX_MIN)
     .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
 }
 
@@ -592,15 +616,14 @@ export function renderSource(ctx, sourceId) {
   const items = itemsForSource(ctx, sourceId);
   const archivedAll = archiveItemsForSource(ctx, sourceId);
   const older = archivedAll.slice(0, 12);
+  const total = items.length + archivedAll.length;
   const label = sourceLabel(sourceId);
-  // Live-window gate only while deploy-pending — archive lists older stories
-  // on the page but does not widen sitemap indexability.
-  const indexable = items.length >= SOURCE_INDEX_MIN;
+  const indexable = total >= SOURCE_INDEX_MIN;
   const path = sourcePath(sourceId);
   // Head-term title: people search “{source} AI stories” / source doom score.
   const title = `What has ${brand.NAME} scored via ${label}? AI stories, not a source score`;
   const description = clip(
-    `${items.length} scored stories from ${label} in the current ${brand.NAME} newsroom window. The outlet wrote them. The score is ours. Tempo, not a forecast.`,
+    `${total} scored stories from ${label} on ${brand.NAME} (live window plus archive). The outlet wrote them. The score is ours. Tempo, not a forecast.`,
     160,
   );
   // Tip #288: section H2s are question-shaped and mirrored in FAQ (§3.3).
@@ -615,7 +638,7 @@ export function renderSource(ctx, sourceId) {
     .join('');
   const faq = [
     [`What has ${brand.NAME} scored via ${label}?`,
-      `${items.length} scored stories arrived through the ${label} feed adapter in the live window${archivedAll.length ? ` (${archivedAll.length} older in the archive)` : ''}. The words belong to the outlet; the score measures activity tempo.`],
+      `${total} scored stories arrived through the ${label} feed adapter (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). The words belong to the outlet; the score measures activity tempo.`],
     [windowQ,
       items.length
         ? `${items.length} scored ${items.length === 1 ? 'story' : 'stories'} from ${label} in the current window. The words belong to the outlet; the score measures activity tempo — not a source doom score.`
@@ -647,7 +670,8 @@ export function renderSource(ctx, sourceId) {
   <h1>What has ${esc(brand.NAME)} scored via ${esc(label)}?</h1>
   <p class="fc__lede">Stories this index scored from ${esc(label)}. The words belong to the outlet. The score is computed here, and it measures how much the item moved inside the window, not whether the story is good or bad.</p>
   <div class="fc__stat" role="group" aria-label="Outlet counts">
-    <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    <div><b class="num">${esc(String(total))}</b><span>Scored stories (live + archive)</span></div>
+    <div><b class="num">${esc(String(items.length))}</b><span>In live window</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <h2 id="window">${esc(windowQ)}</h2>
@@ -708,12 +732,12 @@ export function renderSourceIndex(ctx) {
   // Head-term title: people search “AI news sources” / feed adapters directory.
   const title = `Which AI feed adapters have ${brand.NAME} pages?`;
   const description = clip(
-    `${sources.length} outlets with at least ${SOURCE_INDEX_MIN} scored stories in the current ${brand.NAME} window. Each page lists those stories.`,
+    `${sources.length} outlets with at least ${SOURCE_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive). Each page lists those stories.`,
     160,
   );
   const faq = [
     [`Which AI feed adapters have ${brand.NAME} pages?`,
-      `${sources.length} feed adapters clear the substance gate of at least ${SOURCE_INDEX_MIN} matching stories in the live window. Each hub lists those stories — not a source doom score.`],
+      `${sources.length} feed adapters clear the substance gate of at least ${SOURCE_INDEX_MIN} matching stories in the live window or archive. Each hub lists those stories — not a source doom score.`],
     [`Does ${brand.NAME} publish a source doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} These pages count scored stories from a feed adapter. Publisher hosts stay under /outlets.html.`],
   ];
@@ -722,14 +746,14 @@ export function renderSourceIndex(ctx) {
   <p>${esc(a)}</p>`).join('');
   const rows = sources.map((s) => `<li>
   <a href="${esc(ctx.href(sourcePath(s.id)))}">What has ${esc(brand.NAME)} scored via ${esc(s.label)}?</a>
-  <span class="fc__meta">${esc(s.label)} · ${esc(s.id)}</span>
+  <span class="fc__meta">${esc(s.label)} · ${esc(s.id)}${s.archived ? ` · ${esc(String(s.live))} live / ${esc(String(s.archived))} archive` : ''}</span>
   <span class="fc__sc num">${esc(String(s.count))}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI feed adapters have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/sources.html'))}">Which AI news sources has ${esc(brand.NAME)} scored via?</a></p>
   <h1>Which AI feed adapters have ${esc(brand.NAME)} pages?</h1>
-  <p class="fc__lede">An outlet earns a page when the current window holds at least ${SOURCE_INDEX_MIN} scored stories from it. Fewer than that stays on the story page only, so a one-off item does not become its own URL.</p>
+  <p class="fc__lede">An outlet earns a page when at least ${SOURCE_INDEX_MIN} scored stories from it appear in the live window or the durable archive. Fewer than that stays on the story page only, so a one-off item does not become its own URL.</p>
   <ol class="fc__list">${rows}</ol>
   <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
@@ -938,7 +962,7 @@ export function renderSources(ctx) {
   );
   const faq = [
     [`Which AI news sources has ${brand.NAME} scored via?`,
-      `${sources.length} feed adapters clear the substance gate of at least ${SOURCE_INDEX_MIN} matching stories in the live window. Each hub lists those stories — not a source doom score.`],
+      `${sources.length} feed adapters clear the substance gate of at least ${SOURCE_INDEX_MIN} matching stories in the live window or archive. Each hub lists those stories — not a source doom score.`],
     [`Does ${brand.NAME} publish a source doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} These pages count scored stories from a feed adapter. Publisher hosts stay under /outlets.html.`],
   ];
@@ -947,13 +971,13 @@ export function renderSources(ctx) {
   <p>${esc(a)}</p>`).join('');
   const rows = sources.map((s) => `<li>
   <a href="${esc(ctx.href(sourcePath(s.id)))}">What has ${esc(brand.NAME)} scored via ${esc(s.label)}?</a>
-  <span class="fc__meta">${esc(s.label)} · Feed adapter · <span class="num">${esc(String(s.count))}</span> scored</span>
+  <span class="fc__meta">${esc(s.label)} · Feed adapter · <span class="num">${esc(String(s.count))}</span> scored${s.archived ? ` (${esc(String(s.live))} live)` : ''}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a> · Which AI news sources has ${esc(brand.NAME)} scored via?</p>
   <h1>Which AI news sources has ${esc(brand.NAME)} scored via?</h1>
-  <p class="fc__lede">${esc(brand.NAME)} does not publish a source “doom score.” It publishes an activity index and scored stories. This page lists feed adapters that already clear the same substance gate as <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a> — at least ${SOURCE_INDEX_MIN} matching stories in the live window. Publisher hosts stay under <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a>.</p>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a source “doom score.” It publishes an activity index and scored stories. This page lists feed adapters that already clear the same substance gate as <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a> — at least ${SOURCE_INDEX_MIN} matching stories in the live window or archive. Publisher hosts stay under <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a>.</p>
   <div class="fc__stat" role="group" aria-label="Sources hub totals">
     <div><b class="num">${esc(String(sources.length))}</b><span>Feed-adapter hubs</span></div>
   </div>

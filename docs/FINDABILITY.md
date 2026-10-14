@@ -278,6 +278,7 @@ context.
 | 45 | IndexNow ALWAYS covers question-titled rooms (`/status` `/catalog` `/nations` …) + `defaultUrlList` samples sitemap archive/facet tails (news cap 100) — Bing path after merge | Bing | **Done** (2026-10-14) |
 | 46 | `seo-daily`: monitor live rooms; collapse undeployed surface-404 flood into `surfaces-awaiting-deploy` while `deploy-pending-url-lead`; decode rival title entities | Daily agent | **Done** (2026-10-14) |
 | 47 | Pillar/lab pages list older archive stories + word-bound lab matching (FAQ/H2 mirrored); **live-window index gates unchanged** while deploy-pending | Google | **Done** (2026-10-14) |
+| 48 | `/source/*` durable gate: live + archive story count (same as tags/kinds/outlets/models) — ~+16 feed-adapter hubs when archive fills thin adapters | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

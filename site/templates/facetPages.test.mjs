@@ -245,6 +245,28 @@ describe('outlet facets', () => {
     assert.equal(indexableSources(ctx).some((s) => s.id === 'hn'), true);
   });
 
+  it('lets the durable archive keep a feed adapter above the substance gate', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        {
+          id: 'tc-old-1', title: 'Archived TechCrunch AI one', pillar: 'capability',
+          source: 'techcrunch', url: 'https://example.test/tc1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'tc-old-2', title: 'Archived TechCrunch AI two', pillar: 'capability',
+          source: 'techcrunch', url: 'https://example.test/tc2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+      ],
+    };
+    // 1 live + 2 archive clears SOURCE_INDEX_MIN=3
+    assert.equal(sourceIndexable(withArch, 'techcrunch'), true);
+    assert.ok(indexableSources(withArch).some((s) => s.id === 'techcrunch' && s.count === 3));
+    const html = renderSource(withArch, 'techcrunch');
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /Archived TechCrunch AI one/);
+  });
+
   it('renders an outlet page that lists its stories', () => {
     const html = renderSource(ctx, 'hn');
     assert.match(html, /<h1>What has SIREN scored via hn\?<\/h1>/);
