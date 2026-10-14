@@ -800,6 +800,15 @@ export function organization(ctx) {
       'How much electricity did each country generate',
       'How many data centres does OpenStreetMap map by country',
       'Which SIREN index moves were scored on',
+      'Is ChatGPT down right now',
+      'Is Claude down right now',
+      'Is GitHub Copilot down right now',
+      'Is Cursor down right now',
+      'How many AI-cited US job cuts has Challenger counted',
+      'What happened to Upwork freelancer earnings after ChatGPT',
+      'How many AI medical devices has the FDA authorised',
+      'How many open structure predictions has AlphaFold published',
+
 
 
       'How do these lines cross-check against the lab feeds',

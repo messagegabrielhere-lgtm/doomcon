@@ -37,12 +37,17 @@ const CSS = `<style>
 .st-faq-key{margin-top:var(--s-4,1rem)!important}
 </style>`;
 
+// Tip #399: service-card H2s are question-shaped (mirrored in FAQ §3.3).
+function cardQ(s) {
+  return `Is ${s.product} down right now?`;
+}
+
 function card(s) {
   const i = s.indicator || 'unknown';
   const inc = (s.incidents || []).map((x) => `<li>${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">` : ''}${esc(x.name)}${x.url ? '</a>' : ''} · ${esc(x.status)}</li>`).join('');
   const deg = (s.degraded || []).map((c) => `<li>${esc(c.name)}: ${esc(String(c.status).replace(/_/g, ' '))}</li>`).join('');
   return `<article class="st-c" id="${esc(s.id)}" data-id="${esc(s.id)}" data-i="${esc(i)}" data-api="${s.browser ? esc(s.api) : ''}" style="--c:${COL[i] || COL.unknown}">
-  <h2>${esc(s.product)}<small>${esc(s.name)}</small></h2>
+  <h2>${esc(cardQ(s))}<small>${esc(s.product)} · ${esc(s.name)}</small></h2>
   <div class="st-w"><i></i><span class="st-word">${WORD[i] || WORD.unknown}</span></div>
   <p class="st-desc">${esc(s.description || '')}</p>
   <ul class="st-inc">${inc}${deg}</ul>
@@ -53,8 +58,9 @@ function card(s) {
 export function render(ctx, data) {
   const svc = (data && data.services) || [];
   const counts = svc.reduce((m, s) => { const k = s.indicator === 'none' ? 'up' : s.indicator === 'unknown' ? 'unknown' : 'issues'; m[k] = (m[k] || 0) + 1; return m; }, {});
-  const perSvc = svc.filter((s) => ['openai', 'claude', 'github', 'cursor', 'perplexity', 'groq'].includes(s.id)).map((s) => ([
-    `Is ${s.product} down right now?`,
+  // Tip #399: every card H2 is mirrored in FAQ (§3.3).
+  const perSvc = svc.map((s) => ([
+    cardQ(s),
     `${ANSWER[s.indicator] || ANSWER.unknown} SIREN reads ${s.name}’s official status page and re-checks it every minute in your browser.`,
   ]));
   // Static FAQ restates hero / how-it-works copy only.

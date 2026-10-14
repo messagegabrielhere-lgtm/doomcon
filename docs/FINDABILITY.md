@@ -648,6 +648,8 @@ context.
 | 396 | `/history.html` timeline-entry H3s + FAQPage use questions (was bare event titles); Organization `knowsAbout` mirrors those questions; refuse history-page doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 397 | `/nations.html` measure H2s + FAQPage use questions (was “Odds the best AI model…” / “Frontier labs…” / “Electricity generated…” / “Data centres mapped…”); Organization `knowsAbout` mirrors those questions; refuse SIREN-forecast / financial-advice / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 398 | `/moves/` day-section H2s + FAQPage use questions (was bare ISO dates); Organization `knowsAbout` mirrors the day-question pattern; refuse move-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 399 | `/status.html` service-card H2s + FAQPage use questions (was bare product names); Organization `knowsAbout` mirrors those questions; refuse UNKNOWN-as-up / outage-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 400 | `/jobs.html` + `/medicine.html` register-entry H2s + FAQPage use questions (was bare claim titles); Organization `knowsAbout` mirrors those questions; refuse jobs/medicine forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
