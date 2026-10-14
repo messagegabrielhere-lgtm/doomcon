@@ -1178,6 +1178,65 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/netflix.html'));
   });
 
+  it('indexes Decart, IREN, and OpenRouter entity labs when archive headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'dc1', title: 'Amazon reportedly eyeing $7B acquisition of AI start-up Decart', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/dc1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'dc2', title: 'Why Amazon might pay billions for Decart, a 3-year-old AI startup', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/dc2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'dc3', title: 'Amazon.com (AMZN) Eyes Decart, Is The AI Upside Already Priced In?', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/dc3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'ir1', title: 'IREN Rebounds on Reported Anthropic Deal as Microsoft Unveils Maia 300', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ir1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'ir2', title: 'IREN Stock Gains as Report Names Anthropic as Cloud Client', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ir2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'ir3', title: 'IREN shares jump on report of multi-year Anthropic cloud deal', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ir3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'or1', title: 'OpenRouter: the share of business spending between OpenAI and Anthropic', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/or1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'or2', title: 'Usage and spend have come apart on OpenRouter', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/or2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'or3', title: 'Nvidia considered a last-minute OpenRouter bid', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/or3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+      ],
+    };
+    const decart = labsFromEntities(withArch).find((p) => p.id === 'decart');
+    const iren = labsFromEntities(withArch).find((p) => p.id === 'iren');
+    const openrouter = labsFromEntities(withArch).find((p) => p.id === 'openrouter');
+    assert.ok(decart, 'Decart clears ENTITY_LAB_MIN');
+    assert.ok(iren, 'IREN clears ENTITY_LAB_MIN');
+    assert.ok(openrouter, 'OpenRouter clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, decart), /What has SIREN scored about Decart\?/);
+    assert.match(renderLab(withArch, iren), /What has SIREN scored about IREN\?/);
+    assert.match(renderLab(withArch, openrouter), /What has SIREN scored about OpenRouter\?/);
+    assert.doesNotMatch(renderLab(withArch, decart), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderLab(withArch, openrouter), /probability of doom/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/decart.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/iren.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/openrouter.html'));
+  });
+
   it('indexes Cognition and Groq entity labs when archive headlines clear the gate', () => {
     const withArch = {
       ...ctx,
