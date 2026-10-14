@@ -947,6 +947,17 @@ jobs:
         continue-on-error: true
         run: node collector/digest.mjs
 
+      - name: Refresh reader locations
+        # GoatCounter country counts → data/visitors.json for the homepage map.
+        # Soft: no key, a fresh file, or an API blip all leave the last good
+        # snapshot in place and never fail the lane. Cadence is daily inside
+        # the script (skips when generated_at is under 20 hours old).
+        continue-on-error: true
+        env:
+          GOATCOUNTER_API_KEY: ${{ secrets.GOATCOUNTER_API_KEY }}
+          GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
+        run: node collector/visitors.mjs
+
       - name: Build site
         # Runs even when the engine was skipped: the generator is a pure function
         # of data/, so a rebuild on unchanged data produces byte-identical output

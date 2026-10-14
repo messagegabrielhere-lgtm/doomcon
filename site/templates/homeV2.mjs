@@ -21,6 +21,11 @@ import { render as verifyBox, verifyCss } from './_verify.mjs';
 import { renderV2 as deskPicks } from './_deskpicks.mjs';
 import { freshCluster, breakingMeta } from './_breaking.mjs';
 import { render as faqRender, faqCss, jsonLd as faqJsonLd } from './_faq.mjs';
+import {
+  visitorsModel,
+  visitorsHomePanel,
+  VISITORS_MAP_CSS,
+} from './_visitorsMap.mjs';
 const PILLAR_META = Object.fromEntries(brand.PILLARS.map((p) => [p.id, p]));
 
 // ---------- copy ----------
@@ -693,6 +698,10 @@ ${ticker(items)}
 ${deskPicks(ctx, pixelText)}
 ${movedPanel(wm, href)}
   ${historyPanel(rows)}
+  ${visitorsHomePanel(visitorsModel(ctx.visitors, ctx.worldOutline), {
+    href,
+    titleHtml: pixelText('WHERE THE READERS ARE', 4, '#FFFFFF', 'fit'),
+  })}
   <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>
   ${marketsPanel(ctx, href)}
   ${moltPanel(ctx, href)}
@@ -747,7 +756,7 @@ ${LIVEFX_CSS}<script>${LIVEFX_JS}</script>
 
   return `<!doctype html>
 <html lang="en">
-${head.replace('</head>', `<style>${CSS}${DASH_CSS}</style><style>${verifyCss()}</style><style>${faqCss()}</style>${MZ_CSS}\n</head>`)}
+${head.replace('</head>', `<style>${CSS}${DASH_CSS}${VISITORS_MAP_CSS}</style><style>${verifyCss()}</style><style>${faqCss()}</style>${MZ_CSS}\n</head>`)}
 <body class="v2-body"><a class="v2-skip" href="#signal">Skip to the reading</a>${body}
 <script type="module" src="${href('/media/siren3d.js')}"></script>
 <script src="${href('/media/radio.js')}" defer></script>

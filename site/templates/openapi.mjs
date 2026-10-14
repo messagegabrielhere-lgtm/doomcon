@@ -132,6 +132,19 @@ export function render(ctx) {
           },
         },
       },
+      '/api/visitors.json': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Reader locations by country (GoatCounter aggregates, updated daily)',
+          operationId: 'getVisitors',
+          responses: {
+            200: {
+              description: 'Country counts for the trailing window; omitted when no snapshot is available',
+              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
       '/api/now.txt': {
         get: {
           tags: ['index'],
