@@ -231,6 +231,8 @@ describe('lab facets', () => {
     assert.match(html, /Which AI labs have SIREN pages\?/);
     assert.match(html, /Which AI companies has SIREN scored stories about\?/);
     assert.match(html, /What has SIREN scored about Anthropic\?/);
+    assert.match(html, /id="window"[^>]*>Which related scored stories name OpenAI in this window\?/);
+    assert.match(html, /id="other-labs"[^>]*>Which other labs have scored stories\?/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /Questions people actually ask/);
@@ -239,6 +241,8 @@ describe('lab facets', () => {
     assert.match(html, /fc__k"><a href="\/race\.html">Who is winning the AI race\?<\/a>/);
     assert.doesNotMatch(html, /fc__k"><a href="\/race\.html">The Race<\/a>/);
     assert.doesNotMatch(html, /fc__k"><a href="\/lab\/">Labs<\/a>/);
+    assert.doesNotMatch(html, /<h2>Related stories in this window<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Other labs<\/h2>/);
     assert.equal(labPath('openai'), '/lab/openai.html');
   });
 
@@ -257,9 +261,10 @@ describe('lab facets', () => {
       }],
     };
     const html = renderLab(withArch, withArch.race.players[0]);
-    assert.match(html, /Older scored stories naming OpenAI/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories name OpenAI\?/);
     assert.match(html, /Archived OpenAI model card/);
     assert.match(html, /\/item\/archive\.html/);
+    assert.doesNotMatch(html, /<h2>Older scored stories naming OpenAI<\/h2>/);
   });
 
   it('adds entity-only labs that clear the story gate without inventing odds', () => {
@@ -352,7 +357,7 @@ describe('lab facets', () => {
     assert.ok(ids.includes('bytedance'));
     const html = renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'bytedance'));
     assert.doesNotMatch(html, /noindex/);
-    assert.match(html, /Older scored stories naming ByteDance/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories name ByteDance\?/);
   });
 
   it('indexes Groq as an entity lab when archive stories clear the gate', () => {
