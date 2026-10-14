@@ -305,7 +305,8 @@ function build(){
   uniq.forEach(function(r){if(r[4]!==g){g=r[4];groups.push(g);h+='<li class="sh-rooms__g" id="shg-'+groups.length+'">'+e(g)+'</li>'}h+='<li><a class="sh-rooms__i" href="'+e(D.base+r[0])+'" data-k="'+e((r[2]+' '+r[3]+' '+r[4]).toLowerCase())+'"'+(cur(r[0])?' aria-current="page"':'')+'><img src="'+e(img(r[1]))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(r[2])+'</b><small>'+e(r[3])+'</small></span></a></li>'});
   // Group chips: jump straight to a section of the list.
   h=h.replace('<ul class="sh-rooms__l">','<nav class="sh-rooms__chips" aria-label="Jump to a group">'+groups.map(function(x,i){return '<button type="button" data-shg="'+(i+1)+'">'+e(x.charAt(0)+x.slice(1).toLowerCase())+'</button>'}).join('')+'</nav><ul class="sh-rooms__l">');
-  h+='</ul><p class="sh-rooms__k">↑ ↓ move · Enter open · Esc close · / anywhere · [ ] prev/next room · <a href="'+e(D.base)+'/search.html" style="color:#A5B4FC">full search</a> · <a href="'+e(D.base)+'/catalog.html" style="color:#A5B4FC">catalog</a></p></div>';
+  // Tip #256: keyboard-help links match destination H1s (search + catalog).
+  h+='</ul><p class="sh-rooms__k">↑ ↓ move · Enter open · Esc close · / anywhere · [ ] prev/next room · <a href="'+e(D.base)+'/search.html" style="color:#A5B4FC">How do you search everything on SIREN?</a> · <a href="'+e(D.base)+'/catalog.html" style="color:#A5B4FC">Where is everything on SIREN listed?</a></p></div>';
   dlg.innerHTML=h;document.body.appendChild(dlg);
   q=dlg.querySelector('.sh-rooms__q');stat=items=[].slice.call(dlg.querySelectorAll('.sh-rooms__i'));
   q.addEventListener('input',filt);

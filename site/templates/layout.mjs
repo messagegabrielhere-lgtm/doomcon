@@ -1446,12 +1446,12 @@ function footer(ctx, sections, path) {
   // MEASURED 2026-09-27 at 1024px: the footer was 1,179px tall, 902 of them
   // the index, because thirteen pages and nine data files each carried a
   // sentence. The nav bar at the top of every page already sells each page
-  // with its label and its live count, and the homepage's "Public JSON API"
-  // section describes every file; a footer that repeats both is a second
-  // screen of scrolling past the end of the page. Pages and Data are bare
-  // labels now - Pages in two columns - and Data carries one pointer to the
-  // section that explains it. Provenance keeps its one line. Target: under
-  // 500px at desktop width.
+  // with its label and its live count, and /instruments.html#api describes
+  // every file; a footer that repeats both is a second screen of scrolling
+  // past the end of the page. Pages and Data are bare labels now - Pages in
+  // two columns - and Data carries one pointer (tip #256: instruments H1
+  // question) to the section that explains it. Provenance keeps its one line.
+  // Target: under 500px at desktop width.
   const col = (id, heading, items, blurbKey = null, note = '') => `
     <div class="foot__col">
       <h2 class="foot__h" id="${esc(id)}">${esc(heading)}</h2>
@@ -1609,7 +1609,7 @@ function footer(ctx, sections, path) {
       <div class="foot__cols">
         ${col('foot-pages', 'Pages', sections)}
         ${col('foot-data', 'Data', dataLinks, null,
-    `<p class="foot__note">What each file holds is described under <a href="${esc(ctx.href('/instruments.html'))}#api">Public JSON API</a>.</p>`)}
+    `<p class="foot__note">What each file holds is described under <a href="${esc(ctx.href('/instruments.html'))}#api">What instruments sit behind the ${esc(brand.NAME)} reading?</a></p>`)}
         ${col('foot-src', 'Provenance', source, 'blurb')}
       </div>
     </div>
