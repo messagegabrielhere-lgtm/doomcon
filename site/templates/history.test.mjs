@@ -35,6 +35,10 @@ test('history.html ships question-shaped title, matching H1, speakable, breadcru
   assert.ok(prose, 'expected history prose before FAQ');
   assert.match(prose[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
   assert.doesNotMatch(prose[1], /href="\/methodology\.html">methodology<\/a>/);
+  assert.match(prose[1], /href="\/moves\/">Where are the SIREN index moves\?<\/a>/);
+  assert.doesNotMatch(prose[1], /href="\/moves\/">hash-chained receipt<\/a>/);
+  assert.match(html, /lore-nav__n[^<]*<\/span>How the SIREN AI activity index is computed · methodology<\/a>/);
+  assert.doesNotMatch(html, /lore-nav__n[^<]*<\/span>The arithmetic<\/a>/);
   assert.doesNotMatch(html, /<h1>A sourced history of the AIpocalypse/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);

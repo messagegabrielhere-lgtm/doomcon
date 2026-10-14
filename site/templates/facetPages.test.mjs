@@ -89,6 +89,8 @@ describe('pillar facets', () => {
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /pillar\/attention\.html/);
+    assert.match(html, /href="\/">AI activity index today · SIREN<\/a>/);
+    assert.doesNotMatch(html, /href="\/">homepage<\/a>/);
     assert.doesNotMatch(html, /noindex/);
     assert.doesNotMatch(html, /pillar doom score:\s*\d/i);
     assert.equal(pillarPath('capability'), '/pillar/capability.html');

@@ -52,6 +52,8 @@ describe('guides hub', () => {
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /guides\.md/);
     assert.match(html, /rel="alternate"[^>]*guides\.md/);
+    assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.doesNotMatch(html, /href="\/">Live reading →<\/a>/);
   });
 
   it('ships a markdown mirror for agents', () => {
@@ -60,6 +62,8 @@ describe('guides hub', () => {
     assert.match(md, /\/guides\.html/);
     assert.match(md, /\/p-doom\.html/);
     assert.match(md, /\/ai-doomsday-clock\.html/);
+    assert.match(md, /AI activity index today · SIREN/);
+    assert.doesNotMatch(md, /\[Live reading\]/);
     assert.doesNotMatch(md, /^# AI explainers —/m);
     assert.doesNotMatch(md, /doom score:\s*\d/i);
   });

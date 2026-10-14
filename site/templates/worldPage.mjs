@@ -231,7 +231,7 @@ function countrySection(ctx, w, m) {
     OpenStreetMap's datacentre mappers are as much as about where datacentres are.` : ''} The
     ${count(t.countriesWithNone, '—')} countries in the roster with none mapped are not a tail of this ranking;
     they are outside it, because nobody has looked.
-    <a href="${esc(ctx.href('/country/'))}">Countries with at least three mapped sites</a> each have a page.</p>
+    <a href="${esc(ctx.href('/country/'))}">Which AI datacentre countries have ${esc(brand.NAME)} pages?</a> each have a page.</p>
   <ul class="wld__cont" aria-label="Mapped sites by continent">${conts}</ul>
   ${worldTable(m, {
     mapId: MAP_ID,

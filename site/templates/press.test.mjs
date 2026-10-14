@@ -30,6 +30,12 @@ test('press.html ships question-shaped title, speakable, breadcrumbs, and visibl
   assert.match(html, /href="\/instruments\.html#embed">What instruments sit behind the SIREN reading\?<\/a>/);
   assert.doesNotMatch(html, /href="\/methodology\.html">method<\/a>/);
   assert.doesNotMatch(html, /href="\/instruments\.html#embed">instruments page<\/a>/);
+  const facts = html.match(/<h2>Facts<\/h2>\s*<ul>([\s\S]*?)<\/ul>/);
+  assert.ok(facts, 'expected press Facts list');
+  assert.match(facts[1], /href="\/">AI activity index today · SIREN<\/a>/);
+  assert.doesNotMatch(facts[1], /href="\/">Live page<\/a>/);
+  assert.match(facts[1], /href="\/moves\/">Where are the SIREN index moves\?<\/a>/);
+  assert.doesNotMatch(facts[1], /href="\/moves\/">Archive<\/a>/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
 });

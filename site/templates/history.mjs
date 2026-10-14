@@ -709,7 +709,7 @@ function chapterNav(ctx) {
       <li><a href="#legend"><span class="lore-nav__n" aria-hidden="true">·</span>The scale, level by level</a></li>
       <li><a href="#not"><span class="lore-nav__n" aria-hidden="true">·</span>What this index does not claim</a></li>
       <li><a href="#faq"><span class="lore-nav__n" aria-hidden="true">·</span>Questions people actually ask</a></li>
-      <li><a href="${esc(ctx.href('/methodology.html'))}"><span class="lore-nav__n" aria-hidden="true">·</span>The arithmetic</a></li>
+      <li><a href="${esc(ctx.href('/methodology.html'))}"><span class="lore-nav__n" aria-hidden="true">·</span>How the ${esc(brand.NAME)} AI activity index is computed · methodology</a></li>
     </ol></nav>`;
 }
 
@@ -894,7 +894,7 @@ ${pillarLegend()}
   <p>The full arithmetic — the percentile normalisation, the NowCast smoothing and the six
     anti-flap layers that stop the level oscillating — is in the
     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>, and every observation is
-    written to a <a href="${esc(ctx.href('/moves/'))}">hash-chained receipt</a> carrying the inputs
+    written to a <a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves?</a> carrying the inputs
     it was computed from.</p>
   <p>Three source states exist, and they stay distinct, because collapsing them is how an index
     starts lying. <b>Live</b>: the source answered and is scored. <b>Dark</b>: the fetch failed, so

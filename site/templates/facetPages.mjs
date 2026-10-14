@@ -193,7 +193,7 @@ export function renderPillar(ctx, pillarId) {
     <div><b>${esc(st && st.dark ? 'DARK' : (st && st.uncalibrated ? 'CALIBRATING' : 'LIVE'))}</b><span>Source posture</span></div>
   </div>
   <p class="fresh__key">This page is the crawlable face of the ${esc(meta.name)} filter on the newsroom.
-     The composite ${esc(brand.NAME)} reading still lives on the <a href="${esc(ctx.href('/'))}">homepage</a>;
+     The composite ${esc(brand.NAME)} reading still lives on <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>;
      the method is on <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
   <h2>Stories scored under ${esc(meta.name)}</h2>
   ${items.length

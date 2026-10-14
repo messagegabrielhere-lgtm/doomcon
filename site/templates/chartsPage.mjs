@@ -247,7 +247,7 @@ export function render(ctx, { history = [], race = null, power = null } = {}) {
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
   <p class="chfaq__key">Search-shaped sibling:
-    <a href="${esc(ctx.href('/power.html'))}">The power race: who makes the most electricity (China vs US)</a>.</p>
+    <a href="${esc(ctx.href('/power.html'))}">Who makes the most electricity (China vs US)?</a>.</p>
 </section>
 </section>
 <div class="ch-modal" id="ch-modal" hidden role="dialog" aria-modal="true" aria-labelledby="ch-mh"><div class="ch-box">

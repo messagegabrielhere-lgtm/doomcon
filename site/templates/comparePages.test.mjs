@@ -60,6 +60,8 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(hub, /\/vs\.html/);
     assert.match(hub, /Which AI indexes does SIREN contrast/);
     assert.match(hub, /\/methodology\.html/);
+    assert.match(hub, /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.doesNotMatch(hub, /href="\/">Live dial →<\/a>/);
     assert.doesNotMatch(hub, /noindex/);
 
     const alt = alternatives(ctx);
@@ -95,6 +97,8 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(page, /Questions people actually ask/);
     assert.match(page, /does not score takeover risk/i);
     assert.match(page, /recompute/i);
+    assert.match(page, /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.doesNotMatch(page, /href="\/">Current SIREN reading →<\/a>/);
     assert.doesNotMatch(page, /SIREN.*p\(doom\) of \d/i);
     const pizza = vsRival(ctx, 'pizzint');
     assert.match(pizza, /<title>SIREN vs PizzINT: which should you use\?/);

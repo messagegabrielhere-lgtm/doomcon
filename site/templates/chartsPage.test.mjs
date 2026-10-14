@@ -38,6 +38,7 @@ describe('charts page', () => {
     assert.match(html, /href="\/power\.html">Who makes the most electricity \(China vs US\)\?<\/a>/);
     assert.doesNotMatch(html, /href="\/methodology\.html">method<\/a>/);
     assert.doesNotMatch(html, /href="\/power\.html">full table<\/a>/);
+    assert.doesNotMatch(html, /href="\/power\.html">The power race: who makes the most electricity \(China vs US\)<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /noindex/);
   });
