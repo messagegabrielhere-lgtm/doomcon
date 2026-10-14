@@ -1100,6 +1100,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Neocloud GPU-rental and AI-infra provider stories scored in the newsroom or archive — coverage counts, not a vendor ranking.',
     match: /\bneoclouds?\b/i,
   },
+  {
+    id: 'ai-slop',
+    name: 'AI slop',
+    description: 'AI-slop and low-quality generative-flood stories scored in the newsroom or archive — coverage counts, not a harm forecast.',
+    match: /\bAI slop\b/i,
+  },
+  {
+    id: 'gulf-ai',
+    name: 'Gulf AI investment',
+    description: 'Gulf-region AI capital and SoftBank/Gulf fund stories scored in the newsroom or archive — coverage counts, not financial advice.',
+    match: /\bGulf\b.{0,60}\b(AI|OpenAI|SoftBank|fund)\b|\b(AI|OpenAI|SoftBank)\b.{0,60}\bGulf\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

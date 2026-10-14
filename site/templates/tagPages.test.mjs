@@ -1682,4 +1682,33 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'neoclouds'), /What has SIREN scored about Neoclouds\?/);
     assert.doesNotMatch(renderTag(rich, 'agent-skills'), /doom score:\s*\d/i);
   });
+
+  it('pages ai-slop and gulf-ai hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('sl1', 'AI slop is gumming up business'),
+          story('sl2', 'Pope Leo comes out swinging against AI slop'),
+          story('sl3', 'arXiv Is Rate Limiting Submissions Because Of AI Slop'),
+          story('sl4', 'Google freezes bug bounty amid flood of invalid AI slop'),
+          story('sl5', 'Academic publishing is a study in fighting AI slop'),
+          story('gf1', 'SoftBank seeks $100B from Gulf investors to expand AI bet'),
+          story('gf2', 'SoftBank Wants up to $100 Billion From Gulf Investors for AI'),
+          story('gf3', 'Masayoshi Son seeks $100B Gulf backing for AI robotics upgrades'),
+          story('gf4', "SoftBank's $100 Billion Gulf Gambit Meets a Cooling OpenAI Narrative"),
+          story('gf5', 'Sources: SoftBank is seeking to raise up to $100B from Gulf investors for a fund'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('ai-slop'));
+    assert.ok(ids.includes('gulf-ai'));
+    assert.match(renderTag(rich, 'ai-slop'), /What has SIREN scored about AI slop\?/);
+    assert.match(renderTag(rich, 'gulf-ai'), /What has SIREN scored about Gulf AI investment\?/);
+    assert.match(renderTag(rich, 'gulf-ai'), /not financial advice/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-slop'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'gulf-ai'), /doom score:\s*\d/i);
+  });
 });

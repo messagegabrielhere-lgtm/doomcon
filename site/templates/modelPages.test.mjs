@@ -178,6 +178,25 @@ describe('model pages', () => {
     assert.match(renderModel(rich, 'Mixtral'), /Mistral Large ships/);
   });
 
+  it('indexes Mixtral from Le Chonk / Mistral Large 4 nickname forms', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('lc1', 'Mistral Says Its New AI Model ‘Le Chonk’ Is the Best Open-Weight Offering Outside of China', []),
+          story('lc2', 'Mistral says "Le Chonk" can challenge the best AI models', []),
+          story('lc3', 'Introducing Mistral Large 4: Le chonk', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Mixtral'));
+    const html = renderModel(rich, 'Mixtral');
+    assert.match(html, /Le Chonk|Mistral Large 4/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/mixtral.html'));
+  });
+
   it('indexes Muse Wonder from title/summary forms', () => {
     const rich = {
       ...ctx,
