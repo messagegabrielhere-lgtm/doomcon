@@ -54,9 +54,11 @@ export function render(ctx, race) {
   const at = race && race.generated_at ? utc(race.generated_at) : (ctx.state && ctx.state.generated_at ? utc(ctx.state.generated_at) : null);
   const faq = faqs(brand.NAME);
 
+  const pageTitle = `Where are live AI prediction market odds? · ${brand.NAME}`;
+
   const main = `${CSS}<section class="apm">
   <p class="eyebrow">PREDICTION MARKETS · NOT A ${esc(brand.NAME)} FORECAST</p>
-  <h1 class="bp__h1 speakable-summary">AI prediction markets: live odds, not a forecast</h1>
+  <h1 class="bp__h1 speakable-summary">Where are live AI prediction market odds?</h1>
   <p class="lede speakable-lede">${esc(brand.NAME)} reprints money-backed prices from Polymarket, Kalshi and Manifold on AI questions. The index itself counts how loud AI activity is this hour. It does not publish a prediction.</p>
   ${leader && leader.pct ? `<div class="stat"><div><b>${esc(leader.pct)}%</b><span>${esc(leader.name)} — live best-model market (year-end)</span></div>${at ? `<div><b>${esc(at)}</b><span>Race board clock (UTC)</span></div>` : ''}</div>` : ''}
   <div class="nav">
@@ -65,9 +67,9 @@ export function render(ctx, race) {
     <a href="${esc(ctx.href('/methodology.html'))}">Methodology →</a>
     <a href="${esc(ctx.href('/search-trends.html'))}">Search Trends watch →</a>
   </div>
-  <h2>What this page is for</h2>
+  <h2>What does this page answer?</h2>
   <p>People type “AI prediction markets” when they want live odds on labs and model releases. This page is the crawlable answer: where ${esc(brand.NAME)} shows those prices, and the hard line that the prices are the market’s, not ours.</p>
-  <h2>What to open next</h2>
+  <h2>Where should readers go next?</h2>
   <ul>
     <li><a href="${esc(ctx.href('/race.html'))}">The Race</a> — frontier labs ordered by live prediction-market probability.</li>
     <li><a href="${esc(ctx.href('/pillar/markets.html'))}">Markets pillar</a> — scored stories under the markets filter, plus source posture.</li>
@@ -82,16 +84,16 @@ export function render(ctx, race) {
   return page({
     ctx,
     path: '/ai-prediction-markets.html',
-    title: `AI prediction markets: live odds on labs & models · ${brand.NAME}`,
+    title: pageTitle,
     description: 'Where to read live AI prediction-market odds on SIREN — The Race and the Markets pillar. Market prices, not a SIREN forecast. Includes FAQ.',
     main,
     jsonld: [
       organization(ctx),
-      breadcrumbs(ctx, [{ name: 'AI prediction markets', path: '/ai-prediction-markets.html' }]),
+      breadcrumbs(ctx, [{ name: 'Where are live AI prediction market odds?', path: '/ai-prediction-markets.html' }]),
       {
         '@context': 'https://schema.org',
         '@type': 'WebPage',
-        name: `AI prediction markets · ${brand.NAME}`,
+        name: pageTitle,
         url: ctx.url('/ai-prediction-markets.html'),
         description: 'Live AI prediction-market odds reprinted on SIREN, with a clear line that SIREN does not forecast.',
         speakable: speakable(['.speakable-summary', '.speakable-lede']),

@@ -52,6 +52,8 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/news.html',
   '/race.html',
   '/guide.html',
+  '/search-trends.html',
+  '/ai-prediction-markets.html',
 ]);
 
 /** Our agent / findability surfaces that must keep answering 200. */

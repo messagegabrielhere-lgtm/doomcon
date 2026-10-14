@@ -137,12 +137,12 @@ An index that refuses to be a probability is more citable than one that
 performs certainty. That is the ranking advantage; do not sand it off for
 clickbait titles.
 
-### 1.7 News discovery (still open)
+### 1.7 News discovery
 
-`news-sitemap.xml` is **404**. If/when item pages carry real `NewsArticle`
-payloads with recent dates, ship a Google News sitemap with `news:keywords`
-and keep the rolling window short. Re-check pizzint's news sitemap before
-scoping (`COMPETITIVE.md` §0.1) — frozen vs rolling changes the bet.
+`news-sitemap.xml` is **live** (rolling 48h window, cap **200**, AI-first
+`news:keywords`). Hold the Google News lane while pizzint’s news sitemap
+flaps empty↔thin (`google-news-open` in `seo-daily`). Re-check their feed
+before changing the bet (`COMPETITIVE.md` §0.1 / `COMPETITIVE-SEO.md`).
 
 ---
 
@@ -249,9 +249,9 @@ context.
 | 16 | `/agents.txt` + `/agents.json` + `/.well-known/api-catalog` + skills index + MCP server card | Agent discovery | **Done** (this pass) |
 | 17 | News-sitemap cap **200** + AI-first keywords (slim live hotfix) | Google News | **Done** (2026-10-14) |
 | 18 | `/news.html` question-shaped title/H1/H2s + FAQPage + Speakable + BreadcrumbList | Google | **Done** (2026-10-14) |
-| 19 | `/digest.html` question-shaped title/H1 + FAQPage (live still “The daily brief — N items”) | Google | **Done** (2026-10-14) |
-| 20 | `/race.html` question-shaped title/H1 + FAQPage (live still “The AI race — …”) | Google | **Done** (2026-10-14) |
-| 21 | `/methodology.html` head-term title + question H2s feeding FAQPage (live still “Methodology — …”) | Google | **Done** (2026-10-14) |
+| 19 | `/digest.html` question-shaped title/H1 + FAQPage | Google | **Done** (2026-10-14) |
+| 20 | `/race.html` question-shaped title/H1 + FAQPage | Google | **Done** (2026-10-14) |
+| 21 | `/methodology.html` head-term title + question H2s feeding FAQPage | Google | **Done** (2026-10-14) |
 | 22 | Homepage below-fold `content-visibility:auto` (CWV; crawlers still see full HTML) | Google CWV | **Done** (2026-10-14) |
 | 23 | `/source/*` adapter hubs link older archive stories; phone-width home board deferral | Google CWV | **Done** (2026-10-14) |
 | 24 | `/tags/*` topic hubs (Skynet URL shape; curated needles, ≥5 stories) | Google | **Done** (2026-10-14) |
@@ -296,6 +296,7 @@ context.
 | 63 | `api-catalog` + `ai.txt` + `agents.txt` comments + MCP `related` advertise `/news-sitemap.xml`, `/api/news.json`, `/news.html` — AI-search path while `google-news-open` (no new facet URLs) | Agents + Google News | **Done** (2026-10-14) |
 | 64 | IndexNow ALWAYS covers skill package + `/api/news.json`; news-sitemap keyword surfaces for Trail of Bits / DualEntry / Qwen N1 / Grok Voice / HomeView / AA-AgentPerf / DeepSeek V4.1 / MI355X (live 48h window) | Bing + Google News | **Done** (2026-10-14) |
 | 65 | Clear CodeQL “replace substring with itself” on desk share lines (`what.replace(/^headlines/, 'headlines')` → `what`) so PR #125 stays mergeable under `deploy-pending-url-lead` | Merge / deploy | **Done** (2026-10-14) |
+| 66 | Question-shaped `/search-trends.html` + `/ai-prediction-markets.html` titles/H1/H2/FAQ; IndexNow ALWAYS + `seo-daily` CORE_LIVE_SURFACES monitor both | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
