@@ -9,6 +9,8 @@ describe('siteheader rooms keyboard help (tip #256)', () => {
     assert.match(js, /\/catalog\.html"[^>]*>Where is everything on SIREN listed\?<\/a>/);
     assert.doesNotMatch(js, />full search<\/a>/);
     assert.doesNotMatch(js, />catalog<\/a>/);
+    assert.match(js, /How do you search everything on SIREN\? “'\+e\(raw\)\+'/);
+    assert.doesNotMatch(js, /Search everything for/);
     assert.doesNotMatch(js, /doom score/i);
     assert.doesNotMatch(js, /probability of doom/i);
   });

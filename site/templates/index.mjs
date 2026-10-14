@@ -679,6 +679,8 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
   const instrumentsQ = `What instruments sit behind the ${brand.NAME} reading?`;
   // FAQ answers restate hero / record / embed / API copy only (FINDABILITY §3.3).
   // Refuse: doom-probability, forecast, or "the instruments predict" claims.
+  // Tip #260: API section H2 is question-shaped and mirrored in FAQ (FINDABILITY §3.3).
+  const instrumentsApiQ = `What public JSON files does ${brand.NAME} expose?`;
   const instrumentsFaq = [
     [instrumentsQ,
       'The home page gives the reading. This page shows the working: where the score sits, how it has moved, which sources reported, what each pillar is doing, and how to take the number with you.'],
@@ -688,6 +690,8 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
       'Where today sits inside the frozen reference distribution, and why that curve is never updated live, is drawn and explained on the methodology page.'],
     ['How do I put the index on my site?',
       'One iframe. No script, no tracking, no key. It renders light or dark to match the page it sits in, and the number inside it is server-rendered too.'],
+    [instrumentsApiQ,
+      `Static JSON under /api/: state, history, health and per-reading receipts. No key, no rate limit, ${brand.LICENSE}. Attribution: ${brand.DOMAIN}.`],
   ];
   const instrumentsFaqHtml = instrumentsFaq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -767,7 +771,7 @@ ${oven.render(ctx)}
 </section>
 
 <section class="sec" id="api" aria-labelledby="api-h">
-  <h2 class="sec__h" id="api-h">Public JSON API</h2>
+  <h2 class="sec__h" id="api-h">${esc(instrumentsApiQ)}</h2>
   <ul class="apilist">
     <li><code>${esc(ctx.url('/api/state.json'))}</code> <span>current level, score, pillars and per-source health</span></li>
     <li><code>${esc(ctx.url('/api/history.json'))}</code> <span>every scored observation</span></li>
