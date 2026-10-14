@@ -467,6 +467,7 @@ context.
 | 215 | Catalog + agents.md + pillar-page siblings/breadcrumbs for `/pillar/{id}.html` aligned to “What has SIREN scored under {name}?” (was “Capability pillar”); `knowsAbout` per-pillar questions; refuse pillar doom-score blurbs | Google + Bing + agents | **Done** (2026-10-13) |
 | 216 | Lab + companies hubs: siblings/breadcrumbs/ItemList + agents.md lab links use “What has SIREN scored about {lab}?” / race + labs + companies questions (was “The Race” / “Labs”); catalog receipts → “Where are the SIREN reading receipts?”; refuse lab doom-score claims | Google + Bing + agents | **Done** (2026-10-13) |
 | 217 | `/model/*` + `/models.html` siblings/breadcrumbs/ItemList/other-model links use newsroom + model-family questions + “What has SIREN scored about {model}?” (was “Newsroom” / “Models”); refuse model doom-score claims | Google + Bing | **Done** (2026-10-13) |
+| 218 | `/outlet/*` + `/outlet/` + `/outlets.html` siblings/breadcrumbs/ItemList/other-publisher links use newsroom + publisher + outlets questions + “What has SIREN scored from {domain}?” (was “Newsroom” / “Publishers” / “Compare”); refuse publisher doom-score claims | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

@@ -70,6 +70,12 @@ describe('outlet pages', () => {
     const html = renderOutlets(ctx);
     assert.match(html, /Which AI outlets has SIREN scored stories from\?/);
     assert.match(html, /\/outlet\/arxiv-org\.html/);
+    assert.match(html, /What has SIREN scored from arxiv\.org\?/);
+    assert.match(html, /Which AI doom indexes can you compare\?/);
+    assert.match(html, /Which AI publishers have SIREN pages\?/);
+    assert.match(html, /od__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.doesNotMatch(html, /od__k"><a href="\/compare\.html">Compare<\/a>/);
+    assert.doesNotMatch(html, /od__k"><a href="\/outlet\/">Publishers<\/a>/);
     assert.match(html, /does not publish a publisher/);
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
@@ -82,6 +88,13 @@ describe('outlet pages', () => {
   it('lists stories with ItemList schema and refuses doom claims', () => {
     const html = renderOutlet(ctx, 'arxiv.org');
     assert.match(html, /<title>What has SIREN scored from arxiv\.org\?/);
+    assert.match(html, /<h1>What has SIREN scored from arxiv\.org\?<\/h1>/);
+    assert.match(html, /Which AI stories has SIREN scored in this window\?/);
+    assert.match(html, /Which AI publishers have SIREN pages\?/);
+    assert.match(html, /Which AI outlets has SIREN scored stories from\?/);
+    assert.match(html, /od__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /od__k"><a href="\/news\.html">Newsroom<\/a>/);
+    assert.doesNotMatch(html, /od__k"><a href="\/outlet\/">Publishers<\/a>/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /ItemList/);
     assert.match(html, /Questions people actually ask/);
@@ -95,6 +108,10 @@ describe('outlet pages', () => {
   it('renders the index and links from story pages', () => {
     const index = renderIndex(ctx);
     assert.match(index, /Which AI publishers have SIREN pages\?/);
+    assert.match(index, /What has SIREN scored from arxiv\.org\?/);
+    assert.match(index, /Which AI stories has SIREN scored in this window\?/);
+    assert.match(index, /od__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(index, /od__k"><a href="\/news\.html">Newsroom<\/a>/);
     assert.match(index, /Questions people actually ask/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
