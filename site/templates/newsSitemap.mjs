@@ -29,6 +29,7 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Apple', 'Apple Intelligence', 'Palantir', 'ByteDance', 'Seed-OSS',
   'SoftBank', 'Adobe', 'Intel', 'Samsung', 'TSMC', 'Taiwan Semiconductor',
   'Tesla', 'Waymo', 'ASML', 'Micron',
+  'Claude', 'GPT', 'Gemini', 'Qwen', 'DeepSeek-R', 'Llama', 'Gemma',
   'DeepSeek', 'AMD', 'Broadcom', 'Oracle', 'Tencent', 'Qualcomm', 'Qwen', 'Alibaba', 'Alibaba Cloud',
   'Huawei', 'Sony', 'Supermicro', 'IREN', 'OpenRouter', 'Reflection AI',
   'Muse Wonder', 'Artificial Analysis', 'Decart', 'Sakana AI', 'Isomorphic Labs',

@@ -155,6 +155,13 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/lab/meta.html'));
     assert.ok(has('https://siren.watch/lab/google-deepmind.html'));
     assert.ok(has('https://siren.watch/lab/xai.html'));
+    assert.ok(has('https://siren.watch/model/claude.html'));
+    assert.ok(has('https://siren.watch/model/gpt.html'));
+    assert.ok(has('https://siren.watch/model/gemini.html'));
+    assert.ok(has('https://siren.watch/model/qwen.html'));
+    assert.ok(has('https://siren.watch/model/deepseek-r.html'));
+    assert.ok(has('https://siren.watch/model/llama.html'));
+    assert.ok(has('https://siren.watch/model/gemma.html'));
     assert.ok(has('https://siren.watch/model/kimi.html'));
     assert.ok(has('https://siren.watch/model/glm.html'));
     assert.ok(has('https://siren.watch/model/grok.html'));

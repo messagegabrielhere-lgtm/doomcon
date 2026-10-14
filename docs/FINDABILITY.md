@@ -846,6 +846,13 @@ context.
 | 594 | Lab hub `/lab/meta` (Meta AI race lab); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 595 | Lab hub `/lab/google-deepmind` (Google DeepMind race lab); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 596 | Lab hub `/lab/xai` (xAI race lab); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 597 | Model hub `/model/claude` (Claude, ≥3); IndexNow + seo-daily; refuse model-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 598 | Model hub `/model/gpt` (GPT, ≥3); IndexNow + seo-daily; refuse model-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 599 | Model hub `/model/gemini` (Gemini, ≥3); IndexNow + seo-daily; refuse model-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 600 | Model hub `/model/qwen` (Qwen, ≥3); IndexNow + seo-daily; refuse model-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 601 | Model hub `/model/deepseek-r` (DeepSeek-R, ≥3); IndexNow + seo-daily; refuse model-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 602 | Model hub `/model/llama` (Llama, ≥3); IndexNow + seo-daily; refuse model-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 603 | Model hub `/model/gemma` (Gemma, ≥3); IndexNow + seo-daily; refuse model-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
