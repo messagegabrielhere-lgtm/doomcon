@@ -24,6 +24,15 @@ describe('radio page', () => {
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/games\.html/);
     assert.match(html, /No audio files, no ads/);
+    const hear = html.match(/<h2>Hear it in the videos<\/h2>\s*<p>([\s\S]*?)<\/p>/);
+    assert.ok(hear, 'expected Hear it in the videos paragraph');
+    assert.match(hear[1], /href="\/videos\.html">What free AI explainer videos does SIREN publish\?<\/a>/);
+    assert.doesNotMatch(hear[1], /href="\/videos\.html">SIREN video<\/a>/);
+    const faqKey = html.match(/<p class="md-faq-key">([\s\S]*?)<\/p>/);
+    assert.ok(faqKey, 'expected md-faq-key');
+    assert.match(faqKey[1], /href="\/live\.html">What AI is on TV and radio right now\?<\/a>/);
+    assert.match(faqKey[1], /href="\/elon\.html">Where can you find real clips of AI leaders\?<\/a>/);
+    assert.doesNotMatch(html, /BreadcrumbList[\s\S]*?"name"\s*:\s*"SIREN Radio"/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /Radio feeds the index/i);
     assert.doesNotMatch(html, /probability of doom/i);
