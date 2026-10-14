@@ -259,6 +259,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Ready for SI personal plan'));
     assert.ok(org.knowsAbout.includes('USA vs China AI race'));
     assert.ok(org.knowsAbout.includes('USA vs China: who is winning the race to superintelligence'));
+    assert.ok(org.knowsAbout.includes('How does this scoreboard work'));
     assert.ok(org.knowsAbout.includes('AI-proof your job'));
     assert.ok(org.knowsAbout.includes('how do I AI-proof my job'));
     assert.ok(org.knowsAbout.includes('Is ChatGPT down'));
@@ -277,6 +278,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Does the SIREN index make forecasts'));
     assert.ok(org.knowsAbout.includes('Skynet scenario'));
     assert.ok(org.knowsAbout.includes('What if an AI wakes up at 2:14 a.m.'));
+    assert.ok(org.knowsAbout.includes('What is real, not fiction'));
     assert.ok(org.knowsAbout.includes('The Day After'));
     assert.ok(org.knowsAbout.includes('What happens the day after an AI catastrophe'));
     assert.ok(org.knowsAbout.includes('Containment'));

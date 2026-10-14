@@ -25,6 +25,8 @@ describe('self-aware page', () => {
     assert.match(html, /<title>What if an AI wakes up at 2:14 a\.m\.\?/);
     assert.match(html, /<h1 class="bp__h1">What if an AI wakes up at 2:14 a\.m\.\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="real">What is real, not fiction\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*What is real, not fiction\?/);
     assert.match(html, /Is this a forecast that Skynet is waking up\?/);
     assert.match(html, /Are the data-centre locations real\?/);
     assert.match(html, /What is actually happening tonight\?/);
@@ -50,6 +52,7 @@ describe('self-aware page', () => {
     assert.doesNotMatch(html, /href="\/p-doom\.html#voices">28 named p\(doom\) estimates →<\/a>/);
     assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
     assert.doesNotMatch(html, /href="\/">See the index →<\/a>/);
+    assert.doesNotMatch(html, /id="real">Back to what.?s real<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /Skynet is waking up\./i);
     assert.doesNotMatch(html, /the attack is real/i);

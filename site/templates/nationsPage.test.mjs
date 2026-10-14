@@ -36,6 +36,8 @@ describe('nations page', () => {
     assert.match(html, /<title>USA vs China: who is winning the race to superintelligence\?/);
     assert.match(html, /<h1 class="bp__h1">USA vs China: who is winning the race to superintelligence\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="how"[^>]*>How does this scoreboard work\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*How does this scoreboard work\?/);
     assert.match(html, /Are the odds SIREN’s forecast of who wins\?/);
     assert.match(html, /How does the scoreboard award points\?/);
     assert.match(html, /How is this different from the lab race page\?/);
@@ -55,6 +57,7 @@ describe('nations page', () => {
     assert.doesNotMatch(related[1], /href="\/power\.html">the power race<\/a>/);
     assert.doesNotMatch(related[1], /href="\/world\.html">world data centres<\/a>/);
     assert.doesNotMatch(related[1], /href="\/charts\.html">charts<\/a>/);
+    assert.doesNotMatch(html, /id="how"[^>]*>How it works<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /SIREN (predicts|forecasts) who wins/i);
     assert.doesNotMatch(html, /this is financial advice/i);

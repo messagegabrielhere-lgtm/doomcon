@@ -522,6 +522,7 @@ context.
 | 270 | `/nothing.html` section H2s + FAQPage use questions for ledger / method (was “The ledger” / “How the number is made”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 271 | `/labs.html` section H2s + FAQPage use questions for this-week / coming-up / earlier-weeks / lab-rules (was “This week: …” / “Coming up on the bench” / “Earlier weeks” / “Lab rules”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 272 | `/si-watch.html` section H2s + FAQPage use questions for coding / coming signals (was “What the AI agents are coding” / “Signals on the way”); Organization `knowsAbout` mirrors those questions; refuse doom-probability / takeover-forecast claims | Google + Bing | **Done** (2026-10-14) |
+| 273 | `/self-aware.html` + `/nations.html` section H2s + FAQPage use questions for real-not-fiction / scoreboard-how (was “Back to what’s real” / “How it works”); Organization `knowsAbout` mirrors those questions; refuse doom-probability / Skynet-forecast claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
