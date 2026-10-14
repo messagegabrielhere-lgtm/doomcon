@@ -1202,6 +1202,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI-bubble and valuation-froth stories scored in the newsroom or archive — coverage counts, not a crash forecast.',
     match: /\bAI bubble\b/i,
   },
+  {
+    id: 'openai-revenue',
+    name: 'OpenAI revenue',
+    description: 'OpenAI revenue and run-rate stories scored in the newsroom or archive — coverage counts, not a valuation forecast.',
+    match: /\bOpenAI [Rr]evenue\b/i,
+  },
+  {
+    id: 'recursive-self-improvement',
+    name: 'Recursive self-improvement',
+    description: 'Recursive-self-improvement research stories scored in the newsroom or archive — coverage counts, not an autonomy forecast.',
+    match: /\b[Rr]ecursive [Ss]elf(?:[- ][Ii]mprovement)?\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

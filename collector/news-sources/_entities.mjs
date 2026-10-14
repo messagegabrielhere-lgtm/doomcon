@@ -140,7 +140,9 @@ const ENTITY_DEFS = [
   { name: 'Phi', kind: 'model', forms: ['Phi-3', 'Phi-4'] },
   { name: 'Command R', kind: 'model', forms: ['Command R', 'Command A'] },
   { name: 'Kimi', kind: 'model', forms: ['Kimi', 'Kimi K2'] },
-  { name: 'GLM', kind: 'model', forms: ['GLM-4', 'GLM'] },
+  // GLM-5 / GLM5.3 nickname forms so /model/glm clears when headlines
+  // omit a bare “GLM” token next to the version string.
+  { name: 'GLM', kind: 'model', forms: ['GLM-5.3', 'GLM5.3', 'GLM-5', 'GLM5', 'GLM-4', 'GLM'] },
   { name: 'Nemotron', kind: 'model', forms: ['Nemotron'] },
   { name: 'Sora', kind: 'model', forms: ['Sora'] },
   { name: 'Veo', kind: 'model', forms: ['Veo'] },

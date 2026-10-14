@@ -672,6 +672,8 @@ context.
 | 420 | Topic tag `ai-waiver` (live/archive ≥5); IndexNow + seo-daily monitor; refuse legal-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 421 | Topic tag `openai-agents` (live/archive ≥5); IndexNow + seo-daily monitor; refuse autonomy-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 422 | Topic tag `ai-bubble` (live/archive ≥5); IndexNow + seo-daily monitor; refuse crash-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 423 | Topic tag `openai-revenue` (live/archive ≥5); IndexNow + seo-daily monitor; refuse valuation-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 424 | Topic tag `recursive-self-improvement` (live/archive ≥5); GLM model forms add `GLM-5` / `GLM5.3`; `news:keywords` surfaces those nicknames; IndexNow + seo-daily; refuse autonomy-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
