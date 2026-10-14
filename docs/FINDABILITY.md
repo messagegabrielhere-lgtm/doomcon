@@ -247,6 +247,7 @@ context.
 | 14 | `/agents.md` + Grok/xAI named Allow + ChatGPT query routing in `llms.txt` | ChatGPT + Grok | **Done** (2026-10-11) |
 | 15 | People pages + news day hubs (DoomBench/Skynet URL shape) | Google | Open PR #86 |
 | 16 | `/agents.txt` + `/agents.json` + `/.well-known/api-catalog` + skills index + MCP server card | Agent discovery | **Done** (this pass) |
+| 17 | News-sitemap cap **200** + AI head terms before pillar/source + expanded lab surfaces; IndexNow samples 200 news locs — hold Google News while pizzint news-sitemap is empty (slim hotfix; full daily SEO in PR #125) | Google News | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
