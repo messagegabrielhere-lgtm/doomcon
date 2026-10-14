@@ -1705,6 +1705,30 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Reliability and agent-assurance research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Rr]eliability\b/i,
   },
+  {
+    id: 'observability',
+    name: 'AI observability',
+    description: 'Observability and telemetry research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Oo]bservability\b/,
+  },
+  {
+    id: 'verifier',
+    name: 'AI verifiers',
+    description: 'Verifier and verification-model research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Vv]erifiers?\b/,
+  },
+  {
+    id: 'softmax',
+    name: 'Softmax',
+    description: 'Softmax sampling and attention research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Ss]oftmax\b/,
+  },
+  {
+    id: 'throughput',
+    name: 'AI throughput',
+    description: 'Throughput and serving-capacity research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Tt]hroughput\b/,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
