@@ -40,4 +40,19 @@ describe('sponsor page', () => {
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
   });
+
+  it('section H2s use questions mirrored in FAQPage', () => {
+    const html = sponsor(ctx);
+    assert.match(html, /<h2>What does a sponsor get\?<\/h2>/);
+    assert.match(html, /<h2>What does a sponsor not get\?<\/h2>/);
+    assert.match(html, /<h2>Who does sponsorship suit\?<\/h2>/);
+    assert.match(html, /<h2>How do you start sponsoring\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2>What a sponsor gets<\/h2>/);
+    assert.doesNotMatch(html, /<h2>What a sponsor does not get<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Who it suits<\/h2>/);
+    assert.doesNotMatch(html, /<h2>How to start<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"Who does sponsorship suit\?"/);
+    assert.match(html, /"name"\s*:\s*"How do you start sponsoring\?"/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
