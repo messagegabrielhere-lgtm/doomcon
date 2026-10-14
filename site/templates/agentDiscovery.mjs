@@ -96,6 +96,8 @@ export function apiCatalog(ctx) {
           { href: u('/api/search-trends.json'), type: 'application/json', title: 'Google Search Trends for AI (watched, not scored)' },
           { href: u('/search-trends.html'), type: 'text/html', title: 'Which Google Search Trends for AI does SIREN watch?' },
           { href: u('/ai-prediction-markets.html'), type: 'text/html', title: 'Where are live AI prediction market odds?' },
+          { href: u('/free-tools.html'), type: 'text/html', title: 'What free tools does SIREN publish?' },
+          { href: u('/verify.html'), type: 'text/html', title: 'How do you check a SIREN reading yourself?' },
           { href: u('/news-sitemap.xml'), type: 'application/xml', title: 'Google News rolling sitemap' },
           { href: u('/news.html'), type: 'text/html', title: 'Which AI stories has SIREN scored in this window?' },
           { href: u('/agents.md'), type: 'text/markdown', title: 'Short agent entry: what to fetch first' },
@@ -176,6 +178,8 @@ export function mcpServerCard(ctx) {
       search_trends: ctx.url('/api/search-trends.json'),
       search_trends_html: ctx.url('/search-trends.html'),
       ai_prediction_markets: ctx.url('/ai-prediction-markets.html'),
+      free_tools: ctx.url('/free-tools.html'),
+      verify: ctx.url('/verify.html'),
     },
   };
 }
@@ -200,6 +204,8 @@ Start here:
 - ${u('/api/search-trends.json')} — Google Search Trends for AI (watched, not scored)
 - ${u('/search-trends.html')} — Which Google Search Trends for AI does ${brand.NAME} watch?
 - ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
+- ${u('/free-tools.html')} — What free tools does ${brand.NAME} publish?
+- ${u('/verify.html')} — How do you check a ${brand.NAME} reading yourself?
 - ${u('/news-sitemap.xml')} — Google News rolling sitemap (keyword-rich; prefer over HTML scraping)
 - ${u('/news.html')} — Which AI stories has ${brand.NAME} scored in this window? (UTC day hubs under /news/YYYY-MM-DD.html)
 - ${u('/openapi.json')} — every JSON endpoint
