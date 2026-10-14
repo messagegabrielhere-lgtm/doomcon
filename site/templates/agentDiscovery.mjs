@@ -42,6 +42,8 @@ export function agentsTxt(ctx) {
 # JSON: ${u('/agents.json')}
 # Site map for language models: ${u('/llms.txt')}
 # Short fetch-first entry: ${u('/agents.md')}
+# Scored stories: ${u('/now.md')} · ${u('/api/news.json')} · ${u('/news.html')}
+# Google News sitemap: ${u('/news-sitemap.xml')}
 
 Skills: ${u('/skill.md')}
 Skills: ${u(SKILL_PATH)}
@@ -90,6 +92,9 @@ export function apiCatalog(ctx) {
           { href: u('/api/state.json'), type: 'application/json', title: 'Current SIREN reading' },
           { href: u('/api/now.txt'), type: 'text/plain', title: 'Current reading in a few plain lines' },
           { href: u('/now.md'), type: 'text/markdown', title: 'Markdown snapshot of the reading' },
+          { href: u('/api/news.json'), type: 'application/json', title: 'Scored newsroom window (JSON)' },
+          { href: u('/news-sitemap.xml'), type: 'application/xml', title: 'Google News rolling sitemap' },
+          { href: u('/news.html'), type: 'text/html', title: 'Which AI stories has SIREN scored in this window?' },
           { href: u('/agents.md'), type: 'text/markdown', title: 'Short agent entry: what to fetch first' },
           { href: u('/agents.txt'), type: 'text/plain', title: 'agents.txt capability announcement' },
           { href: u('/agents.json'), type: 'application/json', title: 'agents.json structured capabilities' },
@@ -162,6 +167,9 @@ export function mcpServerCard(ctx) {
       skill: ctx.url('/skill.md'),
       openapi: ctx.url('/openapi.json'),
       now: ctx.url('/api/now.txt'),
+      news: ctx.url('/api/news.json'),
+      news_sitemap: ctx.url('/news-sitemap.xml'),
+      newsroom: ctx.url('/news.html'),
     },
   };
 }
@@ -181,6 +189,10 @@ Start here:
 - ${u('/skill.md')} — how to phrase and cite the reading
 - ${u('/llms.txt')} — full site map for language models
 - ${u('/api/now.txt')} — current reading in a few plain lines
+- ${u('/now.md')} — markdown snapshot + top scored stories
+- ${u('/api/news.json')} — scored newsroom window (JSON)
+- ${u('/news-sitemap.xml')} — Google News rolling sitemap (keyword-rich; prefer over HTML scraping)
+- ${u('/news.html')} — Which AI stories has ${brand.NAME} scored in this window? (UTC day hubs under /news/YYYY-MM-DD.html)
 - ${u('/openapi.json')} — every JSON endpoint
 - ${u('/.well-known/api-catalog')} — RFC 9727 API catalog
 

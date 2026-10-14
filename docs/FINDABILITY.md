@@ -288,6 +288,7 @@ context.
 | 55 | `llms.txt` / `agents.md`: question-shaped day hubs (newest 5), news-sitemap discovery, “today’s headlines” tip — AI-search path while `google-news-open` | Agents + Google News | **Done** (2026-10-14) |
 | 56 | `skill.md`: “Today’s scored stories” cite path (now.md, newsroom, UTC day hubs, news-sitemap) + More links — same AI-search lane as #55 for skill consumers | Agents + Google News | **Done** (2026-10-14) |
 | 57 | News-sitemap `news:keywords`: `AI` / `artificial intelligence` / SIREN before topic-tag names (not only before pillar/source meta) — thin rows stop leading with pillar slugs while `google-news-open` | Google News | **Done** (2026-10-14) |
+| 58 | `api-catalog` + `ai.txt` + `agents.txt` comments + MCP `related` advertise `/news-sitemap.xml`, `/api/news.json`, `/news.html` — AI-search path while `google-news-open` (no new facet URLs) | Agents + Google News | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

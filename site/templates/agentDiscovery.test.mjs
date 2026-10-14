@@ -22,6 +22,8 @@ test('agents.txt announces Skills only (no fake HTTP MCP or A2A)', () => {
   assert.match(txt, /JSON: https:\/\/siren\.watch\/agents\.json/);
   assert.match(txt, /Skills: https:\/\/siren\.watch\/skill\.md/);
   assert.ok(txt.includes(`Skills: https://siren.watch${SKILL_PATH}`));
+  assert.match(txt, /Google News sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
+  assert.match(txt, /https:\/\/siren\.watch\/news\.html/);
   assert.doesNotMatch(txt, /^MCP:/m);
   assert.doesNotMatch(txt, /^A2A:/m);
   assert.doesNotMatch(txt, /^Protocols:/m);
@@ -44,7 +46,8 @@ test('api-catalog is an RFC 9727 linkset pointing at the live surfaces', () => {
   assert.ok(Array.isArray(cat.linkset));
   const items = cat.linkset[0].item.map((i) => i.href);
   for (const p of [
-    '/openapi.json', '/api/state.json', '/api/now.txt', '/agents.md', '/agents.txt',
+    '/openapi.json', '/api/state.json', '/api/now.txt', '/api/news.json', '/news-sitemap.xml', '/news.html',
+    '/agents.md', '/agents.txt',
     '/skill.md', '/llms.txt', '/.well-known/mcp/server-card.json', '/.well-known/agent-skills/index.json',
   ]) {
     assert.ok(items.includes(`https://siren.watch${p}`), p);
@@ -71,13 +74,21 @@ test('MCP server card documents stdio transport and the tool names', () => {
   assert.ok(card.tools.some((t) => t.name === 'siren_cite'));
   assert.doesNotMatch(JSON.stringify(card), /streamable-http/);
   assert.match(card.description, /not a probability of harm/);
+  assert.equal(card.related.news_sitemap, 'https://siren.watch/news-sitemap.xml');
+  assert.equal(card.related.newsroom, 'https://siren.watch/news.html');
+  assert.equal(card.related.news, 'https://siren.watch/api/news.json');
 });
 
 test('ai.txt points agents at the discovery stack', () => {
   const txt = aiTxt(ctx);
   assert.match(txt, /AI agents are welcome/);
-  for (const p of ['/agents.md', '/agents.txt', '/skill.md', '/llms.txt', '/api/now.txt', '/.well-known/api-catalog']) {
+  for (const p of [
+    '/agents.md', '/agents.txt', '/skill.md', '/llms.txt', '/api/now.txt', '/.well-known/api-catalog',
+    '/now.md', '/api/news.json', '/news-sitemap.xml', '/news.html',
+  ]) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
+  assert.match(txt, /Google News rolling sitemap/);
+  assert.match(txt, /Which AI stories has SIREN scored in this window\?/);
   assert.match(txt, /not a probability of harm/);
 });
