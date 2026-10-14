@@ -59,6 +59,10 @@ const ago = (iso, now) => {
 export function tally(ctx) {
   const PATH = '/tally.html';
   const qTitle = 'Who is Tally, the SIREN duty canary?';
+  // Tip #279: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const moodsQ = 'What do the five moods mean?';
+  const workQ = 'Where does Tally work on the site?';
+  const useQ = 'Can I use Tally in my own posts?';
   const L = lvl(ctx);
   const moods = [5, 4, 3, 2, 1].map((n) => `<div class="ag-card" style="align-items:center;text-align:center">${mascot({ size: 96, level: n })}<h3 style="justify-content:center">SIREN ${n}</h3><p>Tally is ${esc(MOODS[n])}.</p></div>`).join('');
   // FAQ answers restate lede / mood / desk copy only.
@@ -66,11 +70,11 @@ export function tally(ctx) {
   const faq = [
     [qTitle,
       `Miners took a canary underground because it noticed trouble first. SIREN's canary wears a civil-defence helmet painted in the level's colour and keeps watch on AI. Right now, at SIREN ${L}, Tally is ${MOODS[L]}.`],
-    ['What do the five moods mean?',
+    [moodsQ,
       "Tally's face is the reading. The mood says how loud AI is, never how bad: the index counts tempo, and so does the bird."],
-    ['Where does Tally work on the site?',
+    [workQ,
       "Tally's Bets, Tally's Desk and Tally Counts."],
-    ['Can I use Tally in my own posts?',
+    [useQ,
       `Use Tally in posts, slides and videos about AI with a link back to ${brand.NAME}.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
@@ -84,16 +88,16 @@ export function tally(ctx) {
     <a class="ag-btn" href="https://x.com/SIRENutf6" target="_blank" rel="noopener">FOLLOW TALLY ON X →</a>
     <a class="ag-btn ghost" href="${esc(xShare(ctx, `Tally the duty canary is ${MOODS[L]} at SIREN ${L}. How loud is AI right now?`, PATH))}" target="_blank" rel="noopener">𝕏 POST TALLY</a></div>
   </div>
-  <h2>One bird, five moods</h2>
+  <h2 id="moods">${esc(moodsQ)}</h2>
   <p>Tally's face is the reading. The mood says how <b>loud</b> AI is, never how bad: the index counts tempo, and so does the bird.</p>
   <div class="ag-grid" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr))">${moods}</div>
-  <h2>Where Tally works</h2>
+  <h2 id="work">${esc(workQ)}</h2>
   <div class="ag-grid">
     <a class="ag-card" href="${esc(ctx.href('/bets.html'))}"><h3><img src="${art(ctx, 'dice')}" alt="">Tally's Bets</h3><p>Daily forecasts about the index, scored in public.</p></a>
     <a class="ag-card" href="${esc(ctx.href('/desk.html'))}"><h3><img src="${art(ctx, 'canary')}" alt="">Tally's Desk</h3><p>The unserious counts: robots and godfathers.</p></a>
     <a class="ag-card" href="${esc(ctx.href('/game.html'))}"><h3><img src="${art(ctx, 'joystick')}" alt="">Tally Counts</h3><p>Thirty seconds: count signals, ignore predictions.</p></a>
   </div>
-  <h2>Tally for your stuff</h2>
+  <h2 id="use">${esc(useQ)}</h2>
   <p>Use Tally in posts, slides and videos about AI with a link back to ${esc(brand.NAME)}. Download the current-level Tally:</p>
   <p><a class="ag-btn ghost" href="${esc(ctx.href(`/brand/tally-${L}.svg`))}" download>DOWNLOAD TALLY (SVG)</a></p>
   <p class="ag-note">Tally imitates a genre, the 1950s public-information cartoon, not any agency's emblem.</p>

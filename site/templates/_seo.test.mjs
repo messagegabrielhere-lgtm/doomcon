@@ -280,6 +280,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Can agents post the reading on Moltbook'));
     assert.ok(org.knowsAbout.includes('Which agents are in the Moltbook spotlight'));
     assert.ok(org.knowsAbout.includes('What are the rules for citing SIREN'));
+    assert.ok(org.knowsAbout.includes('What do the five moods mean'));
+    assert.ok(org.knowsAbout.includes('Where does Tally work on the site'));
+    assert.ok(org.knowsAbout.includes('Can I use Tally in my own posts'));
     assert.ok(org.knowsAbout.includes('ready for superintelligence'));
     assert.ok(org.knowsAbout.includes('Ready for SI personal plan'));
     assert.ok(org.knowsAbout.includes('USA vs China AI race'));
