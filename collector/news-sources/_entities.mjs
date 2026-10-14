@@ -126,6 +126,10 @@ const ENTITY_DEFS = [
   { name: 'Slack', kind: 'lab', forms: ['Slack'] },
   // EDA / chip-design software — OpenAI and Amazon AI partnership headlines.
   { name: 'Synopsys', kind: 'lab', forms: ['Synopsys'] },
+  // Travel marketplace — agent-to-agent / AI-photo booking stories.
+  { name: 'Airbnb', kind: 'lab', forms: ['Airbnb'] },
+  // Work-management product — browser-agent cost and Muse integration stories.
+  { name: 'Asana', kind: 'lab', forms: ['Asana'] },
 
   // --- model families ---
   // GPT-6 Astra / Luna / Sol nicknames so /model/gpt clears when headlines
