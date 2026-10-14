@@ -1000,6 +1000,83 @@ context.
 | 748 | Topic tag `/tags/self-distillation` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 749 | Topic tag `/tags/world-action` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 750 | Topic tag `/tags/watermarking` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 751 | Source hub `/source/the-decoder` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 752 | Source hub `/source/openai` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 753 | Source hub `/source/reddit-machinelearning` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 754 | Source hub `/source/bloomberg-tech` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 755 | Source hub `/source/mit-news-ai` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 756 | Source hub `/source/huggingface-blog` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 757 | Source hub `/source/nyt-tech` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 758 | Source hub `/source/hf-trending-models` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 759 | Source hub `/source/wired-ai` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 760 | Source hub `/source/aws-ml` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 761 | Source hub `/source/bbc-tech` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 762 | Source hub `/source/latent-space` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 763 | Source hub `/source/reddit-technology` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 764 | Source hub `/source/nvidia-blog` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 765 | Source hub `/source/anthropic-status` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 766 | Source hub `/source/deepmind` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 767 | Source hub `/source/simon-willison` (≥3); IndexNow + seo-daily; refuse source-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 768 | Topic tag `/tags/image-generation` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 769 | Topic tag `/tags/embodied` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 770 | Topic tag `/tags/tool-use` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 771 | Topic tag `/tags/memory` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 772 | Topic tag `/tags/computer-use` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 773 | Topic tag `/tags/rlvr` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 774 | Topic tag `/tags/flow-matching` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 775 | Topic tag `/tags/hallucination` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 776 | Topic tag `/tags/claude-code` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 777 | Topic tag `/tags/chain-of-thought` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 778 | Topic tag `/tags/small-models` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 779 | Topic tag `/tags/autoencoders` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 780 | Topic tag `/tags/copilot` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 781 | Topic tag `/tags/diffusion-llm` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 782 | Topic tag `/tags/ai-infrastructure` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 783 | Topic tag `/tags/context-window` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 784 | Topic tag `/tags/ollama` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 785 | Topic tag `/tags/mcp` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 786 | Topic tag `/tags/lora` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 787 | Topic tag `/tags/grpo` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 788 | Topic tag `/tags/in-context` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 789 | Topic tag `/tags/video-world-models` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 790 | Topic tag `/tags/sft` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 791 | Topic tag `/tags/asr` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 792 | Topic tag `/tags/autonomous-vehicles` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 793 | Topic tag `/tags/skills` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 794 | Topic tag `/tags/humanoid` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 795 | Topic tag `/tags/tool-calling` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 796 | Topic tag `/tags/latent-space` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 797 | Topic tag `/tags/slm` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 798 | Topic tag `/tags/interpretability` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 799 | Topic tag `/tags/sparsity` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 800 | Topic tag `/tags/open-models` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 801 | Topic tag `/tags/transformers` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 802 | Topic tag `/tags/guardrails` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 803 | Topic tag `/tags/ai-music` (≥5); IndexNow + seo-daily; refuse tag-doom-score / stuffing / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 804 | Outlet hub `/outlet/investing-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 805 | Outlet hub `/outlet/digitaltoday-co-kr` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 806 | Outlet hub `/outlet/gurufocus-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 807 | Outlet hub `/outlet/ndtvprofit-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 808 | Outlet hub `/outlet/startupfortune-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 809 | Outlet hub `/outlet/indiatimes-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 810 | Outlet hub `/outlet/moneycontrol-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 811 | Outlet hub `/outlet/seekingalpha-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 812 | Outlet hub `/outlet/ababnews-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 813 | Outlet hub `/outlet/mashable-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 814 | Outlet hub `/outlet/ndtv-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 815 | Outlet hub `/outlet/qz-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 816 | Outlet hub `/outlet/washingtonpost-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 817 | Outlet hub `/outlet/apnews-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 818 | Outlet hub `/outlet/bioengineer-org` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 819 | Outlet hub `/outlet/businessinsider-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 820 | Outlet hub `/outlet/dealroom-co` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 821 | Outlet hub `/outlet/fool-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 822 | Outlet hub `/outlet/theatlantic-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 823 | Outlet hub `/outlet/barrons-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 824 | Outlet hub `/outlet/business-standard-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 825 | Outlet hub `/outlet/economictimes-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 826 | Outlet hub `/outlet/journalarta-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 827 | Outlet hub `/outlet/nacionale-com` (≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
