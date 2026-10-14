@@ -49,5 +49,25 @@ describe('waffle page', () => {
     assert.doesNotMatch(html, /href="map\.html">power map<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
+
+  it('other-storms section H2 uses a question mirrored in FAQPage when visible', () => {
+    const html = render(ctx, waffle, null);
+    assert.match(html, /<h2>Which other storms are active\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Other active storms<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"Which other storms are active\?"/);
+    assert.match(html, /Waffle Houses and data centres in the path/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
+
+  it('omits other-storms FAQ when only one storm is listed', () => {
+    const one = {
+      ...waffle,
+      storms: (waffle.storms || []).slice(0, 1),
+    };
+    const html = render(ctx, one, null);
+    assert.doesNotMatch(html, /<h2>Which other storms are active\?<\/h2>/);
+    assert.doesNotMatch(html, /"name"\s*:\s*"Which other storms are active\?"/);
+    assert.doesNotMatch(html, /<h2>Other active storms<\/h2>/);
+  });
 });
 

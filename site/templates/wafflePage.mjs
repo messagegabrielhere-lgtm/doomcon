@@ -211,7 +211,9 @@ export function render(ctx, data, us) {
 
   const PATH = '/waffle.html';
   const qTitle = 'Is the Waffle House open?';
-  // FAQ answers restate hero / unofficial / why / how-it-works copy only.
+  // Tip #321: other-storms H2 is question-shaped and mirrored in FAQ when visible (§3.3).
+  const othersQ = 'Which other storms are active?';
+  // FAQ answers restate hero / unofficial / why / how-it-works / others copy only.
   // Refuse: official FEMA claim, outage report, doom-probability titles.
   const faq = [
     [qTitle,
@@ -226,6 +228,10 @@ export function render(ctx, data, us) {
       'The same storms that close a Waffle House cut power to data centres, which then run on diesel generators and battery banks. The AI build-out is concentrated in the Southeast and Texas, right in hurricane country. FEMA’s gauge works because it is simple, public and hard to fake. SIREN tries to be the same thing for AI: a count anyone can check.'],
     ['Is the shaded path the official forecast cone?',
       'How it works: storms from the National Hurricane Center; the shaded path runs along the storm’s current motion for 24 hours with a radius set by its strength, so it is NOT the official forecast cone. Not a safety service: follow your local officials.'],
+    ...(others
+      ? [[othersQ,
+        'Other active storms listed on this page, each with category, Waffle Houses and data centres in the path.']]
+      : []),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -262,7 +268,7 @@ setInterval(poll,180000);})();</script>
       <li>Forecasting itself is turning AI: Google DeepMind’s experimental cyclone model has been part of what forecasters consult since 2025, alongside the physics models.</li>
       <li>FEMA’s gauge works because it is simple, public and hard to fake. SIREN tries to be the same thing for AI: a count anyone can check.</li></ul></div>
   </div>
-  ${others ? `<h2>Other active storms</h2><ul>${others}</ul>` : ''}
+  ${others ? `<h2>${esc(othersQ)}</h2><ul>${others}</ul>` : ''}
   <p style="font-size:12.5px;margin-top:18px">How it works: storms from the <a href="https://www.nhc.noaa.gov/" target="_blank" rel="noopener">National Hurricane Center</a>; the shaded path runs along the storm’s current motion for 24 hours with a radius set by its strength, so it is NOT the official forecast cone. ${live ? `Every Waffle House location and its open/closed flag come from <a href="https://locations.wafflehouse.com/" target="_blank" rel="noopener">Waffle House’s own store locator</a> (${fmt(all.length)} stores); orange means a store’s posted hours aren’t 24/7, which is a hint, not a storm flag. Waffle House’s “limited menu” state isn’t public, so it never moves the index; yellow and red come only from stores marked closed.` : `Waffle Houses from ${esc((data && data.stores_source) || 'OpenStreetMap')} (${fmt(data && data.stores_total)} mapped); Waffle House’s own locator was unreachable this hour${data && data.google && data.google.enabled ? ', so open/closed comes from Google Maps' : ''}.`} Data centres from SIREN’s <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a>. Refreshed hourly. Not a safety service: follow your local officials. Updated ${esc(String((data && data.generated_at) || '').slice(0, 16).replace('T', ' '))} UTC. <a href="api/waffle.json">JSON</a>.</p>
   <section class="wf-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>

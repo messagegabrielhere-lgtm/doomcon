@@ -24,8 +24,8 @@ describe('radio page', () => {
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/games\.html/);
     assert.match(html, /No audio files, no ads/);
-    const hear = html.match(/<h2>Hear it in the videos<\/h2>\s*<p>([\s\S]*?)<\/p>/);
-    assert.ok(hear, 'expected Hear it in the videos paragraph');
+    const hear = html.match(/<h2>Where can I hear these stations in videos\?<\/h2>\s*<p>([\s\S]*?)<\/p>/);
+    assert.ok(hear, 'expected hear-stations-in-videos paragraph');
     assert.match(hear[1], /href="\/videos\.html">What free AI explainer videos does SIREN publish\?<\/a>/);
     assert.doesNotMatch(hear[1], /href="\/videos\.html">SIREN video<\/a>/);
     const faqKey = html.match(/<p class="md-faq-key">([\s\S]*?)<\/p>/);
@@ -37,5 +37,17 @@ describe('radio page', () => {
     assert.doesNotMatch(html, /Radio feeds the index/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
+  });
+
+  it('section H2s use questions mirrored in FAQPage', () => {
+    const html = radio(ctx, null);
+    assert.match(html, /<h2>What is Tally(?:'|’|&apos;|&#39;)s voice update\?<\/h2>/);
+    assert.match(html, /<h2>Where can I hear these stations in videos\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Tally(?:'|’|&apos;|&#39;)s voice update<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Hear it in the videos<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"What is Tally(?:'|’|&apos;|&#39;)s voice update\?"/);
+    assert.match(html, /"name"\s*:\s*"Where can I hear these stations in videos\?"/);
+    assert.match(html, /browser(?:'|’|&apos;|&#39;)s own voice/);
+    assert.doesNotMatch(html, /probability of doom/i);
   });
 });

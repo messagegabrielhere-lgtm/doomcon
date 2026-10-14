@@ -371,6 +371,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Where should you go next'));
     assert.ok(org.knowsAbout.includes('Waffle House Index'));
     assert.ok(org.knowsAbout.includes('is the Waffle House open'));
+    assert.ok(org.knowsAbout.includes('Which other storms are active'));
     assert.ok(org.knowsAbout.includes('AI threat board'));
     assert.ok(org.knowsAbout.includes('what could take the machines offline tonight'));
     assert.ok(org.knowsAbout.includes('Which software was newly exploited'));
@@ -487,6 +488,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('How has AI activity moved day by day'));
     assert.ok(org.knowsAbout.includes('SIREN Radio'));
     assert.ok(org.knowsAbout.includes('What free music does SIREN Radio play'));
+    assert.ok(org.knowsAbout.includes('What is Tally’s voice update'));
+    assert.ok(org.knowsAbout.includes('Where can I hear these stations in videos'));
     assert.ok(org.knowsAbout.includes('SIREN TV'));
     assert.ok(org.knowsAbout.includes('What free AI explainer videos does SIREN publish'));
     assert.ok(org.knowsAbout.includes('AI on TV and radio'));
