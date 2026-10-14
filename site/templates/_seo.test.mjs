@@ -158,6 +158,16 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What are the terms, in plain words'));
     assert.ok(org.knowsAbout.includes('SIREN privacy'));
     assert.ok(org.knowsAbout.includes('What does SIREN know about you'));
+    assert.ok(org.knowsAbout.includes('Who is responsible for SIREN privacy'));
+    assert.ok(org.knowsAbout.includes('What are your choices about analytics cookies'));
+    assert.ok(org.knowsAbout.includes('What does the site itself do with a visit'));
+    assert.ok(org.knowsAbout.includes('How do California and similar privacy laws apply'));
+    assert.ok(org.knowsAbout.includes('What rights do you have under EU, UK and similar laws'));
+    assert.ok(org.knowsAbout.includes('Is the site directed at children'));
+    assert.ok(org.knowsAbout.includes('Which third parties does a visit touch'));
+    assert.ok(org.knowsAbout.includes('How long is visit data retained'));
+    assert.ok(org.knowsAbout.includes('Do the embed and the badge track visitors'));
+    assert.ok(org.knowsAbout.includes('How do you contact SIREN about privacy'));
     assert.ok(org.knowsAbout.includes('SIREN press kit'));
     assert.ok(org.knowsAbout.includes('Where is the SIREN press kit'));
     assert.ok(org.knowsAbout.includes('SIREN terms of use'));
