@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { agents } from './agentPages.mjs';
+import { agents, skillMd } from './agentPages.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
@@ -81,5 +81,23 @@ describe('agents page SEO', () => {
     assert.doesNotMatch(html, /<h3>🤖 CanaryBot<\/h3>/);
     assert.doesNotMatch(html, /<h3>🤖 DeskClerk<\/h3>/);
     assert.doesNotMatch(html, /probability of doom/i);
+  });
+});
+
+describe('skill.md SEO', () => {
+  it('cites day hubs + news-sitemap for today\'s scored stories', () => {
+    const md = skillMd(ctx);
+    assert.match(md, /## Today's scored stories/);
+    assert.match(md, /https:\/\/siren\.watch\/now\.md/);
+    assert.match(md, /https:\/\/siren\.watch\/news\.html/);
+    assert.match(md, /https:\/\/siren\.watch\/news-sitemap\.xml/);
+    assert.match(md, /\/news\/YYYY-MM-DD\.html/);
+    assert.match(md, /Which AI stories did SIREN score on \{date\}\?/);
+    assert.match(md, /Google News rolling sitemap/);
+    assert.match(md, /News sitemap \(Google News\): https:\/\/siren\.watch\/news-sitemap\.xml/);
+    assert.match(md, /Newsroom \+ day hubs: https:\/\/siren\.watch\/news\.html/);
+    assert.match(md, /Do not invent a day doom score/);
+    assert.doesNotMatch(md, /doom score:\s*\d/i);
+    assert.doesNotMatch(md, /probability of doom/i);
   });
 });

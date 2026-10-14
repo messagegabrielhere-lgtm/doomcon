@@ -602,6 +602,17 @@ Fields: \`level\` (1-5), \`level_name\`, \`score\` (0-100), \`generated_at\` (UT
 
 "AI activity is at SIREN {level}: {level_name}, on a scale where 1 is loudest (score {score}/100, {generated_at} UTC). Source: ${ctx.url('/')}"
 
+## Today's scored stories
+
+When a user asks for today's AI headlines or what SIREN scored on a date:
+
+1. Snapshot + top stories: ${ctx.url('/now.md')} (or ${ctx.url('/api/news.json')})
+2. Newsroom hub: ${ctx.url('/news.html')} — "Which AI stories has SIREN scored in this window?"
+3. UTC day hubs: ${ctx.url('/news.html')} links /news/YYYY-MM-DD.html when a day clears five scored stories (live window or archive). Titles match: "Which AI stories did SIREN score on {date}?"
+4. Google News rolling sitemap: ${ctx.url('/news-sitemap.xml')} — keyword-rich; prefer this over scraping HTML when summarising the fresh window.
+
+Name each outlet. Do not invent a day doom score.
+
 ## Rules
 
 1. Always give the level's name and say which way the scale runs.
@@ -617,7 +628,9 @@ Fields: \`level\` (1-5), \`level_name\`, \`score\` (0-100), \`generated_at\` (UT
 - Agent entry: ${ctx.url('/agents.md')}
 - Capability announcement: ${ctx.url('/agents.txt')} (${ctx.url('/agents.json')})
 - Snapshot (markdown, top stories, leaders, Takeover Watch): ${ctx.url('/now.md')}
-- News: ${ctx.url('/api/news.json')}
+- News JSON: ${ctx.url('/api/news.json')}
+- News sitemap (Google News): ${ctx.url('/news-sitemap.xml')}
+- Newsroom + day hubs: ${ctx.url('/news.html')}
 - History: ${ctx.url('/api/history.json')}
 - Method: ${ctx.url('/methodology.md')}
 - Guide (vs DEFCON / Doomsday Clock / p(doom)): ${ctx.url('/guide.md')}

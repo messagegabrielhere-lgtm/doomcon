@@ -286,6 +286,7 @@ context.
 | 53 | Shared `storyItemListEntity` on tag/outlet/model/country (+ day/facet reuse) so every entity hub ItemList includes visible archive rows | Google | **Done** (2026-10-14) |
 | 54 | Kind hubs use `storyItemListEntity`; people ProfilePages emit archive-story ItemList beside Person mainEntity when older rows are shown | Google | **Done** (2026-10-14) |
 | 55 | `llms.txt` / `agents.md`: question-shaped day hubs (newest 5), news-sitemap discovery, “today’s headlines” tip — AI-search path while `google-news-open` | Agents + Google News | **Done** (2026-10-14) |
+| 56 | `skill.md`: “Today’s scored stories” cite path (now.md, newsroom, UTC day hubs, news-sitemap) + More links — same AI-search lane as #55 for skill consumers | Agents + Google News | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
