@@ -31,8 +31,11 @@ export const SITES = Object.freeze([
   { id: 'takeoff', name: 'takeofftracker', origin: 'https://takeofftracker.com' },
 ]);
 
-/** Our agent / findability surfaces that must keep answering 200. */
-export const OUR_SURFACES = Object.freeze([
+/**
+ * Surfaces that must stay green even while conquest/entity hubs await
+ * gh-pages merge (deploy-pending-url-lead). Failures here stay high-severity.
+ */
+export const CORE_LIVE_SURFACES = Object.freeze([
   '/robots.txt',
   '/sitemap.xml',
   '/news-sitemap.xml',
@@ -43,6 +46,38 @@ export const OUR_SURFACES = Object.freeze([
   '/.well-known/api-catalog',
   '/compare.html',
   '/alternatives.html',
+  '/methodology.html',
+  '/history.html',
+  '/about.html',
+  '/news.html',
+  '/race.html',
+  '/guide.html',
+]);
+
+/** Our agent / findability surfaces that must keep answering 200. */
+export const OUR_SURFACES = Object.freeze([
+  ...CORE_LIVE_SURFACES,
+  // Live rooms already on gh-pages — monitor regressions after each collect.
+  '/privacy.html',
+  '/press.html',
+  '/terms.html',
+  '/disclosures.html',
+  '/brand.html',
+  '/ai-doomsday-clock.html',
+  '/jobs.html',
+  '/medicine.html',
+  '/world.html',
+  '/map.html',
+  '/watts.html',
+  '/charts.html',
+  '/power.html',
+  '/digest.html',
+  '/status.html',
+  '/nations.html',
+  '/catalog.html',
+  '/library.html',
+  '/moves/',
+  // Conquest + entity hubs shipped in-repo; flag until gh-pages deploy catches up.
   '/vs.html',
   '/vs/pizzint.html',
   '/vs/takeofftracker.html',
@@ -62,6 +97,7 @@ export const OUR_SURFACES = Object.freeze([
   '/kinds.html',
   '/outlets.html',
   '/people.html',
+  '/countries.html',
   '/tags/agents.html',
   '/tags/large-language-models.html',
   '/tags/gpus.html',
@@ -165,10 +201,38 @@ export function isSitemapIndex(xml) {
   return /<sitemapindex[\s>]/i.test(String(xml || ''));
 }
 
-/** First <title> text, collapsed whitespace. Empty string when missing. */
+const TITLE_ENTITIES = Object.freeze({
+  amp: '&',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: "'",
+});
+
+/**
+ * Decode one layer of common HTML entities in a title string.
+ * Single-pass (no chained &amp; → & → new entity) so CodeQL's
+ * double-unescape check stays quiet and rival titles stay readable.
+ */
+export function decodeTitleEntities(text) {
+  return String(text || '').replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (raw, name) => {
+    if (name[0] === '#') {
+      const n = name[1] === 'x' || name[1] === 'X'
+        ? Number.parseInt(name.slice(2), 16)
+        : Number.parseInt(name.slice(1), 10);
+      if (Number.isFinite(n) && n > 0 && n < 0x110000) return String.fromCodePoint(n);
+      return raw;
+    }
+    const key = name.toLowerCase();
+    return Object.prototype.hasOwnProperty.call(TITLE_ENTITIES, key) ? TITLE_ENTITIES[key] : raw;
+  });
+}
+
+/** First <title> text, collapsed whitespace + common entities. Empty when missing. */
 export function extractTitle(html) {
   const m = String(html || '').match(/<title[^>]*>([^<]*)<\/title>/i);
-  return m ? m[1].replace(/\s+/g, ' ').trim() : '';
+  if (!m) return '';
+  return decodeTitleEntities(m[1].replace(/\s+/g, ' ').trim());
 }
 
 /** Unique @type values from application/ld+json blocks (string or array). */
@@ -375,14 +439,29 @@ export function deriveGaps(report) {
     }
   }
 
+  const coreLive = new Set(CORE_LIVE_SURFACES);
+  const awaiting = [];
   for (const surf of report.surfaces || []) {
-    if (!surf.ok) {
-      gaps.push({
-        id: `surface-${surf.path}`,
-        severity: 'high',
-        text: `Findability surface ${surf.path} failed (${surf.status ?? surf.error ?? 'err'})`,
-      });
+    if (surf.ok) continue;
+    // While deploy-pending, undeployed conquest/entity 404s are one root cause —
+    // do not flood the daily pass with 100 high-severity surface-* rows.
+    if (deployPending && !coreLive.has(surf.path)) {
+      awaiting.push(surf);
+      continue;
     }
+    gaps.push({
+      id: `surface-${surf.path}`,
+      severity: 'high',
+      text: `Findability surface ${surf.path} failed (${surf.status ?? surf.error ?? 'err'})`,
+    });
+  }
+  if (awaiting.length) {
+    const sample = awaiting.slice(0, 4).map((s) => s.path).join(', ');
+    gaps.push({
+      id: 'surfaces-awaiting-deploy',
+      severity: 'medium',
+      text: `${awaiting.length} findability surfaces 404 until merge/deploy (e.g. ${sample}) — same root cause as deploy-pending-url-lead`,
+    });
   }
 
   if (ours.title && !/AI activity|SIREN/i.test(ours.title)) {
@@ -618,12 +697,21 @@ function selftest() {
     ...report,
     sites: report.sites.map((s) => (s.ours ? { ...s, sitemap_urls: 683, news_sitemap_urls: 100 } : s)),
     local_ready: { live: 800, archived: 5000, estimated_sitemap: 6220 },
-    surfaces: [{ path: '/llms.txt', ok: true }],
+    surfaces: [
+      { path: '/llms.txt', ok: true },
+      { path: '/companies.html', ok: false, status: 404 },
+      { path: '/tags/agents.html', ok: false, status: 404 },
+    ],
     open_engineering: [],
   });
   const deployIds = new Set(deployGaps.map((g) => g.id));
   if (!deployIds.has('deploy-pending-url-lead')) throw new Error('deploy-pending gap missing');
   if (deployIds.has('trail-doombench-urls')) throw new Error('trail gap should yield to deploy-pending');
+  if (!deployIds.has('surfaces-awaiting-deploy')) throw new Error('undeployed surfaces should collapse');
+  if (deployIds.has('surface-/companies.html')) throw new Error('surface flood should yield to deploy-pending');
+  if (!OUR_SURFACES.includes('/methodology.html') || !OUR_SURFACES.includes('/news.html')) {
+    throw new Error('OUR_SURFACES missing live rooms');
+  }
 
   const md = formatMarkdown({
     ...report,

@@ -4,6 +4,7 @@ import {
   countLocs,
   isSitemapIndex,
   extractTitle,
+  decodeTitleEntities,
   extractSchemaTypes,
   hasNoindex,
   deriveGaps,
@@ -11,6 +12,7 @@ import {
   formatMarkdown,
   OPEN_ENGINEERING,
   OUR_SURFACES,
+  CORE_LIVE_SURFACES,
   FACET_URL_FLOOR,
   readLocalReadyUrls,
 } from '../tools/seo-daily.mjs';
@@ -28,6 +30,8 @@ describe('seo-daily parsers', () => {
       <script type="application/ld+json">{"@type":"WebSite"}</script>
       <script type="application/ld+json">{"@graph":[{"@type":["FAQPage","BreadcrumbList"]}]}</script>`;
     assert.equal(extractTitle(html), 'AI activity index today · SIREN');
+    assert.equal(extractTitle('<title>A &amp; B &#xB7; C</title>'), 'A & B · C');
+    assert.equal(decodeTitleEntities('pizzint &amp; DEFCON'), 'pizzint & DEFCON');
     assert.deepEqual(extractSchemaTypes(html), ['BreadcrumbList', 'FAQPage', 'WebSite']);
   });
 
@@ -92,13 +96,24 @@ describe('seo-daily measure + gaps', () => {
         },
       ],
       local_ready: { live: 800, archived: 5000, facets: 230, estimated_sitemap: 6030 },
-      surfaces: [],
+      surfaces: [
+        { path: '/companies.html', ok: false, status: 404 },
+        { path: '/tags/agents.html', ok: false, status: 404 },
+        { path: '/llms.txt', ok: false, status: 500 },
+      ],
       open_engineering: [],
     });
     const ids = gaps.map((g) => g.id);
     assert.ok(ids.includes('deploy-pending-url-lead'));
     assert.ok(!ids.includes('trail-doombench-urls'));
     assert.ok(!ids.includes('url-count-low'));
+    assert.ok(ids.includes('surfaces-awaiting-deploy'), 'undeployed hubs collapse to one gap');
+    assert.ok(!ids.includes('surface-/companies.html'));
+    assert.ok(ids.includes('surface-/llms.txt'), 'core live surfaces stay high-severity');
+    assert.ok(CORE_LIVE_SURFACES.includes('/llms.txt'));
+    assert.ok(OUR_SURFACES.includes('/methodology.html'));
+    assert.ok(OUR_SURFACES.includes('/news.html'));
+    assert.ok(OUR_SURFACES.includes('/countries.html'));
   });
 
   it('reads local Ready estimate from news + archive + facets', async () => {
