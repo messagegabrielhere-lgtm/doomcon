@@ -268,6 +268,7 @@ context.
 | 35 | Homepage `roomGroups` question labels + entity/conquest hub tiles (companies/models/tags/guides/compare/vs/…) with unique px icons | Google | **Done** (2026-10-14) |
 | 36 | Catalog/search + agents.md + siteheader list entity/conquest hubs under question titles; IndexNow ALWAYS covers `/moves/` | Google + agents + Bing | **Done** (2026-10-14) |
 | 37 | Homepage FAQ + question-shaped home H2s link entity/conquest hubs (schema matches visible FAQ); readers map H2 question-shaped | Google | **Done** (2026-10-14) |
+| 38 | Sitewide footer/nav labels + agent pages + home modules use question H1/H2s mirrored in FAQ (keep #123 off-brand unlinks) | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

@@ -69,15 +69,17 @@ export function render(ctx) {
   const move = ctx.url(`/moves/${st.receipt_id}.html`);
   const hash = st.receipt_hash ? String(st.receipt_hash) : null;
   const cite = `${brand.NAME} ${st.level} (${st.level_name}), composite ${Number(st.score).toFixed(1)} of 100, observed ${utc(st.generated_at)}. ${move}${hash ? ` Receipt ${hash}.` : ''}`;
+  // Tip #327: section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
+  const verifyQ = `How do you check a ${brand.NAME} reading yourself?`;
   return `<section class="sec vfy" id="vfy" aria-labelledby="vfy-h" data-api="${esc(ctx.href('/api/'))}" data-depth="${DEPTH}">
-  <h2 class="sec__h" id="vfy-h">Don’t trust it. Check it.</h2>
+  <h2 class="sec__h" id="vfy-h">${esc(verifyQ)}</h2>
   <p class="lede">Every reading is published with a receipt: its inputs, its score, and the hash of the receipt before it.
     Press the button and your own browser fetches the last ${DEPTH} receipts, re-hashes each one and walks the chain.
     Nothing is sent anywhere, and no other doom number lets you do this.</p>
   <p><button type="button" class="vfy__go" data-vfy-go hidden>Verify the last ${DEPTH} readings in my browser</button></p>
   <div class="vfy__out" data-vfy-out hidden aria-live="polite"></div>
   <p class="fresh__key">What this proves: the published record has not been edited after the fact. What it does not prove: that the inputs
-    were right. For that, read the <a href="${esc(ctx.href('/methodology.html'))}">method</a> and the
+    were right. For that, read <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> and the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">source</a>. The files:
     <a href="${esc(ctx.href(`/api/receipts/${st.receipt_id}.json`))}">this reading’s receipt</a> ·
     <a href="${esc(ctx.href('/api/history.json'))}">every reading</a>.</p>
