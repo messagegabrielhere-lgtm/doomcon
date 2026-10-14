@@ -159,6 +159,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Is there an AI doomsday clock'));
     assert.ok(org.knowsAbout.includes('AI explainers'));
     assert.ok(org.knowsAbout.includes('What are the AI explainers'));
+    assert.ok(org.knowsAbout.includes('What else sits next to these AI explainers'));
     assert.ok(org.knowsAbout.includes('Is AI taking jobs'));
     assert.ok(org.knowsAbout.includes('Is AI taking jobs? What has actually been measured'));
     assert.ok(org.knowsAbout.includes('Is AI curing anything'));
@@ -494,6 +495,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Where is everything on SIREN listed'));
     assert.ok(org.knowsAbout.includes('SIREN search'));
     assert.ok(org.knowsAbout.includes('How do you search everything on SIREN'));
+    assert.ok(org.knowsAbout.includes('Which search queries should you try first'));
+    assert.ok(org.knowsAbout.includes('Which rooms do people open most'));
     assert.ok(org.knowsAbout.includes('Tally the duty canary'));
     assert.ok(org.knowsAbout.includes('Who is Tally, the SIREN duty canary'));
     assert.ok(org.knowsAbout.includes('SIREN staff'));

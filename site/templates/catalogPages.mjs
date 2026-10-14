@@ -338,6 +338,9 @@ function imgFn(ctx) {
 
 const SEARCH_PATH = '/search.html';
 const searchQTitle = 'How do you search everything on SIREN?';
+// Tip #320: empty-state H2s are question-shaped and mirrored in FAQ (§3.3).
+const tryQ = 'Which search queries should you try first?';
+const popularQ = 'Which rooms do people open most?';
 
 /** /search.html. stats: { counts: { type: n } } from the index. */
 export function search(ctx, stats = {}) {
@@ -356,6 +359,12 @@ export function search(ctx, stats = {}) {
       'Results appear as you type; ↑ ↓ to move, Enter to open, / to come back here.'],
     ['Does search need JavaScript?',
       'Search runs in your browser and needs JavaScript. Everything it covers is also listed in the catalog, which works without it.'],
+    [tryQ,
+      `Starter queries on this page: ${SUGGEST.join(', ')}.`],
+    ...(popular.length
+      ? [[popularQ,
+        `Rooms linked from the empty state: ${popular.map((e) => e.title).join(', ')}.`]]
+      : []),
     ['Rather browse than search?',
       'The catalog lists every room, tool, game, video, data file and feed in one place.'],
   ];
@@ -374,9 +383,9 @@ export function search(ctx, stats = {}) {
   <p class="sx-stat" id="sx-stat" aria-live="polite"></p>
   <div id="sx-res" role="listbox" aria-label="Results"></div>
   <div class="sx-empty" id="sx-empty">
-    <h2>Try one of these</h2>
+    <h2>${esc(tryQ)}</h2>
     <ul class="sx-sug">${SUGGEST.map((s) => `<li><a href="${esc(ctx.href(`${SEARCH_PATH}?q=${encodeURIComponent(s)}`))}" data-q="${esc(s)}">${esc(s)}</a></li>`).join('')}</ul>
-    ${popular.length ? `<h2>Popular rooms</h2><div class="ct-g">${popular.map((e) => `<a class="ct-c" href="${esc(ctx.href(e.url))}"><img src="${esc(img(e.icon))}" width="40" height="40" alt="" loading="lazy"><span><b>${esc(e.title)}</b><small>${esc(e.desc)}</small></span></a>`).join('')}</div>` : ''}
+    ${popular.length ? `<h2>${esc(popularQ)}</h2><div class="ct-g">${popular.map((e) => `<a class="ct-c" href="${esc(ctx.href(e.url))}"><img src="${esc(img(e.icon))}" width="40" height="40" alt="" loading="lazy"><span><b>${esc(e.title)}</b><small>${esc(e.desc)}</small></span></a>`).join('')}</div>` : ''}
     <p>Rather browse? <a href="${esc(ctx.href('/catalog.html'))}">Where is everything on SIREN listed?</a> lists every room, tool, game, video, data file and feed in one place.</p>
   </div>
   <noscript><p>Search runs in your browser and needs JavaScript. Everything it covers is also listed on <a href="${esc(ctx.href('/catalog.html'))}">Where is everything on SIREN listed?</a>, which works without it.</p></noscript>

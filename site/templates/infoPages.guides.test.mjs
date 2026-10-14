@@ -65,9 +65,20 @@ describe('guides hub', () => {
     assert.match(md, /\/p-doom\.html/);
     assert.match(md, /\/ai-doomsday-clock\.html/);
     assert.match(md, /AI activity index today · SIREN/);
+    assert.match(md, /^## What else sits next to these AI explainers\?/m);
+    assert.doesNotMatch(md, /^## Also$/m);
     assert.doesNotMatch(md, /\[Live reading\]/);
     assert.doesNotMatch(md, /^# AI explainers —/m);
     assert.doesNotMatch(md, /doom score:\s*\d/i);
+  });
+
+  it('guides section H2s use questions mirrored in FAQPage', () => {
+    const html = guides(ctx);
+    assert.match(html, /<h2>What else sits next to these AI explainers\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Also<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"What else sits next to these AI explainers\?"/);
+    assert.match(html, /the both-sides library/);
+    assert.doesNotMatch(html, /probability of doom is \d/i);
   });
 
   it('ai-doomsday-clock ships matching question H1 and visible FAQ', () => {
