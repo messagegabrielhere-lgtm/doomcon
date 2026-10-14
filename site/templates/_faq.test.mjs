@@ -190,6 +190,10 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'How ready are you on Work and skills?'));
     assert.ok(qa.some(([q]) => q === 'How do SIREN and BLISS sit beside the beam?'));
     assert.ok(qa.some(([q]) => q === 'Where do 28 named p(doom) estimates sit on one ladder?'));
+    assert.ok(qa.some(([q]) => q === 'What did the newsroom’s headlines carry?'));
+    assert.ok(qa.some(([q]) => q === 'Which counters come from public registries?'));
+    assert.ok(qa.some(([q]) => q === 'Which rooms and pages matched?'));
+    assert.ok(qa.some(([q]) => q === 'Which news stories matched?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -272,6 +276,10 @@ describe('homepage FAQ', () => {
     assert.match(html, /How ready are you on Work and skills\?/);
     assert.match(html, /How do SIREN and BLISS sit beside the beam\?/);
     assert.match(html, /Where do 28 named p\(doom\) estimates sit on one ladder\?/);
+    assert.match(html, /What did the newsroom(?:['\u2019]|&#39;|&apos;)s headlines carry\?/);
+    assert.match(html, /Which counters come from public registries\?/);
+    assert.match(html, /Which rooms and pages matched\?/);
+    assert.match(html, /Which news stories matched\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

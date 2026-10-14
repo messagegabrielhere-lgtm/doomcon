@@ -480,6 +480,11 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('How do SIREN and BLISS sit beside the beam'));
     assert.ok(org.knowsAbout.includes('What can this page not say'));
     assert.ok(org.knowsAbout.includes('Where do 28 named p(doom) estimates sit on one ladder'));
+    assert.ok(org.knowsAbout.includes('What did the newsroom’s headlines carry'));
+    assert.ok(org.knowsAbout.includes('Which counters come from public registries'));
+    assert.ok(org.knowsAbout.includes('Which rooms and pages matched'));
+    assert.ok(org.knowsAbout.includes('Which news stories matched'));
+    assert.ok(org.knowsAbout.includes('Which Bunker Kit tools matched'));
     assert.ok(org.knowsAbout.includes('What AI Spaces are live on X'));
     assert.ok(org.knowsAbout.includes('Who is OpenAI on X'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
