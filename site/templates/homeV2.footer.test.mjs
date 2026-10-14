@@ -23,6 +23,14 @@ describe('home v2 footer', () => {
     const html = render(ctx, { head: '' });
     assert.match(html, /href="\/classic\.html#oven">Where is the full SIREN instrument panel\? →<\/a>/);
     assert.doesNotMatch(html, /href="\/classic\.html#oven">full oven with gates →<\/a>/);
+    assert.match(html, /href="\/history\.html">What is the history of AI risk\?<\/a>/);
+    assert.match(html, /href="\/race\.html">Who is winning the AI race\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/history\.html">HISTORY<\/a>/);
+    assert.doesNotMatch(html, /href="\/race\.html">MARKETS<\/a>/);
+    assert.doesNotMatch(html, /href="\/race\.html">THE RACE →<\/a>/);
+    assert.doesNotMatch(html, /href="\/moltbook\.html">AGENT WATCH →<\/a>/);
+    assert.doesNotMatch(html, /href="\/changelog\.html">CHANGELOG →<\/a>/);
+    assert.doesNotMatch(html, /href="\/moves\/"[^>]*>MOVES →<\/a>/);
     const feet = [...html.matchAll(/<p class="v2-foot">([\s\S]*?)<\/p>/g)].map((m) => m[1]);
     assert.ok(feet.length >= 2, 'expected home v2 foot paragraphs');
     const all = feet.join('\n');

@@ -196,7 +196,7 @@ export function render(ctx) {
     <h2 class="sec__h" id="labs-h">The frontier labs, monitored<span class="sec__eb">The watch floor</span></h2>
     <p class="labs__k">${esc(players.length)} labs monitored · read
       <time datetime="${esc(stamp)}">${esc(String(stamp).slice(11, 16))}Z</time>
-      · <a href="${esc(href)}">full ranking →</a></p>
+      · <a href="${esc(href)}">Who is winning the AI race? →</a></p>
   </div>
   <ul class="labs__grid">${players.map((p) => box(p, href)).join('')}</ul>
   <p class="fresh__key">Posture describes visible output, not capability and not risk.

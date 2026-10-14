@@ -69,6 +69,7 @@
 // integrator can place it blind. See the integration note at the bottom.
 
 import { esc, utc } from './_html.mjs';
+import * as brand from '../brand.mjs';
 
 const PAGE_HREF = '/balance.html';
 const MINUS = '−';
@@ -444,7 +445,7 @@ export function render(ctx, { heading = 'Harm and benefit, side by side', picks 
         </div>
       </div>
       <p class="bal__note">Strongest evidence first on each side. A status word describes the evidence, not the importance.</p>
-      <p class="bal__more"><a class="bal__go" href="${esc(hrefOf(ctx, PAGE_HREF))}">See the whole balance →</a>
+      <p class="bal__more"><a class="bal__go" href="${esc(hrefOf(ctx, PAGE_HREF))}">How does ${esc(brand.NAME)} count AI harm and benefit side by side? →</a>
         <span>${N(m.ledger.rows.benefit)} benefit and ${N(m.ledger.rows.harm)} harm rows checked by hand${rows}${counters}. None of it is summed.</span></p>
     </div>
   </div>

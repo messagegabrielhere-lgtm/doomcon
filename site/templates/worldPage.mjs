@@ -168,7 +168,7 @@ function theCaveat(w) {
     country somebody mapped, and comparing two countries here is partly comparing how many people were
     looking.</p>
   <p class="wld__warn__p wld__warn__p--last">This page joins nothing; it counts. The United States figure
-    here is not the figure on <a href="${MAP_HREF}">the United States map</a>, which keeps only the sites it
+    here is not the figure on <a href="${MAP_HREF}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a>, which keeps only the sites it
     can place in a county and joins them to drought, grid and river data. Both numbers are printed, and
     neither is adjusted toward the other.</p>
 </section>`;
