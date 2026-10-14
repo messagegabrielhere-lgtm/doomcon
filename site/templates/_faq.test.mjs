@@ -180,6 +180,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'Who is OpenAI on the race board?'));
     assert.ok(qa.some(([q]) => q === 'Which jurisdictions are ranked by mapped sites?'));
     assert.ok(qa.some(([q]) => q === 'What does Watts see in Texas?'));
+    assert.ok(qa.some(([q]) => q === 'What does the Capability pillar count?'));
+    assert.ok(qa.some(([q]) => q === 'What would move one stage hotter?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -252,6 +254,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /Who is OpenAI on the race board\?/);
     assert.match(html, /Which jurisdictions are ranked by mapped sites\?/);
     assert.match(html, /What does Watts see in Texas\?/);
+    assert.match(html, /What does the Capability pillar count\?/);
+    assert.match(html, /What would move one stage hotter\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

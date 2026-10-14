@@ -209,9 +209,11 @@ export function pillarCard(pillar, series, sourceRows) {
   // this module naming a colour or any caller changing. The paint falls back to
   // the neutral rule when --p is undefined, so a page that does not ship
   // pillarCss still renders a correct, slightly quieter card.
+  // Tip #383: pillar-card H3s are question-shaped (mirrored in FAQ §3.3).
+  const nameQ = `What does the ${meta.name} pillar count?`;
   return `<article class="pillar" data-pillar="${esc(pillar.id)}" data-dark="${noScore ? 1 : 0}" data-uncalibrated="${uncal ? 1 : 0}">
       <div class="pillar__top">
-        <h3 class="pillar__name"><span aria-hidden="true">${glyph}</span> ${esc(meta.name)}</h3>
+        <h3 class="pillar__name" aria-label="${esc(meta.name)}"><span aria-hidden="true">${glyph}</span> ${esc(nameQ)}</h3>
         <span class="pillar__nums">
           <span class="pillar__score num">${esc(scoreTxt)}</span>
           ${noScore ? '' : pillarDelta(pillar, series)}

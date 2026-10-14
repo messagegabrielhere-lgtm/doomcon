@@ -217,6 +217,10 @@ export function items(ctx) {
       `On /map.html: every state in the contiguous frame, ranked by mapped sites. The states at the bottom with a zero are the point of this table.`],
     ['What does Watts see in Texas?',
       `On /watts.html: Dallas · Austin · San Antonio. Grid: ERCOT. What each of the three pillars can and cannot see there.`],
+    ['What does the Capability pillar count?',
+      `On /instruments.html and /classic.html: What shipped, and what got written down.`],
+    ['What would move one stage hotter?',
+      `On the oven: the published heating gates, as numbers beside the current reading. Nothing here says any of them is met.`],
   ];
 }
 
