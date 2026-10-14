@@ -39,6 +39,11 @@ describe('compare / alternatives conquest pages', () => {
     const hub = compareHub(ctx);
     assert.match(hub, /<title>Which AI doom indexes can you compare\?/);
     assert.match(hub, /<h1>Which AI doom indexes can you compare\?<\/h1>/);
+    assert.match(hub, /cmp__k">Which AI doom indexes can you compare\?<\/p>/);
+    assert.doesNotMatch(hub, /cmp__k">Compare<\/p>/);
+    assert.match(hub, /SIREN vs DoomBench: which should you use\?/);
+    assert.match(hub, /cmp__nav"[^>]*>[\s\S]*?Which AI doom indexes can you compare\?/);
+    assert.doesNotMatch(hub, /cmp__nav"[^>]*>[\s\S]*?>Full comparison</);
     assert.doesNotMatch(hub, /compare honestly\?/);
     assert.match(hub, /Takeoff Tracker/);
     assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
@@ -60,6 +65,9 @@ describe('compare / alternatives conquest pages', () => {
     const alt = alternatives(ctx);
     assert.match(alt, /<title>What are AI doom index alternatives\?/);
     assert.match(alt, /<h1>What are AI doom index alternatives\?<\/h1>/);
+    assert.match(alt, /cmp__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.doesNotMatch(alt, /cmp__k">Alternatives<\/p>/);
+    assert.match(alt, /SIREN vs DoomBench: which should you use\?/);
     assert.doesNotMatch(alt, /and what is each one\?/);
     assert.match(alt, /DoomBench alternative/i);
     assert.match(alt, /PizzINT/);
@@ -79,6 +87,10 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(page, /<title>SIREN vs DoomBench: which should you use\?/);
     assert.match(page, /<h1>SIREN vs DoomBench: which should you use\?<\/h1>/);
     assert.match(page, /"name"\s*:\s*"SIREN vs DoomBench: which should you use\?"/);
+    assert.match(page, /cmp__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.match(page, /href="\/vs\.html">Which AI indexes does SIREN contrast\?<\/a>/);
+    assert.doesNotMatch(page, /cmp__k">Versus<\/p>/);
+    assert.doesNotMatch(page, /"name"\s*:\s*"Compare"/);
     assert.doesNotMatch(page, /SIREN vs DoomBench — which should/);
     assert.match(page, /Questions people actually ask/);
     assert.match(page, /does not score takeover risk/i);
@@ -113,6 +125,9 @@ describe('compare / alternatives conquest pages', () => {
     const html = vsHub(ctx);
     assert.match(html, /<title>Which AI indexes does SIREN contrast\?/);
     assert.match(html, /Which AI indexes does SIREN contrast/);
+    assert.match(html, /cmp__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.doesNotMatch(html, /cmp__k">Versus<\/p>/);
+    assert.match(html, /SIREN vs DoomBench: which should you use\?/);
     assert.match(html, /ItemList/);
     assert.match(html, /\/vs\/doombench\.html/);
     assert.match(html, /\/vs\/pizzint\.html/);
