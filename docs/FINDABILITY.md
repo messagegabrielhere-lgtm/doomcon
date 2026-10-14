@@ -513,6 +513,7 @@ context.
 | 261 | `/instruments.html` section H2s + FAQPage use questions for record / source health / pillars / moves / embed (was “The score over time” / “Source health” / “The five pillars” / “Recent moves” / “Put the index on your site”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 262 | Balance module + oven H2s + instruments FAQPage use “How does SIREN count AI harm and benefit side by side?” / “Where does the index sit?” (was “Harm and benefit, side by side” / “Where the index sits”); Organization `knowsAbout` mirrors oven question; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 263 | Home/classic section H2s + classic FAQPage use questions for instruments CTA / clock / map / Arena / follow / support (was “Check the working” / “The reading, as a clock” / “Where the machines live” / “Markets: …” / “Hear it first…” / “Keep the count running”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 264 | `/digest.html` section H2s + FAQPage use questions for brief / what-changed / streaks / frontier labs / how-computed (was “The brief” / “What changed” / “Streaks and records” / “Every frontier lab…” / “How this page is computed”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

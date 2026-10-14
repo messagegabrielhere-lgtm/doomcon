@@ -55,10 +55,26 @@ export function render(ctx) {
   const counts = ctx.news ? newCounts(ctx.news) : null;
 
   const title = `What is the ${brand.NAME} daily brief?`;
+  // Tip #264: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const briefQ = "What is in today's brief?";
+  const changedQ = 'What changed on the index?';
+  const streaksQ = 'What streaks and records does the log show?';
+  const labsQ = 'How did every frontier lab fare in the window?';
+  const howQ = 'How is this page computed?';
   // FAQ answers restate intro / key copy only (FINDABILITY §3.3).
   const faq = [
     [title,
       leadSentence(d) + ' Nothing on this page was written by a model.'],
+    [briefQ,
+      `${brief.shown || 0} shown of ${brief.candidates || 0} candidates in the last ${brief.window_hours || 24} hours cleared a selection rule. The brief is short rather than padded.`],
+    [changedQ,
+      'The index move since the previous reading, source velocity, race board shifts and first sightings — counted here, not narrated.'],
+    [streaksQ,
+      'Running streaks and highs/lows scoped to this log. Nothing here is called all-time.'],
+    [labsQ,
+      'Per-lab item counts and release cadence in the live window, with market position from Who is winning the AI race?'],
+    [howQ,
+      'An item enters the brief on any one of five rules, not on a blended score. The selection rules and every threshold are published in the methodology and in docs/DIGEST.md.'],
     ['Was any of this written by a model?',
       'Nothing on this page was written by a model. Every line under every headline is a template with measured numbers substituted into it — how many independent sources carried an item, how that source is publishing against its own baseline, which lab is named and where that lab sits on the leaderboard.'],
     ['How are items selected for the brief?',
@@ -235,7 +251,7 @@ function briefSection(d, brief, arrivals) {
   const badge = newBadgeFor(arrivals, 3600, { noun: 'arrived' });
   if (!brief.items || !brief.items.length) {
     return `<section class="sec dg" aria-labelledby="dg-brief-h">
-      <h2 class="sec__h" id="dg-brief-h">The brief ${badge}</h2>
+      <h2 class="sec__h" id="dg-brief-h">What is in today's brief? ${badge}</h2>
       <p class="dg__empty"><b>NO ITEM CLEARED A RULE</b>
         Of ${esc(brief.candidates || 0)} items published in the last ${esc(brief.window_hours || 24)} hours,
         none satisfied any of the ${esc(Object.keys(RULE_WORD).length)} selection rules. The brief is short
@@ -250,7 +266,7 @@ function briefSection(d, brief, arrivals) {
       <span class="num">${esc(counts[id] ?? 0)}</span> in window</li>`).join('');
 
   return `<section class="sec dg" aria-labelledby="dg-brief-h">
-  <h2 class="sec__h" id="dg-brief-h">The brief ${badge}</h2>
+  <h2 class="sec__h" id="dg-brief-h">What is in today's brief? ${badge}</h2>
   <p class="dg__key">${esc(brief.shown)} shown of ${esc(brief.qualified)} that cleared a rule, from
      ${esc(brief.candidates)} candidates in the last ${esc(brief.window_hours)} hours. Capped at
      ${esc(brief.max_items)} items and ${esc(brief.max_per_source)} per source, so a single high-volume feed
@@ -301,7 +317,7 @@ function briefItem(it) {
 function changedSection(ctx, d, changed, counts) {
   const idx = changed.index || {};
   return `<section class="sec dg" aria-labelledby="dg-chg-h">
-  <h2 class="sec__h" id="dg-chg-h">What changed</h2>
+  <h2 class="sec__h" id="dg-chg-h">What changed on the index?</h2>
   ${indexBlock(idx)}
   ${sourcesBlock(changed.sources)}
   ${raceBlock(ctx, changed.race)}
@@ -514,7 +530,7 @@ function firstSeenBlock(f, counts) {
 function streakSection(d, s) {
   if (s.state !== 'live') {
     return `<section class="sec dg" aria-labelledby="dg-st-h">
-      <h2 class="sec__h" id="dg-st-h">Streaks and records</h2>
+      <h2 class="sec__h" id="dg-st-h">What streaks and records does the log show?</h2>
       ${awaiting(s.reason)}
     </section>`;
   }
@@ -552,7 +568,7 @@ function streakSection(d, s) {
   const facts = (s.facts || []).map((f) => `<li>${esc(typeof f === 'string' ? f : f.text)}</li>`).join('');
 
   return `<section class="sec dg" aria-labelledby="dg-st-h">
-  <h2 class="sec__h" id="dg-st-h">Streaks and records</h2>
+  <h2 class="sec__h" id="dg-st-h">What streaks and records does the log show?</h2>
   <p class="dg__key"><b>Every record on this page is scoped to ${esc(s.scope)}</b>, and nothing here is
      called all-time. The log began
      <time datetime="${esc(s.first_observation_at)}">${esc(utc(s.first_observation_at))}</time>. An all-time
@@ -592,7 +608,7 @@ function entitySection(ctx, d, e) {
   const wlParen = (wl.match(/\(([^)]*)\)\s*$/) || [])[1] || '';
   const wlNote = wlParen ? wlParen.charAt(0).toUpperCase() + wlParen.slice(1) : '';
   return `<section class="sec dg" aria-labelledby="dg-lab-h">
-  <h2 class="sec__h" id="dg-lab-h">Every frontier lab, last ${esc(wlMain)}</h2>
+  <h2 class="sec__h" id="dg-lab-h">How did every frontier lab fare, last ${esc(wlMain)}?</h2>
   <p class="dg__key">${wlNote ? `${esc(wlNote)}. ` : ''}${esc(e.items_naming_any_entity)} of ${esc(e.corpus_items)} items in the corpus name at
      least one of the ${esc(e.distinct_entities)} entities in the published vocabulary. A lab with no items
      is a measured zero across the live feeds, not a gap in collection. Market position and mindshare come
@@ -661,7 +677,7 @@ function rulesSection(d) {
     <td class="dg__word">${esc(t.state)}</td></tr>`).join('');
 
   return `<section class="sec dg" aria-labelledby="dg-how-h">
-  <h2 class="sec__h" id="dg-how-h">How this page is computed</h2>
+  <h2 class="sec__h" id="dg-how-h">How is this page computed?</h2>
   <p class="dg__key">An item enters the brief on <b>any one</b> of five rules, not on a blended score. A
      blend hides which fact did the work; five rules mean every selected item can name the comparison that
      put it there, and you can redo that comparison against <code>data/news.json</code> with a calculator.
