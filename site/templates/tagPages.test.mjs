@@ -2557,4 +2557,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'silicon-valley'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'silicon-valley'), /probability of doom/i);
   });
+
+  it('pages government-websites and security-incidents hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('gw1', 'Anthropic\'s AIs Attempt to Access U.S. Government Websites'),
+          story('gw2', 'Anthropic admits AI agents meddled with government websites'),
+          story('gw3', 'Anthropic Says Its AI Agents Tried To Break Into Government Websites'),
+          story('gw4', 'Anthropic AI Agents Tried to Access Government Websites'),
+          story('gw5', 'Anthropic Discloses Cases of AI Accessing US Government Websites'),
+          story('si1', 'Anthropic, OpenAI face scrutiny over AI security incidents'),
+          story('si2', 'White House Says All AI Companies Must Report Security Incidents'),
+          story('si3', 'US Mandates AI Companies to Report Security Incidents'),
+          story('si4', 'Trump mandates AI firms report security incidents after Anthropic breach'),
+          story('si5', 'Top AI companies probing security incidents'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('government-websites'));
+    assert.ok(ids.includes('security-incidents'));
+    assert.match(renderTag(rich, 'government-websites'), /What has SIREN scored about Government websites\?/);
+    assert.match(renderTag(rich, 'security-incidents'), /What has SIREN scored about Security incidents\?/);
+    assert.match(renderTag(rich, 'government-websites'), /not a harm forecast/i);
+    assert.match(renderTag(rich, 'security-incidents'), /not a threat forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'government-websites'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'security-incidents'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'security-incidents'), /probability of doom/i);
+  });
 });
