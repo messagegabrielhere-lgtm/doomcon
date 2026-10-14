@@ -1048,6 +1048,15 @@ ${style}`;
         'The published heating gates, as numbers beside the current reading. Nothing here says any of them is met.'],
       ['What would move one stage cooler?',
         'The published cooling gates, as numbers beside the current reading. Cooling is deliberately the slower move.'],
+      // Tip #385: war-room panel H3s are question-shaped and mirrored in FAQ (§3.3).
+      ['What does the Signal panel show?',
+        'The current reading on the 0–100 scale, its recent sparkline, and the move since the comparison point.'],
+      ['What is in The brief?',
+        'A thirty-second set of measured lines: level, move, loudest pillar, top story, and race lead when those facts exist.'],
+      ['What is in the Newsroom panel?',
+        'The highest-scoring stories in the window, as their publishers wrote them.'],
+      ['What does The race panel show?',
+        'Who leads the live prediction-market odds among frontier labs on this reading.'],
     ];
     const classicFaqHtml = classicFaq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -1488,6 +1497,24 @@ function sourceStrip(st) {
 // number is computed here that its own page does not also print.
 const WR_HUE = { signal: 'var(--lvl, var(--accent))', pillars: '#ff7a00', news: '#00a3ff', race: '#00e676', flock: '#00e5ff', datacenters: '#c9a0ff', exploits: '#ff5f56', leaders: '#ffb020', people: '#ff73c8', bets: '#8b9cff', corrob: '#5fd08a', brief: '#ffd166' };
 const WR_NAME = { race: 'The race', flock: 'Cameras', datacenters: 'Machines', exploits: 'Exploits', news: 'Corroboration', leaders: 'Leaders' };
+/** Tip #385: war-room panel H3s are question-shaped (mirrored in FAQ §3.3). */
+function wrPanelQ(name) {
+  const q = {
+    Signal: 'What does the Signal panel show?',
+    'The brief': 'What is in The brief?',
+    'The five pillars': 'What are the five pillars in the war room?',
+    Newsroom: 'What is in the Newsroom panel?',
+    'The race': 'What does The race panel show?',
+    Cameras: 'What does the Cameras panel show?',
+    Machines: 'What does the Machines panel show?',
+    Exploits: 'What does the Exploits panel show?',
+    Corroboration: 'What does the Corroboration panel show?',
+    Leaders: 'What does the Leaders panel show?',
+    'Jobs & medicine': 'What does the Jobs & medicine panel show?',
+    'Tally’s bets': 'What does Tally’s bets panel show?',
+  };
+  return q[name] || `What does the ${name} panel show?`;
+}
 /** Visible war-room door labels match the target page H1 (FINDABILITY tip #247). */
 function wrGoQuestion(href) {
   const base = String(href || '').replace(/^https?:\/\/[^/]+/, '').split(/[?#]/)[0] || '';
@@ -1511,9 +1538,10 @@ function warRoom(ctx) {
   const panels = [];
   const panel = (id, name, href, body, { wide = false, meta = '' } = {}) => {
     const go = wrGoQuestion(href) || `Open ${name}`;
+    const q = wrPanelQ(name);
     panels.push({ id, name,
     html: `<article class="wr__p${wide ? ' wr__p--w' : ''}" id="wr-${esc(id)}" tabindex="-1" style="--ph:${WR_HUE[id] || 'var(--accent)'}">
-    <header class="wr__ph"><span class="wr__dot" aria-hidden="true"></span><h3 class="wr__pn">${esc(name)}</h3>${meta ? `<span class="wr__pm">${esc(meta)}</span>` : ''}<a class="wr__go" href="${esc(href)}" aria-label="${esc(go)}">${esc(go)} →</a></header>
+    <header class="wr__ph"><span class="wr__dot" aria-hidden="true"></span><h3 class="wr__pn" aria-label="${esc(name)}">${esc(q)}</h3>${meta ? `<span class="wr__pm">${esc(meta)}</span>` : ''}<a class="wr__go" href="${esc(href)}" aria-label="${esc(go)}">${esc(go)} →</a></header>
     <div class="wr__pb">${body}</div></article>` });
   };
 

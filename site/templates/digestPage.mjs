@@ -110,6 +110,16 @@ export function render(ctx) {
       'Computed per source from this window, not fixed in advance: Hacker News points, Hugging Face upvotes and Hugging Face likes run on three different scales, and a fixed cut-off does not survive a quiet week.'],
     ['What are the three source states?',
       'live — it answered and it is scored. dark — the fetch or the parse failed; it is excluded and never imputed. awaiting baseline — it answered perfectly and there is no frozen history to score it against yet.'],
+    // Tip #386: per-lab H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...(ents.labs || []).map((l) => [
+      `How did ${l.name} fare in this window?`,
+      `${Number.isFinite(l.items) ? `${l.items} items in window` : 'Items in window counted here'}`
+        + (l.share_of_corpus == null ? '' : ` · ${(l.share_of_corpus * 100).toFixed(1)}% of corpus`)
+        + ((l.market && l.market.state === 'live' && l.market.probability_pct != null)
+          ? ` · market ${l.market.probability_pct}%`
+          : '')
+        + '.',
+    ]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -666,8 +676,10 @@ function labBlock(l) {
     <span class="dg__topm num">${esc(t.score)} &middot; ${esc(t.source)} &middot;
       <time datetime="${esc(t.published_at)}">${esc(utc(t.published_at))}</time></span></li>`).join('');
 
+  // Tip #386: per-lab H3s are question-shaped (mirrored in FAQ §3.3).
+  const labQ = `How did ${l.name} fare in this window?`;
   return `<article class="dg__lab">
-    <h3 class="dg__labh">${rank} ${esc(l.name)}
+    <h3 class="dg__labh" aria-label="${esc(l.name)}">${rank} ${esc(labQ)}
       ${l.principal ? `<span class="dg__labp">${esc(l.principal)}</span>` : ''}</h3>
     <dl class="dg__labstats">${stats}</dl>
     <ul class="dg__lablines">${lines}</ul>

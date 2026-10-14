@@ -182,6 +182,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'What does Watts see in Texas?'));
     assert.ok(qa.some(([q]) => q === 'What does the Capability pillar count?'));
     assert.ok(qa.some(([q]) => q === 'What would move one stage hotter?'));
+    assert.ok(qa.some(([q]) => q === 'What does the Signal panel show?'));
+    assert.ok(qa.some(([q]) => q === 'How did OpenAI fare in this window?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -256,6 +258,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /What does Watts see in Texas\?/);
     assert.match(html, /What does the Capability pillar count\?/);
     assert.match(html, /What would move one stage hotter\?/);
+    assert.match(html, /What does the Signal panel show\?/);
+    assert.match(html, /How did OpenAI fare in this window\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });
