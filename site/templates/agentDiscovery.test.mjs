@@ -24,6 +24,10 @@ test('agents.txt announces Skills only (no fake HTTP MCP or A2A)', () => {
   assert.ok(txt.includes(`Skills: https://siren.watch${SKILL_PATH}`));
   assert.match(txt, /Google News sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
   assert.match(txt, /https:\/\/siren\.watch\/news\.html/);
+  assert.match(txt, /Free tools: https:\/\/siren\.watch\/free-tools\.html/);
+  assert.match(txt, /Verify a reading: https:\/\/siren\.watch\/verify\.html/);
+  assert.match(txt, /Search Trends \(watched, not scored\): https:\/\/siren\.watch\/search-trends\.html/);
+  assert.match(txt, /https:\/\/siren\.watch\/api\/search-trends\.json/);
   assert.doesNotMatch(txt, /^MCP:/m);
   assert.doesNotMatch(txt, /^A2A:/m);
   assert.doesNotMatch(txt, /^Protocols:/m);
