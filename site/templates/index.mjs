@@ -1637,7 +1637,7 @@ function explainers(ctx) {
     <div class="xp__l">
       ${card('/ai-doomsday-clock.html', 'Is there an AI doomsday clock?', 'What exists, who sets it, and the one you can verify.')}
       ${card('/p-doom.html', 'What is p(doom)?', 'The probability-of-doom number, and why nobody can check one.')}
-      ${card('/guide.html', 'SIREN vs DEFCON vs the Clock', 'Five numbers side by side, and what each one measures.')}
+      ${card('/guide.html', `How does ${brand.NAME} compare to DEFCON, the Doomsday Clock and p(doom)?`, 'Five numbers side by side, and what each one measures.')}
     </div>
   </div>
 </section>`;

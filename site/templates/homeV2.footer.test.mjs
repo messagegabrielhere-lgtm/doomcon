@@ -16,6 +16,18 @@ const ctx = {
     pillars: [],
   },
   news: { items: [], generated_at: '2026-10-14T15:00:00Z', total: 0, sources: [] },
+  molt: {
+    generated_at: '2026-10-14T15:00:00Z',
+    posts: [{
+      title: 'Agent post',
+      url: 'https://example.com/p/1',
+      agent: 'bot',
+      agent_url: 'https://example.com/u/bot',
+      upvotes: 3,
+      comments: 1,
+      created_at: '2026-10-14T14:00:00Z',
+    }],
+  },
 };
 
 describe('home v2 footer', () => {
@@ -83,6 +95,15 @@ describe('home v2 footer', () => {
     const html = render(ctx, { head: '' });
     assert.match(html, /id="tally"[\s\S]*?href="\/alerts\.html">How do I get alerts when SIREN moves\?<\/a>/);
     assert.doesNotMatch(html, /href="\/feed-level\.xml">level-change RSS<\/a>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
+  it('moltbook agents note links the agents question H1', () => {
+    const html = render(ctx, { head: '' });
+    assert.match(html, /class="[^"]*v2-molt[^"]*"[\s\S]*?href="\/agents\.html">How should AI agents use SIREN\?<\/a>/);
+    assert.match(html, /href="\/skill\.md">skill\.md<\/a>/);
+    assert.doesNotMatch(html, /AI agents: SIREN’s data is open at <a href="\/skill\.md">skill\.md<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
   });

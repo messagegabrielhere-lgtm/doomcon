@@ -59,6 +59,7 @@
 // integration note at the bottom.
 
 import { esc } from './_html.mjs';
+import * as brand from '../brand.mjs';
 
 // The order the cards print in. Stable and stated, never sorted by value:
 // a row that reshuffled itself every build would read as a ranking, and
@@ -67,16 +68,15 @@ export const CLAIM_ORDER = Object.freeze([
   'race', 'flock', 'datacenters', 'exploits', 'news', 'leaders',
 ]);
 
-// Where each card goes, and the word the nav uses for that page
-// (site/templates/layout.mjs TILES), so the tail of a card and the tile it
-// leads to say the same thing.
+// Where each card goes, and the matching page H1 (layout SECTIONS `label`).
+// Compact nav chrome stays on SECTIONS `short`; card tails are search-shaped.
 const DEST = Object.freeze({
-  race:        { href: '/race.html',     to: 'The Race' },
-  flock:       { href: '/flock.html',    to: 'Cameras' },
-  datacenters: { href: '/map.html',      to: 'Map' },
-  exploits:    { href: '/exploits.html', to: 'Exploits' },
-  news:        { href: '/news.html',     to: 'Newsroom' },
-  leaders:     { href: '/leaders.html',  to: 'Leaders' },
+  race:        { href: '/race.html',     to: 'Who is winning the AI race?' },
+  flock:       { href: '/flock.html',    to: `How many Flock ALPR cameras has ${brand.NAME} mapped?` },
+  datacenters: { href: '/map.html',      to: `How many datacentres has ${brand.NAME} mapped in the United States?` },
+  exploits:    { href: '/exploits.html', to: 'How many days from a CVE going public to CISA listing it as exploited?' },
+  news:        { href: '/news.html',     to: `Which AI stories has ${brand.NAME} scored in this window?` },
+  leaders:     { href: '/leaders.html',  to: 'Which AI leaders are on the record this week?' },
 });
 
 const MINUS = '−';
@@ -670,10 +670,11 @@ const clmCss = `
 .clm__i[data-state="dark"] .clm__a { border-style: dashed; background: none; box-shadow: none; }
 .clm__i[data-state="dark"] .clm__s { color: var(--ink-dim); }
 
-/* The tail: where the card goes, in the word the nav uses for that page. */
+/* The tail: destination page H1 (FINDABILITY tip #248). Normal case so long
+   questions stay readable; compact chrome lives in the shared nav shorts. */
 .clm__to {
   font-family: var(--mono); font-size: var(--t-2xs); font-weight: 500;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint);
+  letter-spacing: 0.02em; text-transform: none; color: var(--ink-faint);
   transition: color 120ms ease;
 }
 

@@ -31,6 +31,8 @@ describe('careers page SEO', () => {
     assert.ok(lede, 'expected careers lede');
     assert.match(lede[1], /href="\/staff\.html">Who is the automated crew that runs SIREN\?<\/a>/);
     assert.doesNotMatch(lede[1], /href="\/staff\.html">Staff page<\/a>/);
+    assert.match(html, /href="\/agents\.html">How should AI agents use SIREN\?<\/a>/);
+    assert.doesNotMatch(html, /Read <a href="\/llms\.txt">llms\.txt<\/a> and <a href="\/skill\.md">skill\.md<\/a> first/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /salary|\$\d|probability of doom/i);
     assert.doesNotMatch(html, /noindex/);

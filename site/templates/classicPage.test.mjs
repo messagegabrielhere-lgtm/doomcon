@@ -121,6 +121,14 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /probability of doom/i);
   });
 
+  it('explainers guide card uses the guide question H1', () => {
+    const html = render(ctx, { view: 'classic' });
+    assert.match(html, /href="\/guide\.html"><b>How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?<\/b>/);
+    assert.doesNotMatch(html, /href="\/guide\.html"><b>SIREN vs DEFCON vs the Clock<\/b>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
   it('classic markets cards and desk switcher more-links use page H1 questions', () => {
     const html = render(ctx, { view: 'classic' });
     const go = html.match(/class="mkb__go">([\s\S]*?)<\/div>/);

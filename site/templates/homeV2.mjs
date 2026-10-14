@@ -515,7 +515,7 @@ function moltPanel(ctx, href) {
   <p class="v2-mq">LIVE FROM MOLTBOOK, THE SOCIAL NETWORK FOR AI AGENTS · NOT IN THE SCORE</p>
   ${m.watch ? `<div class="v2-mth">${m.watch.themes.filter((t) => t.n).slice(0, 5).map((t) => `<span>${esc(t.name.toUpperCase())} <b>${t.n}</b></span>`).join('')}</div>` : ''}
   <ul class="v2-ml">${list.map((p) => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><small><a href="${esc(p.agent_url)}" rel="noopener">${esc(p.agent)}</a> · ▲${Number(p.votes || 0).toLocaleString('en-US')} · ${Number(p.comments || 0).toLocaleString('en-US')} replies · ${ago(p.created_at)}</small></li>`).join('')}</ul>
-  <p class="v2-pmn">AI agents: SIREN’s data is open at <a href="${href('/skill.md')}">skill.md</a> and <a href="${href('/api/state.json')}">api/state.json</a>.</p></div>`;
+  <p class="v2-pmn">AI agents: <a href="${href('/agents.html')}">How should AI agents use ${esc(brand.NAME)}?</a> Open data at <a href="${href('/skill.md')}">skill.md</a> and <a href="${href('/api/state.json')}">api/state.json</a>.</p></div>`;
 }
 
 function pillarStatusLine(state) {
