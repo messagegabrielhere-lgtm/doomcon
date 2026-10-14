@@ -19,6 +19,11 @@ describe('threats page', () => {
     assert.match(html, /<title>What could take the machines offline tonight\?/);
     assert.match(html, /<h1 class="bp__h1">What could take the machines offline tonight\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="kev">Which software was newly exploited \(CISA KEV, last 30 days\)\?<\/h2>/);
+    assert.match(html, /id="botnets">Which botnet families are online\?<\/h2>/);
+    assert.match(html, /id="space">What space weather alerts are active\?<\/h2>/);
+    assert.match(html, /id="planet">Which natural events is NASA tracking\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*Which software was newly exploited/);
     assert.match(html, /Does a dark feed mean everything is clear\?/);
     assert.match(html, /What does SOFTWARE UNDER ATTACK count\?/);
     assert.match(html, /Is this a forecast that AI goes offline tonight\?/);
@@ -37,6 +42,8 @@ describe('threats page', () => {
     assert.doesNotMatch(related[1], /href="\/dispatch\.html">Live quakes/);
     assert.doesNotMatch(related[1], /href="\/waffle\.html">Waffle House Index<\/a>/);
     assert.doesNotMatch(related[1], /href="\/self-aware\.html">The night it wakes up/);
+    assert.doesNotMatch(html, /id="kev">NEWLY EXPLOITED SOFTWARE/);
+    assert.doesNotMatch(html, /id="botnets">BOTNET FAMILIES/);
     // Never-say: refuse offline-tonight forecast / dark-feed-as-clear.
     assert.doesNotMatch(html, /machines will go offline tonight/i);
     assert.doesNotMatch(html, /dark feed means (all )?clear/i);

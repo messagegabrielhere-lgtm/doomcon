@@ -44,12 +44,33 @@ export function render(ctx, d) {
   const spBox = sp && sp.alerts && sp.alerts.length ? `<ul>${sp.alerts.map((a) => `<li><small>${esc(String(a.at || '').slice(0, 16))} UTC</small> ${esc(a.text)}</li>`).join('')}</ul>` : '<p>No current NOAA space-weather alerts.</p>';
   const eoList = eo && eo.latest ? `<ul>${eo.latest.map((e) => `<li>${e.url ? `<a href="${esc(e.url)}" target="_blank" rel="noopener">` : ''}${esc(e.title)}${e.url ? '</a>' : ''} <small>${esc(e.category || '')}${e.date ? ' · ' + esc(String(e.date).slice(0, 10)) : ''}</small></li>`).join('')}</ul>` : '<p>Feed dark this pass.</p>';
 
+  // Tip #275: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const kevQ = 'Which software was newly exploited (CISA KEV, last 30 days)?';
+  const botQ = 'Which botnet families are online?';
+  const spaceQ = 'What space weather alerts are active?';
+  const natQ = 'Which natural events is NASA tracking?';
   // FAQ answers restate hero / tiles / sources copy only.
   // Refuse: certainty that machines go offline tonight, doom-probability titles,
   // treating a dark feed as all-clear.
   const faq = [
     [qTitle,
       'The AI build-out runs on software, power and satellites. Here is what is attacking or straining each one right now, from public feeds that update all day: newly exploited software (CISA KEV), live botnet servers (abuse.ch Feodo), geomagnetic storm level (NOAA), and open natural events (NASA EONET). Refreshed every 15 minutes.'],
+    [kevQ,
+      kev
+        ? `Flaws added to CISA’s known-exploited list in 7 days · ${kev.ransomware_30d} used by ransomware this month. The board lists newly exploited software from CISA KEV in the last 30 days.`
+        : 'Flaws added to CISA’s known-exploited list in 7 days. CISA feed unreachable this pass, so that tile shows “—”.'],
+    [botQ,
+      fe
+        ? `Live command-and-control servers tracked by abuse.ch Feodo Tracker · ${fe.total} on the list, ${fe.online} online.`
+        : 'abuse.ch Feodo Tracker feed unreachable this pass, so that tile shows “—”.'],
+    [spaceQ,
+      sp
+        ? `${sp.scale.label} · Kp ${sp.kp} now, ${sp.max_24h} peak in 24 h (NOAA). G3+ storms can trip grids and satellites.`
+        : 'NOAA feed unreachable this pass, so that tile shows “—”.'],
+    [natQ,
+      eo
+        ? `Open natural events NASA is tracking: ${(eo.by_category || []).slice(0, 3).map((c) => `${c.n} ${c.key.toLowerCase()}`).join(', ') || eo.open}.`
+        : 'NASA EONET unreachable this pass, so that tile shows “—”.'],
     ['Does a dark feed mean everything is clear?',
       'A dark feed shows as “—”, never as all clear. Sources: CISA KEV, abuse.ch Feodo Tracker, NOAA SWPC, NASA EONET. Source list adapted from OSIRIS (MIT).'],
     ['What does SOFTWARE UNDER ATTACK count?',
@@ -69,10 +90,10 @@ export function render(ctx, d) {
   <p class="lede">The AI build-out runs on software, power and satellites. Here is what is attacking or straining each one right now, from public feeds that update all day. Refreshed every 15 minutes.</p>
   <div class="th-k">${tiles}</div>
   <div class="th-g">
-    <div class="th-c" style="grid-column:1/-1"><h2>NEWLY EXPLOITED SOFTWARE (CISA KEV, LAST 30 DAYS)</h2>${kevList}</div>
-    <div class="th-c"><h2>BOTNET FAMILIES (ABUSE.CH)</h2>${feBox}</div>
-    <div class="th-c"><h2>SPACE WEATHER ALERTS (NOAA)</h2>${spBox}</div>
-    <div class="th-c"><h2>NATURAL EVENTS (NASA EONET)</h2>${eoList}</div>
+    <div class="th-c" style="grid-column:1/-1"><h2 id="kev">${esc(kevQ)}</h2>${kevList}</div>
+    <div class="th-c"><h2 id="botnets">${esc(botQ)}</h2>${feBox}</div>
+    <div class="th-c"><h2 id="space">${esc(spaceQ)}</h2>${spBox}</div>
+    <div class="th-c"><h2 id="planet">${esc(natQ)}</h2>${eoList}</div>
   </div>
   <p style="margin-top:16px">Related: <a href="${esc(ctx.href('/status.html'))}">Is ChatGPT down? Is Claude down?</a> · <a href="${esc(ctx.href('/dispatch.html'))}">What public feeds does ${esc(brand.NAME)} Dispatch show?</a> · <a href="${esc(ctx.href('/waffle.html'))}">Is the Waffle House open?</a> · <a href="${esc(ctx.href('/self-aware.html'))}">What if an AI wakes up at 2:14 a.m.?</a></p>
   <p style="font-size:12.5px;margin-top:10px">Sources: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV</a>, <a href="https://feodotracker.abuse.ch/" target="_blank" rel="noopener">abuse.ch Feodo Tracker</a>, <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA SWPC</a>, <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA EONET</a>. A dark feed shows as “—”, never as all clear. Source list adapted from <a href="https://github.com/simplifaisoul/osiris" target="_blank" rel="noopener">OSIRIS</a> (MIT). Updated ${esc(String(d.generated_at || '').slice(0, 16).replace('T', ' '))} UTC · <a href="api/threats.json">JSON</a></p>
