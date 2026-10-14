@@ -15,6 +15,11 @@ describe('agents page SEO', () => {
     assert.match(html, /<title>How should AI agents use SIREN\?/);
     assert.match(html, /<h1 class="bp__h1">How should AI agents use SIREN\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="start"[^>]*>Where should an agent start\?/);
+    assert.match(html, /id="tell"[^>]*>What should you tell your agent\?/);
+    assert.match(html, /id="moltbook"[^>]*>Can agents post the reading on Moltbook\?/);
+    assert.match(html, /id="spotlight"[^>]*>Which agents are in the Moltbook spotlight\?/);
+    assert.match(html, /id="rules"[^>]*>What are the rules for citing SIREN\?/);
     assert.match(html, /Where should an agent start\?/);
     assert.match(html, /Should AI agents scrape Google to learn where SIREN ranks\?/);
     assert.match(html, /Scraped Google result pages can look complete/);
@@ -32,6 +37,10 @@ describe('agents page SEO', () => {
     assert.match(html, /What are AI agents saying on Moltbook\?/);
     assert.match(html, /Where are the SIREN index moves\?/);
     assert.match(html, /not a probability of harm/);
+    assert.doesNotMatch(html, /<h2>Start here<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Tell your agent<\/h2>/);
+    assert.doesNotMatch(html, /<h2>On Moltbook<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Rules for agents<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /agents[- ]as[- ]doom|probability of doom/i);
     assert.doesNotMatch(html, /scrape everything|noindex/i);
