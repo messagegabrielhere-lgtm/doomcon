@@ -30,6 +30,18 @@ describe('digest page', () => {
     assert.match(html, /Was any of this written by a model\?/);
     assert.match(html, /How are items selected for the brief\?/);
     assert.match(html, /Where are the selection rules published\?/);
+    assert.match(html, /id="dg-brief-h">What is in today's brief\?/);
+    assert.match(html, /id="dg-chg-h">What changed on the index\?<\/h2>/);
+    assert.match(html, /id="dg-st-h">What streaks and records does the log show\?<\/h2>/);
+    assert.match(html, /id="dg-lab-h">How did every frontier lab fare, last/);
+    assert.match(html, /id="dg-how-h">How is this page computed\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*What is in today's brief\?/);
+    assert.match(html, /FAQPage[\s\S]*What changed on the index\?/);
+    assert.match(html, /FAQPage[\s\S]*How is this page computed\?/);
+    assert.doesNotMatch(html, /id="dg-brief-h">The brief /);
+    assert.doesNotMatch(html, /id="dg-chg-h">What changed<\/h2>/);
+    assert.doesNotMatch(html, /id="dg-st-h">Streaks and records<\/h2>/);
+    assert.doesNotMatch(html, /id="dg-how-h">How this page is computed<\/h2>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"Report"/);

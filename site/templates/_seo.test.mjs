@@ -228,6 +228,11 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What does SIREN Arena show today'));
     assert.ok(org.knowsAbout.includes('How do I hear when SIREN moves first'));
     assert.ok(org.knowsAbout.includes('How does SIREN stay free without a paywall'));
+    assert.ok(org.knowsAbout.includes("What is in today's brief"));
+    assert.ok(org.knowsAbout.includes('What changed on the index'));
+    assert.ok(org.knowsAbout.includes('What streaks and records does the log show'));
+    assert.ok(org.knowsAbout.includes('How did every frontier lab fare in the window'));
+    assert.ok(org.knowsAbout.includes('How is this page computed'));
     assert.ok(org.knowsAbout.includes('Waffle House Index'));
     assert.ok(org.knowsAbout.includes('is the Waffle House open'));
     assert.ok(org.knowsAbout.includes('AI threat board'));
