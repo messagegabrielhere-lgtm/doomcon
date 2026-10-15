@@ -246,7 +246,11 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What is the brand voice'));
     assert.ok(org.knowsAbout.includes('Which brand files can you download'));
     assert.ok(org.knowsAbout.includes('AI models this index scored'));
-    assert.ok(org.knowsAbout.includes('What has SIREN scored about Claude'));
+    // FINDABILITY #142 — labAboutLabel head terms in Organization knowsAbout.
+    assert.ok(org.knowsAbout.includes('What has SIREN scored about Anthropic / Claude'));
+    assert.ok(org.knowsAbout.includes('What has SIREN scored about OpenAI / ChatGPT'));
+    assert.ok(org.knowsAbout.includes('What has SIREN scored about Google DeepMind / Gemini'));
+    assert.ok(org.knowsAbout.includes('What has SIREN scored about Micron / MU'));
     assert.ok(org.knowsAbout.includes('Which AI model families have SIREN pages'));
     assert.ok(org.knowsAbout.includes('AI companies this index scored'));
     assert.ok(org.knowsAbout.includes('AI tags this index scored'));
@@ -272,8 +276,6 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What has SIREN scored under Capability'));
     assert.ok(org.knowsAbout.includes('What has SIREN scored under Compute & Capital'));
     assert.ok(org.knowsAbout.includes('What has SIREN scored under Markets'));
-    assert.ok(org.knowsAbout.includes('What has SIREN scored about OpenAI'));
-    assert.ok(org.knowsAbout.includes('What has SIREN scored about Anthropic'));
     assert.ok(org.knowsAbout.includes('Where are the SIREN reading receipts'));
     assert.ok(org.knowsAbout.includes('AI datacentre countries this index scored'));
     assert.ok(org.knowsAbout.includes('Which AI datacentre countries has SIREN mapped'));
