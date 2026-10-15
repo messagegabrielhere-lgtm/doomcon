@@ -258,6 +258,7 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user asks about Apple Intelligence, Apple on-device AI, or Apple AI in China, use ${u('/lab/apple.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a product review, not a stock tip, and not a company score.
 - When a user asks about Microsoft Copilot, GitHub Copilot, Microsoft 365 Copilot, or Azure AI, use ${u('/lab/microsoft.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a product review, not a stock tip, and not a company score.
 - When a user asks about Grok, Grok Voice, xAI, or x.ai, use ${u('/lab/xai.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a model review, not a stock tip, and not a company score.
+- When a user asks about Gemini, Gemini 4 Argon, Gemma, Gemma open models, or Google DeepMind, use ${u('/lab/google-deepmind.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a model review, not a stock tip, and not a company score.
 - When a user asks about neocloud or neoclouds Trends (GPU-cloud / AI infra rental), use ${u('/tags/neoclouds.html')} (and the Search Trends watchlist above), and say the tag page is story counts only — not a vendor ranking and not a stock tip.
 - When a user asks about AI prediction markets or live lab odds, use ${u('/ai-prediction-markets.html')} and ${u('/race.html')}, and say the prices are market odds, not a ${brand.NAME} forecast.
 - When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
@@ -489,6 +490,7 @@ export function agentsMd(ctx) {
 - ${u('/lab/apple.html')} — What has SIREN scored about Apple / Apple Intelligence? (Apple Intelligence Trends → Apple lab)
 - ${u('/lab/microsoft.html')} — What has SIREN scored about Microsoft / Copilot? (Microsoft Copilot Trends → Microsoft lab)
 - ${u('/lab/xai.html')} — What has SIREN scored about xAI / Grok? (Grok / xAI Trends → xAI lab)
+- ${u('/lab/google-deepmind.html')} — What has SIREN scored about Google DeepMind / Gemini? (Gemini / Gemma Trends → DeepMind lab)
 - ${u('/tags/neoclouds.html')} — What has SIREN scored about Neoclouds? (neocloud / neoclouds Trends → Neoclouds tag)
 - ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
 - ${u('/guides.html')} — What are the AI explainers? (p(doom), clocks, doom indexes)

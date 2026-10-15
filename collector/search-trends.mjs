@@ -43,7 +43,10 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #163 — “anthropic ipo” / FTC probe Trends → gated Claude lab
   // (story counts only; not IPO advice or legal advice).
   { id: 'anthropic-ipo', label: 'Anthropic IPO / FTC', re: /\banthropic\b.{0,40}\b(?:ipo|ftc|lawsuit|lawsuits|probe|probes|subpoena)\b|\b(?:ipo|ftc|lawsuit|lawsuits|probe|probes|subpoena)\b.{0,40}\banthropic\b|\bclaude\b.{0,40}\b(?:ipo|ftc|lawsuit|lawsuits)\b/i, path: '/lab/anthropic.html' },
-  { id: 'gemini', label: 'Gemini', re: /\bgemini\b|\bgoogle\s+deepmind\b/i, path: '/lab/google-deepmind.html' },
+  // FINDABILITY #174 — Gemini / Gemma / Gemini 4 Argon Trends → gated DeepMind lab
+  // (story counts only; not a model review or stock tip). Gemma open-weight tape
+  // shares the same lab as Gemini product headlines.
+  { id: 'gemini', label: 'Gemini / Gemma', re: /\bgemini(?:\s+\d|\s+4)?\b|\bgemma(?:\s+\d)?\b|\bgoogle\s+deepmind\b/i, path: '/lab/google-deepmind.html' },
   // FINDABILITY #137 — "mu" Trends spikes arrive with Micron / AI memory-chip
   // headlines; route to the existing gated /lab/micron.html (not a doorway).
   // FINDABILITY #151 — "dram stock" / "hbm stock" / "memory stock" / "micron

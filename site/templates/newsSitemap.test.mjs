@@ -341,6 +341,28 @@ test('news sitemap keywords add Grok when xAI is named (FINDABILITY #173)', () =
   assert.doesNotMatch(b, /(^|,\s*)Grok(,|$)/);
 });
 
+test('news sitemap keywords keep Gemma when open-model titles name it (FINDABILITY #174)', () => {
+  const a = keywordsFor({
+    title: 'Google Gemma 4 Open Models',
+    summary: 'Open weights from Google DeepMind.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Google DeepMind'],
+  });
+  assert.match(a, /\bGemma\b/);
+  assert.match(a, /\bGemini\b/);
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No frontier lab named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)Gemma(,|$)/);
+});
+
 test('news sitemap keywords add neocloud / Iris Energy when parent named (FINDABILITY #159)', () => {
   const a = keywordsFor({
     title: "CoreWeave's slump puts spotlight on debt behind AI boom",

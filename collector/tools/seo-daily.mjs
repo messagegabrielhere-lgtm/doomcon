@@ -147,6 +147,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/microsoft.html',
   // FINDABILITY #173 — xAI / Grok Trends FAQ lab.
   '/lab/xai.html',
+  // FINDABILITY #174 — Gemini / Gemma Trends FAQ lab.
+  '/lab/google-deepmind.html',
   // FINDABILITY #157 — neocloud Trends FAQ tag hub.
   '/tags/neoclouds.html',
   '/pillar/',
@@ -775,10 +777,11 @@ export const TRENDS_ROUTES_META_MUSE_NEEDLE = 'Meta Muse / open-weight AI → /l
 export const TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE = 'Apple Intelligence → /lab/apple.html';
 export const TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE = 'Microsoft Copilot → /lab/microsoft.html';
 export const TRENDS_ROUTES_XAI_GROK_NEEDLE = 'Grok / xAI → /lab/xai.html';
+export const TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma → /lab/google-deepmind.html';
 
 /**
- * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173
- * ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok destinations (FINDABILITY #166 —
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174
+ * ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini destinations (FINDABILITY #166 —
  * newsroom used to keep the question while dropping newer answer destinations).
  */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
@@ -790,7 +793,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_META_MUSE_NEEDLE)
     && text.includes(TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE)
     && text.includes(TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE)
-    && text.includes(TRENDS_ROUTES_XAI_GROK_NEEDLE);
+    && text.includes(TRENDS_ROUTES_XAI_GROK_NEEDLE)
+    && text.includes(TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -973,6 +977,24 @@ export function hasXaiGrokFaq(html, needle = XAI_GROK_FAQ_NEEDLE) {
 export function hasAgentsXaiGrok(body, needle = AGENTS_XAI_GROK_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/xai.html');
+}
+
+/** FINDABILITY #174 — Gemini / Gemma FAQ + agent maps. */
+export const GEMINI_GEMMA_FAQ_NEEDLE = 'Why does SIREN watch Gemini and Gemma?';
+export const AGENTS_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma';
+
+/** Tip /lab/google-deepmind.html must keep the #174 Gemini / Gemma FAQ. */
+export function hasGeminiGemmaFaq(html, needle = GEMINI_GEMMA_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Gemini / Gemma Trends to DeepMind lab (FINDABILITY #174).
+ * Wipe gap is `agents-gemini-gemma-missing`.
+ */
+export function hasAgentsGeminiGemma(body, needle = AGENTS_GEMINI_GEMMA_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/google-deepmind.html');
 }
 
 /**
@@ -1546,7 +1568,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -1757,6 +1779,27 @@ export function deriveGaps(report) {
       id: 'agents-xai-grok-missing',
       severity: 'medium',
       text: `${which} missing Grok / xAI → /lab/xai.html Trends tip (FINDABILITY #173) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #173`,
+    });
+  }
+
+  // FINDABILITY #174 — DeepMind lab FAQ for Gemini / Gemma wiped or never landed.
+  if (ours.gemini_gemma_faq === false) {
+    gaps.push({
+      id: 'gemini-gemma-faq-missing',
+      severity: 'medium',
+      text: `/lab/google-deepmind.html missing Gemini / Gemma FAQ (FINDABILITY #174) — re-overlay lab/google-deepmind.html or wait for full collect Publish on tip ≥ #174`,
+    });
+  }
+  // FINDABILITY #174 — agent maps must route Gemini / Gemma Trends to DeepMind lab.
+  if (ours.agents_gemini_gemma === false || ours.llms_gemini_gemma === false) {
+    const which = [
+      ours.agents_gemini_gemma === false ? 'agents.md' : null,
+      ours.llms_gemini_gemma === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-gemini-gemma-missing',
+      severity: 'medium',
+      text: `${which} missing Gemini / Gemma → /lab/google-deepmind.html Trends tip (FINDABILITY #174) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #174`,
     });
   }
 
@@ -2022,6 +2065,11 @@ export function measureSite(site, byUrl) {
     row.xai_grok_faq = xaiHtml?.ok ? hasXaiGrokFaq(xaiHtml.value) : false;
     row.agents_xai_grok = agentsMd?.ok ? hasAgentsXaiGrok(agentsMd.value) : false;
     row.llms_xai_grok = llms?.ok ? hasAgentsXaiGrok(llmsBody) : false;
+    // FINDABILITY #174 — Gemini / Gemma FAQ + agent maps.
+    const gdmHtml = byUrl.get(`${base}/lab/google-deepmind.html`);
+    row.gemini_gemma_faq = gdmHtml?.ok ? hasGeminiGemmaFaq(gdmHtml.value) : false;
+    row.agents_gemini_gemma = agentsMd?.ok ? hasAgentsGeminiGemma(agentsMd.value) : false;
+    row.llms_gemini_gemma = llms?.ok ? hasAgentsGeminiGemma(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -2347,6 +2395,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_xai_grok == null ? '—' : (ours.agents_xai_grok ? 'yes' : 'NO');
       const lm = ours.llms_xai_grok == null ? '—' : (ours.llms_xai_grok ? 'yes' : 'NO');
       lines.push(`- Agent-map Grok / xAI → lab (#173): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.gemini_gemma_faq != null) {
+      lines.push(
+        `- Gemini / Gemma FAQ (#174): **${ours.gemini_gemma_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_gemini_gemma != null || ours.llms_gemini_gemma != null)) {
+      const ag = ours.agents_gemini_gemma == null ? '—' : (ours.agents_gemini_gemma ? 'yes' : 'NO');
+      const lm = ours.llms_gemini_gemma == null ? '—' : (ours.llms_gemini_gemma ? 'yes' : 'NO');
+      lines.push(`- Agent-map Gemini / Gemma → lab (#174): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -3247,6 +3305,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/xai.html')) {
     throw new Error('OUR_SURFACES missing /lab/xai.html');
   }
+  if (hasGeminiGemmaFaq(GEMINI_GEMMA_FAQ_NEEDLE) !== true) {
+    throw new Error('hasGeminiGemmaFaq true');
+  }
+  if (hasGeminiGemmaFaq('What has SIREN scored about Google DeepMind?') !== false) {
+    throw new Error('hasGeminiGemmaFaq false');
+  }
+  if (hasAgentsGeminiGemma('Gemini / Gemma → https://siren.watch/lab/google-deepmind.html') !== true) {
+    throw new Error('hasAgentsGeminiGemma true');
+  }
+  if (hasAgentsGeminiGemma('https://siren.watch/lab/google-deepmind.html only') !== false) {
+    throw new Error('hasAgentsGeminiGemma needs Gemini / Gemma needle');
+  }
+  const gdmGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      gemini_gemma_faq: false,
+      agents_gemini_gemma: false,
+      llms_gemini_gemma: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!gdmGaps.some((g) => g.id === 'gemini-gemma-faq-missing')) {
+    throw new Error('gemini-gemma-faq-missing gap');
+  }
+  if (!gdmGaps.some((g) => g.id === 'agents-gemini-gemma-missing')) {
+    throw new Error('agents-gemini-gemma-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/google-deepmind.html')) {
+    throw new Error('OUR_SURFACES missing /lab/google-deepmind.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -3256,12 +3347,13 @@ function selftest() {
     TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
     TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
     TRENDS_ROUTES_XAI_GROK_NEEDLE,
+    TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok destinations (#166/#167/#169/#170/#171/#173)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini destinations (#166/#167/#169/#170/#171/#173/#174)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
