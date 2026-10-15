@@ -54,3 +54,18 @@ test('news-only caps live day hubs and skips full sitemap (FINDABILITY #106)', (
   assert.match(block, /\.slice\(0, 5\)/);
   assert.doesNotMatch(block, /write\(args\.out, 'sitemap\.xml'/);
 });
+
+test('news-only item skip uses content fingerprint not full stableJson (FINDABILITY #107)', () => {
+  // Recency/age/score churn dirtied all ~800 briefs after #103/#106 (~468s),
+  // so news-fast stayed at PUBLISHED=0 even with timeout 900.
+  const src = readFileSync(join(ROOT, 'site/build.mjs'), 'utf8');
+  assert.match(src, /function newsOnlyItemFingerprint/);
+  assert.match(src, /FINDABILITY #107/);
+  const block = newsOnlyBlock(src);
+  assert.match(block, /newsOnlyItemFingerprint\(it\)/);
+  assert.match(block, /NEWS_ONLY_ITEM_REWRITE_CAP/);
+  assert.doesNotMatch(
+    block,
+    /const itemChanged = !prev \|\| stableJson\(it\) !== stableJson\(prev\)/,
+  );
+});

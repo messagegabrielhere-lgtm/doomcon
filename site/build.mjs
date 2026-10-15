@@ -231,6 +231,41 @@ const DAY_MAX_AGE_S = 40 * 3600;
 
 const SPARK_POINTS = 48;
 
+// FINDABILITY #107 — news-only item skip fingerprint.
+// Newsroom ticks recompute age_hours_at_score, score_components.recency, and
+// often the headline score every minute. Comparing stableJson(it) then marks
+// all ~800 briefs dirty (~468s rewrite on a seeded public/) and news-fast
+// burns its timeout with PUBLISHED=0 while Google News only needs new/changed
+// story URLs + news-sitemap. Identity, copy, and corroboration shape are enough
+// for the brief; score decomposition freshness waits for the hourly full pass.
+function newsOnlyItemFingerprint(it) {
+  if (!it || typeof it !== 'object') return '';
+  const meta = it.meta && typeof it.meta === 'object' ? it.meta : {};
+  const corr = meta.corroboration && typeof meta.corroboration === 'object'
+    ? meta.corroboration
+    : null;
+  return stableJson({
+    id: it.id,
+    title: it.title,
+    summary: it.summary,
+    url: it.url,
+    published_at: it.published_at,
+    pillar: it.pillar,
+    kind: it.kind,
+    source: it.source,
+    entities: it.entities,
+    publisher: meta.publisher || null,
+    outlet_domain: meta.outlet_domain || null,
+    first_seen_at: meta.first_seen_at || null,
+    corr: corr ? {
+      count: corr.count,
+      sources: corr.sources || [],
+      first_source: corr.first_source || null,
+      first_seen_published_at: corr.first_seen_published_at || null,
+    } : null,
+  });
+}
+
 function parseArgs(argv) {
   const out = { data: 'data', docs: 'docs', out: 'public', quiet: false, only: null };
   for (let i = 0; i < argv.length; i += 1) {
@@ -1475,27 +1510,47 @@ async function main() {
       // timed out on tip b9b1fcc1, PUBLISHED=0). Related-link/cohort freshness
       // waits for the hourly full pass; Google News only needs new/changed
       // item URLs plus news-sitemap.
+      // FINDABILITY #107 — compare newsOnlyItemFingerprint (not stableJson(it)):
+      // age/recency/score churn alone still dirtied all ~800 briefs after #103/#106
+      // (~468s on seeded public/, 6/6 ticks timed out at 480s on tip c4993bcf).
       const asOfChanged = prevAsOf !== state.generated_at;
       if (asOfChanged) {
         log('  items        as-of moved; skipping blanket item rewrite (FINDABILITY #102)');
       }
       const prevById = new Map(prevItems.map((it) => [it.id, it]));
       const keep = new Set(['index.html']);
+      // Safety valve if a seed/prev mismatch still marks hundreds dirty: prefer
+      // missing files and newest published_at so Google News gets fresh URLs first.
+      const NEWS_ONLY_ITEM_REWRITE_CAP = 120;
+      const dirty = [];
       for (const it of items) {
         const slug = itemPage.slugFor(it);
         keep.add(`${slug}.html`);
         const rel = `item/${slug}.html`;
         const abs = path.join(args.out, rel);
         const prev = prevById.get(it.id);
-        const itemChanged = !prev || stableJson(it) !== stableJson(prev);
+        const itemChanged = !prev
+          || newsOnlyItemFingerprint(it) !== newsOnlyItemFingerprint(prev);
         if (!itemChanged && existsSync(abs)) {
           itemSkipped += 1;
           continue;
         }
-        const related = (byPillar.get(it.pillar) || [])
-          .filter((r) => r.id !== it.id)
+        dirty.push({ it, rel, abs, missing: !existsSync(abs) });
+      }
+      dirty.sort((a, b) => {
+        if (a.missing !== b.missing) return a.missing ? -1 : 1;
+        return String(b.it.published_at || '').localeCompare(String(a.it.published_at || ''));
+      });
+      const deferred = Math.max(0, dirty.length - NEWS_ONLY_ITEM_REWRITE_CAP);
+      if (deferred > 0) {
+        log(`  items        deferring ${deferred} brief rewrites past cap ${NEWS_ONLY_ITEM_REWRITE_CAP} (FINDABILITY #107)`);
+        itemSkipped += deferred;
+      }
+      for (const row of dirty.slice(0, NEWS_ONLY_ITEM_REWRITE_CAP)) {
+        const related = (byPillar.get(row.it.pillar) || [])
+          .filter((r) => r.id !== row.it.id)
           .slice(0, 5);
-        written.push(await write(args.out, rel, itemPage.render(ctx, it, related)));
+        written.push(await write(args.out, row.rel, itemPage.render(ctx, row.it, related)));
         itemRewritten += 1;
       }
       // Archived scored stories keep their permanent pages across news-only
