@@ -22,6 +22,8 @@ import {
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
+  CONQUEST_FAQ_PROBES,
+  conquestFaqLags,
   FACET_URL_FLOOR,
   readLocalReadyUrls,
 } from '../tools/seo-daily.mjs';
@@ -301,5 +303,47 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'lab-head-aliases-missing'));
+  });
+
+  it('detects conquest FAQ hub lag after orphan wipe (FINDABILITY #128)', () => {
+    for (const p of CONQUEST_FAQ_PROBES) {
+      assert.ok(CORE_LIVE_SURFACES.includes(p.path), p.path);
+    }
+    const byUrl = new Map([
+      ['https://siren.watch/compare.html', {
+        ok: true,
+        value: '<h2>Which AI doom indexes can you compare?</h2>',
+      }],
+      ['https://siren.watch/alternatives.html', {
+        ok: true,
+        value: '<h2>What are AI doom index alternatives?</h2>',
+      }],
+    ]);
+    const lags = conquestFaqLags(byUrl);
+    assert.equal(lags.length, 2);
+    assert.ok(lags.some((r) => r.path === '/compare.html'));
+    assert.ok(lags.some((r) => r.path === '/alternatives.html'));
+    const okByUrl = new Map([
+      ['https://siren.watch/compare.html', {
+        ok: true,
+        value: '<h2>How do you compare AI doom indexes?</h2>',
+      }],
+      ['https://siren.watch/alternatives.html', {
+        ok: true,
+        value: '<h2>What is an AI doom index alternative?</h2>',
+      }],
+    ]);
+    assert.equal(conquestFaqLags(okByUrl).length, 0);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        conquest_faq_lags: lags,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'conquest-faq-missing'));
   });
 });

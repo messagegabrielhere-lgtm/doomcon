@@ -572,6 +572,17 @@ jobs:
             process.stdout.write(`SIREN ${s.level ?? "-"}, score ${score} — newsroom refresh`);
           ')"
           mkdir .pages
+          # FINDABILITY #128 — stash live tip conquest FAQ hubs before orphan
+          # wipe (news-only public/ omits #126/#127 needles the same way).
+          PRESERVE_FAQ=$(mktemp -d)
+          PAGES_REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          rm -rf .pages-faq-tip
+          if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
+            for hub in compare.html alternatives.html; do
+              [ -f ".pages-faq-tip/$hub" ] && cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
+            done
+            rm -rf .pages-faq-tip
+          fi
           tar cf - -C public . | (cd .pages && tar xf -)
           # FINDABILITY #115 — news-only public/ can omit conquest short aliases
           # (#111/#113). Orphan publish must not wipe them (same restore as
@@ -590,6 +601,22 @@ jobs:
           if [ -f .pages/verify.html ]; then mkdir -p .pages/verify && cp -a .pages/verify.html .pages/verify/index.html; fi
           if [ -f .pages/free-tools.html ]; then mkdir -p .pages/free-tools && cp -a .pages/free-tools.html .pages/free-tools/index.html; fi
           if [ -f .pages/ai-prediction-markets.html ]; then mkdir -p .pages/ai-prediction-markets && cp -a .pages/ai-prediction-markets.html .pages/ai-prediction-markets/index.html; fi
+          # FINDABILITY #128 — restore tip conquest FAQ hubs when needles missing.
+          if [ -f "$PRESERVE_FAQ/compare.html" ] \
+            && ! grep -q 'How do you compare AI doom indexes' .pages/compare.html 2>/dev/null; then
+            cp -a "$PRESERVE_FAQ/compare.html" .pages/compare.html
+            mkdir -p .pages/compare
+            cp -a "$PRESERVE_FAQ/compare.html" .pages/compare/index.html
+            echo "restored compare.html conquest FAQ hub (#128)"
+          fi
+          if [ -f "$PRESERVE_FAQ/alternatives.html" ] \
+            && ! grep -q 'What is an AI doom index alternative' .pages/alternatives.html 2>/dev/null; then
+            cp -a "$PRESERVE_FAQ/alternatives.html" .pages/alternatives.html
+            mkdir -p .pages/alternatives
+            cp -a "$PRESERVE_FAQ/alternatives.html" .pages/alternatives/index.html
+            echo "restored alternatives.html conquest FAQ hub (#128)"
+          fi
+          rm -rf "$PRESERVE_FAQ"
           cd .pages
           git init -q -b gh-pages
           git config user.name  'github-actions[bot]'
@@ -1206,6 +1233,17 @@ jobs:
             process.stdout.write(`SIREN ${s.level ?? "-"}, score ${score} — ${s.generated_at ?? "unknown"}`);
           ')"
           mkdir .pages
+          # FINDABILITY #128 — stash live tip conquest FAQ hubs before orphan
+          # wipe (news-only / race builds can omit #126/#127 needles).
+          PRESERVE_FAQ=$(mktemp -d)
+          PAGES_REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          rm -rf .pages-faq-tip
+          if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
+            for hub in compare.html alternatives.html; do
+              [ -f ".pages-faq-tip/$hub" ] && cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
+            done
+            rm -rf .pages-faq-tip
+          fi
           tar cf - -C public . | (cd .pages && tar xf -)
           # FINDABILITY #115 — keep typed-guess vs aliases across orphan Publish
           # (defense in depth with news-fast #114; full builds emit them too).
@@ -1223,6 +1261,22 @@ jobs:
           if [ -f .pages/verify.html ]; then mkdir -p .pages/verify && cp -a .pages/verify.html .pages/verify/index.html; fi
           if [ -f .pages/free-tools.html ]; then mkdir -p .pages/free-tools && cp -a .pages/free-tools.html .pages/free-tools/index.html; fi
           if [ -f .pages/ai-prediction-markets.html ]; then mkdir -p .pages/ai-prediction-markets && cp -a .pages/ai-prediction-markets.html .pages/ai-prediction-markets/index.html; fi
+          # FINDABILITY #128 — restore tip conquest FAQ hubs when needles missing.
+          if [ -f "$PRESERVE_FAQ/compare.html" ] \
+            && ! grep -q 'How do you compare AI doom indexes' .pages/compare.html 2>/dev/null; then
+            cp -a "$PRESERVE_FAQ/compare.html" .pages/compare.html
+            mkdir -p .pages/compare
+            cp -a "$PRESERVE_FAQ/compare.html" .pages/compare/index.html
+            echo "restored compare.html conquest FAQ hub (#128)"
+          fi
+          if [ -f "$PRESERVE_FAQ/alternatives.html" ] \
+            && ! grep -q 'What is an AI doom index alternative' .pages/alternatives.html 2>/dev/null; then
+            cp -a "$PRESERVE_FAQ/alternatives.html" .pages/alternatives.html
+            mkdir -p .pages/alternatives
+            cp -a "$PRESERVE_FAQ/alternatives.html" .pages/alternatives/index.html
+            echo "restored alternatives.html conquest FAQ hub (#128)"
+          fi
+          rm -rf "$PRESERVE_FAQ"
           cd .pages
           git init -q -b gh-pages
           git config user.name  'github-actions[bot]'
