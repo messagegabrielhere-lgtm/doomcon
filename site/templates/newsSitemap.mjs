@@ -76,6 +76,9 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Iris Energy', 'Neoclouds', 'neocloud',
   // FINDABILITY #161 — NVDA ticker needle when titles use the ticker alone.
   'NVDA',
+  // FINDABILITY #172 — Trends product aliases as named needles when titles use
+  // the short form alone (labAboutLabel Muse / Apple Intelligence / Copilot).
+  'Muse', 'Copilot',
 ]);
 
 /**
@@ -84,6 +87,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
  * FINDABILITY #159 — CoreWeave→neocloud and IREN→Iris Energy match Trends
  * HEAD_TERMS / gated pages (#155/#152/#157) so Google News keywords align
  * with the watchlist routing FAQ (#158) when those names dominate the tape.
+ * FINDABILITY #172 — Meta→Muse, Apple→Apple Intelligence, Microsoft→Copilot
+ * align news:keywords with Trends FAQs #169/#170/#171.
  */
 const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bMicron\b/i, name: /^Micron$/i, alias: 'MU' },
@@ -94,6 +99,10 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bIREN\b/i, name: /^IREN$/i, alias: 'Iris Energy' },
   // FINDABILITY #161 — NVIDIA ticker alias (labAboutLabel NVDA).
   { re: /\bNVIDIA\b/i, name: /^NVIDIA$/i, alias: 'NVDA' },
+  // FINDABILITY #172 — Trends product aliases (labAboutLabel Muse / Apple Intelligence / Copilot).
+  { re: /\bMeta(?:\s+AI)?\b/i, name: /^Meta(?:\s+AI)?$/i, alias: 'Muse' },
+  { re: /\bApple\b/i, name: /^Apple$/i, alias: 'Apple Intelligence' },
+  { re: /\bMicrosoft\b/i, name: /^Microsoft$/i, alias: 'Copilot' },
 ]);
 
 /**

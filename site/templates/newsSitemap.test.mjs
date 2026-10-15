@@ -202,9 +202,11 @@ test('news sitemap keywords promote ChatGPT / Pentagon / EDPB ahead of topic-cap
     entities: ['OpenAI', 'United States'],
   });
   assert.match(a, /ChatGPT/);
-  // Named labs (incl. ChatGPT) must beat trailing topic/meta slots under the 12-cap.
+  // Named labs (incl. ChatGPT + #172 Copilot alias) must beat trailing topic/meta
+  // slots under the 12-cap (pillar may drop when aliases fill the row).
   const parts = a.split(', ');
-  assert.ok(parts.indexOf('ChatGPT') < parts.indexOf('attention'), a);
+  assert.match(a, /\bCopilot\b/);
+  assert.ok(parts.indexOf('ChatGPT') < parts.indexOf('AI agents'), a);
   const b = keywordsFor({
     title: 'Anthropic Seeks Full Appeals Court Review of Pentagon Ban',
     summary: '',
@@ -270,6 +272,51 @@ test('news sitemap keywords add NVDA when NVIDIA is named (FINDABILITY #161)', (
     entities: [],
   });
   assert.doesNotMatch(b, /(^|,\s*)NVDA(,|$)/);
+});
+
+test('news sitemap keywords add Muse / Apple Intelligence / Copilot when parent named (FINDABILITY #172)', () => {
+  const a = keywordsFor({
+    title: 'Meta expands open-weight model releases',
+    summary: 'No product codename in the headline.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Meta AI'],
+  });
+  assert.match(a, /\bMeta\b|\bMeta AI\b/);
+  assert.match(a, /\bMuse\b/);
+  const b = keywordsFor({
+    title: 'Apple ships on-device AI update in China',
+    summary: '',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Apple'],
+  });
+  assert.match(b, /\bApple\b/);
+  assert.match(b, /Apple Intelligence/);
+  const c = keywordsFor({
+    title: 'Microsoft expands Azure AI enterprise deals',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Microsoft'],
+  });
+  assert.match(c, /\bMicrosoft\b/);
+  assert.match(c, /\bCopilot\b/);
+  // Unrelated titles must not invent Trends product aliases.
+  const d = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No frontier lab named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(d, /(^|,\s*)Muse(,|$)/);
+  assert.doesNotMatch(d, /Apple Intelligence/);
+  assert.doesNotMatch(d, /(^|,\s*)Copilot(,|$)/);
 });
 
 test('news sitemap keywords add neocloud / Iris Energy when parent named (FINDABILITY #159)', () => {
