@@ -187,6 +187,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'ChatGPT outage hits API users', news: [] }).includes('openai-outage'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'openai-outage' && t.path === '/lab/openai.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'openai-outage').re.test('OpenAI ships a new model'), false);
+  // FINDABILITY #182 — Hugging Face hack / incident → gated Hugging Face tag.
+  assert.ok(matchHeadTerms({ title: 'Reproducing the Hugging Face Incident, Part I', news: [] }).includes('huggingface'));
+  assert.ok(matchHeadTerms({ title: 'Hugging Face hack under CA anti-hacking law', news: [] }).includes('huggingface'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'huggingface' && t.path === '/tags/huggingface.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'huggingface').re.test('hugging a tree'), false);
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {

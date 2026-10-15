@@ -155,6 +155,8 @@ export const OUR_SURFACES = Object.freeze([
   '/tags/neoclouds.html',
   // FINDABILITY #176 — Character.ai bankruptcy FAQ chatbots tag hub.
   '/tags/chatbots.html',
+  // FINDABILITY #182 — Hugging Face hack / incident FAQ tag hub.
+  '/tags/huggingface.html',
   // FINDABILITY #177 — Qwen / Alibaba open-weight Trends FAQ lab.
   '/lab/qwen.html',
   // FINDABILITY #178 — Oracle / AI datacenter Trends FAQ tag hub.
@@ -806,6 +808,7 @@ export const TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE = 'Oracle / AI datacenters 
 export const TRENDS_ROUTES_DEEPSEEK_NEEDLE = 'DeepSeek outage → /lab/deepseek.html';
 export const TRENDS_ROUTES_MISTRAL_NEEDLE = 'Mistral / Timestral → /lab/mistral.html';
 export const TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE = 'OpenAI outage → /lab/openai.html';
+export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 
 /**
  * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180
@@ -828,7 +831,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE)
     && text.includes(TRENDS_ROUTES_DEEPSEEK_NEEDLE)
     && text.includes(TRENDS_ROUTES_MISTRAL_NEEDLE)
-    && text.includes(TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE);
+    && text.includes(TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE)
+    && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1155,6 +1159,24 @@ export function hasOpenaiOutageFaq(html, needle = OPENAI_OUTAGE_FAQ_NEEDLE) {
 export function hasAgentsOpenaiOutage(body, needle = AGENTS_OPENAI_OUTAGE_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/openai.html');
+}
+
+/** FINDABILITY #182 — Hugging Face hack / incident FAQ + agent maps. */
+export const HUGGINGFACE_FAQ_NEEDLE = 'Why does SIREN watch Hugging Face hacks and incidents?';
+export const AGENTS_HUGGINGFACE_NEEDLE = 'Hugging Face hack';
+
+/** Tip /tags/huggingface.html must keep the #182 Hugging Face FAQ. */
+export function hasHuggingfaceFaq(html, needle = HUGGINGFACE_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Hugging Face hack Trends to Hugging Face tag (FINDABILITY #182).
+ * Wipe gap is `agents-huggingface-missing`.
+ */
+export function hasAgentsHuggingface(body, needle = AGENTS_HUGGINGFACE_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/tags/huggingface.html');
 }
 
 
@@ -1735,7 +1757,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -2117,6 +2139,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #182 — Hugging Face tag FAQ wiped or never landed.
+  if (ours.huggingface_faq === false) {
+    gaps.push({
+      id: 'huggingface-faq-missing',
+      severity: 'medium',
+      text: `/tags/huggingface.html missing Hugging Face hack FAQ (FINDABILITY #182) — re-overlay tags/huggingface.html or wait for full collect Publish on tip ≥ #182`,
+    });
+  }
+  // FINDABILITY #182 — agent maps must route Hugging Face hack Trends to Hugging Face tag.
+  if (ours.agents_huggingface === false || ours.llms_huggingface === false) {
+    const which = [
+      ours.agents_huggingface === false ? 'agents.md' : null,
+      ours.llms_huggingface === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-huggingface-missing',
+      severity: 'medium',
+      text: `${which} missing Hugging Face hack → /tags/huggingface.html Trends tip (FINDABILITY #182) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #182`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -2426,6 +2469,11 @@ export function measureSite(site, byUrl) {
     row.openai_outage_faq = oaiHtml?.ok ? hasOpenaiOutageFaq(oaiHtml.value) : false;
     row.agents_openai_outage = agentsMd?.ok ? hasAgentsOpenaiOutage(agentsMd.value) : false;
     row.llms_openai_outage = llms?.ok ? hasAgentsOpenaiOutage(llmsBody) : false;
+    // FINDABILITY #182 — Hugging Face hack FAQ + agent maps.
+    const hfHtml = byUrl.get(`${base}/tags/huggingface.html`);
+    row.huggingface_faq = hfHtml?.ok ? hasHuggingfaceFaq(hfHtml.value) : false;
+    row.agents_huggingface = agentsMd?.ok ? hasAgentsHuggingface(agentsMd.value) : false;
+    row.llms_huggingface = llms?.ok ? hasAgentsHuggingface(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -2839,6 +2887,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_openai_outage == null ? '—' : (ours.agents_openai_outage ? 'yes' : 'NO');
       const lm = ours.llms_openai_outage == null ? '—' : (ours.llms_openai_outage ? 'yes' : 'NO');
       lines.push(`- Agent-map OpenAI outage → lab (#181): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.huggingface_faq != null) {
+      lines.push(
+        `- Hugging Face hack FAQ (#182): **${ours.huggingface_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_huggingface != null || ours.llms_huggingface != null)) {
+      const ag = ours.agents_huggingface == null ? '—' : (ours.agents_huggingface ? 'yes' : 'NO');
+      const lm = ours.llms_huggingface == null ? '—' : (ours.llms_huggingface ? 'yes' : 'NO');
+      lines.push(`- Agent-map Hugging Face hack → tag (#182): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -3985,6 +4043,39 @@ function selftest() {
   if (!openaiOutageGaps.some((g) => g.id === 'agents-openai-outage-missing')) {
     throw new Error('agents-openai-outage-missing gap');
   }
+  if (hasHuggingfaceFaq(HUGGINGFACE_FAQ_NEEDLE) !== true) {
+    throw new Error('hasHuggingfaceFaq true');
+  }
+  if (hasHuggingfaceFaq('What has SIREN scored about Hugging Face?') !== false) {
+    throw new Error('hasHuggingfaceFaq false');
+  }
+  if (hasAgentsHuggingface('Hugging Face hack → https://siren.watch/tags/huggingface.html') !== true) {
+    throw new Error('hasAgentsHuggingface true');
+  }
+  if (hasAgentsHuggingface('https://siren.watch/tags/huggingface.html only') !== false) {
+    throw new Error('hasAgentsHuggingface needs Hugging Face hack needle');
+  }
+  const hfGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      huggingface_faq: false,
+      agents_huggingface: false,
+      llms_huggingface: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!hfGaps.some((g) => g.id === 'huggingface-faq-missing')) {
+    throw new Error('huggingface-faq-missing gap');
+  }
+  if (!hfGaps.some((g) => g.id === 'agents-huggingface-missing')) {
+    throw new Error('agents-huggingface-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/tags/huggingface.html')) {
+    throw new Error('OUR_SURFACES missing /tags/huggingface.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -4002,12 +4093,13 @@ function selftest() {
     TRENDS_ROUTES_DEEPSEEK_NEEDLE,
     TRENDS_ROUTES_MISTRAL_NEEDLE,
     TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
+    TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

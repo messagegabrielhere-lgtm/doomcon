@@ -321,6 +321,8 @@ const ALWAYS = Object.freeze([
   '/source/anthropic-status.html',
   '/source/simon-willison.html',
   '/tags/chatbots.html',
+  '/tags/huggingface.html', // FINDABILITY #182 — Hugging Face hack / incident Trends tag
+
   '/tags/cybersecurity.html',
   '/tags/frontier-models.html',
   '/tags/gemini-4.html',

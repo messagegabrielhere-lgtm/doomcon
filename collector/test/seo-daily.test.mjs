@@ -119,6 +119,10 @@ import {
   hasAgentsOpenaiOutage,
   OPENAI_OUTAGE_FAQ_NEEDLE,
   TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
+  hasHuggingfaceFaq,
+  hasAgentsHuggingface,
+  HUGGINGFACE_FAQ_NEEDLE,
+  TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -1056,7 +1060,31 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-openai-outage-missing'));
   });
 
-  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181)', () => {
+  it('detects Hugging Face hack FAQ + agent-map lag (FINDABILITY #182)', () => {
+    assert.equal(hasHuggingfaceFaq(HUGGINGFACE_FAQ_NEEDLE), true);
+    assert.equal(hasHuggingfaceFaq('What has SIREN scored about Hugging Face?'), false);
+    assert.equal(
+      hasAgentsHuggingface('Hugging Face hack → https://siren.watch/tags/huggingface.html'),
+      true,
+    );
+    assert.equal(hasAgentsHuggingface('https://siren.watch/tags/huggingface.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        huggingface_faq: false,
+        agents_huggingface: false,
+        llms_huggingface: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'huggingface-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-huggingface-missing'));
+  });
+
+  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182)', () => {
     const routesBody = [
       TRENDS_ROUTES_FAQ_NEEDLE,
       TRENDS_ROUTES_ASML_NEEDLE,
@@ -1074,6 +1102,7 @@ describe('seo-daily surfaces', () => {
       TRENDS_ROUTES_DEEPSEEK_NEEDLE,
       TRENDS_ROUTES_MISTRAL_NEEDLE,
       TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
+      TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     ].join('\n');
     assert.equal(hasTrendsRoutesFaq(routesBody), true);
     assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), false);

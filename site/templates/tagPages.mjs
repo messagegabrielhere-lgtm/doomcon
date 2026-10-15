@@ -2018,6 +2018,13 @@ export function renderTag(ctx, id) {
       `${brand.NAME} scores press that names Character.ai / Character AI or chatbots. When Character.ai bankruptcy, companion-chatbot shutdown, or chatbot-product headlines dominate the tape — or spike in Google Search Trends — this tag page is the crawlable answer — scored story counts only. Not a product score, not a bankruptcy forecast, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
+  // FINDABILITY #182 — Hugging Face hack / incident / intrusion tape → gated tag.
+  if (topic.id === 'huggingface') {
+    faq.push([
+      `Why does ${brand.NAME} watch Hugging Face hacks and incidents?`,
+      `${brand.NAME} scores press that names Hugging Face. When Hugging Face hack, incident, intrusion, or model-hub security headlines dominate the tape — or spike in Google Search Trends — this tag page is the crawlable answer — scored story counts only. Not a security advisory, not an incident forecast, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   // FINDABILITY #178 — Oracle / AI datacenter Trends → gated datacenters tag.
   if (topic.id === 'datacenters') {
     faq.push([
