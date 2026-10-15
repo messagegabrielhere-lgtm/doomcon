@@ -324,6 +324,7 @@ context.
 | 91 | `seo-daily` detects missing now tip lines (`now-tips-missing`) + monitors `/now.md` / `/api/now.txt` in CORE_LIVE_SURFACES so collect Publish wipes of #90 are caught | Daily agent | **Done** (2026-10-15) |
 | 92 | IndexNow ALWAYS includes `/api/now.txt` beside `/now.md` so tipped live readings get Bing notify after every Publish | Bing | **Done** (2026-10-15) |
 | 93 | Raise `collect.yml` job timeouts again (newsroom 45→75m, full 90→120m) after rebuild alone hit ~44m and cancelled at the 45m ceiling before Publish; lock floors in unit test | Deploy / Google | **Done** (2026-10-15) |
+| 94 | Newsroom `Rebuild the site` seeds `public/` from gh-pages and runs `build.mjs --only news` (news-fast pattern) instead of a full wipe — root cause of the 44m cancel before Publish | Deploy / Google | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 
