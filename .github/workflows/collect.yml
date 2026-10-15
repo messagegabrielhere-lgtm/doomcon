@@ -1028,10 +1028,26 @@ jobs:
         # FINDABILITY #104 — full tree (item-archive 5000 + facets) can thrash
         # under the default ~4GB heap; raise the floor so hourly Publish is not
         # stuck in Build for an hour (run 38676940859 still Building at ~75m).
+        # FINDABILITY #105 — seed public/ from gh-pages so build.mjs can keep
+        # durable /item/* archive pages (incremental full build) instead of a
+        # multi-hour wipe+rewrite of ~5000 briefs.
         env:
           GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
           NODE_OPTIONS: --max-old-space-size=8192
-        run: node site/build.mjs
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ ! -f public/index.html ]; then
+            echo "seeding public/ from gh-pages for incremental full build (FINDABILITY #105)"
+            rm -rf .pages-seed
+            git clone --depth 1 --branch gh-pages \
+              "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+              .pages-seed
+            mkdir -p public
+            tar cf - -C .pages-seed --exclude .git . | tar xf - -C public
+            rm -rf .pages-seed
+          fi
+          node site/build.mjs
 
       - name: Render cards and posting console
         # AFTER build.mjs, which clears public/. Same measured ordering as the
