@@ -510,6 +510,14 @@ describe('tag pages', () => {
     assert.ok(ids.includes('blackwell'));
     assert.match(renderTag(rich, 'huggingface'), /What has SIREN scored about Hugging Face\?/);
     assert.match(renderTag(rich, 'blackwell'), /What has SIREN scored about Blackwell GPUs\?/);
+    // FINDABILITY #182 — Hugging Face hack / incident Trends FAQ on gated tag.
+    assert.match(
+      renderTag(rich, 'huggingface'),
+      /Why does SIREN watch Hugging Face hacks and incidents\?/,
+    );
+    assert.match(renderTag(rich, 'huggingface'), /search-trends\.html/);
+    assert.match(renderTag(rich, 'huggingface'), /[Nn]ot a security advisory/);
+    assert.doesNotMatch(renderTag(rich, 'huggingface'), /CVE patch now|must patch|breach confirmed/i);
   });
 
   it('pages prefer-data, reasoning-traces, Claude Code, and OpenRouter hubs', () => {
