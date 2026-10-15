@@ -108,6 +108,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'ASML', news: [] }).includes('asml'));
   assert.ok(matchHeadTerms({ title: 'ASML EUV tools for AI chips', news: [] }).includes('asml'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'asml' && t.path === '/lab/asml.html'));
+  // FINDABILITY #165 — TSMC / AI foundry Trends → gated TSMC lab.
+  assert.ok(matchHeadTerms({ title: 'tsmc stock', news: [] }).includes('tsmc'));
+  assert.ok(matchHeadTerms({ title: 'TSMC', news: [] }).includes('tsmc'));
+  assert.ok(matchHeadTerms({ title: 'Taiwan Semiconductor AI foundry', news: [] }).includes('tsmc'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'tsmc' && t.path === '/lab/tsmc.html'));
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({

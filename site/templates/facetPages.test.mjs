@@ -246,6 +246,20 @@ describe('lab facets', () => {
     assert.match(asmlHtml, /not investment advice/);
     assert.match(asmlHtml, /search-trends\.html/);
     assert.doesNotMatch(asmlHtml, /buy ASML|sell ASML|price target/i);
+    // FINDABILITY #165 — TSMC / AI foundry Trends FAQ on gated lab.
+    const tsmcHtml = renderLab(ctx, {
+      id: 'tsmc',
+      name: 'TSMC',
+      entityOnly: true,
+      entityName: 'TSMC',
+    });
+    assert.match(
+      tsmcHtml,
+      /Why does SIREN watch TSMC in Google Search Trends\?/,
+    );
+    assert.match(tsmcHtml, /not investment advice/);
+    assert.match(tsmcHtml, /search-trends\.html/);
+    assert.doesNotMatch(tsmcHtml, /buy TSMC|sell TSMC|price target/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

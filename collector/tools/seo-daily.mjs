@@ -135,6 +135,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/nvidia.html',
   // FINDABILITY #164 — ASML / EUV AI chip-tool Trends FAQ lab.
   '/lab/asml.html',
+  // FINDABILITY #165 — TSMC / AI foundry Trends FAQ lab.
+  '/lab/tsmc.html',
   // FINDABILITY #157 — neocloud Trends FAQ tag hub.
   '/tags/neoclouds.html',
   '/pillar/',
@@ -828,6 +830,25 @@ export function hasAgentsAsml(body, needle = AGENTS_ASML_NEEDLE) {
   return text.includes(needle) && text.includes('/lab/asml.html');
 }
 
+/** FINDABILITY #165 — TSMC lab FAQ + agent maps for AI foundry Trends. */
+export const TSMC_TRENDS_FAQ_NEEDLE = 'Why does SIREN watch TSMC in Google Search Trends?';
+export const AGENTS_TSMC_NEEDLE = 'TSMC stock';
+
+/** Tip /lab/tsmc.html must keep the #165 TSMC Trends FAQ. */
+export function hasTsmcTrendsFaq(html, needle = TSMC_TRENDS_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route TSMC / AI foundry Trends to TSMC lab (FINDABILITY #165).
+ * Wipe gap is `agents-tsmc-missing`.
+ * Needle `TSMC stock` appears in both llms tip and agents.md list forms.
+ */
+export function hasAgentsTsmc(body, needle = AGENTS_TSMC_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/tsmc.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -1479,6 +1500,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #165 — TSMC lab FAQ for AI foundry Trends wiped or never landed.
+  if (ours.tsmc_trends_faq === false) {
+    gaps.push({
+      id: 'tsmc-trends-faq-missing',
+      severity: 'medium',
+      text: `/lab/tsmc.html missing TSMC Trends FAQ (FINDABILITY #165) — re-overlay lab/tsmc.html or wait for full collect Publish on tip ≥ #165`,
+    });
+  }
+  // FINDABILITY #165 — agent maps must route TSMC / AI foundry Trends to TSMC lab.
+  if (ours.agents_tsmc === false || ours.llms_tsmc === false) {
+    const which = [
+      ours.agents_tsmc === false ? 'agents.md' : null,
+      ours.llms_tsmc === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-tsmc-missing',
+      severity: 'medium',
+      text: `${which} missing TSMC stock → /lab/tsmc.html Trends tip (FINDABILITY #165) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #165`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1711,6 +1753,11 @@ export function measureSite(site, byUrl) {
     row.asml_trends_faq = asmlHtml?.ok ? hasAsmlTrendsFaq(asmlHtml.value) : false;
     row.agents_asml = agentsMd?.ok ? hasAgentsAsml(agentsMd.value) : false;
     row.llms_asml = llms?.ok ? hasAgentsAsml(llmsBody) : false;
+    // FINDABILITY #165 — TSMC Trends FAQ + agent maps.
+    const tsmcHtml = byUrl.get(`${base}/lab/tsmc.html`);
+    row.tsmc_trends_faq = tsmcHtml?.ok ? hasTsmcTrendsFaq(tsmcHtml.value) : false;
+    row.agents_tsmc = agentsMd?.ok ? hasAgentsTsmc(agentsMd.value) : false;
+    row.llms_tsmc = llms?.ok ? hasAgentsTsmc(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -1976,6 +2023,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_asml == null ? '—' : (ours.agents_asml ? 'yes' : 'NO');
       const lm = ours.llms_asml == null ? '—' : (ours.llms_asml ? 'yes' : 'NO');
       lines.push(`- Agent-map ASML stock → lab (#164): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.tsmc_trends_faq != null) {
+      lines.push(
+        `- TSMC Trends FAQ (#165): **${ours.tsmc_trends_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_tsmc != null || ours.llms_tsmc != null)) {
+      const ag = ours.agents_tsmc == null ? '—' : (ours.agents_tsmc ? 'yes' : 'NO');
+      const lm = ours.llms_tsmc == null ? '—' : (ours.llms_tsmc ? 'yes' : 'NO');
+      lines.push(`- Agent-map TSMC stock → lab (#165): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -2677,6 +2734,39 @@ function selftest() {
   }
   if (!OUR_SURFACES.includes('/lab/asml.html')) {
     throw new Error('OUR_SURFACES missing /lab/asml.html');
+  }
+  if (hasTsmcTrendsFaq(TSMC_TRENDS_FAQ_NEEDLE) !== true) {
+    throw new Error('hasTsmcTrendsFaq true');
+  }
+  if (hasTsmcTrendsFaq('What has SIREN scored about TSMC?') !== false) {
+    throw new Error('hasTsmcTrendsFaq false');
+  }
+  if (hasAgentsTsmc('TSMC stock → https://siren.watch/lab/tsmc.html') !== true) {
+    throw new Error('hasAgentsTsmc true');
+  }
+  if (hasAgentsTsmc('https://siren.watch/lab/tsmc.html only') !== false) {
+    throw new Error('hasAgentsTsmc needs TSMC stock needle');
+  }
+  const tsmcGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      tsmc_trends_faq: false,
+      agents_tsmc: false,
+      llms_tsmc: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!tsmcGaps.some((g) => g.id === 'tsmc-trends-faq-missing')) {
+    throw new Error('tsmc-trends-faq-missing gap');
+  }
+  if (!tsmcGaps.some((g) => g.id === 'agents-tsmc-missing')) {
+    throw new Error('agents-tsmc-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/tsmc.html')) {
+    throw new Error('OUR_SURFACES missing /lab/tsmc.html');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== true) {
     throw new Error('hasTrendsRoutesFaq true');

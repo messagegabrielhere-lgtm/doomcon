@@ -505,6 +505,13 @@ export function renderLab(ctx, player) {
       `${brand.NAME} watches Google’s daily trending RSS for findability. When ASML, ASML stock, or EUV / AI chipmaking-tool headlines spike with semiconductor demand for the AI build-out, this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
+  // FINDABILITY #165 — TSMC / AI foundry / advanced-node Trends → gated lab.
+  if (player.id === 'tsmc') {
+    faq.push([
+      `Why does ${brand.NAME} watch TSMC in Google Search Trends?`,
+      `${brand.NAME} watches Google’s daily trending RSS for findability. When TSMC, TSMC stock, or AI foundry / advanced-node chip headlines spike with semiconductor demand for the AI build-out, this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
