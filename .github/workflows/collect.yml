@@ -696,6 +696,8 @@ jobs:
           # #132 root needles are missing, or when llms.txt lists /lab/openai.html
           # without the #138 labAboutLabel (OpenAI / ChatGPT). Mid-merge collect
           # on tip < #138 would otherwise wipe the #138 overlay.
+          # FINDABILITY #156 — also restore when #153/#154/#155 Trends tips
+          # (IREN stock / dram stock / CoreWeave stock) are missing after wipe.
           for map in agents.md llms.txt; do
             if [ -f "$PRESERVE_FAQ/$map" ] \
               && { ! grep -qF '/ai-doom.html' ".pages/$map" 2>/dev/null \
@@ -703,9 +705,12 @@ jobs:
                 || ! grep -qF '/doom-index.html' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'root https://siren.watch/doombench.html' ".pages/$map" 2>/dev/null \
                 || { grep -qF '/lab/openai.html' ".pages/$map" 2>/dev/null \
-                  && ! grep -qF 'OpenAI / ChatGPT' ".pages/$map" 2>/dev/null; }; }; then
+                  && ! grep -qF 'OpenAI / ChatGPT' ".pages/$map" 2>/dev/null; } \
+                || ! grep -qF 'IREN stock' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'dram stock' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'CoreWeave stock' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139)"
+              echo "restored $map agent map (#136/#139/#156)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -1490,6 +1495,8 @@ jobs:
           # #132 root needles are missing, or when llms.txt lists /lab/openai.html
           # without the #138 labAboutLabel (OpenAI / ChatGPT). Mid-merge collect
           # on tip < #138 would otherwise wipe the #138 overlay.
+          # FINDABILITY #156 — also restore when #153/#154/#155 Trends tips
+          # (IREN stock / dram stock / CoreWeave stock) are missing after wipe.
           for map in agents.md llms.txt; do
             if [ -f "$PRESERVE_FAQ/$map" ] \
               && { ! grep -qF '/ai-doom.html' ".pages/$map" 2>/dev/null \
@@ -1497,9 +1504,12 @@ jobs:
                 || ! grep -qF '/doom-index.html' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'root https://siren.watch/doombench.html' ".pages/$map" 2>/dev/null \
                 || { grep -qF '/lab/openai.html' ".pages/$map" 2>/dev/null \
-                  && ! grep -qF 'OpenAI / ChatGPT' ".pages/$map" 2>/dev/null; }; }; then
+                  && ! grep -qF 'OpenAI / ChatGPT' ".pages/$map" 2>/dev/null; } \
+                || ! grep -qF 'IREN stock' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'dram stock' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'CoreWeave stock' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139)"
+              echo "restored $map agent map (#136/#139/#156)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140

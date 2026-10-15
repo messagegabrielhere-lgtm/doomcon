@@ -439,15 +439,22 @@ jobs:
                 local root="$1" preserve="$2"
                 local map
                 for map in agents.md llms.txt; do
+                  # FINDABILITY #136/#139 — head-term / root / labAboutLabel needles.
+                  # FINDABILITY #156 — also restore when Trends tips for IREN→Watts,
+                  # dram→Micron, or CoreWeave→lab are missing after orphan Publish
+                  # from tip < #153/#154/#155 (collect newsroom force-push wipe).
                   if [ -f "$preserve/$map" ] \
                     && { ! grep -qF '/ai-doom.html' "$root/$map" 2>/dev/null \
                       || ! grep -qF '/doomsday-clock.html' "$root/$map" 2>/dev/null \
                       || ! grep -qF '/doom-index.html' "$root/$map" 2>/dev/null \
                       || ! grep -qF 'root https://siren.watch/doombench.html' "$root/$map" 2>/dev/null \
                       || { grep -qF '/lab/openai.html' "$root/$map" 2>/dev/null \
-                        && ! grep -qF 'OpenAI / ChatGPT' "$root/$map" 2>/dev/null; }; }; then
+                        && ! grep -qF 'OpenAI / ChatGPT' "$root/$map" 2>/dev/null; } \
+                      || ! grep -qF 'IREN stock' "$root/$map" 2>/dev/null \
+                      || ! grep -qF 'dram stock' "$root/$map" 2>/dev/null \
+                      || ! grep -qF 'CoreWeave stock' "$root/$map" 2>/dev/null; }; then
                     cp -a "$preserve/$map" "$root/$map"
-                    echo "restored $map agent map (#136/#139)"
+                    echo "restored $map agent map (#136/#139/#156)"
                   fi
                 done
               }
