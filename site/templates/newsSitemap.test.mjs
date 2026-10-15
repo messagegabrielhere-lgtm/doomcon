@@ -33,6 +33,21 @@ test('newsEligible caps and sorts newest first', () => {
   assert.equal(rows[NEWS_SITEMAP_CAP - 1].it.id, `i${NEWS_SITEMAP_CAP - 1}`);
 });
 
+test('news-sitemap tip comments advertise full sitemap, free-tools, verify, Search Trends', () => {
+  const xml = render({
+    news: { items: [] },
+    url: (p) => `https://siren.watch${p}`,
+  });
+  assert.match(xml, /<!--[^>]*Google News window/);
+  assert.match(xml, /<!--[^>]*Full sitemap: https:\/\/siren\.watch\/sitemap\.xml/);
+  assert.match(xml, /<!--[^>]*Free tools: https:\/\/siren\.watch\/free-tools\.html/);
+  assert.match(xml, /<!--[^>]*Verify: https:\/\/siren\.watch\/verify\.html/);
+  assert.match(xml, /<!--[^>]*Search Trends[^>]*https:\/\/siren\.watch\/search-trends\.html/);
+  assert.match(xml, /<!--[^>]*llms\.txt/);
+  assert.match(xml, /Not a doom forecast/);
+  assert.doesNotMatch(xml, /probability of doom/i);
+});
+
 test('render emits a valid empty news sitemap when nothing is fresh', () => {
   const xml = render({
     news: { items: [{ id: 'old', title: 'Old', published_at: '2020-01-01T00:00:00Z' }] },

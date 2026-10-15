@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { nowTxt, nowMd, llmsTxt, llmsFullTxt, agentsMd, topMover, topStories, mostCovered, citation, dispatchFeedUrl } from './agentText.mjs';
-import { robots, AI_AGENTS } from './sitemap.mjs';
+import { robots, AI_AGENTS, render as renderSitemap } from './sitemap.mjs';
 
 const url = (p) => `https://siren.watch${p}`;
 const state = {
@@ -207,4 +207,20 @@ test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/sitemap\.xml/);
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
   assert.doesNotMatch(r, /Disallow/);
+});
+
+test('sitemap.xml tip comments advertise free-tools, verify, news-sitemap, Search Trends', () => {
+  const xml = renderSitemap({
+    url,
+    state: { generated_at: '2026-10-15T00:00:00Z' },
+    moves: [],
+  });
+  assert.match(xml, /^<\?xml version="1\.0" encoding="UTF-8"\?>/);
+  assert.match(xml, /<!--[^>]*Free tools: https:\/\/siren\.watch\/free-tools\.html/);
+  assert.match(xml, /<!--[^>]*Verify a reading: https:\/\/siren\.watch\/verify\.html/);
+  assert.match(xml, /<!--[^>]*Google News sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
+  assert.match(xml, /<!--[^>]*Search Trends: https:\/\/siren\.watch\/search-trends\.html/);
+  assert.match(xml, /<!--[^>]*llms\.txt/);
+  assert.match(xml, /not doom probability/i);
+  assert.doesNotMatch(xml, /probability of doom/i);
 });
