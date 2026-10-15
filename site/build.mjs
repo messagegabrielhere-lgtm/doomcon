@@ -1453,7 +1453,16 @@ async function main() {
       try {
         prevAsOf = JSON.parse(await readFile(path.join(args.out, 'api/state.json'), 'utf8')).generated_at;
       } catch { /* absent */ }
+      // FINDABILITY #102 — do NOT rewrite every item when only state.generated_at
+      // moves. That as-of gate forced ~800 item HTML rewrites on every newsroom
+      // tick (minutes→tens of minutes) while api/news.json + news-sitemap were
+      // already ready; Google News Publish stalled behind the item loop. Item
+      // pages refresh on item/pillar/entity change; the hourly full pass still
+      // restamps as-of across the tree.
       const asOfChanged = prevAsOf !== state.generated_at;
+      if (asOfChanged) {
+        log('  items        as-of moved; skipping blanket item rewrite (FINDABILITY #102)');
+      }
       const prevById = new Map(prevItems.map((it) => [it.id, it]));
       const pillarKey = (list, pillar) => list
         .filter((it) => it.pillar === pillar)
@@ -1486,7 +1495,7 @@ async function main() {
         const named = (Array.isArray(it.entities) ? it.entities : []).filter((name) => modelPages.isModelName(name));
         const entityChanged = named.some((name) => prevCohort.get(name) !== nextCohort.get(name));
         const itemChanged = !prev || stableJson(it) !== stableJson(prev);
-        if (!asOfChanged && !pillarChanged && !entityChanged && !itemChanged && existsSync(abs)) {
+        if (!pillarChanged && !entityChanged && !itemChanged && existsSync(abs)) {
           itemSkipped += 1;
           continue;
         }

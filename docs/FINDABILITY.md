@@ -332,6 +332,7 @@ context.
 | 99 | `news-fast.yml` never falls back to a full wipe on `--only news` failure: mid-loop re-seed + `timeout 480` news-only, else skip the tick (defense in depth after #98) | Google News + Deploy | **Done** (2026-10-15) |
 | 100 | Collect newsroom: on successful `--only news`, skip `card.mjs` / `posts.mjs` / sheets (hourly full pass owns them); `timeout 480` news-only and refuse unbounded full wipe fallback so Rebuild cannot re-block Google News Publish | Google News + Deploy | **Done** (2026-10-15) |
 | 101 | Collect compliance gates set `NODE_OPTIONS=--max-old-space-size=8192` so audit of seeded/full `public/` does not OOM (~4GB default) and skip Publish (run 38672483978 exit 134 left fresh news on main only) | Deploy + Google News | **Done** (2026-10-15) |
+| 102 | News-only build: stop rewriting every `/item/*` page when only `state.generated_at` moves (`asOfChanged`) — that blanket rewrite of ~800 items blocked Publish behind minutes of HTML I/O while news-sitemap was already fresh | Google News + Deploy | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 
