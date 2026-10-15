@@ -326,6 +326,8 @@ context.
 | 93 | Raise `collect.yml` job timeouts again (newsroom 45→75m, full 90→120m) after rebuild alone hit ~44m and cancelled at the 45m ceiling before Publish; lock floors in unit test | Deploy / Google | **Done** (2026-10-15) |
 | 94 | Newsroom `Rebuild the site` seeds `public/` from gh-pages and runs `build.mjs --only news` (news-fast pattern) instead of a full wipe — root cause of the 44m cancel before Publish | Deploy / Google | **Done** (2026-10-15) |
 | 95 | News-only build rewrites `robots.txt` (with #79 tip comments) so newsroom Publish does not leave robots tips dependent on SEO overlays | Agents + Google | **Done** (2026-10-15) |
+| 96 | `news-fast.yml` overlay copies `news-sitemap.xml` + `sitemap.xml` + `robots.txt` (with tip comments) so Google News + robots tips refresh on the fast path, not only on orphan Publish | Google News + Agents | **Done** (2026-10-15) |
+| 97 | `seo-daily` flags stale live news-sitemap (`news-stale`) when newest `news:publication_date` is older than 6h while `<loc>` count stays positive — catches hung news-fast / cancelled collect before Google News decays | Daily agent + Google News | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 

@@ -7,6 +7,8 @@ import {
   decodeTitleEntities,
   extractSchemaTypes,
   hasNoindex,
+  newestNewsPublicationMs,
+  NEWS_STALE_HOURS,
   deriveGaps,
   measureSite,
   formatMarkdown,
@@ -38,6 +40,17 @@ describe('seo-daily parsers', () => {
   it('detects noindex', () => {
     assert.equal(hasNoindex('<meta name="robots" content="noindex, follow">'), true);
     assert.equal(hasNoindex('<meta name="description" content="x">'), false);
+  });
+
+  it('parses newest news:publication_date (FINDABILITY #97)', () => {
+    const xml = `<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+      <url><news:publication_date>2026-10-14T12:00:00.000Z</news:publication_date></url>
+      <url><news:publication_date>2026-10-14T18:55:00.000Z</news:publication_date></url>
+      <url><news:publication_date>2026-10-14T15:00:00.000Z</news:publication_date></url>
+    </urlset>`;
+    assert.equal(newestNewsPublicationMs(xml), Date.parse('2026-10-14T18:55:00.000Z'));
+    assert.equal(newestNewsPublicationMs('<urlset></urlset>'), null);
+    assert.ok(NEWS_STALE_HOURS >= 6);
   });
 });
 
@@ -81,6 +94,37 @@ describe('seo-daily measure + gaps', () => {
     assert.ok(ids.includes('trail-doombench-urls'));
     assert.ok(ids.includes('surface-/agents.md'));
     assert.ok(ids.includes('open-gsc-verify'));
+  });
+
+  it('flags stale news-sitemap when newest publication_date is old (FINDABILITY #97)', () => {
+    const gaps = deriveGaps({
+      measured_at: '2026-10-15T02:30:00.000Z',
+      sites: [
+        {
+          id: 'siren', name: 'siren.watch', ours: true, ok: true,
+          title: 'AI activity index today', sitemap_urls: 6200, news_sitemap_urls: 200,
+          news_newest_publication_at: '2026-10-14T18:55:00.000Z',
+          schema_types: [],
+        },
+      ],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'news-stale'), gaps.map((g) => g.id).join(','));
+    const fresh = deriveGaps({
+      measured_at: '2026-10-15T02:30:00.000Z',
+      sites: [
+        {
+          id: 'siren', name: 'siren.watch', ours: true, ok: true,
+          title: 'AI activity index today', sitemap_urls: 6200, news_sitemap_urls: 200,
+          news_newest_publication_at: '2026-10-15T01:00:00.000Z',
+          schema_types: [],
+        },
+      ],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(!fresh.some((g) => g.id === 'news-stale'));
   });
 
   it('flags deploy-pending when local Ready dwarfs live sitemap and suppresses trail gaps', () => {
