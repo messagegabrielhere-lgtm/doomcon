@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-15T09:28:35.818Z",
-  "news_generated_at": "2026-10-15T09:28:35.818Z",
+  "generated_at": "2026-10-15T09:40:55.562Z",
+  "news_generated_at": "2026-10-15T09:40:55.562Z",
   "matcher_version": "1.2.0",
   "window_days": 7,
-  "window_start": "2026-10-08T09:28:35.818Z",
+  "window_start": "2026-10-08T09:40:55.562Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -141,29 +141,30 @@
     "scanned": 800,
     "max_items": 800,
     "window_binds": true,
-    "oldest_item_at": "2026-10-13T07:28:34.000Z",
-    "newest_item_at": "2026-10-15T09:27:12.000Z",
-    "named_without_cue": 1
+    "oldest_item_at": "2026-10-13T09:28:09.000Z",
+    "newest_item_at": "2026-10-15T09:40:01.000Z",
+    "named_without_cue": 2
   },
   "cross_check": {
     "source": "data/race.json",
     "present": true,
-    "race_generated_at": "2026-10-15T09:04:21.872Z",
+    "race_generated_at": "2026-10-15T09:41:12.420Z",
     "players_matched": 8,
     "wire_fills_gap": [
-      "hassabis"
+      "hassabis",
+      "musk"
     ]
   },
   "totals": {
     "leaders": 20,
-    "on_record": 5,
-    "no_line": 15,
-    "lines": 9,
-    "distinct_items": 8,
-    "quiet": 15,
+    "on_record": 6,
+    "no_line": 14,
+    "lines": 11,
+    "distinct_items": 10,
+    "quiet": 14,
     "unreachable": 0,
     "no_sources": 3,
-    "press_lines": 4,
+    "press_lines": 6,
     "direct_lines": 5
   },
   "direct": {
@@ -188,14 +189,14 @@
     "source": "Google News search RSS (news.google.com/rss/search), one exact-phrase query per person",
     "is_statement": false,
     "means": "Stories in the press that mention the person, counted as distinct (title, outlet) pairs ever observed. Coverage is not a statement: it never puts anyone on the record, and only the outlet's own headline is shown.",
-    "generated_at": "2026-10-15T09:28:52.831Z",
+    "generated_at": "2026-10-15T09:41:39.751Z",
     "min_interval_minutes": 15,
     "days": 14,
     "ran": true,
-    "polled": 20,
+    "polled": 0,
     "leaders_with_data": 20,
     "leaders_dark": 0,
-    "total_24h": 267,
+    "total_24h": 260,
     "total_7d": 1782,
     "trend_means": "Week over week: this 7 days against the 7 before. Shown only once a full previous week has been observed; flat inside ±10% or ±2 stories.",
     "profile_source": "Wikipedia REST summary (en.wikipedia.org/api/rest_v1/page/summary), CC BY-SA 4.0, refreshed at most daily",
@@ -365,7 +366,7 @@
             "published_at": "2026-10-14T19:07:05.000Z"
           }
         ],
-        "count_24h": 11,
+        "count_24h": 10,
         "count_7d": 129,
         "count_prev_7d": null,
         "daily": [
@@ -662,7 +663,7 @@
         "kind": "forum",
         "url": "https://reddit.com/r/singularity/comments/1x5trzz/demis_hassabis_opinion_about_openais_approach_to",
         "published_at": "2026-10-14T15:10:33.000Z",
-        "score": 27.1,
+        "score": 27,
         "pillar": "attention",
         "matched_alias": "Demis Hassabis",
         "cue": "argues",
@@ -687,7 +688,7 @@
           "kind": "forum",
           "url": "https://reddit.com/r/singularity/comments/1x5trzz/demis_hassabis_opinion_about_openais_approach_to",
           "published_at": "2026-10-14T15:10:33.000Z",
-          "score": 27.1,
+          "score": 27,
           "pillar": "attention",
           "matched_alias": "Demis Hassabis",
           "cue": "argues",
@@ -950,11 +951,84 @@
         "Elon Musk",
         "Musk"
       ],
-      "state": "no_line",
-      "count": 0,
-      "sources": [],
-      "latest": null,
-      "lines": [],
+      "state": "on_record",
+      "count": 2,
+      "sources": [
+        "scmp-tech",
+        "wires-ai"
+      ],
+      "latest": {
+        "item_id": "7e54ae5059f0d59b",
+        "headline": "TSMC confirms talks with Elon Musk over Texas ‘Terafab’ but insists on operational control",
+        "source": "scmp-tech",
+        "kind": "press",
+        "url": "https://scmp.com/tech/big-tech/article/3371010/tsmc-confirms-talks-elon-musk-over-texas-terafab-insists-operational-control",
+        "published_at": "2026-10-15T09:31:35.000Z",
+        "score": 37.9,
+        "pillar": "compute",
+        "matched_alias": "Elon Musk",
+        "cue": "talks",
+        "cue_group": "extended",
+        "cue_class": "verb",
+        "cue_text": "talks",
+        "cues": [
+          "talks"
+        ],
+        "corroboration": 1,
+        "also_sources": [
+          "scmp-tech"
+        ],
+        "via": "press"
+      },
+      "lines": [
+        {
+          "item_id": "7e54ae5059f0d59b",
+          "headline": "TSMC confirms talks with Elon Musk over Texas ‘Terafab’ but insists on operational control",
+          "source": "scmp-tech",
+          "kind": "press",
+          "url": "https://scmp.com/tech/big-tech/article/3371010/tsmc-confirms-talks-elon-musk-over-texas-terafab-insists-operational-control",
+          "published_at": "2026-10-15T09:31:35.000Z",
+          "score": 37.9,
+          "pillar": "compute",
+          "matched_alias": "Elon Musk",
+          "cue": "talks",
+          "cue_group": "extended",
+          "cue_class": "verb",
+          "cue_text": "talks",
+          "cues": [
+            "talks"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "scmp-tech"
+          ],
+          "via": "press"
+        },
+        {
+          "item_id": "1d21ad3b85d15530",
+          "headline": "TSMC Weighs Texas Expansion, Holds Talks on Musk’s Terafab",
+          "source": "wires-ai",
+          "kind": "press",
+          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNdEdMeDJhNG03UExRNVQ2MEJQWndsZDFteUhQSC1WekZrdnFWVHdBb2s0V2I4SVJCakw5Z0d0dVpkRUdVSXlSQUxJaFMxdERQX010a1ZVeHZYV3AtWVh2YVVkN1pDcU4xLUNQUHpRWVRLY2ZRc0poWU9leUt6LU5BOEZtOFctbjA?oc=5",
+          "published_at": "2026-10-15T09:18:00.000Z",
+          "score": 64.2,
+          "pillar": "compute",
+          "matched_alias": "Musk",
+          "cue": "talks",
+          "cue_group": "extended",
+          "cue_class": "verb",
+          "cue_text": "Talks",
+          "cues": [
+            "talks"
+          ],
+          "corroboration": 2,
+          "also_sources": [
+            "gnews-ai",
+            "wires-ai"
+          ],
+          "via": "press"
+        }
+      ],
       "watch_floor": {
         "tracked": true,
         "player_id": "xai",
@@ -963,22 +1037,25 @@
         "reason": "Posts on X. Scraping X carries an explicit permanent-suspension penalty under its developer terms, so this cell is empty by policy, not by accident.",
         "feed": null,
         "posts_30d": null,
-        "verdict": "both_quiet",
-        "note": "The watch floor reads no feed and no headline in this window named Elon Musk beside a speech cue. Two separate silences, neither imputed from the other."
+        "verdict": "wire_fills_gap",
+        "note": "The watch floor reads no feed for Elon Musk and that reading stands: it is about feeds we can fetch. All 2 lines on the wire came from the press instead — scmp-tech, wires-ai — each linked to the publication that printed it."
       },
-      "group": "quiet",
-      "reason": "quiet",
-      "press_count": 0,
+      "group": "on_record",
+      "reason": null,
+      "press_count": 2,
       "direct_count": 0,
-      "press_sources": [],
-      "last_statement_at": "2026-10-15T06:42:39.000Z",
+      "press_sources": [
+        "scmp-tech",
+        "wires-ai"
+      ],
+      "last_statement_at": "2026-10-15T09:31:35.000Z",
       "last_statement": {
-        "headline": "Elon Musk Reveals Six Episodes of \"AI Psychosis\" He Experienced Over the Past Year",
-        "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE4xWl9tZEZQZHRuc2lRR1U3WXc0cW5NY1pYYzl6TXVoYTJyaV9iYU43dEY4REJ3Tk1kUFE0bTJtQUpWU1BkV0sxYmNYcWN0TU1rcmYw?oc=5",
-        "source": "gnews-ai",
-        "published_at": "2026-10-15T06:42:39.000Z",
+        "headline": "TSMC confirms talks with Elon Musk over Texas ‘Terafab’ but insists on operational control",
+        "url": "https://scmp.com/tech/big-tech/article/3371010/tsmc-confirms-talks-elon-musk-over-texas-terafab-insists-operational-control",
+        "source": "scmp-tech",
+        "published_at": "2026-10-15T09:31:35.000Z",
         "via": "press",
-        "remembered": true
+        "remembered": false
       },
       "days_silent": 0,
       "sources_checked": 3,
@@ -1086,7 +1163,7 @@
             "published_at": "2026-10-14T20:19:00.000Z"
           }
         ],
-        "count_24h": 23,
+        "count_24h": 21,
         "count_7d": 177,
         "count_prev_7d": null,
         "daily": [
@@ -1617,7 +1694,7 @@
             "published_at": "2026-10-15T05:00:12.000Z"
           }
         ],
-        "count_24h": 37,
+        "count_24h": 36,
         "count_7d": 168,
         "count_prev_7d": null,
         "daily": [
@@ -2809,7 +2886,7 @@
             "published_at": "2026-10-14T09:05:26.000Z"
           }
         ],
-        "count_24h": 6,
+        "count_24h": 5,
         "count_7d": 58,
         "count_prev_7d": null,
         "daily": [
@@ -3046,7 +3123,7 @@
             "published_at": "2026-10-14T17:07:51.000Z"
           }
         ],
-        "count_24h": 29,
+        "count_24h": 28,
         "count_7d": 117,
         "count_prev_7d": null,
         "daily": [
@@ -3321,7 +3398,7 @@
             "published_at": "2026-10-14T12:51:02.000Z"
           }
         ],
-        "count_24h": 17,
+        "count_24h": 16,
         "count_7d": 66,
         "count_prev_7d": null,
         "daily": [
@@ -4797,5 +4874,5 @@
       }
     }
   ],
-  "fingerprint": "d911e9c25aed2019"
+  "fingerprint": "575d22d1de4d7368"
 }
