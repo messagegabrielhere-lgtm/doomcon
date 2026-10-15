@@ -312,6 +312,7 @@ context.
 | 79 | `robots.txt` tip comments advertise free-tools + verify + Search Trends (crawlers that read robots before llms/agents) | Agents + Google | **Done** (2026-10-14) |
 | 80 | Layout unit test for `GOOGLE_SITE_VERIFICATION` meta + `seo-daily` detects live GSC HTML-tag (clears false “verified” guesses until operator sets secret / submits sitemaps — #11) | Google / daily agent | **Done** (2026-10-14) |
 | 81 | Harden layout `og:image` to always use a rooted `/cards/…` path (naive `url()` overlays emitted `siren.watchcards` on `/verify.html` + `/free-tools.html`); unit test + live overlay fix + IndexNow | Google / social | **Done** (2026-10-15) |
+| 82 | News-sitemap `NEWS_KEYWORD_LABS`: promote `ChatGPT` / `Pentagon` / `EDPB` (live 48h titles) so the 12-cap does not bury ChatGPT under topic tags while `pizzint-news-alive` | Google News | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 

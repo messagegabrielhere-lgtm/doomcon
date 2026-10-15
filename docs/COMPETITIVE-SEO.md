@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T00:13Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
+**Measured:** 2026-10-15T00:32Z (live HTTP fetches via `seo-daily` / `fetch.mjs`); news-sitemap keywords refreshed for ChatGPT / Pentagon / EDPB (#82).
 Companion to `docs/COMPETITIVE.md` (Sept inventory) and `docs/FINDABILITY.md`
 (our playbook).
 

@@ -177,6 +177,39 @@ test('news sitemap keywords include Claude Code / YouTube Music / x402 surfaces'
   assert.match(c, /x402|Chainalysis|Coinbase|Base/);
 });
 
+test('news sitemap keywords promote ChatGPT / Pentagon / EDPB ahead of topic-cap drop', () => {
+  const a = keywordsFor({
+    title: 'Eight US states sue OpenAI, claiming ChatGPT harms children',
+    summary: 'ChatGPT safety lawsuit; OpenAI, Microsoft, Anthropic, AI agents and GPUs in the roundup.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['OpenAI', 'United States'],
+  });
+  assert.match(a, /ChatGPT/);
+  // Named labs (incl. ChatGPT) must beat trailing topic/meta slots under the 12-cap.
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('ChatGPT') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Anthropic Seeks Full Appeals Court Review of Pentagon Ban',
+    summary: '',
+    pillar: 'governance',
+    kind: 'press',
+    source: 'techmeme',
+    entities: [],
+  });
+  assert.match(b, /Pentagon/);
+  const c = keywordsFor({
+    title: 'Mind the gap: IC sets expectations for AI model developers, how this differs from the EDPB',
+    summary: '',
+    pillar: 'governance',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(c, /EDPB/);
+});
+
 test('news sitemap keywords include Trail of Bits / DualEntry / Qwen N1 surfaces', () => {
   const a = keywordsFor({
     title: 'OpenAI Weighs Deal for One-Time Security Partner Trail of Bits',
