@@ -58,6 +58,11 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/free-tools.html',
   '/now.md',
   '/api/now.txt',
+  // FINDABILITY #111/#113/#119 — conquest short aliases must stay 200 even
+  // while orphan newsroom publishes race the tip (high-severity if wiped).
+  '/vs/doom.html',
+  '/vs/skynet.html',
+  '/vs/takeoff.html',
 ]);
 
 /** Our agent / findability surfaces that must keep answering 200. */
@@ -84,14 +89,12 @@ export const OUR_SURFACES = Object.freeze([
   '/library.html',
   '/moves/',
   // Conquest + entity hubs shipped in-repo; flag until gh-pages deploy catches up.
+  // Short aliases live in CORE_LIVE_SURFACES (#119); primaries stay here.
   '/vs.html',
   '/vs/doombench.html',
-  '/vs/doom.html',
   '/vs/skynet-countdown.html',
-  '/vs/skynet.html',
   '/vs/pizzint.html',
   '/vs/takeofftracker.html',
-  '/vs/takeoff.html',
   '/guides.html',
   '/guides.md',
   '/companies.html',
@@ -396,6 +399,25 @@ export function hasNowTips(txt) {
     && /Search Trends/i.test(head);
 }
 
+/**
+ * Conquest short aliases that agents.md / llms.txt must advertise
+ * (FINDABILITY #116/#119). Same paths as comparePages.mjs `aliases`.
+ */
+export const VS_SHORT_ALIASES = Object.freeze([
+  '/vs/doom.html',
+  '/vs/skynet.html',
+  '/vs/takeoff.html',
+]);
+
+/**
+ * True when an agent-map body lists every conquest short alias.
+ * Wipe gap is `agents-vs-aliases-missing` (FINDABILITY #119).
+ */
+export function hasVsShortAliases(txt, aliases = VS_SHORT_ALIASES) {
+  const body = String(txt || '');
+  return aliases.every((p) => body.includes(p));
+}
+
 /** Conservative floor when facet sitemap modules cannot be loaded. */
 export const FACET_URL_FLOOR = 450;
 
@@ -691,6 +713,20 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #116/#119 — agents.md / llms.txt dropped short-alias lines
+  // (orphan tip lag or overlay miss after HTML aliases restored).
+  if (ours.agents_vs_aliases === false || ours.llms_vs_aliases === false) {
+    const which = [
+      ours.agents_vs_aliases === false ? 'agents.md' : null,
+      ours.llms_vs_aliases === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-vs-aliases-missing',
+      severity: 'medium',
+      text: `${which} missing /vs/{doom,skynet,takeoff}.html short-alias lines (FINDABILITY #116/#119) — re-overlay agent maps or wait for news-fast Publish on tip ≥ #116`,
+    });
+  }
+
   // Open engineering items from FINDABILITY.md that the daily pass can still ship.
   const open = report.open_engineering || [];
   for (const item of open) {
@@ -808,10 +844,17 @@ export function measureSite(site, byUrl) {
     const feedLevel = byUrl.get(paths.feedLevel);
     row.feed_tips = feed?.ok ? hasFeedTips(feed.value) : false;
     row.feed_level_tips = feedLevel?.ok ? hasFeedTips(feedLevel.value) : false;
-    const nowMd = byUrl.get(`${site.origin.replace(/\/$/, '')}/now.md`);
-    const nowTxt = byUrl.get(`${site.origin.replace(/\/$/, '')}/api/now.txt`);
+    const base = site.origin.replace(/\/$/, '');
+    const nowMd = byUrl.get(`${base}/now.md`);
+    const nowTxt = byUrl.get(`${base}/api/now.txt`);
     row.now_md_tips = nowMd?.ok ? hasNowTips(nowMd.value) : false;
     row.now_txt_tips = nowTxt?.ok ? hasNowTips(nowTxt.value) : false;
+    // FINDABILITY #119 — agent maps must list short aliases after #116 overlay.
+    // Prefer the surface fetch (OUR_SURFACES); fall back to measure llms row.
+    const agentsMd = byUrl.get(`${base}/agents.md`);
+    const llmsBody = llms?.ok ? llms.value : '';
+    row.agents_vs_aliases = agentsMd?.ok ? hasVsShortAliases(agentsMd.value) : false;
+    row.llms_vs_aliases = llms?.ok ? hasVsShortAliases(llmsBody) : false;
   }
 
   return row;
@@ -925,10 +968,16 @@ export function formatMarkdown(report) {
         );
       }
     }
+    if (ours && (ours.agents_vs_aliases != null || ours.llms_vs_aliases != null)) {
+      const ag = ours.agents_vs_aliases == null ? '—' : (ours.agents_vs_aliases ? 'yes' : 'NO');
+      const lm = ours.llms_vs_aliases == null ? '—' : (ours.llms_vs_aliases ? 'yes' : 'NO');
+      lines.push(`- Agent-map vs short aliases (#116/#119): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
     if (ours && (ours.gsc_meta != null || ours.robots_tips != null || ours.sitemap_tips != null
       || ours.news_sitemap_tips != null || ours.feed_tips != null || ours.feed_level_tips != null
       || ours.now_md_tips != null || ours.now_txt_tips != null
-      || ours.news_keyword_lags != null)) {
+      || ours.news_keyword_lags != null
+      || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null)) {
       lines.push('');
     }
   }
@@ -1057,6 +1106,29 @@ function selftest() {
   if (!nowTipGaps.some((g) => g.id === 'now-tips-missing')) throw new Error('now-tips-missing gap');
   if (!CORE_LIVE_SURFACES.includes('/now.md') || !CORE_LIVE_SURFACES.includes('/api/now.txt')) {
     throw new Error('CORE_LIVE_SURFACES missing now reading surfaces');
+  }
+  const aliasMap = 'short alias https://siren.watch/vs/doom.html\n/vs/skynet.html\n/vs/takeoff.html\n';
+  if (hasVsShortAliases(aliasMap) !== true) throw new Error('hasVsShortAliases true');
+  if (hasVsShortAliases('/vs/doom.html\n/vs/skynet.html\n') !== false) throw new Error('hasVsShortAliases false');
+  for (const p of VS_SHORT_ALIASES) {
+    if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing ${p}`);
+  }
+  const aliasGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      sitemap_tips: true, news_sitemap_tips: true,
+      feed_tips: true, feed_level_tips: true,
+      robots_tips: true,
+      now_md_tips: true, now_txt_tips: true,
+      agents_vs_aliases: false, llms_vs_aliases: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!aliasGaps.some((g) => g.id === 'agents-vs-aliases-missing')) {
+    throw new Error('agents-vs-aliases-missing gap');
   }
   const newsXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
     + '<url><news:publication_date>2026-10-14T12:00:00.000Z</news:publication_date></url>'

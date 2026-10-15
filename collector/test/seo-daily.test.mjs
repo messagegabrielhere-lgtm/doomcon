@@ -15,6 +15,8 @@ import {
   OPEN_ENGINEERING,
   OUR_SURFACES,
   CORE_LIVE_SURFACES,
+  VS_SHORT_ALIASES,
+  hasVsShortAliases,
   FACET_URL_FLOOR,
   readLocalReadyUrls,
 } from '../tools/seo-daily.mjs';
@@ -208,5 +210,26 @@ describe('seo-daily surfaces', () => {
     assert.ok(OUR_SURFACES.includes('/vs.html'));
     assert.ok(OUR_SURFACES.includes('/guides.html'));
     assert.ok(OUR_SURFACES.includes('/guides.md'));
+  });
+
+  it('monitors conquest short aliases as core live + agent-map lines (FINDABILITY #119)', () => {
+    for (const p of VS_SHORT_ALIASES) {
+      assert.ok(CORE_LIVE_SURFACES.includes(p), p);
+      assert.ok(OUR_SURFACES.includes(p), p);
+    }
+    const body = VS_SHORT_ALIASES.map((p) => `short ${p}`).join('\n');
+    assert.equal(hasVsShortAliases(body), true);
+    assert.equal(hasVsShortAliases('/vs/doom.html\n/vs/skynet.html\n'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        agents_vs_aliases: false, llms_vs_aliases: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'agents-vs-aliases-missing'));
   });
 });
