@@ -348,6 +348,7 @@ context.
 | 115 | `collect.yml` orphan Publish (newsroom + full) restores the same vs short aliases before commit — news-only rebuilds omit them and would wipe tip the same way as pre-#114 news-fast | Deploy + Google | **Done** (this pass) |
 | 116 | `agents.md` + llms tip list all conquest `/vs/*` pages and short aliases (#111/#113); `news-fast` overlays `llms.txt` / `agents.md` / `agents.txt` so agent discovery does not lag HTML-only overlays | Agents + Google | **Done** (this pass) |
 | 117 | `vs-alias-guard.yml` every ~10m restores missing `/vs/{doom,skynet,takeoff}.html` from primaries on gh-pages; raise news-fast `PUBLISH_MIN_GAP` 300→600 so Pages can finish builds after the minute-push storm | Deploy + Google | **Done** (this pass) |
+| 118 | Seed news-fast `LAST_PAGES_PUB` from gh-pages tip (clone `%ct` + API refresh each tick) so a newly armed job does not ignore the 600s gap and race collect / prior tip | Deploy + Google News | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

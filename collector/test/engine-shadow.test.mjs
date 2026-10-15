@@ -317,6 +317,17 @@ test('news-fast throttles Pages publish cadence (FINDABILITY #112/#117)', () => 
   assert.match(yml, /deferring Pages publish/);
 });
 
+test('news-fast seeds LAST_PAGES_PUB from gh-pages tip (FINDABILITY #118)', () => {
+  // LAST_PAGES_PUB=0 made AGO ≈ epoch so every newly armed job published on
+  // tick 1 and raced collect / prior tip (Pages errored again ~09:00Z).
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(yml, /FINDABILITY #118/);
+  assert.match(yml, /refresh_last_pages_pub/);
+  assert.match(yml, /LAST_PAGES_PUB seeded from gh-pages tip/);
+  assert.match(yml, /commits\/gh-pages/);
+  assert.match(yml, /log -1 --format=%ct/);
+});
+
 test('vs-alias-guard workflow restores missing short aliases (FINDABILITY #117)', () => {
   const yml = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
   assert.match(yml, /FINDABILITY #117/);
