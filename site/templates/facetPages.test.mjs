@@ -216,6 +216,9 @@ describe('lab facets', () => {
     assert.match(labIndex, /What questions do people actually ask\?/);
     assert.match(labIndex, /"@type"\s*:\s*"FAQPage"/);
     assert.match(labIndex, /speakable/);
+    // FINDABILITY #140 — hub rows + ItemList use labAboutLabel.
+    assert.match(labIndex, /What has SIREN scored about OpenAI \/ ChatGPT\?/);
+    assert.match(labIndex, /What has SIREN scored about Anthropic \/ Claude\?/);
     const companies = renderCompanies(ctx);
     assert.match(companies, /Which AI companies has SIREN scored stories about\?/);
     assert.match(companies, /does not publish a company/);
@@ -223,6 +226,8 @@ describe('lab facets', () => {
     assert.match(companies, /\/compare\.html/);
     assert.match(companies, /SpeakableSpecification/);
     assert.match(companies, /FAQPage/);
+    assert.match(companies, /What has SIREN scored about OpenAI \/ ChatGPT\?/);
+    assert.match(companies, /What has SIREN scored about Anthropic \/ Claude\?/);
     assert.doesNotMatch(companies, /doom score:\s*\d/i);
   });
 });

@@ -377,6 +377,7 @@ context.
 | 137 | `LAB_HEAD_ALIASES.micron = MU` + search-trends `HEAD_TERMS` micron → `/lab/micron.html` so Google Trends “mu” spikes with AI memory-chip / Micron headlines route to the existing gated lab (title/H1/FAQ + daily probe); not a synonym doorway | Google + Trends | **Done** (this pass) |
 | 138 | `llms.txt` lab lines use `labAboutLabel` so #121/#137 aliases (ChatGPT, Gemini, Claude, MU) appear beside `/lab/*` URLs for agent routing (`agents.md` stays short and points at `llms.txt`) | Agents + Google | **Done** (this pass) |
 | 139 | `collect` + `news-fast` Publish preserve tip `llms.txt` when it lists `/lab/openai.html` without `OpenAI / ChatGPT` (#138 labAboutLabel); `seo-daily` `agents-lab-labels-missing` catches overlay wipe after mid-merge collect on tip &lt; #138 | Deploy + Agents | **Done** (this pass) |
+| 140 | `/lab/` + `/companies.html` directory rows and ItemList names use `labAboutLabel` so ChatGPT / Gemini / Claude / MU appear on hub HTML (lab landings already had #121/#137) | Google + Agents | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
