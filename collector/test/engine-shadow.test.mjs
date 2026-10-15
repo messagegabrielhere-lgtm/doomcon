@@ -464,6 +464,19 @@ test('Publish restores tip lab/companies hub labels (FINDABILITY #141)', () => {
   assert.match(newsFast, /lab\/index\.html/);
 });
 
+test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', () => {
+  // news-fast overlays index.html every tick; mid-merge tip < #142 would wipe
+  // Organization knowsAbout labAboutLabel until #143 preserve lands.
+  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  assert.match(collect, /FINDABILITY #143/);
+  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \(#143\)/);
+  assert.match(collect, /index\.html classic\.html/);
+  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(newsFast, /FINDABILITY #143/);
+  assert.match(newsFast, /restore_home_knowsabout/);
+  assert.match(newsFast, /agents\.md llms\.txt index\.html classic\.html/);
+});
+
 test('doomsday-clock / ai-doom / doom-index aliases (FINDABILITY #133)', () => {
   const src = readFileSync(join(ROOT, 'site', 'build.mjs'), 'utf8');
   assert.match(src, /FINDABILITY #133/);

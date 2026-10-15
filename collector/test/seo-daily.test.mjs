@@ -30,6 +30,7 @@ import {
   hasLabAboutLabels,
   LAB_HUB_LABEL_PROBES,
   labHubLabelLags,
+  hasHomeLabAboutLabels,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -375,6 +376,22 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'lab-hub-labels-missing'));
+  });
+
+  it('detects missing home knowsAbout labAboutLabel (FINDABILITY #143)', () => {
+    assert.equal(hasHomeLabAboutLabels('OpenAI / ChatGPT'), true);
+    assert.equal(hasHomeLabAboutLabels('What has SIREN scored about OpenAI'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        home_lab_about_labels: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'home-knowsabout-labels-missing'));
   });
 
   it('detects missing /trends.html in agent maps + now tips (FINDABILITY #125)', () => {
