@@ -302,6 +302,17 @@ test('news-fast refuses full wipe fallback on news-only failure (FINDABILITY #99
   assert.match(yml, /skipping full wipe fallback/);
 });
 
+test('news-fast throttles Pages publish cadence (FINDABILITY #112)', () => {
+  // 2026-10-15: after #106/#107 news-fast published every tick; GitHub Pages
+  // returned duration:0 "Page build failed" for ~20 consecutive pushes and
+  // froze the live CDN (last built 07:41Z) so overlays like #111 never served.
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(yml, /FINDABILITY #112/);
+  assert.match(yml, /PUBLISH_MIN_GAP=300/);
+  assert.match(yml, /PENDING_PUB/);
+  assert.match(yml, /deferring Pages publish/);
+});
+
 test('news-only skips full sitemap and caps live day hubs (FINDABILITY #106)', () => {
   // tip c4993bcf still saw PUBLISHED=0: archive-backed day hubs + full sitemap
   // kept --only news over the news-fast budget even after #103.

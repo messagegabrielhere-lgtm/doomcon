@@ -88,6 +88,14 @@ jobs:
           PUBLISHED=0
           TICK=0
           LAST_WAKE=0
+          # FINDABILITY #112 — GitHub Pages rejects builds when news-fast pushes
+          # every minute (duration:0 "Page build failed" streak after 07:41Z
+          # 2026-10-15). Batch Pages publishes to ≥5 minutes so a build can
+          # finish; news.json on main still updates every tick via the hourly
+          # Commit step. PENDING_PUB holds a change until the gap elapses.
+          PUBLISH_MIN_GAP=300
+          LAST_PAGES_PUB=0
+          PENDING_PUB=0
 
           # FINDABILITY #98 — main has no public/; --only news falls through to a
           # full wipe (~44m) when public/index.html is missing, which ate the
@@ -217,7 +225,18 @@ jobs:
             LAFTER=$(LFP)
 
             if [ "$BEFORE" != "$AFTER" ] || [ "$LBEFORE" != "$LAFTER" ]; then
-              echo "tick $TICK: newsroom or leader wire changed — fast rebuild and publish"
+              PENDING_PUB=1
+              echo "tick $TICK: newsroom or leader wire changed — pending Pages publish"
+            else
+              echo "tick $TICK: no change"
+            fi
+
+            NOW_PUB=$(date +%s)
+            AGO=$(( NOW_PUB - LAST_PAGES_PUB ))
+            if [ "$PENDING_PUB" -eq 1 ] && [ "$AGO" -lt "$PUBLISH_MIN_GAP" ]; then
+              echo "tick $TICK: deferring Pages publish (FINDABILITY #112; ${AGO}s since last, need ${PUBLISH_MIN_GAP}s)"
+            elif [ "$PENDING_PUB" -eq 1 ]; then
+              echo "tick $TICK: fast rebuild and publish (gap ${AGO}s ≥ ${PUBLISH_MIN_GAP}s)"
               # --only news: patch the live tree instead of wiping ~1,200 files.
               # Cards / posts / post-sheet are hourly (collect.yml); they are not
               # what makes the newsroom feel current.
@@ -320,9 +339,16 @@ jobs:
                   sleep $((attempt * 2))
                 done
               fi
-              [ "$PUB_OK" -eq 1 ] && PUBLISHED=$((PUBLISHED + 1))
-            else
-              echo "tick $TICK: no change"
+              if [ "$PUB_OK" -eq 1 ]; then
+                PUBLISHED=$((PUBLISHED + 1))
+                PENDING_PUB=0
+                LAST_PAGES_PUB=$(date +%s)
+              else
+                # Still advance the gap clock so a hard Pages rejection cannot
+                # spin every remaining tick (FINDABILITY #112).
+                LAST_PAGES_PUB=$(date +%s)
+                echo "::warning::tick $TICK: Pages publish failed; will retry after ${PUBLISH_MIN_GAP}s"
+              fi
             fi
 
             # Sleep the REMAINDER of the minute, not a flat 60s, so a slow pass
