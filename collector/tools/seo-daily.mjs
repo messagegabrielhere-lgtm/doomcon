@@ -372,14 +372,16 @@ export function newsKeywordLags(xml, labs = NEWS_KEYWORD_PROBE_LABS) {
 }
 
 function decodeXmlText(s) {
+  // Decode &amp; last so a literal "&amp;lt;" cannot become "<" in one pass
+  // (CodeQL js/double-escaping / FINDABILITY #65 pattern).
   return String(s || '')
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
-    .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/&apos;/g, "'");
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&');
 }
 
 export function hasNowTips(txt) {
