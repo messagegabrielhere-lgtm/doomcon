@@ -230,7 +230,7 @@ test('collect.yml newsroom skips cards on news-only and refuses full wipe fallba
   const yml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
   const newsroom = yml.match(/name:\s*newsroom[\s\S]*?(?=\n  [a-z-]+:|$)/);
   assert.ok(newsroom, 'newsroom job missing');
-  assert.match(newsroom[0], /timeout 480 node site\/build\.mjs --only news/);
+  assert.match(newsroom[0], /timeout 900 node site\/build\.mjs --only news/);
   assert.match(newsroom[0], /skipping card\/posts/);
   assert.match(newsroom[0], /refusing full wipe fallback/);
   assert.doesNotMatch(newsroom[0], /falling back to full build/);
@@ -255,7 +255,7 @@ test('collect.yml full-pass Build site raises Node heap (FINDABILITY #104)', () 
   const build = full[0].match(/name:\s*Build site[\s\S]*?\n        run:/);
   assert.ok(build, 'Build site step missing');
   assert.match(build[0], /NODE_OPTIONS:\s*--max-old-space-size=8192/);
-  assert.match(yml, /NODE_OPTIONS=--max-old-space-size=8192 timeout 480 node site\/build\.mjs --only news/);
+  assert.match(yml, /NODE_OPTIONS=--max-old-space-size=8192 timeout 900 node site\/build\.mjs --only news/);
 });
 
 test('collect.yml full-pass Build seeds public/ for incremental full build (FINDABILITY #105)', () => {
@@ -298,6 +298,24 @@ test('news-fast refuses full wipe fallback on news-only failure (FINDABILITY #99
   // The old `trying full build` path is what burned 58m with zero publishes.
   const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
   assert.doesNotMatch(yml, /trying full build/);
-  assert.match(yml, /timeout 480 node site\/build\.mjs --only news/);
+  assert.match(yml, /timeout 900 node site\/build\.mjs --only news/);
   assert.match(yml, /skipping full wipe fallback/);
+});
+
+test('news-only skips full sitemap and caps live day hubs (FINDABILITY #106)', () => {
+  // tip c4993bcf still saw PUBLISHED=0: archive-backed day hubs + full sitemap
+  // kept --only news over the news-fast budget even after #103.
+  const src = readFileSync(join(ROOT, 'site', 'build.mjs'), 'utf8');
+  const start = src.indexOf('NEWS-ONLY FAST PATH');
+  const end = src.indexOf('news-only build complete', start);
+  assert.ok(start >= 0 && end > start, 'news-only block missing');
+  const block = src.slice(start, end);
+  assert.match(block, /FINDABILITY #106/);
+  assert.match(block, /liveDays/);
+  assert.match(block, /\.slice\(0, 5\)/);
+  assert.match(block, /news-sitemap\.xml/);
+  assert.doesNotMatch(block, /write\(args\.out, 'sitemap\.xml'/);
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(yml, /FINDABILITY #106/);
+  assert.match(yml, /timeout 900 node site\/build\.mjs --only news/);
 });

@@ -336,6 +336,7 @@ context.
 | 103 | News-only slim lane: rewrite item briefs only on `itemChanged` (no pillar/entity cohort cascade) and skip facet/entity hub HTML (pillar/lab/source/model/tag/kind/outlet/people); keep day hubs + news-sitemap/robots/feed/api so news-fast finishes inside `timeout 480` (tip b9b1fcc1: 6/6 ticks timed out, PUBLISHED=0) | Google News + Deploy | **Done** (2026-10-15) |
 | 104 | Full-pass `Build site` (+ newsroom/news-fast timed builds) set `NODE_OPTIONS=--max-old-space-size=8192` so the item-archive tree does not thrash under the default ~4GB heap and block hourly Publish (run 38676940859 still Building at ~75m) | Deploy + Google News | **Done** (2026-10-15) |
 | 105 | Incremental full build: seed `public/` from gh-pages and keep durable `/item/*` archive pages on disk (skip rewrite when present) so hourly Build finishes inside the job budget instead of wipe+rewrite of ~5000 briefs (run 38676940859 still Building at ~85m) | Deploy + Google News | **Done** (2026-10-15) |
+| 106 | News-only: refresh at most 5 live-window day hubs (not archive-backed `indexableDays`) and skip full `sitemap.xml`; raise news-fast/newsroom `--only news` timeout 480→900 so ticks can Publish (tip c4993bcf still PUBLISHED=0 after #103) | Google News + Deploy | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 

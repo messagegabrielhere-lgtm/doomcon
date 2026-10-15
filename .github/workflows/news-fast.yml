@@ -243,7 +243,9 @@ jobs:
                 fi
               fi
               # FINDABILITY #104 — seeded public/ needs the same 8GB floor as collect.
-              if ! NODE_OPTIONS=--max-old-space-size=8192 timeout 480 node site/build.mjs --only news --quiet; then
+              # FINDABILITY #106 — 900s floor after #103/#106 slim path; 480s still
+              # timed out on tip c4993bcf while archive day hubs + full sitemap ran.
+              if ! NODE_OPTIONS=--max-old-space-size=8192 timeout 900 node site/build.mjs --only news --quiet; then
                 echo "::warning::news-only build failed or timed out on tick $TICK; skipping full wipe fallback"
                 sleep 30
                 continue

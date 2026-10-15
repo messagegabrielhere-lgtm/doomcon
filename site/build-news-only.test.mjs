@@ -46,3 +46,11 @@ test('news-only skips facet hub rewrites (FINDABILITY #103)', () => {
   assert.doesNotMatch(block, /facetPages\.renderPillar/);
   assert.doesNotMatch(block, /facetPages\.renderLab/);
 });
+
+test('news-only caps live day hubs and skips full sitemap (FINDABILITY #106)', () => {
+  const block = newsOnlyBlock(readFileSync(join(ROOT, 'site/build.mjs'), 'utf8'));
+  assert.match(block, /FINDABILITY #106/);
+  assert.match(block, /liveDays/);
+  assert.match(block, /\.slice\(0, 5\)/);
+  assert.doesNotMatch(block, /write\(args\.out, 'sitemap\.xml'/);
+});
