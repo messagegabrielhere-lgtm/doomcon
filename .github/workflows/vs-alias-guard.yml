@@ -4,6 +4,11 @@
 # Runs every ten minutes. No-op when /vs/{doom,skynet,takeoff}.html already
 # exist beside their primaries. One small commit only when something is missing,
 # so it does not add to the Pages publish storm.
+#
+# FINDABILITY #189 — also re-arm news-fast.yml when the minute-loop chain is
+# dark. Collect schedules can go quiet for hours (observed after 19:10Z on
+# 2026-10-15) while this guard keeps firing every ~10m, so it is the durable
+# wake when collect-based re-arm (#188) cannot run.
 
 name: vs-alias-guard
 
@@ -14,6 +19,8 @@ on:
 
 permissions:
   contents: write
+  # FINDABILITY #189 — dispatch news-fast.yml when the chain is dark.
+  actions: write
 
 concurrency:
   group: vs-alias-guard
@@ -133,3 +140,45 @@ jobs:
           done
           echo "::warning::could not push alias restore after 3 attempts"
           exit 0
+
+      # FINDABILITY #189 — collect schedules went quiet for hours while this
+      # guard kept firing. Mirror collect's #188 re-arm here so Google News +
+      # Search Trends tip recover without a hand workflow_dispatch.
+      - name: Re-arm news-fast when dark
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEWS_FAST_STALE_MIN: '90'
+        run: |
+          set -uo pipefail
+          if [ "${{ vars.NEWS_FAST_CHAIN }}" = "off" ]; then
+            echo "NEWS_FAST_CHAIN=off — skip re-arm"
+            exit 0
+          fi
+          INPROG=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow news-fast.yml \
+            --status in_progress -L 1 --json databaseId -q 'length' 2>/dev/null || echo 1)
+          if [ "${INPROG:-1}" != "0" ]; then
+            echo "news-fast already in progress — skip re-arm"
+            exit 0
+          fi
+          # Prefer real loop events (schedule / workflow_dispatch). Ignore empty
+          # push phantoms that never started a job.
+          LAST_ISO=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow news-fast.yml -L 20 \
+            --json createdAt,updatedAt,event,conclusion,status \
+            -q '[.[] | select(.event == "schedule" or .event == "workflow_dispatch") | .updatedAt // .createdAt] | first' \
+            2>/dev/null || true)
+          if [ -z "${LAST_ISO:-}" ]; then
+            echo "no prior news-fast schedule/dispatch run — dispatching"
+            gh workflow run news-fast.yml --repo "$GITHUB_REPOSITORY" \
+              || echo "::warning::could not re-arm news-fast (FINDABILITY #189)"
+            exit 0
+          fi
+          AGE_MIN=$(node -e "const t=Date.parse(process.argv[1]);process.stdout.write(String(Number.isFinite(t)?Math.round((Date.now()-t)/60000):9999))" "$LAST_ISO")
+          echo "newest news-fast schedule/dispatch finished ${AGE_MIN}m ago (threshold ${NEWS_FAST_STALE_MIN}m)"
+          if [ "$AGE_MIN" -ge "$NEWS_FAST_STALE_MIN" ]; then
+            echo "FINDABILITY #189: re-arming news-fast.yml (chain dark ${AGE_MIN}m)"
+            gh workflow run news-fast.yml --repo "$GITHUB_REPOSITORY" \
+              || echo "::warning::could not re-arm news-fast (FINDABILITY #189)"
+          else
+            echo "news-fast fresh enough — no re-arm"
+          fi
