@@ -102,7 +102,10 @@ export const CANONICAL_URL = 'https://siren.watch';
 // Outbound links and routing copy only — we do not ingest, scrape, or republish
 // their numbers. Artificial Analysis's free Data API needs a key and forbids
 // redistribution on that tier; CONTRACT.md also keeps collectors key-free.
-// When pointing agents or humans at quality / cost / speed, use these URLs.
+// AI 2027 is a published scenario narrative (not a recomputable activity count);
+// we route "what does a detailed AGI scenario look like?" there and keep our
+// own claim as tempo only. When pointing agents or humans at quality / cost /
+// speed or at a concrete AGI scenario, use these URLs.
 export const COMPLEMENTS = Object.freeze([
   Object.freeze({
     id: 'artificial-analysis',
@@ -110,6 +113,13 @@ export const COMPLEMENTS = Object.freeze([
     url: 'https://artificialanalysis.ai/',
     measures: 'Independent model intelligence, speed and cost benchmarks',
     when: 'which model is smartest, cheapest or fastest',
+  }),
+  Object.freeze({
+    id: 'ai-2027',
+    name: 'AI 2027',
+    url: 'https://ai-2027.com/',
+    measures: 'A concrete written scenario of AGI and its aftermath',
+    when: 'what a detailed AGI scenario looks like',
   }),
 ]);
 
