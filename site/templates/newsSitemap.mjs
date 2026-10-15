@@ -89,6 +89,9 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #178 — Datacenters tag needle when titles use the topic alone
   // beside Oracle (Trends tag hub).
   'Datacenters',
+  // FINDABILITY #180 — Timestral / CERN Flare needles when titles use product
+  // forms beside Mistral (labAboutLabel Timestral).
+  'Timestral', 'CERN', 'Flare',
 ]);
 
 /**
@@ -123,6 +126,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bAlibaba(?:\s+Cloud)?\b/i, name: /^(?:Alibaba(?:\s+Cloud)?)$/i, alias: 'Qwen' },
   // FINDABILITY #178 — Oracle → Datacenters (Trends tag hub) when parent named.
   { re: /\bOracle\b/i, name: /^Oracle$/i, alias: 'Datacenters' },
+  // FINDABILITY #180 — Mistral → Timestral (labAboutLabel) when parent named.
+  { re: /\bMistral\b/i, name: /^Mistral$/i, alias: 'Timestral' },
 ]);
 
 /**

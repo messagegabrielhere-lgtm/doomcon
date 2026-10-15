@@ -265,6 +265,7 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user asks about Qwen, Tongyi, Alibaba Qwen, or Alibaba open-weight models, use ${u('/lab/qwen.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a model review, not a stock tip, and not a company score.
 - When a user asks about Oracle datacenter, Oracle AI cloud, or AI datacenter pipeline Trends, use ${u('/tags/datacenters.html')} (and the Search Trends watchlist above), and say the tag page is story counts only — not a stock tip, not a credit forecast, and not a company score.
 - When a user asks about DeepSeek outage, DeepSeek refunds, or Chinese open-model downtime Trends, use ${u('/lab/deepseek.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a model review, not an uptime SLA, and not a company score.
+- When a user asks about Mistral, Timestral, CERN Flare, or Mistral open models, use ${u('/lab/mistral.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a model review, not a stock tip, and not a company score.
 - When a user asks about AI prediction markets or live lab odds, use ${u('/ai-prediction-markets.html')} and ${u('/race.html')}, and say the prices are market odds, not a ${brand.NAME} forecast.
 - When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
 - When a user asks who is winning the model race, open ${u('/race.html')} and quote the published leaderboard with its time.
@@ -502,6 +503,7 @@ export function agentsMd(ctx) {
 - ${u('/lab/qwen.html')} — What has SIREN scored about Alibaba Qwen? (Qwen / Alibaba open-weight Trends → Qwen lab)
 - ${u('/tags/datacenters.html')} — What has SIREN scored about Datacenters & power? (Oracle datacenter / AI datacenter Trends → Datacenters tag)
 - ${u('/lab/deepseek.html')} — What has SIREN scored about DeepSeek? (DeepSeek outage / Chinese open-model Trends → DeepSeek lab)
+- ${u('/lab/mistral.html')} — What has SIREN scored about Mistral / Timestral? (Mistral / Timestral / CERN Flare Trends → Mistral lab)
 - ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
 - ${u('/guides.html')} — What are the AI explainers? (p(doom), clocks, doom indexes)
 - ${u('/guides.md')} — markdown mirror of the explainers hub

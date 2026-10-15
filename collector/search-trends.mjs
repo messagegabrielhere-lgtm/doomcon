@@ -102,6 +102,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #179 — DeepSeek outage / Chinese open-model Trends → gated lab
   // (story counts only; not a model review or uptime SLA).
   { id: 'deepseek', label: 'DeepSeek', re: /\bdeepseek(?:[- ]?r)?\b/i, path: '/lab/deepseek.html' },
+  // FINDABILITY #180 — Mistral / Timestral / CERN Flare Trends → gated lab
+  // (story counts only; not a model review or stock tip).
+  { id: 'mistral', label: 'Mistral', re: /\bmistral\b|\btimestral\b|\bflare\b.{0,40}\b(?:cern|mistral|physics)\b|\bcern\b.{0,40}\b(?:flare|mistral)\b/i, path: '/lab/mistral.html' },
   { id: 'siren', label: 'SIREN / siren.watch', re: /\bsiren\.watch\b|\bsiren\s+(?:index|watch|ai)\b|\bdoomcon\b/i, path: '/' },
 ]);
 

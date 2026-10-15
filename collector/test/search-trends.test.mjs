@@ -176,6 +176,12 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'DeepSeek-R model update', news: [] }).includes('deepseek'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'deepseek' && t.path === '/lab/deepseek.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'deepseek').re.test('deep seeking treasure'), false);
+  // FINDABILITY #180 — Mistral / Timestral / CERN Flare → gated Mistral lab.
+  assert.ok(matchHeadTerms({ title: 'Mistral Timestral', news: [] }).includes('mistral'));
+  assert.ok(matchHeadTerms({ title: 'Introducing Timestral', news: [] }).includes('mistral'));
+  assert.ok(matchHeadTerms({ title: 'CERN and Mistral partner to build Flare, a new AI model for physics', news: [] }).includes('mistral'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'mistral' && t.path === '/lab/mistral.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'mistral').re.test('Major Outage on Cloudflare'), false);
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {

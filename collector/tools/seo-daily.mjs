@@ -161,6 +161,8 @@ export const OUR_SURFACES = Object.freeze([
   '/tags/datacenters.html',
   // FINDABILITY #179 — DeepSeek outage Trends FAQ lab.
   '/lab/deepseek.html',
+  // FINDABILITY #180 — Mistral / Timestral Trends FAQ lab.
+  '/lab/mistral.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -476,6 +478,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'Alibaba', alias: 'Qwen' },
   // FINDABILITY #178 — Oracle → Datacenters for Google News keywords.
   { lab: 'Oracle', alias: 'Datacenters' },
+  // FINDABILITY #180 — Mistral → Timestral for Google News keywords.
+  { lab: 'Mistral', alias: 'Timestral' },
 ]);
 
 /**
@@ -800,9 +804,10 @@ export const TRENDS_ROUTES_CHARACTER_AI_NEEDLE = 'Character.ai bankruptcy → /t
 export const TRENDS_ROUTES_QWEN_NEEDLE = 'Qwen / Alibaba open models → /lab/qwen.html';
 export const TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE = 'Oracle / AI datacenters → /tags/datacenters.html';
 export const TRENDS_ROUTES_DEEPSEEK_NEEDLE = 'DeepSeek outage → /lab/deepseek.html';
+export const TRENDS_ROUTES_MISTRAL_NEEDLE = 'Mistral / Timestral → /lab/mistral.html';
 
 /**
- * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180
  * destinations (FINDABILITY #166 — newsroom used to keep the question while dropping newer answer destinations).
  */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
@@ -820,7 +825,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_CHARACTER_AI_NEEDLE)
     && text.includes(TRENDS_ROUTES_QWEN_NEEDLE)
     && text.includes(TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE)
-    && text.includes(TRENDS_ROUTES_DEEPSEEK_NEEDLE);
+    && text.includes(TRENDS_ROUTES_DEEPSEEK_NEEDLE)
+    && text.includes(TRENDS_ROUTES_MISTRAL_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1113,6 +1119,24 @@ export function hasAgentsDeepseek(body, needle = AGENTS_DEEPSEEK_NEEDLE) {
   return text.includes(needle) && text.includes('/lab/deepseek.html');
 }
 
+/** FINDABILITY #180 — Mistral / Timestral FAQ + agent maps. */
+export const MISTRAL_FAQ_NEEDLE = 'Why does SIREN watch Mistral and Timestral?';
+export const AGENTS_MISTRAL_NEEDLE = 'Timestral';
+
+/** Tip /lab/mistral.html must keep the #180 Mistral FAQ. */
+export function hasMistralFaq(html, needle = MISTRAL_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Mistral / Timestral Trends to Mistral lab (FINDABILITY #180).
+ * Wipe gap is `agents-mistral-missing`.
+ */
+export function hasAgentsMistral(body, needle = AGENTS_MISTRAL_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/mistral.html');
+}
+
 
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
@@ -1156,6 +1180,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/samsung.html', needle: 'HBM' },
   // FINDABILITY #177 — Qwen product alias on Alibaba Qwen lab title/H1.
   { path: '/lab/qwen.html', needle: 'Qwen' },
+  // FINDABILITY #180 — Timestral product alias on Mistral lab title/H1.
+  { path: '/lab/mistral.html', needle: 'Timestral' },
 ]);
 
 /**
@@ -1689,7 +1715,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek/Mistral destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -2029,6 +2055,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #180 — Mistral lab FAQ wiped or never landed.
+  if (ours.mistral_faq === false) {
+    gaps.push({
+      id: 'mistral-faq-missing',
+      severity: 'medium',
+      text: `/lab/mistral.html missing Mistral / Timestral FAQ (FINDABILITY #180) — re-overlay lab/mistral.html or wait for full collect Publish on tip ≥ #180`,
+    });
+  }
+  // FINDABILITY #180 — agent maps must route Mistral / Timestral Trends to Mistral lab.
+  if (ours.agents_mistral === false || ours.llms_mistral === false) {
+    const which = [
+      ours.agents_mistral === false ? 'agents.md' : null,
+      ours.llms_mistral === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-mistral-missing',
+      severity: 'medium',
+      text: `${which} missing Timestral → /lab/mistral.html Trends tip (FINDABILITY #180) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #180`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -2329,6 +2376,11 @@ export function measureSite(site, byUrl) {
     row.deepseek_faq = deepseekHtml?.ok ? hasDeepseekFaq(deepseekHtml.value) : false;
     row.agents_deepseek = agentsMd?.ok ? hasAgentsDeepseek(agentsMd.value) : false;
     row.llms_deepseek = llms?.ok ? hasAgentsDeepseek(llmsBody) : false;
+    // FINDABILITY #180 — Mistral FAQ + agent maps.
+    const mistralHtml = byUrl.get(`${base}/lab/mistral.html`);
+    row.mistral_faq = mistralHtml?.ok ? hasMistralFaq(mistralHtml.value) : false;
+    row.agents_mistral = agentsMd?.ok ? hasAgentsMistral(agentsMd.value) : false;
+    row.llms_mistral = llms?.ok ? hasAgentsMistral(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -2722,6 +2774,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_deepseek == null ? '—' : (ours.agents_deepseek ? 'yes' : 'NO');
       const lm = ours.llms_deepseek == null ? '—' : (ours.llms_deepseek ? 'yes' : 'NO');
       lines.push(`- Agent-map DeepSeek outage → lab (#179): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.mistral_faq != null) {
+      lines.push(
+        `- Mistral / Timestral FAQ (#180): **${ours.mistral_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_mistral != null || ours.llms_mistral != null)) {
+      const ag = ours.agents_mistral == null ? '—' : (ours.agents_mistral ? 'yes' : 'NO');
+      const lm = ours.llms_mistral == null ? '—' : (ours.llms_mistral ? 'yes' : 'NO');
+      lines.push(`- Agent-map Timestral → lab (#180): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -3805,6 +3867,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/deepseek.html')) {
     throw new Error('OUR_SURFACES missing /lab/deepseek.html');
   }
+  if (hasMistralFaq(MISTRAL_FAQ_NEEDLE) !== true) {
+    throw new Error('hasMistralFaq true');
+  }
+  if (hasMistralFaq('What has SIREN scored about Mistral?') !== false) {
+    throw new Error('hasMistralFaq false');
+  }
+  if (hasAgentsMistral('Timestral → https://siren.watch/lab/mistral.html') !== true) {
+    throw new Error('hasAgentsMistral true');
+  }
+  if (hasAgentsMistral('https://siren.watch/lab/mistral.html only') !== false) {
+    throw new Error('hasAgentsMistral needs Timestral needle');
+  }
+  const mistralGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      mistral_faq: false,
+      agents_mistral: false,
+      llms_mistral: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!mistralGaps.some((g) => g.id === 'mistral-faq-missing')) {
+    throw new Error('mistral-faq-missing gap');
+  }
+  if (!mistralGaps.some((g) => g.id === 'agents-mistral-missing')) {
+    throw new Error('agents-mistral-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/mistral.html')) {
+    throw new Error('OUR_SURFACES missing /lab/mistral.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -3820,12 +3915,13 @@ function selftest() {
     TRENDS_ROUTES_QWEN_NEEDLE,
     TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE,
     TRENDS_ROUTES_DEEPSEEK_NEEDLE,
+    TRENDS_ROUTES_MISTRAL_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek/Mistral destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
@@ -4038,6 +4134,9 @@ function selftest() {
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Datacenters')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing Datacenters');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Timestral')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing Timestral');
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Copilot')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing Copilot');
