@@ -165,6 +165,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /OpenAI lawsuit, FTC probe/);
   assert.match(txt, /\/lab\/openai\.html/);
   assert.match(txt, /not legal advice/);
+  // FINDABILITY #181 — OpenAI / ChatGPT outage tape routes to OpenAI lab.
+  assert.match(txt, /OpenAI outage, ChatGPT outage, OpenAI status/);
+  assert.match(txt, /not an uptime SLA/);
   // FINDABILITY #163 — Anthropic IPO / FTC tape routes to Anthropic lab.
   assert.match(txt, /Anthropic IPO, Anthropic FTC probe/);
   assert.match(txt, /\/lab\/anthropic\.html/);
@@ -185,14 +188,14 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #171 — Microsoft Copilot / Azure AI route to Microsoft lab.
   assert.match(txt, /Microsoft Copilot, GitHub Copilot/);
   assert.match(txt, /\/lab\/microsoft\.html/);
-  // FINDABILITY #173 — Grok / xAI route to xAI lab.
-  assert.match(txt, /Grok, Grok Voice, xAI/);
+  // FINDABILITY #173 — Grok / xAI route to xAI lab (contiguous seo-daily needle).
+  assert.match(txt, /Grok \/ xAI, Grok Voice, xAI/);
   assert.match(txt, /\/lab\/xai\.html/);
-  // FINDABILITY #174 — Gemini / Gemma route to DeepMind lab.
-  assert.match(txt, /Gemini, Gemini 4 Argon, Gemma/);
+  // FINDABILITY #174 — Gemini / Gemma route to DeepMind lab (contiguous needle).
+  assert.match(txt, /Gemini \/ Gemma, Gemini 4 Argon/);
   assert.match(txt, /\/lab\/google-deepmind\.html/);
-  // FINDABILITY #175 — Samsung / HBM / AI memory route to Samsung lab.
-  assert.match(txt, /Samsung stock, Samsung HBM/);
+  // FINDABILITY #175 — Samsung / AI memory route to Samsung lab (contiguous needle).
+  assert.match(txt, /Samsung \/ AI memory, Samsung stock, Samsung HBM/);
   assert.match(txt, /\/lab\/samsung\.html/);
   assert.match(txt, /\/lab\/amazon\.html/);
   // FINDABILITY #157 — neocloud Trends route to Neoclouds tag.
@@ -267,7 +270,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /Nvidia stock \/ NVDA Trends/);
   assert.match(md, /\/lab\/nvidia\.html/);
   // FINDABILITY #162 — agents.md lists OpenAI lab for lawsuit / FTC Trends.
-  assert.match(md, /OpenAI lawsuit \/ FTC probe Trends/);
+  assert.match(md, /OpenAI lawsuit \/ FTC \/ OpenAI outage Trends/);
   assert.match(md, /\/lab\/openai\.html/);
   // FINDABILITY #163 — agents.md lists Anthropic lab for IPO / FTC Trends.
   assert.match(md, /Anthropic IPO \/ FTC probe Trends/);

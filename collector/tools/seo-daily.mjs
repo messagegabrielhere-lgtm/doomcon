@@ -805,6 +805,7 @@ export const TRENDS_ROUTES_QWEN_NEEDLE = 'Qwen / Alibaba open models → /lab/qw
 export const TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE = 'Oracle / AI datacenters → /tags/datacenters.html';
 export const TRENDS_ROUTES_DEEPSEEK_NEEDLE = 'DeepSeek outage → /lab/deepseek.html';
 export const TRENDS_ROUTES_MISTRAL_NEEDLE = 'Mistral / Timestral → /lab/mistral.html';
+export const TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE = 'OpenAI outage → /lab/openai.html';
 
 /**
  * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180
@@ -826,7 +827,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_QWEN_NEEDLE)
     && text.includes(TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE)
     && text.includes(TRENDS_ROUTES_DEEPSEEK_NEEDLE)
-    && text.includes(TRENDS_ROUTES_MISTRAL_NEEDLE);
+    && text.includes(TRENDS_ROUTES_MISTRAL_NEEDLE)
+    && text.includes(TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1135,6 +1137,24 @@ export function hasMistralFaq(html, needle = MISTRAL_FAQ_NEEDLE) {
 export function hasAgentsMistral(body, needle = AGENTS_MISTRAL_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/mistral.html');
+}
+
+/** FINDABILITY #181 — OpenAI / ChatGPT outage FAQ + agent maps. */
+export const OPENAI_OUTAGE_FAQ_NEEDLE = 'Why does SIREN watch OpenAI and ChatGPT outages?';
+export const AGENTS_OPENAI_OUTAGE_NEEDLE = 'OpenAI outage';
+
+/** Tip /lab/openai.html must keep the #181 OpenAI outage FAQ. */
+export function hasOpenaiOutageFaq(html, needle = OPENAI_OUTAGE_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route OpenAI outage Trends to OpenAI lab (FINDABILITY #181).
+ * Wipe gap is `agents-openai-outage-missing`.
+ */
+export function hasAgentsOpenaiOutage(body, needle = AGENTS_OPENAI_OUTAGE_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/openai.html');
 }
 
 
@@ -1715,7 +1735,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek/Mistral destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -2076,6 +2096,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #181 — OpenAI outage FAQ wiped or never landed.
+  if (ours.openai_outage_faq === false) {
+    gaps.push({
+      id: 'openai-outage-faq-missing',
+      severity: 'medium',
+      text: `/lab/openai.html missing OpenAI outage FAQ (FINDABILITY #181) — re-overlay lab/openai.html or wait for full collect Publish on tip ≥ #181`,
+    });
+  }
+  // FINDABILITY #181 — agent maps must route OpenAI outage Trends to OpenAI lab.
+  if (ours.agents_openai_outage === false || ours.llms_openai_outage === false) {
+    const which = [
+      ours.agents_openai_outage === false ? 'agents.md' : null,
+      ours.llms_openai_outage === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-openai-outage-missing',
+      severity: 'medium',
+      text: `${which} missing OpenAI outage → /lab/openai.html Trends tip (FINDABILITY #181) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #181`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -2381,6 +2422,10 @@ export function measureSite(site, byUrl) {
     row.mistral_faq = mistralHtml?.ok ? hasMistralFaq(mistralHtml.value) : false;
     row.agents_mistral = agentsMd?.ok ? hasAgentsMistral(agentsMd.value) : false;
     row.llms_mistral = llms?.ok ? hasAgentsMistral(llmsBody) : false;
+    // FINDABILITY #181 — OpenAI outage FAQ + agent maps (same lab as lawsuit #162).
+    row.openai_outage_faq = oaiHtml?.ok ? hasOpenaiOutageFaq(oaiHtml.value) : false;
+    row.agents_openai_outage = agentsMd?.ok ? hasAgentsOpenaiOutage(agentsMd.value) : false;
+    row.llms_openai_outage = llms?.ok ? hasAgentsOpenaiOutage(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -2784,6 +2829,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_mistral == null ? '—' : (ours.agents_mistral ? 'yes' : 'NO');
       const lm = ours.llms_mistral == null ? '—' : (ours.llms_mistral ? 'yes' : 'NO');
       lines.push(`- Agent-map Timestral → lab (#180): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.openai_outage_faq != null) {
+      lines.push(
+        `- OpenAI outage FAQ (#181): **${ours.openai_outage_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_openai_outage != null || ours.llms_openai_outage != null)) {
+      const ag = ours.agents_openai_outage == null ? '—' : (ours.agents_openai_outage ? 'yes' : 'NO');
+      const lm = ours.llms_openai_outage == null ? '—' : (ours.llms_openai_outage ? 'yes' : 'NO');
+      lines.push(`- Agent-map OpenAI outage → lab (#181): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -3900,6 +3955,36 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/mistral.html')) {
     throw new Error('OUR_SURFACES missing /lab/mistral.html');
   }
+  if (hasOpenaiOutageFaq(OPENAI_OUTAGE_FAQ_NEEDLE) !== true) {
+    throw new Error('hasOpenaiOutageFaq true');
+  }
+  if (hasOpenaiOutageFaq('Why does SIREN watch OpenAI lawsuits and FTC probes?') !== false) {
+    throw new Error('hasOpenaiOutageFaq false');
+  }
+  if (hasAgentsOpenaiOutage('OpenAI outage → https://siren.watch/lab/openai.html') !== true) {
+    throw new Error('hasAgentsOpenaiOutage true');
+  }
+  if (hasAgentsOpenaiOutage('https://siren.watch/lab/openai.html only') !== false) {
+    throw new Error('hasAgentsOpenaiOutage needs OpenAI outage needle');
+  }
+  const openaiOutageGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      openai_outage_faq: false,
+      agents_openai_outage: false,
+      llms_openai_outage: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!openaiOutageGaps.some((g) => g.id === 'openai-outage-faq-missing')) {
+    throw new Error('openai-outage-faq-missing gap');
+  }
+  if (!openaiOutageGaps.some((g) => g.id === 'agents-openai-outage-missing')) {
+    throw new Error('agents-openai-outage-missing gap');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -3916,12 +4001,13 @@ function selftest() {
     TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE,
     TRENDS_ROUTES_DEEPSEEK_NEEDLE,
     TRENDS_ROUTES_MISTRAL_NEEDLE,
+    TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek/Mistral destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

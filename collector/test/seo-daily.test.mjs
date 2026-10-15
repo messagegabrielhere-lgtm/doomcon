@@ -115,6 +115,10 @@ import {
   hasAgentsMistral,
   MISTRAL_FAQ_NEEDLE,
   TRENDS_ROUTES_MISTRAL_NEEDLE,
+  hasOpenaiOutageFaq,
+  hasAgentsOpenaiOutage,
+  OPENAI_OUTAGE_FAQ_NEEDLE,
+  TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -1025,7 +1029,34 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-mistral-missing'));
   });
 
-  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180)', () => {
+  it('detects OpenAI outage FAQ + agent-map lag (FINDABILITY #181)', () => {
+    assert.equal(hasOpenaiOutageFaq(OPENAI_OUTAGE_FAQ_NEEDLE), true);
+    assert.equal(
+      hasOpenaiOutageFaq('Why does SIREN watch OpenAI lawsuits and FTC probes?'),
+      false,
+    );
+    assert.equal(
+      hasAgentsOpenaiOutage('OpenAI outage → https://siren.watch/lab/openai.html'),
+      true,
+    );
+    assert.equal(hasAgentsOpenaiOutage('https://siren.watch/lab/openai.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        openai_outage_faq: false,
+        agents_openai_outage: false,
+        llms_openai_outage: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'openai-outage-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-openai-outage-missing'));
+  });
+
+  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181)', () => {
     const routesBody = [
       TRENDS_ROUTES_FAQ_NEEDLE,
       TRENDS_ROUTES_ASML_NEEDLE,
@@ -1042,6 +1073,7 @@ describe('seo-daily surfaces', () => {
       TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE,
       TRENDS_ROUTES_DEEPSEEK_NEEDLE,
       TRENDS_ROUTES_MISTRAL_NEEDLE,
+      TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
     ].join('\n');
     assert.equal(hasTrendsRoutesFaq(routesBody), true);
     assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), false);

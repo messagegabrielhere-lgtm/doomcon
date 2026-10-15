@@ -182,6 +182,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'CERN and Mistral partner to build Flare, a new AI model for physics', news: [] }).includes('mistral'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'mistral' && t.path === '/lab/mistral.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'mistral').re.test('Major Outage on Cloudflare'), false);
+  // FINDABILITY #181 — OpenAI / ChatGPT outage / status → gated OpenAI lab.
+  assert.ok(matchHeadTerms({ title: 'OpenAI status: Widespread feature degradation', news: [] }).includes('openai-outage'));
+  assert.ok(matchHeadTerms({ title: 'ChatGPT outage hits API users', news: [] }).includes('openai-outage'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'openai-outage' && t.path === '/lab/openai.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'openai-outage').re.test('OpenAI ships a new model'), false);
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {

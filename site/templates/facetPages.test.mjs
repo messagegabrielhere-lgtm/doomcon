@@ -222,6 +222,15 @@ describe('lab facets', () => {
     assert.match(oaiHtml, /[Nn]ot legal advice/);
     assert.match(oaiHtml, /search-trends\.html/);
     assert.doesNotMatch(oaiHtml, /guilty|liable|will lose|settlement odds/i);
+    // FINDABILITY #181 — OpenAI / ChatGPT outage FAQ on same gated lab.
+    assert.match(
+      oaiHtml,
+      /Why does SIREN watch OpenAI and ChatGPT outages\?/,
+    );
+    assert.match(oaiHtml, /[Nn]ot a model review/);
+    assert.match(oaiHtml, /uptime SLA|not an uptime/i);
+    assert.match(oaiHtml, /status\.html/);
+    assert.doesNotMatch(oaiHtml, /buy OpenAI|must use ChatGPT|99\.9% uptime/i);
     // FINDABILITY #163 — Anthropic IPO / FTC FAQ on gated Claude lab.
     const antHtml = renderLab(ctx, ctx.race.players[1]);
     assert.match(
