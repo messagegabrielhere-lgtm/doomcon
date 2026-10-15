@@ -491,6 +491,13 @@ export function renderLab(ctx, player) {
       `${brand.NAME} scores press that names OpenAI / ChatGPT. When state lawsuits, FTC probes, or ChatGPT safety suits dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not legal advice, not a case forecast, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
+  // FINDABILITY #163 — Anthropic IPO / FTC probe tape → gated Claude lab.
+  if (player.id === 'anthropic') {
+    faq.push([
+      `Why does ${brand.NAME} watch Anthropic IPO and FTC probes?`,
+      `${brand.NAME} scores press that names Anthropic / Claude. When IPO headlines, FTC probes, or safety subpoenas dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not IPO advice, not legal advice, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');

@@ -98,6 +98,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'FTC probes OpenAI', news: [] }).includes('openai-lawsuit'));
   assert.ok(matchHeadTerms({ title: 'states sue OpenAI over ChatGPT', news: [] }).includes('openai-lawsuit'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'openai-lawsuit' && t.path === '/lab/openai.html'));
+  // FINDABILITY #163 — Anthropic IPO / FTC → gated Anthropic lab.
+  assert.ok(matchHeadTerms({ title: 'anthropic ipo', news: [] }).includes('anthropic-ipo'));
+  assert.ok(matchHeadTerms({ title: 'FTC probes Anthropic', news: [] }).includes('anthropic-ipo'));
+  assert.ok(matchHeadTerms({ title: 'Anthropic subpoena ahead of IPO', news: [] }).includes('anthropic-ipo'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-ipo' && t.path === '/lab/anthropic.html'));
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({

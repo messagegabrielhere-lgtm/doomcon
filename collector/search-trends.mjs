@@ -40,6 +40,9 @@ export const HEAD_TERMS = Object.freeze([
   // (story counts of scored coverage only; not legal advice).
   { id: 'openai-lawsuit', label: 'OpenAI lawsuit / FTC', re: /\bopenai\b.{0,40}\b(?:lawsuit|lawsuits|sued|sues|suing|ftc|probe|probes)\b|\b(?:lawsuit|lawsuits|ftc|probe|probes)\b.{0,40}\bopenai\b|\bstates?\s+sue(?:s|d)?\s+openai\b|\bchatgpt\b.{0,40}\b(?:lawsuit|lawsuits|sued|sues)\b/i, path: '/lab/openai.html' },
   { id: 'claude', label: 'Claude', re: /\bclaude\b|\banthropic\b/i, path: '/lab/anthropic.html' },
+  // FINDABILITY #163 — “anthropic ipo” / FTC probe Trends → gated Claude lab
+  // (story counts only; not IPO advice or legal advice).
+  { id: 'anthropic-ipo', label: 'Anthropic IPO / FTC', re: /\banthropic\b.{0,40}\b(?:ipo|ftc|lawsuit|lawsuits|probe|probes|subpoena)\b|\b(?:ipo|ftc|lawsuit|lawsuits|probe|probes|subpoena)\b.{0,40}\banthropic\b|\bclaude\b.{0,40}\b(?:ipo|ftc|lawsuit|lawsuits)\b/i, path: '/lab/anthropic.html' },
   { id: 'gemini', label: 'Gemini', re: /\bgemini\b|\bgoogle\s+deepmind\b/i, path: '/lab/google-deepmind.html' },
   // FINDABILITY #137 — "mu" Trends spikes arrive with Micron / AI memory-chip
   // headlines; route to the existing gated /lab/micron.html (not a doorway).

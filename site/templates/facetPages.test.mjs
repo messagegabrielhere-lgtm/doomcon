@@ -222,6 +222,16 @@ describe('lab facets', () => {
     assert.match(oaiHtml, /[Nn]ot legal advice/);
     assert.match(oaiHtml, /search-trends\.html/);
     assert.doesNotMatch(oaiHtml, /guilty|liable|will lose|settlement odds/i);
+    // FINDABILITY #163 — Anthropic IPO / FTC FAQ on gated Claude lab.
+    const antHtml = renderLab(ctx, ctx.race.players[1]);
+    assert.match(
+      antHtml,
+      /Why does SIREN watch Anthropic IPO and FTC probes\?/,
+    );
+    assert.match(antHtml, /[Nn]ot IPO advice/);
+    assert.match(antHtml, /[Nn]ot legal advice/);
+    assert.match(antHtml, /search-trends\.html/);
+    assert.doesNotMatch(antHtml, /buy Anthropic|price target|will IPO at/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {
