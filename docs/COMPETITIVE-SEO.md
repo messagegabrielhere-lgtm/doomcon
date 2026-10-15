@@ -4,10 +4,10 @@
 live lead **6,685** sitemap URLs / news **200** (pizzint news **14**); tips +
 vs/trends/pdoom + root rival + head-term aliases + FAQ hubs + Micron/MU lab +
 `llms.txt` + `/lab/` + companies + home knowsAbout labAboutLabel intact. Daily
-ships: #124–#144 tip durability; **#145** preserves #144 race labAboutLabel across
-newsroom orphan Publish. Branded “SIREN AI activity index” still #1; head-term
-SERPs still need GSC crawl (issue #202). Companion to `docs/COMPETITIVE.md`
-(Sept inventory) and `docs/FINDABILITY.md`.
+ships: #124–#145 tip durability; **#146** Micron news:keywords carry MU ticker
+(Trends #137). Branded “SIREN AI activity index” still #1; head-term SERPs still
+need GSC crawl (issue #202). Companion to `docs/COMPETITIVE.md` (Sept inventory)
+and `docs/FINDABILITY.md`.
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool

@@ -382,7 +382,8 @@ context.
 | 142 | Home Organization `knowsAbout` lists labAboutLabel phrases (OpenAI / ChatGPT, Anthropic / Claude, Google DeepMind / Gemini, Micron / MU) so schema matches gated `/lab` titles for those head terms | Google | **Done** (this pass) |
 | 143 | `collect` + `news-fast` Publish preserve tip `index.html` / `classic.html` when they lack `OpenAI / ChatGPT` (#142 knowsAbout); `seo-daily` `home-knowsabout-labels-missing` catches news-only overlay wipe | Deploy + Google | **Done** (2026-10-15) |
 | 144 | `/race.html` leaderboard lab links use `labAboutLabel` so ChatGPT / Claude / Gemini appear beside `/lab/*` (same aliases as #121/#140 hubs); `seo-daily` `race-lab-labels-missing` | Google + Trends | **Done** (2026-10-15) |
-| 145 | `collect` + `news-fast` Publish preserve tip `race.html` / `race/index.html` when they list `/lab/openai.html` without `OpenAI / ChatGPT` (#144); stops orphan newsroom force-push from wiping tip overlay | Deploy + Google | **Done** (this pass) |
+| 145 | `collect` + `news-fast` Publish preserve tip `race.html` / `race/index.html` when they list `/lab/openai.html` without `OpenAI / ChatGPT` (#144); stops orphan newsroom force-push from wiping tip overlay | Deploy + Google | **Done** (2026-10-15) |
+| 146 | News-sitemap `keywordsFor` adds `MU` when Micron is named (entities or title/summary) so Google News keywords match labAboutLabel / Trends #137 without a bare `MU` lab needle | Google News + Trends | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

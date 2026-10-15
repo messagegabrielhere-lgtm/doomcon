@@ -90,6 +90,12 @@ export function keywordsFor(item) {
     const re = new RegExp(`(?:^|[^A-Za-z0-9])${lab.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`, 'i');
     if (re.test(hay)) named.push(lab);
   }
+  // FINDABILITY #146 — Micron stories also carry the MU ticker (Trends #137)
+  // so Google News keywords match the labAboutLabel head term without a bare
+  // "MU" lab needle that would false-match unrelated two-letter tokens.
+  if (named.some((n) => /^Micron$/i.test(n)) || /\bMicron\b/i.test(hay)) {
+    named.push('MU');
+  }
   const topics = [];
   for (const topic of TOPIC_DEFS) {
     if (itemMatchesTag(item, topic)) topics.push(topic.name);
