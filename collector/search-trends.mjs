@@ -39,6 +39,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #162 — “openai lawsuit” / FTC / state-suit Trends → gated lab
   // (story counts of scored coverage only; not legal advice).
   { id: 'openai-lawsuit', label: 'OpenAI lawsuit / FTC', re: /\bopenai\b.{0,40}\b(?:lawsuit|lawsuits|sued|sues|suing|ftc|probe|probes)\b|\b(?:lawsuit|lawsuits|ftc|probe|probes)\b.{0,40}\bopenai\b|\bstates?\s+sue(?:s|d)?\s+openai\b|\bchatgpt\b.{0,40}\b(?:lawsuit|lawsuits|sued|sues)\b/i, path: '/lab/openai.html' },
+  // FINDABILITY #181 — OpenAI / ChatGPT outage / status / degradation Trends → gated lab
+  // (story counts only; not a model review or uptime SLA).
+  { id: 'openai-outage', label: 'OpenAI outage', re: /\bopenai\b.{0,40}\b(?:outage|status|degradation|downtime|unavailable|limited\s+availability)\b|\b(?:outage|status|degradation|downtime)\b.{0,40}\bopenai\b|\bchatgpt\b.{0,40}\b(?:outage|down|status|degradation|unavailable)\b/i, path: '/lab/openai.html' },
   { id: 'claude', label: 'Claude', re: /\bclaude\b|\banthropic\b/i, path: '/lab/anthropic.html' },
   // FINDABILITY #163 — “anthropic ipo” / FTC probe Trends → gated Claude lab
   // (story counts only; not IPO advice or legal advice).

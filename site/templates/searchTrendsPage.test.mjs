@@ -65,6 +65,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /DeepSeek outage → \/lab\/deepseek\.html/);
   // FINDABILITY #180 — Mistral / Timestral route to gated Mistral lab.
   assert.match(html, /Mistral \/ Timestral → \/lab\/mistral\.html/);
+  // FINDABILITY #181 — OpenAI outage route to gated OpenAI lab.
+  assert.match(html, /OpenAI outage → \/lab\/openai\.html/);
   assert.match(html, /not investment advice/);
   assert.match(html, /not credit analysis/);
 });

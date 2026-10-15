@@ -510,6 +510,11 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch OpenAI lawsuits and FTC probes?`,
       `${brand.NAME} scores press that names OpenAI / ChatGPT. When state lawsuits, FTC probes, or ChatGPT safety suits dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not legal advice, not a case forecast, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #181 — OpenAI / ChatGPT outage / status / degradation tape → gated lab.
+    faq.push([
+      `Why does ${brand.NAME} watch OpenAI and ChatGPT outages?`,
+      `${brand.NAME} scores press that names OpenAI / ChatGPT. When OpenAI status, ChatGPT outage, feature degradation, or limited-availability headlines dominate the tape — or spike in Google Search Trends — this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not an uptime SLA, and not a doom score. Live incident boards also sit on ${ctx.url('/status.html')}. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #163 — Anthropic IPO / FTC probe tape → gated Claude lab.
   if (player.id === 'anthropic') {
