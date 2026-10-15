@@ -76,6 +76,9 @@ jobs:
           restore_dir verify.html verify
           restore_dir free-tools.html free-tools
           restore_dir ai-prediction-markets.html ai-prediction-markets
+          # FINDABILITY #129 — unhyphenated /pdoom typed guess.
+          restore_one p-doom.html pdoom.html
+          restore_dir p-doom.html pdoom
           if [ "$restored" -ne 1 ]; then
             echo "all vs/trends/dir aliases present — nothing to publish"
             exit 0
@@ -85,8 +88,9 @@ jobs:
           git add vs/doom.html vs/skynet.html vs/takeoff.html \
             trends.html trends/index.html search-trends/index.html \
             verify/index.html free-tools/index.html ai-prediction-markets/index.html \
+            pdoom.html pdoom/index.html \
             2>/dev/null || true
-          git commit -q -m "guard: restore tip aliases (FINDABILITY #117/#124) — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git commit -q -m "guard: restore tip aliases (FINDABILITY #117/#124/#129) — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           for attempt in 1 2 3; do
             if git push -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages; then
               echo "published alias restore"

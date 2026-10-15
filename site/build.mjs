@@ -1855,7 +1855,12 @@ async function main() {
     written.push(await write(args.out, 'api/bets.json', JSON.stringify(ctx.bets, null, 2) + '\n'));
   }
   written.push(await write(args.out, 'brand.html', infoPages.brandPage(ctx)));
-  written.push(await write(args.out, 'p-doom.html', infoPages.pdoom(ctx)));
+  const pdoomHtml = infoPages.pdoom(ctx);
+  written.push(await write(args.out, 'p-doom.html', pdoomHtml));
+  // FINDABILITY #129 — typed /pdoom guess (rival brand spelling, no hyphen)
+  // must not 404 while /p-doom.html is live. Same body; canonical stays on
+  // /p-doom.html. Out of sitemap like vs/trends short aliases.
+  written.push(await write(args.out, 'pdoom.html', pdoomHtml));
   written.push(await write(args.out, 'ai-doomsday-clock.html', infoPages.aiClock(ctx)));
   // IndexNow: the key file a search engine fetches to confirm that URL
   // submissions for this site come from this site. The key is public by design.
@@ -2024,13 +2029,14 @@ async function main() {
       'watts', 'map', 'world', 'leaders', 'flock', 'exploits', 'jobs', 'medicine',
       'about', 'classic', 'embed', 'guide', 'library', 'press', 'brand', 'desk',
       'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
-      'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
+      'p-doom', 'pdoom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
       'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'vs', 'guides',
       'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
       'pillars', 'sources',
       // FINDABILITY #124 — Outrank landings + Search Trends: hand-typed
       // /verify/ /free-tools/ /search-trends/ /trends/ were 404 while .html worked.
+      // FINDABILITY #129 — /pdoom/ directory for the unhyphenated typed guess.
       'verify', 'free-tools', 'search-trends', 'ai-prediction-markets', 'trends',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),

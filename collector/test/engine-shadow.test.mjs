@@ -405,6 +405,22 @@ test('build emits /trends.html alias + directory indexes (FINDABILITY #124)', ()
   assert.match(src, /'verify', 'free-tools', 'search-trends', 'ai-prediction-markets', 'trends'/);
 });
 
+test('build emits /pdoom.html typed-guess alias (FINDABILITY #129)', () => {
+  const src = readFileSync(join(ROOT, 'site', 'build.mjs'), 'utf8');
+  assert.match(src, /FINDABILITY #129/);
+  assert.match(src, /pdoom\.html/);
+  assert.match(src, /'p-doom', 'pdoom'/);
+  const guard = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
+  assert.match(guard, /FINDABILITY #129/);
+  assert.match(guard, /restore_one p-doom\.html pdoom\.html/);
+  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(newsFast, /FINDABILITY #129/);
+  assert.match(newsFast, /pdoom\.html/);
+  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const copies = collect.match(/cp -a \.pages\/p-doom\.html \.pages\/pdoom\.html/g) || [];
+  assert.ok(copies.length >= 2, `expected pdoom restore on both Publish paths, got ${copies.length}`);
+});
+
 test('news-only skips full sitemap and caps live day hubs (FINDABILITY #106)', () => {
   // tip c4993bcf still saw PUBLISHED=0: archive-backed day hubs + full sitemap
   // kept --only news over the news-fast budget even after #103.

@@ -345,6 +345,12 @@ jobs:
                   mkdir -p "$root/ai-prediction-markets"
                   cp -a "$root/ai-prediction-markets.html" "$root/ai-prediction-markets/index.html"
                 fi
+                # FINDABILITY #129 — unhyphenated /pdoom typed guess.
+                if [ -f "$root/p-doom.html" ]; then
+                  cp -a "$root/p-doom.html" "$root/pdoom.html"
+                  mkdir -p "$root/pdoom"
+                  cp -a "$root/p-doom.html" "$root/pdoom/index.html"
+                fi
               }
               # FINDABILITY #128 — orphan tar of a stale seeded public/ can wipe
               # #126/#127 conquest FAQ hubs. Restore tip copies when needles missing.

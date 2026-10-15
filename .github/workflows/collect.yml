@@ -601,6 +601,12 @@ jobs:
           if [ -f .pages/verify.html ]; then mkdir -p .pages/verify && cp -a .pages/verify.html .pages/verify/index.html; fi
           if [ -f .pages/free-tools.html ]; then mkdir -p .pages/free-tools && cp -a .pages/free-tools.html .pages/free-tools/index.html; fi
           if [ -f .pages/ai-prediction-markets.html ]; then mkdir -p .pages/ai-prediction-markets && cp -a .pages/ai-prediction-markets.html .pages/ai-prediction-markets/index.html; fi
+          # FINDABILITY #129 — unhyphenated /pdoom typed guess.
+          if [ -f .pages/p-doom.html ]; then
+            cp -a .pages/p-doom.html .pages/pdoom.html
+            mkdir -p .pages/pdoom
+            cp -a .pages/p-doom.html .pages/pdoom/index.html
+          fi
           # FINDABILITY #128 — restore tip conquest FAQ hubs when needles missing.
           if [ -f "$PRESERVE_FAQ/compare.html" ] \
             && ! grep -q 'How do you compare AI doom indexes' .pages/compare.html 2>/dev/null; then
@@ -1261,6 +1267,12 @@ jobs:
           if [ -f .pages/verify.html ]; then mkdir -p .pages/verify && cp -a .pages/verify.html .pages/verify/index.html; fi
           if [ -f .pages/free-tools.html ]; then mkdir -p .pages/free-tools && cp -a .pages/free-tools.html .pages/free-tools/index.html; fi
           if [ -f .pages/ai-prediction-markets.html ]; then mkdir -p .pages/ai-prediction-markets && cp -a .pages/ai-prediction-markets.html .pages/ai-prediction-markets/index.html; fi
+          # FINDABILITY #129 — unhyphenated /pdoom typed guess.
+          if [ -f .pages/p-doom.html ]; then
+            cp -a .pages/p-doom.html .pages/pdoom.html
+            mkdir -p .pages/pdoom
+            cp -a .pages/p-doom.html .pages/pdoom/index.html
+          fi
           # FINDABILITY #128 — restore tip conquest FAQ hubs when needles missing.
           if [ -f "$PRESERVE_FAQ/compare.html" ] \
             && ! grep -q 'How do you compare AI doom indexes' .pages/compare.html 2>/dev/null; then
