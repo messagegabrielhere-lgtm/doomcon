@@ -476,6 +476,26 @@ export function hasPdoomShortAlias(txt, alias = PDOOM_SHORT_ALIAS) {
 }
 
 /**
+ * Root rival brand aliases (FINDABILITY #131) that agent maps must list
+ * after #132. Canonical on matching /vs/* primaries.
+ */
+export const ROOT_RIVAL_AGENT_ALIASES = Object.freeze([
+  '/doombench.html',
+  '/skynet-countdown.html',
+  '/pizzint.html',
+  '/takeofftracker.html',
+]);
+
+/**
+ * True when an agent-map body lists every root rival brand alias.
+ * Wipe gap is `agents-root-rivals-missing` (FINDABILITY #132).
+ */
+export function hasRootRivalAliases(txt, aliases = ROOT_RIVAL_AGENT_ALIASES) {
+  const body = String(txt || '');
+  return aliases.every((p) => body.includes(p));
+}
+
+/**
  * Conquest FAQ needles that must stay on tip after #126/#127 (FINDABILITY #128).
  * Orphan news-fast tars can wipe overlay hubs back to a stale seed.
  */
@@ -866,6 +886,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
+  if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
+    const which = [
+      ours.agents_root_rivals === false ? 'agents.md' : null,
+      ours.llms_root_rivals === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-root-rivals-missing',
+      severity: 'medium',
+      text: `${which} missing root rival aliases (/doombench.html /skynet-countdown.html /pizzint.html /takeofftracker.html) (FINDABILITY #131/#132) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #132`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1046,6 +1079,9 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #130 — agent maps must list /pdoom.html after #129 overlay.
     row.agents_pdoom_alias = agentsMd?.ok ? hasPdoomShortAlias(agentsMd.value) : false;
     row.llms_pdoom_alias = llms?.ok ? hasPdoomShortAlias(llmsBody) : false;
+    // FINDABILITY #132 — agent maps must list root rival aliases after #131.
+    row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
+    row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
     // FINDABILITY #123 — lab title must keep product head-term aliases.
     row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
     // FINDABILITY #128 — compare/alternatives must keep #126/#127 FAQ needles.
@@ -1185,6 +1221,11 @@ export function formatMarkdown(report) {
       const lm = ours.llms_pdoom_alias == null ? '—' : (ours.llms_pdoom_alias ? 'yes' : 'NO');
       lines.push(`- Agent-map /pdoom short alias (#129/#130): agents.md **${ag}** · llms.txt **${lm}**`);
     }
+    if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
+      const ag = ours.agents_root_rivals == null ? '—' : (ours.agents_root_rivals ? 'yes' : 'NO');
+      const lm = ours.llms_root_rivals == null ? '—' : (ours.llms_root_rivals ? 'yes' : 'NO');
+      lines.push(`- Agent-map root rival aliases (#131/#132): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
         lines.push('- Lab head-term titles (#121/#123): **ok** (Gemini / ChatGPT / Claude in lab `<title>`)');
@@ -1213,6 +1254,7 @@ export function formatMarkdown(report) {
       || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null
       || ours.agents_trends_alias != null || ours.llms_trends_alias != null
       || ours.agents_pdoom_alias != null || ours.llms_pdoom_alias != null
+      || ours.agents_root_rivals != null || ours.llms_root_rivals != null
       || ours.lab_head_alias_lags != null
       || ours.conquest_faq_lags != null)) {
       lines.push('');
@@ -1436,6 +1478,25 @@ function selftest() {
   });
   if (!pdoomGaps.some((g) => g.id === 'agents-pdoom-alias-missing')) {
     throw new Error('agents-pdoom-alias-missing gap');
+  }
+  if (hasRootRivalAliases(ROOT_RIVAL_AGENT_ALIASES.join('\n')) !== true) {
+    throw new Error('hasRootRivalAliases true');
+  }
+  if (hasRootRivalAliases('/doombench.html\n/pizzint.html') !== false) {
+    throw new Error('hasRootRivalAliases false');
+  }
+  const rootGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      agents_root_rivals: false, llms_root_rivals: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!rootGaps.some((g) => g.id === 'agents-root-rivals-missing')) {
+    throw new Error('agents-root-rivals-missing gap');
   }
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {
