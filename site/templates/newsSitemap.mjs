@@ -79,6 +79,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #172 — Trends product aliases as named needles when titles use
   // the short form alone (labAboutLabel Muse / Apple Intelligence / Copilot).
   'Muse', 'Copilot',
+  // FINDABILITY #173 — Grok needle when titles use the product alone.
+  'Grok',
 ]);
 
 /**
@@ -103,6 +105,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bMeta(?:\s+AI)?\b/i, name: /^Meta(?:\s+AI)?$/i, alias: 'Muse' },
   { re: /\bApple\b/i, name: /^Apple$/i, alias: 'Apple Intelligence' },
   { re: /\bMicrosoft\b/i, name: /^Microsoft$/i, alias: 'Copilot' },
+  // FINDABILITY #173 — xAI → Grok (labAboutLabel).
+  { re: /\bxAI\b/i, name: /^xAI$/i, alias: 'Grok' },
 ]);
 
 /**

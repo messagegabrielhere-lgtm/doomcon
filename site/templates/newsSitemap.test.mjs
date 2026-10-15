@@ -319,6 +319,28 @@ test('news sitemap keywords add Muse / Apple Intelligence / Copilot when parent 
   assert.doesNotMatch(d, /(^|,\s*)Copilot(,|$)/);
 });
 
+test('news sitemap keywords add Grok when xAI is named (FINDABILITY #173)', () => {
+  const a = keywordsFor({
+    title: 'xAI expands API access for developers',
+    summary: 'No product codename in the headline.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['xAI'],
+  });
+  assert.match(a, /\bxAI\b/);
+  assert.match(a, /\bGrok\b/);
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No frontier lab named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)Grok(,|$)/);
+});
+
 test('news sitemap keywords add neocloud / Iris Energy when parent named (FINDABILITY #159)', () => {
   const a = keywordsFor({
     title: "CoreWeave's slump puts spotlight on debt behind AI boom",

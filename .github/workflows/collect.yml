@@ -719,9 +719,10 @@ jobs:
                 || ! grep -qF 'Amazon Bee' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Meta Muse' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Apple Intelligence' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Microsoft Copilot' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'Microsoft Copilot' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'Grok / xAI' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171)"
+              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -862,6 +863,15 @@ jobs:
             cp -a "$PRESERVE_FAQ/lab/microsoft.html" .pages/lab/microsoft.html
             echo "restored lab/microsoft.html Microsoft Copilot FAQ (#171)"
           fi
+
+          # FINDABILITY #173 — restore tip /lab/xai.html when Grok / xAI FAQ
+          # is missing after mid-merge / orphan Publish on tip < #173.
+          if [ -f "$PRESERVE_FAQ/lab/xai.html" ] \
+            && ! grep -qF 'Why does SIREN watch Grok and xAI?' ".pages/lab/xai.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/xai.html" .pages/lab/xai.html
+            echo "restored lab/xai.html Grok / xAI FAQ (#173)"
+          fi
           # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
           # Trends FAQ is missing after mid-merge / orphan Publish on tip < #157.
           if [ -f "$PRESERVE_FAQ/tags/neoclouds.html" ] \
@@ -880,13 +890,14 @@ jobs:
               || ! grep -qF 'Amazon Bee / AI wearables → /lab/amazon.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Meta Muse / open-weight AI → /lab/meta.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Apple Intelligence → /lab/apple.html' ".pages/search-trends.html" 2>/dev/null \
-              || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null; }; then
+              || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null \
+              || ! grep -qF 'Grok / xAI → /lab/xai.html' ".pages/search-trends.html" 2>/dev/null; }; then
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends.html
             mkdir -p .pages/trends .pages/search-trends
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171)"
+            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages
@@ -1636,9 +1647,10 @@ jobs:
                 || ! grep -qF 'Amazon Bee' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Meta Muse' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Apple Intelligence' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Microsoft Copilot' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'Microsoft Copilot' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'Grok / xAI' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171)"
+              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -1779,6 +1791,15 @@ jobs:
             cp -a "$PRESERVE_FAQ/lab/microsoft.html" .pages/lab/microsoft.html
             echo "restored lab/microsoft.html Microsoft Copilot FAQ (#171)"
           fi
+
+          # FINDABILITY #173 — restore tip /lab/xai.html when Grok / xAI FAQ
+          # is missing after mid-merge / orphan Publish on tip < #173.
+          if [ -f "$PRESERVE_FAQ/lab/xai.html" ] \
+            && ! grep -qF 'Why does SIREN watch Grok and xAI?' ".pages/lab/xai.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/xai.html" .pages/lab/xai.html
+            echo "restored lab/xai.html Grok / xAI FAQ (#173)"
+          fi
           # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
           # Trends FAQ is missing after mid-merge / orphan Publish on tip < #157.
           if [ -f "$PRESERVE_FAQ/tags/neoclouds.html" ] \
@@ -1797,13 +1818,14 @@ jobs:
               || ! grep -qF 'Amazon Bee / AI wearables → /lab/amazon.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Meta Muse / open-weight AI → /lab/meta.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Apple Intelligence → /lab/apple.html' ".pages/search-trends.html" 2>/dev/null \
-              || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null; }; then
+              || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null \
+              || ! grep -qF 'Grok / xAI → /lab/xai.html' ".pages/search-trends.html" 2>/dev/null; }; then
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends.html
             mkdir -p .pages/trends .pages/search-trends
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171)"
+            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages
