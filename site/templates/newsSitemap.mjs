@@ -138,7 +138,11 @@ export function render(ctx) {
   </url>`;
   }).join('\n');
 
+  // Tip comments for crawlers that open the news sitemap first (FINDABILITY #84).
   return `<?xml version="1.0" encoding="UTF-8"?>
+<!-- ${brand.NAME} Google News window (48h, cap ${NEWS_SITEMAP_CAP}). Not a doom forecast. -->
+<!-- Full sitemap: ${ctx.url('/sitemap.xml')} · Free tools: ${ctx.url('/free-tools.html')} · Verify: ${ctx.url('/verify.html')} -->
+<!-- Search Trends (watched, not scored): ${ctx.url('/search-trends.html')} · Agents: ${ctx.url('/llms.txt')} -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
 ${body}

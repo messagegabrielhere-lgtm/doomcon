@@ -14,6 +14,7 @@ import { sitemapEntries as outletEntries } from './outletPages.mjs';
 // what your own site contains.
 
 import { esc } from './_html.mjs';
+import * as brand from '../brand.mjs';
 
 export function render(ctx) {
   const entries = [
@@ -182,7 +183,13 @@ export function render(ctx) {
     <priority>${esc(e.priority)}</priority>
   </url>`).join('\n');
 
+  // XML comments after the declaration — crawlers that open sitemap.xml before
+  // robots.txt still see the Outrank free-tool + news + trends tips
+  // (FINDABILITY #84). Comments are ignored by sitemap parsers.
   return `<?xml version="1.0" encoding="UTF-8"?>
+<!-- ${brand.NAME}: AI activity index (not doom probability). Prefer ${ctx.url('/llms.txt')} for agents. -->
+<!-- Free tools: ${ctx.url('/free-tools.html')} · Verify a reading: ${ctx.url('/verify.html')} -->
+<!-- Google News sitemap: ${ctx.url('/news-sitemap.xml')} · Search Trends: ${ctx.url('/search-trends.html')} -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${body}
 </urlset>
