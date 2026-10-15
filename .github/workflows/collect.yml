@@ -721,7 +721,7 @@ jobs:
                 || ! grep -qF 'Apple Intelligence' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Microsoft Copilot' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Grok / xAI' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Gemini / Gemma' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'Gemini / Gemma / Argon' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Samsung / AI memory' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Character.ai bankruptcy' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Alibaba open-weight' ".pages/$map" 2>/dev/null \
@@ -886,13 +886,13 @@ jobs:
             echo "restored lab/xai.html Grok / xAI FAQ (#173)"
           fi
 
-          # FINDABILITY #174 — restore tip /lab/google-deepmind.html when Gemini / Gemma FAQ
+          # FINDABILITY #174 — restore tip /lab/google-deepmind.html when Gemini / Gemma / Argon FAQ
           # is missing after mid-merge / orphan Publish on tip < #174.
           if [ -f "$PRESERVE_FAQ/lab/google-deepmind.html" ] \
-            && ! grep -qF 'Why does SIREN watch Gemini and Gemma?' ".pages/lab/google-deepmind.html" 2>/dev/null; then
+            && ! grep -qF 'Why does SIREN watch Gemini, Gemma, and Argon?' ".pages/lab/google-deepmind.html" 2>/dev/null; then
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/google-deepmind.html" .pages/lab/google-deepmind.html
-            echo "restored lab/google-deepmind.html Gemini / Gemma FAQ (#174)"
+            echo "restored lab/google-deepmind.html Gemini / Gemma / Argon FAQ (#174/#187)"
           fi
 
           # FINDABILITY #175 — restore tip /lab/samsung.html when Samsung / HBM FAQ
@@ -998,7 +998,7 @@ jobs:
               || ! grep -qF 'Apple Intelligence → /lab/apple.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Grok / xAI → /lab/xai.html' ".pages/search-trends.html" 2>/dev/null \
-              || ! grep -qF 'Gemini / Gemma → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
+              || ! grep -qF 'Gemini / Gemma / Argon → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Qwen / Alibaba open models → /lab/qwen.html' ".pages/search-trends.html" 2>/dev/null \
@@ -1767,7 +1767,7 @@ jobs:
                 || ! grep -qF 'Apple Intelligence' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Microsoft Copilot' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Grok / xAI' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Gemini / Gemma' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'Gemini / Gemma / Argon' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Samsung / AI memory' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Character.ai bankruptcy' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Alibaba open-weight' ".pages/$map" 2>/dev/null \
@@ -1932,13 +1932,13 @@ jobs:
             echo "restored lab/xai.html Grok / xAI FAQ (#173)"
           fi
 
-          # FINDABILITY #174 — restore tip /lab/google-deepmind.html when Gemini / Gemma FAQ
+          # FINDABILITY #174 — restore tip /lab/google-deepmind.html when Gemini / Gemma / Argon FAQ
           # is missing after mid-merge / orphan Publish on tip < #174.
           if [ -f "$PRESERVE_FAQ/lab/google-deepmind.html" ] \
-            && ! grep -qF 'Why does SIREN watch Gemini and Gemma?' ".pages/lab/google-deepmind.html" 2>/dev/null; then
+            && ! grep -qF 'Why does SIREN watch Gemini, Gemma, and Argon?' ".pages/lab/google-deepmind.html" 2>/dev/null; then
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/google-deepmind.html" .pages/lab/google-deepmind.html
-            echo "restored lab/google-deepmind.html Gemini / Gemma FAQ (#174)"
+            echo "restored lab/google-deepmind.html Gemini / Gemma / Argon FAQ (#174/#187)"
           fi
 
           # FINDABILITY #175 — restore tip /lab/samsung.html when Samsung / HBM FAQ
@@ -2044,7 +2044,7 @@ jobs:
               || ! grep -qF 'Apple Intelligence → /lab/apple.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Grok / xAI → /lab/xai.html' ".pages/search-trends.html" 2>/dev/null \
-              || ! grep -qF 'Gemini / Gemma → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
+              || ! grep -qF 'Gemini / Gemma / Argon → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Qwen / Alibaba open models → /lab/qwen.html' ".pages/search-trends.html" 2>/dev/null \
