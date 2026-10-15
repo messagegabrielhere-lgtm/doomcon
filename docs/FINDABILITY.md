@@ -342,6 +342,7 @@ context.
 | 109 | News-sitemap `NEWS_KEYWORD_LABS`: add `Kodiak AI` / `Kodiak` so the Cathie Wood / CoreWeave tape keeps the company surface under the 12-cap while Google News is contested | Google News | **Done** (2026-10-15) |
 | 110 | `seo-daily` detects live news-sitemap title↔keywords lag (`news-keywords-lag`) when probe labs (Kodiak AI / MediaTek / Cathie Wood / …) appear in `news:title` but not `news:keywords` — catches CDN/old-tip publishes after #108/#109 | Daily agent + Google News | **Done** (this pass) |
 | 111 | Conquest short alias `/vs/skynet.html` → same body as `/vs/skynet-countdown.html` with canonical on the primary (typed “skynet” guess was 404 while rival head term is live) | Google | **Done** (this pass) |
+| 112 | `news-fast.yml` throttle Pages publishes to ≥5 minutes (`PUBLISH_MIN_GAP`) when newsroom churn is every tick — minute pushes caused duration:0 “Page build failed” streaks so live CDN froze (incl. #111 overlay) | Deploy + Google News | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
