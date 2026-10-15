@@ -356,7 +356,7 @@ jobs:
           fi
           if [ -f public/index.html ]; then
             # FINDABILITY #104 — same 8GB floor as full-pass Build / compliance.
-            if NODE_OPTIONS=--max-old-space-size=8192 timeout 480 node site/build.mjs --only news; then
+            if NODE_OPTIONS=--max-old-space-size=8192 timeout 900 node site/build.mjs --only news; then
               NEWS_ONLY=1
               echo "news-only build ok — skipping card/posts (full index pass owns those)"
             else
@@ -540,7 +540,7 @@ jobs:
             if [ -f public/index.html ]; then
               if GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" \
                 NODE_OPTIONS=--max-old-space-size=8192 \
-                timeout 480 node site/build.mjs --only news; then
+                timeout 900 node site/build.mjs --only news; then
                 PUB_NEWS_ONLY=1
               else
                 echo "::error::publish-time news-only rebuild failed; refusing full wipe"

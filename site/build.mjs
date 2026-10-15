@@ -1540,12 +1540,23 @@ async function main() {
     // on a seeded public/ tree (thousands of HTML files + stamp) blew the 480s
     // news-fast timeout even after #102 item skips; Google News only needs the
     // rolling window, day hubs, crawl tips, and delta item briefs.
-    for (const day of dayPages.indexableDays(ctx)) {
+    // FINDABILITY #106 — only refresh day hubs that appear in the live news
+    // window (newest first, cap 5). indexableDays() also walks the item
+    // archive and can emit dozens of /news/YYYY-MM-DD pages per tick, which
+    // kept news-fast at PUBLISHED=0 even after #103.
+    const liveDaySet = new Set();
+    for (const it of (news && Array.isArray(news.items) ? news.items : [])) {
+      const stamp = it && it.published_at;
+      if (typeof stamp === 'string' && stamp.length >= 10) liveDaySet.add(stamp.slice(0, 10));
+    }
+    const liveDays = dayPages.indexableDays(ctx)
+      .filter((d) => liveDaySet.has(d.day))
+      .slice(0, 5);
+    for (const day of liveDays) {
       written.push(await write(args.out, `news/${day.day}.html`, dayPages.renderDay(ctx, day.day)));
     }
-    // Keep the crawl surfaces in step with the newsroom window (item URLs
-    // change every fast pass; a stale news-sitemap is how Google News goes quiet).
-    written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
+    // FINDABILITY #106 — full sitemap.xml (6k+ locs) stays on the hourly full
+    // pass; news-only keeps the Google News window + robots tips fresh.
     written.push(await write(args.out, 'news-sitemap.xml', newsSitemap.render(ctx)));
     // FINDABILITY #95 — robots tip comments (#79) must not depend on SEO overlays
     // after a newsroom Publish; rewrite with the same tip shape as the full build.
@@ -1560,7 +1571,7 @@ async function main() {
     }
     await writeDirectoryAliases(args.out, [
       'news', 'leaders',
-      ...dayPages.indexableDays(ctx).map((day) => `news/${day.day}`),
+      ...liveDays.map((day) => `news/${day.day}`),
     ], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
     if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
