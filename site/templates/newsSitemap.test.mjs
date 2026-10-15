@@ -250,6 +250,51 @@ test('news sitemap keywords add MU ticker when Micron is named (FINDABILITY #146
   assert.doesNotMatch(b, /(^|,\s*)MU(,|$)/);
 });
 
+test('news sitemap keywords add ChatGPT/Claude/Gemini when parent lab named (FINDABILITY #147)', () => {
+  const a = keywordsFor({
+    title: 'OpenAI raises new round for infrastructure',
+    summary: 'No product name in the headline.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['OpenAI'],
+  });
+  assert.match(a, /\bOpenAI\b/);
+  assert.match(a, /\bChatGPT\b/);
+  const b = keywordsFor({
+    title: 'Anthropic expands compute deals',
+    summary: '',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Anthropic'],
+  });
+  assert.match(b, /\bAnthropic\b/);
+  assert.match(b, /\bClaude\b/);
+  const c = keywordsFor({
+    title: 'Google DeepMind publishes new eval suite',
+    summary: '',
+    pillar: 'capability',
+    kind: 'paper',
+    source: 'arxiv',
+    entities: ['Google DeepMind'],
+  });
+  assert.match(c, /DeepMind/);
+  assert.match(c, /\bGemini\b/);
+  // Unrelated titles must not invent product aliases.
+  const d = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No frontier lab named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(d, /\bChatGPT\b/);
+  assert.doesNotMatch(d, /\bClaude\b/);
+  assert.doesNotMatch(d, /\bGemini\b/);
+});
+
 test('news sitemap keywords include MediaTek / Cathie Wood / ServiceNow (FINDABILITY #108)', () => {
   const a = keywordsFor({
     title: 'ByteDance nears deal to buy MediaTek’s custom AI chips for data centers',
