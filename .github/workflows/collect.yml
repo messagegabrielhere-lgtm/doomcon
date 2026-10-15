@@ -511,8 +511,12 @@ jobs:
         # tripwire (third-party fonts, session replay, undisclosed affiliate
         # links, leaked secrets, private info, banned X automation) reached
         # the built site. Medium findings are reported, not blocking here.
+        # FINDABILITY #101 — seeded public/ from gh-pages is ~full-site sized;
+        # default ~4GB heap OOMs the audit and skips Publish (run 38672483978
+        # exit 134) while fresh news sits on main only.
         env:
           COMPLIANCE_PII_TERMS: ${{ secrets.COMPLIANCE_PII_TERMS }}
+          NODE_OPTIONS: --max-old-space-size=8192
         run: node compliance/audit.mjs --dir public
 
       - name: Publish to gh-pages
@@ -549,7 +553,8 @@ jobs:
               node site/post-sheet.mjs
               node site/engage-sheet.mjs
             fi
-            node compliance/audit.mjs --dir public
+            # FINDABILITY #101 — same heap floor as Compliance gate.
+            NODE_OPTIONS=--max-old-space-size=8192 node compliance/audit.mjs --dir public
           fi
           test -f public/index.html || { echo '::error::public/index.html missing; refusing to publish'; exit 1; }
           SUBJECT="$(node --input-type=module -e '
@@ -1135,8 +1140,11 @@ jobs:
         # tripwire (third-party fonts, session replay, undisclosed affiliate
         # links, leaked secrets, private info, banned X automation) reached
         # the built site. Medium findings are reported, not blocking here.
+        # FINDABILITY #101 — same heap floor as the newsroom gate (seeded or
+        # full public/ can exceed the default ~4GB Node limit).
         env:
           COMPLIANCE_PII_TERMS: ${{ secrets.COMPLIANCE_PII_TERMS }}
+          NODE_OPTIONS: --max-old-space-size=8192
         run: node compliance/audit.mjs --dir public
 
       - name: Publish to gh-pages

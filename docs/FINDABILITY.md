@@ -331,6 +331,7 @@ context.
 | 98 | `news-fast.yml` seeds `public/` from gh-pages before the minute loop so `--only news` does not fall through to a ~44m full wipe on tick 1 (root cause of multi-hour `news-stale` / zero publishes — run 38666831944) | Google News + Deploy | **Done** (2026-10-15) |
 | 99 | `news-fast.yml` never falls back to a full wipe on `--only news` failure: mid-loop re-seed + `timeout 480` news-only, else skip the tick (defense in depth after #98) | Google News + Deploy | **Done** (2026-10-15) |
 | 100 | Collect newsroom: on successful `--only news`, skip `card.mjs` / `posts.mjs` / sheets (hourly full pass owns them); `timeout 480` news-only and refuse unbounded full wipe fallback so Rebuild cannot re-block Google News Publish | Google News + Deploy | **Done** (2026-10-15) |
+| 101 | Collect compliance gates set `NODE_OPTIONS=--max-old-space-size=8192` so audit of seeded/full `public/` does not OOM (~4GB default) and skip Publish (run 38672483978 exit 134 left fresh news on main only) | Deploy + Google News | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 

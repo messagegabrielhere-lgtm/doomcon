@@ -236,6 +236,15 @@ test('collect.yml newsroom skips cards on news-only and refuses full wipe fallba
   assert.doesNotMatch(newsroom[0], /falling back to full build/);
 });
 
+test('collect.yml compliance gates raise Node heap for seeded public/ (FINDABILITY #101)', () => {
+  // Run 38672483978: audit.mjs OOM at ~4GB (exit 134) after news-only seed,
+  // so Publish/IndexNow were skipped while main held fresh news.
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const heaps = [...yml.matchAll(/NODE_OPTIONS:\s*--max-old-space-size=(\d+)/g)].map((m) => Number(m[1]));
+  assert.ok(heaps.length >= 2, `expected ≥2 compliance heap floors, got ${heaps.length}`);
+  assert.ok(heaps.every((n) => n >= 8192), `heap floors too low: ${heaps}`);
+});
+
 test('news-fast overlay publishes news-sitemap + sitemap + robots (FINDABILITY #96)', () => {
   // Overlay path used to copy api/news.json + news.html but skip the crawl
   // surfaces --only news rewrites — Google News kept reading a stale
