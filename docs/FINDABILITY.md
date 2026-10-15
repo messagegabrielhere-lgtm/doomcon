@@ -56,17 +56,24 @@ There is no separate "AI SEO" track. Ranked for this site:
 
 ### 1.1 Verify Search Console — day zero
 
-Without it, every other move is unverifiable. Operator-only:
+Without it, every other move is unverifiable. Operator-only (also
+`docs/OUTREACH.md` §0):
 
-1. Search Console → Add property → URL-prefix → the Pages URL.
-2. Verify (HTML file upload into `public/` via the build, or DNS if/when the
-   domain moves).
-3. Submit `sitemap.xml`.
-4. Weekly: Coverage (indexed vs excluded), Queries (branded + head terms),
+1. Search Console → Add property → URL-prefix → `https://siren.watch`.
+2. Choose **HTML tag** verification. Copy only the `content` token into the
+   GitHub Actions secret `GOOGLE_SITE_VERIFICATION` (collect.yml already
+   passes it into `site/build.mjs` / `layout.mjs`).
+3. After the next full collect Publish, confirm
+   `<meta name="google-site-verification" …>` on the live home, then click
+   Verify in Search Console.
+4. Submit `https://siren.watch/sitemap.xml` and
+   `https://siren.watch/news-sitemap.xml`.
+5. Weekly: Coverage (indexed vs excluded), Queries (branded + head terms),
    Experience (CWV if any).
 
 Success metric is **indexed pages trending**, not sitemap count
-(`COMPETITIVE.md` Phase 2).
+(`COMPETITIVE.md` Phase 2). Hook shipped (FINDABILITY #8/#80); property still
+**Open** until the secret is set (#11).
 
 ### 1.2 Grow indexable URL count with substance gates
 

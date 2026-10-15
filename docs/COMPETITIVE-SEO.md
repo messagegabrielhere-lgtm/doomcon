@@ -1,11 +1,11 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T08:49Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+**Measured:** 2026-10-15T09:15Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
 live lead **6,692** sitemap URLs / news **200**; tips #79/#84/#87/#90 intact;
-conquest short aliases `/vs/{doom,skynet,takeoff}.html` **200** with agent-map
-lines; news-fast on #117 tip (`PUBLISH_MIN_GAP=600`) after the minute-push
-Pages storm. Companion to `docs/COMPETITIVE.md` (Sept inventory) and
-`docs/FINDABILITY.md` (our playbook).
+conquest short aliases + agent-map lines live; Pages publish gap ~10m after
+#117/#118. Hot trend “antigravity” already routes via Gemini →
+`/lab/google-deepmind.html`. Companion to `docs/COMPETITIVE.md` (Sept inventory)
+and `docs/FINDABILITY.md` (our playbook).
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool
