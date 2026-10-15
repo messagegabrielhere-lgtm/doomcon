@@ -61,6 +61,9 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'x402', 'Coinbase', 'Base', 'YouTube Music', 'Caterpillar',
   // FINDABILITY #78 — google-news-open; live 48h surfaces after stale gh-pages news-sitemap.
   'Claude Code', 'claude-code', 'YouTube',
+  // FINDABILITY #82 — pizzint-news-alive: promote ChatGPT into named labs so the
+  // 12-cap does not bury it under topic tags; Pentagon + EDPB from live 48h titles.
+  'ChatGPT', 'Pentagon', 'EDPB',
 ]);
 
 /**
