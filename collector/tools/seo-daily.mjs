@@ -139,6 +139,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/tsmc.html',
   // FINDABILITY #167 — Amazon Bee / wearable AI Trends FAQ lab.
   '/lab/amazon.html',
+  // FINDABILITY #169 — Meta Muse / open-weight AI Trends FAQ lab.
+  '/lab/meta.html',
   // FINDABILITY #157 — neocloud Trends FAQ tag hub.
   '/tags/neoclouds.html',
   '/pillar/',
@@ -757,10 +759,11 @@ export const TRENDS_ROUTES_FAQ_NEEDLE = 'Where does SIREN send IREN stock, dram 
 export const TRENDS_ROUTES_ASML_NEEDLE = 'ASML / EUV AI chip tools → /lab/asml.html';
 export const TRENDS_ROUTES_TSMC_NEEDLE = 'TSMC / AI foundry → /lab/tsmc.html';
 export const TRENDS_ROUTES_AMAZON_BEE_NEEDLE = 'Amazon Bee / AI wearables → /lab/amazon.html';
+export const TRENDS_ROUTES_META_MUSE_NEEDLE = 'Meta Muse / open-weight AI → /lab/meta.html';
 
 /**
- * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167
- * ASML/TSMC/Amazon Bee destinations (FINDABILITY #166 — newsroom used to keep
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169
+ * ASML/TSMC/Amazon Bee/Meta Muse destinations (FINDABILITY #166 — newsroom used to keep
  * the question while dropping newer answer destinations).
  */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
@@ -768,7 +771,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
   return text.includes(needle)
     && text.includes(TRENDS_ROUTES_ASML_NEEDLE)
     && text.includes(TRENDS_ROUTES_TSMC_NEEDLE)
-    && text.includes(TRENDS_ROUTES_AMAZON_BEE_NEEDLE);
+    && text.includes(TRENDS_ROUTES_AMAZON_BEE_NEEDLE)
+    && text.includes(TRENDS_ROUTES_META_MUSE_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -881,6 +885,24 @@ export function hasAgentsAmazonBee(body, needle = AGENTS_AMAZON_BEE_NEEDLE) {
   return text.includes(needle) && text.includes('/lab/amazon.html');
 }
 
+/** FINDABILITY #169 — Meta Muse / open-weight AI FAQ + agent maps. */
+export const META_MUSE_FAQ_NEEDLE = 'Why does SIREN watch Meta Muse and open-weight AI?';
+export const AGENTS_META_MUSE_NEEDLE = 'Meta Muse';
+
+/** Tip /lab/meta.html must keep the #169 Meta Muse FAQ. */
+export function hasMetaMuseFaq(html, needle = META_MUSE_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Meta Muse / open-weight AI Trends to Meta lab (FINDABILITY #169).
+ * Wipe gap is `agents-meta-muse-missing`.
+ */
+export function hasAgentsMetaMuse(body, needle = AGENTS_META_MUSE_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/meta.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -911,6 +933,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/micron.html', needle: 'MU' },
   // FINDABILITY #161 — NVIDIA / NVDA ticker alias in lab title.
   { path: '/lab/nvidia.html', needle: 'NVDA' },
+  // FINDABILITY #169 — Muse product alias on Meta AI lab title/H1.
+  { path: '/lab/meta.html', needle: 'Muse' },
 ]);
 
 /**
@@ -1444,7 +1468,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee destinations (FINDABILITY #158/#166/#167) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse destinations (FINDABILITY #158/#166/#167/#169) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -1571,6 +1595,27 @@ export function deriveGaps(report) {
       id: 'agents-amazon-bee-missing',
       severity: 'medium',
       text: `${which} missing Amazon Bee → /lab/amazon.html Trends tip (FINDABILITY #167) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #167`,
+    });
+  }
+
+  // FINDABILITY #169 — Meta lab FAQ for Muse / open-weight AI wiped or never landed.
+  if (ours.meta_muse_faq === false) {
+    gaps.push({
+      id: 'meta-muse-faq-missing',
+      severity: 'medium',
+      text: `/lab/meta.html missing Meta Muse / open-weight AI FAQ (FINDABILITY #169) — re-overlay lab/meta.html or wait for full collect Publish on tip ≥ #169`,
+    });
+  }
+  // FINDABILITY #169 — agent maps must route Meta Muse Trends to Meta lab.
+  if (ours.agents_meta_muse === false || ours.llms_meta_muse === false) {
+    const which = [
+      ours.agents_meta_muse === false ? 'agents.md' : null,
+      ours.llms_meta_muse === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-meta-muse-missing',
+      severity: 'medium',
+      text: `${which} missing Meta Muse → /lab/meta.html Trends tip (FINDABILITY #169) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #169`,
     });
   }
 
@@ -1816,6 +1861,11 @@ export function measureSite(site, byUrl) {
     row.amazon_bee_faq = amazonHtml?.ok ? hasAmazonBeeFaq(amazonHtml.value) : false;
     row.agents_amazon_bee = agentsMd?.ok ? hasAgentsAmazonBee(agentsMd.value) : false;
     row.llms_amazon_bee = llms?.ok ? hasAgentsAmazonBee(llmsBody) : false;
+    // FINDABILITY #169 — Meta Muse FAQ + agent maps.
+    const metaHtml = byUrl.get(`${base}/lab/meta.html`);
+    row.meta_muse_faq = metaHtml?.ok ? hasMetaMuseFaq(metaHtml.value) : false;
+    row.agents_meta_muse = agentsMd?.ok ? hasAgentsMetaMuse(agentsMd.value) : false;
+    row.llms_meta_muse = llms?.ok ? hasAgentsMetaMuse(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -2101,6 +2151,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_amazon_bee == null ? '—' : (ours.agents_amazon_bee ? 'yes' : 'NO');
       const lm = ours.llms_amazon_bee == null ? '—' : (ours.llms_amazon_bee ? 'yes' : 'NO');
       lines.push(`- Agent-map Amazon Bee → lab (#167): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.meta_muse_faq != null) {
+      lines.push(
+        `- Meta Muse FAQ (#169): **${ours.meta_muse_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_meta_muse != null || ours.llms_meta_muse != null)) {
+      const ag = ours.agents_meta_muse == null ? '—' : (ours.agents_meta_muse ? 'yes' : 'NO');
+      const lm = ours.llms_meta_muse == null ? '—' : (ours.llms_meta_muse ? 'yes' : 'NO');
+      lines.push(`- Agent-map Meta Muse → lab (#169): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -2869,17 +2929,51 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/amazon.html')) {
     throw new Error('OUR_SURFACES missing /lab/amazon.html');
   }
+  if (hasMetaMuseFaq(META_MUSE_FAQ_NEEDLE) !== true) {
+    throw new Error('hasMetaMuseFaq true');
+  }
+  if (hasMetaMuseFaq('What has SIREN scored about Meta AI?') !== false) {
+    throw new Error('hasMetaMuseFaq false');
+  }
+  if (hasAgentsMetaMuse('Meta Muse → https://siren.watch/lab/meta.html') !== true) {
+    throw new Error('hasAgentsMetaMuse true');
+  }
+  if (hasAgentsMetaMuse('https://siren.watch/lab/meta.html only') !== false) {
+    throw new Error('hasAgentsMetaMuse needs Meta Muse needle');
+  }
+  const metaGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      meta_muse_faq: false,
+      agents_meta_muse: false,
+      llms_meta_muse: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!metaGaps.some((g) => g.id === 'meta-muse-faq-missing')) {
+    throw new Error('meta-muse-faq-missing gap');
+  }
+  if (!metaGaps.some((g) => g.id === 'agents-meta-muse-missing')) {
+    throw new Error('agents-meta-muse-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/meta.html')) {
+    throw new Error('OUR_SURFACES missing /lab/meta.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
     TRENDS_ROUTES_TSMC_NEEDLE,
     TRENDS_ROUTES_AMAZON_BEE_NEEDLE,
+    TRENDS_ROUTES_META_MUSE_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee destinations (#166/#167)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse destinations (#166/#167/#169)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
