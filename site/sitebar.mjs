@@ -343,7 +343,7 @@ function withHeader(html, rel) {
 async function writeNavJs(outDir) {
   const { mkdir } = await import('node:fs/promises');
   await mkdir(path.join(outDir, path.dirname(NAV_JS_PATH)), { recursive: true });
-  await writeFile(path.join(outDir, NAV_JS_PATH), navJs(stampOpts.rooms || [], BASE));
+  await writeFile(path.join(outDir, NAV_JS_PATH), navJs(stampOpts.rooms || [], BASE, stampOpts.whatsNew));
 }
 let stampOpts = {};
 

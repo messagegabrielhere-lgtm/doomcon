@@ -12,6 +12,7 @@
 import { pixelText } from './templates/_pixel.mjs';
 import { SEARCH_CORE_JS } from './searchcore.mjs';
 import { homeCrumbName } from './templates/_seo.mjs';
+import { visitorsModel } from './templates/_visitorsMap.mjs';
 
 export const HEADER_MARK = 'data-siteheader';
 export const NAV_JS_PATH = 'nav/site-nav.js';
@@ -54,6 +55,15 @@ export const WHATS_NEW = [
   ['/dispatch.html', 'px:seismo', 'What public feeds does SIREN Dispatch show?', 'Big quakes and extreme weather within about a minute.'],
   ['/leaders.html', 'px:headline', 'Which AI leaders are on the record this week?', 'Every AI boss’s coverage, refreshed every 15 minutes.'],
 ];
+
+/**
+ * What's New entries that resolve on this build. `/#readers` only ships when
+ * the homepage visitors map can render (GoatCounter data + world outline).
+ */
+export function whatsNewFor(ctx) {
+  const readersOk = Boolean(visitorsModel(ctx && ctx.visitors, ctx && ctx.worldOutline));
+  return WHATS_NEW.filter(([href]) => href !== '/#readers' || readersOk);
+}
 
 const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const imgOf = (base, n) => (String(n).startsWith('px:') ? `${base}/img/px-${String(n).slice(3)}.svg` : `${base}/img/art-${n}.webp`);
@@ -279,8 +289,8 @@ ${pick.length ? `<p class="sh-rel__h">Related rooms · ${esc(gTitle)}</p>
 }
 
 /** The script: the All rooms dialog (built from the shared list), shortcuts, back to top. */
-export function navJs(rooms, base = '') {
-  const data = JSON.stringify({ base, rooms, primary: PRIMARY, news: WHATS_NEW }).replace(/</g, '\\u003c');
+export function navJs(rooms, base = '', news = WHATS_NEW) {
+  const data = JSON.stringify({ base, rooms, primary: PRIMARY, news }).replace(/</g, '\\u003c');
   return `/* SIREN shared navigation: built by site/siteheader.mjs. */
 ${SEARCH_CORE_JS}
 (function(){

@@ -15,7 +15,7 @@ import { blocks, pixelText, icon } from './_pixel.mjs';
 import { sponsorLine, newsletterBox, tipLink, MZ_CSS, MONETIZE, polymarketUrl } from '../monetize.mjs';
 import { whatMoved, alternativeSignals } from '../extras.mjs';
 import { pulseCandidates } from '../../collector/post-pulse.mjs';
-import { WHATS_NEW } from '../siteheader.mjs';
+import { whatsNewFor } from '../siteheader.mjs';
 import { tempoCard, LIVEFX_CSS, LIVEFX_JS } from './_livefx.mjs';
 import { render as verifyBox, verifyCss } from './_verify.mjs';
 import { renderV2 as deskPicks } from './_deskpicks.mjs';
@@ -719,7 +719,7 @@ ${ticker(items)}
   <summary class="v2-more__sum">See the evidence · full board</summary>
   <div class="v2-more__body">
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${top._brk ? esc(breakingMeta(top._brk)) : `${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}`}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
-  <nav class="v2-whatsnew" aria-label="New on SIREN"><span class="lbl">✦ NEW</span>${WHATS_NEW.map(([h, a, l, b]) => `<a href="${href(h)}" title="${esc(b)}"><img src="${img(a)}" width="22" height="22" alt="" loading="lazy">${esc(l)}</a>`).join('')}</nav>
+  <nav class="v2-whatsnew" aria-label="New on SIREN"><span class="lbl">✦ NEW</span>${whatsNewFor(ctx).map(([h, a, l, b]) => `<a href="${href(h)}" title="${esc(b)}"><img src="${img(a)}" width="22" height="22" alt="" loading="lazy">${esc(l)}</a>`).join('')}</nav>
   ${tempoCard(items, Date.parse(state.generated_at) || Date.now(), href)}
 
 ${deskPicks(ctx, pixelText)}
