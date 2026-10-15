@@ -17,6 +17,9 @@ import {
   CORE_LIVE_SURFACES,
   VS_SHORT_ALIASES,
   hasVsShortAliases,
+  TRENDS_SHORT_ALIAS,
+  hasTrendsShortAlias,
+  hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
   FACET_URL_FLOOR,
@@ -218,6 +221,31 @@ describe('seo-daily surfaces', () => {
     for (const p of ['/verify/', '/free-tools/', '/search-trends/', '/trends.html', '/trends/']) {
       assert.ok(CORE_LIVE_SURFACES.includes(p), `CORE_LIVE missing ${p}`);
     }
+  });
+
+  it('detects missing /trends.html in agent maps + now tips (FINDABILITY #125)', () => {
+    assert.equal(TRENDS_SHORT_ALIAS, '/trends.html');
+    assert.equal(hasTrendsShortAlias('short alias /trends.html'), true);
+    assert.equal(hasTrendsShortAlias('/search-trends.html only'), false);
+    assert.equal(
+      hasNowTips('/free-tools.html /verify.html Search Trends short /trends.html'),
+      true,
+    );
+    assert.equal(
+      hasNowTips('/free-tools.html /verify.html Search Trends /search-trends.html'),
+      false,
+    );
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        agents_trends_alias: false, llms_trends_alias: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'agents-trends-alias-missing'));
   });
 
   it('monitors conquest short aliases as core live + agent-map lines (FINDABILITY #119)', () => {

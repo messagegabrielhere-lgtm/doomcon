@@ -1,12 +1,12 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T09:57Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,692** sitemap URLs / news **200** (pizzint news empty); tips +
-vs short aliases + lab head-term titles (Gemini/ChatGPT/Claude) intact. Daily
-ship: directory indexes + `/trends` short alias (#124) for typed Outrank /
-Search Trends guesses. Web search ranks siren.watch #1 for “SIREN AI activity
-index”. Operator console verify still open: issue #202. Companion to
-`docs/COMPETITIVE.md` (Sept inventory) and `docs/FINDABILITY.md`.
+**Measured:** 2026-10-15T10:13Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,686** sitemap URLs / news **200** (pizzint news empty again);
+tips + vs short aliases + lab head-term titles + `/trends` dir aliases (#124)
+intact. Daily ship: `seo-daily` detects agent-map `/trends.html` lag (#125).
+Web search ranks siren.watch #1 for “SIREN AI activity index”. Operator
+console verify still open: issue #202. Companion to `docs/COMPETITIVE.md`
+(Sept inventory) and `docs/FINDABILITY.md`.
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool
@@ -24,7 +24,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,247** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
 | **pizzint.watch** | **1,018** | flaps **0↔14** (`google-news-open` / `pizzint-news-alive`) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **6,692** live (clears DoomBench 2090 / Skynet 1247 / pizzint 1018); GSC HTML-tag **absent** until operator sets secret (#11) | **200** news-sitemap (hold Google News lane; keyword-rich) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + day hubs + `/verify.html` + `/free-tools.html` + `/vs/{doom,skynet,takeoff}.html` + `/trends.html` (#124 dir indexes) | **yes** (lists short aliases) |
+| **siren.watch** | **6,686** live (clears DoomBench 2090 / Skynet 1247 / pizzint 1018); GSC HTML-tag **absent** until operator sets secret (#11) | **200** news-sitemap (hold Google News lane; keyword-rich) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + `/verify/` + `/free-tools/` + `/vs/{doom,skynet,takeoff}.html` + `/trends.html` (#124/#125) | **yes** (lists short aliases incl. `/trends`) |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
