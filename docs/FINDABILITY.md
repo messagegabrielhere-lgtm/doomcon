@@ -320,6 +320,7 @@ context.
 | 87 | `feed.xml` / `feed-level.xml` tip comments advertise free-tools, verify, news-sitemap, Search Trends (RSS readers that never open robots/llms) | Agents + Google | **Done** (2026-10-15) |
 | 88 | `seo-daily` detects missing RSS tip comments (`feed-tips-missing`) so collect Publish wipes of #87 are caught before the next daily pass | Daily agent | **Done** (2026-10-15) |
 | 89 | `seo-daily` detects missing `robots.txt` tip comments (`robots-tips-missing`) so collect Publish wipes of #79 are caught before the next daily pass | Daily agent | **Done** (2026-10-15) |
+| 90 | `/api/now.txt` + `/now.md` tip lines advertise free-tools, verify, Search Trends (and news-sitemap on now.md) for agents that never open robots/llms | Agents + Google | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 

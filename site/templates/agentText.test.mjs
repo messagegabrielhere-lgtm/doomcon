@@ -68,6 +68,7 @@ test('nowTxt is 3-6 plain lines with level, score, name, UTC time, meaning and U
   assert.match(txt, /Computed 2026-10-09 19:07 UTC/);
   assert.match(txt, /Top mover: Compute & Capital −2\.5 since the previous reading \(19:02 UTC\)/);
   assert.match(txt, /not a probability of harm and not a forecast/);
+  assert.match(txt, /Free tools · verify · Search Trends: https:\/\/siren\.watch\/free-tools\.html · https:\/\/siren\.watch\/verify\.html · https:\/\/siren\.watch\/search-trends\.html/);
   assert.equal(lines[lines.length - 1], 'https://siren.watch/');
   assert.doesNotMatch(txt, /<|undefined|NaN/);
 });
@@ -76,7 +77,8 @@ test('nowTxt omits the mover line when there is no earlier reading, and flags de
   const txt = nowTxt({ state: { ...state, degraded: true }, history: [], url });
   assert.doesNotMatch(txt, /Top mover/);
   assert.match(txt, /degraded/);
-  assert.ok(txt.trimEnd().split('\n').length >= 3);
+  assert.match(txt, /Free tools · verify · Search Trends:/);
+  assert.ok(txt.trimEnd().split('\n').length >= 3 && txt.trimEnd().split('\n').length <= 6);
 });
 
 test('topStories and mostCovered order strictly from the data', () => {
@@ -90,6 +92,7 @@ test('topStories and mostCovered order strictly from the data', () => {
 test('nowMd carries the reading, pillars, stories, leaders, Takeover Watch and citation', () => {
   const md = nowMd({ state, history, news, leaders, siSignals, url });
   assert.match(md, /^# SIREN: current reading/);
+  assert.match(md, /Also: \[free tools\]\(https:\/\/siren\.watch\/free-tools\.html\) · \[verify a reading\]\(https:\/\/siren\.watch\/verify\.html\) · \[Search Trends\]\(https:\/\/siren\.watch\/search-trends\.html\) · \[news sitemap\]\(https:\/\/siren\.watch\/news-sitemap\.xml\)\./);
   assert.match(md, /\| Compute & Capital \| 47\.0 \| 1\/3 \| yes \|/);
   assert.match(md, /\| Markets \| dark \| 0\/4 \| no \|/);
   assert.match(md, /1\. \[Big \\\[model\\\] drop\]\(https:\/\/example\.com\/a_%28b%29\) — The Verge · 2026-10-09 10:00 UTC · score 90\.0/);
