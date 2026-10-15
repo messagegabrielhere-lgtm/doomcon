@@ -52,6 +52,9 @@ export const RIVALS = [
   {
     id: 'skynet-countdown',
     path: '/vs/skynet-countdown.html',
+    // Short typed guess for the rival's head term. Same body as the primary;
+    // layout canonical stays on path (not the alias) so this is not a doorway.
+    aliases: ['/vs/skynet.html'],
     name: 'Skynet Countdown',
     url: 'https://skynetcountdown.com/',
     short: 'AI risk predictor & AGI timeline tracker',
@@ -534,11 +537,22 @@ export function vsRival(ctx, rivalId) {
 
 /** All HTML bodies this module owns. */
 export function renderAll(ctx) {
+  const rivalPages = RIVALS.flatMap((r) => {
+    const html = vsRival(ctx, r.id);
+    const primary = { path: r.path.replace(/^\//, ''), html };
+    // Alias files reuse the primary body so <link rel="canonical"> still
+    // points at rival.path (vsRival passes path: rival.path into layout).
+    const aliases = (r.aliases || []).map((a) => ({
+      path: a.replace(/^\//, ''),
+      html,
+    }));
+    return [primary, ...aliases];
+  });
   return [
     { path: 'compare.html', html: compareHub(ctx) },
     { path: 'alternatives.html', html: alternatives(ctx) },
     { path: 'vs.html', html: vsHub(ctx) },
-    ...RIVALS.map((r) => ({ path: r.path.replace(/^\//, ''), html: vsRival(ctx, r.id) })),
+    ...rivalPages,
   ];
 }
 
