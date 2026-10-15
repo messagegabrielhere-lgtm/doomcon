@@ -49,6 +49,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /Apple Intelligence → \/lab\/apple\.html/);
   // FINDABILITY #171 — Microsoft Copilot route to gated lab.
   assert.match(html, /Microsoft Copilot → \/lab\/microsoft\.html/);
+  // FINDABILITY #173 — Grok / xAI route to gated lab.
+  assert.match(html, /Grok \/ xAI → \/lab\/xai\.html/);
   assert.match(html, /not investment advice/);
   assert.match(html, /not credit analysis/);
 });

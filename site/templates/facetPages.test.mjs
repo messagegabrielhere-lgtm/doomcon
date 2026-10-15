@@ -325,6 +325,23 @@ describe('lab facets', () => {
     assert.match(msHtml, /[Nn]ot a product review/);
     assert.match(msHtml, /search-trends\.html/);
     assert.doesNotMatch(msHtml, /buy Microsoft|price target|must use Copilot/i);
+    // FINDABILITY #173 — xAI / Grok FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES.xai, 'Grok');
+    assert.equal(labAboutLabel({ id: 'xai', name: 'xAI' }), 'xAI / Grok');
+    const xaiHtml = renderLab(ctx, {
+      id: 'xai',
+      name: 'xAI',
+      entityOnly: true,
+      entityName: 'xAI',
+    });
+    assert.match(
+      xaiHtml,
+      /Why does SIREN watch Grok and xAI\?/,
+    );
+    assert.match(xaiHtml, /<title>[^<]*Grok/);
+    assert.match(xaiHtml, /[Nn]ot a model review/);
+    assert.match(xaiHtml, /search-trends\.html/);
+    assert.doesNotMatch(xaiHtml, /buy xAI|price target|must use Grok/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

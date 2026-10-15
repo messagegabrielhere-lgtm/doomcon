@@ -185,6 +185,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #171 — Microsoft Copilot / Azure AI route to Microsoft lab.
   assert.match(txt, /Microsoft Copilot, GitHub Copilot/);
   assert.match(txt, /\/lab\/microsoft\.html/);
+  // FINDABILITY #173 — Grok / xAI route to xAI lab.
+  assert.match(txt, /Grok, Grok Voice, xAI/);
+  assert.match(txt, /\/lab\/xai\.html/);
   assert.match(txt, /\/lab\/amazon\.html/);
   // FINDABILITY #157 — neocloud Trends route to Neoclouds tag.
   assert.match(txt, /neocloud or neoclouds Trends/);
@@ -263,6 +266,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #171 — agents.md lists Microsoft lab for Copilot Trends.
   assert.match(md, /Microsoft Copilot Trends/);
   assert.match(md, /\/lab\/microsoft\.html/);
+  // FINDABILITY #173 — agents.md lists xAI lab for Grok Trends.
+  assert.match(md, /Grok \/ xAI Trends/);
+  assert.match(md, /\/lab\/xai\.html/);
   assert.match(md, /\/lab\/amazon\.html/);
   // FINDABILITY #157 — agents.md lists Neoclouds tag for neocloud Trends.
   assert.match(md, /neocloud \/ neoclouds Trends/);
