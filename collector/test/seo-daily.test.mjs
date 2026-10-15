@@ -25,6 +25,9 @@ import {
   hasRootRivalAliases,
   HEAD_TERM_AGENT_ALIASES,
   hasHeadTermAliases,
+  LAB_ABOUT_AGENT_NEEDLE,
+  LAB_ABOUT_AGENT_URL,
+  hasLabAboutLabels,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -322,6 +325,26 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'agents-head-aliases-missing'));
+  });
+
+  it('detects missing labAboutLabel in llms.txt (FINDABILITY #139)', () => {
+    assert.equal(LAB_ABOUT_AGENT_URL, '/lab/openai.html');
+    assert.equal(LAB_ABOUT_AGENT_NEEDLE, 'OpenAI / ChatGPT');
+    assert.equal(hasLabAboutLabels(`${LAB_ABOUT_AGENT_NEEDLE}\n${LAB_ABOUT_AGENT_URL}`), true);
+    assert.equal(hasLabAboutLabels(`What has SIREN scored about OpenAI?\n${LAB_ABOUT_AGENT_URL}`), false);
+    // agents.md has no lab URLs — not a wipe.
+    assert.equal(hasLabAboutLabels('Fetch first\n/api/now.txt'), true);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        llms_lab_about_labels: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'agents-lab-labels-missing'));
   });
 
   it('detects missing /trends.html in agent maps + now tips (FINDABILITY #125)', () => {

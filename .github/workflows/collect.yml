@@ -668,16 +668,20 @@ jobs:
             cp -a "$PRESERVE_FAQ/alternatives.html" .pages/alternatives/index.html
             echo "restored alternatives.html conquest FAQ hub (#128)"
           fi
-          # FINDABILITY #136 — restore tip agent maps when #134 head-term /
-          # #132 root needles are missing (mid-merge collect can ship older maps).
+          # FINDABILITY #136/#139 — restore tip agent maps when #134 head-term /
+          # #132 root needles are missing, or when llms.txt lists /lab/openai.html
+          # without the #138 labAboutLabel (OpenAI / ChatGPT). Mid-merge collect
+          # on tip < #138 would otherwise wipe the #138 overlay.
           for map in agents.md llms.txt; do
             if [ -f "$PRESERVE_FAQ/$map" ] \
               && { ! grep -qF '/ai-doom.html' ".pages/$map" 2>/dev/null \
                 || ! grep -qF '/doomsday-clock.html' ".pages/$map" 2>/dev/null \
                 || ! grep -qF '/doom-index.html' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'root https://siren.watch/doombench.html' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'root https://siren.watch/doombench.html' ".pages/$map" 2>/dev/null \
+                || { grep -qF '/lab/openai.html' ".pages/$map" 2>/dev/null \
+                  && ! grep -qF 'OpenAI / ChatGPT' ".pages/$map" 2>/dev/null; }; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136)"
+              echo "restored $map agent map (#136/#139)"
             fi
           done
           rm -rf "$PRESERVE_FAQ"
@@ -1392,16 +1396,20 @@ jobs:
             cp -a "$PRESERVE_FAQ/alternatives.html" .pages/alternatives/index.html
             echo "restored alternatives.html conquest FAQ hub (#128)"
           fi
-          # FINDABILITY #136 — restore tip agent maps when #134 head-term /
-          # #132 root needles are missing (mid-merge collect can ship older maps).
+          # FINDABILITY #136/#139 — restore tip agent maps when #134 head-term /
+          # #132 root needles are missing, or when llms.txt lists /lab/openai.html
+          # without the #138 labAboutLabel (OpenAI / ChatGPT). Mid-merge collect
+          # on tip < #138 would otherwise wipe the #138 overlay.
           for map in agents.md llms.txt; do
             if [ -f "$PRESERVE_FAQ/$map" ] \
               && { ! grep -qF '/ai-doom.html' ".pages/$map" 2>/dev/null \
                 || ! grep -qF '/doomsday-clock.html' ".pages/$map" 2>/dev/null \
                 || ! grep -qF '/doom-index.html' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'root https://siren.watch/doombench.html' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'root https://siren.watch/doombench.html' ".pages/$map" 2>/dev/null \
+                || { grep -qF '/lab/openai.html' ".pages/$map" 2>/dev/null \
+                  && ! grep -qF 'OpenAI / ChatGPT' ".pages/$map" 2>/dev/null; }; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136)"
+              echo "restored $map agent map (#136/#139)"
             fi
           done
           rm -rf "$PRESERVE_FAQ"
