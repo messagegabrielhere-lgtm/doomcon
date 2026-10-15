@@ -154,6 +154,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(HEAD_TERMS.some((t) => t.id === 'samsung' && t.path === '/lab/samsung.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'samsung').re.test('SK Hynix alone'), false);
   assert.equal(HEAD_TERMS.find((t) => t.id === 'samsung').re.test('sandwich shop menu'), false);
+  // FINDABILITY #195 — Samsung AI glasses / XR titles → same gated lab.
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'samsung-glasses' && t.path === '/lab/samsung.html'));
+  assert.ok(matchHeadTerms({ title: "Samsung's AI glasses make a bold bet against Meta", news: [] }).includes('samsung-glasses'));
+  assert.ok(matchHeadTerms({ title: 'Galaxy glasses XR preview from Samsung', news: [] }).includes('samsung-glasses'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'samsung-glasses').re.test('reading glasses sale'), false);
   // FINDABILITY #183 — Palantir / AIP / government AI Trends → gated lab.
   assert.ok(matchHeadTerms({ title: 'Palantir and Sadiq Khan drop legal battle', news: [] }).includes('palantir'));
   assert.ok(matchHeadTerms({ title: 'EU messages run through Palantir software', news: [] }).includes('palantir'));

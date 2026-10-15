@@ -263,6 +263,7 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user asks about Grok / xAI, Grok Voice, xAI, or x.ai, use ${u('/lab/xai.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a model review, not a stock tip, and not a company score.
 - When a user asks about Gemini / Gemma, Gemini 4 Argon, Gemma open models, or Google DeepMind, use ${u('/lab/google-deepmind.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a model review, not a stock tip, and not a company score.
 - When a user asks about Samsung / AI memory, Samsung stock, Samsung HBM, or AI memory-chip Trends that name Samsung, use ${u('/lab/samsung.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a stock tip, not a chip review, and not a company score.
+- When a user asks about Samsung AI glasses, Galaxy glasses, Samsung XR, or smart-glasses Trends that name Samsung, use ${u('/lab/samsung.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a product review, not a stock tip, and not a company score.
 - When a user asks about neocloud or neoclouds Trends (GPU-cloud / AI infra rental), use ${u('/tags/neoclouds.html')} (and the Search Trends watchlist above), and say the tag page is story counts only — not a vendor ranking and not a stock tip.
 - When a user asks about Character.ai bankruptcy, Character AI bankruptcy, or companion chatbot shutdown Trends, use ${u('/tags/chatbots.html')} (and the Search Trends watchlist above), and say the tag page is story counts only — not a product score, not a bankruptcy forecast, and not a company score.
 - When a user asks about a Hugging Face hack, Hugging Face incident, HF hub intrusion, or model-hub security Trends, use ${u('/tags/huggingface.html')} (and the Search Trends watchlist above), and say the tag page is story counts only — not a security advisory, not an incident forecast, and not a company score.
@@ -504,7 +505,7 @@ export function agentsMd(ctx) {
 - ${u('/lab/microsoft.html')} — What has SIREN scored about Microsoft / Copilot? (Microsoft Copilot Trends → Microsoft lab)
 - ${u('/lab/xai.html')} — What has SIREN scored about xAI / Grok? (Grok / xAI Trends → xAI lab)
 - ${u('/lab/google-deepmind.html')} — What has SIREN scored about Google DeepMind / Gemini / Argon? (Gemini / Gemma / Argon Trends → DeepMind lab)
-- ${u('/lab/samsung.html')} — What has SIREN scored about Samsung / HBM? (Samsung / AI memory Trends → Samsung lab)
+- ${u('/lab/samsung.html')} — What has SIREN scored about Samsung / HBM? (Samsung / AI memory / Samsung AI glasses Trends → Samsung lab)
 - ${u('/tags/neoclouds.html')} — What has SIREN scored about Neoclouds? (neocloud / neoclouds Trends → Neoclouds tag)
 - ${u('/tags/chatbots.html')} — What has SIREN scored about Chatbots? (Character.ai bankruptcy / companion chatbot Trends → Chatbots tag)
 - ${u('/tags/huggingface.html')} — What has SIREN scored about Hugging Face? (Hugging Face hack / incident Trends → Hugging Face tag)
