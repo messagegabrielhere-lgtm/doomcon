@@ -62,7 +62,8 @@ export function labPath(id) {
  * stories (e.g. Gemini under Google DeepMind). Not a synonym doorway farm.
  */
 export const LAB_HEAD_ALIASES = Object.freeze({
-  'google-deepmind': 'Gemini',
+  // FINDABILITY #187 — Argon product code beside Gemini (11+ live Argon headlines).
+  'google-deepmind': 'Gemini / Argon',
   'openai': 'ChatGPT',
   'anthropic': 'Claude',
   // FINDABILITY #137 — ticker people type when Google Trends shows "mu"
@@ -581,10 +582,10 @@ export function renderLab(ctx, player) {
       `${brand.NAME} scores press that names xAI. When Grok, Grok Voice, or xAI model / API headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
-  // FINDABILITY #174 — Gemini / Gemma / Gemini 4 Argon tape → gated DeepMind lab.
+  // FINDABILITY #174/#187 — Gemini / Gemma / Gemini 4 Argon tape → gated DeepMind lab.
   if (player.id === 'google-deepmind') {
     faq.push([
-      `Why does ${brand.NAME} watch Gemini and Gemma?`,
+      `Why does ${brand.NAME} watch Gemini, Gemma, and Argon?`,
       `${brand.NAME} scores press that names Google DeepMind. When Gemini, Gemini 4 Argon, Gemma, or Gemma open-model headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }

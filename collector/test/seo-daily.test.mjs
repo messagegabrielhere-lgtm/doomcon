@@ -951,13 +951,15 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-xai-grok-missing'));
   });
 
-  it('detects Gemini / Gemma FAQ + agent-map lag (FINDABILITY #174)', () => {
+  it('detects Gemini / Gemma / Argon FAQ + agent-map lag (FINDABILITY #174/#187)', () => {
     assert.equal(hasGeminiGemmaFaq(GEMINI_GEMMA_FAQ_NEEDLE), true);
+    assert.equal(hasGeminiGemmaFaq('Why does SIREN watch Gemini and Gemma?'), false);
     assert.equal(hasGeminiGemmaFaq('What has SIREN scored about Google DeepMind?'), false);
     assert.equal(
-      hasAgentsGeminiGemma('Gemini / Gemma → https://siren.watch/lab/google-deepmind.html'),
+      hasAgentsGeminiGemma('Gemini / Gemma / Argon → https://siren.watch/lab/google-deepmind.html'),
       true,
     );
+    assert.equal(hasAgentsGeminiGemma('Gemini / Gemma → https://siren.watch/lab/google-deepmind.html'), false);
     assert.equal(hasAgentsGeminiGemma('https://siren.watch/lab/google-deepmind.html only'), false);
     const gaps = deriveGaps({
       sites: [{
@@ -1382,7 +1384,7 @@ describe('seo-daily surfaces', () => {
     const byUrl = new Map([
       ['https://siren.watch/lab/google-deepmind.html', {
         ok: true,
-        value: '<title>What has SIREN scored about Google DeepMind?</title>',
+        value: '<title>What has SIREN scored about Google DeepMind / Gemini?</title>',
       }],
       ['https://siren.watch/lab/openai.html', {
         ok: true,
@@ -1443,7 +1445,7 @@ describe('seo-daily surfaces', () => {
     ]);
     const lags = labHeadAliasLags(byUrl);
     assert.equal(lags.length, 1);
-    assert.equal(lags[0].needle, 'Gemini');
+    assert.equal(lags[0].needle, 'Argon');
     const gaps = deriveGaps({
       sites: [{
         id: 'siren', name: 'siren.watch', ours: true, ok: true,
