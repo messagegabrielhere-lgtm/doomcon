@@ -242,7 +242,8 @@ jobs:
                   continue
                 fi
               fi
-              if ! timeout 480 node site/build.mjs --only news --quiet; then
+              # FINDABILITY #104 — seeded public/ needs the same 8GB floor as collect.
+              if ! NODE_OPTIONS=--max-old-space-size=8192 timeout 480 node site/build.mjs --only news --quiet; then
                 echo "::warning::news-only build failed or timed out on tick $TICK; skipping full wipe fallback"
                 sleep 30
                 continue

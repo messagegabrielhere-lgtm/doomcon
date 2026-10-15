@@ -334,6 +334,7 @@ context.
 | 101 | Collect compliance gates set `NODE_OPTIONS=--max-old-space-size=8192` so audit of seeded/full `public/` does not OOM (~4GB default) and skip Publish (run 38672483978 exit 134 left fresh news on main only) | Deploy + Google News | **Done** (2026-10-15) |
 | 102 | News-only build: stop rewriting every `/item/*` page when only `state.generated_at` moves (`asOfChanged`) — that blanket rewrite of ~800 items blocked Publish behind minutes of HTML I/O while news-sitemap was already fresh | Google News + Deploy | **Done** (2026-10-15) |
 | 103 | News-only slim lane: rewrite item briefs only on `itemChanged` (no pillar/entity cohort cascade) and skip facet/entity hub HTML (pillar/lab/source/model/tag/kind/outlet/people); keep day hubs + news-sitemap/robots/feed/api so news-fast finishes inside `timeout 480` (tip b9b1fcc1: 6/6 ticks timed out, PUBLISHED=0) | Google News + Deploy | **Done** (2026-10-15) |
+| 104 | Full-pass `Build site` (+ newsroom/news-fast timed builds) set `NODE_OPTIONS=--max-old-space-size=8192` so the item-archive tree does not thrash under the default ~4GB heap and block hourly Publish (run 38676940859 still Building at ~75m) | Deploy + Google News | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 
