@@ -59,6 +59,10 @@ const ALWAYS = Object.freeze([
   '/p-doom.html',
   '/pdoom.html', // short alias; canonical stays on p-doom (FINDABILITY #129)
   '/ai-doomsday-clock.html',
+  '/doomsday-clock.html', // short alias; canonical on ai-doomsday-clock (#133)
+  '/ai-doom.html', // short alias; canonical on guide (#133)
+  '/doom-index.html', // short alias; canonical on compare (#133)
+  '/ai-doom-index.html',
   '/jobs.html',
   '/race.html',
   '/search-trends.html',

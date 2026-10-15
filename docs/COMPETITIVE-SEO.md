@@ -1,12 +1,12 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T11:49Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+**Measured:** 2026-10-15T11:55Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
 live lead **6,684** sitemap URLs / news **200** (pizzint news empty this pass);
 tips + vs/trends/pdoom + root rival aliases + FAQ hubs intact. Daily ships:
-#124–#131 tip durability; **#132** agent maps advertise root rival aliases.
-Branded “SIREN AI activity index” still #1. Operator console verify still open:
-issue #202. Companion to `docs/COMPETITIVE.md` (Sept inventory) and
-`docs/FINDABILITY.md`.
+#124–#132 tip durability; **#133** `/doomsday-clock.html` `/ai-doom.html`
+`/doom-index.html` typed guesses. Branded “SIREN AI activity index” still #1.
+Operator console verify still open: issue #202. Companion to
+`docs/COMPETITIVE.md` (Sept inventory) and `docs/FINDABILITY.md`.
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool

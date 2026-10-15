@@ -1861,7 +1861,11 @@ async function main() {
   // must not 404 while /p-doom.html is live. Same body; canonical stays on
   // /p-doom.html. Out of sitemap like vs/trends short aliases.
   written.push(await write(args.out, 'pdoom.html', pdoomHtml));
-  written.push(await write(args.out, 'ai-doomsday-clock.html', infoPages.aiClock(ctx)));
+  const clockHtml = infoPages.aiClock(ctx);
+  written.push(await write(args.out, 'ai-doomsday-clock.html', clockHtml));
+  // FINDABILITY #133 — typed /doomsday-clock guess must not 404 while the
+  // AI doomsday clock explainer is live. Same body; canonical on primary.
+  written.push(await write(args.out, 'doomsday-clock.html', clockHtml));
   // IndexNow: the key file a search engine fetches to confirm that URL
   // submissions for this site come from this site. The key is public by design.
   written.push(await write(args.out, `${INDEXNOW_KEY}.txt`, INDEXNOW_KEY));
@@ -1870,14 +1874,25 @@ async function main() {
   }
   written.push(await write(args.out, 'library.html', shopPages.library(ctx)));
   written.push(await write(args.out, 'sponsor.html', shopPages.sponsor(ctx)));
-  written.push(await write(args.out, 'guide.html', infoPages.guide(ctx)));
+  const guideHtml = infoPages.guide(ctx);
+  written.push(await write(args.out, 'guide.html', guideHtml));
+  // FINDABILITY #133 — typed /ai-doom guess (search-trends head term → guide).
+  // Same body; canonical stays on /guide.html.
+  written.push(await write(args.out, 'ai-doom.html', guideHtml));
   written.push(await write(args.out, 'guide.md', infoPages.guideMd(ctx)));
   written.push(await write(args.out, 'guides.html', infoPages.guides(ctx)));
   written.push(await write(args.out, 'guides.md', infoPages.guidesMd(ctx)));
   // Competitor conquest landings: intercept DoomBench / Skynet / p(doom)
   // alternative queries without borrowing their doom-probability claims.
-  for (const entry of comparePages.renderAll(ctx)) {
+  const conquestPages = comparePages.renderAll(ctx);
+  for (const entry of conquestPages) {
     written.push(await write(args.out, entry.path, entry.html));
+  }
+  // FINDABILITY #133 — typed “doom index” guesses → compare hub (canonical there).
+  const compareHtml = conquestPages.find((e) => e.path === 'compare.html')?.html;
+  if (compareHtml) {
+    written.push(await write(args.out, 'doom-index.html', compareHtml));
+    written.push(await write(args.out, 'ai-doom-index.html', compareHtml));
   }
   if (deskPage.hasDesk(ctx)) written.push(await write(args.out, 'desk.html', deskPage.render(ctx)));
   if (newsPage.hasNews(ctx)) {
@@ -2029,9 +2044,11 @@ async function main() {
       'watts', 'map', 'world', 'leaders', 'flock', 'exploits', 'jobs', 'medicine',
       'about', 'classic', 'embed', 'guide', 'library', 'press', 'brand', 'desk',
       'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
-      'p-doom', 'pdoom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
+      'p-doom', 'pdoom', 'ai-doomsday-clock', 'doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
+      // FINDABILITY #133 — /ai-doom /doom-index typed guesses.
       'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'vs', 'guides',
+      'ai-doom', 'doom-index', 'ai-doom-index',
       'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
       'pillars', 'sources',
       // FINDABILITY #124 — Outrank landings + Search Trends: hand-typed
