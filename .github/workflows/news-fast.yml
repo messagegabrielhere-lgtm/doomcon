@@ -278,6 +278,17 @@ jobs:
               # Falls back to a full orphan publish if refresh or push fails.
               PUB_OK=0
               PAGES_REMOTE="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+              # FINDABILITY #114 — news-only / orphan trees omit conquest short
+              # aliases (#111/#113). Orphan publish wiped /vs/skynet.html from
+              # tip within minutes. Primaries already carry the right canonical;
+              # re-copy them onto the typed-guess paths before every commit.
+              restore_vs_aliases() {
+                local root="$1"
+                mkdir -p "$root/vs"
+                [ -f "$root/vs/doombench.html" ] && cp -a "$root/vs/doombench.html" "$root/vs/doom.html"
+                [ -f "$root/vs/skynet-countdown.html" ] && cp -a "$root/vs/skynet-countdown.html" "$root/vs/skynet.html"
+                [ -f "$root/vs/takeofftracker.html" ] && cp -a "$root/vs/takeofftracker.html" "$root/vs/takeoff.html"
+              }
               if [ -d .pages/.git ]; then
                 if ! git -C .pages fetch -q origin gh-pages 2>/dev/null \
                   || ! git -C .pages reset -q --hard FETCH_HEAD 2>/dev/null; then
@@ -307,6 +318,7 @@ jobs:
                   if [ -d public/news ]; then rm -rf .pages/news && cp -a public/news .pages/news; fi
                   if [ -d public/item ]; then rm -rf .pages/item && cp -a public/item .pages/item; fi
                 fi
+                restore_vs_aliases .pages
                 git -C .pages config user.name  'github-actions[bot]'
                 git -C .pages config user.email '41898282+github-actions[bot]@users.noreply.github.com'
                 git -C .pages add -A
@@ -324,6 +336,7 @@ jobs:
                 echo '.pages/' > .git/info/exclude.tmp && cat .git/info/exclude >> .git/info/exclude.tmp 2>/dev/null || true
                 mv .git/info/exclude.tmp .git/info/exclude
                 tar cf - -C public . | (cd .pages && tar xf -)
+                restore_vs_aliases .pages
                 git -C .pages init -q
                 git -C .pages checkout -q -b gh-pages
                 git -C .pages config user.name  'github-actions[bot]'

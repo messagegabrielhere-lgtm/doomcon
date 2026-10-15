@@ -313,6 +313,20 @@ test('news-fast throttles Pages publish cadence (FINDABILITY #112)', () => {
   assert.match(yml, /deferring Pages publish/);
 });
 
+test('news-fast restores vs short aliases on publish (FINDABILITY #114)', () => {
+  // Orphan newsroom publish wiped /vs/skynet.html (and #113 aliases) from tip
+  // within minutes because --only news public/ lacks those files.
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(yml, /FINDABILITY #114/);
+  assert.match(yml, /restore_vs_aliases/);
+  assert.match(yml, /vs\/skynet\.html/);
+  assert.match(yml, /vs\/doom\.html/);
+  assert.match(yml, /vs\/takeoff\.html/);
+  // Called on both overlay and orphan paths.
+  const calls = yml.match(/restore_vs_aliases \.pages/g) || [];
+  assert.ok(calls.length >= 2, `expected ≥2 restore_vs_aliases calls, got ${calls.length}`);
+});
+
 test('news-only skips full sitemap and caps live day hubs (FINDABILITY #106)', () => {
   // tip c4993bcf still saw PUBLISHED=0: archive-backed day hubs + full sitemap
   // kept --only news over the news-fast budget even after #103.
