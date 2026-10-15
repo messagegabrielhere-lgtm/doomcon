@@ -375,6 +375,7 @@ context.
 | 135 | `seo-daily` alias probes strip `/vs/<basename>` before `includes` so `/vs/pdoom.html` / `/vs/doombench.html` (etc.) cannot false-green `agents-pdoom-alias-missing` / `agents-root-rivals-missing` after a tip wipe that kept only conquest primaries | Daily agent | **Done** (this pass) |
 | 136 | `collect` + `news-fast` Publish preserve tip `agents.md` / `llms.txt` when #134 head-term (`/ai-doom.html` `/doomsday-clock.html` `/doom-index.html`) or #132 root (`root …/doombench.html`) needles are missing — stops mid-merge collect / news-only overlay from wiping agent-map overlays | Deploy + Agents | **Done** (this pass) |
 | 137 | `LAB_HEAD_ALIASES.micron = MU` + search-trends `HEAD_TERMS` micron → `/lab/micron.html` so Google Trends “mu” spikes with AI memory-chip / Micron headlines route to the existing gated lab (title/H1/FAQ + daily probe); not a synonym doorway | Google + Trends | **Done** (this pass) |
+| 138 | `agents.md` / `llms.txt` lab lines use `labAboutLabel` so #121/#137 aliases (ChatGPT, Gemini, Claude, MU) appear beside `/lab/*` URLs for agent routing | Agents + Google | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
