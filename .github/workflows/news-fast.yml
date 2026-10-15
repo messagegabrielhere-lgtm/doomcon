@@ -465,9 +465,10 @@ jobs:
                       || ! grep -qF 'Microsoft Copilot' "$root/$map" 2>/dev/null \
                       || ! grep -qF 'Grok / xAI' "$root/$map" 2>/dev/null \
                       || ! grep -qF 'Gemini / Gemma' "$root/$map" 2>/dev/null \
-                      || ! grep -qF 'Samsung / AI memory' "$root/$map" 2>/dev/null; }; then
+                      || ! grep -qF 'Samsung / AI memory' "$root/$map" 2>/dev/null \
+                      || ! grep -qF 'Character.ai bankruptcy' "$root/$map" 2>/dev/null; }; then
                     cp -a "$preserve/$map" "$root/$map"
-                    echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175)"
+                    echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176)"
                   fi
                 done
               }
@@ -563,6 +564,17 @@ jobs:
                   echo "restored tags/neoclouds.html neocloud Trends FAQ (#157)"
                 fi
               }
+              # FINDABILITY #176 — restore tip /tags/chatbots.html when Character.ai
+              # bankruptcy FAQ is missing after orphan Publish from tip < #176.
+              restore_character_ai_faq() {
+                local root="$1" preserve="$2"
+                if [ -f "$preserve/tags/chatbots.html" ] \
+                  && ! grep -qF 'Why does SIREN watch Character.ai and AI chatbot bankruptcies?' "$root/tags/chatbots.html" 2>/dev/null; then
+                  mkdir -p "$root/tags"
+                  cp -a "$preserve/tags/chatbots.html" "$root/tags/chatbots.html"
+                  echo "restored tags/chatbots.html Character.ai bankruptcy FAQ (#176)"
+                fi
+              }
               # FINDABILITY #158/#166 — restore tip /search-trends.html (+ aliases)
               # when watchlist routing FAQ is missing, or when ASML/TSMC destinations
               # were dropped from the answer after orphan Publish (quiet firehose
@@ -579,13 +591,14 @@ jobs:
                     || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' "$root/search-trends.html" 2>/dev/null \
                     || ! grep -qF 'Grok / xAI → /lab/xai.html' "$root/search-trends.html" 2>/dev/null \
                     || ! grep -qF 'Gemini / Gemma → /lab/google-deepmind.html' "$root/search-trends.html" 2>/dev/null \
-                    || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' "$root/search-trends.html" 2>/dev/null; }; then
+                    || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' "$root/search-trends.html" 2>/dev/null \
+                    || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' "$root/search-trends.html" 2>/dev/null; }; then
                   cp -a "$preserve/search-trends.html" "$root/search-trends.html"
                   cp -a "$preserve/search-trends.html" "$root/trends.html"
                   mkdir -p "$root/trends" "$root/search-trends"
                   cp -a "$preserve/search-trends.html" "$root/trends/index.html"
                   cp -a "$preserve/search-trends.html" "$root/search-trends/index.html"
-                  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175)"
+                  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176)"
                 fi
               }
               # FINDABILITY #161 — restore tip /lab/nvidia.html when Nvidia / NVDA
@@ -753,7 +766,7 @@ jobs:
                   [ -f ".pages/$map" ] && cp -a ".pages/$map" "$PRESERVE_MAPS/$map"
                 done
                 for hub in race.html race/index.html watts.html watts/index.html \
-                  lab/micron.html lab/coreweave.html lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html tags/neoclouds.html \
+                  lab/micron.html lab/coreweave.html lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html tags/neoclouds.html tags/chatbots.html \
                   search-trends.html; do
                   if [ -f ".pages/$hub" ]; then
                     mkdir -p "$PRESERVE_MAPS/$(dirname "$hub")"
@@ -783,6 +796,7 @@ jobs:
                 restore_micron_dram_faq .pages "$PRESERVE_MAPS"
                 restore_coreweave_stock_faq .pages "$PRESERVE_MAPS"
                 restore_neocloud_faq .pages "$PRESERVE_MAPS"
+                restore_character_ai_faq .pages "$PRESERVE_MAPS"
                 restore_trends_routes_faq .pages "$PRESERVE_MAPS"
                 restore_nvidia_nvda_faq .pages "$PRESERVE_MAPS"
                 restore_openai_lawsuit_faq .pages "$PRESERVE_MAPS"
@@ -818,7 +832,7 @@ jobs:
                   lab/index.html companies.html companies/index.html \
                   index.html classic.html race.html race/index.html \
                   watts.html watts/index.html lab/micron.html lab/coreweave.html \
-                  lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html tags/neoclouds.html search-trends.html; do
+                  lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html tags/neoclouds.html tags/chatbots.html search-trends.html; do
                   if [ -f ".pages/$hub" ]; then
                     mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                     cp -a ".pages/$hub" "$PRESERVE_FAQ/$hub"
@@ -832,7 +846,7 @@ jobs:
                       lab/index.html companies.html companies/index.html \
                       index.html classic.html race.html race/index.html \
                       watts.html watts/index.html lab/micron.html lab/coreweave.html \
-                      lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html tags/neoclouds.html search-trends.html; do
+                      lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html tags/neoclouds.html tags/chatbots.html search-trends.html; do
                       if [ -f ".pages-faq-tip/$hub" ]; then
                         mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                         cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -855,6 +869,7 @@ jobs:
                 restore_micron_dram_faq .pages "$PRESERVE_FAQ"
                 restore_coreweave_stock_faq .pages "$PRESERVE_FAQ"
                 restore_neocloud_faq .pages "$PRESERVE_FAQ"
+                restore_character_ai_faq .pages "$PRESERVE_FAQ"
                 restore_trends_routes_faq .pages "$PRESERVE_FAQ"
                 restore_nvidia_nvda_faq .pages "$PRESERVE_FAQ"
                 restore_openai_lawsuit_faq .pages "$PRESERVE_FAQ"

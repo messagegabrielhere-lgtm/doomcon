@@ -1468,7 +1468,8 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'chatbots',
     name: 'Chatbots',
     description: 'Chatbot product and policy stories scored in the newsroom or archive — coverage counts, not a product score.',
-    match: /\bchatbots?\b/i,
+    // FINDABILITY #176 — Character.ai / Character AI bankruptcy tape shares this hub.
+    match: /\bchatbots?\b|\bcharacter\.ai\b|\bcharacter\s+ai\b/i,
   },
   {
     id: 'liability',
@@ -2007,6 +2008,13 @@ export function renderTag(ctx, id) {
     faq.push([
       `Why does ${brand.NAME} watch neocloud and neoclouds in Google Search Trends?`,
       `${brand.NAME} watches Google’s daily trending RSS for findability. When neocloud or neoclouds spikes with AI GPU-cloud / infra headlines, this tag page is the crawlable answer — story counts only, not a vendor ranking or investment tip. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
+  // FINDABILITY #176 — Character.ai bankruptcy / companion-chatbot Trends → gated tag.
+  if (topic.id === 'chatbots') {
+    faq.push([
+      `Why does ${brand.NAME} watch Character.ai and AI chatbot bankruptcies?`,
+      `${brand.NAME} scores press that names Character.ai / Character AI or chatbots. When Character.ai bankruptcy, companion-chatbot shutdown, or chatbot-product headlines dominate the tape — or spike in Google Search Trends — this tag page is the crawlable answer — scored story counts only. Not a product score, not a bankruptcy forecast, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
   const faqHtml = faq.map(([q, a]) => `

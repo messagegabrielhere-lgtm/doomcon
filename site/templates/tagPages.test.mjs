@@ -2623,6 +2623,29 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'chatbots'), /What has SIREN scored about Chatbots\?/);
     assert.match(renderTag(rich, 'artificial-intelligence'), /not a capability ranking/i);
     assert.match(renderTag(rich, 'chatbots'), /not a product score/i);
+    // FINDABILITY #176 — Character.ai bankruptcy Trends FAQ on gated tag hub.
+    assert.match(
+      renderTag(rich, 'chatbots'),
+      /Why does SIREN watch Character\.ai and AI chatbot bankruptcies\?/,
+    );
+    assert.match(renderTag(rich, 'chatbots'), /search-trends\.html/);
+    assert.match(renderTag(rich, 'chatbots'), /not a bankruptcy forecast/);
+    // Character.ai titles match the expanded chatbots needle.
+    const charRich = {
+      ...rich,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ca1', 'Character.ai Maker Files for Chapter 11 Bankruptcy'),
+          story('ca2', 'Character AI bankruptcy documents show unit economics'),
+          story('ca3', 'Now that Character.AI is going bankrupt, what happens to data'),
+          story('ca4', 'Protect consumer data and preserve AI bots at Character AI'),
+          story('ca5', 'Schools debate classroom rules for chatbots after parent complaints'),
+        ],
+      },
+    };
+    assert.match(renderTag(charRich, 'chatbots'), /Character\.ai Maker Files/);
+    assert.match(renderTag(charRich, 'chatbots'), /Character AI bankruptcy documents/);
     assert.doesNotMatch(renderTag(rich, 'artificial-intelligence'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'chatbots'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'chatbots'), /probability of doom/i);

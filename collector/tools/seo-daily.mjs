@@ -153,6 +153,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/samsung.html',
   // FINDABILITY #157 — neocloud Trends FAQ tag hub.
   '/tags/neoclouds.html',
+  // FINDABILITY #176 — Character.ai bankruptcy FAQ chatbots tag hub.
+  '/tags/chatbots.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -463,6 +465,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'xAI', alias: 'Grok' },
   // FINDABILITY #175 — Samsung → HBM for Google News keywords.
   { lab: 'Samsung', alias: 'HBM' },
+  // FINDABILITY #176 — Character.ai → Chatbots for Google News keywords.
+  { lab: 'Character.ai', alias: 'Chatbots' },
 ]);
 
 /**
@@ -783,9 +787,10 @@ export const TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE = 'Microsoft Copilot → /la
 export const TRENDS_ROUTES_XAI_GROK_NEEDLE = 'Grok / xAI → /lab/xai.html';
 export const TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma → /lab/google-deepmind.html';
 export const TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE = 'Samsung / HBM / AI memory → /lab/samsung.html';
+export const TRENDS_ROUTES_CHARACTER_AI_NEEDLE = 'Character.ai bankruptcy → /tags/chatbots.html';
 
 /**
- * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176
  * destinations (FINDABILITY #166 — newsroom used to keep the question while dropping newer answer destinations).
  */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
@@ -799,7 +804,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE)
     && text.includes(TRENDS_ROUTES_XAI_GROK_NEEDLE)
     && text.includes(TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE)
-    && text.includes(TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE);
+    && text.includes(TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE)
+    && text.includes(TRENDS_ROUTES_CHARACTER_AI_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1018,6 +1024,24 @@ export function hasSamsungHbmFaq(html, needle = SAMSUNG_HBM_FAQ_NEEDLE) {
 export function hasAgentsSamsungHbm(body, needle = AGENTS_SAMSUNG_HBM_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/samsung.html');
+}
+
+/** FINDABILITY #176 — Character.ai bankruptcy FAQ + agent maps on chatbots tag. */
+export const CHARACTER_AI_FAQ_NEEDLE = 'Why does SIREN watch Character.ai and AI chatbot bankruptcies?';
+export const AGENTS_CHARACTER_AI_NEEDLE = 'Character.ai bankruptcy';
+
+/** Tip /tags/chatbots.html must keep the #176 Character.ai FAQ. */
+export function hasCharacterAiFaq(html, needle = CHARACTER_AI_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Character.ai bankruptcy Trends to Chatbots tag (FINDABILITY #176).
+ * Wipe gap is `agents-character-ai-missing`.
+ */
+export function hasAgentsCharacterAi(body, needle = AGENTS_CHARACTER_AI_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/tags/chatbots.html');
 }
 
 /**
@@ -1593,7 +1617,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -1846,6 +1870,27 @@ export function deriveGaps(report) {
       id: 'agents-samsung-hbm-missing',
       severity: 'medium',
       text: `${which} missing Samsung / AI memory → /lab/samsung.html Trends tip (FINDABILITY #175) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #175`,
+    });
+  }
+
+  // FINDABILITY #176 — Chatbots tag FAQ for Character.ai bankruptcy wiped or never landed.
+  if (ours.character_ai_faq === false) {
+    gaps.push({
+      id: 'character-ai-faq-missing',
+      severity: 'medium',
+      text: `/tags/chatbots.html missing Character.ai bankruptcy FAQ (FINDABILITY #176) — re-overlay tags/chatbots.html or wait for full collect Publish on tip ≥ #176`,
+    });
+  }
+  // FINDABILITY #176 — agent maps must route Character.ai bankruptcy Trends to Chatbots tag.
+  if (ours.agents_character_ai === false || ours.llms_character_ai === false) {
+    const which = [
+      ours.agents_character_ai === false ? 'agents.md' : null,
+      ours.llms_character_ai === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-character-ai-missing',
+      severity: 'medium',
+      text: `${which} missing Character.ai bankruptcy → /tags/chatbots.html Trends tip (FINDABILITY #176) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #176`,
     });
   }
 
@@ -2128,6 +2173,11 @@ export function measureSite(site, byUrl) {
     row.neocloud_faq = neoHtml?.ok ? hasNeocloudFaq(neoHtml.value) : false;
     row.agents_neocloud = agentsMd?.ok ? hasAgentsNeocloud(agentsMd.value) : false;
     row.llms_neocloud = llms?.ok ? hasAgentsNeocloud(llmsBody) : false;
+    // FINDABILITY #176 — Chatbots FAQ + agent maps for Character.ai bankruptcy.
+    const chatbotsHtml = byUrl.get(`${base}/tags/chatbots.html`);
+    row.character_ai_faq = chatbotsHtml?.ok ? hasCharacterAiFaq(chatbotsHtml.value) : false;
+    row.agents_character_ai = agentsMd?.ok ? hasAgentsCharacterAi(agentsMd.value) : false;
+    row.llms_character_ai = llms?.ok ? hasAgentsCharacterAi(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -2257,7 +2307,7 @@ export function formatMarkdown(report) {
     }
     if (ours && Array.isArray(ours.news_lab_alias_lags)) {
       if (ours.news_lab_alias_lags.length === 0) {
-        lines.push('- News labAboutLabel aliases (#146–#148/#159/#161/#172/#173): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy / NVDA / Muse / Apple Intelligence / Copilot / Grok / HBM)');
+        lines.push('- News labAboutLabel aliases (#146–#148/#159/#161/#172/#173/#176): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy / NVDA / Muse / Apple Intelligence / Copilot / Grok / HBM / Chatbots)');
       } else {
         const sample = ours.news_lab_alias_lags
           .slice(0, 3)
@@ -2481,6 +2531,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_neocloud == null ? '—' : (ours.agents_neocloud ? 'yes' : 'NO');
       const lm = ours.llms_neocloud == null ? '—' : (ours.llms_neocloud ? 'yes' : 'NO');
       lines.push(`- Agent-map neocloud → tag (#157): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.character_ai_faq != null) {
+      lines.push(
+        `- Character.ai bankruptcy FAQ (#176): **${ours.character_ai_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_character_ai != null || ours.llms_character_ai != null)) {
+      const ag = ours.agents_character_ai == null ? '—' : (ours.agents_character_ai ? 'yes' : 'NO');
+      const lm = ours.llms_character_ai == null ? '—' : (ours.llms_character_ai ? 'yes' : 'NO');
+      lines.push(`- Agent-map Character.ai bankruptcy → tag (#176): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -3432,6 +3492,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/samsung.html')) {
     throw new Error('OUR_SURFACES missing /lab/samsung.html');
   }
+  if (hasCharacterAiFaq(CHARACTER_AI_FAQ_NEEDLE) !== true) {
+    throw new Error('hasCharacterAiFaq true');
+  }
+  if (hasCharacterAiFaq('What has SIREN scored about Chatbots?') !== false) {
+    throw new Error('hasCharacterAiFaq false');
+  }
+  if (hasAgentsCharacterAi('Character.ai bankruptcy → https://siren.watch/tags/chatbots.html') !== true) {
+    throw new Error('hasAgentsCharacterAi true');
+  }
+  if (hasAgentsCharacterAi('https://siren.watch/tags/chatbots.html only') !== false) {
+    throw new Error('hasAgentsCharacterAi needs Character.ai bankruptcy needle');
+  }
+  const charGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      character_ai_faq: false,
+      agents_character_ai: false,
+      llms_character_ai: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!charGaps.some((g) => g.id === 'character-ai-faq-missing')) {
+    throw new Error('character-ai-faq-missing gap');
+  }
+  if (!charGaps.some((g) => g.id === 'agents-character-ai-missing')) {
+    throw new Error('agents-character-ai-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/tags/chatbots.html')) {
+    throw new Error('OUR_SURFACES missing /tags/chatbots.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -3443,12 +3536,13 @@ function selftest() {
     TRENDS_ROUTES_XAI_GROK_NEEDLE,
     TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
     TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
+    TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung destinations (#166/#167/#169/#170/#171/#173/#174/#175)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
@@ -3605,6 +3699,8 @@ function selftest() {
     + '<news:keywords>Apple, Google, AI, SIREN</news:keywords></url>'
     + '<url><news:title>Microsoft expands Azure AI deals</news:title>'
     + '<news:keywords>Microsoft, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Character.ai Maker Files for Chapter 11 Bankruptcy</news:title>'
+    + '<news:keywords>Character.AI, Google, AI, SIREN</news:keywords></url>'
     + '</urlset>';
   const labAliasLags = newsLabAliasKeywordLags(labAliasLagXml);
   if (!labAliasLags.some((r) => r.lab === 'OpenAI' && r.alias === 'ChatGPT')) {
@@ -3628,6 +3724,9 @@ function selftest() {
   if (!labAliasLags.some((r) => r.lab === 'Microsoft' && r.alias === 'Copilot')) {
     throw new Error(`newsLabAliasKeywordLags Microsoft: ${JSON.stringify(labAliasLags)}`);
   }
+  if (!labAliasLags.some((r) => r.lab === 'Character.ai' && r.alias === 'Chatbots')) {
+    throw new Error(`newsLabAliasKeywordLags Character.ai: ${JSON.stringify(labAliasLags)}`);
+  }
   if (labAliasLags.some((r) => r.lab === 'Anthropic')) {
     throw new Error('newsLabAliasKeywordLags should not flag Anthropic when Claude present');
   }
@@ -3642,6 +3741,9 @@ function selftest() {
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Apple Intelligence')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing Apple Intelligence');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Chatbots')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing Chatbots');
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Copilot')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing Copilot');

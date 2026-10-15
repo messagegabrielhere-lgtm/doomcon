@@ -155,6 +155,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
     news: [{ title: 'AI Cloud Stocks Sink as Gartner Warns Most Neoclouds Won\'t Survive' }],
   }).includes('neocloud'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'neocloud' && t.path === '/tags/neoclouds.html'));
+  // FINDABILITY #176 — Character.ai bankruptcy → gated chatbots tag.
+  assert.ok(matchHeadTerms({ title: 'Character.ai Maker Files for Chapter 11 Bankruptcy', news: [] }).includes('character-ai'));
+  assert.ok(matchHeadTerms({ title: 'Character AI bankruptcy documents', news: [] }).includes('character-ai'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'character-ai' && t.path === '/tags/chatbots.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'character-ai').re.test('characterizing high bandwidth flash'), false);
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {
