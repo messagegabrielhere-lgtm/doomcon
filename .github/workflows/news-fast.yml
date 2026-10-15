@@ -528,15 +528,16 @@ jobs:
                   echo "restored lab/micron.html DRAM Trends FAQ (#154)"
                 fi
               }
-              # FINDABILITY #155 — restore tip /lab/coreweave.html when CoreWeave
-              # stock FAQ is missing after orphan Publish from tip < #155.
+              # FINDABILITY #155/#160 — restore tip /lab/coreweave.html when
+              # CoreWeave stock or debt FAQ is missing after orphan Publish.
               restore_coreweave_stock_faq() {
                 local root="$1" preserve="$2"
                 if [ -f "$preserve/lab/coreweave.html" ] \
-                  && ! grep -qF 'Why does SIREN watch CoreWeave stock in Google Search Trends?' "$root/lab/coreweave.html" 2>/dev/null; then
+                  && { ! grep -qF 'Why does SIREN watch CoreWeave stock in Google Search Trends?' "$root/lab/coreweave.html" 2>/dev/null \
+                    || ! grep -qF 'Why does SIREN watch CoreWeave debt and bond yields in Google Search Trends?' "$root/lab/coreweave.html" 2>/dev/null; }; then
                   mkdir -p "$root/lab"
                   cp -a "$preserve/lab/coreweave.html" "$root/lab/coreweave.html"
-                  echo "restored lab/coreweave.html CoreWeave stock FAQ (#155)"
+                  echo "restored lab/coreweave.html CoreWeave stock/debt FAQ (#155/#160)"
                 fi
               }
               # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud

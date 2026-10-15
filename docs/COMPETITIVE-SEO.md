@@ -1,15 +1,14 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T15:35Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+**Measured:** 2026-10-15T15:45Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
 live lead **6,690** sitemap URLs / news **200** (pizzint news flaps **0↔14**);
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
-neocloud→tag); watchlist routing FAQ **#158** keeps those destinations
-crawlable when the firehose is quiet. News keywords **#159** add
-CoreWeave→neocloud and IREN→Iris Energy so Google News matches the tape.
-Publish restore **#156**/**#158** keeps agent tips + Trends HTML across
-collect wipes. Branded “SIREN AI activity index” still #1; head-term SERPs
-still need GSC crawl (issue #202). Companion to `docs/COMPETITIVE.md` and
-`docs/FINDABILITY.md`.
+neocloud→tag); CoreWeave debt / bond FAQ **#160** covers the selloff tape.
+Watchlist routing FAQ **#158** + news keywords **#159** (CoreWeave→neocloud,
+IREN→Iris Energy) keep Google News aligned. Publish restore **#156**/**#158**
+keeps agent tips + Trends HTML across collect wipes. Branded “SIREN AI
+activity index” still #1; head-term SERPs still need GSC crawl (issue #202).
+Companion to `docs/COMPETITIVE.md` and `docs/FINDABILITY.md`.
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool

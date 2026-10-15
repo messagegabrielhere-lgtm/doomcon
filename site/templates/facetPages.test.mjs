@@ -186,6 +186,13 @@ describe('lab facets', () => {
       cwHtml,
       /Why does SIREN watch CoreWeave stock in Google Search Trends\?/,
     );
+    // FINDABILITY #160 — debt / bond-yield FAQ on the same gated lab.
+    assert.match(
+      cwHtml,
+      /Why does SIREN watch CoreWeave debt and bond yields in Google Search Trends\?/,
+    );
+    assert.match(cwHtml, /not credit analysis/);
+    assert.match(cwHtml, /\/tags\/neoclouds\.html/);
     assert.match(cwHtml, /search-trends\.html/);
     assert.match(cwHtml, /not investment advice/);
     assert.doesNotMatch(cwHtml, /buy CoreWeave|sell CoreWeave|price target/i);

@@ -154,9 +154,10 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #154 — dram / Micron stock Trends route to Micron lab.
   assert.match(txt, /Micron stock, MU, dram stock, HBM stock, or memory stock Trends/);
   assert.match(txt, /\/lab\/micron\.html/);
-  // FINDABILITY #155 — CoreWeave stock Trends route to CoreWeave lab.
-  assert.match(txt, /CoreWeave stock or AI neocloud GPU-cloud debt Trends/);
+  // FINDABILITY #155/#160 — CoreWeave stock / debt Trends route to CoreWeave lab.
+  assert.match(txt, /CoreWeave stock, CoreWeave debt, bond yields/);
   assert.match(txt, /\/lab\/coreweave\.html/);
+  assert.match(txt, /not credit analysis/);
   // FINDABILITY #157 — neocloud Trends route to Neoclouds tag.
   assert.match(txt, /neocloud or neoclouds Trends/);
   assert.match(txt, /\/tags\/neoclouds\.html/);
@@ -205,9 +206,11 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #154 — agents.md lists Micron lab for dram stock Trends.
   assert.match(md, /dram stock \/ memory stock Trends/);
   assert.match(md, /\/lab\/micron\.html/);
-  // FINDABILITY #155 — agents.md lists CoreWeave lab for CoreWeave stock Trends.
-  assert.match(md, /CoreWeave stock \/ neocloud Trends/);
+  // FINDABILITY #155/#160 — agents.md lists CoreWeave lab for stock/debt Trends
+  // (neocloud category stays on the Neoclouds tag line — FINDABILITY #157).
+  assert.match(md, /CoreWeave stock \/ debt \/ bond Trends/);
   assert.match(md, /\/lab\/coreweave\.html/);
+  assert.doesNotMatch(md, /CoreWeave stock \/ neocloud Trends/);
   // FINDABILITY #157 — agents.md lists Neoclouds tag for neocloud Trends.
   assert.match(md, /neocloud \/ neoclouds Trends/);
   assert.match(md, /\/tags\/neoclouds\.html/);

@@ -47,9 +47,9 @@ export const HEAD_TERMS = Object.freeze([
   // CoreWeave / AI-cloud power headlines; route to gated /watts.html (substrate
   // instrument), not a company doorway or stock tip.
   { id: 'iren', label: 'IREN / AI cloud power', re: /\biren(?:\s+stock)?\b|\biris\s+energy\b/i, path: '/watts.html' },
-  // FINDABILITY #155 — "coreweave stock" / CoreWeave Trends → gated lab
+  // FINDABILITY #155/#160 — "coreweave stock" / debt / bond Trends → gated lab
   // (story counts only; co-moves with neocloud / AI-cloud debt tape).
-  { id: 'coreweave', label: 'CoreWeave', re: /\bcoreweave(?:\s+stock)?\b/i, path: '/lab/coreweave.html' },
+  { id: 'coreweave', label: 'CoreWeave', re: /\bcoreweave(?:\s+(?:stock|debt|bond|bonds|borrowing))?\b/i, path: '/lab/coreweave.html' },
   // FINDABILITY #157 — "neocloud" / neoclouds Trends (Gartner survival tape)
   // → gated /tags/neoclouds.html (story counts only, not a vendor ranking).
   { id: 'neocloud', label: 'Neoclouds', re: /\bneoclouds?\b/i, path: '/tags/neoclouds.html' },

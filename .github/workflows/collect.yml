@@ -764,13 +764,14 @@ jobs:
             cp -a "$PRESERVE_FAQ/lab/micron.html" .pages/lab/micron.html
             echo "restored lab/micron.html DRAM Trends FAQ (#154)"
           fi
-          # FINDABILITY #155 — restore tip /lab/coreweave.html when CoreWeave
-          # stock FAQ is missing after mid-merge / orphan Publish on tip < #155.
+          # FINDABILITY #155/#160 — restore tip /lab/coreweave.html when CoreWeave
+          # stock or debt FAQ is missing after mid-merge / orphan Publish.
           if [ -f "$PRESERVE_FAQ/lab/coreweave.html" ] \
-            && ! grep -qF 'Why does SIREN watch CoreWeave stock in Google Search Trends?' ".pages/lab/coreweave.html" 2>/dev/null; then
+            && { ! grep -qF 'Why does SIREN watch CoreWeave stock in Google Search Trends?' ".pages/lab/coreweave.html" 2>/dev/null \
+              || ! grep -qF 'Why does SIREN watch CoreWeave debt and bond yields in Google Search Trends?' ".pages/lab/coreweave.html" 2>/dev/null; }; then
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/coreweave.html" .pages/lab/coreweave.html
-            echo "restored lab/coreweave.html CoreWeave stock FAQ (#155)"
+            echo "restored lab/coreweave.html CoreWeave stock/debt FAQ (#155/#160)"
           fi
           # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
           # Trends FAQ is missing after mid-merge / orphan Publish on tip < #157.
@@ -1584,13 +1585,14 @@ jobs:
             cp -a "$PRESERVE_FAQ/lab/micron.html" .pages/lab/micron.html
             echo "restored lab/micron.html DRAM Trends FAQ (#154)"
           fi
-          # FINDABILITY #155 — restore tip /lab/coreweave.html when CoreWeave
-          # stock FAQ is missing after mid-merge / orphan Publish on tip < #155.
+          # FINDABILITY #155/#160 — restore tip /lab/coreweave.html when CoreWeave
+          # stock or debt FAQ is missing after mid-merge / orphan Publish.
           if [ -f "$PRESERVE_FAQ/lab/coreweave.html" ] \
-            && ! grep -qF 'Why does SIREN watch CoreWeave stock in Google Search Trends?' ".pages/lab/coreweave.html" 2>/dev/null; then
+            && { ! grep -qF 'Why does SIREN watch CoreWeave stock in Google Search Trends?' ".pages/lab/coreweave.html" 2>/dev/null \
+              || ! grep -qF 'Why does SIREN watch CoreWeave debt and bond yields in Google Search Trends?' ".pages/lab/coreweave.html" 2>/dev/null; }; then
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/coreweave.html" .pages/lab/coreweave.html
-            echo "restored lab/coreweave.html CoreWeave stock FAQ (#155)"
+            echo "restored lab/coreweave.html CoreWeave stock/debt FAQ (#155/#160)"
           fi
           # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
           # Trends FAQ is missing after mid-merge / orphan Publish on tip < #157.
