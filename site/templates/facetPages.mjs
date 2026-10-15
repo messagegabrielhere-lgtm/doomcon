@@ -85,6 +85,9 @@ export const LAB_HEAD_ALIASES = Object.freeze({
   // FINDABILITY #175 — HBM / AI-memory product people type when Trends / tape
   // shows Samsung memory-chip headlines; stories already score under Samsung.
   'samsung': 'HBM',
+  // FINDABILITY #177 — short product people type when Trends / tape shows Qwen
+  // with Alibaba open-weight headlines; stories already score under Alibaba Qwen.
+  'qwen': 'Qwen',
 });
 
 /** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */
@@ -573,6 +576,13 @@ export function renderLab(ctx, player) {
     faq.push([
       `Why does ${brand.NAME} watch Samsung and AI memory chips?`,
       `${brand.NAME} scores press that names Samsung. When Samsung HBM, AI memory-chip, or Samsung stock headlines dominate the tape — often co-moving with SK Hynix selloff / foundry coverage — or spike in Google Search Trends, this lab page is the crawlable answer — scored story counts only. Not a stock tip, not a chip review, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
+  // FINDABILITY #177 — Alibaba Qwen / Tongyi open-weight tape → gated lab.
+  if (player.id === 'qwen') {
+    faq.push([
+      `Why does ${brand.NAME} watch Qwen and Alibaba open models?`,
+      `${brand.NAME} scores press that names Alibaba Qwen. When Qwen, Tongyi, or Alibaba open-weight model headlines dominate the tape — including Muse Spark / open-weight race co-moves — or spike in Google Search Trends, this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
   const faqHtml = faq.map(([q, a]) => `

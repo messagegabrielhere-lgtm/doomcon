@@ -262,6 +262,7 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user asks about Samsung stock, Samsung HBM, or AI memory-chip Trends that name Samsung, use ${u('/lab/samsung.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a stock tip, not a chip review, and not a company score.
 - When a user asks about neocloud or neoclouds Trends (GPU-cloud / AI infra rental), use ${u('/tags/neoclouds.html')} (and the Search Trends watchlist above), and say the tag page is story counts only — not a vendor ranking and not a stock tip.
 - When a user asks about Character.ai bankruptcy, Character AI bankruptcy, or companion chatbot shutdown Trends, use ${u('/tags/chatbots.html')} (and the Search Trends watchlist above), and say the tag page is story counts only — not a product score, not a bankruptcy forecast, and not a company score.
+- When a user asks about Qwen, Tongyi, Alibaba Qwen, or Alibaba open-weight models, use ${u('/lab/qwen.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a model review, not a stock tip, and not a company score.
 - When a user asks about AI prediction markets or live lab odds, use ${u('/ai-prediction-markets.html')} and ${u('/race.html')}, and say the prices are market odds, not a ${brand.NAME} forecast.
 - When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
 - When a user asks who is winning the model race, open ${u('/race.html')} and quote the published leaderboard with its time.
@@ -496,6 +497,7 @@ export function agentsMd(ctx) {
 - ${u('/lab/samsung.html')} — What has SIREN scored about Samsung / HBM? (Samsung / AI memory Trends → Samsung lab)
 - ${u('/tags/neoclouds.html')} — What has SIREN scored about Neoclouds? (neocloud / neoclouds Trends → Neoclouds tag)
 - ${u('/tags/chatbots.html')} — What has SIREN scored about Chatbots? (Character.ai bankruptcy / companion chatbot Trends → Chatbots tag)
+- ${u('/lab/qwen.html')} — What has SIREN scored about Alibaba Qwen? (Qwen / Alibaba open-weight Trends → Qwen lab)
 - ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
 - ${u('/guides.html')} — What are the AI explainers? (p(doom), clocks, doom indexes)
 - ${u('/guides.md')} — markdown mirror of the explainers hub
