@@ -426,7 +426,7 @@ test('Publish restores tip agent maps when head-term needles missing (FINDABILIT
   // head-term shorts; #136 preserves tip maps across orphan/overlay Publish.
   const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
   assert.match(collect, /FINDABILITY #136/);
-  assert.match(collect, /restored \$map agent map \(#136\)/);
+  assert.match(collect, /restored \$map agent map \(#136\/#139\)/);
   const stash = collect.match(/for hub in compare\.html alternatives\.html agents\.md llms\.txt/g) || [];
   assert.ok(stash.length >= 2, `expected agent-map stash on both collect Publish paths, got ${stash.length}`);
   const restores = collect.match(/for map in agents\.md llms\.txt/g) || [];
@@ -435,8 +435,14 @@ test('Publish restores tip agent maps when head-term needles missing (FINDABILIT
   assert.match(collect, /\/doomsday-clock\.html/);
   assert.match(collect, /\/doom-index\.html/);
   assert.match(collect, /root https:\/\/siren\.watch\/doombench\.html/);
+  // FINDABILITY #139 — also restore when #138 labAboutLabel is missing on lab lines.
+  assert.match(collect, /FINDABILITY #136\/#139/);
+  assert.match(collect, /OpenAI \/ ChatGPT/);
+  assert.match(collect, /\/lab\/openai\.html/);
   const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
   assert.match(newsFast, /FINDABILITY #136/);
+  assert.match(newsFast, /FINDABILITY #136\/#139/);
+  assert.match(newsFast, /OpenAI \/ ChatGPT/);
   assert.match(newsFast, /restore_agent_maps/);
   assert.match(newsFast, /PRESERVE_MAPS/);
 });

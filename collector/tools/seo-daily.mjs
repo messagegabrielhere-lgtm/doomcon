@@ -538,6 +538,24 @@ export function hasHeadTermAliases(txt, aliases = HEAD_TERM_AGENT_ALIASES) {
 }
 
 /**
+ * Lab About-line head-term aliases in agent maps (FINDABILITY #138).
+ * Only required when the map lists `/lab/openai.html` (llms.txt facets);
+ * agents.md is a short entry and does not list lab URLs.
+ * Wipe gap is `agents-lab-labels-missing` (FINDABILITY #139).
+ */
+export const LAB_ABOUT_AGENT_NEEDLE = 'OpenAI / ChatGPT';
+export const LAB_ABOUT_AGENT_URL = '/lab/openai.html';
+
+export function hasLabAboutLabels(
+  txt,
+  { url = LAB_ABOUT_AGENT_URL, needle = LAB_ABOUT_AGENT_NEEDLE } = {},
+) {
+  const body = String(txt || '');
+  if (!body.includes(url)) return true;
+  return body.includes(needle);
+}
+
+/**
  * Conquest FAQ needles that must stay on tip after #126/#127 (FINDABILITY #128).
  * Orphan news-fast tars can wipe overlay hubs back to a stale seed.
  */
@@ -956,6 +974,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #138/#139 — llms.txt lab lines dropped labAboutLabel (ChatGPT etc.).
+  if (ours.llms_lab_about_labels === false) {
+    gaps.push({
+      id: 'agents-lab-labels-missing',
+      severity: 'medium',
+      text: `llms.txt missing labAboutLabel on /lab/* lines (e.g. OpenAI / ChatGPT) (FINDABILITY #138/#139) — re-overlay llms.txt or wait for collect/news-fast Publish on tip ≥ #138`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1142,6 +1169,8 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #134 — agent maps must list #133 head-term short aliases.
     row.agents_head_aliases = agentsMd?.ok ? hasHeadTermAliases(agentsMd.value) : false;
     row.llms_head_aliases = llms?.ok ? hasHeadTermAliases(llmsBody) : false;
+    // FINDABILITY #139 — llms.txt lab lines must keep #138 labAboutLabel.
+    row.llms_lab_about_labels = llms?.ok ? hasLabAboutLabels(llmsBody) : false;
     // FINDABILITY #123 — lab title must keep product head-term aliases.
     row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
     // FINDABILITY #128 — compare/alternatives must keep #126/#127 FAQ needles.
@@ -1291,6 +1320,10 @@ export function formatMarkdown(report) {
       const lm = ours.llms_head_aliases == null ? '—' : (ours.llms_head_aliases ? 'yes' : 'NO');
       lines.push(`- Agent-map head-term short aliases (#133/#134): agents.md **${ag}** · llms.txt **${lm}**`);
     }
+    if (ours && ours.llms_lab_about_labels != null) {
+      const lm = ours.llms_lab_about_labels ? 'yes' : 'NO';
+      lines.push(`- Agent-map labAboutLabel (#138/#139): llms.txt **${lm}**`);
+    }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
         lines.push('- Lab head-term titles (#121/#123/#137): **ok** (Gemini / ChatGPT / Claude / MU in lab `<title>`)');
@@ -1321,6 +1354,7 @@ export function formatMarkdown(report) {
       || ours.agents_pdoom_alias != null || ours.llms_pdoom_alias != null
       || ours.agents_root_rivals != null || ours.llms_root_rivals != null
       || ours.agents_head_aliases != null || ours.llms_head_aliases != null
+      || ours.llms_lab_about_labels != null
       || ours.lab_head_alias_lags != null
       || ours.conquest_faq_lags != null)) {
       lines.push('');
@@ -1602,6 +1636,28 @@ function selftest() {
   });
   if (!headGaps.some((g) => g.id === 'agents-head-aliases-missing')) {
     throw new Error('agents-head-aliases-missing gap');
+  }
+  if (hasLabAboutLabels('OpenAI / ChatGPT\n/lab/openai.html') !== true) {
+    throw new Error('hasLabAboutLabels true');
+  }
+  if (hasLabAboutLabels('What has SIREN scored about OpenAI?\n/lab/openai.html') !== false) {
+    throw new Error('hasLabAboutLabels false');
+  }
+  if (hasLabAboutLabels('agents.md has no lab URLs') !== true) {
+    throw new Error('hasLabAboutLabels skip when no lab URL');
+  }
+  const labLabelGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      llms_lab_about_labels: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!labLabelGaps.some((g) => g.id === 'agents-lab-labels-missing')) {
+    throw new Error('agents-lab-labels-missing gap');
   }
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {

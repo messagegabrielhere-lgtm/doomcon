@@ -416,8 +416,10 @@ jobs:
                   echo "restored alternatives.html conquest FAQ hub (#128)"
                 fi
               }
-              # FINDABILITY #136 — restore tip agents.md / llms.txt when #134
-              # head-term or #132 root needles are missing after overlay/orphan.
+              # FINDABILITY #136/#139 — restore tip agents.md / llms.txt when
+              # #134 head-term or #132 root needles are missing, or when
+              # llms.txt lists /lab/openai.html without #138 labAboutLabel
+              # (OpenAI / ChatGPT) after overlay/orphan.
               restore_agent_maps() {
                 local root="$1" preserve="$2"
                 local map
@@ -426,9 +428,11 @@ jobs:
                     && { ! grep -qF '/ai-doom.html' "$root/$map" 2>/dev/null \
                       || ! grep -qF '/doomsday-clock.html' "$root/$map" 2>/dev/null \
                       || ! grep -qF '/doom-index.html' "$root/$map" 2>/dev/null \
-                      || ! grep -qF 'root https://siren.watch/doombench.html' "$root/$map" 2>/dev/null; }; then
+                      || ! grep -qF 'root https://siren.watch/doombench.html' "$root/$map" 2>/dev/null \
+                      || { grep -qF '/lab/openai.html' "$root/$map" 2>/dev/null \
+                        && ! grep -qF 'OpenAI / ChatGPT' "$root/$map" 2>/dev/null; }; }; then
                     cp -a "$preserve/$map" "$root/$map"
-                    echo "restored $map agent map (#136)"
+                    echo "restored $map agent map (#136/#139)"
                   fi
                 done
               }
