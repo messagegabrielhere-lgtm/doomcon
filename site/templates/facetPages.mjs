@@ -63,6 +63,8 @@ export function labPath(id) {
  */
 export const LAB_HEAD_ALIASES = Object.freeze({
   'google-deepmind': 'Gemini',
+  'openai': 'ChatGPT',
+  'anthropic': 'Claude',
 });
 
 /** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */

@@ -131,8 +131,8 @@ describe('lab facets', () => {
 
   it('renders lab landings under /lab/', () => {
     const html = renderLab(ctx, ctx.race.players[0]);
-    assert.match(html, /<title>What has SIREN scored about OpenAI\?/);
-    assert.match(html, /<h1>What has SIREN scored about OpenAI\?<\/h1>/);
+    assert.match(html, /<title>What has SIREN scored about OpenAI \/ ChatGPT\?/);
+    assert.match(html, /<h1>What has SIREN scored about OpenAI \/ ChatGPT\?<\/h1>/);
     assert.match(html, /lab\/anthropic\.html/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /FAQPage/);
@@ -146,7 +146,8 @@ describe('lab facets', () => {
       labAboutLabel({ id: 'google-deepmind', name: 'Google DeepMind' }),
       'Google DeepMind / Gemini',
     );
-    assert.equal(labAboutLabel({ id: 'openai', name: 'OpenAI' }), 'OpenAI');
+    assert.equal(labAboutLabel({ id: 'openai', name: 'OpenAI' }), 'OpenAI / ChatGPT');
+    assert.equal(labAboutLabel({ id: 'anthropic', name: 'Anthropic' }), 'Anthropic / Claude');
     const html = renderLab(ctx, {
       id: 'google-deepmind',
       name: 'Google DeepMind',
@@ -177,7 +178,7 @@ describe('lab facets', () => {
     const openai = withArch.race.players[0];
     assert.equal(archiveItemsForLab(withArch, openai).length, 1);
     const html = renderLab(withArch, openai);
-    assert.match(html, /Which older scored stories name OpenAI\?/);
+    assert.match(html, /Which older scored stories name OpenAI \/ ChatGPT\?/);
     assert.match(html, /Archived OpenAI story about agents/);
     assert.match(html, /"name"\s*:\s*"Archived OpenAI story about agents"/);
   });
