@@ -214,6 +214,37 @@ test('llms.txt lists newest UTC day hubs when the archive clears the gate', () =
   assert.ok(txt.includes('https://siren.watch/news/2026-10-12.html'));
 });
 
+test('llms.txt lab lines use head-term aliases (FINDABILITY #138)', () => {
+  // Enough Micron-titled stories to clear the entity-lab gate; label must be Micron / MU.
+  const micronNews = {
+    items: Array.from({ length: 5 }, (_, i) => ({
+      id: `mu${i}`,
+      title: `Micron memory chip story ${i}`,
+      published_at: `2026-10-14T1${i}:00:00Z`,
+      source: 'hn',
+      pillar: 'compute',
+      score: 50,
+      entities: ['Micron'],
+    })),
+  };
+  const ctx = {
+    url,
+    news: micronNews,
+    race: {
+      players: [
+        { id: 'openai', name: 'OpenAI', market: { probability: 0.3 } },
+        { id: 'google-deepmind', name: 'Google DeepMind', market: { probability: 0.2 } },
+      ],
+    },
+  };
+  const txt = llmsTxt(ctx);
+  assert.match(txt, /What has SIREN scored about OpenAI \/ ChatGPT\?/);
+  assert.match(txt, /What has SIREN scored about Google DeepMind \/ Gemini\?/);
+  assert.match(txt, /What has SIREN scored about Micron \/ MU\?/);
+  assert.ok(txt.includes('https://siren.watch/lab/micron.html'));
+  assert.ok(txt.includes('https://siren.watch/lab/openai.html'));
+});
+
 test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {
   const r = robots({ url });
   for (const a of AI_AGENTS) assert.match(r, new RegExp(`User-agent: ${a}\\nAllow: /`));

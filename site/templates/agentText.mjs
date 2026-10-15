@@ -12,7 +12,7 @@
 // whose data is absent is left out, never filled with a placeholder number.
 
 import * as brand from '../brand.mjs';
-import { allLabs, labIndexable } from './facetPages.mjs';
+import { allLabs, labIndexable, labAboutLabel } from './facetPages.mjs';
 import { dayPath, indexableDays } from './dayPages.mjs';
 
 const NOT_CLAIM = 'It counts AI activity. It is not a probability of harm and not a forecast.';
@@ -417,10 +417,12 @@ function facetLinks(ctx, u) {
     `- [Which AI activity pillars have SIREN pages?](${u('/pillar/')})`,
     ...brand.PILLARS.map((p) => `- [What has SIREN scored under ${p.name}?](${u(`/pillar/${p.id}.html`)})`),
   ].join('\n');
+  // FINDABILITY #138 — use labAboutLabel so #121/#137 head-term aliases
+  // (ChatGPT, Gemini, Claude, MU) appear in agent maps next to lab URLs.
   const labs = allLabs(ctx)
     .filter((p) => labIndexable(ctx, p))
     .slice(0, 16)
-    .map((p) => `- [What has SIREN scored about ${p.name}?](${u(`/lab/${p.id}.html`)})`)
+    .map((p) => `- [What has SIREN scored about ${labAboutLabel(p)}?](${u(`/lab/${p.id}.html`)})`)
     .join('\n');
   const hub = labs
     ? `- [Which AI labs have SIREN pages?](${u('/lab/')})\n- [Which AI companies has SIREN scored stories about?](${u('/companies.html')})\n${labs}`
