@@ -126,6 +126,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Apple on-device AI features expand', news: [] }).includes('apple-intelligence'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'apple-intelligence' && t.path === '/lab/apple.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'apple-intelligence').re.test('pineapple intelligence test'), false);
+  // FINDABILITY #171 — Microsoft Copilot / Azure AI → gated Microsoft lab.
+  assert.ok(matchHeadTerms({ title: 'Microsoft Copilot enterprise rollout', news: [] }).includes('microsoft-copilot'));
+  assert.ok(matchHeadTerms({ title: 'GitHub Copilot agent mode', news: [] }).includes('microsoft-copilot'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'microsoft-copilot' && t.path === '/lab/microsoft.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'microsoft-copilot').re.test('helicopter pilot training'), false);
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({

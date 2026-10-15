@@ -76,6 +76,9 @@ export const LAB_HEAD_ALIASES = Object.freeze({
   'meta': 'Muse',
   // FINDABILITY #170 — product people type for Apple on-device AI / China launch tape.
   'apple': 'Apple Intelligence',
+  // FINDABILITY #171 — product people type when Trends / tape shows Copilot with
+  // Microsoft AI headlines; stories already score under Microsoft.
+  'microsoft': 'Copilot',
 });
 
 /** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */
@@ -536,6 +539,13 @@ export function renderLab(ctx, player) {
     faq.push([
       `Why does ${brand.NAME} watch Apple Intelligence?`,
       `${brand.NAME} scores press that names Apple. When Apple Intelligence, on-device Apple AI, or China approval / Alibaba partnership headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not a product review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
+  // FINDABILITY #171 — Microsoft Copilot / Azure AI / M365 Copilot tape → gated lab.
+  if (player.id === 'microsoft') {
+    faq.push([
+      `Why does ${brand.NAME} watch Microsoft Copilot?`,
+      `${brand.NAME} scores press that names Microsoft. When Copilot, Microsoft 365 Copilot, GitHub Copilot, or Azure AI headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not a product review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
   const faqHtml = faq.map(([q, a]) => `

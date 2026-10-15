@@ -308,6 +308,23 @@ describe('lab facets', () => {
     assert.match(appleHtml, /[Nn]ot a product review/);
     assert.match(appleHtml, /search-trends\.html/);
     assert.doesNotMatch(appleHtml, /buy Apple|price target|must use Apple Intelligence/i);
+    // FINDABILITY #171 — Microsoft Copilot FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES.microsoft, 'Copilot');
+    assert.equal(labAboutLabel({ id: 'microsoft', name: 'Microsoft' }), 'Microsoft / Copilot');
+    const msHtml = renderLab(ctx, {
+      id: 'microsoft',
+      name: 'Microsoft',
+      entityOnly: true,
+      entityName: 'Microsoft',
+    });
+    assert.match(
+      msHtml,
+      /Why does SIREN watch Microsoft Copilot\?/,
+    );
+    assert.match(msHtml, /<title>[^<]*Copilot/);
+    assert.match(msHtml, /[Nn]ot a product review/);
+    assert.match(msHtml, /search-trends\.html/);
+    assert.doesNotMatch(msHtml, /buy Microsoft|price target|must use Copilot/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {
@@ -343,7 +360,8 @@ describe('lab facets', () => {
     assert.ok(ms);
     assert.equal(labIndexable(ctx, ms), true);
     const html = renderLab(ctx, ms);
-    assert.match(html, /<title>What has SIREN scored about Microsoft\?/);
+    // FINDABILITY #171 — labAboutLabel adds Copilot alias on Microsoft title.
+    assert.match(html, /<title>What has SIREN scored about Microsoft \/ Copilot\?/);
     assert.match(html, /does not invent market odds/);
     assert.doesNotMatch(html, /Market odds \(best model\)/);
   });
