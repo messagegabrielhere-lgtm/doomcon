@@ -65,6 +65,9 @@ export const LAB_HEAD_ALIASES = Object.freeze({
   'google-deepmind': 'Gemini',
   'openai': 'ChatGPT',
   'anthropic': 'Claude',
+  // FINDABILITY #137 — ticker people type when Google Trends shows "mu"
+  // with AI memory-chip headlines; stories already score under Micron.
+  'micron': 'MU',
 });
 
 /** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */

@@ -268,6 +268,7 @@ const ALWAYS = Object.freeze([
   '/lab/intel.html',
   '/lab/meta.html',
   '/lab/microsoft.html',
+  '/lab/micron.html', // FINDABILITY #137 — MU / memory-chip Trends route
   '/lab/nvidia.html',
   '/lab/openai.html',
   '/lab/qwen.html',

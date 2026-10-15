@@ -148,6 +148,9 @@ describe('lab facets', () => {
     );
     assert.equal(labAboutLabel({ id: 'openai', name: 'OpenAI' }), 'OpenAI / ChatGPT');
     assert.equal(labAboutLabel({ id: 'anthropic', name: 'Anthropic' }), 'Anthropic / Claude');
+    // FINDABILITY #137 — Micron / MU ticker for Trends "mu" memory-chip spikes.
+    assert.equal(LAB_HEAD_ALIASES.micron, 'MU');
+    assert.equal(labAboutLabel({ id: 'micron', name: 'Micron' }), 'Micron / MU');
     const html = renderLab(ctx, {
       id: 'google-deepmind',
       name: 'Google DeepMind',
@@ -156,6 +159,14 @@ describe('lab facets', () => {
     });
     assert.match(html, /<title>What has SIREN scored about Google DeepMind \/ Gemini\?/);
     assert.match(html, /<h1>What has SIREN scored about Google DeepMind \/ Gemini\?<\/h1>/);
+    const micronHtml = renderLab(ctx, {
+      id: 'micron',
+      name: 'Micron',
+      entityOnly: true,
+      entityName: 'Micron',
+    });
+    assert.match(micronHtml, /<title>What has SIREN scored about Micron \/ MU\?/);
+    assert.match(micronHtml, /<h1>What has SIREN scored about Micron \/ MU\?<\/h1>/);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {
