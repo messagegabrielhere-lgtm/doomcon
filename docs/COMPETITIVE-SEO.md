@@ -20,7 +20,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,245** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
 | **pizzint.watch** | **1,018** | **14** (`pizzint-news-alive` / contested) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **6,248** live (clears DoomBench 2090 / Skynet 1245 / pizzint 1018); GSC HTML-tag **absent** until operator sets secret | **200** news-sitemap (`google-news-open` while pizzint empty; keep keyword-rich) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + day hubs + `/verify.html` + `/free-tools.html` | **yes** |
+| **siren.watch** | **6,248** live (clears DoomBench 2090 / Skynet 1245 / pizzint 1018); GSC HTML-tag **absent** until operator sets secret | **200** news-sitemap (`pizzint-news-alive` contested — keep keyword-rich) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + day hubs + `/verify.html` + `/free-tools.html` | **yes** |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
