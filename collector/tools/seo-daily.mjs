@@ -456,6 +456,17 @@ export function hasTrendsShortAlias(txt, alias = TRENDS_SHORT_ALIAS) {
   return String(txt || '').includes(alias);
 }
 
+/** Unhyphenated p(doom) hub short alias (FINDABILITY #129). Canonical on /p-doom.html. */
+export const PDOOM_SHORT_ALIAS = '/pdoom.html';
+
+/**
+ * True when an agent-map body lists the /pdoom.html short alias.
+ * Wipe gap is `agents-pdoom-alias-missing` (FINDABILITY #130).
+ */
+export function hasPdoomShortAlias(txt, alias = PDOOM_SHORT_ALIAS) {
+  return String(txt || '').includes(alias);
+}
+
 /**
  * Conquest FAQ needles that must stay on tip after #126/#127 (FINDABILITY #128).
  * Orphan news-fast tars can wipe overlay hubs back to a stale seed.
@@ -834,6 +845,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #129/#130 — agents.md / llms.txt dropped /pdoom.html short alias.
+  if (ours.agents_pdoom_alias === false || ours.llms_pdoom_alias === false) {
+    const which = [
+      ours.agents_pdoom_alias === false ? 'agents.md' : null,
+      ours.llms_pdoom_alias === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-pdoom-alias-missing',
+      severity: 'medium',
+      text: `${which} missing /pdoom.html short-alias lines (FINDABILITY #129/#130) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #130`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1011,6 +1035,9 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #125 — agent maps must list /trends.html after #124 overlay.
     row.agents_trends_alias = agentsMd?.ok ? hasTrendsShortAlias(agentsMd.value) : false;
     row.llms_trends_alias = llms?.ok ? hasTrendsShortAlias(llmsBody) : false;
+    // FINDABILITY #130 — agent maps must list /pdoom.html after #129 overlay.
+    row.agents_pdoom_alias = agentsMd?.ok ? hasPdoomShortAlias(agentsMd.value) : false;
+    row.llms_pdoom_alias = llms?.ok ? hasPdoomShortAlias(llmsBody) : false;
     // FINDABILITY #123 — lab title must keep product head-term aliases.
     row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
     // FINDABILITY #128 — compare/alternatives must keep #126/#127 FAQ needles.
@@ -1145,6 +1172,11 @@ export function formatMarkdown(report) {
       const lm = ours.llms_trends_alias == null ? '—' : (ours.llms_trends_alias ? 'yes' : 'NO');
       lines.push(`- Agent-map /trends short alias (#124/#125): agents.md **${ag}** · llms.txt **${lm}**`);
     }
+    if (ours && (ours.agents_pdoom_alias != null || ours.llms_pdoom_alias != null)) {
+      const ag = ours.agents_pdoom_alias == null ? '—' : (ours.agents_pdoom_alias ? 'yes' : 'NO');
+      const lm = ours.llms_pdoom_alias == null ? '—' : (ours.llms_pdoom_alias ? 'yes' : 'NO');
+      lines.push(`- Agent-map /pdoom short alias (#129/#130): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
         lines.push('- Lab head-term titles (#121/#123): **ok** (Gemini / ChatGPT / Claude in lab `<title>`)');
@@ -1172,6 +1204,7 @@ export function formatMarkdown(report) {
       || ours.news_keyword_lags != null
       || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null
       || ours.agents_trends_alias != null || ours.llms_trends_alias != null
+      || ours.agents_pdoom_alias != null || ours.llms_pdoom_alias != null
       || ours.lab_head_alias_lags != null
       || ours.conquest_faq_lags != null)) {
       lines.push('');
@@ -1372,6 +1405,21 @@ function selftest() {
   });
   if (!trendsGaps.some((g) => g.id === 'agents-trends-alias-missing')) {
     throw new Error('agents-trends-alias-missing gap');
+  }
+  if (hasPdoomShortAlias('short /pdoom.html') !== true) throw new Error('hasPdoomShortAlias true');
+  if (hasPdoomShortAlias('/p-doom.html only') !== false) throw new Error('hasPdoomShortAlias false');
+  const pdoomGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      agents_pdoom_alias: false, llms_pdoom_alias: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!pdoomGaps.some((g) => g.id === 'agents-pdoom-alias-missing')) {
+    throw new Error('agents-pdoom-alias-missing gap');
   }
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {

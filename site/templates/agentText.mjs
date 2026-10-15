@@ -329,7 +329,7 @@ Honesty rules:
 - [SIREN vs p(doom) clocks: which should you use?](${u('/vs/pdoom.html')})
 - [SIREN vs PizzINT: which should you use?](${u('/vs/pizzint.html')}): activity count vs DEFCON/Doomsday title hijack (honest refuse)
 - [SIREN vs Takeoff Tracker: which should you use?](${u('/vs/takeofftracker.html')}) (short alias ${u('/vs/takeoff.html')}, same page): activity count vs AGI metrics dashboard (honest refuse)
-- [What is p(doom)?](${u('/p-doom.html')})
+- [What is p(doom)?](${u('/p-doom.html')}) (short alias ${u('/pdoom.html')}, same page)
 - [Is there an AI doomsday clock?](${u('/ai-doomsday-clock.html')})
 - [Is AI taking jobs? What has actually been measured](${u('/jobs.html')})
 - [Is AI curing anything? Trial results, approvals and what they show](${u('/medicine.html')})
@@ -473,6 +473,7 @@ export function agentsMd(ctx) {
 - ${u('/vs/pdoom.html')} — SIREN vs p(doom) clocks: which should you use?
 - ${u('/vs/pizzint.html')} — SIREN vs PizzINT: which should you use? (honest refuse)
 - ${u('/vs/takeofftracker.html')} — SIREN vs Takeoff Tracker: which should you use? (short alias ${u('/vs/takeoff.html')})
+- ${u('/p-doom.html')} — What is p(doom)? (short alias ${u('/pdoom.html')})
 - ${u('/pillars.html')} — Which AI activity pillars has SIREN scored?
 - ${u('/countries.html')} — Which AI datacentre countries has SIREN mapped?
 - ${u('/sources.html')} — Which AI news sources has SIREN scored via?
