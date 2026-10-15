@@ -499,7 +499,7 @@ export function agentsMd(ctx) {
 - ${u('/lab/asml.html')} — What has SIREN scored about ASML? (ASML stock / EUV AI chip-tool Trends → ASML lab)
 - ${u('/lab/tsmc.html')} — What has SIREN scored about TSMC? (TSMC stock / AI foundry Trends → TSMC lab)
 - ${u('/lab/amazon.html')} — What has SIREN scored about Amazon? (Amazon Bee / AI wearables Trends → Amazon lab)
-- ${u('/lab/meta.html')} — What has SIREN scored about Meta AI / Muse? (Meta Muse / open-weight AI / Meta–Apple Mac Trends → Meta lab)
+- ${u('/lab/meta.html')} — What has SIREN scored about Meta AI / Muse? (Meta Muse / open-weight AI / Meta and Apple Mac AI Trends → Meta lab)
 - ${u('/lab/apple.html')} — What has SIREN scored about Apple / Apple Intelligence? (Apple Intelligence Trends → Apple lab)
 - ${u('/lab/microsoft.html')} — What has SIREN scored about Microsoft / Copilot? (Microsoft Copilot Trends → Microsoft lab)
 - ${u('/lab/xai.html')} — What has SIREN scored about xAI / Grok? (Grok / xAI Trends → xAI lab)

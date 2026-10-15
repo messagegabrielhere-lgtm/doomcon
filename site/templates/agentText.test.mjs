@@ -303,7 +303,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /\/lab\/tsmc\.html/);
   // FINDABILITY #167 — agents.md lists Amazon lab for Bee / wearables Trends.
   assert.match(md, /Amazon Bee \/ AI wearables Trends/);
-  assert.match(md, /Meta Muse \/ open-weight AI \/ Meta–Apple Mac Trends/);
+  assert.match(md, /Meta Muse \/ open-weight AI \/ Meta and Apple Mac AI Trends/);
   // FINDABILITY #170 — agents.md lists Apple lab for Apple Intelligence Trends.
   assert.match(md, /Apple Intelligence Trends/);
   assert.match(md, /\/lab\/apple\.html/);

@@ -158,9 +158,11 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'Hugging Face hack' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Palantir / AIP' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'AMD / MI300' ".pages/$map" 2>/dev/null \
-      || ! grep -qF 'Tesla / FSD' ".pages/$map" 2>/dev/null; }; then
+      || ! grep -qF 'Tesla / FSD' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'ChatGPT Chrome' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'Meta and Apple Mac AI' ".pages/$map" 2>/dev/null; }; then
     cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-    echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185)"
+    echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193)"
   fi
 done
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140

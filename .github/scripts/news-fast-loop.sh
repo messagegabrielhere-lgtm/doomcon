@@ -395,9 +395,11 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'Hugging Face hack' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Palantir / AIP' "$root/$map" 2>/dev/null \
             || ! grep -qF 'AMD / MI300' "$root/$map" 2>/dev/null \
-      || ! grep -qF 'Tesla / FSD' "$root/$map" 2>/dev/null; }; then
+            || ! grep -qF 'Tesla / FSD' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'ChatGPT Chrome' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'Meta and Apple Mac AI' "$root/$map" 2>/dev/null; }; then
           cp -a "$preserve/$map" "$root/$map"
-          echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185)"
+          echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193)"
         fi
       done
     }
