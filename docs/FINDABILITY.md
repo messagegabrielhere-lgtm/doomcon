@@ -391,6 +391,7 @@ context.
 | 151 | Search Trends `HEAD_TERMS` micron also matches `dram stock` / `hbm stock` / `memory stock` / `micron stock`; `/lab/micron.html` FAQ answers why SIREN watches those Google Trends queries — one gated lab, no stock tip / doorway | Google + Trends | **Done** (this pass) |
 | 152 | Search Trends `HEAD_TERMS` `iren` (`iren stock` / Iris Energy) → gated `/watts.html`; Watts FAQ answers why SIREN watches IREN / AI-cloud power Trends — substrate reading only, not a company doorway or investment tip | Google + Trends | **Done** (this pass) |
 | 153 | `agents.md` + `llms.txt` route IREN / AI-cloud Trends to `/watts.html`; `seo-daily` detects Watts FAQ + agent-map lag; `collect` + `news-fast` Publish preserve tip Watts when #152 FAQ missing | Agents + Trends | **Done** (this pass) |
+| 154 | `agents.md` + `llms.txt` route dram / HBM / memory / Micron stock Trends to `/lab/micron.html`; `seo-daily` detects Micron FAQ + agent-map lag; `collect` + `news-fast` Publish preserve tip Micron lab when #151 FAQ missing | Agents + Trends | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

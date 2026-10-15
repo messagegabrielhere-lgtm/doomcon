@@ -37,6 +37,9 @@ import {
   hasWattsIrenFaq,
   hasAgentsIrenWatts,
   WATTS_IREN_FAQ_NEEDLE,
+  hasMicronDramFaq,
+  hasAgentsMicronDram,
+  MICRON_DRAM_FAQ_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -446,6 +449,31 @@ describe('seo-daily surfaces', () => {
     });
     assert.ok(gaps.some((g) => g.id === 'watts-iren-faq-missing'));
     assert.ok(gaps.some((g) => g.id === 'agents-iren-watts-missing'));
+  });
+
+  it('detects Micron DRAM FAQ + agent-map lag (FINDABILITY #151/#154)', () => {
+    assert.equal(hasMicronDramFaq(MICRON_DRAM_FAQ_NEEDLE), true);
+    assert.equal(hasMicronDramFaq('What has SIREN scored about Micron / MU?'), false);
+    assert.equal(
+      hasAgentsMicronDram('dram stock → https://siren.watch/lab/micron.html'),
+      true,
+    );
+    assert.equal(hasAgentsMicronDram('https://siren.watch/lab/micron.html only'), false);
+    assert.equal(hasAgentsMicronDram('dram stock with no micron path'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        micron_dram_faq: false,
+        agents_micron_dram: false,
+        llms_micron_dram: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'micron-dram-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-micron-dram-missing'));
   });
 
   it('detects missing labAboutLabel aliases in news:keywords (FINDABILITY #148)', () => {

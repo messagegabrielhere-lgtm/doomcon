@@ -672,6 +672,24 @@ export function hasAgentsIrenWatts(body, needle = AGENTS_IREN_WATTS_NEEDLE) {
   return text.includes(needle) && text.includes('/watts.html');
 }
 
+/** FINDABILITY #151/#154 — Micron lab FAQ + agent maps for dram / memory Trends. */
+export const MICRON_DRAM_FAQ_NEEDLE = 'Why does SIREN watch Micron stock, MU, and DRAM stock in Google Search Trends?';
+export const AGENTS_MICRON_DRAM_NEEDLE = 'dram stock';
+
+/** Tip /lab/micron.html must keep the #151 DRAM Trends FAQ (FINDABILITY #154). */
+export function hasMicronDramFaq(html, needle = MICRON_DRAM_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route dram / Micron stock Trends to Micron lab (FINDABILITY #154).
+ * Wipe gap is `agents-micron-dram-missing`.
+ */
+export function hasAgentsMicronDram(body, needle = AGENTS_MICRON_DRAM_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/micron.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -1157,6 +1175,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #151/#154 — Micron lab FAQ for dram Trends wiped or never landed.
+  if (ours.micron_dram_faq === false) {
+    gaps.push({
+      id: 'micron-dram-faq-missing',
+      severity: 'medium',
+      text: `/lab/micron.html missing Micron / DRAM stock Trends FAQ (FINDABILITY #151/#154) — re-overlay lab/micron.html or wait for full collect Publish on tip ≥ #151`,
+    });
+  }
+  // FINDABILITY #154 — agent maps must route dram / Micron stock Trends to Micron lab.
+  if (ours.agents_micron_dram === false || ours.llms_micron_dram === false) {
+    const which = [
+      ours.agents_micron_dram === false ? 'agents.md' : null,
+      ours.llms_micron_dram === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-micron-dram-missing',
+      severity: 'medium',
+      text: `${which} missing dram stock → /lab/micron.html Trends tip (FINDABILITY #154) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #154`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1360,6 +1399,11 @@ export function measureSite(site, byUrl) {
     row.watts_iren_faq = wattsHtml?.ok ? hasWattsIrenFaq(wattsHtml.value) : false;
     row.agents_iren_watts = agentsMd?.ok ? hasAgentsIrenWatts(agentsMd.value) : false;
     row.llms_iren_watts = llms?.ok ? hasAgentsIrenWatts(llmsBody) : false;
+    // FINDABILITY #154 — Micron FAQ + agent maps for dram / memory Trends (#151).
+    const micronHtml = byUrl.get(`${base}/lab/micron.html`);
+    row.micron_dram_faq = micronHtml?.ok ? hasMicronDramFaq(micronHtml.value) : false;
+    row.agents_micron_dram = agentsMd?.ok ? hasAgentsMicronDram(agentsMd.value) : false;
+    row.llms_micron_dram = llms?.ok ? hasAgentsMicronDram(llmsBody) : false;
     // FINDABILITY #123 — lab title must keep product head-term aliases.
     row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
     // FINDABILITY #128 — compare/alternatives must keep #126/#127 FAQ needles.
@@ -1555,6 +1599,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_iren_watts == null ? '—' : (ours.agents_iren_watts ? 'yes' : 'NO');
       const lm = ours.llms_iren_watts == null ? '—' : (ours.llms_iren_watts ? 'yes' : 'NO');
       lines.push(`- Agent-map IREN → Watts (#153): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.micron_dram_faq != null) {
+      lines.push(
+        `- Micron DRAM Trends FAQ (#151/#154): **${ours.micron_dram_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_micron_dram != null || ours.llms_micron_dram != null)) {
+      const ag = ours.agents_micron_dram == null ? '—' : (ours.agents_micron_dram ? 'yes' : 'NO');
+      const lm = ours.llms_micron_dram == null ? '—' : (ours.llms_micron_dram ? 'yes' : 'NO');
+      lines.push(`- Agent-map dram → Micron (#154): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
@@ -1995,6 +2049,36 @@ function selftest() {
   }
   if (!irenGaps.some((g) => g.id === 'agents-iren-watts-missing')) {
     throw new Error('agents-iren-watts-missing gap');
+  }
+  if (hasMicronDramFaq(MICRON_DRAM_FAQ_NEEDLE) !== true) {
+    throw new Error('hasMicronDramFaq true');
+  }
+  if (hasMicronDramFaq('What has SIREN scored about Micron / MU?') !== false) {
+    throw new Error('hasMicronDramFaq false');
+  }
+  if (hasAgentsMicronDram('dram stock → https://siren.watch/lab/micron.html') !== true) {
+    throw new Error('hasAgentsMicronDram true');
+  }
+  if (hasAgentsMicronDram('https://siren.watch/lab/micron.html only') !== false) {
+    throw new Error('hasAgentsMicronDram needs dram needle');
+  }
+  const micronGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      micron_dram_faq: false,
+      agents_micron_dram: false,
+      llms_micron_dram: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!micronGaps.some((g) => g.id === 'micron-dram-faq-missing')) {
+    throw new Error('micron-dram-faq-missing gap');
+  }
+  if (!micronGaps.some((g) => g.id === 'agents-micron-dram-missing')) {
+    throw new Error('agents-micron-dram-missing gap');
   }
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {

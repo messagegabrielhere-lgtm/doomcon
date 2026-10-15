@@ -594,13 +594,13 @@ jobs:
           rm -rf .pages-faq-tip
           if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
             # FINDABILITY #136 — also stash tip agent maps (head-term / root needles).
-            # FINDABILITY #141/#143/#145/#153 — stash tip /lab/ + companies hubs,
-            # home/classic knowsAbout, race labAboutLabel, and Watts IREN FAQ
-            # so mid-merge collect cannot wipe #140/#142/#144/#152.
+            # FINDABILITY #141/#143/#145/#153/#154 — stash tip /lab/ + companies hubs,
+            # home/classic knowsAbout, race labAboutLabel, Watts IREN FAQ, and
+            # Micron DRAM FAQ so mid-merge collect cannot wipe #140/#142/#144/#152/#151.
             for hub in compare.html alternatives.html agents.md llms.txt \
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
-              watts.html watts/index.html; do
+              watts.html watts/index.html lab/micron.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -749,6 +749,14 @@ jobs:
               echo "restored $hub IREN Trends FAQ (#153)"
             fi
           done
+          # FINDABILITY #154 — restore tip /lab/micron.html when #151 DRAM FAQ
+          # is missing after mid-merge / orphan Publish on tip < #151.
+          if [ -f "$PRESERVE_FAQ/lab/micron.html" ] \
+            && ! grep -qF 'Why does SIREN watch Micron stock, MU, and DRAM stock in Google Search Trends?' ".pages/lab/micron.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/micron.html" .pages/lab/micron.html
+            echo "restored lab/micron.html DRAM Trends FAQ (#154)"
+          fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages
           git init -q -b gh-pages
@@ -1373,13 +1381,13 @@ jobs:
           rm -rf .pages-faq-tip
           if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
             # FINDABILITY #136 — also stash tip agent maps (head-term / root needles).
-            # FINDABILITY #141/#143/#145/#153 — stash tip /lab/ + companies hubs,
-            # home/classic knowsAbout, race labAboutLabel, and Watts IREN FAQ
-            # so mid-merge collect cannot wipe #140/#142/#144/#152.
+            # FINDABILITY #141/#143/#145/#153/#154 — stash tip /lab/ + companies hubs,
+            # home/classic knowsAbout, race labAboutLabel, Watts IREN FAQ, and
+            # Micron DRAM FAQ so mid-merge collect cannot wipe #140/#142/#144/#152/#151.
             for hub in compare.html alternatives.html agents.md llms.txt \
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
-              watts.html watts/index.html; do
+              watts.html watts/index.html lab/micron.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -1527,6 +1535,14 @@ jobs:
               echo "restored $hub IREN Trends FAQ (#153)"
             fi
           done
+          # FINDABILITY #154 — restore tip /lab/micron.html when #151 DRAM FAQ
+          # is missing after mid-merge / orphan Publish on tip < #151.
+          if [ -f "$PRESERVE_FAQ/lab/micron.html" ] \
+            && ! grep -qF 'Why does SIREN watch Micron stock, MU, and DRAM stock in Google Search Trends?' ".pages/lab/micron.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/micron.html" .pages/lab/micron.html
+            echo "restored lab/micron.html DRAM Trends FAQ (#154)"
+          fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages
           git init -q -b gh-pages
