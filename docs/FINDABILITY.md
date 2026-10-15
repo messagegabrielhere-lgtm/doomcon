@@ -317,6 +317,7 @@ context.
 | 84 | `sitemap.xml` + `news-sitemap.xml` tip comments advertise free-tools, verify, Search Trends, and cross-link each other (crawlers that open sitemaps before robots/llms) | Agents + Google | **Done** (2026-10-15) |
 | 85 | `seo-daily` detects missing sitemap tip comments (`sitemap-tips-missing`) so collect Publish wipes of #84 are caught before the next daily pass | Daily agent | **Done** (2026-10-15) |
 | 86 | Unit test locks `collect.yml` job budgets (newsroom ≥45m, full ≥90m) so #83 cannot regress and re-break durable gh-pages Publish | Deploy / daily agent | **Done** (2026-10-15) |
+| 87 | `feed.xml` / `feed-level.xml` tip comments advertise free-tools, verify, news-sitemap, Search Trends (RSS readers that never open robots/llms) | Agents + Google | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 
