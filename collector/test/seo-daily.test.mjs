@@ -31,6 +31,7 @@ import {
   LAB_HUB_LABEL_PROBES,
   labHubLabelLags,
   hasHomeLabAboutLabels,
+  hasRaceLabAboutLabels,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -392,6 +393,29 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'home-knowsabout-labels-missing'));
+  });
+
+  it('detects missing race board labAboutLabel (FINDABILITY #144)', () => {
+    assert.equal(
+      hasRaceLabAboutLabels('<a href="/lab/openai.html">What has SIREN scored about OpenAI / ChatGPT?</a>'),
+      true,
+    );
+    assert.equal(
+      hasRaceLabAboutLabels('<a href="/lab/openai.html">What has SIREN scored about OpenAI?</a>'),
+      false,
+    );
+    assert.equal(hasRaceLabAboutLabels('no lab urls'), true);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        race_lab_about_labels: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'race-lab-labels-missing'));
   });
 
   it('detects missing /trends.html in agent maps + now tips (FINDABILITY #125)', () => {

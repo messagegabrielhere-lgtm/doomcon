@@ -51,8 +51,11 @@ describe('race page', () => {
     assert.doesNotMatch(html, /id="rmeth-h"[^>]*>How this is computed</);
     assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(html, /href="\/news\.html">the signal feed<\/a>/);
-    assert.match(html, /rpill__name"><a href="\/lab\/openai\.html">What has SIREN scored about OpenAI\?<\/a>/);
-    assert.match(html, /rpill__name"><a href="\/lab\/anthropic\.html">What has SIREN scored about Anthropic\?<\/a>/);
+    // FINDABILITY #144 — race board lab links use labAboutLabel (#121 aliases).
+    assert.match(html, /rpill__name"><a href="\/lab\/openai\.html">What has SIREN scored about OpenAI \/ ChatGPT\?<\/a>/);
+    assert.match(html, /rpill__name"><a href="\/lab\/anthropic\.html">What has SIREN scored about Anthropic \/ Claude\?<\/a>/);
+    assert.match(html, /rpill__name"><a href="\/lab\/google-deepmind\.html">What has SIREN scored about Google DeepMind \/ Gemini\?<\/a>/);
+    assert.doesNotMatch(html, /rpill__name"><a href="\/lab\/openai\.html">What has SIREN scored about OpenAI\?<\/a>/);
     assert.doesNotMatch(html, /rpill__name"><a href="\/lab\/openai\.html">OpenAI<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
