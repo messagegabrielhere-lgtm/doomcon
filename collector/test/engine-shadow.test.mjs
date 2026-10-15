@@ -570,3 +570,19 @@ test('news-only item fingerprint ignores recency churn (FINDABILITY #107)', () =
     /const itemChanged = !prev \|\| stableJson\(it\) !== stableJson\(prev\)/,
   );
 });
+
+test('news-fast polls search-trends and news-only rewrites it (FINDABILITY #149)', () => {
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(yml, /FINDABILITY #149/);
+  assert.match(yml, /timeout 45 node collector\/search-trends\.mjs/);
+  assert.match(yml, /TBEFORE=\$\(TFP\)/);
+  assert.match(yml, /\$TBEFORE" != "\$TAFTER/);
+  const src = readFileSync(join(ROOT, 'site', 'build.mjs'), 'utf8');
+  const start = src.indexOf('NEWS-ONLY FAST PATH');
+  const end = src.indexOf('news-only build complete', start);
+  assert.ok(start >= 0 && end > start, 'news-only block missing');
+  const block = src.slice(start, end);
+  assert.match(block, /FINDABILITY #149/);
+  assert.match(block, /search-trends\.html/);
+  assert.match(block, /api\/search-trends\.json/);
+});

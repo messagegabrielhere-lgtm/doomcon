@@ -259,9 +259,24 @@ jobs:
               || echo "::warning::leader wire pass $TICK failed; continuing"
             LAFTER=$(LFP)
 
-            if [ "$BEFORE" != "$AFTER" ] || [ "$LBEFORE" != "$LAFTER" ]; then
+            # FINDABILITY #149 — Google Trends firehose spikes (e.g. micron stock)
+            # cool in under an hour. collect.yml only refreshes search-trends on
+            # the hourly pass; without a news-fast poll, tip search-trends.html
+            # stays on a pre-spike snapshot while main's data/ already moved.
+            # Two RSS geos; keep prior file on failure (collector is continue-safe).
+            TFP() { node -e "try{const t=require('./data/search-trends.json');const hits=(t.head_terms||[]).filter(h=>h&&h.trending).map(h=>h.id).sort().join(',');process.stdout.write(String(t.generated_at||'')+'|'+hits)}catch(e){process.stdout.write('none')}"; }
+            TBEFORE=$(TFP)
+            timeout 45 node collector/search-trends.mjs \
+              || echo "::warning::search-trends pass $TICK failed; continuing"
+            TAFTER=$(TFP)
+
+            if [ "$BEFORE" != "$AFTER" ] || [ "$LBEFORE" != "$LAFTER" ] || [ "$TBEFORE" != "$TAFTER" ]; then
               PENDING_PUB=1
-              echo "tick $TICK: newsroom or leader wire changed — pending Pages publish"
+              if [ "$TBEFORE" != "$TAFTER" ]; then
+                echo "tick $TICK: newsroom, leader wire, or search-trends changed — pending Pages publish"
+              else
+                echo "tick $TICK: newsroom or leader wire changed — pending Pages publish"
+              fi
             else
               echo "tick $TICK: no change"
             fi
