@@ -447,6 +447,23 @@ test('Publish restores tip agent maps when head-term needles missing (FINDABILIT
   assert.match(newsFast, /PRESERVE_MAPS/);
 });
 
+test('Publish restores tip lab/companies hub labels (FINDABILITY #141)', () => {
+  // Pre-#140 collect/full orphan wiped hub rows back to bare lab names;
+  // #141 stashes + restores /lab/ + companies when OpenAI / ChatGPT is missing.
+  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  assert.match(collect, /FINDABILITY #141/);
+  assert.match(collect, /restored \$hub labAboutLabel \(#141\)/);
+  assert.match(collect, /lab\/index\.html/);
+  assert.match(collect, /companies\.html/);
+  assert.match(collect, /companies\/index\.html/);
+  const stash = collect.match(/lab\/index\.html companies\.html companies\/index\.html/g) || [];
+  assert.ok(stash.length >= 2, `expected lab-hub stash on both collect Publish paths, got ${stash.length}`);
+  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(newsFast, /FINDABILITY #141/);
+  assert.match(newsFast, /restore_lab_hub_labels/);
+  assert.match(newsFast, /lab\/index\.html/);
+});
+
 test('doomsday-clock / ai-doom / doom-index aliases (FINDABILITY #133)', () => {
   const src = readFileSync(join(ROOT, 'site', 'build.mjs'), 'utf8');
   assert.match(src, /FINDABILITY #133/);

@@ -436,6 +436,21 @@ jobs:
                   fi
                 done
               }
+              # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
+              # labAboutLabel is missing after orphan Publish.
+              restore_lab_hub_labels() {
+                local root="$1" preserve="$2"
+                local hub
+                for hub in lab/index.html companies.html companies/index.html; do
+                  if [ -f "$preserve/$hub" ] \
+                    && grep -qF '/lab/openai.html' "$root/$hub" 2>/dev/null \
+                    && ! grep -qF 'OpenAI / ChatGPT' "$root/$hub" 2>/dev/null; then
+                    mkdir -p "$root/$(dirname "$hub")"
+                    cp -a "$preserve/$hub" "$root/$hub"
+                    echo "restored $hub labAboutLabel (#141)"
+                  fi
+                done
+              }
               if [ -d .pages/.git ]; then
                 if ! git -C .pages fetch -q origin gh-pages 2>/dev/null \
                   || ! git -C .pages reset -q --hard FETCH_HEAD 2>/dev/null; then
@@ -491,10 +506,12 @@ jobs:
               if [ "$PUB_OK" -ne 1 ]; then
                 echo "tick $TICK: overlay publish missed; full orphan publish"
                 # FINDABILITY #128 — stash tip conquest FAQ hubs before orphan wipe.
-                # FINDABILITY #136 — also stash tip agent maps.
+                # FINDABILITY #136/#141 — also stash tip agent maps + lab hubs.
                 PRESERVE_FAQ=$(mktemp -d)
-                for hub in compare.html alternatives.html agents.md llms.txt; do
+                for hub in compare.html alternatives.html agents.md llms.txt \
+                  lab/index.html companies.html companies/index.html; do
                   if [ -f ".pages/$hub" ]; then
+                    mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                     cp -a ".pages/$hub" "$PRESERVE_FAQ/$hub"
                   fi
                 done
@@ -502,8 +519,12 @@ jobs:
                   || [ ! -f "$PRESERVE_FAQ/agents.md" ] || [ ! -f "$PRESERVE_FAQ/llms.txt" ]; then
                   rm -rf .pages-faq-tip
                   if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
-                    for hub in compare.html alternatives.html agents.md llms.txt; do
-                      [ -f ".pages-faq-tip/$hub" ] && cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
+                    for hub in compare.html alternatives.html agents.md llms.txt \
+                      lab/index.html companies.html companies/index.html; do
+                      if [ -f ".pages-faq-tip/$hub" ]; then
+                        mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
+                        cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
+                      fi
                     done
                     rm -rf .pages-faq-tip
                   fi
@@ -515,6 +536,7 @@ jobs:
                 restore_vs_aliases .pages
                 restore_conquest_faqs .pages "$PRESERVE_FAQ"
                 restore_agent_maps .pages "$PRESERVE_FAQ"
+                restore_lab_hub_labels .pages "$PRESERVE_FAQ"
                 rm -rf "$PRESERVE_FAQ"
                 git -C .pages init -q
                 git -C .pages checkout -q -b gh-pages
