@@ -1563,6 +1563,9 @@ async function main() {
     // URLs change every fast pass; a stale sitemap is how Google News goes quiet).
     written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
     written.push(await write(args.out, 'news-sitemap.xml', newsSitemap.render(ctx)));
+    // FINDABILITY #95 — robots tip comments (#79) must not depend on SEO overlays
+    // after a newsroom Publish; rewrite with the same tip shape as the full build.
+    written.push(await write(args.out, 'robots.txt', robots(ctx)));
     // The leader wire rides the same fast path since matcher 1.2.0: its press
     // coverage and direct feeds refresh every 15 minutes (collector/leaders.mjs
     // gates its own polling), so the page is rebuilt here rather than waiting
