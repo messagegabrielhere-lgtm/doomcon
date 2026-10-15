@@ -75,7 +75,7 @@ at all. Committing the built HTML to `main` 96 times a day would. The full lane
 commits `public/` hourly, so `main` still carries a build-output archive — up to
 an hour behind the live site, by design.
 
-### The full lane — hourly at :07, ~3 minutes
+### The full lane — hourly at :07
 
 `collect` → `news --force` → `race` → `engine` → `build` → cards → commit
 `data/` and `public/` → publish.
@@ -94,8 +94,14 @@ no feed can hide behind its own interval for longer than an hour.
 
 **Why minute 7.** The `*/15` grid fires at :00, :15, :30 and :45. Seven is the
 furthest point from all four — seven minutes after one tick, eight before the
-next — so a ~3-minute full pass and a ~2-minute fast pass have to slip by more
-than five minutes before they can collide at all.
+next — so the two lanes have to slip by more than five minutes before they can
+collide at all. When they do collide, `doomcon-data` queues them
+(`cancel-in-progress: false`).
+
+**Job budgets (FINDABILITY #83).** The findability tree made a full static
+rebuild a 30–50+ minute step. Newsroom job timeout is **45 minutes**; full
+index pass is **90 minutes**. The older 10m / 40m ceilings cancelled mid-Build
+before Publish and left SEO overlays holding `gh-pages`.
 
 ---
 
