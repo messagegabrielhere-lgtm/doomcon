@@ -121,6 +121,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(HEAD_TERMS.find((t) => t.id === 'meta-muse').re.test('Meta Muse Spark Open'));
   assert.ok(HEAD_TERMS.find((t) => t.id === 'meta-muse').re.test('Muse Wonder frontier model'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'meta-muse').re.test('visit the museum'), false);
+  // FINDABILITY #193 — Meta + Apple Mac AI titles without Muse still route to Meta lab.
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'meta-apple-mac' && t.path === '/lab/meta.html'));
+  assert.ok(matchHeadTerms({ title: 'Apple and Meta Collaborate to Run a Massive AI Model Locally on Mac', news: [] }).includes('meta-apple-mac'));
+  assert.ok(matchHeadTerms({ title: 'Meta and Apple team up to make Muse AI models run better on Macs', news: [] }).includes('meta-apple-mac'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'meta-apple-mac').re.test('Apple Intelligence China launch'), false);
   // FINDABILITY #170 — Apple Intelligence / on-device Apple AI → gated Apple lab.
   assert.ok(matchHeadTerms({ title: 'Apple Intelligence China launch', news: [] }).includes('apple-intelligence'));
   assert.ok(matchHeadTerms({ title: 'Apple on-device AI features expand', news: [] }).includes('apple-intelligence'));

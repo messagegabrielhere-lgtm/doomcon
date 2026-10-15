@@ -184,6 +184,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /Amazon Bee, Bee Frontier, Bee Eclipse/);
   // FINDABILITY #169 — Meta Muse / open-weight route to Meta lab.
   assert.match(txt, /Meta Muse, Muse Spark, Muse Wonder/);
+  // FINDABILITY #193 — Meta–Apple Mac AI partnership route to Meta lab.
+  assert.match(txt, /Meta and Apple Mac AI partnerships, Muse on Mac Studio/);
   // FINDABILITY #170 — Apple Intelligence / on-device AI route to Apple lab.
   assert.match(txt, /Apple Intelligence, Apple on-device AI/);
   assert.match(txt, /\/lab\/apple\.html/);
@@ -301,7 +303,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /\/lab\/tsmc\.html/);
   // FINDABILITY #167 — agents.md lists Amazon lab for Bee / wearables Trends.
   assert.match(md, /Amazon Bee \/ AI wearables Trends/);
-  assert.match(md, /Meta Muse \/ open-weight AI Trends/);
+  assert.match(md, /Meta Muse \/ open-weight AI \/ Meta–Apple Mac Trends/);
   // FINDABILITY #170 — agents.md lists Apple lab for Apple Intelligence Trends.
   assert.match(md, /Apple Intelligence Trends/);
   assert.match(md, /\/lab\/apple\.html/);

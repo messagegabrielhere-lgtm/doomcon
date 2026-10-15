@@ -301,6 +301,11 @@ describe('lab facets', () => {
       metaHtml,
       /Why does SIREN watch Meta Muse and open-weight AI\?/,
     );
+    // FINDABILITY #193 — Meta–Apple Mac AI FAQ on same gated lab.
+    assert.match(
+      metaHtml,
+      /Why does SIREN watch Meta and Apple Mac AI partnerships\?/,
+    );
     assert.match(metaHtml, /<title>[^<]*Muse/);
     assert.match(metaHtml, /[Nn]ot a model review/);
     assert.match(metaHtml, /search-trends\.html/);

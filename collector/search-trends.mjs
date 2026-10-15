@@ -84,6 +84,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #169 — Meta Muse / Muse Spark / Muse Wonder → gated Meta lab
   // (story counts only; not a model review or stock tip).
   { id: 'meta-muse', label: 'Meta Muse', re: /\bmeta\b.{0,40}\bmuse\b|\bmuse\s+(?:spark|wonder)(?:\s+open)?\b/i, path: '/lab/meta.html' },
+  // FINDABILITY #193 — Meta + Apple Mac AI / Muse-on-Mac partnership → gated Meta lab
+  // (story counts only; not a product review or stock tip). Titles often omit Muse.
+  { id: 'meta-apple-mac', label: 'Meta Apple Mac AI', re: /\bmeta\b.{0,64}\bapple\b.{0,64}\b(?:mac|muse|ai|model|open[\s-]?weight)|\bapple\b.{0,64}\bmeta\b.{0,64}\b(?:mac|muse|ai|model|open[\s-]?weight)|\bmuse\b.{0,48}\b(?:mac\s+studio|macs?|apple)\b|\b(?:mac\s+studio|macs?)\b.{0,48}\bmuse\b/i, path: '/lab/meta.html' },
   // FINDABILITY #170 — Apple Intelligence / on-device Apple AI → gated Apple lab
   // (story counts only; not a product review or stock tip).
   { id: 'apple-intelligence', label: 'Apple Intelligence', re: /\bapple\s+intelligence\b|\bapple\b.{0,40}\b(?:on[\s-]?device\s+ai|ai\s+features?)\b/i, path: '/lab/apple.html' },

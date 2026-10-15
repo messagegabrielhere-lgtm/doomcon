@@ -574,6 +574,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
           || ! grep -qF 'TSMC / AI foundry → /lab/tsmc.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Amazon Bee / AI wearables → /lab/amazon.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Meta Muse / open-weight AI → /lab/meta.html' "$root/search-trends.html" 2>/dev/null \
+          || ! grep -qF 'Meta–Apple Mac AI / Muse on Mac → /lab/meta.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Apple Intelligence → /lab/apple.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Grok / xAI → /lab/xai.html' "$root/search-trends.html" 2>/dev/null \
@@ -645,10 +646,11 @@ while [ "$(date +%s)" -lt "$END" ]; do
     restore_meta_muse_faq() {
       local root="$1" preserve="$2"
       if [ -f "$preserve/lab/meta.html" ] \
-        && ! grep -qF 'Why does SIREN watch Meta Muse and open-weight AI?' "$root/lab/meta.html" 2>/dev/null; then
+        && { ! grep -qF 'Why does SIREN watch Meta Muse and open-weight AI?' "$root/lab/meta.html" 2>/dev/null \
+          || ! grep -qF 'Why does SIREN watch Meta and Apple Mac AI partnerships?' "$root/lab/meta.html" 2>/dev/null; }; then
         mkdir -p "$root/lab"
         cp -a "$preserve/lab/meta.html" "$root/lab/meta.html"
-        echo "restored lab/meta.html Meta Muse FAQ (#169)"
+        echo "restored lab/meta.html Meta Muse + Meta–Apple Mac FAQ (#169/#193)"
       fi
     }
     # FINDABILITY #170 — restore tip /lab/apple.html when Apple Intelligence FAQ
