@@ -558,6 +558,13 @@ export function renderLab(ctx, player) {
       `${brand.NAME} scores press that names xAI. When Grok, Grok Voice, or xAI model / API headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
+  // FINDABILITY #174 — Gemini / Gemma / Gemini 4 Argon tape → gated DeepMind lab.
+  if (player.id === 'google-deepmind') {
+    faq.push([
+      `Why does ${brand.NAME} watch Gemini and Gemma?`,
+      `${brand.NAME} scores press that names Google DeepMind. When Gemini, Gemini 4 Argon, Gemma, or Gemma open-model headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');

@@ -342,6 +342,27 @@ describe('lab facets', () => {
     assert.match(xaiHtml, /[Nn]ot a model review/);
     assert.match(xaiHtml, /search-trends\.html/);
     assert.doesNotMatch(xaiHtml, /buy xAI|price target|must use Grok/i);
+    // FINDABILITY #174 — Google DeepMind / Gemini / Gemma FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES['google-deepmind'], 'Gemini');
+    assert.equal(
+      labAboutLabel({ id: 'google-deepmind', name: 'Google DeepMind' }),
+      'Google DeepMind / Gemini',
+    );
+    const gdmHtml = renderLab(ctx, {
+      id: 'google-deepmind',
+      name: 'Google DeepMind',
+      principal: 'Demis Hassabis',
+      market: { probability: 0.3, change_7d: 0 },
+    });
+    assert.match(
+      gdmHtml,
+      /Why does SIREN watch Gemini and Gemma\?/,
+    );
+    assert.match(gdmHtml, /<title>[^<]*Gemini/);
+    assert.match(gdmHtml, /Gemini 4 Argon|Gemma open-model/);
+    assert.match(gdmHtml, /[Nn]ot a model review/);
+    assert.match(gdmHtml, /search-trends\.html/);
+    assert.doesNotMatch(gdmHtml, /buy Gemini|price target|must use Gemma/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

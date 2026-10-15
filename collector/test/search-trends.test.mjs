@@ -136,6 +136,12 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'xAI ships new API tier', news: [] }).includes('xai-grok'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'xai-grok' && t.path === '/lab/xai.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'xai-grok').re.test('frog croak sounds'), false);
+  // FINDABILITY #174 — Gemini / Gemma Trends → gated DeepMind lab.
+  assert.ok(matchHeadTerms({ title: 'Gemini 4 Argon reaches enterprises', news: [] }).includes('gemini'));
+  assert.ok(matchHeadTerms({ title: 'Google Gemma 4 Open Models', news: [] }).includes('gemini'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'gemini' && t.path === '/lab/google-deepmind.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'gemini').label, 'Gemini / Gemma');
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'gemini').re.test('gemstone jewelry sale'), false);
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({

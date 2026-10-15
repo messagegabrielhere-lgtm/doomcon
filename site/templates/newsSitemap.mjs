@@ -81,6 +81,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Muse', 'Copilot',
   // FINDABILITY #173 — Grok needle when titles use the product alone.
   'Grok',
+  // FINDABILITY #174 — Gemma needle when titles use the open-model name alone.
+  'Gemma', 'Gemma 4',
 ]);
 
 /**
