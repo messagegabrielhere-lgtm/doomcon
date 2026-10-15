@@ -63,6 +63,8 @@ const ALWAYS = Object.freeze([
   '/api/news.json',
   '/.well-known/api-catalog',
   '/now.md',
+  // FINDABILITY #92 — tipped live reading (plain) after #90; pair with /now.md.
+  '/api/now.txt',
   '/tags.html',
   '/tags/',
   '/kinds.html',
