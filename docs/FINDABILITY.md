@@ -395,6 +395,7 @@ context.
 | 155 | Search Trends `HEAD_TERMS` `coreweave` (`coreweave stock`) → gated `/lab/coreweave.html`; lab FAQ + `agents.md`/`llms.txt` tip; `seo-daily` detects FAQ + agent-map lag; `collect` + `news-fast` Publish preserve tip CoreWeave lab when FAQ missing — story counts only, no stock tip / doorway | Google + Trends + Agents | **Done** (this pass) |
 | 156 | `collect` + `news-fast` `restore_agent_maps` also restores tip `agents.md` / `llms.txt` when Trends tips lack `IREN stock`, `dram stock`, or `CoreWeave stock` (#153/#154/#155) — stops newsroom/collect force-push from wiping agent-map Trends tips while FAQ HTML survives | Deploy + Agents + Trends | **Done** (this pass) |
 | 157 | Search Trends `HEAD_TERMS` `neocloud` → gated `/tags/neoclouds.html`; tag FAQ + `agents.md`/`llms.txt` tip; `seo-daily` detects FAQ + agent-map lag; `collect` + `news-fast` Publish preserve tip Neoclouds tag when FAQ missing — story counts only, not a vendor ranking | Google + Trends + Agents | **Done** (this pass) |
+| 158 | `/search-trends.html` watchlist FAQ routes IREN / dram / CoreWeave / neocloud Trends to gated `/watts.html` / `/lab/micron.html` / `/lab/coreweave.html` / `/tags/neoclouds.html` so crawlable routing survives a quiet firehose; `seo-daily` detects lag; `collect` + `news-fast` Publish preserve tip Trends HTML (+ aliases) when FAQ missing; news-fast overlay also copies `search-trends.html` + `api/search-trends.json` | Google + Trends | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

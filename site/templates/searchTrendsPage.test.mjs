@@ -23,6 +23,13 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /"@type"\s*:\s*"FAQPage"/);
   assert.match(html, /Mintieo/);
   assert.match(html, /api\/search-trends\.json/);
+  // FINDABILITY #158 — watchlist FAQ routes stock / neocloud Trends to gated pages.
+  assert.match(html, /Where does SIREN send IREN stock, dram stock, CoreWeave stock, and neocloud Trends\?/);
+  assert.match(html, /\/watts\.html/);
+  assert.match(html, /\/lab\/micron\.html/);
+  assert.match(html, /\/lab\/coreweave\.html/);
+  assert.match(html, /\/tags\/neoclouds\.html/);
+  assert.match(html, /not investment advice/);
 });
 
 test('searchTrendsPage stays honest when Trends is dark', () => {

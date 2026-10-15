@@ -46,6 +46,8 @@ import {
   hasNeocloudFaq,
   hasAgentsNeocloud,
   NEOCLOUD_FAQ_NEEDLE,
+  hasTrendsRoutesFaq,
+  TRENDS_ROUTES_FAQ_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -530,6 +532,22 @@ describe('seo-daily surfaces', () => {
     });
     assert.ok(gaps.some((g) => g.id === 'neocloud-faq-missing'));
     assert.ok(gaps.some((g) => g.id === 'agents-neocloud-missing'));
+  });
+
+  it('detects Search Trends routing FAQ lag (FINDABILITY #158)', () => {
+    assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), true);
+    assert.equal(hasTrendsRoutesFaq('Where do live AI prediction-market odds live'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        trends_routes_faq: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'trends-routes-faq-missing'));
   });
 
   it('detects missing labAboutLabel aliases in news:keywords (FINDABILITY #148)', () => {

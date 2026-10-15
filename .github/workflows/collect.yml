@@ -594,14 +594,14 @@ jobs:
           rm -rf .pages-faq-tip
           if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
             # FINDABILITY #136 — also stash tip agent maps (head-term / root needles).
-            # FINDABILITY #141/#143/#145/#153/#154/#155/#157 — stash tip /lab/ +
+            # FINDABILITY #141/#143/#145/#153/#154/#155/#157/#158 — stash tip /lab/ +
             # companies hubs, home/classic, race, Watts/Micron/CoreWeave/Neoclouds
-            # Trends FAQs so mid-merge collect cannot wipe those overlays.
+            # + Search Trends FAQs so mid-merge collect cannot wipe those overlays.
             for hub in compare.html alternatives.html agents.md llms.txt \
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
               watts.html watts/index.html lab/micron.html lab/coreweave.html \
-              tags/neoclouds.html; do
+              tags/neoclouds.html search-trends.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -779,6 +779,17 @@ jobs:
             mkdir -p .pages/tags
             cp -a "$PRESERVE_FAQ/tags/neoclouds.html" .pages/tags/neoclouds.html
             echo "restored tags/neoclouds.html neocloud Trends FAQ (#157)"
+          fi
+          # FINDABILITY #158 — restore tip /search-trends.html (+ aliases) when
+          # watchlist routing FAQ is missing after mid-merge / orphan on tip < #158.
+          if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
+            && ! grep -qF 'Where does SIREN send IREN stock, dram stock, CoreWeave stock, and neocloud Trends?' ".pages/search-trends.html" 2>/dev/null; then
+            cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends.html
+            cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends.html
+            mkdir -p .pages/trends .pages/search-trends
+            cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
+            cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
+            echo "restored search-trends.html routing FAQ (#158)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages
@@ -1404,14 +1415,14 @@ jobs:
           rm -rf .pages-faq-tip
           if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
             # FINDABILITY #136 — also stash tip agent maps (head-term / root needles).
-            # FINDABILITY #141/#143/#145/#153/#154/#155/#157 — stash tip /lab/ +
+            # FINDABILITY #141/#143/#145/#153/#154/#155/#157/#158 — stash tip /lab/ +
             # companies hubs, home/classic, race, Watts/Micron/CoreWeave/Neoclouds
-            # Trends FAQs so mid-merge collect cannot wipe those overlays.
+            # + Search Trends FAQs so mid-merge collect cannot wipe those overlays.
             for hub in compare.html alternatives.html agents.md llms.txt \
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
               watts.html watts/index.html lab/micron.html lab/coreweave.html \
-              tags/neoclouds.html; do
+              tags/neoclouds.html search-trends.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -1588,6 +1599,17 @@ jobs:
             mkdir -p .pages/tags
             cp -a "$PRESERVE_FAQ/tags/neoclouds.html" .pages/tags/neoclouds.html
             echo "restored tags/neoclouds.html neocloud Trends FAQ (#157)"
+          fi
+          # FINDABILITY #158 — restore tip /search-trends.html (+ aliases) when
+          # watchlist routing FAQ is missing after mid-merge / orphan on tip < #158.
+          if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
+            && ! grep -qF 'Where does SIREN send IREN stock, dram stock, CoreWeave stock, and neocloud Trends?' ".pages/search-trends.html" 2>/dev/null; then
+            cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends.html
+            cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends.html
+            mkdir -p .pages/trends .pages/search-trends
+            cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
+            cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
+            echo "restored search-trends.html routing FAQ (#158)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages

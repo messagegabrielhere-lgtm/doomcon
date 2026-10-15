@@ -53,6 +53,12 @@ function faqBlocks() {
       q: `Where do live AI prediction-market odds live on ${brand.NAME}?`,
       a: `On The Race (/race.html) and the Markets pillar. Those pages report market prices. They are not a ${brand.NAME} forecast.`,
     },
+    // FINDABILITY #158 — stock / neocloud Trends spikes need crawlable routing
+    // on the watchlist page itself (gated destinations already answer).
+    {
+      q: `Where does ${brand.NAME} send IREN stock, dram stock, CoreWeave stock, and neocloud Trends?`,
+      a: `IREN / Iris Energy / AI-cloud power → /watts.html (substrate reading, not a stock tip). Micron / MU / DRAM / HBM / memory stock → /lab/micron.html. CoreWeave stock → /lab/coreweave.html. Neocloud / neoclouds → /tags/neoclouds.html. Each page is story counts or infrastructure tempo only — not investment advice and not a company doom score.`,
+    },
   ];
 }
 
