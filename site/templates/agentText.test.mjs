@@ -161,6 +161,10 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #161 — Nvidia / NVDA Trends route to Nvidia lab.
   assert.match(txt, /Nvidia stock, NVDA Trends, or AI GPU funding-cost Trends/);
   assert.match(txt, /\/lab\/nvidia\.html/);
+  // FINDABILITY #162 — OpenAI lawsuit / FTC tape routes to OpenAI lab.
+  assert.match(txt, /OpenAI lawsuit, FTC probe/);
+  assert.match(txt, /\/lab\/openai\.html/);
+  assert.match(txt, /not legal advice/);
   // FINDABILITY #157 — neocloud Trends route to Neoclouds tag.
   assert.match(txt, /neocloud or neoclouds Trends/);
   assert.match(txt, /\/tags\/neoclouds\.html/);
@@ -217,6 +221,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #161 — agents.md lists Nvidia lab for NVDA Trends.
   assert.match(md, /Nvidia stock \/ NVDA Trends/);
   assert.match(md, /\/lab\/nvidia\.html/);
+  // FINDABILITY #162 — agents.md lists OpenAI lab for lawsuit / FTC Trends.
+  assert.match(md, /OpenAI lawsuit \/ FTC probe Trends/);
+  assert.match(md, /\/lab\/openai\.html/);
   // FINDABILITY #157 — agents.md lists Neoclouds tag for neocloud Trends.
   assert.match(md, /neocloud \/ neoclouds Trends/);
   assert.match(md, /\/tags\/neoclouds\.html/);

@@ -31,6 +31,9 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /\/tags\/neoclouds\.html/);
   assert.match(html, /CoreWeave stock \/ debt \/ bond yields/);
   assert.match(html, /Nvidia \/ NVDA stock → \/lab\/nvidia\.html/);
+  // FINDABILITY #162 — OpenAI lawsuit / FTC suits route to gated lab.
+  assert.match(html, /OpenAI lawsuit \/ FTC \/ ChatGPT suits → \/lab\/openai\.html/);
+  assert.match(html, /not legal advice/);
   assert.match(html, /not investment advice/);
   assert.match(html, /not credit analysis/);
 });
