@@ -601,7 +601,7 @@ jobs:
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
               watts.html watts/index.html lab/micron.html lab/coreweave.html \
-              lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html; do
+              lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -729,9 +729,10 @@ jobs:
                 || ! grep -qF 'DeepSeek outage' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Timestral' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'OpenAI outage' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Hugging Face hack' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'Hugging Face hack' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'Palantir / AIP' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182)"
+              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -948,6 +949,15 @@ jobs:
             cp -a "$PRESERVE_FAQ/tags/huggingface.html" .pages/tags/huggingface.html
             echo "restored tags/huggingface.html Hugging Face hack FAQ (#182)"
           fi
+
+          # FINDABILITY #183 — restore tip /lab/palantir.html when Palantir FAQ
+          # is missing after mid-merge / orphan Publish on tip < #183.
+          if [ -f "$PRESERVE_FAQ/lab/palantir.html" ] \
+            && ! grep -qF 'Why does SIREN watch Palantir and government AI?' ".pages/lab/palantir.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/palantir.html" .pages/lab/palantir.html
+            echo "restored lab/palantir.html Palantir / AIP FAQ (#183)"
+          fi
           # FINDABILITY #178 — restore tip /tags/datacenters.html when Oracle
           # / AI datacenter FAQ is missing after mid-merge / orphan Publish on tip < #178.
           if [ -f "$PRESERVE_FAQ/tags/datacenters.html" ] \
@@ -976,13 +986,14 @@ jobs:
               || ! grep -qF 'DeepSeek outage → /lab/deepseek.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Mistral / Timestral → /lab/mistral.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'OpenAI outage → /lab/openai.html' ".pages/search-trends.html" 2>/dev/null \
-              || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' ".pages/search-trends.html" 2>/dev/null; }; then
+              || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' ".pages/search-trends.html" 2>/dev/null \
+              || ! grep -qF 'Palantir / AIP → /lab/palantir.html' ".pages/search-trends.html" 2>/dev/null; }; then
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends.html
             mkdir -p .pages/trends .pages/search-trends
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182)"
+            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages
@@ -1615,7 +1626,7 @@ jobs:
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
               watts.html watts/index.html lab/micron.html lab/coreweave.html \
-              lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html; do
+              lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -1742,9 +1753,10 @@ jobs:
                 || ! grep -qF 'DeepSeek outage' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Timestral' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'OpenAI outage' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Hugging Face hack' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'Hugging Face hack' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'Palantir / AIP' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182)"
+              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -1961,6 +1973,15 @@ jobs:
             cp -a "$PRESERVE_FAQ/tags/huggingface.html" .pages/tags/huggingface.html
             echo "restored tags/huggingface.html Hugging Face hack FAQ (#182)"
           fi
+
+          # FINDABILITY #183 — restore tip /lab/palantir.html when Palantir FAQ
+          # is missing after mid-merge / orphan Publish on tip < #183.
+          if [ -f "$PRESERVE_FAQ/lab/palantir.html" ] \
+            && ! grep -qF 'Why does SIREN watch Palantir and government AI?' ".pages/lab/palantir.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/palantir.html" .pages/lab/palantir.html
+            echo "restored lab/palantir.html Palantir / AIP FAQ (#183)"
+          fi
           # FINDABILITY #178 — restore tip /tags/datacenters.html when Oracle
           # / AI datacenter FAQ is missing after mid-merge / orphan Publish on tip < #178.
           if [ -f "$PRESERVE_FAQ/tags/datacenters.html" ] \
@@ -1989,13 +2010,14 @@ jobs:
               || ! grep -qF 'DeepSeek outage → /lab/deepseek.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Mistral / Timestral → /lab/mistral.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'OpenAI outage → /lab/openai.html' ".pages/search-trends.html" 2>/dev/null \
-              || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' ".pages/search-trends.html" 2>/dev/null; }; then
+              || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' ".pages/search-trends.html" 2>/dev/null \
+              || ! grep -qF 'Palantir / AIP → /lab/palantir.html' ".pages/search-trends.html" 2>/dev/null; }; then
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends.html
             mkdir -p .pages/trends .pages/search-trends
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182)"
+            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages

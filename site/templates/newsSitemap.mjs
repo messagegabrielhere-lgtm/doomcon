@@ -92,6 +92,9 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #180 — Timestral / CERN Flare needles when titles use product
   // forms beside Mistral (labAboutLabel Timestral).
   'Timestral', 'CERN', 'Flare',
+  // FINDABILITY #183 — AIP / Gotham needles when titles use product forms
+  // beside Palantir (labAboutLabel AIP).
+  'AIP', 'Gotham',
 ]);
 
 /**
@@ -128,6 +131,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bOracle\b/i, name: /^Oracle$/i, alias: 'Datacenters' },
   // FINDABILITY #180 — Mistral → Timestral (labAboutLabel) when parent named.
   { re: /\bMistral\b/i, name: /^Mistral$/i, alias: 'Timestral' },
+  // FINDABILITY #183 — Palantir → AIP (labAboutLabel) when parent named.
+  { re: /\bPalantir\b/i, name: /^Palantir$/i, alias: 'AIP' },
 ]);
 
 /**

@@ -165,6 +165,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/deepseek.html',
   // FINDABILITY #180 — Mistral / Timestral Trends FAQ lab.
   '/lab/mistral.html',
+  // FINDABILITY #183 — Palantir / AIP / government AI Trends FAQ lab.
+  '/lab/palantir.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -482,6 +484,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'Oracle', alias: 'Datacenters' },
   // FINDABILITY #180 — Mistral → Timestral for Google News keywords.
   { lab: 'Mistral', alias: 'Timestral' },
+  // FINDABILITY #183 — Palantir → AIP for Google News keywords.
+  { lab: 'Palantir', alias: 'AIP' },
 ]);
 
 /**
@@ -809,6 +813,7 @@ export const TRENDS_ROUTES_DEEPSEEK_NEEDLE = 'DeepSeek outage → /lab/deepseek.
 export const TRENDS_ROUTES_MISTRAL_NEEDLE = 'Mistral / Timestral → /lab/mistral.html';
 export const TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE = 'OpenAI outage → /lab/openai.html';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
+export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 
 /**
  * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180
@@ -832,7 +837,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_DEEPSEEK_NEEDLE)
     && text.includes(TRENDS_ROUTES_MISTRAL_NEEDLE)
     && text.includes(TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE)
-    && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE);
+    && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
+    && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1179,6 +1185,25 @@ export function hasAgentsHuggingface(body, needle = AGENTS_HUGGINGFACE_NEEDLE) {
   return text.includes(needle) && text.includes('/tags/huggingface.html');
 }
 
+/** FINDABILITY #183 — Palantir / AIP / government AI FAQ + agent maps. */
+export const PALANTIR_FAQ_NEEDLE = 'Why does SIREN watch Palantir and government AI?';
+export const AGENTS_PALANTIR_NEEDLE = 'Palantir / AIP';
+
+/** Tip /lab/palantir.html must keep the #183 Palantir FAQ. */
+export function hasPalantirFaq(html, needle = PALANTIR_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Palantir / AIP Trends to Palantir lab (FINDABILITY #183).
+ * Wipe gap is `agents-palantir-missing`.
+ */
+export function hasAgentsPalantir(body, needle = AGENTS_PALANTIR_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/palantir.html');
+}
+
+
 
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
@@ -1224,6 +1249,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/qwen.html', needle: 'Qwen' },
   // FINDABILITY #180 — Timestral product alias on Mistral lab title/H1.
   { path: '/lab/mistral.html', needle: 'Timestral' },
+  // FINDABILITY #183 — AIP product alias on Palantir lab title/H1.
+  { path: '/lab/palantir.html', needle: 'AIP' },
 ]);
 
 /**
@@ -2160,6 +2187,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #183 — Palantir lab FAQ wiped or never landed.
+  if (ours.palantir_faq === false) {
+    gaps.push({
+      id: 'palantir-faq-missing',
+      severity: 'medium',
+      text: `/lab/palantir.html missing Palantir / AIP FAQ (FINDABILITY #183) — re-overlay lab/palantir.html or wait for full collect Publish on tip ≥ #183`,
+    });
+  }
+  // FINDABILITY #183 — agent maps must route Palantir / AIP Trends to Palantir lab.
+  if (ours.agents_palantir === false || ours.llms_palantir === false) {
+    const which = [
+      ours.agents_palantir === false ? 'agents.md' : null,
+      ours.llms_palantir === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-palantir-missing',
+      severity: 'medium',
+      text: `${which} missing Palantir / AIP → /lab/palantir.html Trends tip (FINDABILITY #183) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #183`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -2474,6 +2522,11 @@ export function measureSite(site, byUrl) {
     row.huggingface_faq = hfHtml?.ok ? hasHuggingfaceFaq(hfHtml.value) : false;
     row.agents_huggingface = agentsMd?.ok ? hasAgentsHuggingface(agentsMd.value) : false;
     row.llms_huggingface = llms?.ok ? hasAgentsHuggingface(llmsBody) : false;
+    // FINDABILITY #183 — Palantir FAQ + agent maps.
+    const palantirHtml = byUrl.get(`${base}/lab/palantir.html`);
+    row.palantir_faq = palantirHtml?.ok ? hasPalantirFaq(palantirHtml.value) : false;
+    row.agents_palantir = agentsMd?.ok ? hasAgentsPalantir(agentsMd.value) : false;
+    row.llms_palantir = llms?.ok ? hasAgentsPalantir(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -2897,6 +2950,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_huggingface == null ? '—' : (ours.agents_huggingface ? 'yes' : 'NO');
       const lm = ours.llms_huggingface == null ? '—' : (ours.llms_huggingface ? 'yes' : 'NO');
       lines.push(`- Agent-map Hugging Face hack → tag (#182): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.palantir_faq != null) {
+      lines.push(
+        `- Palantir / AIP FAQ (#183): **${ours.palantir_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_palantir != null || ours.llms_palantir != null)) {
+      const ag = ours.agents_palantir == null ? '—' : (ours.agents_palantir ? 'yes' : 'NO');
+      const lm = ours.llms_palantir == null ? '—' : (ours.llms_palantir ? 'yes' : 'NO');
+      lines.push(`- Agent-map Palantir / AIP → lab (#183): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -4076,6 +4139,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/tags/huggingface.html')) {
     throw new Error('OUR_SURFACES missing /tags/huggingface.html');
   }
+  if (hasPalantirFaq(PALANTIR_FAQ_NEEDLE) !== true) {
+    throw new Error('hasPalantirFaq true');
+  }
+  if (hasPalantirFaq('What has SIREN scored about Palantir?') !== false) {
+    throw new Error('hasPalantirFaq false');
+  }
+  if (hasAgentsPalantir('Palantir / AIP → https://siren.watch/lab/palantir.html') !== true) {
+    throw new Error('hasAgentsPalantir true');
+  }
+  if (hasAgentsPalantir('https://siren.watch/lab/palantir.html only') !== false) {
+    throw new Error('hasAgentsPalantir needs Palantir / AIP needle');
+  }
+  const palantirGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      palantir_faq: false,
+      agents_palantir: false,
+      llms_palantir: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!palantirGaps.some((g) => g.id === 'palantir-faq-missing')) {
+    throw new Error('palantir-faq-missing gap');
+  }
+  if (!palantirGaps.some((g) => g.id === 'agents-palantir-missing')) {
+    throw new Error('agents-palantir-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/palantir.html')) {
+    throw new Error('OUR_SURFACES missing /lab/palantir.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -4094,12 +4190,13 @@ function selftest() {
     TRENDS_ROUTES_MISTRAL_NEEDLE,
     TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
+    TRENDS_ROUTES_PALANTIR_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/Palantir destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
