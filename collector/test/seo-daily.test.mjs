@@ -56,6 +56,9 @@ import {
   hasOpenaiLawsuitFaq,
   hasAgentsOpenaiLawsuit,
   OPENAI_LAWSUIT_FAQ_NEEDLE,
+  hasAnthropicIpoFaq,
+  hasAgentsAnthropicIpo,
+  ANTHROPIC_IPO_FAQ_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -604,6 +607,30 @@ describe('seo-daily surfaces', () => {
     });
     assert.ok(gaps.some((g) => g.id === 'openai-lawsuit-faq-missing'));
     assert.ok(gaps.some((g) => g.id === 'agents-openai-lawsuit-missing'));
+  });
+
+  it('detects Anthropic IPO / FTC FAQ + agent-map lag (FINDABILITY #163)', () => {
+    assert.equal(hasAnthropicIpoFaq(ANTHROPIC_IPO_FAQ_NEEDLE), true);
+    assert.equal(hasAnthropicIpoFaq('What has SIREN scored about Anthropic / Claude?'), false);
+    assert.equal(
+      hasAgentsAnthropicIpo('Anthropic IPO → https://siren.watch/lab/anthropic.html'),
+      true,
+    );
+    assert.equal(hasAgentsAnthropicIpo('https://siren.watch/lab/anthropic.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        anthropic_ipo_faq: false,
+        agents_anthropic_ipo: false,
+        llms_anthropic_ipo: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'anthropic-ipo-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-anthropic-ipo-missing'));
   });
 
   it('detects Search Trends routing FAQ lag (FINDABILITY #158)', () => {

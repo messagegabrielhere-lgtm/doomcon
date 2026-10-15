@@ -165,6 +165,10 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /OpenAI lawsuit, FTC probe/);
   assert.match(txt, /\/lab\/openai\.html/);
   assert.match(txt, /not legal advice/);
+  // FINDABILITY #163 — Anthropic IPO / FTC tape routes to Anthropic lab.
+  assert.match(txt, /Anthropic IPO, Anthropic FTC probe/);
+  assert.match(txt, /\/lab\/anthropic\.html/);
+  assert.match(txt, /not IPO advice/);
   // FINDABILITY #157 — neocloud Trends route to Neoclouds tag.
   assert.match(txt, /neocloud or neoclouds Trends/);
   assert.match(txt, /\/tags\/neoclouds\.html/);
@@ -224,6 +228,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #162 — agents.md lists OpenAI lab for lawsuit / FTC Trends.
   assert.match(md, /OpenAI lawsuit \/ FTC probe Trends/);
   assert.match(md, /\/lab\/openai\.html/);
+  // FINDABILITY #163 — agents.md lists Anthropic lab for IPO / FTC Trends.
+  assert.match(md, /Anthropic IPO \/ FTC probe Trends/);
+  assert.match(md, /\/lab\/anthropic\.html/);
   // FINDABILITY #157 — agents.md lists Neoclouds tag for neocloud Trends.
   assert.match(md, /neocloud \/ neoclouds Trends/);
   assert.match(md, /\/tags\/neoclouds\.html/);

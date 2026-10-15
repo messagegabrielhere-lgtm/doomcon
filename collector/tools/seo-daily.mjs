@@ -789,6 +789,24 @@ export function hasAgentsOpenaiLawsuit(body, needle = AGENTS_OPENAI_LAWSUIT_NEED
   return text.includes(needle) && text.includes('/lab/openai.html');
 }
 
+/** FINDABILITY #163 — Anthropic lab FAQ + agent maps for IPO / FTC tape. */
+export const ANTHROPIC_IPO_FAQ_NEEDLE = 'Why does SIREN watch Anthropic IPO and FTC probes?';
+export const AGENTS_ANTHROPIC_IPO_NEEDLE = 'Anthropic IPO';
+
+/** Tip /lab/anthropic.html must keep the #163 Anthropic IPO / FTC FAQ. */
+export function hasAnthropicIpoFaq(html, needle = ANTHROPIC_IPO_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Anthropic IPO / FTC tape to Anthropic lab (FINDABILITY #163).
+ * Wipe gap is `agents-anthropic-ipo-missing`.
+ */
+export function hasAgentsAnthropicIpo(body, needle = AGENTS_ANTHROPIC_IPO_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/anthropic.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -1398,6 +1416,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #163 — Anthropic lab FAQ for IPO / FTC tape wiped or never landed.
+  if (ours.anthropic_ipo_faq === false) {
+    gaps.push({
+      id: 'anthropic-ipo-faq-missing',
+      severity: 'medium',
+      text: `/lab/anthropic.html missing Anthropic IPO / FTC FAQ (FINDABILITY #163) — re-overlay lab/anthropic.html or wait for full collect Publish on tip ≥ #163`,
+    });
+  }
+  // FINDABILITY #163 — agent maps must route Anthropic IPO / FTC tape to Anthropic lab.
+  if (ours.agents_anthropic_ipo === false || ours.llms_anthropic_ipo === false) {
+    const which = [
+      ours.agents_anthropic_ipo === false ? 'agents.md' : null,
+      ours.llms_anthropic_ipo === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-anthropic-ipo-missing',
+      severity: 'medium',
+      text: `${which} missing Anthropic IPO → /lab/anthropic.html tip (FINDABILITY #163) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #163`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1620,6 +1659,11 @@ export function measureSite(site, byUrl) {
     row.openai_lawsuit_faq = oaiHtml?.ok ? hasOpenaiLawsuitFaq(oaiHtml.value) : false;
     row.agents_openai_lawsuit = agentsMd?.ok ? hasAgentsOpenaiLawsuit(agentsMd.value) : false;
     row.llms_openai_lawsuit = llms?.ok ? hasAgentsOpenaiLawsuit(llmsBody) : false;
+    // FINDABILITY #163 — Anthropic IPO / FTC FAQ + agent maps.
+    const antHtml = byUrl.get(`${base}/lab/anthropic.html`);
+    row.anthropic_ipo_faq = antHtml?.ok ? hasAnthropicIpoFaq(antHtml.value) : false;
+    row.agents_anthropic_ipo = agentsMd?.ok ? hasAgentsAnthropicIpo(agentsMd.value) : false;
+    row.llms_anthropic_ipo = llms?.ok ? hasAgentsAnthropicIpo(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -1865,6 +1909,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_openai_lawsuit == null ? '—' : (ours.agents_openai_lawsuit ? 'yes' : 'NO');
       const lm = ours.llms_openai_lawsuit == null ? '—' : (ours.llms_openai_lawsuit ? 'yes' : 'NO');
       lines.push(`- Agent-map OpenAI lawsuit → lab (#162): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.anthropic_ipo_faq != null) {
+      lines.push(
+        `- Anthropic IPO / FTC FAQ (#163): **${ours.anthropic_ipo_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_anthropic_ipo != null || ours.llms_anthropic_ipo != null)) {
+      const ag = ours.agents_anthropic_ipo == null ? '—' : (ours.agents_anthropic_ipo ? 'yes' : 'NO');
+      const lm = ours.llms_anthropic_ipo == null ? '—' : (ours.llms_anthropic_ipo ? 'yes' : 'NO');
+      lines.push(`- Agent-map Anthropic IPO → lab (#163): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -2500,6 +2554,39 @@ function selftest() {
   }
   if (!OUR_SURFACES.includes('/lab/openai.html')) {
     throw new Error('OUR_SURFACES missing /lab/openai.html');
+  }
+  if (hasAnthropicIpoFaq(ANTHROPIC_IPO_FAQ_NEEDLE) !== true) {
+    throw new Error('hasAnthropicIpoFaq true');
+  }
+  if (hasAnthropicIpoFaq('What has SIREN scored about Anthropic / Claude?') !== false) {
+    throw new Error('hasAnthropicIpoFaq false');
+  }
+  if (hasAgentsAnthropicIpo('Anthropic IPO → https://siren.watch/lab/anthropic.html') !== true) {
+    throw new Error('hasAgentsAnthropicIpo true');
+  }
+  if (hasAgentsAnthropicIpo('https://siren.watch/lab/anthropic.html only') !== false) {
+    throw new Error('hasAgentsAnthropicIpo needs IPO needle');
+  }
+  const antGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      anthropic_ipo_faq: false,
+      agents_anthropic_ipo: false,
+      llms_anthropic_ipo: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!antGaps.some((g) => g.id === 'anthropic-ipo-faq-missing')) {
+    throw new Error('anthropic-ipo-faq-missing gap');
+  }
+  if (!antGaps.some((g) => g.id === 'agents-anthropic-ipo-missing')) {
+    throw new Error('agents-anthropic-ipo-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/anthropic.html')) {
+    throw new Error('OUR_SURFACES missing /lab/anthropic.html');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
