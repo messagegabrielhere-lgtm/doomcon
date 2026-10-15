@@ -432,6 +432,28 @@ test('news sitemap keywords add Qwen when Alibaba is named (FINDABILITY #177)', 
   assert.doesNotMatch(b, /(^|,\s*)Alibaba(,|$)/);
 });
 
+test('news sitemap keywords add Datacenters when Oracle is named (FINDABILITY #178)', () => {
+  const a = keywordsFor({
+    title: '12 States Push Back on New Mexico in Oracle Data Center Pipeline Fight',
+    summary: 'AI cloud capacity fight.',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Oracle'],
+  });
+  assert.match(a, /\bOracle\b/);
+  assert.match(a, /\bDatacenters\b/);
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No infra company named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)Datacenters(,|$)/);
+});
+
 
 test('news sitemap keywords add neocloud / Iris Energy when parent named (FINDABILITY #159)', () => {
   const a = keywordsFor({

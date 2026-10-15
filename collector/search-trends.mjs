@@ -96,6 +96,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #177 — Qwen / Tongyi / Alibaba open-weight Trends → gated Qwen lab
   // (story counts only; not a model review or stock tip).
   { id: 'qwen', label: 'Qwen', re: /\bqwen(?:\s+\d|\s+n\d)?\b|\btongyi\b|\balibaba\b.{0,40}\b(?:qwen|open[\s-]?weight)\b/i, path: '/lab/qwen.html' },
+  // FINDABILITY #178 — Oracle / AI datacenter Trends → gated datacenters tag
+  // (story counts only; not a stock tip or credit forecast).
+  { id: 'oracle-datacenters', label: 'Oracle', re: /\boracle\b/i, path: '/tags/datacenters.html' },
   { id: 'siren', label: 'SIREN / siren.watch', re: /\bsiren\.watch\b|\bsiren\s+(?:index|watch|ai)\b|\bdoomcon\b/i, path: '/' },
 ]);
 
