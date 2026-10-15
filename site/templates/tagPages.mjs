@@ -47,7 +47,8 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'datacenters',
     name: 'Datacenters & power',
     description: 'Sites, megawatts, and power deals tied to frontier training and inference.',
-    match: /\b(data[- ]cent(?:er|re)s?|power purchase|megawatts?|gwh|grid interconnect)\b/i,
+    // FINDABILITY #178 — Oracle / AI datacenter pipeline + downgrade tape shares this hub.
+    match: /\b(data[- ]cent(?:er|re)s?|power purchase|megawatts?|gwh|grid interconnect)\b|\boracle\b/i,
   },
   {
     id: 'fundraising',
@@ -2015,6 +2016,13 @@ export function renderTag(ctx, id) {
     faq.push([
       `Why does ${brand.NAME} watch Character.ai and AI chatbot bankruptcies?`,
       `${brand.NAME} scores press that names Character.ai / Character AI or chatbots. When Character.ai bankruptcy, companion-chatbot shutdown, or chatbot-product headlines dominate the tape — or spike in Google Search Trends — this tag page is the crawlable answer — scored story counts only. Not a product score, not a bankruptcy forecast, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
+  // FINDABILITY #178 — Oracle / AI datacenter Trends → gated datacenters tag.
+  if (topic.id === 'datacenters') {
+    faq.push([
+      `Why does ${brand.NAME} watch Oracle and AI datacenters?`,
+      `${brand.NAME} scores press that names Oracle or AI data centres. When Oracle datacenter pipeline, AI cloud capacity, or Oracle AI-infra headlines dominate the tape — or spike in Google Search Trends — this tag page is the crawlable answer — scored story counts only. Not a stock tip, not a credit forecast, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
   const faqHtml = faq.map(([q, a]) => `

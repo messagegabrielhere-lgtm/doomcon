@@ -204,6 +204,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #177 — Qwen / Alibaba open-weight route to Qwen lab.
   assert.match(txt, /Qwen, Tongyi, Alibaba Qwen/);
   assert.match(txt, /\/lab\/qwen\.html/);
+  // FINDABILITY #178 — Oracle / AI datacenter route to Datacenters tag.
+  assert.match(txt, /Oracle datacenter, Oracle AI cloud/);
+  assert.match(txt, /\/tags\/datacenters\.html/);
   assert.match(txt, /not a stock tip/);
   assert.match(txt, /## Explainers \(search head terms\)/);
   assert.match(txt, /## Instruments/);
@@ -227,7 +230,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /ChatGPT, Grok/);
   for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html',
     '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/watts.html', '/lab/micron.html', '/lab/coreweave.html',
-    '/tags/neoclouds.html',
+    '/tags/neoclouds.html', '/tags/datacenters.html',
     '/vs/doombench.html', '/vs/doom.html', '/vs/skynet-countdown.html', '/vs/skynet.html',
     '/vs/pdoom.html', '/vs/takeofftracker.html', '/vs/takeoff.html',
     '/p-doom.html', '/pdoom.html',
@@ -297,6 +300,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #177 — agents.md lists Qwen lab for Alibaba open-weight Trends.
   assert.match(md, /Alibaba open-weight Trends/);
   assert.match(md, /\/lab\/qwen\.html/);
+  // FINDABILITY #178 — agents.md lists Datacenters tag for Oracle Trends.
+  assert.match(md, /Oracle datacenter \/ AI datacenter Trends/);
+  assert.match(md, /\/tags\/datacenters\.html/);
   assert.match(md, /not a prediction|Never call it a prediction/);
   assert.match(md, /Do not scrape Google Search/);
   assert.match(md, /\/moves\//);

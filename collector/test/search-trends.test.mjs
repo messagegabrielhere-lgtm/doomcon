@@ -166,6 +166,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Tongyi model update', news: [] }).includes('qwen'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'qwen' && t.path === '/lab/qwen.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'qwen').re.test('request for quotation'), false);
+  // FINDABILITY #178 — Oracle / AI datacenter Trends → gated datacenters tag.
+  assert.ok(matchHeadTerms({ title: 'Oracle Data Center Pipeline Fight', news: [] }).includes('oracle-datacenters'));
+  assert.ok(matchHeadTerms({ title: 'Will an Oracle Downgrade Be the Next Shoe to Drop?', news: [] }).includes('oracle-datacenters'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'oracle-datacenters' && t.path === '/tags/datacenters.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'oracle-datacenters').re.test('oracular pronouncements'), false);
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {

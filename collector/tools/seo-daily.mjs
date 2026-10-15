@@ -157,6 +157,8 @@ export const OUR_SURFACES = Object.freeze([
   '/tags/chatbots.html',
   // FINDABILITY #177 — Qwen / Alibaba open-weight Trends FAQ lab.
   '/lab/qwen.html',
+  // FINDABILITY #178 — Oracle / AI datacenter Trends FAQ tag hub.
+  '/tags/datacenters.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -196,7 +198,6 @@ export const OUR_SURFACES = Object.freeze([
   '/tags/education.html',
   '/tags/healthcare.html',
   '/tags/world-models.html',
-  '/tags/datacenters.html',
   '/tags/retrieval.html',
   '/tags/3d.html',
   '/tags/acquisitions.html',
@@ -471,6 +472,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'Character.ai', alias: 'Chatbots' },
   // FINDABILITY #177 — Alibaba → Qwen for Google News keywords.
   { lab: 'Alibaba', alias: 'Qwen' },
+  // FINDABILITY #178 — Oracle → Datacenters for Google News keywords.
+  { lab: 'Oracle', alias: 'Datacenters' },
 ]);
 
 /**
@@ -793,9 +796,10 @@ export const TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma → /lab/google
 export const TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE = 'Samsung / HBM / AI memory → /lab/samsung.html';
 export const TRENDS_ROUTES_CHARACTER_AI_NEEDLE = 'Character.ai bankruptcy → /tags/chatbots.html';
 export const TRENDS_ROUTES_QWEN_NEEDLE = 'Qwen / Alibaba open models → /lab/qwen.html';
+export const TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE = 'Oracle / AI datacenters → /tags/datacenters.html';
 
 /**
- * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178
  * destinations (FINDABILITY #166 — newsroom used to keep the question while dropping newer answer destinations).
  */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
@@ -811,7 +815,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE)
     && text.includes(TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE)
     && text.includes(TRENDS_ROUTES_CHARACTER_AI_NEEDLE)
-    && text.includes(TRENDS_ROUTES_QWEN_NEEDLE);
+    && text.includes(TRENDS_ROUTES_QWEN_NEEDLE)
+    && text.includes(TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1066,6 +1071,24 @@ export function hasQwenFaq(html, needle = QWEN_FAQ_NEEDLE) {
 export function hasAgentsQwen(body, needle = AGENTS_QWEN_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/qwen.html');
+}
+
+/** FINDABILITY #178 — Oracle / AI datacenter FAQ + agent maps on datacenters tag. */
+export const ORACLE_DATACENTERS_FAQ_NEEDLE = 'Why does SIREN watch Oracle and AI datacenters?';
+export const AGENTS_ORACLE_DATACENTERS_NEEDLE = 'Oracle datacenter';
+
+/** Tip /tags/datacenters.html must keep the #178 Oracle FAQ. */
+export function hasOracleDatacentersFaq(html, needle = ORACLE_DATACENTERS_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Oracle / AI datacenter Trends to Datacenters tag (FINDABILITY #178).
+ * Wipe gap is `agents-oracle-datacenters-missing`.
+ */
+export function hasAgentsOracleDatacenters(body, needle = AGENTS_ORACLE_DATACENTERS_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/tags/datacenters.html');
 }
 
 
@@ -1644,7 +1667,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -1942,6 +1965,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #178 — Datacenters tag FAQ for Oracle wiped or never landed.
+  if (ours.oracle_datacenters_faq === false) {
+    gaps.push({
+      id: 'oracle-datacenters-faq-missing',
+      severity: 'medium',
+      text: `/tags/datacenters.html missing Oracle / AI datacenter FAQ (FINDABILITY #178) — re-overlay tags/datacenters.html or wait for full collect Publish on tip ≥ #178`,
+    });
+  }
+  // FINDABILITY #178 — agent maps must route Oracle / AI datacenter Trends to Datacenters tag.
+  if (ours.agents_oracle_datacenters === false || ours.llms_oracle_datacenters === false) {
+    const which = [
+      ours.agents_oracle_datacenters === false ? 'agents.md' : null,
+      ours.llms_oracle_datacenters === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-oracle-datacenters-missing',
+      severity: 'medium',
+      text: `${which} missing Oracle datacenter → /tags/datacenters.html Trends tip (FINDABILITY #178) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #178`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -2232,6 +2276,11 @@ export function measureSite(site, byUrl) {
     row.qwen_faq = qwenHtml?.ok ? hasQwenFaq(qwenHtml.value) : false;
     row.agents_qwen = agentsMd?.ok ? hasAgentsQwen(agentsMd.value) : false;
     row.llms_qwen = llms?.ok ? hasAgentsQwen(llmsBody) : false;
+    // FINDABILITY #178 — Datacenters FAQ + agent maps for Oracle Trends.
+    const dcHtml = byUrl.get(`${base}/tags/datacenters.html`);
+    row.oracle_datacenters_faq = dcHtml?.ok ? hasOracleDatacentersFaq(dcHtml.value) : false;
+    row.agents_oracle_datacenters = agentsMd?.ok ? hasAgentsOracleDatacenters(agentsMd.value) : false;
+    row.llms_oracle_datacenters = llms?.ok ? hasAgentsOracleDatacenters(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -2605,6 +2654,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_qwen == null ? '—' : (ours.agents_qwen ? 'yes' : 'NO');
       const lm = ours.llms_qwen == null ? '—' : (ours.llms_qwen ? 'yes' : 'NO');
       lines.push(`- Agent-map Qwen / Alibaba open-weight → lab (#177): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.oracle_datacenters_faq != null) {
+      lines.push(
+        `- Oracle / AI datacenter FAQ (#178): **${ours.oracle_datacenters_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_oracle_datacenters != null || ours.llms_oracle_datacenters != null)) {
+      const ag = ours.agents_oracle_datacenters == null ? '—' : (ours.agents_oracle_datacenters ? 'yes' : 'NO');
+      const lm = ours.llms_oracle_datacenters == null ? '—' : (ours.llms_oracle_datacenters ? 'yes' : 'NO');
+      lines.push(`- Agent-map Oracle datacenter → tag (#178): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -3622,6 +3681,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/qwen.html')) {
     throw new Error('OUR_SURFACES missing /lab/qwen.html');
   }
+  if (hasOracleDatacentersFaq(ORACLE_DATACENTERS_FAQ_NEEDLE) !== true) {
+    throw new Error('hasOracleDatacentersFaq true');
+  }
+  if (hasOracleDatacentersFaq('What has SIREN scored about Datacenters & power?') !== false) {
+    throw new Error('hasOracleDatacentersFaq false');
+  }
+  if (hasAgentsOracleDatacenters('Oracle datacenter → https://siren.watch/tags/datacenters.html') !== true) {
+    throw new Error('hasAgentsOracleDatacenters true');
+  }
+  if (hasAgentsOracleDatacenters('https://siren.watch/tags/datacenters.html only') !== false) {
+    throw new Error('hasAgentsOracleDatacenters needs Oracle datacenter needle');
+  }
+  const oracleGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      oracle_datacenters_faq: false,
+      agents_oracle_datacenters: false,
+      llms_oracle_datacenters: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!oracleGaps.some((g) => g.id === 'oracle-datacenters-faq-missing')) {
+    throw new Error('oracle-datacenters-faq-missing gap');
+  }
+  if (!oracleGaps.some((g) => g.id === 'agents-oracle-datacenters-missing')) {
+    throw new Error('agents-oracle-datacenters-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/tags/datacenters.html')) {
+    throw new Error('OUR_SURFACES missing /tags/datacenters.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -3635,12 +3727,13 @@ function selftest() {
     TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
     TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
     TRENDS_ROUTES_QWEN_NEEDLE,
+    TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
@@ -3850,6 +3943,9 @@ function selftest() {
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Qwen')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing Qwen');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Datacenters')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing Datacenters');
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Copilot')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing Copilot');

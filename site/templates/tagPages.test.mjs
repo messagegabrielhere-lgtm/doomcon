@@ -2651,6 +2651,48 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'chatbots'), /probability of doom/i);
   });
 
+  it('pages datacenters hub with Oracle Trends FAQ (FINDABILITY #178)', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('dc1', '12 States Push Back on New Mexico in Oracle Data Center Pipeline Fight'),
+          story('dc2', 'Market selloff, rising rates test AI data centre deal boom'),
+          story('dc3', 'Investors dump data centre bonds as AI borrowers face Darwin moment'),
+          story('dc4', 'Delta Highlights Collaboration with NVIDIA for AI Data Centers'),
+          story('dc5', 'Grid interconnect delays slow AI data center buildout'),
+        ],
+      },
+    };
+    assert.ok(indexableTags(rich).map((t) => t.id).includes('datacenters'));
+    assert.match(renderTag(rich, 'datacenters'), /What has SIREN scored about Datacenters/);
+    assert.match(
+      renderTag(rich, 'datacenters'),
+      /Why does SIREN watch Oracle and AI datacenters\?/,
+    );
+    assert.match(renderTag(rich, 'datacenters'), /search-trends\.html/);
+    assert.match(renderTag(rich, 'datacenters'), /[Nn]ot a stock tip/);
+    // Oracle titles match the expanded datacenters needle even without "data center".
+    const oracleRich = {
+      ...rich,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('or1', 'AI Skepticism Is Shaking Markets. Will an Oracle Downgrade Be the Next Shoe to Drop?'),
+          story('or2', 'Oracle cloud AI capacity deals expand in Texas'),
+          story('or3', 'States Push Back on Oracle Data Center Pipeline Fight'),
+          story('or4', 'Oracle AI infra bond yields jump on selloff'),
+          story('or5', 'Megawatts locked for new Oracle training campus'),
+        ],
+      },
+    };
+    assert.match(renderTag(oracleRich, 'datacenters'), /Oracle Downgrade/);
+    assert.match(renderTag(oracleRich, 'datacenters'), /Oracle cloud AI capacity/);
+    assert.doesNotMatch(renderTag(rich, 'datacenters'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'datacenters'), /probability of doom/i);
+  });
+
   it('pages liability and cybersecurity hubs', () => {
     const rich = {
       ...ctx,

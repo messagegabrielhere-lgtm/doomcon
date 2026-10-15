@@ -86,6 +86,9 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #175 — HBM / SK Hynix needles when titles use memory-chip forms
   // beside Samsung (labAboutLabel HBM).
   'HBM', 'SK Hynix',
+  // FINDABILITY #178 — Datacenters tag needle when titles use the topic alone
+  // beside Oracle (Trends tag hub).
+  'Datacenters',
 ]);
 
 /**
@@ -118,6 +121,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bCharacter\.AI\b|\bCharacter\s+AI\b/i, name: /^(?:Character\.AI|Character\s+AI)$/i, alias: 'Chatbots' },
   // FINDABILITY #177 — Alibaba → Qwen (labAboutLabel) when parent named.
   { re: /\bAlibaba(?:\s+Cloud)?\b/i, name: /^(?:Alibaba(?:\s+Cloud)?)$/i, alias: 'Qwen' },
+  // FINDABILITY #178 — Oracle → Datacenters (Trends tag hub) when parent named.
+  { re: /\bOracle\b/i, name: /^Oracle$/i, alias: 'Datacenters' },
 ]);
 
 /**
