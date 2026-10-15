@@ -57,7 +57,7 @@ function faqBlocks() {
     // on the watchlist page itself (gated destinations already answer).
     {
       q: `Where does ${brand.NAME} send IREN stock, dram stock, CoreWeave stock, and neocloud Trends?`,
-      a: `IREN / Iris Energy / AI-cloud power → /watts.html (substrate reading, not a stock tip). Micron / MU / DRAM / HBM / memory stock → /lab/micron.html. CoreWeave stock / debt / bond yields → /lab/coreweave.html. Nvidia / NVDA stock → /lab/nvidia.html. ASML / EUV AI chip tools → /lab/asml.html. OpenAI lawsuit / FTC / ChatGPT suits → /lab/openai.html (story counts only, not legal advice). Anthropic IPO / FTC → /lab/anthropic.html (story counts only, not IPO advice). Neocloud / neoclouds → /tags/neoclouds.html. Each page is story counts or infrastructure tempo only — not investment advice, not credit analysis, not legal advice, and not a company doom score.`,
+      a: `IREN / Iris Energy / AI-cloud power → /watts.html (substrate reading, not a stock tip). Micron / MU / DRAM / HBM / memory stock → /lab/micron.html. CoreWeave stock / debt / bond yields → /lab/coreweave.html. Nvidia / NVDA stock → /lab/nvidia.html. ASML / EUV AI chip tools → /lab/asml.html. TSMC / AI foundry → /lab/tsmc.html. OpenAI lawsuit / FTC / ChatGPT suits → /lab/openai.html (story counts only, not legal advice). Anthropic IPO / FTC → /lab/anthropic.html (story counts only, not IPO advice). Neocloud / neoclouds → /tags/neoclouds.html. Each page is story counts or infrastructure tempo only — not investment advice, not credit analysis, not legal advice, and not a company doom score.`,
     },
   ];
 }

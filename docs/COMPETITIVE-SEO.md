@@ -1,14 +1,15 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T16:19Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,692** sitemap URLs / news **200** (pizzint news empty →
-`google-news-open`); Trends FAQs + agent tips intact (IREN→Watts, dram→Micron,
-CoreWeave→lab, Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic IPO / FTC FAQ **#163** + ASML
-Trends FAQ **#164** cover state-suit / IPO / EUV chip-tool tape on gated labs. Watchlist routing
+**Measured:** 2026-10-15T16:55Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,692** sitemap URLs / news **200** (pizzint news flaps 0↔14);
+Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
+Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
+IPO / FTC FAQ **#163** + ASML Trends FAQ **#164** + TSMC foundry FAQ **#165**
+cover state-suit / IPO / EUV / AI-foundry tape on gated labs. Watchlist routing
 **#158** + news keywords **#159**/**#161** keep Google News aligned. Publish
-restore **#156**/**#158**/**#162** keeps agent tips + Trends/lab HTML across
-collect wipes. Branded “SIREN AI activity index” still #1; head-term SERPs still
-need GSC crawl (issue #202). Companion to `docs/COMPETITIVE.md` and
+restore **#156**/**#158**/**#162**–**#165** keeps agent tips + Trends/lab HTML
+across collect wipes. Branded “SIREN AI activity index” still #1; head-term
+SERPs still need GSC crawl (issue #202). Companion to `docs/COMPETITIVE.md` and
 `docs/FINDABILITY.md`.
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
@@ -27,7 +28,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,247** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
 | **pizzint.watch** | **1,018** | flaps **0↔14** (`google-news-open` / `pizzint-news-alive`) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **6,692** live (clears DoomBench 2090 / Skynet 1247 / pizzint 1018); GSC HTML-tag **absent** until operator sets secret (#11) | **200** news-sitemap (hold Google News lane; keyword-rich; pizzint empty → open) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + `/verify/` + `/free-tools/` + `/vs/{doom,skynet,takeoff}.html` + `/trends.html` + `/pdoom.html` (#129) + race labAboutLabel (#144) + Watts/Micron/CoreWeave/Neocloud/Nvidia Trends FAQs (#152–#161) + OpenAI lawsuit/FTC FAQ (#162) + Anthropic IPO/FTC FAQ (#163) + ASML Trends FAQ (#164) + watchlist routing FAQ (#158) | **yes** (Trends tips IREN→Watts / dram→Micron / CoreWeave→lab / NVDA→lab / OpenAI lawsuit→lab / Anthropic IPO→lab / ASML→lab / neocloud→tag; Publish restore #156/#158/#162/#163/#164) |
+| **siren.watch** | **6,692** live (clears DoomBench 2090 / Skynet 1247 / pizzint 1018); GSC HTML-tag **absent** until operator sets secret (#11) | **200** news-sitemap (hold Google News lane; keyword-rich; pizzint flaps 0↔14) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + `/verify/` + `/free-tools/` + `/vs/{doom,skynet,takeoff}.html` + `/trends.html` + `/pdoom.html` (#129) + race labAboutLabel (#144) + Watts/Micron/CoreWeave/Neocloud/Nvidia Trends FAQs (#152–#161) + OpenAI lawsuit/FTC FAQ (#162) + Anthropic IPO/FTC FAQ (#163) + ASML Trends FAQ (#164) + TSMC foundry FAQ (#165) + watchlist routing FAQ (#158) | **yes** (Trends tips IREN→Watts / dram→Micron / CoreWeave→lab / NVDA→lab / OpenAI lawsuit→lab / Anthropic IPO→lab / ASML→lab / TSMC→lab / neocloud→tag; Publish restore #156/#158/#162–#165) |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 

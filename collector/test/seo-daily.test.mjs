@@ -62,6 +62,9 @@ import {
   hasAsmlTrendsFaq,
   hasAgentsAsml,
   ASML_TRENDS_FAQ_NEEDLE,
+  hasTsmcTrendsFaq,
+  hasAgentsTsmc,
+  TSMC_TRENDS_FAQ_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -658,6 +661,30 @@ describe('seo-daily surfaces', () => {
     });
     assert.ok(gaps.some((g) => g.id === 'asml-trends-faq-missing'));
     assert.ok(gaps.some((g) => g.id === 'agents-asml-missing'));
+  });
+
+  it('detects TSMC Trends FAQ + agent-map lag (FINDABILITY #165)', () => {
+    assert.equal(hasTsmcTrendsFaq(TSMC_TRENDS_FAQ_NEEDLE), true);
+    assert.equal(hasTsmcTrendsFaq('What has SIREN scored about TSMC?'), false);
+    assert.equal(
+      hasAgentsTsmc('TSMC stock → https://siren.watch/lab/tsmc.html'),
+      true,
+    );
+    assert.equal(hasAgentsTsmc('https://siren.watch/lab/tsmc.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        tsmc_trends_faq: false,
+        agents_tsmc: false,
+        llms_tsmc: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'tsmc-trends-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-tsmc-missing'));
   });
 
   it('detects Search Trends routing FAQ lag (FINDABILITY #158)', () => {

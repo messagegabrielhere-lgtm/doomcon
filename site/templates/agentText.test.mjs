@@ -172,6 +172,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #164 — ASML / EUV Trends route to ASML lab.
   assert.match(txt, /ASML, ASML stock, or EUV/);
   assert.match(txt, /\/lab\/asml\.html/);
+  // FINDABILITY #165 — TSMC / AI foundry Trends route to TSMC lab.
+  assert.match(txt, /TSMC, TSMC stock, or AI foundry/);
+  assert.match(txt, /\/lab\/tsmc\.html/);
   // FINDABILITY #157 — neocloud Trends route to Neoclouds tag.
   assert.match(txt, /neocloud or neoclouds Trends/);
   assert.match(txt, /\/tags\/neoclouds\.html/);
@@ -237,6 +240,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #164 — agents.md lists ASML lab for ASML stock / EUV Trends.
   assert.match(md, /ASML stock \/ EUV AI chip-tool Trends/);
   assert.match(md, /\/lab\/asml\.html/);
+  // FINDABILITY #165 — agents.md lists TSMC lab for TSMC stock / foundry Trends.
+  assert.match(md, /TSMC stock \/ AI foundry Trends/);
+  assert.match(md, /\/lab\/tsmc\.html/);
   // FINDABILITY #157 — agents.md lists Neoclouds tag for neocloud Trends.
   assert.match(md, /neocloud \/ neoclouds Trends/);
   assert.match(md, /\/tags\/neoclouds\.html/);
