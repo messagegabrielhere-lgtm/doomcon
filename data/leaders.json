@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-14T18:59:02.769Z",
-  "news_generated_at": "2026-10-14T18:59:02.769Z",
+  "generated_at": "2026-10-15T02:52:59.205Z",
+  "news_generated_at": "2026-10-15T02:52:59.205Z",
   "matcher_version": "1.2.0",
   "window_days": 7,
-  "window_start": "2026-10-07T18:59:02.769Z",
+  "window_start": "2026-10-08T02:52:59.205Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -136,14 +136,14 @@
   },
   "corpus": {
     "source": "data/news.json",
-    "items": 400,
-    "items_in_window": 400,
-    "scanned": 400,
-    "max_items": 400,
+    "items": 800,
+    "items_in_window": 800,
+    "scanned": 800,
+    "max_items": 800,
     "window_binds": true,
-    "oldest_item_at": "2026-10-14T00:00:00.000Z",
-    "newest_item_at": "2026-10-14T18:55:18.000Z",
-    "named_without_cue": 1
+    "oldest_item_at": "2026-10-08T16:11:25.000Z",
+    "newest_item_at": "2026-10-15T02:49:23.000Z",
+    "named_without_cue": 5
   },
   "cross_check": {
     "source": "data/race.json",
@@ -152,27 +152,28 @@
     "players_matched": 8,
     "wire_fills_gap": [
       "hassabis",
-      "musk"
+      "musk",
+      "zuckerberg"
     ]
   },
   "totals": {
     "leaders": 20,
-    "on_record": 6,
-    "no_line": 14,
+    "on_record": 8,
+    "no_line": 12,
     "lines": 12,
     "distinct_items": 11,
-    "quiet": 14,
-    "unreachable": 0,
+    "quiet": 11,
+    "unreachable": 1,
     "no_sources": 3,
-    "press_lines": 7,
-    "direct_lines": 5
+    "press_lines": 9,
+    "direct_lines": 3
   },
   "direct": {
     "source": "collector/leader-sources.mjs",
     "ran": true,
     "feeds_configured": 27,
     "feeds_checked": 27,
-    "feeds_ok": 26,
+    "feeds_ok": 16,
     "reasons": [
       "quiet",
       "sources_unreachable",
@@ -189,15 +190,15 @@
     "source": "Google News search RSS (news.google.com/rss/search), one exact-phrase query per person",
     "is_statement": false,
     "means": "Stories in the press that mention the person, counted as distinct (title, outlet) pairs ever observed. Coverage is not a statement: it never puts anyone on the record, and only the outlet's own headline is shown.",
-    "generated_at": "2026-10-14T18:59:13.187Z",
+    "generated_at": "2026-10-15T02:55:33.621Z",
     "min_interval_minutes": 15,
     "days": 14,
     "ran": true,
-    "polled": 0,
+    "polled": 20,
     "leaders_with_data": 20,
     "leaders_dark": 0,
-    "total_24h": 246,
-    "total_7d": 1735,
+    "total_24h": 231,
+    "total_7d": 1745,
     "trend_means": "Week over week: this 7 days against the 7 before. Shown only once a full previous week has been observed; flat inside ±10% or ±2 stories.",
     "profile_source": "Wikipedia REST summary (en.wikipedia.org/api/rest_v1/page/summary), CC BY-SA 4.0, refreshed at most daily",
     "profile_min_interval_hours": 24,
@@ -245,9 +246,9 @@
         "via": "press",
         "remembered": true
       },
-      "days_silent": 0,
+      "days_silent": 1,
       "sources_checked": 4,
-      "sources_ok": 4,
+      "sources_ok": 3,
       "direct_sources": [
         {
           "id": "samaltman-blog",
@@ -260,7 +261,7 @@
           "ok": true,
           "error": null,
           "entries": 30,
-          "fetched_at": "2026-10-14T18:45:56.785Z",
+          "fetched_at": "2026-10-15T02:55:33.621Z",
           "attributed": 20,
           "newest_attributed_at": "2026-04-10T22:55:13.000Z"
         },
@@ -275,7 +276,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-14T18:45:57.225Z",
+          "fetched_at": "2026-10-15T02:55:34.272Z",
           "attributed": 1,
           "newest_attributed_at": "2026-09-23T12:00:00.000Z"
         },
@@ -287,11 +288,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:57.695Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:34.761Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -302,26 +303,56 @@
         "title": "Sam Altman",
         "state": "ok",
         "description": "American entrepreneur and investor (born 1985)",
-        "extract": "Samuel Harris Altman is an American entrepreneur and investor who has been the chief executive officer (CEO) of the artificial intelligence company OpenAI since 2019.",
+        "extract": "Samuel Harris Altman is an American entrepreneur and investor who has been the chief executive officer (CEO) of the artificial intelligence company OpenAI since 2018.",
         "url": "https://en.wikipedia.org/wiki/Sam_Altman",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.659Z",
+        "fetched_at": "2026-10-15T02:55:33.622Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Sam Altman\"",
         "url": "https://news.google.com/rss/search?q=%22Sam%20Altman%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:56.786Z",
-        "fetched_at": "2026-10-14T18:45:56.786Z",
+        "attempted_at": "2026-10-15T02:55:33.622Z",
+        "fetched_at": "2026-10-15T02:55:33.622Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Sam Altman ChatGPT AI Predicts that BTC Could Hit $1.8M by 2027",
+            "outlet": "Cryptonews",
+            "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBGT0szaXU2cmJyLWpUeWFMZnUyQUNOSm5BUVdvdnY3SzZpYVBhNVd2NlBaWE43ajBOV1lBUnBHcDlOalJ4RmdWZHNOeS1UTGVVQ05KY3VIUDJTT2c5WEZUeWYwdWw2ckNUX3hQZEtKSF9YeHVuRV9qeFVJekxlZw?oc=5",
+            "published_at": "2026-10-14T22:22:00.000Z"
+          },
+          {
+            "title": "OpenAI claims ex-employee brought confidential docs about ‘unreleased device’ to Apple",
+            "outlet": "New York Post",
+            "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPY3JVRVkyOTlHZk9sZGJENEVBQjV3RmFaanNON0ZyT2JNT2kzaEFXQV8tZzdQdHNCMkgwQk9yOU42dkllTm5vMzhUcGRBZTUwOFBCQXhoZU96TG5TQjVaX05JYmxCM0gyc1YtWnU0R29BekFhR3NqcjJfZEktMnhUdHNlUGZqWFJEVXlkU08wREVmOWFtVGdiUXNmMFhTdHVodGlkWGtoeUQ2a0pCSzVhc0JRTEh6N25BbFhyQ0JYOEpRQQ?oc=5",
+            "published_at": "2026-10-14T21:43:00.000Z"
+          },
+          {
+            "title": "Sam Altman-Backed “Human Verification” Push Targets Ticket Bots With Eye-Scanning Tech",
+            "outlet": "TicketNews",
+            "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQSDdQRTJTbUpIM3hzaUNPYUpQenpPd3JtX2dvalJDTGRZNFA5cWNJWWh4ZUJ3cmJqcDhEUlZkTnU4OEFndjM4WGw4MmNQWm1zdjNzVTNrWWw4QVFqb2stRThzVnhnaWtkSkx1dFZiYVgxMjgwV2hPNGMtcnRKUlctVmRPbHpNcnBKRmdiTUpQSlZqOEl5dWVTZVRaTmViUU1GUDFSV09MSnhpWGNBMnJmNGhCQjdlUTNMTE9xMQ?oc=5",
+            "published_at": "2026-10-14T20:52:12.000Z"
+          },
+          {
+            "title": "Bernie Sanders Hits Back at Sam Altman After OpenAI CEO Warns of 'Severe Cyber Incidents' in Exchange for 'Liberty': 'We Won't Accept' It",
+            "outlet": "Yahoo",
+            "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNYlFuQmF2Z3NyYWFxVk41Yy1SQUlydzVUdDFCa1N6eVRMN0xfWm9DejJRSUxsM0xIbU4zWWg5OVh6aGpvQ0tFbEQ3R0dyZU1tc1ptZDVmSElCV1c2MW1fR3pIemdLQVhLeHdsWnhJaTJMVlFHZVc4X2tWaTBFLS13VF9JTUFqUjZpX1RXRDhKTVMzQQ?oc=5",
+            "published_at": "2026-10-14T19:30:08.000Z"
+          },
           {
             "title": "OpenAI Says GPT-5.6 Sol Can Cut Agentic Coding Waste By 54%",
             "outlet": "Yellow.com",
             "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5mY01nZ2hva3pldVpiVW9VOVVzVjFMbEpPbmJBVC1LSS03QW4tNkFhT3V2a1RaN0dnSTFBMkJudFl2UnA2TFhhd25FbnRtM1pPLTR6UmdxeE9DUV9QcGk4b1hLYw?oc=5",
             "published_at": "2026-10-14T13:41:36.000Z"
+          },
+          {
+            "title": "OpenAI’s Sam Altman Says the World Should ‘Accept Some Bad Things’ — Even Scams. After 35 Years Covering Money, Here’s Who Pays",
+            "outlet": "Money Talks News",
+            "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNWnY4OVl5S0tiamVOUGhuVXR6dG13S18xb2dXSnV3cWRQd1J1R1N1MjJPelhhV1JWOFhhVDJqMUhXRlI1TnNqUDRMWjQxYmk3c3pScHRsYW9KNEIwQVdtX01XTVg2RG9GOXB4QUFfeDY1UVJHT0NWRzg3SEhhZ203bFhTbXdtTlhYWFE1QW9HWDlDeGFDWTY4aEQ5YWk1QmROc1FrdjNtUVBueHJXVHJYaHl4dkZYdExfUkNveTRBNnNtSWpHRXJ5WVZIclotWmNwYm5vbno5Wm5ULVA1RU5Ga0V3?oc=5",
+            "published_at": "2026-10-14T13:30:54.000Z"
           },
           {
             "title": "Factbox-Tech leaders, governments split over 'AI doom' fears",
@@ -334,46 +365,12 @@
             "outlet": "ABC News - Breaking News, Latest News and Videos",
             "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOYlk3cFJkWnNMMHloVFZSQ2pIelpHUWxJbndOeWdiUVcxdXBncjcxdmU3cEUtczJBSV82MUc0LTFRdkJ4NmZpZmZUMUdmU1NJc3hMSlRUSU43RW5VN1pjVzJqSm83OWZiakt4TTQ0bHgwR0hYVkJUaTB1QUlnRUxFQzB1YngzOVoxS0pOYkFzUHpHQVFvcHN1SjFVONIBoAFBVV95cUxOSmg3TE42d3BRemlRWXU4al9ZU0p5eEtCeE4yNzNiaE1oTDB5MHZBMDVDNTUxUjl0dzdma2VWcDkyTUNMRnJoNlJobXNLU0t6NUdXbXNkMWdUa2NDUk4xZ2loSjY2TURtTXkxMTNtd3ptU1VUemYyVG93QWt1ZkNvdEp1aDQ4UVY5RDRwUXRSRGZsdmNJalpyeHVBRkxpbW1v?oc=5",
             "published_at": "2026-10-14T09:39:19.000Z"
-          },
-          {
-            "title": "OpenAI, Anthropic CEOs Sound The Alarm On AI Risks At UN, Says Report — Sam Altman And Dario Amodei Urge Global Cooperation",
-            "outlet": "Stocktwits",
-            "url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxPUmQxSXVPbXp6SWl1U19DNHlhellTTGFFQUhYNWVqdE85LXprNUlBeXVLcHZKX3hBZHlWcFFpWXR1dmJqTEE3S19zcmdCbGVZVFlFbU94WURLUS05alJvUFRuaW1tSVhVQUhsb2xMSndRMVMzX3hJNzBhMjZ1dGpQLVlvMVg0TEJic0pDRVVCLUg2RDRPNzVxenUtQXJxSmJwS0MyUnhHTVk2ejRRenFfdy1Za3VIT0FxVlo3QWtZVEptZlY3T0hlXzIxLTgyeGJtbG12RjdfMXI4SEpfLTZ6RTh3bkl0TUU?oc=5",
-            "published_at": "2026-10-14T02:30:56.000Z"
-          },
-          {
-            "title": "'Don't kill the Golden Goose': Trump calls AI warnings a 'HOAX' as AI leaders raise alarms",
-            "outlet": "ABC News - Breaking News, Latest News and Videos",
-            "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPbWNtRTBsT1hCQi1nNmp1czRuajhwRFZoeVdLbnFIX1NrQmw4MFBIcS1pUGhRQ3gtcE9qeHVsUlRMVkZWTHl0THFyRlpZQVFVUWFKdHA3cW9ZdV9UUDBKV1JZRHA5R0p5eVBqQ1RrZHR0Smw3ZGljTnJ0OUZ5VndnVU4tNEFLR0VwTkd6MUo1RVI0X082S3FSUUNGRG1rUUg4UkHSAacBQVVfeXFMTXItcFc4LWNJR1Raa292U0RjTGpaOWNrLXdXX0s2VmxUdndsUlRSUHpYaGkydnpRU2VQUlBvelZwcjhDYVhiODgxTk1ENzJOWDk0d1BCQ0FkR3pXS2xnamV4eW05d2RMNU1seVhGQXNZVlhKT2JqRF9pTEtaeFVfcE1xcUpmSWNWU05YQWs0a29FN2xpamVudVRqUFVLVlRPMTNhNzFtbzQ?oc=5",
-            "published_at": "2026-10-14T00:33:48.000Z"
-          },
-          {
-            "title": "Mother accuses OpenAI of exploiting kids",
-            "outlet": "Courthouse News",
-            "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE90SUM5LU5mMWt3ejhmVlpYRzhabE55b2ZKOV9ldEFJWWduLWdBdW05YjlxTUlQU09IbmNfNXlBVnM2Y0JSODJ6QkswbUh4T2hudVQtemtYSlhVRWVQOHcyS3VDb2pQZkVfSnUzWXB1VFZzRm9DbXhOYjhNbw?oc=5",
-            "published_at": "2026-10-13T22:52:48.000Z"
-          },
-          {
-            "title": "Here’s How OpenAI Says It Used AI to Find a Spy Inside Its Company",
-            "outlet": "Gizmodo",
-            "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPSUJxWUdLd28xdnhITzhBWUJTOW1CQUVQeEp3V0ZyUGNYa2pTMlBseEpCeVYzVUs1TDVBQ29neVExcENtX0ZiaTlJejBackhPeXg4N3ZUUzgzTW16YjZOczhNS0ZXc3JDdXRIR3B4Vmk4UWVwaTZXZGVTeUFxcS1YY0tFS2c4TkktT0U3NTBUVVBUSl9xZDNZdjUxVVg?oc=5",
-            "published_at": "2026-10-13T21:19:53.000Z"
-          },
-          {
-            "title": "From Sam Altman to Elizabeth Holmes, Hollywood’s Big Tech Obsession Goes Viral",
-            "outlet": "Observer",
-            "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5kRVNMYkEzMUtydzBRT3pRRUFoTFBGTTJ3N0tNQ003YVhQcV8wUGo4LWRtYnFLS1FVVlpwRk5wYjhrQUEyZUZkcTVZS2xzNkZzeEhkSG5kTmxuWkc0SXkxNmlXczZWdHk3TTk4X01nVWVaQ3ZOMkNDWA?oc=5",
-            "published_at": "2026-10-13T21:17:16.000Z"
           }
         ],
-        "count_24h": 11,
-        "count_7d": 121,
+        "count_24h": 7,
+        "count_7d": 126,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 1
@@ -400,11 +397,11 @@
           },
           {
             "day": "2026-10-08",
-            "n": 28
+            "n": 29
           },
           {
             "day": "2026-10-09",
-            "n": 31
+            "n": 34
           },
           {
             "day": "2026-10-10",
@@ -416,7 +413,7 @@
           },
           {
             "day": "2026-10-12",
-            "n": 15
+            "n": 16
           },
           {
             "day": "2026-10-13",
@@ -424,7 +421,11 @@
           },
           {
             "day": "2026-10-14",
-            "n": 4
+            "n": 8
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -464,8 +465,8 @@
         "verdict": "both_quiet",
         "note": "The watch floor reads no feed and no headline in this window named Dario Amodei beside a speech cue. Two separate silences, neither imputed from the other."
       },
-      "group": "quiet",
-      "reason": "quiet",
+      "group": "unreachable",
+      "reason": "sources_unreachable",
       "press_count": 0,
       "direct_count": 0,
       "press_sources": [],
@@ -478,9 +479,9 @@
         "via": "press",
         "remembered": true
       },
-      "days_silent": 4,
+      "days_silent": 5,
       "sources_checked": 2,
-      "sources_ok": 2,
+      "sources_ok": 1,
       "direct_sources": [
         {
           "id": "yt-anthropic",
@@ -490,11 +491,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCrDwWp7EBBv4NwvScIpBDOA",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:57.699Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCrDwWp7EBBv4NwvScIpBDOA — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:34.796Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -508,75 +509,71 @@
         "extract": "Dario Amodei is an American artificial intelligence (AI) researcher and entrepreneur. In 2021, he and his sister Daniela Amodei co-founded Anthropic, the company behind the large language model series Claude.",
         "url": "https://en.wikipedia.org/wiki/Dario_Amodei",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.659Z",
+        "fetched_at": "2026-10-15T02:55:33.622Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Dario Amodei\"",
         "url": "https://news.google.com/rss/search?q=%22Dario%20Amodei%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:56.786Z",
-        "fetched_at": "2026-10-14T18:45:56.786Z",
+        "attempted_at": "2026-10-15T02:55:33.622Z",
+        "fetched_at": "2026-10-15T02:55:33.622Z",
         "error": null,
         "state": "ok",
         "headlines": [
           {
-            "title": "Anthropic Exec: Open-Weight AI Models Carry More Risk",
-            "outlet": "Tbreak UAE",
-            "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBOcWNOU2k5eWZwcFdEOGpITDlyMXA2dWFPQWpVMlBWUVlXRjNwT0RPQmVlNkxiUF9TTkJuY1JDYWZJelBaV3hKNHBITFlUaXVnN1BJZnFPaDZpaFYwM3A4Sm9aRVJpY1g5X3FVb1V3?oc=5",
-            "published_at": "2026-10-14T17:19:00.000Z"
+            "title": "Anthropic’s Rapid But Slowing Growth Could Weigh on IPO Valuation",
+            "outlet": "The Information",
+            "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQVGRiOFctY25wbVdWaHlwSFlRWF8teC1LV0M2U2ZNbVR1OG55OWlPYWFsM1pJMG5IV3FueXFPNVBJQ3BkN2t5QkY3SjRZWWZweVJEUzFydHJhUTJhdmhZMUN6b2U0THk0TW5tQVRjanFJZkpGdTJzUGtQNXlVZXppQ2JNRGhmZ1JRejFCdnQyNEVUVEJnbkE?oc=5",
+            "published_at": "2026-10-15T02:27:00.000Z"
           },
           {
-            "title": "AI Leaders Split Over Development Pace as Safety Concerns Mount",
-            "outlet": "IndexBox",
-            "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxObkVFQ0xyMjRVVFEzeGRoNkExLV9TUlVSVHNKT3JRUWZIdEFOWkpET3dfZFAyaW1JRzgyWTlDNzNWaDQyVlFrM19EZ0dkb2pGOFZUcVV1NVd0aVlSdmhvY2RvRmdGTFp4RVhhNURRNG1QSzEzZFBuMTRkVzhWZFlqRDdNRGZmdkNQZ1ZZSE5lZGVfd3ZPWXRfcg?oc=5",
-            "published_at": "2026-10-14T17:11:18.000Z"
+            "title": "AI giant Anthropic sees revenue surge ahead of stock market listing",
+            "outlet": "BBC",
+            "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBTUHRCTEVSeENpRVNzbEZTb1IyNEw4aHpsTFFWTnFBY3RxNngzVFRJZEhNelQ1NnZJcG9QanVId2FPX3Znem55WEJ6N0hJNVJlZFpEVFBkYW0xYmM?oc=5",
+            "published_at": "2026-10-15T01:56:32.000Z"
           },
           {
-            "title": "Factbox-Tech leaders, governments split over 'AI doom' fears",
-            "outlet": "Central Oregon Daily",
-            "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxOTzBQNXJWR2xfX3dXZHptQi05bk9yY1pKYzZ2LUU3S1lkTkxYRlR6WUQzczdTTDVFX1JFNTRYN3Y0dTdkTm9vYzZkTS1ORjRoSl9tTklKbHByUi1XYTZyUTBmUGFFTmdvY1pfYkJXUGtLSk9KYVR1RTdEZGhVeVc5NHI1S0prWDQ1V3Y2WlFmTm5ncXBWOWZIZktHdGlWS1JFNWtlS3FxT2hJalh3OE14Ty1kOEZ6SE5WTThsbjhuNUNLNUl4aGtHaHlFUWZBOUhkVWJQV2lEMVJ1UTVZQ0lJSjFHd1AxZXFGbXNHUQ?oc=5",
-            "published_at": "2026-10-14T13:23:06.000Z"
+            "title": "At Anthropic pre-IPO meet: ‘Thinking’ caps, surging revenue, no human extinction",
+            "outlet": "WTVB",
+            "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPS05DNkgtRHdMUFRvSl9VVzFMNTlWa0pZMjJPZzZOVVFlVlJtVWx5S2NrTVBkczh3dUR2aDhsS0R3NTFSYmppbi0yVGdmcV82b21CNXMzU0RlZGF3cTY3cEt4QjRCWmZwN3IwNkk5b2h2NHhabHpPMks4b1VQaW9rYXMxRnYtLUE3MXpV?oc=5",
+            "published_at": "2026-10-15T01:49:48.000Z"
           },
           {
-            "title": "Factbox-Tech leaders, governments split over 'AI doom' fears",
-            "outlet": "Yahoo! Finance Canada",
-            "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPZ292MHpYRjJVQ01sUUM3SHpZR3Vhb200TDNuQ2h4SFZtZnRzWEt4dFJIZENzeFk2aWpobDJvaExjd19BMkRNQkJCWUxVSWVxMXFWVmFYOEJFUlQwUVV4RU1xbkc2a1ZLYzdvTmcxWnBBSFJxRFJuQnl5RHV6SlJELWtQRUNiTVk?oc=5",
-            "published_at": "2026-10-14T13:23:06.000Z"
+            "title": "Anthropic in profit as revenue surges nearly $17bn",
+            "outlet": "AOL.com",
+            "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQQXFwSWR6eV9WWWFTc2J4RlQ3dl90NjF6VVI0Vl9qVHFmQmFJb3BmalgzaXhMc1hGdHlqeTNDWm1JeEZnMldtcDRLampiUVk1REZVZlhtVk1uR09OS2ZpUkRtcndDRnhfNHBUN2dMbG1zTE1YWC1sQ0NxaVVxSGVYd19yOTN2WHBteEE?oc=5",
+            "published_at": "2026-10-15T01:44:00.000Z"
           },
           {
-            "title": "OpenAI and Anthropic tried to control what independent researchers could say about the dangers of their AI — Reuters",
-            "outlet": "dev.ua",
-            "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPdlAySkNvZzRGTTZOMjZlcUxCMmJxd2FWb3VCN1U4WndMSnpUREtnbC05Q01XUHFHdWJob3lWN0xsTXVCNHpOUFJWS2lfT195dGg4d3paWHVMd1dGN0d5emRKY0dWSXdzczhPM0VMQWlVX3A0T29JNTVrOTZ0bTIwZkpOdk4tSzh0RDV0a2t0Z01VUFY2cUFpSktnMXpkY2NwemdRd01XVTRRY09OZVE?oc=5",
-            "published_at": "2026-10-14T11:47:00.000Z"
+            "title": "Anthropic revenue surges to $16.8bn ahead of stock market listing",
+            "outlet": "BBC",
+            "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE1JNEJ0TE16R3lSalFidWJYMU15NkZxVFJDNmkzUVVudjJxU2JxdGFGVVdCZjhIcW9wdkhKZ2NzNXpIZnhnX3BuYjhNdXNycGFoNnhRRXdjYlR4VHRVM1E?oc=5",
+            "published_at": "2026-10-15T01:14:23.000Z"
           },
           {
-            "title": "AI could ‘self-replicate’ and hijack internet, warns Anthropic: What does it mean?",
-            "outlet": "The Indian Express",
-            "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOd08wZmJWQmkwRmMyalF1RnNjNXVxUGtvSWJ4SzJwVXJubWx3TDl0UFk2R0dlUFRJaGVaWW4yaXF0aGVSQTdpQnU1LW1UOWlmcTZaSVFXMGlkTWZlalUxNmJ1VDdXaU84QS12TFdjRkVqektVbUoxUnZ5cFJJOWIwemFXcWtnS1pUbG5ZNTA2MHdKcXRJdmJfTzIwWEpZU0duMUlUanNkMkJJc3lZRGVEUGZtbXZycWhVV0JwVWFMTGJwdFQ1M05XcNIBzwFBVV95cUxOaUJ4WENqUzBCZy1EWUdHMXQyYVNGOUE5RTdacjVvcFM5Mlp5Q2NoSE44YVhmSnNwaHQwZDVyRTFwOWtLb3pVZjVUNmcwbnRmSDljOW05a2JZQU01T3ZyQ2w1RmZyNFdoNmZtY2QwU2h5Vk1IT2xiZ0FhaWZwcUlWVEdHVHp2d1piNFI0NTJFR2hROHZkS2ZuM2tmZHBGcFNYT210MGJlNkl5RWI5WlhDYjNzWndxd081b21HLVV2M2w0MUNJLUo5bldMZWZERzA?oc=5",
-            "published_at": "2026-10-14T11:20:52.000Z"
+            "title": "Anthropic’s Quarterly Revenue Jumped 45% to Nearly $17 Billion",
+            "outlet": "WSJ",
+            "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOU2M4WXNsVVl6WXU3NlpOdDVOSGdxTW9rT2RGWnRSRTNpMmM2WXlRMEIzLXlFbzNIdk1jOFBOWUJ0UXhraF9rMWRmZ3p5MTVyYVZhdlNTdjRETXdKR3NxZ1hENlE5WlJRNU1yYmxuR3k3bm90OEh1M2JQSnFUenFtdE5vdVZWb1B2R2xqbkJnTjBfVFRmNWFPZlFlVEo?oc=5",
+            "published_at": "2026-10-15T00:17:00.000Z"
           },
           {
-            "title": "Anthropic seeks rehearing over Pentagon's 'security risk' label | Pentagon's decision was upheld in September 2026 | Inshorts",
-            "outlet": "Inshorts",
-            "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQUlJRWW9VSlVtZGtZelpnWWRWOFZxS1A4cmQ1alh2TE81dHZLTERveDRJZ0VVbVpXaGFaeDRySGNZa2ZNSmhseFNRZXQ0anNlYU10YUVzMkFQeTk0dnpYcC0wQUpFdElXVWpKLTNLM3hLVVR0YlF5WEo2U2pkNVlRRzRoSUwxS0VWbzU0Y0M1U0F5TGhYS3NSdDVVWVBRZVZEWVZkeGp2OHV2d9IBrwFBVV95cUxQOTh6Z0xwVHNhWkRMc0ZuV2tzTEVaNDdOZnA5OWRnaUlBb1V1LUpFN1BHM1hkOGRLcjRtVkhlaWY0bndLdUtpNDkzdHpqRGpvajBTVFNLZ0ZzQk1LcFFpNmxnejRhNFBRem5mdXFxeTZRZnY4N01Ud05iR0ViYlUxMnVfeWJEQm5nY1pOZFNIYWpIYmlMTjZMQmhpWENmRjBWb3AxQTBZb0xsdGpVY3Nn?oc=5",
-            "published_at": "2026-10-14T06:45:22.000Z"
+            "title": "Anthropic Posts $16.8 Billion in Third-Quarter Revenue, Up 46% From Prior Quarter",
+            "outlet": "Seoul Economic Daily",
+            "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPNVJjT0xlV1hQMFRNblBZQVg3dU5iTUh1UW9lbm1LM0llSDdkTzUxbXdSQlFIT3hZQkQzRW9hSkl4b2V5dmhOSVc0bmtDSXVnRDdWQmJDR3BoNW53VXNjOXlJdmpiZ3d1ckJnSThsYlRUVEdTUFlFdGFtV1dYVlRkTUR2NnMweTR4SlA2Mm45b2ppdVJJUjNSYUtZVUx2cWxBT1JjTFRWZlp1QQ?oc=5",
+            "published_at": "2026-10-14T23:41:02.000Z"
           },
           {
-            "title": "Anthropic warns AI models may soon self-replicate and could wreak havoc on the web",
-            "outlet": "Revoi.in",
-            "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQZG5xdk9XTkg0Q2Y4ZXNxdTVPcU9lUzZycHR4b0NDVnhYSEQ0cXdlbEhxSzJhY21SOWVoT09IekVnRHp5eDV0NWEzQzQ4dWkybmlQS1R4dTJFejF6QTRQRFRrcEhDZDVydFFsN0p4bFhManNOb0ZOZzNvMUZaanFoc3h0Y0VMdFR6c2tQUzhBR09lQnB1YlRHTDFVbzFrSVYzcGxJekZFSmJKak9S?oc=5",
-            "published_at": "2026-10-14T05:23:06.000Z"
+            "title": "Anthropic's quarterly revenue leaps to $16.8 billion as IPO looms",
+            "outlet": "Business Insider",
+            "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxObGxFd28tYWotcHdnVnUzVUE2a2xwNUpuU3NiTHFVM0ZhVDc2QW9ZeHlmTjRPU2dIcnVoOE5MMXJ1SmVmY0VTM3NLQnFDc0taR053cGtrZEFORHBudXVtSEpNT2NUWV91eGFTSVAxMG45ZTJLcEdhbFNBcEZJdkJyLUp6R3o4YmdhQUJ5R0MtOTJXazc0OWE4dA?oc=5",
+            "published_at": "2026-10-14T23:38:00.000Z"
           }
         ],
-        "count_24h": 27,
-        "count_7d": 165,
+        "count_24h": 28,
+        "count_7d": 178,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 4
@@ -607,7 +604,7 @@
           },
           {
             "day": "2026-10-09",
-            "n": 32
+            "n": 33
           },
           {
             "day": "2026-10-10",
@@ -627,7 +624,11 @@
           },
           {
             "day": "2026-10-14",
-            "n": 13
+            "n": 25
+          },
+          {
+            "day": "2026-10-15",
+            "n": 6
           }
         ],
         "trend": {
@@ -663,7 +664,7 @@
         "kind": "press",
         "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNRUpQLTQySlpPSFREYzVycnZUeHhKeWh5TFZTSmw0elFKaVB0THNKYU44eHdhQnJBOS1aNFk2MzlRblBlbzZEa0J4ZFk0VFkxaTdubmpWNVUwaFNwV3pkbHpHYU1XWFlaTGp1MU1vRlNMdkU0Tm9ZU3BweUktbDgxbktvWXl2UzZsVW93LVFPbkZyVDFudHQ2Z3FzQjM1bnZRa3RfbWQ1ME44RFBhVXJiM19aWQ?oc=5",
         "published_at": "2026-10-14T15:48:25.000Z",
-        "score": 55.6,
+        "score": 53,
         "pillar": "attention",
         "matched_alias": "Hassabis",
         "cue": "warning",
@@ -687,7 +688,7 @@
           "kind": "press",
           "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNRUpQLTQySlpPSFREYzVycnZUeHhKeWh5TFZTSmw0elFKaVB0THNKYU44eHdhQnJBOS1aNFk2MzlRblBlbzZEa0J4ZFk0VFkxaTdubmpWNVUwaFNwV3pkbHpHYU1XWFlaTGp1MU1vRlNMdkU0Tm9ZU3BweUktbDgxbktvWXl2UzZsVW93LVFPbkZyVDFudHQ2Z3FzQjM1bnZRa3RfbWQ1ME44RFBhVXJiM19aWQ?oc=5",
           "published_at": "2026-10-14T15:48:25.000Z",
-          "score": 55.6,
+          "score": 53,
           "pillar": "attention",
           "matched_alias": "Hassabis",
           "cue": "warning",
@@ -733,7 +734,7 @@
       },
       "days_silent": 0,
       "sources_checked": 5,
-      "sources_ok": 5,
+      "sources_ok": 4,
       "direct_sources": [
         {
           "id": "deepmind-blog",
@@ -746,7 +747,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-14T18:45:57.329Z",
+          "fetched_at": "2026-10-15T02:55:34.299Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -761,7 +762,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-14T18:45:57.389Z",
+          "fetched_at": "2026-10-15T02:55:34.377Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -776,7 +777,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-14T18:45:57.591Z",
+          "fetched_at": "2026-10-15T02:55:34.587Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -788,11 +789,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:57.838Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:34.874Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -806,18 +807,36 @@
         "extract": "Sir Demis Hassabis is a British artificial intelligence (AI) researcher and entrepreneur. He is the chairman and co-founder of Google DeepMind and the chief scientist of Alphabet, as well as the chief executive officer and co-founder of Isomorphic Labs.",
         "url": "https://en.wikipedia.org/wiki/Demis_Hassabis",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.659Z",
+        "fetched_at": "2026-10-15T02:55:33.622Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Demis Hassabis\"",
         "url": "https://news.google.com/rss/search?q=%22Demis%20Hassabis%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:56.786Z",
-        "fetched_at": "2026-10-14T18:45:56.786Z",
+        "attempted_at": "2026-10-15T02:55:33.622Z",
+        "fetched_at": "2026-10-15T02:55:33.622Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Hassabis: \"Serious Incident Feared Within Two Years Without AI Safeguards\"",
+            "outlet": "아시아경제",
+            "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE8taDdyX1RhLU96VzNyVUZRN3pJSC1TNkp6Z0JRZno2ZXZ3NXNTOVJHVGgxM3JMbUpHUGk5S1FBRnRGallpR3ppODJHeWVpdnVzM2RvSjREa1Fzbi1xOXViLS1CTkM?oc=5",
+            "published_at": "2026-10-14T21:20:05.000Z"
+          },
+          {
+            "title": "Google DeepMind’s Hassabis Calls Recent AI Hacks ‘Early Warning Shots’",
+            "outlet": "The420.in",
+            "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQd1JDLTFwS1Jhb0ptOEJfcTBnNlVEVW5mWEU5bmlBbGZ1bzk3T1Y0SmtVcG9FMFl3anZsSzZRRmRjUlAxWlgwb3MwN2FrWVltX0xSVTJUSVJCTmFGbUx4ZGtvQjk3bnBJTnRVbXJoWGNvOXdTQnpsclNCc1JBSlNTVg?oc=5",
+            "published_at": "2026-10-14T19:09:44.000Z"
+          },
+          {
+            "title": "Google DeepMind's Hassabis Warns AI Agent Hacks Are 'Early Warning Shots' for Bigger Threats",
+            "outlet": "BigGo Finance",
+            "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBrNEh1UGRXOVJ2bnlIM1RzR2k4TndrQVN0aUpFREdLdXFhUl9iS1d6VGdFWEtDX2FTWVdrQks5bEtKeTF1aWpLWU5pWXBteTBPNHZqU0dKYk85c1NRekpMNnZvdS0zTDRqVTdqNy1BUHRuUTlnX0E?oc=5",
+            "published_at": "2026-10-14T18:17:00.000Z"
+          },
           {
             "title": "AI’s biggest names gather in Dublin as the battle to shape its future intensifies",
             "outlet": "Business Post",
@@ -833,8 +852,8 @@
           {
             "title": "Hassabis Warns of Major AI Security Incidents Within 2 Years Without Adequate Safety Measures",
             "outlet": "news.sbs.co.kr",
-            "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE45ZV9nLURyeEtZTm1XNDFaNlktS0VVRW9BRUFRSm1Pb3hKc3lQWlI1amhuQ29YaDdkRHRmOS1Tam15cmI0cDh2dE5NZjRDMTREWm1ZNGpsbTJoX1R1UzJnTEg3SHpJV0tPaUpRRk9R?oc=5",
-            "published_at": "2026-10-14T17:26:16.000Z"
+            "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBQVlMtcWhId3M1QU1FZk1wNGF3Mk5pZ1Vybk9Xak1XdlFqNzFPX0dUVTJCUnlpaEN5NEFqZm9RTjNZTW41LVR0SHdoVjVNY0lRb2RNM1pFdHdjb2dSU3h2R3pGQmtDZw?oc=5",
+            "published_at": "2026-10-14T17:26:00.000Z"
           },
           {
             "title": "Google DeepMind chief Demis Hassabis warns future AI agent hacking may soon turn ‘major incidents’",
@@ -847,34 +866,12 @@
             "outlet": "Daily Times",
             "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNd2ZPUUtsYzBDZ0hLYW1aWWtNcjlTencwTmNLNjFqQmZtcWhUNXBuQVZXdklXTkY3aGRmUEo5QXNnZDhrejE0SW9GLWQxLVQ4R0pUZ1VKRjlQdlRILVVvU0FpYURWR0txNmdQaWVyMGRhelRCeVFQdmdTTHJFVFZ0RllxT0R6cldHOWNWMnA2a1dWOHc?oc=5",
             "published_at": "2026-10-14T16:33:33.000Z"
-          },
-          {
-            "title": "Google DeepMind’s Hassabis calls AI hacks ‘early warning shots’",
-            "outlet": "The Hindu",
-            "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOdUlneHRtNEdxSG5TR3ZJak04b3ZPMVk4Vmd5ZjVkcm1KeXZPbVpJUGFfVzdqMGczUTZILVljMjBubGN3QkhTX0kyam9lLXhUY3M3ZktSd0c5RG1aYjBCQWVXUTZpUWpDWGpqSVZBLVpmOUdfd1A4T3l3SDlCUWRDSFZYUFJkY20wZXlFalQ2V0FTWGZLQVBmQ3RlRzhETlZjVm9FTUV4cnI3SVRvNXU2bExLQk54NmxLR0I3Z2ZsOGQzYlhtdlAwQtIByAFBVV95cUxOdUlneHRtNEdxSG5TR3ZJak04b3ZPMVk4Vmd5ZjVkcm1KeXZPbVpJUGFfVzdqMGczUTZILVljMjBubGN3QkhTX0kyam9lLXhUY3M3ZktSd0c5RG1aYjBCQWVXUTZpUWpDWGpqSVZBLVpmOUdfd1A4T3l3SDlCUWRDSFZYUFJkY20wZXlFalQ2V0FTWGZLQVBmQ3RlRzhETlZjVm9FTUV4cnI3SVRvNXU2bExLQk54NmxLR0I3Z2ZsOGQzYlhtdlAwQg?oc=5",
-            "published_at": "2026-10-14T16:05:48.000Z"
-          },
-          {
-            "title": "Google Deepmind's Hassabis calls AI hacks 'early warning shots'",
-            "outlet": "Reuters",
-            "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNRUpQLTQySlpPSFREYzVycnZUeHhKeWh5TFZTSmw0elFKaVB0THNKYU44eHdhQnJBOS1aNFk2MzlRblBlbzZEa0J4ZFk0VFkxaTdubmpWNVUwaFNwV3pkbHpHYU1XWFlaTGp1MU1vRlNMdkU0Tm9ZU3BweUktbDgxbktvWXl2UzZsVW93LVFPbkZyVDFudHQ2Z3FzQjM1bnZRa3RfbWQ1ME44RFBhVXJiM19aWQ?oc=5",
-            "published_at": "2026-10-14T15:48:25.000Z"
-          },
-          {
-            "title": "Nobel laureate Demis Hassabis takes swipe at OpenAI at international summit in Dublin",
-            "outlet": "Irish Independent",
-            "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQa2VqWUlMWWdEb01PWjEwVzdmd0NxYU8zcGtCUkVUMHlKQ3BJVTBma04wdjZnY00xRkVUQmtEbGFEc19RNzl4b29UbVRUY2I5TUhfcXdFT1NDd19semI3ZEVCWTdaS3J4eV90SUhjdXE5Wk5OSE5pTEJJNk9SOG9ZUmdDUk9fWWp4UEJ4NFJuRHRYbEZRdVBhMHEyZGthbVhiNEhxTTJfMHZBX0kwTlZKOWpwYVY3OXZua1J2Ui1Da3ZLQUpHVTdwVDZIVmxSRVZva1BpQkJsZFdGakFi?oc=5",
-            "published_at": "2026-10-14T15:20:56.000Z"
           }
         ],
-        "count_24h": 39,
-        "count_7d": 79,
+        "count_24h": 43,
+        "count_7d": 87,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 1
@@ -921,11 +918,15 @@
           },
           {
             "day": "2026-10-13",
-            "n": 15
+            "n": 16
           },
           {
             "day": "2026-10-14",
-            "n": 38
+            "n": 45
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -961,7 +962,7 @@
         "kind": "press",
         "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNbHYtSFNZQVlOVEhTRFFnd1l1dENzZS1YUS1NRkhBSklMeUtHWXVCOWdtNlhQMjVhMVBhM3dJY3h3QmtpYWNYZmVBa2ZselNRellIZ2syRUlLZmUyV0lWa0dScVRrTEMwWUt0MDlrNjJPZGtTdXA2dmVuVXlsQzZXZml1cHd5bkNqOXpBZVhQWk5KbHVRclVfcmx3?oc=5",
         "published_at": "2026-10-14T18:40:07.000Z",
-        "score": 36.7,
+        "score": 33.9,
         "pillar": "attention",
         "matched_alias": "Elon Musk",
         "cue": "said",
@@ -985,7 +986,7 @@
           "kind": "press",
           "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNbHYtSFNZQVlOVEhTRFFnd1l1dENzZS1YUS1NRkhBSklMeUtHWXVCOWdtNlhQMjVhMVBhM3dJY3h3QmtpYWNYZmVBa2ZselNRellIZ2syRUlLZmUyV0lWa0dScVRrTEMwWUt0MDlrNjJPZGtTdXA2dmVuVXlsQzZXZml1cHd5bkNqOXpBZVhQWk5KbHVRclVfcmx3?oc=5",
           "published_at": "2026-10-14T18:40:07.000Z",
-          "score": 36.7,
+          "score": 33.9,
           "pillar": "attention",
           "matched_alias": "Elon Musk",
           "cue": "said",
@@ -1031,7 +1032,7 @@
       },
       "days_silent": 0,
       "sources_checked": 3,
-      "sources_ok": 3,
+      "sources_ok": 1,
       "direct_sources": [
         {
           "id": "yt-xai",
@@ -1041,11 +1042,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCo2ri0cvAs8Lxbp18UHZsgg",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 1,
-          "fetched_at": "2026-10-14T18:45:58.081Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCo2ri0cvAs8Lxbp18UHZsgg — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:35.040Z",
+          "attributed": null,
           "newest_attributed_at": null
         },
         {
@@ -1056,11 +1057,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC5WjFrtBdufl6CZojX3D8dQ",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:58.186Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UC5WjFrtBdufl6CZojX3D8dQ — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:35.042Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -1074,75 +1075,71 @@
         "extract": "Elon Reeve Musk is a businessman, industrialist, and former public official who is the chief executive officer (CEO) and largest shareholder of Tesla and SpaceX. Musk has been the wealthiest person in the world since 2025, and became the only trillionaire in June 2026; as of October 2026, Forbes estimates his net worth to be $1.1 trillion.",
         "url": "https://en.wikipedia.org/wiki/Elon_Musk",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.659Z",
+        "fetched_at": "2026-10-15T02:55:33.622Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Elon Musk\"",
         "url": "https://news.google.com/rss/search?q=%22Elon%20Musk%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:56.786Z",
-        "fetched_at": "2026-10-14T18:45:56.786Z",
+        "attempted_at": "2026-10-15T02:55:33.622Z",
+        "fetched_at": "2026-10-15T02:55:33.622Z",
         "error": null,
         "state": "ok",
         "headlines": [
           {
-            "title": "Elon Musk’s SpaceX imposes stunning restrictions on Ukraine that could have deadly consequences",
-            "outlet": "Fox News",
-            "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNSWhkcVFGMGFlVkJ0U1RyX0lFMGVIVmJtU3BCTmMyRm9uM3RMN0U4NnMtN2owY2xRRDN4SDRqaUY0QWRYMGNrQXpoX3dkWll4c0dDNEJPdEdzT1FBTXA3YU85T2RNVkFGeXJablUtUjJBLXlHWFc5ZGxmQnhvbTQ1Rk9xNmRxZUdYTzE2Ulg0enZsR2hGTnA1d1Y5cGRIWk1YbE5GS2JSV2Q3N1pBNFJfOUwwM0FtX0xYVHfSAb8BQVVfeXFMTTNhaGppTWV4cVAweFRodXdIR04tMTNmSnMwc3p3ZFBlcElHZWxUcml0aXkxelRCMFoyYnc4YVdramw1YVhmOURid2tlQWstOEh3dWp0M0g2M0hCY053WXZ2TFlQejdJSk1sRWpDY1lJSGJtZEJKTEI1cm9RSHUxNzRPdVl4SHFzbFpydmxTa3l6aXNuZlpCU09feGI4a2VEYXJzTDhmYXBfRl9OUE1OTHNXNkhGSjZjS245dUVaZzg?oc=5",
-            "published_at": "2026-10-14T17:32:17.000Z"
+            "title": "Musk Blames Tycoon for Stalling Satellite Internet Access in India",
+            "outlet": "The New York Times",
+            "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1VRVplTDhjV0xsdkg3RHhic3UwaUdnYWd2TUh1eE1mT01iWkhXbGlZZktJbFc5ZllZTVJhOVJtWmo2cEp5MnBCNXZwbGhlUjBNWlhyYmJjMURTZkh6Ni1vWFlvTXNfOHhNZGo4YzZNWlNtQk95ZG5TNDNPYVRjZw?oc=5",
+            "published_at": "2026-10-15T01:52:59.000Z"
           },
           {
-            "title": "Ukraine accuses Elon Musk’s SpaceX of throttling Starlink terminals",
+            "title": "Elon Musk points finger at Trump over Ukrainian satellite restrictions",
+            "outlet": "MS NOW",
+            "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE0xN2F4bWZwVWNlWTNVZE9vZ19HQUV2djg1R3BxOU1aM2dELVpmT2paRDNuUV93TWN1VGVDWjBPNHdOeTQzR28tSE9BSGF4NFU2WkZkRHA1ZDJZZjRCQkI4czVETnExajA?oc=5",
+            "published_at": "2026-10-14T23:54:06.000Z"
+          },
+          {
+            "title": "Musk says US military controls Starlink’s limits after Ukraine outcry",
             "outlet": "Al Jazeera",
             "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNYmhqaDlBdi1WelRGSUZ4b0FQaWVkd21JUEkyTFpFdE9LcVlreHAwYU5WdkZBcDBPeGZFdHhRdnBxUjFacTloOWUwcUJGRlpqSHJrVHNGRTRWTVFxVU5uVUJvYkR5RW1ZaEk2NC0wZUQ4SWlKZU9lYlBuZUVrczlrVTFweG42R0taaGdaNGhxMFpjQWJicTQwRF9tMk4zNDM4cWRhTnFsQWpUMjdn0gGyAUFVX3lxTE51Tjl2WlZUNzVXWjRydjF6cl9kWGxIX3RiT2ZNeld2akhUSEo1bW84dnV6WmVfRnRmWGJ2TllNa1FxaURrOVRGaThQX2RIWFg4NDYzUlZaY1VDdHNvdzhXcWxoaVBKZmdNT3M3S0dPVXV2V1oyYVlXNDZkS0IzRWlNNWQyeG9URzA2RFN3UHZ0bVFJNUgxYmhDS0lwZGZCcUdCd3RkYTFmWmJ2TVF5VGxqenc?oc=5",
-            "published_at": "2026-10-14T17:20:26.000Z"
+            "published_at": "2026-10-14T23:25:47.000Z"
+          },
+          {
+            "title": "Ukraine's Starlink restrictions raise suspicions of Musk, Trump retaliation",
+            "outlet": "Axios",
+            "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNWHdxWXlmN2ZYWklDT2FlREFOVjhVN3VqWTNJX084YW0tVktrMVY4UTUxa3hMa2Y5M1BvZkRHdUhmSjE5LUNsbTJUSGQxZDJEdF9kaVB2T0l3T0RUSFZhTW9iODktOVZpMmpTMFN3ZXVRV2dfWXY5Vy1iM2FxSm0ySXN3?oc=5",
+            "published_at": "2026-10-14T22:36:28.000Z"
+          },
+          {
+            "title": "Amid Ukraine uproar, Musk says decisions to restrict Starshield up to president",
+            "outlet": "The Hill",
+            "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOY3NGaEJvb2ZVTHpsN0xmdF9DOG53WW11dkVUNmFrLVpqV0lrMVl0c0VfQjAtVWRsSW5FRnhLNlhRd2lLTXhQRV8xa0RkUm1yempuMG9DX2NYMlpLREY2VXpFVTV3UGY5LU9jU3hhVmpLZl9zNlh0dG5RUVoxSWNUdXFkZW9ibG1URm93SW5n0gGTAUFVX3lxTE9QdDVhN3VyNmhTQzU4ZXk3cHRGNlVkeDE1WXhZbVgzZ2xJc1h5T01JZWtxRmp4OWtkMDZNR3NVN0xiUTI1MVRsbGZ2TWdBNUZ6VHRUa2tuaU13Zng4dGx4SWtMb2RYeFRCSjlLS2dLbFlUbjlabDB3UU9wdUxOVHNHaFlITU04SVY5RE1jRXc3VThSNA?oc=5",
+            "published_at": "2026-10-14T20:19:00.000Z"
           },
           {
             "title": "Ukraine says new Starlink restrictions disrupt military as it reels from intel gaps and Trump clash",
             "outlet": "NBC News",
             "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNVFZxOFpYUkhfNjVDUzFoSUhVQ3JRdERHWXdlbk1PUW9zc0tvNEo5cnVnODNTUHA0V1lmX1hyVERYc2FtX0d4MjMzdVZOVGpETjNTTy1FaHpFakZKYzQwWW9RV2hJeE9nQ0JoSUs4c0FJVE1ZSUdsWk5zSmxJcHVEaHJza2NjSEd1RmNYNVM0MHUxcDV1dzBraTB2UUh2RzhSdk05VmMyOUhVeEdKcFZjXzZGYUhTSlE?oc=5",
-            "published_at": "2026-10-14T16:24:03.000Z"
+            "published_at": "2026-10-14T19:55:38.000Z"
           },
           {
-            "title": "Musk Blames Tycoon for Stalling Satellite Internet Access in India",
-            "outlet": "The New York Times",
-            "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1VRVplTDhjV0xsdkg3RHhic3UwaUdnYWd2TUh1eE1mT01iWkhXbGlZZktJbFc5ZllZTVJhOVJtWmo2cEp5MnBCNXZwbGhlUjBNWlhyYmJjMURTZkh6Ni1vWFlvTXNfOHhNZGo4YzZNWlNtQk95ZG5TNDNPYVRjZw?oc=5",
-            "published_at": "2026-10-14T13:41:22.000Z"
-          },
-          {
-            "title": "Ukraine Says Musk's SpaceX Is Restricting Its Starlink Military Use—Drone Missions Affected",
-            "outlet": "Forbes",
-            "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOLXhiejhnNnBqOEFpcGJsYXcxRy1seks5czNVZF9IWjhtZWtaczEzdUxaNl9xVjdvZ00xSlV1RGFZVGFVbXVQWEdFRV9STDJudkFUSkc4SmFRWDVpSVFvRHJYdTJtaklSNzVfQTBfWXBJLU03ZURFd0RjRkVTajNPWEZUYXQxd1REWHN0Zno3STc4aXNIRVVOQzFta0Z5RG5mdmkybWFRWnZtRGNMUUtXRkh5cng3Tm1DY1hhZ2Q5bTZ1S2hyOWwyOFJVLVFURWNyV1AzdzNYZlZWRk9U?oc=5",
-            "published_at": "2026-10-14T10:56:37.000Z"
-          },
-          {
-            "title": "Musk steps back into politics with redefined DC role",
+            "title": "GOP Sen. Tillis asks Musk to explain Ukraine losing access to Starlink",
             "outlet": "The Hill",
-            "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNaWxORHhFMXNweE1aeDJQN2Rqd2hTRnlpSlpEOHU1cUpNQnpmZ2U4blhCZUw0UEpyamtiMEQ4Ry0tRDBCVlNsTVRWYTJ2NlplRmdMLWJNT280dlVfalFhU0tTeDBfc0dyTDYtMzNpUm1HVzhwbHZLSTU4N1ZKM0psXzloejB1OEkyTU5id0ZPdm96TGM?oc=5",
-            "published_at": "2026-10-14T10:00:00.000Z"
+            "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1YMDAzRloybnp3V1Z0d2V5MmhvSkU2aTZhSm9IZ0ZySUVNVDQ0STBDbmNwR1ctdW42Uk1JMTJGd2ZBWjN0bkVnODJFUlRjZE44endJN0liTE5wR3ZxR3JxbmJMZ09NN3FtNVFqVVdUQ2t5dHhrbmwyZHZoZHEyZ9IBgwFBVV95cUxNZFdCY2tuSHlUUW9IcnVUWFRicmF4blVSOHd4REE0dWtjZjk1VGRGVVdtcUF4R3I5aUNWbUY2dTN3N1I0T1NBZ19teUJMdWVBUV9xU0M4Y3Z0Mm1ROTlPV2I5bjVGRDc1eUprTnVTRjQ0UXF6dkpBck91QWc2QnJFcV8zWQ?oc=5",
+            "published_at": "2026-10-14T19:22:00.000Z"
           },
           {
-            "title": "Why Elon Musk is liking Micron right now",
-            "outlet": "Yahoo Finance",
-            "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQczFqVDE5VEFoR3dEMnpJbU8zeTlMeXV3S09GNGJ1eHVtR0dfX1BSQ0dDbUp6ZWtjMDhhb3FaaHY4UTRNY0R0TEdLRWloRndkcGZTS0EyaWJIQjNoaHQ0Y3dIcXc5NjFZX1d4Q0ZfWWZ3VXFmbTdfVXhIWlA2NkdZUXNjQTY5LW00b3Y4bUVfR016QlZIQ0FuWkR5Sl8yelA3VHctYkF5UQ?oc=5",
-            "published_at": "2026-10-14T09:37:39.000Z"
-          },
-          {
-            "title": "Poland's Sikorski asks 'big man' Musk if he is playing politics with Starlink in Ukraine",
-            "outlet": "Reuters",
-            "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNMkplYy1WbldnaVhQUHM3enhiYTNydWFFNnB3T2RfaXZqS01Za3ZOWmRfRjBZdl9ITUhHMEVLWGZCNVFGNWVBRm0zdGZIRy0yR3lJN2ctdUdKbDB3VnJIYm1nNmZNcHN1UlZFN2FOSnRMYTliY1o1LWxqSlVyaUtveE5XX3BIcm50OU1sZWRxTzV2X3R3MDR2TjIyV3RLampGS19nWVdkeHZUVVM0b1FUXzdGU2dTYWt4Rk5wLWRVaFU0M0hZb19PMDkzWHk2dw?oc=5",
-            "published_at": "2026-10-14T09:36:49.000Z"
+            "title": "Elon Musk Says Micron Is Making a ‘Smart Move’ on Memory. Micron Stock Falls Anyway.",
+            "outlet": "Barron's",
+            "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9ZODR0UDZ5RV9JWGVvT3BEaEVSX3cteVBoN1FsLWZ2R0tUOFJmak1PX2M1NUVqN3FGN0VOaG9ZeDEtTEFlVXUyYlFzak82Q1F2Xy1LZFV3TWF2TTljQ0NfcExQQ1hydzdtM1hwSFNoZWZxZ3RHTWs1QUJWTEc?oc=5",
+            "published_at": "2026-10-14T18:49:00.000Z"
           }
         ],
-        "count_24h": 16,
-        "count_7d": 171,
+        "count_24h": 20,
+        "count_7d": 174,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 6
@@ -1193,7 +1190,11 @@
           },
           {
             "day": "2026-10-14",
-            "n": 10
+            "n": 21
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -1218,11 +1219,59 @@
         "Zuckerberg",
         "Zuck"
       ],
-      "state": "no_line",
-      "count": 0,
-      "sources": [],
-      "latest": null,
-      "lines": [],
+      "state": "on_record",
+      "count": 1,
+      "sources": [
+        "ft-ai"
+      ],
+      "latest": {
+        "item_id": "91a9ed7e67a57009",
+        "headline": "Zuckerberg says Meta has reached AI ‘frontier’",
+        "source": "ft-ai",
+        "kind": "press",
+        "url": "https://ft.com/content/fca23e77-be57-4d7e-ae61-74ff299e25cb?syn-25a6b1a6=1",
+        "published_at": "2026-10-12T17:00:02.000Z",
+        "score": 25.9,
+        "pillar": "markets",
+        "matched_alias": "Zuckerberg",
+        "cue": "says",
+        "cue_group": "core",
+        "cue_class": "verb",
+        "cue_text": "says",
+        "cues": [
+          "says"
+        ],
+        "corroboration": 1,
+        "also_sources": [
+          "ft-ai"
+        ],
+        "via": "press"
+      },
+      "lines": [
+        {
+          "item_id": "91a9ed7e67a57009",
+          "headline": "Zuckerberg says Meta has reached AI ‘frontier’",
+          "source": "ft-ai",
+          "kind": "press",
+          "url": "https://ft.com/content/fca23e77-be57-4d7e-ae61-74ff299e25cb?syn-25a6b1a6=1",
+          "published_at": "2026-10-12T17:00:02.000Z",
+          "score": 25.9,
+          "pillar": "markets",
+          "matched_alias": "Zuckerberg",
+          "cue": "says",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "says",
+          "cues": [
+            "says"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "ft-ai"
+          ],
+          "via": "press"
+        }
+      ],
       "watch_floor": {
         "tracked": true,
         "player_id": "meta",
@@ -1231,14 +1280,16 @@
         "reason": "Posts on Facebook and Instagram, neither of which exposes a free per-person feed at any documented path.",
         "feed": null,
         "posts_30d": null,
-        "verdict": "both_quiet",
-        "note": "The watch floor reads no feed and no headline in this window named Mark Zuckerberg beside a speech cue. Two separate silences, neither imputed from the other."
+        "verdict": "wire_fills_gap",
+        "note": "The watch floor reads no feed for Mark Zuckerberg and that reading stands: it is about feeds we can fetch. The one line on the wire came from the press instead — ft-ai — and links to the publication that printed it."
       },
-      "group": "quiet",
-      "reason": "quiet",
-      "press_count": 0,
+      "group": "on_record",
+      "reason": null,
+      "press_count": 1,
       "direct_count": 0,
-      "press_sources": [],
+      "press_sources": [
+        "ft-ai"
+      ],
       "last_statement_at": "2026-10-13T17:59:00.000Z",
       "last_statement": {
         "headline": "Mark Zuckerberg Says Meta Has Caught Up With OpenAI and Anthropic in AI Race",
@@ -1250,7 +1301,7 @@
       },
       "days_silent": 1,
       "sources_checked": 3,
-      "sources_ok": 3,
+      "sources_ok": 2,
       "direct_sources": [
         {
           "id": "meta-newsroom",
@@ -1263,7 +1314,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-14T18:45:57.634Z",
+          "fetched_at": "2026-10-15T02:55:34.648Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1275,11 +1326,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC5qxlwEKM7-5YZudb24l0bg",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:58.074Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UC5qxlwEKM7-5YZudb24l0bg — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:35.036Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -1293,18 +1344,24 @@
         "extract": "Mark Elliot Zuckerberg is an American businessman, webmaster, and programmer who co-founded the social media service Facebook and its parent company Meta Platforms. He is its chairman, chief executive officer (CEO), and controlling shareholder.",
         "url": "https://en.wikipedia.org/wiki/Mark_Zuckerberg",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.795Z",
+        "fetched_at": "2026-10-15T02:55:33.916Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Mark Zuckerberg\"",
         "url": "https://news.google.com/rss/search?q=%22Mark%20Zuckerberg%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:57.204Z",
-        "fetched_at": "2026-10-14T18:45:57.204Z",
+        "attempted_at": "2026-10-15T02:55:34.197Z",
+        "fetched_at": "2026-10-15T02:55:34.197Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Zuckerberg awkwardly tackling a pint of Guinness has gone viral",
+            "outlet": "AFR",
+            "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPaFdPRG94OVo2dzlfTkxzUU00eFZUcTVTUFRuYk90eWthOXBTTzdha3V0VlY4VFNGcWt4eW1DMzEzLURCVk9teGFwX0lCdUpudC1WblkyRldBR1NOQnBRRnRVTUtPdEpCWU41aE1fbVRhaC13Um9WcHRiNnlWWExBdXMtRUlGVXo0RURKYzZHOVZXY212YU55SXlVVXFtNVQtMVFCbjVzUjQxbjRrbkZGaUZsT2g4Y0lGeHJV?oc=5",
+            "published_at": "2026-10-15T01:47:00.000Z"
+          },
           {
             "title": "Mark Zuckerberg Defends Meta's AI CapEx, Ready to 'Write This Check' for up to '$200 Billion' to Dominate 'Decades to Come'",
             "outlet": "Yahoo Finance",
@@ -1346,22 +1403,12 @@
             "outlet": "Los Angeles Times",
             "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQUUo0MDZFc1JHdkhaUWRybHMxemI4SURFczJzaGZWamp4U0VQWlF4SFRveFpQVUF6MEZWMTJuWEFfSndIcTZ6THBzR1hQUWpBdnJCUGdVMS1HR0dGdmVXNWtWc0tobk81ZDVPYlNnTUZxcF9qQm9IR2VNM0FKSm9ISGRiMVB2Ykw3MFdPZTZuc0ZvUEF0ODlJcXUtVl82U3RaY3pQWFhyV2s0cGF6OWR3dWhpTWhDMHExU21pWEcxTkJEbGtoVEtnRWwtQQ?oc=5",
             "published_at": "2026-10-14T15:02:17.000Z"
-          },
-          {
-            "title": "Mark Zuckerberg versus the pint of Guinness",
-            "outlet": "The Currency",
-            "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQSzdlUjF0SHIxUFZxaFNTeXptb01MUHFFTDBxZjg4MGxHR3dSZzQwUk9SY2RCdmFXSll3dHNGMFcxOFYwamQxM0VrbmFDaGVzajhYUnctNTMyd0ZNa3pnMTdRRjlPTVpfSHFOYTNiQ2g2VFZMSC01ZmFDajlYR1JQX1lHczFXYV95LXV0ODZB?oc=5",
-            "published_at": "2026-10-14T14:54:18.000Z"
           }
         ],
-        "count_24h": 31,
-        "count_7d": 218,
+        "count_24h": 19,
+        "count_7d": 214,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 1
@@ -1413,6 +1460,10 @@
           {
             "day": "2026-10-14",
             "n": 20
+          },
+          {
+            "day": "2026-10-15",
+            "n": 1
           }
         ],
         "trend": {
@@ -1437,9 +1488,8 @@
         "Jensen"
       ],
       "state": "on_record",
-      "count": 4,
+      "count": 2,
       "sources": [
-        "YouTube · NVIDIA",
         "gnews-ai",
         "techmeme"
       ],
@@ -1450,7 +1500,7 @@
         "kind": "press",
         "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9MYVBVdE5KUFNTZDFnZmE4YTMyZTFVYXdqdmczeDZHeHlOY2FuOGtNQXNfeUxlak9EODNYdE81TXFFNExZQXFZMng3ZkdmblZ5ZWpWLVlVTXltNVRJVGFucVNPYkRMLUdQbEhxNkFLZ3c1VVBXVzFWbA?oc=5",
         "published_at": "2026-10-14T18:05:03.000Z",
-        "score": 36.5,
+        "score": 33.7,
         "pillar": "compute",
         "matched_alias": "Jensen Huang",
         "cue": "said",
@@ -1474,7 +1524,7 @@
           "kind": "press",
           "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9MYVBVdE5KUFNTZDFnZmE4YTMyZTFVYXdqdmczeDZHeHlOY2FuOGtNQXNfeUxlak9EODNYdE81TXFFNExZQXFZMng3ZkdmblZ5ZWpWLVlVTXltNVRJVGFucVNPYkRMLUdQbEhxNkFLZ3c1VVBXVzFWbA?oc=5",
           "published_at": "2026-10-14T18:05:03.000Z",
-          "score": 36.5,
+          "score": 33.7,
           "pillar": "compute",
           "matched_alias": "Jensen Huang",
           "cue": "said",
@@ -1497,7 +1547,7 @@
           "kind": "press",
           "url": "https://techmeme.com/261014/p9",
           "published_at": "2026-10-14T09:55:05.000Z",
-          "score": 37.3,
+          "score": 34.9,
           "pillar": "attention",
           "matched_alias": "Jensen Huang",
           "cue": "says",
@@ -1512,50 +1562,6 @@
             "techmeme"
           ],
           "via": "press"
-        },
-        {
-          "item_id": "feed-yt-nvidia-88ee09783062",
-          "headline": "Jensen Huang speaks to media in Paris about NVIDIA OpenShell.",
-          "source": "YouTube · NVIDIA",
-          "kind": "official_feed",
-          "url": "https://www.youtube.com/shorts/To27EtSUGbM",
-          "published_at": "2026-10-13T17:43:38.000Z",
-          "score": null,
-          "pillar": null,
-          "matched_alias": "Jensen Huang",
-          "cue": "official video",
-          "cue_group": "direct",
-          "cue_class": "official",
-          "cue_text": "YouTube · NVIDIA",
-          "cues": [
-            "official video"
-          ],
-          "corroboration": 1,
-          "also_sources": [],
-          "via": "feed",
-          "source_id": "yt-nvidia"
-        },
-        {
-          "item_id": "feed-yt-nvidia-56954c71a711",
-          "headline": "A little something from Jensen Huang ✍️",
-          "source": "YouTube · NVIDIA",
-          "kind": "official_feed",
-          "url": "https://www.youtube.com/shorts/kWqHXMkfKE0",
-          "published_at": "2026-10-13T14:58:03.000Z",
-          "score": null,
-          "pillar": null,
-          "matched_alias": "Jensen Huang",
-          "cue": "official video",
-          "cue_group": "direct",
-          "cue_class": "official",
-          "cue_text": "YouTube · NVIDIA",
-          "cues": [
-            "official video"
-          ],
-          "corroboration": 1,
-          "also_sources": [],
-          "via": "feed",
-          "source_id": "yt-nvidia"
         }
       ],
       "watch_floor": {
@@ -1571,7 +1577,7 @@
       "group": "on_record",
       "reason": null,
       "press_count": 2,
-      "direct_count": 2,
+      "direct_count": 0,
       "press_sources": [
         "gnews-ai",
         "techmeme"
@@ -1587,7 +1593,7 @@
       },
       "days_silent": 0,
       "sources_checked": 3,
-      "sources_ok": 3,
+      "sources_ok": 2,
       "direct_sources": [
         {
           "id": "nvidia-blog",
@@ -1600,7 +1606,7 @@
           "ok": true,
           "error": null,
           "entries": 18,
-          "fetched_at": "2026-10-14T18:45:57.608Z",
+          "fetched_at": "2026-10-15T02:55:34.604Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1612,12 +1618,12 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCHuiy8bXnmK5nisYHUd1J5g",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:58.072Z",
-          "attributed": 2,
-          "newest_attributed_at": "2026-10-13T17:43:38.000Z"
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCHuiy8bXnmK5nisYHUd1J5g — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:34.931Z",
+          "attributed": null,
+          "newest_attributed_at": null
         }
       ],
       "no_source_reason": null,
@@ -1630,75 +1636,71 @@
         "extract": "Jen-Hsun \"Jensen\" Huang is a Taiwanese and American business executive and electrical engineer who is the co-founder, president, and CEO of Nvidia, the world's most valuable company. As of October 2026, Forbes estimates his net worth at over US$200 billion, making him the seventh-wealthiest individual in the world and the wealthiest individual of Asian descent.",
         "url": "https://en.wikipedia.org/wiki/Jensen_Huang",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.798Z",
+        "fetched_at": "2026-10-15T02:55:33.919Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Jensen Huang\"",
         "url": "https://news.google.com/rss/search?q=%22Jensen%20Huang%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:57.429Z",
-        "fetched_at": "2026-10-14T18:45:57.429Z",
+        "attempted_at": "2026-10-15T02:55:34.331Z",
+        "fetched_at": "2026-10-15T02:55:34.331Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Nvidia CEO Jensen Huang says he would cut off customers who build unsafe AI",
+            "outlet": "electronics.economictimes.indiatimes.com",
+            "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOazNCMlpKYnFOdE5qOVRzYlN6LVFubG96WGlaU1BjMXNQVXMxd3hwSUh3U1lYcHhGeXRvbzhKSTVJZDFJZ2MzTURseXpPLUMxRWF4OXVnU3RmYVV4WmhmNEdVY2FtYlRpSHBDSVpta3NEMk93NExnQlU5dFRXb0JlZG1RcWk2bWhXQnc1dVdxemZiczhXMkJMckE0d2Itc1lRb1BUN19EOWVZWlc1NnhLcG8wbElmbmw0MTNUQVl2YlZDTzZSR3VRc1B5dDBlQ1pFb2FkZ29ERFY1MDRzczlQSlZaT2dQMEx10gHuAUFVX3lxTE1hYTFvSHJIVWpOa0lQVTVuMWQ1Q0pOYnBQc2Zla3VZT1NNS0RySEtkQ0pfdndPOGQ2MkR1QThZanJjWldPaTRZZlFNM1pXR01iVWtWeURzSWZ2eDgwRVdFMkhmYXBSM0pGWTVkNXYtOHpTMWFrNnVmNHpia0hXQ1c1MFlvZ2ZzX2VZUF9Fb09xdjFXeldyQWMtRWdQT0RsWUhwUkxFcVZOc25OOWMxdHdJWGh3MlNGN1VHbkttd3M3ck5HS1RWazdrM3E4cVl4LTNNSnBBZzZIamFDSFZKQ0QyaGFZRG5rRkhGMm1EZWc?oc=5",
+            "published_at": "2026-10-15T02:44:41.000Z"
+          },
+          {
+            "title": "NVIDIA Lands in Europe for GTC Berlin",
+            "outlet": "NVIDIA Blog",
+            "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFA4M3FmV0ljcFlSbm5UNGpFNlFFU01jc2MwbmtaUGFtNnExMVVMejNyV2tBX0xoaC1xajZmeFVDU3JVMGNsWnhzMnpWRmZvSjdSb3o1MF9ud3Y2Zw?oc=5",
+            "published_at": "2026-10-14T21:47:02.000Z"
+          },
+          {
+            "title": "Nvidia’s Jensen Huang says he would cut off customers who build unsafe AI",
+            "outlet": "The Next Web",
+            "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBib2M1Si0xWWJmSm4xeGlnWUdsTVgyQWUtaVRtc0MxWk5IR25SeFJoamZZUVB2RmZkNEhzbWd1NmpzV2IwNFg0ckhVdzJ6M2JhbUh3T0pVQ21VUU5hUFRkaDVXTVJwZTdIOFo0Ny1n?oc=5",
+            "published_at": "2026-10-14T19:36:57.000Z"
+          },
+          {
+            "title": "Nvidia's Jensen Huang Says He Would Cut Off Chip Supply for Unsafe AI, But Only After Talks",
+            "outlet": "BigGo Finance",
+            "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBwR3FzVVNUblRtaFAzTTgzeGtmM0J1X2Y5VVdBdWd3ZWJFcFpnVHFFLWJIT1JUaTE3cTNKQkhjNkVLc0p0WEs0TXdCVWJ5NkNnN2hyQlh4M09GNkRpM2ZHOHFDNDVPeWI5b2RPTVA4dUVVdWVVcmc?oc=5",
+            "published_at": "2026-10-14T19:25:00.000Z"
+          },
+          {
+            "title": "Nvidia’s Jensen Huang responds to Pope Leo’s AI safety criticism: ‘We all care about the same thing’",
+            "outlet": "Fortune",
+            "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPcE1vZ2xQLVlBMVh6RkFoMjF0bWMxZW9qMzNWYkdRU3gxUjhIRXMwcVVPRTBVM2Jpc0xWNVNLNVJQVnVHbHUybkV1akFVUWdtMEQ5SDFtaXRZVXZ6V19wbjZ3ejZ0RGxqVngzY0dOa09DaTJaVmdERFc5Nks0amNFZWUxU1pBM0tZdGx4dk1kMGE1YTVfTFJiSUVGSk1IaDN4c2N0RDNMeHByYi1iSzZEdlNERlBHYUJ1ZVAtRktPcjk0ZXAzaVE?oc=5",
+            "published_at": "2026-10-14T19:21:00.000Z"
+          },
+          {
+            "title": "Jensen Huang says AI doomers should quit and chip cutoffs are real",
+            "outlet": "Startup Fortune",
+            "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNR1czR3NFNlpRUmJUMm5RVHVvSlR3cFo2cUU1a2tERjRpS2ZWNkdJX29aczdkOUlRV3lDejA0M2JySFN6RUdBdjVsN3ZNVmpnQmNLajZQclVaVjRiNkp5MjZVcklJd2thWndyR3lQY1U5RHZ4V2N5cTViZUlFS0VLVWV3V1RaU09KNDRGcm4zcWR4SzJYcVkxa25R?oc=5",
+            "published_at": "2026-10-14T19:15:54.000Z"
+          },
+          {
+            "title": "Nvidia CEO Jensen Huang says he would cut off customers who build unsafe AI",
+            "outlet": "The Economic Times",
+            "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxOQmRVVGFocXk1WGg1NkVGRzFRUXJ2U05seTJpZWg2ZC04NDdtY2xMcTVSVVpHUUwxeV9zU2FDamd2allsdjR6VDY4QkV3YjJ3aEI3ZlN5M2NJcHczVUFkZ0EyNThON25qYWNieE5lc2lsODJqMDRsUFhOQk9yb254Nnlmb04wZ2oyTHc4VHZTRU5zaXdxUzdHeHk1aVEtTFBiVFVuZHZyZjlFbWZBSk1TVjJ0NC1LZ1JGQzlneG9GWHJPV25kNFFoY0t3a2ZGWDJmVnVkQVJBVnFsdUdwcDBYZWNoNnkzSmJiVUtCQ0pKcGRlMkpxb2N5QlVRd9IB9AFBVV95cUxQUjdfSVAyTlJNN05UVzhnQ2VaVjlNQjBTRFRibUpMQmY2dkpYODRhS3lwSFVnZjM5cllBOTljQUxmeVRtdWJoVk54XzJYMzZ3ZDdZX3JvRGxMa0lhRDZUN01OdXBXNVdHRjBhMWV2dXB5MGMyYzlyWUUzWW05aUxBT1NPbVZOd2JtQXZsTzV0Um1RZUJJU1N5WWJndFpKeE9wYUU1ZG9zdFNUbmZmMnBzVkJxbkxBZGJYQUM1RHhlcXBQaS1kRDdicWd6MmdELXpBNGhWV3NyRGhwaWM0T1BRaTljc2I3QVFfWG8wVzBtNlJFZ2Y1?oc=5",
+            "published_at": "2026-10-14T19:12:36.000Z"
+          },
           {
             "title": "Jensen Huang in Taiwan: \"the more you buy, the more you make\"",
             "outlet": "Dealroom",
             "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPc042SHFoUkFLTVY4eGdPOUFhZG5wbjVUTDFZT1RpQk5QZW5HdzJWQzJMa3ZueFZiMlNRYUdfSWctVzBncENLUU9jSjkyZXFCUDRFSXJsT1I4WVUzZEs4X0N3bjJrd1BEcWI4ZnAydDh0Rl82MERaNXBRZEJjaTZKTTRmUnZISktWYXhSbTRCa05ycjhPNWc?oc=5",
             "published_at": "2026-10-14T18:44:32.000Z"
-          },
-          {
-            "title": "Jensen Huang said Nvidia would stop supplying chips to unsafe AI developers",
-            "outlet": "Quartz",
-            "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9MYVBVdE5KUFNTZDFnZmE4YTMyZTFVYXdqdmczeDZHeHlOY2FuOGtNQXNfeUxlak9EODNYdE81TXFFNExZQXFZMng3ZkdmblZ5ZWpWLVlVTXltNVRJVGFucVNPYkRMLUdQbEhxNkFLZ3c1VVBXVzFWbA?oc=5",
-            "published_at": "2026-10-14T18:05:03.000Z"
-          },
-          {
-            "title": "Nvidia CEO Jensen Huang would cut off unsafe AI developers",
-            "outlet": "Quartz",
-            "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9MYVBVdE5KUFNTZDFnZmE4YTMyZTFVYXdqdmczeDZHeHlOY2FuOGtNQXNfeUxlak9EODNYdE81TXFFNExZQXFZMng3ZkdmblZ5ZWpWLVlVTXltNVRJVGFucVNPYkRMLUdQbEhxNkFLZ3c1VVBXVzFWbA?oc=5",
-            "published_at": "2026-10-14T18:05:03.000Z"
-          },
-          {
-            "title": "Nvidia CEO Huang says society shouldn't tolerate AI cyber incidents, says AI doomers “ought to stop working on” the technology",
-            "outlet": "Fortune",
-            "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOLVNXMEVqSGxEa1RhSEI0WjVxM3QtbE14ak1sOHFRWkk3aFd6MkxfNmFrcWdoZFVHVmR2dlNRY1RKbUY2Z21UZVg5ZXJuZUpZLUJ4bktaWl9XNGtSQ2NaQ3hIWUJxWGNZWThYaTcyQUp4b0VXaG1FcUh5eUI2YmtyWkxQSGc2NU51SmE1QVRSLUZMQVpNQjlqMy1jSm8tNUtrYmROQ1lPa2tFNGhWMjhtM0U2RHhUdHl5RFp6cGhIcWtSdUJSYmJlWGxRel8xeDBHQVNjelNyclk5NVdoVzgtTjB4YWhUcGJCbXc?oc=5",
-            "published_at": "2026-10-14T18:03:00.000Z"
-          },
-          {
-            "title": "Nvidia’s Jensen Huang wants “no incidents” of AI cybersecurity, and says AI doomers “ought to stop working on” the technology",
-            "outlet": "Fortune",
-            "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOLVNXMEVqSGxEa1RhSEI0WjVxM3QtbE14ak1sOHFRWkk3aFd6MkxfNmFrcWdoZFVHVmR2dlNRY1RKbUY2Z21UZVg5ZXJuZUpZLUJ4bktaWl9XNGtSQ2NaQ3hIWUJxWGNZWThYaTcyQUp4b0VXaG1FcUh5eUI2YmtyWkxQSGc2NU51SmE1QVRSLUZMQVpNQjlqMy1jSm8tNUtrYmROQ1lPa2tFNGhWMjhtM0U2RHhUdHl5RFp6cGhIcWtSdUJSYmJlWGxRel8xeDBHQVNjelNyclk5NVdoVzgtTjB4YWhUcGJCbXc?oc=5",
-            "published_at": "2026-10-14T18:03:00.000Z"
-          },
-          {
-            "title": "Jensen Huang says he would cut off chip supply to unsafe AI developers",
-            "outlet": "Startup Fortune",
-            "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNblE3SmRWTU44NmJvQUthVGJxZHBJbnA0c1hva3FSR2FRSGVTdk5fUVJuV2xvUUdTWms1NUhSRW01RjJOdEJZR3lLUXpQU2tlNmh3MmlYeDVNREVTX2VEVlBUSXFld1VucTRqM0gwLWlxNTA4dFpkOVVrLXE2RzZyS1dWWEszSjRKUnNpcG9KRllpREM0cUJMYXJsZ0Y0SnM?oc=5",
-            "published_at": "2026-10-14T17:55:18.000Z"
-          },
-          {
-            "title": "Nvidia CEO Says He Would Cut Off Customers Who Build Unsafe AI",
-            "outlet": "Bloomberg.com",
-            "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOSnhxakNaMklvT25NQjFreTNHYVhMME45SHh4QkhBSGhVNFlPUFFCTmNyaGhYWFJobXZSMFZSUGtlUE5JNkxicGNhOVIzUkowVFo1UjlfZmliN2lFVmlJVDN6UGNUMFhDN0twbnJ6ejdpU19xQ01jSUR5Y3lnWnkxM0pUdGVDQnNiNFdkenE2dG9Zcm1DakdFUUdnbFZqTXc4TVR1c2hHX0hWV2I3aGFFcmhTcw?oc=5",
-            "published_at": "2026-10-14T17:34:47.000Z"
-          },
-          {
-            "title": "Nvidia CEO Jensen Huang 'optimistic' on AI risks, sovereignty and jobs",
-            "outlet": "Le Monde.fr",
-            "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPeVNuZndDRk9kcGNna2F1Q3hqeTJMQUdqekJYSGFrMmtxWDhka1BEU3BPd2hldV9HdkwwX0ZwSFhGdTI1bjl5V3FrQTVQT1lRZWp2UjhRblNKbWVCODJjQlBSTGhWYXJaRWVNaUJnTWMyUzRXYWNSX0F2cmk5OUFGNzRCRU9UbVdqSVlrWENNNGxxX05hQXFWa2k2M1A2Y3VxWnBpTVZBYm94WTh4ZFVFQkRqMW91cXh5ZHNoX2cxbUJQem5GbzhZR3YyQmdjRHNnQnc?oc=5",
-            "published_at": "2026-10-14T15:29:53.000Z"
           }
         ],
-        "count_24h": 26,
-        "count_7d": 170,
+        "count_24h": 27,
+        "count_7d": 163,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 2
@@ -1725,7 +1727,7 @@
           },
           {
             "day": "2026-10-08",
-            "n": 67
+            "n": 69
           },
           {
             "day": "2026-10-09",
@@ -1737,7 +1739,7 @@
           },
           {
             "day": "2026-10-11",
-            "n": 3
+            "n": 4
           },
           {
             "day": "2026-10-12",
@@ -1745,11 +1747,15 @@
           },
           {
             "day": "2026-10-13",
-            "n": 24
+            "n": 25
           },
           {
             "day": "2026-10-14",
-            "n": 19
+            "n": 27
+          },
+          {
+            "day": "2026-10-15",
+            "n": 1
           }
         ],
         "trend": {
@@ -1773,11 +1779,82 @@
         "Satya Nadella",
         "Nadella"
       ],
-      "state": "no_line",
-      "count": 0,
-      "sources": [],
-      "latest": null,
-      "lines": [],
+      "state": "on_record",
+      "count": 2,
+      "sources": [
+        "siren-desk"
+      ],
+      "latest": {
+        "item_id": "4328faa6539cc1aa",
+        "headline": "Satya Nadella says we should assume all AI models are ‘compromised’",
+        "source": "siren-desk",
+        "kind": "press",
+        "url": "https://theverge.com/ai-artificial-intelligence/1009337/satya-nadella-says-we-should-assume-all-ai-models-are-compromised",
+        "published_at": "2026-10-10T22:10:17.000Z",
+        "score": 35.9,
+        "pillar": "governance",
+        "matched_alias": "Satya Nadella",
+        "cue": "says",
+        "cue_group": "core",
+        "cue_class": "verb",
+        "cue_text": "says",
+        "cues": [
+          "says"
+        ],
+        "corroboration": 1,
+        "also_sources": [
+          "siren-desk"
+        ],
+        "via": "press"
+      },
+      "lines": [
+        {
+          "item_id": "4328faa6539cc1aa",
+          "headline": "Satya Nadella says we should assume all AI models are ‘compromised’",
+          "source": "siren-desk",
+          "kind": "press",
+          "url": "https://theverge.com/ai-artificial-intelligence/1009337/satya-nadella-says-we-should-assume-all-ai-models-are-compromised",
+          "published_at": "2026-10-10T22:10:17.000Z",
+          "score": 35.9,
+          "pillar": "governance",
+          "matched_alias": "Satya Nadella",
+          "cue": "says",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "says",
+          "cues": [
+            "says"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "siren-desk"
+          ],
+          "via": "press"
+        },
+        {
+          "item_id": "76abb37bb8b16246",
+          "headline": "Microsoft's Nadella says AI needs an ‘emergency brake’ that humans control",
+          "source": "siren-desk",
+          "kind": "press",
+          "url": "https://cnbc.com/2026/10/10/microsoft-satya-nadella-ai-emergency-brake-safety.html",
+          "published_at": "2026-10-10T20:59:28.000Z",
+          "score": 20.8,
+          "pillar": "governance",
+          "matched_alias": "Nadella",
+          "cue": "says",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "says",
+          "cues": [
+            "says"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "siren-desk"
+          ],
+          "via": "press"
+        }
+      ],
       "watch_floor": {
         "tracked": false,
         "player_id": null,
@@ -1788,11 +1865,13 @@
         "verdict": "not_tracked",
         "note": "Satya Nadella is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
       },
-      "group": "quiet",
-      "reason": "quiet",
-      "press_count": 0,
+      "group": "on_record",
+      "reason": null,
+      "press_count": 2,
       "direct_count": 0,
-      "press_sources": [],
+      "press_sources": [
+        "siren-desk"
+      ],
       "last_statement_at": "2026-10-13T17:53:43.000Z",
       "last_statement": {
         "headline": "Microsoft CEO Satya Nadella warns against trusting opaque AI to police AI",
@@ -1804,7 +1883,7 @@
       },
       "days_silent": 1,
       "sources_checked": 4,
-      "sources_ok": 4,
+      "sources_ok": 3,
       "direct_sources": [
         {
           "id": "microsoft-blog",
@@ -1817,7 +1896,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-14T18:45:57.477Z",
+          "fetched_at": "2026-10-15T02:55:34.492Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1832,7 +1911,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-14T18:45:57.482Z",
+          "fetched_at": "2026-10-15T02:55:34.577Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1844,11 +1923,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:58.066Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:34.890Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -1862,15 +1941,15 @@
         "extract": "Satya Narayana Nadella is an Indian-American business executive. He is the chairman and chief executive officer (CEO) of Microsoft, succeeding Steve Ballmer in 2014 as CEO and John W. Thompson in 2021 as chairman.",
         "url": "https://en.wikipedia.org/wiki/Satya_Nadella",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.801Z",
+        "fetched_at": "2026-10-15T02:55:33.935Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Satya Nadella\"",
         "url": "https://news.google.com/rss/search?q=%22Satya%20Nadella%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:57.442Z",
-        "fetched_at": "2026-10-14T18:45:57.442Z",
+        "attempted_at": "2026-10-15T02:55:34.342Z",
+        "fetched_at": "2026-10-15T02:55:34.342Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -1906,6 +1985,12 @@
           },
           {
             "title": "Microsoft’s CEO Just Called for a Kill Switch on AI. Here Is What It Means for the Stock.",
+            "outlet": "Yahoo Finance",
+            "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQTEFYVHFWdDFPTVNpTW0tVGJRdWk5d0FqUHE0VkJvYlU4U1JzVWdqYTVQMy02Q3B5YlMxMGRuaVlDU3l2VldwelFTWTlodDlWdnJMcnhrRDRRTVJYYXNtcEM5clgtX3dySEtORmR5WkZoYXhjUzFCeWFQN1J1UWc0YWdRWHFOSFZaNHJmbnRQUWhjVHc2REIzMWN3?oc=5",
+            "published_at": "2026-10-13T12:45:43.000Z"
+          },
+          {
+            "title": "Microsoft’s CEO Just Called for a Kill Switch on AI. Here Is What It Means for the Stock.",
             "outlet": "24/7 Wall St.",
             "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQeWpuZVVUX1dNT01BUUxLV0lpVlk1cTFnb3F2aHk5MlpMZ0F2NGlSTWNWTlBMSkI2T1JVZ1RqcnFXU3V3RjYySWYyalJQd2xKcUpSNGpBdWk5SVZlYk81VUplckc0bmRDMDFxdXNsd1JFRmdDUmdXUzhZdmZPV0poM1lPOGpPVkpPQTNyTDBhRkZhTmJ2cDRVSjhoZzdmZmYwQ0wyOFNpU3hYZnpUa0UwSHJfMEJGYVpFTkJLWXJqSW9XNVpuWm1MTzdn?oc=5",
             "published_at": "2026-10-13T12:45:00.000Z"
@@ -1915,22 +2000,12 @@
             "outlet": "24/7 Wall St.",
             "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQUjVhN05XOVlVcWJaYVJSVWtqOVJUT29QSGhlbHhGQjVqTzI1TmhIS3RqOGYwdWhvbTNoYjJZZFdoWUx1Um5xRVRIcWtna0pKUjliaDAzWjJIZ29RRTNmQ0dSV1d3SmJMMGpoRE1uUV96ZHZidWVrX3BPMF91OUxMWEtOVHdLU29iUXpHcTNJcjBLQkkycU9qdnBlZnlzSEh1N0toTGlwZ2VCR1UwUmJKcEN3Nnk?oc=5",
             "published_at": "2026-10-13T11:15:00.000Z"
-          },
-          {
-            "title": "Why Microsoft CEO Satya Nadella Feels ‘Very Good’ About New OpenAI Deal While Amazon Adds GPT Models To AWS",
-            "outlet": "Stocktwits",
-            "url": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxOcmtxaUpKd0xRTXVuRU0yYWt0ZURGWXdjOVh5U0V6LXVNLWJKbUFTUG1vLVdZM05VYXBVemh5WnZVR2c5WjF1MUFxa1FBQUc1c0o4a3F6eDlaaTBGLVRhOXY4T2VrZV9DTEFVb1pHZ0s2YUlPd1UyNVZHdnBaOXJRVll6dTYtX0kxc0JoWkMwc2Q2akJXcEN4UUFpNE5rak43T0lUQk5JSFd5OEVfLVgtZVo4aWd6bnNGYl9jSUc0d2lwOGJTeTN4el9qMmp0NEhCamM1N01xOTBycGdEems3T1dZRmhYRW02bHl3OWQ1LTh4NVNRQXhtaTJoUHROTHM?oc=5",
-            "published_at": "2026-10-13T08:10:21.000Z"
           }
         ],
         "count_24h": 2,
-        "count_7d": 241,
+        "count_7d": 235,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 0
@@ -1977,11 +2052,15 @@
           },
           {
             "day": "2026-10-13",
-            "n": 7
+            "n": 9
           },
           {
             "day": "2026-10-14",
             "n": 2
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -2036,7 +2115,7 @@
       },
       "days_silent": 0,
       "sources_checked": 5,
-      "sources_ok": 5,
+      "sources_ok": 4,
       "direct_sources": [
         {
           "id": "google-ai-blog",
@@ -2049,7 +2128,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-14T18:45:57.389Z",
+          "fetched_at": "2026-10-15T02:55:34.377Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2064,7 +2143,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-14T18:45:57.444Z",
+          "fetched_at": "2026-10-15T02:55:34.406Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2079,7 +2158,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-14T18:45:57.591Z",
+          "fetched_at": "2026-10-15T02:55:34.587Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2091,11 +2170,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCK8sQmJBp8GCxrOtXWBpyEA",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:57.855Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCK8sQmJBp8GCxrOtXWBpyEA — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:34.886Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -2109,18 +2188,30 @@
         "extract": "Pichai Sundararajan, better known as Sundar Pichai, is an Indian–American business executive who has been the CEO of Google since 2015 and the CEO of its parent company Alphabet Inc. since 2019.",
         "url": "https://en.wikipedia.org/wiki/Sundar_Pichai",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.804Z",
+        "fetched_at": "2026-10-15T02:55:33.938Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Sundar Pichai\"",
         "url": "https://news.google.com/rss/search?q=%22Sundar%20Pichai%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:57.680Z",
-        "fetched_at": "2026-10-14T18:45:57.680Z",
+        "attempted_at": "2026-10-15T02:55:34.383Z",
+        "fetched_at": "2026-10-15T02:55:34.383Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "GOOGL Stock Ticks Higher Premarket After Taking Big Hit As CEO Sundar Pichai, Analysts Downplay AI Talent Exit Fears",
+            "outlet": "Stocktwits",
+            "url": "https://news.google.com/rss/articles/CBMiiwJBVV95cUxQT2d3VDlXOWtOWDQtaDMxVE5ueGgzQlYwRDJ3b25TdzFpcS1XUnl0Z1ZmV1k3OTZMRVZHb0Y4U0V0c2hxQk1wYjVIVTY3SG1ZSzNwSUx5OUVjdUNyTWpxakNZNmJTT3hkZzdPS2FPUnVOTnZSSzU5SFJkc1loUmp3cnFjN3pSTWQ3YjNCOTBTWmRVOUZIWU84YXFZb2NXT2NPX2p6UkxhVDEyc3E1eE5qcFNGR2JrQkcwbE5lSnNMSGhpdWFNS1c0V09sekJReFpYREZqNjA2bTlNRkdGSXVVWXAxUTM4QUVmeXRka01SdXZZcFphY3M1Q0U3SkVVT1NhbWoyN0U1bDhTQWs?oc=5",
+            "published_at": "2026-10-14T23:35:36.000Z"
+          },
+          {
+            "title": "Google Teases Gemini 4 as Gemini 3.5 Pro Faces Delays: Can It Catch OpenAI and Anthropic?",
+            "outlet": "Nokiapoweruser",
+            "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQUTZidjlHSUFVM3RzRWhrcHRmUDk3QTNweUc2aENqdVRSNzRMd0d4T0xMcmVqbFk2TW84NGJaeWtsMFBJYV9FREVETWhXNHY1ZmtnZVJlN3NwVkU1NmdGX2U0dks0Z2FMcjJLd1BJakhtSlZSSVhLb1ZiaWZraVZVTUFJaw?oc=5",
+            "published_at": "2026-10-14T15:24:37.000Z"
+          },
           {
             "title": "Sundar Pichai announces Gemini 4 Argon rollout: Who can use Google’s advanced AI model?",
             "outlet": "WION",
@@ -2156,28 +2247,12 @@
             "outlet": "LatestLY",
             "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxPZHVIUTRRa3E0MUVEcm5CWHgxR1h0Z1FwMTNkTml3cTA4VV9sMFVPamE0N3RBeG4wVFpjRFhudm9kbWoxSjZYSzY5aHF0UUxVaFlvbjVzc25ySnVlbDJweW12T3cyNXRpQkVBRUJ0dzdNNjFneVVuOS1LVTM2S3pUd3RwcXR3dGNnaWw4cllGcTFZcjZ4NUt6LXlTY3N3aDl4RUdyVWlIc1pBLTRydW5tX2Rsb3NSTlNvaTg0Z0t3MEtjYTZQSmIzWmlZNUtTZDEyekRrcmtITXRma2xscWFYM2o0bHc5anN5czUw0gHwAUFVX3lxTE9qb1BPbXNTRUQzZ1J6bEZ3VVpSU0N3T1hIMGc3d1NndTIyS0RIVTcydGc0ZkIwakNqTlB2VFlRbjRIZGk2Snd5M0gwbUlJRFJKUnZtTEl2dEZGT1Z2LWJtTlJoeVNBYmU0em1NdmZWak1PWVd6WHFfSXdybG1iS1YwcXNwdkh2enF5S255cnRnZk93ODU1U3AzZXRPUkV1eEpxejNGazRIZ1R2ZnhsM2V1b2gzaldrNU82OVlNSjZNR0ZnZW0xUUFXTEZ0dlNZUVc0akcyZGpnSmdQa2hJWnlIczdmT2QtSndidW5qeXBZMA?oc=5",
             "published_at": "2026-10-14T03:22:23.000Z"
-          },
-          {
-            "title": "Google launches Gemini 4 Argon, targets complex coding, cybersecurity and scientific research",
-            "outlet": "https://www.indiagazette.com/",
-            "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQWEs3Zk5QMmEzTzktZWxfbTV6RDgyUzRESFRyMkJRZ0x1Z195bWpBTFJsWFlxeWlPbnJuaGUxbGxlWS15NFVSNVlLQzRMV2haMUVmLVpWRHZTaWtsZExhaFJYaEtYbVRzcTZYWmVhWWZFcU9ZYkNjTjlRR1p4Q2JWRFJ4NVRRUUllSlpCTDJ0TnMwYjFES1pUTHZqb1lWenNYbkVUTk1yRDk5a3RNU1c2WjJYTUZPeTJxZEZOOFMwMm1LeC1ibEtTYTNWejY4SEtm?oc=5",
-            "published_at": "2026-10-13T23:01:00.000Z"
-          },
-          {
-            "title": "Google launches Gemini 4 Argon, targets complex coding, cybersecurity and scientific research",
-            "outlet": "www.indiagazette.com",
-            "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQWEs3Zk5QMmEzTzktZWxfbTV6RDgyUzRESFRyMkJRZ0x1Z195bWpBTFJsWFlxeWlPbnJuaGUxbGxlWS15NFVSNVlLQzRMV2haMUVmLVpWRHZTaWtsZExhaFJYaEtYbVRzcTZYWmVhWWZFcU9ZYkNjTjlRR1p4Q2JWRFJ4NVRRUUllSlpCTDJ0TnMwYjFES1pUTHZqb1lWenNYbkVUTk1yRDk5a3RNU1c2WjJYTUZPeTJxZEZOOFMwMm1LeC1ibEtTYTNWejY4SEtm?oc=5",
-            "published_at": "2026-10-13T23:01:00.000Z"
           }
         ],
-        "count_24h": 10,
-        "count_7d": 79,
+        "count_24h": 7,
+        "count_7d": 74,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 1
@@ -2204,7 +2279,7 @@
           },
           {
             "day": "2026-10-08",
-            "n": 25
+            "n": 26
           },
           {
             "day": "2026-10-09",
@@ -2228,7 +2303,11 @@
           },
           {
             "day": "2026-10-14",
-            "n": 6
+            "n": 7
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -2276,7 +2355,7 @@
       "last_statement": null,
       "days_silent": null,
       "sources_checked": 4,
-      "sources_ok": 4,
+      "sources_ok": 3,
       "direct_sources": [
         {
           "id": "microsoft-blog",
@@ -2289,7 +2368,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-14T18:45:57.477Z",
+          "fetched_at": "2026-10-15T02:55:34.492Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2304,7 +2383,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-14T18:45:57.482Z",
+          "fetched_at": "2026-10-15T02:55:34.577Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2316,11 +2395,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:58.066Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:34.890Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -2334,15 +2413,15 @@
         "extract": "Mustafa Suleyman is a British artificial intelligence (AI) entrepreneur. He is the CEO of Microsoft AI, and the co-founder and former head of applied AI at DeepMind, an AI company which was acquired by Google.",
         "url": "https://en.wikipedia.org/wiki/Mustafa_Suleyman",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.809Z",
+        "fetched_at": "2026-10-15T02:55:34.014Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Mustafa Suleyman\" AI",
         "url": "https://news.google.com/rss/search?q=%22Mustafa%20Suleyman%22%20AI%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:57.686Z",
-        "fetched_at": "2026-10-14T18:45:57.686Z",
+        "attempted_at": "2026-10-15T02:55:34.628Z",
+        "fetched_at": "2026-10-15T02:55:34.628Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -2396,13 +2475,9 @@
           }
         ],
         "count_24h": 0,
-        "count_7d": 19,
+        "count_7d": 20,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 0
@@ -2433,7 +2508,7 @@
           },
           {
             "day": "2026-10-09",
-            "n": 9
+            "n": 10
           },
           {
             "day": "2026-10-10",
@@ -2453,6 +2528,10 @@
           },
           {
             "day": "2026-10-14",
+            "n": 0
+          },
+          {
+            "day": "2026-10-15",
             "n": 0
           }
         ],
@@ -2578,7 +2657,7 @@
       },
       "days_silent": 1,
       "sources_checked": 5,
-      "sources_ok": 5,
+      "sources_ok": 4,
       "direct_sources": [
         {
           "id": "deepmind-blog",
@@ -2591,7 +2670,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-14T18:45:57.329Z",
+          "fetched_at": "2026-10-15T02:55:34.299Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2606,7 +2685,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-14T18:45:57.389Z",
+          "fetched_at": "2026-10-15T02:55:34.377Z",
           "attributed": 1,
           "newest_attributed_at": "2026-10-13T16:00:00.000Z"
         },
@@ -2621,7 +2700,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-14T18:45:57.591Z",
+          "fetched_at": "2026-10-15T02:55:34.587Z",
           "attributed": 1,
           "newest_attributed_at": "2026-10-13T16:00:00.000Z"
         },
@@ -2633,11 +2712,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:57.838Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:34.874Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -2648,8 +2727,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Koray Kavukcuoglu\"",
         "url": "https://news.google.com/rss/search?q=%22Koray%20Kavukcuoglu%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:57.922Z",
-        "fetched_at": "2026-10-14T18:45:57.922Z",
+        "attempted_at": "2026-10-15T02:55:34.711Z",
+        "fetched_at": "2026-10-15T02:55:34.711Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -2702,14 +2781,10 @@
             "published_at": "2026-10-13T16:20:57.000Z"
           }
         ],
-        "count_24h": 5,
+        "count_24h": 0,
         "count_7d": 18,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 0
@@ -2761,6 +2836,10 @@
           {
             "day": "2026-10-14",
             "n": 3
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -2822,15 +2901,15 @@
         "extract": "Yann André Le Cun is a French-American computer scientist working in the fields of artificial intelligence, machine learning, computer vision, robotics and image compression. He is the Jacob T. Schwartz Professor of Computer Science at the Courant Institute of Mathematical Sciences at New York University (NYU).",
         "url": "https://en.wikipedia.org/wiki/Yann_LeCun",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.811Z",
+        "fetched_at": "2026-10-15T02:55:34.015Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Yann LeCun\"",
         "url": "https://news.google.com/rss/search?q=%22Yann%20LeCun%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:57.970Z",
-        "fetched_at": "2026-10-14T18:45:57.970Z",
+        "attempted_at": "2026-10-15T02:55:34.733Z",
+        "fetched_at": "2026-10-15T02:55:34.733Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -2841,13 +2920,19 @@
             "published_at": "2026-10-14T13:56:08.000Z"
           },
           {
-            "title": "Scientists Urge AI Air-Gapping and Global Oversight Body",
+            "title": "415 AI Scientists Demand Strict Containment of Cyber-Capable Models and Creation of International Oversight Body",
+            "outlet": "BigGo Finance",
+            "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBEWDVWUHlsV2FkSTctZHp2WjhUMFVLNFNPeENPaEpnN1pnaEwxV1JJeE5ZQVN0R25ZaFBhNVVoV1Y0amRteG5naERFaGhnVGYtSmc2bVNOcjNaUXFFa2R3UWZGWDRBa2MySi0weUNELVR6VG8yaVE?oc=5",
+            "published_at": "2026-10-14T11:55:00.000Z"
+          },
+          {
+            "title": "Hinton, Bengio and 400 scientists urge AI labs to air-gap frontier models",
             "outlet": "Tbreak UAE",
             "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBXMkRxcUc1N2tCVzM1aEk5djY0dm9NdnlHSElkZS1zeHVTc2s0T3JvbUo1OXZQQnkwVXFLb0x3Z0piN0ZvYWs4Z0xJUTZjUE00WERlQmd4cmI0Vlo3Rldxd3Faa0IwOWdU?oc=5",
             "published_at": "2026-10-14T10:25:00.000Z"
           },
           {
-            "title": "Hinton, Bengio and 400 scientists urge AI labs to air-gap frontier models",
+            "title": "Scientists Urge AI Air-Gapping and Global Oversight Body",
             "outlet": "Tbreak UAE",
             "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBXMkRxcUc1N2tCVzM1aEk5djY0dm9NdnlHSElkZS1zeHVTc2s0T3JvbUo1OXZQQnkwVXFLb0x3Z0piN0ZvYWs4Z0xJUTZjUE00WERlQmd4cmI0Vlo3Rldxd3Faa0IwOWdU?oc=5",
             "published_at": "2026-10-14T10:25:00.000Z"
@@ -2875,22 +2960,12 @@
             "outlet": "Inshorts",
             "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNbFBPRS1hdEFuMHlqWWxWVVFRbUdVYUxhQTNCRTFSQmpGaXM4dlpXNFI2RGJDcXRmRnpzS2pVdHpnbFUxQ3JyT3gyMnV6Wmg5REhPdTZYUGlqbHdUZHVxWTBob25qQUxObkVCQW1fQjZKLUY1YUNsNXAxUmVWQl9QT3BDcGJoSkliUENKY1JoZXFOdzkxdEtLRWVhV1dONXh6WGJncC1kVUtGR3FkelctUThR0gGyAUFVX3lxTE1sUE9FLWF0QW4weWpZbFZVUVFtR1VhTGFBM0JFMVJCakZpczh2Wlc0UjZEYkNxdGZGenNLalV0emdsVTFDcnJPeDIydXpaaDlESE91NlhQaWpsd1RkdXFZMGhvbmpBTE5uRUJBbV9CNkotRjVhQ2w1cDFSZVZCX1BPcENwYmhKSWJQQ0pjUmhlcU53OTF0S0tFZWFXV041eHpYYmdwLWRVS0ZHcWR6Vy1ROFE?oc=5",
             "published_at": "2026-10-14T09:05:26.000Z"
-          },
-          {
-            "title": "India must cut critical materials dependence to secure tech ambitions, says Ashwini Vaishnaw",
-            "outlet": "Firstpost",
-            "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNWFZVUlQyNWNldkNZYjFPS0lhQngzMk85VHIxVW5uWTdETk5XNUdwaTlHUzgwSHQ2NWdoeUx6RzBaZ1IwTWNVYkVlSzM3MF9hamVjQXdxdWx4U0pNdGVDMkNpSS1MNGpjLW9GZFJ4ckxoX3JkRllpOUVXRElHb2VWNnNXRmJ6VUhsZHhiUUlaNFNxbXJ3SkNickdGTGZ4eWowamVreWIyNHp6SlFmRFJGcWl2OEZkTzFSNmYzZ1ROQk8tMHMwTk5Ybm1CRzVLbEpCZWdxUnlXMNIB1wFBVV95cUxNWFZVUlQyNWNldkNZYjFPS0lhQngzMk85VHIxVW5uWTdETk5XNUdwaTlHUzgwSHQ2NWdoeUx6RzBaZ1IwTWNVYkVlSzM3MF9hamVjQXdxdWx4U0pNdGVDMkNpSS1MNGpjLW9GZFJ4ckxoX3JkRllpOUVXRElHb2VWNnNXRmJ6VUhsZHhiUUlaNFNxbXJ3SkNickdGTGZ4eWowamVreWIyNHp6SlFmRFJGcWl2OEZkTzFSNmYzZ1ROQk8tMHMwTk5Ybm1CRzVLbEpCZWdxUnlXMA?oc=5",
-            "published_at": "2026-10-14T07:40:34.000Z"
           }
         ],
         "count_24h": 12,
-        "count_7d": 59,
+        "count_7d": 60,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 0
@@ -2933,7 +3008,7 @@
           },
           {
             "day": "2026-10-12",
-            "n": 21
+            "n": 22
           },
           {
             "day": "2026-10-13",
@@ -2941,7 +3016,11 @@
           },
           {
             "day": "2026-10-14",
-            "n": 11
+            "n": 12
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -2967,58 +3046,34 @@
         "Hinton"
       ],
       "state": "on_record",
-      "count": 2,
+      "count": 1,
       "sources": [
-        "gnews-ai",
         "techmeme"
       ],
       "latest": {
-        "item_id": "02a5dc084a8d5da7",
-        "headline": "PERSPECTIVE: ‘Godfather of AI’ Geoffrey Hinton Warns Superintelligence Could Arrive Within 10 Years and Humanity May Not Be Ready",
-        "source": "gnews-ai",
+        "item_id": "0546dceeffe46dd8",
+        "headline": "Open letter: Geoffrey Hinton, Yoshua Bengio, and over 400 scientists call for an international body to oversee AI containment standards and incident reporting (Leo Marchandon/Reuters)",
+        "source": "techmeme",
         "kind": "press",
-        "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPLVR2Zkhjb2RFTGZBR29CZTJfaHZvME1VR0pzcW9qaFE1VXlLckhwTkg1SDlMak0yN2FpRW1JTV9XR2FkdWNYTk5GQzMzSEpuUHY2d2FEV2tIZ0wxaWVCdW83cHprSUlFWHg4NURISkJYc3JKbjV6bWNBODNIUTlwNjlGbS1iSnZmTEdVem9LaXlhSHhYczVTaWF0MHpFZ2lRdENjejFKUHdhSGtQMVdCYWZqR3o5ZEVRMUgxTGZrYlM4Qk5xZkxJTUJwN2s3VWdzaGhtaDFFX0dMZ2xRZ1RCbVgxTVV0dXNORFlMeC1B?oc=5",
-        "published_at": "2026-10-14T17:07:51.000Z",
-        "score": 33.1,
+        "url": "https://techmeme.com/261013/p53",
+        "published_at": "2026-10-14T03:55:00.000Z",
+        "score": 45.4,
         "pillar": "attention",
         "matched_alias": "Geoffrey Hinton",
-        "cue": "warns",
+        "cue": "letter",
         "cue_group": "core",
-        "cue_class": "verb",
-        "cue_text": "Warns",
+        "cue_class": "document",
+        "cue_text": "letter",
         "cues": [
-          "warns"
+          "letter"
         ],
         "corroboration": 1,
         "also_sources": [
-          "gnews-ai"
+          "techmeme"
         ],
         "via": "press"
       },
       "lines": [
-        {
-          "item_id": "02a5dc084a8d5da7",
-          "headline": "PERSPECTIVE: ‘Godfather of AI’ Geoffrey Hinton Warns Superintelligence Could Arrive Within 10 Years and Humanity May Not Be Ready",
-          "source": "gnews-ai",
-          "kind": "press",
-          "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPLVR2Zkhjb2RFTGZBR29CZTJfaHZvME1VR0pzcW9qaFE1VXlLckhwTkg1SDlMak0yN2FpRW1JTV9XR2FkdWNYTk5GQzMzSEpuUHY2d2FEV2tIZ0wxaWVCdW83cHprSUlFWHg4NURISkJYc3JKbjV6bWNBODNIUTlwNjlGbS1iSnZmTEdVem9LaXlhSHhYczVTaWF0MHpFZ2lRdENjejFKUHdhSGtQMVdCYWZqR3o5ZEVRMUgxTGZrYlM4Qk5xZkxJTUJwN2s3VWdzaGhtaDFFX0dMZ2xRZ1RCbVgxTVV0dXNORFlMeC1B?oc=5",
-          "published_at": "2026-10-14T17:07:51.000Z",
-          "score": 33.1,
-          "pillar": "attention",
-          "matched_alias": "Geoffrey Hinton",
-          "cue": "warns",
-          "cue_group": "core",
-          "cue_class": "verb",
-          "cue_text": "Warns",
-          "cues": [
-            "warns"
-          ],
-          "corroboration": 1,
-          "also_sources": [
-            "gnews-ai"
-          ],
-          "via": "press"
-        },
         {
           "item_id": "0546dceeffe46dd8",
           "headline": "Open letter: Geoffrey Hinton, Yoshua Bengio, and over 400 scientists call for an international body to oversee AI containment standards and incident reporting (Leo Marchandon/Reuters)",
@@ -3026,7 +3081,7 @@
           "kind": "press",
           "url": "https://techmeme.com/261013/p53",
           "published_at": "2026-10-14T03:55:00.000Z",
-          "score": 47.5,
+          "score": 45.4,
           "pillar": "attention",
           "matched_alias": "Geoffrey Hinton",
           "cue": "letter",
@@ -3055,10 +3110,9 @@
       },
       "group": "on_record",
       "reason": null,
-      "press_count": 2,
+      "press_count": 1,
       "direct_count": 0,
       "press_sources": [
-        "gnews-ai",
         "techmeme"
       ],
       "last_statement_at": "2026-10-14T17:07:51.000Z",
@@ -3068,7 +3122,7 @@
         "source": "gnews-ai",
         "published_at": "2026-10-14T17:07:51.000Z",
         "via": "press",
-        "remembered": false
+        "remembered": true
       },
       "days_silent": 0,
       "sources_checked": 1,
@@ -3084,18 +3138,30 @@
         "extract": "Geoffrey Everest Hinton is a British-Canadian computer scientist, cognitive scientist, cognitive psychologist and Nobel Prize laureate known for his work on artificial neural networks, which earned him the title \"the Godfather of AI\".",
         "url": "https://en.wikipedia.org/wiki/Geoffrey_Hinton",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.816Z",
+        "fetched_at": "2026-10-15T02:55:34.031Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Geoffrey Hinton\"",
         "url": "https://news.google.com/rss/search?q=%22Geoffrey%20Hinton%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:58.000Z",
-        "fetched_at": "2026-10-14T18:45:58.000Z",
+        "attempted_at": "2026-10-15T02:55:34.820Z",
+        "fetched_at": "2026-10-15T02:55:34.820Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Geoffrey Hinton and over 400 scientists urge air-gapping for hacking-capable AI",
+            "outlet": "Crypto Briefing",
+            "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBjREJIOEdteGpvQWVVQVc2SjRuV1ZFbFBOQXk2RDBPQVRIUjRkNjhibGJheU5Da0FvclJpTmNaMlhUVFJYdHVFcXBvUXBpbGd3R3ppTGQtSWNmanJRWlNwNGE1bW5IaDI5djMwbTAtWTc0NTFzdFdJV2VjOA?oc=5",
+            "published_at": "2026-10-14T21:55:42.000Z"
+          },
+          {
+            "title": "Godfather of AI and 400 Scientists Want AI Models Cut Off From the Internet",
+            "outlet": "Decrypt",
+            "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE00ckhvdjh2SFh0RllOS3lWYnF3LS1TLXdGSWp0T1JvOFp0LWgtZ2c3SWV5QU0yOUJ1MTFuZ0pWaHZYR1dyaG5XajBnM1dvcHdpWXFZM3VVLVVnZ3gtaW1zYzBvOFd6VFB1MnAycUpBQXF3d3E0?oc=5",
+            "published_at": "2026-10-14T21:46:04.000Z"
+          },
           {
             "title": "Is AI Getting Out of Control? 400 Scientists Sound the Alarm",
             "outlet": "وردنا",
@@ -3131,28 +3197,12 @@
             "outlet": "CNN",
             "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPU0RaX1hOQkVoMk9BLWwweUlQTk8wanJTQnZZM2FuZ0tqNlFPVExBQlpHT0NLdlRjeTRHT0dFMUdWUGVHdXVQU3VqMGl3STZpN1pfVnZFOVdCSjV0Sk1CRlZxTWFGbVRHNmFpNW55Z05UTjF1LTBfSGFOYzZZdTUwWXdkTUxuMlFLWklzSEl2SQ?oc=5",
             "published_at": "2026-10-14T16:18:55.000Z"
-          },
-          {
-            "title": "‘Godfather Of AI’ Geoffrey Hinton Rips Into Trump Over Artificial Intelligence",
-            "outlet": "IMDb",
-            "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9wU1F4QWh5eGU1YWV6UUM1X09pWm9LWTFCQlFRN25TdGdlU0hjMnRuN3BzMWlpQ2pwV09XY0R0VlI1QlFyeHplSTBySVAxb0ZXMnJ1dXk4U05TcmJPd1Z2NnJTS0RkQQ?oc=5",
-            "published_at": "2026-10-14T14:48:45.000Z"
-          },
-          {
-            "title": "Geoffrey Hinton among 415 scientists calling for joint effort for AI safety",
-            "outlet": "Silicon Republic",
-            "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPbTFCdFBfczhvekFWNzRRMmJNZmpuV2t2c2t0eVc4WmZaUk95Wnk3S0xta2JCRTJfQUxtSXpSS0VKWGp3RWdwdTF4dzdFQ2U1WHhxb216RjJsRldLaV9oUmNWLXFVZHpWekdJZm4zUW9QZlhYYXlKVV9KQ3lRN292WFNsZnkwQ2RhTW56ZHhTd1c0NFhiaXY2eGZoRzliYl9ha1Fva0UzQUEyYVRWdGdHMkdoamFOU0k?oc=5",
-            "published_at": "2026-10-14T14:35:14.000Z"
           }
         ],
-        "count_24h": 31,
-        "count_7d": 110,
+        "count_24h": 30,
+        "count_7d": 116,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 0
@@ -3199,11 +3249,15 @@
           },
           {
             "day": "2026-10-13",
-            "n": 37
+            "n": 41
           },
           {
             "day": "2026-10-14",
-            "n": 28
+            "n": 31
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -3240,7 +3294,7 @@
         "kind": "press",
         "url": "https://techmeme.com/261013/p53",
         "published_at": "2026-10-14T03:55:00.000Z",
-        "score": 47.5,
+        "score": 45.4,
         "pillar": "attention",
         "matched_alias": "Yoshua Bengio",
         "cue": "letter",
@@ -3264,7 +3318,7 @@
           "kind": "press",
           "url": "https://techmeme.com/261013/p53",
           "published_at": "2026-10-14T03:55:00.000Z",
-          "score": 47.5,
+          "score": 45.4,
           "pillar": "attention",
           "matched_alias": "Yoshua Bengio",
           "cue": "letter",
@@ -3344,7 +3398,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-14T18:45:56.785Z",
+          "fetched_at": "2026-10-15T02:55:33.622Z",
           "attributed": 10,
           "newest_attributed_at": "2026-10-08T15:02:06.000Z"
         }
@@ -3359,18 +3413,30 @@
         "extract": "Yoshua Bengio is a Canadian computer scientist, and a pioneer of artificial neural networks and deep learning.",
         "url": "https://en.wikipedia.org/wiki/Yoshua_Bengio",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.821Z",
+        "fetched_at": "2026-10-15T02:55:34.033Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Yoshua Bengio\"",
         "url": "https://news.google.com/rss/search?q=%22Yoshua%20Bengio%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:58.080Z",
-        "fetched_at": "2026-10-14T18:45:58.080Z",
+        "attempted_at": "2026-10-15T02:55:34.879Z",
+        "fetched_at": "2026-10-15T02:55:34.879Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Geoffrey Hinton and over 400 scientists urge air-gapping for hacking-capable AI",
+            "outlet": "Crypto Briefing",
+            "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBjREJIOEdteGpvQWVVQVc2SjRuV1ZFbFBOQXk2RDBPQVRIUjRkNjhibGJheU5Da0FvclJpTmNaMlhUVFJYdHVFcXBvUXBpbGd3R3ppTGQtSWNmanJRWlNwNGE1bW5IaDI5djMwbTAtWTc0NTFzdFdJV2VjOA?oc=5",
+            "published_at": "2026-10-14T21:55:42.000Z"
+          },
+          {
+            "title": "Godfather of AI and 400 Scientists Want AI Models Cut Off From the Internet",
+            "outlet": "Decrypt",
+            "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5FdmVjSjJ0QmtLeGhCZFItQ0ctcXMtWnQwQTNRamk4MEZfQk1zcUkxMlFqZjkxYlpScXhXWmkxc0RBdUtyb3lPVW5FVHRRZzRmSGlwbmthLVBhT1FTVG9ZZGlCOWI3cDAwVmNfQllQZTZXb3ExaW5Ib0RISVk?oc=5",
+            "published_at": "2026-10-14T21:46:04.000Z"
+          },
           {
             "title": "Artificial Intelligence Pioneers Call for International Body to Oversee Cybersecurity Standards",
             "outlet": "teleSUR English",
@@ -3406,28 +3472,12 @@
             "outlet": "International Business Times, Singapore Edition",
             "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNMmdtNFFjVkZoQTlTMGc4SzRsY0M3UEdTODlScTkwWWx5YkVXeDROZmJCR1ltRVMxZjNrb3VZRFFVLVYtQzRQZzBNbzJsWk5PZDQ5MDBKYmpQVlM5Zmcxa1JIb2Y1QzJvRHR0NHQ3eTR5UEZWbS0wTWxvekJLWk82STYwMEVQMk9IeUxiS3VtRHhjcTJ3RW9oWmxLUUI3cnhyRlItU2VZOVFzWnJuUnFMNjBUYw?oc=5",
             "published_at": "2026-10-14T12:03:19.000Z"
-          },
-          {
-            "title": "415 AI Scientists Demand Strict Containment of Cyber-Capable Models and Creation of International Oversight Body",
-            "outlet": "BigGo Finance",
-            "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBEWDVWUHlsV2FkSTctZHp2WjhUMFVLNFNPeENPaEpnN1pnaEwxV1JJeE5ZQVN0R25ZaFBhNVVoV1Y0amRteG5naERFaGhnVGYtSmc2bVNOcjNaUXFFa2R3UWZGWDRBa2MySi0weUNELVR6VG8yaVE?oc=5",
-            "published_at": "2026-10-14T11:55:00.000Z"
-          },
-          {
-            "title": "Scientists Urge AI Air-Gapping and Global Oversight Body",
-            "outlet": "Tbreak UAE",
-            "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBXMkRxcUc1N2tCVzM1aEk5djY0dm9NdnlHSElkZS1zeHVTc2s0T3JvbUo1OXZQQnkwVXFLb0x3Z0piN0ZvYWs4Z0xJUTZjUE00WERlQmd4cmI0Vlo3Rldxd3Faa0IwOWdU?oc=5",
-            "published_at": "2026-10-14T10:25:00.000Z"
           }
         ],
-        "count_24h": 21,
-        "count_7d": 60,
+        "count_24h": 19,
+        "count_7d": 63,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 2
@@ -3474,11 +3524,15 @@
           },
           {
             "day": "2026-10-13",
-            "n": 31
+            "n": 32
           },
           {
             "day": "2026-10-14",
-            "n": 18
+            "n": 20
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -3540,7 +3594,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-14T18:45:57.654Z",
+          "fetched_at": "2026-10-15T02:55:34.671Z",
           "attributed": 0,
           "newest_attributed_at": null
         }
@@ -3555,18 +3609,24 @@
         "extract": "Arthur Mensch is a French artificial intelligence researcher and entrepreneur, best known as the co-founder and CEO of the Paris-based AI company Mistral AI. He is one of the most prominent figures in Europe’s AI ecosystem and is often cited in debates on AI policy, sovereign technology, and open models.",
         "url": "https://en.wikipedia.org/wiki/Arthur_Mensch",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.839Z",
+        "fetched_at": "2026-10-15T02:55:34.048Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Arthur Mensch\" Mistral",
         "url": "https://news.google.com/rss/search?q=%22Arthur%20Mensch%22%20Mistral%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:58.119Z",
-        "fetched_at": "2026-10-14T18:45:58.119Z",
+        "attempted_at": "2026-10-15T02:55:34.884Z",
+        "fetched_at": "2026-10-15T02:55:34.884Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Mistral Releases Le Chonk, a 1 Trillion Parameter Open Weight Model",
+            "outlet": "Startup Fortune",
+            "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPMnhZbGk0NWEtZTdPNXd0NXpaV2tnam1oSXBfNkFlVEZOU3ZmcjBrcFZqLWMxRFZYQkR0TVo5WUxDNE82YXVKdlRTZ3ByWk5EY0lTWXlPbE96azVpeWdWMDJnNlBmczM2cEoyRlpnaHJRd1FEMHJvTTFHal9qQ01EY3V1UkpvYUVmTF9vWk8tNy14cVNKM3Njblhn?oc=5",
+            "published_at": "2026-10-14T21:34:23.000Z"
+          },
           {
             "title": "AI Adoption Accelerates as Enterprises Seek Control and Affordability",
             "outlet": "Head Topics",
@@ -3592,6 +3652,12 @@
             "published_at": "2026-10-10T16:53:57.000Z"
           },
           {
+            "title": "Mistral raises €3B as Europe's AI champion courts China, Microsoft and Samsung",
+            "outlet": "Dealroom",
+            "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOVnBwa3pVRlJrazdxNmg1aHdRVU16ckRpcHF3S1FweHpVaG93cUxrTm93SHhnTDQ1LWpqa3V2VG9EdFo2WmdLcFNVMExvVmN4U0dRQjAxWlI5cUFOdzNnZ3hDQlZGdFZVZXJCdmtQZmJaWHlmMVZqaWtlSlhGampWVnI4UjNIZEpkbkdnTjRWUDk3Slo4YmE2aktzZ1NlWkxfT2dKNHgyaTRKeE5TbFJr?oc=5",
+            "published_at": "2026-10-10T15:51:33.000Z"
+          },
+          {
             "title": "Ecosia drops Mistral for open-weight models, citing quality, capacity and sovereignty",
             "outlet": "Dealroom",
             "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQZzZVUFQxbmxqMHM5dlVSRFJjNWhhX1Z4YXJmYmNJYzFlaGF2UElIWHRBWXBfV1oxLVFCYkRXdUlSTlJxTkxkaEFhRHBCbTJYeUlSaVR1MXYzMlZuWm1FekE5NVo4dEJwc2pGUlpDT2p0bEozbUhrZnliWGJLR1pHNDNBTnUya3FpX3lQbzN2SWFkZjd0RjNtQXlBY0otTkoxa05qWVdTaGlmdlNvbGdWb0NaMlZBZ0RF?oc=5",
@@ -3602,28 +3668,12 @@
             "outlet": "Brief IA",
             "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPd0pGUFVaaXVxaG9wdzAzejc0LUh5SS1pS0JGLUJ2Zl9EbDdwSExJMzRuS0h4Y2tON0pyQ29pd3NVbzRzQkQ3QmZSMjM5bmZ5Mi1IMzNCci1POWtJZzR3ZlRBS1g1NU5PM0tXWVBPNFJaTlpYTW1BQk5WRVRxaFlxOTRlMVQyS3Vja2ZSSXVMYWgxamRDaERiWA?oc=5",
             "published_at": "2026-10-09T07:04:51.000Z"
-          },
-          {
-            "title": "Mistral unveils ML4 and claims it can rival closed AI models",
-            "outlet": "mezha.net",
-            "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBWMlB3MHhDdlJQaTBKa1NWZF96QTBmV2pPYTJPNmN5M2R5Vm1hQkljUmtULVdHNkFsSkdEUUxlYnhBRlYyOUlPZ3Y4RHd2eFBYZXJvSFFKaW53Z253dkR5YWVvWUQ3T3c?oc=5",
-            "published_at": "2026-10-09T04:51:41.000Z"
-          },
-          {
-            "title": "Mistral AI Launches ML4 with Open Weights, Cybersecurity Priority",
-            "outlet": "Brief IA",
-            "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNQ1pTVkI3d3l2R2h6WW1NcFp6RmdHTlR1NWY2Q3Q4ZlNhR3dDbWFnc3hMd1BCdUtURW9zTnJla3o4elBUTWgzRlhOMUJBMTBZLUNaZk5rdWt5ZDdSX2pXN0FtM3p4Qk4xWndkVXBfcDVtNmR6c0FQSWNteEIwMzhLUVNGVXdVbXpJNS1TWFFwc0gweC1rNGhvQTlFZ2Nya3M?oc=5",
-            "published_at": "2026-10-08T16:25:12.000Z"
           }
         ],
-        "count_24h": 2,
-        "count_7d": 11,
+        "count_24h": 1,
+        "count_7d": 12,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 0
@@ -3658,7 +3708,7 @@
           },
           {
             "day": "2026-10-10",
-            "n": 1
+            "n": 2
           },
           {
             "day": "2026-10-11",
@@ -3674,7 +3724,11 @@
           },
           {
             "day": "2026-10-14",
-            "n": 2
+            "n": 3
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -3735,15 +3789,15 @@
         "extract": "Liang Wenfeng is a Chinese entrepreneur and businessman who is the co-founder of the quantitative hedge fund High-Flyer, as well as the founder and CEO of its artificial intelligence company DeepSeek.",
         "url": "https://en.wikipedia.org/wiki/Liang_Wenfeng",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.842Z",
+        "fetched_at": "2026-10-15T02:55:34.050Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Liang Wenfeng\"",
         "url": "https://news.google.com/rss/search?q=%22Liang%20Wenfeng%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:58.240Z",
-        "fetched_at": "2026-10-14T18:45:58.240Z",
+        "attempted_at": "2026-10-15T02:55:34.984Z",
+        "fetched_at": "2026-10-15T02:55:34.984Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -3796,14 +3850,10 @@
             "published_at": "2026-10-13T08:59:36.000Z"
           }
         ],
-        "count_24h": 2,
-        "count_7d": 20,
+        "count_24h": 1,
+        "count_7d": 17,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 0
@@ -3855,6 +3905,10 @@
           {
             "day": "2026-10-14",
             "n": 2
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -3914,18 +3968,24 @@
         "extract": "Ilya Sutskever is a Soviet-born Israeli-Canadian computer scientist who specializes in machine learning. He has made several major contributions to the field of deep learning, including sequence-to-sequence learning, reasoning models, GPT models, and contributions to CLIP, DALL-E, and AlphaGo.",
         "url": "https://en.wikipedia.org/wiki/Ilya_Sutskever",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.937Z",
+        "fetched_at": "2026-10-15T02:55:34.052Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Ilya Sutskever\"",
         "url": "https://news.google.com/rss/search?q=%22Ilya%20Sutskever%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:58.321Z",
-        "fetched_at": "2026-10-14T18:45:58.321Z",
+        "attempted_at": "2026-10-15T02:55:35.076Z",
+        "fetched_at": "2026-10-15T02:55:35.076Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Artificial at London Film Festival: Scarier than any horror film",
+            "outlet": "inkl",
+            "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPV3Y4R2RPSTh6ZUxDb1NKZGZqc3BoMncydEFic2puWXNldHZQZkhqTllzNkxkclR6Umh6enhsT1RoN2c2NlB5UzZkNGZJT0hBSzF2QjFRaC0xWkxEQ1lxSHJaVmNfWDNDV25WOVZsMnZqQmxab0ZIczhOelhvS1BlcU1wYy1Xam50V0h6NWxoeGQ3U0E?oc=5",
+            "published_at": "2026-10-14T18:53:00.000Z"
+          },
           {
             "title": "‘Artificial’ is not the AI film we deserve",
             "outlet": "Transformer | Substack",
@@ -3967,22 +4027,12 @@
             "outlet": "inkl",
             "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQYUNhUDRHX25NNGJEb09rNi1CYldNa3FuMFRXRi1rNTVydHhVU0FLcDFRRGJTV3lnSjJYWHFvTGhxaW5QZEVZX0ZaZEJKdXN4YzFYTW1VakpzcXkzMGRhcVlUdzFaZU9zU0t4eVozVTRzQzJKRmFOejFWZ3NRX0RaeVdqM2pWZ2c2dFFfalZ0REc3TTlwb3hJYmw1TTQ0UW9G?oc=5",
             "published_at": "2026-10-12T13:38:14.000Z"
-          },
-          {
-            "title": "Curiosity, fear drive Andrew Garfield in new OpenAI film ‘Artificial’",
-            "outlet": "Daily Sabah",
-            "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOdnltWkVLZDlxNzNSSzhYYnh0eWVkWWI0T2hOQk5ncVJjX2h4ZXB2TmxGZEdmT3JCQ3R3dWdrcFBfcjlUOF9wVGdYbGZoSVBBa2g1dWNvVERTQnJack9iS2NidzNBMnFSV3Q0NkVWUzlqVTlGaXE2cm94UV9EVW9pc0NXVFp2bThtZkNleDlXVmVxNjZNN0NrNUVJT2hPbVBmbG1UZm1QWU1jYUFWaVE?oc=5",
-            "published_at": "2026-10-12T11:35:05.000Z"
           }
         ],
-        "count_24h": 0,
-        "count_7d": 29,
+        "count_24h": 1,
+        "count_7d": 27,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 0
@@ -4033,6 +4083,10 @@
           },
           {
             "day": "2026-10-14",
+            "n": 1
+          },
+          {
+            "day": "2026-10-15",
             "n": 0
           }
         ],
@@ -4094,7 +4148,7 @@
           "ok": true,
           "error": null,
           "entries": 7,
-          "fetched_at": "2026-10-14T18:45:57.672Z",
+          "fetched_at": "2026-10-15T02:55:34.714Z",
           "attributed": 0,
           "newest_attributed_at": null
         }
@@ -4109,15 +4163,15 @@
         "extract": "Ermira \"Mira\" Murati is an Albanian-American business executive. She is a co-founder and chief executive of Thinking Machines Lab, an artificial intelligence company she launched in February 2025.",
         "url": "https://en.wikipedia.org/wiki/Mira_Murati",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.938Z",
+        "fetched_at": "2026-10-15T02:55:34.066Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Mira Murati\"",
         "url": "https://news.google.com/rss/search?q=%22Mira%20Murati%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:58.388Z",
-        "fetched_at": "2026-10-14T18:45:58.388Z",
+        "attempted_at": "2026-10-15T02:55:35.154Z",
+        "fetched_at": "2026-10-15T02:55:35.154Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4171,13 +4225,9 @@
           }
         ],
         "count_24h": 0,
-        "count_7d": 20,
+        "count_7d": 17,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 0
@@ -4228,6 +4278,10 @@
           },
           {
             "day": "2026-10-14",
+            "n": 0
+          },
+          {
+            "day": "2026-10-15",
             "n": 0
           }
         ],
@@ -4283,7 +4337,7 @@
       },
       "days_silent": 2,
       "sources_checked": 4,
-      "sources_ok": 4,
+      "sources_ok": 3,
       "direct_sources": [
         {
           "id": "karpathy-bearblog",
@@ -4296,7 +4350,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-14T18:45:56.786Z",
+          "fetched_at": "2026-10-15T02:55:33.622Z",
           "attributed": 10,
           "newest_attributed_at": "2026-04-30T16:00:00.000Z"
         },
@@ -4311,7 +4365,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-14T18:45:56.786Z",
+          "fetched_at": "2026-10-15T02:55:33.622Z",
           "attributed": 10,
           "newest_attributed_at": "2026-02-12T07:00:00.000Z"
         },
@@ -4323,12 +4377,12 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXUPKJO5MZQN11PqgIvyuvQ",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:57.011Z",
-          "attributed": 15,
-          "newest_attributed_at": "2025-02-27T22:29:56.000Z"
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCXUPKJO5MZQN11PqgIvyuvQ — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:33.930Z",
+          "attributed": null,
+          "newest_attributed_at": null
         }
       ],
       "no_source_reason": null,
@@ -4341,15 +4395,15 @@
         "extract": "Andrej Karpathy is a Slovak-Canadian AI researcher, who co-founded and formerly worked at OpenAI, where he specialized in deep learning and computer vision. He also worked as the director of artificial intelligence and Autopilot Vision at Tesla, and in 2024 he founded Eureka Labs, an AI education platform.",
         "url": "https://en.wikipedia.org/wiki/Andrej_Karpathy",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.938Z",
+        "fetched_at": "2026-10-15T02:55:34.067Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Andrej Karpathy\"",
         "url": "https://news.google.com/rss/search?q=%22Andrej%20Karpathy%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:58.432Z",
-        "fetched_at": "2026-10-14T18:45:58.432Z",
+        "attempted_at": "2026-10-15T02:55:35.322Z",
+        "fetched_at": "2026-10-15T02:55:35.322Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4402,14 +4456,10 @@
             "published_at": "2026-10-12T17:55:30.000Z"
           }
         ],
-        "count_24h": 3,
+        "count_24h": 1,
         "count_7d": 28,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 1
@@ -4461,6 +4511,10 @@
           {
             "day": "2026-10-14",
             "n": 1
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -4509,7 +4563,7 @@
       "last_statement": null,
       "days_silent": null,
       "sources_checked": 4,
-      "sources_ok": 3,
+      "sources_ok": 2,
       "direct_sources": [
         {
           "id": "brockman-blog",
@@ -4522,7 +4576,7 @@
           "ok": false,
           "error": "HTTP 404 Not Found from https://blog.gregbrockman.com/posts.atom — <!doctype html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <title>404 - Not found</title> <script>(function(d) {var config = {kit",
           "entries": null,
-          "fetched_at": "2026-10-14T18:45:57.070Z",
+          "fetched_at": "2026-10-15T02:55:34.006Z",
           "attributed": null,
           "newest_attributed_at": null
         },
@@ -4537,7 +4591,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-14T18:45:57.225Z",
+          "fetched_at": "2026-10-15T02:55:34.272Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -4549,11 +4603,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-14T18:45:57.695Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
+          "entries": null,
+          "fetched_at": "2026-10-15T02:55:34.761Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -4567,18 +4621,36 @@
         "extract": "Gregory Brockman is an American entrepreneur and software engineer. He is co-founder and president of OpenAI.",
         "url": "https://en.wikipedia.org/wiki/Greg_Brockman",
         "license": "CC BY-SA 4.0",
-        "fetched_at": "2026-10-13T19:26:34.940Z",
+        "fetched_at": "2026-10-15T02:55:34.069Z",
         "error": null
       },
       "coverage": {
         "source": "Google News search (RSS)",
         "query": "\"Greg Brockman\"",
         "url": "https://news.google.com/rss/search?q=%22Greg%20Brockman%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:58.442Z",
-        "fetched_at": "2026-10-14T18:45:58.442Z",
+        "attempted_at": "2026-10-15T02:55:35.325Z",
+        "fetched_at": "2026-10-15T02:55:35.325Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "OpenAI Compute Chief Sachin Katti to Exit, Stay On as Adviser",
+            "outlet": "BigGo Finance",
+            "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBrOU1MZjU2MTdwV2diTlczX0ZrY1k5YkhVUEwtVUplOURjV1AtTzljR0JuMWpLR3JpTVhCZXpJZUNxX1BSRWpveUhKNHhtX2lBVHBYZ1JDRFZNQWpNdFhBTzN5Tzl0MldPMTZXaWVhU0ZFTTAzeUE?oc=5",
+            "published_at": "2026-10-14T18:28:00.000Z"
+          },
+          {
+            "title": "OpenAI infrastructure lead Sachin Katti to depart next month, WSJ reports",
+            "outlet": "StreetInsider",
+            "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOUnRaQWdZZmdlSXA2MXNVMnpCMV9IUDVkU0dvYXY4eHlBdEZmR3FIYkJhcDE5MWhUNjdQRzkxeXVwcUVVVmhTNnFqSlBJckFhYzlpYUJaZHdpRGl2QTN5dmRYa1I0OE4xMmJadkh5SmRHc0VBb1RNZkc1UlhNOEYxNklGbk4waFkwdXJmQmJIbjRpcDVqc2hQUGk1ckp1bHFZbGJrSC1FZGh5Wm1EdDgxNTJuVmR0LTd3eVMwM1NlZU1oZlFmTkFrTFp6anM?oc=5",
+            "published_at": "2026-10-14T17:55:54.000Z"
+          },
+          {
+            "title": "OpenAI computing chief Sachin Katti is set to leave",
+            "outlet": "Quartz",
+            "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9HQWxERzdXeDdYbTk1eXJwU2xNaUM5b2Y5aDVWeVIyTVdfLUxfNEtGYUVlU0tUeFN1WnhRNXVDYU1pNUdWOXBnQ1p3MnBVbVNVeWUzTUplOGRLV0dFQ0xaNnhmVTU4N3IyWWFQTXlIYjROMnM?oc=5",
+            "published_at": "2026-10-14T17:25:36.000Z"
+          },
           {
             "title": "OpenAI's computing chief is set to leave amid a $750 billion infrastructure push",
             "outlet": "Quartz",
@@ -4608,34 +4680,12 @@
             "outlet": "조선일보",
             "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxORWZQU3NRVlBTekVpWF9vczVHMG9wRUlsN0tTTHNnVENMZGplcHlZOUl2VXZfRi1KNXJrMXZTLUJEdlJUc1FUdEl6VnQxWGJ2d0t1aVVUSG42ckd1N01zYzVyYjdranI3Umlkc0Z5NFJwVVlmTUdsWG5NdU1EbkNoZl9acS1UX1Bo?oc=5",
             "published_at": "2026-10-13T18:51:54.000Z"
-          },
-          {
-            "title": "Who’s paying whom? The circular money machine behind the AI boom (or bubble)",
-            "outlet": "The Conversation",
-            "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNeUR5TEtBWDcwYmVZWWpwSDFURGVIeEFXVklpZmg2TXRfanFyMllFUDVxMHdjSXpFOVRGT3JmNGh4QUFkazhuVG82N2xCb01rdzVJdE9aS3A5OVRtaUlleVMtdE9zT2RNeTVjdms1VmRCa0RzWmludGJhYXZWY0ViZVBJTnNOWGMtd09kOU1XdU5qdDVWclYtd2FSQzlmQlE4R2ZRTll0Nm0xeGc?oc=5",
-            "published_at": "2026-10-13T18:51:45.000Z"
-          },
-          {
-            "title": "OpenAI Launches GPT 5.5 With Major AI Upgrades",
-            "outlet": "TechJuice",
-            "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBfUEE0LXNTNVpIbkZZVVR0ajkxMEVuVDNhTzRCSE5NRTFWdC00OWk4Ny1IR1lyTWNnNlFwWG9LeVRjdGpQcVZvRnFlWGZuY09nb0JZZzFibkRrU2JicUlrVjNVakxTdFJjV0Q2NWhwM0c3QzMzdmUxc0FiczdvZw?oc=5",
-            "published_at": "2026-10-13T12:22:45.000Z"
-          },
-          {
-            "title": "GitHub: Gemini 4 Argon Now Generally Available in Copilot",
-            "outlet": "Blockchain News",
-            "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNVVlPc2h6UkQ1TkhmRWROcno2dVBPREdUUmZVNkllOGIybkdIbElrNmhEU1E4b2dkdGY0OGVSV1hsQ1ZxRVZGdW92S0NSX0pMNHRPbE5mc3FTbWxFRGRvcHFFLU1NY2xrRzZCU2JmTDU2VTg1Y0dvRE5EbGJ5VC1TODRESFo3QWFzb1NWSWhHMmY?oc=5",
-            "published_at": "2026-10-13T11:16:00.000Z"
           }
         ],
-        "count_24h": 4,
-        "count_7d": 51,
+        "count_24h": 7,
+        "count_7d": 52,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": 1
@@ -4686,7 +4736,11 @@
           },
           {
             "day": "2026-10-14",
-            "n": 4
+            "n": 7
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -4748,7 +4802,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-14T18:45:57.212Z",
+          "fetched_at": "2026-10-15T02:55:34.044Z",
           "attributed": 0,
           "newest_attributed_at": null
         }
@@ -4770,11 +4824,17 @@
         "source": "Google News search (RSS)",
         "query": "\"Alex Karp\"",
         "url": "https://news.google.com/rss/search?q=%22Alex%20Karp%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-14T18:45:58.587Z",
-        "fetched_at": "2026-10-14T18:45:58.587Z",
+        "attempted_at": "2026-10-15T02:55:35.331Z",
+        "fetched_at": "2026-10-15T02:55:35.331Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Khan backs down in legal row over Palantir’s ‘values’",
+            "outlet": "Yahoo",
+            "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOaEIxZ09KaTNIUGZFaHZrYk9qUnp3aUEybGpnS1lfVW9BZl9TZ1p5VUVVSzFhN1ZIMC1IbVpUbkxLX055S0Rjek9xM3lqVlBQbTNZLXdtLUg5MjZNTFgtLVR5MzVtb3UwNVpaT3pTMUhiNmpTMGUtVXo0SGhoajhsMEZ1bXJaTFZiT1ZEYVpB?oc=5",
+            "published_at": "2026-10-14T19:51:26.000Z"
+          },
           {
             "title": "Billionaire CEO Questions College Degrees in AI World",
             "outlet": "Anash.org",
@@ -4794,44 +4854,34 @@
             "published_at": "2026-10-14T12:04:00.000Z"
           },
           {
+            "title": "Palantir Q2 2026: Revenue $1.935B (+93%), U.S. Commercial Surge 149%, Rule of 40 Reaches 155%, Stock Extends Breakout",
+            "outlet": "TradingKey",
+            "url": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxPWTc5YmZsSUtnQkZLNTYwNVFJSkh2R0tRMTRCanpxSXVaenQ2V1o4MTNRaXNtZkh3ZU9tMDA0STdzaEdXeHNHeThCZjNBckFrQzZ1R0RsWTJJd3l2Y05PYWRMUWZkU3FrdEdRLUc2Qi11Q19HeG5yeFl3bkJhZDB5TWRLbktZZFZxd2wya2s5Z1VOQWFrbjRpUWpRbHltVFlVODdYTGM1YnY5V0xHdHpISW16LUdNVnQxM2ZYRkd0TWUzaGtJMVFOX2gyMDlWaUZXdVdQSURubFpkY3RvYkhxcXd3UDh6VldRT2hZVHFpdTQ0a3lUdGVCV2t6UXI?oc=5",
+            "published_at": "2026-10-14T07:55:49.000Z"
+          },
+          {
             "title": "Palantir is worming its way into the British state – it’s time to curb this controversial US company’s influence",
             "outlet": "The Guardian",
             "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOY2FWc1VPZEx5ajkxQU1JT3ZiVFE0UF9ucVZ2aVJXV1FQX2NBdk9KTXNPN3k3LUNrQmVnVUVxTDJsYl9HSnlHMy1MUWt6SW5zTGVDY25ETU82SDN6SHlLQ1VWcUNyQUI1Y29MYkpBQmRuM3RpX0lpYTAyLVlQR2M0U0V4TUxNMXBnMmN3S2pCXzRBVmRnbUR2b2p0WnM4WWdlNlR3RGE2ZEVkbGdZanNzMkpR?oc=5",
             "published_at": "2026-10-14T05:00:00.000Z"
           },
           {
+            "title": "Palantir Jumps 8% As Karp Slams OpenAI And Anthropic Pricing",
+            "outlet": "Yellow.com",
+            "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE42dXYtd2RmbmlxRjVjc1JGZm1hNUlXWWJXYXVwTnhVellrRWVSb1dOOUtUaWJQZE5ZUjUtTktXX3c0V1Y0VTZGai1ITFJKaVJtYXJuWDV5a081Q2ZjSEFBRzZJczNZTE5fS3c?oc=5",
+            "published_at": "2026-10-14T04:45:53.000Z"
+          },
+          {
             "title": "Michael Burry Targets Palantir Again, Flags ‘Nefarious’ Accounting And CEO Alex Karp’s $17M Jet Bill",
             "outlet": "Stocktwits",
             "url": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxNRWZGbGltVHRLb05mcHBsYldNNms3d29tTUVNV2Q0WkZabU1tRWdiT09mdDNka2pkUXVobzBYR2hqRDJwZVpSLXBOdlBIUjhfeGhocHQxdzQ4MFVlN3dsVzVoZTZ2dXFjQWNHb0VZcGdncW82UFBjZU53S2Y4ZEJ2c2hvSzdpR01yWTJncXlwVktjWUQ3U0RsMkk3TnhOaE5XNjZLVmhaRlZnUTRlZTVRSzh0SmhyclhoWkE5S0I3cjJFUzBHYnVmM21JaHFzbnozSWhfdjNpQ1VBX05BdS1WYU03ZERKRXdpWU5MQXVjUTZhN3M?oc=5",
             "published_at": "2026-10-14T01:36:24.000Z"
-          },
-          {
-            "title": "Palantir Stock Dips as CEO Alex Karp Warns that Artificial Intelligence Could Predict Private Thoughts",
-            "outlet": "TipRanks",
-            "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxPZnRrY3F3RjZkMi1hUWxuQmc4cWR1cjNEalBJZ3BBRmFjcXg0T0FKV3l4VDRtV1pwUU5qOGVGV000Rm1uU09uN09uSk9XZDBrTldmc0s5N1ZNb21EVGdpS1licmVOSEFHS3RRTHFyNXBWX3UtdnVzc2UyQmdRWmwzVU9lYXVKZjRPQWxfUjdfZ0NSMTJ2STg0RGNVNk1PdHpVRThtU0pUVzhYMTcyVUkyZkNLNld1eUJaYnpfZGhxZktEYjFyQnNobEVNaHZES0hQdmNIM2NiX3VjTThXb1ZzX2RXU1p4QQ?oc=5",
-            "published_at": "2026-10-13T20:37:32.000Z"
-          },
-          {
-            "title": "Palantir CEO Warns AI Could Predict Your Next Move Before You Make It",
-            "outlet": "Insider Paper",
-            "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBydklVdzVCZ2hQdWhKZkJHMjhTdGV0UW4tR1RxdGc2Y2Q5b1ZlYWNEaExPNy1SYUNMNWN1S2U2SC1DSlJpVUx1ZTRJV0NkUjZDOEZoM1ZFdWJYZ1A1ZDdGcWdiNTJlXzU2bUp6NE5YWlRHclEtd2lFT2FxTQ?oc=5",
-            "published_at": "2026-10-13T17:19:26.000Z"
-          },
-          {
-            "title": "Palantir Stock Has Become a Wall Street Sensation. Here’s My Price Prediction For Next Year",
-            "outlet": "AOL.ca",
-            "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNeXpyd0RDcDg0b1BZQnJJMTlIdlVrcUE4SFI2eVBQajAzOXdWcHdTZUFhb1JjTDV6U0FJX1BYVHRwQmhua1l1VnNHME93ZGw2WlVwdWJHLWFwZ1hMTVhqVi1IbHVpNUo2VEVlQlc3d2VVblpOVno5MWhTLU4yM3RCMlln?oc=5",
-            "published_at": "2026-10-13T14:30:59.000Z"
           }
         ],
-        "count_24h": 4,
-        "count_7d": 66,
+        "count_24h": 6,
+        "count_7d": 64,
         "count_prev_7d": null,
         "daily": [
-          {
-            "day": "2026-10-01",
-            "n": null
-          },
           {
             "day": "2026-10-02",
             "n": null
@@ -4882,7 +4932,11 @@
           },
           {
             "day": "2026-10-14",
-            "n": 4
+            "n": 6
+          },
+          {
+            "day": "2026-10-15",
+            "n": 0
           }
         ],
         "trend": {
@@ -4896,5 +4950,5 @@
       }
     }
   ],
-  "fingerprint": "bf5aa9359af488d5"
+  "fingerprint": "0ec657cd8e56d836"
 }
