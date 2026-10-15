@@ -288,6 +288,17 @@ export function hasGscMeta(html) {
 }
 
 /**
+ * True when live home ships Bing Webmaster HTML-tag meta (FINDABILITY #120).
+ */
+export function hasBingMeta(html) {
+  return /<meta[^>]+name=["']msvalidate\.01["'][^>]+content=["'][A-Za-z0-9_-]{10,120}["']/i.test(
+    String(html || ''),
+  ) || /<meta[^>]+content=["'][A-Za-z0-9_-]{10,120}["'][^>]+name=["']msvalidate\.01["']/i.test(
+    String(html || ''),
+  );
+}
+
+/**
  * True when sitemap tip comments advertise free-tools + verify (FINDABILITY #84).
  * Detects collect Publish wipes that drop SEO overlays before main tip catches up.
  */
@@ -744,23 +755,42 @@ export const OPEN_ENGINEERING = Object.freeze([
     severity: 'medium',
     text: 'Operator: set repo secret GOOGLE_SITE_VERIFICATION (HTML-tag token), verify https://siren.watch in Search Console, submit sitemap.xml + news-sitemap.xml (FINDABILITY #11 / OUTREACH.md §0)',
   },
+  {
+    id: 'bing-verify',
+    severity: 'medium',
+    text: 'Operator: set repo secret BING_SITE_VERIFICATION (msvalidate.01 token), verify https://siren.watch in Bing Webmaster, submit both sitemaps (FINDABILITY #120 / OUTREACH.md §0)',
+  },
 ]);
 
-/** Refine open-engineering copy once live home ships the GSC HTML-tag meta. */
+/** Refine open-engineering copy once live home ships console verification metas. */
 export function openEngineeringForReport(sites) {
   const ours = (sites || []).find((s) => s.ours);
   return OPEN_ENGINEERING.map((item) => {
-    if (item.id !== 'gsc-verify') return { ...item };
-    if (ours?.gsc_meta) {
+    if (item.id === 'gsc-verify') {
+      if (ours?.gsc_meta) {
+        return {
+          ...item,
+          text: 'Operator: GSC meta is live — submit https://siren.watch/sitemap.xml + news-sitemap.xml and confirm indexing (FINDABILITY #11 / OUTREACH.md §0)',
+        };
+      }
       return {
         ...item,
-        text: 'Operator: GSC meta is live — submit https://siren.watch/sitemap.xml + news-sitemap.xml and confirm indexing (FINDABILITY #11 / OUTREACH.md §0)',
+        text: 'Operator: set repo secret GOOGLE_SITE_VERIFICATION (HTML-tag token), verify https://siren.watch in Search Console, submit both sitemaps (FINDABILITY #11 / OUTREACH.md §0)',
       };
     }
-    return {
-      ...item,
-      text: 'Operator: set repo secret GOOGLE_SITE_VERIFICATION (HTML-tag token), verify https://siren.watch in Search Console, submit both sitemaps (FINDABILITY #11 / OUTREACH.md §0)',
-    };
+    if (item.id === 'bing-verify') {
+      if (ours?.bing_meta) {
+        return {
+          ...item,
+          text: 'Operator: Bing msvalidate.01 is live — submit both sitemaps in Bing Webmaster and confirm indexing (FINDABILITY #120 / OUTREACH.md §0)',
+        };
+      }
+      return {
+        ...item,
+        text: 'Operator: set repo secret BING_SITE_VERIFICATION (msvalidate.01 token), verify https://siren.watch in Bing Webmaster, submit both sitemaps (FINDABILITY #120 / OUTREACH.md §0)',
+      };
+    }
+    return { ...item };
   });
 }
 
@@ -800,6 +830,7 @@ export function measureSite(site, byUrl) {
     schema_types: home?.ok ? extractSchemaTypes(home.value) : [],
     noindex: home?.ok ? hasNoindex(home.value) : null,
     gsc_meta: home?.ok ? hasGscMeta(home.value) : null,
+    bing_meta: home?.ok ? hasBingMeta(home.value) : null,
     sitemap_urls: null,
     sitemap_is_index: null,
     news_sitemap_urls: null,
@@ -940,6 +971,13 @@ export function formatMarkdown(report) {
           : '- GSC HTML-tag meta: **absent** on live home (set `GOOGLE_SITE_VERIFICATION` — FINDABILITY #11)',
       );
     }
+    if (ours && ours.bing_meta != null) {
+      lines.push(
+        ours.bing_meta
+          ? '- Bing msvalidate.01 meta: **present** on live home (still submit sitemaps — FINDABILITY #120)'
+          : '- Bing msvalidate.01 meta: **absent** on live home (set `BING_SITE_VERIFICATION` — FINDABILITY #120)',
+      );
+    }
     if (ours && ours.robots_tips != null) {
       lines.push(`- Robots tip comments (#79): robots.txt **${ours.robots_tips ? 'yes' : 'NO'}**`);
     }
@@ -973,8 +1011,9 @@ export function formatMarkdown(report) {
       const lm = ours.llms_vs_aliases == null ? '—' : (ours.llms_vs_aliases ? 'yes' : 'NO');
       lines.push(`- Agent-map vs short aliases (#116/#119): agents.md **${ag}** · llms.txt **${lm}**`);
     }
-    if (ours && (ours.gsc_meta != null || ours.robots_tips != null || ours.sitemap_tips != null
-      || ours.news_sitemap_tips != null || ours.feed_tips != null || ours.feed_level_tips != null
+    if (ours && (ours.gsc_meta != null || ours.bing_meta != null || ours.robots_tips != null
+      || ours.sitemap_tips != null || ours.news_sitemap_tips != null
+      || ours.feed_tips != null || ours.feed_level_tips != null
       || ours.now_md_tips != null || ours.now_txt_tips != null
       || ours.news_keyword_lags != null
       || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null)) {
@@ -1039,10 +1078,24 @@ function selftest() {
     throw new Error('hasGscMeta true');
   }
   if (hasGscMeta('<meta name="description" content="x">') !== false) throw new Error('hasGscMeta false');
-  const engAbsent = openEngineeringForReport([{ ours: true, gsc_meta: false }]);
-  if (!/GOOGLE_SITE_VERIFICATION/.test(engAbsent[0].text)) throw new Error('open eng absent meta');
-  const engPresent = openEngineeringForReport([{ ours: true, gsc_meta: true }]);
-  if (!/meta is live/.test(engPresent[0].text)) throw new Error('open eng present meta');
+  if (hasBingMeta('<meta name="msvalidate.01" content="AbCdEfGhIjKlMnOpQrStUvWxYz012345">') !== true) {
+    throw new Error('hasBingMeta true');
+  }
+  if (hasBingMeta('<meta name="description" content="x">') !== false) throw new Error('hasBingMeta false');
+  const engAbsent = openEngineeringForReport([{ ours: true, gsc_meta: false, bing_meta: false }]);
+  if (!/GOOGLE_SITE_VERIFICATION/.test(engAbsent.find((e) => e.id === 'gsc-verify').text)) {
+    throw new Error('open eng absent meta');
+  }
+  if (!/BING_SITE_VERIFICATION/.test(engAbsent.find((e) => e.id === 'bing-verify').text)) {
+    throw new Error('open eng absent bing');
+  }
+  const engPresent = openEngineeringForReport([{ ours: true, gsc_meta: true, bing_meta: true }]);
+  if (!/meta is live/.test(engPresent.find((e) => e.id === 'gsc-verify').text)) {
+    throw new Error('open eng present meta');
+  }
+  if (!/msvalidate\.01 is live/.test(engPresent.find((e) => e.id === 'bing-verify').text)) {
+    throw new Error('open eng present bing');
+  }
   const tipped = `<?xml version="1.0"?>\n<!-- Free tools: https://siren.watch/free-tools.html · Verify a reading: https://siren.watch/verify.html -->\n<!-- Search Trends: https://siren.watch/search-trends.html -->\n<urlset></urlset>`;
   if (hasSitemapTips(tipped) !== true) throw new Error('hasSitemapTips true');
   if (hasSitemapTips('<?xml version="1.0"?><urlset></urlset>') !== false) throw new Error('hasSitemapTips false');
