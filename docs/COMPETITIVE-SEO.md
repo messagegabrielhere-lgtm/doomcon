@@ -1,9 +1,9 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T05:11Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,690** sitemap URLs via news overlay + tips (#79–#104); tip-wipe
-detectors #85–#91 on main. Companion to `docs/COMPETITIVE.md` (Sept inventory)
-and `docs/FINDABILITY.md` (our playbook).
+**Measured:** 2026-10-15T05:51Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,692** sitemap URLs; tips #79/#84/#87/#90 intact; news-fast still
+blocked on item recency churn until #107. Companion to `docs/COMPETITIVE.md`
+(Sept inventory) and `docs/FINDABILITY.md` (our playbook).
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool
@@ -21,7 +21,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,247** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
 | **pizzint.watch** | **1,018** | flaps **0↔14** (`google-news-open` / `pizzint-news-alive`) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **6,690** live (clears DoomBench 2090 / Skynet 1247 / pizzint 1018); GSC HTML-tag **absent** until operator sets secret | **200** news-sitemap (hold Google News lane; keyword-rich) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + day hubs + `/verify.html` + `/free-tools.html` | **yes** |
+| **siren.watch** | **6,692** live (clears DoomBench 2090 / Skynet 1247 / pizzint 1018); GSC HTML-tag **absent** until operator sets secret | **200** news-sitemap (hold Google News lane; keyword-rich) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + day hubs + `/verify.html` + `/free-tools.html` | **yes** |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 

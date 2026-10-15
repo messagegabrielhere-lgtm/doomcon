@@ -337,6 +337,7 @@ context.
 | 104 | Full-pass `Build site` (+ newsroom/news-fast timed builds) set `NODE_OPTIONS=--max-old-space-size=8192` so the item-archive tree does not thrash under the default ~4GB heap and block hourly Publish (run 38676940859 still Building at ~75m) | Deploy + Google News | **Done** (2026-10-15) |
 | 105 | Incremental full build: seed `public/` from gh-pages and keep durable `/item/*` archive pages on disk (skip rewrite when present) so hourly Build finishes inside the job budget instead of wipe+rewrite of ~5000 briefs (run 38676940859 still Building at ~85m) | Deploy + Google News | **Done** (2026-10-15) |
 | 106 | News-only: refresh at most 5 live-window day hubs (not archive-backed `indexableDays`) and skip full `sitemap.xml`; raise news-fast/newsroom `--only news` timeout 480→900 so ticks can Publish (tip c4993bcf still PUBLISHED=0 after #103) | Google News + Deploy | **Done** (2026-10-15) |
+| 107 | News-only item skip uses content fingerprint (title/summary/url/corroboration — not `age_hours_at_score` / recency / score churn) + rewrite cap 120; full `stableJson(it)` still rewrote ~800 briefs (~468s) and left news-fast at PUBLISHED=0 on tip c4993bcf | Google News + Deploy | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
