@@ -465,6 +465,21 @@ describe('lab facets', () => {
     assert.match(amdHtml, /chip review/);
     assert.match(amdHtml, /search-trends\.html/);
     assert.doesNotMatch(amdHtml, /buy AMD|price target|must use MI300/i);
+    // FINDABILITY #185 — Tesla / FSD / Autopilot FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES.tesla, 'FSD');
+    const teslaHtml = renderLab(ctx, {
+      id: 'tesla',
+      name: 'Tesla',
+      entityOnly: true,
+      entityName: 'Tesla',
+    });
+    assert.match(teslaHtml, /Why does SIREN watch Tesla Autopilot and FSD\?/);
+    assert.match(teslaHtml, /<title>[^<]*FSD/);
+    assert.match(teslaHtml, /Autopilot|FSD|robotaxi/);
+    assert.match(teslaHtml, /[Nn]ot a stock tip/);
+    assert.match(teslaHtml, /crash verdict|safety advice/i);
+    assert.match(teslaHtml, /search-trends\.html/);
+    assert.doesNotMatch(teslaHtml, /buy Tesla|price target|must use FSD/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

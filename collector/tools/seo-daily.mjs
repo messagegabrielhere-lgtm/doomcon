@@ -169,6 +169,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/palantir.html',
   // FINDABILITY #184 — AMD / MI300 / Instinct AI GPU Trends FAQ lab.
   '/lab/amd.html',
+  // FINDABILITY #185 — Tesla / FSD / Autopilot Trends FAQ lab.
+  '/lab/tesla.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -490,6 +492,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'Palantir', alias: 'AIP' },
   // FINDABILITY #184 — AMD → MI300 for Google News keywords.
   { lab: 'AMD', alias: 'MI300' },
+  // FINDABILITY #185 — Tesla → FSD for Google News keywords.
+  { lab: 'Tesla', alias: 'FSD' },
 ]);
 
 /**
@@ -819,6 +823,7 @@ export const TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE = 'OpenAI outage → /lab/openai
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 export const TRENDS_ROUTES_AMD_NEEDLE = 'AMD / MI300 → /lab/amd.html';
+export const TRENDS_ROUTES_TESLA_NEEDLE = 'Tesla / FSD → /lab/tesla.html';
 
 /**
  * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180
@@ -844,7 +849,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
-    && text.includes(TRENDS_ROUTES_AMD_NEEDLE);
+    && text.includes(TRENDS_ROUTES_AMD_NEEDLE)
+    && text.includes(TRENDS_ROUTES_TESLA_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1227,6 +1233,24 @@ export function hasAgentsAmd(body, needle = AGENTS_AMD_NEEDLE) {
   return text.includes(needle) && text.includes('/lab/amd.html');
 }
 
+/** FINDABILITY #185 — Tesla / FSD / Autopilot FAQ + agent maps. */
+export const TESLA_FAQ_NEEDLE = 'Why does SIREN watch Tesla Autopilot and FSD?';
+export const AGENTS_TESLA_NEEDLE = 'Tesla / FSD';
+
+/** Tip /lab/tesla.html must keep the #185 Tesla FAQ. */
+export function hasTeslaFaq(html, needle = TESLA_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Tesla / FSD Trends to Tesla lab (FINDABILITY #185).
+ * Wipe gap is `agents-tesla-missing`.
+ */
+export function hasAgentsTesla(body, needle = AGENTS_TESLA_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/tesla.html');
+}
+
 
 
 
@@ -1278,6 +1302,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/palantir.html', needle: 'AIP' },
   // FINDABILITY #184 — MI300 product alias on AMD lab title/H1.
   { path: '/lab/amd.html', needle: 'MI300' },
+  // FINDABILITY #185 — FSD product alias on Tesla lab title/H1.
+  { path: '/lab/tesla.html', needle: 'FSD' },
 ]);
 
 /**
@@ -2256,6 +2282,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #185 — Tesla lab FAQ wiped or never landed.
+  if (ours.tesla_faq === false) {
+    gaps.push({
+      id: 'tesla-faq-missing',
+      severity: 'medium',
+      text: `/lab/tesla.html missing Tesla / FSD FAQ (FINDABILITY #185) — re-overlay lab/tesla.html or wait for full collect Publish on tip ≥ #185`,
+    });
+  }
+  // FINDABILITY #185 — agent maps must route Tesla / FSD Trends to Tesla lab.
+  if (ours.agents_tesla === false || ours.llms_tesla === false) {
+    const which = [
+      ours.agents_tesla === false ? 'agents.md' : null,
+      ours.llms_tesla === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-tesla-missing',
+      severity: 'medium',
+      text: `${which} missing Tesla / FSD → /lab/tesla.html Trends tip (FINDABILITY #185) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #185`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -2580,6 +2627,11 @@ export function measureSite(site, byUrl) {
     row.amd_faq = amdHtml?.ok ? hasAmdFaq(amdHtml.value) : false;
     row.agents_amd = agentsMd?.ok ? hasAgentsAmd(agentsMd.value) : false;
     row.llms_amd = llms?.ok ? hasAgentsAmd(llmsBody) : false;
+    // FINDABILITY #185 — Tesla FAQ + agent maps.
+    const teslaHtml = byUrl.get(`${base}/lab/tesla.html`);
+    row.tesla_faq = teslaHtml?.ok ? hasTeslaFaq(teslaHtml.value) : false;
+    row.agents_tesla = agentsMd?.ok ? hasAgentsTesla(agentsMd.value) : false;
+    row.llms_tesla = llms?.ok ? hasAgentsTesla(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -3023,6 +3075,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_amd == null ? '—' : (ours.agents_amd ? 'yes' : 'NO');
       const lm = ours.llms_amd == null ? '—' : (ours.llms_amd ? 'yes' : 'NO');
       lines.push(`- Agent-map AMD / MI300 → lab (#184): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.tesla_faq != null) {
+      lines.push(
+        `- Tesla / FSD FAQ (#185): **${ours.tesla_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_tesla != null || ours.llms_tesla != null)) {
+      const ag = ours.agents_tesla == null ? '—' : (ours.agents_tesla ? 'yes' : 'NO');
+      const lm = ours.llms_tesla == null ? '—' : (ours.llms_tesla ? 'yes' : 'NO');
+      lines.push(`- Agent-map Tesla / FSD → lab (#185): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -4268,6 +4330,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/amd.html')) {
     throw new Error('OUR_SURFACES missing /lab/amd.html');
   }
+  if (hasTeslaFaq(TESLA_FAQ_NEEDLE) !== true) {
+    throw new Error('hasTeslaFaq true');
+  }
+  if (hasTeslaFaq('What has SIREN scored about Tesla?') !== false) {
+    throw new Error('hasTeslaFaq false');
+  }
+  if (hasAgentsTesla('Tesla / FSD → https://siren.watch/lab/tesla.html') !== true) {
+    throw new Error('hasAgentsTesla true');
+  }
+  if (hasAgentsTesla('https://siren.watch/lab/tesla.html only') !== false) {
+    throw new Error('hasAgentsTesla needs Tesla / FSD needle');
+  }
+  const teslaGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      tesla_faq: false,
+      agents_tesla: false,
+      llms_tesla: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!teslaGaps.some((g) => g.id === 'tesla-faq-missing')) {
+    throw new Error('tesla-faq-missing gap');
+  }
+  if (!teslaGaps.some((g) => g.id === 'agents-tesla-missing')) {
+    throw new Error('agents-tesla-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/tesla.html')) {
+    throw new Error('OUR_SURFACES missing /lab/tesla.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -4288,6 +4383,7 @@ function selftest() {
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_AMD_NEEDLE,
+    TRENDS_ROUTES_TESLA_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
