@@ -274,6 +274,23 @@ describe('lab facets', () => {
     assert.match(amazonHtml, /[Nn]ot a product review/);
     assert.match(amazonHtml, /search-trends\.html/);
     assert.doesNotMatch(amazonHtml, /buy Amazon|price target|must buy Bee/i);
+    // FINDABILITY #169 — Meta Muse / open-weight AI FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES.meta, 'Muse');
+    assert.equal(labAboutLabel({ id: 'meta', name: 'Meta AI' }), 'Meta AI / Muse');
+    const metaHtml = renderLab(ctx, {
+      id: 'meta',
+      name: 'Meta AI',
+      entityOnly: true,
+      entityName: 'Meta AI',
+    });
+    assert.match(
+      metaHtml,
+      /Why does SIREN watch Meta Muse and open-weight AI\?/,
+    );
+    assert.match(metaHtml, /<title>[^<]*Muse/);
+    assert.match(metaHtml, /[Nn]ot a model review/);
+    assert.match(metaHtml, /search-trends\.html/);
+    assert.doesNotMatch(metaHtml, /buy Meta|price target|must use Muse/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

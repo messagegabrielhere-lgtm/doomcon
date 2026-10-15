@@ -71,6 +71,9 @@ export const LAB_HEAD_ALIASES = Object.freeze({
   // FINDABILITY #161 — ticker people type when Trends shows "nvda" with AI
   // funding / debt / CoreWeave co-move headlines; stories already score under NVIDIA.
   'nvidia': 'NVDA',
+  // FINDABILITY #169 — product people type when Trends / tape shows Muse Spark /
+  // Muse Wonder with Meta open-weight AI headlines; stories already score under Meta AI.
+  'meta': 'Muse',
 });
 
 /** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */
@@ -517,6 +520,13 @@ export function renderLab(ctx, player) {
     faq.push([
       `Why does ${brand.NAME} watch Amazon Bee and AI wearables?`,
       `${brand.NAME} scores press that names Amazon. When Bee Frontier / Bee Eclipse wearables, ambient listening devices, or personal-AI hardware headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not a product review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
+  // FINDABILITY #169 — Meta Muse / Muse Spark / Muse Wonder open-weight tape → gated lab.
+  if (player.id === 'meta') {
+    faq.push([
+      `Why does ${brand.NAME} watch Meta Muse and open-weight AI?`,
+      `${brand.NAME} scores press that names Meta AI. When Muse Spark, Muse Wonder, or Meta open-weight / Mac AI partnership headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
   const faqHtml = faq.map(([q, a]) => `

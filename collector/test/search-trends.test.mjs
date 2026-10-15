@@ -117,6 +117,10 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Amazon Bee Frontier wearable', news: [] }).includes('amazon-bee'));
   assert.ok(matchHeadTerms({ title: 'Bee Eclipse Amazon AI', news: [] }).includes('amazon-bee'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'amazon-bee' && t.path === '/lab/amazon.html'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'meta-muse' && t.path === '/lab/meta.html'));
+  assert.ok(HEAD_TERMS.find((t) => t.id === 'meta-muse').re.test('Meta Muse Spark Open'));
+  assert.ok(HEAD_TERMS.find((t) => t.id === 'meta-muse').re.test('Muse Wonder frontier model'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'meta-muse').re.test('visit the museum'), false);
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({

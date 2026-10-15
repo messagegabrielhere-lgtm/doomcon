@@ -406,6 +406,7 @@ context.
 | 166 | Publish preserve for `/search-trends.html` restores tip when ASML/TSMC destinations are missing from the #158 routing FAQ answer (not only when the question is absent); `seo-daily` `hasTrendsRoutesFaq` requires those needles — stops newsroom orphan from dropping #164/#165 routes | Deploy + Google + Trends | **Done** (this pass) |
 | 167 | `/lab/amazon.html` FAQ for Amazon Bee / wearable ambient-AI Trends; HEAD_TERMS `amazon-bee` → gated lab; `agents.md`/`llms.txt` tip; watchlist FAQ answer; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip Amazon lab — story counts only, not a product review | Google + Trends + Agents | **Done** (this pass) |
 | 168 | IndexNow ALWAYS covers tipped `/lab/tsmc.html` + `/lab/coreweave.html` (already live FAQs #155/#160/#165; amazon/asml were listed earlier) so Bing/Yandex learn the Trends labs after every Publish without waiting on sitemap sampling | Bing | **Done** (this pass) |
+| 169 | `/lab/meta.html` FAQ for Meta Muse / Muse Spark / Muse Wonder open-weight AI Trends; `LAB_HEAD_ALIASES.meta = Muse`; HEAD_TERMS `meta-muse` → gated lab; `agents.md`/`llms.txt` tip; watchlist FAQ answer; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip Meta lab — story counts only, not a model review or stock tip | Google + Trends + Agents | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

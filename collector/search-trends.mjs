@@ -68,6 +68,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #167 — Amazon Bee / wearable ambient-AI Trends → gated lab
   // (story counts only; not a product review or stock tip).
   { id: 'amazon-bee', label: 'Amazon Bee', re: /\bamazon\b.{0,40}\bbee\b|\bbee\b.{0,40}\b(?:amazon|wearable|frontier|eclipse)\b|\bbee\s+(?:frontier|eclipse|pro)\b/i, path: '/lab/amazon.html' },
+  // FINDABILITY #169 — Meta Muse / Muse Spark / Muse Wonder → gated Meta lab
+  // (story counts only; not a model review or stock tip).
+  { id: 'meta-muse', label: 'Meta Muse', re: /\bmeta\b.{0,40}\bmuse\b|\bmuse\s+(?:spark|wonder)(?:\s+open)?\b/i, path: '/lab/meta.html' },
   // FINDABILITY #157 — "neocloud" / neoclouds Trends (Gartner survival tape)
   // → gated /tags/neoclouds.html (story counts only, not a vendor ranking).
   { id: 'neocloud', label: 'Neoclouds', re: /\bneoclouds?\b/i, path: '/tags/neoclouds.html' },

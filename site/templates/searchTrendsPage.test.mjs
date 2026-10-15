@@ -43,6 +43,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /TSMC \/ AI foundry → \/lab\/tsmc\.html/);
   // FINDABILITY #167 — Amazon Bee / AI wearables route to gated lab.
   assert.match(html, /Amazon Bee \/ AI wearables → \/lab\/amazon\.html/);
+  // FINDABILITY #169 — Meta Muse / open-weight AI route to gated lab.
+  assert.match(html, /Meta Muse \/ open-weight AI → \/lab\/meta\.html/);
   assert.match(html, /not investment advice/);
   assert.match(html, /not credit analysis/);
 });
