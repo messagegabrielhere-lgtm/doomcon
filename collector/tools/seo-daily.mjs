@@ -417,6 +417,52 @@ export function newsKeywordLags(xml, labs = NEWS_KEYWORD_PROBE_LABS) {
   return out;
 }
 
+/**
+ * labAboutLabel parent→alias pairs for news:keywords (FINDABILITY #146/#147).
+ * Wipe/CDN lag gap is `news-lab-alias-keywords-missing` (FINDABILITY #148).
+ */
+export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
+  { lab: 'OpenAI', alias: 'ChatGPT' },
+  { lab: 'Anthropic', alias: 'Claude' },
+  { lab: 'DeepMind', alias: 'Gemini' },
+  { lab: 'Micron', alias: 'MU' },
+]);
+
+/**
+ * Entries whose news:title names a parent lab but news:keywords omit the
+ * labAboutLabel alias (#146/#147). Returns up to 8 `{ lab, alias, title }`.
+ */
+export function newsLabAliasKeywordLags(xml, probes = NEWS_LAB_ALIAS_PROBES) {
+  const out = [];
+  const seen = new Set();
+  for (const block of String(xml || '').matchAll(/<url\b[\s\S]*?<\/url>/gi)) {
+    const chunk = block[0];
+    const titleM = chunk.match(/<news:title>\s*([\s\S]*?)\s*<\/news:title>/i);
+    const kwM = chunk.match(/<news:keywords>\s*([\s\S]*?)\s*<\/news:keywords>/i);
+    if (!titleM) continue;
+    const title = decodeXmlText(titleM[1]);
+    const keywords = decodeXmlText(kwM ? kwM[1] : '');
+    for (const { lab, alias } of probes) {
+      const labRe = new RegExp(
+        `(?:^|[^A-Za-z0-9])${lab.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`,
+        'i',
+      );
+      const aliasRe = new RegExp(
+        `(?:^|[^A-Za-z0-9])${alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`,
+        'i',
+      );
+      if (!labRe.test(title)) continue;
+      if (aliasRe.test(keywords)) continue;
+      const key = `${lab}\0${alias}\0${title.slice(0, 80)}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push({ lab, alias, title: title.slice(0, 100) });
+      if (out.length >= 8) return out;
+    }
+  }
+  return out;
+}
+
 function decodeXmlText(s) {
   // Decode &amp; last so a literal "&amp;lt;" cannot become "<" in one pass
   // (CodeQL js/double-escaping / FINDABILITY #65 pattern).
@@ -952,6 +998,20 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #146/#147/#148 — title names parent lab but keywords omit
+  // labAboutLabel alias (ChatGPT / Claude / Gemini / MU).
+  if (Array.isArray(ours.news_lab_alias_lags) && ours.news_lab_alias_lags.length > 0) {
+    const sample = ours.news_lab_alias_lags
+      .slice(0, 3)
+      .map((row) => `${row.lab}→${row.alias}`)
+      .join(', ');
+    gaps.push({
+      id: 'news-lab-alias-keywords-missing',
+      severity: 'medium',
+      text: `news-sitemap missing labAboutLabel aliases on ${ours.news_lab_alias_lags.length} row(s) (e.g. ${sample}) — re-overlay or wait for news-fast Publish on tip ≥ #147 (FINDABILITY #148)`,
+    });
+  }
+
   // FINDABILITY #116/#119 — agents.md / llms.txt dropped short-alias lines
   // (orphan tip lag or overlay miss after HTML aliases restored).
   if (ours.agents_vs_aliases === false || ours.llms_vs_aliases === false) {
@@ -1207,6 +1267,8 @@ export function measureSite(site, byUrl) {
       const newest = newestNewsPublicationMs(news.value);
       row.news_newest_publication_at = newest != null ? new Date(newest).toISOString() : null;
       row.news_keyword_lags = newsKeywordLags(news.value);
+      // FINDABILITY #148 — parent lab titles must keep #146/#147 aliases.
+      row.news_lab_alias_lags = newsLabAliasKeywordLags(news.value);
     }
   } else if (news) {
     // Missing news sitemap is normal for most rivals; record null, not error noise.
@@ -1215,6 +1277,7 @@ export function measureSite(site, byUrl) {
       row.news_sitemap_tips = false;
       row.news_newest_publication_at = null;
       row.news_keyword_lags = [];
+      row.news_lab_alias_lags = [];
     }
   }
 
@@ -1377,6 +1440,19 @@ export function formatMarkdown(report) {
         );
       }
     }
+    if (ours && Array.isArray(ours.news_lab_alias_lags)) {
+      if (ours.news_lab_alias_lags.length === 0) {
+        lines.push('- News labAboutLabel aliases (#146/#147/#148): **ok** (ChatGPT / Claude / Gemini / MU)');
+      } else {
+        const sample = ours.news_lab_alias_lags
+          .slice(0, 3)
+          .map((r) => `${r.lab}→${r.alias}`)
+          .join(', ');
+        lines.push(
+          `- News labAboutLabel aliases (#146/#147/#148): **LAG** on ${ours.news_lab_alias_lags.length} (e.g. ${sample})`,
+        );
+      }
+    }
     if (ours && (ours.agents_vs_aliases != null || ours.llms_vs_aliases != null)) {
       const ag = ours.agents_vs_aliases == null ? '—' : (ours.agents_vs_aliases ? 'yes' : 'NO');
       const lm = ours.llms_vs_aliases == null ? '—' : (ours.llms_vs_aliases ? 'yes' : 'NO');
@@ -1451,6 +1527,7 @@ export function formatMarkdown(report) {
       || ours.feed_tips != null || ours.feed_level_tips != null
       || ours.now_md_tips != null || ours.now_txt_tips != null
       || ours.news_keyword_lags != null
+      || ours.news_lab_alias_lags != null
       || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null
       || ours.agents_trends_alias != null || ours.llms_trends_alias != null
       || ours.agents_pdoom_alias != null || ours.llms_pdoom_alias != null
@@ -1957,6 +2034,40 @@ function selftest() {
   });
   if (!lagGaps.some((g) => g.id === 'news-keywords-lag')) throw new Error('news-keywords-lag gap');
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Kodiak AI')) throw new Error('probe labs missing Kodiak AI');
+  const labAliasLagXml = '<?xml version="1.0"?><urlset>'
+    + '<url><news:title>OpenAI raises new round</news:title>'
+    + '<news:keywords>OpenAI, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Anthropic expands compute</news:title>'
+    + '<news:keywords>Anthropic, Claude, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Micron shares slide</news:title>'
+    + '<news:keywords>Micron, Google, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const labAliasLags = newsLabAliasKeywordLags(labAliasLagXml);
+  if (!labAliasLags.some((r) => r.lab === 'OpenAI' && r.alias === 'ChatGPT')) {
+    throw new Error(`newsLabAliasKeywordLags OpenAI: ${JSON.stringify(labAliasLags)}`);
+  }
+  if (!labAliasLags.some((r) => r.lab === 'Micron' && r.alias === 'MU')) {
+    throw new Error(`newsLabAliasKeywordLags Micron: ${JSON.stringify(labAliasLags)}`);
+  }
+  if (labAliasLags.some((r) => r.lab === 'Anthropic')) {
+    throw new Error('newsLabAliasKeywordLags should not flag Anthropic when Claude present');
+  }
+  const labAliasGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      news_lab_alias_lags: labAliasLags,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!labAliasGaps.some((g) => g.id === 'news-lab-alias-keywords-missing')) {
+    throw new Error('news-lab-alias-keywords-missing gap');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'ChatGPT')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing ChatGPT');
+  }
 
   const report = {
     sites: [

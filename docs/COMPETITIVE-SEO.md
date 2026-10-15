@@ -4,11 +4,10 @@
 live lead **6,685** sitemap URLs / news **200** (pizzint news **14**); tips +
 vs/trends/pdoom + root rival + head-term aliases + FAQ hubs + Micron/MU lab +
 `llms.txt` + `/lab/` + companies + home knowsAbout labAboutLabel intact. Daily
-ships: #124–#146 tip durability; **#147** news:keywords add ChatGPT / Claude /
-Gemini when parent labs are named (labAboutLabel aliases; pizzint news empty).
-Branded “SIREN AI activity index” still #1; head-term SERPs still need GSC crawl
-(issue #202). Companion to `docs/COMPETITIVE.md` (Sept inventory) and
-`docs/FINDABILITY.md`.
+ships: #124–#147 tip durability; **#148** seo-daily flags missing ChatGPT /
+Claude / Gemini / MU news:keywords aliases. Branded “SIREN AI activity index”
+still #1; head-term SERPs still need GSC crawl (issue #202). Companion to
+`docs/COMPETITIVE.md` (Sept inventory) and `docs/FINDABILITY.md`.
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool
