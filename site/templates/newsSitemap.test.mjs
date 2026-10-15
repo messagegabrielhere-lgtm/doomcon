@@ -225,6 +225,31 @@ test('news sitemap keywords promote ChatGPT / Pentagon / EDPB ahead of topic-cap
   assert.match(c, /EDPB/);
 });
 
+test('news sitemap keywords add MU ticker when Micron is named (FINDABILITY #146)', () => {
+  const a = keywordsFor({
+    title: 'Micron, Nvidia and other chip stocks face renewed pressure as AI fears swell',
+    summary: 'Memory-chip shares slide with the AI selloff.',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Micron', 'NVIDIA'],
+  });
+  assert.match(a, /\bMicron\b/);
+  assert.match(a, /\bMU\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.includes('MU'), a);
+  // Bare MU titles without Micron must not invent the ticker.
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No memory-chip lab named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)MU(,|$)/);
+});
+
 test('news sitemap keywords include MediaTek / Cathie Wood / ServiceNow (FINDABILITY #108)', () => {
   const a = keywordsFor({
     title: 'ByteDance nears deal to buy MediaTek’s custom AI chips for data centers',
