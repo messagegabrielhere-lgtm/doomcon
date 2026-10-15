@@ -213,6 +213,15 @@ describe('lab facets', () => {
     assert.match(nvHtml, /search-trends\.html/);
     assert.match(nvHtml, /not investment advice/);
     assert.doesNotMatch(nvHtml, /buy NVIDIA|sell NVDA|price target/i);
+    // FINDABILITY #162 — OpenAI lawsuit / FTC FAQ on gated ChatGPT lab.
+    const oaiHtml = renderLab(ctx, ctx.race.players[0]);
+    assert.match(
+      oaiHtml,
+      /Why does SIREN watch OpenAI lawsuits and FTC probes\?/,
+    );
+    assert.match(oaiHtml, /[Nn]ot legal advice/);
+    assert.match(oaiHtml, /search-trends\.html/);
+    assert.doesNotMatch(oaiHtml, /guilty|liable|will lose|settlement odds/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

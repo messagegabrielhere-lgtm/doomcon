@@ -53,6 +53,9 @@ import {
   hasNvidiaNvdaFaq,
   hasAgentsNvidia,
   NVIDIA_NVDA_FAQ_NEEDLE,
+  hasOpenaiLawsuitFaq,
+  hasAgentsOpenaiLawsuit,
+  OPENAI_LAWSUIT_FAQ_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -577,6 +580,30 @@ describe('seo-daily surfaces', () => {
     });
     assert.ok(gaps.some((g) => g.id === 'nvidia-nvda-faq-missing'));
     assert.ok(gaps.some((g) => g.id === 'agents-nvidia-missing'));
+  });
+
+  it('detects OpenAI lawsuit / FTC FAQ + agent-map lag (FINDABILITY #162)', () => {
+    assert.equal(hasOpenaiLawsuitFaq(OPENAI_LAWSUIT_FAQ_NEEDLE), true);
+    assert.equal(hasOpenaiLawsuitFaq('What has SIREN scored about OpenAI / ChatGPT?'), false);
+    assert.equal(
+      hasAgentsOpenaiLawsuit('OpenAI lawsuit → https://siren.watch/lab/openai.html'),
+      true,
+    );
+    assert.equal(hasAgentsOpenaiLawsuit('https://siren.watch/lab/openai.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        openai_lawsuit_faq: false,
+        agents_openai_lawsuit: false,
+        llms_openai_lawsuit: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'openai-lawsuit-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-openai-lawsuit-missing'));
   });
 
   it('detects Search Trends routing FAQ lag (FINDABILITY #158)', () => {

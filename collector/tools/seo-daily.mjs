@@ -771,6 +771,24 @@ export function hasAgentsNvidia(body, needle = AGENTS_NVIDIA_NEEDLE) {
   return text.includes(needle) && text.includes('/lab/nvidia.html');
 }
 
+/** FINDABILITY #162 — OpenAI lab FAQ + agent maps for lawsuit / FTC tape. */
+export const OPENAI_LAWSUIT_FAQ_NEEDLE = 'Why does SIREN watch OpenAI lawsuits and FTC probes?';
+export const AGENTS_OPENAI_LAWSUIT_NEEDLE = 'OpenAI lawsuit';
+
+/** Tip /lab/openai.html must keep the #162 OpenAI lawsuit / FTC FAQ. */
+export function hasOpenaiLawsuitFaq(html, needle = OPENAI_LAWSUIT_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route OpenAI lawsuit / FTC tape to OpenAI lab (FINDABILITY #162).
+ * Wipe gap is `agents-openai-lawsuit-missing`.
+ */
+export function hasAgentsOpenaiLawsuit(body, needle = AGENTS_OPENAI_LAWSUIT_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/openai.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -1359,6 +1377,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #162 — OpenAI lab FAQ for lawsuit / FTC tape wiped or never landed.
+  if (ours.openai_lawsuit_faq === false) {
+    gaps.push({
+      id: 'openai-lawsuit-faq-missing',
+      severity: 'medium',
+      text: `/lab/openai.html missing OpenAI lawsuit / FTC FAQ (FINDABILITY #162) — re-overlay lab/openai.html or wait for full collect Publish on tip ≥ #162`,
+    });
+  }
+  // FINDABILITY #162 — agent maps must route OpenAI lawsuit / FTC tape to OpenAI lab.
+  if (ours.agents_openai_lawsuit === false || ours.llms_openai_lawsuit === false) {
+    const which = [
+      ours.agents_openai_lawsuit === false ? 'agents.md' : null,
+      ours.llms_openai_lawsuit === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-openai-lawsuit-missing',
+      severity: 'medium',
+      text: `${which} missing OpenAI lawsuit → /lab/openai.html tip (FINDABILITY #162) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #162`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1576,6 +1615,11 @@ export function measureSite(site, byUrl) {
     row.nvidia_nvda_faq = nvHtml?.ok ? hasNvidiaNvdaFaq(nvHtml.value) : false;
     row.agents_nvidia = agentsMd?.ok ? hasAgentsNvidia(agentsMd.value) : false;
     row.llms_nvidia = llms?.ok ? hasAgentsNvidia(llmsBody) : false;
+    // FINDABILITY #162 — OpenAI lawsuit / FTC FAQ + agent maps.
+    const oaiHtml = byUrl.get(`${base}/lab/openai.html`);
+    row.openai_lawsuit_faq = oaiHtml?.ok ? hasOpenaiLawsuitFaq(oaiHtml.value) : false;
+    row.agents_openai_lawsuit = agentsMd?.ok ? hasAgentsOpenaiLawsuit(agentsMd.value) : false;
+    row.llms_openai_lawsuit = llms?.ok ? hasAgentsOpenaiLawsuit(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -1811,6 +1855,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_nvidia == null ? '—' : (ours.agents_nvidia ? 'yes' : 'NO');
       const lm = ours.llms_nvidia == null ? '—' : (ours.llms_nvidia ? 'yes' : 'NO');
       lines.push(`- Agent-map NVDA → lab (#161): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.openai_lawsuit_faq != null) {
+      lines.push(
+        `- OpenAI lawsuit / FTC FAQ (#162): **${ours.openai_lawsuit_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_openai_lawsuit != null || ours.llms_openai_lawsuit != null)) {
+      const ag = ours.agents_openai_lawsuit == null ? '—' : (ours.agents_openai_lawsuit ? 'yes' : 'NO');
+      const lm = ours.llms_openai_lawsuit == null ? '—' : (ours.llms_openai_lawsuit ? 'yes' : 'NO');
+      lines.push(`- Agent-map OpenAI lawsuit → lab (#162): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -2413,6 +2467,39 @@ function selftest() {
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'NVDA')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing NVDA');
+  }
+  if (hasOpenaiLawsuitFaq(OPENAI_LAWSUIT_FAQ_NEEDLE) !== true) {
+    throw new Error('hasOpenaiLawsuitFaq true');
+  }
+  if (hasOpenaiLawsuitFaq('What has SIREN scored about OpenAI / ChatGPT?') !== false) {
+    throw new Error('hasOpenaiLawsuitFaq false');
+  }
+  if (hasAgentsOpenaiLawsuit('OpenAI lawsuit → https://siren.watch/lab/openai.html') !== true) {
+    throw new Error('hasAgentsOpenaiLawsuit true');
+  }
+  if (hasAgentsOpenaiLawsuit('https://siren.watch/lab/openai.html only') !== false) {
+    throw new Error('hasAgentsOpenaiLawsuit needs lawsuit needle');
+  }
+  const oaiGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      openai_lawsuit_faq: false,
+      agents_openai_lawsuit: false,
+      llms_openai_lawsuit: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!oaiGaps.some((g) => g.id === 'openai-lawsuit-faq-missing')) {
+    throw new Error('openai-lawsuit-faq-missing gap');
+  }
+  if (!oaiGaps.some((g) => g.id === 'agents-openai-lawsuit-missing')) {
+    throw new Error('agents-openai-lawsuit-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/openai.html')) {
+    throw new Error('OUR_SURFACES missing /lab/openai.html');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== true) {
     throw new Error('hasTrendsRoutesFaq true');

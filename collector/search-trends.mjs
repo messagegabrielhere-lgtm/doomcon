@@ -36,6 +36,9 @@ export const HEAD_TERMS = Object.freeze([
   { id: 'agi', label: 'AGI', re: /\bagi\b|\bartificial\s+general\s+intelligence\b/i, path: '/si-watch.html' },
   { id: 'polymarket-ai', label: 'Polymarket AI', re: /\bpolymarket\b.*\bai\b|\bai\b.*\bpolymarket\b/i, path: '/race.html' },
   { id: 'chatgpt', label: 'ChatGPT', re: /\bchatgpt\b|\bgpt[\s-]?\d/i, path: '/lab/openai.html' },
+  // FINDABILITY #162 — “openai lawsuit” / FTC / state-suit Trends → gated lab
+  // (story counts of scored coverage only; not legal advice).
+  { id: 'openai-lawsuit', label: 'OpenAI lawsuit / FTC', re: /\bopenai\b.{0,40}\b(?:lawsuit|lawsuits|sued|sues|suing|ftc|probe|probes)\b|\b(?:lawsuit|lawsuits|ftc|probe|probes)\b.{0,40}\bopenai\b|\bstates?\s+sue(?:s|d)?\s+openai\b|\bchatgpt\b.{0,40}\b(?:lawsuit|lawsuits|sued|sues)\b/i, path: '/lab/openai.html' },
   { id: 'claude', label: 'Claude', re: /\bclaude\b|\banthropic\b/i, path: '/lab/anthropic.html' },
   { id: 'gemini', label: 'Gemini', re: /\bgemini\b|\bgoogle\s+deepmind\b/i, path: '/lab/google-deepmind.html' },
   // FINDABILITY #137 — "mu" Trends spikes arrive with Micron / AI memory-chip

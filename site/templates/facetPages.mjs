@@ -484,6 +484,13 @@ export function renderLab(ctx, player) {
       `${brand.NAME} watches Google’s daily trending RSS for findability. When Nvidia, NVDA stock, or AI GPU funding-cost headlines spike (including CoreWeave / neocloud co-moves), this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
+  // FINDABILITY #162 — OpenAI lawsuit / FTC / state-suit tape → gated ChatGPT lab.
+  if (player.id === 'openai') {
+    faq.push([
+      `Why does ${brand.NAME} watch OpenAI lawsuits and FTC probes?`,
+      `${brand.NAME} scores press that names OpenAI / ChatGPT. When state lawsuits, FTC probes, or ChatGPT safety suits dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not legal advice, not a case forecast, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');

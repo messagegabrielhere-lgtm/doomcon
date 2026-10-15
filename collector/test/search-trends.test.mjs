@@ -93,6 +93,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'NVDA stock', news: [] }).includes('nvidia'));
   assert.ok(matchHeadTerms({ title: 'NVDA', news: [] }).includes('nvidia'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'nvidia' && t.path === '/lab/nvidia.html'));
+  // FINDABILITY #162 — OpenAI lawsuit / FTC / ChatGPT suits → gated OpenAI lab.
+  assert.ok(matchHeadTerms({ title: 'openai lawsuit', news: [] }).includes('openai-lawsuit'));
+  assert.ok(matchHeadTerms({ title: 'FTC probes OpenAI', news: [] }).includes('openai-lawsuit'));
+  assert.ok(matchHeadTerms({ title: 'states sue OpenAI over ChatGPT', news: [] }).includes('openai-lawsuit'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'openai-lawsuit' && t.path === '/lab/openai.html'));
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({
