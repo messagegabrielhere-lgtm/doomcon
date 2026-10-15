@@ -167,6 +167,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/mistral.html',
   // FINDABILITY #183 — Palantir / AIP / government AI Trends FAQ lab.
   '/lab/palantir.html',
+  // FINDABILITY #184 — AMD / MI300 / Instinct AI GPU Trends FAQ lab.
+  '/lab/amd.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -486,6 +488,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'Mistral', alias: 'Timestral' },
   // FINDABILITY #183 — Palantir → AIP for Google News keywords.
   { lab: 'Palantir', alias: 'AIP' },
+  // FINDABILITY #184 — AMD → MI300 for Google News keywords.
+  { lab: 'AMD', alias: 'MI300' },
 ]);
 
 /**
@@ -814,6 +818,7 @@ export const TRENDS_ROUTES_MISTRAL_NEEDLE = 'Mistral / Timestral → /lab/mistra
 export const TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE = 'OpenAI outage → /lab/openai.html';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
+export const TRENDS_ROUTES_AMD_NEEDLE = 'AMD / MI300 → /lab/amd.html';
 
 /**
  * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180
@@ -838,7 +843,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_MISTRAL_NEEDLE)
     && text.includes(TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
-    && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE);
+    && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
+    && text.includes(TRENDS_ROUTES_AMD_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1203,6 +1209,25 @@ export function hasAgentsPalantir(body, needle = AGENTS_PALANTIR_NEEDLE) {
   return text.includes(needle) && text.includes('/lab/palantir.html');
 }
 
+/** FINDABILITY #184 — AMD / MI300 / Instinct FAQ + agent maps. */
+export const AMD_FAQ_NEEDLE = 'Why does SIREN watch AMD and AI GPUs?';
+export const AGENTS_AMD_NEEDLE = 'AMD / MI300';
+
+/** Tip /lab/amd.html must keep the #184 AMD FAQ. */
+export function hasAmdFaq(html, needle = AMD_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route AMD / MI300 Trends to AMD lab (FINDABILITY #184).
+ * Wipe gap is `agents-amd-missing`.
+ */
+export function hasAgentsAmd(body, needle = AGENTS_AMD_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/amd.html');
+}
+
+
 
 
 /**
@@ -1251,6 +1276,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/mistral.html', needle: 'Timestral' },
   // FINDABILITY #183 — AIP product alias on Palantir lab title/H1.
   { path: '/lab/palantir.html', needle: 'AIP' },
+  // FINDABILITY #184 — MI300 product alias on AMD lab title/H1.
+  { path: '/lab/amd.html', needle: 'MI300' },
 ]);
 
 /**
@@ -2208,6 +2235,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #184 — AMD lab FAQ wiped or never landed.
+  if (ours.amd_faq === false) {
+    gaps.push({
+      id: 'amd-faq-missing',
+      severity: 'medium',
+      text: `/lab/amd.html missing AMD / MI300 FAQ (FINDABILITY #184) — re-overlay lab/amd.html or wait for full collect Publish on tip ≥ #184`,
+    });
+  }
+  // FINDABILITY #184 — agent maps must route AMD / MI300 Trends to AMD lab.
+  if (ours.agents_amd === false || ours.llms_amd === false) {
+    const which = [
+      ours.agents_amd === false ? 'agents.md' : null,
+      ours.llms_amd === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-amd-missing',
+      severity: 'medium',
+      text: `${which} missing AMD / MI300 → /lab/amd.html Trends tip (FINDABILITY #184) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #184`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -2527,6 +2575,11 @@ export function measureSite(site, byUrl) {
     row.palantir_faq = palantirHtml?.ok ? hasPalantirFaq(palantirHtml.value) : false;
     row.agents_palantir = agentsMd?.ok ? hasAgentsPalantir(agentsMd.value) : false;
     row.llms_palantir = llms?.ok ? hasAgentsPalantir(llmsBody) : false;
+    // FINDABILITY #184 — AMD FAQ + agent maps.
+    const amdHtml = byUrl.get(`${base}/lab/amd.html`);
+    row.amd_faq = amdHtml?.ok ? hasAmdFaq(amdHtml.value) : false;
+    row.agents_amd = agentsMd?.ok ? hasAgentsAmd(agentsMd.value) : false;
+    row.llms_amd = llms?.ok ? hasAgentsAmd(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -2960,6 +3013,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_palantir == null ? '—' : (ours.agents_palantir ? 'yes' : 'NO');
       const lm = ours.llms_palantir == null ? '—' : (ours.llms_palantir ? 'yes' : 'NO');
       lines.push(`- Agent-map Palantir / AIP → lab (#183): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.amd_faq != null) {
+      lines.push(
+        `- AMD / MI300 FAQ (#184): **${ours.amd_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_amd != null || ours.llms_amd != null)) {
+      const ag = ours.agents_amd == null ? '—' : (ours.agents_amd ? 'yes' : 'NO');
+      const lm = ours.llms_amd == null ? '—' : (ours.llms_amd ? 'yes' : 'NO');
+      lines.push(`- Agent-map AMD / MI300 → lab (#184): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -4172,6 +4235,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/palantir.html')) {
     throw new Error('OUR_SURFACES missing /lab/palantir.html');
   }
+  if (hasAmdFaq(AMD_FAQ_NEEDLE) !== true) {
+    throw new Error('hasAmdFaq true');
+  }
+  if (hasAmdFaq('What has SIREN scored about AMD?') !== false) {
+    throw new Error('hasAmdFaq false');
+  }
+  if (hasAgentsAmd('AMD / MI300 → https://siren.watch/lab/amd.html') !== true) {
+    throw new Error('hasAgentsAmd true');
+  }
+  if (hasAgentsAmd('https://siren.watch/lab/amd.html only') !== false) {
+    throw new Error('hasAgentsAmd needs AMD / MI300 needle');
+  }
+  const amdGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      amd_faq: false,
+      agents_amd: false,
+      llms_amd: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!amdGaps.some((g) => g.id === 'amd-faq-missing')) {
+    throw new Error('amd-faq-missing gap');
+  }
+  if (!amdGaps.some((g) => g.id === 'agents-amd-missing')) {
+    throw new Error('agents-amd-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/amd.html')) {
+    throw new Error('OUR_SURFACES missing /lab/amd.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -4191,12 +4287,13 @@ function selftest() {
     TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
+    TRENDS_ROUTES_AMD_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/Palantir destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

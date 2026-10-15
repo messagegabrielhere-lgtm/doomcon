@@ -450,6 +450,21 @@ describe('lab facets', () => {
     assert.match(palHtml, /not legal advice/i);
     assert.match(palHtml, /search-trends\.html/);
     assert.doesNotMatch(palHtml, /buy Palantir|price target|must use Palantir/i);
+    // FINDABILITY #184 — AMD / MI300 / Instinct FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES.amd, 'MI300');
+    const amdHtml = renderLab(ctx, {
+      id: 'amd',
+      name: 'AMD',
+      entityOnly: true,
+      entityName: 'AMD',
+    });
+    assert.match(amdHtml, /Why does SIREN watch AMD and AI GPUs\?/);
+    assert.match(amdHtml, /<title>[^<]*MI300/);
+    assert.match(amdHtml, /MI300|Instinct/);
+    assert.match(amdHtml, /[Nn]ot a stock tip/);
+    assert.match(amdHtml, /chip review/);
+    assert.match(amdHtml, /search-trends\.html/);
+    assert.doesNotMatch(amdHtml, /buy AMD|price target|must use MI300/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

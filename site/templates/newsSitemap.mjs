@@ -95,6 +95,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #183 — AIP / Gotham needles when titles use product forms
   // beside Palantir (labAboutLabel AIP).
   'AIP', 'Gotham',
+  // FINDABILITY #184 — MI300 / Instinct needles beside AMD (labAboutLabel MI300).
+  'MI300', 'Instinct',
 ]);
 
 /**
@@ -133,6 +135,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bMistral\b/i, name: /^Mistral$/i, alias: 'Timestral' },
   // FINDABILITY #183 — Palantir → AIP (labAboutLabel) when parent named.
   { re: /\bPalantir\b/i, name: /^Palantir$/i, alias: 'AIP' },
+  // FINDABILITY #184 — AMD → MI300 (labAboutLabel) when parent named.
+  { re: /\bAMD\b/i, name: /^AMD$/i, alias: 'MI300' },
 ]);
 
 /**
