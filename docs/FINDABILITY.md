@@ -344,6 +344,7 @@ context.
 | 111 | Conquest short alias `/vs/skynet.html` → same body as `/vs/skynet-countdown.html` with canonical on the primary (typed “skynet” guess was 404 while rival head term is live) | Google | **Done** (this pass) |
 | 112 | `news-fast.yml` throttle Pages publishes to ≥5 minutes (`PUBLISH_MIN_GAP`) when newsroom churn is every tick — minute pushes caused duration:0 “Page build failed” streaks so live CDN froze (incl. #111 overlay) | Deploy + Google News | **Done** (this pass) |
 | 113 | Conquest short aliases `/vs/doom.html` → doombench and `/vs/takeoff.html` → takeofftracker (same body + canonical on primary; out of sitemap) — typed guesses were 404 after #111 proved the pattern | Google | **Done** (this pass) |
+| 114 | `news-fast` re-copies vs short aliases from primary rival HTML before every overlay/orphan commit — orphan publish was wiping `/vs/skynet.html` (and #113) from tip within minutes of overlay | Deploy + Google | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
