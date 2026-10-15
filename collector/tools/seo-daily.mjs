@@ -449,6 +449,10 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'IREN', alias: 'Iris Energy' },
   // FINDABILITY #161 — NVIDIA ticker alias for Google News keywords.
   { lab: 'NVIDIA', alias: 'NVDA' },
+  // FINDABILITY #172 — Trends product aliases for Google News keywords.
+  { lab: 'Meta', alias: 'Muse' },
+  { lab: 'Apple', alias: 'Apple Intelligence' },
+  { lab: 'Microsoft', alias: 'Copilot' },
 ]);
 
 /**
@@ -1309,7 +1313,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'news-lab-alias-keywords-missing',
       severity: 'medium',
-      text: `news-sitemap missing labAboutLabel aliases on ${ours.news_lab_alias_lags.length} row(s) (e.g. ${sample}) — re-overlay or wait for news-fast Publish on tip ≥ #159 (FINDABILITY #148/#159)`,
+      text: `news-sitemap missing labAboutLabel aliases on ${ours.news_lab_alias_lags.length} row(s) (e.g. ${sample}) — re-overlay or wait for news-fast Publish on tip ≥ #172 (FINDABILITY #148/#159/#172)`,
     });
   }
 
@@ -2102,14 +2106,14 @@ export function formatMarkdown(report) {
     }
     if (ours && Array.isArray(ours.news_lab_alias_lags)) {
       if (ours.news_lab_alias_lags.length === 0) {
-        lines.push('- News labAboutLabel aliases (#146–#148/#159/#161): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy / NVDA)');
+        lines.push('- News labAboutLabel aliases (#146–#148/#159/#161/#172): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy / NVDA / Muse / Apple Intelligence / Copilot)');
       } else {
         const sample = ours.news_lab_alias_lags
           .slice(0, 3)
           .map((r) => `${r.lab}→${r.alias}`)
           .join(', ');
         lines.push(
-          `- News labAboutLabel aliases (#146–#148/#159/#161): **LAG** on ${ours.news_lab_alias_lags.length} (e.g. ${sample})`,
+          `- News labAboutLabel aliases (#146–#148/#159/#161/#172): **LAG** on ${ours.news_lab_alias_lags.length} (e.g. ${sample})`,
         );
       }
     }
@@ -3312,6 +3316,12 @@ function selftest() {
     + '<news:keywords>CoreWeave, Google, AI, SIREN</news:keywords></url>'
     + '<url><news:title>IREN stock climbs on power deals</news:title>'
     + '<news:keywords>IREN, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Meta expands open-weight releases</news:title>'
+    + '<news:keywords>Meta, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Apple ships on-device AI update</news:title>'
+    + '<news:keywords>Apple, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Microsoft expands Azure AI deals</news:title>'
+    + '<news:keywords>Microsoft, Google, AI, SIREN</news:keywords></url>'
     + '</urlset>';
   const labAliasLags = newsLabAliasKeywordLags(labAliasLagXml);
   if (!labAliasLags.some((r) => r.lab === 'OpenAI' && r.alias === 'ChatGPT')) {
@@ -3326,6 +3336,15 @@ function selftest() {
   if (!labAliasLags.some((r) => r.lab === 'IREN' && r.alias === 'Iris Energy')) {
     throw new Error(`newsLabAliasKeywordLags IREN: ${JSON.stringify(labAliasLags)}`);
   }
+  if (!labAliasLags.some((r) => r.lab === 'Meta' && r.alias === 'Muse')) {
+    throw new Error(`newsLabAliasKeywordLags Meta: ${JSON.stringify(labAliasLags)}`);
+  }
+  if (!labAliasLags.some((r) => r.lab === 'Apple' && r.alias === 'Apple Intelligence')) {
+    throw new Error(`newsLabAliasKeywordLags Apple: ${JSON.stringify(labAliasLags)}`);
+  }
+  if (!labAliasLags.some((r) => r.lab === 'Microsoft' && r.alias === 'Copilot')) {
+    throw new Error(`newsLabAliasKeywordLags Microsoft: ${JSON.stringify(labAliasLags)}`);
+  }
   if (labAliasLags.some((r) => r.lab === 'Anthropic')) {
     throw new Error('newsLabAliasKeywordLags should not flag Anthropic when Claude present');
   }
@@ -3334,6 +3353,15 @@ function selftest() {
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Iris Energy')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing Iris Energy');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Muse')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing Muse');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Apple Intelligence')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing Apple Intelligence');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Copilot')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing Copilot');
   }
   const labAliasGaps = deriveGaps({
     sites: [{

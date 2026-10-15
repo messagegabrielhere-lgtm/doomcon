@@ -827,10 +827,13 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'trends-routes-faq-missing'));
   });
 
-  it('detects missing labAboutLabel aliases in news:keywords (FINDABILITY #148/#159)', () => {
+  it('detects missing labAboutLabel aliases in news:keywords (FINDABILITY #148/#159/#172)', () => {
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'OpenAI' && p.alias === 'ChatGPT'));
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'CoreWeave' && p.alias === 'neocloud'));
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'IREN' && p.alias === 'Iris Energy'));
+    assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'Meta' && p.alias === 'Muse'));
+    assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'Apple' && p.alias === 'Apple Intelligence'));
+    assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'Microsoft' && p.alias === 'Copilot'));
     const xml = '<?xml version="1.0"?><urlset>'
       + '<url><news:title>OpenAI raises new round</news:title>'
       + '<news:keywords>OpenAI, Google, AI, SIREN</news:keywords></url>'
@@ -840,11 +843,20 @@ describe('seo-daily surfaces', () => {
       + '<news:keywords>CoreWeave, Google, AI, SIREN</news:keywords></url>'
       + '<url><news:title>IREN stock climbs on power deals</news:title>'
       + '<news:keywords>IREN, Google, AI, SIREN</news:keywords></url>'
+      + '<url><news:title>Meta expands open-weight releases</news:title>'
+      + '<news:keywords>Meta, Google, AI, SIREN</news:keywords></url>'
+      + '<url><news:title>Apple ships on-device AI update</news:title>'
+      + '<news:keywords>Apple, Google, AI, SIREN</news:keywords></url>'
+      + '<url><news:title>Microsoft expands Azure AI deals</news:title>'
+      + '<news:keywords>Microsoft, Google, AI, SIREN</news:keywords></url>'
       + '</urlset>';
     const lags = newsLabAliasKeywordLags(xml);
     assert.ok(lags.some((r) => r.lab === 'OpenAI' && r.alias === 'ChatGPT'));
     assert.ok(lags.some((r) => r.lab === 'CoreWeave' && r.alias === 'neocloud'));
     assert.ok(lags.some((r) => r.lab === 'IREN' && r.alias === 'Iris Energy'));
+    assert.ok(lags.some((r) => r.lab === 'Meta' && r.alias === 'Muse'));
+    assert.ok(lags.some((r) => r.lab === 'Apple' && r.alias === 'Apple Intelligence'));
+    assert.ok(lags.some((r) => r.lab === 'Microsoft' && r.alias === 'Copilot'));
     assert.ok(!lags.some((r) => r.lab === 'Anthropic'));
     const gaps = deriveGaps({
       sites: [{

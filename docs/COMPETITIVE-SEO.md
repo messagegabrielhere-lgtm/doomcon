@@ -10,8 +10,10 @@ cover state-suit / IPO / EUV / AI-foundry tape on gated labs. IndexNow ALWAYS
 learns those Trends labs on every Publish. Meta Muse / open-weight FAQ **#169**
 covers Muse Spark / Muse Wonder tape on `/lab/meta.html`. Apple Intelligence FAQ
 **#170** covers on-device / China-launch tape on `/lab/apple.html`. Microsoft Copilot FAQ
-**#171** covers Copilot / Azure AI tape on `/lab/microsoft.html`. Watchlist routing
-**#158** + news keywords **#159**/**#161** keep Google News aligned. Publish
+**#171** covers Copilot / Azure AI tape on `/lab/microsoft.html`. News keyword aliases
+**#172** emit Muse / Apple Intelligence / Copilot beside Meta / Apple / Microsoft parents
+so Google News stays aligned with those Trends labs. Watchlist routing
+**#158** + news keywords **#159**/**#161**/**#172** keep Google News aligned. Publish
 restore **#156**/**#158**/**#162**–**#167**/**#169**–**#171** keeps agent tips + Trends/lab HTML
 across collect wipes (#166/#167/#169–#171 also guard ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot destinations on the routing FAQ). Branded “SIREN AI activity index” still #1; head-term
 SERPs still need GSC crawl (issue #202). Companion to `docs/COMPETITIVE.md` and
