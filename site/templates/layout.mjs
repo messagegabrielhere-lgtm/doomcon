@@ -1151,7 +1151,11 @@ export function page(o) {
   // the fallback is worth clicking.
   // X caches a link card by URL. The fallback state card is rewritten every
   // reading under one path, so it is versioned by the receipt it was drawn from.
-  const ogBase = o.ogImage || 'cards/state.png';
+  // Always a rooted path. `cards/state.png` (no leading slash) concatenated onto
+  // ORIGIN by a naive `url()` helper becomes `https://siren.watchcards/…` —
+  // a dead host that breaks free-tools/verify share cards (FINDABILITY #81).
+  const ogBaseRaw = o.ogImage || 'cards/state.png';
+  const ogBase = ogBaseRaw.startsWith('/') ? ogBaseRaw : `/${ogBaseRaw}`;
   const ogPath = ogBase + (ctx.state && ctx.state.receipt_id && !ogBase.includes('?')
     ? `?v=${encodeURIComponent(ctx.state.receipt_id)}` : '');
   const ogImage = ogPath

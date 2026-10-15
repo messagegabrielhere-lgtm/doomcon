@@ -3,6 +3,7 @@ import { describe, it, afterEach } from 'node:test';
 import { page } from './layout.mjs';
 
 const ctx = {
+  // Naive join (no slash normalize) — layout must still emit /cards/… (#81).
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
   href: (p) => p,
   cardFor: () => null,
@@ -64,5 +65,14 @@ describe('layout Google Search Console meta', () => {
 
     process.env[ENV_KEY] = '<script>alert(1)</script>';
     assert.doesNotMatch(shell(), /name="google-site-verification"/);
+  });
+});
+
+describe('layout og:image URL shape', () => {
+  it('joins ORIGIN + /cards/… (never siren.watchcards host glitch)', () => {
+    delete process.env[ENV_KEY];
+    const html = shell();
+    assert.match(html, /property="og:image" content="https:\/\/siren\.watch\/cards\/state\.png/);
+    assert.doesNotMatch(html, /siren\.watchcards/);
   });
 });
