@@ -330,6 +330,58 @@ export function newestNewsPublicationMs(xml) {
 /** Hours after which a non-empty news-sitemap is treated as stale (FINDABILITY #97). */
 export const NEWS_STALE_HOURS = 6;
 
+/**
+ * High-signal lab needles to probe for title↔keywords lag (FINDABILITY #110).
+ * Kept short so seo-daily stays cheap; expand only when a live 48h title proves
+ * a NEWS_KEYWORD_LABS needle is shipping in HTML titles but missing from
+ * news:keywords (CDN/old-tip publishes after #108/#109).
+ */
+export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
+  'Kodiak AI', 'MediaTek', 'Cathie Wood', 'ServiceNow', 'ChatGPT', 'Claude Code',
+]);
+
+/**
+ * Entries whose news:title matches a probe lab but news:keywords omit it.
+ * Returns up to 8 `{ lab, title }` rows for the daily gap line.
+ */
+export function newsKeywordLags(xml, labs = NEWS_KEYWORD_PROBE_LABS) {
+  const out = [];
+  const seen = new Set();
+  for (const block of String(xml || '').matchAll(/<url\b[\s\S]*?<\/url>/gi)) {
+    const chunk = block[0];
+    const titleM = chunk.match(/<news:title>\s*([\s\S]*?)\s*<\/news:title>/i);
+    const kwM = chunk.match(/<news:keywords>\s*([\s\S]*?)\s*<\/news:keywords>/i);
+    if (!titleM) continue;
+    const title = decodeXmlText(titleM[1]);
+    const keywords = decodeXmlText(kwM ? kwM[1] : '');
+    for (const lab of labs) {
+      const re = new RegExp(
+        `(?:^|[^A-Za-z0-9])${lab.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`,
+        'i',
+      );
+      if (!re.test(title)) continue;
+      if (re.test(keywords)) continue;
+      const key = `${lab}\0${title.slice(0, 80)}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push({ lab, title: title.slice(0, 100) });
+      if (out.length >= 8) return out;
+    }
+  }
+  return out;
+}
+
+function decodeXmlText(s) {
+  return String(s || '')
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'");
+}
+
 export function hasNowTips(txt) {
   const head = String(txt || '').slice(0, 1500);
   return /\/free-tools\.html/i.test(head)
@@ -618,6 +670,20 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #110 — title names a probe lab but news:keywords omit it
+  // (CDN/old-tip publishes after NEWS_KEYWORD_LABS refresh).
+  if (Array.isArray(ours.news_keyword_lags) && ours.news_keyword_lags.length > 0) {
+    const sample = ours.news_keyword_lags
+      .slice(0, 3)
+      .map((row) => `${row.lab}`)
+      .join(', ');
+    gaps.push({
+      id: 'news-keywords-lag',
+      severity: 'medium',
+      text: `news-sitemap title↔keywords lag on ${ours.news_keyword_lags.length} probe lab(s) (e.g. ${sample}) — re-overlay or wait for news-fast Publish on tip ≥ #109 (FINDABILITY #110)`,
+    });
+  }
+
   // Open engineering items from FINDABILITY.md that the daily pass can still ship.
   const open = report.open_engineering || [];
   for (const item of open) {
@@ -718,6 +784,7 @@ export function measureSite(site, byUrl) {
       row.news_sitemap_tips = hasSitemapTips(news.value);
       const newest = newestNewsPublicationMs(news.value);
       row.news_newest_publication_at = newest != null ? new Date(newest).toISOString() : null;
+      row.news_keyword_lags = newsKeywordLags(news.value);
     }
   } else if (news) {
     // Missing news sitemap is normal for most rivals; record null, not error noise.
@@ -725,6 +792,7 @@ export function measureSite(site, byUrl) {
     if (site.ours) {
       row.news_sitemap_tips = false;
       row.news_newest_publication_at = null;
+      row.news_keyword_lags = [];
     }
   }
 
@@ -840,9 +908,20 @@ export function formatMarkdown(report) {
       const txtTip = ours.now_txt_tips == null ? '—' : (ours.now_txt_tips ? 'yes' : 'NO');
       lines.push(`- Now tip lines (#90): now.md **${mdTip}** · api/now.txt **${txtTip}**`);
     }
+    if (ours && Array.isArray(ours.news_keyword_lags)) {
+      if (ours.news_keyword_lags.length === 0) {
+        lines.push('- News keyword probes (#110): **ok** (title needles present in news:keywords)');
+      } else {
+        const sample = ours.news_keyword_lags.slice(0, 3).map((r) => r.lab).join(', ');
+        lines.push(
+          `- News keyword probes (#110): **LAG** on ${ours.news_keyword_lags.length} (e.g. ${sample})`,
+        );
+      }
+    }
     if (ours && (ours.gsc_meta != null || ours.robots_tips != null || ours.sitemap_tips != null
       || ours.news_sitemap_tips != null || ours.feed_tips != null || ours.feed_level_tips != null
-      || ours.now_md_tips != null || ours.now_txt_tips != null)) {
+      || ours.now_md_tips != null || ours.now_txt_tips != null
+      || ours.news_keyword_lags != null)) {
       lines.push('');
     }
   }
@@ -992,6 +1071,33 @@ function selftest() {
     open_engineering: [],
   });
   if (!staleGaps.some((g) => g.id === 'news-stale')) throw new Error('news-stale gap');
+
+  // FINDABILITY #110 — title names a probe lab but keywords omit it.
+  const lagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Tracking Cathie Wood: Buying Heavily into Kodiak AI and CoreWeave</news:title>'
+    + '<news:keywords>CoreWeave, Google, AI, artificial intelligence, SIREN</news:keywords></url>'
+    + '<url><news:title>ByteDance nears MediaTek AI chip deal</news:title>'
+    + '<news:keywords>ByteDance, Google, MediaTek, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const lags = newsKeywordLags(lagXml);
+  if (!lags.some((r) => r.lab === 'Kodiak AI') || !lags.some((r) => r.lab === 'Cathie Wood')) {
+    throw new Error(`newsKeywordLags expected Kodiak/Cathie: ${JSON.stringify(lags)}`);
+  }
+  if (lags.some((r) => r.lab === 'MediaTek')) {
+    throw new Error('newsKeywordLags should not flag MediaTek when keywords include it');
+  }
+  const lagGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      news_keyword_lags: lags,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!lagGaps.some((g) => g.id === 'news-keywords-lag')) throw new Error('news-keywords-lag gap');
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Kodiak AI')) throw new Error('probe labs missing Kodiak AI');
 
   const report = {
     sites: [
