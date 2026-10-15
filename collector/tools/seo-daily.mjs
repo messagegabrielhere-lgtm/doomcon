@@ -297,6 +297,15 @@ export function hasFeedTips(xml) {
   return hasSitemapTips(xml);
 }
 
+/**
+ * True when robots.txt tip comments advertise free-tools + verify (FINDABILITY #79).
+ * Hash-comment tips share the same discovery shape; wipe gap is `robots-tips-missing`
+ * (FINDABILITY #89).
+ */
+export function hasRobotsTips(txt) {
+  return hasSitemapTips(txt);
+}
+
 /** Conservative floor when facet sitemap modules cannot be loaded. */
 export const FACET_URL_FLOOR = 450;
 
@@ -540,6 +549,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #79/#89 — robots tip comments wiped the same way as sitemap/feed tips.
+  if (ours.robots_tips === false) {
+    gaps.push({
+      id: 'robots-tips-missing',
+      severity: 'medium',
+      text: 'robots.txt missing free-tools/verify tip comments (FINDABILITY #79) — re-overlay or wait for collect Publish that emits #79 tips',
+    });
+  }
+
   // Open engineering items from FINDABILITY.md that the daily pass can still ship.
   const open = report.open_engineering || [];
   for (const item of open) {
@@ -620,6 +638,10 @@ export function measureSite(site, byUrl) {
     llms_ok: Boolean(llms?.ok),
     error: home?.ok ? undefined : (home?.error?.message || home?.error || 'home fetch failed'),
   };
+
+  if (site.ours) {
+    row.robots_tips = robots?.ok ? hasRobotsTips(robots.value) : false;
+  }
 
   if (sm?.ok) {
     row.sitemap_urls = countLocs(sm.value);
@@ -729,6 +751,9 @@ export function formatMarkdown(report) {
           : '- GSC HTML-tag meta: **absent** on live home (set `GOOGLE_SITE_VERIFICATION` — FINDABILITY #11)',
       );
     }
+    if (ours && ours.robots_tips != null) {
+      lines.push(`- Robots tip comments (#79): robots.txt **${ours.robots_tips ? 'yes' : 'NO'}**`);
+    }
     if (ours && (ours.sitemap_tips != null || ours.news_sitemap_tips != null)) {
       const smTip = ours.sitemap_tips == null ? '—' : (ours.sitemap_tips ? 'yes' : 'NO');
       const newsTip = ours.news_sitemap_tips == null ? '—' : (ours.news_sitemap_tips ? 'yes' : 'NO');
@@ -739,8 +764,8 @@ export function formatMarkdown(report) {
       const feedLevelTip = ours.feed_level_tips == null ? '—' : (ours.feed_level_tips ? 'yes' : 'NO');
       lines.push(`- Feed tip comments (#87): feed.xml **${feedTip}** · feed-level.xml **${feedLevelTip}**`);
     }
-    if (ours && (ours.gsc_meta != null || ours.sitemap_tips != null || ours.news_sitemap_tips != null
-      || ours.feed_tips != null || ours.feed_level_tips != null)) {
+    if (ours && (ours.gsc_meta != null || ours.robots_tips != null || ours.sitemap_tips != null
+      || ours.news_sitemap_tips != null || ours.feed_tips != null || ours.feed_level_tips != null)) {
       lines.push('');
     }
   }
@@ -834,6 +859,22 @@ function selftest() {
     open_engineering: [],
   });
   if (!feedTipGaps.some((g) => g.id === 'feed-tips-missing')) throw new Error('feed-tips-missing gap');
+  const robotsTipped = `# Free tools: https://siren.watch/free-tools.html · Verify a reading: https://siren.watch/verify.html\n# Search Trends: https://siren.watch/search-trends.html\nUser-agent: *\nAllow: /\n`;
+  if (hasRobotsTips(robotsTipped) !== true) throw new Error('hasRobotsTips true');
+  if (hasRobotsTips('User-agent: *\nAllow: /\n') !== false) throw new Error('hasRobotsTips false');
+  const robotsTipGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      sitemap_tips: true, news_sitemap_tips: true,
+      feed_tips: true, feed_level_tips: true,
+      robots_tips: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!robotsTipGaps.some((g) => g.id === 'robots-tips-missing')) throw new Error('robots-tips-missing gap');
 
   const report = {
     sites: [
