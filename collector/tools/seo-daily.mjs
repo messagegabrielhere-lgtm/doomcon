@@ -498,7 +498,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
 
 /**
  * Entries whose news:title names a parent lab but news:keywords omit the
- * labAboutLabel alias (#146/#147). Returns up to 8 `{ lab, alias, title }`.
+ * labAboutLabel alias (#146/#147). Returns up to 24 `{ lab, alias, title }`
+ * so late probes (Alibaba→Qwen … Tesla→FSD) are not clipped by the old 8-cap.
  */
 export function newsLabAliasKeywordLags(xml, probes = NEWS_LAB_ALIAS_PROBES) {
   const out = [];
@@ -525,7 +526,7 @@ export function newsLabAliasKeywordLags(xml, probes = NEWS_LAB_ALIAS_PROBES) {
       if (seen.has(key)) continue;
       seen.add(key);
       out.push({ lab, alias, title: title.slice(0, 100) });
-      if (out.length >= 8) return out;
+      if (out.length >= 24) return out;
     }
   }
   return out;

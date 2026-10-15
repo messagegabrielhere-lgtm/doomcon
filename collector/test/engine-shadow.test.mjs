@@ -346,6 +346,19 @@ test('vs-alias-guard workflow restores missing short aliases (FINDABILITY #117)'
   assert.match(yml, /contents: write/);
 });
 
+test('vs-alias-guard re-arms news-fast when the minute-loop chain is dark (FINDABILITY #189)', () => {
+  // Collect schedules went quiet for hours after 2026-10-15T19:10Z while
+  // vs-alias-guard kept firing every ~10m. Guard must wake news-fast.yml when
+  // no schedule/dispatch finished in 90m (complements collect #188).
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
+  assert.match(yml, /FINDABILITY #189/);
+  assert.match(yml, /Re-arm news-fast when dark/);
+  assert.match(yml, /NEWS_FAST_STALE_MIN/);
+  assert.match(yml, /gh workflow run news-fast\.yml/);
+  assert.match(yml, /NEWS_FAST_CHAIN/);
+  assert.match(yml, /actions:\s*write/);
+});
+
 test('vs-alias-guard restores /trends + Outrank directory indexes (FINDABILITY #124)', () => {
   const yml = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
   assert.match(yml, /FINDABILITY #124/);
@@ -426,7 +439,8 @@ test('Publish restores tip agent maps when head-term needles missing (FINDABILIT
   // head-term shorts; #136 preserves tip maps across orphan/overlay Publish.
   const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
   assert.match(collect, /FINDABILITY #136/);
-  assert.match(collect, /restored \$map agent map \(#136\/#139\)/);
+  // Echo grew as later FAQ tips landed (#156…#185); keep the #136/#139 prefix.
+  assert.match(collect, /restored \$map agent map \(#136\/#139/);
   const stash = collect.match(/for hub in compare\.html alternatives\.html agents\.md llms\.txt/g) || [];
   assert.ok(stash.length >= 2, `expected agent-map stash on both collect Publish paths, got ${stash.length}`);
   const restores = collect.match(/for map in agents\.md llms\.txt/g) || [];
