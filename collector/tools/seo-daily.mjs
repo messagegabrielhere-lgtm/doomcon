@@ -143,6 +143,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/meta.html',
   // FINDABILITY #170 — Apple Intelligence Trends FAQ lab.
   '/lab/apple.html',
+  // FINDABILITY #171 — Microsoft Copilot Trends FAQ lab.
+  '/lab/microsoft.html',
   // FINDABILITY #157 — neocloud Trends FAQ tag hub.
   '/tags/neoclouds.html',
   '/pillar/',
@@ -763,10 +765,11 @@ export const TRENDS_ROUTES_TSMC_NEEDLE = 'TSMC / AI foundry → /lab/tsmc.html';
 export const TRENDS_ROUTES_AMAZON_BEE_NEEDLE = 'Amazon Bee / AI wearables → /lab/amazon.html';
 export const TRENDS_ROUTES_META_MUSE_NEEDLE = 'Meta Muse / open-weight AI → /lab/meta.html';
 export const TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE = 'Apple Intelligence → /lab/apple.html';
+export const TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE = 'Microsoft Copilot → /lab/microsoft.html';
 
 /**
- * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170
- * ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence destinations (FINDABILITY #166 —
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171
+ * ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot destinations (FINDABILITY #166 —
  * newsroom used to keep the question while dropping newer answer destinations).
  */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
@@ -776,7 +779,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_TSMC_NEEDLE)
     && text.includes(TRENDS_ROUTES_AMAZON_BEE_NEEDLE)
     && text.includes(TRENDS_ROUTES_META_MUSE_NEEDLE)
-    && text.includes(TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE);
+    && text.includes(TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE)
+    && text.includes(TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -925,6 +929,24 @@ export function hasAgentsAppleIntelligence(body, needle = AGENTS_APPLE_INTELLIGE
   return text.includes(needle) && text.includes('/lab/apple.html');
 }
 
+/** FINDABILITY #171 — Microsoft Copilot FAQ + agent maps. */
+export const MICROSOFT_COPILOT_FAQ_NEEDLE = 'Why does SIREN watch Microsoft Copilot?';
+export const AGENTS_MICROSOFT_COPILOT_NEEDLE = 'Microsoft Copilot';
+
+/** Tip /lab/microsoft.html must keep the #171 Microsoft Copilot FAQ. */
+export function hasMicrosoftCopilotFaq(html, needle = MICROSOFT_COPILOT_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Microsoft Copilot Trends to Microsoft lab (FINDABILITY #171).
+ * Wipe gap is `agents-microsoft-copilot-missing`.
+ */
+export function hasAgentsMicrosoftCopilot(body, needle = AGENTS_MICROSOFT_COPILOT_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/microsoft.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -959,6 +981,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/meta.html', needle: 'Muse' },
   // FINDABILITY #170 — Apple Intelligence product alias on Apple lab title/H1.
   { path: '/lab/apple.html', needle: 'Apple Intelligence' },
+  // FINDABILITY #171 — Copilot product alias on Microsoft lab title/H1.
+  { path: '/lab/microsoft.html', needle: 'Copilot' },
 ]);
 
 /**
@@ -1492,7 +1516,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence destinations (FINDABILITY #158/#166/#167/#169/#170) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot destinations (FINDABILITY #158/#166/#167/#169/#170/#171) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -1661,6 +1685,27 @@ export function deriveGaps(report) {
       id: 'agents-apple-intelligence-missing',
       severity: 'medium',
       text: `${which} missing Apple Intelligence → /lab/apple.html Trends tip (FINDABILITY #170) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #170`,
+    });
+  }
+
+  // FINDABILITY #171 — Microsoft lab FAQ for Copilot wiped or never landed.
+  if (ours.microsoft_copilot_faq === false) {
+    gaps.push({
+      id: 'microsoft-copilot-faq-missing',
+      severity: 'medium',
+      text: `/lab/microsoft.html missing Microsoft Copilot FAQ (FINDABILITY #171) — re-overlay lab/microsoft.html or wait for full collect Publish on tip ≥ #171`,
+    });
+  }
+  // FINDABILITY #171 — agent maps must route Microsoft Copilot Trends to Microsoft lab.
+  if (ours.agents_microsoft_copilot === false || ours.llms_microsoft_copilot === false) {
+    const which = [
+      ours.agents_microsoft_copilot === false ? 'agents.md' : null,
+      ours.llms_microsoft_copilot === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-microsoft-copilot-missing',
+      severity: 'medium',
+      text: `${which} missing Microsoft Copilot → /lab/microsoft.html Trends tip (FINDABILITY #171) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #171`,
     });
   }
 
@@ -1916,6 +1961,11 @@ export function measureSite(site, byUrl) {
     row.apple_intelligence_faq = appleHtml?.ok ? hasAppleIntelligenceFaq(appleHtml.value) : false;
     row.agents_apple_intelligence = agentsMd?.ok ? hasAgentsAppleIntelligence(agentsMd.value) : false;
     row.llms_apple_intelligence = llms?.ok ? hasAgentsAppleIntelligence(llmsBody) : false;
+    // FINDABILITY #171 — Microsoft Copilot FAQ + agent maps.
+    const msHtml = byUrl.get(`${base}/lab/microsoft.html`);
+    row.microsoft_copilot_faq = msHtml?.ok ? hasMicrosoftCopilotFaq(msHtml.value) : false;
+    row.agents_microsoft_copilot = agentsMd?.ok ? hasAgentsMicrosoftCopilot(agentsMd.value) : false;
+    row.llms_microsoft_copilot = llms?.ok ? hasAgentsMicrosoftCopilot(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -2221,6 +2271,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_apple_intelligence == null ? '—' : (ours.agents_apple_intelligence ? 'yes' : 'NO');
       const lm = ours.llms_apple_intelligence == null ? '—' : (ours.llms_apple_intelligence ? 'yes' : 'NO');
       lines.push(`- Agent-map Apple Intelligence → lab (#170): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.microsoft_copilot_faq != null) {
+      lines.push(
+        `- Microsoft Copilot FAQ (#171): **${ours.microsoft_copilot_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_microsoft_copilot != null || ours.llms_microsoft_copilot != null)) {
+      const ag = ours.agents_microsoft_copilot == null ? '—' : (ours.agents_microsoft_copilot ? 'yes' : 'NO');
+      const lm = ours.llms_microsoft_copilot == null ? '—' : (ours.llms_microsoft_copilot ? 'yes' : 'NO');
+      lines.push(`- Agent-map Microsoft Copilot → lab (#171): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -3055,6 +3115,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/apple.html')) {
     throw new Error('OUR_SURFACES missing /lab/apple.html');
   }
+  if (hasMicrosoftCopilotFaq(MICROSOFT_COPILOT_FAQ_NEEDLE) !== true) {
+    throw new Error('hasMicrosoftCopilotFaq true');
+  }
+  if (hasMicrosoftCopilotFaq('What has SIREN scored about Microsoft?') !== false) {
+    throw new Error('hasMicrosoftCopilotFaq false');
+  }
+  if (hasAgentsMicrosoftCopilot('Microsoft Copilot → https://siren.watch/lab/microsoft.html') !== true) {
+    throw new Error('hasAgentsMicrosoftCopilot true');
+  }
+  if (hasAgentsMicrosoftCopilot('https://siren.watch/lab/microsoft.html only') !== false) {
+    throw new Error('hasAgentsMicrosoftCopilot needs Microsoft Copilot needle');
+  }
+  const msGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      microsoft_copilot_faq: false,
+      agents_microsoft_copilot: false,
+      llms_microsoft_copilot: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!msGaps.some((g) => g.id === 'microsoft-copilot-faq-missing')) {
+    throw new Error('microsoft-copilot-faq-missing gap');
+  }
+  if (!msGaps.some((g) => g.id === 'agents-microsoft-copilot-missing')) {
+    throw new Error('agents-microsoft-copilot-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/microsoft.html')) {
+    throw new Error('OUR_SURFACES missing /lab/microsoft.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -3062,12 +3155,13 @@ function selftest() {
     TRENDS_ROUTES_AMAZON_BEE_NEEDLE,
     TRENDS_ROUTES_META_MUSE_NEEDLE,
     TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
+    TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence destinations (#166/#167/#169/#170)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot destinations (#166/#167/#169/#170/#171)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

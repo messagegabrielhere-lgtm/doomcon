@@ -74,6 +74,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #170 — Apple Intelligence / on-device Apple AI → gated Apple lab
   // (story counts only; not a product review or stock tip).
   { id: 'apple-intelligence', label: 'Apple Intelligence', re: /\bapple\s+intelligence\b|\bapple\b.{0,40}\b(?:on[\s-]?device\s+ai|ai\s+features?)\b/i, path: '/lab/apple.html' },
+  // FINDABILITY #171 — Microsoft Copilot / Azure AI → gated Microsoft lab
+  // (story counts only; not a product review or stock tip).
+  { id: 'microsoft-copilot', label: 'Microsoft Copilot', re: /\b(?:microsoft\s+)?copilot\b|\bmicrosoft\b.{0,40}\b(?:azure\s+ai|365\s+copilot|github\s+copilot)\b|\bgithub\s+copilot\b/i, path: '/lab/microsoft.html' },
   // FINDABILITY #157 — "neocloud" / neoclouds Trends (Gartner survival tape)
   // → gated /tags/neoclouds.html (story counts only, not a vendor ranking).
   { id: 'neocloud', label: 'Neoclouds', re: /\bneoclouds?\b/i, path: '/tags/neoclouds.html' },

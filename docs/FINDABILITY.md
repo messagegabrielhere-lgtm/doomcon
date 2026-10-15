@@ -408,6 +408,7 @@ context.
 | 168 | IndexNow ALWAYS covers tipped `/lab/tsmc.html` + `/lab/coreweave.html` (already live FAQs #155/#160/#165; amazon/asml were listed earlier) so Bing/Yandex learn the Trends labs after every Publish without waiting on sitemap sampling | Bing | **Done** (this pass) |
 | 169 | `/lab/meta.html` FAQ for Meta Muse / Muse Spark / Muse Wonder open-weight AI Trends; `LAB_HEAD_ALIASES.meta = Muse`; HEAD_TERMS `meta-muse` → gated lab; `agents.md`/`llms.txt` tip; watchlist FAQ answer; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip Meta lab — story counts only, not a model review or stock tip | Google + Trends + Agents | **Done** (this pass) |
 | 170 | `/lab/apple.html` FAQ for Apple Intelligence / on-device Apple AI / China launch tape; `LAB_HEAD_ALIASES.apple = Apple Intelligence`; HEAD_TERMS `apple-intelligence` → gated lab; `agents.md`/`llms.txt` tip; watchlist FAQ answer; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip Apple lab — story counts only, not a product review or stock tip | Google + Trends + Agents | **Done** (this pass) |
+| 171 | `/lab/microsoft.html` FAQ for Microsoft Copilot / GitHub Copilot / Azure AI Trends; `LAB_HEAD_ALIASES.microsoft = Copilot`; HEAD_TERMS `microsoft-copilot` → gated lab; `agents.md`/`llms.txt` tip; watchlist FAQ answer; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip Microsoft lab — story counts only, not a product review or stock tip | Google + Trends + Agents | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

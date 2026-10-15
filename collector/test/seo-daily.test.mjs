@@ -79,6 +79,10 @@ import {
   hasAgentsAppleIntelligence,
   APPLE_INTELLIGENCE_FAQ_NEEDLE,
   TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
+  hasMicrosoftCopilotFaq,
+  hasAgentsMicrosoftCopilot,
+  MICROSOFT_COPILOT_FAQ_NEEDLE,
+  TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -773,7 +777,31 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-apple-intelligence-missing'));
   });
 
-  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170)', () => {
+  it('detects Microsoft Copilot FAQ + agent-map lag (FINDABILITY #171)', () => {
+    assert.equal(hasMicrosoftCopilotFaq(MICROSOFT_COPILOT_FAQ_NEEDLE), true);
+    assert.equal(hasMicrosoftCopilotFaq('What has SIREN scored about Microsoft?'), false);
+    assert.equal(
+      hasAgentsMicrosoftCopilot('Microsoft Copilot → https://siren.watch/lab/microsoft.html'),
+      true,
+    );
+    assert.equal(hasAgentsMicrosoftCopilot('https://siren.watch/lab/microsoft.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        microsoft_copilot_faq: false,
+        agents_microsoft_copilot: false,
+        llms_microsoft_copilot: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'microsoft-copilot-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-microsoft-copilot-missing'));
+  });
+
+  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171)', () => {
     const routesBody = [
       TRENDS_ROUTES_FAQ_NEEDLE,
       TRENDS_ROUTES_ASML_NEEDLE,
@@ -781,6 +809,7 @@ describe('seo-daily surfaces', () => {
       TRENDS_ROUTES_AMAZON_BEE_NEEDLE,
       TRENDS_ROUTES_META_MUSE_NEEDLE,
       TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
+      TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
     ].join('\n');
     assert.equal(hasTrendsRoutesFaq(routesBody), true);
     assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), false);
@@ -908,6 +937,10 @@ describe('seo-daily surfaces', () => {
       ['https://siren.watch/lab/apple.html', {
         ok: true,
         value: '<title>What has SIREN scored about Apple / Apple Intelligence?</title>',
+      }],
+      ['https://siren.watch/lab/microsoft.html', {
+        ok: true,
+        value: '<title>What has SIREN scored about Microsoft / Copilot?</title>',
       }],
     ]);
     const lags = labHeadAliasLags(byUrl);
