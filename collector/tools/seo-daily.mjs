@@ -124,10 +124,11 @@ export const OUR_SURFACES = Object.freeze([
   '/pillars.html',
   '/sources.html',
   '/lab/',
-  // FINDABILITY #123 — head-term alias lab titles (#121/#122).
+  // FINDABILITY #123/#137 — head-term alias lab titles (#121/#122/#137).
   '/lab/google-deepmind.html',
   '/lab/openai.html',
   '/lab/anthropic.html',
+  '/lab/micron.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -571,6 +572,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/google-deepmind.html', needle: 'Gemini' },
   { path: '/lab/openai.html', needle: 'ChatGPT' },
   { path: '/lab/anthropic.html', needle: 'Claude' },
+  // FINDABILITY #137 — Micron / MU ticker alias in lab title.
+  { path: '/lab/micron.html', needle: 'MU' },
 ]);
 
 /**
@@ -1290,7 +1293,7 @@ export function formatMarkdown(report) {
     }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
-        lines.push('- Lab head-term titles (#121/#123): **ok** (Gemini / ChatGPT / Claude in lab `<title>`)');
+        lines.push('- Lab head-term titles (#121/#123/#137): **ok** (Gemini / ChatGPT / Claude / MU in lab `<title>`)');
       } else {
         const sample = ours.lab_head_alias_lags.slice(0, 3).map((r) => r.needle).join(', ');
         lines.push(
@@ -1613,12 +1616,17 @@ function selftest() {
       ok: true,
       value: '<title>What has SIREN scored about Anthropic / Claude?</title>',
     }],
+    ['https://siren.watch/lab/micron.html', {
+      ok: true,
+      value: '<title>What has SIREN scored about Micron / MU?</title>',
+    }],
   ]);
   const labLags = labHeadAliasLags(labByUrl);
   if (!labLags.some((r) => r.path === '/lab/google-deepmind.html' && r.needle === 'Gemini')) {
     throw new Error('labHeadAliasLags Gemini');
   }
   if (labLags.some((r) => r.path === '/lab/openai.html')) throw new Error('labHeadAliasLags ChatGPT false positive');
+  if (labLags.some((r) => r.path === '/lab/micron.html')) throw new Error('labHeadAliasLags MU false positive');
   const labGaps = deriveGaps({
     sites: [{
       id: 'siren', name: 'siren.watch', ours: true, ok: true,

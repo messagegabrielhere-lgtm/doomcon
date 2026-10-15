@@ -65,6 +65,13 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   const hit = matchHeadTerms({ title: 'AI prediction markets today', news: [] });
   assert.ok(hit.includes('ai-prediction-markets'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'siren'));
+  // FINDABILITY #137 — bare "mu" Trends title + Micron news routes to lab.
+  const micron = matchHeadTerms({
+    title: 'mu',
+    news: [{ title: 'Micron Stock Falls Again as Memory-Chip Slump Persists' }],
+  });
+  assert.ok(micron.includes('micron'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'micron' && t.path === '/lab/micron.html'));
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {

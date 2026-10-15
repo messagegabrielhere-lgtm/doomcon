@@ -38,6 +38,9 @@ export const HEAD_TERMS = Object.freeze([
   { id: 'chatgpt', label: 'ChatGPT', re: /\bchatgpt\b|\bgpt[\s-]?\d/i, path: '/lab/openai.html' },
   { id: 'claude', label: 'Claude', re: /\bclaude\b|\banthropic\b/i, path: '/lab/anthropic.html' },
   { id: 'gemini', label: 'Gemini', re: /\bgemini\b|\bgoogle\s+deepmind\b/i, path: '/lab/google-deepmind.html' },
+  // FINDABILITY #137 — "mu" Trends spikes arrive with Micron / AI memory-chip
+  // headlines; route to the existing gated /lab/micron.html (not a doorway).
+  { id: 'micron', label: 'Micron / MU', re: /\bmicron\b|\bmu\s+stock\b|\bmemory[\s-]?chip\b.*\b(?:micron|mu)\b/i, path: '/lab/micron.html' },
   { id: 'siren', label: 'SIREN / siren.watch', re: /\bsiren\.watch\b|\bsiren\s+(?:index|watch|ai)\b|\bdoomcon\b/i, path: '/' },
 ]);
 

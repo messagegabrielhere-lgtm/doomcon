@@ -387,6 +387,10 @@ describe('seo-daily surfaces', () => {
         ok: true,
         value: '<title>What has SIREN scored about Anthropic / Claude?</title>',
       }],
+      ['https://siren.watch/lab/micron.html', {
+        ok: true,
+        value: '<title>What has SIREN scored about Micron / MU?</title>',
+      }],
     ]);
     const lags = labHeadAliasLags(byUrl);
     assert.equal(lags.length, 1);
