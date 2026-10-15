@@ -42,6 +42,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #181 — OpenAI / ChatGPT outage / status / degradation Trends → gated lab
   // (story counts only; not a model review or uptime SLA).
   { id: 'openai-outage', label: 'OpenAI outage', re: /\bopenai\b.{0,40}\b(?:outage|status|degradation|downtime|unavailable|limited\s+availability)\b|\b(?:outage|status|degradation|downtime)\b.{0,40}\bopenai\b|\bchatgpt\b.{0,40}\b(?:outage|down|status|degradation|unavailable)\b/i, path: '/lab/openai.html' },
+  // FINDABILITY #191 — ChatGPT computer use / Chrome tab-controls Trends → gated lab
+  // (story counts only; not a product review or privacy verdict).
+  { id: 'openai-chrome', label: 'ChatGPT Chrome / computer use', re: /\bchatgpt\b.{0,48}\b(?:chrome|computer\s+use|tab\s+controls?|browser)\b|\bopenai\b.{0,48}\b(?:chrome|computer\s+use|tab\s+controls?)\b|\b(?:chrome\s+tabs?|computer\s+use|tab\s+controls?)\b.{0,48}\b(?:chatgpt|openai)\b/i, path: '/lab/openai.html' },
   { id: 'claude', label: 'Claude', re: /\bclaude\b|\banthropic\b/i, path: '/lab/anthropic.html' },
   // FINDABILITY #163 — “anthropic ipo” / FTC probe Trends → gated Claude lab
   // (story counts only; not IPO advice or legal advice).

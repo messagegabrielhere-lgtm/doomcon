@@ -206,6 +206,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'ChatGPT outage hits API users', news: [] }).includes('openai-outage'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'openai-outage' && t.path === '/lab/openai.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'openai-outage').re.test('OpenAI ships a new model'), false);
+  // FINDABILITY #191 — ChatGPT computer use / Chrome tab controls → gated OpenAI lab.
+  assert.ok(matchHeadTerms({ title: 'OpenAI Brings Computer Use to Chrome With ChatGPT Tab Controls', news: [] }).includes('openai-chrome'));
+  assert.ok(matchHeadTerms({ title: 'ChatGPT can peek at your Chrome tabs now', news: [] }).includes('openai-chrome'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'openai-chrome' && t.path === '/lab/openai.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'openai-chrome').re.test('OpenAI ships a new model'), false);
   // FINDABILITY #182 — Hugging Face hack / incident → gated Hugging Face tag.
   assert.ok(matchHeadTerms({ title: 'Reproducing the Hugging Face Incident, Part I', news: [] }).includes('huggingface'));
   assert.ok(matchHeadTerms({ title: 'Hugging Face hack under CA anti-hacking law', news: [] }).includes('huggingface'));

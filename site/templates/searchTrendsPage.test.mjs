@@ -51,8 +51,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /Microsoft Copilot → \/lab\/microsoft\.html/);
   // FINDABILITY #173 — Grok / xAI route to gated lab.
   assert.match(html, /Grok \/ xAI → \/lab\/xai\.html/);
-  // FINDABILITY #174 — Gemini / Gemma route to gated DeepMind lab.
-  assert.match(html, /Gemini \/ Gemma → \/lab\/google-deepmind\.html/);
+  // FINDABILITY #174 / #187 — Gemini / Gemma / Argon route to gated DeepMind lab.
+  assert.match(html, /Gemini \/ Gemma \/ Argon → \/lab\/google-deepmind\.html/);
   // FINDABILITY #175 — Samsung / HBM / AI memory route to gated Samsung lab.
   assert.match(html, /Samsung \/ HBM \/ AI memory → \/lab\/samsung\.html/);
   // FINDABILITY #183 — Palantir / AIP route to gated Palantir lab.
@@ -73,6 +73,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /Mistral \/ Timestral → \/lab\/mistral\.html/);
   // FINDABILITY #181 — OpenAI outage route to gated OpenAI lab.
   assert.match(html, /OpenAI outage → \/lab\/openai\.html/);
+  // FINDABILITY #191 — ChatGPT Chrome / computer use route to gated OpenAI lab.
+  assert.match(html, /ChatGPT Chrome \/ computer use → \/lab\/openai\.html/);
   // FINDABILITY #182 — Hugging Face hack route to gated Hugging Face tag.
   assert.match(html, /Hugging Face hack → \/tags\/huggingface\.html/);
   assert.match(html, /not investment advice/);

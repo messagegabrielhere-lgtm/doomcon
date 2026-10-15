@@ -585,6 +585,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
           || ! grep -qF 'DeepSeek outage → /lab/deepseek.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Mistral / Timestral → /lab/mistral.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'OpenAI outage → /lab/openai.html' "$root/search-trends.html" 2>/dev/null \
+          || ! grep -qF 'ChatGPT Chrome / computer use → /lab/openai.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Palantir / AIP → /lab/palantir.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'AMD / MI300 → /lab/amd.html' "$root/search-trends.html" 2>/dev/null \
@@ -751,7 +752,8 @@ while [ "$(date +%s)" -lt "$END" ]; do
       local root="$1" preserve="$2"
       if [ -f "$preserve/lab/openai.html" ] \
         && { ! grep -qF 'Why does SIREN watch OpenAI lawsuits and FTC probes?' "$root/lab/openai.html" 2>/dev/null \
-          || ! grep -qF 'Why does SIREN watch OpenAI and ChatGPT outages?' "$root/lab/openai.html" 2>/dev/null; }; then
+          || ! grep -qF 'Why does SIREN watch OpenAI and ChatGPT outages?' "$root/lab/openai.html" 2>/dev/null \
+          || ! grep -qF 'Why does SIREN watch ChatGPT computer use and Chrome tabs?' "$root/lab/openai.html" 2>/dev/null; }; then
         mkdir -p "$root/lab"
         cp -a "$preserve/lab/openai.html" "$root/lab/openai.html"
         echo "restored lab/openai.html OpenAI lawsuit / FTC + outage FAQ (#162/#181)"

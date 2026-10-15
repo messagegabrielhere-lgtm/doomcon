@@ -118,9 +118,13 @@ import {
   MISTRAL_FAQ_NEEDLE,
   TRENDS_ROUTES_MISTRAL_NEEDLE,
   hasOpenaiOutageFaq,
+  hasOpenaiChromeFaq,
+  hasAgentsOpenaiChrome,
   hasAgentsOpenaiOutage,
   OPENAI_OUTAGE_FAQ_NEEDLE,
+  OPENAI_CHROME_FAQ_NEEDLE,
   TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
+  TRENDS_ROUTES_OPENAI_CHROME_NEEDLE,
   hasHuggingfaceFaq,
   hasAgentsHuggingface,
   HUGGINGFACE_FAQ_NEEDLE,
@@ -1146,6 +1150,24 @@ describe('seo-daily surfaces', () => {
     });
     assert.ok(gaps.some((g) => g.id === 'openai-outage-faq-missing'));
     assert.ok(gaps.some((g) => g.id === 'agents-openai-outage-missing'));
+    assert.equal(hasOpenaiChromeFaq(OPENAI_CHROME_FAQ_NEEDLE), true);
+    assert.equal(hasAgentsOpenaiChrome('ChatGPT Chrome → https://siren.watch/lab/openai.html'), true);
+    {
+      const chromeGaps = deriveGaps({
+        sites: [{
+          id: 'siren', name: 'siren.watch', ours: true, ok: true,
+          title: 'AI activity index today · SIREN',
+          sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+          openai_chrome_faq: false,
+          agents_openai_chrome: false,
+          llms_openai_chrome: true,
+        }],
+        surfaces: [],
+        open_engineering: [],
+      });
+      assert.ok(chromeGaps.some((g) => g.id === 'openai-chrome-faq-missing'));
+      assert.ok(chromeGaps.some((g) => g.id === 'agents-openai-chrome-missing'));
+    }
   });
 
   it('detects Hugging Face hack FAQ + agent-map lag (FINDABILITY #182)', () => {
@@ -1263,6 +1285,7 @@ describe('seo-daily surfaces', () => {
       TRENDS_ROUTES_DEEPSEEK_NEEDLE,
       TRENDS_ROUTES_MISTRAL_NEEDLE,
       TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
+      TRENDS_ROUTES_OPENAI_CHROME_NEEDLE,
       TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
       TRENDS_ROUTES_PALANTIR_NEEDLE,
       TRENDS_ROUTES_AMD_NEEDLE,

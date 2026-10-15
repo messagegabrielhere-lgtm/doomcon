@@ -141,10 +141,10 @@ describe('lab facets', () => {
   });
 
   it('includes Gemini in Google DeepMind lab title (FINDABILITY #121)', () => {
-    assert.equal(LAB_HEAD_ALIASES['google-deepmind'], 'Gemini');
+    assert.equal(LAB_HEAD_ALIASES['google-deepmind'], 'Gemini / Argon');
     assert.equal(
       labAboutLabel({ id: 'google-deepmind', name: 'Google DeepMind' }),
-      'Google DeepMind / Gemini',
+      'Google DeepMind / Gemini / Argon',
     );
     assert.equal(labAboutLabel({ id: 'openai', name: 'OpenAI' }), 'OpenAI / ChatGPT');
     assert.equal(labAboutLabel({ id: 'anthropic', name: 'Anthropic' }), 'Anthropic / Claude');
@@ -157,8 +157,8 @@ describe('lab facets', () => {
       principal: 'Demis Hassabis',
       market: { probability: 0.4, change_7d: 0.01 },
     });
-    assert.match(html, /<title>What has SIREN scored about Google DeepMind \/ Gemini\?/);
-    assert.match(html, /<h1>What has SIREN scored about Google DeepMind \/ Gemini\?<\/h1>/);
+    assert.match(html, /<title>What has SIREN scored about Google DeepMind \/ Gemini \/ Argon\?/);
+    assert.match(html, /<h1>What has SIREN scored about Google DeepMind \/ Gemini \/ Argon\?<\/h1>/);
     const micronHtml = renderLab(ctx, {
       id: 'micron',
       name: 'Micron',
@@ -226,6 +226,11 @@ describe('lab facets', () => {
     assert.match(
       oaiHtml,
       /Why does SIREN watch OpenAI and ChatGPT outages\?/,
+    );
+    // FINDABILITY #191 — ChatGPT Chrome / computer use FAQ on same gated lab.
+    assert.match(
+      oaiHtml,
+      /Why does SIREN watch ChatGPT computer use and Chrome tabs\?/,
     );
     assert.match(oaiHtml, /[Nn]ot a model review/);
     assert.match(oaiHtml, /uptime SLA|not an uptime/i);
@@ -351,11 +356,11 @@ describe('lab facets', () => {
     assert.match(xaiHtml, /[Nn]ot a model review/);
     assert.match(xaiHtml, /search-trends\.html/);
     assert.doesNotMatch(xaiHtml, /buy xAI|price target|must use Grok/i);
-    // FINDABILITY #174 — Google DeepMind / Gemini / Gemma FAQ on gated lab.
-    assert.equal(LAB_HEAD_ALIASES['google-deepmind'], 'Gemini');
+    // FINDABILITY #174 — Google DeepMind / Gemini / Gemma / Argon FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES['google-deepmind'], 'Gemini / Argon');
     assert.equal(
       labAboutLabel({ id: 'google-deepmind', name: 'Google DeepMind' }),
-      'Google DeepMind / Gemini',
+      'Google DeepMind / Gemini / Argon',
     );
     const gdmHtml = renderLab(ctx, {
       id: 'google-deepmind',
@@ -365,7 +370,7 @@ describe('lab facets', () => {
     });
     assert.match(
       gdmHtml,
-      /Why does SIREN watch Gemini and Gemma\?/,
+      /Why does SIREN watch Gemini, Gemma, and Argon\?/,
     );
     assert.match(gdmHtml, /<title>[^<]*Gemini/);
     assert.match(gdmHtml, /Gemini 4 Argon|Gemma open-model/);
