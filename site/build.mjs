@@ -1456,34 +1456,18 @@ async function main() {
       // FINDABILITY #102 — do NOT rewrite every item when only state.generated_at
       // moves. That as-of gate forced ~800 item HTML rewrites on every newsroom
       // tick (minutes→tens of minutes) while api/news.json + news-sitemap were
-      // already ready; Google News Publish stalled behind the item loop. Item
-      // pages refresh on item/pillar/entity change; the hourly full pass still
-      // restamps as-of across the tree.
+      // already ready; Google News Publish stalled behind the item loop.
+      // FINDABILITY #103 — also drop pillar/entity cohort cascades: a +20/-20
+      // rotation flipped pillarChanged for whole pillars and rewrote hundreds of
+      // mostly-identical briefs inside the 480s news-fast budget (6/6 ticks
+      // timed out on tip b9b1fcc1, PUBLISHED=0). Related-link/cohort freshness
+      // waits for the hourly full pass; Google News only needs new/changed
+      // item URLs plus news-sitemap.
       const asOfChanged = prevAsOf !== state.generated_at;
       if (asOfChanged) {
         log('  items        as-of moved; skipping blanket item rewrite (FINDABILITY #102)');
       }
       const prevById = new Map(prevItems.map((it) => [it.id, it]));
-      const pillarKey = (list, pillar) => list
-        .filter((it) => it.pillar === pillar)
-        .map((it) => it.id)
-        .sort()
-        .join('\0');
-      const prevPillarKeys = new Map();
-      for (const p of new Set(prevItems.map((it) => it.pillar))) {
-        prevPillarKeys.set(p, pillarKey(prevItems, p));
-      }
-      const cohort = (list, name) => list
-        .filter((it) => Array.isArray(it.entities) && it.entities.includes(name))
-        .map((it) => it.id)
-        .sort()
-        .join(',');
-      const prevCohort = new Map();
-      const nextCohort = new Map();
-      for (const name of modelPages.modelNames()) {
-        prevCohort.set(name, cohort(prevItems, name));
-        nextCohort.set(name, cohort(items, name));
-      }
       const keep = new Set(['index.html']);
       for (const it of items) {
         const slug = itemPage.slugFor(it);
@@ -1491,11 +1475,8 @@ async function main() {
         const rel = `item/${slug}.html`;
         const abs = path.join(args.out, rel);
         const prev = prevById.get(it.id);
-        const pillarChanged = prevPillarKeys.get(it.pillar) !== pillarKey(items, it.pillar);
-        const named = (Array.isArray(it.entities) ? it.entities : []).filter((name) => modelPages.isModelName(name));
-        const entityChanged = named.some((name) => prevCohort.get(name) !== nextCohort.get(name));
         const itemChanged = !prev || stableJson(it) !== stableJson(prev);
-        if (!pillarChanged && !entityChanged && !itemChanged && existsSync(abs)) {
+        if (!itemChanged && existsSync(abs)) {
           itemSkipped += 1;
           continue;
         }
@@ -1542,34 +1523,16 @@ async function main() {
       }
       written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
     }
-    for (const p of brand.PILLARS) {
-      written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
+    // FINDABILITY #103 — news-only leaves facet/entity hubs to the hourly full
+    // pass. Rewriting every pillar/lab/source/model/tag/kind/outlet/people page
+    // on a seeded public/ tree (thousands of HTML files + stamp) blew the 480s
+    // news-fast timeout even after #102 item skips; Google News only needs the
+    // rolling window, day hubs, crawl tips, and delta item briefs.
+    for (const day of dayPages.indexableDays(ctx)) {
+      written.push(await write(args.out, `news/${day.day}.html`, dayPages.renderDay(ctx, day.day)));
     }
-    if (facetPages.indexablePillars(ctx).length) {
-      written.push(await write(args.out, 'pillar/index.html', facetPages.renderPillarIndex(ctx)));
-      written.push(await write(args.out, 'pillars.html', facetPages.renderPillars(ctx)));
-    }
-    for (const player of facetPages.allLabs(ctx)) {
-      written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
-    }
-    if (facetPages.indexableLabs(ctx).length) {
-      written.push(await write(args.out, 'lab/index.html', facetPages.renderLabIndex(ctx)));
-      written.push(await write(args.out, 'companies.html', facetPages.renderCompanies(ctx)));
-    }
-    for (const s of facetPages.indexableSources(ctx)) {
-      written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
-    }
-    written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
-    if (facetPages.indexableSources(ctx).length) {
-      written.push(await write(args.out, 'sources.html', facetPages.renderSources(ctx)));
-    }
-    await writeModelAndCountryPages(ctx, args.out, write, written);
-    await writePeopleAndDayPages(ctx, args.out, write, written);
-    await writeTagPages(ctx, args.out, write, written);
-    await writeKindPages(ctx, args.out, write, written);
-    await writeOutletPages(ctx, args.out, write, written);
-    // Keep the crawl surfaces in step with the newsroom window (item + facet
-    // URLs change every fast pass; a stale sitemap is how Google News goes quiet).
+    // Keep the crawl surfaces in step with the newsroom window (item URLs
+    // change every fast pass; a stale news-sitemap is how Google News goes quiet).
     written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
     written.push(await write(args.out, 'news-sitemap.xml', newsSitemap.render(ctx)));
     // FINDABILITY #95 — robots tip comments (#79) must not depend on SEO overlays
@@ -1584,13 +1547,8 @@ async function main() {
       if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
     }
     await writeDirectoryAliases(args.out, [
-      'news', 'leaders', 'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
-      'pillars', 'sources',
-      ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
-      ...modelAndCountryAliases(ctx),
-      ...tagAliases(ctx),
-      ...kindAliases(ctx),
-      ...outletAliases(ctx),
+      'news', 'leaders',
+      ...dayPages.indexableDays(ctx).map((day) => `news/${day.day}`),
     ], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
     if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
