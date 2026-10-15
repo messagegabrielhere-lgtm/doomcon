@@ -4,6 +4,7 @@ import * as brand from '../brand.mjs';
 import {
   itemsForPillar, archiveItemsForPillar, pillarIndexable, renderPillar, pillarPath,
   itemsForLab, archiveItemsForLab, itemMatchesLab, labIndexable, renderLab, labPath,
+  labAboutLabel, LAB_HEAD_ALIASES,
   labsFromRace, labsFromEntities,
   allLabs, indexableLabs, renderLabIndex, renderCompanies, sitemapEntries, ENTITY_LAB_MIN,
   indexablePillars, renderPillarIndex, renderPillars, renderSources,
@@ -137,6 +138,23 @@ describe('lab facets', () => {
     assert.match(html, /FAQPage/);
     assert.match(html, /speakable/);
     assert.equal(labPath('openai'), '/lab/openai.html');
+  });
+
+  it('includes Gemini in Google DeepMind lab title (FINDABILITY #121)', () => {
+    assert.equal(LAB_HEAD_ALIASES['google-deepmind'], 'Gemini');
+    assert.equal(
+      labAboutLabel({ id: 'google-deepmind', name: 'Google DeepMind' }),
+      'Google DeepMind / Gemini',
+    );
+    assert.equal(labAboutLabel({ id: 'openai', name: 'OpenAI' }), 'OpenAI');
+    const html = renderLab(ctx, {
+      id: 'google-deepmind',
+      name: 'Google DeepMind',
+      principal: 'Demis Hassabis',
+      market: { probability: 0.4, change_7d: 0.01 },
+    });
+    assert.match(html, /<title>What has SIREN scored about Google DeepMind \/ Gemini\?/);
+    assert.match(html, /<h1>What has SIREN scored about Google DeepMind \/ Gemini\?<\/h1>/);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {
