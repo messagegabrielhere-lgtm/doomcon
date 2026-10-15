@@ -379,6 +379,7 @@ context.
 | 139 | `collect` + `news-fast` Publish preserve tip `llms.txt` when it lists `/lab/openai.html` without `OpenAI / ChatGPT` (#138 labAboutLabel); `seo-daily` `agents-lab-labels-missing` catches overlay wipe after mid-merge collect on tip &lt; #138 | Deploy + Agents | **Done** (this pass) |
 | 140 | `/lab/` + `/companies.html` directory rows and ItemList names use `labAboutLabel` so ChatGPT / Gemini / Claude / MU appear on hub HTML (lab landings already had #121/#137) | Google + Agents | **Done** (this pass) |
 | 141 | `collect` + `news-fast` Publish preserve tip `/lab/` + `companies.html` when they list `/lab/openai.html` without `OpenAI / ChatGPT` (#140); `seo-daily` `lab-hub-labels-missing` catches orphan wipe after mid-merge collect on tip &lt; #140 | Deploy + Google | **Done** (this pass) |
+| 142 | Home Organization `knowsAbout` lists labAboutLabel phrases (OpenAI / ChatGPT, Anthropic / Claude, Google DeepMind / Gemini, Micron / MU) so schema matches gated `/lab` titles for those head terms | Google | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

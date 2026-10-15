@@ -134,8 +134,13 @@ export function organization(ctx) {
       'What is the brand voice',
       'Which brand files can you download',
       'AI models this index scored',
-      'What has SIREN scored about Claude',
-      'What has SIREN scored about GPT',
+      // FINDABILITY #142 — Organization knowsAbout matches labAboutLabel
+      // (#121/#137) so ChatGPT / Gemini / Claude / MU head terms point at
+      // gated /lab pages, not bare race names alone.
+      'What has SIREN scored about Anthropic / Claude',
+      'What has SIREN scored about OpenAI / ChatGPT',
+      'What has SIREN scored about Google DeepMind / Gemini',
+      'What has SIREN scored about Micron / MU',
       'Which AI model families have SIREN pages',
       'AI companies this index scored',
       'AI tags this index scored',
@@ -163,8 +168,6 @@ export function organization(ctx) {
       'What has SIREN scored under Attention',
       'What has SIREN scored under Governance',
       'What has SIREN scored under Markets',
-      'What has SIREN scored about OpenAI',
-      'What has SIREN scored about Anthropic',
       'Where are the SIREN reading receipts',
       'AI datacentre countries this index scored',
       'Which AI datacentre countries has SIREN mapped',
