@@ -225,6 +225,12 @@ describe('seo-daily surfaces', () => {
     }
   });
 
+  it('monitors /pdoom typed-guess alias (FINDABILITY #129)', () => {
+    for (const p of ['/pdoom.html', '/pdoom/']) {
+      assert.ok(CORE_LIVE_SURFACES.includes(p), `CORE_LIVE missing ${p}`);
+    }
+  });
+
   it('detects missing /trends.html in agent maps + now tips (FINDABILITY #125)', () => {
     assert.equal(TRENDS_SHORT_ALIAS, '/trends.html');
     assert.equal(hasTrendsShortAlias('short alias /trends.html'), true);

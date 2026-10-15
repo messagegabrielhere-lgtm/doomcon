@@ -69,6 +69,9 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/search-trends/',
   '/trends.html',
   '/trends/',
+  // FINDABILITY #129 — unhyphenated /pdoom typed guess (canonical on /p-doom.html).
+  '/pdoom.html',
+  '/pdoom/',
 ]);
 
 /** Our agent / findability surfaces that must keep answering 200. */
@@ -1331,6 +1334,9 @@ function selftest() {
   }
   for (const p of ['/verify/', '/free-tools/', '/search-trends/', '/trends.html', '/trends/']) {
     if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing #124 ${p}`);
+  }
+  for (const p of ['/pdoom.html', '/pdoom/']) {
+    if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing #129 ${p}`);
   }
   const aliasGaps = deriveGaps({
     sites: [{
