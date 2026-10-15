@@ -434,6 +434,22 @@ describe('lab facets', () => {
     assert.match(misHtml, /[Nn]ot a model review/);
     assert.match(misHtml, /search-trends\.html/);
     assert.doesNotMatch(misHtml, /buy Mistral|price target|must use Timestral/i);
+    // FINDABILITY #183 — Palantir / AIP / government AI FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES.palantir, 'AIP');
+    const palHtml = renderLab(ctx, {
+      id: 'palantir',
+      name: 'Palantir',
+      principal: 'Alex Karp',
+      entityOnly: true,
+      entityName: 'Palantir',
+    });
+    assert.match(palHtml, /Why does SIREN watch Palantir and government AI\?/);
+    assert.match(palHtml, /<title>[^<]*AIP/);
+    assert.match(palHtml, /Gotham|Foundry|AIP/);
+    assert.match(palHtml, /[Nn]ot a stock tip/);
+    assert.match(palHtml, /not legal advice/i);
+    assert.match(palHtml, /search-trends\.html/);
+    assert.doesNotMatch(palHtml, /buy Palantir|price target|must use Palantir/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

@@ -148,6 +148,12 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(HEAD_TERMS.some((t) => t.id === 'samsung' && t.path === '/lab/samsung.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'samsung').re.test('SK Hynix alone'), false);
   assert.equal(HEAD_TERMS.find((t) => t.id === 'samsung').re.test('sandwich shop menu'), false);
+  // FINDABILITY #183 — Palantir / AIP / government AI Trends → gated lab.
+  assert.ok(matchHeadTerms({ title: 'Palantir and Sadiq Khan drop legal battle', news: [] }).includes('palantir'));
+  assert.ok(matchHeadTerms({ title: 'EU messages run through Palantir software', news: [] }).includes('palantir'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'palantir' && t.path === '/lab/palantir.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'palantir').label, 'Palantir / AIP');
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'palantir').re.test('palatial gardens tour'), false);
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({

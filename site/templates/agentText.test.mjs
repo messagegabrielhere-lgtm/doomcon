@@ -221,6 +221,10 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /Mistral, Timestral, CERN Flare/);
   assert.match(txt, /\/lab\/mistral\.html/);
   assert.match(txt, /not a stock tip/);
+  // FINDABILITY #183 — Palantir / AIP route to Palantir lab (contiguous needle).
+  assert.match(txt, /Palantir \/ AIP, Palantir Gotham/);
+  assert.match(txt, /\/lab\/palantir\.html/);
+  assert.match(txt, /not legal advice/);
   assert.match(txt, /## Explainers \(search head terms\)/);
   assert.match(txt, /## Instruments/);
   assert.match(txt, /who is winning the model race/);
@@ -243,7 +247,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /ChatGPT, Grok/);
   for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html',
     '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/watts.html', '/lab/micron.html', '/lab/coreweave.html',
-    '/tags/neoclouds.html', '/tags/datacenters.html', '/lab/deepseek.html', '/lab/mistral.html',
+    '/tags/neoclouds.html', '/tags/datacenters.html', '/lab/deepseek.html', '/lab/mistral.html', '/lab/palantir.html',
     '/vs/doombench.html', '/vs/doom.html', '/vs/skynet-countdown.html', '/vs/skynet.html',
     '/vs/pdoom.html', '/vs/takeofftracker.html', '/vs/takeoff.html',
     '/p-doom.html', '/pdoom.html',
@@ -325,6 +329,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #180 — agents.md lists Mistral lab for Timestral Trends.
   assert.match(md, /Mistral \/ Timestral \/ CERN Flare Trends/);
   assert.match(md, /\/lab\/mistral\.html/);
+  // FINDABILITY #183 — agents.md lists Palantir lab for AIP / government AI Trends.
+  assert.match(md, /Palantir \/ AIP \/ government AI Trends/);
+  assert.match(md, /\/lab\/palantir\.html/);
   assert.match(md, /not a prediction|Never call it a prediction/);
   assert.match(md, /Do not scrape Google Search/);
   assert.match(md, /\/moves\//);

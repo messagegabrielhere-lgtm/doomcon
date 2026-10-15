@@ -91,6 +91,9 @@ export const LAB_HEAD_ALIASES = Object.freeze({
   // FINDABILITY #180 — Timestral / forecasting product people type when Trends /
   // tape shows Mistral Timestral or CERN Flare headlines; stories already score under Mistral.
   'mistral': 'Timestral',
+  // FINDABILITY #183 — AIP product people type when Trends / tape shows Palantir
+  // government / defense AI headlines; stories already score under Palantir.
+  'palantir': 'AIP',
 });
 
 /** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */
@@ -605,6 +608,13 @@ export function renderLab(ctx, player) {
     faq.push([
       `Why does ${brand.NAME} watch Mistral and Timestral?`,
       `${brand.NAME} scores press that names Mistral. When Timestral, CERN Flare, or Mistral open-model headlines dominate the tape — or spike in Google Search Trends — this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
+  // FINDABILITY #183 — Palantir / AIP / government AI tape → gated lab.
+  if (player.id === 'palantir') {
+    faq.push([
+      `Why does ${brand.NAME} watch Palantir and government AI?`,
+      `${brand.NAME} scores press that names Palantir. When Palantir AIP, Gotham, Foundry, defense / government AI contracts, or surveillance-software headlines dominate the tape — or spike in Google Search Trends — this lab page is the crawlable answer — scored story counts only. Not a stock tip, not a product review, not legal advice, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
   const faqHtml = faq.map(([q, a]) => `

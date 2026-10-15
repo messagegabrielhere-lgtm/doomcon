@@ -99,6 +99,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #182 — Hugging Face hack / incident / hub Trends → gated tag
   // (story counts only; not a security advisory or incident forecast).
   { id: 'huggingface', label: 'Hugging Face', re: /\bhugging\s*face\b|\bhuggingface\b/i, path: '/tags/huggingface.html' },
+  // FINDABILITY #183 — Palantir / AIP / government AI Trends → gated lab
+  // (story counts only; not a stock tip, product review, or legal advice).
+  { id: 'palantir', label: 'Palantir / AIP', re: /\bpalantir\b/i, path: '/lab/palantir.html' },
   // FINDABILITY #177 — Qwen / Tongyi / Alibaba open-weight Trends → gated Qwen lab
   // (story counts only; not a model review or stock tip).
   { id: 'qwen', label: 'Qwen', re: /\bqwen(?:\s+\d|\s+n\d)?\b|\btongyi\b|\balibaba\b.{0,40}\b(?:qwen|open[\s-]?weight)\b/i, path: '/lab/qwen.html' },
