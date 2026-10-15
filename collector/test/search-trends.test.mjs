@@ -113,6 +113,10 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'TSMC', news: [] }).includes('tsmc'));
   assert.ok(matchHeadTerms({ title: 'Taiwan Semiconductor AI foundry', news: [] }).includes('tsmc'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'tsmc' && t.path === '/lab/tsmc.html'));
+  // FINDABILITY #167 — Amazon Bee / wearable AI Trends → gated Amazon lab.
+  assert.ok(matchHeadTerms({ title: 'Amazon Bee Frontier wearable', news: [] }).includes('amazon-bee'));
+  assert.ok(matchHeadTerms({ title: 'Bee Eclipse Amazon AI', news: [] }).includes('amazon-bee'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'amazon-bee' && t.path === '/lab/amazon.html'));
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({

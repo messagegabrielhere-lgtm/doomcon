@@ -137,6 +137,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/asml.html',
   // FINDABILITY #165 — TSMC / AI foundry Trends FAQ lab.
   '/lab/tsmc.html',
+  // FINDABILITY #167 — Amazon Bee / wearable AI Trends FAQ lab.
+  '/lab/amazon.html',
   // FINDABILITY #157 — neocloud Trends FAQ tag hub.
   '/tags/neoclouds.html',
   '/pillar/',
@@ -754,17 +756,19 @@ export const TRENDS_ROUTES_FAQ_NEEDLE = 'Where does SIREN send IREN stock, dram 
 /** FINDABILITY #166 — latest head destinations must stay on the routing answer. */
 export const TRENDS_ROUTES_ASML_NEEDLE = 'ASML / EUV AI chip tools → /lab/asml.html';
 export const TRENDS_ROUTES_TSMC_NEEDLE = 'TSMC / AI foundry → /lab/tsmc.html';
+export const TRENDS_ROUTES_AMAZON_BEE_NEEDLE = 'Amazon Bee / AI wearables → /lab/amazon.html';
 
 /**
- * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165
- * ASML/TSMC destinations (FINDABILITY #166 — newsroom used to keep the
- * question while dropping newer answer destinations).
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167
+ * ASML/TSMC/Amazon Bee destinations (FINDABILITY #166 — newsroom used to keep
+ * the question while dropping newer answer destinations).
  */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
   const text = String(html || '');
   return text.includes(needle)
     && text.includes(TRENDS_ROUTES_ASML_NEEDLE)
-    && text.includes(TRENDS_ROUTES_TSMC_NEEDLE);
+    && text.includes(TRENDS_ROUTES_TSMC_NEEDLE)
+    && text.includes(TRENDS_ROUTES_AMAZON_BEE_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -857,6 +861,24 @@ export function hasTsmcTrendsFaq(html, needle = TSMC_TRENDS_FAQ_NEEDLE) {
 export function hasAgentsTsmc(body, needle = AGENTS_TSMC_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/tsmc.html');
+}
+
+/** FINDABILITY #167 — Amazon lab FAQ + agent maps for Bee / wearable AI Trends. */
+export const AMAZON_BEE_FAQ_NEEDLE = 'Why does SIREN watch Amazon Bee and AI wearables?';
+export const AGENTS_AMAZON_BEE_NEEDLE = 'Amazon Bee';
+
+/** Tip /lab/amazon.html must keep the #167 Amazon Bee FAQ. */
+export function hasAmazonBeeFaq(html, needle = AMAZON_BEE_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Amazon Bee / wearable AI Trends to Amazon lab (FINDABILITY #167).
+ * Wipe gap is `agents-amazon-bee-missing`.
+ */
+export function hasAgentsAmazonBee(body, needle = AGENTS_AMAZON_BEE_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/amazon.html');
 }
 
 /**
@@ -1422,7 +1444,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC destinations (FINDABILITY #158/#166) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee destinations (FINDABILITY #158/#166/#167) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -1528,6 +1550,27 @@ export function deriveGaps(report) {
       id: 'agents-tsmc-missing',
       severity: 'medium',
       text: `${which} missing TSMC stock → /lab/tsmc.html Trends tip (FINDABILITY #165) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #165`,
+    });
+  }
+
+  // FINDABILITY #167 — Amazon lab FAQ for Bee / wearable AI wiped or never landed.
+  if (ours.amazon_bee_faq === false) {
+    gaps.push({
+      id: 'amazon-bee-faq-missing',
+      severity: 'medium',
+      text: `/lab/amazon.html missing Amazon Bee / AI wearables FAQ (FINDABILITY #167) — re-overlay lab/amazon.html or wait for full collect Publish on tip ≥ #167`,
+    });
+  }
+  // FINDABILITY #167 — agent maps must route Amazon Bee Trends to Amazon lab.
+  if (ours.agents_amazon_bee === false || ours.llms_amazon_bee === false) {
+    const which = [
+      ours.agents_amazon_bee === false ? 'agents.md' : null,
+      ours.llms_amazon_bee === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-amazon-bee-missing',
+      severity: 'medium',
+      text: `${which} missing Amazon Bee → /lab/amazon.html Trends tip (FINDABILITY #167) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #167`,
     });
   }
 
@@ -1768,6 +1811,11 @@ export function measureSite(site, byUrl) {
     row.tsmc_trends_faq = tsmcHtml?.ok ? hasTsmcTrendsFaq(tsmcHtml.value) : false;
     row.agents_tsmc = agentsMd?.ok ? hasAgentsTsmc(agentsMd.value) : false;
     row.llms_tsmc = llms?.ok ? hasAgentsTsmc(llmsBody) : false;
+    // FINDABILITY #167 — Amazon Bee FAQ + agent maps.
+    const amazonHtml = byUrl.get(`${base}/lab/amazon.html`);
+    row.amazon_bee_faq = amazonHtml?.ok ? hasAmazonBeeFaq(amazonHtml.value) : false;
+    row.agents_amazon_bee = agentsMd?.ok ? hasAgentsAmazonBee(agentsMd.value) : false;
+    row.llms_amazon_bee = llms?.ok ? hasAgentsAmazonBee(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -2043,6 +2091,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_tsmc == null ? '—' : (ours.agents_tsmc ? 'yes' : 'NO');
       const lm = ours.llms_tsmc == null ? '—' : (ours.llms_tsmc ? 'yes' : 'NO');
       lines.push(`- Agent-map TSMC stock → lab (#165): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.amazon_bee_faq != null) {
+      lines.push(
+        `- Amazon Bee FAQ (#167): **${ours.amazon_bee_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_amazon_bee != null || ours.llms_amazon_bee != null)) {
+      const ag = ours.agents_amazon_bee == null ? '—' : (ours.agents_amazon_bee ? 'yes' : 'NO');
+      const lm = ours.llms_amazon_bee == null ? '—' : (ours.llms_amazon_bee ? 'yes' : 'NO');
+      lines.push(`- Agent-map Amazon Bee → lab (#167): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -2778,16 +2836,50 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/tsmc.html')) {
     throw new Error('OUR_SURFACES missing /lab/tsmc.html');
   }
+  if (hasAmazonBeeFaq(AMAZON_BEE_FAQ_NEEDLE) !== true) {
+    throw new Error('hasAmazonBeeFaq true');
+  }
+  if (hasAmazonBeeFaq('What has SIREN scored about Amazon?') !== false) {
+    throw new Error('hasAmazonBeeFaq false');
+  }
+  if (hasAgentsAmazonBee('Amazon Bee → https://siren.watch/lab/amazon.html') !== true) {
+    throw new Error('hasAgentsAmazonBee true');
+  }
+  if (hasAgentsAmazonBee('https://siren.watch/lab/amazon.html only') !== false) {
+    throw new Error('hasAgentsAmazonBee needs Amazon Bee needle');
+  }
+  const amazonGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      amazon_bee_faq: false,
+      agents_amazon_bee: false,
+      llms_amazon_bee: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!amazonGaps.some((g) => g.id === 'amazon-bee-faq-missing')) {
+    throw new Error('amazon-bee-faq-missing gap');
+  }
+  if (!amazonGaps.some((g) => g.id === 'agents-amazon-bee-missing')) {
+    throw new Error('agents-amazon-bee-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/amazon.html')) {
+    throw new Error('OUR_SURFACES missing /lab/amazon.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
     TRENDS_ROUTES_TSMC_NEEDLE,
+    TRENDS_ROUTES_AMAZON_BEE_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC destinations (#166)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee destinations (#166/#167)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

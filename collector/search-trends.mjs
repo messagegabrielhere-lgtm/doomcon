@@ -65,6 +65,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #165 — “tsmc” / TSMC stock / AI foundry Trends → gated lab
   // (story counts only; not a stock tip).
   { id: 'tsmc', label: 'TSMC', re: /\btsmc(?:\s+stock)?\b|\btaiwan\s+semiconductor\b/i, path: '/lab/tsmc.html' },
+  // FINDABILITY #167 — Amazon Bee / wearable ambient-AI Trends → gated lab
+  // (story counts only; not a product review or stock tip).
+  { id: 'amazon-bee', label: 'Amazon Bee', re: /\bamazon\b.{0,40}\bbee\b|\bbee\b.{0,40}\b(?:amazon|wearable|frontier|eclipse)\b|\bbee\s+(?:frontier|eclipse|pro)\b/i, path: '/lab/amazon.html' },
   // FINDABILITY #157 — "neocloud" / neoclouds Trends (Gartner survival tape)
   // → gated /tags/neoclouds.html (story counts only, not a vendor ranking).
   { id: 'neocloud', label: 'Neoclouds', re: /\bneoclouds?\b/i, path: '/tags/neoclouds.html' },

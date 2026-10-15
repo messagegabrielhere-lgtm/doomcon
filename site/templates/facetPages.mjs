@@ -512,6 +512,13 @@ export function renderLab(ctx, player) {
       `${brand.NAME} watches Google’s daily trending RSS for findability. When TSMC, TSMC stock, or AI foundry / advanced-node chip headlines spike with semiconductor demand for the AI build-out, this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
+  // FINDABILITY #167 — Amazon Bee / wearable ambient-AI Trends → gated lab.
+  if (player.id === 'amazon') {
+    faq.push([
+      `Why does ${brand.NAME} watch Amazon Bee and AI wearables?`,
+      `${brand.NAME} scores press that names Amazon. When Bee Frontier / Bee Eclipse wearables, ambient listening devices, or personal-AI hardware headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not a product review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
