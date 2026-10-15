@@ -250,6 +250,40 @@ test('news sitemap keywords add MU ticker when Micron is named (FINDABILITY #146
   assert.doesNotMatch(b, /(^|,\s*)MU(,|$)/);
 });
 
+test('news sitemap keywords add neocloud / Iris Energy when parent named (FINDABILITY #159)', () => {
+  const a = keywordsFor({
+    title: "CoreWeave's slump puts spotlight on debt behind AI boom",
+    summary: 'GPU-cloud lender stress.',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['CoreWeave'],
+  });
+  assert.match(a, /\bCoreWeave\b/);
+  assert.match(a, /\bneocloud\b/);
+  const b = keywordsFor({
+    title: 'IREN stock rises on AI power demand',
+    summary: '',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['IREN'],
+  });
+  assert.match(b, /\bIREN\b/);
+  assert.match(b, /Iris Energy/);
+  // Bare titles must not invent the aliases.
+  const c = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No GPU-cloud vendor or power-stock lab named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /\bneocloud\b/);
+  assert.doesNotMatch(c, /Iris Energy/);
+});
+
 test('news sitemap keywords add ChatGPT/Claude/Gemini when parent lab named (FINDABILITY #147)', () => {
   const a = keywordsFor({
     title: 'OpenAI raises new round for infrastructure',

@@ -396,6 +396,7 @@ context.
 | 156 | `collect` + `news-fast` `restore_agent_maps` also restores tip `agents.md` / `llms.txt` when Trends tips lack `IREN stock`, `dram stock`, or `CoreWeave stock` (#153/#154/#155) — stops newsroom/collect force-push from wiping agent-map Trends tips while FAQ HTML survives | Deploy + Agents + Trends | **Done** (this pass) |
 | 157 | Search Trends `HEAD_TERMS` `neocloud` → gated `/tags/neoclouds.html`; tag FAQ + `agents.md`/`llms.txt` tip; `seo-daily` detects FAQ + agent-map lag; `collect` + `news-fast` Publish preserve tip Neoclouds tag when FAQ missing — story counts only, not a vendor ranking | Google + Trends + Agents | **Done** (this pass) |
 | 158 | `/search-trends.html` watchlist FAQ routes IREN / dram / CoreWeave / neocloud Trends to gated `/watts.html` / `/lab/micron.html` / `/lab/coreweave.html` / `/tags/neoclouds.html` so crawlable routing survives a quiet firehose; `seo-daily` detects lag; `collect` + `news-fast` Publish preserve tip Trends HTML (+ aliases) when FAQ missing; news-fast overlay also copies `search-trends.html` + `api/search-trends.json` | Google + Trends | **Done** (this pass) |
+| 159 | News-sitemap `keywordsFor` adds `neocloud` when CoreWeave is named and `Iris Energy` when IREN is named (plus `Iris Energy` / `Neoclouds` / `neocloud` lab needles) so Google News keywords match Trends HEAD_TERMS / gated pages (#152/#155/#157/#158); `seo-daily` `news-lab-alias-keywords-missing` probes catch tip wipe or CDN lag | Google News + Trends | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

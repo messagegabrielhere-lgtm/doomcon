@@ -550,16 +550,24 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'trends-routes-faq-missing'));
   });
 
-  it('detects missing labAboutLabel aliases in news:keywords (FINDABILITY #148)', () => {
+  it('detects missing labAboutLabel aliases in news:keywords (FINDABILITY #148/#159)', () => {
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'OpenAI' && p.alias === 'ChatGPT'));
+    assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'CoreWeave' && p.alias === 'neocloud'));
+    assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'IREN' && p.alias === 'Iris Energy'));
     const xml = '<?xml version="1.0"?><urlset>'
       + '<url><news:title>OpenAI raises new round</news:title>'
       + '<news:keywords>OpenAI, Google, AI, SIREN</news:keywords></url>'
       + '<url><news:title>Anthropic expands compute</news:title>'
       + '<news:keywords>Anthropic, Claude, AI, SIREN</news:keywords></url>'
+      + '<url><news:title>CoreWeave debt woes deepen</news:title>'
+      + '<news:keywords>CoreWeave, Google, AI, SIREN</news:keywords></url>'
+      + '<url><news:title>IREN stock climbs on power deals</news:title>'
+      + '<news:keywords>IREN, Google, AI, SIREN</news:keywords></url>'
       + '</urlset>';
     const lags = newsLabAliasKeywordLags(xml);
     assert.ok(lags.some((r) => r.lab === 'OpenAI' && r.alias === 'ChatGPT'));
+    assert.ok(lags.some((r) => r.lab === 'CoreWeave' && r.alias === 'neocloud'));
+    assert.ok(lags.some((r) => r.lab === 'IREN' && r.alias === 'Iris Energy'));
     assert.ok(!lags.some((r) => r.lab === 'Anthropic'));
     const gaps = deriveGaps({
       sites: [{
