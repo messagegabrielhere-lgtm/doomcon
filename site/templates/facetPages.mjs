@@ -88,6 +88,9 @@ export const LAB_HEAD_ALIASES = Object.freeze({
   // FINDABILITY #177 — short product people type when Trends / tape shows Qwen
   // with Alibaba open-weight headlines; stories already score under Alibaba Qwen.
   'qwen': 'Qwen',
+  // FINDABILITY #180 — Timestral / forecasting product people type when Trends /
+  // tape shows Mistral Timestral or CERN Flare headlines; stories already score under Mistral.
+  'mistral': 'Timestral',
 });
 
 /** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */
@@ -590,6 +593,13 @@ export function renderLab(ctx, player) {
     faq.push([
       `Why does ${brand.NAME} watch DeepSeek and AI outages?`,
       `${brand.NAME} scores press that names DeepSeek. When DeepSeek outage, refund, or Chinese open-model headlines dominate the tape — or spike in Google Search Trends — this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not an uptime SLA, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
+  // FINDABILITY #180 — Mistral Timestral / CERN Flare tape → gated lab.
+  if (player.id === 'mistral') {
+    faq.push([
+      `Why does ${brand.NAME} watch Mistral and Timestral?`,
+      `${brand.NAME} scores press that names Mistral. When Timestral, CERN Flare, or Mistral open-model headlines dominate the tape — or spike in Google Search Trends — this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
   const faqHtml = faq.map(([q, a]) => `

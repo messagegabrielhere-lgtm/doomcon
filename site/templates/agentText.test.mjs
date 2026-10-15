@@ -210,6 +210,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #179 — DeepSeek outage route to DeepSeek lab.
   assert.match(txt, /DeepSeek outage, DeepSeek refunds/);
   assert.match(txt, /\/lab\/deepseek\.html/);
+  // FINDABILITY #180 — Mistral / Timestral route to Mistral lab.
+  assert.match(txt, /Mistral, Timestral, CERN Flare/);
+  assert.match(txt, /\/lab\/mistral\.html/);
   assert.match(txt, /not a stock tip/);
   assert.match(txt, /## Explainers \(search head terms\)/);
   assert.match(txt, /## Instruments/);
@@ -233,7 +236,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /ChatGPT, Grok/);
   for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html',
     '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/watts.html', '/lab/micron.html', '/lab/coreweave.html',
-    '/tags/neoclouds.html', '/tags/datacenters.html', '/lab/deepseek.html',
+    '/tags/neoclouds.html', '/tags/datacenters.html', '/lab/deepseek.html', '/lab/mistral.html',
     '/vs/doombench.html', '/vs/doom.html', '/vs/skynet-countdown.html', '/vs/skynet.html',
     '/vs/pdoom.html', '/vs/takeofftracker.html', '/vs/takeoff.html',
     '/p-doom.html', '/pdoom.html',
@@ -309,6 +312,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #179 — agents.md lists DeepSeek lab for outage Trends.
   assert.match(md, /DeepSeek outage \/ Chinese open-model Trends/);
   assert.match(md, /\/lab\/deepseek\.html/);
+  // FINDABILITY #180 — agents.md lists Mistral lab for Timestral Trends.
+  assert.match(md, /Mistral \/ Timestral \/ CERN Flare Trends/);
+  assert.match(md, /\/lab\/mistral\.html/);
   assert.match(md, /not a prediction|Never call it a prediction/);
   assert.match(md, /Do not scrape Google Search/);
   assert.match(md, /\/moves\//);

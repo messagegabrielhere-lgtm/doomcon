@@ -275,6 +275,7 @@ const ALWAYS = Object.freeze([
   '/lab/openai.html',
   '/lab/qwen.html',
   '/lab/deepseek.html', // FINDABILITY #179 — DeepSeek outage Trends lab
+  '/lab/mistral.html', // FINDABILITY #180 — Mistral / Timestral Trends lab
   '/lab/tsmc.html', // FINDABILITY #168 — TSMC / AI foundry Trends lab
   '/model/claude.html',
   '/model/gemini.html',

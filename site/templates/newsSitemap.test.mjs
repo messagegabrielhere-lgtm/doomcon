@@ -454,6 +454,28 @@ test('news sitemap keywords add Datacenters when Oracle is named (FINDABILITY #1
   assert.doesNotMatch(b, /(^|,\s*)Datacenters(,|$)/);
 });
 
+test('news sitemap keywords add Timestral when Mistral is named (FINDABILITY #180)', () => {
+  const a = keywordsFor({
+    title: 'CERN and Mistral partner to build Flare, a new AI model for physics',
+    summary: 'Open models for science.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Mistral'],
+  });
+  assert.match(a, /\bMistral\b/);
+  assert.match(a, /\bTimestral\b/);
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No lab named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)Timestral(,|$)/);
+});
+
 
 test('news sitemap keywords add neocloud / Iris Energy when parent named (FINDABILITY #159)', () => {
   const a = keywordsFor({

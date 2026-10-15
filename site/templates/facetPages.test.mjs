@@ -411,6 +411,20 @@ describe('lab facets', () => {
     assert.match(dsHtml, /uptime SLA|not an uptime/i);
     assert.match(dsHtml, /search-trends\.html/);
     assert.doesNotMatch(dsHtml, /buy DeepSeek|price target|must use DeepSeek/i);
+    // FINDABILITY #180 — Mistral / Timestral FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES.mistral, 'Timestral');
+    const misHtml = renderLab(ctx, {
+      id: 'mistral',
+      name: 'Mistral',
+      principal: 'Arthur Mensch',
+      market: { probability: 0.003, change_7d: 0 },
+    });
+    assert.match(misHtml, /Why does SIREN watch Mistral and Timestral\?/);
+    assert.match(misHtml, /<title>[^<]*Timestral/);
+    assert.match(misHtml, /CERN Flare|Timestral/);
+    assert.match(misHtml, /[Nn]ot a model review/);
+    assert.match(misHtml, /search-trends\.html/);
+    assert.doesNotMatch(misHtml, /buy Mistral|price target|must use Timestral/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {
