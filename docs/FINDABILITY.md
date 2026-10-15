@@ -368,6 +368,7 @@ context.
 | 128 | `news-fast` + `collect` orphan Publish preserve tip `/compare.html` + `/alternatives.html` when #126/#127 FAQ needles missing; `seo-daily` `conquest-faq-missing` detects wipe/CDN lag after conquest FAQ hubs land | Deploy + Google | **Done** (this pass) |
 | 129 | Short alias `/pdoom.html` + `/pdoom/` → same body as `/p-doom.html` (canonical on primary; out of sitemap) — typed unhyphenated “pdoom” guess was 404 while rival brand spelling is live; restore in news-fast/collect/vs-alias-guard; `seo-daily` CORE_LIVE | Google | **Done** (this pass) |
 | 130 | `agents.md` + `llms.txt` list `/pdoom.html` short alias beside `/p-doom.html`; `seo-daily` `agents-pdoom-alias-missing` catches overlay/CDN lag after #129 | Agents + Google | **Done** (this pass) |
+| 131 | Root typed-guess aliases `/doombench.html` `/doom.html` `/skynet-countdown.html` `/skynet.html` `/pizzint.html` `/takeofftracker.html` `/takeoff.html` → same body as matching `/vs/*` primaries (canonical on `/vs/*`; out of sitemap) — bare rival brand paths were 404; restore in news-fast/collect/vs-alias-guard; CORE_LIVE + IndexNow | Google | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

@@ -42,6 +42,14 @@ const ALWAYS = Object.freeze([
   '/vs/pizzint.html',
   '/vs/takeofftracker.html',
   '/vs/takeoff.html', // short alias; canonical stays on takeofftracker
+  // FINDABILITY #131 — root typed guesses; canonical stays on /vs/* primaries.
+  '/doombench.html',
+  '/doom.html',
+  '/skynet-countdown.html',
+  '/skynet.html',
+  '/pizzint.html',
+  '/takeofftracker.html',
+  '/takeoff.html',
   '/companies.html',
   '/models.html',
   '/countries.html',
@@ -49,6 +57,7 @@ const ALWAYS = Object.freeze([
   '/sources.html',
   '/pillar/',
   '/p-doom.html',
+  '/pdoom.html', // short alias; canonical stays on p-doom (FINDABILITY #129)
   '/ai-doomsday-clock.html',
   '/jobs.html',
   '/race.html',

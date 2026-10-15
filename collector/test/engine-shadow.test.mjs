@@ -421,6 +421,27 @@ test('build emits /pdoom.html typed-guess alias (FINDABILITY #129)', () => {
   assert.ok(copies.length >= 2, `expected pdoom restore on both Publish paths, got ${copies.length}`);
 });
 
+test('root rival typed-guess aliases restored (FINDABILITY #131)', () => {
+  const compare = readFileSync(join(ROOT, 'site', 'templates', 'comparePages.mjs'), 'utf8');
+  assert.match(compare, /FINDABILITY #131/);
+  assert.match(compare, /\/doombench\.html/);
+  assert.match(compare, /\/pizzint\.html/);
+  assert.match(compare, /\/takeofftracker\.html/);
+  const guard = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
+  assert.match(guard, /FINDABILITY #131/);
+  assert.match(guard, /restore_one vs\/doombench\.html doombench\.html/);
+  assert.match(guard, /restore_one vs\/pizzint\.html pizzint\.html/);
+  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(newsFast, /FINDABILITY #131/);
+  assert.match(newsFast, /doombench\.html/);
+  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const copies = collect.match(/cp -a \.pages\/vs\/doombench\.html \.pages\/doombench\.html/g) || [];
+  assert.ok(copies.length >= 2, `expected doombench root restore on both Publish paths, got ${copies.length}`);
+  const indexnow = readFileSync(join(ROOT, 'collector', 'indexnow.mjs'), 'utf8');
+  assert.match(indexnow, /FINDABILITY #131/);
+  assert.match(indexnow, /\/doombench\.html/);
+});
+
 test('news-only skips full sitemap and caps live day hubs (FINDABILITY #106)', () => {
   // tip c4993bcf still saw PUBLISHED=0: archive-backed day hubs + full sitemap
   // kept --only news over the news-fast budget even after #103.

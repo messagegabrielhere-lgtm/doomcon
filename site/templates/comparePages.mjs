@@ -38,8 +38,9 @@ export const RIVALS = [
   {
     id: 'doombench',
     path: '/vs/doombench.html',
-    // Typed “doom” guess for the rival head term. Same body; canonical on path.
-    aliases: ['/vs/doom.html'],
+    // Typed “doom” / bare “doombench” guesses. Same body; canonical on path.
+    // Root aliases (FINDABILITY #131) catch hand-typed URLs without /vs/.
+    aliases: ['/vs/doom.html', '/doombench.html', '/doom.html'],
     name: 'DoomBench',
     url: 'https://www.doombench.com/',
     short: 'Live AI Doom Index',
@@ -56,7 +57,8 @@ export const RIVALS = [
     path: '/vs/skynet-countdown.html',
     // Short typed guess for the rival's head term. Same body as the primary;
     // layout canonical stays on path (not the alias) so this is not a doorway.
-    aliases: ['/vs/skynet.html'],
+    // Root aliases (FINDABILITY #131) catch hand-typed URLs without /vs/.
+    aliases: ['/vs/skynet.html', '/skynet-countdown.html', '/skynet.html'],
     name: 'Skynet Countdown',
     url: 'https://skynetcountdown.com/',
     short: 'AI risk predictor & AGI timeline tracker',
@@ -86,6 +88,8 @@ export const RIVALS = [
   {
     id: 'pizzint',
     path: '/vs/pizzint.html',
+    // Root typed guess (FINDABILITY #131). Canonical stays on /vs/pizzint.html.
+    aliases: ['/pizzint.html'],
     name: 'PizzINT',
     url: 'https://www.pizzint.watch/',
     short: 'Pentagon Pizza Index with DEFCON / Doomsday Clock framing',
@@ -107,7 +111,8 @@ export const RIVALS = [
     id: 'takeofftracker',
     path: '/vs/takeofftracker.html',
     // Typed “takeoff” guess for the rival head term. Same body; canonical on path.
-    aliases: ['/vs/takeoff.html'],
+    // Root aliases (FINDABILITY #131) catch hand-typed URLs without /vs/.
+    aliases: ['/vs/takeoff.html', '/takeofftracker.html', '/takeoff.html'],
     name: 'Takeoff Tracker',
     url: 'https://www.takeofftracker.com/',
     short: 'AGI metrics dashboard (timelines, stocks, leaderboards, p(doom) estimates)',

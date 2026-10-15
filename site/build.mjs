@@ -2038,7 +2038,11 @@ async function main() {
       // /verify/ /free-tools/ /search-trends/ /trends/ were 404 while .html worked.
       // FINDABILITY #129 — /pdoom/ directory for the unhyphenated typed guess.
       'verify', 'free-tools', 'search-trends', 'ai-prediction-markets', 'trends',
-      ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
+      // FINDABILITY #131 — directory indexes for /vs/* and root rival aliases.
+      ...comparePages.RIVALS.flatMap((r) => [
+        r.path.replace(/^\//, '').replace(/\.html$/, ''),
+        ...(r.aliases || []).map((a) => a.replace(/^\//, '').replace(/\.html$/, '')),
+      ]),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...facetPages.allLabs(ctx).map((p) => `lab/${p.id}`),
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),

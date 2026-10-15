@@ -79,6 +79,21 @@ jobs:
           # FINDABILITY #129 — unhyphenated /pdoom typed guess.
           restore_one p-doom.html pdoom.html
           restore_dir p-doom.html pdoom
+          # FINDABILITY #131 — root rival brand typed guesses.
+          restore_one vs/doombench.html doombench.html
+          restore_one vs/doombench.html doom.html
+          restore_dir vs/doombench.html doombench
+          restore_dir vs/doombench.html doom
+          restore_one vs/skynet-countdown.html skynet-countdown.html
+          restore_one vs/skynet-countdown.html skynet.html
+          restore_dir vs/skynet-countdown.html skynet-countdown
+          restore_dir vs/skynet-countdown.html skynet
+          restore_one vs/pizzint.html pizzint.html
+          restore_dir vs/pizzint.html pizzint
+          restore_one vs/takeofftracker.html takeofftracker.html
+          restore_one vs/takeofftracker.html takeoff.html
+          restore_dir vs/takeofftracker.html takeofftracker
+          restore_dir vs/takeofftracker.html takeoff
           if [ "$restored" -ne 1 ]; then
             echo "all vs/trends/dir aliases present — nothing to publish"
             exit 0
@@ -89,8 +104,12 @@ jobs:
             trends.html trends/index.html search-trends/index.html \
             verify/index.html free-tools/index.html ai-prediction-markets/index.html \
             pdoom.html pdoom/index.html \
+            doombench.html doom.html doombench/index.html doom/index.html \
+            skynet-countdown.html skynet.html skynet-countdown/index.html skynet/index.html \
+            pizzint.html pizzint/index.html \
+            takeofftracker.html takeoff.html takeofftracker/index.html takeoff/index.html \
             2>/dev/null || true
-          git commit -q -m "guard: restore tip aliases (FINDABILITY #117/#124/#129) — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git commit -q -m "guard: restore tip aliases (FINDABILITY #117/#124/#129/#131) — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           for attempt in 1 2 3; do
             if git push -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages; then
               echo "published alias restore"

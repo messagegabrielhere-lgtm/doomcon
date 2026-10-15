@@ -72,6 +72,14 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   // FINDABILITY #129 — unhyphenated /pdoom typed guess (canonical on /p-doom.html).
   '/pdoom.html',
   '/pdoom/',
+  // FINDABILITY #131 — root rival brand typed guesses (canonical on /vs/*).
+  '/doombench.html',
+  '/doom.html',
+  '/skynet-countdown.html',
+  '/skynet.html',
+  '/pizzint.html',
+  '/takeofftracker.html',
+  '/takeoff.html',
 ]);
 
 /** Our agent / findability surfaces that must keep answering 200. */
@@ -1370,6 +1378,14 @@ function selftest() {
   }
   for (const p of ['/pdoom.html', '/pdoom/']) {
     if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing #129 ${p}`);
+  }
+  for (const p of [
+    '/doombench.html', '/doom.html',
+    '/skynet-countdown.html', '/skynet.html',
+    '/pizzint.html',
+    '/takeofftracker.html', '/takeoff.html',
+  ]) {
+    if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing #131 ${p}`);
   }
   const aliasGaps = deriveGaps({
     sites: [{
