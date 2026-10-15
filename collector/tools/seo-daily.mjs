@@ -63,6 +63,12 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/vs/doom.html',
   '/vs/skynet.html',
   '/vs/takeoff.html',
+  // FINDABILITY #124 — directory indexes + /trends short alias (typed guesses).
+  '/verify/',
+  '/free-tools/',
+  '/search-trends/',
+  '/trends.html',
+  '/trends/',
 ]);
 
 /** Our agent / findability surfaces that must keep answering 200. */
@@ -1225,6 +1231,9 @@ function selftest() {
   if (hasVsShortAliases('/vs/doom.html\n/vs/skynet.html\n') !== false) throw new Error('hasVsShortAliases false');
   for (const p of VS_SHORT_ALIASES) {
     if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing ${p}`);
+  }
+  for (const p of ['/verify/', '/free-tools/', '/search-trends/', '/trends.html', '/trends/']) {
+    if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing #124 ${p}`);
   }
   const aliasGaps = deriveGaps({
     sites: [{

@@ -85,7 +85,7 @@ export function nowTxt({ state, history = [], url }) {
   lines.push(`${gloss ? `${gloss} ` : ''}${NOT_CLAIM}`);
   // FINDABILITY #90 — tip for agents that fetch now.txt and never open robots/llms.
   // Keep this one short line so the file stays within the 3–6 line budget.
-  lines.push(`Free tools · verify · Search Trends: ${url('/free-tools.html')} · ${url('/verify.html')} · ${url('/search-trends.html')}`);
+  lines.push(`Free tools · verify · Search Trends: ${url('/free-tools.html')} · ${url('/verify.html')} · ${url('/search-trends.html')} · short ${url('/trends.html')}`);
   lines.push(site);
   return `${lines.join('\n')}\n`;
 }
@@ -149,7 +149,7 @@ export function nowMd({ state, history = [], news = null, leaders = null, siSign
   L.push(`> ${brand.NAME} ${state.level} · ${state.level_name} · ${fix1(state.score)}/100, computed ${utc(state.generated_at)}. Levels run from 5 (quietest) to 1 (loudest). ${NOT_CLAIM}`);
   L.push('');
   // FINDABILITY #90 — discovery tip for agents that open now.md before robots/llms.
-  L.push(`Also: [free tools](${url('/free-tools.html')}) · [verify a reading](${url('/verify.html')}) · [Search Trends](${url('/search-trends.html')}) · [news sitemap](${url('/news-sitemap.xml')}).`);
+  L.push(`Also: [free tools](${url('/free-tools.html')}) · [verify a reading](${url('/verify.html')}) · [Search Trends](${url('/search-trends.html')}) (short alias ${url('/trends.html')}) · [news sitemap](${url('/news-sitemap.xml')}).`);
   L.push('');
   L.push('## Reading');
   L.push('');
@@ -244,7 +244,7 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user wants the day's AI headlines, fetch ${u('/now.md')} and summarise the top stories, naming each outlet and linking the story. For a dated day list, use the newest UTC day hub under ${u('/news.html')} (Skynet-shaped /news/YYYY-MM-DD.html) or the rolling Google News sitemap ${u('/news-sitemap.xml')}.
 - When a user asks what AI leaders are saying, use the "Leaders most covered this week" section of ${u('/now.md')}, or ${u('/api/leaders.json')}; coverage counts stories naming a person, not things they said.
 - When a user asks about AI agents or superintelligence, quote Takeover Watch from ${u('/api/si-signals.json')}, and say those signals are watched, not scored.
-- When a user asks about Google Search Trends or whether an AI topic is trending in search, use ${u('/api/search-trends.json')} / ${u('/search-trends.html')}, and say trends are watched, not scored.
+- When a user asks about Google Search Trends or whether an AI topic is trending in search, use ${u('/api/search-trends.json')} / ${u('/search-trends.html')} (short alias ${u('/trends.html')}), and say trends are watched, not scored.
 - When a user asks about AI prediction markets or live lab odds, use ${u('/ai-prediction-markets.html')} and ${u('/race.html')}, and say the prices are market odds, not a ${brand.NAME} forecast.
 - When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
 - When a user asks who is winning the model race, open ${u('/race.html')} and quote the published leaderboard with its time.
@@ -316,7 +316,7 @@ Honesty rules:
 - [What instruments sit behind the SIREN reading?](${u('/instruments.html')})
 - [Where are the SIREN index moves?](${u('/moves/')})
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')}) ([markdown](${u('/guide.md')}))
-- [Which Google Search Trends for AI does SIREN watch?](${u('/search-trends.html')})
+- [Which Google Search Trends for AI does SIREN watch?](${u('/search-trends.html')}) (short alias ${u('/trends.html')}, same page)
 - [Where are live AI prediction market odds?](${u('/ai-prediction-markets.html')})
 - [What are the AI explainers?](${u('/guides.html')}): p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability ([guides.md](${u('/guides.md')}))
 - [What free tools does ${brand.NAME} publish?](${u('/free-tools.html')}): verify, alerts, export, OpenAPI — free instruments, not a doom calculator
@@ -459,7 +459,7 @@ export function agentsMd(ctx) {
 - ${u('/news-sitemap.xml')} — Google News rolling sitemap (keyword-rich; hold while rivals flap)
 - ${u('/news.html')} — Which AI stories has SIREN scored in this window? (day hubs under /news/YYYY-MM-DD.html)
 - ${u('/guide.md')} — SIREN vs DEFCON vs Doomsday Clock vs p(doom)
-- ${u('/search-trends.html')} — Which Google Search Trends for AI does SIREN watch?
+- ${u('/search-trends.html')} — Which Google Search Trends for AI does SIREN watch? (short alias ${u('/trends.html')})
 - ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
 - ${u('/guides.html')} — What are the AI explainers? (p(doom), clocks, doom indexes)
 - ${u('/guides.md')} — markdown mirror of the explainers hub

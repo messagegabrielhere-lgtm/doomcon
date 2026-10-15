@@ -214,6 +214,12 @@ describe('seo-daily surfaces', () => {
     assert.ok(OUR_SURFACES.includes('/guides.md'));
   });
 
+  it('monitors Outrank dir aliases + /trends short alias (FINDABILITY #124)', () => {
+    for (const p of ['/verify/', '/free-tools/', '/search-trends/', '/trends.html', '/trends/']) {
+      assert.ok(CORE_LIVE_SURFACES.includes(p), `CORE_LIVE missing ${p}`);
+    }
+  });
+
   it('monitors conquest short aliases as core live + agent-map lines (FINDABILITY #119)', () => {
     for (const p of VS_SHORT_ALIASES) {
       assert.ok(CORE_LIVE_SURFACES.includes(p), p);

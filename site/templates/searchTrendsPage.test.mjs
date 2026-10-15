@@ -30,6 +30,13 @@ test('searchTrendsPage stays honest when Trends is dark', () => {
   assert.match(html, /did not answer|No AI-related/i);
 });
 
+test('searchTrendsPage canonical stays on /search-trends.html (FINDABILITY #124 alias reuse)', () => {
+  // build.mjs writes the same body to trends.html; canonical must not follow the alias path.
+  const html = render(ctx, { ok: true, generated_at: '2026-10-14T15:00:00.000Z', geos: [], ai_trends: [], head_terms: [] }, []);
+  assert.match(html, /rel="canonical" href="https:\/\/siren\.watch\/search-trends\.html"/);
+  assert.doesNotMatch(html, /rel="canonical" href="https:\/\/siren\.watch\/trends\.html"/);
+});
+
 test('aiPredictionMarketsPage targets the head term without forecasting', () => {
   const html = renderMarkets(ctx, {
     generated_at: '2026-10-14T15:00:00.000Z',

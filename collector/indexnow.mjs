@@ -53,6 +53,7 @@ const ALWAYS = Object.freeze([
   '/jobs.html',
   '/race.html',
   '/search-trends.html',
+  '/trends.html', // short alias; canonical stays on search-trends (FINDABILITY #124)
   '/ai-prediction-markets.html',
   '/sitemap.xml',
   '/news-sitemap.xml',
