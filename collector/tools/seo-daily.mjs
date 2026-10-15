@@ -579,6 +579,14 @@ export function labHubLabelLags(byUrl, origin = 'https://siren.watch', probes = 
 }
 
 /**
+ * Home Organization knowsAbout must keep #142 labAboutLabel
+ * (FINDABILITY #143). Wipe gap is `home-knowsabout-labels-missing`.
+ */
+export function hasHomeLabAboutLabels(html, needle = LAB_ABOUT_AGENT_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
  * Conquest FAQ needles that must stay on tip after #126/#127 (FINDABILITY #128).
  * Orphan news-fast tars can wipe overlay hubs back to a stale seed.
  */
@@ -1019,6 +1027,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #142/#143 — home Organization knowsAbout dropped labAboutLabel.
+  if (ours.home_lab_about_labels === false) {
+    gaps.push({
+      id: 'home-knowsabout-labels-missing',
+      severity: 'medium',
+      text: `home missing Organization knowsAbout labAboutLabel (e.g. OpenAI / ChatGPT) (FINDABILITY #142/#143) — re-overlay index.html or wait for collect/news-fast Publish on tip ≥ #142`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1138,6 +1155,8 @@ export function measureSite(site, byUrl) {
     noindex: home?.ok ? hasNoindex(home.value) : null,
     gsc_meta: home?.ok ? hasGscMeta(home.value) : null,
     bing_meta: home?.ok ? hasBingMeta(home.value) : null,
+    // FINDABILITY #143 — home knowsAbout must keep #142 labAboutLabel (ours only).
+    home_lab_about_labels: site.ours && home?.ok ? hasHomeLabAboutLabels(home.value) : null,
     sitemap_urls: null,
     sitemap_is_index: null,
     news_sitemap_urls: null,
@@ -1372,6 +1391,11 @@ export function formatMarkdown(report) {
         );
       }
     }
+    if (ours && ours.home_lab_about_labels != null) {
+      lines.push(
+        `- Home knowsAbout labAboutLabel (#142/#143): **${ours.home_lab_about_labels ? 'ok' : 'NO'}**`,
+      );
+    }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
         lines.push('- Lab head-term titles (#121/#123/#137): **ok** (Gemini / ChatGPT / Claude / MU in lab `<title>`)');
@@ -1404,6 +1428,7 @@ export function formatMarkdown(report) {
       || ours.agents_head_aliases != null || ours.llms_head_aliases != null
       || ours.llms_lab_about_labels != null
       || ours.lab_hub_label_lags != null
+      || ours.home_lab_about_labels != null
       || ours.lab_head_alias_lags != null
       || ours.conquest_faq_lags != null)) {
       lines.push('');
@@ -1737,6 +1762,25 @@ function selftest() {
   });
   if (!hubGaps.some((g) => g.id === 'lab-hub-labels-missing')) {
     throw new Error('lab-hub-labels-missing gap');
+  }
+  if (hasHomeLabAboutLabels('OpenAI / ChatGPT in knowsAbout') !== true) {
+    throw new Error('hasHomeLabAboutLabels true');
+  }
+  if (hasHomeLabAboutLabels('What has SIREN scored about OpenAI') !== false) {
+    throw new Error('hasHomeLabAboutLabels false');
+  }
+  const homeKaGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      home_lab_about_labels: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!homeKaGaps.some((g) => g.id === 'home-knowsabout-labels-missing')) {
+    throw new Error('home-knowsabout-labels-missing gap');
   }
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {

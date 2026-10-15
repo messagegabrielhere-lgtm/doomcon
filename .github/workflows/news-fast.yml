@@ -451,6 +451,20 @@ jobs:
                   fi
                 done
               }
+              # FINDABILITY #143 — restore tip home/classic when #142 Organization
+              # knowsAbout labAboutLabel (OpenAI / ChatGPT) is missing after
+              # news-only index.html overlay from tip < #142.
+              restore_home_knowsabout() {
+                local root="$1" preserve="$2"
+                local hub
+                for hub in index.html classic.html; do
+                  if [ -f "$preserve/$hub" ] \
+                    && ! grep -qF 'OpenAI / ChatGPT' "$root/$hub" 2>/dev/null; then
+                    cp -a "$preserve/$hub" "$root/$hub"
+                    echo "restored $hub knowsAbout labAboutLabel (#143)"
+                  fi
+                done
+              }
               if [ -d .pages/.git ]; then
                 if ! git -C .pages fetch -q origin gh-pages 2>/dev/null \
                   || ! git -C .pages reset -q --hard FETCH_HEAD 2>/dev/null; then
@@ -472,8 +486,9 @@ jobs:
                 # do not lag HTML-only overlays while news-fast owns gh-pages.
                 # FINDABILITY #136 — stash tip agent maps before public/ overlay
                 # can replace them with a news-only build that lacks #134/#132.
+                # FINDABILITY #143 — also stash tip home/classic for #142 knowsAbout.
                 PRESERVE_MAPS=$(mktemp -d)
-                for map in agents.md llms.txt; do
+                for map in agents.md llms.txt index.html classic.html; do
                   [ -f ".pages/$map" ] && cp -a ".pages/$map" "$PRESERVE_MAPS/$map"
                 done
                 for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms.txt llms-full.txt agents.md agents.txt news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html; do
@@ -491,6 +506,7 @@ jobs:
                 fi
                 restore_vs_aliases .pages
                 restore_agent_maps .pages "$PRESERVE_MAPS"
+                restore_home_knowsabout .pages "$PRESERVE_MAPS"
                 rm -rf "$PRESERVE_MAPS"
                 git -C .pages config user.name  'github-actions[bot]'
                 git -C .pages config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -506,10 +522,11 @@ jobs:
               if [ "$PUB_OK" -ne 1 ]; then
                 echo "tick $TICK: overlay publish missed; full orphan publish"
                 # FINDABILITY #128 — stash tip conquest FAQ hubs before orphan wipe.
-                # FINDABILITY #136/#141 — also stash tip agent maps + lab hubs.
+                # FINDABILITY #136/#141/#143 — agent maps + lab hubs + home knowsAbout.
                 PRESERVE_FAQ=$(mktemp -d)
                 for hub in compare.html alternatives.html agents.md llms.txt \
-                  lab/index.html companies.html companies/index.html; do
+                  lab/index.html companies.html companies/index.html \
+                  index.html classic.html; do
                   if [ -f ".pages/$hub" ]; then
                     mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                     cp -a ".pages/$hub" "$PRESERVE_FAQ/$hub"
@@ -520,7 +537,8 @@ jobs:
                   rm -rf .pages-faq-tip
                   if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
                     for hub in compare.html alternatives.html agents.md llms.txt \
-                      lab/index.html companies.html companies/index.html; do
+                      lab/index.html companies.html companies/index.html \
+                      index.html classic.html; do
                       if [ -f ".pages-faq-tip/$hub" ]; then
                         mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                         cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -537,6 +555,7 @@ jobs:
                 restore_conquest_faqs .pages "$PRESERVE_FAQ"
                 restore_agent_maps .pages "$PRESERVE_FAQ"
                 restore_lab_hub_labels .pages "$PRESERVE_FAQ"
+                restore_home_knowsabout .pages "$PRESERVE_FAQ"
                 rm -rf "$PRESERVE_FAQ"
                 git -C .pages init -q
                 git -C .pages checkout -q -b gh-pages
