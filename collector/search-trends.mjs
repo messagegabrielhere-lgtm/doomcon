@@ -50,6 +50,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #155 — "coreweave stock" / CoreWeave Trends → gated lab
   // (story counts only; co-moves with neocloud / AI-cloud debt tape).
   { id: 'coreweave', label: 'CoreWeave', re: /\bcoreweave(?:\s+stock)?\b/i, path: '/lab/coreweave.html' },
+  // FINDABILITY #157 — "neocloud" / neoclouds Trends (Gartner survival tape)
+  // → gated /tags/neoclouds.html (story counts only, not a vendor ranking).
+  { id: 'neocloud', label: 'Neoclouds', re: /\bneoclouds?\b/i, path: '/tags/neoclouds.html' },
   { id: 'siren', label: 'SIREN / siren.watch', re: /\bsiren\.watch\b|\bsiren\s+(?:index|watch|ai)\b|\bdoomcon\b/i, path: '/' },
 ]);
 

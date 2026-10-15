@@ -131,6 +131,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/micron.html',
   // FINDABILITY #155 — CoreWeave stock Trends FAQ lab.
   '/lab/coreweave.html',
+  // FINDABILITY #157 — neocloud Trends FAQ tag hub.
+  '/tags/neoclouds.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -710,6 +712,25 @@ export function hasAgentsCoreweave(body, needle = AGENTS_COREWEAVE_NEEDLE) {
   return text.includes(needle) && text.includes('/lab/coreweave.html');
 }
 
+/** FINDABILITY #157 — Neoclouds tag FAQ + agent maps for neocloud Trends. */
+export const NEOCLOUD_FAQ_NEEDLE = 'Why does SIREN watch neocloud and neoclouds in Google Search Trends?';
+/** Shared substring in agents.md (“neocloud / neoclouds Trends”) and llms tip. */
+export const AGENTS_NEOCLOUD_NEEDLE = 'neoclouds Trends';
+
+/** Tip /tags/neoclouds.html must keep the #157 neocloud Trends FAQ. */
+export function hasNeocloudFaq(html, needle = NEOCLOUD_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route neocloud Trends to Neoclouds tag (FINDABILITY #157).
+ * Wipe gap is `agents-neocloud-missing`.
+ */
+export function hasAgentsNeocloud(body, needle = AGENTS_NEOCLOUD_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/tags/neoclouds.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -1237,6 +1258,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #157 — Neoclouds tag FAQ for neocloud Trends wiped or never landed.
+  if (ours.neocloud_faq === false) {
+    gaps.push({
+      id: 'neocloud-faq-missing',
+      severity: 'medium',
+      text: `/tags/neoclouds.html missing neocloud Trends FAQ (FINDABILITY #157) — re-overlay tags/neoclouds.html or wait for full collect Publish on tip ≥ #157`,
+    });
+  }
+  // FINDABILITY #157 — agent maps must route neocloud Trends to Neoclouds tag.
+  if (ours.agents_neocloud === false || ours.llms_neocloud === false) {
+    const which = [
+      ours.agents_neocloud === false ? 'agents.md' : null,
+      ours.llms_neocloud === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-neocloud-missing',
+      severity: 'medium',
+      text: `${which} missing neocloud → /tags/neoclouds.html Trends tip (FINDABILITY #157) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #157`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1450,6 +1492,11 @@ export function measureSite(site, byUrl) {
     row.coreweave_stock_faq = cwHtml?.ok ? hasCoreweaveStockFaq(cwHtml.value) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
+    // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
+    const neoHtml = byUrl.get(`${base}/tags/neoclouds.html`);
+    row.neocloud_faq = neoHtml?.ok ? hasNeocloudFaq(neoHtml.value) : false;
+    row.agents_neocloud = agentsMd?.ok ? hasAgentsNeocloud(agentsMd.value) : false;
+    row.llms_neocloud = llms?.ok ? hasAgentsNeocloud(llmsBody) : false;
     // FINDABILITY #123 — lab title must keep product head-term aliases.
     row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
     // FINDABILITY #128 — compare/alternatives must keep #126/#127 FAQ needles.
@@ -1665,6 +1712,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
       const lm = ours.llms_coreweave == null ? '—' : (ours.llms_coreweave ? 'yes' : 'NO');
       lines.push(`- Agent-map CoreWeave stock → lab (#155): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.neocloud_faq != null) {
+      lines.push(
+        `- Neocloud Trends FAQ (#157): **${ours.neocloud_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_neocloud != null || ours.llms_neocloud != null)) {
+      const ag = ours.agents_neocloud == null ? '—' : (ours.agents_neocloud ? 'yes' : 'NO');
+      const lm = ours.llms_neocloud == null ? '—' : (ours.llms_neocloud ? 'yes' : 'NO');
+      lines.push(`- Agent-map neocloud → tag (#157): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
@@ -2168,6 +2225,39 @@ function selftest() {
   }
   if (!OUR_SURFACES.includes('/lab/coreweave.html')) {
     throw new Error('OUR_SURFACES missing /lab/coreweave.html');
+  }
+  if (hasNeocloudFaq(NEOCLOUD_FAQ_NEEDLE) !== true) {
+    throw new Error('hasNeocloudFaq true');
+  }
+  if (hasNeocloudFaq('What has SIREN scored about Neoclouds?') !== false) {
+    throw new Error('hasNeocloudFaq false');
+  }
+  if (hasAgentsNeocloud('neoclouds Trends → https://siren.watch/tags/neoclouds.html') !== true) {
+    throw new Error('hasAgentsNeocloud true');
+  }
+  if (hasAgentsNeocloud('https://siren.watch/tags/neoclouds.html only') !== false) {
+    throw new Error('hasAgentsNeocloud needs neoclouds needle');
+  }
+  const neoGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      neocloud_faq: false,
+      agents_neocloud: false,
+      llms_neocloud: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!neoGaps.some((g) => g.id === 'neocloud-faq-missing')) {
+    throw new Error('neocloud-faq-missing gap');
+  }
+  if (!neoGaps.some((g) => g.id === 'agents-neocloud-missing')) {
+    throw new Error('agents-neocloud-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/tags/neoclouds.html')) {
+    throw new Error('OUR_SURFACES missing /tags/neoclouds.html');
   }
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {

@@ -85,6 +85,13 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'coreweave stock', news: [] }).includes('coreweave'));
   assert.ok(matchHeadTerms({ title: 'CoreWeave', news: [] }).includes('coreweave'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'coreweave' && t.path === '/lab/coreweave.html'));
+  // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
+  assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
+  assert.ok(matchHeadTerms({
+    title: 'iren stock',
+    news: [{ title: 'AI Cloud Stocks Sink as Gartner Warns Most Neoclouds Won\'t Survive' }],
+  }).includes('neocloud'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'neocloud' && t.path === '/tags/neoclouds.html'));
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {
