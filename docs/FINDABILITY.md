@@ -311,6 +311,7 @@ context.
 | 78 | Rebuild live `news-sitemap.xml` with `NEWS_KEYWORD_LABS` (Character.AI / Mythos / x402 / YouTube Music / Claude Code) — gh-pages news-sitemap was stale vs #72 while `google-news-open` | Google News | **Done** (2026-10-14) |
 | 79 | `robots.txt` tip comments advertise free-tools + verify + Search Trends (crawlers that read robots before llms/agents) | Agents + Google | **Done** (2026-10-14) |
 | 80 | Layout unit test for `GOOGLE_SITE_VERIFICATION` meta + `seo-daily` detects live GSC HTML-tag (clears false “verified” guesses until operator sets secret / submits sitemaps — #11) | Google / daily agent | **Done** (2026-10-14) |
+| 81 | Harden layout `og:image` to always use a rooted `/cards/…` path (naive `url()` overlays emitted `siren.watchcards` on `/verify.html` + `/free-tools.html`); unit test + live overlay fix + IndexNow | Google / social | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 
