@@ -388,6 +388,7 @@ context.
 | 148 | `seo-daily` detects news-sitemap parent-lab titles missing labAboutLabel aliases (`news-lab-alias-keywords-missing` for OpenAI→ChatGPT / Anthropic→Claude / DeepMind→Gemini / Micron→MU) so tip wipe or CDN lag after #146/#147 is caught | Daily agent + Google News | **Done** (this pass) |
 | 149 | `news-fast` polls `collector/search-trends.mjs` each tick and `--only news` rewrites `/search-trends.html` + `/trends.html` + `api/search-trends.json` (+ directory indexes) so head-term spikes (e.g. Micron / MU / micron stock) reach tip without waiting on the hourly full collect Publish | Google + Trends | **Done** (this pass) |
 | 150 | `collect` newsroom lane runs Search Trends before `--only news` and commits `data/search-trends.json` so newsroom force-push does not republish a pre-spike Trends snapshot when news-fast’s hourly re-arm is quiet | Google + Trends | **Done** (this pass) |
+| 151 | Search Trends `HEAD_TERMS` micron also matches `dram stock` / `hbm stock` / `memory stock` / `micron stock`; `/lab/micron.html` FAQ answers why SIREN watches those Google Trends queries — one gated lab, no stock tip / doorway | Google + Trends | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
