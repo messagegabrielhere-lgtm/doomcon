@@ -473,11 +473,27 @@ export function hasTrendsShortAlias(txt, alias = TRENDS_SHORT_ALIAS) {
 export const PDOOM_SHORT_ALIAS = '/pdoom.html';
 
 /**
+ * Strip `/vs/<basename>` so a conquest primary cannot satisfy a root/short
+ * alias probe via naive `includes` (FINDABILITY #135).
+ * Example: `/vs/pdoom.html` must not count as `/pdoom.html`.
+ */
+export function stripVsPrefixedPaths(txt, paths) {
+  let body = String(txt || '');
+  for (const p of paths) {
+    const base = String(p || '').replace(/^\//, '');
+    if (!base) continue;
+    body = body.split(`/vs/${base}`).join('');
+  }
+  return body;
+}
+
+/**
  * True when an agent-map body lists the /pdoom.html short alias.
  * Wipe gap is `agents-pdoom-alias-missing` (FINDABILITY #130).
+ * `/vs/pdoom.html` alone does not count (FINDABILITY #135).
  */
 export function hasPdoomShortAlias(txt, alias = PDOOM_SHORT_ALIAS) {
-  return String(txt || '').includes(alias);
+  return stripVsPrefixedPaths(txt, [alias]).includes(alias);
 }
 
 /**
@@ -494,9 +510,10 @@ export const ROOT_RIVAL_AGENT_ALIASES = Object.freeze([
 /**
  * True when an agent-map body lists every root rival brand alias.
  * Wipe gap is `agents-root-rivals-missing` (FINDABILITY #132).
+ * `/vs/<brand>.html` lines alone do not count (FINDABILITY #135).
  */
 export function hasRootRivalAliases(txt, aliases = ROOT_RIVAL_AGENT_ALIASES) {
-  const body = String(txt || '');
+  const body = stripVsPrefixedPaths(txt, aliases);
   return aliases.every((p) => body.includes(p));
 }
 
@@ -1518,6 +1535,13 @@ function selftest() {
   }
   if (hasPdoomShortAlias('short /pdoom.html') !== true) throw new Error('hasPdoomShortAlias true');
   if (hasPdoomShortAlias('/p-doom.html only') !== false) throw new Error('hasPdoomShortAlias false');
+  // FINDABILITY #135 — /vs/pdoom.html must not satisfy the short-alias probe.
+  if (hasPdoomShortAlias('/vs/pdoom.html only') !== false) {
+    throw new Error('hasPdoomShortAlias vs-false-positive');
+  }
+  if (hasPdoomShortAlias('/vs/pdoom.html\nshort /pdoom.html') !== true) {
+    throw new Error('hasPdoomShortAlias with both');
+  }
   const pdoomGaps = deriveGaps({
     sites: [{
       id: 'siren', name: 'siren.watch', ours: true, ok: true,
@@ -1536,6 +1560,13 @@ function selftest() {
   }
   if (hasRootRivalAliases('/doombench.html\n/pizzint.html') !== false) {
     throw new Error('hasRootRivalAliases false');
+  }
+  // FINDABILITY #135 — /vs/<brand>.html must not satisfy root rival probes.
+  if (hasRootRivalAliases([
+    '/vs/doombench.html', '/vs/skynet-countdown.html',
+    '/vs/pizzint.html', '/vs/takeofftracker.html',
+  ].join('\n')) !== false) {
+    throw new Error('hasRootRivalAliases vs-false-positive');
   }
   const rootGaps = deriveGaps({
     sites: [{
