@@ -1184,6 +1184,15 @@ export function page(o) {
     ? `<meta name="google-site-verification" content="${esc(gsc)}">`
     : '';
 
+  // Bing Webmaster Tools HTML-tag verification (OUTREACH.md §0 / FINDABILITY #120).
+  // Same shape as GSC: set BING_SITE_VERIFICATION to the msvalidate.01 content=.
+  const bing = typeof process !== 'undefined' && process.env && process.env.BING_SITE_VERIFICATION
+    ? String(process.env.BING_SITE_VERIFICATION).trim()
+    : '';
+  const bingMeta = bing && /^[A-Za-z0-9_-]{10,120}$/.test(bing)
+    ? `<meta name="msvalidate.01" content="${esc(bing)}">`
+    : '';
+
   // The nav carries the number each destination holds. Two labels are emitted
   // per link, not one: the full name and the short one, and CSS swaps them at
   // phone width - so a nine-item nav with a figure on each is one wrapped row
@@ -1219,6 +1228,7 @@ export function page(o) {
 <link rel="canonical" href="${esc(canonical)}">
 ${o.noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="robots" content="index,follow,max-image-preview:large">'}
 ${gscMeta}
+${bingMeta}
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)">

@@ -77,6 +77,10 @@ jobs:
           # its real name there and nowhere else. x-search.mjs holds itself to
           # one call per XAI_X_SEARCH_MINUTES and XAI_X_SEARCH_DAILY_CAP a day.
           NEWS_XAI_KEY: ${{ secrets.XAI_API_KEY }}
+          # FINDABILITY #120 — news-only rebuilds rewrite index.html; keep
+          # verification metas when the operator has set the secrets.
+          GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
+          BING_SITE_VERIFICATION: ${{ secrets.BING_SITE_VERIFICATION }}
         run: |
           set -uo pipefail
           # workflow_dispatch can set MINUTES. Refuse anything that is not a

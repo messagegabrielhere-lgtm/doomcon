@@ -328,6 +328,14 @@ test('news-fast seeds LAST_PAGES_PUB from gh-pages tip (FINDABILITY #118)', () =
   assert.match(yml, /log -1 --format=%ct/);
 });
 
+test('collect + news-fast pass Bing Webmaster verification secret (FINDABILITY #120)', () => {
+  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(collect, /BING_SITE_VERIFICATION: \$\{\{ secrets\.BING_SITE_VERIFICATION \}\}/);
+  assert.match(newsFast, /BING_SITE_VERIFICATION: \$\{\{ secrets\.BING_SITE_VERIFICATION \}\}/);
+  assert.match(newsFast, /FINDABILITY #120/);
+});
+
 test('vs-alias-guard workflow restores missing short aliases (FINDABILITY #117)', () => {
   const yml = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
   assert.match(yml, /FINDABILITY #117/);

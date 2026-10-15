@@ -18,9 +18,11 @@ who will cite the number if copying it takes one tap.
    `https://siren.watch/news-sitemap.xml`.
 2. **Enforce HTTPS** in the repo's GitHub Pages settings. The API cannot set
    it from here. HTTP already serves the site; the cert name is `siren.watch`.
-3. **Bing Webmaster Tools.** Add `https://siren.watch` and submit the same
-   sitemap. IndexNow already pings Bing after each publish; verification
-   still tells you what got indexed.
+3. **Bing Webmaster Tools.** Add `https://siren.watch`. Copy the HTML-tag
+   `msvalidate.01` token into the repo secret `BING_SITE_VERIFICATION` (same
+   pattern as GSC — FINDABILITY #120). After the next collect Publish, verify,
+   then submit both sitemaps. IndexNow already pings Bing after each publish;
+   verification still tells you what got indexed.
 4. **Show HN, once,** with the draft below. Stay for six hours and answer
    method questions with links to lines.
 5. **One journalist** who has written about AI and jobs, or about p(doom).
