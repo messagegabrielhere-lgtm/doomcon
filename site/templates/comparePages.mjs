@@ -363,7 +363,7 @@ export function alternatives(ctx) {
   // Head-term question (FINDABILITY tip #207): H1 must match <title> stem.
   // Was “What are AI doom index alternatives, and what is each one?” under a shorter title.
   const qTitle = 'What are AI doom index alternatives?';
-  const description = `${qTitle} Looking for a DoomBench, Skynet Countdown, p(doom), PizzINT or Takeoff Tracker alternative? ${brand.NAME} is an hourly AI activity index with open code, CORS JSON and hash-chained receipts — not a DEFCON level or probability of doom.`;
+  const description = `${qTitle} What is an AI doom index alternative? Looking for a DoomBench, Skynet Countdown, p(doom), PizzINT or Takeoff Tracker alternative? ${brand.NAME} is an hourly AI activity index with open code, CORS JSON and hash-chained receipts — not a DEFCON level or probability of doom.`;
   // Tip #267: section H2s are question-shaped and mirrored in FAQ (§3.3).
   const rightQ = `When is ${brand.NAME} the right alternative?`;
   const wrongQ = `When is ${brand.NAME} the wrong alternative?`;
@@ -373,6 +373,10 @@ export function alternatives(ctx) {
   const faq = [
     [qTitle,
       `${brand.NAME} if you want a recomputable hourly activity count instead of a judgement doom score, AGI date, personal p(doom), DEFCON-shaped novelty page, or multi-panel takeoff dashboard. The pages below say when it is the right substitute — and when it is not.`],
+    // Exact singular head term (FINDABILITY #126) — SERP “AI doom index alternative”
+    // was not surfacing this hub; keep plural H1/title, add matching visible FAQ.
+    ['What is an AI doom index alternative?',
+      `An AI doom index alternative is a reading that answers a related question without borrowing a doom probability. ${brand.NAME} is an hourly AI activity index — how loud AI activity is across public feeds — with open code, CORS JSON and hash-chained receipts. It is not a DEFCON level, not a p(doom), and not a forecast.`],
     [rightQ,
       'When you want a number a stranger can recompute from public data and a published receipt, an embeddable widget and CORS-open JSON, and tempo rather than a takeover probability or fake DEFCON.'],
     [wrongQ,
