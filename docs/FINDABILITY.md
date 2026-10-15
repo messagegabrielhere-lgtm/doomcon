@@ -248,7 +248,7 @@ context.
 | 8 | Organization JSON-LD + IndexNow ping after publish + GSC meta hook | Google + Bing | **Done** (2026-10-10) |
 | 9 | Optional markdown mirrors for methodology and guide | Agents | **Done** (live `/methodology.md`, `/guide.md`) |
 | 10 | Mobile card view / less above-fold weight | Google CWV | **Done** (2026-10-14) — phone-width `<details>` deferral + below-fold `content-visibility:auto` |
-| 11 | Verify Search Console; submit both sitemaps | Operator | Open |
+| 11 | Verify Search Console; submit both sitemaps | Operator | Open — tracking [issue #202](https://github.com/messagegabrielhere-lgtm/doomcon/issues/202) |
 | 12 | `/country/<iso>` for countries with ≥3 mapped datacentre sites, and `/model/<slug>` for model families named in ≥3 scored stories | Google | **Done** (2026-10-10) |
 | 13 | `/compare`, `/alternatives`, `/vs/*` conquest landings | Google | **Done** (2026-10-10) |
 | 14 | `/agents.md` + Grok/xAI named Allow + ChatGPT query routing in `llms.txt` | ChatGPT + Grok | **Done** (2026-10-11) |
