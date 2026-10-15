@@ -605,6 +605,11 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Samsung and AI memory chips?`,
       `${brand.NAME} scores press that names Samsung. When Samsung HBM, AI memory-chip, or Samsung stock headlines dominate the tape — often co-moving with SK Hynix selloff / foundry coverage — or spike in Google Search Trends, this lab page is the crawlable answer — scored story counts only. Not a stock tip, not a chip review, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #195 — Samsung AI glasses / XR wearable tape → same gated lab.
+    faq.push([
+      `Why does ${brand.NAME} watch Samsung AI glasses?`,
+      `${brand.NAME} scores press that names Samsung. When Samsung AI glasses, Galaxy glasses, or Samsung XR / smart-glasses headlines dominate the tape — often co-moving with Meta Ray-Ban / wearable AI coverage — or spike in Google Search Trends, this lab page is the crawlable answer — scored story counts only. Not a product review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #177 — Alibaba Qwen / Tongyi open-weight tape → gated lab.
   if (player.id === 'qwen') {

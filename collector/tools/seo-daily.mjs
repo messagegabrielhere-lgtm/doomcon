@@ -841,6 +841,7 @@ export const TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE = 'Microsoft Copilot → /la
 export const TRENDS_ROUTES_XAI_GROK_NEEDLE = 'Grok / xAI → /lab/xai.html';
 export const TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma / Argon → /lab/google-deepmind.html';
 export const TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE = 'Samsung / HBM / AI memory → /lab/samsung.html';
+export const TRENDS_ROUTES_SAMSUNG_GLASSES_NEEDLE = 'Samsung AI glasses → /lab/samsung.html';
 export const TRENDS_ROUTES_CHARACTER_AI_NEEDLE = 'Character.ai bankruptcy → /tags/chatbots.html';
 export const TRENDS_ROUTES_QWEN_NEEDLE = 'Qwen / Alibaba open models → /lab/qwen.html';
 export const TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE = 'Oracle / AI datacenters → /tags/datacenters.html';
@@ -870,6 +871,7 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_XAI_GROK_NEEDLE)
     && text.includes(TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE)
     && text.includes(TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE)
+    && text.includes(TRENDS_ROUTES_SAMSUNG_GLASSES_NEEDLE)
     && text.includes(TRENDS_ROUTES_CHARACTER_AI_NEEDLE)
     && text.includes(TRENDS_ROUTES_QWEN_NEEDLE)
     && text.includes(TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE)
@@ -1097,6 +1099,24 @@ export function hasSamsungHbmFaq(html, needle = SAMSUNG_HBM_FAQ_NEEDLE) {
  * Wipe gap is `agents-samsung-hbm-missing`.
  */
 export function hasAgentsSamsungHbm(body, needle = AGENTS_SAMSUNG_HBM_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/samsung.html');
+}
+
+/** FINDABILITY #195 — Samsung AI glasses FAQ + agent maps (same lab as HBM #175). */
+export const SAMSUNG_GLASSES_FAQ_NEEDLE = 'Why does SIREN watch Samsung AI glasses?';
+export const AGENTS_SAMSUNG_GLASSES_NEEDLE = 'Samsung AI glasses';
+
+/** Tip /lab/samsung.html must keep the #195 Samsung AI glasses FAQ. */
+export function hasSamsungGlassesFaq(html, needle = SAMSUNG_GLASSES_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Samsung AI glasses Trends to Samsung lab (FINDABILITY #195).
+ * Wipe gap is `agents-samsung-glasses-missing`.
+ */
+export function hasAgentsSamsungGlasses(body, needle = AGENTS_SAMSUNG_GLASSES_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/samsung.html');
 }
@@ -1926,7 +1946,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193/#195) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -2179,6 +2199,27 @@ export function deriveGaps(report) {
       id: 'agents-samsung-hbm-missing',
       severity: 'medium',
       text: `${which} missing Samsung / AI memory → /lab/samsung.html Trends tip (FINDABILITY #175) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #175`,
+    });
+  }
+
+  // FINDABILITY #195 — Samsung lab FAQ for AI glasses wiped or never landed.
+  if (ours.samsung_glasses_faq === false) {
+    gaps.push({
+      id: 'samsung-glasses-faq-missing',
+      severity: 'medium',
+      text: `/lab/samsung.html missing Samsung AI glasses FAQ (FINDABILITY #195) — re-overlay lab/samsung.html or wait for full collect Publish on tip ≥ #195`,
+    });
+  }
+  // FINDABILITY #195 — agent maps must route Samsung AI glasses Trends to Samsung lab.
+  if (ours.agents_samsung_glasses === false || ours.llms_samsung_glasses === false) {
+    const which = [
+      ours.agents_samsung_glasses === false ? 'agents.md' : null,
+      ours.llms_samsung_glasses === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-samsung-glasses-missing',
+      severity: 'medium',
+      text: `${which} missing Samsung AI glasses → /lab/samsung.html Trends tip (FINDABILITY #195) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #195`,
     });
   }
 
@@ -2719,6 +2760,10 @@ export function measureSite(site, byUrl) {
     row.samsung_hbm_faq = samsungHtml?.ok ? hasSamsungHbmFaq(samsungHtml.value) : false;
     row.agents_samsung_hbm = agentsMd?.ok ? hasAgentsSamsungHbm(agentsMd.value) : false;
     row.llms_samsung_hbm = llms?.ok ? hasAgentsSamsungHbm(llmsBody) : false;
+    // FINDABILITY #195 — Samsung AI glasses FAQ + agent maps (same lab as HBM #175).
+    row.samsung_glasses_faq = samsungHtml?.ok ? hasSamsungGlassesFaq(samsungHtml.value) : false;
+    row.agents_samsung_glasses = agentsMd?.ok ? hasAgentsSamsungGlasses(agentsMd.value) : false;
+    row.llms_samsung_glasses = llms?.ok ? hasAgentsSamsungGlasses(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -3143,6 +3188,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_samsung_hbm == null ? '—' : (ours.agents_samsung_hbm ? 'yes' : 'NO');
       const lm = ours.llms_samsung_hbm == null ? '—' : (ours.llms_samsung_hbm ? 'yes' : 'NO');
       lines.push(`- Agent-map Samsung / AI memory → lab (#175): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.samsung_glasses_faq != null) {
+      lines.push(
+        `- Samsung AI glasses FAQ (#195): **${ours.samsung_glasses_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_samsung_glasses != null || ours.llms_samsung_glasses != null)) {
+      const ag = ours.agents_samsung_glasses == null ? '—' : (ours.agents_samsung_glasses ? 'yes' : 'NO');
+      const lm = ours.llms_samsung_glasses == null ? '—' : (ours.llms_samsung_glasses ? 'yes' : 'NO');
+      lines.push(`- Agent-map Samsung AI glasses → lab (#195): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -4220,6 +4275,36 @@ function selftest() {
   if (!samGaps.some((g) => g.id === 'agents-samsung-hbm-missing')) {
     throw new Error('agents-samsung-hbm-missing gap');
   }
+  if (hasSamsungGlassesFaq(SAMSUNG_GLASSES_FAQ_NEEDLE) !== true) {
+    throw new Error('hasSamsungGlassesFaq true');
+  }
+  if (hasSamsungGlassesFaq('Why does SIREN watch Samsung and AI memory chips?') !== false) {
+    throw new Error('hasSamsungGlassesFaq false');
+  }
+  if (hasAgentsSamsungGlasses('Samsung AI glasses → https://siren.watch/lab/samsung.html') !== true) {
+    throw new Error('hasAgentsSamsungGlasses true');
+  }
+  if (hasAgentsSamsungGlasses('https://siren.watch/lab/samsung.html only') !== false) {
+    throw new Error('hasAgentsSamsungGlasses needs Samsung AI glasses needle');
+  }
+  const samGlassesGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      samsung_glasses_faq: false,
+      agents_samsung_glasses: false,
+      llms_samsung_glasses: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!samGlassesGaps.some((g) => g.id === 'samsung-glasses-faq-missing')) {
+    throw new Error('samsung-glasses-faq-missing gap');
+  }
+  if (!samGlassesGaps.some((g) => g.id === 'agents-samsung-glasses-missing')) {
+    throw new Error('agents-samsung-glasses-missing gap');
+  }
   if (!OUR_SURFACES.includes('/lab/samsung.html')) {
     throw new Error('OUR_SURFACES missing /lab/samsung.html');
   }
@@ -4622,6 +4707,7 @@ function selftest() {
     TRENDS_ROUTES_XAI_GROK_NEEDLE,
     TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
     TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
+    TRENDS_ROUTES_SAMSUNG_GLASSES_NEEDLE,
     TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
     TRENDS_ROUTES_QWEN_NEEDLE,
     TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE,
@@ -4638,7 +4724,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

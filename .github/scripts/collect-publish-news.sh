@@ -197,9 +197,10 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'AMD / MI300' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Tesla / FSD' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'ChatGPT Chrome' ".pages/$map" 2>/dev/null \
-      || ! grep -qF 'Meta and Apple Mac AI' ".pages/$map" 2>/dev/null; }; then
+      || ! grep -qF 'Meta and Apple Mac AI' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'Samsung AI glasses' ".pages/$map" 2>/dev/null; }; then
     cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-    echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193)"
+    echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193/#195)"
   fi
 done
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -364,10 +365,11 @@ fi
 # FINDABILITY #175 — restore tip /lab/samsung.html when Samsung / HBM FAQ
 # is missing after mid-merge / orphan Publish on tip < #175.
 if [ -f "$PRESERVE_FAQ/lab/samsung.html" ] \
-  && ! grep -qF 'Why does SIREN watch Samsung and AI memory chips?' ".pages/lab/samsung.html" 2>/dev/null; then
+  && { ! grep -qF 'Why does SIREN watch Samsung and AI memory chips?' ".pages/lab/samsung.html" 2>/dev/null \
+    || ! grep -qF 'Why does SIREN watch Samsung AI glasses?' ".pages/lab/samsung.html" 2>/dev/null; }; then
   mkdir -p .pages/lab
   cp -a "$PRESERVE_FAQ/lab/samsung.html" .pages/lab/samsung.html
-  echo "restored lab/samsung.html Samsung / HBM FAQ (#175)"
+  echo "restored lab/samsung.html Samsung / HBM + AI glasses FAQ (#175/#195)"
 fi
 # FINDABILITY #177 — restore tip /lab/qwen.html when Qwen FAQ
 # is missing after mid-merge / orphan Publish on tip < #177.
@@ -467,6 +469,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
     || ! grep -qF 'Grok / xAI → /lab/xai.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Gemini / Gemma / Argon → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'Samsung AI glasses → /lab/samsung.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Qwen / Alibaba open models → /lab/qwen.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Oracle / AI datacenters → /tags/datacenters.html' ".pages/search-trends.html" 2>/dev/null \

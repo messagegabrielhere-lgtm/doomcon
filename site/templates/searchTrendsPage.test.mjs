@@ -47,6 +47,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /Meta Muse \/ open-weight AI → \/lab\/meta\.html/);
   // FINDABILITY #193 — Meta–Apple Mac AI route to gated Meta lab.
   assert.match(html, /Meta–Apple Mac AI \/ Muse on Mac → \/lab\/meta\.html/);
+  // FINDABILITY #195 — Samsung AI glasses route to gated Samsung lab.
+  assert.match(html, /Samsung AI glasses → \/lab\/samsung\.html/);
   // FINDABILITY #170 — Apple Intelligence route to gated lab.
   assert.match(html, /Apple Intelligence → \/lab\/apple\.html/);
   // FINDABILITY #171 — Microsoft Copilot route to gated lab.

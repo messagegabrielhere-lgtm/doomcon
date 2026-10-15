@@ -395,6 +395,13 @@ describe('lab facets', () => {
       samHtml,
       /Why does SIREN watch Samsung and AI memory chips\?/,
     );
+    // FINDABILITY #195 — Samsung AI glasses FAQ on same gated lab.
+    assert.match(
+      samHtml,
+      /Why does SIREN watch Samsung AI glasses\?/,
+    );
+    assert.match(samHtml, /Galaxy glasses|XR \/ smart-glasses|Meta Ray-Ban/);
+    assert.match(samHtml, /[Nn]ot a product review/);
     assert.match(samHtml, /<title>[^<]*HBM/);
     assert.match(samHtml, /SK Hynix/);
     assert.match(samHtml, /[Nn]ot a stock tip/);

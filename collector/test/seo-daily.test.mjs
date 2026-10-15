@@ -97,6 +97,10 @@ import {
   hasAgentsSamsungHbm,
   SAMSUNG_HBM_FAQ_NEEDLE,
   TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
+  hasSamsungGlassesFaq,
+  hasAgentsSamsungGlasses,
+  SAMSUNG_GLASSES_FAQ_NEEDLE,
+  TRENDS_ROUTES_SAMSUNG_GLASSES_NEEDLE,
   hasCharacterAiFaq,
   hasAgentsCharacterAi,
   CHARACTER_AI_FAQ_NEEDLE,
@@ -1009,6 +1013,30 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-samsung-hbm-missing'));
   });
 
+  it('detects Samsung AI glasses FAQ + agent-map lag (FINDABILITY #195)', () => {
+    assert.equal(hasSamsungGlassesFaq(SAMSUNG_GLASSES_FAQ_NEEDLE), true);
+    assert.equal(hasSamsungGlassesFaq('Why does SIREN watch Samsung and AI memory chips?'), false);
+    assert.equal(
+      hasAgentsSamsungGlasses('Samsung AI glasses → https://siren.watch/lab/samsung.html'),
+      true,
+    );
+    assert.equal(hasAgentsSamsungGlasses('https://siren.watch/lab/samsung.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        samsung_glasses_faq: false,
+        agents_samsung_glasses: false,
+        llms_samsung_glasses: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'samsung-glasses-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-samsung-glasses-missing'));
+  });
+
   it('detects Character.ai bankruptcy FAQ + agent-map lag (FINDABILITY #176)', () => {
     assert.equal(hasCharacterAiFaq(CHARACTER_AI_FAQ_NEEDLE), true);
     assert.equal(hasCharacterAiFaq('What has SIREN scored about Chatbots?'), false);
@@ -1308,6 +1336,7 @@ describe('seo-daily surfaces', () => {
       TRENDS_ROUTES_XAI_GROK_NEEDLE,
       TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
       TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
+      TRENDS_ROUTES_SAMSUNG_GLASSES_NEEDLE,
       TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
       TRENDS_ROUTES_QWEN_NEEDLE,
       TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE,

@@ -397,9 +397,10 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'AMD / MI300' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Tesla / FSD' "$root/$map" 2>/dev/null \
             || ! grep -qF 'ChatGPT Chrome' "$root/$map" 2>/dev/null \
-            || ! grep -qF 'Meta and Apple Mac AI' "$root/$map" 2>/dev/null; }; then
+            || ! grep -qF 'Meta and Apple Mac AI' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'Samsung AI glasses' "$root/$map" 2>/dev/null; }; then
           cp -a "$preserve/$map" "$root/$map"
-          echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193)"
+          echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193/#195)"
         fi
       done
     }
@@ -582,6 +583,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
           || ! grep -qF 'Grok / xAI → /lab/xai.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Gemini / Gemma / Argon → /lab/google-deepmind.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' "$root/search-trends.html" 2>/dev/null \
+          || ! grep -qF 'Samsung AI glasses → /lab/samsung.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Qwen / Alibaba open models → /lab/qwen.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Oracle / AI datacenters → /tags/datacenters.html' "$root/search-trends.html" 2>/dev/null \
@@ -699,15 +701,16 @@ while [ "$(date +%s)" -lt "$END" ]; do
         echo "restored lab/google-deepmind.html Gemini / Gemma / Argon FAQ (#174/#187)"
       fi
     }
-    # FINDABILITY #175 — restore tip /lab/samsung.html when Samsung / HBM FAQ
-    # is missing after orphan Publish from tip < #175.
+    # FINDABILITY #175/#195 — restore tip /lab/samsung.html when Samsung / HBM
+    # or Samsung AI glasses FAQ is missing after orphan Publish.
     restore_samsung_hbm_faq() {
       local root="$1" preserve="$2"
       if [ -f "$preserve/lab/samsung.html" ] \
-        && ! grep -qF 'Why does SIREN watch Samsung and AI memory chips?' "$root/lab/samsung.html" 2>/dev/null; then
+        && { ! grep -qF 'Why does SIREN watch Samsung and AI memory chips?' "$root/lab/samsung.html" 2>/dev/null \
+          || ! grep -qF 'Why does SIREN watch Samsung AI glasses?' "$root/lab/samsung.html" 2>/dev/null; }; then
         mkdir -p "$root/lab"
         cp -a "$preserve/lab/samsung.html" "$root/lab/samsung.html"
-        echo "restored lab/samsung.html Samsung / HBM FAQ (#175)"
+        echo "restored lab/samsung.html Samsung / HBM + AI glasses FAQ (#175/#195)"
       fi
     }
     # FINDABILITY #177 — restore tip /lab/qwen.html when Qwen FAQ
