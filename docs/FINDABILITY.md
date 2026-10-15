@@ -346,6 +346,7 @@ context.
 | 113 | Conquest short aliases `/vs/doom.html` → doombench and `/vs/takeoff.html` → takeofftracker (same body + canonical on primary; out of sitemap) — typed guesses were 404 after #111 proved the pattern | Google | **Done** (this pass) |
 | 114 | `news-fast` re-copies vs short aliases from primary rival HTML before every overlay/orphan commit — orphan publish was wiping `/vs/skynet.html` (and #113) from tip within minutes of overlay | Deploy + Google | **Done** (this pass) |
 | 115 | `collect.yml` orphan Publish (newsroom + full) restores the same vs short aliases before commit — news-only rebuilds omit them and would wipe tip the same way as pre-#114 news-fast | Deploy + Google | **Done** (this pass) |
+| 116 | `agents.md` + llms tip list all conquest `/vs/*` pages and short aliases (#111/#113); `news-fast` overlays `llms.txt` / `agents.md` / `agents.txt` so agent discovery does not lag HTML-only overlays | Agents + Google | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

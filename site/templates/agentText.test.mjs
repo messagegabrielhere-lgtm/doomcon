@@ -160,7 +160,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /^# SIREN for AI agents/);
   assert.match(md, /ChatGPT, Grok/);
   for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html',
-    '/search-trends.html', '/ai-prediction-markets.html']) {
+    '/search-trends.html', '/ai-prediction-markets.html',
+    '/vs/doombench.html', '/vs/doom.html', '/vs/skynet-countdown.html', '/vs/skynet.html',
+    '/vs/pdoom.html', '/vs/takeofftracker.html', '/vs/takeoff.html']) {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
   assert.match(md, /Which Google Search Trends for AI does SIREN watch\?/);
@@ -173,7 +175,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /siren_now|cli\.mjs/);
   assert.match(md, /api-catalog|agents\.txt/);
   assert.match(md, /Google News rolling sitemap|YYYY-MM-DD/);
-  assert.ok(md.split('\n').length < 110, `keep it short for assistants (got ${md.split('\n').length})`);
+  assert.ok(md.split('\n').length < 120, `keep it short for assistants (got ${md.split('\n').length})`);
 });
 
 test('llms.txt lists newest UTC day hubs when the archive clears the gate', () => {

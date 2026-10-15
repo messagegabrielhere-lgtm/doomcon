@@ -305,7 +305,10 @@ jobs:
                 # FINDABILITY #96 — news-sitemap/sitemap/robots must ride the
                 # overlay path. Omitting them left Google News on a stale
                 # news-sitemap while api/news.json + /news.html refreshed.
-                for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms-full.txt news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html; do
+                # FINDABILITY #116 — llms.txt / agents.md advertise conquest short
+                # aliases (#111/#113); keep them on the overlay path so agent maps
+                # do not lag HTML-only overlays while news-fast owns gh-pages.
+                for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms.txt llms-full.txt agents.md agents.txt news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html; do
                   if [ -e "public/$rel" ]; then
                     mkdir -p ".pages/$(dirname "$rel")"
                     cp -a "public/$rel" ".pages/$rel"

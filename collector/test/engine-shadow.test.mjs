@@ -282,6 +282,10 @@ test('news-fast overlay publishes news-sitemap + sitemap + robots (FINDABILITY #
   assert.match(list, /news-sitemap\.xml/);
   assert.match(list, /\bsitemap\.xml\b/);
   assert.match(list, /\brobots\.txt\b/);
+  // FINDABILITY #116 — agent maps advertise conquest short aliases.
+  assert.match(list, /\bllms\.txt\b/);
+  assert.match(list, /\bagents\.md\b/);
+  assert.match(list, /\bagents\.txt\b/);
 });
 
 test('news-fast seeds public/ from gh-pages before --only news (FINDABILITY #98)', () => {
