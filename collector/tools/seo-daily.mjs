@@ -129,6 +129,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/openai.html',
   '/lab/anthropic.html',
   '/lab/micron.html',
+  // FINDABILITY #155 — CoreWeave stock Trends FAQ lab.
+  '/lab/coreweave.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -690,6 +692,24 @@ export function hasAgentsMicronDram(body, needle = AGENTS_MICRON_DRAM_NEEDLE) {
   return text.includes(needle) && text.includes('/lab/micron.html');
 }
 
+/** FINDABILITY #155 — CoreWeave lab FAQ + agent maps for CoreWeave stock Trends. */
+export const COREWEAVE_STOCK_FAQ_NEEDLE = 'Why does SIREN watch CoreWeave stock in Google Search Trends?';
+export const AGENTS_COREWEAVE_NEEDLE = 'CoreWeave stock';
+
+/** Tip /lab/coreweave.html must keep the #155 CoreWeave Trends FAQ. */
+export function hasCoreweaveStockFaq(html, needle = COREWEAVE_STOCK_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route CoreWeave stock Trends to CoreWeave lab (FINDABILITY #155).
+ * Wipe gap is `agents-coreweave-missing`.
+ */
+export function hasAgentsCoreweave(body, needle = AGENTS_COREWEAVE_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/coreweave.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -1196,6 +1216,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #155 — CoreWeave lab FAQ for CoreWeave stock Trends wiped or never landed.
+  if (ours.coreweave_stock_faq === false) {
+    gaps.push({
+      id: 'coreweave-stock-faq-missing',
+      severity: 'medium',
+      text: `/lab/coreweave.html missing CoreWeave stock Trends FAQ (FINDABILITY #155) — re-overlay lab/coreweave.html or wait for full collect Publish on tip ≥ #155`,
+    });
+  }
+  // FINDABILITY #155 — agent maps must route CoreWeave stock Trends to CoreWeave lab.
+  if (ours.agents_coreweave === false || ours.llms_coreweave === false) {
+    const which = [
+      ours.agents_coreweave === false ? 'agents.md' : null,
+      ours.llms_coreweave === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-coreweave-missing',
+      severity: 'medium',
+      text: `${which} missing CoreWeave stock → /lab/coreweave.html Trends tip (FINDABILITY #155) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #155`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1404,6 +1445,11 @@ export function measureSite(site, byUrl) {
     row.micron_dram_faq = micronHtml?.ok ? hasMicronDramFaq(micronHtml.value) : false;
     row.agents_micron_dram = agentsMd?.ok ? hasAgentsMicronDram(agentsMd.value) : false;
     row.llms_micron_dram = llms?.ok ? hasAgentsMicronDram(llmsBody) : false;
+    // FINDABILITY #155 — CoreWeave FAQ + agent maps for CoreWeave stock Trends.
+    const cwHtml = byUrl.get(`${base}/lab/coreweave.html`);
+    row.coreweave_stock_faq = cwHtml?.ok ? hasCoreweaveStockFaq(cwHtml.value) : false;
+    row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
+    row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #123 — lab title must keep product head-term aliases.
     row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
     // FINDABILITY #128 — compare/alternatives must keep #126/#127 FAQ needles.
@@ -1609,6 +1655,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_micron_dram == null ? '—' : (ours.agents_micron_dram ? 'yes' : 'NO');
       const lm = ours.llms_micron_dram == null ? '—' : (ours.llms_micron_dram ? 'yes' : 'NO');
       lines.push(`- Agent-map dram → Micron (#154): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.coreweave_stock_faq != null) {
+      lines.push(
+        `- CoreWeave stock Trends FAQ (#155): **${ours.coreweave_stock_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
+      const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
+      const lm = ours.llms_coreweave == null ? '—' : (ours.llms_coreweave ? 'yes' : 'NO');
+      lines.push(`- Agent-map CoreWeave stock → lab (#155): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
@@ -2079,6 +2135,39 @@ function selftest() {
   }
   if (!micronGaps.some((g) => g.id === 'agents-micron-dram-missing')) {
     throw new Error('agents-micron-dram-missing gap');
+  }
+  if (hasCoreweaveStockFaq(COREWEAVE_STOCK_FAQ_NEEDLE) !== true) {
+    throw new Error('hasCoreweaveStockFaq true');
+  }
+  if (hasCoreweaveStockFaq('What has SIREN scored about CoreWeave?') !== false) {
+    throw new Error('hasCoreweaveStockFaq false');
+  }
+  if (hasAgentsCoreweave('CoreWeave stock → https://siren.watch/lab/coreweave.html') !== true) {
+    throw new Error('hasAgentsCoreweave true');
+  }
+  if (hasAgentsCoreweave('https://siren.watch/lab/coreweave.html only') !== false) {
+    throw new Error('hasAgentsCoreweave needs CoreWeave needle');
+  }
+  const cwGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      coreweave_stock_faq: false,
+      agents_coreweave: false,
+      llms_coreweave: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!cwGaps.some((g) => g.id === 'coreweave-stock-faq-missing')) {
+    throw new Error('coreweave-stock-faq-missing gap');
+  }
+  if (!cwGaps.some((g) => g.id === 'agents-coreweave-missing')) {
+    throw new Error('agents-coreweave-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/coreweave.html')) {
+    throw new Error('OUR_SURFACES missing /lab/coreweave.html');
   }
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {

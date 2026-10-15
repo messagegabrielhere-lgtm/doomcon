@@ -462,6 +462,13 @@ export function renderLab(ctx, player) {
       `${brand.NAME} watches Google’s daily trending RSS for findability. When Micron, MU stock, DRAM stock, or HBM stock spikes with AI memory-chip headlines, this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
+  // FINDABILITY #155 — “coreweave stock” / AI neocloud debt Trends → gated lab.
+  if (player.id === 'coreweave') {
+    faq.push([
+      `Why does ${brand.NAME} watch CoreWeave stock in Google Search Trends?`,
+      `${brand.NAME} watches Google’s daily trending RSS for findability. When CoreWeave stock spikes with AI neocloud / GPU-cloud debt headlines, this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');

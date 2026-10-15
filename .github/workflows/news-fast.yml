@@ -520,6 +520,17 @@ jobs:
                   echo "restored lab/micron.html DRAM Trends FAQ (#154)"
                 fi
               }
+              # FINDABILITY #155 — restore tip /lab/coreweave.html when CoreWeave
+              # stock FAQ is missing after orphan Publish from tip < #155.
+              restore_coreweave_stock_faq() {
+                local root="$1" preserve="$2"
+                if [ -f "$preserve/lab/coreweave.html" ] \
+                  && ! grep -qF 'Why does SIREN watch CoreWeave stock in Google Search Trends?' "$root/lab/coreweave.html" 2>/dev/null; then
+                  mkdir -p "$root/lab"
+                  cp -a "$preserve/lab/coreweave.html" "$root/lab/coreweave.html"
+                  echo "restored lab/coreweave.html CoreWeave stock FAQ (#155)"
+                fi
+              }
               if [ -d .pages/.git ]; then
                 if ! git -C .pages fetch -q origin gh-pages 2>/dev/null \
                   || ! git -C .pages reset -q --hard FETCH_HEAD 2>/dev/null; then
@@ -543,13 +554,14 @@ jobs:
                 # can replace them with a news-only build that lacks #134/#132.
                 # FINDABILITY #143 — also stash tip home/classic for #142 knowsAbout.
                 # FINDABILITY #145 — stash tip race.html for #144 labAboutLabel.
-                # FINDABILITY #153/#154 — stash tip watts.html + lab/micron.html
-                # for #152 IREN FAQ and #151 DRAM FAQ.
+                # FINDABILITY #153/#154/#155 — stash tip watts + Micron + CoreWeave
+                # labs for Trends FAQs.
                 PRESERVE_MAPS=$(mktemp -d)
                 for map in agents.md llms.txt index.html classic.html; do
                   [ -f ".pages/$map" ] && cp -a ".pages/$map" "$PRESERVE_MAPS/$map"
                 done
-                for hub in race.html race/index.html watts.html watts/index.html lab/micron.html; do
+                for hub in race.html race/index.html watts.html watts/index.html \
+                  lab/micron.html lab/coreweave.html; do
                   if [ -f ".pages/$hub" ]; then
                     mkdir -p "$PRESERVE_MAPS/$(dirname "$hub")"
                     cp -a ".pages/$hub" "$PRESERVE_MAPS/$hub"
@@ -574,6 +586,7 @@ jobs:
                 restore_race_lab_labels .pages "$PRESERVE_MAPS"
                 restore_watts_iren_faq .pages "$PRESERVE_MAPS"
                 restore_micron_dram_faq .pages "$PRESERVE_MAPS"
+                restore_coreweave_stock_faq .pages "$PRESERVE_MAPS"
                 rm -rf "$PRESERVE_MAPS"
                 git -C .pages config user.name  'github-actions[bot]'
                 git -C .pages config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -589,13 +602,13 @@ jobs:
               if [ "$PUB_OK" -ne 1 ]; then
                 echo "tick $TICK: overlay publish missed; full orphan publish"
                 # FINDABILITY #128 — stash tip conquest FAQ hubs before orphan wipe.
-                # FINDABILITY #136/#141/#143/#145/#153/#154 — agent maps + lab hubs + home
-                # knowsAbout + race labAboutLabel + Watts IREN FAQ + Micron DRAM FAQ.
+                # FINDABILITY #136/#141/#143/#145/#153/#154/#155 — agent maps + lab hubs +
+                # home knowsAbout + race + Watts/Micron/CoreWeave Trends FAQs.
                 PRESERVE_FAQ=$(mktemp -d)
                 for hub in compare.html alternatives.html agents.md llms.txt \
                   lab/index.html companies.html companies/index.html \
                   index.html classic.html race.html race/index.html \
-                  watts.html watts/index.html lab/micron.html; do
+                  watts.html watts/index.html lab/micron.html lab/coreweave.html; do
                   if [ -f ".pages/$hub" ]; then
                     mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                     cp -a ".pages/$hub" "$PRESERVE_FAQ/$hub"
@@ -608,7 +621,7 @@ jobs:
                     for hub in compare.html alternatives.html agents.md llms.txt \
                       lab/index.html companies.html companies/index.html \
                       index.html classic.html race.html race/index.html \
-                      watts.html watts/index.html lab/micron.html; do
+                      watts.html watts/index.html lab/micron.html lab/coreweave.html; do
                       if [ -f ".pages-faq-tip/$hub" ]; then
                         mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                         cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -629,6 +642,7 @@ jobs:
                 restore_race_lab_labels .pages "$PRESERVE_FAQ"
                 restore_watts_iren_faq .pages "$PRESERVE_FAQ"
                 restore_micron_dram_faq .pages "$PRESERVE_FAQ"
+                restore_coreweave_stock_faq .pages "$PRESERVE_FAQ"
                 rm -rf "$PRESERVE_FAQ"
                 git -C .pages init -q
                 git -C .pages checkout -q -b gh-pages

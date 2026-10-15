@@ -40,6 +40,9 @@ import {
   hasMicronDramFaq,
   hasAgentsMicronDram,
   MICRON_DRAM_FAQ_NEEDLE,
+  hasCoreweaveStockFaq,
+  hasAgentsCoreweave,
+  COREWEAVE_STOCK_FAQ_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -474,6 +477,31 @@ describe('seo-daily surfaces', () => {
     });
     assert.ok(gaps.some((g) => g.id === 'micron-dram-faq-missing'));
     assert.ok(gaps.some((g) => g.id === 'agents-micron-dram-missing'));
+  });
+
+  it('detects CoreWeave stock FAQ + agent-map lag (FINDABILITY #155)', () => {
+    assert.equal(hasCoreweaveStockFaq(COREWEAVE_STOCK_FAQ_NEEDLE), true);
+    assert.equal(hasCoreweaveStockFaq('What has SIREN scored about CoreWeave?'), false);
+    assert.equal(
+      hasAgentsCoreweave('CoreWeave stock → https://siren.watch/lab/coreweave.html'),
+      true,
+    );
+    assert.equal(hasAgentsCoreweave('https://siren.watch/lab/coreweave.html only'), false);
+    assert.equal(hasAgentsCoreweave('CoreWeave stock with no lab path'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        coreweave_stock_faq: false,
+        agents_coreweave: false,
+        llms_coreweave: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'coreweave-stock-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-coreweave-missing'));
   });
 
   it('detects missing labAboutLabel aliases in news:keywords (FINDABILITY #148)', () => {

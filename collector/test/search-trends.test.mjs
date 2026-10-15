@@ -81,6 +81,10 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'iren stock', news: [] }).includes('iren'));
   assert.ok(matchHeadTerms({ title: 'Iris Energy', news: [] }).includes('iren'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'iren' && t.path === '/watts.html'));
+  // FINDABILITY #155 — CoreWeave stock Trends → gated CoreWeave lab.
+  assert.ok(matchHeadTerms({ title: 'coreweave stock', news: [] }).includes('coreweave'));
+  assert.ok(matchHeadTerms({ title: 'CoreWeave', news: [] }).includes('coreweave'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'coreweave' && t.path === '/lab/coreweave.html'));
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {
