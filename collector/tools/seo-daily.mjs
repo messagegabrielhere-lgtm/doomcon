@@ -288,6 +288,15 @@ export function hasSitemapTips(xml) {
     && (/Search Trends/i.test(head) || /news-sitemap\.xml/i.test(head) || /llms\.txt/i.test(head));
 }
 
+/**
+ * True when RSS tip comments advertise free-tools + verify (FINDABILITY #87).
+ * Same discovery tip shape as sitemaps; separate name so feed wipes surface as
+ * `feed-tips-missing` (FINDABILITY #88) rather than a sitemap false alarm.
+ */
+export function hasFeedTips(xml) {
+  return hasSitemapTips(xml);
+}
+
 /** Conservative floor when facet sitemap modules cannot be loaded. */
 export const FACET_URL_FLOOR = 450;
 
@@ -518,6 +527,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #87/#88 — RSS tip comments wiped the same way as sitemap tips.
+  if (ours.feed_tips === false || ours.feed_level_tips === false) {
+    const which = [
+      ours.feed_tips === false ? 'feed.xml' : null,
+      ours.feed_level_tips === false ? 'feed-level.xml' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'feed-tips-missing',
+      severity: 'medium',
+      text: `${which} missing free-tools/verify tip comments (FINDABILITY #87) — re-overlay or wait for collect Publish on tip ≥ #162`,
+    });
+  }
+
   // Open engineering items from FINDABILITY.md that the daily pass can still ship.
   const open = report.open_engineering || [];
   for (const item of open) {
@@ -563,6 +585,8 @@ function sitePaths(origin) {
     news: `${base}/news-sitemap.xml`,
     robots: `${base}/robots.txt`,
     llms: `${base}/llms.txt`,
+    feed: `${base}/feed.xml`,
+    feedLevel: `${base}/feed-level.xml`,
   };
 }
 
@@ -615,6 +639,13 @@ export function measureSite(site, byUrl) {
     if (site.ours) row.news_sitemap_tips = false;
   }
 
+  if (site.ours) {
+    const feed = byUrl.get(paths.feed);
+    const feedLevel = byUrl.get(paths.feedLevel);
+    row.feed_tips = feed?.ok ? hasFeedTips(feed.value) : false;
+    row.feed_level_tips = feedLevel?.ok ? hasFeedTips(feedLevel.value) : false;
+  }
+
   return row;
 }
 
@@ -627,6 +658,12 @@ export async function runScoreboard({ fetchBatch = fetchAll } = {}) {
     const p = sitePaths(site.origin);
     for (const url of [p.home, p.sitemap, p.news, p.robots, p.llms]) {
       jobs.push({ key: url, url, parse: 'text', timeoutMs: 12_000, retries: 1 });
+    }
+    // FINDABILITY #88 — only our RSS tips matter for wipe detection.
+    if (site.ours) {
+      for (const url of [p.feed, p.feedLevel]) {
+        jobs.push({ key: url, url, parse: 'text', timeoutMs: 12_000, retries: 1 });
+      }
     }
   }
 
@@ -697,7 +734,13 @@ export function formatMarkdown(report) {
       const newsTip = ours.news_sitemap_tips == null ? '—' : (ours.news_sitemap_tips ? 'yes' : 'NO');
       lines.push(`- Sitemap tip comments (#84): sitemap.xml **${smTip}** · news-sitemap.xml **${newsTip}**`);
     }
-    if (ours && (ours.gsc_meta != null || ours.sitemap_tips != null || ours.news_sitemap_tips != null)) {
+    if (ours && (ours.feed_tips != null || ours.feed_level_tips != null)) {
+      const feedTip = ours.feed_tips == null ? '—' : (ours.feed_tips ? 'yes' : 'NO');
+      const feedLevelTip = ours.feed_level_tips == null ? '—' : (ours.feed_level_tips ? 'yes' : 'NO');
+      lines.push(`- Feed tip comments (#87): feed.xml **${feedTip}** · feed-level.xml **${feedLevelTip}**`);
+    }
+    if (ours && (ours.gsc_meta != null || ours.sitemap_tips != null || ours.news_sitemap_tips != null
+      || ours.feed_tips != null || ours.feed_level_tips != null)) {
       lines.push('');
     }
   }
@@ -777,6 +820,20 @@ function selftest() {
     open_engineering: [],
   });
   if (!tipGaps.some((g) => g.id === 'sitemap-tips-missing')) throw new Error('sitemap-tips-missing gap');
+  if (hasFeedTips(tipped) !== true) throw new Error('hasFeedTips true');
+  if (hasFeedTips('<rss></rss>') !== false) throw new Error('hasFeedTips false');
+  const feedTipGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      sitemap_tips: true, news_sitemap_tips: true,
+      feed_tips: false, feed_level_tips: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!feedTipGaps.some((g) => g.id === 'feed-tips-missing')) throw new Error('feed-tips-missing gap');
 
   const report = {
     sites: [
