@@ -329,17 +329,35 @@ jobs:
         # Also when only the leader page moved (new coverage, a new official
         # post): that is what keeps /leaders.html within 15 minutes.
         if: steps.gate.outputs.changed == 'true' || steps.leaders.outputs.changed == 'true' || steps.live.outputs.changed == 'true' || steps.waffle.outputs.changed == 'true' || steps.aistatus.outputs.changed == 'true' || steps.threats.outputs.changed == 'true'
-        # ORDER MATTERS. site/build.mjs CLEARS public/ before regenerating it, so
-        # everything that writes into public/ has to run AFTER it. Measured the
-        # hard way on 2026-09-23: cards written first vanished. Skipping the card
-        # steps here would be the same bug wearing a hat — the share cards would
-        # be deleted from public/ and the next deploy would publish a site whose
-        # OpenGraph images 404 on every link anyone shares.
+        # Prefer --only news (same as news-fast.yml). A full wipe rebuild alone
+        # ran ~44m and cancelled at the job ceiling before Publish
+        # (run 38662474296). main does not carry public/, so seed from the live
+        # gh-pages tip first; fall back to a full build only if seed/news-only
+        # fails (FINDABILITY #94). Cards/posts still run AFTER the build —
+        # full build.mjs clears public/, news-only does not.
         env:
           GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           git rev-parse HEAD > "$RUNNER_TEMP/built-sha"
-          node site/build.mjs
+          if [ ! -f public/index.html ]; then
+            echo "seeding public/ from gh-pages for news-only build"
+            rm -rf .pages-seed
+            git clone --depth 1 --branch gh-pages \
+              "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+              .pages-seed
+            mkdir -p public
+            tar cf - -C .pages-seed --exclude .git . | tar xf - -C public
+            rm -rf .pages-seed
+          fi
+          if [ -f public/index.html ]; then
+            node site/build.mjs --only news \
+              || { echo "::warning::news-only build failed; falling back to full build"; node site/build.mjs; }
+          else
+            echo "::warning::no public/index.html after seed; running full build"
+            node site/build.mjs
+          fi
           node collector/card.mjs
           node collector/posts.mjs
           node site/post-sheet.mjs
@@ -502,7 +520,13 @@ jobs:
           B="$(cat "$RUNNER_TEMP/built-sha" 2>/dev/null || true)"
           if [ -n "$B" ] && [ "$(git rev-list --count "$B"..HEAD 2>/dev/null || echo 2)" -gt 1 ]; then
             echo "::notice title=newsroom::main moved under this run; rebuilding before publishing"
-            GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" node site/build.mjs
+            # Same news-only preference as Rebuild the site (FINDABILITY #94).
+            if [ -f public/index.html ]; then
+              GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" node site/build.mjs --only news \
+                || GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" node site/build.mjs
+            else
+              GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" node site/build.mjs
+            fi
             node collector/card.mjs
             node collector/posts.mjs
             node site/post-sheet.mjs

@@ -98,11 +98,13 @@ next — so the two lanes have to slip by more than five minutes before they can
 collide at all. When they do collide, `doomcon-data` queues them
 (`cancel-in-progress: false`).
 
-**Job budgets (FINDABILITY #83 / #93).** The findability tree made a full static
-rebuild a 30–50+ minute step. Newsroom job timeout is **75 minutes**; full
-index pass is **120 minutes**. The 45m newsroom ceiling still cancelled mid-
-Rebuild (~44m on run 38662474296) before Publish; older 10m / 40m ceilings
-failed even sooner. SEO overlays hold `gh-pages` until a Publish sticks.
+**Job budgets (FINDABILITY #83 / #93 / #94).** The findability tree made a full
+static rebuild a 30–50+ minute step. Newsroom job timeout is **75 minutes**;
+full index pass is **120 minutes**. The 45m newsroom ceiling cancelled mid-
+Rebuild (~44m on run 38662474296) because newsroom was still doing a **full**
+`build.mjs` wipe (main has no `public/`). Newsroom now seeds `public/` from
+`gh-pages` and runs `build.mjs --only news` (same as `news-fast.yml`). SEO
+overlays hold `gh-pages` until a Publish sticks.
 
 ---
 

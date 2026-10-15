@@ -212,3 +212,13 @@ test('collect.yml job budgets leave room for findability-tree builds (FINDABILIT
   assert.ok(Number(news[1]) >= 75, `newsroom timeout ${news[1]}m < 75m`);
   assert.ok(Number(full[1]) >= 120, `full timeout ${full[1]}m < 120m`);
 });
+
+test('collect.yml newsroom rebuild prefers --only news (FINDABILITY #94)', () => {
+  // Full wipe with no public/ on main was the 44m cancel; newsroom must seed
+  // from gh-pages and patch with --only news (news-fast.yml already does).
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const newsroom = yml.match(/name:\s*newsroom[\s\S]*?(?=\n  [a-z-]+:|$)/);
+  assert.ok(newsroom, 'newsroom job missing');
+  assert.match(newsroom[0], /build\.mjs --only news/);
+  assert.match(newsroom[0], /seeding public\/ from gh-pages/);
+});
