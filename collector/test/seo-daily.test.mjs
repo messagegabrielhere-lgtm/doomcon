@@ -246,6 +246,15 @@ describe('seo-daily surfaces', () => {
     }
   });
 
+  it('monitors doomsday-clock / ai-doom / doom-index aliases (FINDABILITY #133)', () => {
+    for (const p of [
+      '/doomsday-clock.html', '/ai-doom.html',
+      '/doom-index.html', '/ai-doom-index.html',
+    ]) {
+      assert.ok(CORE_LIVE_SURFACES.includes(p), `CORE_LIVE missing ${p}`);
+    }
+  });
+
   it('detects missing /pdoom.html in agent maps (FINDABILITY #130)', () => {
     assert.equal(PDOOM_SHORT_ALIAS, '/pdoom.html');
     assert.equal(hasPdoomShortAlias('short alias /pdoom.html'), true);

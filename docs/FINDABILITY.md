@@ -370,6 +370,7 @@ context.
 | 130 | `agents.md` + `llms.txt` list `/pdoom.html` short alias beside `/p-doom.html`; `seo-daily` `agents-pdoom-alias-missing` catches overlay/CDN lag after #129 | Agents + Google | **Done** (this pass) |
 | 131 | Root typed-guess aliases `/doombench.html` `/doom.html` `/skynet-countdown.html` `/skynet.html` `/pizzint.html` `/takeofftracker.html` `/takeoff.html` → same body as matching `/vs/*` primaries (canonical on `/vs/*`; out of sitemap) — bare rival brand paths were 404; restore in news-fast/collect/vs-alias-guard; CORE_LIVE + IndexNow | Google | **Done** (this pass) |
 | 132 | `agents.md` + `llms.txt` list root rival brand aliases (`/doombench.html` `/skynet-countdown.html` `/pizzint.html` `/takeofftracker.html`); `seo-daily` `agents-root-rivals-missing` catches overlay/CDN lag after #131 | Agents + Google | **Done** (this pass) |
+| 133 | Typed-guess aliases `/doomsday-clock.html` → `/ai-doomsday-clock.html`, `/ai-doom.html` → `/guide.html`, `/doom-index.html` + `/ai-doom-index.html` → `/compare.html` (canonical on primaries; out of sitemap) — head-term paths were 404; restore in news-fast/collect/vs-alias-guard; CORE_LIVE + IndexNow | Google | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

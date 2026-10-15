@@ -80,6 +80,11 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/pizzint.html',
   '/takeofftracker.html',
   '/takeoff.html',
+  // FINDABILITY #133 — doomsday-clock / ai-doom / doom-index typed guesses.
+  '/doomsday-clock.html',
+  '/ai-doom.html',
+  '/doom-index.html',
+  '/ai-doom-index.html',
 ]);
 
 /** Our agent / findability surfaces that must keep answering 200. */
@@ -1428,6 +1433,12 @@ function selftest() {
     '/takeofftracker.html', '/takeoff.html',
   ]) {
     if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing #131 ${p}`);
+  }
+  for (const p of [
+    '/doomsday-clock.html', '/ai-doom.html',
+    '/doom-index.html', '/ai-doom-index.html',
+  ]) {
+    if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing #133 ${p}`);
   }
   const aliasGaps = deriveGaps({
     sites: [{

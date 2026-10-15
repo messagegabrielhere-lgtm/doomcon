@@ -351,6 +351,24 @@ jobs:
                   mkdir -p "$root/pdoom"
                   cp -a "$root/p-doom.html" "$root/pdoom/index.html"
                 fi
+                # FINDABILITY #133 — doomsday-clock / ai-doom / doom-index typed guesses.
+                if [ -f "$root/ai-doomsday-clock.html" ]; then
+                  cp -a "$root/ai-doomsday-clock.html" "$root/doomsday-clock.html"
+                  mkdir -p "$root/doomsday-clock"
+                  cp -a "$root/ai-doomsday-clock.html" "$root/doomsday-clock/index.html"
+                fi
+                if [ -f "$root/guide.html" ]; then
+                  cp -a "$root/guide.html" "$root/ai-doom.html"
+                  mkdir -p "$root/ai-doom"
+                  cp -a "$root/guide.html" "$root/ai-doom/index.html"
+                fi
+                if [ -f "$root/compare.html" ]; then
+                  cp -a "$root/compare.html" "$root/doom-index.html"
+                  cp -a "$root/compare.html" "$root/ai-doom-index.html"
+                  mkdir -p "$root/doom-index" "$root/ai-doom-index"
+                  cp -a "$root/compare.html" "$root/doom-index/index.html"
+                  cp -a "$root/compare.html" "$root/ai-doom-index/index.html"
+                fi
                 # FINDABILITY #131 — root rival brand typed guesses (canonical on /vs/*).
                 if [ -f "$root/vs/doombench.html" ]; then
                   cp -a "$root/vs/doombench.html" "$root/doombench.html"

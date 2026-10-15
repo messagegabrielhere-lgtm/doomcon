@@ -607,6 +607,24 @@ jobs:
             mkdir -p .pages/pdoom
             cp -a .pages/p-doom.html .pages/pdoom/index.html
           fi
+          # FINDABILITY #133 — doomsday-clock / ai-doom / doom-index typed guesses.
+          if [ -f .pages/ai-doomsday-clock.html ]; then
+            cp -a .pages/ai-doomsday-clock.html .pages/doomsday-clock.html
+            mkdir -p .pages/doomsday-clock
+            cp -a .pages/ai-doomsday-clock.html .pages/doomsday-clock/index.html
+          fi
+          if [ -f .pages/guide.html ]; then
+            cp -a .pages/guide.html .pages/ai-doom.html
+            mkdir -p .pages/ai-doom
+            cp -a .pages/guide.html .pages/ai-doom/index.html
+          fi
+          if [ -f .pages/compare.html ]; then
+            cp -a .pages/compare.html .pages/doom-index.html
+            cp -a .pages/compare.html .pages/ai-doom-index.html
+            mkdir -p .pages/doom-index .pages/ai-doom-index
+            cp -a .pages/compare.html .pages/doom-index/index.html
+            cp -a .pages/compare.html .pages/ai-doom-index/index.html
+          fi
           # FINDABILITY #131 — root rival brand typed guesses (canonical on /vs/*).
           if [ -f .pages/vs/doombench.html ]; then
             cp -a .pages/vs/doombench.html .pages/doombench.html
@@ -1299,6 +1317,24 @@ jobs:
             cp -a .pages/p-doom.html .pages/pdoom.html
             mkdir -p .pages/pdoom
             cp -a .pages/p-doom.html .pages/pdoom/index.html
+          fi
+          # FINDABILITY #133 — doomsday-clock / ai-doom / doom-index typed guesses.
+          if [ -f .pages/ai-doomsday-clock.html ]; then
+            cp -a .pages/ai-doomsday-clock.html .pages/doomsday-clock.html
+            mkdir -p .pages/doomsday-clock
+            cp -a .pages/ai-doomsday-clock.html .pages/doomsday-clock/index.html
+          fi
+          if [ -f .pages/guide.html ]; then
+            cp -a .pages/guide.html .pages/ai-doom.html
+            mkdir -p .pages/ai-doom
+            cp -a .pages/guide.html .pages/ai-doom/index.html
+          fi
+          if [ -f .pages/compare.html ]; then
+            cp -a .pages/compare.html .pages/doom-index.html
+            cp -a .pages/compare.html .pages/ai-doom-index.html
+            mkdir -p .pages/doom-index .pages/ai-doom-index
+            cp -a .pages/compare.html .pages/doom-index/index.html
+            cp -a .pages/compare.html .pages/ai-doom-index/index.html
           fi
           # FINDABILITY #131 — root rival brand typed guesses (canonical on /vs/*).
           if [ -f .pages/vs/doombench.html ]; then

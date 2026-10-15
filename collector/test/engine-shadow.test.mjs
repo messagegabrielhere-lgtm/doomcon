@@ -421,6 +421,28 @@ test('build emits /pdoom.html typed-guess alias (FINDABILITY #129)', () => {
   assert.ok(copies.length >= 2, `expected pdoom restore on both Publish paths, got ${copies.length}`);
 });
 
+test('doomsday-clock / ai-doom / doom-index aliases (FINDABILITY #133)', () => {
+  const src = readFileSync(join(ROOT, 'site', 'build.mjs'), 'utf8');
+  assert.match(src, /FINDABILITY #133/);
+  assert.match(src, /doomsday-clock\.html/);
+  assert.match(src, /ai-doom\.html/);
+  assert.match(src, /doom-index\.html/);
+  const guard = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
+  assert.match(guard, /FINDABILITY #133/);
+  assert.match(guard, /restore_one ai-doomsday-clock\.html doomsday-clock\.html/);
+  assert.match(guard, /restore_one guide\.html ai-doom\.html/);
+  assert.match(guard, /restore_one compare\.html doom-index\.html/);
+  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(newsFast, /FINDABILITY #133/);
+  assert.match(newsFast, /doomsday-clock\.html/);
+  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const clocks = collect.match(/cp -a \.pages\/ai-doomsday-clock\.html \.pages\/doomsday-clock\.html/g) || [];
+  assert.ok(clocks.length >= 2, `expected doomsday-clock restore on both Publish paths, got ${clocks.length}`);
+  const indexnow = readFileSync(join(ROOT, 'collector', 'indexnow.mjs'), 'utf8');
+  assert.match(indexnow, /\/doomsday-clock\.html/);
+  assert.match(indexnow, /\/ai-doom\.html/);
+});
+
 test('root rival typed-guess aliases restored (FINDABILITY #131)', () => {
   const compare = readFileSync(join(ROOT, 'site', 'templates', 'comparePages.mjs'), 'utf8');
   assert.match(compare, /FINDABILITY #131/);
