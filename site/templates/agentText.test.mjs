@@ -151,6 +151,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /## Use SIREN with your human/);
   // FINDABILITY #153 — IREN / AI-cloud Trends route to Watts.
   assert.match(txt, /IREN stock, Iris Energy, or AI cloud \/ neocloud power Trends/);
+  // FINDABILITY #154 — dram / Micron stock Trends route to Micron lab.
+  assert.match(txt, /Micron stock, MU, dram stock, HBM stock, or memory stock Trends/);
+  assert.match(txt, /\/lab\/micron\.html/);
   assert.match(txt, /not a stock tip/);
   assert.match(txt, /## Explainers \(search head terms\)/);
   assert.match(txt, /## Instruments/);
@@ -173,7 +176,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /^# SIREN for AI agents/);
   assert.match(md, /ChatGPT, Grok/);
   for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html',
-    '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/watts.html',
+    '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/watts.html', '/lab/micron.html',
     '/vs/doombench.html', '/vs/doom.html', '/vs/skynet-countdown.html', '/vs/skynet.html',
     '/vs/pdoom.html', '/vs/takeofftracker.html', '/vs/takeoff.html',
     '/p-doom.html', '/pdoom.html',
@@ -192,6 +195,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #153 — agents.md lists Watts for IREN stock / AI cloud power Trends.
   assert.match(md, /IREN stock \/ AI cloud power Trends/);
   assert.match(md, /\/watts\.html/);
+  // FINDABILITY #154 — agents.md lists Micron lab for dram stock Trends.
+  assert.match(md, /dram stock \/ memory stock Trends/);
+  assert.match(md, /\/lab\/micron\.html/);
   assert.match(md, /not a prediction|Never call it a prediction/);
   assert.match(md, /Do not scrape Google Search/);
   assert.match(md, /\/moves\//);
