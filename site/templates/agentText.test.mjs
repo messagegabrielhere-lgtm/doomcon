@@ -198,6 +198,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #157 — neocloud Trends route to Neoclouds tag.
   assert.match(txt, /neocloud or neoclouds Trends/);
   assert.match(txt, /\/tags\/neoclouds\.html/);
+  // FINDABILITY #176 — Character.ai bankruptcy route to Chatbots tag.
+  assert.match(txt, /Character\.ai, Character AI bankruptcy/);
+  assert.match(txt, /\/tags\/chatbots\.html/);
   assert.match(txt, /not a stock tip/);
   assert.match(txt, /## Explainers \(search head terms\)/);
   assert.match(txt, /## Instruments/);
@@ -285,6 +288,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #157 — agents.md lists Neoclouds tag for neocloud Trends.
   assert.match(md, /neocloud \/ neoclouds Trends/);
   assert.match(md, /\/tags\/neoclouds\.html/);
+  // FINDABILITY #176 — agents.md lists Chatbots tag for Character.ai bankruptcy.
+  assert.match(md, /Character\.ai bankruptcy/);
+  assert.match(md, /\/tags\/chatbots\.html/);
   assert.match(md, /not a prediction|Never call it a prediction/);
   assert.match(md, /Do not scrape Google Search/);
   assert.match(md, /\/moves\//);

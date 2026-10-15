@@ -90,6 +90,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #157 — "neocloud" / neoclouds Trends (Gartner survival tape)
   // → gated /tags/neoclouds.html (story counts only, not a vendor ranking).
   { id: 'neocloud', label: 'Neoclouds', re: /\bneoclouds?\b/i, path: '/tags/neoclouds.html' },
+  // FINDABILITY #176 — Character.ai / Character AI bankruptcy → gated chatbots tag
+  // (story counts only; not a product score or bankruptcy forecast).
+  { id: 'character-ai', label: 'Character.ai', re: /\bcharacter\.ai\b|\bcharacter\s+ai\b/i, path: '/tags/chatbots.html' },
   { id: 'siren', label: 'SIREN / siren.watch', re: /\bsiren\.watch\b|\bsiren\s+(?:index|watch|ai)\b|\bdoomcon\b/i, path: '/' },
 ]);
 

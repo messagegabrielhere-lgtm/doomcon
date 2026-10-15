@@ -386,6 +386,29 @@ test('news sitemap keywords add HBM when Samsung is named (FINDABILITY #175)', (
   assert.doesNotMatch(b, /(^|,\s*)HBM(,|$)/);
 });
 
+test('news sitemap keywords add Chatbots when Character.ai is named (FINDABILITY #176)', () => {
+  const a = keywordsFor({
+    title: 'Character.ai Maker Files for Chapter 11 Bankruptcy',
+    summary: 'Companion chatbot maker enters Chapter 11.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Character.AI'],
+  });
+  assert.match(a, /Character\.AI|Character AI/);
+  assert.match(a, /\bChatbots\b/);
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No companion-AI company named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)Chatbots(,|$)/);
+});
+
+
 test('news sitemap keywords add neocloud / Iris Energy when parent named (FINDABILITY #159)', () => {
   const a = keywordsFor({
     title: "CoreWeave's slump puts spotlight on debt behind AI boom",

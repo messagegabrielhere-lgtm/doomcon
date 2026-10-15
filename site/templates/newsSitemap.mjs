@@ -114,6 +114,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bxAI\b/i, name: /^xAI$/i, alias: 'Grok' },
   // FINDABILITY #175 — Samsung → HBM (labAboutLabel).
   { re: /\bSamsung\b/i, name: /^Samsung$/i, alias: 'HBM' },
+  // FINDABILITY #176 — Character.ai / Character AI → Chatbots (Trends tag hub).
+  { re: /\bCharacter\.AI\b|\bCharacter\s+AI\b/i, name: /^(?:Character\.AI|Character\s+AI)$/i, alias: 'Chatbots' },
 ]);
 
 /**
