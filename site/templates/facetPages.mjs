@@ -454,6 +454,14 @@ export function renderLab(ctx, player) {
     [`Does ${brand.NAME} publish a ${about} doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} Numbers here are story counts${entityOnly ? '' : ' and, where published, prediction-market prices'} — not a ranking of how dangerous a company is.`],
   ];
+  // FINDABILITY #151 — residual “micron stock” / MU / DRAM Trends queries need
+  // a crawlable FAQ on the gated lab (not a new doorway URL).
+  if (player.id === 'micron') {
+    faq.push([
+      `Why does ${brand.NAME} watch Micron stock, MU, and DRAM stock in Google Search Trends?`,
+      `${brand.NAME} watches Google’s daily trending RSS for findability. When Micron, MU stock, DRAM stock, or HBM stock spikes with AI memory-chip headlines, this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');

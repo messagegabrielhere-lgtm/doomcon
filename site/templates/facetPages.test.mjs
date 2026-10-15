@@ -167,6 +167,14 @@ describe('lab facets', () => {
     });
     assert.match(micronHtml, /<title>What has SIREN scored about Micron \/ MU\?/);
     assert.match(micronHtml, /<h1>What has SIREN scored about Micron \/ MU\?<\/h1>/);
+    // FINDABILITY #151 — Trends “micron stock” / DRAM FAQ on the gated lab.
+    assert.match(
+      micronHtml,
+      /Why does SIREN watch Micron stock, MU, and DRAM stock in Google Search Trends\?/,
+    );
+    assert.match(micronHtml, /search-trends\.html/);
+    assert.match(micronHtml, /not investment advice/);
+    assert.doesNotMatch(micronHtml, /buy Micron|sell Micron|price target/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

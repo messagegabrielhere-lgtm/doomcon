@@ -72,6 +72,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   });
   assert.ok(micron.includes('micron'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'micron' && t.path === '/lab/micron.html'));
+  // FINDABILITY #151 — DRAM / HBM / memory stock tape → same gated Micron lab.
+  assert.ok(matchHeadTerms({ title: 'dram stock', news: [] }).includes('micron'));
+  assert.ok(matchHeadTerms({ title: 'hbm stock', news: [] }).includes('micron'));
+  assert.ok(matchHeadTerms({ title: 'memory stock', news: [] }).includes('micron'));
+  assert.ok(matchHeadTerms({ title: 'micron stock', news: [] }).includes('micron'));
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {
