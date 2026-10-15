@@ -579,11 +579,12 @@ jobs:
           rm -rf .pages-faq-tip
           if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
             # FINDABILITY #136 — also stash tip agent maps (head-term / root needles).
-            # FINDABILITY #141/#143 — stash tip /lab/ + companies hubs and
-            # home/classic knowsAbout so mid-merge collect cannot wipe #140/#142.
+            # FINDABILITY #141/#143/#145 — stash tip /lab/ + companies hubs,
+            # home/classic knowsAbout, and race labAboutLabel so mid-merge
+            # collect cannot wipe #140/#142/#144.
             for hub in compare.html alternatives.html agents.md llms.txt \
               lab/index.html companies.html companies/index.html \
-              index.html classic.html; do
+              index.html classic.html race.html race/index.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -709,6 +710,17 @@ jobs:
               && ! grep -qF 'OpenAI / ChatGPT' ".pages/$hub" 2>/dev/null; then
               cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
               echo "restored $hub knowsAbout labAboutLabel (#143)"
+            fi
+          done
+          # FINDABILITY #145 — restore tip /race.html when #144 labAboutLabel
+          # is missing after mid-merge / news-only orphan on tip < #144.
+          for hub in race.html race/index.html; do
+            if [ -f "$PRESERVE_FAQ/$hub" ] \
+              && grep -qF '/lab/openai.html' ".pages/$hub" 2>/dev/null \
+              && ! grep -qF 'OpenAI / ChatGPT' ".pages/$hub" 2>/dev/null; then
+              mkdir -p ".pages/$(dirname "$hub")"
+              cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
+              echo "restored $hub race labAboutLabel (#145)"
             fi
           done
           rm -rf "$PRESERVE_FAQ"
@@ -1335,11 +1347,12 @@ jobs:
           rm -rf .pages-faq-tip
           if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
             # FINDABILITY #136 — also stash tip agent maps (head-term / root needles).
-            # FINDABILITY #141/#143 — stash tip /lab/ + companies hubs and
-            # home/classic knowsAbout so mid-merge collect cannot wipe #140/#142.
+            # FINDABILITY #141/#143/#145 — stash tip /lab/ + companies hubs,
+            # home/classic knowsAbout, and race labAboutLabel so mid-merge
+            # collect cannot wipe #140/#142/#144.
             for hub in compare.html alternatives.html agents.md llms.txt \
               lab/index.html companies.html companies/index.html \
-              index.html classic.html; do
+              index.html classic.html race.html race/index.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -1464,6 +1477,17 @@ jobs:
               && ! grep -qF 'OpenAI / ChatGPT' ".pages/$hub" 2>/dev/null; then
               cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
               echo "restored $hub knowsAbout labAboutLabel (#143)"
+            fi
+          done
+          # FINDABILITY #145 — restore tip /race.html when #144 labAboutLabel
+          # is missing after mid-merge / news-only orphan on tip < #144.
+          for hub in race.html race/index.html; do
+            if [ -f "$PRESERVE_FAQ/$hub" ] \
+              && grep -qF '/lab/openai.html' ".pages/$hub" 2>/dev/null \
+              && ! grep -qF 'OpenAI / ChatGPT' ".pages/$hub" 2>/dev/null; then
+              mkdir -p ".pages/$(dirname "$hub")"
+              cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
+              echo "restored $hub race labAboutLabel (#145)"
             fi
           done
           rm -rf "$PRESERVE_FAQ"
