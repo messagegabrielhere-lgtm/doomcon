@@ -654,6 +654,24 @@ export const CONQUEST_FAQ_PROBES = Object.freeze([
   { path: '/alternatives.html', needle: 'What is an AI doom index alternative?' },
 ]);
 
+/** FINDABILITY #152/#153 — Watts FAQ + agent maps for IREN / AI-cloud Trends. */
+export const WATTS_IREN_FAQ_NEEDLE = 'Why does SIREN watch IREN stock and AI cloud power in Google Search Trends?';
+export const AGENTS_IREN_WATTS_NEEDLE = 'IREN stock';
+
+/** Tip /watts.html must keep the #152 IREN Trends FAQ (FINDABILITY #153). */
+export function hasWattsIrenFaq(html, needle = WATTS_IREN_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route IREN / AI-cloud Trends to Watts (FINDABILITY #153).
+ * Wipe gap is `agents-iren-watts-missing`.
+ */
+export function hasAgentsIrenWatts(body, needle = AGENTS_IREN_WATTS_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/watts.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -1118,6 +1136,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #152/#153 — Watts FAQ for IREN Trends wiped or never landed.
+  if (ours.watts_iren_faq === false) {
+    gaps.push({
+      id: 'watts-iren-faq-missing',
+      severity: 'medium',
+      text: `/watts.html missing IREN / AI cloud power Trends FAQ (FINDABILITY #152/#153) — re-overlay watts.html or wait for full collect Publish on tip ≥ #152`,
+    });
+  }
+  // FINDABILITY #153 — agent maps must route IREN Trends to Watts.
+  if (ours.agents_iren_watts === false || ours.llms_iren_watts === false) {
+    const which = [
+      ours.agents_iren_watts === false ? 'agents.md' : null,
+      ours.llms_iren_watts === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-iren-watts-missing',
+      severity: 'medium',
+      text: `${which} missing IREN → /watts.html Trends tip (FINDABILITY #153) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #153`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1316,6 +1355,11 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #144 — /race.html leaderboard lab links must keep labAboutLabel.
     const raceHtml = byUrl.get(`${base}/race.html`);
     row.race_lab_about_labels = raceHtml?.ok ? hasRaceLabAboutLabels(raceHtml.value) : false;
+    // FINDABILITY #153 — Watts FAQ + agent maps for IREN / AI-cloud Trends (#152).
+    const wattsHtml = byUrl.get(`${base}/watts.html`);
+    row.watts_iren_faq = wattsHtml?.ok ? hasWattsIrenFaq(wattsHtml.value) : false;
+    row.agents_iren_watts = agentsMd?.ok ? hasAgentsIrenWatts(agentsMd.value) : false;
+    row.llms_iren_watts = llms?.ok ? hasAgentsIrenWatts(llmsBody) : false;
     // FINDABILITY #123 — lab title must keep product head-term aliases.
     row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
     // FINDABILITY #128 — compare/alternatives must keep #126/#127 FAQ needles.
@@ -1501,6 +1545,16 @@ export function formatMarkdown(report) {
       lines.push(
         `- Race board labAboutLabel (#144): **${ours.race_lab_about_labels ? 'ok' : 'NO'}**`,
       );
+    }
+    if (ours && ours.watts_iren_faq != null) {
+      lines.push(
+        `- Watts IREN Trends FAQ (#152/#153): **${ours.watts_iren_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_iren_watts != null || ours.llms_iren_watts != null)) {
+      const ag = ours.agents_iren_watts == null ? '—' : (ours.agents_iren_watts ? 'yes' : 'NO');
+      const lm = ours.llms_iren_watts == null ? '—' : (ours.llms_iren_watts ? 'yes' : 'NO');
+      lines.push(`- Agent-map IREN → Watts (#153): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
@@ -1911,6 +1965,36 @@ function selftest() {
   });
   if (!raceLabelGaps.some((g) => g.id === 'race-lab-labels-missing')) {
     throw new Error('race-lab-labels-missing gap');
+  }
+  if (hasWattsIrenFaq(WATTS_IREN_FAQ_NEEDLE) !== true) {
+    throw new Error('hasWattsIrenFaq true');
+  }
+  if (hasWattsIrenFaq('What does the SIREN infrastructure index read?') !== false) {
+    throw new Error('hasWattsIrenFaq false');
+  }
+  if (hasAgentsIrenWatts('IREN stock → https://siren.watch/watts.html') !== true) {
+    throw new Error('hasAgentsIrenWatts true');
+  }
+  if (hasAgentsIrenWatts('https://siren.watch/watts.html only') !== false) {
+    throw new Error('hasAgentsIrenWatts needs IREN needle');
+  }
+  const irenGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      watts_iren_faq: false,
+      agents_iren_watts: false,
+      llms_iren_watts: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!irenGaps.some((g) => g.id === 'watts-iren-faq-missing')) {
+    throw new Error('watts-iren-faq-missing gap');
+  }
+  if (!irenGaps.some((g) => g.id === 'agents-iren-watts-missing')) {
+    throw new Error('agents-iren-watts-missing gap');
   }
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {

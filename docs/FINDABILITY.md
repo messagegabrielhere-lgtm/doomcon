@@ -390,6 +390,7 @@ context.
 | 150 | `collect` newsroom lane runs Search Trends before `--only news` and commits `data/search-trends.json` so newsroom force-push does not republish a pre-spike Trends snapshot when news-fast’s hourly re-arm is quiet | Google + Trends | **Done** (this pass) |
 | 151 | Search Trends `HEAD_TERMS` micron also matches `dram stock` / `hbm stock` / `memory stock` / `micron stock`; `/lab/micron.html` FAQ answers why SIREN watches those Google Trends queries — one gated lab, no stock tip / doorway | Google + Trends | **Done** (this pass) |
 | 152 | Search Trends `HEAD_TERMS` `iren` (`iren stock` / Iris Energy) → gated `/watts.html`; Watts FAQ answers why SIREN watches IREN / AI-cloud power Trends — substrate reading only, not a company doorway or investment tip | Google + Trends | **Done** (this pass) |
+| 153 | `agents.md` + `llms.txt` route IREN / AI-cloud Trends to `/watts.html`; `seo-daily` detects Watts FAQ + agent-map lag; `collect` + `news-fast` Publish preserve tip Watts when #152 FAQ missing | Agents + Trends | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

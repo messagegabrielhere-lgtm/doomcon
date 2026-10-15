@@ -34,6 +34,9 @@ import {
   hasRaceLabAboutLabels,
   NEWS_LAB_ALIAS_PROBES,
   newsLabAliasKeywordLags,
+  hasWattsIrenFaq,
+  hasAgentsIrenWatts,
+  WATTS_IREN_FAQ_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -418,6 +421,31 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'race-lab-labels-missing'));
+  });
+
+  it('detects Watts IREN FAQ + agent-map lag (FINDABILITY #152/#153)', () => {
+    assert.equal(hasWattsIrenFaq(WATTS_IREN_FAQ_NEEDLE), true);
+    assert.equal(hasWattsIrenFaq('What does the SIREN infrastructure index read?'), false);
+    assert.equal(
+      hasAgentsIrenWatts('IREN stock → https://siren.watch/watts.html'),
+      true,
+    );
+    assert.equal(hasAgentsIrenWatts('https://siren.watch/watts.html only'), false);
+    assert.equal(hasAgentsIrenWatts('IREN stock with no watts path'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        watts_iren_faq: false,
+        agents_iren_watts: false,
+        llms_iren_watts: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'watts-iren-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-iren-watts-missing'));
   });
 
   it('detects missing labAboutLabel aliases in news:keywords (FINDABILITY #148)', () => {
