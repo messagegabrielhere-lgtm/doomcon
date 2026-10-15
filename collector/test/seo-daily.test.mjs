@@ -32,6 +32,8 @@ import {
   labHubLabelLags,
   hasHomeLabAboutLabels,
   hasRaceLabAboutLabels,
+  NEWS_LAB_ALIAS_PROBES,
+  newsLabAliasKeywordLags,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -416,6 +418,30 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'race-lab-labels-missing'));
+  });
+
+  it('detects missing labAboutLabel aliases in news:keywords (FINDABILITY #148)', () => {
+    assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'OpenAI' && p.alias === 'ChatGPT'));
+    const xml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>OpenAI raises new round</news:title>'
+      + '<news:keywords>OpenAI, Google, AI, SIREN</news:keywords></url>'
+      + '<url><news:title>Anthropic expands compute</news:title>'
+      + '<news:keywords>Anthropic, Claude, AI, SIREN</news:keywords></url>'
+      + '</urlset>';
+    const lags = newsLabAliasKeywordLags(xml);
+    assert.ok(lags.some((r) => r.lab === 'OpenAI' && r.alias === 'ChatGPT'));
+    assert.ok(!lags.some((r) => r.lab === 'Anthropic'));
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        news_lab_alias_lags: lags,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'news-lab-alias-keywords-missing'));
   });
 
   it('detects missing /trends.html in agent maps + now tips (FINDABILITY #125)', () => {
