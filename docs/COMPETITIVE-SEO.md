@@ -1,12 +1,13 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T12:15Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,684** sitemap URLs / news **200** (pizzint news empty this pass);
-tips + vs/trends/pdoom + root rival + head-term aliases + FAQ hubs intact. Daily
-ships: #124–#134 tip durability; **#135** hardens pdoom/root alias detects against
-`/vs/*` false positives. Branded “SIREN AI activity index” still #1; head-term
-SERPs still need GSC crawl (issue #202). Companion to `docs/COMPETITIVE.md`
-(Sept inventory) and `docs/FINDABILITY.md`.
+**Measured:** 2026-10-15T12:25Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,684** sitemap URLs / news **200** (pizzint news flaps); tips +
+vs/trends/pdoom + root rival + head-term aliases + FAQ hubs intact after collect
+Publish. Daily ships: #124–#135 tip durability; **#136** preserves tip agent maps
+across orphan/overlay Publish so mid-merge collect cannot wipe #134/#132 needles.
+Branded “SIREN AI activity index” still #1; head-term SERPs still need GSC crawl
+(issue #202). Companion to `docs/COMPETITIVE.md` (Sept inventory) and
+`docs/FINDABILITY.md`.
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool

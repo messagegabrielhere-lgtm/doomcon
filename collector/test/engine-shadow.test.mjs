@@ -421,6 +421,26 @@ test('build emits /pdoom.html typed-guess alias (FINDABILITY #129)', () => {
   assert.ok(copies.length >= 2, `expected pdoom restore on both Publish paths, got ${copies.length}`);
 });
 
+test('Publish restores tip agent maps when head-term needles missing (FINDABILITY #136)', () => {
+  // Collect run 38730984750 (pre-#134 main) wiped tip agents.md/llms.txt
+  // head-term shorts; #136 preserves tip maps across orphan/overlay Publish.
+  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  assert.match(collect, /FINDABILITY #136/);
+  assert.match(collect, /restored \$map agent map \(#136\)/);
+  const stash = collect.match(/for hub in compare\.html alternatives\.html agents\.md llms\.txt/g) || [];
+  assert.ok(stash.length >= 2, `expected agent-map stash on both collect Publish paths, got ${stash.length}`);
+  const restores = collect.match(/for map in agents\.md llms\.txt/g) || [];
+  assert.ok(restores.length >= 2, `expected agent-map restore on both collect Publish paths, got ${restores.length}`);
+  assert.match(collect, /\/ai-doom\.html/);
+  assert.match(collect, /\/doomsday-clock\.html/);
+  assert.match(collect, /\/doom-index\.html/);
+  assert.match(collect, /root https:\/\/siren\.watch\/doombench\.html/);
+  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(newsFast, /FINDABILITY #136/);
+  assert.match(newsFast, /restore_agent_maps/);
+  assert.match(newsFast, /PRESERVE_MAPS/);
+});
+
 test('doomsday-clock / ai-doom / doom-index aliases (FINDABILITY #133)', () => {
   const src = readFileSync(join(ROOT, 'site', 'build.mjs'), 'utf8');
   assert.match(src, /FINDABILITY #133/);

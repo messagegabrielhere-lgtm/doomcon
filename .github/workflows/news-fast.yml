@@ -416,6 +416,22 @@ jobs:
                   echo "restored alternatives.html conquest FAQ hub (#128)"
                 fi
               }
+              # FINDABILITY #136 — restore tip agents.md / llms.txt when #134
+              # head-term or #132 root needles are missing after overlay/orphan.
+              restore_agent_maps() {
+                local root="$1" preserve="$2"
+                local map
+                for map in agents.md llms.txt; do
+                  if [ -f "$preserve/$map" ] \
+                    && { ! grep -qF '/ai-doom.html' "$root/$map" 2>/dev/null \
+                      || ! grep -qF '/doomsday-clock.html' "$root/$map" 2>/dev/null \
+                      || ! grep -qF '/doom-index.html' "$root/$map" 2>/dev/null \
+                      || ! grep -qF 'root https://siren.watch/doombench.html' "$root/$map" 2>/dev/null; }; then
+                    cp -a "$preserve/$map" "$root/$map"
+                    echo "restored $map agent map (#136)"
+                  fi
+                done
+              }
               if [ -d .pages/.git ]; then
                 if ! git -C .pages fetch -q origin gh-pages 2>/dev/null \
                   || ! git -C .pages reset -q --hard FETCH_HEAD 2>/dev/null; then
@@ -435,6 +451,12 @@ jobs:
                 # FINDABILITY #116 — llms.txt / agents.md advertise conquest short
                 # aliases (#111/#113); keep them on the overlay path so agent maps
                 # do not lag HTML-only overlays while news-fast owns gh-pages.
+                # FINDABILITY #136 — stash tip agent maps before public/ overlay
+                # can replace them with a news-only build that lacks #134/#132.
+                PRESERVE_MAPS=$(mktemp -d)
+                for map in agents.md llms.txt; do
+                  [ -f ".pages/$map" ] && cp -a ".pages/$map" "$PRESERVE_MAPS/$map"
+                done
                 for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms.txt llms-full.txt agents.md agents.txt news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html; do
                   if [ -e "public/$rel" ]; then
                     mkdir -p ".pages/$(dirname "$rel")"
@@ -449,6 +471,8 @@ jobs:
                   if [ -d public/item ]; then rm -rf .pages/item && cp -a public/item .pages/item; fi
                 fi
                 restore_vs_aliases .pages
+                restore_agent_maps .pages "$PRESERVE_MAPS"
+                rm -rf "$PRESERVE_MAPS"
                 git -C .pages config user.name  'github-actions[bot]'
                 git -C .pages config user.email '41898282+github-actions[bot]@users.noreply.github.com'
                 git -C .pages add -A
@@ -463,16 +487,18 @@ jobs:
               if [ "$PUB_OK" -ne 1 ]; then
                 echo "tick $TICK: overlay publish missed; full orphan publish"
                 # FINDABILITY #128 — stash tip conquest FAQ hubs before orphan wipe.
+                # FINDABILITY #136 — also stash tip agent maps.
                 PRESERVE_FAQ=$(mktemp -d)
-                for hub in compare.html alternatives.html; do
+                for hub in compare.html alternatives.html agents.md llms.txt; do
                   if [ -f ".pages/$hub" ]; then
                     cp -a ".pages/$hub" "$PRESERVE_FAQ/$hub"
                   fi
                 done
-                if [ ! -f "$PRESERVE_FAQ/compare.html" ] || [ ! -f "$PRESERVE_FAQ/alternatives.html" ]; then
+                if [ ! -f "$PRESERVE_FAQ/compare.html" ] || [ ! -f "$PRESERVE_FAQ/alternatives.html" ] \
+                  || [ ! -f "$PRESERVE_FAQ/agents.md" ] || [ ! -f "$PRESERVE_FAQ/llms.txt" ]; then
                   rm -rf .pages-faq-tip
                   if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
-                    for hub in compare.html alternatives.html; do
+                    for hub in compare.html alternatives.html agents.md llms.txt; do
                       [ -f ".pages-faq-tip/$hub" ] && cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
                     done
                     rm -rf .pages-faq-tip
@@ -484,6 +510,7 @@ jobs:
                 tar cf - -C public . | (cd .pages && tar xf -)
                 restore_vs_aliases .pages
                 restore_conquest_faqs .pages "$PRESERVE_FAQ"
+                restore_agent_maps .pages "$PRESERVE_FAQ"
                 rm -rf "$PRESERVE_FAQ"
                 git -C .pages init -q
                 git -C .pages checkout -q -b gh-pages
