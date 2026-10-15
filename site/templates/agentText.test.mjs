@@ -167,6 +167,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /not legal advice/);
   // FINDABILITY #181 — OpenAI / ChatGPT outage tape routes to OpenAI lab.
   assert.match(txt, /OpenAI outage, ChatGPT outage, OpenAI status/);
+  // FINDABILITY #191 — ChatGPT Chrome / computer use tape routes to OpenAI lab.
+  assert.match(txt, /ChatGPT computer use, ChatGPT Chrome tabs/);
   assert.match(txt, /not an uptime SLA/);
   // FINDABILITY #163 — Anthropic IPO / FTC tape routes to Anthropic lab.
   assert.match(txt, /Anthropic IPO, Anthropic FTC probe/);
@@ -285,8 +287,8 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #161 — agents.md lists Nvidia lab for NVDA Trends.
   assert.match(md, /Nvidia stock \/ NVDA Trends/);
   assert.match(md, /\/lab\/nvidia\.html/);
-  // FINDABILITY #162 — agents.md lists OpenAI lab for lawsuit / FTC Trends.
-  assert.match(md, /OpenAI lawsuit \/ FTC \/ OpenAI outage Trends/);
+  // FINDABILITY #162 / #181 / #191 — agents.md lists OpenAI lab for lawsuit / outage / Chrome Trends.
+  assert.match(md, /OpenAI lawsuit \/ FTC \/ OpenAI outage \/ ChatGPT Chrome Trends/);
   assert.match(md, /\/lab\/openai\.html/);
   // FINDABILITY #163 — agents.md lists Anthropic lab for IPO / FTC Trends.
   assert.match(md, /Anthropic IPO \/ FTC probe Trends/);
@@ -309,8 +311,8 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #173 — agents.md lists xAI lab for Grok Trends.
   assert.match(md, /Grok \/ xAI Trends/);
   assert.match(md, /\/lab\/xai\.html/);
-  // FINDABILITY #174 — agents.md lists DeepMind lab for Gemini / Gemma Trends.
-  assert.match(md, /Gemini \/ Gemma Trends/);
+  // FINDABILITY #174 — agents.md lists DeepMind lab for Gemini / Gemma / Argon Trends.
+  assert.match(md, /Gemini \/ Gemma \/ Argon Trends/);
   assert.match(md, /\/lab\/google-deepmind\.html/);
   // FINDABILITY #175 — agents.md lists Samsung lab for AI memory Trends.
   assert.match(md, /Samsung \/ AI memory Trends/);
@@ -400,7 +402,7 @@ test('llms.txt lab lines use head-term aliases (FINDABILITY #138)', () => {
   };
   const txt = llmsTxt(ctx);
   assert.match(txt, /What has SIREN scored about OpenAI \/ ChatGPT\?/);
-  assert.match(txt, /What has SIREN scored about Google DeepMind \/ Gemini\?/);
+  assert.match(txt, /What has SIREN scored about Google DeepMind \/ Gemini \/ Argon\?/);
   assert.match(txt, /What has SIREN scored about Micron \/ MU\?/);
   assert.ok(txt.includes('https://siren.watch/lab/micron.html'));
   assert.ok(txt.includes('https://siren.watch/lab/openai.html'));

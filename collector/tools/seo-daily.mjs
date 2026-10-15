@@ -846,6 +846,7 @@ export const TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE = 'Oracle / AI datacenters 
 export const TRENDS_ROUTES_DEEPSEEK_NEEDLE = 'DeepSeek outage → /lab/deepseek.html';
 export const TRENDS_ROUTES_MISTRAL_NEEDLE = 'Mistral / Timestral → /lab/mistral.html';
 export const TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE = 'OpenAI outage → /lab/openai.html';
+export const TRENDS_ROUTES_OPENAI_CHROME_NEEDLE = 'ChatGPT Chrome / computer use → /lab/openai.html';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 export const TRENDS_ROUTES_AMD_NEEDLE = 'AMD / MI300 → /lab/amd.html';
@@ -873,6 +874,7 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_DEEPSEEK_NEEDLE)
     && text.includes(TRENDS_ROUTES_MISTRAL_NEEDLE)
     && text.includes(TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE)
+    && text.includes(TRENDS_ROUTES_OPENAI_CHROME_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
     && text.includes(TRENDS_ROUTES_AMD_NEEDLE)
@@ -1201,6 +1203,24 @@ export function hasOpenaiOutageFaq(html, needle = OPENAI_OUTAGE_FAQ_NEEDLE) {
  * Wipe gap is `agents-openai-outage-missing`.
  */
 export function hasAgentsOpenaiOutage(body, needle = AGENTS_OPENAI_OUTAGE_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/openai.html');
+}
+
+/** FINDABILITY #191 — ChatGPT Chrome / computer use FAQ + agent maps. */
+export const OPENAI_CHROME_FAQ_NEEDLE = 'Why does SIREN watch ChatGPT computer use and Chrome tabs?';
+export const AGENTS_OPENAI_CHROME_NEEDLE = 'ChatGPT Chrome';
+
+/** Tip /lab/openai.html must keep the #191 ChatGPT Chrome FAQ. */
+export function hasOpenaiChromeFaq(html, needle = OPENAI_CHROME_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route ChatGPT Chrome / computer use Trends to OpenAI lab
+ * (FINDABILITY #191). Wipe gap is `agents-openai-chrome-missing`.
+ */
+export function hasAgentsOpenaiChrome(body, needle = AGENTS_OPENAI_CHROME_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/openai.html');
 }
@@ -1886,7 +1906,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -2265,6 +2285,27 @@ export function deriveGaps(report) {
       id: 'agents-openai-outage-missing',
       severity: 'medium',
       text: `${which} missing OpenAI outage → /lab/openai.html Trends tip (FINDABILITY #181) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #181`,
+    });
+  }
+
+  // FINDABILITY #191 — ChatGPT Chrome / computer use FAQ wiped or never landed.
+  if (ours.openai_chrome_faq === false) {
+    gaps.push({
+      id: 'openai-chrome-faq-missing',
+      severity: 'medium',
+      text: `/lab/openai.html missing ChatGPT Chrome / computer use FAQ (FINDABILITY #191) — re-overlay lab/openai.html or wait for full collect Publish on tip ≥ #191`,
+    });
+  }
+  // FINDABILITY #191 — agent maps must route ChatGPT Chrome Trends to OpenAI lab.
+  if (ours.agents_openai_chrome === false || ours.llms_openai_chrome === false) {
+    const which = [
+      ours.agents_openai_chrome === false ? 'agents.md' : null,
+      ours.llms_openai_chrome === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-openai-chrome-missing',
+      severity: 'medium',
+      text: `${which} missing ChatGPT Chrome → /lab/openai.html Trends tip (FINDABILITY #191) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #191`,
     });
   }
 
@@ -2669,6 +2710,10 @@ export function measureSite(site, byUrl) {
     row.openai_outage_faq = oaiHtml?.ok ? hasOpenaiOutageFaq(oaiHtml.value) : false;
     row.agents_openai_outage = agentsMd?.ok ? hasAgentsOpenaiOutage(agentsMd.value) : false;
     row.llms_openai_outage = llms?.ok ? hasAgentsOpenaiOutage(llmsBody) : false;
+    // FINDABILITY #191 — ChatGPT Chrome / computer use FAQ + agent maps (same lab).
+    row.openai_chrome_faq = oaiHtml?.ok ? hasOpenaiChromeFaq(oaiHtml.value) : false;
+    row.agents_openai_chrome = agentsMd?.ok ? hasAgentsOpenaiChrome(agentsMd.value) : false;
+    row.llms_openai_chrome = llms?.ok ? hasAgentsOpenaiChrome(llmsBody) : false;
     // FINDABILITY #182 — Hugging Face hack FAQ + agent maps.
     const hfHtml = byUrl.get(`${base}/tags/huggingface.html`);
     row.huggingface_faq = hfHtml?.ok ? hasHuggingfaceFaq(hfHtml.value) : false;
@@ -3117,6 +3162,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_openai_outage == null ? '—' : (ours.agents_openai_outage ? 'yes' : 'NO');
       const lm = ours.llms_openai_outage == null ? '—' : (ours.llms_openai_outage ? 'yes' : 'NO');
       lines.push(`- Agent-map OpenAI outage → lab (#181): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.openai_chrome_faq != null) {
+      lines.push(
+        `- ChatGPT Chrome FAQ (#191): **${ours.openai_chrome_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_openai_chrome != null || ours.llms_openai_chrome != null)) {
+      const ag = ours.agents_openai_chrome == null ? '—' : (ours.agents_openai_chrome ? 'yes' : 'NO');
+      const lm = ours.llms_openai_chrome == null ? '—' : (ours.llms_openai_chrome ? 'yes' : 'NO');
+      lines.push(`- Agent-map ChatGPT Chrome → lab (#191): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.huggingface_faq != null) {
       lines.push(
@@ -4307,6 +4362,36 @@ function selftest() {
   if (!openaiOutageGaps.some((g) => g.id === 'agents-openai-outage-missing')) {
     throw new Error('agents-openai-outage-missing gap');
   }
+  if (hasOpenaiChromeFaq(OPENAI_CHROME_FAQ_NEEDLE) !== true) {
+    throw new Error('hasOpenaiChromeFaq true');
+  }
+  if (hasOpenaiChromeFaq('Why does SIREN watch OpenAI and ChatGPT outages?') !== false) {
+    throw new Error('hasOpenaiChromeFaq false');
+  }
+  if (hasAgentsOpenaiChrome('ChatGPT Chrome → https://siren.watch/lab/openai.html') !== true) {
+    throw new Error('hasAgentsOpenaiChrome true');
+  }
+  if (hasAgentsOpenaiChrome('https://siren.watch/lab/openai.html only') !== false) {
+    throw new Error('hasAgentsOpenaiChrome needs ChatGPT Chrome needle');
+  }
+  const openaiChromeGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      openai_chrome_faq: false,
+      agents_openai_chrome: false,
+      llms_openai_chrome: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!openaiChromeGaps.some((g) => g.id === 'openai-chrome-faq-missing')) {
+    throw new Error('openai-chrome-faq-missing gap');
+  }
+  if (!openaiChromeGaps.some((g) => g.id === 'agents-openai-chrome-missing')) {
+    throw new Error('agents-openai-chrome-missing gap');
+  }
   if (hasHuggingfaceFaq(HUGGINGFACE_FAQ_NEEDLE) !== true) {
     throw new Error('hasHuggingfaceFaq true');
   }
@@ -4456,6 +4541,7 @@ function selftest() {
     TRENDS_ROUTES_DEEPSEEK_NEEDLE,
     TRENDS_ROUTES_MISTRAL_NEEDLE,
     TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
+    TRENDS_ROUTES_OPENAI_CHROME_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_AMD_NEEDLE,
@@ -4465,7 +4551,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
