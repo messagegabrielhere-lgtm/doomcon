@@ -43,6 +43,10 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #151 — "dram stock" / "hbm stock" / "memory stock" / "micron
   // stock" co-move on the same AI memory-chip tape; still one gated lab URL.
   { id: 'micron', label: 'Micron / MU', re: /\bmicron(?:\s+stock)?\b|\bmu\s+stock\b|\b(?:dram|hbm|memory)\s+stock\b|\bmemory[\s-]?chip\b.*\b(?:micron|mu)\b/i, path: '/lab/micron.html' },
+  // FINDABILITY #152 — "iren stock" Trends spikes arrive with neocloud /
+  // CoreWeave / AI-cloud power headlines; route to gated /watts.html (substrate
+  // instrument), not a company doorway or stock tip.
+  { id: 'iren', label: 'IREN / AI cloud power', re: /\biren(?:\s+stock)?\b|\biris\s+energy\b/i, path: '/watts.html' },
   { id: 'siren', label: 'SIREN / siren.watch', re: /\bsiren\.watch\b|\bsiren\s+(?:index|watch|ai)\b|\bdoomcon\b/i, path: '/' },
 ]);
 
