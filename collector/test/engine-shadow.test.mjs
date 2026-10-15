@@ -16,6 +16,13 @@ import { buildStockanalysisAddendum, dayRange, addendaHash as calibrateHash } fr
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const readJson = (p) => JSON.parse(readFileSync(join(ROOT, p), 'utf8'));
+// FINDABILITY #190 — Loop body lives in news-fast-loop.sh so the workflow
+// YAML stays under GitHub's 21k expression-length cap. Assertions that used
+// to read only news-fast.yml must see the script too.
+const newsFastSrc = () =>
+  readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8') +
+  '\n' +
+  readFileSync(join(ROOT, '.github', 'scripts', 'news-fast-loop.sh'), 'utf8');
 
 function realInputs() {
   const rawDir = join(ROOT, 'data', 'raw');
@@ -275,7 +282,7 @@ test('news-fast overlay publishes news-sitemap + sitemap + robots (FINDABILITY #
   // Overlay path used to copy api/news.json + news.html but skip the crawl
   // surfaces --only news rewrites — Google News kept reading a stale
   // news-sitemap while the HTML room looked fresh.
-  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const yml = newsFastSrc();
   const overlay = yml.match(/for rel in ([^\n]+)/);
   assert.ok(overlay, 'news-fast overlay file list missing');
   const list = overlay[1];
@@ -292,7 +299,7 @@ test('news-fast seeds public/ from gh-pages before --only news (FINDABILITY #98)
   // Without a seed, build.mjs --only news falls through to a full wipe when
   // public/index.html is missing — measured ~58m cancel on tick 1 with zero
   // publishes (run 38666831944), leaving news-sitemap stale for hours.
-  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const yml = newsFastSrc();
   assert.match(yml, /seeding public\/ from gh-pages for news-only builds/);
   assert.match(yml, /git clone --depth 1 --branch gh-pages/);
   assert.match(yml, /build\.mjs --only news/);
@@ -300,7 +307,7 @@ test('news-fast seeds public/ from gh-pages before --only news (FINDABILITY #98)
 
 test('news-fast refuses full wipe fallback on news-only failure (FINDABILITY #99)', () => {
   // The old `trying full build` path is what burned 58m with zero publishes.
-  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const yml = newsFastSrc();
   assert.doesNotMatch(yml, /trying full build/);
   assert.match(yml, /timeout 900 node site\/build\.mjs --only news/);
   assert.match(yml, /skipping full wipe fallback/);
@@ -310,7 +317,7 @@ test('news-fast throttles Pages publish cadence (FINDABILITY #112/#117)', () => 
   // 2026-10-15: after #106/#107 news-fast published every tick; GitHub Pages
   // returned duration:0 "Page build failed" for ~20 consecutive pushes and
   // froze the live CDN (last built 07:41Z) so overlays like #111 never served.
-  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const yml = newsFastSrc();
   assert.match(yml, /FINDABILITY #112/);
   assert.match(yml, /PUBLISH_MIN_GAP=600/);
   assert.match(yml, /PENDING_PUB/);
@@ -320,7 +327,7 @@ test('news-fast throttles Pages publish cadence (FINDABILITY #112/#117)', () => 
 test('news-fast seeds LAST_PAGES_PUB from gh-pages tip (FINDABILITY #118)', () => {
   // LAST_PAGES_PUB=0 made AGO ≈ epoch so every newly armed job published on
   // tick 1 and raced collect / prior tip (Pages errored again ~09:00Z).
-  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const yml = newsFastSrc();
   assert.match(yml, /FINDABILITY #118/);
   assert.match(yml, /refresh_last_pages_pub/);
   assert.match(yml, /LAST_PAGES_PUB seeded from gh-pages tip/);
@@ -330,7 +337,7 @@ test('news-fast seeds LAST_PAGES_PUB from gh-pages tip (FINDABILITY #118)', () =
 
 test('collect + news-fast pass Bing Webmaster verification secret (FINDABILITY #120)', () => {
   const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
-  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const newsFast = newsFastSrc();
   assert.match(collect, /BING_SITE_VERIFICATION: \$\{\{ secrets\.BING_SITE_VERIFICATION \}\}/);
   assert.match(newsFast, /BING_SITE_VERIFICATION: \$\{\{ secrets\.BING_SITE_VERIFICATION \}\}/);
   assert.match(newsFast, /FINDABILITY #120/);
@@ -368,6 +375,23 @@ test('vs-alias-guard workflow restores missing short aliases (FINDABILITY #117)'
   assert.match(yml, /contents: write/);
 });
 
+test('news-fast Loop body lives in external script under 21k YAML cap (FINDABILITY #190)', () => {
+  // 2026-10-15T22:52Z vs-alias-guard re-arm got HTTP 422: news-fast.yml
+  // "Exceeded max expression length 21000" at the Loop `run: |` block (~61k).
+  // Extract the loop to .github/scripts/news-fast-loop.sh so dispatch works.
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(yml, /FINDABILITY #190/);
+  assert.match(yml, /run: bash \.github\/scripts\/news-fast-loop\.sh/);
+  const loop = readFileSync(join(ROOT, '.github', 'scripts', 'news-fast-loop.sh'), 'utf8');
+  assert.match(loop, /set -uo pipefail/);
+  assert.match(loop, /PUBLISH_MIN_GAP/);
+  assert.ok(yml.length < 21000, `news-fast.yml is ${yml.length} chars (want <21000)`);
+  const runBlocks = [...yml.matchAll(/run:\s*\|\s*\n((?:[ \t]+.*\n)*)/g)];
+  for (const m of runBlocks) {
+    assert.ok(m[1].length < 21000, `run| block is ${m[1].length} chars`);
+  }
+});
+
 test('vs-alias-guard re-arms news-fast when the minute-loop chain is dark (FINDABILITY #189)', () => {
   // Collect schedules went quiet for hours after 2026-10-15T19:10Z while
   // vs-alias-guard kept firing every ~10m. Guard must wake news-fast.yml when
@@ -393,7 +417,7 @@ test('vs-alias-guard restores /trends + Outrank directory indexes (FINDABILITY #
 test('news-fast restores vs short aliases on publish (FINDABILITY #114)', () => {
   // Orphan newsroom publish wiped /vs/skynet.html (and #113 aliases) from tip
   // within minutes because --only news public/ lacks those files.
-  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const yml = newsFastSrc();
   assert.match(yml, /FINDABILITY #114/);
   assert.match(yml, /restore_vs_aliases/);
   assert.match(yml, /vs\/skynet\.html/);
@@ -405,7 +429,7 @@ test('news-fast restores vs short aliases on publish (FINDABILITY #114)', () => 
 });
 
 test('news-fast restores /trends + Outrank dir indexes (FINDABILITY #124)', () => {
-  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const yml = newsFastSrc();
   assert.match(yml, /FINDABILITY #124/);
   assert.match(yml, /trends\.html/);
   assert.match(yml, /verify\/index\.html/);
@@ -448,7 +472,7 @@ test('build emits /pdoom.html typed-guess alias (FINDABILITY #129)', () => {
   const guard = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
   assert.match(guard, /FINDABILITY #129/);
   assert.match(guard, /restore_one p-doom\.html pdoom\.html/);
-  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #129/);
   assert.match(newsFast, /pdoom\.html/);
   const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
@@ -475,7 +499,7 @@ test('Publish restores tip agent maps when head-term needles missing (FINDABILIT
   assert.match(collect, /FINDABILITY #136\/#139/);
   assert.match(collect, /OpenAI \/ ChatGPT/);
   assert.match(collect, /\/lab\/openai\.html/);
-  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #136/);
   assert.match(newsFast, /FINDABILITY #136\/#139/);
   assert.match(newsFast, /OpenAI \/ ChatGPT/);
@@ -494,7 +518,7 @@ test('Publish restores tip lab/companies hub labels (FINDABILITY #141)', () => {
   assert.match(collect, /companies\/index\.html/);
   const stash = collect.match(/lab\/index\.html companies\.html companies\/index\.html/g) || [];
   assert.ok(stash.length >= 2, `expected lab-hub stash on both collect Publish paths, got ${stash.length}`);
-  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #141/);
   assert.match(newsFast, /restore_lab_hub_labels/);
   assert.match(newsFast, /lab\/index\.html/);
@@ -507,7 +531,7 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   assert.match(collect, /FINDABILITY #143/);
   assert.match(collect, /restored \$hub knowsAbout labAboutLabel \(#143\)/);
   assert.match(collect, /index\.html classic\.html/);
-  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #143/);
   assert.match(newsFast, /restore_home_knowsabout/);
   assert.match(newsFast, /agents\.md llms\.txt index\.html classic\.html/);
@@ -523,7 +547,7 @@ test('Publish restores tip race labAboutLabel (FINDABILITY #145)', () => {
   assert.match(collect, /race\/index\.html/);
   const stash = collect.match(/race\.html race\/index\.html/g) || [];
   assert.ok(stash.length >= 2, `expected race stash on both collect Publish paths, got ${stash.length}`);
-  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #145/);
   assert.match(newsFast, /restore_race_lab_labels/);
   assert.match(newsFast, /race\.html/);
@@ -540,7 +564,7 @@ test('doomsday-clock / ai-doom / doom-index aliases (FINDABILITY #133)', () => {
   assert.match(guard, /restore_one ai-doomsday-clock\.html doomsday-clock\.html/);
   assert.match(guard, /restore_one guide\.html ai-doom\.html/);
   assert.match(guard, /restore_one compare\.html doom-index\.html/);
-  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #133/);
   assert.match(newsFast, /doomsday-clock\.html/);
   const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
@@ -561,7 +585,7 @@ test('root rival typed-guess aliases restored (FINDABILITY #131)', () => {
   assert.match(guard, /FINDABILITY #131/);
   assert.match(guard, /restore_one vs\/doombench\.html doombench\.html/);
   assert.match(guard, /restore_one vs\/pizzint\.html pizzint\.html/);
-  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #131/);
   assert.match(newsFast, /doombench\.html/);
   const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
@@ -600,7 +624,7 @@ test('news-only skips full sitemap and caps live day hubs (FINDABILITY #106)', (
   assert.match(block, /\.slice\(0, 5\)/);
   assert.match(block, /news-sitemap\.xml/);
   assert.doesNotMatch(block, /write\(args\.out, 'sitemap\.xml'/);
-  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const yml = newsFastSrc();
   assert.match(yml, /FINDABILITY #106/);
   assert.match(yml, /timeout 900 node site\/build\.mjs --only news/);
 });
@@ -623,7 +647,7 @@ test('news-only item fingerprint ignores recency churn (FINDABILITY #107)', () =
 });
 
 test('news-fast polls search-trends and news-only rewrites it (FINDABILITY #149)', () => {
-  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const yml = newsFastSrc();
   assert.match(yml, /FINDABILITY #149/);
   assert.match(yml, /timeout 45 node collector\/search-trends\.mjs/);
   assert.match(yml, /TBEFORE=\$\(TFP\)/);
