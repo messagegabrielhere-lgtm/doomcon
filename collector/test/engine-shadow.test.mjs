@@ -199,3 +199,15 @@ test('health: counts and next expected run from the hourly cron', () => {
   assert.equal(h.typical_lag_minutes, 14.9); // median of 12, 14, 16, 15.82
   assert.equal(h.expected_next_run_utc, '2026-10-08T03:21:54.000Z');
 });
+
+test('collect.yml job budgets leave room for findability-tree builds (FINDABILITY #83/#86)', () => {
+  // Old ceilings (newsroom 10m / full 40m) cancelled mid-Build before Publish
+  // once the findability tree made static builds 30–50+ minutes.
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const news = yml.match(/name:\s*newsroom[\s\S]*?timeout-minutes:\s*(\d+)/);
+  const full = yml.match(/name:\s*full index pass[\s\S]*?timeout-minutes:\s*(\d+)/);
+  assert.ok(news, 'newsroom timeout-minutes missing');
+  assert.ok(full, 'full index pass timeout-minutes missing');
+  assert.ok(Number(news[1]) >= 45, `newsroom timeout ${news[1]}m < 45m`);
+  assert.ok(Number(full[1]) >= 90, `full timeout ${full[1]}m < 90m`);
+});
