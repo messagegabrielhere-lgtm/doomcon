@@ -454,6 +454,32 @@ export function hasTrendsShortAlias(txt, alias = TRENDS_SHORT_ALIAS) {
 }
 
 /**
+ * Conquest FAQ needles that must stay on tip after #126/#127 (FINDABILITY #128).
+ * Orphan news-fast tars can wipe overlay hubs back to a stale seed.
+ */
+export const CONQUEST_FAQ_PROBES = Object.freeze([
+  { path: '/compare.html', needle: 'How do you compare AI doom indexes?' },
+  { path: '/alternatives.html', needle: 'What is an AI doom index alternative?' },
+]);
+
+/**
+ * Probe rows whose live HTML is missing the expected conquest FAQ needle.
+ * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
+ */
+export function conquestFaqLags(byUrl, origin = 'https://siren.watch', probes = CONQUEST_FAQ_PROBES) {
+  const base = String(origin || '').replace(/\/$/, '');
+  const out = [];
+  for (const { path: rel, needle } of probes) {
+    const row = byUrl.get(`${base}${rel}`);
+    const body = row?.ok ? String(row.value || '') : '';
+    if (!body.includes(needle)) {
+      out.push({ path: rel, needle });
+    }
+  }
+  return out;
+}
+
+/**
  * Lab pages whose `<title>` must include a product head-term alias
  * (FINDABILITY #121/#122/#123). Keep in sync with LAB_HEAD_ALIASES in
  * site/templates/facetPages.mjs.
@@ -818,6 +844,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #126/#127/#128 — conquest FAQ hubs wiped by orphan tip lag.
+  if (Array.isArray(ours.conquest_faq_lags) && ours.conquest_faq_lags.length > 0) {
+    const sample = ours.conquest_faq_lags
+      .slice(0, 3)
+      .map((row) => `${row.path} (−${row.needle})`)
+      .join(', ');
+    gaps.push({
+      id: 'conquest-faq-missing',
+      severity: 'medium',
+      text: `conquest FAQ hub lag on ${ours.conquest_faq_lags.length} page(s) (e.g. ${sample}) — re-overlay compare/alternatives or wait for news-fast/collect Publish on tip ≥ #128 (FINDABILITY #128)`,
+    });
+  }
+
   // Open engineering items from FINDABILITY.md that the daily pass can still ship.
   const open = report.open_engineering || [];
   for (const item of open) {
@@ -971,6 +1010,8 @@ export function measureSite(site, byUrl) {
     row.llms_trends_alias = llms?.ok ? hasTrendsShortAlias(llmsBody) : false;
     // FINDABILITY #123 — lab title must keep product head-term aliases.
     row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
+    // FINDABILITY #128 — compare/alternatives must keep #126/#127 FAQ needles.
+    row.conquest_faq_lags = conquestFaqLags(byUrl, site.origin);
   }
 
   return row;
@@ -1111,6 +1152,16 @@ export function formatMarkdown(report) {
         );
       }
     }
+    if (ours && Array.isArray(ours.conquest_faq_lags)) {
+      if (ours.conquest_faq_lags.length === 0) {
+        lines.push('- Conquest FAQ hubs (#126/#128): **ok** (compare + alternatives exact-match needles)');
+      } else {
+        const sample = ours.conquest_faq_lags.slice(0, 3).map((r) => r.path).join(', ');
+        lines.push(
+          `- Conquest FAQ hubs (#126/#128): **LAG** on ${ours.conquest_faq_lags.length} (e.g. ${sample})`,
+        );
+      }
+    }
     if (ours && (ours.gsc_meta != null || ours.bing_meta != null || ours.robots_tips != null
       || ours.sitemap_tips != null || ours.news_sitemap_tips != null
       || ours.feed_tips != null || ours.feed_level_tips != null
@@ -1118,7 +1169,8 @@ export function formatMarkdown(report) {
       || ours.news_keyword_lags != null
       || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null
       || ours.agents_trends_alias != null || ours.llms_trends_alias != null
-      || ours.lab_head_alias_lags != null)) {
+      || ours.lab_head_alias_lags != null
+      || ours.conquest_faq_lags != null)) {
       lines.push('');
     }
   }
@@ -1349,6 +1401,41 @@ function selftest() {
   }
   for (const p of LAB_HEAD_TITLE_PROBES) {
     if (!OUR_SURFACES.includes(p.path)) throw new Error(`OUR_SURFACES missing ${p.path}`);
+  }
+  const faqByUrl = new Map([
+    ['https://siren.watch/compare.html', {
+      ok: true,
+      value: '<h2>Which AI doom indexes can you compare?</h2>',
+    }],
+    ['https://siren.watch/alternatives.html', {
+      ok: true,
+      value: '<h2>What is an AI doom index alternative?</h2><p>SIREN</p>',
+    }],
+  ]);
+  const faqLags = conquestFaqLags(faqByUrl);
+  if (!faqLags.some((r) => r.path === '/compare.html')) {
+    throw new Error('conquestFaqLags compare');
+  }
+  if (faqLags.some((r) => r.path === '/alternatives.html')) {
+    throw new Error('conquestFaqLags alternatives false positive');
+  }
+  const faqGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      conquest_faq_lags: faqLags,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!faqGaps.some((g) => g.id === 'conquest-faq-missing')) {
+    throw new Error('conquest-faq-missing gap');
+  }
+  for (const p of CONQUEST_FAQ_PROBES) {
+    if (!OUR_SURFACES.includes(p.path) && !CORE_LIVE_SURFACES.includes(p.path)) {
+      throw new Error(`surfaces missing conquest FAQ ${p.path}`);
+    }
   }
   const newsXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
     + '<url><news:publication_date>2026-10-14T12:00:00.000Z</news:publication_date></url>'

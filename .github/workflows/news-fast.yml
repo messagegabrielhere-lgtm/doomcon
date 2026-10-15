@@ -346,6 +346,25 @@ jobs:
                   cp -a "$root/ai-prediction-markets.html" "$root/ai-prediction-markets/index.html"
                 fi
               }
+              # FINDABILITY #128 — orphan tar of a stale seeded public/ can wipe
+              # #126/#127 conquest FAQ hubs. Restore tip copies when needles missing.
+              restore_conquest_faqs() {
+                local root="$1" preserve="$2"
+                if [ -f "$preserve/compare.html" ] \
+                  && ! grep -q 'How do you compare AI doom indexes' "$root/compare.html" 2>/dev/null; then
+                  cp -a "$preserve/compare.html" "$root/compare.html"
+                  mkdir -p "$root/compare"
+                  cp -a "$preserve/compare.html" "$root/compare/index.html"
+                  echo "restored compare.html conquest FAQ hub (#128)"
+                fi
+                if [ -f "$preserve/alternatives.html" ] \
+                  && ! grep -q 'What is an AI doom index alternative' "$root/alternatives.html" 2>/dev/null; then
+                  cp -a "$preserve/alternatives.html" "$root/alternatives.html"
+                  mkdir -p "$root/alternatives"
+                  cp -a "$preserve/alternatives.html" "$root/alternatives/index.html"
+                  echo "restored alternatives.html conquest FAQ hub (#128)"
+                fi
+              }
               if [ -d .pages/.git ]; then
                 if ! git -C .pages fetch -q origin gh-pages 2>/dev/null \
                   || ! git -C .pages reset -q --hard FETCH_HEAD 2>/dev/null; then
@@ -392,11 +411,29 @@ jobs:
               fi
               if [ "$PUB_OK" -ne 1 ]; then
                 echo "tick $TICK: overlay publish missed; full orphan publish"
+                # FINDABILITY #128 — stash tip conquest FAQ hubs before orphan wipe.
+                PRESERVE_FAQ=$(mktemp -d)
+                for hub in compare.html alternatives.html; do
+                  if [ -f ".pages/$hub" ]; then
+                    cp -a ".pages/$hub" "$PRESERVE_FAQ/$hub"
+                  fi
+                done
+                if [ ! -f "$PRESERVE_FAQ/compare.html" ] || [ ! -f "$PRESERVE_FAQ/alternatives.html" ]; then
+                  rm -rf .pages-faq-tip
+                  if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
+                    for hub in compare.html alternatives.html; do
+                      [ -f ".pages-faq-tip/$hub" ] && cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
+                    done
+                    rm -rf .pages-faq-tip
+                  fi
+                fi
                 rm -rf .pages && mkdir .pages
                 echo '.pages/' > .git/info/exclude.tmp && cat .git/info/exclude >> .git/info/exclude.tmp 2>/dev/null || true
                 mv .git/info/exclude.tmp .git/info/exclude
                 tar cf - -C public . | (cd .pages && tar xf -)
                 restore_vs_aliases .pages
+                restore_conquest_faqs .pages "$PRESERVE_FAQ"
+                rm -rf "$PRESERVE_FAQ"
                 git -C .pages init -q
                 git -C .pages checkout -q -b gh-pages
                 git -C .pages config user.name  'github-actions[bot]'
