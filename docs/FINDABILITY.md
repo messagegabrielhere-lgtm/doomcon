@@ -339,7 +339,8 @@ context.
 | 106 | News-only: refresh at most 5 live-window day hubs (not archive-backed `indexableDays`) and skip full `sitemap.xml`; raise news-fast/newsroom `--only news` timeout 480→900 so ticks can Publish (tip c4993bcf still PUBLISHED=0 after #103) | Google News + Deploy | **Done** (2026-10-15) |
 | 107 | News-only item skip uses content fingerprint (title/summary/url/corroboration — not `age_hours_at_score` / recency / score churn) + rewrite cap 120; full `stableJson(it)` still rewrote ~800 briefs (~468s) and left news-fast at PUBLISHED=0 on tip c4993bcf | Google News + Deploy | **Done** (2026-10-15) |
 | 108 | News-sitemap `NEWS_KEYWORD_LABS`: add MediaTek / Cathie Wood / ServiceNow from live 48h titles while `google-news-open` so the 12-cap does not bury chip/deal surfaces under topic tags | Google News | **Done** (2026-10-15) |
-| 109 | News-sitemap `NEWS_KEYWORD_LABS`: add `Kodiak AI` / `Kodiak` so the Cathie Wood / CoreWeave tape keeps the company surface under the 12-cap while Google News is contested | Google News | **Done** (this pass) |
+| 109 | News-sitemap `NEWS_KEYWORD_LABS`: add `Kodiak AI` / `Kodiak` so the Cathie Wood / CoreWeave tape keeps the company surface under the 12-cap while Google News is contested | Google News | **Done** (2026-10-15) |
+| 110 | `seo-daily` detects live news-sitemap title↔keywords lag (`news-keywords-lag`) when probe labs (Kodiak AI / MediaTek / Cathie Wood / …) appear in `news:title` but not `news:keywords` — catches CDN/old-tip publishes after #108/#109 | Daily agent + Google News | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
