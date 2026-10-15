@@ -67,6 +67,8 @@ const ALWAYS = Object.freeze([
   '/race.html',
   '/search-trends.html',
   '/trends.html', // short alias; canonical stays on search-trends (FINDABILITY #124)
+  // FINDABILITY #186 — tipped Trends JSON so Bing learns fresh generated_at.
+  '/api/search-trends.json',
   '/ai-prediction-markets.html',
   '/sitemap.xml',
   '/news-sitemap.xml',
