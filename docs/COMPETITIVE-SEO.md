@@ -1,8 +1,9 @@
 # Competitive SEO reverse-engineer
 
 **Measured:** 2026-10-15T00:32Z (live HTTP fetches via `seo-daily` / `fetch.mjs`); news-sitemap keywords refreshed for ChatGPT / Pentagon / EDPB (#82).
-Companion to `docs/COMPETITIVE.md` (Sept inventory) and `docs/FINDABILITY.md`
-(our playbook).
+Companion to `docs/COMPETITIVE.md` (Sept inventory), `docs/FINDABILITY.md`
+(our playbook), and `docs/SEO-CHECKLIST.md` (Semrush 43-tip → SIREN status
+map, including AI Overviews / ChatGPT surfaces).
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool
@@ -93,6 +94,7 @@ They win social memes, not Google. Do not imitate.
 2. Spot-check `/pillar/capability.html` and `/lab/openai.html` in Rich Results test.
 3. Re-fetch pizzint `news-sitemap.xml` monthly; if it starts rolling again, treat Google News as contested again.
 4. Weekly: indexed count vs sitemap count (vanity = sitemap-only growth).
+5. Tick open rows in `docs/SEO-CHECKLIST.md` (GSC, Bing, AI citation spot-check).
 
 ---
 
