@@ -291,6 +291,23 @@ describe('lab facets', () => {
     assert.match(metaHtml, /[Nn]ot a model review/);
     assert.match(metaHtml, /search-trends\.html/);
     assert.doesNotMatch(metaHtml, /buy Meta|price target|must use Muse/i);
+    // FINDABILITY #170 — Apple Intelligence / on-device AI FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES.apple, 'Apple Intelligence');
+    assert.equal(labAboutLabel({ id: 'apple', name: 'Apple' }), 'Apple / Apple Intelligence');
+    const appleHtml = renderLab(ctx, {
+      id: 'apple',
+      name: 'Apple',
+      entityOnly: true,
+      entityName: 'Apple',
+    });
+    assert.match(
+      appleHtml,
+      /Why does SIREN watch Apple Intelligence\?/,
+    );
+    assert.match(appleHtml, /<title>[^<]*Apple Intelligence/);
+    assert.match(appleHtml, /[Nn]ot a product review/);
+    assert.match(appleHtml, /search-trends\.html/);
+    assert.doesNotMatch(appleHtml, /buy Apple|price target|must use Apple Intelligence/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

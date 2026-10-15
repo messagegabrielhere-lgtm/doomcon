@@ -75,6 +75,10 @@ import {
   hasAgentsMetaMuse,
   META_MUSE_FAQ_NEEDLE,
   TRENDS_ROUTES_META_MUSE_NEEDLE,
+  hasAppleIntelligenceFaq,
+  hasAgentsAppleIntelligence,
+  APPLE_INTELLIGENCE_FAQ_NEEDLE,
+  TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -745,13 +749,38 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-meta-muse-missing'));
   });
 
-  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169)', () => {
+  it('detects Apple Intelligence FAQ + agent-map lag (FINDABILITY #170)', () => {
+    assert.equal(hasAppleIntelligenceFaq(APPLE_INTELLIGENCE_FAQ_NEEDLE), true);
+    assert.equal(hasAppleIntelligenceFaq('What has SIREN scored about Apple?'), false);
+    assert.equal(
+      hasAgentsAppleIntelligence('Apple Intelligence → https://siren.watch/lab/apple.html'),
+      true,
+    );
+    assert.equal(hasAgentsAppleIntelligence('https://siren.watch/lab/apple.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        apple_intelligence_faq: false,
+        agents_apple_intelligence: false,
+        llms_apple_intelligence: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'apple-intelligence-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-apple-intelligence-missing'));
+  });
+
+  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170)', () => {
     const routesBody = [
       TRENDS_ROUTES_FAQ_NEEDLE,
       TRENDS_ROUTES_ASML_NEEDLE,
       TRENDS_ROUTES_TSMC_NEEDLE,
       TRENDS_ROUTES_AMAZON_BEE_NEEDLE,
       TRENDS_ROUTES_META_MUSE_NEEDLE,
+      TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
     ].join('\n');
     assert.equal(hasTrendsRoutesFaq(routesBody), true);
     assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), false);
@@ -875,6 +904,10 @@ describe('seo-daily surfaces', () => {
       ['https://siren.watch/lab/meta.html', {
         ok: true,
         value: '<title>What has SIREN scored about Meta AI / Muse?</title>',
+      }],
+      ['https://siren.watch/lab/apple.html', {
+        ok: true,
+        value: '<title>What has SIREN scored about Apple / Apple Intelligence?</title>',
       }],
     ]);
     const lags = labHeadAliasLags(byUrl);

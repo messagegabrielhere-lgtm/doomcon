@@ -74,6 +74,8 @@ export const LAB_HEAD_ALIASES = Object.freeze({
   // FINDABILITY #169 — product people type when Trends / tape shows Muse Spark /
   // Muse Wonder with Meta open-weight AI headlines; stories already score under Meta AI.
   'meta': 'Muse',
+  // FINDABILITY #170 — product people type for Apple on-device AI / China launch tape.
+  'apple': 'Apple Intelligence',
 });
 
 /** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */
@@ -527,6 +529,13 @@ export function renderLab(ctx, player) {
     faq.push([
       `Why does ${brand.NAME} watch Meta Muse and open-weight AI?`,
       `${brand.NAME} scores press that names Meta AI. When Muse Spark, Muse Wonder, or Meta open-weight / Mac AI partnership headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
+  // FINDABILITY #170 — Apple Intelligence / on-device AI / China launch tape → gated lab.
+  if (player.id === 'apple') {
+    faq.push([
+      `Why does ${brand.NAME} watch Apple Intelligence?`,
+      `${brand.NAME} scores press that names Apple. When Apple Intelligence, on-device Apple AI, or China approval / Alibaba partnership headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not a product review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
   const faqHtml = faq.map(([q, a]) => `

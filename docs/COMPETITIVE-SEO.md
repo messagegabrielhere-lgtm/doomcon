@@ -8,10 +8,11 @@ IPO / FTC FAQ **#163** + ASML Trends FAQ **#164** + TSMC foundry FAQ **#165** + 
 cover state-suit / IPO / EUV / AI-foundry tape on gated labs. IndexNow ALWAYS
 **#168** adds `/lab/tsmc.html` + `/lab/coreweave.html` beside amazon/asml so Bing
 learns those Trends labs on every Publish. Meta Muse / open-weight FAQ **#169**
-covers Muse Spark / Muse Wonder tape on `/lab/meta.html`. Watchlist routing
+covers Muse Spark / Muse Wonder tape on `/lab/meta.html`. Apple Intelligence FAQ
+**#170** covers on-device / China-launch tape on `/lab/apple.html`. Watchlist routing
 **#158** + news keywords **#159**/**#161** keep Google News aligned. Publish
-restore **#156**/**#158**/**#162**–**#167**/**#169** keeps agent tips + Trends/lab HTML
-across collect wipes (#166/#167/#169 also guard ASML/TSMC/Amazon Bee/Meta Muse destinations on the routing FAQ). Branded “SIREN AI activity index” still #1; head-term
+restore **#156**/**#158**/**#162**–**#167**/**#169**/**#170** keeps agent tips + Trends/lab HTML
+across collect wipes (#166/#167/#169/#170 also guard ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence destinations on the routing FAQ). Branded “SIREN AI activity index” still #1; head-term
 SERPs still need GSC crawl (issue #202). Companion to `docs/COMPETITIVE.md` and
 `docs/FINDABILITY.md`.
 
@@ -31,7 +32,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,247** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
 | **pizzint.watch** | **1,018** | flaps **0↔14** (`google-news-open` / `pizzint-news-alive`) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **6,692** live (clears DoomBench 2090 / Skynet 1247 / pizzint 1018); GSC HTML-tag **absent** until operator sets secret (#11) | **200** news-sitemap (hold Google News lane; keyword-rich; pizzint flaps 0↔14) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + `/verify/` + `/free-tools/` + `/vs/{doom,skynet,takeoff}.html` + `/trends.html` + `/pdoom.html` (#129) + race labAboutLabel (#144) + Watts/Micron/CoreWeave/Neocloud/Nvidia Trends FAQs (#152–#161) + OpenAI lawsuit/FTC FAQ (#162) + Anthropic IPO/FTC FAQ (#163) + ASML Trends FAQ (#164) + TSMC foundry FAQ (#165) + Amazon Bee FAQ (#167) + Meta Muse FAQ (#169) + watchlist routing FAQ (#158/#166/#167/#169) | **yes** (Trends tips IREN→Watts / dram→Micron / CoreWeave→lab / NVDA→lab / OpenAI lawsuit→lab / Anthropic IPO→lab / ASML→lab / TSMC→lab / Amazon Bee→lab / Meta Muse→lab / neocloud→tag; Publish restore #156/#158/#162–#167/#169) |
+| **siren.watch** | **6,692** live (clears DoomBench 2090 / Skynet 1247 / pizzint 1018); GSC HTML-tag **absent** until operator sets secret (#11) | **200** news-sitemap (hold Google News lane; keyword-rich; pizzint flaps 0↔14) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + `/verify/` + `/free-tools/` + `/vs/{doom,skynet,takeoff}.html` + `/trends.html` + `/pdoom.html` (#129) + race labAboutLabel (#144) + Watts/Micron/CoreWeave/Neocloud/Nvidia Trends FAQs (#152–#161) + OpenAI lawsuit/FTC FAQ (#162) + Anthropic IPO/FTC FAQ (#163) + ASML Trends FAQ (#164) + TSMC foundry FAQ (#165) + Amazon Bee FAQ (#167) + Meta Muse FAQ (#169) + Apple Intelligence FAQ (#170) + watchlist routing FAQ (#158/#166/#167/#169/#170) | **yes** (Trends tips IREN→Watts / dram→Micron / CoreWeave→lab / NVDA→lab / OpenAI lawsuit→lab / Anthropic IPO→lab / ASML→lab / TSMC→lab / Amazon Bee→lab / Meta Muse→lab / Apple Intelligence→lab / neocloud→tag; Publish restore #156/#158/#162–#167/#169/#170) |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 

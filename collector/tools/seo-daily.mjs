@@ -141,6 +141,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/amazon.html',
   // FINDABILITY #169 — Meta Muse / open-weight AI Trends FAQ lab.
   '/lab/meta.html',
+  // FINDABILITY #170 — Apple Intelligence Trends FAQ lab.
+  '/lab/apple.html',
   // FINDABILITY #157 — neocloud Trends FAQ tag hub.
   '/tags/neoclouds.html',
   '/pillar/',
@@ -760,11 +762,12 @@ export const TRENDS_ROUTES_ASML_NEEDLE = 'ASML / EUV AI chip tools → /lab/asml
 export const TRENDS_ROUTES_TSMC_NEEDLE = 'TSMC / AI foundry → /lab/tsmc.html';
 export const TRENDS_ROUTES_AMAZON_BEE_NEEDLE = 'Amazon Bee / AI wearables → /lab/amazon.html';
 export const TRENDS_ROUTES_META_MUSE_NEEDLE = 'Meta Muse / open-weight AI → /lab/meta.html';
+export const TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE = 'Apple Intelligence → /lab/apple.html';
 
 /**
- * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169
- * ASML/TSMC/Amazon Bee/Meta Muse destinations (FINDABILITY #166 — newsroom used to keep
- * the question while dropping newer answer destinations).
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170
+ * ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence destinations (FINDABILITY #166 —
+ * newsroom used to keep the question while dropping newer answer destinations).
  */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
   const text = String(html || '');
@@ -772,7 +775,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_ASML_NEEDLE)
     && text.includes(TRENDS_ROUTES_TSMC_NEEDLE)
     && text.includes(TRENDS_ROUTES_AMAZON_BEE_NEEDLE)
-    && text.includes(TRENDS_ROUTES_META_MUSE_NEEDLE);
+    && text.includes(TRENDS_ROUTES_META_MUSE_NEEDLE)
+    && text.includes(TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -903,6 +907,24 @@ export function hasAgentsMetaMuse(body, needle = AGENTS_META_MUSE_NEEDLE) {
   return text.includes(needle) && text.includes('/lab/meta.html');
 }
 
+/** FINDABILITY #170 — Apple Intelligence FAQ + agent maps. */
+export const APPLE_INTELLIGENCE_FAQ_NEEDLE = 'Why does SIREN watch Apple Intelligence?';
+export const AGENTS_APPLE_INTELLIGENCE_NEEDLE = 'Apple Intelligence';
+
+/** Tip /lab/apple.html must keep the #170 Apple Intelligence FAQ. */
+export function hasAppleIntelligenceFaq(html, needle = APPLE_INTELLIGENCE_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Apple Intelligence Trends to Apple lab (FINDABILITY #170).
+ * Wipe gap is `agents-apple-intelligence-missing`.
+ */
+export function hasAgentsAppleIntelligence(body, needle = AGENTS_APPLE_INTELLIGENCE_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/apple.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -935,6 +957,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/nvidia.html', needle: 'NVDA' },
   // FINDABILITY #169 — Muse product alias on Meta AI lab title/H1.
   { path: '/lab/meta.html', needle: 'Muse' },
+  // FINDABILITY #170 — Apple Intelligence product alias on Apple lab title/H1.
+  { path: '/lab/apple.html', needle: 'Apple Intelligence' },
 ]);
 
 /**
@@ -1468,7 +1492,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse destinations (FINDABILITY #158/#166/#167/#169) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence destinations (FINDABILITY #158/#166/#167/#169/#170) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -1616,6 +1640,27 @@ export function deriveGaps(report) {
       id: 'agents-meta-muse-missing',
       severity: 'medium',
       text: `${which} missing Meta Muse → /lab/meta.html Trends tip (FINDABILITY #169) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #169`,
+    });
+  }
+
+  // FINDABILITY #170 — Apple lab FAQ for Apple Intelligence wiped or never landed.
+  if (ours.apple_intelligence_faq === false) {
+    gaps.push({
+      id: 'apple-intelligence-faq-missing',
+      severity: 'medium',
+      text: `/lab/apple.html missing Apple Intelligence FAQ (FINDABILITY #170) — re-overlay lab/apple.html or wait for full collect Publish on tip ≥ #170`,
+    });
+  }
+  // FINDABILITY #170 — agent maps must route Apple Intelligence Trends to Apple lab.
+  if (ours.agents_apple_intelligence === false || ours.llms_apple_intelligence === false) {
+    const which = [
+      ours.agents_apple_intelligence === false ? 'agents.md' : null,
+      ours.llms_apple_intelligence === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-apple-intelligence-missing',
+      severity: 'medium',
+      text: `${which} missing Apple Intelligence → /lab/apple.html Trends tip (FINDABILITY #170) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #170`,
     });
   }
 
@@ -1866,6 +1911,11 @@ export function measureSite(site, byUrl) {
     row.meta_muse_faq = metaHtml?.ok ? hasMetaMuseFaq(metaHtml.value) : false;
     row.agents_meta_muse = agentsMd?.ok ? hasAgentsMetaMuse(agentsMd.value) : false;
     row.llms_meta_muse = llms?.ok ? hasAgentsMetaMuse(llmsBody) : false;
+    // FINDABILITY #170 — Apple Intelligence FAQ + agent maps.
+    const appleHtml = byUrl.get(`${base}/lab/apple.html`);
+    row.apple_intelligence_faq = appleHtml?.ok ? hasAppleIntelligenceFaq(appleHtml.value) : false;
+    row.agents_apple_intelligence = agentsMd?.ok ? hasAgentsAppleIntelligence(agentsMd.value) : false;
+    row.llms_apple_intelligence = llms?.ok ? hasAgentsAppleIntelligence(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -2161,6 +2211,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_meta_muse == null ? '—' : (ours.agents_meta_muse ? 'yes' : 'NO');
       const lm = ours.llms_meta_muse == null ? '—' : (ours.llms_meta_muse ? 'yes' : 'NO');
       lines.push(`- Agent-map Meta Muse → lab (#169): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.apple_intelligence_faq != null) {
+      lines.push(
+        `- Apple Intelligence FAQ (#170): **${ours.apple_intelligence_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_apple_intelligence != null || ours.llms_apple_intelligence != null)) {
+      const ag = ours.agents_apple_intelligence == null ? '—' : (ours.agents_apple_intelligence ? 'yes' : 'NO');
+      const lm = ours.llms_apple_intelligence == null ? '—' : (ours.llms_apple_intelligence ? 'yes' : 'NO');
+      lines.push(`- Agent-map Apple Intelligence → lab (#170): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -2962,18 +3022,52 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/meta.html')) {
     throw new Error('OUR_SURFACES missing /lab/meta.html');
   }
+  if (hasAppleIntelligenceFaq(APPLE_INTELLIGENCE_FAQ_NEEDLE) !== true) {
+    throw new Error('hasAppleIntelligenceFaq true');
+  }
+  if (hasAppleIntelligenceFaq('What has SIREN scored about Apple?') !== false) {
+    throw new Error('hasAppleIntelligenceFaq false');
+  }
+  if (hasAgentsAppleIntelligence('Apple Intelligence → https://siren.watch/lab/apple.html') !== true) {
+    throw new Error('hasAgentsAppleIntelligence true');
+  }
+  if (hasAgentsAppleIntelligence('https://siren.watch/lab/apple.html only') !== false) {
+    throw new Error('hasAgentsAppleIntelligence needs Apple Intelligence needle');
+  }
+  const appleGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      apple_intelligence_faq: false,
+      agents_apple_intelligence: false,
+      llms_apple_intelligence: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!appleGaps.some((g) => g.id === 'apple-intelligence-faq-missing')) {
+    throw new Error('apple-intelligence-faq-missing gap');
+  }
+  if (!appleGaps.some((g) => g.id === 'agents-apple-intelligence-missing')) {
+    throw new Error('agents-apple-intelligence-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/apple.html')) {
+    throw new Error('OUR_SURFACES missing /lab/apple.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
     TRENDS_ROUTES_TSMC_NEEDLE,
     TRENDS_ROUTES_AMAZON_BEE_NEEDLE,
     TRENDS_ROUTES_META_MUSE_NEEDLE,
+    TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse destinations (#166/#167/#169)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence destinations (#166/#167/#169/#170)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
