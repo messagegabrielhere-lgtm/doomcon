@@ -1219,6 +1219,11 @@ export function render(ctx) {
       'index has a short record, and a short record makes every reading look more ordinary than it may be.'],
     [`Does ${brand.NAME} publish a Watts doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} Watts is an infrastructure tempo reading — not a probability of harm and not a forecast.`],
+    // FINDABILITY #152 — Google Trends “iren stock” / Iris Energy / neocloud
+    // power queries need a crawlable FAQ on the gated Watts page (not a
+    // company doorway or investment tip).
+    [`Why does ${brand.NAME} watch IREN stock and AI cloud power in Google Search Trends?`,
+      `${brand.NAME} watches Google’s daily trending RSS for findability. When IREN, Iris Energy, or AI-cloud / neocloud power headlines spike, Watts is the crawlable substrate reading — grid, water, and filings under the build-out — not a stock tip and not a company score. The live watchlist is on ${ctx.url('/search-trends.html')}.`],
     // Tip #382: corridor-card H3s are question-shaped and mirrored in FAQ (§3.3).
     ...CORRIDORS.map((c) => [
       corridorQ(c),

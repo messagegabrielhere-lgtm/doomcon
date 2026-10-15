@@ -77,6 +77,10 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'hbm stock', news: [] }).includes('micron'));
   assert.ok(matchHeadTerms({ title: 'memory stock', news: [] }).includes('micron'));
   assert.ok(matchHeadTerms({ title: 'micron stock', news: [] }).includes('micron'));
+  // FINDABILITY #152 — IREN / Iris Energy Trends → gated Watts substrate page.
+  assert.ok(matchHeadTerms({ title: 'iren stock', news: [] }).includes('iren'));
+  assert.ok(matchHeadTerms({ title: 'Iris Energy', news: [] }).includes('iren'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'iren' && t.path === '/watts.html'));
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {

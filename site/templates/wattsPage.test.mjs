@@ -28,6 +28,14 @@ describe('watts page', () => {
     assert.match(html, /Does Watts measure datacentre power or water draw\?/);
     assert.match(html, /Does Watts feed the main SIREN number\?/);
     assert.match(html, /Does SUBSTRATE mean the grid is in trouble\?/);
+    // FINDABILITY #152 — Trends “iren stock” FAQ on the gated Watts page.
+    assert.match(
+      html,
+      /Why does SIREN watch IREN stock and AI cloud power in Google Search Trends\?/,
+    );
+    assert.match(html, /search-trends\.html/);
+    assert.match(html, /not a stock tip/);
+    assert.doesNotMatch(html, /buy IREN|sell IREN|price target/i);
     assert.match(html, /id="iwarn-h"[^>]*>What should you read before the Watts charts\?/);
     assert.match(html, /id="icorr-h"[^>]*>Which datacentre regions does Watts cover\?/);
     assert.match(html, /id="igrid-h"[^>]*>What does overnight grid load show\?/);

@@ -389,6 +389,7 @@ context.
 | 149 | `news-fast` polls `collector/search-trends.mjs` each tick and `--only news` rewrites `/search-trends.html` + `/trends.html` + `api/search-trends.json` (+ directory indexes) so head-term spikes (e.g. Micron / MU / micron stock) reach tip without waiting on the hourly full collect Publish | Google + Trends | **Done** (this pass) |
 | 150 | `collect` newsroom lane runs Search Trends before `--only news` and commits `data/search-trends.json` so newsroom force-push does not republish a pre-spike Trends snapshot when news-fast’s hourly re-arm is quiet | Google + Trends | **Done** (this pass) |
 | 151 | Search Trends `HEAD_TERMS` micron also matches `dram stock` / `hbm stock` / `memory stock` / `micron stock`; `/lab/micron.html` FAQ answers why SIREN watches those Google Trends queries — one gated lab, no stock tip / doorway | Google + Trends | **Done** (this pass) |
+| 152 | Search Trends `HEAD_TERMS` `iren` (`iren stock` / Iris Energy) → gated `/watts.html`; Watts FAQ answers why SIREN watches IREN / AI-cloud power Trends — substrate reading only, not a company doorway or investment tip | Google + Trends | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
