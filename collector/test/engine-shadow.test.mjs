@@ -477,6 +477,22 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   assert.match(newsFast, /agents\.md llms\.txt index\.html classic\.html/);
 });
 
+test('Publish restores tip race labAboutLabel (FINDABILITY #145)', () => {
+  // Orphan newsroom Publish force-pushed tip race.html without #144 labels;
+  // #145 stashes + restores race.html when OpenAI / ChatGPT is missing.
+  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  assert.match(collect, /FINDABILITY #145/);
+  assert.match(collect, /restored \$hub race labAboutLabel \(#145\)/);
+  assert.match(collect, /race\.html/);
+  assert.match(collect, /race\/index\.html/);
+  const stash = collect.match(/race\.html race\/index\.html/g) || [];
+  assert.ok(stash.length >= 2, `expected race stash on both collect Publish paths, got ${stash.length}`);
+  const newsFast = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(newsFast, /FINDABILITY #145/);
+  assert.match(newsFast, /restore_race_lab_labels/);
+  assert.match(newsFast, /race\.html/);
+});
+
 test('doomsday-clock / ai-doom / doom-index aliases (FINDABILITY #133)', () => {
   const src = readFileSync(join(ROOT, 'site', 'build.mjs'), 'utf8');
   assert.match(src, /FINDABILITY #133/);
