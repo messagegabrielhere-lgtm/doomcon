@@ -501,7 +501,7 @@ export function agentsMd(ctx) {
 - ${u('/lab/apple.html')} — What has SIREN scored about Apple / Apple Intelligence? (Apple Intelligence Trends → Apple lab)
 - ${u('/lab/microsoft.html')} — What has SIREN scored about Microsoft / Copilot? (Microsoft Copilot Trends → Microsoft lab)
 - ${u('/lab/xai.html')} — What has SIREN scored about xAI / Grok? (Grok / xAI Trends → xAI lab)
-- ${u('/lab/google-deepmind.html')} — What has SIREN scored about Google DeepMind / Gemini? (Gemini / Gemma Trends → DeepMind lab)
+- ${u('/lab/google-deepmind.html')} — What has SIREN scored about Google DeepMind / Gemini / Argon? (Gemini / Gemma / Argon Trends → DeepMind lab)
 - ${u('/lab/samsung.html')} — What has SIREN scored about Samsung / HBM? (Samsung / AI memory Trends → Samsung lab)
 - ${u('/tags/neoclouds.html')} — What has SIREN scored about Neoclouds? (neocloud / neoclouds Trends → Neoclouds tag)
 - ${u('/tags/chatbots.html')} — What has SIREN scored about Chatbots? (Character.ai bankruptcy / companion chatbot Trends → Chatbots tag)

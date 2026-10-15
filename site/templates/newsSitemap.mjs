@@ -48,6 +48,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Mistral Large 4', 'Le Chonk', 'Mixtral',
   'GPT-6 Astra', 'GPT-6.1 Astra', 'GPT-6 Luna', 'GPT-6 Sol',
   'Gemini 4 Argon', 'Gemini 4 Carbon', 'Gemini 4',
+  // FINDABILITY #187 — bare Argon beside Gemini 4 Argon (labAboutLabel Gemini / Argon).
+  'Argon',
   'GLM-5.3', 'GLM5.3', 'GLM-5', 'GLM',
   'Claude Opus 5.5', 'Opus 5.5',
   // FINDABILITY #50 — surfaces scoring in the live 48h window this pass.
@@ -115,6 +117,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bOpenAI\b/i, name: /^OpenAI$/i, alias: 'ChatGPT' },
   { re: /\bAnthropic\b/i, name: /^Anthropic$/i, alias: 'Claude' },
   { re: /\b(?:Google\s+)?DeepMind\b/i, name: /^(?:Google\s+)?DeepMind$/i, alias: 'Gemini' },
+  // FINDABILITY #187 — Gemini → Argon (labAboutLabel) when parent named.
+  { re: /\bGemini\b/i, name: /^Gemini$/i, alias: 'Argon' },
   { re: /\bCoreWeave\b/i, name: /^CoreWeave$/i, alias: 'neocloud' },
   { re: /\bIREN\b/i, name: /^IREN$/i, alias: 'Iris Energy' },
   // FINDABILITY #161 — NVIDIA ticker alias (labAboutLabel NVDA).

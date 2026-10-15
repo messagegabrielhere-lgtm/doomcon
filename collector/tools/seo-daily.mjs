@@ -58,6 +58,8 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/free-tools.html',
   '/now.md',
   '/api/now.txt',
+  // FINDABILITY #186 — Search Trends JSON tip freshness (generated_at).
+  '/api/search-trends.json',
   // FINDABILITY #111/#113/#119 — conquest short aliases must stay 200 even
   // while orphan newsroom publishes race the tip (high-severity if wiped).
   '/vs/doom.html',
@@ -418,6 +420,27 @@ export function newestNewsPublicationMs(xml) {
 export const NEWS_STALE_HOURS = 6;
 
 /**
+ * Hours after which live Search Trends JSON is treated as stale (FINDABILITY #186).
+ * Mirrors news-stale: catches hung news-fast / quiet collect before Trends tip decays.
+ */
+export const TRENDS_STALE_HOURS = 6;
+
+/**
+ * Parse `generated_at` from live `/api/search-trends.json` body.
+ * @param {string} body
+ * @returns {number|null} epoch ms, or null when missing/unparseable
+ */
+export function trendsGeneratedAtMs(body) {
+  try {
+    const j = JSON.parse(String(body || ''));
+    const t = Date.parse(j?.generated_at);
+    return Number.isFinite(t) ? t : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * High-signal lab needles to probe for title↔keywords lag (FINDABILITY #110).
  * Kept short so seo-daily stays cheap; expand only when a live 48h title proves
  * a NEWS_KEYWORD_LABS needle is shipping in HTML titles but missing from
@@ -466,6 +489,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'OpenAI', alias: 'ChatGPT' },
   { lab: 'Anthropic', alias: 'Claude' },
   { lab: 'DeepMind', alias: 'Gemini' },
+  // FINDABILITY #187 — Gemini → Argon for Google News keywords.
+  { lab: 'Gemini', alias: 'Argon' },
   { lab: 'Micron', alias: 'MU' },
   // FINDABILITY #159 — Trends HEAD_TERM aliases for Google News keywords.
   { lab: 'CoreWeave', alias: 'neocloud' },
@@ -813,7 +838,7 @@ export const TRENDS_ROUTES_META_MUSE_NEEDLE = 'Meta Muse / open-weight AI → /l
 export const TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE = 'Apple Intelligence → /lab/apple.html';
 export const TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE = 'Microsoft Copilot → /lab/microsoft.html';
 export const TRENDS_ROUTES_XAI_GROK_NEEDLE = 'Grok / xAI → /lab/xai.html';
-export const TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma → /lab/google-deepmind.html';
+export const TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma / Argon → /lab/google-deepmind.html';
 export const TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE = 'Samsung / HBM / AI memory → /lab/samsung.html';
 export const TRENDS_ROUTES_CHARACTER_AI_NEEDLE = 'Character.ai bankruptcy → /tags/chatbots.html';
 export const TRENDS_ROUTES_QWEN_NEEDLE = 'Qwen / Alibaba open models → /lab/qwen.html';
@@ -1036,11 +1061,11 @@ export function hasAgentsXaiGrok(body, needle = AGENTS_XAI_GROK_NEEDLE) {
   return text.includes(needle) && text.includes('/lab/xai.html');
 }
 
-/** FINDABILITY #174 — Gemini / Gemma FAQ + agent maps. */
-export const GEMINI_GEMMA_FAQ_NEEDLE = 'Why does SIREN watch Gemini and Gemma?';
-export const AGENTS_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma';
+/** FINDABILITY #174/#187 — Gemini / Gemma / Argon FAQ + agent maps. */
+export const GEMINI_GEMMA_FAQ_NEEDLE = 'Why does SIREN watch Gemini, Gemma, and Argon?';
+export const AGENTS_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma / Argon';
 
-/** Tip /lab/google-deepmind.html must keep the #174 Gemini / Gemma FAQ. */
+/** Tip /lab/google-deepmind.html must keep the #174/#187 Gemini / Gemma / Argon FAQ. */
 export function hasGeminiGemmaFaq(html, needle = GEMINI_GEMMA_FAQ_NEEDLE) {
   return String(html || '').includes(needle);
 }
@@ -1278,7 +1303,8 @@ export function conquestFaqLags(byUrl, origin = 'https://siren.watch', probes = 
  * site/templates/facetPages.mjs.
  */
 export const LAB_HEAD_TITLE_PROBES = Object.freeze([
-  { path: '/lab/google-deepmind.html', needle: 'Gemini' },
+  // FINDABILITY #187 — Argon beside Gemini in DeepMind lab title.
+  { path: '/lab/google-deepmind.html', needle: 'Argon' },
   { path: '/lab/openai.html', needle: 'ChatGPT' },
   { path: '/lab/anthropic.html', needle: 'Claude' },
   // FINDABILITY #137 — Micron / MU ticker alias in lab title.
@@ -1492,6 +1518,28 @@ export function deriveGaps(report) {
         });
       }
     }
+  }
+
+  // FINDABILITY #186 — live Search Trends JSON older than threshold (news-fast dark).
+  if (ours.trends_generated_at) {
+    const gen = Date.parse(ours.trends_generated_at);
+    const nowMs = report.measured_at ? Date.parse(report.measured_at) : Date.now();
+    if (Number.isFinite(gen) && Number.isFinite(nowMs)) {
+      const ageH = (nowMs - gen) / 3_600_000;
+      if (ageH >= TRENDS_STALE_HOURS) {
+        gaps.push({
+          id: 'trends-stale',
+          severity: 'high',
+          text: `Live api/search-trends.json generated_at is ${ageH.toFixed(1)}h old (threshold ${TRENDS_STALE_HOURS}h) — re-overlay search-trends.html (+ trends aliases + api/search-trends.json) or unstick news-fast Trends poll so head-term spikes stay fresh`,
+        });
+      }
+    }
+  } else if (ours.ok && ours.trends_generated_at === null) {
+    gaps.push({
+      id: 'trends-json-missing',
+      severity: 'high',
+      text: 'Live api/search-trends.json missing or unparseable generated_at — restore Search Trends tip so Google/Bing have a fresh head-term firehose',
+    });
   }
 
   for (const s of report.sites || []) {
@@ -2057,7 +2105,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'gemini-gemma-faq-missing',
       severity: 'medium',
-      text: `/lab/google-deepmind.html missing Gemini / Gemma FAQ (FINDABILITY #174) — re-overlay lab/google-deepmind.html or wait for full collect Publish on tip ≥ #174`,
+      text: `/lab/google-deepmind.html missing Gemini / Gemma / Argon FAQ (FINDABILITY #174/#187) — re-overlay lab/google-deepmind.html or wait for full collect Publish on tip ≥ #187`,
     });
   }
   // FINDABILITY #174 — agent maps must route Gemini / Gemma Trends to DeepMind lab.
@@ -2069,7 +2117,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'agents-gemini-gemma-missing',
       severity: 'medium',
-      text: `${which} missing Gemini / Gemma → /lab/google-deepmind.html Trends tip (FINDABILITY #174) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #174`,
+      text: `${which} missing Gemini / Gemma / Argon → /lab/google-deepmind.html Trends tip (FINDABILITY #174/#187) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #187`,
     });
   }
 
@@ -2478,6 +2526,14 @@ export function measureSite(site, byUrl) {
     const nowTxt = byUrl.get(`${base}/api/now.txt`);
     row.now_md_tips = nowMd?.ok ? hasNowTips(nowMd.value) : false;
     row.now_txt_tips = nowTxt?.ok ? hasNowTips(nowTxt.value) : false;
+    // FINDABILITY #186 — Search Trends tip freshness from live JSON.
+    const trendsJson = byUrl.get(`${base}/api/search-trends.json`);
+    if (trendsJson?.ok) {
+      const ms = trendsGeneratedAtMs(trendsJson.value);
+      row.trends_generated_at = ms != null ? new Date(ms).toISOString() : null;
+    } else {
+      row.trends_generated_at = null;
+    }
     // FINDABILITY #119 — agent maps must list short aliases after #116 overlay.
     // Prefer the surface fetch (OUR_SURFACES); fall back to measure llms row.
     const agentsMd = byUrl.get(`${base}/agents.md`);
@@ -2567,7 +2623,7 @@ export function measureSite(site, byUrl) {
     row.xai_grok_faq = xaiHtml?.ok ? hasXaiGrokFaq(xaiHtml.value) : false;
     row.agents_xai_grok = agentsMd?.ok ? hasAgentsXaiGrok(agentsMd.value) : false;
     row.llms_xai_grok = llms?.ok ? hasAgentsXaiGrok(llmsBody) : false;
-    // FINDABILITY #174 — Gemini / Gemma FAQ + agent maps.
+    // FINDABILITY #174/#187 — Gemini / Gemma / Argon FAQ + agent maps.
     const gdmHtml = byUrl.get(`${base}/lab/google-deepmind.html`);
     row.gemini_gemma_faq = gdmHtml?.ok ? hasGeminiGemmaFaq(gdmHtml.value) : false;
     row.agents_gemini_gemma = agentsMd?.ok ? hasAgentsGeminiGemma(agentsMd.value) : false;
@@ -2749,6 +2805,21 @@ export function formatMarkdown(report) {
       const mdTip = ours.now_md_tips == null ? '—' : (ours.now_md_tips ? 'yes' : 'NO');
       const txtTip = ours.now_txt_tips == null ? '—' : (ours.now_txt_tips ? 'yes' : 'NO');
       lines.push(`- Now tip lines (#90): now.md **${mdTip}** · api/now.txt **${txtTip}**`);
+    }
+    if (ours && ours.trends_generated_at !== undefined) {
+      if (ours.trends_generated_at) {
+        const gen = Date.parse(ours.trends_generated_at);
+        const nowMs = report.measured_at ? Date.parse(report.measured_at) : Date.now();
+        const ageH = Number.isFinite(gen) && Number.isFinite(nowMs)
+          ? ((nowMs - gen) / 3_600_000).toFixed(1)
+          : '?';
+        const stale = Number.isFinite(Number(ageH)) && Number(ageH) >= TRENDS_STALE_HOURS;
+        lines.push(
+          `- Search Trends tip (#186): generated_at **${ours.trends_generated_at}** (${ageH}h old${stale ? '; STALE' : ''})`,
+        );
+      } else {
+        lines.push('- Search Trends tip (#186): api/search-trends.json **missing/unparseable**');
+      }
     }
     if (ours && Array.isArray(ours.news_keyword_lags)) {
       if (ours.news_keyword_lags.length === 0) {
@@ -2954,13 +3025,13 @@ export function formatMarkdown(report) {
     }
     if (ours && ours.gemini_gemma_faq != null) {
       lines.push(
-        `- Gemini / Gemma FAQ (#174): **${ours.gemini_gemma_faq ? 'ok' : 'NO'}**`,
+        `- Gemini / Gemma / Argon FAQ (#174/#187): **${ours.gemini_gemma_faq ? 'ok' : 'NO'}**`,
       );
     }
     if (ours && (ours.agents_gemini_gemma != null || ours.llms_gemini_gemma != null)) {
       const ag = ours.agents_gemini_gemma == null ? '—' : (ours.agents_gemini_gemma ? 'yes' : 'NO');
       const lm = ours.llms_gemini_gemma == null ? '—' : (ours.llms_gemini_gemma ? 'yes' : 'NO');
-      lines.push(`- Agent-map Gemini / Gemma → lab (#174): agents.md **${ag}** · llms.txt **${lm}**`);
+      lines.push(`- Agent-map Gemini / Gemma / Argon → lab (#174/#187): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.samsung_hbm_faq != null) {
       lines.push(
@@ -3116,6 +3187,7 @@ export function formatMarkdown(report) {
       || ours.sitemap_tips != null || ours.news_sitemap_tips != null
       || ours.feed_tips != null || ours.feed_level_tips != null
       || ours.now_md_tips != null || ours.now_txt_tips != null
+      || ours.trends_generated_at !== undefined
       || ours.news_keyword_lags != null
       || ours.news_lab_alias_lags != null
       || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null
@@ -3977,11 +4049,14 @@ function selftest() {
   if (hasGeminiGemmaFaq('What has SIREN scored about Google DeepMind?') !== false) {
     throw new Error('hasGeminiGemmaFaq false');
   }
-  if (hasAgentsGeminiGemma('Gemini / Gemma → https://siren.watch/lab/google-deepmind.html') !== true) {
+  if (hasAgentsGeminiGemma('Gemini / Gemma / Argon → https://siren.watch/lab/google-deepmind.html') !== true) {
     throw new Error('hasAgentsGeminiGemma true');
   }
   if (hasAgentsGeminiGemma('https://siren.watch/lab/google-deepmind.html only') !== false) {
-    throw new Error('hasAgentsGeminiGemma needs Gemini / Gemma needle');
+    throw new Error('hasAgentsGeminiGemma needs Gemini / Gemma / Argon needle');
+  }
+  if (hasAgentsGeminiGemma('Gemini / Gemma → https://siren.watch/lab/google-deepmind.html') !== false) {
+    throw new Error('hasAgentsGeminiGemma requires Argon in needle (#187)');
   }
   const gdmGaps = deriveGaps({
     sites: [{
@@ -4411,7 +4486,8 @@ function selftest() {
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {
       ok: true,
-      value: '<title>What has SIREN scored about Google DeepMind? AI stories</title>',
+      // Missing Argon (#187) while Gemini alone remains — lag probe expects Argon.
+      value: '<title>What has SIREN scored about Google DeepMind / Gemini? AI stories</title>',
     }],
     ['https://siren.watch/lab/openai.html', {
       ok: true,
@@ -4427,8 +4503,8 @@ function selftest() {
     }],
   ]);
   const labLags = labHeadAliasLags(labByUrl);
-  if (!labLags.some((r) => r.path === '/lab/google-deepmind.html' && r.needle === 'Gemini')) {
-    throw new Error('labHeadAliasLags Gemini');
+  if (!labLags.some((r) => r.path === '/lab/google-deepmind.html' && r.needle === 'Argon')) {
+    throw new Error('labHeadAliasLags Argon');
   }
   if (labLags.some((r) => r.path === '/lab/openai.html')) throw new Error('labHeadAliasLags ChatGPT false positive');
   if (labLags.some((r) => r.path === '/lab/micron.html')) throw new Error('labHeadAliasLags MU false positive');
@@ -4504,6 +4580,56 @@ function selftest() {
   });
   if (!staleGaps.some((g) => g.id === 'news-stale')) throw new Error('news-stale gap');
 
+  // FINDABILITY #186 — trends-stale from api/search-trends.json generated_at.
+  if (TRENDS_STALE_HOURS < 6) throw new Error('TRENDS_STALE_HOURS floor');
+  if (trendsGeneratedAtMs('{"generated_at":"2026-10-15T19:11:36.752Z"}')
+    !== Date.parse('2026-10-15T19:11:36.752Z')) {
+    throw new Error('trendsGeneratedAtMs');
+  }
+  if (trendsGeneratedAtMs('{') !== null) throw new Error('trendsGeneratedAtMs bad json');
+  if (!CORE_LIVE_SURFACES.includes('/api/search-trends.json')
+    && !OUR_SURFACES.includes('/api/search-trends.json')) {
+    throw new Error('surfaces missing /api/search-trends.json');
+  }
+  const trendsStaleGaps = deriveGaps({
+    measured_at: '2026-10-15T22:00:00.000Z',
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      trends_generated_at: '2026-10-15T12:00:00.000Z',
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!trendsStaleGaps.some((g) => g.id === 'trends-stale')) throw new Error('trends-stale gap');
+  const trendsFreshGaps = deriveGaps({
+    measured_at: '2026-10-15T22:00:00.000Z',
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      trends_generated_at: '2026-10-15T21:00:00.000Z',
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (trendsFreshGaps.some((g) => g.id === 'trends-stale')) throw new Error('trends-stale false positive');
+  const trendsMissingGaps = deriveGaps({
+    measured_at: '2026-10-15T22:00:00.000Z',
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      trends_generated_at: null,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!trendsMissingGaps.some((g) => g.id === 'trends-json-missing')) {
+    throw new Error('trends-json-missing gap');
+  }
+
   // FINDABILITY #110 — title names a probe lab but keywords omit it.
   const lagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
     + '<url><news:title>Tracking Cathie Wood: Buying Heavily into Kodiak AI and CoreWeave</news:title>'
@@ -4551,6 +4677,8 @@ function selftest() {
     + '<news:keywords>Character.AI, Google, AI, SIREN</news:keywords></url>'
     + '<url><news:title>Alibaba expands cloud AI for enterprises</news:title>'
     + '<news:keywords>Alibaba, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Gemini expands enterprise API access</news:title>'
+    + '<news:keywords>Gemini, Google, AI, SIREN</news:keywords></url>'
     + '</urlset>';
   const labAliasLags = newsLabAliasKeywordLags(labAliasLagXml);
   if (!labAliasLags.some((r) => r.lab === 'OpenAI' && r.alias === 'ChatGPT')) {
@@ -4580,8 +4708,14 @@ function selftest() {
   if (!labAliasLags.some((r) => r.lab === 'Alibaba' && r.alias === 'Qwen')) {
     throw new Error(`newsLabAliasKeywordLags Alibaba: ${JSON.stringify(labAliasLags)}`);
   }
+  if (!labAliasLags.some((r) => r.lab === 'Gemini' && r.alias === 'Argon')) {
+    throw new Error(`newsLabAliasKeywordLags Gemini→Argon: ${JSON.stringify(labAliasLags)}`);
+  }
   if (labAliasLags.some((r) => r.lab === 'Anthropic')) {
     throw new Error('newsLabAliasKeywordLags should not flag Anthropic when Claude present');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'Gemini' && p.alias === 'Argon')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing Gemini→Argon');
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'neocloud')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing neocloud');

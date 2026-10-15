@@ -9,6 +9,8 @@ import {
   hasNoindex,
   newestNewsPublicationMs,
   NEWS_STALE_HOURS,
+  trendsGeneratedAtMs,
+  TRENDS_STALE_HOURS,
   deriveGaps,
   measureSite,
   formatMarkdown,
@@ -250,6 +252,78 @@ describe('seo-daily measure + gaps', () => {
       open_engineering: [],
     });
     assert.ok(!fresh.some((g) => g.id === 'news-stale'));
+  });
+
+  it('parses Search Trends generated_at and flags trends-stale (FINDABILITY #186)', () => {
+    assert.equal(
+      trendsGeneratedAtMs('{"generated_at":"2026-10-15T19:11:36.752Z"}'),
+      Date.parse('2026-10-15T19:11:36.752Z'),
+    );
+    assert.equal(trendsGeneratedAtMs('{'), null);
+    assert.ok(TRENDS_STALE_HOURS >= 6);
+    assert.ok(CORE_LIVE_SURFACES.includes('/api/search-trends.json')
+      || OUR_SURFACES.includes('/api/search-trends.json'));
+    const stale = deriveGaps({
+      measured_at: '2026-10-15T22:00:00.000Z',
+      sites: [
+        {
+          id: 'siren', name: 'siren.watch', ours: true, ok: true,
+          title: 'AI activity index today', sitemap_urls: 6200, news_sitemap_urls: 200,
+          trends_generated_at: '2026-10-15T12:00:00.000Z',
+          schema_types: [],
+        },
+      ],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(stale.some((g) => g.id === 'trends-stale'), stale.map((g) => g.id).join(','));
+    const fresh = deriveGaps({
+      measured_at: '2026-10-15T22:00:00.000Z',
+      sites: [
+        {
+          id: 'siren', name: 'siren.watch', ours: true, ok: true,
+          title: 'AI activity index today', sitemap_urls: 6200, news_sitemap_urls: 200,
+          trends_generated_at: '2026-10-15T21:00:00.000Z',
+          schema_types: [],
+        },
+      ],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(!fresh.some((g) => g.id === 'trends-stale'));
+    const missing = deriveGaps({
+      measured_at: '2026-10-15T22:00:00.000Z',
+      sites: [
+        {
+          id: 'siren', name: 'siren.watch', ours: true, ok: true,
+          title: 'AI activity index today', sitemap_urls: 6200, news_sitemap_urls: 200,
+          trends_generated_at: null,
+          schema_types: [],
+        },
+      ],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(missing.some((g) => g.id === 'trends-json-missing'));
+  });
+
+  it('measureSite records trends_generated_at from api/search-trends.json (#186)', () => {
+    const byUrl = new Map([
+      ['https://siren.watch/', { ok: true, value: '<title>SIREN</title>' }],
+      ['https://siren.watch/sitemap.xml', { ok: true, value: '<urlset></urlset>' }],
+      ['https://siren.watch/news-sitemap.xml', { ok: true, value: '<urlset></urlset>' }],
+      ['https://siren.watch/robots.txt', { ok: true, value: 'Allow: /\n' }],
+      ['https://siren.watch/llms.txt', { ok: true, value: '# SIREN\n' }],
+      ['https://siren.watch/api/search-trends.json', {
+        ok: true,
+        value: JSON.stringify({ generated_at: '2026-10-15T21:39:27.161Z', ok: true }),
+      }],
+    ]);
+    const row = measureSite(
+      { id: 'siren', name: 'siren.watch', origin: 'https://siren.watch', ours: true },
+      byUrl,
+    );
+    assert.equal(row.trends_generated_at, '2026-10-15T21:39:27.161Z');
   });
 
   it('flags deploy-pending when local Ready dwarfs live sitemap and suppresses trail gaps', () => {
@@ -877,13 +951,15 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-xai-grok-missing'));
   });
 
-  it('detects Gemini / Gemma FAQ + agent-map lag (FINDABILITY #174)', () => {
+  it('detects Gemini / Gemma / Argon FAQ + agent-map lag (FINDABILITY #174/#187)', () => {
     assert.equal(hasGeminiGemmaFaq(GEMINI_GEMMA_FAQ_NEEDLE), true);
+    assert.equal(hasGeminiGemmaFaq('Why does SIREN watch Gemini and Gemma?'), false);
     assert.equal(hasGeminiGemmaFaq('What has SIREN scored about Google DeepMind?'), false);
     assert.equal(
-      hasAgentsGeminiGemma('Gemini / Gemma → https://siren.watch/lab/google-deepmind.html'),
+      hasAgentsGeminiGemma('Gemini / Gemma / Argon → https://siren.watch/lab/google-deepmind.html'),
       true,
     );
+    assert.equal(hasAgentsGeminiGemma('Gemini / Gemma → https://siren.watch/lab/google-deepmind.html'), false);
     assert.equal(hasAgentsGeminiGemma('https://siren.watch/lab/google-deepmind.html only'), false);
     const gaps = deriveGaps({
       sites: [{
@@ -1308,7 +1384,7 @@ describe('seo-daily surfaces', () => {
     const byUrl = new Map([
       ['https://siren.watch/lab/google-deepmind.html', {
         ok: true,
-        value: '<title>What has SIREN scored about Google DeepMind?</title>',
+        value: '<title>What has SIREN scored about Google DeepMind / Gemini?</title>',
       }],
       ['https://siren.watch/lab/openai.html', {
         ok: true,
@@ -1369,7 +1445,7 @@ describe('seo-daily surfaces', () => {
     ]);
     const lags = labHeadAliasLags(byUrl);
     assert.equal(lags.length, 1);
-    assert.equal(lags[0].needle, 'Gemini');
+    assert.equal(lags[0].needle, 'Argon');
     const gaps = deriveGaps({
       sites: [{
         id: 'siren', name: 'siren.watch', ours: true, ok: true,

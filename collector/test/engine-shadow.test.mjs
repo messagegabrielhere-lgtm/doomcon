@@ -336,6 +336,28 @@ test('collect + news-fast pass Bing Webmaster verification secret (FINDABILITY #
   assert.match(newsFast, /FINDABILITY #120/);
 });
 
+test('collect re-arms news-fast when the minute-loop chain is dark (FINDABILITY #188)', () => {
+  // After 2026-10-15T13:02Z news-fast self-Re-arm + hourly cron both went
+  // quiet; Trends/news tip froze until agent overlays. Collect newsroom (15m)
+  // must wake news-fast.yml when no schedule/dispatch finished in 90m.
+  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  assert.match(collect, /FINDABILITY #188/);
+  assert.match(collect, /Re-arm news-fast when dark/);
+  assert.match(collect, /NEWS_FAST_STALE_MIN/);
+  assert.match(collect, /gh workflow run news-fast\.yml/);
+  assert.match(collect, /NEWS_FAST_CHAIN/);
+  // Both lanes need actions:write to dispatch.
+  const newsPerm = collect.match(/news:\s*\n\s*name: newsroom\s*\n\s*permissions:\s*\n([\s\S]*?)\n\s*if:/);
+  assert.ok(newsPerm, 'newsroom permissions block missing');
+  assert.match(newsPerm[1], /actions:\s*write/);
+  const fullPerm = collect.match(/full:\s*\n\s*name: full index pass\s*\n\s*permissions:\s*\n([\s\S]*?)\n\s*if:/);
+  assert.ok(fullPerm, 'full permissions block missing');
+  assert.match(fullPerm[1], /actions:\s*write/);
+  // Two re-arm steps (newsroom + full).
+  const rearmCount = (collect.match(/name: Re-arm news-fast when dark/g) || []).length;
+  assert.equal(rearmCount, 2, `expected 2 re-arm steps, got ${rearmCount}`);
+});
+
 test('vs-alias-guard workflow restores missing short aliases (FINDABILITY #117)', () => {
   const yml = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
   assert.match(yml, /FINDABILITY #117/);

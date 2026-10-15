@@ -78,9 +78,10 @@ on:
 permissions:
   contents: write
   issues: write
-  # Read-only: lets the newsroom steps ask whether the minute loop
-  # (news-fast.yml) is running, so the paid X search is never called twice.
-  actions: read
+  # actions:write — newsroom/full may re-arm news-fast.yml when the minute
+  # loop chain goes dark (FINDABILITY #188); also lets newsroom ask whether
+  # the loop is in progress so the paid X search is never called twice.
+  actions: write
 
 # Serialises every data-writing run across BOTH lanes. Not cancel-in-progress:
 # a run cancelled between "commit" and "push" would leave the rebase retry loop
@@ -104,7 +105,8 @@ jobs:
     name: newsroom
     permissions:
       contents: write
-      actions: read
+      # FINDABILITY #188 — dispatch news-fast.yml when the chain is dark.
+      actions: write
     if: >-
       (github.event_name == 'schedule' && github.event.schedule == '*/15 * * * *') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'news')
@@ -721,7 +723,7 @@ jobs:
                 || ! grep -qF 'Apple Intelligence' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Microsoft Copilot' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Grok / xAI' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Gemini / Gemma' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'Gemini / Gemma / Argon' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Samsung / AI memory' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Character.ai bankruptcy' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Alibaba open-weight' ".pages/$map" 2>/dev/null \
@@ -886,13 +888,13 @@ jobs:
             echo "restored lab/xai.html Grok / xAI FAQ (#173)"
           fi
 
-          # FINDABILITY #174 — restore tip /lab/google-deepmind.html when Gemini / Gemma FAQ
+          # FINDABILITY #174 — restore tip /lab/google-deepmind.html when Gemini / Gemma / Argon FAQ
           # is missing after mid-merge / orphan Publish on tip < #174.
           if [ -f "$PRESERVE_FAQ/lab/google-deepmind.html" ] \
-            && ! grep -qF 'Why does SIREN watch Gemini and Gemma?' ".pages/lab/google-deepmind.html" 2>/dev/null; then
+            && ! grep -qF 'Why does SIREN watch Gemini, Gemma, and Argon?' ".pages/lab/google-deepmind.html" 2>/dev/null; then
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/google-deepmind.html" .pages/lab/google-deepmind.html
-            echo "restored lab/google-deepmind.html Gemini / Gemma FAQ (#174)"
+            echo "restored lab/google-deepmind.html Gemini / Gemma / Argon FAQ (#174/#187)"
           fi
 
           # FINDABILITY #175 — restore tip /lab/samsung.html when Samsung / HBM FAQ
@@ -998,7 +1000,7 @@ jobs:
               || ! grep -qF 'Apple Intelligence → /lab/apple.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Grok / xAI → /lab/xai.html' ".pages/search-trends.html" 2>/dev/null \
-              || ! grep -qF 'Gemini / Gemma → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
+              || ! grep -qF 'Gemini / Gemma / Argon → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Qwen / Alibaba open models → /lab/qwen.html' ".pages/search-trends.html" 2>/dev/null \
@@ -1050,6 +1052,51 @@ jobs:
         continue-on-error: true
         run: node collector/indexnow.mjs
 
+      # FINDABILITY #188 — news-fast self-chain + hourly cron both went quiet
+      # after 2026-10-15T13:02Z (Re-arm step green, no follow-on dispatch;
+      # schedule runs dropped). Collect newsroom is the durable 15m wake:
+      # if no news-fast loop is in progress and the newest completed run is
+      # older than 90m, dispatch news-fast.yml so Google News + Trends tip
+      # keep refreshing without a hand workflow_dispatch.
+      - name: Re-arm news-fast when dark
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEWS_FAST_STALE_MIN: '90'
+        run: |
+          set -uo pipefail
+          if [ "${{ vars.NEWS_FAST_CHAIN }}" = "off" ]; then
+            echo "NEWS_FAST_CHAIN=off — skip re-arm"
+            exit 0
+          fi
+          INPROG=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow news-fast.yml \
+            --status in_progress -L 1 --json databaseId -q 'length' 2>/dev/null || echo 1)
+          if [ "${INPROG:-1}" != "0" ]; then
+            echo "news-fast already in progress — skip re-arm"
+            exit 0
+          fi
+          # Prefer real loop events (schedule / workflow_dispatch). Ignore empty
+          # push phantoms that never started a job.
+          LAST_ISO=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow news-fast.yml -L 20 \
+            --json createdAt,updatedAt,event,conclusion,status \
+            -q '[.[] | select(.event == "schedule" or .event == "workflow_dispatch") | .updatedAt // .createdAt] | first' \
+            2>/dev/null || true)
+          if [ -z "${LAST_ISO:-}" ]; then
+            echo "no prior news-fast schedule/dispatch run — dispatching"
+            gh workflow run news-fast.yml --repo "$GITHUB_REPOSITORY" \
+              || echo "::warning::could not re-arm news-fast (FINDABILITY #188)"
+            exit 0
+          fi
+          AGE_MIN=$(node -e "const t=Date.parse(process.argv[1]);process.stdout.write(String(Number.isFinite(t)?Math.round((Date.now()-t)/60000):9999))" "$LAST_ISO")
+          echo "newest news-fast schedule/dispatch finished ${AGE_MIN}m ago (threshold ${NEWS_FAST_STALE_MIN}m)"
+          if [ "$AGE_MIN" -ge "$NEWS_FAST_STALE_MIN" ]; then
+            echo "FINDABILITY #188: re-arming news-fast.yml (chain dark ${AGE_MIN}m)"
+            gh workflow run news-fast.yml --repo "$GITHUB_REPOSITORY" \
+              || echo "::warning::could not re-arm news-fast (FINDABILITY #188)"
+          else
+            echo "news-fast fresh enough — no re-arm"
+          fi
+
   # ---------------------------------------------------------------------------
   # THE FULL LANE. The index, the race and the newsroom, once an hour.
   #
@@ -1063,7 +1110,8 @@ jobs:
     permissions:
       contents: write
       issues: write
-      actions: read
+      # FINDABILITY #188 — dispatch news-fast.yml when the chain is dark.
+      actions: write
     if: >-
       (github.event_name == 'schedule' && github.event.schedule == '7 * * * *') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'full')
@@ -1767,7 +1815,7 @@ jobs:
                 || ! grep -qF 'Apple Intelligence' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Microsoft Copilot' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Grok / xAI' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Gemini / Gemma' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'Gemini / Gemma / Argon' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Samsung / AI memory' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Character.ai bankruptcy' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Alibaba open-weight' ".pages/$map" 2>/dev/null \
@@ -1932,13 +1980,13 @@ jobs:
             echo "restored lab/xai.html Grok / xAI FAQ (#173)"
           fi
 
-          # FINDABILITY #174 — restore tip /lab/google-deepmind.html when Gemini / Gemma FAQ
+          # FINDABILITY #174 — restore tip /lab/google-deepmind.html when Gemini / Gemma / Argon FAQ
           # is missing after mid-merge / orphan Publish on tip < #174.
           if [ -f "$PRESERVE_FAQ/lab/google-deepmind.html" ] \
-            && ! grep -qF 'Why does SIREN watch Gemini and Gemma?' ".pages/lab/google-deepmind.html" 2>/dev/null; then
+            && ! grep -qF 'Why does SIREN watch Gemini, Gemma, and Argon?' ".pages/lab/google-deepmind.html" 2>/dev/null; then
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/google-deepmind.html" .pages/lab/google-deepmind.html
-            echo "restored lab/google-deepmind.html Gemini / Gemma FAQ (#174)"
+            echo "restored lab/google-deepmind.html Gemini / Gemma / Argon FAQ (#174/#187)"
           fi
 
           # FINDABILITY #175 — restore tip /lab/samsung.html when Samsung / HBM FAQ
@@ -2044,7 +2092,7 @@ jobs:
               || ! grep -qF 'Apple Intelligence → /lab/apple.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Grok / xAI → /lab/xai.html' ".pages/search-trends.html" 2>/dev/null \
-              || ! grep -qF 'Gemini / Gemma → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
+              || ! grep -qF 'Gemini / Gemma / Argon → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Qwen / Alibaba open models → /lab/qwen.html' ".pages/search-trends.html" 2>/dev/null \
@@ -2094,6 +2142,45 @@ jobs:
         # sitemap URLs. continue-on-error so a Bing blip never blocks receipts.
         continue-on-error: true
         run: node collector/indexnow.mjs
+
+      # FINDABILITY #188 — same news-fast dark re-arm as the newsroom lane
+      # (hourly full pass is the backup wake when */15 newsroom is skipped).
+      - name: Re-arm news-fast when dark
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEWS_FAST_STALE_MIN: '90'
+        run: |
+          set -uo pipefail
+          if [ "${{ vars.NEWS_FAST_CHAIN }}" = "off" ]; then
+            echo "NEWS_FAST_CHAIN=off — skip re-arm"
+            exit 0
+          fi
+          INPROG=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow news-fast.yml \
+            --status in_progress -L 1 --json databaseId -q 'length' 2>/dev/null || echo 1)
+          if [ "${INPROG:-1}" != "0" ]; then
+            echo "news-fast already in progress — skip re-arm"
+            exit 0
+          fi
+          LAST_ISO=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow news-fast.yml -L 20 \
+            --json createdAt,updatedAt,event,conclusion,status \
+            -q '[.[] | select(.event == "schedule" or .event == "workflow_dispatch") | .updatedAt // .createdAt] | first' \
+            2>/dev/null || true)
+          if [ -z "${LAST_ISO:-}" ]; then
+            echo "no prior news-fast schedule/dispatch run — dispatching"
+            gh workflow run news-fast.yml --repo "$GITHUB_REPOSITORY" \
+              || echo "::warning::could not re-arm news-fast (FINDABILITY #188)"
+            exit 0
+          fi
+          AGE_MIN=$(node -e "const t=Date.parse(process.argv[1]);process.stdout.write(String(Number.isFinite(t)?Math.round((Date.now()-t)/60000):9999))" "$LAST_ISO")
+          echo "newest news-fast schedule/dispatch finished ${AGE_MIN}m ago (threshold ${NEWS_FAST_STALE_MIN}m)"
+          if [ "$AGE_MIN" -ge "$NEWS_FAST_STALE_MIN" ]; then
+            echo "FINDABILITY #188: re-arming news-fast.yml (chain dark ${AGE_MIN}m)"
+            gh workflow run news-fast.yml --repo "$GITHUB_REPOSITORY" \
+              || echo "::warning::could not re-arm news-fast (FINDABILITY #188)"
+          else
+            echo "news-fast fresh enough — no re-arm"
+          fi
 
       - name: Close data reports the new reading answers
         # Visitors' "missing new data" issues filed before this reading are
