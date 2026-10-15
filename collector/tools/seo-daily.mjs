@@ -501,6 +501,25 @@ export function hasRootRivalAliases(txt, aliases = ROOT_RIVAL_AGENT_ALIASES) {
 }
 
 /**
+ * Head-term typed-guess aliases (FINDABILITY #133) that agent maps must list
+ * after #134. Canonical on guide / clock / compare primaries.
+ */
+export const HEAD_TERM_AGENT_ALIASES = Object.freeze([
+  '/doomsday-clock.html',
+  '/ai-doom.html',
+  '/doom-index.html',
+]);
+
+/**
+ * True when an agent-map body lists every #133 head-term short alias.
+ * Wipe gap is `agents-head-aliases-missing` (FINDABILITY #134).
+ */
+export function hasHeadTermAliases(txt, aliases = HEAD_TERM_AGENT_ALIASES) {
+  const body = String(txt || '');
+  return aliases.every((p) => body.includes(p));
+}
+
+/**
  * Conquest FAQ needles that must stay on tip after #126/#127 (FINDABILITY #128).
  * Orphan news-fast tars can wipe overlay hubs back to a stale seed.
  */
@@ -904,6 +923,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #133/#134 — agents.md / llms.txt dropped head-term short aliases.
+  if (ours.agents_head_aliases === false || ours.llms_head_aliases === false) {
+    const which = [
+      ours.agents_head_aliases === false ? 'agents.md' : null,
+      ours.llms_head_aliases === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-head-aliases-missing',
+      severity: 'medium',
+      text: `${which} missing head-term short aliases (/doomsday-clock.html /ai-doom.html /doom-index.html) (FINDABILITY #133/#134) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #134`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1087,6 +1119,9 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
+    // FINDABILITY #134 — agent maps must list #133 head-term short aliases.
+    row.agents_head_aliases = agentsMd?.ok ? hasHeadTermAliases(agentsMd.value) : false;
+    row.llms_head_aliases = llms?.ok ? hasHeadTermAliases(llmsBody) : false;
     // FINDABILITY #123 — lab title must keep product head-term aliases.
     row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
     // FINDABILITY #128 — compare/alternatives must keep #126/#127 FAQ needles.
@@ -1231,6 +1266,11 @@ export function formatMarkdown(report) {
       const lm = ours.llms_root_rivals == null ? '—' : (ours.llms_root_rivals ? 'yes' : 'NO');
       lines.push(`- Agent-map root rival aliases (#131/#132): agents.md **${ag}** · llms.txt **${lm}**`);
     }
+    if (ours && (ours.agents_head_aliases != null || ours.llms_head_aliases != null)) {
+      const ag = ours.agents_head_aliases == null ? '—' : (ours.agents_head_aliases ? 'yes' : 'NO');
+      const lm = ours.llms_head_aliases == null ? '—' : (ours.llms_head_aliases ? 'yes' : 'NO');
+      lines.push(`- Agent-map head-term short aliases (#133/#134): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
         lines.push('- Lab head-term titles (#121/#123): **ok** (Gemini / ChatGPT / Claude in lab `<title>`)');
@@ -1260,6 +1300,7 @@ export function formatMarkdown(report) {
       || ours.agents_trends_alias != null || ours.llms_trends_alias != null
       || ours.agents_pdoom_alias != null || ours.llms_pdoom_alias != null
       || ours.agents_root_rivals != null || ours.llms_root_rivals != null
+      || ours.agents_head_aliases != null || ours.llms_head_aliases != null
       || ours.lab_head_alias_lags != null
       || ours.conquest_faq_lags != null)) {
       lines.push('');
@@ -1508,6 +1549,25 @@ function selftest() {
   });
   if (!rootGaps.some((g) => g.id === 'agents-root-rivals-missing')) {
     throw new Error('agents-root-rivals-missing gap');
+  }
+  if (hasHeadTermAliases(HEAD_TERM_AGENT_ALIASES.join('\n')) !== true) {
+    throw new Error('hasHeadTermAliases true');
+  }
+  if (hasHeadTermAliases('/doomsday-clock.html\n/ai-doom.html') !== false) {
+    throw new Error('hasHeadTermAliases false');
+  }
+  const headGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      agents_head_aliases: false, llms_head_aliases: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!headGaps.some((g) => g.id === 'agents-head-aliases-missing')) {
+    throw new Error('agents-head-aliases-missing gap');
   }
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {

@@ -131,12 +131,16 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
     '/vs/pizzint.html', '/vs/skynet.html', '/vs/doom.html', '/vs/takeoff.html', '/pillars.html', '/sources.html', '/countries.html', '/news-sitemap.xml', '/news.html',
     '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/api/search-trends.json',
     '/p-doom.html', '/pdoom.html',
-    '/doombench.html', '/skynet-countdown.html', '/pizzint.html', '/takeofftracker.html']) {
+    '/doombench.html', '/skynet-countdown.html', '/pizzint.html', '/takeofftracker.html',
+    '/doomsday-clock.html', '/ai-doom.html', '/doom-index.html']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.match(txt, /short alias https:\/\/siren\.watch\/trends\.html/);
   assert.match(txt, /short alias https:\/\/siren\.watch\/pdoom\.html/);
   assert.match(txt, /root https:\/\/siren\.watch\/doombench\.html/);
+  assert.match(txt, /short https:\/\/siren\.watch\/doomsday-clock\.html/);
+  assert.match(txt, /short https:\/\/siren\.watch\/ai-doom\.html/);
+  assert.match(txt, /short https:\/\/siren\.watch\/doom-index\.html/);
   assert.match(txt, /Which Google Search Trends for AI does SIREN watch\?/);
   assert.match(txt, /Where are live AI prediction market odds\?/);
   assert.match(txt, /Which AI stories has SIREN scored by UTC day\?/);
@@ -169,12 +173,16 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
     '/vs/doombench.html', '/vs/doom.html', '/vs/skynet-countdown.html', '/vs/skynet.html',
     '/vs/pdoom.html', '/vs/takeofftracker.html', '/vs/takeoff.html',
     '/p-doom.html', '/pdoom.html',
-    '/doombench.html', '/skynet-countdown.html', '/pizzint.html', '/takeofftracker.html']) {
+    '/doombench.html', '/skynet-countdown.html', '/pizzint.html', '/takeofftracker.html',
+    '/doomsday-clock.html', '/ai-doom.html', '/doom-index.html', '/ai-doomsday-clock.html']) {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
   assert.match(md, /short alias https:\/\/siren\.watch\/trends\.html/);
   assert.match(md, /short alias https:\/\/siren\.watch\/pdoom\.html/);
   assert.match(md, /root https:\/\/siren\.watch\/doombench\.html/);
+  assert.match(md, /short https:\/\/siren\.watch\/doomsday-clock\.html/);
+  assert.match(md, /short https:\/\/siren\.watch\/ai-doom\.html/);
+  assert.match(md, /short https:\/\/siren\.watch\/doom-index\.html/);
   assert.match(md, /Which Google Search Trends for AI does SIREN watch\?/);
   assert.match(md, /Where are live AI prediction market odds\?/);
   assert.match(md, /not a prediction|Never call it a prediction/);
