@@ -1,0 +1,75 @@
+# FINDABILITY #117 — keep conquest short aliases on gh-pages while news-fast /
+# collect orphan publishes can still omit them (pre-#114 tip, or race).
+#
+# Runs every ten minutes. No-op when /vs/{doom,skynet,takeoff}.html already
+# exist beside their primaries. One small commit only when something is missing,
+# so it does not add to the Pages publish storm.
+
+name: vs-alias-guard
+
+on:
+  schedule:
+    - cron: '3,13,23,33,43,53 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: vs-alias-guard
+  cancel-in-progress: true
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout gh-pages tip
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: gh-pages
+          fetch-depth: 1
+
+      - name: Restore missing vs short aliases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p vs
+          restored=0
+          restore_one() {
+            local primary="$1" alias="$2"
+            if [ ! -f "$primary" ]; then
+              echo "skip $alias — primary $primary missing"
+              return 0
+            fi
+            if [ -f "$alias" ] && cmp -s "$primary" "$alias"; then
+              echo "ok $alias"
+              return 0
+            fi
+            cp -a "$primary" "$alias"
+            echo "restored $alias from $primary"
+            restored=1
+          }
+          restore_one vs/doombench.html vs/doom.html
+          restore_one vs/skynet-countdown.html vs/skynet.html
+          restore_one vs/takeofftracker.html vs/takeoff.html
+          if [ "$restored" -ne 1 ]; then
+            echo "all vs short aliases present — nothing to publish"
+            exit 0
+          fi
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add vs/doom.html vs/skynet.html vs/takeoff.html
+          git commit -q -m "guard: restore vs short aliases (FINDABILITY #117) — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for attempt in 1 2 3; do
+            if git push -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages; then
+              echo "published alias restore"
+              exit 0
+            fi
+            echo "push rejected (attempt $attempt); rebasing onto tip"
+            git pull -q --rebase origin gh-pages || true
+            sleep $((attempt * 2))
+          done
+          echo "::warning::could not push alias restore after 3 attempts"
+          exit 0

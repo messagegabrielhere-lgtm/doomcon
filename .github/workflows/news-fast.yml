@@ -90,10 +90,12 @@ jobs:
           LAST_WAKE=0
           # FINDABILITY #112 — GitHub Pages rejects builds when news-fast pushes
           # every minute (duration:0 "Page build failed" streak after 07:41Z
-          # 2026-10-15). Batch Pages publishes to ≥5 minutes so a build can
-          # finish; news.json on main still updates every tick via the hourly
-          # Commit step. PENDING_PUB holds a change until the gap elapses.
-          PUBLISH_MIN_GAP=300
+          # 2026-10-15). Batch Pages publishes so a build can finish; news.json
+          # on main still updates every tick via the hourly Commit step.
+          # PENDING_PUB holds a change until the gap elapses.
+          # FINDABILITY #117 — 300s still left Pages mostly errored under load;
+          # 600s gives ~80s builds room between pushes once this tip re-arms.
+          PUBLISH_MIN_GAP=600
           LAST_PAGES_PUB=0
           PENDING_PUB=0
 

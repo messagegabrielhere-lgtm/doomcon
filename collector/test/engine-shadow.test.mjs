@@ -306,15 +306,25 @@ test('news-fast refuses full wipe fallback on news-only failure (FINDABILITY #99
   assert.match(yml, /skipping full wipe fallback/);
 });
 
-test('news-fast throttles Pages publish cadence (FINDABILITY #112)', () => {
+test('news-fast throttles Pages publish cadence (FINDABILITY #112/#117)', () => {
   // 2026-10-15: after #106/#107 news-fast published every tick; GitHub Pages
   // returned duration:0 "Page build failed" for ~20 consecutive pushes and
   // froze the live CDN (last built 07:41Z) so overlays like #111 never served.
   const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
   assert.match(yml, /FINDABILITY #112/);
-  assert.match(yml, /PUBLISH_MIN_GAP=300/);
+  assert.match(yml, /PUBLISH_MIN_GAP=600/);
   assert.match(yml, /PENDING_PUB/);
   assert.match(yml, /deferring Pages publish/);
+});
+
+test('vs-alias-guard workflow restores missing short aliases (FINDABILITY #117)', () => {
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
+  assert.match(yml, /FINDABILITY #117/);
+  assert.match(yml, /vs\/doom\.html/);
+  assert.match(yml, /vs\/skynet\.html/);
+  assert.match(yml, /vs\/takeoff\.html/);
+  assert.match(yml, /cron:/);
+  assert.match(yml, /contents: write/);
 });
 
 test('news-fast restores vs short aliases on publish (FINDABILITY #114)', () => {
