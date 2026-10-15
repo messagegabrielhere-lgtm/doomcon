@@ -74,6 +74,17 @@ const NEWS_KEYWORD_LABS = Object.freeze([
 ]);
 
 /**
+ * labAboutLabel product/ticker aliases for news:keywords (FINDABILITY #146/#147).
+ * Applied only when the parent lab is already named — never as bare needles.
+ */
+const LAB_KEYWORD_ALIASES = Object.freeze([
+  { re: /\bMicron\b/i, name: /^Micron$/i, alias: 'MU' },
+  { re: /\bOpenAI\b/i, name: /^OpenAI$/i, alias: 'ChatGPT' },
+  { re: /\bAnthropic\b/i, name: /^Anthropic$/i, alias: 'Claude' },
+  { re: /\b(?:Google\s+)?DeepMind\b/i, name: /^(?:Google\s+)?DeepMind$/i, alias: 'Gemini' },
+]);
+
+/**
  * Build news:keywords with named entities and lab surfaces first so the 12-cap
  * does not drop them when many topic tags also match (pizzint-news-alive).
  */
@@ -90,11 +101,9 @@ export function keywordsFor(item) {
     const re = new RegExp(`(?:^|[^A-Za-z0-9])${lab.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`, 'i');
     if (re.test(hay)) named.push(lab);
   }
-  // FINDABILITY #146 — Micron stories also carry the MU ticker (Trends #137)
-  // so Google News keywords match the labAboutLabel head term without a bare
-  // "MU" lab needle that would false-match unrelated two-letter tokens.
-  if (named.some((n) => /^Micron$/i.test(n)) || /\bMicron\b/i.test(hay)) {
-    named.push('MU');
+  // FINDABILITY #146/#147 — emit labAboutLabel aliases when parent lab named.
+  for (const { re, name, alias } of LAB_KEYWORD_ALIASES) {
+    if (named.some((n) => name.test(n)) || re.test(hay)) named.push(alias);
   }
   const topics = [];
   for (const topic of TOPIC_DEFS) {

@@ -383,7 +383,8 @@ context.
 | 143 | `collect` + `news-fast` Publish preserve tip `index.html` / `classic.html` when they lack `OpenAI / ChatGPT` (#142 knowsAbout); `seo-daily` `home-knowsabout-labels-missing` catches news-only overlay wipe | Deploy + Google | **Done** (2026-10-15) |
 | 144 | `/race.html` leaderboard lab links use `labAboutLabel` so ChatGPT / Claude / Gemini appear beside `/lab/*` (same aliases as #121/#140 hubs); `seo-daily` `race-lab-labels-missing` | Google + Trends | **Done** (2026-10-15) |
 | 145 | `collect` + `news-fast` Publish preserve tip `race.html` / `race/index.html` when they list `/lab/openai.html` without `OpenAI / ChatGPT` (#144); stops orphan newsroom force-push from wiping tip overlay | Deploy + Google | **Done** (2026-10-15) |
-| 146 | News-sitemap `keywordsFor` adds `MU` when Micron is named (entities or title/summary) so Google News keywords match labAboutLabel / Trends #137 without a bare `MU` lab needle | Google News + Trends | **Done** (this pass) |
+| 146 | News-sitemap `keywordsFor` adds `MU` when Micron is named (entities or title/summary) so Google News keywords match labAboutLabel / Trends #137 without a bare `MU` lab needle | Google News + Trends | **Done** (2026-10-15) |
+| 147 | News-sitemap `keywordsFor` also adds ChatGPT / Claude / Gemini when OpenAI / Anthropic / (Google) DeepMind are named — same labAboutLabel alias pattern as #146; holds Google News lane while pizzint news-sitemap empty | Google News | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
