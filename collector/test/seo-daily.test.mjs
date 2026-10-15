@@ -19,6 +19,8 @@ import {
   hasVsShortAliases,
   TRENDS_SHORT_ALIAS,
   hasTrendsShortAlias,
+  PDOOM_SHORT_ALIAS,
+  hasPdoomShortAlias,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -229,6 +231,23 @@ describe('seo-daily surfaces', () => {
     for (const p of ['/pdoom.html', '/pdoom/']) {
       assert.ok(CORE_LIVE_SURFACES.includes(p), `CORE_LIVE missing ${p}`);
     }
+  });
+
+  it('detects missing /pdoom.html in agent maps (FINDABILITY #130)', () => {
+    assert.equal(PDOOM_SHORT_ALIAS, '/pdoom.html');
+    assert.equal(hasPdoomShortAlias('short alias /pdoom.html'), true);
+    assert.equal(hasPdoomShortAlias('/p-doom.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        agents_pdoom_alias: false, llms_pdoom_alias: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'agents-pdoom-alias-missing'));
   });
 
   it('detects missing /trends.html in agent maps + now tips (FINDABILITY #125)', () => {
