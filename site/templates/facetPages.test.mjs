@@ -260,6 +260,20 @@ describe('lab facets', () => {
     assert.match(tsmcHtml, /not investment advice/);
     assert.match(tsmcHtml, /search-trends\.html/);
     assert.doesNotMatch(tsmcHtml, /buy TSMC|sell TSMC|price target/i);
+    // FINDABILITY #167 — Amazon Bee / wearable AI FAQ on gated lab.
+    const amazonHtml = renderLab(ctx, {
+      id: 'amazon',
+      name: 'Amazon',
+      entityOnly: true,
+      entityName: 'Amazon',
+    });
+    assert.match(
+      amazonHtml,
+      /Why does SIREN watch Amazon Bee and AI wearables\?/,
+    );
+    assert.match(amazonHtml, /[Nn]ot a product review/);
+    assert.match(amazonHtml, /search-trends\.html/);
+    assert.doesNotMatch(amazonHtml, /buy Amazon|price target|must buy Bee/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

@@ -404,6 +404,7 @@ context.
 | 164 | `/lab/asml.html` FAQ for ASML / EUV / AI chipmaking-tool Trends; HEAD_TERMS `asml` → gated lab; `agents.md`/`llms.txt` tip; watchlist FAQ answer; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip ASML lab — story counts only, not a stock tip | Google + Trends + Agents | **Done** (this pass) |
 | 165 | `/lab/tsmc.html` FAQ for TSMC / AI foundry / advanced-node Trends; HEAD_TERMS `tsmc` → gated lab; `agents.md`/`llms.txt` tip; watchlist FAQ answer; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip TSMC lab — story counts only, not a stock tip | Google + Trends + Agents | **Done** (this pass) |
 | 166 | Publish preserve for `/search-trends.html` restores tip when ASML/TSMC destinations are missing from the #158 routing FAQ answer (not only when the question is absent); `seo-daily` `hasTrendsRoutesFaq` requires those needles — stops newsroom orphan from dropping #164/#165 routes | Deploy + Google + Trends | **Done** (this pass) |
+| 167 | `/lab/amazon.html` FAQ for Amazon Bee / wearable ambient-AI Trends; HEAD_TERMS `amazon-bee` → gated lab; `agents.md`/`llms.txt` tip; watchlist FAQ answer; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip Amazon lab — story counts only, not a product review | Google + Trends + Agents | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

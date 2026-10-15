@@ -41,6 +41,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /ASML \/ EUV AI chip tools → \/lab\/asml\.html/);
   // FINDABILITY #165 — TSMC / AI foundry route to gated lab.
   assert.match(html, /TSMC \/ AI foundry → \/lab\/tsmc\.html/);
+  // FINDABILITY #167 — Amazon Bee / AI wearables route to gated lab.
+  assert.match(html, /Amazon Bee \/ AI wearables → \/lab\/amazon\.html/);
   assert.match(html, /not investment advice/);
   assert.match(html, /not credit analysis/);
 });
