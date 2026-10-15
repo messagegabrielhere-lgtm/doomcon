@@ -409,6 +409,30 @@ test('news sitemap keywords add Chatbots when Character.ai is named (FINDABILITY
 });
 
 
+test('news sitemap keywords add Qwen when Alibaba is named (FINDABILITY #177)', () => {
+  const a = keywordsFor({
+    title: 'Alibaba expands cloud AI for enterprises',
+    summary: 'Open-weight models.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Alibaba'],
+  });
+  assert.match(a, /\bAlibaba\b/);
+  assert.match(a, /\bQwen\b/);
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No lab named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  // Qwen may still appear via topic noise; require Alibaba parent for alias path:
+  assert.doesNotMatch(b, /(^|,\s*)Alibaba(,|$)/);
+});
+
+
 test('news sitemap keywords add neocloud / Iris Energy when parent named (FINDABILITY #159)', () => {
   const a = keywordsFor({
     title: "CoreWeave's slump puts spotlight on debt behind AI boom",

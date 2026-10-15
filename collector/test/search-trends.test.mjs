@@ -160,6 +160,12 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Character AI bankruptcy documents', news: [] }).includes('character-ai'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'character-ai' && t.path === '/tags/chatbots.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'character-ai').re.test('characterizing high bandwidth flash'), false);
+  // FINDABILITY #177 — Qwen / Alibaba open-weight Trends → gated Qwen lab.
+  assert.ok(matchHeadTerms({ title: 'Muse Spark Open is Meta answer to Qwen', news: [] }).includes('qwen'));
+  assert.ok(matchHeadTerms({ title: 'Alibaba Qwen open-weight release', news: [] }).includes('qwen'));
+  assert.ok(matchHeadTerms({ title: 'Tongyi model update', news: [] }).includes('qwen'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'qwen' && t.path === '/lab/qwen.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'qwen').re.test('request for quotation'), false);
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {

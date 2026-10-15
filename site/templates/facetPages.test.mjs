@@ -381,6 +381,23 @@ describe('lab facets', () => {
     assert.match(samHtml, /[Nn]ot a stock tip/);
     assert.match(samHtml, /search-trends\.html/);
     assert.doesNotMatch(samHtml, /buy Samsung|price target|must buy HBM/i);
+    // FINDABILITY #177 — Qwen / Alibaba open-weight FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES.qwen, 'Qwen');
+    const qwenHtml = renderLab(ctx, {
+      id: 'qwen',
+      name: 'Alibaba Qwen',
+      principal: 'Liang Wenfeng',
+      market: { probability: 0.01, change_7d: 0 },
+    });
+    assert.match(
+      qwenHtml,
+      /Why does SIREN watch Qwen and Alibaba open models\?/,
+    );
+    assert.match(qwenHtml, /<title>[^<]*Qwen/);
+    assert.match(qwenHtml, /Tongyi|open-weight/);
+    assert.match(qwenHtml, /[Nn]ot a model review/);
+    assert.match(qwenHtml, /search-trends\.html/);
+    assert.doesNotMatch(qwenHtml, /buy Qwen|price target|must use Tongyi/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

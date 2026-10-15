@@ -155,6 +155,8 @@ export const OUR_SURFACES = Object.freeze([
   '/tags/neoclouds.html',
   // FINDABILITY #176 — Character.ai bankruptcy FAQ chatbots tag hub.
   '/tags/chatbots.html',
+  // FINDABILITY #177 — Qwen / Alibaba open-weight Trends FAQ lab.
+  '/lab/qwen.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -467,6 +469,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'Samsung', alias: 'HBM' },
   // FINDABILITY #176 — Character.ai → Chatbots for Google News keywords.
   { lab: 'Character.ai', alias: 'Chatbots' },
+  // FINDABILITY #177 — Alibaba → Qwen for Google News keywords.
+  { lab: 'Alibaba', alias: 'Qwen' },
 ]);
 
 /**
@@ -788,9 +792,10 @@ export const TRENDS_ROUTES_XAI_GROK_NEEDLE = 'Grok / xAI → /lab/xai.html';
 export const TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma → /lab/google-deepmind.html';
 export const TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE = 'Samsung / HBM / AI memory → /lab/samsung.html';
 export const TRENDS_ROUTES_CHARACTER_AI_NEEDLE = 'Character.ai bankruptcy → /tags/chatbots.html';
+export const TRENDS_ROUTES_QWEN_NEEDLE = 'Qwen / Alibaba open models → /lab/qwen.html';
 
 /**
- * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177
  * destinations (FINDABILITY #166 — newsroom used to keep the question while dropping newer answer destinations).
  */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
@@ -805,7 +810,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_XAI_GROK_NEEDLE)
     && text.includes(TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE)
     && text.includes(TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE)
-    && text.includes(TRENDS_ROUTES_CHARACTER_AI_NEEDLE);
+    && text.includes(TRENDS_ROUTES_CHARACTER_AI_NEEDLE)
+    && text.includes(TRENDS_ROUTES_QWEN_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1044,6 +1050,25 @@ export function hasAgentsCharacterAi(body, needle = AGENTS_CHARACTER_AI_NEEDLE) 
   return text.includes(needle) && text.includes('/tags/chatbots.html');
 }
 
+/** FINDABILITY #177 — Qwen / Alibaba open-weight FAQ + agent maps. */
+export const QWEN_FAQ_NEEDLE = 'Why does SIREN watch Qwen and Alibaba open models?';
+export const AGENTS_QWEN_NEEDLE = 'Alibaba open-weight';
+
+/** Tip /lab/qwen.html must keep the #177 Qwen FAQ. */
+export function hasQwenFaq(html, needle = QWEN_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Qwen / Alibaba open-weight Trends to Qwen lab (FINDABILITY #177).
+ * Wipe gap is `agents-qwen-missing`.
+ */
+export function hasAgentsQwen(body, needle = AGENTS_QWEN_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/qwen.html');
+}
+
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -1084,6 +1109,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/xai.html', needle: 'Grok' },
   // FINDABILITY #175 — HBM product alias on Samsung lab title/H1.
   { path: '/lab/samsung.html', needle: 'HBM' },
+  // FINDABILITY #177 — Qwen product alias on Alibaba Qwen lab title/H1.
+  { path: '/lab/qwen.html', needle: 'Qwen' },
 ]);
 
 /**
@@ -1617,7 +1644,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -1893,6 +1920,28 @@ export function deriveGaps(report) {
       text: `${which} missing Character.ai bankruptcy → /tags/chatbots.html Trends tip (FINDABILITY #176) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #176`,
     });
   }
+
+  // FINDABILITY #177 — Qwen lab FAQ wiped or never landed.
+  if (ours.qwen_faq === false) {
+    gaps.push({
+      id: 'qwen-faq-missing',
+      severity: 'medium',
+      text: `/lab/qwen.html missing Qwen / Alibaba open-weight FAQ (FINDABILITY #177) — re-overlay lab/qwen.html or wait for full collect Publish on tip ≥ #177`,
+    });
+  }
+  // FINDABILITY #177 — agent maps must route Qwen Trends to Qwen lab.
+  if (ours.agents_qwen === false || ours.llms_qwen === false) {
+    const which = [
+      ours.agents_qwen === false ? 'agents.md' : null,
+      ours.llms_qwen === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-qwen-missing',
+      severity: 'medium',
+      text: `${which} missing Qwen / Alibaba open-weight → /lab/qwen.html Trends tip (FINDABILITY #177) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #177`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -2178,6 +2227,11 @@ export function measureSite(site, byUrl) {
     row.character_ai_faq = chatbotsHtml?.ok ? hasCharacterAiFaq(chatbotsHtml.value) : false;
     row.agents_character_ai = agentsMd?.ok ? hasAgentsCharacterAi(agentsMd.value) : false;
     row.llms_character_ai = llms?.ok ? hasAgentsCharacterAi(llmsBody) : false;
+    // FINDABILITY #177 — Qwen FAQ + agent maps.
+    const qwenHtml = byUrl.get(`${base}/lab/qwen.html`);
+    row.qwen_faq = qwenHtml?.ok ? hasQwenFaq(qwenHtml.value) : false;
+    row.agents_qwen = agentsMd?.ok ? hasAgentsQwen(agentsMd.value) : false;
+    row.llms_qwen = llms?.ok ? hasAgentsQwen(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -2307,7 +2361,7 @@ export function formatMarkdown(report) {
     }
     if (ours && Array.isArray(ours.news_lab_alias_lags)) {
       if (ours.news_lab_alias_lags.length === 0) {
-        lines.push('- News labAboutLabel aliases (#146–#148/#159/#161/#172/#173/#176): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy / NVDA / Muse / Apple Intelligence / Copilot / Grok / HBM / Chatbots)');
+        lines.push('- News labAboutLabel aliases (#146–#148/#159/#161/#172/#173/#176): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy / NVDA / Muse / Apple Intelligence / Copilot / Grok / HBM / Chatbots / Qwen)');
       } else {
         const sample = ours.news_lab_alias_lags
           .slice(0, 3)
@@ -2541,6 +2595,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_character_ai == null ? '—' : (ours.agents_character_ai ? 'yes' : 'NO');
       const lm = ours.llms_character_ai == null ? '—' : (ours.llms_character_ai ? 'yes' : 'NO');
       lines.push(`- Agent-map Character.ai bankruptcy → tag (#176): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.qwen_faq != null) {
+      lines.push(
+        `- Qwen FAQ (#177): **${ours.qwen_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_qwen != null || ours.llms_qwen != null)) {
+      const ag = ours.agents_qwen == null ? '—' : (ours.agents_qwen ? 'yes' : 'NO');
+      const lm = ours.llms_qwen == null ? '—' : (ours.llms_qwen ? 'yes' : 'NO');
+      lines.push(`- Agent-map Qwen / Alibaba open-weight → lab (#177): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -3525,6 +3589,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/tags/chatbots.html')) {
     throw new Error('OUR_SURFACES missing /tags/chatbots.html');
   }
+  if (hasQwenFaq(QWEN_FAQ_NEEDLE) !== true) {
+    throw new Error('hasQwenFaq true');
+  }
+  if (hasQwenFaq('What has SIREN scored about Alibaba Qwen?') !== false) {
+    throw new Error('hasQwenFaq false');
+  }
+  if (hasAgentsQwen('Alibaba open-weight → https://siren.watch/lab/qwen.html') !== true) {
+    throw new Error('hasAgentsQwen true');
+  }
+  if (hasAgentsQwen('https://siren.watch/lab/qwen.html only') !== false) {
+    throw new Error('hasAgentsQwen needs Alibaba open-weight needle');
+  }
+  const qwenGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      qwen_faq: false,
+      agents_qwen: false,
+      llms_qwen: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!qwenGaps.some((g) => g.id === 'qwen-faq-missing')) {
+    throw new Error('qwen-faq-missing gap');
+  }
+  if (!qwenGaps.some((g) => g.id === 'agents-qwen-missing')) {
+    throw new Error('agents-qwen-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/qwen.html')) {
+    throw new Error('OUR_SURFACES missing /lab/qwen.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -3537,12 +3634,13 @@ function selftest() {
     TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
     TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
     TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
+    TRENDS_ROUTES_QWEN_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
@@ -3701,6 +3799,8 @@ function selftest() {
     + '<news:keywords>Microsoft, Google, AI, SIREN</news:keywords></url>'
     + '<url><news:title>Character.ai Maker Files for Chapter 11 Bankruptcy</news:title>'
     + '<news:keywords>Character.AI, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Alibaba expands cloud AI for enterprises</news:title>'
+    + '<news:keywords>Alibaba, Google, AI, SIREN</news:keywords></url>'
     + '</urlset>';
   const labAliasLags = newsLabAliasKeywordLags(labAliasLagXml);
   if (!labAliasLags.some((r) => r.lab === 'OpenAI' && r.alias === 'ChatGPT')) {
@@ -3727,6 +3827,9 @@ function selftest() {
   if (!labAliasLags.some((r) => r.lab === 'Character.ai' && r.alias === 'Chatbots')) {
     throw new Error(`newsLabAliasKeywordLags Character.ai: ${JSON.stringify(labAliasLags)}`);
   }
+  if (!labAliasLags.some((r) => r.lab === 'Alibaba' && r.alias === 'Qwen')) {
+    throw new Error(`newsLabAliasKeywordLags Alibaba: ${JSON.stringify(labAliasLags)}`);
+  }
   if (labAliasLags.some((r) => r.lab === 'Anthropic')) {
     throw new Error('newsLabAliasKeywordLags should not flag Anthropic when Claude present');
   }
@@ -3744,6 +3847,9 @@ function selftest() {
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Chatbots')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing Chatbots');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Qwen')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing Qwen');
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Copilot')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing Copilot');

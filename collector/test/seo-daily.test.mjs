@@ -99,6 +99,10 @@ import {
   hasAgentsCharacterAi,
   CHARACTER_AI_FAQ_NEEDLE,
   TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
+  hasQwenFaq,
+  hasAgentsQwen,
+  QWEN_FAQ_NEEDLE,
+  TRENDS_ROUTES_QWEN_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -913,7 +917,31 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-character-ai-missing'));
   });
 
-  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176)', () => {
+  it('detects Qwen FAQ + agent-map lag (FINDABILITY #177)', () => {
+    assert.equal(hasQwenFaq(QWEN_FAQ_NEEDLE), true);
+    assert.equal(hasQwenFaq('What has SIREN scored about Alibaba Qwen?'), false);
+    assert.equal(
+      hasAgentsQwen('Alibaba open-weight → https://siren.watch/lab/qwen.html'),
+      true,
+    );
+    assert.equal(hasAgentsQwen('https://siren.watch/lab/qwen.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        qwen_faq: false,
+        agents_qwen: false,
+        llms_qwen: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'qwen-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-qwen-missing'));
+  });
+
+  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177)', () => {
     const routesBody = [
       TRENDS_ROUTES_FAQ_NEEDLE,
       TRENDS_ROUTES_ASML_NEEDLE,
@@ -926,6 +954,7 @@ describe('seo-daily surfaces', () => {
       TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
       TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
       TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
+      TRENDS_ROUTES_QWEN_NEEDLE,
     ].join('\n');
     assert.equal(hasTrendsRoutesFaq(routesBody), true);
     assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), false);
@@ -1078,6 +1107,10 @@ describe('seo-daily surfaces', () => {
       ['https://siren.watch/lab/samsung.html', {
         ok: true,
         value: '<title>What has SIREN scored about Samsung / HBM?</title>',
+      }],
+      ['https://siren.watch/lab/qwen.html', {
+        ok: true,
+        value: '<title>What has SIREN scored about Alibaba Qwen?</title>',
       }],
     ]);
     const lags = labHeadAliasLags(byUrl);

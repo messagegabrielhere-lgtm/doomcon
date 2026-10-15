@@ -601,7 +601,7 @@ jobs:
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
               watts.html watts/index.html lab/micron.html lab/coreweave.html \
-              lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html tags/neoclouds.html tags/chatbots.html search-trends.html; do
+              lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html tags/neoclouds.html tags/chatbots.html search-trends.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -723,9 +723,10 @@ jobs:
                 || ! grep -qF 'Grok / xAI' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Gemini / Gemma' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Samsung / AI memory' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Character.ai bankruptcy' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'Character.ai bankruptcy' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'Alibaba open-weight' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176)"
+              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -893,6 +894,14 @@ jobs:
             cp -a "$PRESERVE_FAQ/lab/samsung.html" .pages/lab/samsung.html
             echo "restored lab/samsung.html Samsung / HBM FAQ (#175)"
           fi
+          # FINDABILITY #177 — restore tip /lab/qwen.html when Qwen FAQ
+          # is missing after mid-merge / orphan Publish on tip < #177.
+          if [ -f "$PRESERVE_FAQ/lab/qwen.html" ] \
+            && ! grep -qF 'Why does SIREN watch Qwen and Alibaba open models?' ".pages/lab/qwen.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/qwen.html" .pages/lab/qwen.html
+            echo "restored lab/qwen.html Qwen FAQ (#177)"
+          fi
           # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
           # Trends FAQ is missing after mid-merge / orphan Publish on tip < #157.
           if [ -f "$PRESERVE_FAQ/tags/neoclouds.html" ] \
@@ -923,13 +932,14 @@ jobs:
               || ! grep -qF 'Grok / xAI → /lab/xai.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Gemini / Gemma → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' ".pages/search-trends.html" 2>/dev/null \
-              || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' ".pages/search-trends.html" 2>/dev/null; }; then
+              || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' ".pages/search-trends.html" 2>/dev/null \
+              || ! grep -qF 'Qwen / Alibaba open models → /lab/qwen.html' ".pages/search-trends.html" 2>/dev/null; }; then
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends.html
             mkdir -p .pages/trends .pages/search-trends
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176)"
+            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages
@@ -1562,7 +1572,7 @@ jobs:
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
               watts.html watts/index.html lab/micron.html lab/coreweave.html \
-              lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html tags/neoclouds.html tags/chatbots.html search-trends.html; do
+              lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html tags/neoclouds.html tags/chatbots.html search-trends.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -1683,9 +1693,10 @@ jobs:
                 || ! grep -qF 'Grok / xAI' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Gemini / Gemma' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'Samsung / AI memory' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Character.ai bankruptcy' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'Character.ai bankruptcy' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'Alibaba open-weight' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176)"
+              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -1853,6 +1864,14 @@ jobs:
             cp -a "$PRESERVE_FAQ/lab/samsung.html" .pages/lab/samsung.html
             echo "restored lab/samsung.html Samsung / HBM FAQ (#175)"
           fi
+          # FINDABILITY #177 — restore tip /lab/qwen.html when Qwen FAQ
+          # is missing after mid-merge / orphan Publish on tip < #177.
+          if [ -f "$PRESERVE_FAQ/lab/qwen.html" ] \
+            && ! grep -qF 'Why does SIREN watch Qwen and Alibaba open models?' ".pages/lab/qwen.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/qwen.html" .pages/lab/qwen.html
+            echo "restored lab/qwen.html Qwen FAQ (#177)"
+          fi
           # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
           # Trends FAQ is missing after mid-merge / orphan Publish on tip < #157.
           if [ -f "$PRESERVE_FAQ/tags/neoclouds.html" ] \
@@ -1883,13 +1902,14 @@ jobs:
               || ! grep -qF 'Grok / xAI → /lab/xai.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Gemini / Gemma → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
               || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' ".pages/search-trends.html" 2>/dev/null \
-              || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' ".pages/search-trends.html" 2>/dev/null; }; then
+              || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' ".pages/search-trends.html" 2>/dev/null \
+              || ! grep -qF 'Qwen / Alibaba open models → /lab/qwen.html' ".pages/search-trends.html" 2>/dev/null; }; then
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends.html
             mkdir -p .pages/trends .pages/search-trends
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
             cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176)"
+            echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages
