@@ -221,8 +221,32 @@ jobs:
               # --only news: patch the live tree instead of wiping ~1,200 files.
               # Cards / posts / post-sheet are hourly (collect.yml); they are not
               # what makes the newsroom feel current.
-              node site/build.mjs --only news --quiet \
-                || { echo "::warning::news-only build failed on tick $TICK; trying full build"; node site/build.mjs --quiet || { echo "::warning::build failed on tick $TICK"; sleep 45; continue; }; }
+              # FINDABILITY #99 — never fall back to a full wipe here. Without
+              # public/index.html, build.mjs --only news used to start a ~44m
+              # full rebuild that ate the 58m job and published nothing
+              # (run 38666831944). Prefer a mid-loop re-seed + timed news-only,
+              # or skip this tick and let the next one retry.
+              if [ ! -f public/index.html ]; then
+                echo "tick $TICK: public/ missing — re-seeding from gh-pages"
+                rm -rf .pages-seed
+                if git clone --depth 1 --branch gh-pages \
+                  "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+                  .pages-seed; then
+                  mkdir -p public
+                  tar cf - -C .pages-seed --exclude .git . | tar xf - -C public
+                  rm -rf .pages-seed
+                else
+                  rm -rf .pages-seed
+                  echo "::warning::tick $TICK: could not re-seed public/; skipping publish"
+                  sleep 30
+                  continue
+                fi
+              fi
+              if ! timeout 480 node site/build.mjs --only news --quiet; then
+                echo "::warning::news-only build failed or timed out on tick $TICK; skipping full wipe fallback"
+                sleep 30
+                continue
+              fi
 
               # Overlay onto the live gh-pages tip instead of re-tarring the
               # whole 90MB+ site. Keep .pages across ticks: a fresh shallow
