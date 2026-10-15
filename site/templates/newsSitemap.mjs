@@ -64,6 +64,9 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #82 — pizzint-news-alive: promote ChatGPT into named labs so the
   // 12-cap does not bury it under topic tags; Pentagon + EDPB from live 48h titles.
   'ChatGPT', 'Pentagon', 'EDPB',
+  // FINDABILITY #108 — google-news-open; live 48h surfaces (MediaTek deal titles,
+  // Cathie Wood / CoreWeave tape, Salesforce vs ServiceNow AI revenue).
+  'MediaTek', 'Cathie Wood', 'ServiceNow',
 ]);
 
 /**
