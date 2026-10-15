@@ -415,9 +415,12 @@ function decodeXmlText(s) {
 
 export function hasNowTips(txt) {
   const head = String(txt || '').slice(0, 1500);
+  // FINDABILITY #124/#125 — tip lines must name the /trends.html short alias
+  // (canonical stays on search-trends), not only the words "Search Trends".
   return /\/free-tools\.html/i.test(head)
     && /\/verify\.html/i.test(head)
-    && /Search Trends/i.test(head);
+    && /Search Trends/i.test(head)
+    && /\/trends\.html/i.test(head);
 }
 
 /**
@@ -437,6 +440,17 @@ export const VS_SHORT_ALIASES = Object.freeze([
 export function hasVsShortAliases(txt, aliases = VS_SHORT_ALIASES) {
   const body = String(txt || '');
   return aliases.every((p) => body.includes(p));
+}
+
+/** Search Trends short alias (FINDABILITY #124). Canonical on /search-trends.html. */
+export const TRENDS_SHORT_ALIAS = '/trends.html';
+
+/**
+ * True when an agent-map body lists the /trends.html short alias.
+ * Wipe gap is `agents-trends-alias-missing` (FINDABILITY #125).
+ */
+export function hasTrendsShortAlias(txt, alias = TRENDS_SHORT_ALIAS) {
+  return String(txt || '').includes(alias);
 }
 
 /**
@@ -778,6 +792,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #124/#125 — agents.md / llms.txt dropped /trends.html short alias.
+  if (ours.agents_trends_alias === false || ours.llms_trends_alias === false) {
+    const which = [
+      ours.agents_trends_alias === false ? 'agents.md' : null,
+      ours.llms_trends_alias === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-trends-alias-missing',
+      severity: 'medium',
+      text: `${which} missing /trends.html short-alias lines (FINDABILITY #124/#125) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #124`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -939,6 +966,9 @@ export function measureSite(site, byUrl) {
     const llmsBody = llms?.ok ? llms.value : '';
     row.agents_vs_aliases = agentsMd?.ok ? hasVsShortAliases(agentsMd.value) : false;
     row.llms_vs_aliases = llms?.ok ? hasVsShortAliases(llmsBody) : false;
+    // FINDABILITY #125 — agent maps must list /trends.html after #124 overlay.
+    row.agents_trends_alias = agentsMd?.ok ? hasTrendsShortAlias(agentsMd.value) : false;
+    row.llms_trends_alias = llms?.ok ? hasTrendsShortAlias(llmsBody) : false;
     // FINDABILITY #123 — lab title must keep product head-term aliases.
     row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
   }
@@ -1066,6 +1096,11 @@ export function formatMarkdown(report) {
       const lm = ours.llms_vs_aliases == null ? '—' : (ours.llms_vs_aliases ? 'yes' : 'NO');
       lines.push(`- Agent-map vs short aliases (#116/#119): agents.md **${ag}** · llms.txt **${lm}**`);
     }
+    if (ours && (ours.agents_trends_alias != null || ours.llms_trends_alias != null)) {
+      const ag = ours.agents_trends_alias == null ? '—' : (ours.agents_trends_alias ? 'yes' : 'NO');
+      const lm = ours.llms_trends_alias == null ? '—' : (ours.llms_trends_alias ? 'yes' : 'NO');
+      lines.push(`- Agent-map /trends short alias (#124/#125): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
         lines.push('- Lab head-term titles (#121/#123): **ok** (Gemini / ChatGPT / Claude in lab `<title>`)');
@@ -1082,6 +1117,7 @@ export function formatMarkdown(report) {
       || ours.now_md_tips != null || ours.now_txt_tips != null
       || ours.news_keyword_lags != null
       || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null
+      || ours.agents_trends_alias != null || ours.llms_trends_alias != null
       || ours.lab_head_alias_lags != null)) {
       lines.push('');
     }
@@ -1206,9 +1242,18 @@ function selftest() {
     open_engineering: [],
   });
   if (!robotsTipGaps.some((g) => g.id === 'robots-tips-missing')) throw new Error('robots-tips-missing gap');
-  const nowTipped = 'Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](https://siren.watch/verify.html) · [Search Trends](https://siren.watch/search-trends.html).\n';
+  const nowTipped = 'Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](https://siren.watch/verify.html) · [Search Trends](https://siren.watch/search-trends.html) (short alias https://siren.watch/trends.html).\n';
   if (hasNowTips(nowTipped) !== true) throw new Error('hasNowTips true');
   if (hasNowTips('# SIREN: current reading\n') !== false) throw new Error('hasNowTips false');
+  if (hasNowTips('Search Trends /free-tools.html /verify.html') !== false) {
+    throw new Error('hasNowTips requires /trends.html');
+  }
+  if (hasTrendsShortAlias('short alias https://siren.watch/trends.html') !== true) {
+    throw new Error('hasTrendsShortAlias true');
+  }
+  if (hasTrendsShortAlias('/search-trends.html only') !== false) {
+    throw new Error('hasTrendsShortAlias false');
+  }
   const nowTipGaps = deriveGaps({
     sites: [{
       id: 'siren', name: 'siren.watch', ours: true, ok: true,
@@ -1251,6 +1296,24 @@ function selftest() {
   });
   if (!aliasGaps.some((g) => g.id === 'agents-vs-aliases-missing')) {
     throw new Error('agents-vs-aliases-missing gap');
+  }
+  const trendsGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      sitemap_tips: true, news_sitemap_tips: true,
+      feed_tips: true, feed_level_tips: true,
+      robots_tips: true,
+      now_md_tips: true, now_txt_tips: true,
+      agents_vs_aliases: true, llms_vs_aliases: true,
+      agents_trends_alias: false, llms_trends_alias: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!trendsGaps.some((g) => g.id === 'agents-trends-alias-missing')) {
+    throw new Error('agents-trends-alias-missing gap');
   }
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {
