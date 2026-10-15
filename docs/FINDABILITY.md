@@ -349,6 +349,7 @@ context.
 | 116 | `agents.md` + llms tip list all conquest `/vs/*` pages and short aliases (#111/#113); `news-fast` overlays `llms.txt` / `agents.md` / `agents.txt` so agent discovery does not lag HTML-only overlays | Agents + Google | **Done** (this pass) |
 | 117 | `vs-alias-guard.yml` every ~10m restores missing `/vs/{doom,skynet,takeoff}.html` from primaries on gh-pages; raise news-fast `PUBLISH_MIN_GAP` 300→600 so Pages can finish builds after the minute-push storm | Deploy + Google | **Done** (this pass) |
 | 118 | Seed news-fast `LAST_PAGES_PUB` from gh-pages tip (clone `%ct` + API refresh each tick) so a newly armed job does not ignore the 600s gap and race collect / prior tip | Deploy + Google News | **Done** (this pass) |
+| 119 | `seo-daily` detects missing `/vs/{doom,skynet,takeoff}.html` lines in `agents.md` / `llms.txt` (`agents-vs-aliases-missing`) and monitors those short aliases in `CORE_LIVE_SURFACES` so orphan/CDN lag after #116 is caught | Daily agent + Google | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
