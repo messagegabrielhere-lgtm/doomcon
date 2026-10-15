@@ -109,12 +109,11 @@ jobs:
       (github.event_name == 'schedule' && github.event.schedule == '*/15 * * * *') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'news')
     runs-on: ubuntu-latest
-    # Site rebuild now routinely exceeds the old 10-minute ceiling (observed
-    # cancel mid-"Rebuild the site" ~8–10m while SEO overlays waited on Publish).
-    # 45m leaves room for news refresh + full static rebuild + gh-pages push
-    # without killing a lane that would have made findability durable
-    # (FINDABILITY #83).
-    timeout-minutes: 45
+    # Site rebuild alone ran ~44m then cancelled at the 45m job ceiling
+    # (run 38662474296, 2026-10-15) before Commit/Publish — SEO overlays stayed
+    # on gh-pages. 75m covers news refresh + 45–50m rebuild + commit/push
+    # (FINDABILITY #83 → #93).
+    timeout-minutes: 75
 
     steps:
       - name: Checkout
@@ -573,11 +572,10 @@ jobs:
     # arXiv's 429 ladder can spend ~11 minutes waiting inside collect, and the
     # heal step below may wait another 3 minutes and re-collect. The static
     # site build alone now often runs 30–50+ minutes on the findability tree
-    # (facets + item-archive); the old 40-minute job ceiling cancelled mid-
-    # "Build site" before Publish, leaving SEO overlays to paper over gh-pages.
-    # 90 minutes covers collect + heal + build + publish without killing a
-    # recover that would have cleared Capability (FINDABILITY #83).
-    timeout-minutes: 90
+    # (facets + item-archive); newsroom rebuild alone hit ~44m (FINDABILITY #93).
+    # 120 minutes covers collect + heal + build + publish with headroom after
+    # the 90m budget that still raced long builds (FINDABILITY #83 → #93).
+    timeout-minutes: 120
 
     steps:
       - name: Checkout
