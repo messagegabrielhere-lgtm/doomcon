@@ -58,6 +58,8 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/free-tools.html',
   '/now.md',
   '/api/now.txt',
+  // FINDABILITY #186 — Search Trends JSON tip freshness (generated_at).
+  '/api/search-trends.json',
   // FINDABILITY #111/#113/#119 — conquest short aliases must stay 200 even
   // while orphan newsroom publishes race the tip (high-severity if wiped).
   '/vs/doom.html',
@@ -418,6 +420,27 @@ export function newestNewsPublicationMs(xml) {
 export const NEWS_STALE_HOURS = 6;
 
 /**
+ * Hours after which live Search Trends JSON is treated as stale (FINDABILITY #186).
+ * Mirrors news-stale: catches hung news-fast / quiet collect before Trends tip decays.
+ */
+export const TRENDS_STALE_HOURS = 6;
+
+/**
+ * Parse `generated_at` from live `/api/search-trends.json` body.
+ * @param {string} body
+ * @returns {number|null} epoch ms, or null when missing/unparseable
+ */
+export function trendsGeneratedAtMs(body) {
+  try {
+    const j = JSON.parse(String(body || ''));
+    const t = Date.parse(j?.generated_at);
+    return Number.isFinite(t) ? t : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * High-signal lab needles to probe for title↔keywords lag (FINDABILITY #110).
  * Kept short so seo-daily stays cheap; expand only when a live 48h title proves
  * a NEWS_KEYWORD_LABS needle is shipping in HTML titles but missing from
@@ -498,7 +521,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
 
 /**
  * Entries whose news:title names a parent lab but news:keywords omit the
- * labAboutLabel alias (#146/#147). Returns up to 8 `{ lab, alias, title }`.
+ * labAboutLabel alias (#146/#147). Returns up to 24 `{ lab, alias, title }`
+ * so late probes (Alibaba→Qwen … Tesla→FSD) are not clipped by the old 8-cap.
  */
 export function newsLabAliasKeywordLags(xml, probes = NEWS_LAB_ALIAS_PROBES) {
   const out = [];
@@ -525,7 +549,7 @@ export function newsLabAliasKeywordLags(xml, probes = NEWS_LAB_ALIAS_PROBES) {
       if (seen.has(key)) continue;
       seen.add(key);
       out.push({ lab, alias, title: title.slice(0, 100) });
-      if (out.length >= 8) return out;
+      if (out.length >= 24) return out;
     }
   }
   return out;
@@ -1491,6 +1515,28 @@ export function deriveGaps(report) {
         });
       }
     }
+  }
+
+  // FINDABILITY #186 — live Search Trends JSON older than threshold (news-fast dark).
+  if (ours.trends_generated_at) {
+    const gen = Date.parse(ours.trends_generated_at);
+    const nowMs = report.measured_at ? Date.parse(report.measured_at) : Date.now();
+    if (Number.isFinite(gen) && Number.isFinite(nowMs)) {
+      const ageH = (nowMs - gen) / 3_600_000;
+      if (ageH >= TRENDS_STALE_HOURS) {
+        gaps.push({
+          id: 'trends-stale',
+          severity: 'high',
+          text: `Live api/search-trends.json generated_at is ${ageH.toFixed(1)}h old (threshold ${TRENDS_STALE_HOURS}h) — re-overlay search-trends.html (+ trends aliases + api/search-trends.json) or unstick news-fast Trends poll so head-term spikes stay fresh`,
+        });
+      }
+    }
+  } else if (ours.ok && ours.trends_generated_at === null) {
+    gaps.push({
+      id: 'trends-json-missing',
+      severity: 'high',
+      text: 'Live api/search-trends.json missing or unparseable generated_at — restore Search Trends tip so Google/Bing have a fresh head-term firehose',
+    });
   }
 
   for (const s of report.sites || []) {
@@ -2477,6 +2523,14 @@ export function measureSite(site, byUrl) {
     const nowTxt = byUrl.get(`${base}/api/now.txt`);
     row.now_md_tips = nowMd?.ok ? hasNowTips(nowMd.value) : false;
     row.now_txt_tips = nowTxt?.ok ? hasNowTips(nowTxt.value) : false;
+    // FINDABILITY #186 — Search Trends tip freshness from live JSON.
+    const trendsJson = byUrl.get(`${base}/api/search-trends.json`);
+    if (trendsJson?.ok) {
+      const ms = trendsGeneratedAtMs(trendsJson.value);
+      row.trends_generated_at = ms != null ? new Date(ms).toISOString() : null;
+    } else {
+      row.trends_generated_at = null;
+    }
     // FINDABILITY #119 — agent maps must list short aliases after #116 overlay.
     // Prefer the surface fetch (OUR_SURFACES); fall back to measure llms row.
     const agentsMd = byUrl.get(`${base}/agents.md`);
@@ -2748,6 +2802,21 @@ export function formatMarkdown(report) {
       const mdTip = ours.now_md_tips == null ? '—' : (ours.now_md_tips ? 'yes' : 'NO');
       const txtTip = ours.now_txt_tips == null ? '—' : (ours.now_txt_tips ? 'yes' : 'NO');
       lines.push(`- Now tip lines (#90): now.md **${mdTip}** · api/now.txt **${txtTip}**`);
+    }
+    if (ours && ours.trends_generated_at !== undefined) {
+      if (ours.trends_generated_at) {
+        const gen = Date.parse(ours.trends_generated_at);
+        const nowMs = report.measured_at ? Date.parse(report.measured_at) : Date.now();
+        const ageH = Number.isFinite(gen) && Number.isFinite(nowMs)
+          ? ((nowMs - gen) / 3_600_000).toFixed(1)
+          : '?';
+        const stale = Number.isFinite(Number(ageH)) && Number(ageH) >= TRENDS_STALE_HOURS;
+        lines.push(
+          `- Search Trends tip (#186): generated_at **${ours.trends_generated_at}** (${ageH}h old${stale ? '; STALE' : ''})`,
+        );
+      } else {
+        lines.push('- Search Trends tip (#186): api/search-trends.json **missing/unparseable**');
+      }
     }
     if (ours && Array.isArray(ours.news_keyword_lags)) {
       if (ours.news_keyword_lags.length === 0) {
@@ -3115,6 +3184,7 @@ export function formatMarkdown(report) {
       || ours.sitemap_tips != null || ours.news_sitemap_tips != null
       || ours.feed_tips != null || ours.feed_level_tips != null
       || ours.now_md_tips != null || ours.now_txt_tips != null
+      || ours.trends_generated_at !== undefined
       || ours.news_keyword_lags != null
       || ours.news_lab_alias_lags != null
       || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null
@@ -4502,6 +4572,56 @@ function selftest() {
     open_engineering: [],
   });
   if (!staleGaps.some((g) => g.id === 'news-stale')) throw new Error('news-stale gap');
+
+  // FINDABILITY #186 — trends-stale from api/search-trends.json generated_at.
+  if (TRENDS_STALE_HOURS < 6) throw new Error('TRENDS_STALE_HOURS floor');
+  if (trendsGeneratedAtMs('{"generated_at":"2026-10-15T19:11:36.752Z"}')
+    !== Date.parse('2026-10-15T19:11:36.752Z')) {
+    throw new Error('trendsGeneratedAtMs');
+  }
+  if (trendsGeneratedAtMs('{') !== null) throw new Error('trendsGeneratedAtMs bad json');
+  if (!CORE_LIVE_SURFACES.includes('/api/search-trends.json')
+    && !OUR_SURFACES.includes('/api/search-trends.json')) {
+    throw new Error('surfaces missing /api/search-trends.json');
+  }
+  const trendsStaleGaps = deriveGaps({
+    measured_at: '2026-10-15T22:00:00.000Z',
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      trends_generated_at: '2026-10-15T12:00:00.000Z',
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!trendsStaleGaps.some((g) => g.id === 'trends-stale')) throw new Error('trends-stale gap');
+  const trendsFreshGaps = deriveGaps({
+    measured_at: '2026-10-15T22:00:00.000Z',
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      trends_generated_at: '2026-10-15T21:00:00.000Z',
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (trendsFreshGaps.some((g) => g.id === 'trends-stale')) throw new Error('trends-stale false positive');
+  const trendsMissingGaps = deriveGaps({
+    measured_at: '2026-10-15T22:00:00.000Z',
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      trends_generated_at: null,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!trendsMissingGaps.some((g) => g.id === 'trends-json-missing')) {
+    throw new Error('trends-json-missing gap');
+  }
 
   // FINDABILITY #110 — title names a probe lab but keywords omit it.
   const lagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
