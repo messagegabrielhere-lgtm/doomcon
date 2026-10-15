@@ -35,11 +35,13 @@ const ALWAYS = Object.freeze([
   '/alternatives.html',
   '/vs.html',
   '/vs/doombench.html',
+  '/vs/doom.html', // short alias; canonical stays on doombench
   '/vs/skynet-countdown.html',
   '/vs/skynet.html', // short alias; canonical stays on skynet-countdown
   '/vs/pdoom.html',
   '/vs/pizzint.html',
   '/vs/takeofftracker.html',
+  '/vs/takeoff.html', // short alias; canonical stays on takeofftracker
   '/companies.html',
   '/models.html',
   '/countries.html',
