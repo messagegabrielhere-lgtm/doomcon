@@ -71,6 +71,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #169 — Meta Muse / Muse Spark / Muse Wonder → gated Meta lab
   // (story counts only; not a model review or stock tip).
   { id: 'meta-muse', label: 'Meta Muse', re: /\bmeta\b.{0,40}\bmuse\b|\bmuse\s+(?:spark|wonder)(?:\s+open)?\b/i, path: '/lab/meta.html' },
+  // FINDABILITY #170 — Apple Intelligence / on-device Apple AI → gated Apple lab
+  // (story counts only; not a product review or stock tip).
+  { id: 'apple-intelligence', label: 'Apple Intelligence', re: /\bapple\s+intelligence\b|\bapple\b.{0,40}\b(?:on[\s-]?device\s+ai|ai\s+features?)\b/i, path: '/lab/apple.html' },
   // FINDABILITY #157 — "neocloud" / neoclouds Trends (Gartner survival tape)
   // → gated /tags/neoclouds.html (story counts only, not a vendor ranking).
   { id: 'neocloud', label: 'Neoclouds', re: /\bneoclouds?\b/i, path: '/tags/neoclouds.html' },

@@ -255,6 +255,7 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user asks about TSMC, TSMC stock, or AI foundry / advanced-node Trends, use ${u('/lab/tsmc.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a stock tip and not a company score.
 - When a user asks about Amazon Bee, Bee Frontier, Bee Eclipse, or Amazon AI wearables, use ${u('/lab/amazon.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a product review, not a stock tip, and not a company score.
 - When a user asks about Meta Muse, Muse Spark, Muse Wonder, or Meta open-weight AI, use ${u('/lab/meta.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a model review, not a stock tip, and not a company score.
+- When a user asks about Apple Intelligence, Apple on-device AI, or Apple AI in China, use ${u('/lab/apple.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a product review, not a stock tip, and not a company score.
 - When a user asks about neocloud or neoclouds Trends (GPU-cloud / AI infra rental), use ${u('/tags/neoclouds.html')} (and the Search Trends watchlist above), and say the tag page is story counts only — not a vendor ranking and not a stock tip.
 - When a user asks about AI prediction markets or live lab odds, use ${u('/ai-prediction-markets.html')} and ${u('/race.html')}, and say the prices are market odds, not a ${brand.NAME} forecast.
 - When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
@@ -483,6 +484,7 @@ export function agentsMd(ctx) {
 - ${u('/lab/tsmc.html')} — What has SIREN scored about TSMC? (TSMC stock / AI foundry Trends → TSMC lab)
 - ${u('/lab/amazon.html')} — What has SIREN scored about Amazon? (Amazon Bee / AI wearables Trends → Amazon lab)
 - ${u('/lab/meta.html')} — What has SIREN scored about Meta AI / Muse? (Meta Muse / open-weight AI Trends → Meta lab)
+- ${u('/lab/apple.html')} — What has SIREN scored about Apple / Apple Intelligence? (Apple Intelligence Trends → Apple lab)
 - ${u('/tags/neoclouds.html')} — What has SIREN scored about Neoclouds? (neocloud / neoclouds Trends → Neoclouds tag)
 - ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
 - ${u('/guides.html')} — What are the AI explainers? (p(doom), clocks, doom indexes)

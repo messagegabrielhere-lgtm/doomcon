@@ -121,6 +121,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(HEAD_TERMS.find((t) => t.id === 'meta-muse').re.test('Meta Muse Spark Open'));
   assert.ok(HEAD_TERMS.find((t) => t.id === 'meta-muse').re.test('Muse Wonder frontier model'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'meta-muse').re.test('visit the museum'), false);
+  // FINDABILITY #170 — Apple Intelligence / on-device Apple AI → gated Apple lab.
+  assert.ok(matchHeadTerms({ title: 'Apple Intelligence China launch', news: [] }).includes('apple-intelligence'));
+  assert.ok(matchHeadTerms({ title: 'Apple on-device AI features expand', news: [] }).includes('apple-intelligence'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'apple-intelligence' && t.path === '/lab/apple.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'apple-intelligence').re.test('pineapple intelligence test'), false);
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({
