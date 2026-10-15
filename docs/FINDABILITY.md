@@ -392,6 +392,7 @@ context.
 | 152 | Search Trends `HEAD_TERMS` `iren` (`iren stock` / Iris Energy) → gated `/watts.html`; Watts FAQ answers why SIREN watches IREN / AI-cloud power Trends — substrate reading only, not a company doorway or investment tip | Google + Trends | **Done** (this pass) |
 | 153 | `agents.md` + `llms.txt` route IREN / AI-cloud Trends to `/watts.html`; `seo-daily` detects Watts FAQ + agent-map lag; `collect` + `news-fast` Publish preserve tip Watts when #152 FAQ missing | Agents + Trends | **Done** (this pass) |
 | 154 | `agents.md` + `llms.txt` route dram / HBM / memory / Micron stock Trends to `/lab/micron.html`; `seo-daily` detects Micron FAQ + agent-map lag; `collect` + `news-fast` Publish preserve tip Micron lab when #151 FAQ missing | Agents + Trends | **Done** (this pass) |
+| 155 | Search Trends `HEAD_TERMS` `coreweave` (`coreweave stock`) → gated `/lab/coreweave.html`; lab FAQ + `agents.md`/`llms.txt` tip; `seo-daily` detects FAQ + agent-map lag; `collect` + `news-fast` Publish preserve tip CoreWeave lab when FAQ missing — story counts only, no stock tip / doorway | Google + Trends + Agents | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

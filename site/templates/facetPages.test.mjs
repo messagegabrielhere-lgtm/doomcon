@@ -175,6 +175,20 @@ describe('lab facets', () => {
     assert.match(micronHtml, /search-trends\.html/);
     assert.match(micronHtml, /not investment advice/);
     assert.doesNotMatch(micronHtml, /buy Micron|sell Micron|price target/i);
+    // FINDABILITY #155 — Trends “coreweave stock” FAQ on the gated lab.
+    const cwHtml = renderLab(ctx, {
+      id: 'coreweave',
+      name: 'CoreWeave',
+      entityOnly: true,
+      entityName: 'CoreWeave',
+    });
+    assert.match(
+      cwHtml,
+      /Why does SIREN watch CoreWeave stock in Google Search Trends\?/,
+    );
+    assert.match(cwHtml, /search-trends\.html/);
+    assert.match(cwHtml, /not investment advice/);
+    assert.doesNotMatch(cwHtml, /buy CoreWeave|sell CoreWeave|price target/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

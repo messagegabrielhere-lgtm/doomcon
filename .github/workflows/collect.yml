@@ -594,13 +594,13 @@ jobs:
           rm -rf .pages-faq-tip
           if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
             # FINDABILITY #136 — also stash tip agent maps (head-term / root needles).
-            # FINDABILITY #141/#143/#145/#153/#154 — stash tip /lab/ + companies hubs,
-            # home/classic knowsAbout, race labAboutLabel, Watts IREN FAQ, and
-            # Micron DRAM FAQ so mid-merge collect cannot wipe #140/#142/#144/#152/#151.
+            # FINDABILITY #141/#143/#145/#153/#154/#155 — stash tip /lab/ + companies hubs,
+            # home/classic knowsAbout, race labAboutLabel, Watts/Micron/CoreWeave
+            # Trends FAQs so mid-merge collect cannot wipe #140/#142/#144/#152/#151/#155.
             for hub in compare.html alternatives.html agents.md llms.txt \
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
-              watts.html watts/index.html lab/micron.html; do
+              watts.html watts/index.html lab/micron.html lab/coreweave.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -756,6 +756,14 @@ jobs:
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/micron.html" .pages/lab/micron.html
             echo "restored lab/micron.html DRAM Trends FAQ (#154)"
+          fi
+          # FINDABILITY #155 — restore tip /lab/coreweave.html when CoreWeave
+          # stock FAQ is missing after mid-merge / orphan Publish on tip < #155.
+          if [ -f "$PRESERVE_FAQ/lab/coreweave.html" ] \
+            && ! grep -qF 'Why does SIREN watch CoreWeave stock in Google Search Trends?' ".pages/lab/coreweave.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/coreweave.html" .pages/lab/coreweave.html
+            echo "restored lab/coreweave.html CoreWeave stock FAQ (#155)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages
@@ -1381,13 +1389,13 @@ jobs:
           rm -rf .pages-faq-tip
           if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
             # FINDABILITY #136 — also stash tip agent maps (head-term / root needles).
-            # FINDABILITY #141/#143/#145/#153/#154 — stash tip /lab/ + companies hubs,
-            # home/classic knowsAbout, race labAboutLabel, Watts IREN FAQ, and
-            # Micron DRAM FAQ so mid-merge collect cannot wipe #140/#142/#144/#152/#151.
+            # FINDABILITY #141/#143/#145/#153/#154/#155 — stash tip /lab/ + companies hubs,
+            # home/classic knowsAbout, race labAboutLabel, Watts/Micron/CoreWeave
+            # Trends FAQs so mid-merge collect cannot wipe #140/#142/#144/#152/#151/#155.
             for hub in compare.html alternatives.html agents.md llms.txt \
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
-              watts.html watts/index.html lab/micron.html; do
+              watts.html watts/index.html lab/micron.html lab/coreweave.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -1542,6 +1550,14 @@ jobs:
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/micron.html" .pages/lab/micron.html
             echo "restored lab/micron.html DRAM Trends FAQ (#154)"
+          fi
+          # FINDABILITY #155 — restore tip /lab/coreweave.html when CoreWeave
+          # stock FAQ is missing after mid-merge / orphan Publish on tip < #155.
+          if [ -f "$PRESERVE_FAQ/lab/coreweave.html" ] \
+            && ! grep -qF 'Why does SIREN watch CoreWeave stock in Google Search Trends?' ".pages/lab/coreweave.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/coreweave.html" .pages/lab/coreweave.html
+            echo "restored lab/coreweave.html CoreWeave stock FAQ (#155)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages
