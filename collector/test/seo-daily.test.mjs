@@ -28,6 +28,8 @@ import {
   LAB_ABOUT_AGENT_NEEDLE,
   LAB_ABOUT_AGENT_URL,
   hasLabAboutLabels,
+  LAB_HUB_LABEL_PROBES,
+  labHubLabelLags,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -345,6 +347,34 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'agents-lab-labels-missing'));
+  });
+
+  it('detects missing labAboutLabel on /lab/ + companies hubs (FINDABILITY #141)', () => {
+    assert.deepEqual(LAB_HUB_LABEL_PROBES.map((p) => p.path), ['/lab/', '/companies.html']);
+    const byUrl = new Map([
+      ['https://siren.watch/lab/', {
+        ok: true,
+        value: '<a href="/lab/openai.html">What has SIREN scored about OpenAI?</a>',
+      }],
+      ['https://siren.watch/companies.html', {
+        ok: true,
+        value: '<a href="/lab/openai.html">What has SIREN scored about OpenAI / ChatGPT?</a>',
+      }],
+    ]);
+    const lags = labHubLabelLags(byUrl);
+    assert.ok(lags.some((r) => r.path === '/lab/'));
+    assert.equal(lags.some((r) => r.path === '/companies.html'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        lab_hub_label_lags: lags,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'lab-hub-labels-missing'));
   });
 
   it('detects missing /trends.html in agent maps + now tips (FINDABILITY #125)', () => {
