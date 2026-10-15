@@ -50,6 +50,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #155/#160 — "coreweave stock" / debt / bond Trends → gated lab
   // (story counts only; co-moves with neocloud / AI-cloud debt tape).
   { id: 'coreweave', label: 'CoreWeave', re: /\bcoreweave(?:\s+(?:stock|debt|bond|bonds|borrowing))?\b/i, path: '/lab/coreweave.html' },
+  // FINDABILITY #161 — "nvidia stock" / NVDA / AI funding-cost Trends → gated lab
+  // (story counts only; co-moves with CoreWeave / neocloud debt tape).
+  { id: 'nvidia', label: 'Nvidia / NVDA', re: /\bnvidia(?:\s+stock)?\b|\bnvda(?:\s+stock)?\b/i, path: '/lab/nvidia.html' },
   // FINDABILITY #157 — "neocloud" / neoclouds Trends (Gartner survival tape)
   // → gated /tags/neoclouds.html (story counts only, not a vendor ranking).
   { id: 'neocloud', label: 'Neoclouds', re: /\bneoclouds?\b/i, path: '/tags/neoclouds.html' },

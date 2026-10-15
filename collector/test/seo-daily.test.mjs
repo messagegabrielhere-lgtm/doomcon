@@ -50,6 +50,9 @@ import {
   NEOCLOUD_FAQ_NEEDLE,
   hasTrendsRoutesFaq,
   TRENDS_ROUTES_FAQ_NEEDLE,
+  hasNvidiaNvdaFaq,
+  hasAgentsNvidia,
+  NVIDIA_NVDA_FAQ_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -552,6 +555,30 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-neocloud-missing'));
   });
 
+  it('detects Nvidia / NVDA FAQ + agent-map lag (FINDABILITY #161)', () => {
+    assert.equal(hasNvidiaNvdaFaq(NVIDIA_NVDA_FAQ_NEEDLE), true);
+    assert.equal(hasNvidiaNvdaFaq('What has SIREN scored about NVIDIA?'), false);
+    assert.equal(
+      hasAgentsNvidia('NVDA Trends → https://siren.watch/lab/nvidia.html'),
+      true,
+    );
+    assert.equal(hasAgentsNvidia('https://siren.watch/lab/nvidia.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        nvidia_nvda_faq: false,
+        agents_nvidia: false,
+        llms_nvidia: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'nvidia-nvda-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-nvidia-missing'));
+  });
+
   it('detects Search Trends routing FAQ lag (FINDABILITY #158)', () => {
     assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), true);
     assert.equal(hasTrendsRoutesFaq('Where do live AI prediction-market odds live'), false);
@@ -666,6 +693,10 @@ describe('seo-daily surfaces', () => {
       ['https://siren.watch/lab/micron.html', {
         ok: true,
         value: '<title>What has SIREN scored about Micron / MU?</title>',
+      }],
+      ['https://siren.watch/lab/nvidia.html', {
+        ok: true,
+        value: '<title>What has SIREN scored about NVIDIA / NVDA?</title>',
       }],
     ]);
     const lags = labHeadAliasLags(byUrl);

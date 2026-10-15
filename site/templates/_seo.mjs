@@ -141,6 +141,8 @@ export function organization(ctx) {
       'What has SIREN scored about OpenAI / ChatGPT',
       'What has SIREN scored about Google DeepMind / Gemini',
       'What has SIREN scored about Micron / MU',
+      // FINDABILITY #161 — NVIDIA / NVDA labAboutLabel in Organization knowsAbout.
+      'What has SIREN scored about NVIDIA / NVDA',
       'Which AI model families have SIREN pages',
       'AI companies this index scored',
       'AI tags this index scored',

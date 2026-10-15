@@ -131,6 +131,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/micron.html',
   // FINDABILITY #155 — CoreWeave stock Trends FAQ lab.
   '/lab/coreweave.html',
+  // FINDABILITY #161 — NVIDIA / NVDA Trends FAQ lab.
+  '/lab/nvidia.html',
   // FINDABILITY #157 — neocloud Trends FAQ tag hub.
   '/tags/neoclouds.html',
   '/pillar/',
@@ -433,6 +435,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   // FINDABILITY #159 — Trends HEAD_TERM aliases for Google News keywords.
   { lab: 'CoreWeave', alias: 'neocloud' },
   { lab: 'IREN', alias: 'Iris Energy' },
+  // FINDABILITY #161 — NVIDIA ticker alias for Google News keywords.
+  { lab: 'NVIDIA', alias: 'NVDA' },
 ]);
 
 /**
@@ -749,6 +753,24 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
   return String(html || '').includes(needle);
 }
 
+/** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
+export const NVIDIA_NVDA_FAQ_NEEDLE = 'Why does SIREN watch Nvidia stock and NVDA in Google Search Trends?';
+export const AGENTS_NVIDIA_NEEDLE = 'NVDA Trends';
+
+/** Tip /lab/nvidia.html must keep the #161 Nvidia / NVDA Trends FAQ. */
+export function hasNvidiaNvdaFaq(html, needle = NVIDIA_NVDA_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Nvidia / NVDA Trends to Nvidia lab (FINDABILITY #161).
+ * Wipe gap is `agents-nvidia-missing`.
+ */
+export function hasAgentsNvidia(body, needle = AGENTS_NVIDIA_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/nvidia.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -777,6 +799,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/anthropic.html', needle: 'Claude' },
   // FINDABILITY #137 — Micron / MU ticker alias in lab title.
   { path: '/lab/micron.html', needle: 'MU' },
+  // FINDABILITY #161 — NVIDIA / NVDA ticker alias in lab title.
+  { path: '/lab/nvidia.html', needle: 'NVDA' },
 ]);
 
 /**
@@ -1314,6 +1338,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #161 — NVIDIA lab FAQ for Nvidia / NVDA Trends wiped or never landed.
+  if (ours.nvidia_nvda_faq === false) {
+    gaps.push({
+      id: 'nvidia-nvda-faq-missing',
+      severity: 'medium',
+      text: `/lab/nvidia.html missing Nvidia / NVDA Trends FAQ (FINDABILITY #161) — re-overlay lab/nvidia.html or wait for full collect Publish on tip ≥ #161`,
+    });
+  }
+  // FINDABILITY #161 — agent maps must route Nvidia / NVDA Trends to Nvidia lab.
+  if (ours.agents_nvidia === false || ours.llms_nvidia === false) {
+    const which = [
+      ours.agents_nvidia === false ? 'agents.md' : null,
+      ours.llms_nvidia === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-nvidia-missing',
+      severity: 'medium',
+      text: `${which} missing NVDA → /lab/nvidia.html Trends tip (FINDABILITY #161) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #161`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1526,6 +1571,11 @@ export function measureSite(site, byUrl) {
     const cwHtml = byUrl.get(`${base}/lab/coreweave.html`);
     row.coreweave_stock_faq = cwHtml?.ok ? hasCoreweaveStockFaq(cwHtml.value) : false;
     row.coreweave_debt_faq = cwHtml?.ok ? hasCoreweaveDebtFaq(cwHtml.value) : false;
+    // FINDABILITY #161 — NVIDIA / NVDA FAQ + agent maps.
+    const nvHtml = byUrl.get(`${base}/lab/nvidia.html`);
+    row.nvidia_nvda_faq = nvHtml?.ok ? hasNvidiaNvdaFaq(nvHtml.value) : false;
+    row.agents_nvidia = agentsMd?.ok ? hasAgentsNvidia(agentsMd.value) : false;
+    row.llms_nvidia = llms?.ok ? hasAgentsNvidia(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -1662,14 +1712,14 @@ export function formatMarkdown(report) {
     }
     if (ours && Array.isArray(ours.news_lab_alias_lags)) {
       if (ours.news_lab_alias_lags.length === 0) {
-        lines.push('- News labAboutLabel aliases (#146–#148/#159): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy)');
+        lines.push('- News labAboutLabel aliases (#146–#148/#159/#161): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy / NVDA)');
       } else {
         const sample = ours.news_lab_alias_lags
           .slice(0, 3)
           .map((r) => `${r.lab}→${r.alias}`)
           .join(', ');
         lines.push(
-          `- News labAboutLabel aliases (#146–#148/#159): **LAG** on ${ours.news_lab_alias_lags.length} (e.g. ${sample})`,
+          `- News labAboutLabel aliases (#146–#148/#159/#161): **LAG** on ${ours.news_lab_alias_lags.length} (e.g. ${sample})`,
         );
       }
     }
@@ -1751,6 +1801,16 @@ export function formatMarkdown(report) {
       lines.push(
         `- CoreWeave debt / bond Trends FAQ (#160): **${ours.coreweave_debt_faq ? 'ok' : 'NO'}**`,
       );
+    }
+    if (ours && ours.nvidia_nvda_faq != null) {
+      lines.push(
+        `- Nvidia / NVDA Trends FAQ (#161): **${ours.nvidia_nvda_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_nvidia != null || ours.llms_nvidia != null)) {
+      const ag = ours.agents_nvidia == null ? '—' : (ours.agents_nvidia ? 'yes' : 'NO');
+      const lm = ours.llms_nvidia == null ? '—' : (ours.llms_nvidia ? 'yes' : 'NO');
+      lines.push(`- Agent-map NVDA → lab (#161): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -2317,6 +2377,42 @@ function selftest() {
   }
   if (!OUR_SURFACES.includes('/tags/neoclouds.html')) {
     throw new Error('OUR_SURFACES missing /tags/neoclouds.html');
+  }
+  if (hasNvidiaNvdaFaq(NVIDIA_NVDA_FAQ_NEEDLE) !== true) {
+    throw new Error('hasNvidiaNvdaFaq true');
+  }
+  if (hasNvidiaNvdaFaq('What has SIREN scored about NVIDIA?') !== false) {
+    throw new Error('hasNvidiaNvdaFaq false');
+  }
+  if (hasAgentsNvidia('NVDA Trends → https://siren.watch/lab/nvidia.html') !== true) {
+    throw new Error('hasAgentsNvidia true');
+  }
+  if (hasAgentsNvidia('https://siren.watch/lab/nvidia.html only') !== false) {
+    throw new Error('hasAgentsNvidia needs NVDA needle');
+  }
+  const nvGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      nvidia_nvda_faq: false,
+      agents_nvidia: false,
+      llms_nvidia: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!nvGaps.some((g) => g.id === 'nvidia-nvda-faq-missing')) {
+    throw new Error('nvidia-nvda-faq-missing gap');
+  }
+  if (!nvGaps.some((g) => g.id === 'agents-nvidia-missing')) {
+    throw new Error('agents-nvidia-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/nvidia.html')) {
+    throw new Error('OUR_SURFACES missing /lab/nvidia.html');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'NVDA')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing NVDA');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== true) {
     throw new Error('hasTrendsRoutesFaq true');

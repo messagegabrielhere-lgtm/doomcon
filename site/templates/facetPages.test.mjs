@@ -196,6 +196,23 @@ describe('lab facets', () => {
     assert.match(cwHtml, /search-trends\.html/);
     assert.match(cwHtml, /not investment advice/);
     assert.doesNotMatch(cwHtml, /buy CoreWeave|sell CoreWeave|price target/i);
+    // FINDABILITY #161 — Nvidia / NVDA Trends FAQ + labAboutLabel.
+    assert.equal(LAB_HEAD_ALIASES.nvidia, 'NVDA');
+    assert.equal(labAboutLabel({ id: 'nvidia', name: 'NVIDIA' }), 'NVIDIA / NVDA');
+    const nvHtml = renderLab(ctx, {
+      id: 'nvidia',
+      name: 'NVIDIA',
+      entityOnly: true,
+      entityName: 'NVIDIA',
+    });
+    assert.match(
+      nvHtml,
+      /Why does SIREN watch Nvidia stock and NVDA in Google Search Trends\?/,
+    );
+    assert.match(nvHtml, /<title>[^<]*NVDA/);
+    assert.match(nvHtml, /search-trends\.html/);
+    assert.match(nvHtml, /not investment advice/);
+    assert.doesNotMatch(nvHtml, /buy NVIDIA|sell NVDA|price target/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

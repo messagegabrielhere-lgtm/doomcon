@@ -68,6 +68,9 @@ export const LAB_HEAD_ALIASES = Object.freeze({
   // FINDABILITY #137 — ticker people type when Google Trends shows "mu"
   // with AI memory-chip headlines; stories already score under Micron.
   'micron': 'MU',
+  // FINDABILITY #161 — ticker people type when Trends shows "nvda" with AI
+  // funding / debt / CoreWeave co-move headlines; stories already score under NVIDIA.
+  'nvidia': 'NVDA',
 });
 
 /** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */
@@ -472,6 +475,13 @@ export function renderLab(ctx, player) {
     faq.push([
       `Why does ${brand.NAME} watch CoreWeave debt and bond yields in Google Search Trends?`,
       `${brand.NAME} watches Google’s daily trending RSS for findability. When CoreWeave debt, bond yields, or borrowing-cost headlines spike with AI infrastructure selloffs, this lab page is the crawlable answer — scored story counts only, not credit analysis, not investment advice, and not a doom score. Category neocloud Trends route to ${ctx.url('/tags/neoclouds.html')}. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
+  // FINDABILITY #161 — “nvidia stock” / NVDA / AI funding-cost Trends → gated lab.
+  if (player.id === 'nvidia') {
+    faq.push([
+      `Why does ${brand.NAME} watch Nvidia stock and NVDA in Google Search Trends?`,
+      `${brand.NAME} watches Google’s daily trending RSS for findability. When Nvidia, NVDA stock, or AI GPU funding-cost headlines spike (including CoreWeave / neocloud co-moves), this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
   const faqHtml = faq.map(([q, a]) => `

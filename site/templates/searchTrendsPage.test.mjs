@@ -30,6 +30,7 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /\/lab\/coreweave\.html/);
   assert.match(html, /\/tags\/neoclouds\.html/);
   assert.match(html, /CoreWeave stock \/ debt \/ bond yields/);
+  assert.match(html, /Nvidia \/ NVDA stock → \/lab\/nvidia\.html/);
   assert.match(html, /not investment advice/);
   assert.match(html, /not credit analysis/);
 });
