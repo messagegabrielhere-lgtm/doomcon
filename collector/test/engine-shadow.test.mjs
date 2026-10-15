@@ -258,6 +258,19 @@ test('collect.yml full-pass Build site raises Node heap (FINDABILITY #104)', () 
   assert.match(yml, /NODE_OPTIONS=--max-old-space-size=8192 timeout 480 node site\/build\.mjs --only news/);
 });
 
+test('collect.yml full-pass Build seeds public/ for incremental full build (FINDABILITY #105)', () => {
+  // Without a seed, build.mjs wipes public/ and rewrites ~5000 archive item
+  // pages every hour — run 38676940859 sat in Build ~85m and missed Publish.
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const full = yml.match(/name:\s*full index pass[\s\S]*?(?=\n  [a-z-]+:|$)/);
+  assert.ok(full, 'full index pass job missing');
+  assert.match(full[0], /seeding public\/ from gh-pages for incremental full build/);
+  assert.match(full[0], /FINDABILITY #105/);
+  const src = readFileSync(join(ROOT, 'site', 'build.mjs'), 'utf8');
+  assert.match(src, /incremental full build \(keeping public\/; FINDABILITY #105\)/);
+  assert.match(src, /archiveSkipped/);
+});
+
 test('news-fast overlay publishes news-sitemap + sitemap + robots (FINDABILITY #96)', () => {
   // Overlay path used to copy api/news.json + news.html but skip the crawl
   // surfaces --only news rewrites — Google News kept reading a stale

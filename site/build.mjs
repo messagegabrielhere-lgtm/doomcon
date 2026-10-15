@@ -942,11 +942,23 @@ async function main() {
     newsOnly = false;
   }
   let cardCount = 0;
+  // FINDABILITY #105 — keep a seeded public/ across hourly full builds so we
+  // do not rewrite ~5000 durable /item/* archive pages from zero every pass
+  // (run 38676940859 sat in Build ~85m+ and missed Publish). Cold builds with
+  // no index.html still wipe. Deleted move/room pages are pruned later when
+  // their writers stop emitting them; archive items use exists-skip below.
+  let incrementalFull = false;
   if (!newsOnly) {
-    // Start from an empty directory so a deleted move page actually disappears
-    // instead of lingering in the deployed site forever.
-    if (existsSync(args.out)) await rm(args.out, { recursive: true, force: true });
-    await mkdir(args.out, { recursive: true });
+    if (existsSync(path.join(args.out, 'index.html'))) {
+      incrementalFull = true;
+      log('build: incremental full build (keeping public/; FINDABILITY #105)');
+      await mkdir(args.out, { recursive: true });
+    } else {
+      // Start from an empty directory so a deleted move page actually disappears
+      // instead of lingering in the deployed site forever.
+      if (existsSync(args.out)) await rm(args.out, { recursive: true, force: true });
+      await mkdir(args.out, { recursive: true });
+    }
     cardCount = await copyCards(args.data, args.out);
   }
 
@@ -1881,11 +1893,25 @@ async function main() {
         .slice(0, 5);
       written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
     }
+    let archiveSkipped = 0;
+    let archiveWritten = 0;
     for (const it of (ctx.itemArchive || [])) {
+      const rel = `item/${itemPage.slugFor(it)}.html`;
+      const abs = path.join(args.out, rel);
+      // FINDABILITY #105 — durable archive briefs stay on disk across hourly
+      // incremental full builds; only cold wipes or missing files re-render.
+      if (incrementalFull && existsSync(abs)) {
+        archiveSkipped += 1;
+        continue;
+      }
       const related = (byPillar.get(it.pillar) || [])
         .filter((r) => r.id !== it.id)
         .slice(0, 5);
-      written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
+      written.push(await write(args.out, rel, itemPage.render(ctx, it, related)));
+      archiveWritten += 1;
+    }
+    if (incrementalFull) {
+      log(`  archive      ${archiveWritten} written, ${archiveSkipped} kept (FINDABILITY #105)`);
     }
     written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
   }
