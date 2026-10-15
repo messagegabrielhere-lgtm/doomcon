@@ -56,6 +56,25 @@ export function labPath(id) {
   return `/lab/${id}.html`;
 }
 
+/**
+ * Product / head-term aliases for lab about-lines (FINDABILITY #121).
+ * Only when the alias is the name people type and we already score those
+ * stories (e.g. Gemini under Google DeepMind). Not a synonym doorway farm.
+ */
+export const LAB_HEAD_ALIASES = Object.freeze({
+  'google-deepmind': 'Gemini',
+});
+
+/** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */
+export function labAboutLabel(player) {
+  const name = player && player.name ? String(player.name) : '';
+  const alias = player && player.id ? LAB_HEAD_ALIASES[player.id] : null;
+  if (alias && name && !name.toLowerCase().includes(alias.toLowerCase())) {
+    return `${name} / ${alias}`;
+  }
+  return name || alias || '';
+}
+
 export function itemsForPillar(ctx, pillarId) {
   const items = (ctx.news && Array.isArray(ctx.news.items)) ? ctx.news.items : [];
   return items
@@ -389,33 +408,36 @@ export function renderLab(ctx, player) {
   const indexable = labIndexable(ctx, player);
   const m = player.market || {};
   const entityOnly = Boolean(player.entityOnly);
+  // FINDABILITY #121 — include product head-term aliases (Gemini) in the
+  // about-line when people type the product name, not only the lab legal name.
+  const about = labAboutLabel(player);
   // Head-term title: people search “{lab} AI stories” / company doom score.
   const title = entityOnly
-    ? `What has ${brand.NAME} scored about ${player.name}? AI stories, not a company score`
-    : `What has ${brand.NAME} scored about ${player.name}? AI stories & market odds`;
+    ? `What has ${brand.NAME} scored about ${about}? AI stories, not a company score`
+    : `What has ${brand.NAME} scored about ${about}? AI stories & market odds`;
   const description = clip(
     entityOnly
-      ? `${player.name} on ${brand.NAME}: ${items.length} related scored stories in the current window. No prediction-market row for this lab — story counts only.`
-      : `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)}, shipping and mindshare when reported, plus ${items.length} related scored stories.`,
+      ? `${about} on ${brand.NAME}: ${items.length} related scored stories in the current window. No prediction-market row for this lab — story counts only.`
+      : `${about} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)}, shipping and mindshare when reported, plus ${items.length} related scored stories.`,
     160,
   );
   // Tip #286: section H2s are question-shaped and mirrored in FAQ (§3.3).
-  const windowQ = `Which related scored stories name ${player.name} in this window?`;
-  const olderQ = `Which older scored stories name ${player.name}?`;
+  const windowQ = `Which related scored stories name ${about} in this window?`;
+  const olderQ = `Which older scored stories name ${about}?`;
   const othersQ = 'Which other labs have scored stories?';
   const peerLabs = allLabs(ctx).filter((p) => p.id !== player.id);
   const labs = peerLabs
-    .map((p) => `<a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>`)
+    .map((p) => `<a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(labAboutLabel(p))}?</a>`)
     .join('');
   const faq = [
-    [`What has ${brand.NAME} scored about ${player.name}?`,
+    [`What has ${brand.NAME} scored about ${about}?`,
       entityOnly
-        ? `${items.length} scored stories name ${player.name} on ${brand.NAME} in the live window${archivedAll.length ? ` (${archivedAll.length} older in the archive)` : ''}. Story counts only — this page does not invent market odds.`
-        : `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)} when published, plus ${items.length} related scored stories in the live window${archivedAll.length ? ` and ${archivedAll.length} older in the archive` : ''}.`],
+        ? `${items.length} scored stories name ${about} on ${brand.NAME} in the live window${archivedAll.length ? ` (${archivedAll.length} older in the archive)` : ''}. Story counts only — this page does not invent market odds.`
+        : `${about} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)} when published, plus ${items.length} related scored stories in the live window${archivedAll.length ? ` and ${archivedAll.length} older in the archive` : ''}.`],
     [windowQ,
       items.length
-        ? `${items.length} scored ${items.length === 1 ? 'story names' : 'stories name'} ${player.name} in the current window. Story counts only — not a company doom score.`
-        : `No scored story in the current window names ${player.name}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}`],
+        ? `${items.length} scored ${items.length === 1 ? 'story names' : 'stories name'} ${about} in the current window. Story counts only — not a company doom score.`
+        : `No scored story in the current window names ${about}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}`],
     ...(older.length
       ? [[olderQ,
         'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
@@ -424,7 +446,7 @@ export function renderLab(ctx, player) {
       ? [[othersQ,
         `Other labs that clear the substance gate, each linking What has ${brand.NAME} scored about that lab?`]]
       : []),
-    [`Does ${brand.NAME} publish a ${player.name} doom score?`,
+    [`Does ${brand.NAME} publish a ${about} doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} Numbers here are story counts${entityOnly ? '' : ' and, where published, prediction-market prices'} — not a ranking of how dangerous a company is.`],
   ];
   const faqHtml = faq.map(([q, a]) => `
@@ -456,8 +478,8 @@ export function renderLab(ctx, player) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> · <a href="${esc(ctx.href('/lab/'))}">Which AI labs have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a></p>
-  <h1>What has ${esc(brand.NAME)} scored about ${esc(player.name)}?</h1>
-  <p class="fc__lede">${esc(player.principal ? `${player.name}, principal ${player.principal}.` : player.name)}
+  <h1>What has ${esc(brand.NAME)} scored about ${esc(about)}?</h1>
+  <p class="fc__lede">${esc(player.principal ? `${about}, principal ${player.principal}.` : about)}
      ${entityOnly
     ? 'Stories are scored newsroom items that name this lab. This page does not invent market odds.'
     : 'Odds and shipping signals come from the public race board; stories are scored newsroom items that name this lab.'}</p>
@@ -465,7 +487,7 @@ export function renderLab(ctx, player) {
   <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
-    : `<p>No scored story in the current window names ${esc(player.name)}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}</p>`}
+    : `<p>No scored story in the current window names ${esc(about)}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}</p>`}
   ${olderBlock}
   <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
@@ -492,7 +514,7 @@ export function renderLab(ctx, player) {
     }, breadcrumbs(ctx, [
       { name: 'Who is winning the AI race?', path: '/race.html' },
       { name: `Which AI labs have ${brand.NAME} pages?`, path: '/lab/' },
-      { name: `What has ${brand.NAME} scored about ${player.name}?`, path },
+      { name: `What has ${brand.NAME} scored about ${about}?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
