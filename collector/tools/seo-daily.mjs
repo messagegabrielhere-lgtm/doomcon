@@ -751,10 +751,20 @@ export function hasAgentsNeocloud(body, needle = AGENTS_NEOCLOUD_NEEDLE) {
 
 /** FINDABILITY #158 — Search Trends watchlist FAQ routes stock / neocloud spikes. */
 export const TRENDS_ROUTES_FAQ_NEEDLE = 'Where does SIREN send IREN stock, dram stock, CoreWeave stock, and neocloud Trends?';
+/** FINDABILITY #166 — latest head destinations must stay on the routing answer. */
+export const TRENDS_ROUTES_ASML_NEEDLE = 'ASML / EUV AI chip tools → /lab/asml.html';
+export const TRENDS_ROUTES_TSMC_NEEDLE = 'TSMC / AI foundry → /lab/tsmc.html';
 
-/** Tip /search-trends.html must keep the #158 routing FAQ. */
+/**
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165
+ * ASML/TSMC destinations (FINDABILITY #166 — newsroom used to keep the
+ * question while dropping newer answer destinations).
+ */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
-  return String(html || '').includes(needle);
+  const text = String(html || '');
+  return text.includes(needle)
+    && text.includes(TRENDS_ROUTES_ASML_NEEDLE)
+    && text.includes(TRENDS_ROUTES_TSMC_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1412,7 +1422,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ (FINDABILITY #158) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #158`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC destinations (FINDABILITY #158/#166) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -2051,7 +2061,7 @@ export function formatMarkdown(report) {
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
-        `- Search Trends routing FAQ (#158): **${ours.trends_routes_faq ? 'ok' : 'NO'}**`,
+        `- Search Trends routing FAQ (#158/#166): **${ours.trends_routes_faq ? 'ok' : 'NO'}**`,
       );
     }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
@@ -2768,8 +2778,16 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/tsmc.html')) {
     throw new Error('OUR_SURFACES missing /lab/tsmc.html');
   }
-  if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== true) {
+  const routesBody = [
+    TRENDS_ROUTES_FAQ_NEEDLE,
+    TRENDS_ROUTES_ASML_NEEDLE,
+    TRENDS_ROUTES_TSMC_NEEDLE,
+  ].join('\n');
+  if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
+  }
+  if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC destinations (#166)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

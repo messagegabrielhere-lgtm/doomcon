@@ -556,19 +556,22 @@ jobs:
                   echo "restored tags/neoclouds.html neocloud Trends FAQ (#157)"
                 fi
               }
-              # FINDABILITY #158 — restore tip /search-trends.html (+ aliases)
-              # when watchlist routing FAQ is missing after orphan Publish from
-              # tip < #158 (quiet firehose still needs crawlable destinations).
+              # FINDABILITY #158/#166 — restore tip /search-trends.html (+ aliases)
+              # when watchlist routing FAQ is missing, or when ASML/TSMC destinations
+              # were dropped from the answer after orphan Publish (quiet firehose
+              # still needs crawlable destinations).
               restore_trends_routes_faq() {
                 local root="$1" preserve="$2"
                 if [ -f "$preserve/search-trends.html" ] \
-                  && ! grep -qF 'Where does SIREN send IREN stock, dram stock, CoreWeave stock, and neocloud Trends?' "$root/search-trends.html" 2>/dev/null; then
+                  && { ! grep -qF 'Where does SIREN send IREN stock, dram stock, CoreWeave stock, and neocloud Trends?' "$root/search-trends.html" 2>/dev/null \
+                    || ! grep -qF 'ASML / EUV AI chip tools → /lab/asml.html' "$root/search-trends.html" 2>/dev/null \
+                    || ! grep -qF 'TSMC / AI foundry → /lab/tsmc.html' "$root/search-trends.html" 2>/dev/null; }; then
                   cp -a "$preserve/search-trends.html" "$root/search-trends.html"
                   cp -a "$preserve/search-trends.html" "$root/trends.html"
                   mkdir -p "$root/trends" "$root/search-trends"
                   cp -a "$preserve/search-trends.html" "$root/trends/index.html"
                   cp -a "$preserve/search-trends.html" "$root/search-trends/index.html"
-                  echo "restored search-trends.html routing FAQ (#158)"
+                  echo "restored search-trends.html routing FAQ (#158/#166)"
                 fi
               }
               # FINDABILITY #161 — restore tip /lab/nvidia.html when Nvidia / NVDA
