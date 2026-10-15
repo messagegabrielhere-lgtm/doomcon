@@ -586,3 +586,17 @@ test('news-fast polls search-trends and news-only rewrites it (FINDABILITY #149)
   assert.match(block, /search-trends\.html/);
   assert.match(block, /api\/search-trends\.json/);
 });
+
+test('collect newsroom refreshes search-trends before --only news (FINDABILITY #150)', () => {
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const newsroom = yml.match(/name:\s*newsroom[\s\S]*?(?=\n  [a-z-]+:|$)/);
+  assert.ok(newsroom, 'newsroom job missing');
+  assert.match(newsroom[0], /FINDABILITY #150/);
+  assert.match(newsroom[0], /Google Search Trends watch \(newsroom\)/);
+  assert.match(newsroom[0], /timeout 45 node collector\/search-trends\.mjs/);
+  assert.match(newsroom[0], /data\/search-trends\.json/);
+  // Step must appear before Rebuild so --only news reads a fresh snapshot.
+  const trendsAt = newsroom[0].indexOf('Google Search Trends watch (newsroom)');
+  const rebuildAt = newsroom[0].indexOf('Rebuild the site');
+  assert.ok(trendsAt >= 0 && rebuildAt > trendsAt, 'Trends watch must precede Rebuild');
+});

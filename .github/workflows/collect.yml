@@ -325,6 +325,16 @@ jobs:
             rm -f "$NEXT"
           fi
 
+      # FINDABILITY #150 — newsroom Publish used to rewrite tip from a stale
+      # data/search-trends.json (Trends only ran on the hourly full lane). With
+      # #149, --only news ships Search Trends HTML/API; refresh the RSS here
+      # first so Micron/MU (and other head-term) spikes survive newsroom force-
+      # push even when news-fast's hourly re-arm is quiet.
+      - name: Google Search Trends watch (newsroom)
+        if: steps.gate.outputs.changed == 'true' || steps.leaders.outputs.changed == 'true' || steps.live.outputs.changed == 'true' || steps.waffle.outputs.changed == 'true' || steps.aistatus.outputs.changed == 'true' || steps.threats.outputs.changed == 'true'
+        continue-on-error: true
+        run: timeout 45 node collector/search-trends.mjs
+
       - name: Rebuild the site
         # Also when only the leader page moved (new coverage, a new official
         # post): that is what keeps /leaders.html within 15 minutes.
@@ -425,6 +435,11 @@ jobs:
           if [ -f data/live-media.json ]; then git add data/live-media.json; fi
           # The Waffle House Index (see "Refresh the Waffle House Index").
           for f in data/waffle.json data/waffle-stores.json data/ai-status.json data/threats.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
+          # FINDABILITY #150 — Search Trends snapshot (and daily history line)
+          # from the newsroom Trends watch, so tip and main stay aligned.
+          for f in data/search-trends.json data/search-trends-history.ndjson; do
             if [ -f "$f" ]; then git add "$f"; fi
           done
           if git diff --cached --quiet; then
