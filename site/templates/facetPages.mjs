@@ -498,6 +498,13 @@ export function renderLab(ctx, player) {
       `${brand.NAME} scores press that names Anthropic / Claude. When IPO headlines, FTC probes, or safety subpoenas dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not IPO advice, not legal advice, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
+  // FINDABILITY #164 — ASML / EUV AI-chip-tool Trends → gated lab.
+  if (player.id === 'asml') {
+    faq.push([
+      `Why does ${brand.NAME} watch ASML in Google Search Trends?`,
+      `${brand.NAME} watches Google’s daily trending RSS for findability. When ASML, ASML stock, or EUV / AI chipmaking-tool headlines spike with semiconductor demand for the AI build-out, this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');

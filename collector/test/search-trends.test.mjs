@@ -103,6 +103,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'FTC probes Anthropic', news: [] }).includes('anthropic-ipo'));
   assert.ok(matchHeadTerms({ title: 'Anthropic subpoena ahead of IPO', news: [] }).includes('anthropic-ipo'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-ipo' && t.path === '/lab/anthropic.html'));
+  // FINDABILITY #164 — ASML / EUV AI chip-tool Trends → gated ASML lab.
+  assert.ok(matchHeadTerms({ title: 'asml stock', news: [] }).includes('asml'));
+  assert.ok(matchHeadTerms({ title: 'ASML', news: [] }).includes('asml'));
+  assert.ok(matchHeadTerms({ title: 'ASML EUV tools for AI chips', news: [] }).includes('asml'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'asml' && t.path === '/lab/asml.html'));
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({

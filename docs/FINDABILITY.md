@@ -401,6 +401,7 @@ context.
 | 161 | `/lab/nvidia.html` FAQ for Nvidia / NVDA / AI GPU funding-cost Trends; `LAB_HEAD_ALIASES.nvidia = NVDA`; HEAD_TERMS → gated lab; news keywords NVIDIA→NVDA; `agents.md`/`llms.txt` tip; watchlist FAQ answer + knowsAbout; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip Nvidia lab — story counts only, not a stock tip | Google + Trends + Agents + Google News | **Done** (this pass) |
 | 162 | `/lab/openai.html` FAQ for OpenAI lawsuit / FTC / ChatGPT state-suit tape; HEAD_TERMS `openai-lawsuit` → gated lab; `agents.md`/`llms.txt` tip; watchlist FAQ answer routes suits → lab; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip OpenAI lab — story counts only, not legal advice | Google + Trends + Agents | **Done** (this pass) |
 | 163 | `/lab/anthropic.html` FAQ for Anthropic IPO / FTC probe tape; HEAD_TERMS `anthropic-ipo` → gated lab; `agents.md`/`llms.txt` tip; watchlist FAQ answer routes IPO/FTC → lab; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip Anthropic lab — story counts only, not IPO or legal advice | Google + Trends + Agents | **Done** (this pass) |
+| 164 | `/lab/asml.html` FAQ for ASML / EUV / AI chipmaking-tool Trends; HEAD_TERMS `asml` → gated lab; `agents.md`/`llms.txt` tip; watchlist FAQ answer; `seo-daily` detects FAQ + agent-map lag; Publish preserve tip ASML lab — story counts only, not a stock tip | Google + Trends + Agents | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

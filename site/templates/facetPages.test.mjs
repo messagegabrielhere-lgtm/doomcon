@@ -232,6 +232,20 @@ describe('lab facets', () => {
     assert.match(antHtml, /[Nn]ot legal advice/);
     assert.match(antHtml, /search-trends\.html/);
     assert.doesNotMatch(antHtml, /buy Anthropic|price target|will IPO at/i);
+    // FINDABILITY #164 — ASML / EUV Trends FAQ on gated lab.
+    const asmlHtml = renderLab(ctx, {
+      id: 'asml',
+      name: 'ASML',
+      entityOnly: true,
+      entityName: 'ASML',
+    });
+    assert.match(
+      asmlHtml,
+      /Why does SIREN watch ASML in Google Search Trends\?/,
+    );
+    assert.match(asmlHtml, /not investment advice/);
+    assert.match(asmlHtml, /search-trends\.html/);
+    assert.doesNotMatch(asmlHtml, /buy ASML|sell ASML|price target/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {
