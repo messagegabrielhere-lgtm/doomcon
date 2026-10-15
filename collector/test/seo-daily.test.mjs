@@ -17,6 +17,8 @@ import {
   CORE_LIVE_SURFACES,
   VS_SHORT_ALIASES,
   hasVsShortAliases,
+  LAB_HEAD_TITLE_PROBES,
+  labHeadAliasLags,
   FACET_URL_FLOOR,
   readLocalReadyUrls,
 } from '../tools/seo-daily.mjs';
@@ -231,5 +233,39 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'agents-vs-aliases-missing'));
+  });
+
+  it('detects lab head-term title alias lag (FINDABILITY #123)', () => {
+    for (const p of LAB_HEAD_TITLE_PROBES) {
+      assert.ok(OUR_SURFACES.includes(p.path), p.path);
+    }
+    const byUrl = new Map([
+      ['https://siren.watch/lab/google-deepmind.html', {
+        ok: true,
+        value: '<title>What has SIREN scored about Google DeepMind?</title>',
+      }],
+      ['https://siren.watch/lab/openai.html', {
+        ok: true,
+        value: '<title>What has SIREN scored about OpenAI / ChatGPT?</title>',
+      }],
+      ['https://siren.watch/lab/anthropic.html', {
+        ok: true,
+        value: '<title>What has SIREN scored about Anthropic / Claude?</title>',
+      }],
+    ]);
+    const lags = labHeadAliasLags(byUrl);
+    assert.equal(lags.length, 1);
+    assert.equal(lags[0].needle, 'Gemini');
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        lab_head_alias_lags: lags,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'lab-head-aliases-missing'));
   });
 });
