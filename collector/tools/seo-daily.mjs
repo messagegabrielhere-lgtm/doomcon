@@ -159,6 +159,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/qwen.html',
   // FINDABILITY #178 — Oracle / AI datacenter Trends FAQ tag hub.
   '/tags/datacenters.html',
+  // FINDABILITY #179 — DeepSeek outage Trends FAQ lab.
+  '/lab/deepseek.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -797,9 +799,10 @@ export const TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE = 'Samsung / HBM / AI memory → /
 export const TRENDS_ROUTES_CHARACTER_AI_NEEDLE = 'Character.ai bankruptcy → /tags/chatbots.html';
 export const TRENDS_ROUTES_QWEN_NEEDLE = 'Qwen / Alibaba open models → /lab/qwen.html';
 export const TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE = 'Oracle / AI datacenters → /tags/datacenters.html';
+export const TRENDS_ROUTES_DEEPSEEK_NEEDLE = 'DeepSeek outage → /lab/deepseek.html';
 
 /**
- * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179
  * destinations (FINDABILITY #166 — newsroom used to keep the question while dropping newer answer destinations).
  */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
@@ -816,7 +819,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE)
     && text.includes(TRENDS_ROUTES_CHARACTER_AI_NEEDLE)
     && text.includes(TRENDS_ROUTES_QWEN_NEEDLE)
-    && text.includes(TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE);
+    && text.includes(TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE)
+    && text.includes(TRENDS_ROUTES_DEEPSEEK_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1089,6 +1093,24 @@ export function hasOracleDatacentersFaq(html, needle = ORACLE_DATACENTERS_FAQ_NE
 export function hasAgentsOracleDatacenters(body, needle = AGENTS_ORACLE_DATACENTERS_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/tags/datacenters.html');
+}
+
+/** FINDABILITY #179 — DeepSeek outage FAQ + agent maps. */
+export const DEEPSEEK_FAQ_NEEDLE = 'Why does SIREN watch DeepSeek and AI outages?';
+export const AGENTS_DEEPSEEK_NEEDLE = 'DeepSeek outage';
+
+/** Tip /lab/deepseek.html must keep the #179 DeepSeek FAQ. */
+export function hasDeepseekFaq(html, needle = DEEPSEEK_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route DeepSeek outage Trends to DeepSeek lab (FINDABILITY #179).
+ * Wipe gap is `agents-deepseek-missing`.
+ */
+export function hasAgentsDeepseek(body, needle = AGENTS_DEEPSEEK_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/deepseek.html');
 }
 
 
@@ -1667,7 +1689,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -1986,6 +2008,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #179 — DeepSeek lab FAQ wiped or never landed.
+  if (ours.deepseek_faq === false) {
+    gaps.push({
+      id: 'deepseek-faq-missing',
+      severity: 'medium',
+      text: `/lab/deepseek.html missing DeepSeek outage FAQ (FINDABILITY #179) — re-overlay lab/deepseek.html or wait for full collect Publish on tip ≥ #179`,
+    });
+  }
+  // FINDABILITY #179 — agent maps must route DeepSeek outage Trends to DeepSeek lab.
+  if (ours.agents_deepseek === false || ours.llms_deepseek === false) {
+    const which = [
+      ours.agents_deepseek === false ? 'agents.md' : null,
+      ours.llms_deepseek === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-deepseek-missing',
+      severity: 'medium',
+      text: `${which} missing DeepSeek outage → /lab/deepseek.html Trends tip (FINDABILITY #179) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #179`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -2281,6 +2324,11 @@ export function measureSite(site, byUrl) {
     row.oracle_datacenters_faq = dcHtml?.ok ? hasOracleDatacentersFaq(dcHtml.value) : false;
     row.agents_oracle_datacenters = agentsMd?.ok ? hasAgentsOracleDatacenters(agentsMd.value) : false;
     row.llms_oracle_datacenters = llms?.ok ? hasAgentsOracleDatacenters(llmsBody) : false;
+    // FINDABILITY #179 — DeepSeek FAQ + agent maps.
+    const deepseekHtml = byUrl.get(`${base}/lab/deepseek.html`);
+    row.deepseek_faq = deepseekHtml?.ok ? hasDeepseekFaq(deepseekHtml.value) : false;
+    row.agents_deepseek = agentsMd?.ok ? hasAgentsDeepseek(agentsMd.value) : false;
+    row.llms_deepseek = llms?.ok ? hasAgentsDeepseek(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -2664,6 +2712,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_oracle_datacenters == null ? '—' : (ours.agents_oracle_datacenters ? 'yes' : 'NO');
       const lm = ours.llms_oracle_datacenters == null ? '—' : (ours.llms_oracle_datacenters ? 'yes' : 'NO');
       lines.push(`- Agent-map Oracle datacenter → tag (#178): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.deepseek_faq != null) {
+      lines.push(
+        `- DeepSeek outage FAQ (#179): **${ours.deepseek_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_deepseek != null || ours.llms_deepseek != null)) {
+      const ag = ours.agents_deepseek == null ? '—' : (ours.agents_deepseek ? 'yes' : 'NO');
+      const lm = ours.llms_deepseek == null ? '—' : (ours.llms_deepseek ? 'yes' : 'NO');
+      lines.push(`- Agent-map DeepSeek outage → lab (#179): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -3714,6 +3772,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/tags/datacenters.html')) {
     throw new Error('OUR_SURFACES missing /tags/datacenters.html');
   }
+  if (hasDeepseekFaq(DEEPSEEK_FAQ_NEEDLE) !== true) {
+    throw new Error('hasDeepseekFaq true');
+  }
+  if (hasDeepseekFaq('What has SIREN scored about DeepSeek?') !== false) {
+    throw new Error('hasDeepseekFaq false');
+  }
+  if (hasAgentsDeepseek('DeepSeek outage → https://siren.watch/lab/deepseek.html') !== true) {
+    throw new Error('hasAgentsDeepseek true');
+  }
+  if (hasAgentsDeepseek('https://siren.watch/lab/deepseek.html only') !== false) {
+    throw new Error('hasAgentsDeepseek needs DeepSeek outage needle');
+  }
+  const deepseekGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      deepseek_faq: false,
+      agents_deepseek: false,
+      llms_deepseek: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!deepseekGaps.some((g) => g.id === 'deepseek-faq-missing')) {
+    throw new Error('deepseek-faq-missing gap');
+  }
+  if (!deepseekGaps.some((g) => g.id === 'agents-deepseek-missing')) {
+    throw new Error('agents-deepseek-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/deepseek.html')) {
+    throw new Error('OUR_SURFACES missing /lab/deepseek.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -3728,12 +3819,13 @@ function selftest() {
     TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
     TRENDS_ROUTES_QWEN_NEEDLE,
     TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE,
+    TRENDS_ROUTES_DEEPSEEK_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Qwen/Oracle/DeepSeek destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

@@ -99,6 +99,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #178 — Oracle / AI datacenter Trends → gated datacenters tag
   // (story counts only; not a stock tip or credit forecast).
   { id: 'oracle-datacenters', label: 'Oracle', re: /\boracle\b/i, path: '/tags/datacenters.html' },
+  // FINDABILITY #179 — DeepSeek outage / Chinese open-model Trends → gated lab
+  // (story counts only; not a model review or uptime SLA).
+  { id: 'deepseek', label: 'DeepSeek', re: /\bdeepseek(?:[- ]?r)?\b/i, path: '/lab/deepseek.html' },
   { id: 'siren', label: 'SIREN / siren.watch', re: /\bsiren\.watch\b|\bsiren\s+(?:index|watch|ai)\b|\bdoomcon\b/i, path: '/' },
 ]);
 

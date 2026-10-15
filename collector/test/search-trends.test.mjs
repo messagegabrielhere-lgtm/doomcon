@@ -171,6 +171,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Will an Oracle Downgrade Be the Next Shoe to Drop?', news: [] }).includes('oracle-datacenters'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'oracle-datacenters' && t.path === '/tags/datacenters.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'oracle-datacenters').re.test('oracular pronouncements'), false);
+  // FINDABILITY #179 — DeepSeek outage Trends → gated DeepSeek lab.
+  assert.ok(matchHeadTerms({ title: 'DeepSeek offers user refunds after suffering another major outage', news: [] }).includes('deepseek'));
+  assert.ok(matchHeadTerms({ title: 'DeepSeek-R model update', news: [] }).includes('deepseek'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'deepseek' && t.path === '/lab/deepseek.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'deepseek').re.test('deep seeking treasure'), false);
 });
 
 test('summariseGeo counts AI items and head-term hits', () => {
