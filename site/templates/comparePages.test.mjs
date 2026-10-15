@@ -90,6 +90,9 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(hub, /Which AI indexes does SIREN contrast/);
     assert.match(hub, /\/methodology\.html/);
     assert.match(hub, /href="\/">AI activity index today · SIREN →<\/a>/);
+    // FINDABILITY #127 — how-to head term in visible FAQ + description.
+    assert.match(hub, /How do you compare AI doom indexes\?/);
+    assert.match(hub, /content="Which AI doom indexes can you compare\? How do you compare AI doom indexes\?/);
     assert.doesNotMatch(hub, /href="\/">Live dial →<\/a>/);
     assert.doesNotMatch(hub, /noindex/);
 

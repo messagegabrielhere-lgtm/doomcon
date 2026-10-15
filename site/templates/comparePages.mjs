@@ -220,7 +220,7 @@ export function compareHub(ctx) {
   // Head-term question (FINDABILITY tip #206): H1 must match <title> stem.
   // Was “Which AI doom indexes can you compare honestly?” under a shorter title.
   const qTitle = 'Which AI doom indexes can you compare?';
-  const description = `${qTitle} ${brand.NAME} is an hourly AI activity count you can recompute. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates, p(doom) clocks publish opinions, PizzINT borrows DEFCON/Doomsday framing, and Takeoff Tracker aggregates AGI metrics. Side-by-side without borrowing their claims.`;
+  const description = `${qTitle} How do you compare AI doom indexes? ${brand.NAME} is an hourly AI activity count you can recompute. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates, p(doom) clocks publish opinions, PizzINT borrows DEFCON/Doomsday framing, and Takeoff Tracker aggregates AGI metrics. Side-by-side without borrowing their claims.`;
   // Tip #267: section H2s are question-shaped and mirrored in FAQ (§3.3).
   const sideQ = 'How do they compare side by side?';
   const pickQ = 'Which rival should you pick?';
@@ -230,6 +230,10 @@ export function compareHub(ctx) {
   const faq = [
     [qTitle,
       `${brand.NAME} next to DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker — method by method. ${brand.NAME} is an hourly recomputable activity count; the others are judgement scores, countdowns, opinions, or title hijacks.`],
+    // Exact how-to head term (FINDABILITY #127) — SERP “compare AI doom indexes”
+    // ranked DoomBench ahead of this hub; keep H1/title, add matching visible FAQ.
+    ['How do you compare AI doom indexes?',
+      `Put method next to method. ${brand.NAME} is an hourly recomputable AI activity count with a receipt. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates, p(doom) clocks publish opinions, PizzINT borrows DEFCON/Doomsday framing, and Takeoff Tracker aggregates AGI metrics. This page’s table is that comparison without borrowing their claims.`],
     [sideQ,
       `${brand.NAME} is an hourly recomputable activity count; the rivals are judgement scores, countdowns, opinions, or title hijacks. The table below compares method by method.`],
     [pickQ,

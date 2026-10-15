@@ -364,6 +364,7 @@ context.
 | 124 | Directory indexes for `/verify/` `/free-tools/` `/search-trends/` `/ai-prediction-markets/` + short alias `/trends.html` (canonical on search-trends; out of sitemap) — typed `/trends` guesses were 404; restore in news-fast/collect/vs-alias-guard; `seo-daily` CORE_LIVE | Google + agents | **Done** (this pass) |
 | 125 | `seo-daily` detects missing `/trends.html` in `agents.md` / `llms.txt` (`agents-trends-alias-missing`) and requires `/trends.html` in now tip lines (`hasNowTips`) so overlay/CDN lag after #124 is caught daily | Daily agent + Google | **Done** (this pass) |
 | 126 | `/alternatives.html` visible FAQ + meta description answer exact singular head term “What is an AI doom index alternative?” (H1/title stay plural; no doorway URL) — unbranded SERP was missing the hub | Google | **Done** (this pass) |
+| 127 | `/compare.html` visible FAQ + meta description answer “How do you compare AI doom indexes?” (H1/title stay “Which…?”; no doorway) — unbranded compare SERP ranked DoomBench ahead of the hub | Google | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
