@@ -1,9 +1,10 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T07:19Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,692** sitemap URLs; tips #79/#84/#87/#90 intact; news-fast
-publishing after #106/#107. Companion to `docs/COMPETITIVE.md` (Sept inventory)
-and `docs/FINDABILITY.md` (our playbook).
+**Measured:** 2026-10-15T08:07Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,692** sitemap URLs / news **200**; tips #79/#84/#87/#90 intact;
+`/vs/skynet.html` live (#111); news-fast Pages throttle #112 on main (next
+re-arm). Companion to `docs/COMPETITIVE.md` (Sept inventory) and
+`docs/FINDABILITY.md` (our playbook).
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool
@@ -136,11 +137,11 @@ contrast measurement methods (`VOICE.md`, `CONTRACT.md`).
 |---|---|
 | `/compare.html` | “AI doom indexes compared” — side-by-side table |
 | `/alternatives.html` | “DoomBench / Skynet / p(doom) alternative” hub |
-| `/vs/doombench.html` | Activity count vs qualitative doom index |
+| `/vs/doombench.html` | Activity count vs qualitative doom index (`/vs/doom.html` short alias, canonical on primary) |
 | `/vs/skynet-countdown.html` | Activity count vs AGI timeline / control-loss % (`/vs/skynet.html` short alias, canonical on primary) |
 | `/vs/pdoom.html` | Activity count vs opinion-as-percentage clocks |
 | `/vs/pizzint.html` | Activity count vs DEFCON / Pentagon Pizza Index brand hijack |
-| `/vs/takeofftracker.html` | Activity count vs AGI takeoff dashboard aggregates |
+| `/vs/takeofftracker.html` | Activity count vs AGI takeoff dashboard (`/vs/takeoff.html` short alias, canonical on primary) |
 
 Linked from homepage FAQ, `/guide.html`, catalog, `llms.txt`, and sitemap.
 Do **not** claim SIREN publishes takeover risk, AGI dates, DEFCON levels, or anyone’s p(doom).

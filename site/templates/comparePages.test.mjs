@@ -39,16 +39,23 @@ describe('compare / alternatives conquest pages', () => {
     }
   });
 
-  it('ships /vs/skynet.html as a short alias with canonical on skynet-countdown', () => {
+  it('ships short vs aliases with canonical on the primary rival path', () => {
     const pages = renderAll(ctx);
-    const alias = pages.find((p) => p.path === 'vs/skynet.html');
-    assert.ok(alias, 'expected vs/skynet.html alias file');
-    assert.match(alias.html, /rel="canonical" href="https:\/\/siren\.watch\/vs\/skynet-countdown\.html"/);
-    assert.match(alias.html, /<h1>SIREN vs Skynet Countdown: which should you use\?<\/h1>/);
-    assert.doesNotMatch(alias.html, /rel="canonical" href="https:\/\/siren\.watch\/vs\/skynet\.html"/);
     const entries = sitemapEntries(ctx);
-    assert.ok(entries.some((e) => e.loc === '/vs/skynet-countdown.html'));
-    assert.ok(!entries.some((e) => e.loc === '/vs/skynet.html'), 'alias stays out of sitemap');
+    const cases = [
+      ['vs/skynet.html', '/vs/skynet-countdown.html', 'SIREN vs Skynet Countdown: which should you use?'],
+      ['vs/doom.html', '/vs/doombench.html', 'SIREN vs DoomBench: which should you use?'],
+      ['vs/takeoff.html', '/vs/takeofftracker.html', 'SIREN vs Takeoff Tracker: which should you use?'],
+    ];
+    for (const [aliasPath, primary, h1] of cases) {
+      const alias = pages.find((p) => p.path === aliasPath);
+      assert.ok(alias, `expected ${aliasPath} alias file`);
+      assert.match(alias.html, new RegExp(`rel="canonical" href="https://siren\\.watch${primary.replace(/\./g, '\\.')}"`));
+      assert.match(alias.html, new RegExp(`<h1>${h1.replace(/[?]/g, '\\$&')}<\\/h1>`));
+      assert.doesNotMatch(alias.html, new RegExp(`rel="canonical" href="https://siren\\.watch/${aliasPath}"`));
+      assert.ok(entries.some((e) => e.loc === primary));
+      assert.ok(!entries.some((e) => e.loc === `/${aliasPath}`), `${aliasPath} stays out of sitemap`);
+    }
   });
 
   it('puts matching question H1 and FAQ schema on the compare hub', () => {

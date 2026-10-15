@@ -38,6 +38,8 @@ export const RIVALS = [
   {
     id: 'doombench',
     path: '/vs/doombench.html',
+    // Typed “doom” guess for the rival head term. Same body; canonical on path.
+    aliases: ['/vs/doom.html'],
     name: 'DoomBench',
     url: 'https://www.doombench.com/',
     short: 'Live AI Doom Index',
@@ -104,6 +106,8 @@ export const RIVALS = [
   {
     id: 'takeofftracker',
     path: '/vs/takeofftracker.html',
+    // Typed “takeoff” guess for the rival head term. Same body; canonical on path.
+    aliases: ['/vs/takeoff.html'],
     name: 'Takeoff Tracker',
     url: 'https://www.takeofftracker.com/',
     short: 'AGI metrics dashboard (timelines, stocks, leaderboards, p(doom) estimates)',

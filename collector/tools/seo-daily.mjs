@@ -85,8 +85,13 @@ export const OUR_SURFACES = Object.freeze([
   '/moves/',
   // Conquest + entity hubs shipped in-repo; flag until gh-pages deploy catches up.
   '/vs.html',
+  '/vs/doombench.html',
+  '/vs/doom.html',
+  '/vs/skynet-countdown.html',
+  '/vs/skynet.html',
   '/vs/pizzint.html',
   '/vs/takeofftracker.html',
+  '/vs/takeoff.html',
   '/guides.html',
   '/guides.md',
   '/companies.html',
