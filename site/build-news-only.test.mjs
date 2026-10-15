@@ -69,3 +69,15 @@ test('news-only item skip uses content fingerprint not full stableJson (FINDABIL
     /const itemChanged = !prev \|\| stableJson\(it\) !== stableJson\(prev\)/,
   );
 });
+
+test('news-only rewrites Search Trends HTML + API (FINDABILITY #149)', () => {
+  // tip lagged main's Micron/MU trending:true because --only news never wrote
+  // search-trends.html while news-fast owned gh-pages between hourly collects.
+  const block = newsOnlyBlock(readFileSync(join(ROOT, 'site/build.mjs'), 'utf8'));
+  assert.match(block, /FINDABILITY #149/);
+  assert.match(block, /searchTrendsPage\.render/);
+  assert.match(block, /search-trends\.html/);
+  assert.match(block, /trends\.html/);
+  assert.match(block, /api\/search-trends\.json/);
+  assert.match(block, /'search-trends', 'trends'/);
+});

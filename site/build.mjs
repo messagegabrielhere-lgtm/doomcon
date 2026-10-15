@@ -1624,8 +1624,21 @@ async function main() {
       written.push(await write(args.out, 'leaders.html', leadersPage.render(ctx)));
       if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
     }
+    // FINDABILITY #149 — Search Trends must not wait on the hourly full pass.
+    // news-fast refreshes data/search-trends.json each tick; --only news must
+    // rewrite the HTML + API + /trends short alias so Micron/MU (and other
+    // head-term) spikes reach tip before collect's orphan Publish.
+    {
+      let trends = null, th = [];
+      try { trends = JSON.parse(await readFile(path.join(args.data, 'search-trends.json'), 'utf8')); } catch { trends = null; }
+      try { th = (await readFile(path.join(args.data, 'search-trends-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { th = []; }
+      const searchTrendsHtml = searchTrendsPage.render(ctx, trends, th);
+      written.push(await write(args.out, 'search-trends.html', searchTrendsHtml));
+      written.push(await write(args.out, 'trends.html', searchTrendsHtml));
+      if (trends) written.push(await write(args.out, 'api/search-trends.json', JSON.stringify(trends, null, 2) + '\n'));
+    }
     await writeDirectoryAliases(args.out, [
-      'news', 'leaders',
+      'news', 'leaders', 'search-trends', 'trends',
       ...liveDays.map((day) => `news/${day.day}`),
     ], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));

@@ -386,6 +386,7 @@ context.
 | 146 | News-sitemap `keywordsFor` adds `MU` when Micron is named (entities or title/summary) so Google News keywords match labAboutLabel / Trends #137 without a bare `MU` lab needle | Google News + Trends | **Done** (2026-10-15) |
 | 147 | News-sitemap `keywordsFor` also adds ChatGPT / Claude / Gemini when OpenAI / Anthropic / (Google) DeepMind are named — same labAboutLabel alias pattern as #146; holds Google News lane while pizzint news-sitemap empty | Google News | **Done** (2026-10-15) |
 | 148 | `seo-daily` detects news-sitemap parent-lab titles missing labAboutLabel aliases (`news-lab-alias-keywords-missing` for OpenAI→ChatGPT / Anthropic→Claude / DeepMind→Gemini / Micron→MU) so tip wipe or CDN lag after #146/#147 is caught | Daily agent + Google News | **Done** (this pass) |
+| 149 | `news-fast` polls `collector/search-trends.mjs` each tick and `--only news` rewrites `/search-trends.html` + `/trends.html` + `api/search-trends.json` (+ directory indexes) so head-term spikes (e.g. Micron / MU / micron stock) reach tip without waiting on the hourly full collect Publish | Google + Trends | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
