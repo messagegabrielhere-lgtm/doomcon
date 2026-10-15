@@ -233,6 +233,17 @@ describe('seo-daily surfaces', () => {
     }
   });
 
+  it('monitors root rival typed-guess aliases (FINDABILITY #131)', () => {
+    for (const p of [
+      '/doombench.html', '/doom.html',
+      '/skynet-countdown.html', '/skynet.html',
+      '/pizzint.html',
+      '/takeofftracker.html', '/takeoff.html',
+    ]) {
+      assert.ok(CORE_LIVE_SURFACES.includes(p), `CORE_LIVE missing ${p}`);
+    }
+  });
+
   it('detects missing /pdoom.html in agent maps (FINDABILITY #130)', () => {
     assert.equal(PDOOM_SHORT_ALIAS, '/pdoom.html');
     assert.equal(hasPdoomShortAlias('short alias /pdoom.html'), true);

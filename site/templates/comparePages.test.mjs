@@ -58,6 +58,26 @@ describe('compare / alternatives conquest pages', () => {
     }
   });
 
+  it('ships root rival typed-guess aliases with canonical on /vs/* (FINDABILITY #131)', () => {
+    const pages = renderAll(ctx);
+    const entries = sitemapEntries(ctx);
+    const cases = [
+      ['doombench.html', '/vs/doombench.html'],
+      ['doom.html', '/vs/doombench.html'],
+      ['skynet-countdown.html', '/vs/skynet-countdown.html'],
+      ['skynet.html', '/vs/skynet-countdown.html'],
+      ['pizzint.html', '/vs/pizzint.html'],
+      ['takeofftracker.html', '/vs/takeofftracker.html'],
+      ['takeoff.html', '/vs/takeofftracker.html'],
+    ];
+    for (const [aliasPath, primary] of cases) {
+      const alias = pages.find((p) => p.path === aliasPath);
+      assert.ok(alias, `expected root alias ${aliasPath}`);
+      assert.match(alias.html, new RegExp(`rel="canonical" href="https://siren\\.watch${primary.replace(/\./g, '\\.')}"`));
+      assert.ok(!entries.some((e) => e.loc === `/${aliasPath}`), `${aliasPath} stays out of sitemap`);
+    }
+  });
+
   it('puts matching question H1 and FAQ schema on the compare hub', () => {
     const hub = compareHub(ctx);
     assert.match(hub, /<title>Which AI doom indexes can you compare\?/);

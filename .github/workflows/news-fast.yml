@@ -351,6 +351,33 @@ jobs:
                   mkdir -p "$root/pdoom"
                   cp -a "$root/p-doom.html" "$root/pdoom/index.html"
                 fi
+                # FINDABILITY #131 — root rival brand typed guesses (canonical on /vs/*).
+                if [ -f "$root/vs/doombench.html" ]; then
+                  cp -a "$root/vs/doombench.html" "$root/doombench.html"
+                  cp -a "$root/vs/doombench.html" "$root/doom.html"
+                  mkdir -p "$root/doombench" "$root/doom"
+                  cp -a "$root/vs/doombench.html" "$root/doombench/index.html"
+                  cp -a "$root/vs/doombench.html" "$root/doom/index.html"
+                fi
+                if [ -f "$root/vs/skynet-countdown.html" ]; then
+                  cp -a "$root/vs/skynet-countdown.html" "$root/skynet-countdown.html"
+                  cp -a "$root/vs/skynet-countdown.html" "$root/skynet.html"
+                  mkdir -p "$root/skynet-countdown" "$root/skynet"
+                  cp -a "$root/vs/skynet-countdown.html" "$root/skynet-countdown/index.html"
+                  cp -a "$root/vs/skynet-countdown.html" "$root/skynet/index.html"
+                fi
+                if [ -f "$root/vs/pizzint.html" ]; then
+                  cp -a "$root/vs/pizzint.html" "$root/pizzint.html"
+                  mkdir -p "$root/pizzint"
+                  cp -a "$root/vs/pizzint.html" "$root/pizzint/index.html"
+                fi
+                if [ -f "$root/vs/takeofftracker.html" ]; then
+                  cp -a "$root/vs/takeofftracker.html" "$root/takeofftracker.html"
+                  cp -a "$root/vs/takeofftracker.html" "$root/takeoff.html"
+                  mkdir -p "$root/takeofftracker" "$root/takeoff"
+                  cp -a "$root/vs/takeofftracker.html" "$root/takeofftracker/index.html"
+                  cp -a "$root/vs/takeofftracker.html" "$root/takeoff/index.html"
+                fi
               }
               # FINDABILITY #128 — orphan tar of a stale seeded public/ can wipe
               # #126/#127 conquest FAQ hubs. Restore tip copies when needles missing.

@@ -607,6 +607,33 @@ jobs:
             mkdir -p .pages/pdoom
             cp -a .pages/p-doom.html .pages/pdoom/index.html
           fi
+          # FINDABILITY #131 — root rival brand typed guesses (canonical on /vs/*).
+          if [ -f .pages/vs/doombench.html ]; then
+            cp -a .pages/vs/doombench.html .pages/doombench.html
+            cp -a .pages/vs/doombench.html .pages/doom.html
+            mkdir -p .pages/doombench .pages/doom
+            cp -a .pages/vs/doombench.html .pages/doombench/index.html
+            cp -a .pages/vs/doombench.html .pages/doom/index.html
+          fi
+          if [ -f .pages/vs/skynet-countdown.html ]; then
+            cp -a .pages/vs/skynet-countdown.html .pages/skynet-countdown.html
+            cp -a .pages/vs/skynet-countdown.html .pages/skynet.html
+            mkdir -p .pages/skynet-countdown .pages/skynet
+            cp -a .pages/vs/skynet-countdown.html .pages/skynet-countdown/index.html
+            cp -a .pages/vs/skynet-countdown.html .pages/skynet/index.html
+          fi
+          if [ -f .pages/vs/pizzint.html ]; then
+            cp -a .pages/vs/pizzint.html .pages/pizzint.html
+            mkdir -p .pages/pizzint
+            cp -a .pages/vs/pizzint.html .pages/pizzint/index.html
+          fi
+          if [ -f .pages/vs/takeofftracker.html ]; then
+            cp -a .pages/vs/takeofftracker.html .pages/takeofftracker.html
+            cp -a .pages/vs/takeofftracker.html .pages/takeoff.html
+            mkdir -p .pages/takeofftracker .pages/takeoff
+            cp -a .pages/vs/takeofftracker.html .pages/takeofftracker/index.html
+            cp -a .pages/vs/takeofftracker.html .pages/takeoff/index.html
+          fi
           # FINDABILITY #128 — restore tip conquest FAQ hubs when needles missing.
           if [ -f "$PRESERVE_FAQ/compare.html" ] \
             && ! grep -q 'How do you compare AI doom indexes' .pages/compare.html 2>/dev/null; then
@@ -1272,6 +1299,33 @@ jobs:
             cp -a .pages/p-doom.html .pages/pdoom.html
             mkdir -p .pages/pdoom
             cp -a .pages/p-doom.html .pages/pdoom/index.html
+          fi
+          # FINDABILITY #131 — root rival brand typed guesses (canonical on /vs/*).
+          if [ -f .pages/vs/doombench.html ]; then
+            cp -a .pages/vs/doombench.html .pages/doombench.html
+            cp -a .pages/vs/doombench.html .pages/doom.html
+            mkdir -p .pages/doombench .pages/doom
+            cp -a .pages/vs/doombench.html .pages/doombench/index.html
+            cp -a .pages/vs/doombench.html .pages/doom/index.html
+          fi
+          if [ -f .pages/vs/skynet-countdown.html ]; then
+            cp -a .pages/vs/skynet-countdown.html .pages/skynet-countdown.html
+            cp -a .pages/vs/skynet-countdown.html .pages/skynet.html
+            mkdir -p .pages/skynet-countdown .pages/skynet
+            cp -a .pages/vs/skynet-countdown.html .pages/skynet-countdown/index.html
+            cp -a .pages/vs/skynet-countdown.html .pages/skynet/index.html
+          fi
+          if [ -f .pages/vs/pizzint.html ]; then
+            cp -a .pages/vs/pizzint.html .pages/pizzint.html
+            mkdir -p .pages/pizzint
+            cp -a .pages/vs/pizzint.html .pages/pizzint/index.html
+          fi
+          if [ -f .pages/vs/takeofftracker.html ]; then
+            cp -a .pages/vs/takeofftracker.html .pages/takeofftracker.html
+            cp -a .pages/vs/takeofftracker.html .pages/takeoff.html
+            mkdir -p .pages/takeofftracker .pages/takeoff
+            cp -a .pages/vs/takeofftracker.html .pages/takeofftracker/index.html
+            cp -a .pages/vs/takeofftracker.html .pages/takeoff/index.html
           fi
           # FINDABILITY #128 — restore tip conquest FAQ hubs when needles missing.
           if [ -f "$PRESERVE_FAQ/compare.html" ] \
