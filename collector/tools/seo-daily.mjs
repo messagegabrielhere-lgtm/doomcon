@@ -699,10 +699,17 @@ export function hasAgentsMicronDram(body, needle = AGENTS_MICRON_DRAM_NEEDLE) {
 
 /** FINDABILITY #155 — CoreWeave lab FAQ + agent maps for CoreWeave stock Trends. */
 export const COREWEAVE_STOCK_FAQ_NEEDLE = 'Why does SIREN watch CoreWeave stock in Google Search Trends?';
+/** FINDABILITY #160 — CoreWeave debt / bond-yield FAQ on the same gated lab. */
+export const COREWEAVE_DEBT_FAQ_NEEDLE = 'Why does SIREN watch CoreWeave debt and bond yields in Google Search Trends?';
 export const AGENTS_COREWEAVE_NEEDLE = 'CoreWeave stock';
 
 /** Tip /lab/coreweave.html must keep the #155 CoreWeave Trends FAQ. */
 export function hasCoreweaveStockFaq(html, needle = COREWEAVE_STOCK_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/** Tip /lab/coreweave.html must keep the #160 CoreWeave debt / bond FAQ. */
+export function hasCoreweaveDebtFaq(html, needle = COREWEAVE_DEBT_FAQ_NEEDLE) {
   return String(html || '').includes(needle);
 }
 
@@ -1256,6 +1263,14 @@ export function deriveGaps(report) {
       text: `/lab/coreweave.html missing CoreWeave stock Trends FAQ (FINDABILITY #155) — re-overlay lab/coreweave.html or wait for full collect Publish on tip ≥ #155`,
     });
   }
+  // FINDABILITY #160 — CoreWeave debt / bond FAQ wiped or never landed.
+  if (ours.coreweave_debt_faq === false) {
+    gaps.push({
+      id: 'coreweave-debt-faq-missing',
+      severity: 'medium',
+      text: `/lab/coreweave.html missing CoreWeave debt / bond Trends FAQ (FINDABILITY #160) — re-overlay lab/coreweave.html or wait for full collect Publish on tip ≥ #160`,
+    });
+  }
   // FINDABILITY #155 — agent maps must route CoreWeave stock Trends to CoreWeave lab.
   if (ours.agents_coreweave === false || ours.llms_coreweave === false) {
     const which = [
@@ -1507,9 +1522,10 @@ export function measureSite(site, byUrl) {
     row.micron_dram_faq = micronHtml?.ok ? hasMicronDramFaq(micronHtml.value) : false;
     row.agents_micron_dram = agentsMd?.ok ? hasAgentsMicronDram(agentsMd.value) : false;
     row.llms_micron_dram = llms?.ok ? hasAgentsMicronDram(llmsBody) : false;
-    // FINDABILITY #155 — CoreWeave FAQ + agent maps for CoreWeave stock Trends.
+    // FINDABILITY #155/#160 — CoreWeave stock + debt FAQs + agent maps.
     const cwHtml = byUrl.get(`${base}/lab/coreweave.html`);
     row.coreweave_stock_faq = cwHtml?.ok ? hasCoreweaveStockFaq(cwHtml.value) : false;
+    row.coreweave_debt_faq = cwHtml?.ok ? hasCoreweaveDebtFaq(cwHtml.value) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -1729,6 +1745,11 @@ export function formatMarkdown(report) {
     if (ours && ours.coreweave_stock_faq != null) {
       lines.push(
         `- CoreWeave stock Trends FAQ (#155): **${ours.coreweave_stock_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && ours.coreweave_debt_faq != null) {
+      lines.push(
+        `- CoreWeave debt / bond Trends FAQ (#160): **${ours.coreweave_debt_faq ? 'ok' : 'NO'}**`,
       );
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
@@ -2227,6 +2248,12 @@ function selftest() {
   if (hasCoreweaveStockFaq('What has SIREN scored about CoreWeave?') !== false) {
     throw new Error('hasCoreweaveStockFaq false');
   }
+  if (hasCoreweaveDebtFaq(COREWEAVE_DEBT_FAQ_NEEDLE) !== true) {
+    throw new Error('hasCoreweaveDebtFaq true');
+  }
+  if (hasCoreweaveDebtFaq(COREWEAVE_STOCK_FAQ_NEEDLE) !== false) {
+    throw new Error('hasCoreweaveDebtFaq false');
+  }
   if (hasAgentsCoreweave('CoreWeave stock → https://siren.watch/lab/coreweave.html') !== true) {
     throw new Error('hasAgentsCoreweave true');
   }
@@ -2239,6 +2266,7 @@ function selftest() {
       title: 'AI activity index today · SIREN',
       sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
       coreweave_stock_faq: false,
+      coreweave_debt_faq: false,
       agents_coreweave: false,
       llms_coreweave: true,
     }],
@@ -2247,6 +2275,9 @@ function selftest() {
   });
   if (!cwGaps.some((g) => g.id === 'coreweave-stock-faq-missing')) {
     throw new Error('coreweave-stock-faq-missing gap');
+  }
+  if (!cwGaps.some((g) => g.id === 'coreweave-debt-faq-missing')) {
+    throw new Error('coreweave-debt-faq-missing gap');
   }
   if (!cwGaps.some((g) => g.id === 'agents-coreweave-missing')) {
     throw new Error('agents-coreweave-missing gap');

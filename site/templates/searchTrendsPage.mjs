@@ -57,7 +57,7 @@ function faqBlocks() {
     // on the watchlist page itself (gated destinations already answer).
     {
       q: `Where does ${brand.NAME} send IREN stock, dram stock, CoreWeave stock, and neocloud Trends?`,
-      a: `IREN / Iris Energy / AI-cloud power → /watts.html (substrate reading, not a stock tip). Micron / MU / DRAM / HBM / memory stock → /lab/micron.html. CoreWeave stock → /lab/coreweave.html. Neocloud / neoclouds → /tags/neoclouds.html. Each page is story counts or infrastructure tempo only — not investment advice and not a company doom score.`,
+      a: `IREN / Iris Energy / AI-cloud power → /watts.html (substrate reading, not a stock tip). Micron / MU / DRAM / HBM / memory stock → /lab/micron.html. CoreWeave stock / debt / bond yields → /lab/coreweave.html. Neocloud / neoclouds → /tags/neoclouds.html. Each page is story counts or infrastructure tempo only — not investment advice, not credit analysis, and not a company doom score.`,
     },
   ];
 }

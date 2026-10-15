@@ -41,8 +41,10 @@ import {
   hasAgentsMicronDram,
   MICRON_DRAM_FAQ_NEEDLE,
   hasCoreweaveStockFaq,
+  hasCoreweaveDebtFaq,
   hasAgentsCoreweave,
   COREWEAVE_STOCK_FAQ_NEEDLE,
+  COREWEAVE_DEBT_FAQ_NEEDLE,
   hasNeocloudFaq,
   hasAgentsNeocloud,
   NEOCLOUD_FAQ_NEEDLE,
@@ -507,6 +509,22 @@ describe('seo-daily surfaces', () => {
     });
     assert.ok(gaps.some((g) => g.id === 'coreweave-stock-faq-missing'));
     assert.ok(gaps.some((g) => g.id === 'agents-coreweave-missing'));
+  });
+
+  it('detects CoreWeave debt / bond FAQ lag (FINDABILITY #160)', () => {
+    assert.equal(hasCoreweaveDebtFaq(COREWEAVE_DEBT_FAQ_NEEDLE), true);
+    assert.equal(hasCoreweaveDebtFaq(COREWEAVE_STOCK_FAQ_NEEDLE), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        coreweave_debt_faq: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'coreweave-debt-faq-missing'));
   });
 
   it('detects Neocloud FAQ + agent-map lag (FINDABILITY #157)', () => {
