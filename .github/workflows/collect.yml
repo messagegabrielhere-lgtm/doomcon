@@ -355,7 +355,8 @@ jobs:
             rm -rf .pages-seed
           fi
           if [ -f public/index.html ]; then
-            if timeout 480 node site/build.mjs --only news; then
+            # FINDABILITY #104 — same 8GB floor as full-pass Build / compliance.
+            if NODE_OPTIONS=--max-old-space-size=8192 timeout 480 node site/build.mjs --only news; then
               NEWS_ONLY=1
               echo "news-only build ok — skipping card/posts (full index pass owns those)"
             else
@@ -364,7 +365,7 @@ jobs:
             fi
           else
             echo "::warning::no public/index.html after seed; running timed full build"
-            timeout 2400 node site/build.mjs
+            NODE_OPTIONS=--max-old-space-size=8192 timeout 2400 node site/build.mjs
           fi
           if [ "$NEWS_ONLY" != "1" ]; then
             node collector/card.mjs
@@ -538,6 +539,7 @@ jobs:
             PUB_NEWS_ONLY=0
             if [ -f public/index.html ]; then
               if GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" \
+                NODE_OPTIONS=--max-old-space-size=8192 \
                 timeout 480 node site/build.mjs --only news; then
                 PUB_NEWS_ONLY=1
               else
@@ -545,7 +547,9 @@ jobs:
                 exit 1
               fi
             else
-              GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" timeout 2400 node site/build.mjs
+              GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" \
+                NODE_OPTIONS=--max-old-space-size=8192 \
+                timeout 2400 node site/build.mjs
             fi
             if [ "$PUB_NEWS_ONLY" != "1" ]; then
               node collector/card.mjs
@@ -1021,8 +1025,12 @@ jobs:
         # Runs even when the engine was skipped: the generator is a pure function
         # of data/, so a rebuild on unchanged data produces byte-identical output
         # and the commit step below simply finds nothing to commit.
+        # FINDABILITY #104 — full tree (item-archive 5000 + facets) can thrash
+        # under the default ~4GB heap; raise the floor so hourly Publish is not
+        # stuck in Build for an hour (run 38676940859 still Building at ~75m).
         env:
           GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
+          NODE_OPTIONS: --max-old-space-size=8192
         run: node site/build.mjs
 
       - name: Render cards and posting console

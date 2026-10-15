@@ -245,6 +245,19 @@ test('collect.yml compliance gates raise Node heap for seeded public/ (FINDABILI
   assert.ok(heaps.every((n) => n >= 8192), `heap floors too low: ${heaps}`);
 });
 
+test('collect.yml full-pass Build site raises Node heap (FINDABILITY #104)', () => {
+  // Run 38676940859 sat in Build site ~75m+ on default heap while the full
+  // tree (item-archive 5000 + facets) rewrote; raise the floor so hourly
+  // Publish can finish inside the 120m job budget.
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const full = yml.match(/name:\s*full index pass[\s\S]*?(?=\n  [a-z-]+:|$)/);
+  assert.ok(full, 'full index pass job missing');
+  const build = full[0].match(/name:\s*Build site[\s\S]*?\n        run:/);
+  assert.ok(build, 'Build site step missing');
+  assert.match(build[0], /NODE_OPTIONS:\s*--max-old-space-size=8192/);
+  assert.match(yml, /NODE_OPTIONS=--max-old-space-size=8192 timeout 480 node site\/build\.mjs --only news/);
+});
+
 test('news-fast overlay publishes news-sitemap + sitemap + robots (FINDABILITY #96)', () => {
   // Overlay path used to copy api/news.json + news.html but skip the crawl
   // surfaces --only news rewrites — Google News kept reading a stale
