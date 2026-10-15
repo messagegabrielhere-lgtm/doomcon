@@ -570,6 +570,13 @@ jobs:
           ')"
           mkdir .pages
           tar cf - -C public . | (cd .pages && tar xf -)
+          # FINDABILITY #115 — news-only public/ can omit conquest short aliases
+          # (#111/#113). Orphan publish must not wipe them (same restore as
+          # news-fast #114). Primaries already carry the correct canonical.
+          mkdir -p .pages/vs
+          [ -f .pages/vs/doombench.html ] && cp -a .pages/vs/doombench.html .pages/vs/doom.html
+          [ -f .pages/vs/skynet-countdown.html ] && cp -a .pages/vs/skynet-countdown.html .pages/vs/skynet.html
+          [ -f .pages/vs/takeofftracker.html ] && cp -a .pages/vs/takeofftracker.html .pages/vs/takeoff.html
           cd .pages
           git init -q -b gh-pages
           git config user.name  'github-actions[bot]'
@@ -1186,6 +1193,12 @@ jobs:
           ')"
           mkdir .pages
           tar cf - -C public . | (cd .pages && tar xf -)
+          # FINDABILITY #115 — keep typed-guess vs aliases across orphan Publish
+          # (defense in depth with news-fast #114; full builds emit them too).
+          mkdir -p .pages/vs
+          [ -f .pages/vs/doombench.html ] && cp -a .pages/vs/doombench.html .pages/vs/doom.html
+          [ -f .pages/vs/skynet-countdown.html ] && cp -a .pages/vs/skynet-countdown.html .pages/vs/skynet.html
+          [ -f .pages/vs/takeofftracker.html ] && cp -a .pages/vs/takeofftracker.html .pages/vs/takeoff.html
           cd .pages
           git init -q -b gh-pages
           git config user.name  'github-actions[bot]'
