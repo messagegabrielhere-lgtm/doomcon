@@ -270,6 +270,7 @@ const ALWAYS = Object.freeze([
   '/lab/meta.html',
   '/lab/microsoft.html',
   '/lab/micron.html', // FINDABILITY #137 — MU / memory-chip Trends route
+  '/lab/samsung.html', // FINDABILITY #175 — Samsung / HBM AI memory Trends route
   '/lab/nvidia.html',
   '/lab/openai.html',
   '/lab/qwen.html',

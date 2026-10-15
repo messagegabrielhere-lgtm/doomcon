@@ -53,6 +53,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /Grok \/ xAI → \/lab\/xai\.html/);
   // FINDABILITY #174 — Gemini / Gemma route to gated DeepMind lab.
   assert.match(html, /Gemini \/ Gemma → \/lab\/google-deepmind\.html/);
+  // FINDABILITY #175 — Samsung / HBM / AI memory route to gated Samsung lab.
+  assert.match(html, /Samsung \/ HBM \/ AI memory → \/lab\/samsung\.html/);
   assert.match(html, /not investment advice/);
   assert.match(html, /not credit analysis/);
 });

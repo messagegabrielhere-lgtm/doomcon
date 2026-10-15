@@ -47,6 +47,10 @@ export const HEAD_TERMS = Object.freeze([
   // (story counts only; not a model review or stock tip). Gemma open-weight tape
   // shares the same lab as Gemini product headlines.
   { id: 'gemini', label: 'Gemini / Gemma', re: /\bgemini(?:\s+\d|\s+4)?\b|\bgemma(?:\s+\d)?\b|\bgoogle\s+deepmind\b/i, path: '/lab/google-deepmind.html' },
+  // FINDABILITY #175 — Samsung / HBM / AI memory-chip Trends → gated Samsung lab
+  // (story counts only; not a stock tip). Bare “SK Hynix” stays unmatched so we
+  // do not route a rival ticker to the Samsung hub.
+  { id: 'samsung', label: 'Samsung / AI memory', re: /\bsamsung(?:\s+stock)?\b|\bsamsung\b.{0,40}\b(?:hbm|memory|dram)\b|\b(?:hbm|memory[\s-]?chip)\b.{0,40}\bsamsung\b/i, path: '/lab/samsung.html' },
   // FINDABILITY #137 — "mu" Trends spikes arrive with Micron / AI memory-chip
   // headlines; route to the existing gated /lab/micron.html (not a doorway).
   // FINDABILITY #151 — "dram stock" / "hbm stock" / "memory stock" / "micron

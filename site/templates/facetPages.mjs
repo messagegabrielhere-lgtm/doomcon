@@ -82,6 +82,9 @@ export const LAB_HEAD_ALIASES = Object.freeze({
   // FINDABILITY #173 — product people type when Trends / tape shows Grok with
   // xAI headlines; stories already score under xAI.
   'xai': 'Grok',
+  // FINDABILITY #175 — HBM / AI-memory product people type when Trends / tape
+  // shows Samsung memory-chip headlines; stories already score under Samsung.
+  'samsung': 'HBM',
 });
 
 /** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */
@@ -563,6 +566,13 @@ export function renderLab(ctx, player) {
     faq.push([
       `Why does ${brand.NAME} watch Gemini and Gemma?`,
       `${brand.NAME} scores press that names Google DeepMind. When Gemini, Gemini 4 Argon, Gemma, or Gemma open-model headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
+  // FINDABILITY #175 — Samsung / HBM / AI memory-chip tape → gated lab.
+  if (player.id === 'samsung') {
+    faq.push([
+      `Why does ${brand.NAME} watch Samsung and AI memory chips?`,
+      `${brand.NAME} scores press that names Samsung. When Samsung HBM, AI memory-chip, or Samsung stock headlines dominate the tape — often co-moving with SK Hynix selloff / foundry coverage — or spike in Google Search Trends, this lab page is the crawlable answer — scored story counts only. Not a stock tip, not a chip review, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
   const faqHtml = faq.map(([q, a]) => `

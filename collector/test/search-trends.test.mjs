@@ -142,6 +142,12 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(HEAD_TERMS.some((t) => t.id === 'gemini' && t.path === '/lab/google-deepmind.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'gemini').label, 'Gemini / Gemma');
   assert.equal(HEAD_TERMS.find((t) => t.id === 'gemini').re.test('gemstone jewelry sale'), false);
+  // FINDABILITY #175 — Samsung / HBM / AI memory Trends → gated Samsung lab.
+  assert.ok(matchHeadTerms({ title: 'Samsung stock slides on AI memory fears', news: [] }).includes('samsung'));
+  assert.ok(matchHeadTerms({ title: 'Samsung HBM demand stays strong', news: [] }).includes('samsung'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'samsung' && t.path === '/lab/samsung.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'samsung').re.test('SK Hynix alone'), false);
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'samsung').re.test('sandwich shop menu'), false);
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({

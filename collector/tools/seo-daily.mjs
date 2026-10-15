@@ -149,6 +149,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/xai.html',
   // FINDABILITY #174 — Gemini / Gemma Trends FAQ lab.
   '/lab/google-deepmind.html',
+  // FINDABILITY #175 — Samsung / HBM AI memory Trends FAQ lab.
+  '/lab/samsung.html',
   // FINDABILITY #157 — neocloud Trends FAQ tag hub.
   '/tags/neoclouds.html',
   '/pillar/',
@@ -459,6 +461,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'Microsoft', alias: 'Copilot' },
   // FINDABILITY #173 — xAI → Grok for Google News keywords.
   { lab: 'xAI', alias: 'Grok' },
+  // FINDABILITY #175 — Samsung → HBM for Google News keywords.
+  { lab: 'Samsung', alias: 'HBM' },
 ]);
 
 /**
@@ -778,11 +782,11 @@ export const TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE = 'Apple Intelligence → /
 export const TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE = 'Microsoft Copilot → /lab/microsoft.html';
 export const TRENDS_ROUTES_XAI_GROK_NEEDLE = 'Grok / xAI → /lab/xai.html';
 export const TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma → /lab/google-deepmind.html';
+export const TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE = 'Samsung / HBM / AI memory → /lab/samsung.html';
 
 /**
- * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174
- * ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini destinations (FINDABILITY #166 —
- * newsroom used to keep the question while dropping newer answer destinations).
+ * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175
+ * destinations (FINDABILITY #166 — newsroom used to keep the question while dropping newer answer destinations).
  */
 export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
   const text = String(html || '');
@@ -794,7 +798,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE)
     && text.includes(TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE)
     && text.includes(TRENDS_ROUTES_XAI_GROK_NEEDLE)
-    && text.includes(TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE);
+    && text.includes(TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE)
+    && text.includes(TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -997,6 +1002,24 @@ export function hasAgentsGeminiGemma(body, needle = AGENTS_GEMINI_GEMMA_NEEDLE) 
   return text.includes(needle) && text.includes('/lab/google-deepmind.html');
 }
 
+/** FINDABILITY #175 — Samsung / HBM / AI memory FAQ + agent maps. */
+export const SAMSUNG_HBM_FAQ_NEEDLE = 'Why does SIREN watch Samsung and AI memory chips?';
+export const AGENTS_SAMSUNG_HBM_NEEDLE = 'Samsung / AI memory';
+
+/** Tip /lab/samsung.html must keep the #175 Samsung / HBM FAQ. */
+export function hasSamsungHbmFaq(html, needle = SAMSUNG_HBM_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Samsung / AI memory Trends to Samsung lab (FINDABILITY #175).
+ * Wipe gap is `agents-samsung-hbm-missing`.
+ */
+export function hasAgentsSamsungHbm(body, needle = AGENTS_SAMSUNG_HBM_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/samsung.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -1035,6 +1058,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/microsoft.html', needle: 'Copilot' },
   // FINDABILITY #173 — Grok product alias on xAI lab title/H1.
   { path: '/lab/xai.html', needle: 'Grok' },
+  // FINDABILITY #175 — HBM product alias on Samsung lab title/H1.
+  { path: '/lab/samsung.html', needle: 'HBM' },
 ]);
 
 /**
@@ -1568,7 +1593,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -1800,6 +1825,27 @@ export function deriveGaps(report) {
       id: 'agents-gemini-gemma-missing',
       severity: 'medium',
       text: `${which} missing Gemini / Gemma → /lab/google-deepmind.html Trends tip (FINDABILITY #174) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #174`,
+    });
+  }
+
+  // FINDABILITY #175 — Samsung lab FAQ for HBM / AI memory wiped or never landed.
+  if (ours.samsung_hbm_faq === false) {
+    gaps.push({
+      id: 'samsung-hbm-faq-missing',
+      severity: 'medium',
+      text: `/lab/samsung.html missing Samsung / AI memory FAQ (FINDABILITY #175) — re-overlay lab/samsung.html or wait for full collect Publish on tip ≥ #175`,
+    });
+  }
+  // FINDABILITY #175 — agent maps must route Samsung / AI memory Trends to Samsung lab.
+  if (ours.agents_samsung_hbm === false || ours.llms_samsung_hbm === false) {
+    const which = [
+      ours.agents_samsung_hbm === false ? 'agents.md' : null,
+      ours.llms_samsung_hbm === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-samsung-hbm-missing',
+      severity: 'medium',
+      text: `${which} missing Samsung / AI memory → /lab/samsung.html Trends tip (FINDABILITY #175) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #175`,
     });
   }
 
@@ -2070,6 +2116,11 @@ export function measureSite(site, byUrl) {
     row.gemini_gemma_faq = gdmHtml?.ok ? hasGeminiGemmaFaq(gdmHtml.value) : false;
     row.agents_gemini_gemma = agentsMd?.ok ? hasAgentsGeminiGemma(agentsMd.value) : false;
     row.llms_gemini_gemma = llms?.ok ? hasAgentsGeminiGemma(llmsBody) : false;
+    // FINDABILITY #175 — Samsung / HBM FAQ + agent maps.
+    const samsungHtml = byUrl.get(`${base}/lab/samsung.html`);
+    row.samsung_hbm_faq = samsungHtml?.ok ? hasSamsungHbmFaq(samsungHtml.value) : false;
+    row.agents_samsung_hbm = agentsMd?.ok ? hasAgentsSamsungHbm(agentsMd.value) : false;
+    row.llms_samsung_hbm = llms?.ok ? hasAgentsSamsungHbm(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -2206,7 +2257,7 @@ export function formatMarkdown(report) {
     }
     if (ours && Array.isArray(ours.news_lab_alias_lags)) {
       if (ours.news_lab_alias_lags.length === 0) {
-        lines.push('- News labAboutLabel aliases (#146–#148/#159/#161/#172/#173): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy / NVDA / Muse / Apple Intelligence / Copilot / Grok)');
+        lines.push('- News labAboutLabel aliases (#146–#148/#159/#161/#172/#173): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy / NVDA / Muse / Apple Intelligence / Copilot / Grok / HBM)');
       } else {
         const sample = ours.news_lab_alias_lags
           .slice(0, 3)
@@ -2405,6 +2456,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_gemini_gemma == null ? '—' : (ours.agents_gemini_gemma ? 'yes' : 'NO');
       const lm = ours.llms_gemini_gemma == null ? '—' : (ours.llms_gemini_gemma ? 'yes' : 'NO');
       lines.push(`- Agent-map Gemini / Gemma → lab (#174): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.samsung_hbm_faq != null) {
+      lines.push(
+        `- Samsung / HBM FAQ (#175): **${ours.samsung_hbm_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_samsung_hbm != null || ours.llms_samsung_hbm != null)) {
+      const ag = ours.agents_samsung_hbm == null ? '—' : (ours.agents_samsung_hbm ? 'yes' : 'NO');
+      const lm = ours.llms_samsung_hbm == null ? '—' : (ours.llms_samsung_hbm ? 'yes' : 'NO');
+      lines.push(`- Agent-map Samsung / AI memory → lab (#175): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -3338,6 +3399,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/google-deepmind.html')) {
     throw new Error('OUR_SURFACES missing /lab/google-deepmind.html');
   }
+  if (hasSamsungHbmFaq(SAMSUNG_HBM_FAQ_NEEDLE) !== true) {
+    throw new Error('hasSamsungHbmFaq true');
+  }
+  if (hasSamsungHbmFaq('What has SIREN scored about Samsung?') !== false) {
+    throw new Error('hasSamsungHbmFaq false');
+  }
+  if (hasAgentsSamsungHbm('Samsung / AI memory → https://siren.watch/lab/samsung.html') !== true) {
+    throw new Error('hasAgentsSamsungHbm true');
+  }
+  if (hasAgentsSamsungHbm('https://siren.watch/lab/samsung.html only') !== false) {
+    throw new Error('hasAgentsSamsungHbm needs Samsung / AI memory needle');
+  }
+  const samGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      samsung_hbm_faq: false,
+      agents_samsung_hbm: false,
+      llms_samsung_hbm: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!samGaps.some((g) => g.id === 'samsung-hbm-faq-missing')) {
+    throw new Error('samsung-hbm-faq-missing gap');
+  }
+  if (!samGaps.some((g) => g.id === 'agents-samsung-hbm-missing')) {
+    throw new Error('agents-samsung-hbm-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/samsung.html')) {
+    throw new Error('OUR_SURFACES missing /lab/samsung.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -3348,12 +3442,13 @@ function selftest() {
     TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
     TRENDS_ROUTES_XAI_GROK_NEEDLE,
     TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
+    TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini destinations (#166/#167/#169/#170/#171/#173/#174)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung destinations (#166/#167/#169/#170/#171/#173/#174/#175)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

@@ -363,6 +363,24 @@ describe('lab facets', () => {
     assert.match(gdmHtml, /[Nn]ot a model review/);
     assert.match(gdmHtml, /search-trends\.html/);
     assert.doesNotMatch(gdmHtml, /buy Gemini|price target|must use Gemma/i);
+    // FINDABILITY #175 — Samsung / HBM / AI memory FAQ on gated lab.
+    assert.equal(LAB_HEAD_ALIASES.samsung, 'HBM');
+    assert.equal(labAboutLabel({ id: 'samsung', name: 'Samsung' }), 'Samsung / HBM');
+    const samHtml = renderLab(ctx, {
+      id: 'samsung',
+      name: 'Samsung',
+      entityOnly: true,
+      entityName: 'Samsung',
+    });
+    assert.match(
+      samHtml,
+      /Why does SIREN watch Samsung and AI memory chips\?/,
+    );
+    assert.match(samHtml, /<title>[^<]*HBM/);
+    assert.match(samHtml, /SK Hynix/);
+    assert.match(samHtml, /[Nn]ot a stock tip/);
+    assert.match(samHtml, /search-trends\.html/);
+    assert.doesNotMatch(samHtml, /buy Samsung|price target|must buy HBM/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {
