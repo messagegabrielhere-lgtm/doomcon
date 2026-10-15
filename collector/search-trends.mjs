@@ -59,6 +59,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #161 — "nvidia stock" / NVDA / AI funding-cost Trends → gated lab
   // (story counts only; co-moves with CoreWeave / neocloud debt tape).
   { id: 'nvidia', label: 'Nvidia / NVDA', re: /\bnvidia(?:\s+stock)?\b|\bnvda(?:\s+stock)?\b/i, path: '/lab/nvidia.html' },
+  // FINDABILITY #164 — “asml” / ASML stock / EUV AI-chip-tool Trends → gated lab
+  // (story counts only; not a stock tip).
+  { id: 'asml', label: 'ASML', re: /\basml(?:\s+stock)?\b|\beuv\b.{0,40}\basml\b|\basml\b.{0,40}\b(?:euv|chipmaking|chip-making)\b/i, path: '/lab/asml.html' },
   // FINDABILITY #157 — "neocloud" / neoclouds Trends (Gartner survival tape)
   // → gated /tags/neoclouds.html (story counts only, not a vendor ranking).
   { id: 'neocloud', label: 'Neoclouds', re: /\bneoclouds?\b/i, path: '/tags/neoclouds.html' },

@@ -601,7 +601,7 @@ jobs:
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
               watts.html watts/index.html lab/micron.html lab/coreweave.html \
-              lab/nvidia.html lab/openai.html lab/anthropic.html tags/neoclouds.html search-trends.html; do
+              lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html tags/neoclouds.html search-trends.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -713,9 +713,10 @@ jobs:
                 || ! grep -qF 'neoclouds Trends' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'NVDA Trends' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'OpenAI lawsuit' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Anthropic IPO' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'Anthropic IPO' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'ASML stock' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163)"
+              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -801,6 +802,15 @@ jobs:
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/anthropic.html" .pages/lab/anthropic.html
             echo "restored lab/anthropic.html Anthropic IPO / FTC FAQ (#163)"
+          fi
+
+          # FINDABILITY #164 — restore tip /lab/asml.html when ASML Trends FAQ
+          # is missing after mid-merge / orphan Publish on tip < #164.
+          if [ -f "$PRESERVE_FAQ/lab/asml.html" ] \
+            && ! grep -qF 'Why does SIREN watch ASML in Google Search Trends?' ".pages/lab/asml.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/asml.html" .pages/lab/asml.html
+            echo "restored lab/asml.html ASML Trends FAQ (#164)"
           fi
           # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
           # Trends FAQ is missing after mid-merge / orphan Publish on tip < #157.
@@ -1452,7 +1462,7 @@ jobs:
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
               watts.html watts/index.html lab/micron.html lab/coreweave.html \
-              lab/nvidia.html lab/openai.html lab/anthropic.html tags/neoclouds.html search-trends.html; do
+              lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html tags/neoclouds.html search-trends.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -1563,9 +1573,10 @@ jobs:
                 || ! grep -qF 'neoclouds Trends' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'NVDA Trends' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'OpenAI lawsuit' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'Anthropic IPO' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'Anthropic IPO' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'ASML stock' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163)"
+              echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -1651,6 +1662,15 @@ jobs:
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/anthropic.html" .pages/lab/anthropic.html
             echo "restored lab/anthropic.html Anthropic IPO / FTC FAQ (#163)"
+          fi
+
+          # FINDABILITY #164 — restore tip /lab/asml.html when ASML Trends FAQ
+          # is missing after mid-merge / orphan Publish on tip < #164.
+          if [ -f "$PRESERVE_FAQ/lab/asml.html" ] \
+            && ! grep -qF 'Why does SIREN watch ASML in Google Search Trends?' ".pages/lab/asml.html" 2>/dev/null; then
+            mkdir -p .pages/lab
+            cp -a "$PRESERVE_FAQ/lab/asml.html" .pages/lab/asml.html
+            echo "restored lab/asml.html ASML Trends FAQ (#164)"
           fi
           # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
           # Trends FAQ is missing after mid-merge / orphan Publish on tip < #157.

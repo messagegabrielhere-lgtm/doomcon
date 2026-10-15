@@ -59,6 +59,9 @@ import {
   hasAnthropicIpoFaq,
   hasAgentsAnthropicIpo,
   ANTHROPIC_IPO_FAQ_NEEDLE,
+  hasAsmlTrendsFaq,
+  hasAgentsAsml,
+  ASML_TRENDS_FAQ_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -631,6 +634,30 @@ describe('seo-daily surfaces', () => {
     });
     assert.ok(gaps.some((g) => g.id === 'anthropic-ipo-faq-missing'));
     assert.ok(gaps.some((g) => g.id === 'agents-anthropic-ipo-missing'));
+  });
+
+  it('detects ASML Trends FAQ + agent-map lag (FINDABILITY #164)', () => {
+    assert.equal(hasAsmlTrendsFaq(ASML_TRENDS_FAQ_NEEDLE), true);
+    assert.equal(hasAsmlTrendsFaq('What has SIREN scored about ASML?'), false);
+    assert.equal(
+      hasAgentsAsml('ASML stock → https://siren.watch/lab/asml.html'),
+      true,
+    );
+    assert.equal(hasAgentsAsml('https://siren.watch/lab/asml.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        asml_trends_faq: false,
+        agents_asml: false,
+        llms_asml: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'asml-trends-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-asml-missing'));
   });
 
   it('detects Search Trends routing FAQ lag (FINDABILITY #158)', () => {

@@ -133,6 +133,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/coreweave.html',
   // FINDABILITY #161 — NVIDIA / NVDA Trends FAQ lab.
   '/lab/nvidia.html',
+  // FINDABILITY #164 — ASML / EUV AI chip-tool Trends FAQ lab.
+  '/lab/asml.html',
   // FINDABILITY #157 — neocloud Trends FAQ tag hub.
   '/tags/neoclouds.html',
   '/pillar/',
@@ -807,6 +809,25 @@ export function hasAgentsAnthropicIpo(body, needle = AGENTS_ANTHROPIC_IPO_NEEDLE
   return text.includes(needle) && text.includes('/lab/anthropic.html');
 }
 
+/** FINDABILITY #164 — ASML lab FAQ + agent maps for EUV / AI chip-tool Trends. */
+export const ASML_TRENDS_FAQ_NEEDLE = 'Why does SIREN watch ASML in Google Search Trends?';
+export const AGENTS_ASML_NEEDLE = 'ASML stock';
+
+/** Tip /lab/asml.html must keep the #164 ASML Trends FAQ. */
+export function hasAsmlTrendsFaq(html, needle = ASML_TRENDS_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route ASML / EUV Trends to ASML lab (FINDABILITY #164).
+ * Wipe gap is `agents-asml-missing`.
+ * Needle `ASML stock` appears in both llms tip and agents.md list forms.
+ */
+export function hasAgentsAsml(body, needle = AGENTS_ASML_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/asml.html');
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -1437,6 +1458,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #164 — ASML lab FAQ for EUV / AI chip-tool Trends wiped or never landed.
+  if (ours.asml_trends_faq === false) {
+    gaps.push({
+      id: 'asml-trends-faq-missing',
+      severity: 'medium',
+      text: `/lab/asml.html missing ASML Trends FAQ (FINDABILITY #164) — re-overlay lab/asml.html or wait for full collect Publish on tip ≥ #164`,
+    });
+  }
+  // FINDABILITY #164 — agent maps must route ASML / EUV Trends to ASML lab.
+  if (ours.agents_asml === false || ours.llms_asml === false) {
+    const which = [
+      ours.agents_asml === false ? 'agents.md' : null,
+      ours.llms_asml === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-asml-missing',
+      severity: 'medium',
+      text: `${which} missing ASML stock → /lab/asml.html Trends tip (FINDABILITY #164) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #164`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1664,6 +1706,11 @@ export function measureSite(site, byUrl) {
     row.anthropic_ipo_faq = antHtml?.ok ? hasAnthropicIpoFaq(antHtml.value) : false;
     row.agents_anthropic_ipo = agentsMd?.ok ? hasAgentsAnthropicIpo(agentsMd.value) : false;
     row.llms_anthropic_ipo = llms?.ok ? hasAgentsAnthropicIpo(llmsBody) : false;
+    // FINDABILITY #164 — ASML Trends FAQ + agent maps.
+    const asmlHtml = byUrl.get(`${base}/lab/asml.html`);
+    row.asml_trends_faq = asmlHtml?.ok ? hasAsmlTrendsFaq(asmlHtml.value) : false;
+    row.agents_asml = agentsMd?.ok ? hasAgentsAsml(agentsMd.value) : false;
+    row.llms_asml = llms?.ok ? hasAgentsAsml(llmsBody) : false;
     row.agents_coreweave = agentsMd?.ok ? hasAgentsCoreweave(agentsMd.value) : false;
     row.llms_coreweave = llms?.ok ? hasAgentsCoreweave(llmsBody) : false;
     // FINDABILITY #157 — Neoclouds FAQ + agent maps for neocloud Trends.
@@ -1919,6 +1966,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_anthropic_ipo == null ? '—' : (ours.agents_anthropic_ipo ? 'yes' : 'NO');
       const lm = ours.llms_anthropic_ipo == null ? '—' : (ours.llms_anthropic_ipo ? 'yes' : 'NO');
       lines.push(`- Agent-map Anthropic IPO → lab (#163): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.asml_trends_faq != null) {
+      lines.push(
+        `- ASML Trends FAQ (#164): **${ours.asml_trends_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_asml != null || ours.llms_asml != null)) {
+      const ag = ours.agents_asml == null ? '—' : (ours.agents_asml ? 'yes' : 'NO');
+      const lm = ours.llms_asml == null ? '—' : (ours.llms_asml ? 'yes' : 'NO');
+      lines.push(`- Agent-map ASML stock → lab (#164): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_coreweave != null || ours.llms_coreweave != null)) {
       const ag = ours.agents_coreweave == null ? '—' : (ours.agents_coreweave ? 'yes' : 'NO');
@@ -2587,6 +2644,39 @@ function selftest() {
   }
   if (!OUR_SURFACES.includes('/lab/anthropic.html')) {
     throw new Error('OUR_SURFACES missing /lab/anthropic.html');
+  }
+  if (hasAsmlTrendsFaq(ASML_TRENDS_FAQ_NEEDLE) !== true) {
+    throw new Error('hasAsmlTrendsFaq true');
+  }
+  if (hasAsmlTrendsFaq('What has SIREN scored about ASML?') !== false) {
+    throw new Error('hasAsmlTrendsFaq false');
+  }
+  if (hasAgentsAsml('ASML stock → https://siren.watch/lab/asml.html') !== true) {
+    throw new Error('hasAgentsAsml true');
+  }
+  if (hasAgentsAsml('https://siren.watch/lab/asml.html only') !== false) {
+    throw new Error('hasAgentsAsml needs ASML stock needle');
+  }
+  const asmlGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      asml_trends_faq: false,
+      agents_asml: false,
+      llms_asml: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!asmlGaps.some((g) => g.id === 'asml-trends-faq-missing')) {
+    throw new Error('asml-trends-faq-missing gap');
+  }
+  if (!asmlGaps.some((g) => g.id === 'agents-asml-missing')) {
+    throw new Error('agents-asml-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/asml.html')) {
+    throw new Error('OUR_SURFACES missing /lab/asml.html');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
