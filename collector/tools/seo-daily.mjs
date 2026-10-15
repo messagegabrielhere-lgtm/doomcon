@@ -277,6 +277,17 @@ export function hasGscMeta(html) {
   );
 }
 
+/**
+ * True when sitemap tip comments advertise free-tools + verify (FINDABILITY #84).
+ * Detects collect Publish wipes that drop SEO overlays before main tip catches up.
+ */
+export function hasSitemapTips(xml) {
+  const head = String(xml || '').slice(0, 1200);
+  return /Free tools:.*\/free-tools\.html/i.test(head)
+    && /Verify(?: a reading)?:.*\/verify\.html/i.test(head)
+    && (/Search Trends/i.test(head) || /news-sitemap\.xml/i.test(head) || /llms\.txt/i.test(head));
+}
+
 /** Conservative floor when facet sitemap modules cannot be loaded. */
 export const FACET_URL_FLOOR = 450;
 
@@ -494,6 +505,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #84/#85 — tip comments wiped when collect Publishes an older tip.
+  if (ours.sitemap_tips === false || ours.news_sitemap_tips === false) {
+    const which = [
+      ours.sitemap_tips === false ? 'sitemap.xml' : null,
+      ours.news_sitemap_tips === false ? 'news-sitemap.xml' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'sitemap-tips-missing',
+      severity: 'medium',
+      text: `${which} missing free-tools/verify tip comments (FINDABILITY #84) — re-overlay or wait for collect Publish on tip ≥ #159`,
+    });
+  }
+
   // Open engineering items from FINDABILITY.md that the daily pass can still ship.
   const open = report.open_engineering || [];
   for (const item of open) {
@@ -576,15 +600,19 @@ export function measureSite(site, byUrl) {
   if (sm?.ok) {
     row.sitemap_urls = countLocs(sm.value);
     row.sitemap_is_index = isSitemapIndex(sm.value);
+    if (site.ours) row.sitemap_tips = hasSitemapTips(sm.value);
   } else if (sm) {
     row.sitemap_error = sm.error?.message || `HTTP ${sm.status}`;
+    if (site.ours) row.sitemap_tips = false;
   }
 
   if (news?.ok) {
     row.news_sitemap_urls = countLocs(news.value);
+    if (site.ours) row.news_sitemap_tips = hasSitemapTips(news.value);
   } else if (news) {
     // Missing news sitemap is normal for most rivals; record null, not error noise.
     row.news_sitemap_urls = news.status === 404 ? 0 : null;
+    if (site.ours) row.news_sitemap_tips = false;
   }
 
   return row;
@@ -663,6 +691,13 @@ export function formatMarkdown(report) {
           ? '- GSC HTML-tag meta: **present** on live home (still submit sitemaps — FINDABILITY #11)'
           : '- GSC HTML-tag meta: **absent** on live home (set `GOOGLE_SITE_VERIFICATION` — FINDABILITY #11)',
       );
+    }
+    if (ours && (ours.sitemap_tips != null || ours.news_sitemap_tips != null)) {
+      const smTip = ours.sitemap_tips == null ? '—' : (ours.sitemap_tips ? 'yes' : 'NO');
+      const newsTip = ours.news_sitemap_tips == null ? '—' : (ours.news_sitemap_tips ? 'yes' : 'NO');
+      lines.push(`- Sitemap tip comments (#84): sitemap.xml **${smTip}** · news-sitemap.xml **${newsTip}**`);
+    }
+    if (ours && (ours.gsc_meta != null || ours.sitemap_tips != null || ours.news_sitemap_tips != null)) {
       lines.push('');
     }
   }
@@ -728,6 +763,20 @@ function selftest() {
   if (!/GOOGLE_SITE_VERIFICATION/.test(engAbsent[0].text)) throw new Error('open eng absent meta');
   const engPresent = openEngineeringForReport([{ ours: true, gsc_meta: true }]);
   if (!/meta is live/.test(engPresent[0].text)) throw new Error('open eng present meta');
+  const tipped = `<?xml version="1.0"?>\n<!-- Free tools: https://siren.watch/free-tools.html · Verify a reading: https://siren.watch/verify.html -->\n<!-- Search Trends: https://siren.watch/search-trends.html -->\n<urlset></urlset>`;
+  if (hasSitemapTips(tipped) !== true) throw new Error('hasSitemapTips true');
+  if (hasSitemapTips('<?xml version="1.0"?><urlset></urlset>') !== false) throw new Error('hasSitemapTips false');
+  const tipGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      sitemap_tips: false, news_sitemap_tips: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!tipGaps.some((g) => g.id === 'sitemap-tips-missing')) throw new Error('sitemap-tips-missing gap');
 
   const report = {
     sites: [

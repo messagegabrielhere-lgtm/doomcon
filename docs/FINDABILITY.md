@@ -315,6 +315,7 @@ context.
 | 82 | News-sitemap `NEWS_KEYWORD_LABS`: promote `ChatGPT` / `Pentagon` / `EDPB` (live 48h titles) so the 12-cap does not bury ChatGPT under topic tags while `pizzint-news-alive` | Google News | **Done** (2026-10-15) |
 | 83 | Raise `collect.yml` job timeouts (newsroom 10→45m, full 40→90m) so Build/Publish finish — findability tree was cancelling mid-build and forcing SEO overlays | Deploy / Google | **Done** (2026-10-15) |
 | 84 | `sitemap.xml` + `news-sitemap.xml` tip comments advertise free-tools, verify, Search Trends, and cross-link each other (crawlers that open sitemaps before robots/llms) | Agents + Google | **Done** (2026-10-15) |
+| 85 | `seo-daily` detects missing sitemap tip comments (`sitemap-tips-missing`) so collect Publish wipes of #84 are caught before the next daily pass | Daily agent | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 
