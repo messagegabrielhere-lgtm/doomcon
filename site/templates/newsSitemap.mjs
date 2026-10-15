@@ -74,6 +74,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #159 — Trends stock / neocloud tape: Iris Energy + Neoclouds
   // as named needles so titles that use the long form survive the 12-cap.
   'Iris Energy', 'Neoclouds', 'neocloud',
+  // FINDABILITY #161 — NVDA ticker needle when titles use the ticker alone.
+  'NVDA',
 ]);
 
 /**
@@ -90,6 +92,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\b(?:Google\s+)?DeepMind\b/i, name: /^(?:Google\s+)?DeepMind$/i, alias: 'Gemini' },
   { re: /\bCoreWeave\b/i, name: /^CoreWeave$/i, alias: 'neocloud' },
   { re: /\bIREN\b/i, name: /^IREN$/i, alias: 'Iris Energy' },
+  // FINDABILITY #161 — NVIDIA ticker alias (labAboutLabel NVDA).
+  { re: /\bNVIDIA\b/i, name: /^NVIDIA$/i, alias: 'NVDA' },
 ]);
 
 /**

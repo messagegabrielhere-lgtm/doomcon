@@ -88,6 +88,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'coreweave debt', news: [] }).includes('coreweave'));
   assert.ok(matchHeadTerms({ title: 'CoreWeave bond yields near 15%', news: [] }).includes('coreweave'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'coreweave' && t.path === '/lab/coreweave.html'));
+  // FINDABILITY #161 — nvidia / NVDA stock Trends → gated lab.
+  assert.ok(matchHeadTerms({ title: 'nvidia stock', news: [] }).includes('nvidia'));
+  assert.ok(matchHeadTerms({ title: 'NVDA stock', news: [] }).includes('nvidia'));
+  assert.ok(matchHeadTerms({ title: 'NVDA', news: [] }).includes('nvidia'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'nvidia' && t.path === '/lab/nvidia.html'));
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({

@@ -250,6 +250,28 @@ test('news sitemap keywords add MU ticker when Micron is named (FINDABILITY #146
   assert.doesNotMatch(b, /(^|,\s*)MU(,|$)/);
 });
 
+test('news sitemap keywords add NVDA when NVIDIA is named (FINDABILITY #161)', () => {
+  const a = keywordsFor({
+    title: 'How Investors May Respond To NVIDIA (NVDA) Higher AI Funding Costs',
+    summary: '',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['NVIDIA'],
+  });
+  assert.match(a, /\bNVIDIA\b/);
+  assert.match(a, /\bNVDA\b/);
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No GPU maker named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)NVDA(,|$)/);
+});
+
 test('news sitemap keywords add neocloud / Iris Energy when parent named (FINDABILITY #159)', () => {
   const a = keywordsFor({
     title: "CoreWeave's slump puts spotlight on debt behind AI boom",
