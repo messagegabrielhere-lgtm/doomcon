@@ -452,9 +452,10 @@ jobs:
                         && ! grep -qF 'OpenAI / ChatGPT' "$root/$map" 2>/dev/null; } \
                       || ! grep -qF 'IREN stock' "$root/$map" 2>/dev/null \
                       || ! grep -qF 'dram stock' "$root/$map" 2>/dev/null \
-                      || ! grep -qF 'CoreWeave stock' "$root/$map" 2>/dev/null; }; then
+                      || ! grep -qF 'CoreWeave stock' "$root/$map" 2>/dev/null \
+                      || ! grep -qF 'neoclouds Trends' "$root/$map" 2>/dev/null; }; then
                     cp -a "$preserve/$map" "$root/$map"
-                    echo "restored $map agent map (#136/#139/#156)"
+                    echo "restored $map agent map (#136/#139/#156/#157)"
                   fi
                 done
               }
@@ -538,6 +539,17 @@ jobs:
                   echo "restored lab/coreweave.html CoreWeave stock FAQ (#155)"
                 fi
               }
+              # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
+              # Trends FAQ is missing after orphan Publish from tip < #157.
+              restore_neocloud_faq() {
+                local root="$1" preserve="$2"
+                if [ -f "$preserve/tags/neoclouds.html" ] \
+                  && ! grep -qF 'Why does SIREN watch neocloud and neoclouds in Google Search Trends?' "$root/tags/neoclouds.html" 2>/dev/null; then
+                  mkdir -p "$root/tags"
+                  cp -a "$preserve/tags/neoclouds.html" "$root/tags/neoclouds.html"
+                  echo "restored tags/neoclouds.html neocloud Trends FAQ (#157)"
+                fi
+              }
               if [ -d .pages/.git ]; then
                 if ! git -C .pages fetch -q origin gh-pages 2>/dev/null \
                   || ! git -C .pages reset -q --hard FETCH_HEAD 2>/dev/null; then
@@ -561,14 +573,14 @@ jobs:
                 # can replace them with a news-only build that lacks #134/#132.
                 # FINDABILITY #143 — also stash tip home/classic for #142 knowsAbout.
                 # FINDABILITY #145 — stash tip race.html for #144 labAboutLabel.
-                # FINDABILITY #153/#154/#155 — stash tip watts + Micron + CoreWeave
-                # labs for Trends FAQs.
+                # FINDABILITY #153/#154/#155/#157 — stash tip watts + Micron +
+                # CoreWeave labs + Neoclouds tag for Trends FAQs.
                 PRESERVE_MAPS=$(mktemp -d)
                 for map in agents.md llms.txt index.html classic.html; do
                   [ -f ".pages/$map" ] && cp -a ".pages/$map" "$PRESERVE_MAPS/$map"
                 done
                 for hub in race.html race/index.html watts.html watts/index.html \
-                  lab/micron.html lab/coreweave.html; do
+                  lab/micron.html lab/coreweave.html tags/neoclouds.html; do
                   if [ -f ".pages/$hub" ]; then
                     mkdir -p "$PRESERVE_MAPS/$(dirname "$hub")"
                     cp -a ".pages/$hub" "$PRESERVE_MAPS/$hub"
@@ -594,6 +606,7 @@ jobs:
                 restore_watts_iren_faq .pages "$PRESERVE_MAPS"
                 restore_micron_dram_faq .pages "$PRESERVE_MAPS"
                 restore_coreweave_stock_faq .pages "$PRESERVE_MAPS"
+                restore_neocloud_faq .pages "$PRESERVE_MAPS"
                 rm -rf "$PRESERVE_MAPS"
                 git -C .pages config user.name  'github-actions[bot]'
                 git -C .pages config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -609,13 +622,14 @@ jobs:
               if [ "$PUB_OK" -ne 1 ]; then
                 echo "tick $TICK: overlay publish missed; full orphan publish"
                 # FINDABILITY #128 — stash tip conquest FAQ hubs before orphan wipe.
-                # FINDABILITY #136/#141/#143/#145/#153/#154/#155 — agent maps + lab hubs +
-                # home knowsAbout + race + Watts/Micron/CoreWeave Trends FAQs.
+                # FINDABILITY #136/#141/#143/#145/#153/#154/#155/#157 — agent maps +
+                # lab hubs + home/race + Watts/Micron/CoreWeave/Neoclouds Trends FAQs.
                 PRESERVE_FAQ=$(mktemp -d)
                 for hub in compare.html alternatives.html agents.md llms.txt \
                   lab/index.html companies.html companies/index.html \
                   index.html classic.html race.html race/index.html \
-                  watts.html watts/index.html lab/micron.html lab/coreweave.html; do
+                  watts.html watts/index.html lab/micron.html lab/coreweave.html \
+                  tags/neoclouds.html; do
                   if [ -f ".pages/$hub" ]; then
                     mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                     cp -a ".pages/$hub" "$PRESERVE_FAQ/$hub"
@@ -628,7 +642,8 @@ jobs:
                     for hub in compare.html alternatives.html agents.md llms.txt \
                       lab/index.html companies.html companies/index.html \
                       index.html classic.html race.html race/index.html \
-                      watts.html watts/index.html lab/micron.html lab/coreweave.html; do
+                      watts.html watts/index.html lab/micron.html lab/coreweave.html \
+                      tags/neoclouds.html; do
                       if [ -f ".pages-faq-tip/$hub" ]; then
                         mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                         cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -650,6 +665,7 @@ jobs:
                 restore_watts_iren_faq .pages "$PRESERVE_FAQ"
                 restore_micron_dram_faq .pages "$PRESERVE_FAQ"
                 restore_coreweave_stock_faq .pages "$PRESERVE_FAQ"
+                restore_neocloud_faq .pages "$PRESERVE_FAQ"
                 rm -rf "$PRESERVE_FAQ"
                 git -C .pages init -q
                 git -C .pages checkout -q -b gh-pages

@@ -594,13 +594,14 @@ jobs:
           rm -rf .pages-faq-tip
           if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
             # FINDABILITY #136 — also stash tip agent maps (head-term / root needles).
-            # FINDABILITY #141/#143/#145/#153/#154/#155 — stash tip /lab/ + companies hubs,
-            # home/classic knowsAbout, race labAboutLabel, Watts/Micron/CoreWeave
-            # Trends FAQs so mid-merge collect cannot wipe #140/#142/#144/#152/#151/#155.
+            # FINDABILITY #141/#143/#145/#153/#154/#155/#157 — stash tip /lab/ +
+            # companies hubs, home/classic, race, Watts/Micron/CoreWeave/Neoclouds
+            # Trends FAQs so mid-merge collect cannot wipe those overlays.
             for hub in compare.html alternatives.html agents.md llms.txt \
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
-              watts.html watts/index.html lab/micron.html lab/coreweave.html; do
+              watts.html watts/index.html lab/micron.html lab/coreweave.html \
+              tags/neoclouds.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -708,9 +709,10 @@ jobs:
                   && ! grep -qF 'OpenAI / ChatGPT' ".pages/$map" 2>/dev/null; } \
                 || ! grep -qF 'IREN stock' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'dram stock' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'CoreWeave stock' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'CoreWeave stock' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'neoclouds Trends' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139/#156)"
+              echo "restored $map agent map (#136/#139/#156/#157)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -769,6 +771,14 @@ jobs:
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/coreweave.html" .pages/lab/coreweave.html
             echo "restored lab/coreweave.html CoreWeave stock FAQ (#155)"
+          fi
+          # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
+          # Trends FAQ is missing after mid-merge / orphan Publish on tip < #157.
+          if [ -f "$PRESERVE_FAQ/tags/neoclouds.html" ] \
+            && ! grep -qF 'Why does SIREN watch neocloud and neoclouds in Google Search Trends?' ".pages/tags/neoclouds.html" 2>/dev/null; then
+            mkdir -p .pages/tags
+            cp -a "$PRESERVE_FAQ/tags/neoclouds.html" .pages/tags/neoclouds.html
+            echo "restored tags/neoclouds.html neocloud Trends FAQ (#157)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages
@@ -1394,13 +1404,14 @@ jobs:
           rm -rf .pages-faq-tip
           if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
             # FINDABILITY #136 — also stash tip agent maps (head-term / root needles).
-            # FINDABILITY #141/#143/#145/#153/#154/#155 — stash tip /lab/ + companies hubs,
-            # home/classic knowsAbout, race labAboutLabel, Watts/Micron/CoreWeave
-            # Trends FAQs so mid-merge collect cannot wipe #140/#142/#144/#152/#151/#155.
+            # FINDABILITY #141/#143/#145/#153/#154/#155/#157 — stash tip /lab/ +
+            # companies hubs, home/classic, race, Watts/Micron/CoreWeave/Neoclouds
+            # Trends FAQs so mid-merge collect cannot wipe those overlays.
             for hub in compare.html alternatives.html agents.md llms.txt \
               lab/index.html companies.html companies/index.html \
               index.html classic.html race.html race/index.html \
-              watts.html watts/index.html lab/micron.html lab/coreweave.html; do
+              watts.html watts/index.html lab/micron.html lab/coreweave.html \
+              tags/neoclouds.html; do
               if [ -f ".pages-faq-tip/$hub" ]; then
                 mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
                 cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -1507,9 +1518,10 @@ jobs:
                   && ! grep -qF 'OpenAI / ChatGPT' ".pages/$map" 2>/dev/null; } \
                 || ! grep -qF 'IREN stock' ".pages/$map" 2>/dev/null \
                 || ! grep -qF 'dram stock' ".pages/$map" 2>/dev/null \
-                || ! grep -qF 'CoreWeave stock' ".pages/$map" 2>/dev/null; }; then
+                || ! grep -qF 'CoreWeave stock' ".pages/$map" 2>/dev/null \
+                || ! grep -qF 'neoclouds Trends' ".pages/$map" 2>/dev/null; }; then
               cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-              echo "restored $map agent map (#136/#139/#156)"
+              echo "restored $map agent map (#136/#139/#156/#157)"
             fi
           done
           # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
@@ -1568,6 +1580,14 @@ jobs:
             mkdir -p .pages/lab
             cp -a "$PRESERVE_FAQ/lab/coreweave.html" .pages/lab/coreweave.html
             echo "restored lab/coreweave.html CoreWeave stock FAQ (#155)"
+          fi
+          # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
+          # Trends FAQ is missing after mid-merge / orphan Publish on tip < #157.
+          if [ -f "$PRESERVE_FAQ/tags/neoclouds.html" ] \
+            && ! grep -qF 'Why does SIREN watch neocloud and neoclouds in Google Search Trends?' ".pages/tags/neoclouds.html" 2>/dev/null; then
+            mkdir -p .pages/tags
+            cp -a "$PRESERVE_FAQ/tags/neoclouds.html" .pages/tags/neoclouds.html
+            echo "restored tags/neoclouds.html neocloud Trends FAQ (#157)"
           fi
           rm -rf "$PRESERVE_FAQ"
           cd .pages

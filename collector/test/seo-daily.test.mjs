@@ -43,6 +43,9 @@ import {
   hasCoreweaveStockFaq,
   hasAgentsCoreweave,
   COREWEAVE_STOCK_FAQ_NEEDLE,
+  hasNeocloudFaq,
+  hasAgentsNeocloud,
+  NEOCLOUD_FAQ_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -502,6 +505,31 @@ describe('seo-daily surfaces', () => {
     });
     assert.ok(gaps.some((g) => g.id === 'coreweave-stock-faq-missing'));
     assert.ok(gaps.some((g) => g.id === 'agents-coreweave-missing'));
+  });
+
+  it('detects Neocloud FAQ + agent-map lag (FINDABILITY #157)', () => {
+    assert.equal(hasNeocloudFaq(NEOCLOUD_FAQ_NEEDLE), true);
+    assert.equal(hasNeocloudFaq('What has SIREN scored about Neoclouds?'), false);
+    assert.equal(
+      hasAgentsNeocloud('neoclouds Trends → https://siren.watch/tags/neoclouds.html'),
+      true,
+    );
+    assert.equal(hasAgentsNeocloud('https://siren.watch/tags/neoclouds.html only'), false);
+    assert.equal(hasAgentsNeocloud('neoclouds Trends with no tag path'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        neocloud_faq: false,
+        agents_neocloud: false,
+        llms_neocloud: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'neocloud-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-neocloud-missing'));
   });
 
   it('detects missing labAboutLabel aliases in news:keywords (FINDABILITY #148)', () => {

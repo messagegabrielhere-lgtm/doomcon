@@ -2002,6 +2002,13 @@ export function renderTag(ctx, id) {
     [`Does ${brand.NAME} publish a ${topic.name} doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} A tag page lists matching headlines — not a probability of harm and not a ranking of the companies named.`],
   ];
+  // FINDABILITY #157 — “neocloud” / neoclouds Google Trends → gated tag hub.
+  if (topic.id === 'neoclouds') {
+    faq.push([
+      `Why does ${brand.NAME} watch neocloud and neoclouds in Google Search Trends?`,
+      `${brand.NAME} watches Google’s daily trending RSS for findability. When neocloud or neoclouds spikes with AI GPU-cloud / infra headlines, this tag page is the crawlable answer — story counts only, not a vendor ranking or investment tip. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');

@@ -1681,6 +1681,13 @@ describe('tag pages', () => {
     assert.ok(ids.includes('neoclouds'));
     assert.match(renderTag(rich, 'agent-skills'), /What has SIREN scored about Agent skills\?/);
     assert.match(renderTag(rich, 'neoclouds'), /What has SIREN scored about Neoclouds\?/);
+    // FINDABILITY #157 — Trends “neocloud” FAQ on the gated tag hub.
+    assert.match(
+      renderTag(rich, 'neoclouds'),
+      /Why does SIREN watch neocloud and neoclouds in Google Search Trends\?/,
+    );
+    assert.match(renderTag(rich, 'neoclouds'), /search-trends\.html/);
+    assert.match(renderTag(rich, 'neoclouds'), /not a vendor ranking/);
     assert.doesNotMatch(renderTag(rich, 'agent-skills'), /doom score:\s*\d/i);
   });
 
