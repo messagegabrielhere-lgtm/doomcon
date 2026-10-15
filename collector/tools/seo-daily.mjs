@@ -742,7 +742,7 @@ export const OPEN_ENGINEERING = Object.freeze([
   {
     id: 'gsc-verify',
     severity: 'medium',
-    text: 'Operator: Search Console verify + submit both sitemaps (FINDABILITY #11)',
+    text: 'Operator: set repo secret GOOGLE_SITE_VERIFICATION (HTML-tag token), verify https://siren.watch in Search Console, submit sitemap.xml + news-sitemap.xml (FINDABILITY #11 / OUTREACH.md §0)',
   },
 ]);
 
@@ -754,12 +754,12 @@ export function openEngineeringForReport(sites) {
     if (ours?.gsc_meta) {
       return {
         ...item,
-        text: 'Operator: GSC meta is live — submit sitemap.xml + news-sitemap.xml and confirm indexing (FINDABILITY #11)',
+        text: 'Operator: GSC meta is live — submit https://siren.watch/sitemap.xml + news-sitemap.xml and confirm indexing (FINDABILITY #11 / OUTREACH.md §0)',
       };
     }
     return {
       ...item,
-      text: 'Operator: set GOOGLE_SITE_VERIFICATION + Search Console verify + submit both sitemaps (FINDABILITY #11)',
+      text: 'Operator: set repo secret GOOGLE_SITE_VERIFICATION (HTML-tag token), verify https://siren.watch in Search Console, submit both sitemaps (FINDABILITY #11 / OUTREACH.md §0)',
     };
   });
 }

@@ -648,8 +648,10 @@ five are the ones a growth script reaches for by default.
   "Plausible installed", does not match the build.
 - **GitHub Pages gives the site owner no access logs**, so referrers are
   unrecoverable after the fact.
-- **Search Console is not verified**: no verification file or meta tag is in
-  `public/` `[REPO]`.
+- **Search Console verification hook is shipped** (`GOOGLE_SITE_VERIFICATION` →
+  home meta via collect Publish; `FINDABILITY.md` §1.1 / `OUTREACH.md` §0). Live
+  meta stays absent until the operator sets the secret — do not treat sitemap
+  vanity as indexed proof.
 
 ### 7.2 Attribution without UTM tags
 
