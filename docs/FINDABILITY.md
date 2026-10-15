@@ -328,6 +328,7 @@ context.
 | 95 | News-only build rewrites `robots.txt` (with #79 tip comments) so newsroom Publish does not leave robots tips dependent on SEO overlays | Agents + Google | **Done** (2026-10-15) |
 | 96 | `news-fast.yml` overlay copies `news-sitemap.xml` + `sitemap.xml` + `robots.txt` (with tip comments) so Google News + robots tips refresh on the fast path, not only on orphan Publish | Google News + Agents | **Done** (2026-10-15) |
 | 97 | `seo-daily` flags stale live news-sitemap (`news-stale`) when newest `news:publication_date` is older than 6h while `<loc>` count stays positive — catches hung news-fast / cancelled collect before Google News decays | Daily agent + Google News | **Done** (2026-10-15) |
+| 98 | `news-fast.yml` seeds `public/` from gh-pages before the minute loop so `--only news` does not fall through to a ~44m full wipe on tick 1 (root cause of multi-hour `news-stale` / zero publishes — run 38666831944) | Google News + Deploy | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 

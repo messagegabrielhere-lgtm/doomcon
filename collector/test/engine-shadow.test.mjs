@@ -235,3 +235,13 @@ test('news-fast overlay publishes news-sitemap + sitemap + robots (FINDABILITY #
   assert.match(list, /\bsitemap\.xml\b/);
   assert.match(list, /\brobots\.txt\b/);
 });
+
+test('news-fast seeds public/ from gh-pages before --only news (FINDABILITY #98)', () => {
+  // Without a seed, build.mjs --only news falls through to a full wipe when
+  // public/index.html is missing — measured ~58m cancel on tick 1 with zero
+  // publishes (run 38666831944), leaving news-sitemap stale for hours.
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(yml, /seeding public\/ from gh-pages for news-only builds/);
+  assert.match(yml, /git clone --depth 1 --branch gh-pages/);
+  assert.match(yml, /build\.mjs --only news/);
+});

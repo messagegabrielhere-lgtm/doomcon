@@ -89,6 +89,26 @@ jobs:
           TICK=0
           LAST_WAKE=0
 
+          # FINDABILITY #98 — main has no public/; --only news falls through to a
+          # full wipe (~44m) when public/index.html is missing, which ate the
+          # entire 58m news-fast budget on tick 1 and left Google News on a
+          # 7h+ stale news-sitemap (run 38666831944). Seed once from gh-pages
+          # before the loop (same pattern as collect.yml #94).
+          if [ ! -f public/index.html ]; then
+            echo "seeding public/ from gh-pages for news-only builds"
+            rm -rf .pages-seed
+            if git clone --depth 1 --branch gh-pages \
+              "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+              .pages-seed; then
+              mkdir -p public
+              tar cf - -C .pages-seed --exclude .git . | tar xf - -C public
+              rm -rf .pages-seed
+            else
+              echo "::warning::could not seed public/ from gh-pages; first --only news may fall back to a full build"
+              rm -rf .pages-seed
+            fi
+          fi
+
           while [ "$(date +%s)" -lt "$END" ]; do
             TICK=$((TICK + 1))
             START=$(date +%s)
