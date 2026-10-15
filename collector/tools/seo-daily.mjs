@@ -313,6 +313,23 @@ export function hasRobotsTips(txt) {
  * (FINDABILITY #90). Tip shape differs from sitemap/robots (`Free tools ·` / markdown
  * links); wipe gap is `now-tips-missing` (FINDABILITY #91).
  */
+/**
+ * Newest `news:publication_date` as epoch ms, or null when none parse.
+ * Used for FINDABILITY #97 stale Google News detection.
+ */
+export function newestNewsPublicationMs(xml) {
+  let newest = null;
+  for (const m of String(xml || '').matchAll(/<news:publication_date>\s*([^<\s]+)\s*<\/news:publication_date>/gi)) {
+    const t = Date.parse(m[1]);
+    if (!Number.isFinite(t)) continue;
+    if (newest == null || t > newest) newest = t;
+  }
+  return newest;
+}
+
+/** Hours after which a non-empty news-sitemap is treated as stale (FINDABILITY #97). */
+export const NEWS_STALE_HOURS = 6;
+
 export function hasNowTips(txt) {
   const head = String(txt || '').slice(0, 1500);
   return /\/free-tools\.html/i.test(head)
@@ -470,6 +487,22 @@ export function deriveGaps(report) {
       severity: 'high',
       text: 'Our news-sitemap.xml has zero <loc> — Google News channel is dead this run',
     });
+  }
+
+  // FINDABILITY #97 — non-empty but stale news-sitemap (hung news-fast / cancelled collect).
+  if (ours.news_sitemap_urls > 0 && ours.news_newest_publication_at) {
+    const newest = Date.parse(ours.news_newest_publication_at);
+    const nowMs = report.measured_at ? Date.parse(report.measured_at) : Date.now();
+    if (Number.isFinite(newest) && Number.isFinite(nowMs)) {
+      const ageH = (nowMs - newest) / 3_600_000;
+      if (ageH >= NEWS_STALE_HOURS) {
+        gaps.push({
+          id: 'news-stale',
+          severity: 'high',
+          text: `Newest news-sitemap publication_date is ${ageH.toFixed(1)}h old (threshold ${NEWS_STALE_HOURS}h) with ${ours.news_sitemap_urls} <loc> — unstick news-fast/collect Publish so Google News stays fresh`,
+        });
+      }
+    }
   }
 
   for (const s of report.sites || []) {
@@ -681,11 +714,18 @@ export function measureSite(site, byUrl) {
 
   if (news?.ok) {
     row.news_sitemap_urls = countLocs(news.value);
-    if (site.ours) row.news_sitemap_tips = hasSitemapTips(news.value);
+    if (site.ours) {
+      row.news_sitemap_tips = hasSitemapTips(news.value);
+      const newest = newestNewsPublicationMs(news.value);
+      row.news_newest_publication_at = newest != null ? new Date(newest).toISOString() : null;
+    }
   } else if (news) {
     // Missing news sitemap is normal for most rivals; record null, not error noise.
     row.news_sitemap_urls = news.status === 404 ? 0 : null;
-    if (site.ours) row.news_sitemap_tips = false;
+    if (site.ours) {
+      row.news_sitemap_tips = false;
+      row.news_newest_publication_at = null;
+    }
   }
 
   if (site.ours) {
@@ -932,6 +972,26 @@ function selftest() {
   if (!CORE_LIVE_SURFACES.includes('/now.md') || !CORE_LIVE_SURFACES.includes('/api/now.txt')) {
     throw new Error('CORE_LIVE_SURFACES missing now reading surfaces');
   }
+  const newsXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:publication_date>2026-10-14T12:00:00.000Z</news:publication_date></url>'
+    + '<url><news:publication_date>2026-10-14T18:55:00.000Z</news:publication_date></url>'
+    + '</urlset>';
+  if (newestNewsPublicationMs(newsXml) !== Date.parse('2026-10-14T18:55:00.000Z')) {
+    throw new Error('newestNewsPublicationMs');
+  }
+  if (NEWS_STALE_HOURS < 6) throw new Error('NEWS_STALE_HOURS floor');
+  const staleGaps = deriveGaps({
+    measured_at: '2026-10-15T02:30:00.000Z',
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      news_newest_publication_at: '2026-10-14T18:55:00.000Z',
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!staleGaps.some((g) => g.id === 'news-stale')) throw new Error('news-stale gap');
 
   const report = {
     sites: [

@@ -222,3 +222,16 @@ test('collect.yml newsroom rebuild prefers --only news (FINDABILITY #94)', () =>
   assert.match(newsroom[0], /build\.mjs --only news/);
   assert.match(newsroom[0], /seeding public\/ from gh-pages/);
 });
+
+test('news-fast overlay publishes news-sitemap + sitemap + robots (FINDABILITY #96)', () => {
+  // Overlay path used to copy api/news.json + news.html but skip the crawl
+  // surfaces --only news rewrites — Google News kept reading a stale
+  // news-sitemap while the HTML room looked fresh.
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  const overlay = yml.match(/for rel in ([^\n]+)/);
+  assert.ok(overlay, 'news-fast overlay file list missing');
+  const list = overlay[1];
+  assert.match(list, /news-sitemap\.xml/);
+  assert.match(list, /\bsitemap\.xml\b/);
+  assert.match(list, /\brobots\.txt\b/);
+});
