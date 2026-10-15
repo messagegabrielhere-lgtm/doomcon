@@ -1,9 +1,9 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T05:51Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,692** sitemap URLs; tips #79/#84/#87/#90 intact; news-fast still
-blocked on item recency churn until #107. Companion to `docs/COMPETITIVE.md`
-(Sept inventory) and `docs/FINDABILITY.md` (our playbook).
+**Measured:** 2026-10-15T07:19Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,692** sitemap URLs; tips #79/#84/#87/#90 intact; news-fast
+publishing after #106/#107. Companion to `docs/COMPETITIVE.md` (Sept inventory)
+and `docs/FINDABILITY.md` (our playbook).
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool

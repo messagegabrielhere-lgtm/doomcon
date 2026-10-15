@@ -225,6 +225,37 @@ test('news sitemap keywords promote ChatGPT / Pentagon / EDPB ahead of topic-cap
   assert.match(c, /EDPB/);
 });
 
+test('news sitemap keywords include MediaTek / Cathie Wood / ServiceNow (FINDABILITY #108)', () => {
+  const a = keywordsFor({
+    title: 'ByteDance nears deal to buy MediaTek’s custom AI chips for data centers',
+    summary: '',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['ByteDance'],
+  });
+  assert.match(a, /MediaTek/);
+  const b = keywordsFor({
+    title: 'Tracking Cathie Wood: Buying Heavily into Kodiak AI and CoreWeave',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(b, /Cathie Wood/);
+  assert.match(b, /CoreWeave/);
+  const c = keywordsFor({
+    title: 'Salesforce vs. ServiceNow: What Revenue Trends Tell Investors About Their Move to AI',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Salesforce'],
+  });
+  assert.match(c, /ServiceNow/);
+});
+
 test('news sitemap keywords include Trail of Bits / DualEntry / Qwen N1 surfaces', () => {
   const a = keywordsFor({
     title: 'OpenAI Weighs Deal for One-Time Security Partner Trail of Bits',
