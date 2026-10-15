@@ -73,7 +73,10 @@ describe('compare / alternatives conquest pages', () => {
     for (const [aliasPath, primary] of cases) {
       const alias = pages.find((p) => p.path === aliasPath);
       assert.ok(alias, `expected root alias ${aliasPath}`);
-      assert.match(alias.html, new RegExp(`rel="canonical" href="https://siren\\.watch${primary.replace(/\./g, '\\.')}"`));
+      assert.ok(
+        alias.html.includes(`rel="canonical" href="https://siren.watch${primary}"`),
+        `${aliasPath} canonical → ${primary}`,
+      );
       assert.ok(!entries.some((e) => e.loc === `/${aliasPath}`), `${aliasPath} stays out of sitemap`);
     }
   });
