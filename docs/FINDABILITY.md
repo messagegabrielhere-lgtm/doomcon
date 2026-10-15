@@ -360,6 +360,7 @@ context.
 | 120 | Bing Webmaster HTML-tag hook (`BING_SITE_VERIFICATION` → `msvalidate.01` in layout; collect + news-fast env) + `seo-daily` `open-bing-verify` — IndexNow already pings Bing; verification unlocks indexed-page truth (OUTREACH §0) | Bing | **Done** (this pass) |
 | 121 | `/lab/google-deepmind.html` title/H1/FAQ about-line includes **Gemini** (`LAB_HEAD_ALIASES`) so the live head-term / trending “antigravity” route matches what people type; not a synonym doorway | Google | **Done** (this pass) |
 | 122 | Same `LAB_HEAD_ALIASES` for **OpenAI / ChatGPT** and **Anthropic / Claude** (watchlist head terms already route there) — one about-line per race lab, still no doorway URLs | Google | **Done** (this pass) |
+| 123 | `seo-daily` probes lab `<title>` for Gemini / ChatGPT / Claude needles (`lab-head-aliases-missing`) so CDN/orphan lag after #121/#122 is caught daily | Daily agent + Google | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

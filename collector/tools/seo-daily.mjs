@@ -102,6 +102,10 @@ export const OUR_SURFACES = Object.freeze([
   '/pillars.html',
   '/sources.html',
   '/lab/',
+  // FINDABILITY #123 — head-term alias lab titles (#121/#122).
+  '/lab/google-deepmind.html',
+  '/lab/openai.html',
+  '/lab/anthropic.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -429,6 +433,36 @@ export function hasVsShortAliases(txt, aliases = VS_SHORT_ALIASES) {
   return aliases.every((p) => body.includes(p));
 }
 
+/**
+ * Lab pages whose `<title>` must include a product head-term alias
+ * (FINDABILITY #121/#122/#123). Keep in sync with LAB_HEAD_ALIASES in
+ * site/templates/facetPages.mjs.
+ */
+export const LAB_HEAD_TITLE_PROBES = Object.freeze([
+  { path: '/lab/google-deepmind.html', needle: 'Gemini' },
+  { path: '/lab/openai.html', needle: 'ChatGPT' },
+  { path: '/lab/anthropic.html', needle: 'Claude' },
+]);
+
+/**
+ * Probe rows whose live lab `<title>` is missing the expected head-term needle.
+ * Wipe/CDN lag gap is `lab-head-aliases-missing` (FINDABILITY #123).
+ */
+export function labHeadAliasLags(byUrl, origin = 'https://siren.watch', probes = LAB_HEAD_TITLE_PROBES) {
+  const base = String(origin || '').replace(/\/$/, '');
+  const out = [];
+  for (const { path: rel, needle } of probes) {
+    const env = byUrl.get(`${base}${rel}`);
+    if (!env?.ok) {
+      out.push({ path: rel, needle, reason: 'fetch' });
+      continue;
+    }
+    const title = extractTitle(env.value) || '';
+    if (!title.includes(needle)) out.push({ path: rel, needle, reason: 'title', title });
+  }
+  return out;
+}
+
 /** Conservative floor when facet sitemap modules cannot be loaded. */
 export const FACET_URL_FLOOR = 450;
 
@@ -738,6 +772,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
+  if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
+    const sample = ours.lab_head_alias_lags
+      .slice(0, 3)
+      .map((row) => `${row.path} (−${row.needle})`)
+      .join(', ');
+    gaps.push({
+      id: 'lab-head-aliases-missing',
+      severity: 'medium',
+      text: `lab head-term title alias lag on ${ours.lab_head_alias_lags.length} page(s) (e.g. ${sample}) — re-overlay or wait for collect Publish on tip ≥ #122 (FINDABILITY #123)`,
+    });
+  }
+
   // Open engineering items from FINDABILITY.md that the daily pass can still ship.
   const open = report.open_engineering || [];
   for (const item of open) {
@@ -886,6 +933,8 @@ export function measureSite(site, byUrl) {
     const llmsBody = llms?.ok ? llms.value : '';
     row.agents_vs_aliases = agentsMd?.ok ? hasVsShortAliases(agentsMd.value) : false;
     row.llms_vs_aliases = llms?.ok ? hasVsShortAliases(llmsBody) : false;
+    // FINDABILITY #123 — lab title must keep product head-term aliases.
+    row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
   }
 
   return row;
@@ -1011,12 +1060,23 @@ export function formatMarkdown(report) {
       const lm = ours.llms_vs_aliases == null ? '—' : (ours.llms_vs_aliases ? 'yes' : 'NO');
       lines.push(`- Agent-map vs short aliases (#116/#119): agents.md **${ag}** · llms.txt **${lm}**`);
     }
+    if (ours && Array.isArray(ours.lab_head_alias_lags)) {
+      if (ours.lab_head_alias_lags.length === 0) {
+        lines.push('- Lab head-term titles (#121/#123): **ok** (Gemini / ChatGPT / Claude in lab `<title>`)');
+      } else {
+        const sample = ours.lab_head_alias_lags.slice(0, 3).map((r) => r.needle).join(', ');
+        lines.push(
+          `- Lab head-term titles (#121/#123): **LAG** on ${ours.lab_head_alias_lags.length} (e.g. ${sample})`,
+        );
+      }
+    }
     if (ours && (ours.gsc_meta != null || ours.bing_meta != null || ours.robots_tips != null
       || ours.sitemap_tips != null || ours.news_sitemap_tips != null
       || ours.feed_tips != null || ours.feed_level_tips != null
       || ours.now_md_tips != null || ours.now_txt_tips != null
       || ours.news_keyword_lags != null
-      || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null)) {
+      || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null
+      || ours.lab_head_alias_lags != null)) {
       lines.push('');
     }
   }
@@ -1182,6 +1242,41 @@ function selftest() {
   });
   if (!aliasGaps.some((g) => g.id === 'agents-vs-aliases-missing')) {
     throw new Error('agents-vs-aliases-missing gap');
+  }
+  const labByUrl = new Map([
+    ['https://siren.watch/lab/google-deepmind.html', {
+      ok: true,
+      value: '<title>What has SIREN scored about Google DeepMind? AI stories</title>',
+    }],
+    ['https://siren.watch/lab/openai.html', {
+      ok: true,
+      value: '<title>What has SIREN scored about OpenAI / ChatGPT?</title>',
+    }],
+    ['https://siren.watch/lab/anthropic.html', {
+      ok: true,
+      value: '<title>What has SIREN scored about Anthropic / Claude?</title>',
+    }],
+  ]);
+  const labLags = labHeadAliasLags(labByUrl);
+  if (!labLags.some((r) => r.path === '/lab/google-deepmind.html' && r.needle === 'Gemini')) {
+    throw new Error('labHeadAliasLags Gemini');
+  }
+  if (labLags.some((r) => r.path === '/lab/openai.html')) throw new Error('labHeadAliasLags ChatGPT false positive');
+  const labGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      lab_head_alias_lags: labLags,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!labGaps.some((g) => g.id === 'lab-head-aliases-missing')) {
+    throw new Error('lab-head-aliases-missing gap');
+  }
+  for (const p of LAB_HEAD_TITLE_PROBES) {
+    if (!OUR_SURFACES.includes(p.path)) throw new Error(`OUR_SURFACES missing ${p.path}`);
   }
   const newsXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
     + '<url><news:publication_date>2026-10-14T12:00:00.000Z</news:publication_date></url>'
