@@ -423,13 +423,16 @@ export function newsKeywordLags(xml, labs = NEWS_KEYWORD_PROBE_LABS) {
 
 /**
  * labAboutLabel parent→alias pairs for news:keywords (FINDABILITY #146/#147).
- * Wipe/CDN lag gap is `news-lab-alias-keywords-missing` (FINDABILITY #148).
+ * Wipe/CDN lag gap is `news-lab-alias-keywords-missing` (FINDABILITY #148/#159).
  */
 export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'OpenAI', alias: 'ChatGPT' },
   { lab: 'Anthropic', alias: 'Claude' },
   { lab: 'DeepMind', alias: 'Gemini' },
   { lab: 'Micron', alias: 'MU' },
+  // FINDABILITY #159 — Trends HEAD_TERM aliases for Google News keywords.
+  { lab: 'CoreWeave', alias: 'neocloud' },
+  { lab: 'IREN', alias: 'Iris Energy' },
 ]);
 
 /**
@@ -1093,7 +1096,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'news-lab-alias-keywords-missing',
       severity: 'medium',
-      text: `news-sitemap missing labAboutLabel aliases on ${ours.news_lab_alias_lags.length} row(s) (e.g. ${sample}) — re-overlay or wait for news-fast Publish on tip ≥ #147 (FINDABILITY #148)`,
+      text: `news-sitemap missing labAboutLabel aliases on ${ours.news_lab_alias_lags.length} row(s) (e.g. ${sample}) — re-overlay or wait for news-fast Publish on tip ≥ #159 (FINDABILITY #148/#159)`,
     });
   }
 
@@ -1643,14 +1646,14 @@ export function formatMarkdown(report) {
     }
     if (ours && Array.isArray(ours.news_lab_alias_lags)) {
       if (ours.news_lab_alias_lags.length === 0) {
-        lines.push('- News labAboutLabel aliases (#146/#147/#148): **ok** (ChatGPT / Claude / Gemini / MU)');
+        lines.push('- News labAboutLabel aliases (#146–#148/#159): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy)');
       } else {
         const sample = ours.news_lab_alias_lags
           .slice(0, 3)
           .map((r) => `${r.lab}→${r.alias}`)
           .join(', ');
         lines.push(
-          `- News labAboutLabel aliases (#146/#147/#148): **LAG** on ${ours.news_lab_alias_lags.length} (e.g. ${sample})`,
+          `- News labAboutLabel aliases (#146–#148/#159): **LAG** on ${ours.news_lab_alias_lags.length} (e.g. ${sample})`,
         );
       }
     }
@@ -2432,6 +2435,10 @@ function selftest() {
     + '<news:keywords>Anthropic, Claude, AI, SIREN</news:keywords></url>'
     + '<url><news:title>Micron shares slide</news:title>'
     + '<news:keywords>Micron, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>CoreWeave debt woes deepen</news:title>'
+    + '<news:keywords>CoreWeave, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>IREN stock climbs on power deals</news:title>'
+    + '<news:keywords>IREN, Google, AI, SIREN</news:keywords></url>'
     + '</urlset>';
   const labAliasLags = newsLabAliasKeywordLags(labAliasLagXml);
   if (!labAliasLags.some((r) => r.lab === 'OpenAI' && r.alias === 'ChatGPT')) {
@@ -2440,8 +2447,20 @@ function selftest() {
   if (!labAliasLags.some((r) => r.lab === 'Micron' && r.alias === 'MU')) {
     throw new Error(`newsLabAliasKeywordLags Micron: ${JSON.stringify(labAliasLags)}`);
   }
+  if (!labAliasLags.some((r) => r.lab === 'CoreWeave' && r.alias === 'neocloud')) {
+    throw new Error(`newsLabAliasKeywordLags CoreWeave: ${JSON.stringify(labAliasLags)}`);
+  }
+  if (!labAliasLags.some((r) => r.lab === 'IREN' && r.alias === 'Iris Energy')) {
+    throw new Error(`newsLabAliasKeywordLags IREN: ${JSON.stringify(labAliasLags)}`);
+  }
   if (labAliasLags.some((r) => r.lab === 'Anthropic')) {
     throw new Error('newsLabAliasKeywordLags should not flag Anthropic when Claude present');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'neocloud')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing neocloud');
+  }
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Iris Energy')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing Iris Energy');
   }
   const labAliasGaps = deriveGaps({
     sites: [{

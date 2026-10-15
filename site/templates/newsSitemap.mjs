@@ -71,17 +71,25 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // names Kodiak AI beside CoreWeave; without a lab needle the 12-cap kept only
   // CoreWeave + Cathie Wood and dropped the company surface.
   'Kodiak AI', 'Kodiak',
+  // FINDABILITY #159 — Trends stock / neocloud tape: Iris Energy + Neoclouds
+  // as named needles so titles that use the long form survive the 12-cap.
+  'Iris Energy', 'Neoclouds', 'neocloud',
 ]);
 
 /**
  * labAboutLabel product/ticker aliases for news:keywords (FINDABILITY #146/#147).
  * Applied only when the parent lab is already named — never as bare needles.
+ * FINDABILITY #159 — CoreWeave→neocloud and IREN→Iris Energy match Trends
+ * HEAD_TERMS / gated pages (#155/#152/#157) so Google News keywords align
+ * with the watchlist routing FAQ (#158) when those names dominate the tape.
  */
 const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bMicron\b/i, name: /^Micron$/i, alias: 'MU' },
   { re: /\bOpenAI\b/i, name: /^OpenAI$/i, alias: 'ChatGPT' },
   { re: /\bAnthropic\b/i, name: /^Anthropic$/i, alias: 'Claude' },
   { re: /\b(?:Google\s+)?DeepMind\b/i, name: /^(?:Google\s+)?DeepMind$/i, alias: 'Gemini' },
+  { re: /\bCoreWeave\b/i, name: /^CoreWeave$/i, alias: 'neocloud' },
+  { re: /\bIREN\b/i, name: /^IREN$/i, alias: 'Iris Energy' },
 ]);
 
 /**
