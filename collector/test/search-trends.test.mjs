@@ -154,6 +154,12 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(HEAD_TERMS.some((t) => t.id === 'palantir' && t.path === '/lab/palantir.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'palantir').label, 'Palantir / AIP');
   assert.equal(HEAD_TERMS.find((t) => t.id === 'palantir').re.test('palatial gardens tour'), false);
+  // FINDABILITY #184 — AMD / MI300 / Instinct Trends → gated lab.
+  assert.ok(matchHeadTerms({ title: 'AMD Helion for Agentic AI and Enterprise', news: [] }).includes('amd'));
+  assert.ok(matchHeadTerms({ title: 'AMD MI300X AI GPU demand', news: [] }).includes('amd'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'amd' && t.path === '/lab/amd.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'amd').label, 'AMD / MI300');
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'amd').re.test('demand for GPUs rises'), false);
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({

@@ -127,6 +127,10 @@ import {
   hasAgentsPalantir,
   PALANTIR_FAQ_NEEDLE,
   TRENDS_ROUTES_PALANTIR_NEEDLE,
+  hasAmdFaq,
+  hasAgentsAmd,
+  AMD_FAQ_NEEDLE,
+  TRENDS_ROUTES_AMD_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -1112,7 +1116,32 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-palantir-missing'));
   });
 
-  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183)', () => {
+
+  it('detects AMD / MI300 FAQ + agent-map lag (FINDABILITY #184)', () => {
+    assert.equal(hasAmdFaq(AMD_FAQ_NEEDLE), true);
+    assert.equal(hasAmdFaq('What has SIREN scored about AMD?'), false);
+    assert.equal(
+      hasAgentsAmd('AMD / MI300 → https://siren.watch/lab/amd.html'),
+      true,
+    );
+    assert.equal(hasAgentsAmd('https://siren.watch/lab/amd.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        amd_faq: false,
+        agents_amd: false,
+        llms_amd: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'amd-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-amd-missing'));
+  });
+
+  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184)', () => {
     const routesBody = [
       TRENDS_ROUTES_FAQ_NEEDLE,
       TRENDS_ROUTES_ASML_NEEDLE,
@@ -1132,6 +1161,7 @@ describe('seo-daily surfaces', () => {
       TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
       TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
       TRENDS_ROUTES_PALANTIR_NEEDLE,
+      TRENDS_ROUTES_AMD_NEEDLE,
     ].join('\n');
     assert.equal(hasTrendsRoutesFaq(routesBody), true);
     assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), false);
@@ -1158,6 +1188,7 @@ describe('seo-daily surfaces', () => {
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'Microsoft' && p.alias === 'Copilot'));
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'xAI' && p.alias === 'Grok'));
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'Palantir' && p.alias === 'AIP'));
+    assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'AMD' && p.alias === 'MI300'));
     const xml = '<?xml version="1.0"?><urlset>'
       + '<url><news:title>OpenAI raises new round</news:title>'
       + '<news:keywords>OpenAI, Google, AI, SIREN</news:keywords></url>'
@@ -1297,6 +1328,10 @@ describe('seo-daily surfaces', () => {
       ['https://siren.watch/lab/palantir.html', {
         ok: true,
         value: '<title>What has SIREN scored about Palantir / AIP?</title>',
+      }],
+      ['https://siren.watch/lab/amd.html', {
+        ok: true,
+        value: '<title>What has SIREN scored about AMD / MI300?</title>',
       }],
     ]);
     const lags = labHeadAliasLags(byUrl);

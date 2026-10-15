@@ -57,6 +57,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /Samsung \/ HBM \/ AI memory → \/lab\/samsung\.html/);
   // FINDABILITY #183 — Palantir / AIP route to gated Palantir lab.
   assert.match(html, /Palantir \/ AIP → \/lab\/palantir\.html/);
+  // FINDABILITY #184 — AMD / MI300 route to gated AMD lab.
+  assert.match(html, /AMD \/ MI300 → \/lab\/amd\.html/);
   // FINDABILITY #176 — Character.ai bankruptcy route to gated Chatbots tag.
   assert.match(html, /Character\.ai bankruptcy → \/tags\/chatbots\.html/);
   // FINDABILITY #177 — Qwen / Alibaba open models route to gated Qwen lab.

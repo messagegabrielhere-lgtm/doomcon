@@ -476,6 +476,28 @@ test('news sitemap keywords add Timestral when Mistral is named (FINDABILITY #18
   assert.doesNotMatch(b, /(^|,\s*)Timestral(,|$)/);
 });
 
+test('news sitemap keywords add MI300 when AMD is named (FINDABILITY #184)', () => {
+  const a = keywordsFor({
+    title: 'AMD Helion for Agentic AI and Enterprise',
+    summary: 'AI GPU accelerators.',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['AMD'],
+  });
+  assert.match(a, /\bAMD\b/);
+  assert.match(a, /\bMI300\b/);
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No lab named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)MI300(,|$)/);
+});
+
 test('news sitemap keywords add AIP when Palantir is named (FINDABILITY #183)', () => {
   const a = keywordsFor({
     title: 'Palantir and Sadiq Khan drop legal battle over Met contract',
