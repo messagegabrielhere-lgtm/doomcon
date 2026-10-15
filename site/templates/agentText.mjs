@@ -315,13 +315,13 @@ Honesty rules:
 - [How the SIREN AI activity index is computed · methodology](${u('/methodology.html')}): every formula and constant ([markdown](${u('/methodology.md')}))
 - [What instruments sit behind the SIREN reading?](${u('/instruments.html')})
 - [Where are the SIREN index moves?](${u('/moves/')})
-- [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')}) ([markdown](${u('/guide.md')}))
+- [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')}) (short ${u('/ai-doom.html')}, same page) ([markdown](${u('/guide.md')}))
 - [Which Google Search Trends for AI does SIREN watch?](${u('/search-trends.html')}) (short alias ${u('/trends.html')}, same page)
 - [Where are live AI prediction market odds?](${u('/ai-prediction-markets.html')})
 - [What are the AI explainers?](${u('/guides.html')}): p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability ([guides.md](${u('/guides.md')}))
 - [What free tools does ${brand.NAME} publish?](${u('/free-tools.html')}): verify, alerts, export, OpenAPI — free instruments, not a doom calculator
 - [How do you check a ${brand.NAME} reading yourself?](${u('/verify.html')}): re-hash the last 12 public receipts in the browser
-- [Which AI doom indexes can you compare?](${u('/compare.html')}): SIREN vs DoomBench, Skynet Countdown, p(doom), PizzINT, Takeoff Tracker
+- [Which AI doom indexes can you compare?](${u('/compare.html')}) (short ${u('/doom-index.html')}, same page): SIREN vs DoomBench, Skynet Countdown, p(doom), PizzINT, Takeoff Tracker
 - [Which AI indexes does SIREN contrast?](${u('/vs.html')}): directory of honest versus pages
 - [What are AI doom index alternatives?](${u('/alternatives.html')}): when SIREN is the right substitute
 - [SIREN vs DoomBench: which should you use?](${u('/vs/doombench.html')}) (short ${u('/vs/doom.html')}, root ${u('/doombench.html')}, same page)
@@ -330,7 +330,7 @@ Honesty rules:
 - [SIREN vs PizzINT: which should you use?](${u('/vs/pizzint.html')}) (root ${u('/pizzint.html')}, same page): activity count vs DEFCON/Doomsday title hijack (honest refuse)
 - [SIREN vs Takeoff Tracker: which should you use?](${u('/vs/takeofftracker.html')}) (short ${u('/vs/takeoff.html')}, root ${u('/takeofftracker.html')}, same page): activity count vs AGI metrics dashboard (honest refuse)
 - [What is p(doom)?](${u('/p-doom.html')}) (short alias ${u('/pdoom.html')}, same page)
-- [Is there an AI doomsday clock?](${u('/ai-doomsday-clock.html')})
+- [Is there an AI doomsday clock?](${u('/ai-doomsday-clock.html')}) (short ${u('/doomsday-clock.html')}, same page)
 - [Is AI taking jobs? What has actually been measured](${u('/jobs.html')})
 - [Is AI curing anything? Trial results, approvals and what they show](${u('/medicine.html')})
 - [What AI breakthroughs has SIREN tracked?](${u('/breakthroughs.html')})
@@ -458,14 +458,14 @@ export function agentsMd(ctx) {
 - ${u('/')} — live AI activity index today
 - ${u('/news-sitemap.xml')} — Google News rolling sitemap (keyword-rich; hold while rivals flap)
 - ${u('/news.html')} — Which AI stories has SIREN scored in this window? (day hubs under /news/YYYY-MM-DD.html)
-- ${u('/guide.md')} — SIREN vs DEFCON vs Doomsday Clock vs p(doom)
+- ${u('/guide.md')} — SIREN vs DEFCON vs Doomsday Clock vs p(doom) (HTML ${u('/guide.html')}, short ${u('/ai-doom.html')})
 - ${u('/search-trends.html')} — Which Google Search Trends for AI does SIREN watch? (short alias ${u('/trends.html')})
 - ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
 - ${u('/guides.html')} — What are the AI explainers? (p(doom), clocks, doom indexes)
 - ${u('/guides.md')} — markdown mirror of the explainers hub
 - ${u('/free-tools.html')} — What free tools does SIREN publish?
 - ${u('/verify.html')} — How do you check a SIREN reading yourself?
-- ${u('/compare.html')} — Which AI doom indexes can you compare? (incl. PizzINT, Takeoff Tracker)
+- ${u('/compare.html')} — Which AI doom indexes can you compare? (short ${u('/doom-index.html')}; incl. PizzINT, Takeoff Tracker)
 - ${u('/vs.html')} — Which AI indexes does SIREN contrast? (DoomBench, Skynet, p(doom), PizzINT, Takeoff Tracker)
 - ${u('/alternatives.html')} — What are AI doom index alternatives?
 - ${u('/vs/doombench.html')} — SIREN vs DoomBench: which should you use? (short ${u('/vs/doom.html')}, root ${u('/doombench.html')})
@@ -474,6 +474,7 @@ export function agentsMd(ctx) {
 - ${u('/vs/pizzint.html')} — SIREN vs PizzINT: which should you use? (root ${u('/pizzint.html')}; honest refuse)
 - ${u('/vs/takeofftracker.html')} — SIREN vs Takeoff Tracker: which should you use? (short ${u('/vs/takeoff.html')}, root ${u('/takeofftracker.html')})
 - ${u('/p-doom.html')} — What is p(doom)? (short alias ${u('/pdoom.html')})
+- ${u('/ai-doomsday-clock.html')} — Is there an AI doomsday clock? (short ${u('/doomsday-clock.html')})
 - ${u('/pillars.html')} — Which AI activity pillars has SIREN scored?
 - ${u('/countries.html')} — Which AI datacentre countries has SIREN mapped?
 - ${u('/sources.html')} — Which AI news sources has SIREN scored via?

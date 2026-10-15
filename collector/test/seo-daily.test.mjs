@@ -23,6 +23,8 @@ import {
   hasPdoomShortAlias,
   ROOT_RIVAL_AGENT_ALIASES,
   hasRootRivalAliases,
+  HEAD_TERM_AGENT_ALIASES,
+  hasHeadTermAliases,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -289,6 +291,25 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'agents-root-rivals-missing'));
+  });
+
+  it('detects missing head-term short aliases in agent maps (FINDABILITY #134)', () => {
+    assert.deepEqual(HEAD_TERM_AGENT_ALIASES, [
+      '/doomsday-clock.html', '/ai-doom.html', '/doom-index.html',
+    ]);
+    assert.equal(hasHeadTermAliases(HEAD_TERM_AGENT_ALIASES.join('\n')), true);
+    assert.equal(hasHeadTermAliases('/doomsday-clock.html\n/guide.html'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        agents_head_aliases: false, llms_head_aliases: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'agents-head-aliases-missing'));
   });
 
   it('detects missing /trends.html in agent maps + now tips (FINDABILITY #125)', () => {
