@@ -1,10 +1,10 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T10:13Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,686** sitemap URLs / news **200** (pizzint news empty again);
-tips + vs short aliases + lab head-term titles + `/trends` dir aliases (#124)
-intact. Daily ship: `seo-daily` detects agent-map `/trends.html` lag (#125).
-Web search ranks siren.watch #1 for “SIREN AI activity index”. Operator
+**Measured:** 2026-10-15T10:15Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,686** sitemap URLs / news **200** (pizzint news empty);
+tips + vs/trends aliases + lab titles intact. Daily ships: #124/#125 tip
+aliases; #126 alternatives FAQ for singular “AI doom index alternative”
+(unbranded SERP gap). Branded “SIREN AI activity index” still #1. Operator
 console verify still open: issue #202. Companion to `docs/COMPETITIVE.md`
 (Sept inventory) and `docs/FINDABILITY.md`.
 

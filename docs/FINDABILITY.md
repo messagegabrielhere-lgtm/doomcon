@@ -363,6 +363,7 @@ context.
 | 123 | `seo-daily` probes lab `<title>` for Gemini / ChatGPT / Claude needles (`lab-head-aliases-missing`) so CDN/orphan lag after #121/#122 is caught daily | Daily agent + Google | **Done** (this pass) |
 | 124 | Directory indexes for `/verify/` `/free-tools/` `/search-trends/` `/ai-prediction-markets/` + short alias `/trends.html` (canonical on search-trends; out of sitemap) — typed `/trends` guesses were 404; restore in news-fast/collect/vs-alias-guard; `seo-daily` CORE_LIVE | Google + agents | **Done** (this pass) |
 | 125 | `seo-daily` detects missing `/trends.html` in `agents.md` / `llms.txt` (`agents-trends-alias-missing`) and requires `/trends.html` in now tip lines (`hasNowTips`) so overlay/CDN lag after #124 is caught daily | Daily agent + Google | **Done** (this pass) |
+| 126 | `/alternatives.html` visible FAQ + meta description answer exact singular head term “What is an AI doom index alternative?” (H1/title stay plural; no doorway URL) — unbranded SERP was missing the hub | Google | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

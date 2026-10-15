@@ -105,6 +105,10 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(alt, /"@type"\s*:\s*"FAQPage"/);
     assert.match(alt, /What questions do people actually ask\?/);
     assert.match(alt, /What is a good alternative to DoomBench/);
+    // FINDABILITY #126 — singular head term in visible FAQ + description.
+    assert.match(alt, /What is an AI doom index alternative\?/);
+    assert.match(alt, /hourly AI activity index/);
+    assert.match(alt, /content="What are AI doom index alternatives\? What is an AI doom index alternative\?/);
     assert.match(alt, /id="alt-right-h">When is SIREN the right alternative\?<\/h2>/);
     assert.match(alt, /id="alt-wrong-h">When is SIREN the wrong alternative\?<\/h2>/);
     assert.match(alt, /id="alt-one-h">Where is one page per rival\?<\/h2>/);
