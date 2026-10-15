@@ -731,6 +731,14 @@ export function hasAgentsNeocloud(body, needle = AGENTS_NEOCLOUD_NEEDLE) {
   return text.includes(needle) && text.includes('/tags/neoclouds.html');
 }
 
+/** FINDABILITY #158 — Search Trends watchlist FAQ routes stock / neocloud spikes. */
+export const TRENDS_ROUTES_FAQ_NEEDLE = 'Where does SIREN send IREN stock, dram stock, CoreWeave stock, and neocloud Trends?';
+
+/** Tip /search-trends.html must keep the #158 routing FAQ. */
+export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
 /**
  * Probe rows whose live HTML is missing the expected conquest FAQ needle.
  * Wipe gap is `conquest-faq-missing` (FINDABILITY #128).
@@ -1279,6 +1287,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #158 — Search Trends watchlist FAQ routing wiped or never landed.
+  if (ours.trends_routes_faq === false) {
+    gaps.push({
+      id: 'trends-routes-faq-missing',
+      severity: 'medium',
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ (FINDABILITY #158) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #158`,
+    });
+  }
+
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
     const sample = ours.lab_head_alias_lags
@@ -1497,6 +1514,9 @@ export function measureSite(site, byUrl) {
     row.neocloud_faq = neoHtml?.ok ? hasNeocloudFaq(neoHtml.value) : false;
     row.agents_neocloud = agentsMd?.ok ? hasAgentsNeocloud(agentsMd.value) : false;
     row.llms_neocloud = llms?.ok ? hasAgentsNeocloud(llmsBody) : false;
+    // FINDABILITY #158 — Search Trends watchlist routing FAQ.
+    const trendsHtml = byUrl.get(`${base}/search-trends.html`);
+    row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
     // FINDABILITY #123 — lab title must keep product head-term aliases.
     row.lab_head_alias_lags = labHeadAliasLags(byUrl, site.origin);
     // FINDABILITY #128 — compare/alternatives must keep #126/#127 FAQ needles.
@@ -1722,6 +1742,11 @@ export function formatMarkdown(report) {
       const ag = ours.agents_neocloud == null ? '—' : (ours.agents_neocloud ? 'yes' : 'NO');
       const lm = ours.llms_neocloud == null ? '—' : (ours.llms_neocloud ? 'yes' : 'NO');
       lines.push(`- Agent-map neocloud → tag (#157): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.trends_routes_faq != null) {
+      lines.push(
+        `- Search Trends routing FAQ (#158): **${ours.trends_routes_faq ? 'ok' : 'NO'}**`,
+      );
     }
     if (ours && Array.isArray(ours.lab_head_alias_lags)) {
       if (ours.lab_head_alias_lags.length === 0) {
@@ -2258,6 +2283,25 @@ function selftest() {
   }
   if (!OUR_SURFACES.includes('/tags/neoclouds.html')) {
     throw new Error('OUR_SURFACES missing /tags/neoclouds.html');
+  }
+  if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== true) {
+    throw new Error('hasTrendsRoutesFaq true');
+  }
+  if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
+    throw new Error('hasTrendsRoutesFaq false');
+  }
+  const routesGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      trends_routes_faq: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!routesGaps.some((g) => g.id === 'trends-routes-faq-missing')) {
+    throw new Error('trends-routes-faq-missing gap');
   }
   const labByUrl = new Map([
     ['https://siren.watch/lab/google-deepmind.html', {
