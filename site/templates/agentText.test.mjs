@@ -199,7 +199,7 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /neocloud or neoclouds Trends/);
   assert.match(txt, /\/tags\/neoclouds\.html/);
   // FINDABILITY #176 — Character.ai bankruptcy route to Chatbots tag.
-  assert.match(txt, /Character\.ai, Character AI bankruptcy/);
+  assert.match(txt, /Character\.ai bankruptcy, Character AI bankruptcy/);
   assert.match(txt, /\/tags\/chatbots\.html/);
   assert.match(txt, /not a stock tip/);
   assert.match(txt, /## Explainers \(search head terms\)/);
