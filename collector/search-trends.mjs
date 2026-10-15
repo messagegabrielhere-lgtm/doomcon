@@ -105,6 +105,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #184 — AMD / MI300 / Instinct / AI GPU Trends → gated lab
   // (story counts only; not a stock tip or chip review).
   { id: 'amd', label: 'AMD / MI300', re: /\bamd(?:\s+stock)?\b|\bmi300(?:x)?\b|\binstinct\b.{0,40}\bamd\b|\bamd\b.{0,40}\b(?:instinct|mi300|gpu)\b/i, path: '/lab/amd.html' },
+  // FINDABILITY #185 — Tesla / FSD / Autopilot AI Trends → gated lab
+  // (story counts only; not a stock tip, crash verdict, or safety advice).
+  { id: 'tesla', label: 'Tesla / FSD', re: /\btesla(?:\s+stock)?\b|\bfsd\b|\bautopilot\b.{0,40}\btesla\b|\btesla\b.{0,40}\b(?:autopilot|fsd|robotaxi|autonomy)\b/i, path: '/lab/tesla.html' },
   // FINDABILITY #177 — Qwen / Tongyi / Alibaba open-weight Trends → gated Qwen lab
   // (story counts only; not a model review or stock tip).
   { id: 'qwen', label: 'Qwen', re: /\bqwen(?:\s+\d|\s+n\d)?\b|\btongyi\b|\balibaba\b.{0,40}\b(?:qwen|open[\s-]?weight)\b/i, path: '/lab/qwen.html' },

@@ -97,6 +97,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'AIP', 'Gotham',
   // FINDABILITY #184 — MI300 / Instinct needles beside AMD (labAboutLabel MI300).
   'MI300', 'Instinct',
+  // FINDABILITY #185 — FSD / Autopilot needles beside Tesla (labAboutLabel FSD).
+  'FSD', 'Autopilot',
 ]);
 
 /**
@@ -137,6 +139,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bPalantir\b/i, name: /^Palantir$/i, alias: 'AIP' },
   // FINDABILITY #184 — AMD → MI300 (labAboutLabel) when parent named.
   { re: /\bAMD\b/i, name: /^AMD$/i, alias: 'MI300' },
+  // FINDABILITY #185 — Tesla → FSD (labAboutLabel) when parent named.
+  { re: /\bTesla\b/i, name: /^Tesla$/i, alias: 'FSD' },
 ]);
 
 /**

@@ -97,6 +97,9 @@ export const LAB_HEAD_ALIASES = Object.freeze({
   // FINDABILITY #184 — MI300 / Instinct product people type when Trends / tape
   // shows AMD AI-GPU headlines; stories already score under AMD.
   'amd': 'MI300',
+  // FINDABILITY #185 — FSD / Autopilot product people type when Trends / tape
+  // shows Tesla AI / Autopilot / FSD headlines; stories already score under Tesla.
+  'tesla': 'FSD',
 });
 
 /** Display name for lab titles/H1/FAQ — race name, plus alias when mapped. */
@@ -625,6 +628,13 @@ export function renderLab(ctx, player) {
     faq.push([
       `Why does ${brand.NAME} watch AMD and AI GPUs?`,
       `${brand.NAME} scores press that names AMD. When MI300, Instinct, AMD stock, or AI GPU / accelerator headlines dominate the tape — or spike in Google Search Trends — this lab page is the crawlable answer — scored story counts only. Not a stock tip, not a chip review, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
+  // FINDABILITY #185 — Tesla / FSD / Autopilot AI tape → gated lab.
+  if (player.id === 'tesla') {
+    faq.push([
+      `Why does ${brand.NAME} watch Tesla Autopilot and FSD?`,
+      `${brand.NAME} scores press that names Tesla. When Autopilot, FSD, robotaxi, or Tesla AI / autonomy headlines dominate the tape — or spike in Google Search Trends — this lab page is the crawlable answer — scored story counts only. Not a stock tip, not a crash verdict, not safety advice, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
   const faqHtml = faq.map(([q, a]) => `

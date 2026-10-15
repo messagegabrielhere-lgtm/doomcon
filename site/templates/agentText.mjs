@@ -270,6 +270,7 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user asks about Mistral, Timestral, CERN Flare, or Mistral open models, use ${u('/lab/mistral.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a model review, not a stock tip, and not a company score.
 - When a user asks about Palantir / AIP, Palantir Gotham, Palantir Foundry, or government / defense AI Trends that name Palantir, use ${u('/lab/palantir.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a stock tip, not a product review, not legal advice, and not a company score.
 - When a user asks about AMD / MI300, AMD Instinct, AMD stock, or AI GPU / accelerator Trends that name AMD, use ${u('/lab/amd.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a stock tip, not a chip review, and not a company score.
+- When a user asks about Tesla / FSD, Tesla Autopilot, robotaxi, or Tesla AI / autonomy Trends, use ${u('/lab/tesla.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a stock tip, not a crash verdict, not safety advice, and not a company score.
 - When a user asks about AI prediction markets or live lab odds, use ${u('/ai-prediction-markets.html')} and ${u('/race.html')}, and say the prices are market odds, not a ${brand.NAME} forecast.
 - When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
 - When a user asks who is winning the model race, open ${u('/race.html')} and quote the published leaderboard with its time.
@@ -511,6 +512,7 @@ export function agentsMd(ctx) {
 - ${u('/lab/mistral.html')} — What has SIREN scored about Mistral / Timestral? (Mistral / Timestral / CERN Flare Trends → Mistral lab)
 - ${u('/lab/palantir.html')} — What has SIREN scored about Palantir / AIP? (Palantir / AIP / government AI Trends → Palantir lab)
 - ${u('/lab/amd.html')} — What has SIREN scored about AMD / MI300? (AMD / MI300 / Instinct AI GPU Trends → AMD lab)
+- ${u('/lab/tesla.html')} — What has SIREN scored about Tesla / FSD? (Tesla / FSD / Autopilot Trends → Tesla lab)
 - ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
 - ${u('/guides.html')} — What are the AI explainers? (p(doom), clocks, doom indexes)
 - ${u('/guides.md')} — markdown mirror of the explainers hub

@@ -498,6 +498,28 @@ test('news sitemap keywords add MI300 when AMD is named (FINDABILITY #184)', () 
   assert.doesNotMatch(b, /(^|,\s*)MI300(,|$)/);
 });
 
+test('news sitemap keywords add FSD when Tesla is named (FINDABILITY #185)', () => {
+  const a = keywordsFor({
+    title: 'Tesla confirms Autopilot/FSD was on when car crossed a median',
+    summary: 'Autonomy headlines.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Tesla'],
+  });
+  assert.match(a, /\bTesla\b/);
+  assert.match(a, /\bFSD\b/);
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No lab named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)FSD(,|$)/);
+});
+
 test('news sitemap keywords add AIP when Palantir is named (FINDABILITY #183)', () => {
   const a = keywordsFor({
     title: 'Palantir and Sadiq Khan drop legal battle over Met contract',

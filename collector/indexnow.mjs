@@ -278,6 +278,7 @@ const ALWAYS = Object.freeze([
   '/lab/mistral.html', // FINDABILITY #180 — Mistral / Timestral Trends lab
   '/lab/palantir.html', // FINDABILITY #183 — Palantir / AIP / government AI Trends lab
   '/lab/amd.html', // FINDABILITY #184 — AMD / MI300 / Instinct AI GPU Trends lab
+  '/lab/tesla.html', // FINDABILITY #185 — Tesla / FSD / Autopilot Trends lab
   '/lab/tsmc.html', // FINDABILITY #168 — TSMC / AI foundry Trends lab
   '/model/claude.html',
   '/model/gemini.html',
