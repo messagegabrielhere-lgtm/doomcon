@@ -159,7 +159,7 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /\/lab\/coreweave\.html/);
   assert.match(txt, /not credit analysis/);
   // FINDABILITY #161 — Nvidia / NVDA Trends route to Nvidia lab.
-  assert.match(txt, /Nvidia stock, NVDA, or AI GPU funding-cost Trends/);
+  assert.match(txt, /Nvidia stock, NVDA Trends, or AI GPU funding-cost Trends/);
   assert.match(txt, /\/lab\/nvidia\.html/);
   // FINDABILITY #157 — neocloud Trends route to Neoclouds tag.
   assert.match(txt, /neocloud or neoclouds Trends/);
