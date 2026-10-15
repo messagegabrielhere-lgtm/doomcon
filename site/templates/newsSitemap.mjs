@@ -67,6 +67,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #108 — google-news-open; live 48h surfaces (MediaTek deal titles,
   // Cathie Wood / CoreWeave tape, Salesforce vs ServiceNow AI revenue).
   'MediaTek', 'Cathie Wood', 'ServiceNow',
+  // FINDABILITY #109 — pizzint-news-alive / google-news-open: Cathie Wood tape
+  // names Kodiak AI beside CoreWeave; without a lab needle the 12-cap kept only
+  // CoreWeave + Cathie Wood and dropped the company surface.
+  'Kodiak AI', 'Kodiak',
 ]);
 
 /**

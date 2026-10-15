@@ -256,6 +256,22 @@ test('news sitemap keywords include MediaTek / Cathie Wood / ServiceNow (FINDABI
   assert.match(c, /ServiceNow/);
 });
 
+test('news sitemap keywords include Kodiak AI beside Cathie Wood tape (FINDABILITY #109)', () => {
+  const a = keywordsFor({
+    title: 'Tracking Cathie Wood: Buying Heavily into Kodiak AI and CoreWeave, Cutting Personalis and Toast',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(a, /Kodiak AI/);
+  assert.match(a, /Cathie Wood/);
+  assert.match(a, /CoreWeave/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Kodiak AI') < parts.indexOf('attention'), a);
+});
+
 test('news sitemap keywords include Trail of Bits / DualEntry / Qwen N1 surfaces', () => {
   const a = keywordsFor({
     title: 'OpenAI Weighs Deal for One-Time Security Partner Trail of Bits',
