@@ -128,7 +128,7 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
     '/methodology.md', '/guide.md', '/guides.md', '/agents.md', '/agents.txt', '/.well-known/api-catalog', '/guides.html', '/free-tools.html', '/verify.html', '/compare.html', '/vs.html', '/alternatives.html',
-    '/vs/pizzint.html', '/pillars.html', '/sources.html', '/countries.html', '/news-sitemap.xml', '/news.html',
+    '/vs/pizzint.html', '/vs/skynet.html', '/pillars.html', '/sources.html', '/countries.html', '/news-sitemap.xml', '/news.html',
     '/search-trends.html', '/ai-prediction-markets.html', '/api/search-trends.json']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }

@@ -137,7 +137,7 @@ contrast measurement methods (`VOICE.md`, `CONTRACT.md`).
 | `/compare.html` | “AI doom indexes compared” — side-by-side table |
 | `/alternatives.html` | “DoomBench / Skynet / p(doom) alternative” hub |
 | `/vs/doombench.html` | Activity count vs qualitative doom index |
-| `/vs/skynet-countdown.html` | Activity count vs AGI timeline / control-loss % |
+| `/vs/skynet-countdown.html` | Activity count vs AGI timeline / control-loss % (`/vs/skynet.html` short alias, canonical on primary) |
 | `/vs/pdoom.html` | Activity count vs opinion-as-percentage clocks |
 | `/vs/pizzint.html` | Activity count vs DEFCON / Pentagon Pizza Index brand hijack |
 | `/vs/takeofftracker.html` | Activity count vs AGI takeoff dashboard aggregates |

@@ -25,14 +25,30 @@ const ctx = {
 describe('compare / alternatives conquest pages', () => {
   it('ships compare, alternatives, vs hub, and one vs page per rival', () => {
     const pages = renderAll(ctx);
-    assert.equal(pages.length, 3 + RIVALS.length);
+    const aliasCount = RIVALS.reduce((n, r) => n + (r.aliases || []).length, 0);
+    assert.equal(pages.length, 3 + RIVALS.length + aliasCount);
     assert.ok(pages.every((p) => p.html && /<!doctype html>/i.test(p.html)));
     assert.ok(pages.some((p) => p.path === 'compare.html'));
     assert.ok(pages.some((p) => p.path === 'alternatives.html'));
     assert.ok(pages.some((p) => p.path === 'vs.html'));
     for (const rival of RIVALS) {
       assert.ok(pages.some((p) => p.path === rival.path.replace(/^\//, '')));
+      for (const alias of rival.aliases || []) {
+        assert.ok(pages.some((p) => p.path === alias.replace(/^\//, '')));
+      }
     }
+  });
+
+  it('ships /vs/skynet.html as a short alias with canonical on skynet-countdown', () => {
+    const pages = renderAll(ctx);
+    const alias = pages.find((p) => p.path === 'vs/skynet.html');
+    assert.ok(alias, 'expected vs/skynet.html alias file');
+    assert.match(alias.html, /rel="canonical" href="https:\/\/siren\.watch\/vs\/skynet-countdown\.html"/);
+    assert.match(alias.html, /<h1>SIREN vs Skynet Countdown: which should you use\?<\/h1>/);
+    assert.doesNotMatch(alias.html, /rel="canonical" href="https:\/\/siren\.watch\/vs\/skynet\.html"/);
+    const entries = sitemapEntries(ctx);
+    assert.ok(entries.some((e) => e.loc === '/vs/skynet-countdown.html'));
+    assert.ok(!entries.some((e) => e.loc === '/vs/skynet.html'), 'alias stays out of sitemap');
   });
 
   it('puts matching question H1 and FAQ schema on the compare hub', () => {

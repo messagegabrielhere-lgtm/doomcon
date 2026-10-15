@@ -325,7 +325,7 @@ Honesty rules:
 - [Which AI indexes does SIREN contrast?](${u('/vs.html')}): directory of honest versus pages
 - [What are AI doom index alternatives?](${u('/alternatives.html')}): when SIREN is the right substitute
 - [SIREN vs DoomBench: which should you use?](${u('/vs/doombench.html')})
-- [SIREN vs Skynet Countdown: which should you use?](${u('/vs/skynet-countdown.html')})
+- [SIREN vs Skynet Countdown: which should you use?](${u('/vs/skynet-countdown.html')}) (short alias ${u('/vs/skynet.html')}, same page)
 - [SIREN vs p(doom) clocks: which should you use?](${u('/vs/pdoom.html')})
 - [SIREN vs PizzINT: which should you use?](${u('/vs/pizzint.html')}): activity count vs DEFCON/Doomsday title hijack (honest refuse)
 - [SIREN vs Takeoff Tracker: which should you use?](${u('/vs/takeofftracker.html')}): activity count vs AGI metrics dashboard (honest refuse)
