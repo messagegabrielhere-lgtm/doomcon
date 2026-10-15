@@ -99,6 +99,22 @@ jobs:
           LAST_PAGES_PUB=0
           PENDING_PUB=0
 
+          # FINDABILITY #118 — LAST_PAGES_PUB=0 made AGO ≈ epoch and forced an
+          # immediate first publish on every newly armed job (raced collect /
+          # prior news-fast tip; Pages errored again at 09:00Z). Keep the gap
+          # clock honest from the live tip, including mid-loop collect pushes.
+          refresh_last_pages_pub() {
+            local tip_iso tip_epoch
+            tip_iso=$(gh api "repos/${GITHUB_REPOSITORY}/commits/gh-pages" \
+              --jq '.commit.committer.date' 2>/dev/null || true)
+            if [ -n "${tip_iso:-}" ]; then
+              tip_epoch=$(date -d "$tip_iso" +%s 2>/dev/null || true)
+              if [ -n "${tip_epoch:-}" ] && [ "$tip_epoch" -gt "$LAST_PAGES_PUB" ] 2>/dev/null; then
+                LAST_PAGES_PUB=$tip_epoch
+              fi
+            fi
+          }
+
           # FINDABILITY #98 — main has no public/; --only news falls through to a
           # full wipe (~44m) when public/index.html is missing, which ate the
           # entire 58m news-fast budget on tick 1 and left Google News on a
@@ -110,12 +126,25 @@ jobs:
             if git clone --depth 1 --branch gh-pages \
               "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
               .pages-seed; then
+              # Prefer git %ct when the clone succeeds (no extra API call).
+              tip_ct=$(git -C .pages-seed log -1 --format=%ct 2>/dev/null || true)
+              if [ -n "${tip_ct:-}" ] && [ "$tip_ct" -gt 0 ] 2>/dev/null; then
+                LAST_PAGES_PUB=$tip_ct
+                echo "FINDABILITY #118: LAST_PAGES_PUB seeded from gh-pages tip (${tip_ct}; $(( $(date +%s) - tip_ct ))s ago)"
+              fi
               mkdir -p public
               tar cf - -C .pages-seed --exclude .git . | tar xf - -C public
               rm -rf .pages-seed
             else
               echo "::warning::could not seed public/ from gh-pages; first --only news may fall back to a full build"
               rm -rf .pages-seed
+            fi
+          fi
+          # API fallback when clone skipped/failed, and a baseline before tick 1.
+          if [ "$LAST_PAGES_PUB" -eq 0 ]; then
+            refresh_last_pages_pub
+            if [ "$LAST_PAGES_PUB" -gt 0 ]; then
+              echo "FINDABILITY #118: LAST_PAGES_PUB seeded via API (${LAST_PAGES_PUB}; $(( $(date +%s) - LAST_PAGES_PUB ))s ago)"
             fi
           fi
 
@@ -233,10 +262,13 @@ jobs:
               echo "tick $TICK: no change"
             fi
 
+            # FINDABILITY #118 — collect (or another publisher) may have pushed
+            # gh-pages since our last local publish; re-read tip before gap math.
+            refresh_last_pages_pub
             NOW_PUB=$(date +%s)
             AGO=$(( NOW_PUB - LAST_PAGES_PUB ))
             if [ "$PENDING_PUB" -eq 1 ] && [ "$AGO" -lt "$PUBLISH_MIN_GAP" ]; then
-              echo "tick $TICK: deferring Pages publish (FINDABILITY #112; ${AGO}s since last, need ${PUBLISH_MIN_GAP}s)"
+              echo "tick $TICK: deferring Pages publish (FINDABILITY #112/#118; ${AGO}s since last, need ${PUBLISH_MIN_GAP}s)"
             elif [ "$PENDING_PUB" -eq 1 ]; then
               echo "tick $TICK: fast rebuild and publish (gap ${AGO}s ≥ ${PUBLISH_MIN_GAP}s)"
               # --only news: patch the live tree instead of wiping ~1,200 files.
