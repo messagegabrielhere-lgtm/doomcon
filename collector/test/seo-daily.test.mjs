@@ -261,6 +261,9 @@ describe('seo-daily surfaces', () => {
     assert.equal(PDOOM_SHORT_ALIAS, '/pdoom.html');
     assert.equal(hasPdoomShortAlias('short alias /pdoom.html'), true);
     assert.equal(hasPdoomShortAlias('/p-doom.html only'), false);
+    // FINDABILITY #135 — conquest primary must not false-positive the short.
+    assert.equal(hasPdoomShortAlias('/vs/pdoom.html only'), false);
+    assert.equal(hasPdoomShortAlias('/vs/pdoom.html\n/pdoom.html'), true);
     const gaps = deriveGaps({
       sites: [{
         id: 'siren', name: 'siren.watch', ours: true, ok: true,
@@ -280,6 +283,15 @@ describe('seo-daily surfaces', () => {
     ]);
     assert.equal(hasRootRivalAliases(ROOT_RIVAL_AGENT_ALIASES.join('\n')), true);
     assert.equal(hasRootRivalAliases('/doombench.html\n/vs/doom.html'), false);
+    // FINDABILITY #135 — /vs/<brand>.html alone must not clear the gap.
+    assert.equal(hasRootRivalAliases([
+      '/vs/doombench.html', '/vs/skynet-countdown.html',
+      '/vs/pizzint.html', '/vs/takeofftracker.html',
+    ].join('\n')), false);
+    assert.equal(hasRootRivalAliases([
+      '/vs/doombench.html', '/doombench.html',
+      '/skynet-countdown.html', '/pizzint.html', '/takeofftracker.html',
+    ].join('\n')), true);
     const gaps = deriveGaps({
       sites: [{
         id: 'siren', name: 'siren.watch', ours: true, ok: true,

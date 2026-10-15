@@ -372,6 +372,7 @@ context.
 | 132 | `agents.md` + `llms.txt` list root rival brand aliases (`/doombench.html` `/skynet-countdown.html` `/pizzint.html` `/takeofftracker.html`); `seo-daily` `agents-root-rivals-missing` catches overlay/CDN lag after #131 | Agents + Google | **Done** (this pass) |
 | 133 | Typed-guess aliases `/doomsday-clock.html` → `/ai-doomsday-clock.html`, `/ai-doom.html` → `/guide.html`, `/doom-index.html` + `/ai-doom-index.html` → `/compare.html` (canonical on primaries; out of sitemap) — head-term paths were 404; restore in news-fast/collect/vs-alias-guard; CORE_LIVE + IndexNow | Google | **Done** (this pass) |
 | 134 | `agents.md` + `llms.txt` list `#133` short aliases (`/doomsday-clock.html` `/ai-doom.html` `/doom-index.html`); `seo-daily` `agents-head-aliases-missing` catches overlay/CDN lag | Agents + Google | **Done** (this pass) |
+| 135 | `seo-daily` alias probes strip `/vs/<basename>` before `includes` so `/vs/pdoom.html` / `/vs/doombench.html` (etc.) cannot false-green `agents-pdoom-alias-missing` / `agents-root-rivals-missing` after a tip wipe that kept only conquest primaries | Daily agent | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
