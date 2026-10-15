@@ -1,7 +1,7 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-15T16:55Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,692** sitemap URLs / news **200** (pizzint news flaps 0↔14);
+**Measured:** 2026-10-15T18:37Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,690** sitemap URLs / news **200** (pizzint news flaps 0↔14);
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
 IPO / FTC FAQ **#163** + ASML Trends FAQ **#164** + TSMC foundry FAQ **#165** + Amazon Bee FAQ **#167**
