@@ -398,6 +398,19 @@ describe('lab facets', () => {
     assert.match(qwenHtml, /[Nn]ot a model review/);
     assert.match(qwenHtml, /search-trends\.html/);
     assert.doesNotMatch(qwenHtml, /buy Qwen|price target|must use Tongyi/i);
+    // FINDABILITY #179 — DeepSeek outage FAQ on gated lab.
+    const dsHtml = renderLab(ctx, {
+      id: 'deepseek',
+      name: 'DeepSeek',
+      principal: 'Liang Wenfeng',
+      market: { probability: 0.01, change_7d: 0 },
+    });
+    assert.match(dsHtml, /Why does SIREN watch DeepSeek and AI outages\?/);
+    assert.match(dsHtml, /<title>[^<]*DeepSeek/);
+    assert.match(dsHtml, /[Nn]ot a model review/);
+    assert.match(dsHtml, /uptime SLA|not an uptime/i);
+    assert.match(dsHtml, /search-trends\.html/);
+    assert.doesNotMatch(dsHtml, /buy DeepSeek|price target|must use DeepSeek/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {
