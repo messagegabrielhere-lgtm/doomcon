@@ -1046,8 +1046,9 @@ export function renderLabIndex(ctx) {
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
+  // FINDABILITY #140 — directory rows use labAboutLabel (#121/#137 aliases).
   const rows = labs.map((p) => `<li>
-  <a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>
+  <a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(labAboutLabel(p))}?</a>
   <span class="fc__meta">${p.entityOnly ? 'Entity hub · story counts only' : 'Race board · odds when published'}</span>
   <span class="fc__sc num">${esc(String(p.count))}</span>
 </li>`).join('');
@@ -1081,7 +1082,7 @@ export function renderLabIndex(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(labPath(p.id)),
-          name: `What has ${brand.NAME} scored about ${p.name}?`,
+          name: `What has ${brand.NAME} scored about ${labAboutLabel(p)}?`,
         })),
       },
     }, breadcrumbs(ctx, [
@@ -1122,8 +1123,9 @@ export function renderCompanies(ctx) {
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
+  // FINDABILITY #140 — company hub rows use labAboutLabel (#121/#137 aliases).
   const rows = labs.map((p) => `<li>
-  <a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>
+  <a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(labAboutLabel(p))}?</a>
   <span class="fc__meta">${p.entityOnly ? 'Story hub' : 'Race board + stories'} · <span class="num">${esc(String(p.count))}</span> in window</span>
 </li>`).join('');
   const main = `${STYLE}
@@ -1161,7 +1163,7 @@ export function renderCompanies(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(labPath(p.id)),
-          name: `What has ${brand.NAME} scored about ${p.name}?`,
+          name: `What has ${brand.NAME} scored about ${labAboutLabel(p)}?`,
         })),
       },
     }, breadcrumbs(ctx, [
