@@ -56,6 +56,8 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/ai-prediction-markets.html',
   '/verify.html',
   '/free-tools.html',
+  '/now.md',
+  '/api/now.txt',
 ]);
 
 /** Our agent / findability surfaces that must keep answering 200. */
@@ -304,6 +306,18 @@ export function hasFeedTips(xml) {
  */
 export function hasRobotsTips(txt) {
   return hasSitemapTips(txt);
+}
+
+/**
+ * True when live reading surfaces advertise free-tools + verify + Search Trends
+ * (FINDABILITY #90). Tip shape differs from sitemap/robots (`Free tools ·` / markdown
+ * links); wipe gap is `now-tips-missing` (FINDABILITY #91).
+ */
+export function hasNowTips(txt) {
+  const head = String(txt || '').slice(0, 1500);
+  return /\/free-tools\.html/i.test(head)
+    && /\/verify\.html/i.test(head)
+    && /Search Trends/i.test(head);
 }
 
 /** Conservative floor when facet sitemap modules cannot be loaded. */
@@ -558,6 +572,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #90/#91 — live reading tip lines missing until tip ≥ #166 deploys or overlay.
+  if (ours.now_md_tips === false || ours.now_txt_tips === false) {
+    const which = [
+      ours.now_md_tips === false ? 'now.md' : null,
+      ours.now_txt_tips === false ? 'api/now.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'now-tips-missing',
+      severity: 'medium',
+      text: `${which} missing free-tools/verify/Search Trends tip lines (FINDABILITY #90) — re-overlay or wait for collect Publish on tip ≥ #166`,
+    });
+  }
+
   // Open engineering items from FINDABILITY.md that the daily pass can still ship.
   const open = report.open_engineering || [];
   for (const item of open) {
@@ -666,6 +693,10 @@ export function measureSite(site, byUrl) {
     const feedLevel = byUrl.get(paths.feedLevel);
     row.feed_tips = feed?.ok ? hasFeedTips(feed.value) : false;
     row.feed_level_tips = feedLevel?.ok ? hasFeedTips(feedLevel.value) : false;
+    const nowMd = byUrl.get(`${site.origin.replace(/\/$/, '')}/now.md`);
+    const nowTxt = byUrl.get(`${site.origin.replace(/\/$/, '')}/api/now.txt`);
+    row.now_md_tips = nowMd?.ok ? hasNowTips(nowMd.value) : false;
+    row.now_txt_tips = nowTxt?.ok ? hasNowTips(nowTxt.value) : false;
   }
 
   return row;
@@ -764,8 +795,14 @@ export function formatMarkdown(report) {
       const feedLevelTip = ours.feed_level_tips == null ? '—' : (ours.feed_level_tips ? 'yes' : 'NO');
       lines.push(`- Feed tip comments (#87): feed.xml **${feedTip}** · feed-level.xml **${feedLevelTip}**`);
     }
+    if (ours && (ours.now_md_tips != null || ours.now_txt_tips != null)) {
+      const mdTip = ours.now_md_tips == null ? '—' : (ours.now_md_tips ? 'yes' : 'NO');
+      const txtTip = ours.now_txt_tips == null ? '—' : (ours.now_txt_tips ? 'yes' : 'NO');
+      lines.push(`- Now tip lines (#90): now.md **${mdTip}** · api/now.txt **${txtTip}**`);
+    }
     if (ours && (ours.gsc_meta != null || ours.robots_tips != null || ours.sitemap_tips != null
-      || ours.news_sitemap_tips != null || ours.feed_tips != null || ours.feed_level_tips != null)) {
+      || ours.news_sitemap_tips != null || ours.feed_tips != null || ours.feed_level_tips != null
+      || ours.now_md_tips != null || ours.now_txt_tips != null)) {
       lines.push('');
     }
   }
@@ -875,6 +912,26 @@ function selftest() {
     open_engineering: [],
   });
   if (!robotsTipGaps.some((g) => g.id === 'robots-tips-missing')) throw new Error('robots-tips-missing gap');
+  const nowTipped = 'Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](https://siren.watch/verify.html) · [Search Trends](https://siren.watch/search-trends.html).\n';
+  if (hasNowTips(nowTipped) !== true) throw new Error('hasNowTips true');
+  if (hasNowTips('# SIREN: current reading\n') !== false) throw new Error('hasNowTips false');
+  const nowTipGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      sitemap_tips: true, news_sitemap_tips: true,
+      feed_tips: true, feed_level_tips: true,
+      robots_tips: true,
+      now_md_tips: false, now_txt_tips: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!nowTipGaps.some((g) => g.id === 'now-tips-missing')) throw new Error('now-tips-missing gap');
+  if (!CORE_LIVE_SURFACES.includes('/now.md') || !CORE_LIVE_SURFACES.includes('/api/now.txt')) {
+    throw new Error('CORE_LIVE_SURFACES missing now reading surfaces');
+  }
 
   const report = {
     sites: [

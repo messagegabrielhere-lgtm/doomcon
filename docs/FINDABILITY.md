@@ -321,6 +321,7 @@ context.
 | 88 | `seo-daily` detects missing RSS tip comments (`feed-tips-missing`) so collect Publish wipes of #87 are caught before the next daily pass | Daily agent | **Done** (2026-10-15) |
 | 89 | `seo-daily` detects missing `robots.txt` tip comments (`robots-tips-missing`) so collect Publish wipes of #79 are caught before the next daily pass | Daily agent | **Done** (2026-10-15) |
 | 90 | `/api/now.txt` + `/now.md` tip lines advertise free-tools, verify, Search Trends (and news-sitemap on now.md) for agents that never open robots/llms | Agents + Google | **Done** (2026-10-15) |
+| 91 | `seo-daily` detects missing now tip lines (`now-tips-missing`) + monitors `/now.md` / `/api/now.txt` in CORE_LIVE_SURFACES so collect Publish wipes of #90 are caught | Daily agent | **Done** (2026-10-15) |
 
 ### 3.3 Refusals (search edition)
 
