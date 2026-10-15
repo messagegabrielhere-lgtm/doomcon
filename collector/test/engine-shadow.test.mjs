@@ -536,6 +536,21 @@ test('root rival typed-guess aliases restored (FINDABILITY #131)', () => {
   assert.match(indexnow, /\/doombench\.html/);
 });
 
+test('IndexNow ALWAYS covers TSMC + CoreWeave Trends labs (FINDABILITY #168)', () => {
+  const indexnow = readFileSync(join(ROOT, 'collector', 'indexnow.mjs'), 'utf8');
+  assert.match(indexnow, /FINDABILITY #168/);
+  const alwaysMatch = indexnow.match(/const ALWAYS = Object\.freeze\(\[([\s\S]*?)\]\);/);
+  assert.ok(alwaysMatch, 'ALWAYS list missing');
+  const alwaysBlock = alwaysMatch[1];
+  assert.match(alwaysBlock, /\/lab\/tsmc\.html/);
+  assert.match(alwaysBlock, /\/lab\/coreweave\.html/);
+  assert.match(alwaysBlock, /\/lab\/amazon\.html/);
+  assert.match(alwaysBlock, /\/lab\/asml\.html/);
+  const count = [...alwaysBlock.matchAll(/'([^']+)'/g)].length;
+  assert.ok(count < 400, `ALWAYS must stay under 400, got ${count}`);
+  assert.ok(count >= 298, `ALWAYS should include #168 labs, got ${count}`);
+});
+
 test('news-only skips full sitemap and caps live day hubs (FINDABILITY #106)', () => {
   // tip c4993bcf still saw PUBLISHED=0: archive-backed day hubs + full sitemap
   // kept --only news over the news-fast budget even after #103.

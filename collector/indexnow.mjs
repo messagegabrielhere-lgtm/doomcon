@@ -264,6 +264,7 @@ const ALWAYS = Object.freeze([
   '/lab/apple.html',
   '/lab/asml.html',
   '/lab/cisco.html',
+  '/lab/coreweave.html', // FINDABILITY #168 — CoreWeave stock/debt Trends lab
   '/lab/google-deepmind.html',
   '/lab/intel.html',
   '/lab/meta.html',
@@ -272,6 +273,7 @@ const ALWAYS = Object.freeze([
   '/lab/nvidia.html',
   '/lab/openai.html',
   '/lab/qwen.html',
+  '/lab/tsmc.html', // FINDABILITY #168 — TSMC / AI foundry Trends lab
   '/model/claude.html',
   '/model/gemini.html',
   '/model/gemma.html',
