@@ -223,6 +223,19 @@ test('collect.yml newsroom rebuild prefers --only news (FINDABILITY #94)', () =>
   assert.match(newsroom[0], /seeding public\/ from gh-pages/);
 });
 
+test('collect.yml newsroom skips cards on news-only and refuses full wipe fallback (FINDABILITY #100)', () => {
+  // Historical news-only jobs finished in ~2m; run 38672483978 sat in Rebuild
+  // past 15m while news-stale hit 8h — cards/posts belong on the hourly full
+  // pass, and an unbounded full wipe fallback must not re-block Publish.
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const newsroom = yml.match(/name:\s*newsroom[\s\S]*?(?=\n  [a-z-]+:|$)/);
+  assert.ok(newsroom, 'newsroom job missing');
+  assert.match(newsroom[0], /timeout 480 node site\/build\.mjs --only news/);
+  assert.match(newsroom[0], /skipping card\/posts/);
+  assert.match(newsroom[0], /refusing full wipe fallback/);
+  assert.doesNotMatch(newsroom[0], /falling back to full build/);
+});
+
 test('news-fast overlay publishes news-sitemap + sitemap + robots (FINDABILITY #96)', () => {
   // Overlay path used to copy api/news.json + news.html but skip the crawl
   // surfaces --only news rewrites — Google News kept reading a stale

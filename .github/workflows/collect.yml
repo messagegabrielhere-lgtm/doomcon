@@ -332,15 +332,18 @@ jobs:
         # Prefer --only news (same as news-fast.yml). A full wipe rebuild alone
         # ran ~44m and cancelled at the job ceiling before Publish
         # (run 38662474296). main does not carry public/, so seed from the live
-        # gh-pages tip first; fall back to a full build only if seed/news-only
-        # fails (FINDABILITY #94). Cards/posts still run AFTER the build —
-        # full build.mjs clears public/, news-only does not.
+        # gh-pages tip first (FINDABILITY #94). FINDABILITY #100 — on a
+        # successful news-only patch, skip card/posts/sheets (hourly full pass
+        # owns those); never fall back to an unbounded full wipe here — that
+        # path re-created the multi-hour news-stale window while Rebuild
+        # sat past 15m on tip 69a4088f (run 38672483978).
         env:
           GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           git rev-parse HEAD > "$RUNNER_TEMP/built-sha"
+          NEWS_ONLY=0
           if [ ! -f public/index.html ]; then
             echo "seeding public/ from gh-pages for news-only build"
             rm -rf .pages-seed
@@ -352,16 +355,23 @@ jobs:
             rm -rf .pages-seed
           fi
           if [ -f public/index.html ]; then
-            node site/build.mjs --only news \
-              || { echo "::warning::news-only build failed; falling back to full build"; node site/build.mjs; }
+            if timeout 480 node site/build.mjs --only news; then
+              NEWS_ONLY=1
+              echo "news-only build ok — skipping card/posts (full index pass owns those)"
+            else
+              echo "::error::news-only build failed or timed out; refusing full wipe fallback (FINDABILITY #100)"
+              exit 1
+            fi
           else
-            echo "::warning::no public/index.html after seed; running full build"
-            node site/build.mjs
+            echo "::warning::no public/index.html after seed; running timed full build"
+            timeout 2400 node site/build.mjs
           fi
-          node collector/card.mjs
-          node collector/posts.mjs
-          node site/post-sheet.mjs
-          node site/engage-sheet.mjs
+          if [ "$NEWS_ONLY" != "1" ]; then
+            node collector/card.mjs
+            node collector/posts.mjs
+            node site/post-sheet.mjs
+            node site/engage-sheet.mjs
+          fi
 
       - name: Commit the newsroom
         # Only when the gate could actually parse what is on disk. Committing a
@@ -520,17 +530,25 @@ jobs:
           B="$(cat "$RUNNER_TEMP/built-sha" 2>/dev/null || true)"
           if [ -n "$B" ] && [ "$(git rev-list --count "$B"..HEAD 2>/dev/null || echo 2)" -gt 1 ]; then
             echo "::notice title=newsroom::main moved under this run; rebuilding before publishing"
-            # Same news-only preference as Rebuild the site (FINDABILITY #94).
+            # Same news-only preference as Rebuild the site (FINDABILITY #94/#100).
+            PUB_NEWS_ONLY=0
             if [ -f public/index.html ]; then
-              GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" node site/build.mjs --only news \
-                || GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" node site/build.mjs
+              if GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" \
+                timeout 480 node site/build.mjs --only news; then
+                PUB_NEWS_ONLY=1
+              else
+                echo "::error::publish-time news-only rebuild failed; refusing full wipe"
+                exit 1
+              fi
             else
-              GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" node site/build.mjs
+              GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" timeout 2400 node site/build.mjs
             fi
-            node collector/card.mjs
-            node collector/posts.mjs
-            node site/post-sheet.mjs
-            node site/engage-sheet.mjs
+            if [ "$PUB_NEWS_ONLY" != "1" ]; then
+              node collector/card.mjs
+              node collector/posts.mjs
+              node site/post-sheet.mjs
+              node site/engage-sheet.mjs
+            fi
             node compliance/audit.mjs --dir public
           fi
           test -f public/index.html || { echo '::error::public/index.html missing; refusing to publish'; exit 1; }
