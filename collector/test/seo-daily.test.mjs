@@ -50,6 +50,8 @@ import {
   NEOCLOUD_FAQ_NEEDLE,
   hasTrendsRoutesFaq,
   TRENDS_ROUTES_FAQ_NEEDLE,
+  TRENDS_ROUTES_ASML_NEEDLE,
+  TRENDS_ROUTES_TSMC_NEEDLE,
   hasNvidiaNvdaFaq,
   hasAgentsNvidia,
   NVIDIA_NVDA_FAQ_NEEDLE,
@@ -687,8 +689,14 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-tsmc-missing'));
   });
 
-  it('detects Search Trends routing FAQ lag (FINDABILITY #158)', () => {
-    assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), true);
+  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166)', () => {
+    const routesBody = [
+      TRENDS_ROUTES_FAQ_NEEDLE,
+      TRENDS_ROUTES_ASML_NEEDLE,
+      TRENDS_ROUTES_TSMC_NEEDLE,
+    ].join('\n');
+    assert.equal(hasTrendsRoutesFaq(routesBody), true);
+    assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), false);
     assert.equal(hasTrendsRoutesFaq('Where do live AI prediction-market odds live'), false);
     const gaps = deriveGaps({
       sites: [{
