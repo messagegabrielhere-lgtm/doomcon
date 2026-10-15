@@ -363,6 +363,29 @@ test('news sitemap keywords keep Gemma when open-model titles name it (FINDABILI
   assert.doesNotMatch(b, /(^|,\s*)Gemma(,|$)/);
 });
 
+test('news sitemap keywords add HBM when Samsung is named (FINDABILITY #175)', () => {
+  const a = keywordsFor({
+    title: 'Samsung and SK Hynix shares under pressure despite strong AI demand',
+    summary: 'Memory-chip selloff.',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Samsung'],
+  });
+  assert.match(a, /\bSamsung\b/);
+  assert.match(a, /\bHBM\b/);
+  assert.match(a, /SK Hynix/);
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No frontier lab named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)HBM(,|$)/);
+});
+
 test('news sitemap keywords add neocloud / Iris Energy when parent named (FINDABILITY #159)', () => {
   const a = keywordsFor({
     title: "CoreWeave's slump puts spotlight on debt behind AI boom",

@@ -83,6 +83,9 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Grok',
   // FINDABILITY #174 — Gemma needle when titles use the open-model name alone.
   'Gemma', 'Gemma 4',
+  // FINDABILITY #175 — HBM / SK Hynix needles when titles use memory-chip forms
+  // beside Samsung (labAboutLabel HBM).
+  'HBM', 'SK Hynix',
 ]);
 
 /**
@@ -109,6 +112,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bMicrosoft\b/i, name: /^Microsoft$/i, alias: 'Copilot' },
   // FINDABILITY #173 — xAI → Grok (labAboutLabel).
   { re: /\bxAI\b/i, name: /^xAI$/i, alias: 'Grok' },
+  // FINDABILITY #175 — Samsung → HBM (labAboutLabel).
+  { re: /\bSamsung\b/i, name: /^Samsung$/i, alias: 'HBM' },
 ]);
 
 /**

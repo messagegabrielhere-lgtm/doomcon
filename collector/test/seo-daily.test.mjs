@@ -91,6 +91,10 @@ import {
   hasAgentsGeminiGemma,
   GEMINI_GEMMA_FAQ_NEEDLE,
   TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
+  hasSamsungHbmFaq,
+  hasAgentsSamsungHbm,
+  SAMSUNG_HBM_FAQ_NEEDLE,
+  TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
   hasNowTips,
   LAB_HEAD_TITLE_PROBES,
   labHeadAliasLags,
@@ -857,7 +861,31 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-gemini-gemma-missing'));
   });
 
-  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174)', () => {
+  it('detects Samsung / HBM FAQ + agent-map lag (FINDABILITY #175)', () => {
+    assert.equal(hasSamsungHbmFaq(SAMSUNG_HBM_FAQ_NEEDLE), true);
+    assert.equal(hasSamsungHbmFaq('What has SIREN scored about Samsung?'), false);
+    assert.equal(
+      hasAgentsSamsungHbm('Samsung / AI memory → https://siren.watch/lab/samsung.html'),
+      true,
+    );
+    assert.equal(hasAgentsSamsungHbm('https://siren.watch/lab/samsung.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        samsung_hbm_faq: false,
+        agents_samsung_hbm: false,
+        llms_samsung_hbm: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'samsung-hbm-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-samsung-hbm-missing'));
+  });
+
+  it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175)', () => {
     const routesBody = [
       TRENDS_ROUTES_FAQ_NEEDLE,
       TRENDS_ROUTES_ASML_NEEDLE,
@@ -868,6 +896,7 @@ describe('seo-daily surfaces', () => {
       TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
       TRENDS_ROUTES_XAI_GROK_NEEDLE,
       TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
+      TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
     ].join('\n');
     assert.equal(hasTrendsRoutesFaq(routesBody), true);
     assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), false);
@@ -1016,6 +1045,10 @@ describe('seo-daily surfaces', () => {
       ['https://siren.watch/lab/xai.html', {
         ok: true,
         value: '<title>What has SIREN scored about xAI / Grok?</title>',
+      }],
+      ['https://siren.watch/lab/samsung.html', {
+        ok: true,
+        value: '<title>What has SIREN scored about Samsung / HBM?</title>',
       }],
     ]);
     const lags = labHeadAliasLags(byUrl);

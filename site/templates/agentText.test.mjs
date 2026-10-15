@@ -191,6 +191,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #174 — Gemini / Gemma route to DeepMind lab.
   assert.match(txt, /Gemini, Gemini 4 Argon, Gemma/);
   assert.match(txt, /\/lab\/google-deepmind\.html/);
+  // FINDABILITY #175 — Samsung / HBM / AI memory route to Samsung lab.
+  assert.match(txt, /Samsung stock, Samsung HBM/);
+  assert.match(txt, /\/lab\/samsung\.html/);
   assert.match(txt, /\/lab\/amazon\.html/);
   // FINDABILITY #157 — neocloud Trends route to Neoclouds tag.
   assert.match(txt, /neocloud or neoclouds Trends/);
@@ -275,6 +278,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #174 — agents.md lists DeepMind lab for Gemini / Gemma Trends.
   assert.match(md, /Gemini \/ Gemma Trends/);
   assert.match(md, /\/lab\/google-deepmind\.html/);
+  // FINDABILITY #175 — agents.md lists Samsung lab for AI memory Trends.
+  assert.match(md, /Samsung \/ AI memory Trends/);
+  assert.match(md, /\/lab\/samsung\.html/);
   assert.match(md, /\/lab\/amazon\.html/);
   // FINDABILITY #157 — agents.md lists Neoclouds tag for neocloud Trends.
   assert.match(md, /neocloud \/ neoclouds Trends/);
