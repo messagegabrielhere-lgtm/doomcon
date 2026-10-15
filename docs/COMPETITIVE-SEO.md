@@ -5,7 +5,9 @@ live lead **6,692** sitemap URLs / news **200** (pizzint news flaps 0↔14);
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
 IPO / FTC FAQ **#163** + ASML Trends FAQ **#164** + TSMC foundry FAQ **#165** + Amazon Bee FAQ **#167**
-cover state-suit / IPO / EUV / AI-foundry tape on gated labs. Watchlist routing
+cover state-suit / IPO / EUV / AI-foundry tape on gated labs. IndexNow ALWAYS
+**#168** adds `/lab/tsmc.html` + `/lab/coreweave.html` beside amazon/asml so Bing
+learns those Trends labs on every Publish. Watchlist routing
 **#158** + news keywords **#159**/**#161** keep Google News aligned. Publish
 restore **#156**/**#158**/**#162**–**#167** keeps agent tips + Trends/lab HTML
 across collect wipes (#166/#167 also guard ASML/TSMC/Amazon Bee destinations on the routing FAQ). Branded “SIREN AI activity index” still #1; head-term
