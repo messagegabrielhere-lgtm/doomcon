@@ -245,3 +245,11 @@ test('news-fast seeds public/ from gh-pages before --only news (FINDABILITY #98)
   assert.match(yml, /git clone --depth 1 --branch gh-pages/);
   assert.match(yml, /build\.mjs --only news/);
 });
+
+test('news-fast refuses full wipe fallback on news-only failure (FINDABILITY #99)', () => {
+  // The old `trying full build` path is what burned 58m with zero publishes.
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.doesNotMatch(yml, /trying full build/);
+  assert.match(yml, /timeout 480 node site\/build\.mjs --only news/);
+  assert.match(yml, /skipping full wipe fallback/);
+});
