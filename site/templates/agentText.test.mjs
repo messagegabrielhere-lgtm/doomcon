@@ -68,7 +68,7 @@ test('nowTxt is 3-6 plain lines with level, score, name, UTC time, meaning and U
   assert.match(txt, /Computed 2026-10-09 19:07 UTC/);
   assert.match(txt, /Top mover: Compute & Capital −2\.5 since the previous reading \(19:02 UTC\)/);
   assert.match(txt, /not a probability of harm and not a forecast/);
-  assert.match(txt, /Free tools · verify · Search Trends: https:\/\/siren\.watch\/free-tools\.html · https:\/\/siren\.watch\/verify\.html · https:\/\/siren\.watch\/search-trends\.html/);
+  assert.match(txt, /Free tools · verify · Search Trends: https:\/\/siren\.watch\/free-tools\.html · https:\/\/siren\.watch\/verify\.html · https:\/\/siren\.watch\/search-trends\.html · short https:\/\/siren\.watch\/trends\.html/);
   assert.equal(lines[lines.length - 1], 'https://siren.watch/');
   assert.doesNotMatch(txt, /<|undefined|NaN/);
 });
@@ -92,7 +92,7 @@ test('topStories and mostCovered order strictly from the data', () => {
 test('nowMd carries the reading, pillars, stories, leaders, Takeover Watch and citation', () => {
   const md = nowMd({ state, history, news, leaders, siSignals, url });
   assert.match(md, /^# SIREN: current reading/);
-  assert.match(md, /Also: \[free tools\]\(https:\/\/siren\.watch\/free-tools\.html\) · \[verify a reading\]\(https:\/\/siren\.watch\/verify\.html\) · \[Search Trends\]\(https:\/\/siren\.watch\/search-trends\.html\) · \[news sitemap\]\(https:\/\/siren\.watch\/news-sitemap\.xml\)\./);
+  assert.match(md, /Also: \[free tools\]\(https:\/\/siren\.watch\/free-tools\.html\) · \[verify a reading\]\(https:\/\/siren\.watch\/verify\.html\) · \[Search Trends\]\(https:\/\/siren\.watch\/search-trends\.html\) \(short alias https:\/\/siren\.watch\/trends\.html\) · \[news sitemap\]\(https:\/\/siren\.watch\/news-sitemap\.xml\)\./);
   assert.match(md, /\| Compute & Capital \| 47\.0 \| 1\/3 \| yes \|/);
   assert.match(md, /\| Markets \| dark \| 0\/4 \| no \|/);
   assert.match(md, /1\. \[Big \\\[model\\\] drop\]\(https:\/\/example\.com\/a_%28b%29\) — The Verge · 2026-10-09 10:00 UTC · score 90\.0/);
@@ -129,9 +129,10 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
     '/methodology.md', '/guide.md', '/guides.md', '/agents.md', '/agents.txt', '/.well-known/api-catalog', '/guides.html', '/free-tools.html', '/verify.html', '/compare.html', '/vs.html', '/alternatives.html',
     '/vs/pizzint.html', '/vs/skynet.html', '/vs/doom.html', '/vs/takeoff.html', '/pillars.html', '/sources.html', '/countries.html', '/news-sitemap.xml', '/news.html',
-    '/search-trends.html', '/ai-prediction-markets.html', '/api/search-trends.json']) {
+    '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/api/search-trends.json']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
+  assert.match(txt, /short alias https:\/\/siren\.watch\/trends\.html/);
   assert.match(txt, /Which Google Search Trends for AI does SIREN watch\?/);
   assert.match(txt, /Where are live AI prediction market odds\?/);
   assert.match(txt, /Which AI stories has SIREN scored by UTC day\?/);
@@ -160,11 +161,12 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /^# SIREN for AI agents/);
   assert.match(md, /ChatGPT, Grok/);
   for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html',
-    '/search-trends.html', '/ai-prediction-markets.html',
+    '/search-trends.html', '/trends.html', '/ai-prediction-markets.html',
     '/vs/doombench.html', '/vs/doom.html', '/vs/skynet-countdown.html', '/vs/skynet.html',
     '/vs/pdoom.html', '/vs/takeofftracker.html', '/vs/takeoff.html']) {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
+  assert.match(md, /short alias https:\/\/siren\.watch\/trends\.html/);
   assert.match(md, /Which Google Search Trends for AI does SIREN watch\?/);
   assert.match(md, /Where are live AI prediction market odds\?/);
   assert.match(md, /not a prediction|Never call it a prediction/);

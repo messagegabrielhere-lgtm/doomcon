@@ -1825,7 +1825,12 @@ async function main() {
     let trends = null, th = [];
     try { trends = JSON.parse(await readFile(path.join(args.data, 'search-trends.json'), 'utf8')); } catch { trends = null; }
     try { th = (await readFile(path.join(args.data, 'search-trends-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { th = []; }
-    written.push(await write(args.out, 'search-trends.html', searchTrendsPage.render(ctx, trends, th)));
+    const searchTrendsHtml = searchTrendsPage.render(ctx, trends, th);
+    written.push(await write(args.out, 'search-trends.html', searchTrendsHtml));
+    // FINDABILITY #124 — typed /trends guess (and /trends/) must not 404 while
+    // the primary Search Trends page is live. Same body; canonical stays on
+    // /search-trends.html (layout path). Out of sitemap like vs short aliases.
+    written.push(await write(args.out, 'trends.html', searchTrendsHtml));
     if (trends) written.push(await write(args.out, 'api/search-trends.json', JSON.stringify(trends, null, 2) + '\n'));
     written.push(await write(args.out, 'ai-prediction-markets.html', aiPredictionMarketsPage.render(ctx, ctx.race)));
   }
@@ -2024,6 +2029,9 @@ async function main() {
       'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'vs', 'guides',
       'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
       'pillars', 'sources',
+      // FINDABILITY #124 — Outrank landings + Search Trends: hand-typed
+      // /verify/ /free-tools/ /search-trends/ /trends/ were 404 while .html worked.
+      'verify', 'free-tools', 'search-trends', 'ai-prediction-markets', 'trends',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...facetPages.allLabs(ctx).map((p) => `lab/${p.id}`),

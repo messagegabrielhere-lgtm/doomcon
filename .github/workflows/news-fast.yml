@@ -326,6 +326,25 @@ jobs:
                 [ -f "$root/vs/doombench.html" ] && cp -a "$root/vs/doombench.html" "$root/vs/doom.html"
                 [ -f "$root/vs/skynet-countdown.html" ] && cp -a "$root/vs/skynet-countdown.html" "$root/vs/skynet.html"
                 [ -f "$root/vs/takeofftracker.html" ] && cp -a "$root/vs/takeofftracker.html" "$root/vs/takeoff.html"
+                # FINDABILITY #124 — /trends short alias + Outrank directory indexes.
+                if [ -f "$root/search-trends.html" ]; then
+                  cp -a "$root/search-trends.html" "$root/trends.html"
+                  mkdir -p "$root/trends" "$root/search-trends"
+                  cp -a "$root/search-trends.html" "$root/trends/index.html"
+                  cp -a "$root/search-trends.html" "$root/search-trends/index.html"
+                fi
+                if [ -f "$root/verify.html" ]; then
+                  mkdir -p "$root/verify"
+                  cp -a "$root/verify.html" "$root/verify/index.html"
+                fi
+                if [ -f "$root/free-tools.html" ]; then
+                  mkdir -p "$root/free-tools"
+                  cp -a "$root/free-tools.html" "$root/free-tools/index.html"
+                fi
+                if [ -f "$root/ai-prediction-markets.html" ]; then
+                  mkdir -p "$root/ai-prediction-markets"
+                  cp -a "$root/ai-prediction-markets.html" "$root/ai-prediction-markets/index.html"
+                fi
               }
               if [ -d .pages/.git ]; then
                 if ! git -C .pages fetch -q origin gh-pages 2>/dev/null \

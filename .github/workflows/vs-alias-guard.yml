@@ -54,14 +54,39 @@ jobs:
           restore_one vs/doombench.html vs/doom.html
           restore_one vs/skynet-countdown.html vs/skynet.html
           restore_one vs/takeofftracker.html vs/takeoff.html
+          # FINDABILITY #124 — /trends short alias + directory indexes.
+          restore_dir() {
+            local primary="$1" dir="$2"
+            if [ ! -f "$primary" ]; then
+              echo "skip $dir/ — primary $primary missing"
+              return 0
+            fi
+            mkdir -p "$dir"
+            if [ -f "$dir/index.html" ] && cmp -s "$primary" "$dir/index.html"; then
+              echo "ok $dir/"
+              return 0
+            fi
+            cp -a "$primary" "$dir/index.html"
+            echo "restored $dir/ from $primary"
+            restored=1
+          }
+          restore_one search-trends.html trends.html
+          restore_dir search-trends.html trends
+          restore_dir search-trends.html search-trends
+          restore_dir verify.html verify
+          restore_dir free-tools.html free-tools
+          restore_dir ai-prediction-markets.html ai-prediction-markets
           if [ "$restored" -ne 1 ]; then
-            echo "all vs short aliases present — nothing to publish"
+            echo "all vs/trends/dir aliases present — nothing to publish"
             exit 0
           fi
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add vs/doom.html vs/skynet.html vs/takeoff.html
-          git commit -q -m "guard: restore vs short aliases (FINDABILITY #117) — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git add vs/doom.html vs/skynet.html vs/takeoff.html \
+            trends.html trends/index.html search-trends/index.html \
+            verify/index.html free-tools/index.html ai-prediction-markets/index.html \
+            2>/dev/null || true
+          git commit -q -m "guard: restore tip aliases (FINDABILITY #117/#124) — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           for attempt in 1 2 3; do
             if git push -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages; then
               echo "published alias restore"

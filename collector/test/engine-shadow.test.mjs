@@ -346,6 +346,15 @@ test('vs-alias-guard workflow restores missing short aliases (FINDABILITY #117)'
   assert.match(yml, /contents: write/);
 });
 
+test('vs-alias-guard restores /trends + Outrank directory indexes (FINDABILITY #124)', () => {
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
+  assert.match(yml, /FINDABILITY #124/);
+  assert.match(yml, /trends\.html/);
+  assert.match(yml, /restore_dir search-trends\.html trends/);
+  assert.match(yml, /restore_dir verify\.html verify/);
+  assert.match(yml, /restore_dir free-tools\.html free-tools/);
+});
+
 test('news-fast restores vs short aliases on publish (FINDABILITY #114)', () => {
   // Orphan newsroom publish wiped /vs/skynet.html (and #113 aliases) from tip
   // within minutes because --only news public/ lacks those files.
@@ -360,6 +369,14 @@ test('news-fast restores vs short aliases on publish (FINDABILITY #114)', () => 
   assert.ok(calls.length >= 2, `expected ≥2 restore_vs_aliases calls, got ${calls.length}`);
 });
 
+test('news-fast restores /trends + Outrank dir indexes (FINDABILITY #124)', () => {
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8');
+  assert.match(yml, /FINDABILITY #124/);
+  assert.match(yml, /trends\.html/);
+  assert.match(yml, /verify\/index\.html/);
+  assert.match(yml, /free-tools\/index\.html/);
+});
+
 test('collect.yml Publish restores vs short aliases (FINDABILITY #115)', () => {
   // collect orphan Publish tars public/ the same way news-fast orphan did —
   // news-only rebuilds omit /vs/doom.html etc. and would wipe tip.
@@ -370,6 +387,22 @@ test('collect.yml Publish restores vs short aliases (FINDABILITY #115)', () => {
   assert.match(yml, /vs\/takeoff\.html/);
   const copies = yml.match(/cp -a \.pages\/vs\/skynet-countdown\.html \.pages\/vs\/skynet\.html/g) || [];
   assert.ok(copies.length >= 2, `expected restore on newsroom + full Publish, got ${copies.length}`);
+});
+
+test('collect.yml Publish restores /trends + Outrank dir indexes (FINDABILITY #124)', () => {
+  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  assert.match(yml, /FINDABILITY #124/);
+  const trends = yml.match(/cp -a \.pages\/search-trends\.html \.pages\/trends\.html/g) || [];
+  assert.ok(trends.length >= 2, `expected trends restore on newsroom + full Publish, got ${trends.length}`);
+  const verify = yml.match(/cp -a \.pages\/verify\.html \.pages\/verify\/index\.html/g) || [];
+  assert.ok(verify.length >= 2, `expected verify/ restore on both Publish paths, got ${verify.length}`);
+});
+
+test('build emits /trends.html alias + directory indexes (FINDABILITY #124)', () => {
+  const src = readFileSync(join(ROOT, 'site', 'build.mjs'), 'utf8');
+  assert.match(src, /FINDABILITY #124/);
+  assert.match(src, /trends\.html/);
+  assert.match(src, /'verify', 'free-tools', 'search-trends', 'ai-prediction-markets', 'trends'/);
 });
 
 test('news-only skips full sitemap and caps live day hubs (FINDABILITY #106)', () => {
