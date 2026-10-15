@@ -565,6 +565,11 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Meta Muse and open-weight AI?`,
       `${brand.NAME} scores press that names Meta AI. When Muse Spark, Muse Wonder, or Meta open-weight / Mac AI partnership headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #193 — Meta + Apple Mac AI / Muse-on-Mac partnership tape → gated lab.
+    faq.push([
+      `Why does ${brand.NAME} watch Meta and Apple Mac AI partnerships?`,
+      `${brand.NAME} scores press that names Meta AI. When Meta and Apple team up to run Muse / open-weight models on Mac Studio (or those headlines spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a product review, not a stock tip, and not a doom score. Apple on-device AI without Meta still routes to ${ctx.url('/lab/apple.html')}. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #170 — Apple Intelligence / on-device AI / China launch tape → gated lab.
   if (player.id === 'apple') {

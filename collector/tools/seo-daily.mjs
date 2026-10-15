@@ -835,6 +835,7 @@ export const TRENDS_ROUTES_ASML_NEEDLE = 'ASML / EUV AI chip tools → /lab/asml
 export const TRENDS_ROUTES_TSMC_NEEDLE = 'TSMC / AI foundry → /lab/tsmc.html';
 export const TRENDS_ROUTES_AMAZON_BEE_NEEDLE = 'Amazon Bee / AI wearables → /lab/amazon.html';
 export const TRENDS_ROUTES_META_MUSE_NEEDLE = 'Meta Muse / open-weight AI → /lab/meta.html';
+export const TRENDS_ROUTES_META_APPLE_MAC_NEEDLE = 'Meta–Apple Mac AI / Muse on Mac → /lab/meta.html';
 export const TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE = 'Apple Intelligence → /lab/apple.html';
 export const TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE = 'Microsoft Copilot → /lab/microsoft.html';
 export const TRENDS_ROUTES_XAI_GROK_NEEDLE = 'Grok / xAI → /lab/xai.html';
@@ -863,6 +864,7 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_TSMC_NEEDLE)
     && text.includes(TRENDS_ROUTES_AMAZON_BEE_NEEDLE)
     && text.includes(TRENDS_ROUTES_META_MUSE_NEEDLE)
+    && text.includes(TRENDS_ROUTES_META_APPLE_MAC_NEEDLE)
     && text.includes(TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE)
     && text.includes(TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE)
     && text.includes(TRENDS_ROUTES_XAI_GROK_NEEDLE)
@@ -1223,6 +1225,24 @@ export function hasOpenaiChromeFaq(html, needle = OPENAI_CHROME_FAQ_NEEDLE) {
 export function hasAgentsOpenaiChrome(body, needle = AGENTS_OPENAI_CHROME_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/openai.html');
+}
+
+/** FINDABILITY #193 — Meta–Apple Mac AI / Muse-on-Mac FAQ + agent maps. */
+export const META_APPLE_MAC_FAQ_NEEDLE = 'Why does SIREN watch Meta and Apple Mac AI partnerships?';
+export const AGENTS_META_APPLE_MAC_NEEDLE = 'Meta and Apple Mac AI';
+
+/** Tip /lab/meta.html must keep the #193 Meta–Apple Mac FAQ. */
+export function hasMetaAppleMacFaq(html, needle = META_APPLE_MAC_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Meta–Apple Mac AI Trends to Meta lab (FINDABILITY #193).
+ * Wipe gap is `agents-meta-apple-mac-missing`.
+ */
+export function hasAgentsMetaAppleMac(body, needle = AGENTS_META_APPLE_MAC_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/meta.html');
 }
 
 /** FINDABILITY #182 — Hugging Face hack / incident FAQ + agent maps. */
@@ -1906,7 +1926,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -2309,6 +2329,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #193 — Meta–Apple Mac AI FAQ wiped or never landed.
+  if (ours.meta_apple_mac_faq === false) {
+    gaps.push({
+      id: 'meta-apple-mac-faq-missing',
+      severity: 'medium',
+      text: `/lab/meta.html missing Meta–Apple Mac AI FAQ (FINDABILITY #193) — re-overlay lab/meta.html or wait for full collect Publish on tip ≥ #193`,
+    });
+  }
+  // FINDABILITY #193 — agent maps must route Meta–Apple Mac AI Trends to Meta lab.
+  if (ours.agents_meta_apple_mac === false || ours.llms_meta_apple_mac === false) {
+    const which = [
+      ours.agents_meta_apple_mac === false ? 'agents.md' : null,
+      ours.llms_meta_apple_mac === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-meta-apple-mac-missing',
+      severity: 'medium',
+      text: `${which} missing Meta–Apple Mac AI → /lab/meta.html Trends tip (FINDABILITY #193) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #193`,
+    });
+  }
+
   // FINDABILITY #182 — Hugging Face tag FAQ wiped or never landed.
   if (ours.huggingface_faq === false) {
     gaps.push({
@@ -2649,6 +2690,10 @@ export function measureSite(site, byUrl) {
     row.meta_muse_faq = metaHtml?.ok ? hasMetaMuseFaq(metaHtml.value) : false;
     row.agents_meta_muse = agentsMd?.ok ? hasAgentsMetaMuse(agentsMd.value) : false;
     row.llms_meta_muse = llms?.ok ? hasAgentsMetaMuse(llmsBody) : false;
+    // FINDABILITY #193 — Meta–Apple Mac AI FAQ + agent maps (same lab as Muse #169).
+    row.meta_apple_mac_faq = metaHtml?.ok ? hasMetaAppleMacFaq(metaHtml.value) : false;
+    row.agents_meta_apple_mac = agentsMd?.ok ? hasAgentsMetaAppleMac(agentsMd.value) : false;
+    row.llms_meta_apple_mac = llms?.ok ? hasAgentsMetaAppleMac(llmsBody) : false;
     // FINDABILITY #170 — Apple Intelligence FAQ + agent maps.
     const appleHtml = byUrl.get(`${base}/lab/apple.html`);
     row.apple_intelligence_faq = appleHtml?.ok ? hasAppleIntelligenceFaq(appleHtml.value) : false;
@@ -3038,6 +3083,17 @@ export function formatMarkdown(report) {
       const lm = ours.llms_meta_muse == null ? '—' : (ours.llms_meta_muse ? 'yes' : 'NO');
       lines.push(`- Agent-map Meta Muse → lab (#169): agents.md **${ag}** · llms.txt **${lm}**`);
     }
+    if (ours && ours.meta_apple_mac_faq != null) {
+      lines.push(
+        `- Meta–Apple Mac AI FAQ (#193): **${ours.meta_apple_mac_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_meta_apple_mac != null || ours.llms_meta_apple_mac != null)) {
+      const ag = ours.agents_meta_apple_mac == null ? '—' : (ours.agents_meta_apple_mac ? 'yes' : 'NO');
+      const lm = ours.llms_meta_apple_mac == null ? '—' : (ours.llms_meta_apple_mac ? 'yes' : 'NO');
+      lines.push(`- Agent-map Meta–Apple Mac AI → lab (#193): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+
     if (ours && ours.apple_intelligence_faq != null) {
       lines.push(
         `- Apple Intelligence FAQ (#170): **${ours.apple_intelligence_faq ? 'ok' : 'NO'}**`,
@@ -4392,6 +4448,36 @@ function selftest() {
   if (!openaiChromeGaps.some((g) => g.id === 'agents-openai-chrome-missing')) {
     throw new Error('agents-openai-chrome-missing gap');
   }
+  if (hasMetaAppleMacFaq(META_APPLE_MAC_FAQ_NEEDLE) !== true) {
+    throw new Error('hasMetaAppleMacFaq true');
+  }
+  if (hasMetaAppleMacFaq('Why does SIREN watch Meta Muse and open-weight AI?') !== false) {
+    throw new Error('hasMetaAppleMacFaq false');
+  }
+  if (hasAgentsMetaAppleMac('Meta and Apple Mac AI → https://siren.watch/lab/meta.html') !== true) {
+    throw new Error('hasAgentsMetaAppleMac true');
+  }
+  if (hasAgentsMetaAppleMac('https://siren.watch/lab/meta.html only') !== false) {
+    throw new Error('hasAgentsMetaAppleMac needs Meta and Apple Mac AI needle');
+  }
+  const metaAppleMacGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      meta_apple_mac_faq: false,
+      agents_meta_apple_mac: false,
+      llms_meta_apple_mac: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!metaAppleMacGaps.some((g) => g.id === 'meta-apple-mac-faq-missing')) {
+    throw new Error('meta-apple-mac-faq-missing gap');
+  }
+  if (!metaAppleMacGaps.some((g) => g.id === 'agents-meta-apple-mac-missing')) {
+    throw new Error('agents-meta-apple-mac-missing gap');
+  }
   if (hasHuggingfaceFaq(HUGGINGFACE_FAQ_NEEDLE) !== true) {
     throw new Error('hasHuggingfaceFaq true');
   }
@@ -4530,6 +4616,7 @@ function selftest() {
     TRENDS_ROUTES_TSMC_NEEDLE,
     TRENDS_ROUTES_AMAZON_BEE_NEEDLE,
     TRENDS_ROUTES_META_MUSE_NEEDLE,
+    TRENDS_ROUTES_META_APPLE_MAC_NEEDLE,
     TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
     TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
     TRENDS_ROUTES_XAI_GROK_NEEDLE,
@@ -4551,7 +4638,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

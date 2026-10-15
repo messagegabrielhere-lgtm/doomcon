@@ -123,6 +123,10 @@ import {
   hasAgentsOpenaiOutage,
   OPENAI_OUTAGE_FAQ_NEEDLE,
   OPENAI_CHROME_FAQ_NEEDLE,
+  META_APPLE_MAC_FAQ_NEEDLE,
+  TRENDS_ROUTES_META_APPLE_MAC_NEEDLE,
+  hasMetaAppleMacFaq,
+  hasAgentsMetaAppleMac,
   TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
   TRENDS_ROUTES_OPENAI_CHROME_NEEDLE,
   hasHuggingfaceFaq,
@@ -1170,6 +1174,30 @@ describe('seo-daily surfaces', () => {
     }
   });
 
+  it('detects Meta–Apple Mac AI FAQ + agent-map lag (FINDABILITY #193)', () => {
+    assert.equal(hasMetaAppleMacFaq(META_APPLE_MAC_FAQ_NEEDLE), true);
+    assert.equal(hasMetaAppleMacFaq('Why does SIREN watch Meta Muse and open-weight AI?'), false);
+    assert.equal(
+      hasAgentsMetaAppleMac('Meta and Apple Mac AI → https://siren.watch/lab/meta.html'),
+      true,
+    );
+    assert.equal(hasAgentsMetaAppleMac('https://siren.watch/lab/meta.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        meta_apple_mac_faq: false,
+        agents_meta_apple_mac: false,
+        llms_meta_apple_mac: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'meta-apple-mac-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-meta-apple-mac-missing'));
+  });
+
   it('detects Hugging Face hack FAQ + agent-map lag (FINDABILITY #182)', () => {
     assert.equal(hasHuggingfaceFaq(HUGGINGFACE_FAQ_NEEDLE), true);
     assert.equal(hasHuggingfaceFaq('What has SIREN scored about Hugging Face?'), false);
@@ -1274,6 +1302,7 @@ describe('seo-daily surfaces', () => {
       TRENDS_ROUTES_TSMC_NEEDLE,
       TRENDS_ROUTES_AMAZON_BEE_NEEDLE,
       TRENDS_ROUTES_META_MUSE_NEEDLE,
+      TRENDS_ROUTES_META_APPLE_MAC_NEEDLE,
       TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
       TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
       TRENDS_ROUTES_XAI_GROK_NEEDLE,

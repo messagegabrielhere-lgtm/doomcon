@@ -277,13 +277,14 @@ if [ -f "$PRESERVE_FAQ/lab/amazon.html" ] \
   echo "restored lab/amazon.html Amazon Bee FAQ (#167)"
 fi
 
-# FINDABILITY #169 — restore tip /lab/meta.html when Meta Muse FAQ
-# is missing after mid-merge / orphan Publish on tip < #169.
+# FINDABILITY #169/#193 — restore tip /lab/meta.html when Meta Muse or
+# Meta–Apple Mac FAQ is missing after mid-merge / orphan Publish.
 if [ -f "$PRESERVE_FAQ/lab/meta.html" ] \
-  && ! grep -qF 'Why does SIREN watch Meta Muse and open-weight AI?' ".pages/lab/meta.html" 2>/dev/null; then
+  && { ! grep -qF 'Why does SIREN watch Meta Muse and open-weight AI?' ".pages/lab/meta.html" 2>/dev/null \
+    || ! grep -qF 'Why does SIREN watch Meta and Apple Mac AI partnerships?' ".pages/lab/meta.html" 2>/dev/null; }; then
   mkdir -p .pages/lab
   cp -a "$PRESERVE_FAQ/lab/meta.html" .pages/lab/meta.html
-  echo "restored lab/meta.html Meta Muse FAQ (#169)"
+  echo "restored lab/meta.html Meta Muse + Meta–Apple Mac FAQ (#169/#193)"
 fi
 
 # FINDABILITY #170 — restore tip /lab/apple.html when Apple Intelligence FAQ
@@ -422,6 +423,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
     || ! grep -qF 'TSMC / AI foundry → /lab/tsmc.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Amazon Bee / AI wearables → /lab/amazon.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Meta Muse / open-weight AI → /lab/meta.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'Meta–Apple Mac AI / Muse on Mac → /lab/meta.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Apple Intelligence → /lab/apple.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Grok / xAI → /lab/xai.html' ".pages/search-trends.html" 2>/dev/null \
