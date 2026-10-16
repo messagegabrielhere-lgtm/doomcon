@@ -1,17 +1,16 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T05:24Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,691** sitemap URLs / news **200** (pizzint news-sitemap **14** —
-`pizzint-news-alive`; keep keyword-rich lane); Trends tip (`generated_at` ~04:30Z,
-`ai_related_total` **0**; Nvidia + Tesla watchlist trending — already gated; hold
-doorway); News keywords **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
-**#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
-**#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
-GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
-**#222** Muse Spark / Muse Spark Open + **#224** Tencent Cloud + **#226** CERT-In
-+ **#228** DeepSeek V4.1 Flash + **#231** Nemotron 3.5 Super VL (multi-title
-Super VL tape; bare Nemotron left variant missing under 12-cap); tip merge
-**#210** + **#218** Base-beside-MAI hygiene; `seo-daily` probes
+**Measured:** 2026-10-16T05:46Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,691** sitemap URLs / news **200** (pizzint news-sitemap **0** —
+`google-news-open`; keep keyword-rich lane); Trends tip (`ai_related_total` **0**;
+Tesla watchlist trending — already gated; hold doorway); News keywords **#199**
+METR + Bee + **#200** Apertus / Apertus 1.5 + **#204** Bluesky / Attie / Nscale +
+**#206** Starshield + **#208** Roadster + **#212** Fable / Fable 5 / 5.1 / 5.5 +
+**#214** ChatGPT Voice / GPT-Live / GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 +
+**#220** MAI-Base FAQ + **#222** Muse Spark / Muse Spark Open + **#224** Tencent Cloud +
+**#226** CERT-In + **#228** DeepSeek V4.1 Flash + **#231** Nemotron 3.5 Super VL
+live on tip (`2b27e29`; CDN lag **0**; Flash / CERT / Tencent / Muse + MAI tips
+intact); tip merge **#210** + **#218** Base-beside-MAI hygiene; `seo-daily` probes
 **#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**
 catch tip wipe / CDN lag;
 
