@@ -132,14 +132,15 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
     '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/api/search-trends.json',
     '/watts.html',
     '/p-doom.html', '/pdoom.html',
-    '/ai-activity-index.html',
+    '/ai-activity-index.html', '/ai-activity-level.html',
     '/doombench.html', '/skynet-countdown.html', '/pizzint.html', '/takeofftracker.html',
     '/doomsday-clock.html', '/ai-doom.html', '/doom-index.html']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.match(txt, /short alias https:\/\/siren\.watch\/trends\.html/);
   assert.match(txt, /short alias https:\/\/siren\.watch\/pdoom\.html/);
-  assert.match(txt, /short alias https:\/\/siren\.watch\/ai-activity-index\.html/);
+  assert.match(txt, /short aliases https:\/\/siren\.watch\/ai-activity-index\.html/);
+  assert.match(txt, /https:\/\/siren\.watch\/ai-activity-level\.html/);
   assert.match(txt, /root https:\/\/siren\.watch\/doombench\.html/);
   assert.match(txt, /short https:\/\/siren\.watch\/doomsday-clock\.html/);
   assert.match(txt, /short https:\/\/siren\.watch\/ai-doom\.html/);
@@ -270,14 +271,15 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
     '/vs/doombench.html', '/vs/doom.html', '/vs/skynet-countdown.html', '/vs/skynet.html',
     '/vs/pdoom.html', '/vs/takeofftracker.html', '/vs/takeoff.html',
     '/p-doom.html', '/pdoom.html',
-    '/ai-activity-index.html',
+    '/ai-activity-index.html', '/ai-activity-level.html',
     '/doombench.html', '/skynet-countdown.html', '/pizzint.html', '/takeofftracker.html',
     '/doomsday-clock.html', '/ai-doom.html', '/doom-index.html', '/ai-doomsday-clock.html']) {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
   assert.match(md, /short alias https:\/\/siren\.watch\/trends\.html/);
   assert.match(md, /short alias https:\/\/siren\.watch\/pdoom\.html/);
-  assert.match(md, /short alias https:\/\/siren\.watch\/ai-activity-index\.html/);
+  assert.match(md, /short aliases https:\/\/siren\.watch\/ai-activity-index\.html/);
+  assert.match(md, /https:\/\/siren\.watch\/ai-activity-level\.html/);
   assert.match(md, /root https:\/\/siren\.watch\/doombench\.html/);
   assert.match(md, /short https:\/\/siren\.watch\/doomsday-clock\.html/);
   assert.match(md, /short https:\/\/siren\.watch\/ai-doom\.html/);

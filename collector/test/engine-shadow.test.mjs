@@ -646,6 +646,27 @@ test('ai-activity-index home typed-guess alias (FINDABILITY #252)', () => {
   assert.match(indexnow, /FINDABILITY #252/);
 });
 
+test('ai-activity-level home typed-guess alias (FINDABILITY #262)', () => {
+  const src = readFileSync(join(ROOT, 'site', 'build.mjs'), 'utf8');
+  assert.match(src, /FINDABILITY #262/);
+  assert.match(src, /ai-activity-level\.html/);
+  assert.match(src, /'ai-activity-level'/);
+  const guard = readFileSync(join(ROOT, '.github', 'workflows', 'vs-alias-guard.yml'), 'utf8');
+  assert.match(guard, /FINDABILITY #262/);
+  assert.match(guard, /restore_one index\.html ai-activity-level\.html/);
+  assert.match(guard, /restore_dir index\.html ai-activity-level/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #262/);
+  assert.match(newsFast, /ai-activity-level\.html/);
+  const collect = collectPublishSrc();
+  const copies = collect.match(/cp -a \.pages\/index\.html \.pages\/ai-activity-level\.html/g) || [];
+  assert.ok(copies.length >= 2, `expected ai-activity-level restore on both Publish paths, got ${copies.length}`);
+  assert.match(collect, /\/ai-activity-level\.html/);
+  const indexnow = readFileSync(join(ROOT, 'collector', 'indexnow.mjs'), 'utf8');
+  assert.match(indexnow, /\/ai-activity-level\.html/);
+  assert.match(indexnow, /FINDABILITY #262/);
+});
+
 test('root rival typed-guess aliases restored (FINDABILITY #131)', () => {
   const compare = readFileSync(join(ROOT, 'site', 'templates', 'comparePages.mjs'), 'utf8');
   assert.match(compare, /FINDABILITY #131/);

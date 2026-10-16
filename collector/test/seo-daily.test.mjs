@@ -25,6 +25,8 @@ import {
   hasPdoomShortAlias,
   ACTIVITY_INDEX_ALIAS,
   hasActivityIndexAlias,
+  ACTIVITY_LEVEL_ALIAS,
+  hasActivityLevelAlias,
   ROOT_RIVAL_AGENT_ALIASES,
   hasRootRivalAliases,
   HEAD_TERM_AGENT_ALIASES,
@@ -482,6 +484,29 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'agents-activity-index-alias-missing'));
+  });
+
+  it('monitors /ai-activity-level typed-guess alias (FINDABILITY #262)', () => {
+    for (const p of ['/ai-activity-level.html', '/ai-activity-level/']) {
+      assert.ok(CORE_LIVE_SURFACES.includes(p), `CORE_LIVE missing ${p}`);
+    }
+  });
+
+  it('detects missing /ai-activity-level.html in agent maps (FINDABILITY #262)', () => {
+    assert.equal(ACTIVITY_LEVEL_ALIAS, '/ai-activity-level.html');
+    assert.equal(hasActivityLevelAlias('short alias /ai-activity-level.html'), true);
+    assert.equal(hasActivityLevelAlias('/ai-activity-index.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        agents_activity_level_alias: false, llms_activity_level_alias: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'agents-activity-level-alias-missing'));
   });
 
   it('detects missing /pdoom.html in agent maps (FINDABILITY #130)', () => {
