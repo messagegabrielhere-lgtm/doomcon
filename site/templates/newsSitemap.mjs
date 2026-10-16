@@ -197,6 +197,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // pizzint-news-alive; Anthropic / Claude fill 12-cap slots and drop the
   // consulting-buyer company surface (parallel to CERT-In #226 / Airship #241).
   'Accenture',
+  // FINDABILITY #273 — multi-title G7 AI cyberattack-drill tape while
+  // pizzint-news-alive (4 titles); Google / topic / source meta fill the
+  // 12-cap and drop the G7 forum surface (parallel to CERT-In #226).
+  'G7',
 ]);
 
 /**

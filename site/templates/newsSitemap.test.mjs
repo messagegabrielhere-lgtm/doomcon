@@ -1543,6 +1543,40 @@ test('news sitemap keywords include Accenture from multi-title Claude spend tape
   assert.doesNotMatch(c, /\bAccenture\b/);
 });
 
+test('news sitemap keywords include G7 from multi-title AI cyber drill tape (FINDABILITY #273)', () => {
+  // Multi-title G7 tape: AI cyberattack drills on banks; Google / topic /
+  // source meta fill 12-cap and drop the G7 forum surface.
+  const a = keywordsFor({
+    title: 'G7 Finance Leaders Approve AI Cyberattack Drills',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.match(a, /\bG7\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('G7') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'G7 Will Stage Fake AI Cyberattacks on Banks to Find the Cracks First',
+    summary: 'Finance ministers plan simulated AI attacks.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.match(b, /\bG7\b/);
+  const c = keywordsFor({
+    title: 'Finance ministers plan bank cyber drills without naming a forum',
+    summary: 'Generic cyber-drill noise must not invent a forum needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /\bG7\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.

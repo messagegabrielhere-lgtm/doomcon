@@ -500,6 +500,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Cohere',
   // FINDABILITY #271 — Accenture company needle (multi-title Claude spend tape).
   'Accenture',
+  // FINDABILITY #273 — G7 forum needle (multi-title AI cyber drill tape).
+  'G7',
 ]);
 
 /**
@@ -5624,6 +5626,23 @@ function selftest() {
   }
   if (accentureLags.filter((r) => /Spend Only \$29/i.test(r.title)).some((r) => r.lab === 'Accenture')) {
     throw new Error('newsKeywordLags should not flag Accenture when keywords include it');
+  }
+  // FINDABILITY #273 — catch tip wipe of G7 needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('G7')) {
+    throw new Error('probe labs missing G7');
+  }
+  const g7LagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>G7 Finance Leaders Approve AI Cyberattack Drills</news:title>'
+    + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press, wires-ai</news:keywords></url>'
+    + '<url><news:title>G7 Will Stage Fake AI Cyberattacks on Banks to Find the Cracks First</news:title>'
+    + '<news:keywords>G7, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const g7Lags = newsKeywordLags(g7LagXml);
+  if (!g7Lags.some((r) => r.lab === 'G7')) {
+    throw new Error(`newsKeywordLags expected G7 lag: ${JSON.stringify(g7Lags)}`);
+  }
+  if (g7Lags.filter((r) => /Stage Fake AI/i.test(r.title)).some((r) => r.lab === 'G7')) {
+    throw new Error('newsKeywordLags should not flag G7 when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

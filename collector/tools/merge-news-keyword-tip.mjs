@@ -293,6 +293,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Accenture')) {
     throw new Error('probe labs must include Accenture');
   }
+  // FINDABILITY #273 — G7 forum needle stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('G7')) {
+    throw new Error('probe labs must include G7');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }
