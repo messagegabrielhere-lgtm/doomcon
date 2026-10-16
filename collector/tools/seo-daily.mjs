@@ -472,6 +472,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Muse Spark', 'Muse Spark Open',
   // FINDABILITY #292 — Mac Studios hardware needle (Muse Spark Open tape).
   'Mac Studios',
+  // FINDABILITY #294 — singular Mac Studio companion (Apple–Meta Muse tape).
+  'Mac Studio',
   // FINDABILITY #224 — Tencent Cloud product-class needle (multi-title tape).
   'Tencent Cloud',
   // FINDABILITY #226 — CERT-In agency needle (multi-title AI cyber tape).
@@ -5832,6 +5834,24 @@ function selftest() {
   }
   if (macStudiosLags.filter((r) => /two Mac Studios/i.test(r.title)).some((r) => r.lab === 'Mac Studios')) {
     throw new Error('newsKeywordLags should not flag Mac Studios when keywords include it');
+  }
+  // FINDABILITY #294 — catch tip wipe of singular Mac Studio needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Mac Studio')) {
+    throw new Error('probe labs missing Mac Studio');
+  }
+  const macStudioLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Apple and Meta Team Up to Run Muse Local AI Model on Mac Studio</news:title>'
+    + '<news:keywords>Google, Meta, Apple, Muse, Apple Intelligence, AI, artificial intelligence, SIREN, Local AI, attention, press</news:keywords></url>'
+    + '<url><news:title>Meta Muse Spark Open brings 816B-parameter AI to Mac Studios</news:title>'
+    + '<news:keywords>Mac Studios, Muse Spark, Meta, Muse, AI, artificial intelligence, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const macStudioLags = newsKeywordLags(macStudioLagXml);
+  if (!macStudioLags.some((r) => r.lab === 'Mac Studio')) {
+    throw new Error(`newsKeywordLags expected Mac Studio lag: ${JSON.stringify(macStudioLags)}`);
+  }
+  // Plural Mac Studios titles must not false-flag the singular needle.
+  if (macStudioLags.filter((r) => /Mac Studios/i.test(r.title)).some((r) => r.lab === 'Mac Studio')) {
+    throw new Error('newsKeywordLags should not flag Mac Studio on plural Mac Studios titles');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
