@@ -156,6 +156,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Nemotron (+ Super VL) fill 12-cap slots while HF slug + "Bolt Models"
   // titles drop the Bolt product surface (parallel to Bee #199 bare needle).
   'Bolt',
+  // FINDABILITY #236 — multi-title DeepSeek V4 Pro tape; bare DeepSeek /
+  // DeepSeek-R fill 12-cap slots while vs-Nemotron titles drop the V4 Pro
+  // product surface (does not match DeepSeek V4.1 Pro).
+  'DeepSeek V4 Pro',
 ]);
 
 /**

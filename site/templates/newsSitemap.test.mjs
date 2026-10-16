@@ -1269,6 +1269,43 @@ test('news sitemap keywords include Nemotron 3.5 Super VL from multi-title tape 
   assert.doesNotMatch(c, /Nemotron 3\.5 Super VL/);
 });
 
+test('news sitemap keywords include DeepSeek V4 Pro from multi-title tape (FINDABILITY #236)', () => {
+  // Multi-title DeepSeek V4 Pro tape: bare DeepSeek fills a 12-cap slot while
+  // vs-Nemotron titles omit the V4 Pro product surface.
+  const a = keywordsFor({
+    title: 'Nemotron 3.5 Bolt 74B vs DeepSeek V4 Pro: 24GB vs 1.6T',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['DeepSeek', 'Nemotron'],
+  });
+  assert.match(a, /\bDeepSeek V4 Pro\b/);
+  assert.match(a, /\bBolt\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('DeepSeek V4 Pro') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Nemotron 3.5 Super VL vs DeepSeek V4 Pro: pixel economics',
+    summary: 'V4 Pro named beside Super VL.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['DeepSeek', 'Nemotron'],
+  });
+  assert.match(b, /\bDeepSeek V4 Pro\b/);
+  assert.match(b, /\bNemotron 3\.5 Super VL\b/);
+  const c = keywordsFor({
+    title: 'DeepSeek V4.1 Pro Leak: A 180 tok/s Unlabelled Endpoint',
+    summary: 'V4.1 Pro must not trip the V4 Pro needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['DeepSeek'],
+  });
+  assert.match(c, /\bDeepSeek V4\.1\b/);
+  assert.doesNotMatch(c, /DeepSeek V4 Pro/);
+});
+
 test('news sitemap keywords include Bolt from Nemotron 3.5 Bolt multi-title tape (FINDABILITY #234)', () => {
   // Multi-title Nemotron 3.5 Bolt companion tape: bare Nemotron fills a 12-cap
   // slot while HF slug + "Bolt Models" titles omit the Bolt product surface.

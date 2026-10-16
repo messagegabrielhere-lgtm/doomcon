@@ -474,6 +474,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Nemotron 3.5 Super VL',
   // FINDABILITY #234 — Nemotron 3.5 Bolt companion needle (bare Bolt).
   'Bolt',
+  // FINDABILITY #236 — DeepSeek V4 Pro product-class needle.
+  'DeepSeek V4 Pro',
 ]);
 
 /**
@@ -5225,6 +5227,23 @@ function selftest() {
   }
   if (boltLags.filter((r) => /Bolt Models/i.test(r.title)).some((r) => r.lab === 'Bolt')) {
     throw new Error('newsKeywordLags should not flag Bolt when keywords include it');
+  }
+  // FINDABILITY #236 — catch tip wipe of DeepSeek V4 Pro needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('DeepSeek V4 Pro')) {
+    throw new Error('probe labs missing DeepSeek V4 Pro');
+  }
+  const dsV4ProLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Nemotron 3.5 Bolt 74B vs DeepSeek V4 Pro: 24GB vs 1.6T</news:title>'
+    + '<news:keywords>DeepSeek, Nemotron, Bolt, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Nemotron 3.5 Super VL vs DeepSeek V4 Pro: pixel economics</news:title>'
+    + '<news:keywords>DeepSeek, Nemotron, Nemotron 3.5 Super VL, DeepSeek V4 Pro, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const dsV4ProLags = newsKeywordLags(dsV4ProLagXml);
+  if (!dsV4ProLags.some((r) => r.lab === 'DeepSeek V4 Pro')) {
+    throw new Error(`newsKeywordLags expected DeepSeek V4 Pro lag: ${JSON.stringify(dsV4ProLags)}`);
+  }
+  if (dsV4ProLags.filter((r) => /pixel economics/i.test(r.title)).some((r) => r.lab === 'DeepSeek V4 Pro')) {
+    throw new Error('newsKeywordLags should not flag DeepSeek V4 Pro when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
