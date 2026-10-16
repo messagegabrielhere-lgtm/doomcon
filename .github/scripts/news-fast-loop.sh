@@ -286,6 +286,12 @@ while [ "$(date +%s)" -lt "$END" ]; do
         mkdir -p "$root/pdoom"
         cp -a "$root/p-doom.html" "$root/pdoom/index.html"
       fi
+      # FINDABILITY #252 — /ai-activity-index typed guess (canonical on /).
+      if [ -f "$root/index.html" ]; then
+        cp -a "$root/index.html" "$root/ai-activity-index.html"
+        mkdir -p "$root/ai-activity-index"
+        cp -a "$root/index.html" "$root/ai-activity-index/index.html"
+      fi
       # FINDABILITY #133 — doomsday-clock / ai-doom / doom-index typed guesses.
       if [ -f "$root/ai-doomsday-clock.html" ]; then
         cp -a "$root/ai-doomsday-clock.html" "$root/doomsday-clock.html"
@@ -367,6 +373,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
           && { ! grep -qF '/ai-doom.html' "$root/$map" 2>/dev/null \
             || ! grep -qF '/doomsday-clock.html' "$root/$map" 2>/dev/null \
             || ! grep -qF '/doom-index.html' "$root/$map" 2>/dev/null \
+            || ! grep -qF '/ai-activity-index.html' "$root/$map" 2>/dev/null \
             || ! grep -qF 'root https://siren.watch/doombench.html' "$root/$map" 2>/dev/null \
             || { grep -qF '/lab/openai.html' "$root/$map" 2>/dev/null \
               && ! grep -qF 'OpenAI / ChatGPT' "$root/$map" 2>/dev/null; } \

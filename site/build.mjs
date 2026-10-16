@@ -1465,7 +1465,12 @@ async function main() {
   } catch { ctx.pmTop = []; }
   try { ctx.molt = JSON.parse(await readFile(path.join(args.data, 'moltbook.json'), 'utf8')); } catch { ctx.molt = null; }
   try { ctx.liveMedia = JSON.parse(await readFile(path.join(args.data, 'live-media.json'), 'utf8')); } catch { ctx.liveMedia = null; }
-  written.push(await write(args.out, 'index.html', homeV2.render(ctx, { head: classicHead })));
+  const homeHtml = homeV2.render(ctx, { head: classicHead });
+  written.push(await write(args.out, 'index.html', homeHtml));
+  // FINDABILITY #252 — typed /ai-activity-index guess (bare head-term SERP)
+  // must not 404 while home is live. Same body; canonical stays on /.
+  // Out of sitemap like vs/trends short aliases.
+  written.push(await write(args.out, 'ai-activity-index.html', homeHtml));
   written.push(await write(args.out, 'classic.html', classicHtml));
 
   // NEWS-ONLY FAST PATH. Used by the minute newsroom loop. Rewrites the pages
@@ -1638,7 +1643,8 @@ async function main() {
       if (trends) written.push(await write(args.out, 'api/search-trends.json', JSON.stringify(trends, null, 2) + '\n'));
     }
     await writeDirectoryAliases(args.out, [
-      'news', 'leaders', 'search-trends', 'trends',
+      // FINDABILITY #252 — /ai-activity-index/ directory for the typed guess.
+      'news', 'leaders', 'search-trends', 'trends', 'ai-activity-index',
       ...liveDays.map((day) => `news/${day.day}`),
     ], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
@@ -2062,6 +2068,8 @@ async function main() {
       // FINDABILITY #133 — /ai-doom /doom-index typed guesses.
       'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'vs', 'guides',
       'ai-doom', 'doom-index', 'ai-doom-index',
+      // FINDABILITY #252 — /ai-activity-index/ directory for the home typed guess.
+      'ai-activity-index',
       'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
       'pillars', 'sources',
       // FINDABILITY #124 — Outrank landings + Search Trends: hand-typed

@@ -86,6 +86,9 @@ jobs:
           # FINDABILITY #129 — unhyphenated /pdoom typed guess.
           restore_one p-doom.html pdoom.html
           restore_dir p-doom.html pdoom
+          # FINDABILITY #252 — /ai-activity-index typed guess (canonical on /).
+          restore_one index.html ai-activity-index.html
+          restore_dir index.html ai-activity-index
           # FINDABILITY #133 — doomsday-clock / ai-doom / doom-index typed guesses.
           restore_one ai-doomsday-clock.html doomsday-clock.html
           restore_dir ai-doomsday-clock.html doomsday-clock
@@ -120,6 +123,7 @@ jobs:
             trends.html trends/index.html search-trends/index.html \
             verify/index.html free-tools/index.html ai-prediction-markets/index.html \
             pdoom.html pdoom/index.html \
+            ai-activity-index.html ai-activity-index/index.html \
             doomsday-clock.html doomsday-clock/index.html \
             ai-doom.html ai-doom/index.html \
             doom-index.html ai-doom-index.html doom-index/index.html ai-doom-index/index.html \
@@ -128,7 +132,7 @@ jobs:
             pizzint.html pizzint/index.html \
             takeofftracker.html takeoff.html takeofftracker/index.html takeoff/index.html \
             2>/dev/null || true
-          git commit -q -m "guard: restore tip aliases (FINDABILITY #117/#124/#129/#131/#133) — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git commit -q -m "guard: restore tip aliases (FINDABILITY #117/#124/#129/#131/#133/#252) — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           for attempt in 1 2 3; do
             if git push -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages; then
               echo "published alias restore"
