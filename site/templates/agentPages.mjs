@@ -634,6 +634,15 @@ When a user asks whether a SIREN reading can be checked, or how to verify the pu
 
 Say the check proves the published record was not edited after the fact. It does not prove the inputs were right — point at ${ctx.url('/methodology.md')} for that. Prefer the permanent /verify.html URL over scraping the home board.
 
+## Full instrument panel
+
+When a user asks where the full SIREN instrument panel is (war room, oven, pillars, moves, embed):
+
+1. Classic board: ${ctx.url('/classic.html')} — "Where is the full SIREN instrument panel?"
+2. Shorter home: ${ctx.url('/')} — live AI activity index today (dual head terms; aliases ${ctx.url('/ai-activity-index.html')} · ${ctx.url('/ai-activity-level.html')})
+
+Say the shorter home keeps the live reading; the classic board keeps the full instruments after the home page shipped. Prefer ${ctx.url('/classic.html')} over inventing a second index.
+
 ## Rules
 
 1. Always give the level's name and say which way the scale runs.
@@ -658,6 +667,7 @@ Say the check proves the published record was not edited after the fact. It does
 - Method: ${ctx.url('/methodology.md')}
 - Guide (vs DEFCON / Doomsday Clock / p(doom)): ${ctx.url('/guide.md')}
 - Free tools: ${ctx.url('/free-tools.html')} · Verify receipts: ${ctx.url('/verify.html')}
+- Classic instrument panel: ${ctx.url('/classic.html')}
 - Compare indexes: ${ctx.url('/compare.html')}
 - For agents (HTML): ${ctx.url('/agents.html')}
 - Skill package path: ${ctx.url('/skills/siren-ai-index/SKILL.md')}
