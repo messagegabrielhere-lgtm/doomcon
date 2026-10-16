@@ -24,11 +24,13 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
   # FINDABILITY #141/#143/#145/#153/#154/#155/#157/#158/#161 — stash tip /lab/ +
   # companies hubs, home/classic, race, Watts/Micron/CoreWeave/Nvidia/Neoclouds
   # + Search Trends FAQs so mid-merge collect cannot wipe those overlays.
+  # FINDABILITY #210 — stash tip news-sitemap.xml so probe needles (Roadster /
+  # Starshield / …) survive orphan Publish on tip < #208.
   for hub in compare.html alternatives.html agents.md llms.txt \
     lab/index.html companies.html companies/index.html \
     index.html classic.html race.html race/index.html \
     watts.html watts/index.html lab/micron.html lab/coreweave.html \
-    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html; do
+    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html news-sitemap.xml; do
     if [ -f ".pages-faq-tip/$hub" ]; then
       mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
       cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -451,6 +453,12 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
   echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185)"
+fi
+# FINDABILITY #210 — merge tip news:keywords probe needles into rebuilt
+# news-sitemap so orphan Publish on tip < #208 cannot wipe Roadster/Starshield.
+if [ -f "$PRESERVE_FAQ/news-sitemap.xml" ] && [ -f .pages/news-sitemap.xml ]; then
+  node collector/tools/merge-news-keyword-tip.mjs \
+    "$PRESERVE_FAQ/news-sitemap.xml" .pages/news-sitemap.xml
 fi
 rm -rf "$PRESERVE_FAQ"
 cd .pages
