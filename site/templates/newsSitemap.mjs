@@ -211,6 +211,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // drop the product-class Surface Laptop Ultra surface (parallel to Bee
   // Frontier #275 / Krea 3 #256).
   'Surface Laptop Ultra',
+  // FINDABILITY #279 — multi-title RTX Spark on-device AI PC tape while
+  // pizzint-news-alive (3 titles); NVIDIA / NVDA / topic meta fill 12-cap
+  // slots and drop the product-class RTX Spark surface (parallel to Surface
+  // Laptop Ultra #277).
+  'RTX Spark',
 ]);
 
 /**

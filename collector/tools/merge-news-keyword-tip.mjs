@@ -308,6 +308,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Surface Laptop Ultra')) {
     throw new Error('probe labs must include Surface Laptop Ultra');
   }
+  // FINDABILITY #279 — RTX Spark stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('RTX Spark')) {
+    throw new Error('probe labs must include RTX Spark');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }

@@ -506,6 +506,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Bee Frontier', 'Bee Eclipse',
   // FINDABILITY #277 — Surface Laptop Ultra product needle (AI-laptop tape).
   'Surface Laptop Ultra',
+  // FINDABILITY #279 — RTX Spark product needle (on-device AI PC tape).
+  'RTX Spark',
 ]);
 
 /**
@@ -5683,6 +5685,23 @@ function selftest() {
   }
   if (surfaceLags.filter((r) => /local AI models/i.test(r.title)).some((r) => r.lab === 'Surface Laptop Ultra')) {
     throw new Error('newsKeywordLags should not flag Surface Laptop Ultra when keywords include it');
+  }
+  // FINDABILITY #279 — catch tip wipe of RTX Spark needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('RTX Spark')) {
+    throw new Error('probe labs missing RTX Spark');
+  }
+  const rtxLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>NVIDIA RTX Spark Laptops Launch Worldwide With Local AI Agent Support</news:title>'
+    + '<news:keywords>NVIDIA, Google, NVDA, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>NVIDIA RTX Spark PCs Available Today — A New Beginning for Windows PCs</news:title>'
+    + '<news:keywords>NVIDIA, RTX Spark, NVDA, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const rtxLags = newsKeywordLags(rtxLagXml);
+  if (!rtxLags.some((r) => r.lab === 'RTX Spark')) {
+    throw new Error(`newsKeywordLags expected RTX Spark lag: ${JSON.stringify(rtxLags)}`);
+  }
+  if (rtxLags.filter((r) => /Available Today/i.test(r.title)).some((r) => r.lab === 'RTX Spark')) {
+    throw new Error('newsKeywordLags should not flag RTX Spark when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
