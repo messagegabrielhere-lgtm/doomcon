@@ -1819,6 +1819,40 @@ test('news sitemap keywords include Vercel from multi-title Jev adoption tape (F
   assert.doesNotMatch(c, /\bVercel\b/);
 });
 
+test('news sitemap keywords include Elorian from multi-title Glimpse tape (FINDABILITY #302)', () => {
+  // Multi-title Elorian tape: Google / GPT / topic meta fill 12-cap slots while
+  // company-class Elorian titles drop the lab surface.
+  const a = keywordsFor({
+    title: 'Elorian launches Glimpse, an AI model built to reason in pictures',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Google'],
+  });
+  assert.match(a, /\bElorian\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Elorian') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Elorian\u2019s first AI model wants to reason with images, not just about them',
+    summary: 'Curly-apostrophe possessive still matches the Elorian needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'techcrunch-ai',
+    entities: ['GPT', 'GPT-6 Astra'],
+  });
+  assert.match(b, /\bElorian\b/);
+  const c = keywordsFor({
+    title: 'Glimpse AI model wants to reason with images, not just about them',
+    summary: 'Product-only tape — company surface not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Glimpse'],
+  });
+  assert.doesNotMatch(c, /\bElorian\b/);
+});
+
 test('news sitemap keywords include Mac Studio from Apple–Meta Muse local tape (FINDABILITY #294)', () => {
   // Singular Mac Studio: Apple / Meta / Muse / Apple Intelligence fill 12-cap
   // while #292 plural needle does not match "Mac Studio".

@@ -366,6 +366,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Beam')) {
     throw new Error('probe labs must include Beam');
   }
+  // FINDABILITY #302 — Elorian stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Elorian')) {
+    throw new Error('probe labs must include Elorian');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }

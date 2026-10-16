@@ -245,6 +245,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // OpenRouter fill the 12-cap and drop the company-class Vercel surface
   // (parallel to Accenture #271 / Airship #241).
   'Vercel',
+  // FINDABILITY #302 — multi-title Elorian vision-model tape while
+  // google-news-open (2 titles: Elorian launches Glimpse… + Elorian's first…);
+  // Google / GPT / topic meta fill the 12-cap and drop the company-class
+  // Elorian surface (parallel to Vercel #298 / Airship #241).
+  'Elorian',
 ]);
 
 /**
