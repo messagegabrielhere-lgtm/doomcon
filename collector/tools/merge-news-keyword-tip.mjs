@@ -281,6 +281,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Together AI')) {
     throw new Error('probe labs must include Together AI');
   }
+  // FINDABILITY #267 — Terafab fab needle stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Terafab')) {
+    throw new Error('probe labs must include Terafab');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }

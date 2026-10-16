@@ -184,6 +184,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // (Stanford Hybrid Reasoning Agents + Muse Spark Open on Together); topic
   // meta fill the 12-cap when titles rotate into the newest-200 window.
   'Together AI',
+  // FINDABILITY #267 — multi-title Terafab Texas fab tape while
+  // pizzint-news-alive (TSMC / Musk talks); bare TSMC fills a 12-cap slot
+  // while product-class Terafab titles drop the fab surface.
+  'Terafab',
 ]);
 
 /**
