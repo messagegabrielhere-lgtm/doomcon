@@ -318,6 +318,12 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // fills a 12-cap slot but drops the version-class Claude Mythos 5 / Mythos 5
   // surface (parallel to Kling 4.0 #336 / Xing 4.0 #338 / Bee Frontier #275).
   'Claude Mythos 5', 'Mythos 5',
+  // FINDABILITY #352 — multi-title Anthropic IPO tape while google-news-open
+  // (3+ titles: Could an Anthropic IPO… + Anthropic IPO timing… + Anthropic IPO
+  // raises 401(k)…); Anthropic / Claude / AI IPOs topic fill the 12-cap and drop
+  // the contiguous event surface — FAQ #163 already gates the lab (parallel to
+  // OpenAI lawsuit FAQ #162 / CERT-In #226). Hold bare Wall Street IPO noise.
+  'Anthropic IPO',
 ]);
 
 /**

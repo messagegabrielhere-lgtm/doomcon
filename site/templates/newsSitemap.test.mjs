@@ -2296,6 +2296,53 @@ test('news sitemap keywords include PS5 from multi-title local-AI console tape (
   assert.doesNotMatch(c, /\bPS5\b/);
 });
 
+test('news sitemap keywords include Anthropic IPO from multi-title IPO tape (FINDABILITY #352)', () => {
+  // Multi-title Anthropic IPO tape: Anthropic / Claude / AI IPOs fill 12-cap
+  // while the contiguous event surface is dropped (FAQ #163 gates the lab).
+  const a = keywordsFor({
+    title: 'Could an Anthropic IPO put your 401(k) at risk? The AI safety debate hits a new dimension.',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Google'],
+  });
+  assert.match(a, /\bAnthropic IPO\b/);
+  assert.match(a, /\bAnthropic\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Anthropic IPO') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Anthropic IPO timing, price is major factor for stocks now, says CIO',
+    summary: 'CIO weighs filing window beside Claude fundraising tape.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Google'],
+  });
+  assert.match(b, /\bAnthropic IPO\b/);
+  const c = keywordsFor({
+    title: 'Anthropic IPO raises 401(k) concerns amid AI safety debate',
+    summary: 'Retirement-plan exposure beside safety eval tape.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Google'],
+  });
+  assert.match(c, /\bAnthropic IPO\b/);
+  // Bare Anthropic / Claude tape must not invent the IPO event needle.
+  // (Summary must not name the needle — keywordsFor hay is title+summary.)
+  const d = keywordsFor({
+    title: 'Anthropic expands Claude safety eval access for enterprise buyers',
+    summary: 'Bare Anthropic / Claude tape must not invent a contiguous IPO event needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Google'],
+  });
+  assert.match(d, /\bAnthropic\b/);
+  assert.doesNotMatch(d, /\bAnthropic IPO\b/);
+});
+
 test('news sitemap keywords include PS5s from plural local-AI console tape (FINDABILITY #350)', () => {
   // Plural companion to #320: labNeedleRe does not match PS5s for the PS5
   // needle, so the plural surface drops under the 12-cap (Mac Studios #292).

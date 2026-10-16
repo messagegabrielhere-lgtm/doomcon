@@ -556,6 +556,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'PS5',
   // FINDABILITY #350 — plural PS5s companion (boundary misses PS5s titles).
   'PS5s',
+  // FINDABILITY #352 — Anthropic IPO event needle (multi-title; FAQ #163 gates lab).
+  'Anthropic IPO',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -6714,6 +6716,25 @@ function selftest() {
     );
     if (singularOnly.some((r) => r.lab === 'PS5s')) {
       throw new Error('newsKeywordLags must not flag PS5s on singular PS5 titles');
+    }
+  }
+  // FINDABILITY #352 — catch tip wipe of Anthropic IPO event needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Anthropic IPO')) {
+    throw new Error('probe labs missing Anthropic IPO');
+  }
+  {
+    const ipoLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Could an Anthropic IPO put your 401(k) at risk? The AI safety debate hits a new dimension.</news:title>'
+      + '<news:keywords>Anthropic, Google, Claude, AI, artificial intelligence, SIREN, AI safety, AI fundraising, AI IPOs, compute, press, gnews-ai</news:keywords></url>'
+      + '<url><news:title>Anthropic IPO timing, price is major factor for stocks now, says CIO</news:title>'
+      + '<news:keywords>Anthropic, Google, Claude, Anthropic IPO, AI, artificial intelligence, SIREN, AI fundraising, AI IPOs, compute, press</news:keywords></url>'
+      + '</urlset>';
+    const ipoLags = newsKeywordLags(ipoLagXml);
+    if (!ipoLags.some((r) => r.lab === 'Anthropic IPO')) {
+      throw new Error(`newsKeywordLags expected Anthropic IPO lag: ${JSON.stringify(ipoLags)}`);
+    }
+    if (ipoLags.filter((r) => /timing, price/i.test(r.title)).some((r) => r.lab === 'Anthropic IPO')) {
+      throw new Error('newsKeywordLags should not flag Anthropic IPO when keywords include it');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
