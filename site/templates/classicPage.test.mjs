@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { render } from './index.mjs';
+
+const here = dirname(fileURLToPath(import.meta.url));
 
 const state = JSON.parse(readFileSync(new URL('../../data/state.json', import.meta.url), 'utf8'));
 const news = JSON.parse(readFileSync(new URL('../../data/news.json', import.meta.url), 'utf8'));
@@ -19,6 +23,16 @@ const ctx = {
 };
 
 describe('classic page', () => {
+  it('build.mjs writes classic.html with view classic (FINDABILITY #318)', () => {
+    const build = readFileSync(join(here, '../build.mjs'), 'utf8');
+    assert.match(build, /indexPage\.render\(ctx,\s*\{\s*view:\s*'classic'\s*\}\)/);
+    assert.match(build, /const homeShellHtml = indexPage\.render\(ctx\)/);
+    assert.doesNotMatch(
+      build,
+      /const classicHtml = indexPage\.render\(ctx\);/,
+    );
+  });
+
   it('ships a question-shaped title, own canonical, speakable WebPage, and matching FAQPage', () => {
     const html = render(ctx, { view: 'classic' });
     assert.match(html, /<title>Where is the full SIREN instrument panel\?/);

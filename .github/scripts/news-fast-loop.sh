@@ -433,7 +433,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         fi
       done
     }
-    # FINDABILITY #143 — restore tip home/classic when #142 Organization
+    # FINDABILITY #143 — restore tip home when #142 Organization
     # knowsAbout labAboutLabel (OpenAI / ChatGPT) is missing after
     # news-only index.html overlay from tip < #142.
     # FINDABILITY #254 — also restore when exact head-term FAQ
@@ -451,10 +451,12 @@ while [ "$(date +%s)" -lt "$END" ]; do
     # copy still says ROUTINE; match the title tag, and only when tip is clean).
     # FINDABILITY #316 — also restore when tip dropped the decimal score from
     # <title> but Publish re-emitted `· 55.6` (tip must be score-free).
+    # FINDABILITY #318 — home needles apply to index.html only (classic is the
+    # instrument panel with its own title/canonical; never copy home onto it).
     restore_home_knowsabout() {
       local root="$1" preserve="$2"
       local hub
-      for hub in index.html classic.html; do
+      for hub in index.html; do
         if [ -f "$preserve/$hub" ] \
           && { ! grep -qF 'OpenAI / ChatGPT' "$root/$hub" 2>/dev/null \
             || ! grep -qF 'What is an AI activity index?' "$root/$hub" 2>/dev/null \
@@ -479,6 +481,18 @@ while [ "$(date +%s)" -lt "$END" ]; do
         cp -a "$root/index.html" "$root/ai-activity-level.html"
         mkdir -p "$root/ai-activity-level"
         cp -a "$root/index.html" "$root/ai-activity-level/index.html"
+      fi
+    }
+    # FINDABILITY #318 — restore tip /classic.html when panel title or
+    # canonical is missing (orphan tip/home overlay collapsed classic onto `/`).
+    restore_classic_panel() {
+      local root="$1" preserve="$2"
+      local hub=classic.html
+      if [ -f "$preserve/$hub" ] \
+        && { ! grep -qF 'Where is the full SIREN instrument panel?' "$root/$hub" 2>/dev/null \
+          || ! grep -qF 'rel="canonical" href="https://siren.watch/classic.html"' "$root/$hub" 2>/dev/null; }; then
+        cp -a "$preserve/$hub" "$root/$hub"
+        echo "restored $hub classic instrument panel (#318)"
       fi
     }
     # FINDABILITY #145 — restore tip /race.html when #144 labAboutLabel
@@ -904,6 +918,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_vs_aliases .pages
       restore_agent_maps .pages "$PRESERVE_MAPS"
       restore_home_knowsabout .pages "$PRESERVE_MAPS"
+      restore_classic_panel .pages "$PRESERVE_MAPS"
       restore_race_lab_labels .pages "$PRESERVE_MAPS"
       restore_watts_iren_faq .pages "$PRESERVE_MAPS"
       restore_micron_dram_faq .pages "$PRESERVE_MAPS"
@@ -993,6 +1008,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_agent_maps .pages "$PRESERVE_FAQ"
       restore_lab_hub_labels .pages "$PRESERVE_FAQ"
       restore_home_knowsabout .pages "$PRESERVE_FAQ"
+      restore_classic_panel .pages "$PRESERVE_FAQ"
       restore_race_lab_labels .pages "$PRESERVE_FAQ"
       restore_watts_iren_faq .pages "$PRESERVE_FAQ"
       restore_micron_dram_faq .pages "$PRESERVE_FAQ"

@@ -27,6 +27,8 @@ export function render(ctx) {
       { loc: '/medicine.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.state.generated_at },
     ] : []),
     { loc: '/instruments.html', changefreq: 'hourly', priority: '0.8', lastmod: ctx.state.generated_at },
+    // FINDABILITY #318 — full instrument panel (own canonical; not a home alias).
+    { loc: '/classic.html', changefreq: 'hourly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/p-doom.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/ai-doomsday-clock.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/guide.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },

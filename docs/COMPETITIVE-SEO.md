@@ -1,7 +1,8 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T18:37Z after **#316** tip overlay `fd9219b` + IndexNow **200** (**#317**);
-`pizzint-news-alive` (14); lead **6,692** / news **200**; home title score-drop CDN clear
+**Measured:** 2026-10-16T18:45Z shipping **#318** classic panel view fix (live CDN still
+collapsed classic onto `/` until Publish); prior **#317** after **#316** tip `fd9219b`;
+lead **6,695** / news **200** (`google-news-open`); home title score-drop CDN clear
 (`… · SIREN 4` only; `seo-daily` #312/#314/#316 probe **ok**);
 GPT-6 Astra space-form tip **#310** still **ok**; home H1 dual head-term `.v2-sr` tip **#308** still **ok**
 (index + `/ai-activity-index.html` + `/ai-activity-level.html`); NYC Council **#306** tip still **ok**; Dell **#304** tip still **ok**; Elorian **#302** tip still **ok**; Vercel **#298** tip still **ok**; **#296** dual title tip still **ok** (trimmed #312); **#294** Mac Studio singular **ok**;
@@ -19,7 +20,7 @@ GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 (`#248` preserve); tip merge **#210** + **#218** Base-beside-MAI hygiene + **#300** title-heal;
 `seo-daily` probes
 **#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**/**#254**/**#256**/**#258**/**#260**/**#262**/**#264**/**#267**/**#269**/**#271**/**#273**/**#275**/**#277**/**#279**/**#282**/**#284**/**#286**/**#288**/**#290**/**#292**/**#294**/**#296**/**#298**/**#300**/**#302**/**#304**/**#306**/**#308**/**#310**/**#312**/**#314**
-catch tip wipe / CDN lag; **#316** title score-drop tip **ok** (`fd9219b`); **#314** title-trim restore on main; **#312** title-trim tip **ok**; **#310** GPT-6 Astra space-form tip **ok**; **#308** H1 tip **ok**; **#296** dual head-term title tip **ok**; **#306** NYC Council tip **ok**;
+catch tip wipe / CDN lag; **#318** classic panel view + sitemap + restore; **#316** title score-drop tip **ok** (`fd9219b`); **#314** title-trim restore on main; **#312** title-trim tip **ok**; **#310** GPT-6 Astra space-form tip **ok**; **#308** H1 tip **ok**; **#296** dual head-term title tip **ok**; **#306** NYC Council tip **ok**;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
