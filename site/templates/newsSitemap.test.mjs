@@ -1441,6 +1441,40 @@ test('news sitemap keywords include Together AI from multi-title hosting tape (F
   assert.doesNotMatch(c, /\bTogether AI\b/);
 });
 
+test('news sitemap keywords include Terafab from multi-title TSMC / Musk tape (FINDABILITY #267)', () => {
+  // Multi-title Terafab tape: TSMC / Musk Texas fab talks; bare TSMC fills a
+  // 12-cap slot while product-class Terafab titles drop the fab surface.
+  const a = keywordsFor({
+    title: 'TSMC Weighs Texas Expansion, Holds Talks on Musk’s Terafab',
+    summary: '',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['TSMC'],
+  });
+  assert.match(a, /\bTerafab\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Terafab') < parts.indexOf('compute'), a);
+  const b = keywordsFor({
+    title: 'TSMC Open to Working With Terafab But Must Control Plants',
+    summary: 'Operational control stays with TSMC if Terafab proceeds.',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['TSMC'],
+  });
+  assert.match(b, /\bTerafab\b/);
+  const c = keywordsFor({
+    title: 'TSMC expands Texas capacity talks without naming a fab brand',
+    summary: 'Generic foundry noise must not invent a product-class fab needle.',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['TSMC'],
+  });
+  assert.doesNotMatch(c, /\bTerafab\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.
