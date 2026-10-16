@@ -147,6 +147,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // google-news-open (2 titles); Muse Spark / Muse Spark Open fill 12-cap
   // slots and drop the Mac Studios run-host surface (parallel to Qwen3.8-27B #290).
   'Mac Studios',
+  // FINDABILITY #294 — singular Mac Studio companion (Apple–Meta Muse local
+  // tape); #292 plural needle does not match "Mac Studio" and Apple / Meta /
+  // Muse / Apple Intelligence fill the 12-cap (parallel to Muse Spark Open #222).
+  'Mac Studio',
   // FINDABILITY #224 — multi-title Tencent Cloud rogue-agent tape; bare
   // Tencent already fills a 12-cap slot (parallel to Alibaba Cloud) while
   // product-class "Tencent Cloud" titles drop the cloud surface.

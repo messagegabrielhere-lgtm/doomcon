@@ -1783,6 +1783,45 @@ test('news sitemap keywords include Beam from multi-title open-model tape (FINDA
   assert.doesNotMatch(c, /\bBeam\b/);
 });
 
+test('news sitemap keywords include Mac Studio from Apple–Meta Muse local tape (FINDABILITY #294)', () => {
+  // Singular Mac Studio: Apple / Meta / Muse / Apple Intelligence fill 12-cap
+  // while #292 plural needle does not match "Mac Studio".
+  const a = keywordsFor({
+    title: 'Apple and Meta Team Up to Run Muse Local AI Model on Mac Studio',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Meta', 'Apple'],
+  });
+  assert.match(a, /\bMac Studio\b/);
+  assert.match(a, /\bMuse\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Mac Studio') < parts.indexOf('attention'), a);
+  // Plural titles keep Mac Studios without false-adding a duplicate singular
+  // when only the plural surface is named.
+  const b = keywordsFor({
+    title: 'Meta Muse Spark Open brings 816B-parameter AI to Mac Studios',
+    summary: 'Plural Mac Studios host — singular form not named alone.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Meta'],
+  });
+  assert.match(b, /\bMac Studios\b/);
+  assert.doesNotMatch(b, /(^|,\s*)Mac Studio(,|$)/);
+  const c = keywordsFor({
+    title: 'Muse Spark Open vs DeepSeek for coding agents',
+    summary: 'Product-class compare — Apple silicon host surface not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Meta'],
+  });
+  assert.match(c, /\bMuse Spark Open\b/);
+  assert.doesNotMatch(c, /\bMac Studio\b/);
+});
+
 test('news sitemap keywords include Mac Studios from multi-title Muse Spark Open tape (FINDABILITY #292)', () => {
   // Multi-title Mac Studios tape: Muse Spark / Muse Spark Open fill 12-cap
   // slots while hardware-host titles drop the Mac Studios surface.
