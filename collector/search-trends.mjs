@@ -69,9 +69,11 @@ export const HEAD_TERMS = Object.freeze([
   // CoreWeave / AI-cloud power headlines; route to gated /watts.html (substrate
   // instrument), not a company doorway or stock tip.
   { id: 'iren', label: 'IREN / AI cloud power', re: /\biren(?:\s+stock)?\b|\biris\s+energy\b/i, path: '/watts.html' },
-  // FINDABILITY #155/#160 — "coreweave stock" / debt / bond Trends → gated lab
-  // (story counts only; co-moves with neocloud / AI-cloud debt tape).
-  { id: 'coreweave', label: 'CoreWeave', re: /\bcoreweave(?:\s+(?:stock|debt|bond|bonds|borrowing))?\b/i, path: '/lab/coreweave.html' },
+  // FINDABILITY #155/#160/#288 — "coreweave stock" / CRWV / debt / bond Trends →
+  // gated lab (story counts only; co-moves with neocloud / AI-cloud debt tape).
+  // #288 — bare "crwv" ticker spikes (parallel to NVDA #161) when tape names the
+  // ticker without "CoreWeave".
+  { id: 'coreweave', label: 'CoreWeave / CRWV', re: /\bcoreweave(?:\s+(?:stock|debt|bond|bonds|borrowing))?\b|\bcrwv(?:\s+stock)?\b/i, path: '/lab/coreweave.html' },
   // FINDABILITY #161 — "nvidia stock" / NVDA / AI funding-cost Trends → gated lab
   // (story counts only; co-moves with CoreWeave / neocloud debt tape).
   { id: 'nvidia', label: 'Nvidia / NVDA', re: /\bnvidia(?:\s+stock)?\b|\bnvda(?:\s+stock)?\b/i, path: '/lab/nvidia.html' },

@@ -252,6 +252,30 @@ test('news sitemap keywords add MU ticker when Micron is named (FINDABILITY #146
   assert.doesNotMatch(b, /(^|,\s*)MU(,|$)/);
 });
 
+test('news sitemap keywords add CRWV when CoreWeave is named (FINDABILITY #288)', () => {
+  const a = keywordsFor({
+    title: 'CoreWeave (CRWV) slides as GPU-cloud debt costs rise',
+    summary: 'Neocloud lender stress.',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['CoreWeave'],
+  });
+  assert.match(a, /\bCoreWeave\b/);
+  assert.match(a, /\bCRWV\b/);
+  assert.match(a, /\bneocloud\b/);
+  // Bare titles must not invent the ticker alias.
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No GPU-cloud vendor named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)CRWV(,|$)/);
+});
+
 test('news sitemap keywords add NVDA when NVIDIA is named (FINDABILITY #161)', () => {
   const a = keywordsFor({
     title: 'How Investors May Respond To NVIDIA (NVDA) Higher AI Funding Costs',

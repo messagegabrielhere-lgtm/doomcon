@@ -157,8 +157,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #154 — dram / Micron stock Trends route to Micron lab.
   assert.match(txt, /Micron stock, MU, dram stock, HBM stock, or memory stock Trends/);
   assert.match(txt, /\/lab\/micron\.html/);
-  // FINDABILITY #155/#160 — CoreWeave stock / debt Trends route to CoreWeave lab.
-  assert.match(txt, /CoreWeave stock, CoreWeave debt, bond yields/);
+  // FINDABILITY #155/#160/#288 — CoreWeave stock / CRWV / debt Trends route to CoreWeave lab.
+  assert.match(txt, /CoreWeave stock, CRWV Trends, CoreWeave debt, bond yields/);
   assert.match(txt, /\/lab\/coreweave\.html/);
   assert.match(txt, /not credit analysis/);
   // FINDABILITY #161 — Nvidia / NVDA Trends route to Nvidia lab.
@@ -294,7 +294,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /\/lab\/micron\.html/);
   // FINDABILITY #155/#160 — agents.md lists CoreWeave lab for stock/debt Trends
   // (neocloud category stays on the Neoclouds tag line — FINDABILITY #157).
-  assert.match(md, /CoreWeave stock \/ debt \/ bond Trends/);
+  assert.match(md, /CoreWeave stock \/ CRWV \/ debt \/ bond Trends/);
   assert.match(md, /\/lab\/coreweave\.html/);
   assert.doesNotMatch(md, /CoreWeave stock \/ neocloud Trends/);
   // FINDABILITY #161 — agents.md lists Nvidia lab for NVDA Trends.

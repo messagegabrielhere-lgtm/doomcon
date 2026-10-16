@@ -768,15 +768,15 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-micron-dram-missing'));
   });
 
-  it('detects CoreWeave stock FAQ + agent-map lag (FINDABILITY #155)', () => {
+  it('detects CoreWeave stock FAQ + agent-map lag (FINDABILITY #155/#288)', () => {
     assert.equal(hasCoreweaveStockFaq(COREWEAVE_STOCK_FAQ_NEEDLE), true);
     assert.equal(hasCoreweaveStockFaq('What has SIREN scored about CoreWeave?'), false);
     assert.equal(
-      hasAgentsCoreweave('CoreWeave stock → https://siren.watch/lab/coreweave.html'),
+      hasAgentsCoreweave('CRWV Trends → https://siren.watch/lab/coreweave.html'),
       true,
     );
     assert.equal(hasAgentsCoreweave('https://siren.watch/lab/coreweave.html only'), false);
-    assert.equal(hasAgentsCoreweave('CoreWeave stock with no lab path'), false);
+    assert.equal(hasAgentsCoreweave('CRWV Trends with no lab path'), false);
     const gaps = deriveGaps({
       sites: [{
         id: 'siren', name: 'siren.watch', ours: true, ok: true,
@@ -1504,6 +1504,7 @@ describe('seo-daily surfaces', () => {
   it('detects missing labAboutLabel aliases in news:keywords (FINDABILITY #148/#159/#172)', () => {
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'OpenAI' && p.alias === 'ChatGPT'));
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'CoreWeave' && p.alias === 'neocloud'));
+    assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'CoreWeave' && p.alias === 'CRWV'));
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'IREN' && p.alias === 'Iris Energy'));
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'Meta' && p.alias === 'Muse'));
     assert.ok(NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'Apple' && p.alias === 'Apple Intelligence'));
@@ -1618,6 +1619,10 @@ describe('seo-daily surfaces', () => {
       ['https://siren.watch/lab/nvidia.html', {
         ok: true,
         value: '<title>What has SIREN scored about NVIDIA / NVDA?</title>',
+      }],
+      ['https://siren.watch/lab/coreweave.html', {
+        ok: true,
+        value: '<title>What has SIREN scored about CoreWeave / CRWV?</title>',
       }],
       ['https://siren.watch/lab/meta.html', {
         ok: true,

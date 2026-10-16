@@ -78,6 +78,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Iris Energy', 'Neoclouds', 'neocloud',
   // FINDABILITY #161 — NVDA ticker needle when titles use the ticker alone.
   'NVDA',
+  // FINDABILITY #288 — CRWV ticker needle when titles use the ticker alone.
+  'CRWV',
   // FINDABILITY #172 — Trends product aliases as named needles when titles use
   // the short form alone (labAboutLabel Muse / Apple Intelligence / Copilot).
   'Muse', 'Copilot',
@@ -258,6 +260,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   // FINDABILITY #187 — Gemini → Argon (labAboutLabel) when parent named.
   { re: /\bGemini\b/i, name: /^Gemini$/i, alias: 'Argon' },
   { re: /\bCoreWeave\b/i, name: /^CoreWeave$/i, alias: 'neocloud' },
+  // FINDABILITY #288 — CoreWeave ticker alias (labAboutLabel CRWV).
+  { re: /\bCoreWeave\b/i, name: /^CoreWeave$/i, alias: 'CRWV' },
   { re: /\bIREN\b/i, name: /^IREN$/i, alias: 'Iris Energy' },
   // FINDABILITY #161 — NVIDIA ticker alias (labAboutLabel NVDA).
   { re: /\bNVIDIA\b/i, name: /^NVIDIA$/i, alias: 'NVDA' },

@@ -385,6 +385,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'IREN stock' "$root/$map" 2>/dev/null \
             || ! grep -qF 'dram stock' "$root/$map" 2>/dev/null \
             || ! grep -qF 'CoreWeave stock' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'CRWV Trends' "$root/$map" 2>/dev/null \
             || ! grep -qF 'neoclouds Trends' "$root/$map" 2>/dev/null \
             || ! grep -qF 'NVDA Trends' "$root/$map" 2>/dev/null \
             || ! grep -qF 'OpenAI lawsuit' "$root/$map" 2>/dev/null \
@@ -510,11 +511,11 @@ while [ "$(date +%s)" -lt "$END" ]; do
     restore_coreweave_stock_faq() {
       local root="$1" preserve="$2"
       if [ -f "$preserve/lab/coreweave.html" ] \
-        && { ! grep -qF 'Why does SIREN watch CoreWeave stock in Google Search Trends?' "$root/lab/coreweave.html" 2>/dev/null \
+        && { ! grep -qF 'Why does SIREN watch CoreWeave stock and CRWV in Google Search Trends?' "$root/lab/coreweave.html" 2>/dev/null \
           || ! grep -qF 'Why does SIREN watch CoreWeave debt and bond yields in Google Search Trends?' "$root/lab/coreweave.html" 2>/dev/null; }; then
         mkdir -p "$root/lab"
         cp -a "$preserve/lab/coreweave.html" "$root/lab/coreweave.html"
-        echo "restored lab/coreweave.html CoreWeave stock/debt FAQ (#155/#160)"
+        echo "restored lab/coreweave.html CoreWeave stock/CRWV/debt FAQ (#155/#160/#288)"
       fi
     }
     # FINDABILITY #157 — restore tip /tags/neoclouds.html when neocloud
