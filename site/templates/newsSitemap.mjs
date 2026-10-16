@@ -124,6 +124,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // from burying the model-class needle under topic tags (Azure Fable 5.5
   // title currently ships only Google + Cloud AI keywords).
   'Fable', 'Fable 5', 'Fable 5.1', 'Fable 5.5',
+  // FINDABILITY #214 — contested Google News; live 48h ChatGPT Voice /
+  // GPT-Live-1.1 tape names the product while OpenAI + ChatGPT already fill
+  // 12-cap slots (titles ship without Voice / GPT-Live needles).
+  'ChatGPT Voice', 'GPT-Live', 'GPT-Live-1.1',
 ]);
 
 /**

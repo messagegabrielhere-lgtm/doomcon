@@ -1009,6 +1009,44 @@ test('news sitemap keywords include Roadster from live 48h Tesla Trends tape (FI
   assert.doesNotMatch(b, /(^|,\s*)Roadster(,|$)/);
 });
 
+test('news sitemap keywords include ChatGPT Voice / GPT-Live from live 48h tape (FINDABILITY #214)', () => {
+  // Contested Google News: ChatGPT Voice + GPT-Live-1.1 titles keep OpenAI /
+  // ChatGPT under the 12-cap and drop the product / model needles.
+  const a = keywordsFor({
+    title: 'OpenAI has updated ChatGPT Voice (voice function). GPT-Live-1.1, which supports this update, improve..',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['OpenAI'],
+  });
+  assert.match(a, /\bOpenAI\b/);
+  assert.match(a, /\bChatGPT\b/);
+  assert.match(a, /\bChatGPT Voice\b/);
+  assert.match(a, /\bGPT-Live\b/);
+  assert.match(a, /\bGPT-Live-1\.1\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('ChatGPT Voice') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'OpenAI adds Korean voices and boosts natural chat in ChatGPT Voice - CHOSUNBIZ',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['OpenAI'],
+  });
+  assert.match(b, /\bChatGPT Voice\b/);
+  const c = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No voice product named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /ChatGPT Voice|GPT-Live/);
+});
+
 test('news sitemap keywords include Fable from live 48h eval tape (FINDABILITY #212)', () => {
   // Contested Google News: Azure Fable 5.5 + GLM→Fable 5 + Gemini-vs-Fable
   // titles name the model class while topic tags bury it under the 12-cap.
