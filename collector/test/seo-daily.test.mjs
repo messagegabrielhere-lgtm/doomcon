@@ -753,11 +753,11 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'home-activity-h1-head-terms-missing'));
   });
 
-  it('detects home title still carrying level_name (FINDABILITY #312/#314)', () => {
+  it('detects home title still carrying level_name or score (FINDABILITY #312/#314/#316)', () => {
     assert.ok(HOME_TITLE_LEVEL_NAME_RE.test('ROUTINE'));
     assert.equal(
       hasHomeTitleTrimmed(
-        '<title>AI activity index today · AI activity level today · SIREN 4 · 48.3</title>',
+        '<title>AI activity index today · AI activity level today · SIREN 4</title>',
       ),
       true,
     );
@@ -768,13 +768,19 @@ describe('seo-daily surfaces', () => {
       false,
     );
     assert.equal(
-      hasHomeTitleTrimmed('<title>AI activity index today · SIREN 4 · 48.3</title>'),
+      hasHomeTitleTrimmed(
+        '<title>AI activity index today · AI activity level today · SIREN 4 · 48.3</title>',
+      ),
+      false,
+    );
+    assert.equal(
+      hasHomeTitleTrimmed('<title>AI activity index today · SIREN 4</title>'),
       false,
     );
     // Body scale copy may say ROUTINE; only <title> is checked.
     assert.equal(
       hasHomeTitleTrimmed(
-        '<title>AI activity index today · AI activity level today · SIREN 4 · 48.3</title>'
+        '<title>AI activity index today · AI activity level today · SIREN 4</title>'
         + '<span class="v2-sr">SIREN 4, ROUTINE, band 35 to 54.</span>',
       ),
       true,

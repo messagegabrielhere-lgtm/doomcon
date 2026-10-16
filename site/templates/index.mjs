@@ -1136,11 +1136,14 @@ ${style}`;
     // FINDABILITY #312 — drop level_name from <title> so both head terms stay
     // inside Google’s ~60-char SERP rewrite (live SERP kept score+ROUTINE and
     // dropped “AI activity level today ·”); band name stays in description/og.
-    title: Number.isFinite(state.score) && state.level != null
-      ? `AI activity index today · AI activity level today · ${brand.NAME} ${state.level} · ${scoreTxt}`
+    // FINDABILITY #316 — drop score from <title>/og:title too (~66→~59 chars);
+    // live branded SERP still showed ROUTINE+score and omitted level today
+    // after #312 tip (stale rewrite). Score stays in description.
+    title: state.level != null
+      ? `AI activity index today · AI activity level today · ${brand.NAME} ${state.level}`
       : `AI activity index today · AI activity level today · ${brand.NAME}`,
-    ogTitle: Number.isFinite(state.score) && state.level != null
-      ? `AI activity index today · AI activity level today · ${brand.NAME} ${state.level} · ${scoreTxt}/100`
+    ogTitle: state.level != null
+      ? `AI activity index today · AI activity level today · ${brand.NAME} ${state.level}`
       : `AI activity index today · AI activity level today · ${brand.NAME}`,
     description:
       `AI activity level today: ${brand.NAME} ${state.level} of 5 (${state.level_name}), ${scoreTxt} of 100. ` +

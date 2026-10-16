@@ -202,6 +202,8 @@ done
 # FINDABILITY #308 — also restore when H1 .v2-sr loses dual head terms (pixel brand alone).
 # FINDABILITY #312/#314 — also restore when tip <title> is trimmed but Publish
 # re-emitted level_name in <title> only (tip must be clean; body scale may say ROUTINE).
+# FINDABILITY #316 — also restore when tip dropped decimal score from <title>
+# but Publish re-emitted it (tip must be score-free).
 for hub in index.html classic.html; do
   if [ -f "$PRESERVE_FAQ/$hub" ] \
     && { ! grep -qF 'OpenAI / ChatGPT' ".pages/$hub" 2>/dev/null \
@@ -211,9 +213,11 @@ for hub in index.html classic.html; do
       || ! grep -qF 'AI activity level today ·' ".pages/$hub" 2>/dev/null \
       || ! grep -qF 'AI activity index today · AI activity level today · AI SIREN INDEX' ".pages/$hub" 2>/dev/null \
       || { grep -qE '<title>[^<]*(DORMANT|ROUTINE|ELEVATED|ACCELERATED|UNPRECEDENTED|UNAVAILABLE)' ".pages/$hub" 2>/dev/null \
-        && ! grep -qE '<title>[^<]*(DORMANT|ROUTINE|ELEVATED|ACCELERATED|UNPRECEDENTED|UNAVAILABLE)' "$PRESERVE_FAQ/$hub" 2>/dev/null; }; }; then
+        && ! grep -qE '<title>[^<]*(DORMANT|ROUTINE|ELEVATED|ACCELERATED|UNPRECEDENTED|UNAVAILABLE)' "$PRESERVE_FAQ/$hub" 2>/dev/null; } \
+      || { grep -qE '<title>[^<]*[0-9]+\.[0-9]+' ".pages/$hub" 2>/dev/null \
+        && ! grep -qE '<title>[^<]*[0-9]+\.[0-9]+' "$PRESERVE_FAQ/$hub" 2>/dev/null; }; }; then
     cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
-    echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296/#308/#312/#314)"
+    echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296/#308/#312/#314/#316)"
   fi
 done
 # FINDABILITY #252/#254 — alias body must match restored home.
