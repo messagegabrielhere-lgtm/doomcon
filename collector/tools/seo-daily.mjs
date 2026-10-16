@@ -823,6 +823,17 @@ export function hasHomeActivityIndexFaq(html, needle = HOME_ACTIVITY_INDEX_FAQ_N
   return String(html || '').includes(needle);
 }
 
+/** FINDABILITY #284 — exact title head-term FAQ (“AI activity index today”). */
+export const HOME_ACTIVITY_INDEX_TODAY_FAQ_NEEDLE = 'What is the AI activity index today?';
+
+/**
+ * Home must keep the #284 title-match FAQ beside #254 definitional.
+ * Wipe gap is `home-activity-index-today-faq-missing`.
+ */
+export function hasHomeActivityIndexTodayFaq(html, needle = HOME_ACTIVITY_INDEX_TODAY_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
 /** FINDABILITY #264 — #262 level-alias FAQ prose on home (+ alias bodies). */
 export const HOME_ACTIVITY_LEVEL_FAQ_ALIAS_NEEDLE = '/ai-activity-level.html is a short alias';
 
@@ -2003,6 +2014,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #284 — home title-match “AI activity index today” FAQ wiped.
+  if (ours.home_activity_index_today_faq === false) {
+    gaps.push({
+      id: 'home-activity-index-today-faq-missing',
+      severity: 'medium',
+      text: `home missing exact FAQ “What is the AI activity index today?” (FINDABILITY #284) — re-overlay index.html / ai-activity-index.html or wait for collect/news-fast Publish on tip ≥ #284`,
+    });
+  }
+
   // FINDABILITY #264 — home #262 level-alias FAQ prose wiped after tip overlay.
   if (ours.home_activity_level_faq_alias === false) {
     gaps.push({
@@ -2792,6 +2812,8 @@ export function measureSite(site, byUrl) {
     home_lab_about_labels: site.ours && home?.ok ? hasHomeLabAboutLabels(home.value) : null,
     // FINDABILITY #254 — home exact unbranded head-term FAQ (ours only).
     home_activity_index_faq: site.ours && home?.ok ? hasHomeActivityIndexFaq(home.value) : null,
+    // FINDABILITY #284 — home title-match “AI activity index today” FAQ (ours only).
+    home_activity_index_today_faq: site.ours && home?.ok ? hasHomeActivityIndexTodayFaq(home.value) : null,
     // FINDABILITY #264 — home #262 level-alias FAQ prose (ours only).
     home_activity_level_faq_alias: site.ours && home?.ok ? hasHomeActivityLevelFaqAlias(home.value) : null,
     sitemap_urls: null,
@@ -3245,6 +3267,11 @@ export function formatMarkdown(report) {
         `- Home AI activity index FAQ (#254): **${ours.home_activity_index_faq ? 'ok' : 'NO'}**`,
       );
     }
+    if (ours && ours.home_activity_index_today_faq != null) {
+      lines.push(
+        `- Home AI activity index today FAQ (#284): **${ours.home_activity_index_today_faq ? 'ok' : 'NO'}**`,
+      );
+    }
     if (ours && ours.home_activity_level_faq_alias != null) {
       lines.push(
         `- Home AI activity level FAQ alias (#262/#264): **${ours.home_activity_level_faq_alias ? 'ok' : 'NO'}**`,
@@ -3603,6 +3630,7 @@ export function formatMarkdown(report) {
       || ours.lab_hub_label_lags != null
       || ours.home_lab_about_labels != null
       || ours.home_activity_index_faq != null
+      || ours.home_activity_index_today_faq != null
       || ours.home_activity_level_faq_alias != null
       || ours.race_lab_about_labels != null
       || ours.lab_head_alias_lags != null
@@ -4020,6 +4048,25 @@ function selftest() {
   });
   if (!homeFaqGaps.some((g) => g.id === 'home-activity-index-faq-missing')) {
     throw new Error('home-activity-index-faq-missing gap');
+  }
+  if (hasHomeActivityIndexTodayFaq('What is the AI activity index today?') !== true) {
+    throw new Error('hasHomeActivityIndexTodayFaq true');
+  }
+  if (hasHomeActivityIndexTodayFaq('What is an AI activity index?') !== false) {
+    throw new Error('hasHomeActivityIndexTodayFaq false');
+  }
+  const homeIndexTodayFaqGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      home_activity_index_today_faq: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!homeIndexTodayFaqGaps.some((g) => g.id === 'home-activity-index-today-faq-missing')) {
+    throw new Error('home-activity-index-today-faq-missing gap');
   }
   if (hasHomeActivityLevelFaqAlias('/ai-activity-level.html is a short alias') !== true) {
     throw new Error('hasHomeActivityLevelFaqAlias true');

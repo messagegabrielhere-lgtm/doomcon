@@ -27,7 +27,7 @@ describe('homepage FAQ', () => {
     assert.doesNotMatch(linked, /href="\/people\/">\/people\/<\/a>/);
     assert.doesNotMatch(linked, /&lt;a /);
     assert.ok(faqPathLabels().every(([p, l]) => p.startsWith('/') && /\?|methodology/.test(l)));
-    assert.ok(faqPathLabels().some(([p, l]) => p === '/ai-activity-index.html' && l === 'What is an AI activity index?'));
+    assert.ok(faqPathLabels().some(([p, l]) => p === '/ai-activity-index.html' && l === 'What is the AI activity index today?'));
     assert.ok(faqPathLabels().some(([p, l]) => p === '/ai-activity-level.html' && l === 'What is the AI activity level today?'));
   });
 
@@ -41,8 +41,19 @@ describe('homepage FAQ', () => {
     assert.doesNotMatch(head[1], /probability of doom/i);
     const html = render(ctx);
     assert.match(html, /What is an AI activity index\?/);
-    assert.match(html, /href="\/ai-activity-index\.html">What is an AI activity index\?<\/a>/);
+    assert.match(html, /href="\/ai-activity-index\.html">What is the AI activity index today\?<\/a>/);
     assert.doesNotMatch(html, /probability of doom/i);
+  });
+
+  it('answers the AI activity index today title phrase (FINDABILITY #284)', () => {
+    const qa = items(ctx);
+    const head = qa.find(([q]) => q === 'What is the AI activity index today?');
+    assert.ok(head);
+    assert.match(head[1], /\/ai-activity-index\.html/);
+    assert.doesNotMatch(head[1], /probability of doom/i);
+    const html = render(ctx);
+    assert.match(html, /What is the AI activity index today\?/);
+    assert.match(html, /href="\/ai-activity-index\.html">What is the AI activity index today\?<\/a>/);
   });
 
   it('answers the AI activity level today phrase (FINDABILITY #262)', () => {
