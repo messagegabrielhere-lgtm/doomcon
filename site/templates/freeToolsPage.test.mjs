@@ -26,6 +26,10 @@ describe('free-tools listicle', () => {
     assert.match(html, /How do you check a SIREN reading yourself\?/);
     assert.match(html, /\/alerts\.html/);
     assert.match(html, /\/export\.html/);
+    // FINDABILITY #332 — listicle lists the classic instrument panel.
+    assert.match(html, /\/classic\.html/);
+    assert.match(html, /Where is the full SIREN instrument panel\?/);
+    assert.match(html, /classic instrument panel at \/classic\.html/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /ItemList/);
     assert.match(html, /FAQPage[\s\S]*Does SIREN ship a doom-probability calculator\?/);
@@ -37,5 +41,6 @@ describe('free-tools listicle', () => {
     for (const row of rows) {
       assert.match(html, new RegExp(row.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
     }
+    assert.ok(rows.some((r) => r.path === '/classic.html'), 'classic row');
   });
 });

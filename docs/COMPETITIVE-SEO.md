@@ -1,9 +1,10 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T20:32Z after **#330** tip `9698a13` + IndexNow **200**
-(**#331**); discovery JSON classic **yes**/**yes**/**yes**; discovery text classic
-**#328** **yes**/**yes**/**yes**; skill.md classic **ok**; agent-map classic
-**#324** **yes**/**yes**; pizzint news **14** contested; lead **6,699** / news **200**;
+**Measured:** 2026-10-16T20:40Z shipping **#332** (free-tools classic listicle)
+after **#331** scoreboard; discovery JSON classic **#330** **yes**/**yes**/**yes**;
+discovery text classic **#328** **yes**/**yes**/**yes**; skill.md classic **ok**;
+agent-map classic **#324** **yes**/**yes**; pizzint news **0** (`google-news-open`);
+lead **6,699** / news **200**;
 Classic sitemap loc **#322** **ok**; PS5 title↔keywords lag
 **0**; classic panel tip **#318** still **ok** (HTML); home title score-drop tip **#316**
 still **ok**; GPT-6 Astra space-form tip **#310** still **ok**; home H1 dual head-term
@@ -22,8 +23,8 @@ GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 **#256** Krea / Krea 3 + **#258** Flux 3 + **#260** Together AI + **#267** Terafab + **#269** Cohere + **#271** Accenture + **#273** G7 + **#275** Bee Frontier / Bee Eclipse + **#277** Surface Laptop Ultra + **#279** RTX Spark + **#282** Qwen 4 Max + **#286** Beam + **#290** Qwen3.8-27B + **#292** Mac Studios + **#294** Mac Studio + **#298** Vercel + **#302** Elorian + **#304** Dell + **#306** NYC Council + **#320** PS5; **#245** Muse Spark + **#246** Fable model hubs still **200**
 (`#248` preserve); tip merge **#210** + **#218** Base-beside-MAI hygiene + **#300** title-heal;
 `seo-daily` probes
-**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**/**#254**/**#256**/**#258**/**#260**/**#262**/**#264**/**#267**/**#269**/**#271**/**#273**/**#275**/**#277**/**#279**/**#282**/**#284**/**#286**/**#288**/**#290**/**#292**/**#294**/**#296**/**#298**/**#300**/**#302**/**#304**/**#306**/**#308**/**#310**/**#312**/**#314**/**#318**/**#320**/**#322**/**#324**/**#326**/**#328**/**#330**
-catch tip wipe / CDN lag; **#331** after **#330** tip `9698a13` (**ok**); **#329** after **#328** tip `2ce33d1` (**ok**); **#327** after **#326** tip `882440a` (**ok**); **#325** after **#324** tip `7289f37` (**ok**); **#323** after **#322** tip `376fa9f` (**ok**); **#321** after **#320** tip `7988c6e` (**ok**); **#319** after **#318** tip `fe5fb79`/`7186034` (**ok**); **#316** title score-drop tip **ok** (`fd9219b`); **#314** title-trim restore on main; **#312** title-trim tip **ok**; **#310** GPT-6 Astra space-form tip **ok**; **#308** H1 tip **ok**; **#296** dual head-term title tip **ok**; **#306** NYC Council tip **ok**; **#320** PS5 tip **ok**; **#324** classic agent-map tip **ok**; **#326** skill classic tip **ok**; **#328** discovery classic tip **ok**; **#330** discovery JSON classic tip **ok**;
+**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**/**#254**/**#256**/**#258**/**#260**/**#262**/**#264**/**#267**/**#269**/**#271**/**#273**/**#275**/**#277**/**#279**/**#282**/**#284**/**#286**/**#288**/**#290**/**#292**/**#294**/**#296**/**#298**/**#300**/**#302**/**#304**/**#306**/**#308**/**#310**/**#312**/**#314**/**#318**/**#320**/**#322**/**#324**/**#326**/**#328**/**#330**/**#332**
+catch tip wipe / CDN lag; **#331** after **#330** tip `9698a13` (**ok**); **#329** after **#328** tip `2ce33d1` (**ok**); **#327** after **#326** tip `882440a` (**ok**); **#325** after **#324** tip `7289f37` (**ok**); **#323** after **#322** tip `376fa9f` (**ok**); **#321** after **#320** tip `7988c6e` (**ok**); **#319** after **#318** tip `fe5fb79`/`7186034` (**ok**); **#316** title score-drop tip **ok** (`fd9219b`); **#314** title-trim restore on main; **#312** title-trim tip **ok**; **#310** GPT-6 Astra space-form tip **ok**; **#308** H1 tip **ok**; **#296** dual head-term title tip **ok**; **#306** NYC Council tip **ok**; **#320** PS5 tip **ok**; **#324** classic agent-map tip **ok**; **#326** skill classic tip **ok**; **#328** discovery classic tip **ok**; **#330** discovery JSON classic tip **ok**; **#332** free-tools classic **shipping**;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -82,20 +83,22 @@ preserve **#248**). Typed-guess **#262** tip prose still intact after
 **ok** after `a00cfbc` (index + level today middot). Multi-title **#298** Vercel tip
 **ok** (2/2 after `2d76065`); **#294** Mac Studio singular tip
 **ok**; **#292** Mac Studios **ok**; Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Hold doorway (Trends `ai_related_total` **0**; no new multi-title product
-keywords). **#330** discovery JSON classic tip `9698a13` CDN clear
-(agents.json / openapi / api/index **yes**). **#328** discovery classic tip
-`2ce33d1` CDN clear (agents.txt / ai.txt / api-catalog **yes**).
-**#326** skill.md classic tip `882440a` CDN clear (**ok**); **#324** classic
-agent-map tip `7289f37` CDN clear (agents.md / llms.txt **yes**); **#322**
-classic sitemap tip `376fa9f` CDN clear (loc **ok**); **#320** PS5 tip
+Hold doorway on product keywords (Trends `ai_related_total` **0**; SoftBank /
+Allied Universal M&A tape has no SoftBank lab; X tape Claude Opus / Gemini
+Argon / Fable already gated). Shipping **#332** free-tools classic listicle.
+**#330** discovery JSON classic tip `9698a13` CDN clear (agents.json / openapi /
+api/index **yes**). **#328** discovery classic tip `2ce33d1` CDN clear
+(agents.txt / ai.txt / api-catalog **yes**). **#326** skill.md classic tip
+`882440a` CDN clear (**ok**); **#324** classic agent-map tip
+`7289f37` CDN clear (agents.md / llms.txt **yes**); **#322** classic sitemap tip
+`376fa9f` CDN clear (loc **ok**); **#320** PS5 tip
 `7988c6e` CDN clear (lag **0**); **#316** tip `fd9219b` CDN clear;
 **#314** restore on main; **#310** Astra tip still **ok**; **#308** H1 tip still **ok**;
 **#300** title-heal on main keeps probe keywords across newsroom Publish
-tip races. Hold singles Sequence / Warsh / Intuit. Outrank free-tool URLs
-(`/verify.html`, `/free-tools.html`) plus `robots.txt` / `feed.xml` /
-`now.md` / `api/now.txt` discovery tips are the citation/LLM-mention lever
-beyond URL count. Blocker for organic proof remains FINDABILITY **#11** (GSC).
+tip races. Outrank free-tool URLs (`/verify.html`, `/free-tools.html` + classic
+row) plus `robots.txt` / `feed.xml` / `now.md` / `api/now.txt` discovery tips
+are the citation/LLM-mention lever beyond URL count. Blocker for organic proof
+remains FINDABILITY **#11** (GSC).
 
 ---
 

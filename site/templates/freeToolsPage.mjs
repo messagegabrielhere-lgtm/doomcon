@@ -63,6 +63,13 @@ export function freeToolRows() {
       name: `How the ${brand.NAME} AI activity index is computed · methodology`,
       blurb: 'Every formula and frozen-reference rule — recompute yourself.',
     },
+    // FINDABILITY #332 — classic board is a free instrument (war room / oven /
+    // pillars / moves / embed) kept after the shorter home page shipped.
+    {
+      path: '/classic.html',
+      name: `Where is the full ${brand.NAME} instrument panel?`,
+      blurb: 'The classic board — war room, oven, pillars, moves, embed — kept after the shorter home page shipped.',
+    },
   ]);
 }
 
@@ -93,7 +100,7 @@ export function freeToolsPage(ctx) {
   const faqPairs = [
     [
       qTitle,
-      `${brand.NAME} publishes free instruments anyone can use without an account: verify receipts in the browser, RSS alerts, export and embed, a README badge, OpenAPI, a Google News sitemap, Search Trends, AI prediction-market odds, and the full methodology.`,
+      `${brand.NAME} publishes free instruments anyone can use without an account: verify receipts in the browser, RSS alerts, export and embed, a README badge, OpenAPI, a Google News sitemap, Search Trends, AI prediction-market odds, the full methodology, and the classic instrument panel at /classic.html.`,
     ],
     [
       verifyQuestion(),
