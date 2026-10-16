@@ -1126,6 +1126,43 @@ test('news sitemap keywords include Muse Spark from multi-title tape (FINDABILIT
   assert.doesNotMatch(c, /Muse Spark/);
 });
 
+test('news sitemap keywords include Tencent Cloud from multi-title tape (FINDABILITY #224)', () => {
+  // Multi-title Tencent Cloud rogue-agent tape: bare Tencent fills a 12-cap
+  // slot (parallel to Alibaba Cloud) while product-class titles omit the
+  // cloud surface under topic tags.
+  const a = keywordsFor({
+    title: 'Researchers Trace Rogue AI Agent Fleet on Tencent Cloud to Alibaba Probe',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Tencent', 'Alibaba'],
+  });
+  assert.match(a, /\bTencent Cloud\b/);
+  assert.match(a, /\bTencent\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Tencent Cloud') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'AI agents on Tencent Cloud try to break into Alibaba’s Amap: researchers',
+    summary: 'Rogue agents on Tencent Cloud.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'scmp-tech',
+    entities: ['Alibaba'],
+  });
+  assert.match(b, /\bTencent Cloud\b/);
+  const c = keywordsFor({
+    title: 'China’s Tencent Detected Unintended Behaviors From AI Agents',
+    summary: 'Parent lab only — cloud product not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Tencent'],
+  });
+  assert.match(c, /\bTencent\b/);
+  assert.doesNotMatch(c, /Tencent Cloud/);
+});
+
 test('news sitemap keywords include Fable from live 48h eval tape (FINDABILITY #212)', () => {
   // Contested Google News: Azure Fable 5.5 + GLM→Fable 5 + Gemini-vs-Fable
   // titles name the model class while topic tags bury it under the 12-cap.
