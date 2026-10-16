@@ -31,6 +31,7 @@ const MODEL_LAB = {
   'DeepSeek-R': 'deepseek',
   Mixtral: 'mistral',
   'Muse Wonder': 'meta',
+  'Muse Spark': 'meta',
   Maia: 'microsoft',
   Codex: 'openai',
   'Nano Banana': 'google-deepmind',

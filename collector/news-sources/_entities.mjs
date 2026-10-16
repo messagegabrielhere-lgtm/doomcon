@@ -186,6 +186,9 @@ const ENTITY_DEFS = [
   { name: 'Stable Diffusion', kind: 'model', forms: ['Stable Diffusion', 'SDXL'] },
   { name: 'FLUX', kind: 'model', forms: ['FLUX.1', 'FLUX'] },
   { name: 'Muse Wonder', kind: 'model', forms: ['Muse Wonder', 'Muse Wonder Full'] },
+  // Meta Muse Spark / Muse Spark Open open-weight family — distinct from Muse
+  // Wonder. ≥ MODEL_INDEX_MIN stories clear /model/muse-spark (FINDABILITY #245).
+  { name: 'Muse Spark', kind: 'model', forms: ['Muse Spark Open', 'Muse Spark'] },
   // Microsoft’s Azure Maia / Maia 300 custom AI chip family — titles name the
   // chip; ≥ MODEL_INDEX_MIN stories clear /model/maia (not a chip doom score).
   { name: 'Maia', kind: 'model', forms: ['Maia 300', 'Azure Maia', 'Maia'] },

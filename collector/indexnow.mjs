@@ -287,6 +287,8 @@ const ALWAYS = Object.freeze([
   '/model/gemma.html',
   '/model/gpt.html',
   '/model/qwen.html',
+  '/model/muse-spark.html', // FINDABILITY #245 — Muse Spark / Muse Spark Open model hub
+  '/model/muse-wonder.html',
   '/pillar/capability.html',
   '/source/aws-ml.html',
   '/source/bloomberg-tech.html',
