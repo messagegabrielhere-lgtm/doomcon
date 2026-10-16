@@ -1,12 +1,11 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T15:15Z after **#290** tip overlay `91d8285` + IndexNow
-**200** (CDN clear); lead **6,685** / news **200** (pizzint news flaps
-**0↔14** — keep keyword-rich lane); **#290** Qwen3.8-27B tip **ok** (2/2);
-**#288** CRWV / CoreWeave tip **ok**; **#286** Beam tip **ok**; **#284** home FAQ today **ok**;
-**#279** RTX Spark **ok**; **#282** Qwen 4 Max rotated out of newest-200 (needle armed);
-**#264** tip FAQ alias prose still **ok**; **#252** alias **200**; Trends `ai_related_total` **2**
-(`crwv` gated #288; `soxl stock` chip-ETF tape — hold doorway);
+**Measured:** 2026-10-16T15:31Z after **#292** tip overlay `53123db` + IndexNow
+**200** (CDN clear; restored after newsroom wipe); lead **6,685** / news **200** (pizzint news flaps
+**0↔14** — keep keyword-rich lane); **#292** Mac Studios tip **ok** (2/2);
+**#290** Qwen3.8-27B tip **ok**; **#288** CRWV / CoreWeave tip **ok**; **#286** Beam tip **ok**; **#284** home FAQ today **ok**;
+**#279** RTX Spark **ok**; **#264** tip FAQ alias prose still **ok**; **#252** alias **200**; Trends `ai_related_total` **2**
+(`crwv` gated #288; `now stock` / ServiceNow — hold doorway, no lab clears ENTITY_LAB_MIN);
 IndexNow ALWAYS **200**; News keywords
 **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
@@ -74,9 +73,9 @@ Flux 3 + #260 Together AI + #267 Terafab + #269 Cohere + #271 Accenture +
 RTX Spark + #282 Qwen 4 Max + #290 Qwen3.8-27B needles). Entity model hubs **#245**/**#246** add
 `/model/muse-spark.html` + `/model/fable.html` (lead **6,685**; Publish
 preserve **#248**). Typed-guess **#262** tip prose still intact after
-**#264**/`c1f9a74` beside **#252**. Multi-title **#290** Qwen3.8-27B tip
-**ok** (2/2 after `91d8285`); Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Trends `ai_related_total` **2** (`crwv` gated #288; `soxl stock` chip-ETF — hold doorway).
+**#264**/`c1f9a74` beside **#252**. Multi-title **#292** Mac Studios tip
+**ok** (2/2 after `53123db`); Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
+Trends `ai_related_total` **2** (`crwv` gated #288; `now stock` / ServiceNow — hold doorway).
 Hold singles Pathway / MORENA / Vambo / Warsh. Outrank free-tool URLs
 (`/verify.html`, `/free-tools.html`) plus `robots.txt` / `feed.xml` /
 `now.md` / `api/now.txt` discovery tips are the citation/LLM-mention lever
