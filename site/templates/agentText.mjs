@@ -495,7 +495,7 @@ export function agentsMd(ctx) {
 - ${u('/search-trends.html')} — Which Google Search Trends for AI does SIREN watch? (short alias ${u('/trends.html')})
 - ${u('/watts.html')} — What does the SIREN infrastructure index read? (IREN stock / AI cloud power Trends → Watts)
 - ${u('/lab/micron.html')} — What has SIREN scored about Micron / MU? (dram stock / memory stock Trends → Micron lab)
-- ${u('/lab/coreweave.html')} — What has SIREN scored about CoreWeave / CRWV? (CoreWeave stock / CRWV / debt / bond Trends → CoreWeave lab)
+- ${u('/lab/coreweave.html')} — What has SIREN scored about CoreWeave / CRWV? (CoreWeave stock / CRWV Trends / debt / bond Trends → CoreWeave lab)
 - ${u('/lab/nvidia.html')} — What has SIREN scored about NVIDIA / NVDA? (Nvidia stock / NVDA Trends → Nvidia lab)
 - ${u('/lab/openai.html')} — What has SIREN scored about OpenAI / ChatGPT? (OpenAI lawsuit / FTC / OpenAI outage / ChatGPT Chrome Trends → OpenAI lab)
 - ${u('/lab/anthropic.html')} — What has SIREN scored about Anthropic / Claude? (Anthropic IPO / FTC probe Trends → Anthropic lab)

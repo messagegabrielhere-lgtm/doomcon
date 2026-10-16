@@ -294,7 +294,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /\/lab\/micron\.html/);
   // FINDABILITY #155/#160 — agents.md lists CoreWeave lab for stock/debt Trends
   // (neocloud category stays on the Neoclouds tag line — FINDABILITY #157).
-  assert.match(md, /CoreWeave stock \/ CRWV \/ debt \/ bond Trends/);
+  assert.match(md, /CoreWeave stock \/ CRWV Trends \/ debt \/ bond Trends/);
   assert.match(md, /\/lab\/coreweave\.html/);
   assert.doesNotMatch(md, /CoreWeave stock \/ neocloud Trends/);
   // FINDABILITY #161 — agents.md lists Nvidia lab for NVDA Trends.
