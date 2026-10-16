@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T07:16Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+**Measured:** 2026-10-16T07:26Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
 live lead **6,690** sitemap URLs / news **200** (pizzint news-sitemap **0** —
 `google-news-open`; keep keyword-rich lane); Trends tip (`ai_related_total` **0**;
 hold doorway); News keywords **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
@@ -9,9 +9,10 @@ hold doorway); News keywords **#199** METR + Bee + **#200** Apertus / Apertus 1.
 GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 **#222** Muse Spark / Muse Spark Open + **#224** Tencent Cloud + **#226** CERT-In +
 **#228** DeepSeek V4.1 Flash + **#231** Nemotron 3.5 Super VL + **#234** Bolt +
-**#236** DeepSeek V4 Pro + **#238** Qwen3.8 + **#241** Airship live on tip
-(`d91c7bc`; CDN lag **0**; Qwen3.8 / V4 Pro / Bolt / Super VL intact); tip merge
-**#210** + **#218** Base-beside-MAI hygiene; `seo-daily` probes
+**#236** DeepSeek V4 Pro + **#238** Qwen3.8 + **#241** Airship survived newsroom
+Publish `aed651e` via tip merge **#210** (CDN lag **0**; Qwen3.8 / V4 Pro / Bolt /
+Super VL / CERT / Roadster intact); tip merge **#210** + **#218** Base-beside-MAI
+hygiene; `seo-daily` probes
 **#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**
 catch tip wipe / CDN lag;
 
@@ -55,7 +56,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 
 ### Resolved from COMPETITIVE.md §0.1
 
-pizzint’s `/news-sitemap.xml` is **empty again** (**0** at 2026-10-16T07:16Z;
+pizzint’s `/news-sitemap.xml` is **empty again** (**0** at 2026-10-16T07:26Z;
 flaps empty↔14). Google News lane is **open**; keep our rolling news-sitemap
 full and keyword-rich (local cap **200**; head terms before topic/pillar slugs;
 #210/#218 tip keyword merge; #212 Fable + #214 ChatGPT Voice + #216 MAI-Base +
