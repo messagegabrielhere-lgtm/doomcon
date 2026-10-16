@@ -9,9 +9,10 @@ doorway); News keywords **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
 GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 live on tip (`845493961` tip
 overlay + IndexNow **200**; MAI + Voice + Fable CDN lag **0**; Coinbase Base
-hyphen-boundary fix); Publish tip keyword merge **#210** proven; `seo-daily`
-probes **#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216** catch tip
-wipe / CDN lag;
+hyphen-boundary fix); Publish tip keyword merge **#210** proven; **#218** strips bare Coinbase
+`Base` when tip restores MAI-Base*; `seo-daily` probes
+**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216** catch tip wipe /
+CDN lag;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic

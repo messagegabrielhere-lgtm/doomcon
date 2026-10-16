@@ -85,8 +85,21 @@ export function tipProbeKeywordsByLoc(tipXml, labs = NEWS_KEYWORD_PROBE_LABS) {
 }
 
 /**
+ * FINDABILITY #218 — when MAI-Base* is in the keyword set, drop bare Coinbase
+ * `Base` that pre-#216 rebuilds still emit inside MAI-Base-* titles.
+ * @param {string[]} bits
+ * @returns {string[]}
+ */
+export function dropBareBaseBesideMai(bits) {
+  const out = [...bits];
+  if (!out.some((b) => /^MAI-Base\b/i.test(String(b)))) return out;
+  return out.filter((b) => String(b) !== 'Base');
+}
+
+/**
  * Merge tip probe-lab keywords into rebuilt news-sitemap XML for matching <loc>.
  * Missing tip probes are prepended so they survive the 12-cap.
+ * FINDABILITY #218 — also strip bare `Base` beside restored MAI-Base* needles.
  *
  * @param {string} tipXml
  * @param {string} newXml
@@ -109,10 +122,10 @@ export function mergeNewsKeywordTip(tipXml, newXml, labs = NEWS_KEYWORD_PROBE_LA
     const kwM = chunk.match(/<news:keywords>\s*([\s\S]*?)\s*<\/news:keywords>/i);
     const current = decodeXmlText(kwM ? kwM[1] : '');
     const missing = tipProbes.filter((lab) => !labRe(lab).test(current));
-    if (!missing.length) return chunk;
-
-    const bits = [...missing, ...splitKeywords(current)];
+    const bits = dropBareBaseBesideMai([...missing, ...splitKeywords(current)]);
     const next = [...new Set(bits)].slice(0, NEWS_KEYWORD_CAP).join(', ');
+    if (next === current) return chunk;
+
     merged += missing.length;
     locs += 1;
     const tag = `<news:keywords>${escXml(next)}</news:keywords>`;
@@ -208,6 +221,49 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Roadster')
     || !NEWS_KEYWORD_PROBE_LABS.includes('Starshield')) {
     throw new Error('probe labs must include Roadster + Starshield');
+  }
+
+  // FINDABILITY #218 — restore MAI-Base* and drop bare Base from pre-#216 rebuilds.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('MAI-Base')
+    || !NEWS_KEYWORD_PROBE_LABS.includes('MAI-Base-2')) {
+    throw new Error('probe labs must include MAI-Base + MAI-Base-2');
+  }
+  if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
+    throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
+  }
+  if (!dropBareBaseBesideMai(['Coinbase', 'Base', 'AI']).includes('Base')) {
+    throw new Error('dropBareBaseBesideMai must keep Base without MAI-Base');
+  }
+  const maiTip = `<?xml version="1.0"?><urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url><loc>https://siren.watch/item/mai.html</loc>
+    <news:news><news:title>Microsoft unveils MAI-Base-2</news:title>
+      <news:keywords>MAI-Base, MAI-Base-2, Microsoft, Copilot, AI, SIREN</news:keywords>
+    </news:news></url></urlset>`;
+  const maiRebuilt = `<?xml version="1.0"?><urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url><loc>https://siren.watch/item/mai.html</loc>
+    <news:news><news:title>Microsoft unveils MAI-Base-2</news:title>
+      <news:keywords>DeepSeek, Microsoft, Base, Copilot, AI, SIREN</news:keywords>
+    </news:news></url></urlset>`;
+  const maiOnce = mergeNewsKeywordTip(maiTip, maiRebuilt);
+  if (maiOnce.locs !== 1 || !/MAI-Base/.test(maiOnce.xml)) {
+    throw new Error(`MAI-Base merge failed: ${JSON.stringify(maiOnce)}`);
+  }
+  const maiKw = maiOnce.xml.match(/<news:keywords>([^<]+)/)?.[1] || '';
+  if (/(^|,\s*)Base(,|$)/.test(maiKw) || !/MAI-Base-2/.test(maiKw)) {
+    throw new Error(`MAI merge must drop bare Base and keep MAI-Base-2: ${maiKw}`);
+  }
+  // Tip already clean + rebuild still has Base beside MAI-Base → still strip Base.
+  const maiDirty = maiRebuilt.replace(
+    'DeepSeek, Microsoft, Base, Copilot',
+    'MAI-Base, MAI-Base-2, Microsoft, Base, Copilot',
+  );
+  const maiClean = mergeNewsKeywordTip(maiTip, maiDirty);
+  if (maiClean.locs !== 1) {
+    throw new Error(`expected Base strip when probes already present, locs=${maiClean.locs}`);
+  }
+  const maiCleanKw = maiClean.xml.match(/<news:keywords>([^<]+)/)?.[1] || '';
+  if (/(^|,\s*)Base(,|$)/.test(maiCleanKw)) {
+    throw new Error(`Base strip failed: ${maiCleanKw}`);
   }
 
   console.log('merge-news-keyword-tip selftest: ok');
