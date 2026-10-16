@@ -1,10 +1,10 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T20:40Z shipping **#332** (free-tools classic listicle)
-after **#331** scoreboard; discovery JSON classic **#330** **yes**/**yes**/**yes**;
-discovery text classic **#328** **yes**/**yes**/**yes**; skill.md classic **ok**;
-agent-map classic **#324** **yes**/**yes**; pizzint news **0** (`google-news-open`);
-lead **6,699** / news **200**;
+**Measured:** 2026-10-16T20:45Z after **#332** tip `f966fbd` + IndexNow **200**
+(**#333**); free-tools classic **ok**; discovery JSON classic **#330**
+**yes**/**yes**/**yes**; discovery text classic **#328** **yes**/**yes**/**yes**;
+skill.md classic **ok**; agent-map classic **#324** **yes**/**yes**; pizzint news
+**0** (`google-news-open`); lead **6,699** / news **200**;
 Classic sitemap loc **#322** **ok**; PS5 title↔keywords lag
 **0**; classic panel tip **#318** still **ok** (HTML); home title score-drop tip **#316**
 still **ok**; GPT-6 Astra space-form tip **#310** still **ok**; home H1 dual head-term
