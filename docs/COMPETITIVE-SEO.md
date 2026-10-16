@@ -1,17 +1,17 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T03:17Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+**Measured:** 2026-10-16T03:44Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
 live lead **6,687** sitemap URLs / news **200** (pizzint news-sitemap **14** —
-hold contested Google News lane); Trends tip fresh (`generated_at` ~03:12Z,
-`ai_related_total` **0** — hold doorway); News keywords **#199** METR + Bee +
-**#200** Apertus / Apertus 1.5 + **#204** Bluesky / Attie / Nscale + **#206**
-Starshield + **#208** Roadster + **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214**
-ChatGPT Voice / GPT-Live / GPT-Live-1.1 live on tip (`3c6bc00` tip overlay +
-IndexNow **200**; Voice + Fable CDN lag **0**); News keywords **#216** MAI-Base /
-MAI-Base-2 + Coinbase Base hyphen-boundary fix for Microsoft MoE tape; Publish
-tip keyword merge **#210** proven; `seo-daily` probes
-**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216** catch tip wipe /
-CDN lag;
+hold contested Google News lane); Trends tip fresh (`generated_at` ~03:36Z,
+`ai_related_total` **0**; Nvidia + Tesla trending — already gated; hold
+doorway); News keywords **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
+**#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
+**#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
+GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 live on tip (`845493961` tip
+overlay + IndexNow **200**; MAI + Voice + Fable CDN lag **0**; Coinbase Base
+hyphen-boundary fix); Publish tip keyword merge **#210** proven; `seo-daily`
+probes **#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216** catch tip
+wipe / CDN lag;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
