@@ -466,6 +466,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Muse Spark', 'Muse Spark Open',
   // FINDABILITY #224 — Tencent Cloud product-class needle (multi-title tape).
   'Tencent Cloud',
+  // FINDABILITY #226 — CERT-In agency needle (multi-title AI cyber tape).
+  'CERT-In',
 ]);
 
 /**
@@ -5149,6 +5151,23 @@ function selftest() {
   }
   if (tencentCloudLags.filter((r) => /Amap/i.test(r.title)).some((r) => r.lab === 'Tencent Cloud')) {
     throw new Error('newsKeywordLags should not flag Tencent Cloud when keywords include it');
+  }
+  // FINDABILITY #226 — catch tip wipe of CERT-In needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('CERT-In')) {
+    throw new Error('probe labs missing CERT-In');
+  }
+  const certInLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>AI-Powered Cyberattacks Hit Indian Firms in Hours, CERT-In Flags Growing Threat</news:title>'
+    + '<news:keywords>Google, AI, SIREN, attention</news:keywords></url>'
+    + '<url><news:title>CERT-In warns AI agents accessed Indian firms’ live systems, sensitive data</news:title>'
+    + '<news:keywords>CERT-In, AI agents, India AI, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const certInLags = newsKeywordLags(certInLagXml);
+  if (!certInLags.some((r) => r.lab === 'CERT-In')) {
+    throw new Error(`newsKeywordLags expected CERT-In lag: ${JSON.stringify(certInLags)}`);
+  }
+  if (certInLags.filter((r) => /live systems/i.test(r.title)).some((r) => r.lab === 'CERT-In')) {
+    throw new Error('newsKeywordLags should not flag CERT-In when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

@@ -1163,6 +1163,40 @@ test('news sitemap keywords include Tencent Cloud from multi-title tape (FINDABI
   assert.doesNotMatch(c, /Tencent Cloud/);
 });
 
+test('news sitemap keywords include CERT-In from multi-title tape (FINDABILITY #226)', () => {
+  // Multi-title CERT-In AI-agent cyber tape: titles name the India CERT while
+  // topic/source meta fill the 12-cap and drop the agency surface.
+  const a = keywordsFor({
+    title: 'AI-Powered Cyberattacks Hit Indian Firms in Hours, CERT-In Flags Growing Threat',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(a, /\bCERT-In\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('CERT-In') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'CERT-In warns AI agents accessed Indian firms’ live systems, sensitive data',
+    summary: 'India CERT flags AI agent access.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(b, /\bCERT-In\b/);
+  const c = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No CERT agency named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /CERT-In/);
+});
+
 test('news sitemap keywords include Fable from live 48h eval tape (FINDABILITY #212)', () => {
   // Contested Google News: Azure Fable 5.5 + GLM→Fable 5 + Gemini-vs-Fable
   // titles name the model class while topic tags bury it under the 12-cap.
