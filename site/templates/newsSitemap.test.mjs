@@ -1197,6 +1197,42 @@ test('news sitemap keywords include CERT-In from multi-title tape (FINDABILITY #
   assert.doesNotMatch(c, /CERT-In/);
 });
 
+test('news sitemap keywords include DeepSeek V4.1 Flash from multi-title tape (FINDABILITY #228)', () => {
+  // Multi-title DeepSeek V4.1 Flash tape: DeepSeek V4.1 fills a 12-cap slot
+  // while product-class Flash titles omit the variant surface.
+  const a = keywordsFor({
+    title: 'OpenCode Makes DeepSeek V4.1 Flash Free to Use, With a 200K Context Window',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['DeepSeek'],
+  });
+  assert.match(a, /\bDeepSeek V4\.1 Flash\b/);
+  assert.match(a, /\bDeepSeek V4\.1\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('DeepSeek V4.1 Flash') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Muse Spark Open vs DeepSeek V4.1 Flash: Same Score, Triple the Cost',
+    summary: 'Flash variant named beside Muse Spark Open.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['DeepSeek'],
+  });
+  assert.match(b, /\bDeepSeek V4\.1 Flash\b/);
+  const c = keywordsFor({
+    title: 'DeepSeek V4.1 ships for enterprise agents',
+    summary: 'Parent version only — Flash variant not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['DeepSeek'],
+  });
+  assert.match(c, /\bDeepSeek V4\.1\b/);
+  assert.doesNotMatch(c, /DeepSeek V4\.1 Flash/);
+});
+
 test('news sitemap keywords include Fable from live 48h eval tape (FINDABILITY #212)', () => {
   // Contested Google News: Azure Fable 5.5 + GLM→Fable 5 + Gemini-vs-Fable
   // titles name the model class while topic tags bury it under the 12-cap.
