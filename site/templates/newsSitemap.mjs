@@ -216,6 +216,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // slots and drop the product-class RTX Spark surface (parallel to Surface
   // Laptop Ultra #277).
   'RTX Spark',
+  // FINDABILITY #282 — multi-title Qwen 4 Max model tape while
+  // google-news-open (2 titles vs Muse Spark / Claude Opus 5.5); bare Qwen /
+  // Alibaba Qwen fill 12-cap slots and drop the product-class Qwen 4 Max
+  // surface (parallel to Qwen3.8 #238 / Krea 3 #256).
+  'Qwen 4 Max',
 ]);
 
 /**

@@ -508,6 +508,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Surface Laptop Ultra',
   // FINDABILITY #279 — RTX Spark product needle (on-device AI PC tape).
   'RTX Spark',
+  // FINDABILITY #282 — Qwen 4 Max product needle (vs Muse Spark / Opus tape).
+  'Qwen 4 Max',
 ]);
 
 /**
@@ -5702,6 +5704,23 @@ function selftest() {
   }
   if (rtxLags.filter((r) => /Available Today/i.test(r.title)).some((r) => r.lab === 'RTX Spark')) {
     throw new Error('newsKeywordLags should not flag RTX Spark when keywords include it');
+  }
+  // FINDABILITY #282 — catch tip wipe of Qwen 4 Max needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Qwen 4 Max')) {
+    throw new Error('probe labs missing Qwen 4 Max');
+  }
+  const qwen4MaxLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Claude Opus 5.5 vs Qwen 4 Max: who publishes speed?</news:title>'
+    + '<news:keywords>Alibaba Qwen, Claude, Qwen, Google, Claude Opus 5.5, Opus 5.5, AI, artificial intelligence, SIREN, Claude Opus, attention, press</news:keywords></url>'
+    + '<url><news:title>Muse Spark vs Qwen 4 Max: one side has no endpoint</news:title>'
+    + '<news:keywords>Alibaba Qwen, Muse Spark, Qwen, Qwen 4 Max, Google, Muse, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const qwen4MaxLags = newsKeywordLags(qwen4MaxLagXml);
+  if (!qwen4MaxLags.some((r) => r.lab === 'Qwen 4 Max')) {
+    throw new Error(`newsKeywordLags expected Qwen 4 Max lag: ${JSON.stringify(qwen4MaxLags)}`);
+  }
+  if (qwen4MaxLags.filter((r) => /no endpoint/i.test(r.title)).some((r) => r.lab === 'Qwen 4 Max')) {
+    throw new Error('newsKeywordLags should not flag Qwen 4 Max when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
