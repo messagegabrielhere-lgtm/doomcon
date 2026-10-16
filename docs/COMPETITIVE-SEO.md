@@ -1,8 +1,8 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T20:30Z shipping **#330** (agents.json / openapi /
-api/index / agent-skills classic) after **#329** scoreboard; discovery text
-classic **#328** still **yes**/**yes**/**yes**; skill.md classic **ok**; agent-map classic
+**Measured:** 2026-10-16T20:32Z after **#330** tip `9698a13` + IndexNow **200**
+(**#331**); discovery JSON classic **yes**/**yes**/**yes**; discovery text classic
+**#328** **yes**/**yes**/**yes**; skill.md classic **ok**; agent-map classic
 **#324** **yes**/**yes**; pizzint news **14** contested; lead **6,699** / news **200**;
 Classic sitemap loc **#322** **ok**; PS5 title↔keywords lag
 **0**; classic panel tip **#318** still **ok** (HTML); home title score-drop tip **#316**
@@ -23,7 +23,7 @@ GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 (`#248` preserve); tip merge **#210** + **#218** Base-beside-MAI hygiene + **#300** title-heal;
 `seo-daily` probes
 **#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**/**#254**/**#256**/**#258**/**#260**/**#262**/**#264**/**#267**/**#269**/**#271**/**#273**/**#275**/**#277**/**#279**/**#282**/**#284**/**#286**/**#288**/**#290**/**#292**/**#294**/**#296**/**#298**/**#300**/**#302**/**#304**/**#306**/**#308**/**#310**/**#312**/**#314**/**#318**/**#320**/**#322**/**#324**/**#326**/**#328**/**#330**
-catch tip wipe / CDN lag; **#329** after **#328** tip `2ce33d1` (**ok**); **#327** after **#326** tip `882440a` (**ok**); **#325** after **#324** tip `7289f37` (**ok**); **#323** after **#322** tip `376fa9f` (**ok**); **#321** after **#320** tip `7988c6e` (**ok**); **#319** after **#318** tip `fe5fb79`/`7186034` (**ok**); **#316** title score-drop tip **ok** (`fd9219b`); **#314** title-trim restore on main; **#312** title-trim tip **ok**; **#310** GPT-6 Astra space-form tip **ok**; **#308** H1 tip **ok**; **#296** dual head-term title tip **ok**; **#306** NYC Council tip **ok**; **#320** PS5 tip **ok**; **#324** classic agent-map tip **ok**; **#326** skill classic tip **ok**; **#328** discovery classic tip **ok**; **#330** discovery JSON classic **shipping**;
+catch tip wipe / CDN lag; **#331** after **#330** tip `9698a13` (**ok**); **#329** after **#328** tip `2ce33d1` (**ok**); **#327** after **#326** tip `882440a` (**ok**); **#325** after **#324** tip `7289f37` (**ok**); **#323** after **#322** tip `376fa9f` (**ok**); **#321** after **#320** tip `7988c6e` (**ok**); **#319** after **#318** tip `fe5fb79`/`7186034` (**ok**); **#316** title score-drop tip **ok** (`fd9219b`); **#314** title-trim restore on main; **#312** title-trim tip **ok**; **#310** GPT-6 Astra space-form tip **ok**; **#308** H1 tip **ok**; **#296** dual head-term title tip **ok**; **#306** NYC Council tip **ok**; **#320** PS5 tip **ok**; **#324** classic agent-map tip **ok**; **#326** skill classic tip **ok**; **#328** discovery classic tip **ok**; **#330** discovery JSON classic tip **ok**;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -82,10 +82,10 @@ preserve **#248**). Typed-guess **#262** tip prose still intact after
 **ok** after `a00cfbc` (index + level today middot). Multi-title **#298** Vercel tip
 **ok** (2/2 after `2d76065`); **#294** Mac Studio singular tip
 **ok**; **#292** Mac Studios **ok**; Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Hold doorway (Trends `ai_related_total` **0** this pass; no new multi-title
-product keywords). Shipping **#330** discovery JSON classic (agents.json /
-openapi / api/index / agent-skills + llms-full restore). **#328** discovery
-classic tip `2ce33d1` CDN clear (agents.txt / ai.txt / api-catalog **yes**).
+Hold doorway (Trends `ai_related_total` **0**; no new multi-title product
+keywords). **#330** discovery JSON classic tip `9698a13` CDN clear
+(agents.json / openapi / api/index **yes**). **#328** discovery classic tip
+`2ce33d1` CDN clear (agents.txt / ai.txt / api-catalog **yes**).
 **#326** skill.md classic tip `882440a` CDN clear (**ok**); **#324** classic
 agent-map tip `7289f37` CDN clear (agents.md / llms.txt **yes**); **#322**
 classic sitemap tip `376fa9f` CDN clear (loc **ok**); **#320** PS5 tip
