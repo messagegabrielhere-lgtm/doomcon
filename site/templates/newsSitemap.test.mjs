@@ -2224,6 +2224,42 @@ test('news sitemap keywords include Qwen3.8-Max from multi-title SKU tape (FINDA
   assert.doesNotMatch(d, /\bQwen3\.8-Max\b/);
 });
 
+test('news sitemap keywords include Xing 4.0 29B-A4B from multi-title size-SKU tape (FINDABILITY #348)', () => {
+  // Multi-title Xing 4.0 29B-A4B tape: Xing / Xing 4.0 fill 12-cap while the
+  // size-class 29B-A4B surface is dropped (parallel to Qwen3.8-27B #290).
+  const a = keywordsFor({
+    title: 'Xing 4.0 29B-A4B vs Nemotron 3.5 Lightning 30B-A3B: Same Shape, Different Licence',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Nemotron', 'Google'],
+  });
+  assert.match(a, /\bXing 4\.0 29B-A4B\b/);
+  assert.match(a, /\bXing 4\.0\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Xing 4.0 29B-A4B') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Xing 4.0 29B-A4B vs Qwen 3.8 27B: Vision or Tool Calling',
+    summary: 'Size-SKU comparison beside Qwen 3.8 27B.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Qwen', 'Google'],
+  });
+  assert.match(b, /\bXing 4\.0 29B-A4B\b/);
+  const c = keywordsFor({
+    title: 'Xing 4.0 expands MoE tool calling without naming a size SKU',
+    summary: 'Bare Xing 4.0 tape must not invent the 29B-A4B size-class needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Google'],
+  });
+  assert.match(c, /\bXing 4\.0\b/);
+  assert.doesNotMatch(c, /\bXing 4\.0 29B-A4B\b/);
+});
+
 test('news sitemap keywords include PS5 from multi-title local-AI console tape (FINDABILITY #320)', () => {
   // Multi-title PS5 tape: Llama / Sony / GGUF / topic meta fill 12-cap slots
   // while product-class local-AI console titles drop the PS5 surface.
