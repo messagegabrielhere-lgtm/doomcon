@@ -850,6 +850,15 @@ export function hasApiIndexClassicPanel(body, path = CLASSIC_PANEL_AGENT_PATH) {
 }
 
 /**
+ * True when free-tools.html listicle lists /classic.html with the panel
+ * question (FINDABILITY #332). Wipe gap is `freetools-classic-panel-missing`.
+ */
+export function hasFreeToolsClassicPanel(html, path = CLASSIC_PANEL_AGENT_PATH) {
+  const body = String(html || '');
+  return body.includes(path) && /Where is the full SIREN instrument panel\?/i.test(body);
+}
+
+/**
  * Root rival brand aliases (FINDABILITY #131) that agent maps must list
  * after #132. Canonical on matching /vs/* primaries.
  */
@@ -2217,6 +2226,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #332 — free-tools.html dropped classic panel listicle row.
+  if (ours.freetools_classic_panel === false) {
+    gaps.push({
+      id: 'freetools-classic-panel-missing',
+      severity: 'medium',
+      text: 'free-tools.html missing /classic.html instrument-panel listicle row (FINDABILITY #332) — re-overlay free-tools or wait for collect/news-fast Publish on tip ≥ #332',
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -3241,6 +3259,11 @@ export function measureSite(site, byUrl) {
     row.agents_json_classic_panel = agentsJson?.ok ? hasAgentsJsonClassicPanel(agentsJson.value) : false;
     row.openapi_classic_panel = openapiJson?.ok ? hasOpenapiClassicPanel(openapiJson.value) : false;
     row.api_index_classic_panel = apiIndexJson?.ok ? hasApiIndexClassicPanel(apiIndexJson.value) : false;
+    // FINDABILITY #332 — free-tools.html must list classic panel after overlay.
+    const freeToolsHtml = byUrl.get(`${base}/free-tools.html`);
+    row.freetools_classic_panel = freeToolsHtml?.ok
+      ? hasFreeToolsClassicPanel(freeToolsHtml.value)
+      : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -3613,6 +3636,9 @@ export function formatMarkdown(report) {
       const oa = ours.openapi_classic_panel == null ? '—' : (ours.openapi_classic_panel ? 'yes' : 'NO');
       const ix = ours.api_index_classic_panel == null ? '—' : (ours.api_index_classic_panel ? 'yes' : 'NO');
       lines.push(`- Discovery JSON /classic.html instrument panel (#330): agents.json **${aj}** · openapi **${oa}** · api/index **${ix}**`);
+    }
+    if (ours && ours.freetools_classic_panel != null) {
+      lines.push(`- free-tools /classic.html instrument panel (#332): **${ours.freetools_classic_panel ? 'ok' : 'NO'}**`);
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
       const ag = ours.agents_root_rivals == null ? '—' : (ours.agents_root_rivals ? 'yes' : 'NO');
@@ -4406,6 +4432,25 @@ function selftest() {
   });
   if (!agentsJsonGaps.some((g) => g.id === 'agents-json-classic-panel-missing')) {
     throw new Error('agents-json-classic-panel-missing gap');
+  }
+  if (hasFreeToolsClassicPanel('<a href="/classic.html">Where is the full SIREN instrument panel?</a>') !== true) {
+    throw new Error('hasFreeToolsClassicPanel true');
+  }
+  if (hasFreeToolsClassicPanel('/classic.html alone') !== false) {
+    throw new Error('hasFreeToolsClassicPanel false without question');
+  }
+  const freeToolsGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      freetools_classic_panel: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!freeToolsGaps.some((g) => g.id === 'freetools-classic-panel-missing')) {
+    throw new Error('freetools-classic-panel-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{
