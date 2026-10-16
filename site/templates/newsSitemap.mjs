@@ -297,6 +297,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // (#172 Apple→Apple Intelligence alias alone leaves bare Siri missing —
   // parallel to Muse Spark #222 / Copilot product needles).
   'Siri',
+  // FINDABILITY #344 — multi-title Claude Mythos 5 tape while google-news-open
+  // (3 titles: vs Qwen3.8-Max EN/IT + vs DeepSeek V4 Pro); bare Mythos (#72)
+  // fills a 12-cap slot but drops the version-class Claude Mythos 5 / Mythos 5
+  // surface (parallel to Kling 4.0 #336 / Xing 4.0 #338 / Bee Frontier #275).
+  'Claude Mythos 5', 'Mythos 5',
 ]);
 
 /**

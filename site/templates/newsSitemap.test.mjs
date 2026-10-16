@@ -2132,6 +2132,52 @@ test('news sitemap keywords include Siri from multi-title vs Gemini tape (FINDAB
   assert.doesNotMatch(d, /\bSiri\b/);
 });
 
+test('news sitemap keywords include Claude Mythos 5 from multi-title tape (FINDABILITY #344)', () => {
+  // Multi-title Mythos 5 tape: Claude / Qwen / Mythos / Qwen3.8 fill 12-cap
+  // while version-class Claude Mythos 5 titles drop the SKU surface.
+  const a = keywordsFor({
+    title: 'Claude Mythos 5 vs Qwen3.8-Max: Three Changes in Seven Weeks',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Claude', 'Qwen', 'Google'],
+  });
+  assert.match(a, /\bClaude Mythos 5\b/);
+  assert.match(a, /\bMythos 5\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Claude Mythos 5') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Claude Mythos 5 vs Qwen3.8-Max: Tre cambiamenti in sette settimane',
+    summary: 'Italian mirror of the EN comparison tape.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Claude', 'Qwen', 'Google'],
+  });
+  assert.match(b, /\bClaude Mythos 5\b/);
+  assert.match(b, /\bMythos 5\b/);
+  const c = keywordsFor({
+    title: 'Claude Mythos 5 vs DeepSeek V4 Pro: price gap fifteenfold',
+    summary: 'Bare Mythos alone must not drop the version SKU.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Claude', 'DeepSeek', 'Google'],
+  });
+  assert.match(c, /\bClaude Mythos 5\b/);
+  const d = keywordsFor({
+    title: 'Claude expands safety eval access without naming a version SKU',
+    summary: 'Generic Claude tape must not invent a Mythos version-class needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Claude', 'Google'],
+  });
+  assert.doesNotMatch(d, /\bClaude Mythos 5\b/);
+  assert.doesNotMatch(d, /\bMythos 5\b/);
+});
+
 test('news sitemap keywords include PS5 from multi-title local-AI console tape (FINDABILITY #320)', () => {
   // Multi-title PS5 tape: Llama / Sony / GGUF / topic meta fill 12-cap slots
   // while product-class local-AI console titles drop the PS5 surface.
