@@ -563,7 +563,7 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   // Organization knowsAbout labAboutLabel until #143 preserve lands.
   const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #143/);
-  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314\)/);
+  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314\/#316\)/);
   assert.match(collect, /index\.html classic\.html/);
   assert.match(collect, /What is an AI activity index\?/);
   assert.match(collect, /What is the AI activity index today\?/);
@@ -576,6 +576,7 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   assert.match(newsFast, /FINDABILITY #296/);
   assert.match(newsFast, /FINDABILITY #308/);
   assert.match(newsFast, /FINDABILITY #312\/#314/);
+  assert.match(newsFast, /FINDABILITY #316/);
   assert.match(newsFast, /restore_home_knowsabout/);
   assert.match(newsFast, /What is an AI activity index\?/);
   assert.match(newsFast, /What is the AI activity index today\?/);
@@ -648,11 +649,21 @@ test('Publish restores tip home title trim when level_name returns (FINDABILITY 
   const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #312\/#314/);
   assert.match(collect, /DORMANT\|ROUTINE\|ELEVATED\|ACCELERATED\|UNPRECEDENTED\|UNAVAILABLE/);
-  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314\)/);
+  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314\/#316\)/);
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #312\/#314/);
   assert.match(newsFast, /DORMANT\|ROUTINE\|ELEVATED\|ACCELERATED\|UNPRECEDENTED\|UNAVAILABLE/);
-  assert.match(newsFast, /#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314/);
+  assert.match(newsFast, /#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314\/#316/);
+});
+
+test('Publish restores tip home title when decimal score returns (FINDABILITY #316)', () => {
+  // Orphan Publish can re-emit `· 55.6` in <title> while tip stash is score-free (#316).
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #316/);
+  assert.match(collect, /\[0-9\]\+\\\.\[0-9\]\+/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #316/);
+  assert.match(newsFast, /\[0-9\]\+\\\.\[0-9\]\+/);
 });
 
 test('Publish restores tip race labAboutLabel (FINDABILITY #145)', () => {

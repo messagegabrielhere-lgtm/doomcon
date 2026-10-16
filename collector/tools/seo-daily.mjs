@@ -903,13 +903,17 @@ export const HOME_TITLE_LEVEL_NAME_RE =
   /\b(?:DORMANT|ROUTINE|ELEVATED|ACCELERATED|UNPRECEDENTED|UNAVAILABLE)\b/;
 
 /**
- * Home <title> keeps dual head terms (#296) without a level_name token (#312).
+ * Home <title> keeps dual head terms (#296) without a level_name token (#312)
+ * and without a decimal score (#316 — description carries the reading).
  * Wipe gap is `home-activity-title-trim-missing`.
  */
 export function hasHomeTitleTrimmed(html) {
   const title = extractTitle(html);
   if (!title.includes(HOME_ACTIVITY_LEVEL_TITLE_NEEDLE)) return false;
-  return !HOME_TITLE_LEVEL_NAME_RE.test(title);
+  if (HOME_TITLE_LEVEL_NAME_RE.test(title)) return false;
+  // FINDABILITY #316 — score in <title> pushes past Google’s ~60-char rewrite.
+  if (/\b\d+\.\d+\b/.test(title)) return false;
+  return true;
 }
 
 /**
@@ -2122,12 +2126,12 @@ export function deriveGaps(report) {
     });
   }
 
-  // FINDABILITY #312/#314 — home <title> still carries level_name (ROUTINE…).
+  // FINDABILITY #312/#314/#316 — home <title> still carries level_name or score.
   if (ours.home_activity_title_trim === false) {
     gaps.push({
       id: 'home-activity-title-trim-missing',
       severity: 'medium',
-      text: `home <title> still carries level_name (e.g. ROUTINE) after #312 trim — re-overlay index.html / aliases or wait for collect/news-fast Publish on tip ≥ #312/#314`,
+      text: `home <title> still carries level_name (e.g. ROUTINE) or a decimal score after #312/#316 trim — re-overlay index.html / aliases or wait for collect/news-fast Publish on tip ≥ #316`,
     });
   }
 
@@ -3389,7 +3393,7 @@ export function formatMarkdown(report) {
     }
     if (ours && ours.home_activity_title_trim != null) {
       lines.push(
-        `- Home AI activity title trim (#312/#314): **${ours.home_activity_title_trim ? 'ok' : 'NO'}**`,
+        `- Home AI activity title trim (#312/#314/#316): **${ours.home_activity_title_trim ? 'ok' : 'NO'}**`,
       );
     }
     if (ours && ours.home_activity_level_faq_alias != null) {
@@ -4255,9 +4259,9 @@ function selftest() {
   if (!homeH1Gaps.some((g) => g.id === 'home-activity-h1-head-terms-missing')) {
     throw new Error('home-activity-h1-head-terms-missing gap');
   }
-  // FINDABILITY #312/#314 — <title> must drop level_name (ROUTINE…).
+  // FINDABILITY #312/#314/#316 — <title> drops level_name + decimal score.
   if (hasHomeTitleTrimmed(
-    '<title>AI activity index today · AI activity level today · SIREN 4 · 48.3</title>',
+    '<title>AI activity index today · AI activity level today · SIREN 4</title>',
   ) !== true) {
     throw new Error('hasHomeTitleTrimmed true');
   }
@@ -4266,7 +4270,12 @@ function selftest() {
   ) !== false) {
     throw new Error('hasHomeTitleTrimmed false when ROUTINE in title');
   }
-  if (hasHomeTitleTrimmed('<title>AI activity index today · SIREN 4 · 48.3</title>') !== false) {
+  if (hasHomeTitleTrimmed(
+    '<title>AI activity index today · AI activity level today · SIREN 4 · 48.3</title>',
+  ) !== false) {
+    throw new Error('hasHomeTitleTrimmed false when score remains in title');
+  }
+  if (hasHomeTitleTrimmed('<title>AI activity index today · SIREN 4</title>') !== false) {
     throw new Error('hasHomeTitleTrimmed false when level-today middot missing');
   }
   const homeTitleTrimGaps = deriveGaps({
