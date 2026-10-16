@@ -177,6 +177,10 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(HEAD_TERMS.find((t) => t.id === 'tesla').re.test('Tesla Autopilot FSD crash probe'));
   assert.ok(HEAD_TERMS.find((t) => t.id === 'tesla').re.test('FSD supervised robotaxi'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'tesla').re.test('airport autopilot training alone'), false);
+  // FINDABILITY #208 — Roadster / flying-car related queries still route to Tesla lab.
+  assert.ok(HEAD_TERMS.find((t) => t.id === 'tesla').re.test('Tesla Roadster flying car demo'));
+  assert.ok(HEAD_TERMS.find((t) => t.id === 'tesla').re.test('Roadster arrives after Tesla deposits'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'tesla').re.test('roadster bicycle club alone'), false);
   // FINDABILITY #157 — neocloud / neoclouds Trends → gated tag hub.
   assert.ok(matchHeadTerms({ title: 'neocloud', news: [] }).includes('neocloud'));
   assert.ok(matchHeadTerms({
