@@ -1133,10 +1133,15 @@ ${style}`;
     // index today" / "AI activity level today", not only the brand name.
     // FINDABILITY #296 — keep both contiguous phrases in <title> (description
     // already leads with level; bare “level today” SERP was still missing us).
-    title: Number.isFinite(state.score) && state.level_name
-      ? `AI activity index today · AI activity level today · ${brand.NAME} ${state.level} ${state.level_name} · ${scoreTxt}`
-      : `AI activity index · AI activity level · ${brand.NAME}`,
-    ogTitle: `${brand.NAME} ${state.level} · ${state.level_name} · ${scoreTxt}/100 — ${LEVEL_LINE[state.level] || ''}`.replace(/ — $/, ''),
+    // FINDABILITY #312 — drop level_name from <title> so both head terms stay
+    // inside Google’s ~60-char SERP rewrite (live SERP kept score+ROUTINE and
+    // dropped “AI activity level today ·”); band name stays in description/og.
+    title: Number.isFinite(state.score) && state.level != null
+      ? `AI activity index today · AI activity level today · ${brand.NAME} ${state.level} · ${scoreTxt}`
+      : `AI activity index today · AI activity level today · ${brand.NAME}`,
+    ogTitle: Number.isFinite(state.score) && state.level != null
+      ? `AI activity index today · AI activity level today · ${brand.NAME} ${state.level} · ${scoreTxt}/100`
+      : `AI activity index today · AI activity level today · ${brand.NAME}`,
     description:
       `AI activity level today: ${brand.NAME} ${state.level} of 5 (${state.level_name}), ${scoreTxt} of 100. ` +
       `${LEVEL_LINE[state.level] || ''} Counted hourly from public data, as of ${utc(state.generated_at)}.`,

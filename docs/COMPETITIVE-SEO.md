@@ -1,9 +1,9 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T18:00Z after **#310** tip overlay `d8786aa` + IndexNow **200** (**#311**);
-`pizzint-news-alive` (14); lead **6,689** / news **200**; GPT-6 Astra space-form keywords tip **ok** (1/1 healed);
+**Measured:** 2026-10-16T18:10Z shipping **#312** home title trim (drop ROUTINE from `<title>` / dual-term `og:title`)
+while `google-news-open`; lead **6,689** / news **200**; GPT-6 Astra space-form tip **#310** still **ok**;
 home H1 dual head-term `.v2-sr` tip **#308** still **ok**
-(index + `/ai-activity-index.html` + `/ai-activity-level.html`); NYC Council **#306** tip still **ok** (2/2); Dell **#304** tip still **ok**; Elorian **#302** tip still **ok**; Vercel **#298** tip still **ok**; **#296** dual title tip still **ok**; **#294** Mac Studio singular **ok**;
+(index + `/ai-activity-index.html` + `/ai-activity-level.html`); NYC Council **#306** tip still **ok** (2/2); Dell **#304** tip still **ok**; Elorian **#302** tip still **ok**; Vercel **#298** tip still **ok**; **#296** dual title tip still **ok** (trimmed #312); **#294** Mac Studio singular **ok**;
 **#292** Mac Studios tip **ok**; **#290** Qwen3.8-27B tip **ok**; **#288** CRWV / CoreWeave tip **ok**; **#286** Beam tip **ok**; **#284** home FAQ today **ok**;
 **#279** RTX Spark **ok**; **#264** tip FAQ alias prose still **ok**; **#252** alias **200**;
 IndexNow ALWAYS on tip Publish; News keywords
@@ -37,7 +37,7 @@ restore **#156**/**#158**/**#162**–**#167**/**#169**–**#171**/**#173**–**#
 across collect wipes (#166/#167/#169–#171/#173–#184/#191/#193/#195/#220 also guard ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/OpenAI-Chrome/Meta-Apple-Mac/Palantir/AMD/Tesla destinations on the routing FAQ). Branded “SIREN AI activity index” still #1; bare “AI activity index today” /
 “AI activity level today” still weak — **#252**/**#262** typed-guess aliases +
 **#254**/**#284** home exact-match FAQs (definitional + title-today) +
-**#296** dual head-term `<title>` tip + **#308** H1 `.v2-sr` head terms; head-term SERPs still need GSC crawl (issue #202).
+**#296**/**#312** dual head-term `<title>` (trimmed so SERP keeps level today) + **#308** H1 `.v2-sr` head terms; head-term SERPs still need GSC crawl (issue #202).
 Companion to `docs/COMPETITIVE.md` and `docs/FINDABILITY.md`.
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
