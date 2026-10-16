@@ -520,6 +520,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Beam',
   // FINDABILITY #298 — Vercel company needle (Jev adoption tape).
   'Vercel',
+  // FINDABILITY #302 — Elorian company needle (Glimpse vision-model tape).
+  'Elorian',
 ]);
 
 /**
@@ -5926,6 +5928,23 @@ function selftest() {
   }
   if (vercelLags.filter((r) => /fastest-adopted/i.test(r.title)).some((r) => r.lab === 'Vercel')) {
     throw new Error('newsKeywordLags should not flag Vercel when keywords include it');
+  }
+  // FINDABILITY #302 — catch tip wipe of Elorian needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Elorian')) {
+    throw new Error('probe labs missing Elorian');
+  }
+  const elorianLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Elorian launches Glimpse, an AI model built to reason in pictures</news:title>'
+    + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Elorian\u2019s first AI model wants to reason with images, not just about them</news:title>'
+    + '<news:keywords>Elorian, GPT, GPT-6 Astra, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const elorianLags = newsKeywordLags(elorianLagXml);
+  if (!elorianLags.some((r) => r.lab === 'Elorian')) {
+    throw new Error(`newsKeywordLags expected Elorian lag: ${JSON.stringify(elorianLags)}`);
+  }
+  if (elorianLags.filter((r) => /reason with images/i.test(r.title)).some((r) => r.lab === 'Elorian')) {
+    throw new Error('newsKeywordLags should not flag Elorian when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
