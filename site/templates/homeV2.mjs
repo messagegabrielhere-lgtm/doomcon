@@ -689,7 +689,11 @@ ${ticker(items)}
 <main class="v2-wrap v2-main" id="main">
   <div class="v2-brand">
     <span class="v2-3d" data-siren3d data-level="${state.level}"><img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt="" fetchpriority="high" decoding="async"></span>
-    <h1>${pixelText('AI SIREN INDEX', 8, '#FFFFFF', 'fit')}</h1>
+    <h1>${pixelText('AI SIREN INDEX', 8, '#FFFFFF', 'fit', {
+      // FINDABILITY #308 — semantic H1 matches dual head-term <title> (#296);
+      // pixel blocks stay the brand mark “AI SIREN INDEX”.
+      sr: 'AI activity index today · AI activity level today · AI SIREN INDEX',
+    })}</h1>
   </div>
   <p class="v2-acro" title="What SIREN stands for"><b>S</b>uper<b>I</b>ntelligence <b>R</b>eal-time <b>E</b>arly <b>N</b>otice<span> · an hourly count of how loud AI is, read by Tally the duty canary</span></p>
   <div class="v2-sub"><span>${esc(brand.SLOGAN)}</span><span class="sep">|</span><a class="v2-btn sm" href="https://x.com/SIRENutf6">FOLLOW @SIRENutf6</a></div>

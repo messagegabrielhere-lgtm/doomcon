@@ -31,6 +31,16 @@ const ctx = {
 };
 
 describe('home v2 footer', () => {
+  it('keeps dual head terms in H1 .v2-sr beside the brand pixel (FINDABILITY #308)', () => {
+    const html = render(ctx, { head: '' });
+    assert.match(
+      html,
+      /<h1>[\s\S]*?<span class="v2-sr">AI activity index today · AI activity level today · AI SIREN INDEX<\/span>/,
+    );
+    // Pixel mark still draws the brand string (not the long head-term line).
+    assert.match(html, /<h1>[\s\S]*?viewBox="0 0 71 7"/);
+  });
+
   it('uses question-shaped legal and provenance sibling links', () => {
     const html = render(ctx, { head: '' });
     assert.match(html, /href="\/classic\.html#oven">Where is the full SIREN instrument panel\? →<\/a>/);

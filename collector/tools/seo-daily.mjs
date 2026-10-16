@@ -879,6 +879,21 @@ export function hasHomeActivityLevelTitle(html, needle = HOME_ACTIVITY_LEVEL_TIT
 }
 
 /**
+ * FINDABILITY #308 — home H1 .v2-sr carries both head terms beside the brand
+ * pixel mark (title already has them via #296; H1 was brand-only).
+ */
+export const HOME_ACTIVITY_H1_HEAD_TERMS_NEEDLE =
+  'AI activity index today · AI activity level today · AI SIREN INDEX';
+
+/**
+ * Home H1 screen-reader / crawler text must keep dual head terms.
+ * Wipe gap is `home-activity-h1-head-terms-missing`.
+ */
+export function hasHomeActivityH1HeadTerms(html, needle = HOME_ACTIVITY_H1_HEAD_TERMS_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
  * /race.html leaderboard lab links must keep #144 labAboutLabel
  * (OpenAI / ChatGPT etc.). Wipe gap is `race-lab-labels-missing`.
  */
@@ -2079,6 +2094,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #308 — home H1 .v2-sr lost dual head terms (pixel brand alone).
+  if (ours.home_activity_h1_head_terms === false) {
+    gaps.push({
+      id: 'home-activity-h1-head-terms-missing',
+      severity: 'medium',
+      text: `home H1 missing dual head-term .v2-sr (“AI activity index today · AI activity level today · AI SIREN INDEX”) (FINDABILITY #308) — re-overlay index.html / ai-activity-index.html or wait for collect/news-fast Publish on tip ≥ #308`,
+    });
+  }
+
   // FINDABILITY #144 — /race.html leaderboard lab links dropped labAboutLabel.
   if (ours.race_lab_about_labels === false) {
     gaps.push({
@@ -2865,6 +2889,8 @@ export function measureSite(site, byUrl) {
     home_activity_level_faq_alias: site.ours && home?.ok ? hasHomeActivityLevelFaqAlias(home.value) : null,
     // FINDABILITY #296 — dual head-term <title> keeps “AI activity level today ·”.
     home_activity_level_title: site.ours && home?.ok ? hasHomeActivityLevelTitle(home.value) : null,
+    // FINDABILITY #308 — H1 .v2-sr keeps dual head terms beside brand pixel.
+    home_activity_h1_head_terms: site.ours && home?.ok ? hasHomeActivityH1HeadTerms(home.value) : null,
     sitemap_urls: null,
     sitemap_is_index: null,
     news_sitemap_urls: null,
@@ -3326,6 +3352,11 @@ export function formatMarkdown(report) {
         `- Home AI activity level today title (#296): **${ours.home_activity_level_title ? 'ok' : 'NO'}**`,
       );
     }
+    if (ours && ours.home_activity_h1_head_terms != null) {
+      lines.push(
+        `- Home AI activity H1 head terms (#308): **${ours.home_activity_h1_head_terms ? 'ok' : 'NO'}**`,
+      );
+    }
     if (ours && ours.home_activity_level_faq_alias != null) {
       lines.push(
         `- Home AI activity level FAQ alias (#262/#264): **${ours.home_activity_level_faq_alias ? 'ok' : 'NO'}**`,
@@ -3687,6 +3718,7 @@ export function formatMarkdown(report) {
       || ours.home_activity_index_today_faq != null
       || ours.home_activity_level_faq_alias != null
       || ours.home_activity_level_title != null
+      || ours.home_activity_h1_head_terms != null
       || ours.race_lab_about_labels != null
       || ours.lab_head_alias_lags != null
       || ours.conquest_faq_lags != null)) {
@@ -4164,6 +4196,28 @@ function selftest() {
   });
   if (!homeLevelTitleGaps.some((g) => g.id === 'home-activity-level-title-missing')) {
     throw new Error('home-activity-level-title-missing gap');
+  }
+  // FINDABILITY #308 — H1 .v2-sr dual head terms.
+  if (hasHomeActivityH1HeadTerms(
+    '<h1><span class="v2-sr">AI activity index today · AI activity level today · AI SIREN INDEX</span></h1>',
+  ) !== true) {
+    throw new Error('hasHomeActivityH1HeadTerms true');
+  }
+  if (hasHomeActivityH1HeadTerms('<h1><span class="v2-sr">AI SIREN INDEX</span></h1>') !== false) {
+    throw new Error('hasHomeActivityH1HeadTerms false on brand-only H1');
+  }
+  const homeH1Gaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · AI activity level today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      home_activity_h1_head_terms: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!homeH1Gaps.some((g) => g.id === 'home-activity-h1-head-terms-missing')) {
+    throw new Error('home-activity-h1-head-terms-missing gap');
   }
   if (hasRaceLabAboutLabels('<a href="/lab/openai.html">What has SIREN scored about OpenAI / ChatGPT?</a>') !== true) {
     throw new Error('hasRaceLabAboutLabels true');

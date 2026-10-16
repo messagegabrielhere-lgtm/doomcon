@@ -199,15 +199,17 @@ done
 # FINDABILITY #284 — also restore when title-match “AI activity index today” FAQ is missing.
 # FINDABILITY #264 — also restore when #262 level-alias FAQ prose is missing.
 # FINDABILITY #296 — also restore when dual head-term <title> loses “AI activity level today ·”.
+# FINDABILITY #308 — also restore when H1 .v2-sr loses dual head terms (pixel brand alone).
 for hub in index.html classic.html; do
   if [ -f "$PRESERVE_FAQ/$hub" ] \
     && { ! grep -qF 'OpenAI / ChatGPT' ".pages/$hub" 2>/dev/null \
       || ! grep -qF 'What is an AI activity index?' ".pages/$hub" 2>/dev/null \
       || ! grep -qF 'What is the AI activity index today?' ".pages/$hub" 2>/dev/null \
       || ! grep -qF '/ai-activity-level.html is a short alias' ".pages/$hub" 2>/dev/null \
-      || ! grep -qF 'AI activity level today ·' ".pages/$hub" 2>/dev/null; }; then
+      || ! grep -qF 'AI activity level today ·' ".pages/$hub" 2>/dev/null \
+      || ! grep -qF 'AI activity index today · AI activity level today · AI SIREN INDEX' ".pages/$hub" 2>/dev/null; }; then
     cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
-    echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296)"
+    echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296/#308)"
   fi
 done
 # FINDABILITY #252/#254 — alias body must match restored home.
