@@ -1373,6 +1373,40 @@ test('news sitemap keywords include Krea / Krea 3 from multi-title image-model t
   assert.doesNotMatch(c, /\bKrea\b/);
 });
 
+test('news sitemap keywords include Flux 3 from multi-title Image Klein tape (FINDABILITY #258)', () => {
+  // Multi-title Flux 3 / FLUX 3 Image Klein tape while google-news-open:
+  // topic/source meta fill the 12-cap when titles rotate into newest-200.
+  const a = keywordsFor({
+    title: "Black Forest Labs' open-weights image model FLUX 3 Image Klein runs on consumer GPUs with just 8 GB of VRAM",
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(a, /\bFlux 3\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Flux 3') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Flux 3 Image Klein',
+    summary: 'Black Forest Labs open-weights image model.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.match(b, /\bFlux 3\b/);
+  const c = keywordsFor({
+    title: 'Open-weights image models race consumer GPU footprints',
+    summary: 'No named Flux product — generic image-model noise must not invent a needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /\bFlux 3\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.
