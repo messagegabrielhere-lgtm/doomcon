@@ -112,6 +112,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Bluesky Attie AI builder tape (titles name Bluesky / Attie without lab
   // needles surviving the 12-cap); Nscale neocloud IPO / datacenter tape.
   'Bluesky', 'Attie', 'Nscale',
+  // FINDABILITY #206 — pizzint-news-alive / contested; Ukraine Starshield
+  // access tape names the product beside SpaceX — keep the 12-cap from
+  // burying Starshield under topic tags.
+  'Starshield',
 ]);
 
 /**
@@ -156,6 +160,8 @@ const LAB_KEYWORD_ALIASES = Object.freeze([
   { re: /\bAMD\b/i, name: /^AMD$/i, alias: 'MI300' },
   // FINDABILITY #185 — Tesla → FSD (labAboutLabel) when parent named.
   { re: /\bTesla\b/i, name: /^Tesla$/i, alias: 'FSD' },
+  // FINDABILITY #206 — SpaceX → Starshield when parent named.
+  { re: /\bSpaceX\b/i, name: /^SpaceX$/i, alias: 'Starshield' },
 ]);
 
 /**

@@ -982,6 +982,34 @@ test('news sitemap keywords include Bluesky + Attie + Nscale from live 48h tape 
   assert.ok(nParts.indexOf('Nscale') < nParts.indexOf('compute'), nscale);
 });
 
+test('news sitemap keywords include Starshield from live 48h tape (FINDABILITY #206)', () => {
+  // Contested Google News: Ukraine Starshield access titles name the product
+  // beside SpaceX; without a needle the 12-cap keeps SpaceX and drops Starshield.
+  const a = keywordsFor({
+    title: 'Musk Comments Sow Confusion Over Ukraine Starshield Disruption',
+    summary: '',
+    pillar: 'attention',
+    kind: 'forum',
+    source: 'bluesky-ai',
+    entities: ['SpaceX', 'Elon Musk'],
+  });
+  assert.match(a, /\bSpaceX\b/);
+  assert.match(a, /\bStarshield\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Starshield') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'SpaceX expands Starlink capacity for enterprise customers',
+    summary: 'No Starshield product in the headline.',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['SpaceX'],
+  });
+  // Alias path: SpaceX parent → Starshield even when title omits the product.
+  assert.match(b, /\bSpaceX\b/);
+  assert.match(b, /\bStarshield\b/);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',
