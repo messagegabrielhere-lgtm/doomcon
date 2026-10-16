@@ -1,14 +1,13 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T08:51Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,692** sitemap URLs / news **200** (pizzint news-sitemap **14** —
-`pizzint-news-alive`; keep keyword-rich lane); Trends tip (`ai_related_total` **2**
-— generic “artificial intelligence news” / meta-muse + 梁文锋 / DeepSeek already
-gated; hold doorway); **#252** `/ai-activity-index.html` home typed-guess alias
-live via tip `2b0a2dd` + IndexNow **200** (canonical on `/`; agents.md / llms.txt
-list short alias; CORE_LIVE **200**); **#254** home FAQ exact head term
-“What is an AI activity index?” (visible + FAQPage; Publish restore +
-`home-activity-index-faq-missing` probe); News keywords
+**Measured:** 2026-10-16T09:16Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,692** sitemap URLs / news **200** (pizzint news-sitemap flaps
+**0↔14** — hold keyword-rich lane; `seo-daily` saw **0** / `google-news-open`);
+**#254** home FAQ exact head term “What is an AI activity index?” live via tip
+`a4ec7e5` + IndexNow **200** (home / classic / `/ai-activity-index.html` + `/`
+first FAQ + FAQPage; `seo-daily` Home AI activity index FAQ **ok**); **#252**
+typed-guess alias still **200** (canonical `/`; agents.md / llms.txt **yes**);
+News keywords
 **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
 **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
