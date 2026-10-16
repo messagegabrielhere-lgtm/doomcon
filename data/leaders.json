@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-16T22:37:54.543Z",
-  "news_generated_at": "2026-10-16T22:37:54.543Z",
+  "generated_at": "2026-10-16T22:52:38.082Z",
+  "news_generated_at": "2026-10-16T22:52:38.082Z",
   "matcher_version": "1.2.0",
   "window_days": 7,
-  "window_start": "2026-10-09T22:37:54.543Z",
+  "window_start": "2026-10-09T22:52:38.082Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -141,9 +141,9 @@
     "scanned": 800,
     "max_items": 800,
     "window_binds": true,
-    "oldest_item_at": "2026-10-15T09:36:21.000Z",
-    "newest_item_at": "2026-10-16T22:33:47.000Z",
-    "named_without_cue": 13
+    "oldest_item_at": "2026-10-15T09:31:35.000Z",
+    "newest_item_at": "2026-10-16T22:48:07.000Z",
+    "named_without_cue": 12
   },
   "cross_check": {
     "source": "data/race.json",
@@ -158,12 +158,12 @@
     "leaders": 20,
     "on_record": 4,
     "no_line": 16,
-    "lines": 8,
-    "distinct_items": 7,
+    "lines": 9,
+    "distinct_items": 8,
     "quiet": 16,
     "unreachable": 0,
     "no_sources": 3,
-    "press_lines": 5,
+    "press_lines": 6,
     "direct_lines": 3
   },
   "direct": {
@@ -188,15 +188,15 @@
     "source": "Google News search RSS (news.google.com/rss/search), one exact-phrase query per person",
     "is_statement": false,
     "means": "Stories in the press that mention the person, counted as distinct (title, outlet) pairs ever observed. Coverage is not a statement: it never puts anyone on the record, and only the outlet's own headline is shown.",
-    "generated_at": "2026-10-16T22:38:48.332Z",
+    "generated_at": "2026-10-16T22:53:05.415Z",
     "min_interval_minutes": 15,
     "days": 14,
     "ran": true,
-    "polled": 20,
+    "polled": 0,
     "leaders_with_data": 20,
     "leaders_dark": 0,
     "total_24h": 186,
-    "total_7d": 1828,
+    "total_7d": 1825,
     "trend_means": "Week over week: this 7 days against the 7 before. Shown only once a full previous week has been observed; flat inside ±10% or ±2 stories.",
     "profile_source": "Wikipedia REST summary (en.wikipedia.org/api/rest_v1/page/summary), CC BY-SA 4.0, refreshed at most daily",
     "profile_min_interval_hours": 24,
@@ -899,9 +899,10 @@
         "Musk"
       ],
       "state": "on_record",
-      "count": 3,
+      "count": 4,
       "sources": [
         "bluesky-ai",
+        "scmp-tech",
         "techmeme"
       ],
       "latest": {
@@ -911,7 +912,7 @@
         "kind": "forum",
         "url": "https://bsky.app/profile/theverge.com/post/3mxxhikx5wc2k",
         "published_at": "2026-10-16T01:48:40.192Z",
-        "score": 39.7,
+        "score": 39.6,
         "pillar": "attention",
         "matched_alias": "Elon Musk",
         "cue": "says",
@@ -936,7 +937,7 @@
           "kind": "forum",
           "url": "https://bsky.app/profile/theverge.com/post/3mxxhikx5wc2k",
           "published_at": "2026-10-16T01:48:40.192Z",
-          "score": 39.7,
+          "score": 39.6,
           "pillar": "attention",
           "matched_alias": "Elon Musk",
           "cue": "says",
@@ -960,7 +961,7 @@
           "kind": "press",
           "url": "https://techmeme.com/261015/p49",
           "published_at": "2026-10-15T20:45:01.000Z",
-          "score": 57.7,
+          "score": 60,
           "pillar": "attention",
           "matched_alias": "Elon Musk",
           "cue": "says",
@@ -985,7 +986,7 @@
           "kind": "press",
           "url": "https://techmeme.com/261015/p14",
           "published_at": "2026-10-15T10:15:02.000Z",
-          "score": 30.4,
+          "score": 35.4,
           "pillar": "compute",
           "matched_alias": "Elon Musk",
           "cue": "says",
@@ -1002,6 +1003,29 @@
             "techmeme"
           ],
           "via": "press"
+        },
+        {
+          "item_id": "7e54ae5059f0d59b",
+          "headline": "TSMC confirms talks with Elon Musk over Texas ‘Terafab’ but insists on operational control",
+          "source": "scmp-tech",
+          "kind": "press",
+          "url": "https://scmp.com/tech/big-tech/article/3371010/tsmc-confirms-talks-elon-musk-over-texas-terafab-insists-operational-control",
+          "published_at": "2026-10-15T09:31:35.000Z",
+          "score": 27.7,
+          "pillar": "compute",
+          "matched_alias": "Elon Musk",
+          "cue": "talks",
+          "cue_group": "extended",
+          "cue_class": "verb",
+          "cue_text": "talks",
+          "cues": [
+            "talks"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "scmp-tech"
+          ],
+          "via": "press"
         }
       ],
       "watch_floor": {
@@ -1013,14 +1037,15 @@
         "feed": null,
         "posts_30d": null,
         "verdict": "wire_fills_gap",
-        "note": "The watch floor reads no feed for Elon Musk and that reading stands: it is about feeds we can fetch. All 3 lines on the wire came from the press instead — bluesky-ai, techmeme — each linked to the publication that printed it."
+        "note": "The watch floor reads no feed for Elon Musk and that reading stands: it is about feeds we can fetch. All 4 lines on the wire came from the press instead — bluesky-ai, scmp-tech, techmeme — each linked to the publication that printed it."
       },
       "group": "on_record",
       "reason": null,
-      "press_count": 3,
+      "press_count": 4,
       "direct_count": 0,
       "press_sources": [
         "bluesky-ai",
+        "scmp-tech",
         "techmeme"
       ],
       "last_statement_at": "2026-10-16T17:15:27.000Z",
@@ -1140,7 +1165,7 @@
         ],
         "count_24h": 46,
         "count_7d": 192,
-        "count_prev_7d": 138,
+        "count_prev_7d": 137,
         "daily": [
           {
             "day": "2026-10-03",
@@ -1201,8 +1226,8 @@
         ],
         "trend": {
           "dir": "up",
-          "delta": 54,
-          "pct": 39,
+          "delta": 55,
+          "pct": 40,
           "baseline_complete": true
         },
         "saturated": true,
@@ -1452,7 +1477,7 @@
         "kind": "forum",
         "url": "https://reddit.com/r/ControlProblem/comments/1x7j3hq/ai_beef_jensen_huang_claims_geoffrey_hinton_is",
         "published_at": "2026-10-16T15:22:19.000Z",
-        "score": 26.2,
+        "score": 26.1,
         "pillar": "compute",
         "matched_alias": "Jensen Huang",
         "cue": "says",
@@ -1476,7 +1501,7 @@
           "kind": "forum",
           "url": "https://reddit.com/r/ControlProblem/comments/1x7j3hq/ai_beef_jensen_huang_claims_geoffrey_hinton_is",
           "published_at": "2026-10-16T15:22:19.000Z",
-          "score": 26.2,
+          "score": 26.1,
           "pillar": "compute",
           "matched_alias": "Jensen Huang",
           "cue": "says",
@@ -1670,8 +1695,8 @@
           }
         ],
         "count_24h": 26,
-        "count_7d": 221,
-        "count_prev_7d": 160,
+        "count_7d": 220,
+        "count_prev_7d": 161,
         "daily": [
           {
             "day": "2026-10-03",
@@ -1732,8 +1757,8 @@
         ],
         "trend": {
           "dir": "up",
-          "delta": 61,
-          "pct": 38,
+          "delta": 59,
+          "pct": 37,
           "baseline_complete": true
         },
         "saturated": true,
@@ -2933,7 +2958,7 @@
         "kind": "forum",
         "url": "https://reddit.com/r/ControlProblem/comments/1x7j3hq/ai_beef_jensen_huang_claims_geoffrey_hinton_is",
         "published_at": "2026-10-16T15:22:19.000Z",
-        "score": 26.2,
+        "score": 26.1,
         "pillar": "compute",
         "matched_alias": "Geoffrey Hinton",
         "cue": "says",
@@ -2957,7 +2982,7 @@
           "kind": "forum",
           "url": "https://reddit.com/r/ControlProblem/comments/1x7j3hq/ai_beef_jensen_huang_claims_geoffrey_hinton_is",
           "published_at": "2026-10-16T15:22:19.000Z",
-          "score": 26.2,
+          "score": 26.1,
           "pillar": "compute",
           "matched_alias": "Geoffrey Hinton",
           "cue": "says",
@@ -4486,8 +4511,8 @@
           }
         ],
         "count_24h": 5,
-        "count_7d": 49,
-        "count_prev_7d": 67,
+        "count_7d": 47,
+        "count_prev_7d": 69,
         "daily": [
           {
             "day": "2026-10-03",
@@ -4548,8 +4573,8 @@
         ],
         "trend": {
           "dir": "down",
-          "delta": -18,
-          "pct": -27,
+          "delta": -22,
+          "pct": -32,
           "baseline_complete": true
         },
         "saturated": false,
@@ -4753,5 +4778,5 @@
       }
     }
   ],
-  "fingerprint": "56449bdbca302017"
+  "fingerprint": "399d7f3c98bb99e5"
 }
