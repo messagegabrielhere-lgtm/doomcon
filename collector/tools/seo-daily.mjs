@@ -895,6 +895,24 @@ export function hasHomeActivityH1HeadTerms(html, needle = HOME_ACTIVITY_H1_HEAD_
 }
 
 /**
+ * FINDABILITY #312/#314 — home <title> must drop level_name (ROUTINE etc.)
+ * so both head terms survive Google’s ~60-char SERP rewrite. Body scale copy
+ * still says ROUTINE; only the <title> is checked.
+ */
+export const HOME_TITLE_LEVEL_NAME_RE =
+  /\b(?:DORMANT|ROUTINE|ELEVATED|ACCELERATED|UNPRECEDENTED|UNAVAILABLE)\b/;
+
+/**
+ * Home <title> keeps dual head terms (#296) without a level_name token (#312).
+ * Wipe gap is `home-activity-title-trim-missing`.
+ */
+export function hasHomeTitleTrimmed(html) {
+  const title = extractTitle(html);
+  if (!title.includes(HOME_ACTIVITY_LEVEL_TITLE_NEEDLE)) return false;
+  return !HOME_TITLE_LEVEL_NAME_RE.test(title);
+}
+
+/**
  * /race.html leaderboard lab links must keep #144 labAboutLabel
  * (OpenAI / ChatGPT etc.). Wipe gap is `race-lab-labels-missing`.
  */
@@ -2104,6 +2122,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #312/#314 — home <title> still carries level_name (ROUTINE…).
+  if (ours.home_activity_title_trim === false) {
+    gaps.push({
+      id: 'home-activity-title-trim-missing',
+      severity: 'medium',
+      text: `home <title> still carries level_name (e.g. ROUTINE) after #312 trim — re-overlay index.html / aliases or wait for collect/news-fast Publish on tip ≥ #312/#314`,
+    });
+  }
+
   // FINDABILITY #144 — /race.html leaderboard lab links dropped labAboutLabel.
   if (ours.race_lab_about_labels === false) {
     gaps.push({
@@ -2892,6 +2919,8 @@ export function measureSite(site, byUrl) {
     home_activity_level_title: site.ours && home?.ok ? hasHomeActivityLevelTitle(home.value) : null,
     // FINDABILITY #308 — H1 .v2-sr keeps dual head terms beside brand pixel.
     home_activity_h1_head_terms: site.ours && home?.ok ? hasHomeActivityH1HeadTerms(home.value) : null,
+    // FINDABILITY #312/#314 — <title> drops level_name so SERP keeps both head terms.
+    home_activity_title_trim: site.ours && home?.ok ? hasHomeTitleTrimmed(home.value) : null,
     sitemap_urls: null,
     sitemap_is_index: null,
     news_sitemap_urls: null,
@@ -3358,6 +3387,11 @@ export function formatMarkdown(report) {
         `- Home AI activity H1 head terms (#308): **${ours.home_activity_h1_head_terms ? 'ok' : 'NO'}**`,
       );
     }
+    if (ours && ours.home_activity_title_trim != null) {
+      lines.push(
+        `- Home AI activity title trim (#312/#314): **${ours.home_activity_title_trim ? 'ok' : 'NO'}**`,
+      );
+    }
     if (ours && ours.home_activity_level_faq_alias != null) {
       lines.push(
         `- Home AI activity level FAQ alias (#262/#264): **${ours.home_activity_level_faq_alias ? 'ok' : 'NO'}**`,
@@ -3720,6 +3754,7 @@ export function formatMarkdown(report) {
       || ours.home_activity_level_faq_alias != null
       || ours.home_activity_level_title != null
       || ours.home_activity_h1_head_terms != null
+      || ours.home_activity_title_trim != null
       || ours.race_lab_about_labels != null
       || ours.lab_head_alias_lags != null
       || ours.conquest_faq_lags != null)) {
@@ -4219,6 +4254,33 @@ function selftest() {
   });
   if (!homeH1Gaps.some((g) => g.id === 'home-activity-h1-head-terms-missing')) {
     throw new Error('home-activity-h1-head-terms-missing gap');
+  }
+  // FINDABILITY #312/#314 — <title> must drop level_name (ROUTINE…).
+  if (hasHomeTitleTrimmed(
+    '<title>AI activity index today · AI activity level today · SIREN 4 · 48.3</title>',
+  ) !== true) {
+    throw new Error('hasHomeTitleTrimmed true');
+  }
+  if (hasHomeTitleTrimmed(
+    '<title>AI activity index today · AI activity level today · SIREN 4 ROUTINE · 48.3</title>',
+  ) !== false) {
+    throw new Error('hasHomeTitleTrimmed false when ROUTINE in title');
+  }
+  if (hasHomeTitleTrimmed('<title>AI activity index today · SIREN 4 · 48.3</title>') !== false) {
+    throw new Error('hasHomeTitleTrimmed false when level-today middot missing');
+  }
+  const homeTitleTrimGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · AI activity level today · SIREN 4 ROUTINE · 48.3',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      home_activity_title_trim: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!homeTitleTrimGaps.some((g) => g.id === 'home-activity-title-trim-missing')) {
+    throw new Error('home-activity-title-trim-missing gap');
   }
   if (hasRaceLabAboutLabels('<a href="/lab/openai.html">What has SIREN scored about OpenAI / ChatGPT?</a>') !== true) {
     throw new Error('hasRaceLabAboutLabels true');

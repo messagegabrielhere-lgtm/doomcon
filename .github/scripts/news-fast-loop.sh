@@ -446,6 +446,9 @@ while [ "$(date +%s)" -lt "$END" ]; do
     # contiguous “AI activity level today ·” (middot form; description uses :).
     # FINDABILITY #308 — also restore when H1 .v2-sr loses dual head terms
     # (orphan Publish can keep #296 title while wiping brand-only H1).
+    # FINDABILITY #312/#314 — also restore when tip has trimmed <title> (no
+    # level_name) but Publish re-emitted ROUTINE/… in <title> only (body scale
+    # copy still says ROUTINE; match the title tag, and only when tip is clean).
     restore_home_knowsabout() {
       local root="$1" preserve="$2"
       local hub
@@ -456,9 +459,11 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'What is the AI activity index today?' "$root/$hub" 2>/dev/null \
             || ! grep -qF '/ai-activity-level.html is a short alias' "$root/$hub" 2>/dev/null \
             || ! grep -qF 'AI activity level today ·' "$root/$hub" 2>/dev/null \
-            || ! grep -qF 'AI activity index today · AI activity level today · AI SIREN INDEX' "$root/$hub" 2>/dev/null; }; then
+            || ! grep -qF 'AI activity index today · AI activity level today · AI SIREN INDEX' "$root/$hub" 2>/dev/null \
+            || { grep -qE '<title>[^<]*(DORMANT|ROUTINE|ELEVATED|ACCELERATED|UNPRECEDENTED|UNAVAILABLE)' "$root/$hub" 2>/dev/null \
+              && ! grep -qE '<title>[^<]*(DORMANT|ROUTINE|ELEVATED|ACCELERATED|UNPRECEDENTED|UNAVAILABLE)' "$preserve/$hub" 2>/dev/null; }; }; then
           cp -a "$preserve/$hub" "$root/$hub"
-          echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296/#308)"
+          echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296/#308/#312/#314)"
         fi
       done
       # FINDABILITY #252/#254 — alias body must match restored home.

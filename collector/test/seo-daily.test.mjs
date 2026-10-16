@@ -47,6 +47,8 @@ import {
   HOME_ACTIVITY_LEVEL_TITLE_NEEDLE,
   hasHomeActivityH1HeadTerms,
   HOME_ACTIVITY_H1_HEAD_TERMS_NEEDLE,
+  hasHomeTitleTrimmed,
+  HOME_TITLE_LEVEL_NAME_RE,
   hasRaceLabAboutLabels,
   NEWS_LAB_ALIAS_PROBES,
   newsLabAliasKeywordLags,
@@ -749,6 +751,45 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'home-activity-h1-head-terms-missing'));
+  });
+
+  it('detects home title still carrying level_name (FINDABILITY #312/#314)', () => {
+    assert.ok(HOME_TITLE_LEVEL_NAME_RE.test('ROUTINE'));
+    assert.equal(
+      hasHomeTitleTrimmed(
+        '<title>AI activity index today · AI activity level today · SIREN 4 · 48.3</title>',
+      ),
+      true,
+    );
+    assert.equal(
+      hasHomeTitleTrimmed(
+        '<title>AI activity index today · AI activity level today · SIREN 4 ROUTINE · 48.3</title>',
+      ),
+      false,
+    );
+    assert.equal(
+      hasHomeTitleTrimmed('<title>AI activity index today · SIREN 4 · 48.3</title>'),
+      false,
+    );
+    // Body scale copy may say ROUTINE; only <title> is checked.
+    assert.equal(
+      hasHomeTitleTrimmed(
+        '<title>AI activity index today · AI activity level today · SIREN 4 · 48.3</title>'
+        + '<span class="v2-sr">SIREN 4, ROUTINE, band 35 to 54.</span>',
+      ),
+      true,
+    );
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · AI activity level today · SIREN 4 ROUTINE · 48.3',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        home_activity_title_trim: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'home-activity-title-trim-missing'));
   });
 
   it('detects missing race board labAboutLabel (FINDABILITY #144)', () => {
