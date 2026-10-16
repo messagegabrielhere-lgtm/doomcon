@@ -105,6 +105,9 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Anthropic grants METR employee-level access (safety eval tape); Amazon Bee
   // wearable titles often lead with bare "Bee" after the possessive.
   'METR', 'Bee',
+  // FINDABILITY #200 — pizzint-news-alive (14 URLs); Swiss open multimodal
+  // Apertus 1.5 release tape in the live 48h window.
+  'Apertus', 'Apertus 1.5',
 ]);
 
 /**

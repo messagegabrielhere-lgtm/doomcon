@@ -937,6 +937,22 @@ test('news sitemap keywords include METR + Bee from live 48h tape (FINDABILITY #
   assert.ok(parts.indexOf('Bee') < parts.indexOf('attention'), bee);
 });
 
+test('news sitemap keywords include Apertus from live 48h tape (FINDABILITY #200)', () => {
+  // pizzint-news-alive: Swiss open multimodal Apertus 1.5 release titles.
+  const a = keywordsFor({
+    title: 'Apertus 1.5: Swiss AI Model Hits 262K Context [2026]',
+    summary: '',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(a, /Apertus/);
+  assert.match(a, /Apertus 1\.5/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Apertus') < parts.indexOf('capability'), a);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',
