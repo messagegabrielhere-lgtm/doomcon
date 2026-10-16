@@ -59,11 +59,13 @@ preserve **#248**). Typed-guess **#262** tip prose still intact after
 **ok** after `a00cfbc` (index + level today middot). Multi-title **#298** Vercel tip
 **ok** (2/2 after `2d76065`); **#294** Mac Studio singular tip
 **ok**; **#292** Mac Studios **ok**; Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Hold doorway on product keywords (no new multi-title gap beyond **#358**). SoftBank lab exists
+Hold doorway on product keywords beyond **#360** Amazon Web Services. SoftBank lab exists
 and already keywords SoftBank M&A; Allied Universal has no destination — refuse.
 Warsh person / Glimpse (1 title) / Nova Scotia geography / ChatGPT Chrome (0 contiguous / 1 proximity) /
-Amazon Web Services synonym (AWS already keyed) / bare Wall Street · AI Jitters noise refused.
+ECDSA niche / Beijing AI-exports topic / CoreWeave stock (already gated) /
+bare Wall Street · AI Jitters noise refused.
 Trends quiet (`ai_related_total` **0**).
+**#360** Amazon Web Services news:keywords shipping (2 titles; Amazon FAQ #167 gates lab).
 **#359** after **#358** tip `3ee462b` + IndexNow **200**: AI safety bill **3/3** CDN clear; lead **6,701**.
 **#358** AI safety bill tip `3ee462b` CDN clear (news:keywords probes **ok**).
 **#356** Bee AI news:keywords shipping (2 titles; Amazon Bee FAQ #167 gates lab).

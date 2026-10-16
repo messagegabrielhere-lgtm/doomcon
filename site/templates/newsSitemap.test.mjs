@@ -2381,6 +2381,44 @@ test('news sitemap keywords include Flying Roadster from multi-title aerial tape
   assert.doesNotMatch(d, /\bFlying Roadster\b/);
 });
 
+test('news sitemap keywords include Amazon Web Services from multi-title CFO tape (FINDABILITY #360)', () => {
+  // Multi-title Amazon Web Services tape: Amazon / Google fill 12-cap while the
+  // contiguous long-form surface is dropped (AWS acronym does not match; FAQ #167).
+  const a = keywordsFor({
+    title: 'Amazon Web Services CFO: AI spending paying off',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Amazon', 'Google'],
+  });
+  assert.match(a, /\bAmazon Web Services\b/);
+  assert.match(a, /\bAmazon\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Amazon Web Services') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Exclusive: Amazon Web Services CFO says AI spending is sustainable',
+    summary: 'Cloud AI capex commentary beside Bedrock tape.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Amazon', 'Google'],
+  });
+  assert.match(b, /\bAmazon Web Services\b/);
+  // Short AWS / bare Amazon tape must not invent the long-form needle.
+  // (Summary must not name the needle — keywordsFor hay is title+summary.)
+  const c = keywordsFor({
+    title: 'AWS expands Bedrock regions for enterprise AI',
+    summary: 'Short AWS acronym tape must not invent a contiguous long-form cloud needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Amazon', 'Google', 'AWS'],
+  });
+  assert.match(c, /\bAWS\b/);
+  assert.doesNotMatch(c, /\bAmazon Web Services\b/);
+});
+
 test('news sitemap keywords include AI safety bill from multi-title legislative tape (FINDABILITY #358)', () => {
   // Multi-title AI safety bill tape: Anthropic / Claude / AI safety fill 12-cap
   // while the contiguous legislative surface is dropped (FAQ #163 gates the lab).

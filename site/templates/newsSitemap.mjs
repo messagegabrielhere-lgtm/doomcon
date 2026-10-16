@@ -347,6 +347,13 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Anthropic IPO #352 / CERT-In #226). Hold bare "AI safety" / NYC Council
   // hearing noise without the bill phrase.
   'AI safety bill',
+  // FINDABILITY #360 — multi-title Amazon Web Services full-name companion while
+  // google-news-open (2 titles: Amazon Web Services CFO… + Exclusive: Amazon Web
+  // Services CFO…); Amazon / Google fill the 12-cap and the AWS acronym needle
+  // does not match the long form — drop the contiguous AWS surface (parallel to
+  // Bee AI #356 / Flying Roadster #354). Amazon Bee FAQ #167 already gates the
+  // lab; bare "Amazon" / short "AWS" titles must not invent the long form.
+  'Amazon Web Services',
 ]);
 
 /**

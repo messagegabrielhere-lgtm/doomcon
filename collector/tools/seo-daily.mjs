@@ -564,6 +564,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Anthropic IPO',
   // FINDABILITY #358 — AI safety bill event needle (multi-title; FAQ #163 gates lab).
   'AI safety bill',
+  // FINDABILITY #360 — Amazon Web Services full-name companion (multi-title; FAQ #167 gates).
+  'Amazon Web Services',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -6828,6 +6830,35 @@ function selftest() {
     );
     if (safetyOnly.some((r) => r.lab === 'AI safety bill')) {
       throw new Error('newsKeywordLags must not flag AI safety bill on bare AI safety titles');
+    }
+  }
+  // FINDABILITY #360 — catch tip wipe of Amazon Web Services full-name needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Amazon Web Services')) {
+    throw new Error('probe labs missing Amazon Web Services');
+  }
+  {
+    const awsLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Amazon Web Services CFO: AI spending paying off</news:title>'
+      + '<news:keywords>Amazon, Google, AI, artificial intelligence, SIREN, AI spending, attention, press, gnews-ai</news:keywords></url>'
+      + '<url><news:title>Exclusive: Amazon Web Services CFO says AI spending is sustainable</news:title>'
+      + '<news:keywords>Amazon, Google, Amazon Web Services, AI, artificial intelligence, SIREN, AI spending, press</news:keywords></url>'
+      + '</urlset>';
+    const awsLags = newsKeywordLags(awsLagXml);
+    if (!awsLags.some((r) => r.lab === 'Amazon Web Services')) {
+      throw new Error(`newsKeywordLags expected Amazon Web Services lag: ${JSON.stringify(awsLags)}`);
+    }
+    if (awsLags.filter((r) => /spending is sustainable/i.test(r.title)).some((r) => r.lab === 'Amazon Web Services')) {
+      throw new Error('newsKeywordLags should not flag Amazon Web Services when keywords include it');
+    }
+    // Short AWS / bare Amazon titles must not lag as Amazon Web Services.
+    const awsOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>AWS expands Bedrock regions for enterprise AI</news:title>'
+      + '<news:keywords>Amazon, Google, AWS, AI, artificial intelligence, SIREN, Cloud AI, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (awsOnly.some((r) => r.lab === 'Amazon Web Services')) {
+      throw new Error('newsKeywordLags must not flag Amazon Web Services on short AWS titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
