@@ -202,7 +202,7 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /Grok \/ xAI, Grok Voice, xAI/);
   assert.match(txt, /\/lab\/xai\.html/);
   // FINDABILITY #174 — Gemini / Gemma route to DeepMind lab (contiguous needle).
-  assert.match(txt, /Gemini \/ Gemma, Gemini 4 Argon/);
+  assert.match(txt, /Gemini \/ Gemma \/ Argon, Gemini 4 Argon/);
   assert.match(txt, /\/lab\/google-deepmind\.html/);
   // FINDABILITY #175 — Samsung / AI memory route to Samsung lab (contiguous needle).
   assert.match(txt, /Samsung \/ AI memory, Samsung stock, Samsung HBM/);
