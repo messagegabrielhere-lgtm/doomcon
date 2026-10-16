@@ -87,6 +87,9 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/ai-doom.html',
   '/doom-index.html',
   '/ai-doom-index.html',
+  // FINDABILITY #252 — /ai-activity-index typed guess (canonical on /).
+  '/ai-activity-index.html',
+  '/ai-activity-index/',
 ]);
 
 /** Our agent / findability surfaces that must keep answering 200. */
@@ -649,6 +652,9 @@ export function hasTrendsShortAlias(txt, alias = TRENDS_SHORT_ALIAS) {
 /** Unhyphenated p(doom) hub short alias (FINDABILITY #129). Canonical on /p-doom.html. */
 export const PDOOM_SHORT_ALIAS = '/pdoom.html';
 
+/** Home head-term typed-guess alias (FINDABILITY #252). Canonical on /. */
+export const ACTIVITY_INDEX_ALIAS = '/ai-activity-index.html';
+
 /**
  * Strip `/vs/<basename>` so a conquest primary cannot satisfy a root/short
  * alias probe via naive `includes` (FINDABILITY #135).
@@ -671,6 +677,14 @@ export function stripVsPrefixedPaths(txt, paths) {
  */
 export function hasPdoomShortAlias(txt, alias = PDOOM_SHORT_ALIAS) {
   return stripVsPrefixedPaths(txt, [alias]).includes(alias);
+}
+
+/**
+ * True when an agent-map body lists the /ai-activity-index.html short alias.
+ * Wipe gap is `agents-activity-index-alias-missing` (FINDABILITY #252).
+ */
+export function hasActivityIndexAlias(txt, alias = ACTIVITY_INDEX_ALIAS) {
+  return String(txt || '').includes(alias);
 }
 
 /**
@@ -1839,6 +1853,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #252 — agents.md / llms.txt dropped /ai-activity-index.html short alias.
+  if (ours.agents_activity_index_alias === false || ours.llms_activity_index_alias === false) {
+    const which = [
+      ours.agents_activity_index_alias === false ? 'agents.md' : null,
+      ours.llms_activity_index_alias === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-activity-index-alias-missing',
+      severity: 'medium',
+      text: `${which} missing /ai-activity-index.html short-alias lines (FINDABILITY #252) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #252`,
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -2746,6 +2773,9 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #130 — agent maps must list /pdoom.html after #129 overlay.
     row.agents_pdoom_alias = agentsMd?.ok ? hasPdoomShortAlias(agentsMd.value) : false;
     row.llms_pdoom_alias = llms?.ok ? hasPdoomShortAlias(llmsBody) : false;
+    // FINDABILITY #252 — agent maps must list /ai-activity-index.html after overlay.
+    row.agents_activity_index_alias = agentsMd?.ok ? hasActivityIndexAlias(agentsMd.value) : false;
+    row.llms_activity_index_alias = llms?.ok ? hasActivityIndexAlias(llmsBody) : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -3074,6 +3104,11 @@ export function formatMarkdown(report) {
       const ag = ours.agents_pdoom_alias == null ? '—' : (ours.agents_pdoom_alias ? 'yes' : 'NO');
       const lm = ours.llms_pdoom_alias == null ? '—' : (ours.llms_pdoom_alias ? 'yes' : 'NO');
       lines.push(`- Agent-map /pdoom short alias (#129/#130): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && (ours.agents_activity_index_alias != null || ours.llms_activity_index_alias != null)) {
+      const ag = ours.agents_activity_index_alias == null ? '—' : (ours.agents_activity_index_alias ? 'yes' : 'NO');
+      const lm = ours.llms_activity_index_alias == null ? '—' : (ours.llms_activity_index_alias ? 'yes' : 'NO');
+      lines.push(`- Agent-map /ai-activity-index short alias (#252): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
       const ag = ours.agents_root_rivals == null ? '—' : (ours.agents_root_rivals ? 'yes' : 'NO');
@@ -3450,6 +3485,7 @@ export function formatMarkdown(report) {
       || ours.agents_vs_aliases != null || ours.llms_vs_aliases != null
       || ours.agents_trends_alias != null || ours.llms_trends_alias != null
       || ours.agents_pdoom_alias != null || ours.llms_pdoom_alias != null
+      || ours.agents_activity_index_alias != null || ours.llms_activity_index_alias != null
       || ours.agents_root_rivals != null || ours.llms_root_rivals != null
       || ours.agents_head_aliases != null || ours.llms_head_aliases != null
       || ours.llms_lab_about_labels != null
@@ -3635,6 +3671,28 @@ function selftest() {
     '/doom-index.html', '/ai-doom-index.html',
   ]) {
     if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing #133 ${p}`);
+  }
+  for (const p of ['/ai-activity-index.html', '/ai-activity-index/']) {
+    if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing #252 ${p}`);
+  }
+  if (hasActivityIndexAlias('short /ai-activity-index.html') !== true) {
+    throw new Error('hasActivityIndexAlias true');
+  }
+  if (hasActivityIndexAlias('/ only') !== false) {
+    throw new Error('hasActivityIndexAlias false');
+  }
+  const activityGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      agents_activity_index_alias: false, llms_activity_index_alias: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!activityGaps.some((g) => g.id === 'agents-activity-index-alias-missing')) {
+    throw new Error('agents-activity-index-alias-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{

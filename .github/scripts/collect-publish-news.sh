@@ -98,6 +98,12 @@ if [ -f .pages/p-doom.html ]; then
   mkdir -p .pages/pdoom
   cp -a .pages/p-doom.html .pages/pdoom/index.html
 fi
+# FINDABILITY #252 — /ai-activity-index typed guess (canonical on /).
+if [ -f .pages/index.html ]; then
+  cp -a .pages/index.html .pages/ai-activity-index.html
+  mkdir -p .pages/ai-activity-index
+  cp -a .pages/index.html .pages/ai-activity-index/index.html
+fi
 # FINDABILITY #133 — doomsday-clock / ai-doom / doom-index typed guesses.
 if [ -f .pages/ai-doomsday-clock.html ]; then
   cp -a .pages/ai-doomsday-clock.html .pages/doomsday-clock.html
@@ -169,6 +175,7 @@ for map in agents.md llms.txt; do
     && { ! grep -qF '/ai-doom.html' ".pages/$map" 2>/dev/null \
       || ! grep -qF '/doomsday-clock.html' ".pages/$map" 2>/dev/null \
       || ! grep -qF '/doom-index.html' ".pages/$map" 2>/dev/null \
+      || ! grep -qF '/ai-activity-index.html' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'root https://siren.watch/doombench.html' ".pages/$map" 2>/dev/null \
       || { grep -qF '/lab/openai.html' ".pages/$map" 2>/dev/null \
         && ! grep -qF 'OpenAI / ChatGPT' ".pages/$map" 2>/dev/null; } \
