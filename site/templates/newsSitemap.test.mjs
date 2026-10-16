@@ -1783,6 +1783,42 @@ test('news sitemap keywords include Beam from multi-title open-model tape (FINDA
   assert.doesNotMatch(c, /\bBeam\b/);
 });
 
+test('news sitemap keywords include Mac Studios from multi-title Muse Spark Open tape (FINDABILITY #292)', () => {
+  // Multi-title Mac Studios tape: Muse Spark / Muse Spark Open fill 12-cap
+  // slots while hardware-host titles drop the Mac Studios surface.
+  const a = keywordsFor({
+    title: 'Meta Muse Spark Open brings 816B-parameter AI to Mac Studios',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Meta'],
+  });
+  assert.match(a, /\bMac Studios\b/);
+  assert.match(a, /\bMuse Spark Open\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Mac Studios') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Meta releases Muse Spark Open: it runs on two Mac Studios, and its license bans passing off its output',
+    summary: 'Open-weight Muse Spark Open naming dual Mac Studios hosts.',
+    pillar: 'attention',
+    kind: 'forum',
+    source: 'reddit-artificial',
+    entities: ['Meta'],
+  });
+  assert.match(b, /\bMac Studios\b/);
+  const c = keywordsFor({
+    title: 'Muse Spark Open vs DeepSeek for coding agents',
+    summary: 'Product-class compare — Apple silicon host surface not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Meta'],
+  });
+  assert.match(c, /\bMuse Spark Open\b/);
+  assert.doesNotMatch(c, /\bMac Studios\b/);
+});
+
 test('news sitemap keywords include Qwen3.8-27B from multi-title SKU tape (FINDABILITY #290)', () => {
   // Multi-title Qwen3.8-27B tape: Qwen / Qwen3.8 fill 12-cap slots while
   // size-class titles drop the 27B surface.
