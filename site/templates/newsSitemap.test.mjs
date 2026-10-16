@@ -2178,6 +2178,52 @@ test('news sitemap keywords include Claude Mythos 5 from multi-title tape (FINDA
   assert.doesNotMatch(d, /\bMythos 5\b/);
 });
 
+test('news sitemap keywords include Qwen3.8-Max from multi-title SKU tape (FINDABILITY #346)', () => {
+  // Multi-title Qwen3.8-Max tape: Claude / Mythos / Qwen / Qwen3.8 fill 12-cap
+  // while the Max SKU surface is dropped (parallel to Mythos 5 #344).
+  const a = keywordsFor({
+    title: 'Claude Mythos 5 vs Qwen3.8-Max: Three Changes in Seven Weeks',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Claude', 'Qwen', 'Google'],
+  });
+  assert.match(a, /\bQwen3\.8-Max\b/);
+  assert.match(a, /\bQwen3\.8\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Qwen3.8-Max') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Claude Mythos 5 vs Qwen3.8-Max: Tre cambiamenti in sette settimane',
+    summary: 'Italian mirror of the EN comparison tape.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Claude', 'Qwen', 'Google'],
+  });
+  assert.match(b, /\bQwen3\.8-Max\b/);
+  // Space form via hyphen↔space flex (#310).
+  const c = keywordsFor({
+    title: 'Nemotron 3.5 Super VL vs Qwen3.8 Max: Open vs Hosted',
+    summary: 'Space-form Max SKU beside Super VL.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Nemotron', 'Qwen', 'Google'],
+  });
+  assert.match(c, /\bQwen3\.8-Max\b/);
+  const d = keywordsFor({
+    title: 'Qwen3.8 Omni Flash expands multilingual audio tools',
+    summary: 'Bare Qwen3.8 / Omni Flash tape must not invent the Max SKU needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Qwen', 'Google'],
+  });
+  assert.match(d, /\bQwen3\.8\b/);
+  assert.doesNotMatch(d, /\bQwen3\.8-Max\b/);
+});
+
 test('news sitemap keywords include PS5 from multi-title local-AI console tape (FINDABILITY #320)', () => {
   // Multi-title PS5 tape: Llama / Sony / GGUF / topic meta fill 12-cap slots
   // while product-class local-AI console titles drop the PS5 surface.

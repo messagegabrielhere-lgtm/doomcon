@@ -390,6 +390,10 @@ export function selftest() {
     || !NEWS_KEYWORD_PROBE_LABS.includes('Mythos 5')) {
     throw new Error('probe labs must include Claude Mythos 5 + Mythos 5');
   }
+  // FINDABILITY #346 — Qwen3.8-Max stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Qwen3.8-Max')) {
+    throw new Error('probe labs must include Qwen3.8-Max');
+  }
   // FINDABILITY #310 — GPT-6 Astra space-form title heal.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
     || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {

@@ -190,8 +190,13 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'DeepSeek V4 Pro',
   // FINDABILITY #238 — multi-title Qwen3.8 tape (Max + Omni Flash vs Nemotron);
   // bare Qwen fills a 12-cap slot while product-class Qwen3.8 titles drop the
-  // version surface (hold standalone Omni Flash bilingual / Max-only needles).
+  // version surface (Omni Flash bilingual still held; Max SKU is #346).
   'Qwen3.8',
+  // FINDABILITY #346 — multi-title Qwen3.8-Max SKU tape while google-news-open
+  // (2 titles: vs Claude Mythos 5 EN/IT); Qwen / Qwen3.8 fill 12-cap slots and
+  // drop the Max SKU surface (parallel to Mythos 5 #344 / Qwen3.8-27B #290 /
+  // Qwen 4 Max #282). Hyphen↔space flex (#310) covers "Qwen3.8 Max".
+  'Qwen3.8-Max',
   // FINDABILITY #290 — multi-title Qwen3.8-27B SKU tape while google-news-open
   // (2 titles); Qwen / Qwen3.8 fill 12-cap slots and drop the size-class
   // surface (parallel to Qwen3.8 #238 / Qwen 4 Max #282).

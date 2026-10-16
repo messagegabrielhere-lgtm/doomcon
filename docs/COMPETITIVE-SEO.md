@@ -59,10 +59,11 @@ preserve **#248**). Typed-guess **#262** tip prose still intact after
 **ok** after `a00cfbc` (index + level today middot). Multi-title **#298** Vercel tip
 **ok** (2/2 after `2d76065`); **#294** Mac Studio singular tip
 **ok**; **#292** Mac Studios **ok**; Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Hold doorway on product keywords (no new multi-title gap beyond **#344**). SoftBank lab exists
-and already keywords SoftBank M&A; Allied Universal has no destination — refuse.
-Qwen3.8-Max holds behind Qwen3.8; IPO / Wall Street topic noise refused.
+Hold doorway on product keywords (shipping **#346** Qwen3.8-Max SKU lag;
+Allied Universal still no destination — refuse; Xing 4.0 29B-A4B holds behind Xing 4.0;
+IPO / Wall Street topic noise refused). SoftBank lab exists and already keywords SoftBank M&A.
 Trends `ai_related` is True Detective / nasdaq false positive.
+**#346** Qwen3.8-Max news:keywords (multi-title vs Mythos 5 tape; `google-news-open`).
 **#345** after **#344** tip `5b917ab` + IndexNow **200**: Claude Mythos 5 / Mythos 5 **3/3** CDN clear; lead **6,700**.
 **#344** Claude Mythos 5 tip `5b917ab` CDN clear (re-heal after newsroom wipe; probes **ok**).
 **#343** after **#342** tip `c89502b` + IndexNow **200**: Siri **3/3** CDN clear; lead **6,700**.

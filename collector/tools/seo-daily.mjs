@@ -488,6 +488,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Siri',
   // FINDABILITY #344 — Claude Mythos 5 / Mythos 5 version needles (multi-title).
   'Claude Mythos 5', 'Mythos 5',
+  // FINDABILITY #346 — Qwen3.8-Max SKU needle (multi-title vs Mythos 5 tape).
+  'Qwen3.8-Max',
   // FINDABILITY #216 — MAI-Base needles while Google News contested.
   'MAI-Base', 'MAI-Base-2',
   // FINDABILITY #222 — Muse Spark product-class needles (multi-title tape).
@@ -6775,6 +6777,22 @@ function selftest() {
     }
     if (mythosLags.filter((r) => /DeepSeek V4 Pro/i.test(r.title)).some((r) => r.lab === 'Claude Mythos 5')) {
       throw new Error('newsKeywordLags should not flag Claude Mythos 5 when keywords include it');
+    }
+  }
+  // FINDABILITY #346 — catch tip wipe of Qwen3.8-Max SKU needle.
+  {
+    const qwen38MaxLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Claude Mythos 5 vs Qwen3.8-Max: Three Changes in Seven Weeks</news:title>'
+      + '<news:keywords>Claude Mythos 5, Mythos 5, Claude, Qwen, Google, Mythos, Qwen3.8, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Claude Mythos 5 vs Qwen3.8-Max: Tre cambiamenti in sette settimane</news:title>'
+      + '<news:keywords>Claude Mythos 5, Mythos 5, Claude, Qwen, Google, Mythos, Qwen3.8, Qwen3.8-Max, AI, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const qwen38MaxLags = newsKeywordLags(qwen38MaxLagXml);
+    if (!qwen38MaxLags.some((r) => r.lab === 'Qwen3.8-Max')) {
+      throw new Error(`newsKeywordLags expected Qwen3.8-Max lag: ${JSON.stringify(qwen38MaxLags)}`);
+    }
+    if (qwen38MaxLags.filter((r) => /sette settimane/i.test(r.title)).some((r) => r.lab === 'Qwen3.8-Max')) {
+      throw new Error('newsKeywordLags should not flag Qwen3.8-Max when keywords include it');
     }
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
