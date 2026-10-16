@@ -39,6 +39,8 @@ import {
   hasHomeLabAboutLabels,
   hasHomeActivityIndexFaq,
   HOME_ACTIVITY_INDEX_FAQ_NEEDLE,
+  hasHomeActivityIndexTodayFaq,
+  HOME_ACTIVITY_INDEX_TODAY_FAQ_NEEDLE,
   hasHomeActivityLevelFaqAlias,
   HOME_ACTIVITY_LEVEL_FAQ_ALIAS_NEEDLE,
   hasRaceLabAboutLabels,
@@ -657,6 +659,23 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'home-activity-index-faq-missing'));
+  });
+
+  it('detects missing home AI activity index today FAQ (FINDABILITY #284)', () => {
+    assert.equal(HOME_ACTIVITY_INDEX_TODAY_FAQ_NEEDLE, 'What is the AI activity index today?');
+    assert.equal(hasHomeActivityIndexTodayFaq('What is the AI activity index today?'), true);
+    assert.equal(hasHomeActivityIndexTodayFaq('What is an AI activity index?'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        home_activity_index_today_faq: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'home-activity-index-today-faq-missing'));
   });
 
   it('detects missing home AI activity level FAQ alias prose (FINDABILITY #264)', () => {

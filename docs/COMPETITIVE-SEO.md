@@ -37,7 +37,8 @@ so Google News stays aligned with those Trends labs. Grok / xAI FAQ **#173** cov
 restore **#156**/**#158**/**#162**–**#167**/**#169**–**#171**/**#173**–**#185**/**#191**/**#193**–**#195** keeps agent tips + Trends/lab HTML
 across collect wipes (#166/#167/#169–#171/#173–#184/#191/#193/#195/#220 also guard ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/OpenAI-Chrome/Meta-Apple-Mac/Palantir/AMD/Tesla destinations on the routing FAQ). Branded “SIREN AI activity index” still #1; bare “AI activity index today” /
 “AI activity level today” still weak — **#252**/**#262** typed-guess aliases +
-**#254** home exact-match FAQ; head-term SERPs still need GSC crawl (issue #202).
+**#254**/**#284** home exact-match FAQs (definitional + title-today); head-term
+SERPs still need GSC crawl (issue #202).
 Companion to `docs/COMPETITIVE.md` and `docs/FINDABILITY.md`.
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see

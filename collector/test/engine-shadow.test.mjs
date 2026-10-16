@@ -563,14 +563,17 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   // Organization knowsAbout labAboutLabel until #143 preserve lands.
   const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #143/);
-  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\)/);
+  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\)/);
   assert.match(collect, /index\.html classic\.html/);
   assert.match(collect, /What is an AI activity index\?/);
+  assert.match(collect, /What is the AI activity index today\?/);
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #143/);
   assert.match(newsFast, /FINDABILITY #254/);
+  assert.match(newsFast, /FINDABILITY #284/);
   assert.match(newsFast, /restore_home_knowsabout/);
   assert.match(newsFast, /What is an AI activity index\?/);
+  assert.match(newsFast, /What is the AI activity index today\?/);
   assert.match(newsFast, /agents\.md llms\.txt index\.html classic\.html/);
 });
 
@@ -584,6 +587,18 @@ test('Publish restores tip home AI activity index FAQ (FINDABILITY #254)', () =>
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #254/);
   assert.match(newsFast, /What is an AI activity index\?/);
+  assert.match(newsFast, /ai-activity-index\.html/);
+});
+
+test('Publish restores tip home AI activity index today FAQ (FINDABILITY #284)', () => {
+  // Orphan Publish can keep #254 while wiping the title-match today FAQ until tip ≥ #284.
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #284/);
+  assert.match(collect, /What is the AI activity index today\?/);
+  assert.match(collect, /ai-activity-index\.html/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #284/);
+  assert.match(newsFast, /What is the AI activity index today\?/);
   assert.match(newsFast, /ai-activity-index\.html/);
 });
 
