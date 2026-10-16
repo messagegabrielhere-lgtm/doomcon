@@ -176,6 +176,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // google-news-open (vs Qwen Image 3.0 + Frontier Image Model); Qwen /
   // topic meta fill the 12-cap and drop the Krea product surface.
   'Krea', 'Krea 3',
+  // FINDABILITY #258 — multi-title Flux 3 / FLUX 3 Image Klein open-weights
+  // image tape while google-news-open (Black Forest Labs); topic/source meta
+  // fill the 12-cap when titles rotate into the newest-200 window.
+  'Flux 3',
 ]);
 
 /**

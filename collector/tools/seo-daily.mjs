@@ -487,6 +487,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'ModelSphere',
   // FINDABILITY #256 — Krea / Krea 3 image-model needles (multi-title tape).
   'Krea', 'Krea 3',
+  // FINDABILITY #258 — Flux 3 image-model needle (multi-title Klein tape).
+  'Flux 3',
 ]);
 
 /**
@@ -5425,6 +5427,23 @@ function selftest() {
   }
   if (kreaLags.filter((r) => /Frontier Image Model/i.test(r.title)).some((r) => r.lab === 'Krea' || r.lab === 'Krea 3')) {
     throw new Error('newsKeywordLags should not flag Krea when keywords include it');
+  }
+  // FINDABILITY #258 — catch tip wipe of Flux 3 needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Flux 3')) {
+    throw new Error('probe labs missing Flux 3');
+  }
+  const flux3LagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Black Forest Labs\' open-weights image model FLUX 3 Image Klein runs on consumer GPUs</news:title>'
+    + '<news:keywords>Black Forest Labs, Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Flux 3 Image Klein</news:title>'
+    + '<news:keywords>Flux 3, Black Forest Labs, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const flux3Lags = newsKeywordLags(flux3LagXml);
+  if (!flux3Lags.some((r) => r.lab === 'Flux 3')) {
+    throw new Error(`newsKeywordLags expected Flux 3 lag: ${JSON.stringify(flux3Lags)}`);
+  }
+  if (flux3Lags.filter((r) => /^Flux 3 Image Klein$/i.test(r.title)).some((r) => r.lab === 'Flux 3')) {
+    throw new Error('newsKeywordLags should not flag Flux 3 when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
