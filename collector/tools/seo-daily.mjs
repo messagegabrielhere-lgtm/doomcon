@@ -484,6 +484,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'DeepSeek V4 Pro',
   // FINDABILITY #238 — Qwen3.8 product-class needle (Max + Omni Flash tape).
   'Qwen3.8',
+  // FINDABILITY #290 — Qwen3.8-27B size-class needle (multi-title SKU tape).
+  'Qwen3.8-27B',
   // FINDABILITY #241 — Airship company needle (ISO + AISP tape).
   'Airship',
   // FINDABILITY #250 — ModelSphere product-class needle (RiseUnion tape).
@@ -5794,6 +5796,23 @@ function selftest() {
   }
   if (beamLags.filter((r) => /Welcome Beam/i.test(r.title)).some((r) => r.lab === 'Beam')) {
     throw new Error('newsKeywordLags should not flag Beam when keywords include it');
+  }
+  // FINDABILITY #290 — catch tip wipe of Qwen3.8-27B needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Qwen3.8-27B')) {
+    throw new Error('probe labs missing Qwen3.8-27B');
+  }
+  const qwen3827bLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Hy-Memory-30B-A3B vs Qwen3.8-27B : usage vs capital</news:title>'
+    + '<news:keywords>Qwen, Google, Qwen3.8, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>ZwZ2-9B vs. Qwen3.8-27B: the 9B slot Qwen left open</news:title>'
+    + '<news:keywords>Qwen3.8-27B, Qwen, Qwen3.8, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const qwen3827bLags = newsKeywordLags(qwen3827bLagXml);
+  if (!qwen3827bLags.some((r) => r.lab === 'Qwen3.8-27B')) {
+    throw new Error(`newsKeywordLags expected Qwen3.8-27B lag: ${JSON.stringify(qwen3827bLags)}`);
+  }
+  if (qwen3827bLags.filter((r) => /9B slot/i.test(r.title)).some((r) => r.lab === 'Qwen3.8-27B')) {
+    throw new Error('newsKeywordLags should not flag Qwen3.8-27B when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
