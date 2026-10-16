@@ -659,6 +659,28 @@ while [ "$(date +%s)" -lt "$END" ]; do
         echo "restored lab/meta.html Meta Muse + Meta–Apple Mac FAQ (#169/#193)"
       fi
     }
+    # FINDABILITY #248 — restore tip /model/muse-spark.html when Muse Spark
+    # model hub FAQ is missing after orphan Publish (story count < MODEL_INDEX_MIN).
+    restore_muse_spark_model_hub() {
+      local root="$1" preserve="$2"
+      if [ -f "$preserve/model/muse-spark.html" ] \
+        && ! grep -qF 'What has SIREN scored about Muse Spark?' "$root/model/muse-spark.html" 2>/dev/null; then
+        mkdir -p "$root/model"
+        cp -a "$preserve/model/muse-spark.html" "$root/model/muse-spark.html"
+        echo "restored model/muse-spark.html Muse Spark model hub (#248)"
+      fi
+    }
+    # FINDABILITY #248 — restore tip /model/fable.html when Fable model hub
+    # FAQ is missing after orphan Publish.
+    restore_fable_model_hub() {
+      local root="$1" preserve="$2"
+      if [ -f "$preserve/model/fable.html" ] \
+        && ! grep -qF 'What has SIREN scored about Fable?' "$root/model/fable.html" 2>/dev/null; then
+        mkdir -p "$root/model"
+        cp -a "$preserve/model/fable.html" "$root/model/fable.html"
+        echo "restored model/fable.html Fable model hub (#248)"
+      fi
+    }
     # FINDABILITY #170 — restore tip /lab/apple.html when Apple Intelligence FAQ
     # is missing after orphan Publish from tip < #170.
     restore_apple_intelligence_faq() {
@@ -810,7 +832,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       # FINDABILITY #210 — stash tip news-sitemap before public/ overlay can
       # wipe Roadster/Starshield probe needles built on tip < #208.
       for hub in race.html race/index.html watts.html watts/index.html \
-        lab/micron.html lab/coreweave.html lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html \
+        lab/micron.html lab/coreweave.html lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html \
         search-trends.html news-sitemap.xml; do
         if [ -f ".pages/$hub" ]; then
           mkdir -p "$PRESERVE_MAPS/$(dirname "$hub")"
@@ -854,6 +876,8 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_tsmc_trends_faq .pages "$PRESERVE_MAPS"
       restore_amazon_bee_faq .pages "$PRESERVE_MAPS"
       restore_meta_muse_faq .pages "$PRESERVE_MAPS"
+      restore_muse_spark_model_hub .pages "$PRESERVE_MAPS"
+      restore_fable_model_hub .pages "$PRESERVE_MAPS"
       restore_apple_intelligence_faq .pages "$PRESERVE_MAPS"
       restore_microsoft_copilot_faq .pages "$PRESERVE_MAPS"
       restore_xai_grok_faq .pages "$PRESERVE_MAPS"
@@ -890,7 +914,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         lab/index.html companies.html companies/index.html \
         index.html classic.html race.html race/index.html \
         watts.html watts/index.html lab/micron.html lab/coreweave.html \
-        lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html news-sitemap.xml; do
+        lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
         if [ -f ".pages/$hub" ]; then
           mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
           cp -a ".pages/$hub" "$PRESERVE_FAQ/$hub"
@@ -904,7 +928,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             lab/index.html companies.html companies/index.html \
             index.html classic.html race.html race/index.html \
             watts.html watts/index.html lab/micron.html lab/coreweave.html \
-            lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html news-sitemap.xml; do
+            lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
             if [ -f ".pages-faq-tip/$hub" ]; then
               mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
               cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -941,6 +965,8 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_tsmc_trends_faq .pages "$PRESERVE_FAQ"
       restore_amazon_bee_faq .pages "$PRESERVE_FAQ"
       restore_meta_muse_faq .pages "$PRESERVE_FAQ"
+      restore_muse_spark_model_hub .pages "$PRESERVE_FAQ"
+      restore_fable_model_hub .pages "$PRESERVE_FAQ"
       restore_apple_intelligence_faq .pages "$PRESERVE_FAQ"
       restore_microsoft_copilot_faq .pages "$PRESERVE_FAQ"
       restore_xai_grok_faq .pages "$PRESERVE_FAQ"
