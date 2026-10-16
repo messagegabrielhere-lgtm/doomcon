@@ -474,6 +474,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Starshield',
   // FINDABILITY #208 — Roadster product needle while Tesla Trends trending.
   'Roadster',
+  // FINDABILITY #354 — Flying Roadster product-class companion (multi-title).
+  'Flying Roadster',
   // FINDABILITY #212 — Fable model-class needles while Google News contested.
   'Fable', 'Fable 5', 'Fable 5.1', 'Fable 5.5',
   // FINDABILITY #214 — ChatGPT Voice / GPT-Live needles while Google News contested.
@@ -6735,6 +6737,35 @@ function selftest() {
     }
     if (ipoLags.filter((r) => /timing, price/i.test(r.title)).some((r) => r.lab === 'Anthropic IPO')) {
       throw new Error('newsKeywordLags should not flag Anthropic IPO when keywords include it');
+    }
+  }
+  // FINDABILITY #354 — catch tip wipe of Flying Roadster product-class needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Flying Roadster')) {
+    throw new Error('probe labs missing Flying Roadster');
+  }
+  {
+    const flyLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Trump, Pichai and Even Altman Praise Tesla’s Flying Roadster EV</news:title>'
+      + '<news:keywords>Tesla, Google, Roadster, FSD, AI, artificial intelligence, SIREN, attention, press, wires-ai</news:keywords></url>'
+      + '<url><news:title>Five Big Questions About Tesla’s New Flying Roadster</news:title>'
+      + '<news:keywords>Tesla, Google, Roadster, Flying Roadster, FSD, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const flyLags = newsKeywordLags(flyLagXml);
+    if (!flyLags.some((r) => r.lab === 'Flying Roadster')) {
+      throw new Error(`newsKeywordLags expected Flying Roadster lag: ${JSON.stringify(flyLags)}`);
+    }
+    if (flyLags.filter((r) => /Five Big Questions/i.test(r.title)).some((r) => r.lab === 'Flying Roadster')) {
+      throw new Error('newsKeywordLags should not flag Flying Roadster when keywords include it');
+    }
+    // Bare Roadster title must not lag as Flying Roadster.
+    const roadsterOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Tesla unveils its new Roadster sports car, which can thrust itself into the air</news:title>'
+      + '<news:keywords>Tesla, Google, Roadster, FSD, AI, artificial intelligence, SIREN, attention, press, wires-ai</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (roadsterOnly.some((r) => r.lab === 'Flying Roadster')) {
+      throw new Error('newsKeywordLags must not flag Flying Roadster on bare Roadster titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.

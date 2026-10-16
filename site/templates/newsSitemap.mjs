@@ -129,6 +129,14 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #208 — Tesla Trends trending (flying cars / Roadster tape);
   // live 48h titles name Roadster while FSD already fills a 12-cap slot.
   'Roadster',
+  // FINDABILITY #354 — multi-title Flying Roadster product-class companion
+  // while google-news-open (3 titles: Praise Tesla's Flying Roadster… + Five
+  // Big Questions… Flying Roadster + Showcases Flying Roadster); Roadster /
+  // FSD / Tesla fill 12-cap slots and drop the contiguous Flying Roadster
+  // surface (#208 Roadster alone leaves the aerial/thruster nickname missing
+  // — parallel to Muse Spark Open #222 / Bee Frontier #275). Tesla FAQ #185
+  // already gates the lab.
+  'Flying Roadster',
   // FINDABILITY #212 — pizzint-news-alive / contested; live 48h eval tape
   // names Fable 5 / 5.1 / 5.5 beside Gemini Argon / Opus — keep the 12-cap
   // from burying the model-class needle under topic tags (Azure Fable 5.5

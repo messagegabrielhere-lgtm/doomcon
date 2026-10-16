@@ -2296,6 +2296,53 @@ test('news sitemap keywords include PS5 from multi-title local-AI console tape (
   assert.doesNotMatch(c, /\bPS5\b/);
 });
 
+test('news sitemap keywords include Flying Roadster from multi-title aerial tape (FINDABILITY #354)', () => {
+  // Multi-title Flying Roadster tape: Roadster / FSD / Tesla fill 12-cap while
+  // the contiguous Flying Roadster surface is dropped (FAQ #185 gates the lab).
+  const a = keywordsFor({
+    title: 'Trump, Pichai and Even Altman Praise Tesla’s Flying Roadster EV',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Tesla', 'Google'],
+  });
+  assert.match(a, /\bFlying Roadster\b/);
+  assert.match(a, /\bRoadster\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Flying Roadster') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Five Big Questions About Tesla’s New Flying Roadster',
+    summary: 'Aerial thruster unveil beside FSD robotaxi tape.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Tesla', 'Google'],
+  });
+  assert.match(b, /\bFlying Roadster\b/);
+  const c = keywordsFor({
+    title: 'Watch Chip Rout Intensifies and Tesla Showcases Flying Roadster',
+    summary: 'GPU selloff briefing beside aerial Roadster demo.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Tesla', 'Google'],
+  });
+  assert.match(c, /\bFlying Roadster\b/);
+  // Bare Roadster / FSD tape must not invent the Flying Roadster needle.
+  // (Summary must not name the needle — keywordsFor hay is title+summary.)
+  const d = keywordsFor({
+    title: 'Tesla unveils its new Roadster sports car, which can thrust itself into the air',
+    summary: 'Bare Roadster / FSD tape must not invent a contiguous Flying product needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Tesla', 'Google'],
+  });
+  assert.match(d, /\bRoadster\b/);
+  assert.doesNotMatch(d, /\bFlying Roadster\b/);
+});
+
 test('news sitemap keywords include Anthropic IPO from multi-title IPO tape (FINDABILITY #352)', () => {
   // Multi-title Anthropic IPO tape: Anthropic / Claude / AI IPOs fill 12-cap
   // while the contiguous event surface is dropped (FAQ #163 gates the lab).

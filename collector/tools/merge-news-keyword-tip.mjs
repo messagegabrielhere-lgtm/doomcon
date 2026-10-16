@@ -406,6 +406,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Anthropic IPO')) {
     throw new Error('probe labs must include Anthropic IPO');
   }
+  // FINDABILITY #354 — Flying Roadster product-class companion stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Flying Roadster')) {
+    throw new Error('probe labs must include Flying Roadster');
+  }
   // FINDABILITY #310 — GPT-6 Astra space-form title heal.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
     || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {
