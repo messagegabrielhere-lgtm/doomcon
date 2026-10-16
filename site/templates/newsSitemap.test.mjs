@@ -1577,6 +1577,45 @@ test('news sitemap keywords include G7 from multi-title AI cyber drill tape (FIN
   assert.doesNotMatch(c, /\bG7\b/);
 });
 
+test('news sitemap keywords include Bee Frontier / Bee Eclipse from multi-title wearable tape (FINDABILITY #275)', () => {
+  // Multi-title Bee Frontier / Bee Eclipse tape: bare Bee fills a 12-cap slot
+  // while product-class device titles drop the Frontier / Eclipse surfaces.
+  const a = keywordsFor({
+    title: 'Amazon Unveils Bee Frontier and Bee Eclipse AI Listening Devices',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Amazon'],
+  });
+  assert.match(a, /\bBee Frontier\b/);
+  assert.match(a, /\bBee Eclipse\b/);
+  assert.match(a, /\bBee\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Bee Frontier') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Amazon launches two AI wearables, the $75 Bee Frontier wristband and $100 Bee Eclipse magnetic phone-attachment recorder',
+    summary: 'Personal AI listening devices from Amazon Bee.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Amazon'],
+  });
+  assert.match(b, /\bBee Frontier\b/);
+  assert.match(b, /\bBee Eclipse\b/);
+  const c = keywordsFor({
+    title: 'Amazon Debuts Revamped Bee AI Wearables, $12-a-Month Subscription Plan',
+    summary: 'Bare Bee wearable tape must not invent Frontier or Eclipse needles.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Amazon'],
+  });
+  assert.match(c, /\bBee\b/);
+  assert.doesNotMatch(c, /\bBee Frontier\b/);
+  assert.doesNotMatch(c, /\bBee Eclipse\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.

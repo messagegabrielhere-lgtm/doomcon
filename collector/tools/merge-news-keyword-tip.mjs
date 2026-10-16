@@ -297,6 +297,13 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('G7')) {
     throw new Error('probe labs must include G7');
   }
+  // FINDABILITY #275 — Bee Frontier / Bee Eclipse stay in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Bee Frontier')) {
+    throw new Error('probe labs must include Bee Frontier');
+  }
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Bee Eclipse')) {
+    throw new Error('probe labs must include Bee Eclipse');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }
