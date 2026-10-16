@@ -2381,6 +2381,53 @@ test('news sitemap keywords include Flying Roadster from multi-title aerial tape
   assert.doesNotMatch(d, /\bFlying Roadster\b/);
 });
 
+test('news sitemap keywords include AI safety bill from multi-title legislative tape (FINDABILITY #358)', () => {
+  // Multi-title AI safety bill tape: Anthropic / Claude / AI safety fill 12-cap
+  // while the contiguous legislative surface is dropped (FAQ #163 gates the lab).
+  const a = keywordsFor({
+    title: 'Anthropic proposes AI safety bill with strict intervention thresholds - Politico By Investing.com',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Google'],
+  });
+  assert.match(a, /\bAI safety bill\b/);
+  assert.match(a, /\bAnthropic\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('AI safety bill') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Anthropic said to pitch AI safety bill to US Congress',
+    summary: 'Legislative draft beside Claude safety-eval tape.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Google'],
+  });
+  assert.match(b, /\bAI safety bill\b/);
+  const c = keywordsFor({
+    title: 'Anthropic quietly pitches its own AI safety bill to lawmakers',
+    summary: 'Politico report on intervention thresholds.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Google'],
+  });
+  assert.match(c, /\bAI safety bill\b/);
+  // Bare AI safety / NYC Council hearing must not invent the bill needle.
+  // (Summary must not name the needle — keywordsFor hay is title+summary.)
+  const d = keywordsFor({
+    title: "Elon Musk's SpaceX to testify at NYC Council meeting on AI safety",
+    summary: 'Bare AI safety hearing tape must not invent a contiguous legislative bill needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['SpaceX', 'Google'],
+  });
+  assert.match(d, /\bAI safety\b/);
+  assert.doesNotMatch(d, /\bAI safety bill\b/);
+});
+
 test('news sitemap keywords include Anthropic IPO from multi-title IPO tape (FINDABILITY #352)', () => {
   // Multi-title Anthropic IPO tape: Anthropic / Claude / AI IPOs fill 12-cap
   // while the contiguous event surface is dropped (FAQ #163 gates the lab).
