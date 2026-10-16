@@ -482,6 +482,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'GPT-Live-1', 'Kling', 'Kling 4.0',
   // FINDABILITY #338 — Xing / Xing 4.0 MoE needles (multi-title).
   'Xing', 'Xing 4.0',
+  // FINDABILITY #340 — Replit company needle (multi-title Anthropic/OpenAI tape).
+  'Replit',
   // FINDABILITY #216 — MAI-Base needles while Google News contested.
   'MAI-Base', 'MAI-Base-2',
   // FINDABILITY #222 — Muse Spark product-class needles (multi-title tape).
@@ -6721,6 +6723,22 @@ function selftest() {
   }
   if (xingLags.filter((r) => /Vision or Tool Calling/i.test(r.title)).some((r) => r.lab === 'Xing')) {
     throw new Error('newsKeywordLags should not flag Xing when keywords include it');
+  }
+  // FINDABILITY #340 — catch tip wipe of Replit company needle.
+  {
+    const replitLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Replit ends partnership with Anthropic, citing cost and performance; shifts focus to OpenAI.</news:title>'
+      + '<news:keywords>Anthropic, OpenAI, Google, ChatGPT, Claude, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Replit is no longer working with Anthropic, CEO says</news:title>'
+      + '<news:keywords>Anthropic, Claude, Replit, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const replitLags = newsKeywordLags(replitLagXml);
+    if (!replitLags.some((r) => r.lab === 'Replit')) {
+      throw new Error(`newsKeywordLags expected Replit lag: ${JSON.stringify(replitLags)}`);
+    }
+    if (replitLags.filter((r) => /no longer working/i.test(r.title)).some((r) => r.lab === 'Replit')) {
+      throw new Error('newsKeywordLags should not flag Replit when keywords include it');
+    }
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
