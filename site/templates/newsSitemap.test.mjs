@@ -910,6 +910,33 @@ test('news sitemap keywords include Claude Opus 5.5 surfaces', () => {
   assert.match(kw, /Claude Opus 5\.5|Opus 5\.5/);
 });
 
+test('news sitemap keywords include METR + Bee from live 48h tape (FINDABILITY #199)', () => {
+  // google-news-open: Anthropic/METR safety-eval titles and Amazon Bee wearable
+  // titles that lead with bare "Bee" were dropping under the 12-cap.
+  const metr = keywordsFor({
+    title: 'Anthropic grants outside evaluator METR employee-level access in AI safety push',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic'],
+  });
+  assert.match(metr, /METR/);
+  assert.match(metr, /Anthropic/);
+  const bee = keywordsFor({
+    title: "Amazon's Bee Turns Everyday Conversations Into AI Tasks and Shopping Prompts",
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Amazon'],
+  });
+  assert.match(bee, /\bBee\b/);
+  assert.match(bee, /Amazon/);
+  const parts = bee.split(', ');
+  assert.ok(parts.indexOf('Bee') < parts.indexOf('attention'), bee);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',

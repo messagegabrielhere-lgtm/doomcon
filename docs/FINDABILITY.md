@@ -436,6 +436,7 @@ context.
 | 196 | Fix `collect-publish-news.sh` syntax: #194 glued `fi` onto the IREN restore `echo`, so newsroom Publish failed (`syntax error near unexpected token done` on schedule run 38826636259) — restores 15m news Publish + IndexNow after expression-cap extract #192 | Google News + Deploy + Bing | **Done** (this pass) |
 | 197 | `engine-shadow` `bash -n`s `collect-publish-{news,full}.sh` + `news-fast-loop.sh`, asserts collect.yml invokes the extracts, and Publish-restore probes read both scripts via `collectPublishSrc()` (mirror of #190 `newsFastSrc`) — catches glued-`fi` / expression-cap regressions before the next schedule Publish | Deploy + Google News | **Done** (this pass) |
 | 198 | Re-measure COMPETITIVE-SEO after #196/#197: schedule newsroom Publish + IndexNow success on run 38828432583 (tip ≥ #197); tip FAQs/agent needles survived; Trends fresh (`ai_related_total` 0 — hold doorway); live lead still **6688**/news **200**; organic blocker remains operator GSC #11 + Bing #120 | Daily agent + Deploy | **Done** (this pass) |
+| 199 | News-sitemap `NEWS_KEYWORD_LABS`: add **METR** + bare **Bee** from live 48h titles while `google-news-open` (Anthropic→METR safety-eval tape; Amazon Bee wearable titles that lead with "Bee") so the 12-cap does not bury those surfaces under topic tags — no new doorway URLs; Trends still quiet | Google News | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 

@@ -101,6 +101,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'MI300', 'Instinct',
   // FINDABILITY #185 — FSD / Autopilot needles beside Tesla (labAboutLabel FSD).
   'FSD', 'Autopilot',
+  // FINDABILITY #199 — google-news-open; live 48h surfaces this pass:
+  // Anthropic grants METR employee-level access (safety eval tape); Amazon Bee
+  // wearable titles often lead with bare "Bee" after the possessive.
+  'METR', 'Bee',
 ]);
 
 /**
