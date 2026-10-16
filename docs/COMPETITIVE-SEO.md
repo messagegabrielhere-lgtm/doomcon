@@ -8,8 +8,9 @@ hold contested Google News lane); Trends tip fresh (`generated_at` ~02:24Z,
 Nscale + **#206** Starshield + **#208** Roadster live on tip (`520ba3d` newsroom
 refresh after #210 merge; Roadster **10** / Starshield **6** kw; no CDN lag);
 Publish tip keyword merge **#210** proven on newsroom Publish (`merge-news-keyword-tip:
-nothing to merge` when tip ≥ #208); `seo-daily` probes **#201**/**#204**/**#206**/**#208**
-catch tip wipe / CDN lag;
+nothing to merge` when tip ≥ #208); News keywords **#212** Fable / Fable 5 /
+Fable 5.1 / Fable 5.5 for live eval tape under the 12-cap; `seo-daily` probes
+**#201**/**#204**/**#206**/**#208**/**#212** catch tip wipe / CDN lag;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic

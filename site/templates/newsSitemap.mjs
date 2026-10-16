@@ -119,6 +119,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #208 — Tesla Trends trending (flying cars / Roadster tape);
   // live 48h titles name Roadster while FSD already fills a 12-cap slot.
   'Roadster',
+  // FINDABILITY #212 — pizzint-news-alive / contested; live 48h eval tape
+  // names Fable 5 / 5.1 / 5.5 beside Gemini Argon / Opus — keep the 12-cap
+  // from burying the model-class needle under topic tags (Azure Fable 5.5
+  // title currently ships only Google + Cloud AI keywords).
+  'Fable', 'Fable 5', 'Fable 5.1', 'Fable 5.5',
 ]);
 
 /**
