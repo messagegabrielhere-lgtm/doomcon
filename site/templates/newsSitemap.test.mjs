@@ -2055,6 +2055,40 @@ test('news sitemap keywords include Xing 4.0 from multi-title MoE tape (FINDABIL
   assert.doesNotMatch(c, /\bXing\b/);
 });
 
+test('news sitemap keywords include Replit from multi-title Anthropic tape (FINDABILITY #340)', () => {
+  // Multi-title Replit tape: Anthropic / OpenAI / ChatGPT / Claude fill 12-cap
+  // while company-class Replit titles drop the host surface.
+  const a = keywordsFor({
+    title: 'Replit ends partnership with Anthropic, citing cost and performance; shifts focus to OpenAI.',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'OpenAI', 'Google'],
+  });
+  assert.match(a, /\bReplit\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Replit') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Replit is no longer working with Anthropic, CEO says',
+    summary: 'Amjad Masad comments at TechCrunch Disrupt.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'techcrunch-ai',
+    entities: ['Anthropic', 'Claude'],
+  });
+  assert.match(b, /\bReplit\b/);
+  const c = keywordsFor({
+    title: 'Cloud IDE vendor ends Anthropic partnership and shifts focus to OpenAI',
+    summary: 'Generic partnership noise must not invent a company needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'OpenAI'],
+  });
+  assert.doesNotMatch(c, /\bReplit\b/);
+});
+
 test('news sitemap keywords include PS5 from multi-title local-AI console tape (FINDABILITY #320)', () => {
   // Multi-title PS5 tape: Llama / Sony / GGUF / topic meta fill 12-cap slots
   // while product-class local-AI console titles drop the PS5 surface.

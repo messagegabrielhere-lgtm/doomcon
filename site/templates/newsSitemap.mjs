@@ -284,6 +284,12 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // vs Qwen 3.8…); Nemotron / Qwen / Google fill the 12-cap and drop the
   // product-class Xing surface (parallel to Kling 4.0 #336 / Qwen 4 Max #282).
   'Xing', 'Xing 4.0',
+  // FINDABILITY #340 — multi-title Replit Anthropic/OpenAI partnership tape
+  // while google-news-open (2+ titles: Replit ends partnership with Anthropic…
+  // + Replit is no longer working with Anthropic…); Anthropic / OpenAI /
+  // ChatGPT / Claude fill the 12-cap and drop the company-class Replit surface
+  // (parallel to Accenture #271 / Vercel #298 / Airship #241).
+  'Replit',
 ]);
 
 /**
