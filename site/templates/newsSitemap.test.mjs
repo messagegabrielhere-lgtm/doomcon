@@ -1269,6 +1269,40 @@ test('news sitemap keywords include Nemotron 3.5 Super VL from multi-title tape 
   assert.doesNotMatch(c, /Nemotron 3\.5 Super VL/);
 });
 
+test('news sitemap keywords include Airship from multi-title ISO + AISP tape (FINDABILITY #241)', () => {
+  // Multi-title Airship AI tape while google-news-open: topic/source meta fill
+  // the 12-cap and drop the company surface (parallel to Nscale #204).
+  const a = keywordsFor({
+    title: 'Airship Achieves ISO 42001 Certification, Clearing the Path for Responsible Enterprise AI',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(a, /\bAirship\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Airship') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Airship AI Holdings Inc. Cl A (AISP) Stock Price Today - The Wall Street Journal',
+    summary: 'AISP holdings named beside finance wires.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.match(b, /\bAirship\b/);
+  const c = keywordsFor({
+    title: 'Enterprise AI vendors race ISO certifications',
+    summary: 'No named holdings vendor — balloon/vehicle noise must not invent a needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /\bAirship\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.
