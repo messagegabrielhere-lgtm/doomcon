@@ -1,12 +1,12 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T10:36Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,691** sitemap URLs / news **200** (pizzint news-sitemap **14** —
-`pizzint-news-alive`; keep keyword-rich lane); **#262** tip overlay `3a8ceef`
-CDN clear (`/ai-activity-level.html` + `/` **200**, canonical `/`; agents.md /
-llms.txt **yes**); **#254** home FAQ still **ok**; **#252** typed-guess alias
-still **200**; **#258** Flux 3 lag **0**; **#260** Together AI outside newest-200
-(tip N/A); Trends tip (`ai_related_total` **0** — hold doorway); News keywords
+**Measured:** 2026-10-16T10:51Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,692** sitemap URLs / news **200** (pizzint news-sitemap **0** —
+`google-news-open`; keep keyword-rich lane); **#264** tip restore `c1f9a74`
+CDN clear after collect wipe of `#262` FAQ prose (home / classic /
+`/ai-activity-level.html` alias prose **ok**; `#254` stayed); **#252** alias
+**200**; **#258** Flux 3 lag **0**; Cohere lag **0**; Trends tip
+(`ai_related_total` **0** — hold doorway); News keywords
 **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
 **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
