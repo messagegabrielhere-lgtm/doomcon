@@ -563,17 +563,20 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   // Organization knowsAbout labAboutLabel until #143 preserve lands.
   const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #143/);
-  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\)/);
+  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\/#296\)/);
   assert.match(collect, /index\.html classic\.html/);
   assert.match(collect, /What is an AI activity index\?/);
   assert.match(collect, /What is the AI activity index today\?/);
+  assert.match(collect, /AI activity level today ·/);
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #143/);
   assert.match(newsFast, /FINDABILITY #254/);
   assert.match(newsFast, /FINDABILITY #284/);
+  assert.match(newsFast, /FINDABILITY #296/);
   assert.match(newsFast, /restore_home_knowsabout/);
   assert.match(newsFast, /What is an AI activity index\?/);
   assert.match(newsFast, /What is the AI activity index today\?/);
+  assert.match(newsFast, /AI activity level today ·/);
   assert.match(newsFast, /agents\.md llms\.txt index\.html classic\.html/);
 });
 
@@ -613,6 +616,16 @@ test('Publish restores tip home AI activity level FAQ alias prose (FINDABILITY #
   assert.match(newsFast, /FINDABILITY #264/);
   assert.match(newsFast, /\/ai-activity-level\.html is a short alias/);
   assert.match(newsFast, /ai-activity-level\.html/);
+});
+
+test('Publish restores tip home AI activity level today title (FINDABILITY #296)', () => {
+  // Orphan Publish can wipe dual head-term <title> middot form until tip ≥ #296.
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #296/);
+  assert.match(collect, /AI activity level today ·/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #296/);
+  assert.match(newsFast, /AI activity level today ·/);
 });
 
 test('Publish restores tip race labAboutLabel (FINDABILITY #145)', () => {

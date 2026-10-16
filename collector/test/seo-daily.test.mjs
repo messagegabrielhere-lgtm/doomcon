@@ -43,6 +43,8 @@ import {
   HOME_ACTIVITY_INDEX_TODAY_FAQ_NEEDLE,
   hasHomeActivityLevelFaqAlias,
   HOME_ACTIVITY_LEVEL_FAQ_ALIAS_NEEDLE,
+  hasHomeActivityLevelTitle,
+  HOME_ACTIVITY_LEVEL_TITLE_NEEDLE,
   hasRaceLabAboutLabels,
   NEWS_LAB_ALIAS_PROBES,
   newsLabAliasKeywordLags,
@@ -693,6 +695,30 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'home-activity-level-faq-alias-missing'));
+  });
+
+  it('detects missing home AI activity level today title (FINDABILITY #296)', () => {
+    assert.equal(HOME_ACTIVITY_LEVEL_TITLE_NEEDLE, 'AI activity level today ·');
+    assert.equal(
+      hasHomeActivityLevelTitle('<title>AI activity index today · AI activity level today · SIREN 4</title>'),
+      true,
+    );
+    assert.equal(hasHomeActivityLevelTitle('<title>AI activity index today · SIREN 4</title>'), false);
+    assert.equal(
+      hasHomeActivityLevelTitle('<meta name="description" content="AI activity level today: SIREN 4">'),
+      false,
+    );
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        home_activity_level_title: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'home-activity-level-title-missing'));
   });
 
   it('detects missing race board labAboutLabel (FINDABILITY #144)', () => {

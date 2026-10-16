@@ -1130,10 +1130,12 @@ ${style}`;
     motion: true,
     path: '/',
     // Head-term first (FINDABILITY.md §1.3): strangers search "AI activity
-    // index" / "AI activity level today", not only the brand name.
+    // index today" / "AI activity level today", not only the brand name.
+    // FINDABILITY #296 — keep both contiguous phrases in <title> (description
+    // already leads with level; bare “level today” SERP was still missing us).
     title: Number.isFinite(state.score) && state.level_name
-      ? `AI activity index today · ${brand.NAME} ${state.level} ${state.level_name} · ${scoreTxt}`
-      : `AI activity index · ${brand.NAME}`,
+      ? `AI activity index today · AI activity level today · ${brand.NAME} ${state.level} ${state.level_name} · ${scoreTxt}`
+      : `AI activity index · AI activity level · ${brand.NAME}`,
     ogTitle: `${brand.NAME} ${state.level} · ${state.level_name} · ${scoreTxt}/100 — ${LEVEL_LINE[state.level] || ''}`.replace(/ — $/, ''),
     description:
       `AI activity level today: ${brand.NAME} ${state.level} of 5 (${state.level_name}), ${scoreTxt} of 100. ` +
