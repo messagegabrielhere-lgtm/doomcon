@@ -116,6 +116,9 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // access tape names the product beside SpaceX — keep the 12-cap from
   // burying Starshield under topic tags.
   'Starshield',
+  // FINDABILITY #208 — Tesla Trends trending (flying cars / Roadster tape);
+  // live 48h titles name Roadster while FSD already fills a 12-cap slot.
+  'Roadster',
 ]);
 
 /**

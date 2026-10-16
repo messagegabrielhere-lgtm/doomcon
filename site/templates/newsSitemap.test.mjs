@@ -982,6 +982,33 @@ test('news sitemap keywords include Bluesky + Attie + Nscale from live 48h tape 
   assert.ok(nParts.indexOf('Nscale') < nParts.indexOf('compute'), nscale);
 });
 
+test('news sitemap keywords include Roadster from live 48h Tesla Trends tape (FINDABILITY #208)', () => {
+  // Tesla Trends trending on flying cars / Roadster; titles name Roadster while
+  // Tesla + FSD already occupy 12-cap slots and drop the product needle.
+  const a = keywordsFor({
+    title: 'The Tesla Roadster 2 Is Here—and It Flies',
+    summary: '',
+    pillar: 'attention',
+    kind: 'forum',
+    source: 'bluesky-ai',
+    entities: ['Tesla'],
+  });
+  assert.match(a, /\bTesla\b/);
+  assert.match(a, /\bRoadster\b/);
+  assert.match(a, /\bFSD\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Roadster') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No Tesla product named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(b, /(^|,\s*)Roadster(,|$)/);
+});
+
 test('news sitemap keywords include Starshield from live 48h tape (FINDABILITY #206)', () => {
   // Contested Google News: Ukraine Starshield access titles name the product
   // beside SpaceX; without a needle the 12-cap keeps SpaceX and drops Starshield.

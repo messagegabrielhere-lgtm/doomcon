@@ -454,6 +454,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Bluesky', 'Attie', 'Nscale',
   // FINDABILITY #206 — Starshield product needle while Google News contested.
   'Starshield',
+  // FINDABILITY #208 — Roadster product needle while Tesla Trends trending.
+  'Roadster',
 ]);
 
 /**
@@ -4935,6 +4937,10 @@ function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Starshield')) {
     throw new Error('probe labs missing Starshield');
   }
+  // FINDABILITY #208 — catch tip wipe of Roadster needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Roadster')) {
+    throw new Error('probe labs missing Roadster');
+  }
   const metrLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
     + '<url><news:title>Anthropic grants outside evaluator METR employee-level access</news:title>'
     + '<news:keywords>Anthropic, Google, Claude, AI, SIREN</news:keywords></url>'
@@ -4946,6 +4952,8 @@ function selftest() {
     + '<news:keywords>Google, Nscale, AI, SIREN</news:keywords></url>'
     + '<url><news:title>Musk Comments Sow Confusion Over Ukraine Starshield Disruption</news:title>'
     + '<news:keywords>SpaceX, Elon Musk, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>The Tesla Roadster 2 Is Here—and It Flies</news:title>'
+    + '<news:keywords>Tesla, FSD, AI, SIREN</news:keywords></url>'
     + '</urlset>';
   const metrLags = newsKeywordLags(metrLagXml);
   if (!metrLags.some((r) => r.lab === 'METR')) {
@@ -4962,6 +4970,9 @@ function selftest() {
   }
   if (!metrLags.some((r) => r.lab === 'Starshield')) {
     throw new Error(`newsKeywordLags expected Starshield lag: ${JSON.stringify(metrLags)}`);
+  }
+  if (!metrLags.some((r) => r.lab === 'Roadster')) {
+    throw new Error(`newsKeywordLags expected Roadster lag: ${JSON.stringify(metrLags)}`);
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
