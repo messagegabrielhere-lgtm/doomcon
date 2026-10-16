@@ -7,6 +7,7 @@ AI glasses **#195** tipped and survived schedule newsroom Publish; collect extra
 + syntax fix **#196** + bash-n guard **#197** verified (schedule run 38828432583
 Publish + IndexNow success on tip ≥ #197; Trends tip fresh, `ai_related_total` 0);
 News keywords **#199** add METR + Bee from live 48h tape while google-news-open;
+News keywords **#200** add Apertus / Apertus 1.5 while pizzint-news-alive (14);
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
