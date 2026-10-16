@@ -1616,6 +1616,42 @@ test('news sitemap keywords include Bee Frontier / Bee Eclipse from multi-title 
   assert.doesNotMatch(c, /\bBee Eclipse\b/);
 });
 
+test('news sitemap keywords include Surface Laptop Ultra from multi-title AI-laptop tape (FINDABILITY #277)', () => {
+  // Multi-title Surface Laptop Ultra tape: Microsoft / Copilot fill 12-cap
+  // slots while product-class AI-laptop titles drop the Surface surface.
+  const a = keywordsFor({
+    title: 'Surface Laptop Ultra review: a different kind of MacBook Pro',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Microsoft'],
+  });
+  assert.match(a, /\bSurface Laptop Ultra\b/);
+  assert.match(a, /\bMicrosoft\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Surface Laptop Ultra') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Running local AI models on Microsoft’s Surface Laptop Ultra: What we found',
+    summary: 'On-device AI laptop coverage from Microsoft Surface.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Microsoft'],
+  });
+  assert.match(b, /\bSurface Laptop Ultra\b/);
+  const c = keywordsFor({
+    title: 'Microsoft expands Copilot on Surface devices for enterprise AI',
+    summary: 'Bare Surface / Copilot tape must not invent the Ultra laptop product needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Microsoft'],
+  });
+  assert.match(c, /\bMicrosoft\b/);
+  assert.doesNotMatch(c, /\bSurface Laptop Ultra\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.

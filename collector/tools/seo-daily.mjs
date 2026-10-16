@@ -504,6 +504,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'G7',
   // FINDABILITY #275 — Bee Frontier / Bee Eclipse product needles (wearable tape).
   'Bee Frontier', 'Bee Eclipse',
+  // FINDABILITY #277 — Surface Laptop Ultra product needle (AI-laptop tape).
+  'Surface Laptop Ultra',
 ]);
 
 /**
@@ -5664,6 +5666,23 @@ function selftest() {
   }
   if (beeLags.filter((r) => /wristband/i.test(r.title)).some((r) => r.lab === 'Bee Frontier' || r.lab === 'Bee Eclipse')) {
     throw new Error('newsKeywordLags should not flag Bee Frontier/Eclipse when keywords include them');
+  }
+  // FINDABILITY #277 — catch tip wipe of Surface Laptop Ultra needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Surface Laptop Ultra')) {
+    throw new Error('probe labs missing Surface Laptop Ultra');
+  }
+  const surfaceLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Surface Laptop Ultra review: a different kind of MacBook Pro</news:title>'
+    + '<news:keywords>Microsoft, Google, Copilot, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Running local AI models on Microsoft’s Surface Laptop Ultra: What we found</news:title>'
+    + '<news:keywords>Microsoft, Surface Laptop Ultra, Copilot, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const surfaceLags = newsKeywordLags(surfaceLagXml);
+  if (!surfaceLags.some((r) => r.lab === 'Surface Laptop Ultra')) {
+    throw new Error(`newsKeywordLags expected Surface Laptop Ultra lag: ${JSON.stringify(surfaceLags)}`);
+  }
+  if (surfaceLags.filter((r) => /local AI models/i.test(r.title)).some((r) => r.lab === 'Surface Laptop Ultra')) {
+    throw new Error('newsKeywordLags should not flag Surface Laptop Ultra when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
