@@ -394,6 +394,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Qwen3.8-Max')) {
     throw new Error('probe labs must include Qwen3.8-Max');
   }
+  // FINDABILITY #348 — Xing 4.0 29B-A4B stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Xing 4.0 29B-A4B')) {
+    throw new Error('probe labs must include Xing 4.0 29B-A4B');
+  }
   // FINDABILITY #310 — GPT-6 Astra space-form title heal.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
     || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {

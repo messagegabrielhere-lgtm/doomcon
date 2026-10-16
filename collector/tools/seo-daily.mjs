@@ -482,6 +482,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'GPT-Live-1', 'Kling', 'Kling 4.0',
   // FINDABILITY #338 — Xing / Xing 4.0 MoE needles (multi-title).
   'Xing', 'Xing 4.0',
+  // FINDABILITY #348 — Xing 4.0 29B-A4B size-SKU needle (multi-title).
+  'Xing 4.0 29B-A4B',
   // FINDABILITY #340 — Replit company needle (multi-title Anthropic/OpenAI tape).
   'Replit',
   // FINDABILITY #342 — Siri product needle (multi-title vs Gemini tape).
@@ -6729,6 +6731,22 @@ function selftest() {
   }
   if (xingLags.filter((r) => /Vision or Tool Calling/i.test(r.title)).some((r) => r.lab === 'Xing')) {
     throw new Error('newsKeywordLags should not flag Xing when keywords include it');
+  }
+  // FINDABILITY #348 — catch tip wipe of Xing 4.0 29B-A4B size-SKU needle.
+  {
+    const xing29bLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Xing 4.0 29B-A4B vs Nemotron 3.5 Lightning 30B-A3B: Same Shape, Different Licence</news:title>'
+      + '<news:keywords>Nemotron, Google, Xing, Xing 4.0, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+      + '<url><news:title>Xing 4.0 29B-A4B vs Qwen 3.8 27B: Vision or Tool Calling</news:title>'
+      + '<news:keywords>Alibaba Qwen, Qwen, Google, Xing, Xing 4.0, Xing 4.0 29B-A4B, AI, SIREN, Tool calling, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const xing29bLags = newsKeywordLags(xing29bLagXml);
+    if (!xing29bLags.some((r) => r.lab === 'Xing 4.0 29B-A4B')) {
+      throw new Error(`newsKeywordLags expected Xing 4.0 29B-A4B lag: ${JSON.stringify(xing29bLags)}`);
+    }
+    if (xing29bLags.filter((r) => /Vision or Tool Calling/i.test(r.title)).some((r) => r.lab === 'Xing 4.0 29B-A4B')) {
+      throw new Error('newsKeywordLags should not flag Xing 4.0 29B-A4B when keywords include it');
+    }
   }
   // FINDABILITY #340 — catch tip wipe of Replit company needle.
   {

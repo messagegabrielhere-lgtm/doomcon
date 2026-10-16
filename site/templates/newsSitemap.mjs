@@ -289,6 +289,12 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // vs Qwen 3.8…); Nemotron / Qwen / Google fill the 12-cap and drop the
   // product-class Xing surface (parallel to Kling 4.0 #336 / Qwen 4 Max #282).
   'Xing', 'Xing 4.0',
+  // FINDABILITY #348 — multi-title Xing 4.0 29B-A4B size-SKU tape while
+  // google-news-open (2 titles: vs Nemotron 3.5 Lightning + vs Qwen 3.8 27B);
+  // Xing / Xing 4.0 fill 12-cap slots and drop the size-class 29B-A4B surface
+  // (parallel to Qwen3.8-27B #290 / Qwen3.8-Max #346). Hold Nemotron 3.5
+  // Lightning until multi-title (1 title only).
+  'Xing 4.0 29B-A4B',
   // FINDABILITY #340 — multi-title Replit Anthropic/OpenAI partnership tape
   // while google-news-open (2+ titles: Replit ends partnership with Anthropic…
   // + Replit is no longer working with Anthropic…); Anthropic / OpenAI /
