@@ -159,6 +159,9 @@ const ENTITY_DEFS = [
   // Opus 5.5 nickname so /model/claude clears when headlines use the version
   // string without a bare “Claude” token nearby.
   { name: 'Claude', kind: 'model', forms: ['Claude', 'Claude Code', 'Opus 5.5', 'Opus', 'Sonnet', 'Haiku'] },
+  // Anthropic Fable class — versioned / Claude-anchored forms only (bare "Fable"
+  // is too ambiguous). ≥ MODEL_INDEX_MIN clears /model/fable (FINDABILITY #246).
+  { name: 'Fable', kind: 'model', forms: ['Fable 5.5', 'Fable 5.1', 'Fable 5', 'Claude Fable'] },
   // Gemini 4 Argon / Carbon nicknames so /model/gemini clears when headlines
   // use the product codename without a bare “Gemini” token nearby.
   { name: 'Gemini', kind: 'model', forms: ['Gemini 4 Argon', 'Gemini 4 Carbon', 'Gemini 4', 'Gemini'] },

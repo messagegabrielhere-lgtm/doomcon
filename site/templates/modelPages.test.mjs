@@ -217,6 +217,38 @@ describe('model pages', () => {
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/muse-wonder.html'));
   });
 
+  it('indexes Fable from versioned / Claude-anchored forms (FINDABILITY #246)', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('fb1', 'Team of 5 post-trains GLM 5.3 Flash to Fable 5 class for $300k all-in', []),
+          story('fb2', 'Gemini 4 Argon on par with Fable 5.1 on ECI', []),
+          story('fb3', 'Anthropic status: Elevated errors for Claude Mythos 5.1 and Claude Fable 5.1', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Fable'));
+    const html = renderModel(rich, 'Fable');
+    assert.match(html, /What has SIREN scored about Fable\?|Fable/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/fable.html'));
+    // Bare "fable" / unrelated prose must not mint the hub.
+    const thin = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('bad1', 'A cautionary fable about AI hype', []),
+          story('bad2', 'Aesop fables retold by chatbots', []),
+          story('bad3', 'Storybook fable generators ship', []),
+        ],
+      },
+    };
+    assert.ok(!indexableModels(thin).some((m) => m.name === 'Fable'));
+  });
+
   it('indexes Muse Spark from Muse Spark / Muse Spark Open title forms (FINDABILITY #245)', () => {
     const rich = {
       ...ctx,
