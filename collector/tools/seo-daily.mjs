@@ -496,6 +496,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Together AI',
   // FINDABILITY #267 — Terafab fab needle (multi-title TSMC / Musk tape).
   'Terafab',
+  // FINDABILITY #269 — Cohere lab needle (multi-title AISLE / cyber tape).
+  'Cohere',
 ]);
 
 /**
@@ -5586,6 +5588,23 @@ function selftest() {
   }
   if (terafabLags.filter((r) => /Must Control Plants/i.test(r.title)).some((r) => r.lab === 'Terafab')) {
     throw new Error('newsKeywordLags should not flag Terafab when keywords include it');
+  }
+  // FINDABILITY #269 — catch tip wipe of Cohere needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Cohere')) {
+    throw new Error('probe labs missing Cohere');
+  }
+  const cohereLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Cohere is Buying Its Customers Better Cybersecurity</news:title>'
+    + '<news:keywords>Google, AI, artificial intelligence, SIREN, Cybersecurity, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Cohere to acquire AISLE to advance cyber-resilient sovereign AI</news:title>'
+    + '<news:keywords>Cohere, Google, AI, artificial intelligence, SIREN, AI security, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const cohereLags = newsKeywordLags(cohereLagXml);
+  if (!cohereLags.some((r) => r.lab === 'Cohere')) {
+    throw new Error(`newsKeywordLags expected Cohere lag: ${JSON.stringify(cohereLags)}`);
+  }
+  if (cohereLags.filter((r) => /acquire AISLE/i.test(r.title)).some((r) => r.lab === 'Cohere')) {
+    throw new Error('newsKeywordLags should not flag Cohere when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
