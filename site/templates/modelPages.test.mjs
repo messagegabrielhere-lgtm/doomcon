@@ -217,6 +217,38 @@ describe('model pages', () => {
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/muse-wonder.html'));
   });
 
+  it('indexes Muse Spark from Muse Spark / Muse Spark Open title forms (FINDABILITY #245)', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ms1', 'Meta releases Muse Spark Open for Mac Studios', []),
+          story('ms2', 'Muse Spark Open vs DeepSeek V4.1 Flash: Same Score, Triple the Cost', []),
+          story('ms3', "Meta's new Muse Spark AI model focuses on coding and task automation", []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Muse Spark'));
+    const html = renderModel(rich, 'Muse Spark');
+    assert.match(html, /What has SIREN scored about Muse Spark\?|Muse Spark/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/muse-spark.html'));
+    // Bare Muse / Muse Wonder must not mint the Spark hub.
+    const thin = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('bad1', 'Meta launches Muse Wonder AI models', []),
+          story('bad2', 'Muse Wonder Full outperforms rivals', []),
+          story('bad3', 'Developers try Muse for agent workflows', []),
+        ],
+      },
+    };
+    assert.ok(!indexableModels(thin).some((m) => m.name === 'Muse Spark'));
+  });
+
   it('indexes Maia from Maia 300 / Azure Maia title forms', () => {
     const rich = {
       ...ctx,
