@@ -312,6 +312,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('RTX Spark')) {
     throw new Error('probe labs must include RTX Spark');
   }
+  // FINDABILITY #282 — Qwen 4 Max stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Qwen 4 Max')) {
+    throw new Error('probe labs must include Qwen 4 Max');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }

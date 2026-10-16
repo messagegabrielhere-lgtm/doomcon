@@ -1688,6 +1688,42 @@ test('news sitemap keywords include RTX Spark from multi-title on-device AI PC t
   assert.doesNotMatch(c, /\bRTX Spark\b/);
 });
 
+test('news sitemap keywords include Qwen 4 Max from multi-title model tape (FINDABILITY #282)', () => {
+  // Multi-title Qwen 4 Max tape: bare Qwen / Alibaba Qwen fill 12-cap slots
+  // while product-class vs Muse Spark / Claude Opus titles drop Qwen 4 Max.
+  const a = keywordsFor({
+    title: 'Claude Opus 5.5 vs Qwen 4 Max: who publishes speed?',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Qwen', 'Claude'],
+  });
+  assert.match(a, /\bQwen 4 Max\b/);
+  assert.match(a, /\bQwen\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Qwen 4 Max') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Muse Spark vs Qwen 4 Max: one side has no endpoint',
+    summary: 'Model compare coverage naming the Max product class.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Qwen', 'Meta'],
+  });
+  assert.match(b, /\bQwen 4 Max\b/);
+  const c = keywordsFor({
+    title: 'Alibaba Qwen expands open-weight Tongyi releases for enterprise',
+    summary: 'Bare Qwen / Alibaba tape must not invent the Max product needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Qwen', 'Alibaba'],
+  });
+  assert.match(c, /\bQwen\b/);
+  assert.doesNotMatch(c, /\bQwen 4 Max\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.
