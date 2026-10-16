@@ -193,6 +193,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // NEWS_KEYWORD_LABS so headline-only / tip-merge paths drop Cohere under
   // the 12-cap (parallel to Airship #241).
   'Cohere',
+  // FINDABILITY #271 — multi-title Accenture Claude-spend tape while
+  // pizzint-news-alive; Anthropic / Claude fill 12-cap slots and drop the
+  // consulting-buyer company surface (parallel to CERT-In #226 / Airship #241).
+  'Accenture',
 ]);
 
 /**
