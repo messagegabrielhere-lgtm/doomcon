@@ -1,10 +1,10 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T16:45Z shipping **#302** Elorian `NEWS_KEYWORD_LABS` while
-`google-news-open` (pizzint news **0**); lead **6,685** / news **200**; Vercel **#298** tip still **ok** (2/2); **#296** dual title tip still **ok**; **#294** Mac Studio singular **ok**;
+**Measured:** 2026-10-16T16:53Z re-measure after **#302** tip overlay `a09f0c0` + IndexNow **200**:
+CDN clear (Elorian title↔keywords lag **0** on **1/1**; second Glimpse title rotated out of newest-200 — needle armed); lead **6,686** / news **200** (`google-news-open`); Vercel **#298** tip still **ok**; **#296** dual title tip still **ok**; **#294** Mac Studio singular **ok**;
 **#292** Mac Studios tip **ok**; **#290** Qwen3.8-27B tip **ok**; **#288** CRWV / CoreWeave tip **ok**; **#286** Beam tip **ok**; **#284** home FAQ today **ok**;
-**#279** RTX Spark **ok**; **#264** tip FAQ alias prose still **ok**; **#252** alias **200**;
-IndexNow ALWAYS on tip Publish; News keywords
+**#279** RTX Spark **ok**; **#264** tip FAQ alias prose still **ok**; **#252** alias **200**; hold doorway (no new multi-title product gap);
+IndexNow ALWAYS **200**; News keywords
 **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
 **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
