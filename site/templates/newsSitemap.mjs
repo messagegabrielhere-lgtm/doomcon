@@ -221,6 +221,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Alibaba Qwen fill 12-cap slots and drop the product-class Qwen 4 Max
   // surface (parallel to Qwen3.8 #238 / Krea 3 #256).
   'Qwen 4 Max',
+  // FINDABILITY #286 — multi-title Beam open-model tape while
+  // google-news-open (2 titles: Reflection's Beam + Welcome Beam); topic /
+  // China AI / source meta fill the 12-cap and drop the product-class Beam
+  // surface (parallel to Bolt #234 / Qwen 4 Max #282).
+  'Beam',
 ]);
 
 /**
