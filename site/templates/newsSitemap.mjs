@@ -263,6 +263,12 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Council hearing…); SpaceX / Starshield / Google fill the 12-cap and drop
   // the agency-class NYC Council surface (parallel to G7 #273 / CERT-In #226).
   'NYC Council',
+  // FINDABILITY #320 — multi-title PS5 local-AI / llama.cpp tape while
+  // google-news-open (3 titles: Llama.cpp on a jailbroken PS5… + Jailbroken
+  // PS5 Turns into a Local AI Machine… + PS5 hack…); Llama / Sony / GGUF /
+  // topic meta fill the 12-cap and drop the product-class PS5 surface
+  // (parallel to RTX Spark #279 / Mac Studio #294).
+  'PS5',
 ]);
 
 /**

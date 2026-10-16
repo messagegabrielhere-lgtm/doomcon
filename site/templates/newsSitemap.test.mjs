@@ -1944,6 +1944,42 @@ test('news sitemap keywords include NYC Council from SpaceX AI-safety hearing ta
   assert.doesNotMatch(c, /\bNYC Council\b/);
 });
 
+test('news sitemap keywords include PS5 from multi-title local-AI console tape (FINDABILITY #320)', () => {
+  // Multi-title PS5 tape: Llama / Sony / GGUF / topic meta fill 12-cap slots
+  // while product-class local-AI console titles drop the PS5 surface.
+  const a = keywordsFor({
+    title: 'Llama.cpp on a jailbroken PS5: run any GGUF model natively on the console',
+    summary: '',
+    pillar: 'attention',
+    kind: 'forum',
+    source: 'hn-fresh-ai',
+    entities: ['Llama'],
+  });
+  assert.match(a, /\bPS5\b/);
+  assert.match(a, /\bLlama\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('PS5') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Jailbroken PS5 Turns into a Local AI Machine with Speeds Above 100 Tokens Per Second',
+    summary: 'Local inference on a jailbroken PlayStation console.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Google'],
+  });
+  assert.match(b, /\bPS5\b/);
+  const c = keywordsFor({
+    title: 'Sony expands PlayStation cloud gaming for AI-assisted titles',
+    summary: 'Bare Sony / PlayStation tape must not invent the console product needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Sony'],
+  });
+  assert.match(c, /\bSony\b/);
+  assert.doesNotMatch(c, /\bPS5\b/);
+});
+
 test('news sitemap keywords include Mac Studio from Apple–Meta Muse local tape (FINDABILITY #294)', () => {
   // Singular Mac Studio: Apple / Meta / Muse / Apple Intelligence fill 12-cap
   // while #292 plural needle does not match "Mac Studio".

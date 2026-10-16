@@ -529,6 +529,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Dell',
   // FINDABILITY #306 — NYC Council agency needle (SpaceX AI-safety hearing).
   'NYC Council',
+  // FINDABILITY #320 — PS5 product needle (local-AI / llama.cpp console tape).
+  'PS5',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -6194,6 +6196,23 @@ function selftest() {
   }
   if (nycCouncilLags.filter((r) => /hearing testimony/i.test(r.title)).some((r) => r.lab === 'NYC Council')) {
     throw new Error('newsKeywordLags should not flag NYC Council when keywords include it');
+  }
+  // FINDABILITY #320 — catch tip wipe of PS5 needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('PS5')) {
+    throw new Error('probe labs missing PS5');
+  }
+  const ps5LagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Llama.cpp on a jailbroken PS5: run any GGUF model natively on the console</news:title>'
+    + '<news:keywords>Llama, AI, artificial intelligence, SIREN, Quantization, llama.cpp, GGUF, attention, forum, hn-fresh-ai</news:keywords></url>'
+    + '<url><news:title>Jailbroken PS5 Turns into a Local AI Machine with Speeds Above 100 Tokens Per Second</news:title>'
+    + '<news:keywords>PS5, Google, AI, artificial intelligence, SIREN, Inference &amp; serving, Local AI, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const ps5Lags = newsKeywordLags(ps5LagXml);
+  if (!ps5Lags.some((r) => r.lab === 'PS5')) {
+    throw new Error(`newsKeywordLags expected PS5 lag: ${JSON.stringify(ps5Lags)}`);
+  }
+  if (ps5Lags.filter((r) => /Local AI Machine/i.test(r.title)).some((r) => r.lab === 'PS5')) {
+    throw new Error('newsKeywordLags should not flag PS5 when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
