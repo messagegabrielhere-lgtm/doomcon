@@ -486,6 +486,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Replit',
   // FINDABILITY #342 — Siri product needle (multi-title vs Gemini tape).
   'Siri',
+  // FINDABILITY #344 — Claude Mythos 5 / Mythos 5 version needles (multi-title).
+  'Claude Mythos 5', 'Mythos 5',
   // FINDABILITY #216 — MAI-Base needles while Google News contested.
   'MAI-Base', 'MAI-Base-2',
   // FINDABILITY #222 — Muse Spark product-class needles (multi-title tape).
@@ -6756,6 +6758,23 @@ function selftest() {
     }
     if (siriLags.filter((r) => /Agentic World/i.test(r.title)).some((r) => r.lab === 'Siri')) {
       throw new Error('newsKeywordLags should not flag Siri when keywords include it');
+    }
+  }
+  // FINDABILITY #344 — catch tip wipe of Claude Mythos 5 / Mythos 5 needles.
+  {
+    const mythosLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Claude Mythos 5 vs Qwen3.8-Max: Three Changes in Seven Weeks</news:title>'
+      + '<news:keywords>Claude, Qwen, Google, Mythos, Qwen3.8, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Claude Mythos 5 vs DeepSeek V4 Pro: price gap</news:title>'
+      + '<news:keywords>Claude, DeepSeek, Google, Mythos, Claude Mythos 5, Mythos 5, DeepSeek V4 Pro, AI, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const mythosLags = newsKeywordLags(mythosLagXml);
+    if (!mythosLags.some((r) => r.lab === 'Claude Mythos 5')
+      || !mythosLags.some((r) => r.lab === 'Mythos 5')) {
+      throw new Error(`newsKeywordLags expected Claude Mythos 5 / Mythos 5 lag: ${JSON.stringify(mythosLags)}`);
+    }
+    if (mythosLags.filter((r) => /DeepSeek V4 Pro/i.test(r.title)).some((r) => r.lab === 'Claude Mythos 5')) {
+      throw new Error('newsKeywordLags should not flag Claude Mythos 5 when keywords include it');
     }
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'

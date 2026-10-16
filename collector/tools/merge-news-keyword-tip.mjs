@@ -385,6 +385,11 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Siri')) {
     throw new Error('probe labs must include Siri');
   }
+  // FINDABILITY #344 — Claude Mythos 5 / Mythos 5 stay in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Claude Mythos 5')
+    || !NEWS_KEYWORD_PROBE_LABS.includes('Mythos 5')) {
+    throw new Error('probe labs must include Claude Mythos 5 + Mythos 5');
+  }
   // FINDABILITY #310 — GPT-6 Astra space-form title heal.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
     || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {
