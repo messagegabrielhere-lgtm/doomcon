@@ -2274,6 +2274,8 @@ async function main() {
       skills_index: ctx.url('/.well-known/agent-skills/index.json'),
       mcp_server_card: ctx.url('/.well-known/mcp/server-card.json'),
       welcome: ctx.url('/agents.html'),
+      // FINDABILITY #330 — endpoint map lists the classic panel for scrapers.
+      classic: ctx.url('/classic.html'),
     },
     endpoints: {
       state: ctx.url('/api/state.json'),
@@ -2290,6 +2292,7 @@ async function main() {
       ai_prediction_markets: ctx.url('/ai-prediction-markets.html'),
       free_tools: ctx.url('/free-tools.html'),
       verify: ctx.url('/verify.html'),
+      classic: ctx.url('/classic.html'),
       fresh: ctx.url('/api/fresh.json'),
       search_index: ctx.url('/api/search-index.json'),
       embed: ctx.url('/embed.html'),

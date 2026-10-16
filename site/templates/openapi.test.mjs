@@ -16,6 +16,7 @@ test('openapi lists Outrank free-tool and Search Trends HTML landings', () => {
     '/ai-prediction-markets.html',
     '/free-tools.html',
     '/verify.html',
+    '/classic.html',
   ]) {
     assert.ok(spec.paths[p], p);
     assert.ok(spec.paths[p].get?.operationId, p);
@@ -23,6 +24,8 @@ test('openapi lists Outrank free-tool and Search Trends HTML landings', () => {
   assert.match(spec.paths['/verify.html'].get.summary, /check a SIREN reading/i);
   assert.match(spec.paths['/free-tools.html'].get.summary, /free tools/i);
   assert.match(spec.paths['/search-trends.html'].get.summary, /Search Trends/i);
+  // FINDABILITY #330 — OpenAPI path for the classic instrument panel.
+  assert.match(spec.paths['/classic.html'].get.summary, /full SIREN instrument panel/i);
   assert.equal(
     spec.paths['/verify.html'].get.responses['200'].content['text/html'].schema.type,
     'string',

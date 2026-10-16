@@ -75,6 +75,12 @@ export function agentsJson(ctx) {
         description: `${SKILL_DESC} Packaged path for skill installers.`,
       },
     ],
+    // FINDABILITY #330 — structured companion lists the classic panel beside
+    // agents.txt / ai.txt / api-catalog (#328) so JSON scrapers find it too.
+    related: {
+      classic: u('/classic.html'),
+      classic_title: 'Where is the full SIREN instrument panel?',
+    },
   };
 }
 
@@ -139,6 +145,12 @@ export function agentSkillsIndex(ctx, skillBody) {
         url: ctx.url(SKILL_PATH),
         // Identical body also published at /skill.md for the short well-known URL.
         digest: `sha256:${sha256Hex(skillBody)}`,
+        // FINDABILITY #330 — skill index points at the classic panel (same
+        // question needle as agents.json / skill.md).
+        related: {
+          classic: ctx.url('/classic.html'),
+          classic_title: 'Where is the full SIREN instrument panel?',
+        },
       },
     ],
   };
