@@ -168,6 +168,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // (ISO 42001 enterprise AI + AISP holdings); topic/source meta fill the
   // 12-cap and drop the company surface (parallel to Nscale #204).
   'Airship',
+  // FINDABILITY #250 — multi-title ModelSphere open-source LLM serving tape
+  // while google-news-open (RiseUnion / 4Paradigm / Phancy); topic/source
+  // meta fill the 12-cap and drop the product surface.
+  'ModelSphere',
 ]);
 
 /**

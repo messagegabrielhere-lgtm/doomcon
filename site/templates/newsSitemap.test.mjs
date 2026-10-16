@@ -1303,6 +1303,40 @@ test('news sitemap keywords include Airship from multi-title ISO + AISP tape (FI
   assert.doesNotMatch(c, /\bAirship\b/);
 });
 
+test('news sitemap keywords include ModelSphere from multi-title RiseUnion tape (FINDABILITY #250)', () => {
+  // Multi-title ModelSphere open-source LLM serving tape while google-news-open:
+  // topic/source meta fill the 12-cap and drop the product surface.
+  const a = keywordsFor({
+    title: '4Paradigm and RiseUnion Open-Source ModelSphere for Heterogeneous LLM Serving',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(a, /\bModelSphere\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('ModelSphere') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Phancy and RiseUnion Launch ModelSphere, an Open-Source, One-Stop Production-Grade AI Deployment Platform',
+    summary: 'RiseUnion named beside open-source deployment wires.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.match(b, /\bModelSphere\b/);
+  const c = keywordsFor({
+    title: 'Open-source LLM serving platforms race production deployments',
+    summary: 'No named product — generic serving noise must not invent a needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /\bModelSphere\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.

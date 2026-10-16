@@ -265,6 +265,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Airship')) {
     throw new Error('probe labs must include Airship');
   }
+  // FINDABILITY #250 — ModelSphere product needle stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('ModelSphere')) {
+    throw new Error('probe labs must include ModelSphere');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }

@@ -11,13 +11,13 @@ gated; hold doorway); News keywords
 GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 **#222** Muse Spark / Muse Spark Open + **#224** Tencent Cloud + **#226** CERT-In +
 **#228** DeepSeek V4.1 Flash + **#231** Nemotron 3.5 Super VL + **#234** Bolt +
-**#236** DeepSeek V4 Pro + **#238** Qwen3.8 + **#241** Airship (CDN lag **0**);
+**#236** DeepSeek V4 Pro + **#238** Qwen3.8 + **#241** Airship (CDN lag **0**) + **#250** ModelSphere;
 **#245** Muse Spark + **#246** Fable model hubs live via tip `ba49002` + IndexNow
 **200** (`/model/muse-spark.html` + `/model/fable.html` in sitemap); Publish
 preserve **#248** stashes those hubs across orphan collect/news-fast so
 `MODEL_INDEX_MIN` dips cannot wipe tip overlays; tip merge
 **#210** + **#218** Base-beside-MAI hygiene; `seo-daily` probes
-**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**
+**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**
 catch tip wipe / CDN lag;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,

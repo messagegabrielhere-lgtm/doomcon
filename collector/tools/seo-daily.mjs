@@ -480,6 +480,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Qwen3.8',
   // FINDABILITY #241 — Airship company needle (ISO + AISP tape).
   'Airship',
+  // FINDABILITY #250 — ModelSphere product-class needle (RiseUnion tape).
+  'ModelSphere',
 ]);
 
 /**
@@ -5282,6 +5284,23 @@ function selftest() {
   }
   if (airshipLags.filter((r) => /AISP/i.test(r.title)).some((r) => r.lab === 'Airship')) {
     throw new Error('newsKeywordLags should not flag Airship when keywords include it');
+  }
+  // FINDABILITY #250 — catch tip wipe of ModelSphere needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('ModelSphere')) {
+    throw new Error('probe labs missing ModelSphere');
+  }
+  const modelSphereLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>4Paradigm and RiseUnion Open-Source ModelSphere for Heterogeneous LLM Serving</news:title>'
+    + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Phancy and RiseUnion Launch ModelSphere, an Open-Source, One-Stop Production-Grade AI Deployment Platform</news:title>'
+    + '<news:keywords>ModelSphere, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const modelSphereLags = newsKeywordLags(modelSphereLagXml);
+  if (!modelSphereLags.some((r) => r.lab === 'ModelSphere')) {
+    throw new Error(`newsKeywordLags expected ModelSphere lag: ${JSON.stringify(modelSphereLags)}`);
+  }
+  if (modelSphereLags.filter((r) => /Phancy/i.test(r.title)).some((r) => r.lab === 'ModelSphere')) {
+    throw new Error('newsKeywordLags should not flag ModelSphere when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
