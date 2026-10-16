@@ -188,6 +188,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // pizzint-news-alive (TSMC / Musk talks); bare TSMC fills a 12-cap slot
   // while product-class Terafab titles drop the fab surface.
   'Terafab',
+  // FINDABILITY #269 — multi-title Cohere acquisition / cyber tape while
+  // pizzint-news-alive; lab is entity-tagged today but missing from
+  // NEWS_KEYWORD_LABS so headline-only / tip-merge paths drop Cohere under
+  // the 12-cap (parallel to Airship #241).
+  'Cohere',
 ]);
 
 /**

@@ -1475,6 +1475,40 @@ test('news sitemap keywords include Terafab from multi-title TSMC / Musk tape (F
   assert.doesNotMatch(c, /\bTerafab\b/);
 });
 
+test('news sitemap keywords include Cohere from multi-title AISLE / cyber tape (FINDABILITY #269)', () => {
+  // Multi-title Cohere tape: acquisition / cyber; without a lab needle,
+  // headline-only rows drop Cohere under the 12-cap (entity path is optional).
+  const a = keywordsFor({
+    title: 'Cohere is Buying Its Customers Better Cybersecurity',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(a, /\bCohere\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Cohere') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Cohere to acquire AISLE to advance cyber-resilient sovereign AI',
+    summary: 'Cohere buys AISLE for sovereign AI security.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.match(b, /\bCohere\b/);
+  const c = keywordsFor({
+    title: 'Sovereign AI security vendors consolidate without naming a lab',
+    summary: 'Generic cyber M&A noise must not invent a named-lab needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /\bCohere\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.
