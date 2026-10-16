@@ -563,20 +563,23 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   // Organization knowsAbout labAboutLabel until #143 preserve lands.
   const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #143/);
-  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\/#296\)/);
+  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\/#296\/#308\)/);
   assert.match(collect, /index\.html classic\.html/);
   assert.match(collect, /What is an AI activity index\?/);
   assert.match(collect, /What is the AI activity index today\?/);
   assert.match(collect, /AI activity level today ·/);
+  assert.match(collect, /AI activity index today · AI activity level today · AI SIREN INDEX/);
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #143/);
   assert.match(newsFast, /FINDABILITY #254/);
   assert.match(newsFast, /FINDABILITY #284/);
   assert.match(newsFast, /FINDABILITY #296/);
+  assert.match(newsFast, /FINDABILITY #308/);
   assert.match(newsFast, /restore_home_knowsabout/);
   assert.match(newsFast, /What is an AI activity index\?/);
   assert.match(newsFast, /What is the AI activity index today\?/);
   assert.match(newsFast, /AI activity level today ·/);
+  assert.match(newsFast, /AI activity index today · AI activity level today · AI SIREN INDEX/);
   assert.match(newsFast, /agents\.md llms\.txt index\.html classic\.html/);
 });
 
@@ -626,6 +629,16 @@ test('Publish restores tip home AI activity level today title (FINDABILITY #296)
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #296/);
   assert.match(newsFast, /AI activity level today ·/);
+});
+
+test('Publish restores tip home AI activity H1 head terms (FINDABILITY #308)', () => {
+  // Orphan Publish can keep #296 title while wiping brand-only H1 .v2-sr until tip ≥ #308.
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #308/);
+  assert.match(collect, /AI activity index today · AI activity level today · AI SIREN INDEX/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #308/);
+  assert.match(newsFast, /AI activity index today · AI activity level today · AI SIREN INDEX/);
 });
 
 test('Publish restores tip race labAboutLabel (FINDABILITY #145)', () => {

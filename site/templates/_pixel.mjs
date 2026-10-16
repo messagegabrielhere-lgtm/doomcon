@@ -46,13 +46,16 @@ const G = {
 };
 // Headline type drawn as blocks. The words are also in the markup as text, so
 // the page reads the same to a screen reader, a search engine and the build.
-export function pixelText(text, k, color, cls = '') {
+// FINDABILITY #308 — optional `sr` keeps the pixel string (visual brand) while
+// the .v2-sr text carries head terms for crawlers / assistive tech.
+export function pixelText(text, k, color, cls = '', opts = {}) {
+  const sr = opts && opts.sr != null ? String(opts.sr) : String(text);
   const rows = ['', '', '', '', '', '', ''];
   [...String(text).toUpperCase()].forEach((ch, i) => {
     const g = (G[ch] || G[' ']).split(' ');
     for (let r = 0; r < 7; r++) rows[r] += (i ? '.' : '') + g[r];
   });
-  return `<span class="v2-ptext ${cls}"><span class="v2-sr">${esc(text)}</span>${blocks(rows, { '#': color }, k)}</span>`;
+  return `<span class="v2-ptext ${cls}"><span class="v2-sr">${esc(sr)}</span>${blocks(rows, { '#': color }, k)}</span>`;
 }
 
 export const ICON = {

@@ -45,6 +45,8 @@ import {
   HOME_ACTIVITY_LEVEL_FAQ_ALIAS_NEEDLE,
   hasHomeActivityLevelTitle,
   HOME_ACTIVITY_LEVEL_TITLE_NEEDLE,
+  hasHomeActivityH1HeadTerms,
+  HOME_ACTIVITY_H1_HEAD_TERMS_NEEDLE,
   hasRaceLabAboutLabels,
   NEWS_LAB_ALIAS_PROBES,
   newsLabAliasKeywordLags,
@@ -719,6 +721,34 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'home-activity-level-title-missing'));
+  });
+
+  it('detects missing home AI activity H1 head terms (FINDABILITY #308)', () => {
+    assert.equal(
+      HOME_ACTIVITY_H1_HEAD_TERMS_NEEDLE,
+      'AI activity index today · AI activity level today · AI SIREN INDEX',
+    );
+    assert.equal(
+      hasHomeActivityH1HeadTerms(
+        '<h1><span class="v2-sr">AI activity index today · AI activity level today · AI SIREN INDEX</span></h1>',
+      ),
+      true,
+    );
+    assert.equal(
+      hasHomeActivityH1HeadTerms('<h1><span class="v2-sr">AI SIREN INDEX</span></h1>'),
+      false,
+    );
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · AI activity level today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        home_activity_h1_head_terms: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'home-activity-h1-head-terms-missing'));
   });
 
   it('detects missing race board labAboutLabel (FINDABILITY #144)', () => {
