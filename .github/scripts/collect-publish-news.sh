@@ -66,7 +66,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
     lab/index.html companies.html companies/index.html \
     index.html classic.html race.html race/index.html \
     watts.html watts/index.html lab/micron.html lab/coreweave.html \
-    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html news-sitemap.xml; do
+    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
     if [ -f ".pages-faq-tip/$hub" ]; then
       mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
       cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -493,6 +493,23 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
   echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185)"
+fi
+# FINDABILITY #248 — restore tip /model/muse-spark.html when Muse Spark model
+# hub FAQ is missing after mid-merge / orphan Publish (tip overlay wiped when
+# rebuild story count < MODEL_INDEX_MIN).
+if [ -f "$PRESERVE_FAQ/model/muse-spark.html" ] \
+  && ! grep -qF 'What has SIREN scored about Muse Spark?' ".pages/model/muse-spark.html" 2>/dev/null; then
+  mkdir -p .pages/model
+  cp -a "$PRESERVE_FAQ/model/muse-spark.html" .pages/model/muse-spark.html
+  echo "restored model/muse-spark.html Muse Spark model hub (#248)"
+fi
+# FINDABILITY #248 — restore tip /model/fable.html when Fable model hub FAQ
+# is missing after mid-merge / orphan Publish.
+if [ -f "$PRESERVE_FAQ/model/fable.html" ] \
+  && ! grep -qF 'What has SIREN scored about Fable?' ".pages/model/fable.html" 2>/dev/null; then
+  mkdir -p .pages/model
+  cp -a "$PRESERVE_FAQ/model/fable.html" .pages/model/fable.html
+  echo "restored model/fable.html Fable model hub (#248)"
 fi
 # FINDABILITY #210 — merge tip news:keywords probe needles into rebuilt
 # news-sitemap so orphan Publish on tip < #208 cannot wipe Roadster/Starshield.

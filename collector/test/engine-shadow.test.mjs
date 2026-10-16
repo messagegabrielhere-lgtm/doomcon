@@ -737,3 +737,28 @@ test('Publish merges tip news:keywords probe needles (FINDABILITY #210)', () => 
     `expected merge on overlay + orphan news-fast paths, got ${nfMerges.length}`,
   );
 });
+
+test('Publish restores tip Muse Spark + Fable model hubs (FINDABILITY #248)', () => {
+  // Orphan collect/newsroom Publish wiped tip /model/muse-spark.html +
+  // /model/fable.html when rebuild story counts dipped below MODEL_INDEX_MIN;
+  // #248 stashes + restores those hubs when FAQ needles are missing.
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #248/);
+  assert.match(collect, /model\/muse-spark\.html/);
+  assert.match(collect, /model\/fable\.html/);
+  assert.match(collect, /What has SIREN scored about Muse Spark\?/);
+  assert.match(collect, /What has SIREN scored about Fable\?/);
+  assert.match(collect, /restored model\/muse-spark\.html Muse Spark model hub \(#248\)/);
+  assert.match(collect, /restored model\/fable\.html Fable model hub \(#248\)/);
+  const stash = collect.match(/model\/muse-spark\.html model\/fable\.html/g) || [];
+  assert.ok(
+    stash.length >= 2,
+    `expected model-hub stash on both collect Publish paths, got ${stash.length}`,
+  );
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #248/);
+  assert.match(newsFast, /restore_muse_spark_model_hub/);
+  assert.match(newsFast, /restore_fable_model_hub/);
+  assert.match(newsFast, /model\/muse-spark\.html/);
+  assert.match(newsFast, /model\/fable\.html/);
+});
