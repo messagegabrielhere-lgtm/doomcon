@@ -1,10 +1,10 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T17:10Z re-measure after **#304** tip restore `038b5f0` + IndexNow **200**:
-CDN clear (Dell title↔keywords lag **0** on **3/3** after newsroom wipe `a82cb902`); lead **6,686** / news **200** (`google-news-open`); Elorian **#302** tip still **ok**; Vercel **#298** tip still **ok**; **#296** dual title tip still **ok**; **#294** Mac Studio singular **ok**;
+**Measured:** 2026-10-16T17:15Z shipping **#306** NYC Council `NEWS_KEYWORD_LABS` while
+`pizzint-news-alive` (14); lead **6,686** / news **200**; Dell **#304** tip still **ok** (3/3); Elorian **#302** tip still **ok**; Vercel **#298** tip still **ok**; **#296** dual title tip still **ok**; **#294** Mac Studio singular **ok**;
 **#292** Mac Studios tip **ok**; **#290** Qwen3.8-27B tip **ok**; **#288** CRWV / CoreWeave tip **ok**; **#286** Beam tip **ok**; **#284** home FAQ today **ok**;
-**#279** RTX Spark **ok**; **#264** tip FAQ alias prose still **ok**; **#252** alias **200**; hold doorway (no new multi-title product gap);
-IndexNow ALWAYS **200**; News keywords
+**#279** RTX Spark **ok**; **#264** tip FAQ alias prose still **ok**; **#252** alias **200**;
+IndexNow ALWAYS on tip Publish; News keywords
 **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
 **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
@@ -12,11 +12,11 @@ GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 **#222** Muse Spark / Muse Spark Open + **#224** Tencent Cloud + **#226** CERT-In +
 **#228** DeepSeek V4.1 Flash + **#231** Nemotron 3.5 Super VL + **#234** Bolt +
 **#236** DeepSeek V4 Pro + **#238** Qwen3.8 + **#241** Airship + **#250** ModelSphere +
-**#256** Krea / Krea 3 + **#258** Flux 3 + **#260** Together AI + **#267** Terafab + **#269** Cohere + **#271** Accenture + **#273** G7 + **#275** Bee Frontier / Bee Eclipse + **#277** Surface Laptop Ultra + **#279** RTX Spark + **#282** Qwen 4 Max + **#286** Beam + **#290** Qwen3.8-27B + **#292** Mac Studios + **#294** Mac Studio + **#298** Vercel + **#302** Elorian + **#304** Dell; **#245** Muse Spark + **#246** Fable model hubs still **200**
+**#256** Krea / Krea 3 + **#258** Flux 3 + **#260** Together AI + **#267** Terafab + **#269** Cohere + **#271** Accenture + **#273** G7 + **#275** Bee Frontier / Bee Eclipse + **#277** Surface Laptop Ultra + **#279** RTX Spark + **#282** Qwen 4 Max + **#286** Beam + **#290** Qwen3.8-27B + **#292** Mac Studios + **#294** Mac Studio + **#298** Vercel + **#302** Elorian + **#304** Dell + **#306** NYC Council; **#245** Muse Spark + **#246** Fable model hubs still **200**
 (`#248` preserve); tip merge **#210** + **#218** Base-beside-MAI hygiene + **#300** title-heal;
 `seo-daily` probes
-**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**/**#254**/**#256**/**#258**/**#260**/**#262**/**#264**/**#267**/**#269**/**#271**/**#273**/**#275**/**#277**/**#279**/**#282**/**#284**/**#286**/**#288**/**#290**/**#292**/**#294**/**#296**/**#298**/**#300**/**#302**/**#304**
-catch tip wipe / CDN lag; **#296** dual head-term title tip **ok**; **#304** Dell needle;
+**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**/**#254**/**#256**/**#258**/**#260**/**#262**/**#264**/**#267**/**#269**/**#271**/**#273**/**#275**/**#277**/**#279**/**#282**/**#284**/**#286**/**#288**/**#290**/**#292**/**#294**/**#296**/**#298**/**#300**/**#302**/**#304**/**#306**
+catch tip wipe / CDN lag; **#296** dual head-term title tip **ok**; **#306** NYC Council needle;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
