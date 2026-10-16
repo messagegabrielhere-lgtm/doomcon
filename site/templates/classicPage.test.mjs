@@ -61,6 +61,9 @@ describe('classic page', () => {
   it('keeps the homepage head on path / with the live title', () => {
     const html = render(ctx);
     assert.match(html, /<title>AI activity index today · AI activity level today · SIREN/);
+    // FINDABILITY #312 — SERP rewrite dropped “level today” when ROUTINE filled the slot.
+    assert.doesNotMatch(html, /<title>[^<]*ROUTINE/);
+    assert.match(html, /property="og:title" content="AI activity index today · AI activity level today · SIREN/);
     assert.match(html, /rel="canonical" href="https:\/\/siren\.watch\/"/);
     assert.doesNotMatch(html, /Where is the full SIREN instrument panel\?/);
   });
