@@ -478,6 +478,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'DeepSeek V4 Pro',
   // FINDABILITY #238 — Qwen3.8 product-class needle (Max + Omni Flash tape).
   'Qwen3.8',
+  // FINDABILITY #241 — Airship company needle (ISO + AISP tape).
+  'Airship',
 ]);
 
 /**
@@ -5263,6 +5265,23 @@ function selftest() {
   }
   if (qwen38Lags.filter((r) => /Ears and the Weights/i.test(r.title)).some((r) => r.lab === 'Qwen3.8')) {
     throw new Error('newsKeywordLags should not flag Qwen3.8 when keywords include it');
+  }
+  // FINDABILITY #241 — catch tip wipe of Airship needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Airship')) {
+    throw new Error('probe labs missing Airship');
+  }
+  const airshipLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Airship Achieves ISO 42001 Certification, Clearing the Path for Responsible Enterprise AI</news:title>'
+    + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Airship AI Holdings Inc. Cl A (AISP) Stock Price Today - The Wall Street Journal</news:title>'
+    + '<news:keywords>Airship, Google, AI, artificial intelligence, SIREN, AI in finance, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const airshipLags = newsKeywordLags(airshipLagXml);
+  if (!airshipLags.some((r) => r.lab === 'Airship')) {
+    throw new Error(`newsKeywordLags expected Airship lag: ${JSON.stringify(airshipLags)}`);
+  }
+  if (airshipLags.filter((r) => /AISP/i.test(r.title)).some((r) => r.lab === 'Airship')) {
+    throw new Error('newsKeywordLags should not flag Airship when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

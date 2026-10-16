@@ -164,6 +164,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // bare Qwen fills a 12-cap slot while product-class Qwen3.8 titles drop the
   // version surface (hold standalone Omni Flash bilingual / Max-only needles).
   'Qwen3.8',
+  // FINDABILITY #241 — multi-title Airship AI tape while google-news-open
+  // (ISO 42001 enterprise AI + AISP holdings); topic/source meta fill the
+  // 12-cap and drop the company surface (parallel to Nscale #204).
+  'Airship',
 ]);
 
 /**
