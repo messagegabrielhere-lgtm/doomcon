@@ -458,6 +458,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Roadster',
   // FINDABILITY #212 — Fable model-class needles while Google News contested.
   'Fable', 'Fable 5', 'Fable 5.1', 'Fable 5.5',
+  // FINDABILITY #214 — ChatGPT Voice / GPT-Live needles while Google News contested.
+  'ChatGPT Voice', 'GPT-Live', 'GPT-Live-1.1',
 ]);
 
 /**
@@ -4984,6 +4986,25 @@ function selftest() {
   }
   if (!metrLags.some((r) => r.lab === 'Fable') || !metrLags.some((r) => r.lab === 'Fable 5.5')) {
     throw new Error(`newsKeywordLags expected Fable / Fable 5.5 lag: ${JSON.stringify(metrLags)}`);
+  }
+  // FINDABILITY #214 — catch tip wipe of ChatGPT Voice / GPT-Live needles.
+  for (const lab of ['ChatGPT Voice', 'GPT-Live', 'GPT-Live-1.1']) {
+    if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) throw new Error(`probe labs missing ${lab}`);
+  }
+  const voiceLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>OpenAI has updated ChatGPT Voice (voice function). GPT-Live-1.1, which supports this update</news:title>'
+    + '<news:keywords>GPT, OpenAI, Google, ChatGPT, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>OpenAI adds Korean voices and boosts natural chat in ChatGPT Voice</news:title>'
+    + '<news:keywords>OpenAI, ChatGPT, ChatGPT Voice, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const voiceLags = newsKeywordLags(voiceLagXml);
+  if (!voiceLags.some((r) => r.lab === 'ChatGPT Voice')
+    || !voiceLags.some((r) => r.lab === 'GPT-Live')
+    || !voiceLags.some((r) => r.lab === 'GPT-Live-1.1')) {
+    throw new Error(`newsKeywordLags expected ChatGPT Voice / GPT-Live lag: ${JSON.stringify(voiceLags)}`);
+  }
+  if (voiceLags.filter((r) => /Korean voices/i.test(r.title)).some((r) => r.lab === 'ChatGPT Voice')) {
+    throw new Error('newsKeywordLags should not flag ChatGPT Voice when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
