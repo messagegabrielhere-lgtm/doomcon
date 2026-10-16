@@ -450,6 +450,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Kodiak AI', 'MediaTek', 'Cathie Wood', 'ServiceNow', 'ChatGPT', 'Claude Code',
   // FINDABILITY #201 — live 48h needles from #199/#200 while pizzint-news-alive.
   'METR', 'Bee', 'Apertus', 'Apertus 1.5',
+  // FINDABILITY #204 — live 48h needles (Bluesky/Attie/Nscale) while google-news-open.
+  'Bluesky', 'Attie', 'Nscale',
 ]);
 
 /**
@@ -4921,11 +4923,19 @@ function selftest() {
   for (const lab of ['METR', 'Bee', 'Apertus', 'Apertus 1.5']) {
     if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) throw new Error(`probe labs missing ${lab}`);
   }
+  // FINDABILITY #204 — catch tip wipe of Bluesky/Attie/Nscale needles.
+  for (const lab of ['Bluesky', 'Attie', 'Nscale']) {
+    if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) throw new Error(`probe labs missing ${lab}`);
+  }
   const metrLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
     + '<url><news:title>Anthropic grants outside evaluator METR employee-level access</news:title>'
     + '<news:keywords>Anthropic, Google, Claude, AI, SIREN</news:keywords></url>'
     + '<url><news:title>Apertus 1.5: Swiss AI Model Hits 262K Context</news:title>'
     + '<news:keywords>Google, Apertus, Apertus 1.5, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Bluesky Expands Attie Into AI-Built Social Experiences</news:title>'
+    + '<news:keywords>Google, AI, artificial intelligence, SIREN</news:keywords></url>'
+    + '<url><news:title>Nscale’s AI Buildout Hit by Fire, Delays and Angry Workers Ahead of IPO</news:title>'
+    + '<news:keywords>Google, Nscale, AI, SIREN</news:keywords></url>'
     + '</urlset>';
   const metrLags = newsKeywordLags(metrLagXml);
   if (!metrLags.some((r) => r.lab === 'METR')) {
@@ -4933,6 +4943,12 @@ function selftest() {
   }
   if (metrLags.some((r) => r.lab === 'Apertus' || r.lab === 'Apertus 1.5')) {
     throw new Error('newsKeywordLags should not flag Apertus when keywords include it');
+  }
+  if (!metrLags.some((r) => r.lab === 'Bluesky') || !metrLags.some((r) => r.lab === 'Attie')) {
+    throw new Error(`newsKeywordLags expected Bluesky/Attie lag: ${JSON.stringify(metrLags)}`);
+  }
+  if (metrLags.some((r) => r.lab === 'Nscale')) {
+    throw new Error('newsKeywordLags should not flag Nscale when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

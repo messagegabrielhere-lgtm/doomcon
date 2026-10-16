@@ -108,6 +108,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #200 — pizzint-news-alive (14 URLs); Swiss open multimodal
   // Apertus 1.5 release tape in the live 48h window.
   'Apertus', 'Apertus 1.5',
+  // FINDABILITY #204 — google-news-open; live 48h surfaces this pass:
+  // Bluesky Attie AI builder tape (titles name Bluesky / Attie without lab
+  // needles surviving the 12-cap); Nscale neocloud IPO / datacenter tape.
+  'Bluesky', 'Attie', 'Nscale',
 ]);
 
 /**

@@ -953,6 +953,35 @@ test('news sitemap keywords include Apertus from live 48h tape (FINDABILITY #200
   assert.ok(parts.indexOf('Apertus') < parts.indexOf('capability'), a);
 });
 
+test('news sitemap keywords include Bluesky + Attie + Nscale from live 48h tape (FINDABILITY #204)', () => {
+  // google-news-open: Bluesky Attie builder titles and Nscale neocloud IPO /
+  // datacenter titles were dropping under the 12-cap without named lab needles.
+  const attie = keywordsFor({
+    title: 'Bluesky Expands Attie Into AI-Built Social Experiences',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(attie, /\bBluesky\b/);
+  assert.match(attie, /\bAttie\b/);
+  const parts = attie.split(', ');
+  assert.ok(parts.indexOf('Bluesky') < parts.indexOf('attention'), attie);
+  assert.ok(parts.indexOf('Attie') < parts.indexOf('attention'), attie);
+  const nscale = keywordsFor({
+    title: 'Nscale’s AI Buildout Hit by Fire, Delays and Angry Workers Ahead of IPO',
+    summary: '',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.match(nscale, /\bNscale\b/);
+  const nParts = nscale.split(', ');
+  assert.ok(nParts.indexOf('Nscale') < nParts.indexOf('compute'), nscale);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',

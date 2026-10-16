@@ -440,6 +440,7 @@ context.
 | 200 | News-sitemap `NEWS_KEYWORD_LABS`: add **Apertus** / **Apertus 1.5** from live 48h Swiss open multimodal release tape while `pizzint-news-alive` (14 URLs) — keeps the contested Google News lane keyword-rich without doorway URLs | Google News | **Done** (this pass) |
 | 201 | `seo-daily` `NEWS_KEYWORD_PROBE_LABS` adds **METR** / **Bee** / **Apertus** / **Apertus 1.5** so `news-keywords-lag` catches tip wipe or CDN lag after #199/#200 — keeps Google News needles honest while pizzint-news-alive | Daily agent + Google News | **Done** (this pass) |
 | 203 | Re-measure after #201 tip restore: full-collect orphan on tip &lt; #200 wiped Apertus keywords; tip `9379ca482` + IndexNow restored needles; live CDN lags **0**; lead **6687**/news **200**; `google-news-open`; Trends quiet; organic blocker remains operator GSC #11 + Bing #120 (issue #202) | Daily agent + Google News | **Done** (this pass) |
+| 204 | News-sitemap `NEWS_KEYWORD_LABS` + `seo-daily` probes: add **Bluesky** / **Attie** / **Nscale** from live 48h titles while `google-news-open` (Bluesky Attie AI builder tape; Nscale neocloud IPO / datacenter tape) so the 12-cap does not bury those surfaces — no new doorway URLs; Trends still quiet (`ai_related_total` 0); organic blocker remains operator GSC #11 + Bing #120 (issue #202) | Google News | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
