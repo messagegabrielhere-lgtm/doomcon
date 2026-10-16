@@ -2296,6 +2296,44 @@ test('news sitemap keywords include PS5 from multi-title local-AI console tape (
   assert.doesNotMatch(c, /\bPS5\b/);
 });
 
+test('news sitemap keywords include PS5s from plural local-AI console tape (FINDABILITY #350)', () => {
+  // Plural companion to #320: labNeedleRe does not match PS5s for the PS5
+  // needle, so the plural surface drops under the 12-cap (Mac Studios #292).
+  const a = keywordsFor({
+    title: 'Jailbroken PS5s can now run local AI models at over 100+ tokens per second — fork of PS5LM goes native',
+    summary: '',
+    pillar: 'attention',
+    kind: 'forum',
+    source: 'reddit-artificial',
+    entities: [],
+  });
+  assert.match(a, /\bPS5s\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('PS5s') < parts.indexOf('attention'), a);
+  // Singular PS5 titles keep the singular needle without inventing plural.
+  const b = keywordsFor({
+    title: 'Llama.cpp on a jailbroken PS5: run any GGUF model natively on the console',
+    summary: 'Singular console tape — plural form not named alone.',
+    pillar: 'attention',
+    kind: 'forum',
+    source: 'hn-fresh-ai',
+    entities: ['Llama'],
+  });
+  assert.match(b, /\bPS5\b/);
+  assert.doesNotMatch(b, /(^|,\s*)PS5s(,|$)/);
+  // Bare Sony / PlayStation must not invent the plural console needle.
+  // (Summary must not name the needle — keywordsFor hay is title+summary.)
+  const c = keywordsFor({
+    title: 'Sony expands PlayStation cloud gaming for AI-assisted titles',
+    summary: 'Bare Sony / PlayStation tape must not invent a plural console product needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Sony'],
+  });
+  assert.doesNotMatch(c, /\bPS5s\b/);
+});
+
 test('news sitemap keywords include Mac Studio from Apple–Meta Muse local tape (FINDABILITY #294)', () => {
   // Singular Mac Studio: Apple / Meta / Muse / Apple Intelligence fill 12-cap
   // while #292 plural needle does not match "Mac Studio".

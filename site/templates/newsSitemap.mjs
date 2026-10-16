@@ -284,6 +284,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // topic meta fill the 12-cap and drop the product-class PS5 surface
   // (parallel to RTX Spark #279 / Mac Studio #294).
   'PS5',
+  // FINDABILITY #350 — plural PS5s companion to #320 (Jailbroken PS5s can
+  // now run local AI…); labNeedleRe word boundary does not match PS5s, so
+  // the singular needle misses the plural surface under the 12-cap —
+  // parallel to Mac Studios #292 / Mac Studio #294.
+  'PS5s',
   // FINDABILITY #338 — multi-title Xing 4.0 / XingChen-AGI MoE tape while
   // google-news-open (2 titles: Xing 4.0 vs Nemotron 3.5 Lightning… + Xing 4.0
   // vs Qwen 3.8…); Nemotron / Qwen / Google fill the 12-cap and drop the

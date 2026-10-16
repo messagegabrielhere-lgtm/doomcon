@@ -398,6 +398,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Xing 4.0 29B-A4B')) {
     throw new Error('probe labs must include Xing 4.0 29B-A4B');
   }
+  // FINDABILITY #350 — PS5s plural companion stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('PS5s')) {
+    throw new Error('probe labs must include PS5s');
+  }
   // FINDABILITY #310 — GPT-6 Astra space-form title heal.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
     || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {
