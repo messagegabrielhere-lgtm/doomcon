@@ -1,15 +1,16 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T04:17Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+**Measured:** 2026-10-16T04:39Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
 live lead **6,690** sitemap URLs / news **200** (pizzint news-sitemap **0** —
-`google-news-open`; hold keyword-rich lane); Trends tip (`generated_at` ~04:10Z,
-`ai_related_total` **0** — hold doorway); News keywords **#199** METR + Bee +
-**#200** Apertus / Apertus 1.5 + **#204** Bluesky / Attie / Nscale + **#206**
-Starshield + **#208** Roadster + **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214**
-ChatGPT Voice / GPT-Live / GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 +
-**#220** MAI-Base FAQ live on tip (`bce6214` / agents `3dbef1d`; CDN clear) +
-**#222** Muse Spark / Muse Spark Open keyword needles; Publish tip keyword
-merge **#210** + **#218** Base-beside-MAI hygiene; `seo-daily` probes
+`google-news-open`; hold keyword-rich lane); Trends tip (`generated_at` ~04:28Z,
+`ai_related_total` **0**; Nvidia watchlist trending — already gated; hold
+doorway); News keywords **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
+**#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
+**#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
+GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
+**#222** Muse Spark / Muse Spark Open live on tip (`3542c47`; Muse CDN lag
+**0**; MAI FAQ tip intact); Publish tip keyword merge **#210** + **#218**
+Base-beside-MAI hygiene; `seo-daily` probes
 **#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**
 catch tip wipe / CDN lag;
 
