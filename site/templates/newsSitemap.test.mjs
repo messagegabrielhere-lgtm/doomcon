@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { newsEligible, NEWS_WINDOW_HOURS, NEWS_SITEMAP_CAP, keywordsFor, render } from './newsSitemap.mjs';
+import { newsEligible, NEWS_WINDOW_HOURS, NEWS_SITEMAP_CAP, keywordsFor, labNeedleRe, render } from './newsSitemap.mjs';
 
 test('newsEligible keeps only items inside the rolling window', () => {
   const now = Date.parse('2026-10-08T12:00:00Z');
@@ -1007,6 +1007,48 @@ test('news sitemap keywords include Roadster from live 48h Tesla Trends tape (FI
     entities: [],
   });
   assert.doesNotMatch(b, /(^|,\s*)Roadster(,|$)/);
+});
+
+test('news sitemap keywords include MAI-Base from Microsoft MoE tape (FINDABILITY #216)', () => {
+  // Contested Google News: MAI-Base-2 titles kept Microsoft + Copilot + topic
+  // tags under the 12-cap while Coinbase "Base" false-matched inside MAI-Base-*.
+  const a = keywordsFor({
+    title: 'Microsoft unveils MAI-Base-2, a MoE model with 2.8T total and 80B active parameters, claiming 4x-12x more pretraining FLOPs-efficiency than DeepSeek-V4-Pro-Base (Microsoft AI)',
+    summary: '',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Microsoft'],
+  });
+  assert.match(a, /\bMAI-Base\b/);
+  assert.match(a, /\bMAI-Base-2\b/);
+  assert.doesNotMatch(a, /(^|,\s*)Base(,|$)/);
+  const parts = a.split(', ');
+  // Model needles must outrank pillar meta under the 12-cap.
+  assert.ok(parts.indexOf('MAI-Base') < parts.indexOf('capability')
+    || parts.indexOf('MAI-Base-2') < parts.indexOf('capability'), a);
+  // Coinbase Base still matches as a standalone chain needle (#70).
+  const b = keywordsFor({
+    title: 'Chainalysis Finds AI Agents Made 138 Million x402 Payments on Coinbase Base',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(b, /(^|,\s*)Base(,|$)/);
+  assert.doesNotMatch(b, /MAI-Base/);
+  assert.ok(labNeedleRe('Base').test('Coinbase Base'));
+  assert.ok(!labNeedleRe('Base').test('MAI-Base-2 MoE model'));
+  const c = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No Microsoft model named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /MAI-Base/);
 });
 
 test('news sitemap keywords include ChatGPT Voice / GPT-Live from live 48h tape (FINDABILITY #214)', () => {
