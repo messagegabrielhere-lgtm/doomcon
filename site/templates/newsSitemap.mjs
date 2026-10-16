@@ -172,6 +172,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // while google-news-open (RiseUnion / 4Paradigm / Phancy); topic/source
   // meta fill the 12-cap and drop the product surface.
   'ModelSphere',
+  // FINDABILITY #256 — multi-title Krea 3 image-model tape while
+  // google-news-open (vs Qwen Image 3.0 + Frontier Image Model); Qwen /
+  // topic meta fill the 12-cap and drop the Krea product surface.
+  'Krea', 'Krea 3',
 ]);
 
 /**
