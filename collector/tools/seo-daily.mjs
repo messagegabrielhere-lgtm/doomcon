@@ -485,6 +485,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Airship',
   // FINDABILITY #250 — ModelSphere product-class needle (RiseUnion tape).
   'ModelSphere',
+  // FINDABILITY #256 — Krea / Krea 3 image-model needles (multi-title tape).
+  'Krea', 'Krea 3',
 ]);
 
 /**
@@ -5406,6 +5408,23 @@ function selftest() {
   }
   if (modelSphereLags.filter((r) => /Phancy/i.test(r.title)).some((r) => r.lab === 'ModelSphere')) {
     throw new Error('newsKeywordLags should not flag ModelSphere when keywords include it');
+  }
+  // FINDABILITY #256 — catch tip wipe of Krea / Krea 3 needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Krea') || !NEWS_KEYWORD_PROBE_LABS.includes('Krea 3')) {
+    throw new Error('probe labs missing Krea / Krea 3');
+  }
+  const kreaLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Krea 3 vs Qwen Image 3.0: The Open Line Stopped Here</news:title>'
+    + '<news:keywords>Alibaba Qwen, Qwen, Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Krea 3 – Frontier Image Model 4× faster than Nano Banana Pro</news:title>'
+    + '<news:keywords>Krea, Krea 3, Nano Banana, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const kreaLags = newsKeywordLags(kreaLagXml);
+  if (!kreaLags.some((r) => r.lab === 'Krea' || r.lab === 'Krea 3')) {
+    throw new Error(`newsKeywordLags expected Krea lag: ${JSON.stringify(kreaLags)}`);
+  }
+  if (kreaLags.filter((r) => /Frontier Image Model/i.test(r.title)).some((r) => r.lab === 'Krea' || r.lab === 'Krea 3')) {
+    throw new Error('newsKeywordLags should not flag Krea when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

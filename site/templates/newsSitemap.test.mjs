@@ -1337,6 +1337,42 @@ test('news sitemap keywords include ModelSphere from multi-title RiseUnion tape 
   assert.doesNotMatch(c, /\bModelSphere\b/);
 });
 
+test('news sitemap keywords include Krea / Krea 3 from multi-title image-model tape (FINDABILITY #256)', () => {
+  // Multi-title Krea 3 tape while google-news-open: Qwen / topic meta fill the
+  // 12-cap and drop the product surface (live lag on vs-Qwen Image title).
+  const a = keywordsFor({
+    title: 'Krea 3 vs Qwen Image 3.0: The Open Line Stopped Here',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(a, /\bKrea\b/);
+  assert.match(a, /\bKrea 3\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Krea') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Krea 3 – Frontier Image Model 4× faster than Nano Banana Pro',
+    summary: 'Frontier image model named beside Nano Banana.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.match(b, /\bKrea\b/);
+  assert.match(b, /\bKrea 3\b/);
+  const c = keywordsFor({
+    title: 'Frontier image models race open line quality',
+    summary: 'No named product — generic image-model noise must not invent a needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /\bKrea\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.

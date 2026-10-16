@@ -269,6 +269,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('ModelSphere')) {
     throw new Error('probe labs must include ModelSphere');
   }
+  // FINDABILITY #256 — Krea / Krea 3 image-model needles stay in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Krea') || !NEWS_KEYWORD_PROBE_LABS.includes('Krea 3')) {
+    throw new Error('probe labs must include Krea / Krea 3');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }
