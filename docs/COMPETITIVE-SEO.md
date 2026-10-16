@@ -1,12 +1,13 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16 (shipping **#282** Qwen 4 Max needle); prior re-measure
-2026-10-16T13:04Z lead **6,688** / news **200** (pizzint news-sitemap **0** —
-`google-news-open`; keep keyword-rich lane); **#279** RTX Spark still **ok**;
-**#277** Surface Laptop Ultra tip still **ok**; **#273** G7 tip still **ok**;
-**#267** Terafab lag **0**; **#264** tip FAQ alias prose still **ok**; **#252**
-alias **200**; Trends tip (`ai_related_total` **1** — Jay Clayton / AI
-task-force only, hold doorway); IndexNow ALWAYS **200**; News keywords
+**Measured:** 2026-10-16T13:25Z after **#282** tip overlay `2724378` + IndexNow
+**200** (CDN clear); lead **6,693** / news **200** (pizzint news flaps
+**0↔14** — keep keyword-rich lane); **#282** Qwen 4 Max tip **ok** (2/2);
+**#279** RTX Spark **ok** (3/3); **#277** Surface Laptop Ultra **ok** (4/4);
+**#273** G7 **ok** (1/1); **#267** Terafab lag **0**; **#264** tip FAQ alias
+prose still **ok**; **#252** alias **200**; Trends tip (`ai_related_total`
+**1** — Jay Clayton / AI task-force only, hold doorway); IndexNow ALWAYS
+**200**; News keywords
 **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
 **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
@@ -54,31 +55,32 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 |---|---:|---|---|---|---|---|
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,249** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
-| **pizzint.watch** | **1,018** | **0** (`google-news-open`; flaps empty↔14) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **6,688** live (clears DoomBench 2090 / Skynet 1249 / pizzint 1018; +#245/#246 model hubs); GSC HTML-tag **absent** until operator sets secret (#11) | **200** news-sitemap (hold keyword-rich Google News lane while open; #199/#200/#204/#206/#208/#212/#214/#216/#222/#224/#226/#228/#231/#234/#236/#238/#241/#250/#256/#258/#260/#267/#269/#271/#273/#275/#277/#279/#282 needles; #210/#218 tip keyword merge; RTX Spark / Surface Laptop Ultra / G7 / Terafab lag **0**; shipping Qwen 4 Max #282) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + `/model/muse-spark.html` (#245) + `/model/fable.html` (#246) + `/ai-activity-index.html` (#252) + `/ai-activity-level.html` (#262) + `/verify/` + `/free-tools/` + `/vs/{doom,skynet,takeoff}.html` + `/trends.html` + `/pdoom.html` (#129) + race labAboutLabel (#144) + Watts/Micron/CoreWeave/Neocloud/Nvidia Trends FAQs (#152–#161) + OpenAI lawsuit/FTC FAQ (#162) + Anthropic IPO/FTC FAQ (#163) + ASML Trends FAQ (#164) + TSMC foundry FAQ (#165) + Amazon Bee FAQ (#167) + Meta Muse FAQ (#169) + Apple Intelligence FAQ (#170) + Microsoft Copilot FAQ (#171) + Microsoft MAI-Base FAQ (#220) + Grok / xAI FAQ (#173) + Gemini / Gemma FAQ (#174) + Samsung / HBM FAQ (#175) + Samsung AI glasses FAQ (#195) + Character.ai bankruptcy FAQ (#176) + Qwen FAQ (#177) + Oracle / AI datacenter FAQ (#178) + DeepSeek outage FAQ (#179) + Mistral / Timestral FAQ (#180) + OpenAI outage FAQ (#181) + Hugging Face hack FAQ (#182) + Palantir / AIP FAQ (#183) + AMD / MI300 FAQ (#184) + Tesla / FSD FAQ (#185) + Roadster keywords (#208) + Fable keywords (#212) + ChatGPT Voice / GPT-Live keywords (#214) + MAI-Base keywords (#216) + tip news:keywords merge (#210) + ChatGPT Chrome FAQ (#191) + Meta–Apple Mac FAQ (#193) + agents needle preserve (#194) + watchlist routing FAQ (#158/#166/#167/#169–#171/#173–#185/#191/#193/#195/#220) + news-fast guard re-arm (#189) + collect Publish extract (#192) + Publish syntax (#196) + bash-n (#197) + Bluesky/Attie/Nscale keywords (#204) + Starshield keywords (#206) + model-hub preserve (#248) + ModelSphere keywords (#250) + Krea / Krea 3 keywords (#256) + Flux 3 keywords (#258) + Together AI keywords (#260) + Terafab keywords (#267) + Cohere keywords (#269) + Accenture keywords (#271) + G7 keywords (#273) + Bee Frontier / Bee Eclipse keywords (#275) + Surface Laptop Ultra keywords (#277) + RTX Spark keywords (#279) + Qwen 4 Max keywords (#282) | **yes** (Trends tips IREN→Watts / dram→Micron / CoreWeave→lab / NVDA→lab / OpenAI lawsuit→lab / OpenAI outage→lab / ChatGPT Chrome→lab / Anthropic IPO→lab / ASML→lab / TSMC→lab / Amazon Bee→lab / Meta Muse→lab / Meta–Apple Mac→lab / Apple Intelligence→lab / Microsoft Copilot→lab / MAI-Base→lab / Grok→xAI / Gemini/Gemma→DeepMind / Samsung/HBM→lab / Samsung AI glasses→lab / neocloud→tag / Character.ai→chatbots / Hugging Face hack→tag / Qwen→lab / Oracle→datacenters / DeepSeek→lab / Mistral/Timestral→lab / Palantir/AIP→lab / AMD/MI300→lab / Tesla/FSD→lab; Publish restore #156/#158/#162–#167/#169–#171/#173–#185/#191/#193–#195/#210/#220/#248; #252/#262 activity-index/level aliases) |
+| **pizzint.watch** | **1,018** | **0↔14** (flaps; keep our lane keyword-rich) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
+| **siren.watch** | **6,693** live (clears DoomBench 2090 / Skynet 1249 / pizzint 1018; +#245/#246 model hubs); GSC HTML-tag **absent** until operator sets secret (#11) | **200** news-sitemap (hold keyword-rich Google News lane; #199/#200/#204/#206/#208/#212/#214/#216/#222/#224/#226/#228/#231/#234/#236/#238/#241/#250/#256/#258/#260/#267/#269/#271/#273/#275/#277/#279/#282 needles; #210/#218 tip keyword merge; Qwen 4 Max / RTX Spark / Surface Laptop Ultra / G7 / Terafab lag **0**) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + `/model/muse-spark.html` (#245) + `/model/fable.html` (#246) + `/ai-activity-index.html` (#252) + `/ai-activity-level.html` (#262) + `/verify/` + `/free-tools/` + `/vs/{doom,skynet,takeoff}.html` + `/trends.html` + `/pdoom.html` (#129) + race labAboutLabel (#144) + Watts/Micron/CoreWeave/Neocloud/Nvidia Trends FAQs (#152–#161) + OpenAI lawsuit/FTC FAQ (#162) + Anthropic IPO/FTC FAQ (#163) + ASML Trends FAQ (#164) + TSMC foundry FAQ (#165) + Amazon Bee FAQ (#167) + Meta Muse FAQ (#169) + Apple Intelligence FAQ (#170) + Microsoft Copilot FAQ (#171) + Microsoft MAI-Base FAQ (#220) + Grok / xAI FAQ (#173) + Gemini / Gemma FAQ (#174) + Samsung / HBM FAQ (#175) + Samsung AI glasses FAQ (#195) + Character.ai bankruptcy FAQ (#176) + Qwen FAQ (#177) + Oracle / AI datacenter FAQ (#178) + DeepSeek outage FAQ (#179) + Mistral / Timestral FAQ (#180) + OpenAI outage FAQ (#181) + Hugging Face hack FAQ (#182) + Palantir / AIP FAQ (#183) + AMD / MI300 FAQ (#184) + Tesla / FSD FAQ (#185) + Roadster keywords (#208) + Fable keywords (#212) + ChatGPT Voice / GPT-Live keywords (#214) + MAI-Base keywords (#216) + tip news:keywords merge (#210) + ChatGPT Chrome FAQ (#191) + Meta–Apple Mac FAQ (#193) + agents needle preserve (#194) + watchlist routing FAQ (#158/#166/#167/#169–#171/#173–#185/#191/#193/#195/#220) + news-fast guard re-arm (#189) + collect Publish extract (#192) + Publish syntax (#196) + bash-n (#197) + Bluesky/Attie/Nscale keywords (#204) + Starshield keywords (#206) + model-hub preserve (#248) + ModelSphere keywords (#250) + Krea / Krea 3 keywords (#256) + Flux 3 keywords (#258) + Together AI keywords (#260) + Terafab keywords (#267) + Cohere keywords (#269) + Accenture keywords (#271) + G7 keywords (#273) + Bee Frontier / Bee Eclipse keywords (#275) + Surface Laptop Ultra keywords (#277) + RTX Spark keywords (#279) + Qwen 4 Max keywords (#282) | **yes** (Trends tips IREN→Watts / dram→Micron / CoreWeave→lab / NVDA→lab / OpenAI lawsuit→lab / OpenAI outage→lab / ChatGPT Chrome→lab / Anthropic IPO→lab / ASML→lab / TSMC→lab / Amazon Bee→lab / Meta Muse→lab / Meta–Apple Mac→lab / Apple Intelligence→lab / Microsoft Copilot→lab / MAI-Base→lab / Grok→xAI / Gemini/Gemma→DeepMind / Samsung/HBM→lab / Samsung AI glasses→lab / neocloud→tag / Character.ai→chatbots / Hugging Face hack→tag / Qwen→lab / Oracle→datacenters / DeepSeek→lab / Mistral/Timestral→lab / Palantir/AIP→lab / AMD/MI300→lab / Tesla/FSD→lab; Publish restore #156/#158/#162–#167/#169–#171/#173–#185/#191/#193–#195/#210/#220/#248; #252/#262 activity-index/level aliases) |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
 ### Resolved from COMPETITIVE.md §0.1
 
-pizzint’s `/news-sitemap.xml` is **empty** again (**0** at 2026-10-16T13:04Z;
-`google-news-open`; flaps empty↔14). Keep our rolling news-sitemap full and
-keyword-rich (local cap **200**; head terms before topic/pillar slugs;
-#210/#218 tip keyword merge; #212 Fable + #214 ChatGPT Voice + #216 MAI-Base +
-#222 Muse Spark + #224 Tencent Cloud + #226 CERT-In + #228 Flash + #231 Super VL +
-#234 Bolt + #236 DeepSeek V4 Pro + #238 Qwen3.8 + #241 Airship + #250 ModelSphere +
-#256 Krea / Krea 3 + #258 Flux 3 + #260 Together AI + #267 Terafab + #269 Cohere + #271 Accenture + #273 G7 + #275 Bee Frontier / Bee Eclipse + #277 Surface Laptop Ultra + #279 RTX Spark + #282 Qwen 4 Max needles). Entity model hubs
-**#245**/**#246** add `/model/muse-spark.html` + `/model/fable.html` (lead
-**6,688**; Publish preserve **#248**). Typed-guess **#262** tip prose still
-intact after **#264**/`c1f9a74` beside **#252**. Multi-title **#279** RTX Spark
-still **ok**; Surface Laptop Ultra tip still **ok**; G7 tip still **ok**;
-Terafab lag **0**; shipping **#282** Qwen 4 Max for 2-title lag. Trends
-`ai_related_total` **1** (Jay Clayton / White House AI task-force only — hold
-doorway). Hold singles Pathway / MORENA / Vambo / Warsh. Outrank free-tool
-URLs (`/verify.html`, `/free-tools.html`) plus `robots.txt` / `feed.xml` /
+pizzint’s `/news-sitemap.xml` flaps **0↔14** (2026-10-16T13:25Z). Keep our
+rolling news-sitemap full and keyword-rich (local cap **200**; head terms
+before topic/pillar slugs; #210/#218 tip keyword merge; #212 Fable + #214
+ChatGPT Voice + #216 MAI-Base + #222 Muse Spark + #224 Tencent Cloud + #226
+CERT-In + #228 Flash + #231 Super VL + #234 Bolt + #236 DeepSeek V4 Pro +
+#238 Qwen3.8 + #241 Airship + #250 ModelSphere + #256 Krea / Krea 3 + #258
+Flux 3 + #260 Together AI + #267 Terafab + #269 Cohere + #271 Accenture +
+#273 G7 + #275 Bee Frontier / Bee Eclipse + #277 Surface Laptop Ultra + #279
+RTX Spark + #282 Qwen 4 Max needles). Entity model hubs **#245**/**#246** add
+`/model/muse-spark.html` + `/model/fable.html` (lead **6,693**; Publish
+preserve **#248**). Typed-guess **#262** tip prose still intact after
+**#264**/`c1f9a74` beside **#252**. Multi-title **#282** Qwen 4 Max tip
+**ok** (2/2 after `2724378`); RTX Spark **ok** (3/3); Surface Laptop Ultra
+**ok** (4/4); G7 **ok** (1/1); Terafab lag **0**. Trends `ai_related_total`
+**1** (Jay Clayton / White House AI task-force only — hold doorway). Hold
+singles Pathway / MORENA / Vambo / Warsh. Outrank free-tool URLs
+(`/verify.html`, `/free-tools.html`) plus `robots.txt` / `feed.xml` /
 `now.md` / `api/now.txt` discovery tips are the citation/LLM-mention lever
-beyond URL count. Blocker for
-organic proof remains FINDABILITY **#11** (GSC).
+beyond URL count. Blocker for organic proof remains FINDABILITY **#11** (GSC).
 
 ---
 
