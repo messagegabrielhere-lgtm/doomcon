@@ -128,7 +128,24 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // GPT-Live-1.1 tape names the product while OpenAI + ChatGPT already fill
   // 12-cap slots (titles ship without Voice / GPT-Live needles).
   'ChatGPT Voice', 'GPT-Live', 'GPT-Live-1.1',
+  // FINDABILITY #216 — contested Google News; Microsoft MAI-Base-2 MoE tape
+  // names the model while Coinbase "Base" + topic tags fill the 12-cap and
+  // drop MAI-Base (bare Base also false-matched inside MAI-Base-* — fixed below).
+  'MAI-Base', 'MAI-Base-2',
 ]);
+
+/**
+ * Boundary regex for a NEWS_KEYWORD_LABS needle.
+ * FINDABILITY #216 — Coinbase "Base" must not match the Base token inside
+ * MAI-Base / MAI-Base-2 (hyphen is otherwise a valid non-alnum boundary).
+ */
+export function labNeedleRe(lab) {
+  const esc = String(lab).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  if (lab === 'Base') {
+    return new RegExp(`(?:^|[^A-Za-z0-9-])${esc}(?:[^A-Za-z0-9]|$)`, 'i');
+  }
+  return new RegExp(`(?:^|[^A-Za-z0-9])${esc}(?:[^A-Za-z0-9]|$)`, 'i');
+}
 
 /**
  * labAboutLabel product/ticker aliases for news:keywords (FINDABILITY #146/#147).
@@ -190,8 +207,7 @@ export function keywordsFor(item) {
   // survive the keyword cap when a story matches a dozen topic needles.
   const hay = `${item.title || ''} ${item.summary || ''}`;
   for (const lab of NEWS_KEYWORD_LABS) {
-    const re = new RegExp(`(?:^|[^A-Za-z0-9])${lab.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`, 'i');
-    if (re.test(hay)) named.push(lab);
+    if (labNeedleRe(lab).test(hay)) named.push(lab);
   }
   // FINDABILITY #146/#147 — emit labAboutLabel aliases when parent lab named.
   for (const { re, name, alias } of LAB_KEYWORD_ALIASES) {

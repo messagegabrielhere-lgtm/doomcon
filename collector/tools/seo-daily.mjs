@@ -460,6 +460,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Fable', 'Fable 5', 'Fable 5.1', 'Fable 5.5',
   // FINDABILITY #214 — ChatGPT Voice / GPT-Live needles while Google News contested.
   'ChatGPT Voice', 'GPT-Live', 'GPT-Live-1.1',
+  // FINDABILITY #216 — MAI-Base needles while Google News contested.
+  'MAI-Base', 'MAI-Base-2',
 ]);
 
 /**
@@ -5005,6 +5007,23 @@ function selftest() {
   }
   if (voiceLags.filter((r) => /Korean voices/i.test(r.title)).some((r) => r.lab === 'ChatGPT Voice')) {
     throw new Error('newsKeywordLags should not flag ChatGPT Voice when keywords include it');
+  }
+  // FINDABILITY #216 — catch tip wipe of MAI-Base / MAI-Base-2 needles.
+  for (const lab of ['MAI-Base', 'MAI-Base-2']) {
+    if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) throw new Error(`probe labs missing ${lab}`);
+  }
+  const maiLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Microsoft unveils MAI-Base-2, a MoE model with 2.8T total parameters</news:title>'
+    + '<news:keywords>Microsoft, Base, Copilot, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Microsoft ships MAI-Base update for enterprise agents</news:title>'
+    + '<news:keywords>Microsoft, MAI-Base, Copilot, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const maiLags = newsKeywordLags(maiLagXml);
+  if (!maiLags.some((r) => r.lab === 'MAI-Base') || !maiLags.some((r) => r.lab === 'MAI-Base-2')) {
+    throw new Error(`newsKeywordLags expected MAI-Base / MAI-Base-2 lag: ${JSON.stringify(maiLags)}`);
+  }
+  if (maiLags.filter((r) => /enterprise agents/i.test(r.title)).some((r) => r.lab === 'MAI-Base')) {
+    throw new Error('newsKeywordLags should not flag MAI-Base when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
