@@ -478,6 +478,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Fable', 'Fable 5', 'Fable 5.1', 'Fable 5.5',
   // FINDABILITY #214 — ChatGPT Voice / GPT-Live needles while Google News contested.
   'ChatGPT Voice', 'GPT-Live', 'GPT-Live-1.1',
+  // FINDABILITY #336 — GPT-Live-1 SKU + Kling 4.0 video needles (multi-title).
+  'GPT-Live-1', 'Kling', 'Kling 4.0',
   // FINDABILITY #216 — MAI-Base needles while Google News contested.
   'MAI-Base', 'MAI-Base-2',
   // FINDABILITY #222 — Muse Spark product-class needles (multi-title tape).
@@ -6670,6 +6672,36 @@ function selftest() {
   }
   if (ps5Lags.filter((r) => /Local AI Machine/i.test(r.title)).some((r) => r.lab === 'PS5')) {
     throw new Error('newsKeywordLags should not flag PS5 when keywords include it');
+  }
+  // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
+  for (const lab of ['GPT-Live-1', 'Kling', 'Kling 4.0']) {
+    if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) throw new Error(`probe labs missing ${lab}`);
+  }
+  const gptLive1LagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>GPT-Live-1 vs Qwen-Audio-3.1: The Full-Duplex Fight Is the One Worth Having</news:title>'
+    + '<news:keywords>Alibaba Qwen, GPT, Qwen, Google, GPT-Live, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '<url><news:title>GPT-Live-1 Prompt-to-Voice: Nine New International Voices</news:title>'
+    + '<news:keywords>GPT, Google, GPT-Live, GPT-Live-1, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const gptLive1Lags = newsKeywordLags(gptLive1LagXml);
+  if (!gptLive1Lags.some((r) => r.lab === 'GPT-Live-1')) {
+    throw new Error(`newsKeywordLags expected GPT-Live-1 lag: ${JSON.stringify(gptLive1Lags)}`);
+  }
+  if (gptLive1Lags.filter((r) => /Prompt-to-Voice/i.test(r.title)).some((r) => r.lab === 'GPT-Live-1')) {
+    throw new Error('newsKeywordLags should not flag GPT-Live-1 when keywords include it');
+  }
+  const klingLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Kuaishou launches Kling 4.0, a next-gen AI video model</news:title>'
+    + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Kling AI Officially Launches Next-Generation Kling 4.0</news:title>'
+    + '<news:keywords>Google, Kling, Kling 4.0, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const klingLags = newsKeywordLags(klingLagXml);
+  if (!klingLags.some((r) => r.lab === 'Kling') || !klingLags.some((r) => r.lab === 'Kling 4.0')) {
+    throw new Error(`newsKeywordLags expected Kling / Kling 4.0 lag: ${JSON.stringify(klingLags)}`);
+  }
+  if (klingLags.filter((r) => /Officially Launches/i.test(r.title)).some((r) => r.lab === 'Kling')) {
+    throw new Error('newsKeywordLags should not flag Kling when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

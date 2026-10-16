@@ -1945,6 +1945,80 @@ test('news sitemap keywords include NYC Council from SpaceX AI-safety hearing ta
   assert.doesNotMatch(c, /\bNYC Council\b/);
 });
 
+test('news sitemap keywords include GPT-Live-1 from multi-title voice tape (FINDABILITY #336)', () => {
+  // Multi-title GPT-Live-1 tape: GPT / Google / GPT-Live fill 12-cap slots
+  // while #214 GPT-Live-1.1 needle does not match bare GPT-Live-1.
+  const a = keywordsFor({
+    title: 'GPT-Live-1 vs Qwen-Audio-3.1: The Full-Duplex Fight Is the One Worth Having',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['GPT', 'Qwen', 'Google'],
+  });
+  assert.match(a, /\bGPT-Live-1\b/);
+  assert.match(a, /\bGPT-Live\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('GPT-Live-1') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'GPT-Live-1 Prompt-to-Voice: Nine New International Voices',
+    summary: 'OpenAI voice product adds languages.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['GPT', 'Google'],
+  });
+  assert.match(b, /\bGPT-Live-1\b/);
+  const c = keywordsFor({
+    title: 'OpenAI expands ChatGPT Voice with GPT-Live-1.1 latency cuts',
+    summary: 'Voice product update with lower latency.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['OpenAI', 'ChatGPT'],
+  });
+  assert.match(c, /\bGPT-Live-1\.1\b/);
+  // labNeedleRe treats hyphen/dot as boundaries, so GPT-Live-1.1 also emits
+  // the GPT-Live-1 SKU needle (family surface) — require both.
+  assert.match(c, /\bGPT-Live-1\b/);
+});
+
+test('news sitemap keywords include Kling 4.0 from multi-title video tape (FINDABILITY #336)', () => {
+  // Multi-title Kling tape: Google / topic meta fill 12-cap while product
+  // titles drop the Kling / Kling 4.0 surface.
+  const a = keywordsFor({
+    title: 'Kuaishou launches Kling 4.0, a next-gen AI video model for professionals',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Google'],
+  });
+  assert.match(a, /\bKling\b/);
+  assert.match(a, /\bKling 4\.0\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Kling') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Kling AI Officially Launches Next-Generation Kling 4.0, Raising the Bar for Professional-Grade Video',
+    summary: 'Kuaishou generative video update.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Google'],
+  });
+  assert.match(b, /\bKling\b/);
+  assert.match(b, /\bKling 4\.0\b/);
+  const c = keywordsFor({
+    title: 'Kuaishou expands cloud rendering for short-form creators',
+    summary: 'Bare Kuaishou tape must not invent the video-model product needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Google'],
+  });
+  assert.doesNotMatch(c, /\bKling\b/);
+});
+
 test('news sitemap keywords include PS5 from multi-title local-AI console tape (FINDABILITY #320)', () => {
   // Multi-title PS5 tape: Llama / Sony / GGUF / topic meta fill 12-cap slots
   // while product-class local-AI console titles drop the PS5 surface.

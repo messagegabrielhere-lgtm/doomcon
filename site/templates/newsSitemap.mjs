@@ -138,6 +138,16 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // GPT-Live-1.1 tape names the product while OpenAI + ChatGPT already fill
   // 12-cap slots (titles ship without Voice / GPT-Live needles).
   'ChatGPT Voice', 'GPT-Live', 'GPT-Live-1.1',
+  // FINDABILITY #336 — multi-title GPT-Live-1 tape while google-news-open
+  // (3 titles: vs Qwen-Audio / vs HeyGen / Prompt-to-Voice); GPT / Google /
+  // GPT-Live fill 12-cap slots and drop the SKU-class GPT-Live-1 surface
+  // (#214 GPT-Live-1.1 needle does not match bare GPT-Live-1).
+  'GPT-Live-1',
+  // FINDABILITY #336 — multi-title Kling 4.0 / Kling AI video tape while
+  // google-news-open (2 titles: Kuaishou launches Kling 4.0… + Kling AI
+  // Officially Launches…); Google / topic meta fill the 12-cap and drop the
+  // product-class Kling surface (parallel to Flux 3 #258 / Krea 3 #256).
+  'Kling', 'Kling 4.0',
   // FINDABILITY #216 — contested Google News; Microsoft MAI-Base-2 MoE tape
   // names the model while Coinbase "Base" + topic tags fill the 12-cap and
   // drop MAI-Base (bare Base also false-matched inside MAI-Base-* — fixed below).
