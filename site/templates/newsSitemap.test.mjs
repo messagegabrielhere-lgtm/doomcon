@@ -1783,6 +1783,42 @@ test('news sitemap keywords include Beam from multi-title open-model tape (FINDA
   assert.doesNotMatch(c, /\bBeam\b/);
 });
 
+test('news sitemap keywords include Qwen3.8-27B from multi-title SKU tape (FINDABILITY #290)', () => {
+  // Multi-title Qwen3.8-27B tape: Qwen / Qwen3.8 fill 12-cap slots while
+  // size-class titles drop the 27B surface.
+  const a = keywordsFor({
+    title: "Hy-Memory-30B-A3B vs Qwen3.8-27B : À l'usage vs capital",
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Qwen'],
+  });
+  assert.match(a, /\bQwen3\.8-27B\b/);
+  assert.match(a, /\bQwen3\.8\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Qwen3.8-27B') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'ZwZ2-9B vs. Qwen3.8-27B: Der 9B-Slot, den Qwen offen ließ',
+    summary: 'Size-class open-weight compare naming the 27B SKU.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Alibaba Qwen'],
+  });
+  assert.match(b, /\bQwen3\.8-27B\b/);
+  const c = keywordsFor({
+    title: 'Qwen3.8 Max ships for enterprise agents',
+    summary: 'Versioned Max only — 27B size-class surface not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Qwen'],
+  });
+  assert.match(c, /\bQwen3\.8\b/);
+  assert.doesNotMatch(c, /Qwen3\.8-27B/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.
