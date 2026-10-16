@@ -510,6 +510,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'RTX Spark',
   // FINDABILITY #282 — Qwen 4 Max product needle (vs Muse Spark / Opus tape).
   'Qwen 4 Max',
+  // FINDABILITY #286 — Beam product needle (Reflection open-model tape).
+  'Beam',
 ]);
 
 /**
@@ -5768,6 +5770,23 @@ function selftest() {
   }
   if (qwen4MaxLags.filter((r) => /no endpoint/i.test(r.title)).some((r) => r.lab === 'Qwen 4 Max')) {
     throw new Error('newsKeywordLags should not flag Qwen 4 Max when keywords include it');
+  }
+  // FINDABILITY #286 — catch tip wipe of Beam needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Beam')) {
+    throw new Error('probe labs missing Beam');
+  }
+  const beamLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Reflection\'s Beam aims to undercut Chinese open models with fewer tokens, not cheaper tokens</news:title>'
+    + '<news:keywords>Google, AI, artificial intelligence, SIREN, China AI, Open models, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Welcome Beam: a 501B open model you can own, customize, and scale</news:title>'
+    + '<news:keywords>Beam, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const beamLags = newsKeywordLags(beamLagXml);
+  if (!beamLags.some((r) => r.lab === 'Beam')) {
+    throw new Error(`newsKeywordLags expected Beam lag: ${JSON.stringify(beamLags)}`);
+  }
+  if (beamLags.filter((r) => /Welcome Beam/i.test(r.title)).some((r) => r.lab === 'Beam')) {
+    throw new Error('newsKeywordLags should not flag Beam when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

@@ -1724,6 +1724,41 @@ test('news sitemap keywords include Qwen 4 Max from multi-title model tape (FIND
   assert.doesNotMatch(c, /\bQwen 4 Max\b/);
 });
 
+test('news sitemap keywords include Beam from multi-title open-model tape (FINDABILITY #286)', () => {
+  // Multi-title Beam tape: topic / China AI / source meta fill 12-cap slots
+  // while product-class Reflection Beam / Welcome Beam titles drop Beam.
+  const a = keywordsFor({
+    title: "Reflection's Beam aims to undercut Chinese open models with fewer tokens, not cheaper tokens",
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Google'],
+  });
+  assert.match(a, /\bBeam\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Beam') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Welcome Beam: a 501B open model you can own, customize, and scale',
+    summary: 'Open-weight model launch naming the Beam product class.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.match(b, /\bBeam\b/);
+  const c = keywordsFor({
+    title: 'Alibaba Qwen expands open-weight Tongyi releases for enterprise',
+    summary: 'Unrelated open-model tape must not invent the Reflection product needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Qwen', 'Alibaba'],
+  });
+  assert.match(c, /\bQwen\b/);
+  assert.doesNotMatch(c, /\bBeam\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.
