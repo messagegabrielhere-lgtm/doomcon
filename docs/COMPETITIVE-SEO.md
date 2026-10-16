@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T23:42Z after **#356** tip `6f16b74` + IndexNow **200** (**#357**); Bee AI news:keywords CDN clear (**2/2**); Flying Roadster tip **#354** still **ok** (**3/3**); Anthropic IPO tip **#352** still **ok** (**3/3**); PS5s tip **#350** still **ok** (**1/1**); Qwen3.8-Max tip **#346** still **ok** (**2/2**); Claude Mythos 5 tip **#344** still **ok**; Replit tip **#340** still **ok**; Siri tip **#342** still **ok**; Xing / Xing 4.0 tip **#338** still **ok**; GPT-Live-1 / Kling tip **#336** still **ok**; robots/feeds/sitemaps/now classic tip **yes**; free-tools classic **ok**; discovery JSON classic **#330** **yes**/**yes**/**yes**; discovery text classic **#328** **yes**/**yes**/**yes**; skill.md classic **ok**; agent-map classic **#324** **yes**/**yes**; `google-news-open` (pizzint news **0**); lead **6,700** / news **200**; Classic sitemap loc **#322** **ok**; Bee Frontier **#275** tip still **ok**; IndexNow ALWAYS on tip Publish; News keywords through **#356** Bee AI; tip merge **#210** + **#218** + **#300** title-heal; `seo-daily` probes through **#356**/**#357** catch tip wipe / CDN lag; **#357** after **#356** tip `6f16b74` (**ok**); **#355** after **#354** tip `147818e` (**ok**); **#354** Flying Roadster tip **ok**; **#353** after **#352** tip `038df3f` (**ok**); **#352** Anthropic IPO tip **ok**; **#351** after **#350** tip `c3e7e10` (**ok**); **#350** PS5s tip **ok**; **#348** Xing 4.0 29B-A4B tip **ok**; **#346** Qwen3.8-Max tip **ok**.
+**Measured:** 2026-10-16T23:48Z shipping **#358** AI safety bill news:keywords (3 titles; tip pending); Bee AI tip **#356** still **ok** (**2/2**); Flying Roadster tip **#354** still **ok** (**3/3**); Anthropic IPO tip **#352** still **ok** (**3/3**); PS5s tip **#350** still **ok** (**1/1**); Qwen3.8-Max tip **#346** still **ok** (**2/2**); Claude Mythos 5 tip **#344** still **ok**; Replit tip **#340** still **ok**; Siri tip **#342** still **ok**; Xing / Xing 4.0 tip **#338** still **ok**; GPT-Live-1 / Kling tip **#336** still **ok**; robots/feeds/sitemaps/now classic tip **yes**; free-tools classic **ok**; discovery JSON classic **#330** **yes**/**yes**/**yes**; discovery text classic **#328** **yes**/**yes**/**yes**; skill.md classic **ok**; agent-map classic **#324** **yes**/**yes**; `google-news-open` (pizzint news **0**); lead **6,700** / news **200**; Classic sitemap loc **#322** **ok**; Bee Frontier **#275** tip still **ok**; IndexNow ALWAYS on tip Publish; News keywords through **#358** AI safety bill; tip merge **#210** + **#218** + **#300** title-heal; `seo-daily` probes through **#358** catch tip wipe / CDN lag; **#357** after **#356** tip `6f16b74` (**ok**); **#355** after **#354** tip `147818e` (**ok**); **#354** Flying Roadster tip **ok**; **#353** after **#352** tip `038df3f` (**ok**); **#352** Anthropic IPO tip **ok**; **#351** after **#350** tip `c3e7e10` (**ok**); **#350** PS5s tip **ok**; **#348** Xing 4.0 29B-A4B tip **ok**; **#346** Qwen3.8-Max tip **ok**.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -59,11 +59,12 @@ preserve **#248**). Typed-guess **#262** tip prose still intact after
 **ok** after `a00cfbc` (index + level today middot). Multi-title **#298** Vercel tip
 **ok** (2/2 after `2d76065`); **#294** Mac Studio singular tip
 **ok**; **#292** Mac Studios **ok**; Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Hold doorway on product keywords (no new multi-title gap beyond **#356**). SoftBank lab exists
+Hold doorway on product keywords beyond **#358** AI safety bill. SoftBank lab exists
 and already keywords SoftBank M&A; Allied Universal has no destination — refuse.
 Warsh person / Glimpse (1 title) / Nova Scotia geography / ChatGPT Chrome (0 contiguous / 1 proximity) /
-bare Wall Street IPO noise refused.
+Amazon Web Services synonym (AWS already keyed) / bare Wall Street · AI Jitters noise refused.
 Trends quiet (`ai_related_total` **0**).
+**#358** AI safety bill news:keywords shipping (3 titles; Anthropic FAQ #163 gates lab).
 **#356** Bee AI news:keywords shipping (2 titles; Amazon Bee FAQ #167 gates lab).
 **#355** after **#354** tip `147818e` + IndexNow **200**: Flying Roadster **3/3** CDN clear; lead **6,700**.
 **#354** Flying Roadster tip `147818e` CDN clear (news:keywords probes **ok**).

@@ -562,6 +562,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'PS5s',
   // FINDABILITY #352 — Anthropic IPO event needle (multi-title; FAQ #163 gates lab).
   'Anthropic IPO',
+  // FINDABILITY #358 — AI safety bill event needle (multi-title; FAQ #163 gates lab).
+  'AI safety bill',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -6797,6 +6799,35 @@ function selftest() {
     );
     if (beeOnly.some((r) => r.lab === 'Bee AI')) {
       throw new Error('newsKeywordLags must not flag Bee AI on bare Bee Frontier titles');
+    }
+  }
+  // FINDABILITY #358 — catch tip wipe of AI safety bill event needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('AI safety bill')) {
+    throw new Error('probe labs missing AI safety bill');
+  }
+  {
+    const billLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Anthropic proposes AI safety bill with strict intervention thresholds - Politico By Investing.com</news:title>'
+      + '<news:keywords>Anthropic, Google, Claude, AI, artificial intelligence, SIREN, AI safety, India AI, attention, press, gnews-ai</news:keywords></url>'
+      + '<url><news:title>Anthropic said to pitch AI safety bill to US Congress</news:title>'
+      + '<news:keywords>Anthropic, Google, Claude, AI safety bill, AI, artificial intelligence, SIREN, AI safety, AI regulation, press</news:keywords></url>'
+      + '</urlset>';
+    const billLags = newsKeywordLags(billLagXml);
+    if (!billLags.some((r) => r.lab === 'AI safety bill')) {
+      throw new Error(`newsKeywordLags expected AI safety bill lag: ${JSON.stringify(billLags)}`);
+    }
+    if (billLags.filter((r) => /pitch AI safety bill to US Congress/i.test(r.title)).some((r) => r.lab === 'AI safety bill')) {
+      throw new Error('newsKeywordLags should not flag AI safety bill when keywords include it');
+    }
+    // Bare "AI safety" / NYC Council hearing must not lag as AI safety bill.
+    const safetyOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Elon Musk\'s SpaceX to testify at NYC Council meeting on AI safety</news:title>'
+      + '<news:keywords>SpaceX, Google, NYC Council, AI, artificial intelligence, SIREN, AI safety, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (safetyOnly.some((r) => r.lab === 'AI safety bill')) {
+      throw new Error('newsKeywordLags must not flag AI safety bill on bare AI safety titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.

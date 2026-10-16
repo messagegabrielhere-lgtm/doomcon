@@ -339,6 +339,14 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // the contiguous event surface — FAQ #163 already gates the lab (parallel to
   // OpenAI lawsuit FAQ #162 / CERT-In #226). Hold bare Wall Street IPO noise.
   'Anthropic IPO',
+  // FINDABILITY #358 — multi-title AI safety bill event needle while
+  // google-news-open (3 titles: Anthropic proposes AI safety bill… + Anthropic
+  // said to pitch AI safety bill… + Anthropic quietly pitches its own AI safety
+  // bill…); Anthropic / Claude / AI safety topic fill the 12-cap and drop the
+  // contiguous legislative surface — FAQ #163 already gates the lab (parallel to
+  // Anthropic IPO #352 / CERT-In #226). Hold bare "AI safety" / NYC Council
+  // hearing noise without the bill phrase.
+  'AI safety bill',
 ]);
 
 /**
