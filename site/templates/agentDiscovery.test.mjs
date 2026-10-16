@@ -46,6 +46,9 @@ test('agents.json matches the Skills announcement and carries the schema', () =>
   assert.equal(j.mcp, undefined);
   assert.equal(j.a2a, undefined);
   assert.match(j.site.description, /not how bad it is/);
+  // FINDABILITY #330 — structured companion lists the classic panel.
+  assert.equal(j.related?.classic, 'https://siren.watch/classic.html');
+  assert.equal(j.related?.classic_title, 'Where is the full SIREN instrument panel?');
 });
 
 test('api-catalog is an RFC 9727 linkset pointing at the live surfaces', () => {
@@ -74,6 +77,9 @@ test('skills index digests the skill body and uses the packaged path', () => {
   assert.equal(idx.skills[0].url, `https://siren.watch${SKILL_PATH}`);
   const expect = `sha256:${createHash('sha256').update(body, 'utf8').digest('hex')}`;
   assert.equal(idx.skills[0].digest, expect);
+  // FINDABILITY #330 — skill index related.classic matches agents.json.
+  assert.equal(idx.skills[0].related?.classic, 'https://siren.watch/classic.html');
+  assert.equal(idx.skills[0].related?.classic_title, 'Where is the full SIREN instrument panel?');
 });
 
 test('MCP server card documents stdio transport and the tool names', () => {

@@ -647,6 +647,19 @@ test('Publish restores tip discovery surfaces when classic panel missing (FINDAB
   assert.match(newsFast, /restored \$surf classic instrument panel \(#328\)/);
 });
 
+test('Publish restores tip discovery JSON when classic panel missing (FINDABILITY #330)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #330/);
+  assert.match(collect, /for surf in agents\.json openapi\.json api\/index\.json llms-full\.txt/);
+  assert.match(collect, /\.well-known\/agent-skills\/index\.json/);
+  assert.match(collect, /restored \$surf classic instrument panel \(#330\)/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #330/);
+  assert.match(newsFast, /restore_discovery_classic/);
+  assert.match(newsFast, /for surf in agents\.json openapi\.json api\/index\.json llms-full\.txt/);
+  assert.match(newsFast, /restored \$surf classic instrument panel \(#330\)/);
+});
+
 test('Publish restores tip home AI activity index FAQ (FINDABILITY #254)', () => {
   // Orphan/news-only Publish can wipe the exact head-term FAQ until tip ≥ #254;
   // restore fires on missing needle and re-syncs /ai-activity-index alias body.

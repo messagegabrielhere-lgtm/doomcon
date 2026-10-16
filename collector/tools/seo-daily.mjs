@@ -47,7 +47,10 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/skill.md',
   // FINDABILITY #328 — ai.txt Start-here must keep classic panel needle after tip.
   '/ai.txt',
+  // FINDABILITY #330 — agents.json related.classic must survive tip wipe.
+  '/agents.json',
   '/openapi.json',
+  '/api/index.json',
   '/.well-known/api-catalog',
   '/compare.html',
   '/alternatives.html',
@@ -789,6 +792,58 @@ export function hasCatalogClassicPanel(body, path = CLASSIC_PANEL_AGENT_PATH) {
     const items = j?.linkset?.[0]?.item;
     if (!Array.isArray(items)) return raw.includes(path);
     return items.some((it) => String(it?.href || '').includes(path));
+  } catch {
+    return raw.includes(path);
+  }
+}
+
+/**
+ * True when agents.json related.classic (+ question title) lists the panel
+ * (FINDABILITY #330). Wipe gap is `agents-json-classic-panel-missing`.
+ */
+export function hasAgentsJsonClassicPanel(body, path = CLASSIC_PANEL_AGENT_PATH) {
+  const raw = String(body || '');
+  if (!raw.includes(path) && !raw.includes(path.replace(/^\//, ''))) return false;
+  if (!/Where is the full SIREN instrument panel\?/i.test(raw)) return false;
+  try {
+    const j = JSON.parse(raw);
+    const href = j?.related?.classic;
+    if (typeof href !== 'string') return false;
+    return href.includes(path) || href.endsWith(path) || href.includes('classic.html');
+  } catch {
+    return true;
+  }
+}
+
+/**
+ * True when openapi.json paths include /classic.html (FINDABILITY #330).
+ * Wipe gap is `openapi-classic-panel-missing`.
+ */
+export function hasOpenapiClassicPanel(body, path = CLASSIC_PANEL_AGENT_PATH) {
+  const raw = String(body || '');
+  if (!raw.includes(path) && !raw.includes(`"${path}"`)) return false;
+  try {
+    const j = JSON.parse(raw);
+    const entry = j?.paths?.[path];
+    if (!entry?.get) return false;
+    return /instrument panel/i.test(String(entry.get.summary || ''));
+  } catch {
+    return raw.includes(path) && /instrument panel/i.test(raw);
+  }
+}
+
+/**
+ * True when /api/index.json lists classic (FINDABILITY #330).
+ */
+export function hasApiIndexClassicPanel(body, path = CLASSIC_PANEL_AGENT_PATH) {
+  const raw = String(body || '');
+  if (!raw.includes(path) && !raw.includes(path.replace(/^\//, ''))) return false;
+  try {
+    const j = JSON.parse(raw);
+    const agents = j?.agents?.classic;
+    const endpoints = j?.endpoints?.classic;
+    return (typeof agents === 'string' && agents.includes('classic'))
+      || (typeof endpoints === 'string' && endpoints.includes('classic'));
   } catch {
     return raw.includes(path);
   }
@@ -2144,6 +2199,24 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #330 — agents.json / openapi / api/index dropped classic panel.
+  if (
+    ours.agents_json_classic_panel === false
+    || ours.openapi_classic_panel === false
+    || ours.api_index_classic_panel === false
+  ) {
+    const which = [
+      ours.agents_json_classic_panel === false ? 'agents.json' : null,
+      ours.openapi_classic_panel === false ? 'openapi.json' : null,
+      ours.api_index_classic_panel === false ? 'api/index.json' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-json-classic-panel-missing',
+      severity: 'medium',
+      text: `${which} missing /classic.html instrument-panel lines (FINDABILITY #330) — re-overlay discovery JSON or wait for collect/news-fast Publish on tip ≥ #330`,
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -3161,6 +3234,13 @@ export function measureSite(site, byUrl) {
     row.agents_txt_classic_panel = agentsTxt?.ok ? hasDiscoveryClassicPanel(agentsTxt.value) : false;
     row.ai_txt_classic_panel = aiTxt?.ok ? hasDiscoveryClassicPanel(aiTxt.value) : false;
     row.catalog_classic_panel = catalog?.ok ? hasCatalogClassicPanel(catalog.value) : false;
+    // FINDABILITY #330 — agents.json / openapi / api/index must list classic.
+    const agentsJson = byUrl.get(`${base}/agents.json`);
+    const openapiJson = byUrl.get(`${base}/openapi.json`);
+    const apiIndexJson = byUrl.get(`${base}/api/index.json`);
+    row.agents_json_classic_panel = agentsJson?.ok ? hasAgentsJsonClassicPanel(agentsJson.value) : false;
+    row.openapi_classic_panel = openapiJson?.ok ? hasOpenapiClassicPanel(openapiJson.value) : false;
+    row.api_index_classic_panel = apiIndexJson?.ok ? hasApiIndexClassicPanel(apiIndexJson.value) : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -3520,6 +3600,19 @@ export function formatMarkdown(report) {
       const ai = ours.ai_txt_classic_panel == null ? '—' : (ours.ai_txt_classic_panel ? 'yes' : 'NO');
       const cat = ours.catalog_classic_panel == null ? '—' : (ours.catalog_classic_panel ? 'yes' : 'NO');
       lines.push(`- Discovery /classic.html instrument panel (#328): agents.txt **${at}** · ai.txt **${ai}** · api-catalog **${cat}**`);
+    }
+    if (
+      ours
+      && (
+        ours.agents_json_classic_panel != null
+        || ours.openapi_classic_panel != null
+        || ours.api_index_classic_panel != null
+      )
+    ) {
+      const aj = ours.agents_json_classic_panel == null ? '—' : (ours.agents_json_classic_panel ? 'yes' : 'NO');
+      const oa = ours.openapi_classic_panel == null ? '—' : (ours.openapi_classic_panel ? 'yes' : 'NO');
+      const ix = ours.api_index_classic_panel == null ? '—' : (ours.api_index_classic_panel ? 'yes' : 'NO');
+      lines.push(`- Discovery JSON /classic.html instrument panel (#330): agents.json **${aj}** · openapi **${oa}** · api/index **${ix}**`);
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
       const ag = ours.agents_root_rivals == null ? '—' : (ours.agents_root_rivals ? 'yes' : 'NO');
@@ -4257,6 +4350,62 @@ function selftest() {
   });
   if (!discoveryGaps.some((g) => g.id === 'discovery-classic-panel-missing')) {
     throw new Error('discovery-classic-panel-missing gap');
+  }
+  if (!CORE_LIVE_SURFACES.includes('/agents.json') || !CORE_LIVE_SURFACES.includes('/api/index.json')) {
+    throw new Error('CORE_LIVE_SURFACES missing #330 /agents.json or /api/index.json');
+  }
+  if (hasAgentsJsonClassicPanel(JSON.stringify({
+    related: {
+      classic: 'https://siren.watch/classic.html',
+      classic_title: 'Where is the full SIREN instrument panel?',
+    },
+  })) !== true) {
+    throw new Error('hasAgentsJsonClassicPanel true');
+  }
+  if (hasAgentsJsonClassicPanel(JSON.stringify({
+    related: { classic: 'https://siren.watch/classic.html' },
+  })) !== false) {
+    throw new Error('hasAgentsJsonClassicPanel false without question');
+  }
+  if (hasOpenapiClassicPanel(JSON.stringify({
+    paths: {
+      '/classic.html': {
+        get: { summary: 'Where is the full SIREN instrument panel? (war room)' },
+      },
+    },
+  })) !== true) {
+    throw new Error('hasOpenapiClassicPanel true');
+  }
+  if (hasOpenapiClassicPanel(JSON.stringify({
+    paths: { '/verify.html': { get: { summary: 'verify' } } },
+  })) !== false) {
+    throw new Error('hasOpenapiClassicPanel false');
+  }
+  if (hasApiIndexClassicPanel(JSON.stringify({
+    agents: { classic: 'https://siren.watch/classic.html' },
+    endpoints: { classic: 'https://siren.watch/classic.html' },
+  })) !== true) {
+    throw new Error('hasApiIndexClassicPanel true');
+  }
+  if (hasApiIndexClassicPanel(JSON.stringify({
+    agents: { entry: 'https://siren.watch/agents.md' },
+  })) !== false) {
+    throw new Error('hasApiIndexClassicPanel false');
+  }
+  const agentsJsonGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      agents_json_classic_panel: false,
+      openapi_classic_panel: true,
+      api_index_classic_panel: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!agentsJsonGaps.some((g) => g.id === 'agents-json-classic-panel-missing')) {
+    throw new Error('agents-json-classic-panel-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{

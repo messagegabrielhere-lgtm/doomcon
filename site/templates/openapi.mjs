@@ -197,6 +197,19 @@ export function render(ctx) {
           },
         },
       },
+      '/classic.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Where is the full SIREN instrument panel? (war room, oven, pillars, moves, embed)',
+          operationId: 'getClassicHtml',
+          responses: {
+            200: {
+              description: 'Full instrument panel kept after the shorter home page shipped',
+              content: { 'text/html': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
       '/api/now.txt': {
         get: {
           tags: ['index'],

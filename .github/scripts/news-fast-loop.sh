@@ -458,6 +458,18 @@ while [ "$(date +%s)" -lt "$END" ]; do
           echo "restored $surf classic instrument panel (#328)"
         fi
       done
+      # FINDABILITY #330 — agents.json / openapi / api/index / llms-full /
+      # agent-skills need the /classic.html href after news-only overlay.
+      for surf in agents.json openapi.json api/index.json llms-full.txt \
+        .well-known/agent-skills/index.json; do
+        if [ -f "$preserve/$surf" ] \
+          && ! grep -qF '/classic.html' "$root/$surf" 2>/dev/null \
+          && ! grep -qF '"/classic.html"' "$root/$surf" 2>/dev/null; then
+          mkdir -p "$root/$(dirname "$surf")"
+          cp -a "$preserve/$surf" "$root/$surf"
+          echo "restored $surf classic instrument panel (#330)"
+        fi
+      done
     }
     # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
     # labAboutLabel is missing after orphan Publish.
@@ -949,8 +961,12 @@ while [ "$(date +%s)" -lt "$END" ]; do
         cp -a .pages/skills/siren-ai-index/SKILL.md "$PRESERVE_MAPS/skills/siren-ai-index/SKILL.md"
       fi
       # FINDABILITY #328 — stash tip agents.txt / ai.txt / api-catalog / MCP card.
-      for surf in agents.txt ai.txt .well-known/api-catalog .well-known/api-catalog.json \
-        .well-known/mcp/server-card.json; do
+      # FINDABILITY #330 — also stash agents.json / openapi / api/index / llms-full /
+      # agent-skills so news-only overlay cannot drop classic.
+      for surf in agents.txt ai.txt agents.json openapi.json api/index.json llms-full.txt \
+        .well-known/api-catalog .well-known/api-catalog.json \
+        .well-known/mcp/server-card.json \
+        .well-known/agent-skills/index.json; do
         if [ -f ".pages/$surf" ]; then
           mkdir -p "$PRESERVE_MAPS/$(dirname "$surf")"
           cp -a ".pages/$surf" "$PRESERVE_MAPS/$surf"
@@ -970,7 +986,9 @@ while [ "$(date +%s)" -lt "$END" ]; do
       # the overlay path (orphan fallback already tars all of public/).
       # FINDABILITY #328 — also overlay ai.txt + api-catalog + MCP card so tip
       # discovery surfaces stay in lockstep with news-only writeAgentText.
-      for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms.txt llms-full.txt agents.md agents.txt ai.txt skill.md news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html search-trends.html api/search-trends.json .well-known/api-catalog .well-known/api-catalog.json .well-known/mcp/server-card.json; do
+      # FINDABILITY #330 — also overlay agents.json / openapi / api/index /
+      # agent-skills (llms-full already in list).
+      for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms.txt llms-full.txt agents.md agents.txt agents.json ai.txt skill.md openapi.json api/index.json news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html search-trends.html api/search-trends.json .well-known/api-catalog .well-known/api-catalog.json .well-known/mcp/server-card.json .well-known/agent-skills/index.json; do
         if [ -e "public/$rel" ]; then
           mkdir -p ".pages/$(dirname "$rel")"
           cp -a "public/$rel" ".pages/$rel"

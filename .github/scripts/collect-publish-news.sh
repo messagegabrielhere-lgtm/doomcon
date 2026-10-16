@@ -63,9 +63,11 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
   # FINDABILITY #210 — stash tip news-sitemap.xml so probe needles (Roadster /
   # Starshield / …) survive orphan Publish on tip < #208.
   for hub in compare.html alternatives.html agents.md llms.txt skill.md \
-    skills/siren-ai-index/SKILL.md agents.txt ai.txt \
+    skills/siren-ai-index/SKILL.md agents.txt ai.txt agents.json \
+    openapi.json api/index.json llms-full.txt \
     .well-known/api-catalog .well-known/api-catalog.json \
     .well-known/mcp/server-card.json \
+    .well-known/agent-skills/index.json \
     lab/index.html companies.html companies/index.html \
     index.html classic.html race.html race/index.html \
     watts.html watts/index.html lab/micron.html lab/coreweave.html \
@@ -251,6 +253,18 @@ for surf in .well-known/api-catalog .well-known/api-catalog.json \
     mkdir -p ".pages/$(dirname "$surf")"
     cp -a "$PRESERVE_FAQ/$surf" ".pages/$surf"
     echo "restored $surf classic instrument panel (#328)"
+  fi
+done
+# FINDABILITY #330 — restore tip agents.json / openapi / api/index / llms-full /
+# agent-skills when /classic.html is missing after orphan Publish.
+for surf in agents.json openapi.json api/index.json llms-full.txt \
+  .well-known/agent-skills/index.json; do
+  if [ -f "$PRESERVE_FAQ/$surf" ] \
+    && ! grep -qF '/classic.html' ".pages/$surf" 2>/dev/null \
+    && ! grep -qF '"/classic.html"' ".pages/$surf" 2>/dev/null; then
+    mkdir -p ".pages/$(dirname "$surf")"
+    cp -a "$PRESERVE_FAQ/$surf" ".pages/$surf"
+    echo "restored $surf classic instrument panel (#330)"
   fi
 done
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
