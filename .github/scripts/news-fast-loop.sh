@@ -434,6 +434,31 @@ while [ "$(date +%s)" -lt "$END" ]; do
         fi
       done
     }
+    # FINDABILITY #328 — restore tip agents.txt / ai.txt / api-catalog when
+    # classic panel needle is missing after orphan/news-only Publish.
+    restore_discovery_classic() {
+      local root="$1" preserve="$2"
+      local surf
+      for surf in agents.txt ai.txt; do
+        if [ -f "$preserve/$surf" ] \
+          && { ! grep -qF '/classic.html' "$root/$surf" 2>/dev/null \
+            || ! grep -qF 'Where is the full SIREN instrument panel?' "$root/$surf" 2>/dev/null; }; then
+          mkdir -p "$root/$(dirname "$surf")"
+          cp -a "$preserve/$surf" "$root/$surf"
+          echo "restored $surf classic instrument panel (#328)"
+        fi
+      done
+      # Catalog + MCP card only need the /classic.html href (no question prose).
+      for surf in .well-known/api-catalog .well-known/api-catalog.json \
+        .well-known/mcp/server-card.json; do
+        if [ -f "$preserve/$surf" ] \
+          && ! grep -qF '/classic.html' "$root/$surf" 2>/dev/null; then
+          mkdir -p "$root/$(dirname "$surf")"
+          cp -a "$preserve/$surf" "$root/$surf"
+          echo "restored $surf classic instrument panel (#328)"
+        fi
+      done
+    }
     # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
     # labAboutLabel is missing after orphan Publish.
     restore_lab_hub_labels() {
@@ -923,6 +948,14 @@ while [ "$(date +%s)" -lt "$END" ]; do
         mkdir -p "$PRESERVE_MAPS/skills/siren-ai-index"
         cp -a .pages/skills/siren-ai-index/SKILL.md "$PRESERVE_MAPS/skills/siren-ai-index/SKILL.md"
       fi
+      # FINDABILITY #328 — stash tip agents.txt / ai.txt / api-catalog / MCP card.
+      for surf in agents.txt ai.txt .well-known/api-catalog .well-known/api-catalog.json \
+        .well-known/mcp/server-card.json; do
+        if [ -f ".pages/$surf" ]; then
+          mkdir -p "$PRESERVE_MAPS/$(dirname "$surf")"
+          cp -a ".pages/$surf" "$PRESERVE_MAPS/$surf"
+        fi
+      done
       # FINDABILITY #210 — stash tip news-sitemap before public/ overlay can
       # wipe Roadster/Starshield probe needles built on tip < #208.
       for hub in race.html race/index.html watts.html watts/index.html \
@@ -935,7 +968,9 @@ while [ "$(date +%s)" -lt "$END" ]; do
       done
       # FINDABILITY #149/#158 — news-only Trends HTML + API must ride
       # the overlay path (orphan fallback already tars all of public/).
-      for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms.txt llms-full.txt agents.md agents.txt news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html search-trends.html api/search-trends.json; do
+      # FINDABILITY #328 — also overlay ai.txt + api-catalog + MCP card so tip
+      # discovery surfaces stay in lockstep with news-only writeAgentText.
+      for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms.txt llms-full.txt agents.md agents.txt ai.txt skill.md news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html search-trends.html api/search-trends.json .well-known/api-catalog .well-known/api-catalog.json .well-known/mcp/server-card.json; do
         if [ -e "public/$rel" ]; then
           mkdir -p ".pages/$(dirname "$rel")"
           cp -a "public/$rel" ".pages/$rel"
@@ -951,6 +986,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_vs_aliases .pages
       restore_agent_maps .pages "$PRESERVE_MAPS"
       restore_skill_classic .pages "$PRESERVE_MAPS"
+      restore_discovery_classic .pages "$PRESERVE_MAPS"
       restore_home_knowsabout .pages "$PRESERVE_MAPS"
       restore_classic_panel .pages "$PRESERVE_MAPS"
       ensure_classic_sitemap .pages
@@ -1007,9 +1043,11 @@ while [ "$(date +%s)" -lt "$END" ]; do
       # lab hubs + home/race + Watts/Micron/CoreWeave/Nvidia/Neoclouds/Trends FAQs.
       # FINDABILITY #210 — also stash tip news-sitemap.xml for probe-needle merge.
       PRESERVE_FAQ=$(mktemp -d)
-      # FINDABILITY #326 — also stash tip skill.md + packaged SKILL.md.
+      # FINDABILITY #326/#328 — also stash tip skill.md + discovery surfaces.
       for hub in compare.html alternatives.html agents.md llms.txt skill.md \
-        skills/siren-ai-index/SKILL.md \
+        skills/siren-ai-index/SKILL.md agents.txt ai.txt \
+        .well-known/api-catalog .well-known/api-catalog.json \
+        .well-known/mcp/server-card.json \
         lab/index.html companies.html companies/index.html \
         index.html classic.html race.html race/index.html \
         watts.html watts/index.html lab/micron.html lab/coreweave.html \
@@ -1024,7 +1062,9 @@ while [ "$(date +%s)" -lt "$END" ]; do
         rm -rf .pages-faq-tip
         if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
           for hub in compare.html alternatives.html agents.md llms.txt skill.md \
-            skills/siren-ai-index/SKILL.md \
+            skills/siren-ai-index/SKILL.md agents.txt ai.txt \
+            .well-known/api-catalog .well-known/api-catalog.json \
+            .well-known/mcp/server-card.json \
             lab/index.html companies.html companies/index.html \
             index.html classic.html race.html race/index.html \
             watts.html watts/index.html lab/micron.html lab/coreweave.html \
@@ -1045,6 +1085,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_conquest_faqs .pages "$PRESERVE_FAQ"
       restore_agent_maps .pages "$PRESERVE_FAQ"
       restore_skill_classic .pages "$PRESERVE_FAQ"
+      restore_discovery_classic .pages "$PRESERVE_FAQ"
       restore_lab_hub_labels .pages "$PRESERVE_FAQ"
       restore_home_knowsabout .pages "$PRESERVE_FAQ"
       restore_classic_panel .pages "$PRESERVE_FAQ"

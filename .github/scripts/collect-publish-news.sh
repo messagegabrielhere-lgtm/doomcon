@@ -63,7 +63,9 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
   # FINDABILITY #210 — stash tip news-sitemap.xml so probe needles (Roadster /
   # Starshield / …) survive orphan Publish on tip < #208.
   for hub in compare.html alternatives.html agents.md llms.txt skill.md \
-    skills/siren-ai-index/SKILL.md \
+    skills/siren-ai-index/SKILL.md agents.txt ai.txt \
+    .well-known/api-catalog .well-known/api-catalog.json \
+    .well-known/mcp/server-card.json \
     lab/index.html companies.html companies/index.html \
     index.html classic.html race.html race/index.html \
     watts.html watts/index.html lab/micron.html lab/coreweave.html \
@@ -229,6 +231,26 @@ for skill in skill.md skills/siren-ai-index/SKILL.md; do
     mkdir -p ".pages/$(dirname "$skill")"
     cp -a "$PRESERVE_FAQ/$skill" ".pages/$skill"
     echo "restored $skill classic instrument panel (#326)"
+  fi
+done
+# FINDABILITY #328 — restore tip agents.txt / ai.txt when classic panel missing.
+for surf in agents.txt ai.txt; do
+  if [ -f "$PRESERVE_FAQ/$surf" ] \
+    && { ! grep -qF '/classic.html' ".pages/$surf" 2>/dev/null \
+      || ! grep -qF 'Where is the full SIREN instrument panel?' ".pages/$surf" 2>/dev/null; }; then
+    mkdir -p ".pages/$(dirname "$surf")"
+    cp -a "$PRESERVE_FAQ/$surf" ".pages/$surf"
+    echo "restored $surf classic instrument panel (#328)"
+  fi
+done
+# FINDABILITY #328 — restore tip api-catalog / MCP card when /classic.html href missing.
+for surf in .well-known/api-catalog .well-known/api-catalog.json \
+  .well-known/mcp/server-card.json; do
+  if [ -f "$PRESERVE_FAQ/$surf" ] \
+    && ! grep -qF '/classic.html' ".pages/$surf" 2>/dev/null; then
+    mkdir -p ".pages/$(dirname "$surf")"
+    cp -a "$PRESERVE_FAQ/$surf" ".pages/$surf"
+    echo "restored $surf classic instrument panel (#328)"
   fi
 done
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140

@@ -28,6 +28,9 @@ test('agents.txt announces Skills only (no fake HTTP MCP or A2A)', () => {
   assert.match(txt, /Verify a reading: https:\/\/siren\.watch\/verify\.html/);
   assert.match(txt, /Search Trends \(watched, not scored\): https:\/\/siren\.watch\/search-trends\.html/);
   assert.match(txt, /https:\/\/siren\.watch\/api\/search-trends\.json/);
+  // FINDABILITY #328 — capability announcement lists the classic panel.
+  assert.match(txt, /Classic instrument panel: https:\/\/siren\.watch\/classic\.html/);
+  assert.match(txt, /Where is the full SIREN instrument panel\?/);
   assert.doesNotMatch(txt, /^MCP:/m);
   assert.doesNotMatch(txt, /^A2A:/m);
   assert.doesNotMatch(txt, /^Protocols:/m);
@@ -52,12 +55,14 @@ test('api-catalog is an RFC 9727 linkset pointing at the live surfaces', () => {
   for (const p of [
     '/openapi.json', '/api/state.json', '/api/now.txt', '/api/news.json', '/news-sitemap.xml', '/news.html',
     '/api/search-trends.json', '/search-trends.html', '/ai-prediction-markets.html',
-    '/free-tools.html', '/verify.html',
+    '/free-tools.html', '/verify.html', '/classic.html',
     '/agents.md', '/agents.txt',
     '/skill.md', '/llms.txt', '/.well-known/mcp/server-card.json', '/.well-known/agent-skills/index.json',
   ]) {
     assert.ok(items.includes(`https://siren.watch${p}`), p);
   }
+  const classicItem = cat.linkset[0].item.find((i) => i.href === 'https://siren.watch/classic.html');
+  assert.equal(classicItem?.title, 'Where is the full SIREN instrument panel?');
   assert.equal(cat.linkset[0].anchor, 'https://siren.watch/.well-known/api-catalog');
 });
 
@@ -88,6 +93,7 @@ test('MCP server card documents stdio transport and the tool names', () => {
   assert.equal(card.related.ai_prediction_markets, 'https://siren.watch/ai-prediction-markets.html');
   assert.equal(card.related.free_tools, 'https://siren.watch/free-tools.html');
   assert.equal(card.related.verify, 'https://siren.watch/verify.html');
+  assert.equal(card.related.classic, 'https://siren.watch/classic.html');
 });
 
 test('ai.txt points agents at the discovery stack', () => {
@@ -97,7 +103,7 @@ test('ai.txt points agents at the discovery stack', () => {
     '/agents.md', '/agents.txt', '/skill.md', '/llms.txt', '/api/now.txt', '/.well-known/api-catalog',
     '/now.md', '/api/news.json', '/news-sitemap.xml', '/news.html',
     '/api/search-trends.json', '/search-trends.html', '/ai-prediction-markets.html',
-    '/free-tools.html', '/verify.html',
+    '/free-tools.html', '/verify.html', '/classic.html',
   ]) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
@@ -107,5 +113,7 @@ test('ai.txt points agents at the discovery stack', () => {
   assert.match(txt, /Where are live AI prediction market odds\?/);
   assert.match(txt, /What free tools does SIREN publish\?/);
   assert.match(txt, /How do you check a SIREN reading yourself\?/);
+  // FINDABILITY #328 — ai.txt Start-here lists the classic panel question.
+  assert.match(txt, /Where is the full SIREN instrument panel\?/);
   assert.match(txt, /not a probability of harm/);
 });
