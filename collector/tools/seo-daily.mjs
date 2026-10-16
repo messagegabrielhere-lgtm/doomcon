@@ -480,6 +480,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'ChatGPT Voice', 'GPT-Live', 'GPT-Live-1.1',
   // FINDABILITY #336 — GPT-Live-1 SKU + Kling 4.0 video needles (multi-title).
   'GPT-Live-1', 'Kling', 'Kling 4.0',
+  // FINDABILITY #338 — Xing / Xing 4.0 MoE needles (multi-title).
+  'Xing', 'Xing 4.0',
   // FINDABILITY #216 — MAI-Base needles while Google News contested.
   'MAI-Base', 'MAI-Base-2',
   // FINDABILITY #222 — Muse Spark product-class needles (multi-title tape).
@@ -6702,6 +6704,23 @@ function selftest() {
   }
   if (klingLags.filter((r) => /Officially Launches/i.test(r.title)).some((r) => r.lab === 'Kling')) {
     throw new Error('newsKeywordLags should not flag Kling when keywords include it');
+  }
+  // FINDABILITY #338 — catch tip wipe of Xing / Xing 4.0 needles.
+  for (const lab of ['Xing', 'Xing 4.0']) {
+    if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) throw new Error(`probe labs missing ${lab}`);
+  }
+  const xingLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Xing 4.0 29B-A4B vs Nemotron 3.5 Lightning 30B-A3B: Same Shape, Different Licence</news:title>'
+    + '<news:keywords>Nemotron, Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Xing 4.0 29B-A4B vs Qwen 3.8 27B: Vision or Tool Calling</news:title>'
+    + '<news:keywords>Alibaba Qwen, Qwen, Google, Xing, Xing 4.0, AI, artificial intelligence, SIREN, Tool calling, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const xingLags = newsKeywordLags(xingLagXml);
+  if (!xingLags.some((r) => r.lab === 'Xing') || !xingLags.some((r) => r.lab === 'Xing 4.0')) {
+    throw new Error(`newsKeywordLags expected Xing / Xing 4.0 lag: ${JSON.stringify(xingLags)}`);
+  }
+  if (xingLags.filter((r) => /Vision or Tool Calling/i.test(r.title)).some((r) => r.lab === 'Xing')) {
+    throw new Error('newsKeywordLags should not flag Xing when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

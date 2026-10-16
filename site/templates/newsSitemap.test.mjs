@@ -2019,6 +2019,42 @@ test('news sitemap keywords include Kling 4.0 from multi-title video tape (FINDA
   assert.doesNotMatch(c, /\bKling\b/);
 });
 
+test('news sitemap keywords include Xing 4.0 from multi-title MoE tape (FINDABILITY #338)', () => {
+  // Multi-title Xing tape: Nemotron / Qwen / Google fill 12-cap while product
+  // titles drop the Xing / Xing 4.0 surface.
+  const a = keywordsFor({
+    title: 'Xing 4.0 29B-A4B vs Nemotron 3.5 Lightning 30B-A3B: Same Shape, Different Licence',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Nemotron', 'Google'],
+  });
+  assert.match(a, /\bXing\b/);
+  assert.match(a, /\bXing 4\.0\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Xing') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Xing 4.0 29B-A4B vs Qwen 3.8 27B: Vision or Tool Calling',
+    summary: 'OrcaRouter sparse MoE comparison.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Alibaba Qwen', 'Qwen', 'Google'],
+  });
+  assert.match(b, /\bXing\b/);
+  assert.match(b, /\bXing 4\.0\b/);
+  const c = keywordsFor({
+    title: 'Nemotron 3.5 Lightning lands as a compact open MoE for agents',
+    summary: 'Bare Nemotron Lightning tape must not invent an unrelated MoE product needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Nemotron', 'Google'],
+  });
+  assert.doesNotMatch(c, /\bXing\b/);
+});
+
 test('news sitemap keywords include PS5 from multi-title local-AI console tape (FINDABILITY #320)', () => {
   // Multi-title PS5 tape: Llama / Sony / GGUF / topic meta fill 12-cap slots
   // while product-class local-AI console titles drop the PS5 surface.
