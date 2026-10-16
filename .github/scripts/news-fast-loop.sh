@@ -437,15 +437,18 @@ while [ "$(date +%s)" -lt "$END" ]; do
     # news-only index.html overlay from tip < #142.
     # FINDABILITY #254 — also restore when exact head-term FAQ
     # “What is an AI activity index?” is missing; re-sync #252 alias.
+    # FINDABILITY #264 — also restore when #262 level-alias FAQ prose is
+    # missing (orphan Publish can keep #254 while wiping the tip overlay).
     restore_home_knowsabout() {
       local root="$1" preserve="$2"
       local hub
       for hub in index.html classic.html; do
         if [ -f "$preserve/$hub" ] \
           && { ! grep -qF 'OpenAI / ChatGPT' "$root/$hub" 2>/dev/null \
-            || ! grep -qF 'What is an AI activity index?' "$root/$hub" 2>/dev/null; }; then
+            || ! grep -qF 'What is an AI activity index?' "$root/$hub" 2>/dev/null \
+            || ! grep -qF '/ai-activity-level.html is a short alias' "$root/$hub" 2>/dev/null; }; then
           cp -a "$preserve/$hub" "$root/$hub"
-          echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254)"
+          echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264)"
         fi
       done
       # FINDABILITY #252/#254 — alias body must match restored home.

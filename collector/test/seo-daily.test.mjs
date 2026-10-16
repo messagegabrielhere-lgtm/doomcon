@@ -39,6 +39,8 @@ import {
   hasHomeLabAboutLabels,
   hasHomeActivityIndexFaq,
   HOME_ACTIVITY_INDEX_FAQ_NEEDLE,
+  hasHomeActivityLevelFaqAlias,
+  HOME_ACTIVITY_LEVEL_FAQ_ALIAS_NEEDLE,
   hasRaceLabAboutLabels,
   NEWS_LAB_ALIAS_PROBES,
   newsLabAliasKeywordLags,
@@ -655,6 +657,23 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'home-activity-index-faq-missing'));
+  });
+
+  it('detects missing home AI activity level FAQ alias prose (FINDABILITY #264)', () => {
+    assert.equal(HOME_ACTIVITY_LEVEL_FAQ_ALIAS_NEEDLE, '/ai-activity-level.html is a short alias');
+    assert.equal(hasHomeActivityLevelFaqAlias('/ai-activity-level.html is a short alias'), true);
+    assert.equal(hasHomeActivityLevelFaqAlias('What is the AI activity level today?'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        home_activity_level_faq_alias: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'home-activity-level-faq-alias-missing'));
   });
 
   it('detects missing race board labAboutLabel (FINDABILITY #144)', () => {

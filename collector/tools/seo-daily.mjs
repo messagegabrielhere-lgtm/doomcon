@@ -807,6 +807,17 @@ export function hasHomeActivityIndexFaq(html, needle = HOME_ACTIVITY_INDEX_FAQ_N
   return String(html || '').includes(needle);
 }
 
+/** FINDABILITY #264 — #262 level-alias FAQ prose on home (+ alias bodies). */
+export const HOME_ACTIVITY_LEVEL_FAQ_ALIAS_NEEDLE = '/ai-activity-level.html is a short alias';
+
+/**
+ * Home must keep the #262 level-alias mention inside the activity-level FAQ.
+ * Wipe gap is `home-activity-level-faq-alias-missing`.
+ */
+export function hasHomeActivityLevelFaqAlias(html, needle = HOME_ACTIVITY_LEVEL_FAQ_ALIAS_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
 /**
  * /race.html leaderboard lab links must keep #144 labAboutLabel
  * (OpenAI / ChatGPT etc.). Wipe gap is `race-lab-labels-missing`.
@@ -1976,6 +1987,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #264 — home #262 level-alias FAQ prose wiped after tip overlay.
+  if (ours.home_activity_level_faq_alias === false) {
+    gaps.push({
+      id: 'home-activity-level-faq-alias-missing',
+      severity: 'medium',
+      text: `home missing “/ai-activity-level.html is a short alias” FAQ prose (FINDABILITY #262/#264) — re-overlay index.html / ai-activity-level.html or wait for collect/news-fast Publish on tip ≥ #264`,
+    });
+  }
+
   // FINDABILITY #144 — /race.html leaderboard lab links dropped labAboutLabel.
   if (ours.race_lab_about_labels === false) {
     gaps.push({
@@ -2756,6 +2776,8 @@ export function measureSite(site, byUrl) {
     home_lab_about_labels: site.ours && home?.ok ? hasHomeLabAboutLabels(home.value) : null,
     // FINDABILITY #254 — home exact unbranded head-term FAQ (ours only).
     home_activity_index_faq: site.ours && home?.ok ? hasHomeActivityIndexFaq(home.value) : null,
+    // FINDABILITY #264 — home #262 level-alias FAQ prose (ours only).
+    home_activity_level_faq_alias: site.ours && home?.ok ? hasHomeActivityLevelFaqAlias(home.value) : null,
     sitemap_urls: null,
     sitemap_is_index: null,
     news_sitemap_urls: null,
@@ -3207,6 +3229,11 @@ export function formatMarkdown(report) {
         `- Home AI activity index FAQ (#254): **${ours.home_activity_index_faq ? 'ok' : 'NO'}**`,
       );
     }
+    if (ours && ours.home_activity_level_faq_alias != null) {
+      lines.push(
+        `- Home AI activity level FAQ alias (#262/#264): **${ours.home_activity_level_faq_alias ? 'ok' : 'NO'}**`,
+      );
+    }
     if (ours && ours.race_lab_about_labels != null) {
       lines.push(
         `- Race board labAboutLabel (#144): **${ours.race_lab_about_labels ? 'ok' : 'NO'}**`,
@@ -3560,6 +3587,7 @@ export function formatMarkdown(report) {
       || ours.lab_hub_label_lags != null
       || ours.home_lab_about_labels != null
       || ours.home_activity_index_faq != null
+      || ours.home_activity_level_faq_alias != null
       || ours.race_lab_about_labels != null
       || ours.lab_head_alias_lags != null
       || ours.conquest_faq_lags != null)) {
@@ -3976,6 +4004,25 @@ function selftest() {
   });
   if (!homeFaqGaps.some((g) => g.id === 'home-activity-index-faq-missing')) {
     throw new Error('home-activity-index-faq-missing gap');
+  }
+  if (hasHomeActivityLevelFaqAlias('/ai-activity-level.html is a short alias') !== true) {
+    throw new Error('hasHomeActivityLevelFaqAlias true');
+  }
+  if (hasHomeActivityLevelFaqAlias('What is the AI activity level today?') !== false) {
+    throw new Error('hasHomeActivityLevelFaqAlias false');
+  }
+  const homeLevelFaqGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      home_activity_level_faq_alias: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!homeLevelFaqGaps.some((g) => g.id === 'home-activity-level-faq-alias-missing')) {
+    throw new Error('home-activity-level-faq-alias-missing gap');
   }
   if (hasRaceLabAboutLabels('<a href="/lab/openai.html">What has SIREN scored about OpenAI / ChatGPT?</a>') !== true) {
     throw new Error('hasRaceLabAboutLabels true');
