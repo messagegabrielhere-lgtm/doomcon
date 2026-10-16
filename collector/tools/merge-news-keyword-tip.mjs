@@ -17,6 +17,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { NEWS_KEYWORD_PROBE_LABS } from './seo-daily.mjs';
+import { labNeedleRe } from './lab-needle.mjs';
 
 /** Google News practical keyword cap (matches site/templates/newsSitemap.mjs). */
 export const NEWS_KEYWORD_CAP = 12;
@@ -40,11 +41,9 @@ function escXml(s) {
     .replace(/"/g, '&quot;');
 }
 
+/** FINDABILITY #310 — hyphen↔space flex via shared labNeedleRe. */
 function labRe(lab) {
-  return new RegExp(
-    `(?:^|[^A-Za-z0-9])${String(lab).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`,
-    'i',
-  );
+  return labNeedleRe(lab);
 }
 
 function splitKeywords(kw) {
@@ -377,6 +376,28 @@ export function selftest() {
   // FINDABILITY #306 — NYC Council stays in tip merge probes.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('NYC Council')) {
     throw new Error('probe labs must include NYC Council');
+  }
+  // FINDABILITY #310 — GPT-6 Astra space-form title heal.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
+    || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {
+    throw new Error('probe labs must include GPT-6 Astra + GPT-6.1 Astra');
+  }
+  const astraDirty = `<?xml version="1.0"?>
+<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://siren.watch/item/astra-space.html</loc>
+    <news:news>
+      <news:title>It took an octillion calculations to train GPT 6 Astra</news:title>
+      <news:keywords>GPT, AI, artificial intelligence, SIREN, attention, forum</news:keywords>
+    </news:news>
+  </url>
+</urlset>`;
+  const astraHealed = healNewsKeywordProbesFromTitle(astraDirty);
+  if (astraHealed.healed < 1 || astraHealed.locs !== 1) {
+    throw new Error(`GPT 6 Astra space heal expected 1 loc, got ${JSON.stringify(astraHealed)}`);
+  }
+  if (!/<news:keywords>[^<]*GPT-6 Astra/.test(astraHealed.xml)) {
+    throw new Error('title heal must prepend GPT-6 Astra for space-form title');
   }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');

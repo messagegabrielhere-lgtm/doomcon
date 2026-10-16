@@ -17,6 +17,7 @@ import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { fetchAll } from '../fetch.mjs';
+import { labNeedleRe } from './lab-needle.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT = path.join(ROOT, 'data', 'seo-scoreboard.json');
@@ -526,11 +527,14 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Dell',
   // FINDABILITY #306 — NYC Council agency needle (SpaceX AI-safety hearing).
   'NYC Council',
+  // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
+  'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
 
 /**
  * Entries whose news:title matches a probe lab but news:keywords omit it.
  * Returns up to 8 `{ lab, title }` rows for the daily gap line.
+ * FINDABILITY #310 — hyphen↔space flex via labNeedleRe.
  */
 export function newsKeywordLags(xml, labs = NEWS_KEYWORD_PROBE_LABS) {
   const out = [];
@@ -543,10 +547,7 @@ export function newsKeywordLags(xml, labs = NEWS_KEYWORD_PROBE_LABS) {
     const title = decodeXmlText(titleM[1]);
     const keywords = decodeXmlText(kwM ? kwM[1] : '');
     for (const lab of labs) {
-      const re = new RegExp(
-        `(?:^|[^A-Za-z0-9])${lab.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`,
-        'i',
-      );
+      const re = labNeedleRe(lab);
       if (!re.test(title)) continue;
       if (re.test(keywords)) continue;
       const key = `${lab}\0${title.slice(0, 80)}`;
@@ -6024,6 +6025,23 @@ function selftest() {
   // FINDABILITY #306 — catch tip wipe of NYC Council needle.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('NYC Council')) {
     throw new Error('probe labs missing NYC Council');
+  }
+  // FINDABILITY #310 — GPT-6 Astra space-form titles need flex match + probe.
+  for (const lab of ['GPT-6 Astra', 'GPT-6.1 Astra']) {
+    if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) throw new Error(`probe labs missing ${lab}`);
+  }
+  const astraSpaceLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>It took an octillion calculations to train GPT 6 Astra</news:title>'
+    + '<news:keywords>GPT, AI, artificial intelligence, SIREN, attention, forum</news:keywords></url>'
+    + '<url><news:title>GPT-6 Astra solves physics research problems</news:title>'
+    + '<news:keywords>GPT-6 Astra, GPT, AI, artificial intelligence, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const astraSpaceLags = newsKeywordLags(astraSpaceLagXml);
+  if (!astraSpaceLags.some((r) => r.lab === 'GPT-6 Astra' && /GPT 6 Astra/i.test(r.title))) {
+    throw new Error(`newsKeywordLags expected GPT-6 Astra space-form lag: ${JSON.stringify(astraSpaceLags)}`);
+  }
+  if (astraSpaceLags.some((r) => /solves physics/i.test(r.title) && r.lab === 'GPT-6 Astra')) {
+    throw new Error('newsKeywordLags should not flag GPT-6 Astra when keywords include it');
   }
   const nycCouncilLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
     + '<url><news:title>Elon Musk\'s SpaceX to testify at NYC Council meeting on AI safety</news:title>'
