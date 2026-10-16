@@ -85,7 +85,7 @@ export function nowTxt({ state, history = [], url }) {
   lines.push(`${gloss ? `${gloss} ` : ''}${NOT_CLAIM}`);
   // FINDABILITY #90 — tip for agents that fetch now.txt and never open robots/llms.
   // Keep this one short line so the file stays within the 3–6 line budget.
-  lines.push(`Free tools · verify · Search Trends: ${url('/free-tools.html')} · ${url('/verify.html')} · ${url('/search-trends.html')} · short ${url('/trends.html')}`);
+  lines.push(`Free tools · verify · Search Trends · classic: ${url('/free-tools.html')} · ${url('/verify.html')} · ${url('/search-trends.html')} · short ${url('/trends.html')} · ${url('/classic.html')}`);
   lines.push(site);
   return `${lines.join('\n')}\n`;
 }
@@ -149,7 +149,7 @@ export function nowMd({ state, history = [], news = null, leaders = null, siSign
   L.push(`> ${brand.NAME} ${state.level} · ${state.level_name} · ${fix1(state.score)}/100, computed ${utc(state.generated_at)}. Levels run from 5 (quietest) to 1 (loudest). ${NOT_CLAIM}`);
   L.push('');
   // FINDABILITY #90 — discovery tip for agents that open now.md before robots/llms.
-  L.push(`Also: [free tools](${url('/free-tools.html')}) · [verify a reading](${url('/verify.html')}) · [Search Trends](${url('/search-trends.html')}) (short alias ${url('/trends.html')}) · [news sitemap](${url('/news-sitemap.xml')}).`);
+  L.push(`Also: [free tools](${url('/free-tools.html')}) · [verify a reading](${url('/verify.html')}) · [Search Trends](${url('/search-trends.html')}) (short alias ${url('/trends.html')}) · [news sitemap](${url('/news-sitemap.xml')}) · [classic instrument panel](${url('/classic.html')}).`);
   L.push('');
   L.push('## Reading');
   L.push('');

@@ -1657,11 +1657,15 @@ describe('seo-daily surfaces', () => {
     assert.equal(hasTrendsShortAlias('short alias /trends.html'), true);
     assert.equal(hasTrendsShortAlias('/search-trends.html only'), false);
     assert.equal(
-      hasNowTips('/free-tools.html /verify.html Search Trends short /trends.html'),
+      hasNowTips('/free-tools.html /verify.html Search Trends short /trends.html /classic.html'),
       true,
     );
     assert.equal(
       hasNowTips('/free-tools.html /verify.html Search Trends /search-trends.html'),
+      false,
+    );
+    assert.equal(
+      hasNowTips('/free-tools.html /verify.html Search Trends short /trends.html'),
       false,
     );
     const gaps = deriveGaps({

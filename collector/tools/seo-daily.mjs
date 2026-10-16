@@ -385,14 +385,16 @@ export function hasBingMeta(html) {
 }
 
 /**
- * True when sitemap tip comments advertise free-tools + verify (FINDABILITY #84).
+ * True when sitemap tip comments advertise free-tools + verify (FINDABILITY #84)
+ * and the classic instrument panel (FINDABILITY #334).
  * Detects collect Publish wipes that drop SEO overlays before main tip catches up.
  */
 export function hasSitemapTips(xml) {
-  const head = String(xml || '').slice(0, 1200);
+  const head = String(xml || '').slice(0, 1600);
   return /Free tools:.*\/free-tools\.html/i.test(head)
     && /Verify(?: a reading)?:.*\/verify\.html/i.test(head)
-    && (/Search Trends/i.test(head) || /news-sitemap\.xml/i.test(head) || /llms\.txt/i.test(head));
+    && (/Search Trends/i.test(head) || /news-sitemap\.xml/i.test(head) || /llms\.txt/i.test(head))
+    && /\/classic\.html/i.test(head);
 }
 
 /**
@@ -668,10 +670,13 @@ export function hasNowTips(txt) {
   const head = String(txt || '').slice(0, 1500);
   // FINDABILITY #124/#125 — tip lines must name the /trends.html short alias
   // (canonical stays on search-trends), not only the words "Search Trends".
+  // FINDABILITY #334 — tip lines must also name /classic.html for crawlers that
+  // open now.md / api/now.txt before robots/llms/agent maps.
   return /\/free-tools\.html/i.test(head)
     && /\/verify\.html/i.test(head)
     && /Search Trends/i.test(head)
-    && /\/trends\.html/i.test(head);
+    && /\/trends\.html/i.test(head)
+    && /\/classic\.html/i.test(head);
 }
 
 /**
@@ -2035,7 +2040,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'sitemap-tips-missing',
       severity: 'medium',
-      text: `${which} missing free-tools/verify tip comments (FINDABILITY #84) — re-overlay or wait for collect Publish on tip ≥ #159`,
+      text: `${which} missing free-tools/verify/classic tip comments (FINDABILITY #84/#334) — re-overlay or wait for collect Publish on tip ≥ #334`,
     });
   }
 
@@ -2048,7 +2053,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'feed-tips-missing',
       severity: 'medium',
-      text: `${which} missing free-tools/verify tip comments (FINDABILITY #87) — re-overlay or wait for collect Publish on tip ≥ #162`,
+      text: `${which} missing free-tools/verify/classic tip comments (FINDABILITY #87/#334) — re-overlay or wait for collect Publish on tip ≥ #334`,
     });
   }
 
@@ -2057,11 +2062,11 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'robots-tips-missing',
       severity: 'medium',
-      text: 'robots.txt missing free-tools/verify tip comments (FINDABILITY #79) — re-overlay or wait for collect Publish that emits #79 tips',
+      text: 'robots.txt missing free-tools/verify/classic tip comments (FINDABILITY #79/#334) — re-overlay or wait for collect Publish on tip ≥ #334',
     });
   }
 
-  // FINDABILITY #90/#91 — live reading tip lines missing until tip ≥ #166 deploys or overlay.
+  // FINDABILITY #90/#91 — live reading tip lines missing until tip ≥ #334 deploys or overlay.
   if (ours.now_md_tips === false || ours.now_txt_tips === false) {
     const which = [
       ours.now_md_tips === false ? 'now.md' : null,
@@ -2070,7 +2075,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'now-tips-missing',
       severity: 'medium',
-      text: `${which} missing free-tools/verify/Search Trends tip lines (FINDABILITY #90) — re-overlay or wait for collect Publish on tip ≥ #166`,
+      text: `${which} missing free-tools/verify/Search Trends/classic tip lines (FINDABILITY #90/#334) — re-overlay or wait for collect Publish on tip ≥ #334`,
     });
   }
 
@@ -4156,9 +4161,12 @@ function selftest() {
   if (!/msvalidate\.01 is live/.test(engPresent.find((e) => e.id === 'bing-verify').text)) {
     throw new Error('open eng present bing');
   }
-  const tipped = `<?xml version="1.0"?>\n<!-- Free tools: https://siren.watch/free-tools.html · Verify a reading: https://siren.watch/verify.html -->\n<!-- Search Trends: https://siren.watch/search-trends.html -->\n<urlset></urlset>`;
+  const tipped = `<?xml version="1.0"?>\n<!-- Free tools: https://siren.watch/free-tools.html · Verify a reading: https://siren.watch/verify.html -->\n<!-- Search Trends: https://siren.watch/search-trends.html -->\n<!-- Classic instrument panel: https://siren.watch/classic.html -->\n<urlset></urlset>`;
   if (hasSitemapTips(tipped) !== true) throw new Error('hasSitemapTips true');
   if (hasSitemapTips('<?xml version="1.0"?><urlset></urlset>') !== false) throw new Error('hasSitemapTips false');
+  if (hasSitemapTips('<!-- Free tools: https://siren.watch/free-tools.html · Verify a reading: https://siren.watch/verify.html -->\n<!-- Search Trends: https://siren.watch/search-trends.html -->') !== false) {
+    throw new Error('hasSitemapTips requires /classic.html');
+  }
   const tipGaps = deriveGaps({
     sites: [{
       id: 'siren', name: 'siren.watch', ours: true, ok: true,
@@ -4184,9 +4192,12 @@ function selftest() {
     open_engineering: [],
   });
   if (!feedTipGaps.some((g) => g.id === 'feed-tips-missing')) throw new Error('feed-tips-missing gap');
-  const robotsTipped = `# Free tools: https://siren.watch/free-tools.html · Verify a reading: https://siren.watch/verify.html\n# Search Trends: https://siren.watch/search-trends.html\nUser-agent: *\nAllow: /\n`;
+  const robotsTipped = `# Free tools: https://siren.watch/free-tools.html · Verify a reading: https://siren.watch/verify.html\n# Search Trends: https://siren.watch/search-trends.html\n# Classic instrument panel: https://siren.watch/classic.html\nUser-agent: *\nAllow: /\n`;
   if (hasRobotsTips(robotsTipped) !== true) throw new Error('hasRobotsTips true');
   if (hasRobotsTips('User-agent: *\nAllow: /\n') !== false) throw new Error('hasRobotsTips false');
+  if (hasRobotsTips('# Free tools: https://siren.watch/free-tools.html · Verify a reading: https://siren.watch/verify.html\n# Search Trends: https://siren.watch/search-trends.html\n') !== false) {
+    throw new Error('hasRobotsTips requires /classic.html');
+  }
   const robotsTipGaps = deriveGaps({
     sites: [{
       id: 'siren', name: 'siren.watch', ours: true, ok: true,
@@ -4200,11 +4211,14 @@ function selftest() {
     open_engineering: [],
   });
   if (!robotsTipGaps.some((g) => g.id === 'robots-tips-missing')) throw new Error('robots-tips-missing gap');
-  const nowTipped = 'Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](https://siren.watch/verify.html) · [Search Trends](https://siren.watch/search-trends.html) (short alias https://siren.watch/trends.html).\n';
+  const nowTipped = 'Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](https://siren.watch/verify.html) · [Search Trends](https://siren.watch/search-trends.html) (short alias https://siren.watch/trends.html) · [classic instrument panel](https://siren.watch/classic.html).\n';
   if (hasNowTips(nowTipped) !== true) throw new Error('hasNowTips true');
   if (hasNowTips('# SIREN: current reading\n') !== false) throw new Error('hasNowTips false');
   if (hasNowTips('Search Trends /free-tools.html /verify.html') !== false) {
     throw new Error('hasNowTips requires /trends.html');
+  }
+  if (hasNowTips('/free-tools.html /verify.html Search Trends short /trends.html') !== false) {
+    throw new Error('hasNowTips requires /classic.html');
   }
   if (hasTrendsShortAlias('short alias https://siren.watch/trends.html') !== true) {
     throw new Error('hasTrendsShortAlias true');

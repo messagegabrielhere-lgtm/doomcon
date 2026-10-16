@@ -68,7 +68,7 @@ test('nowTxt is 3-6 plain lines with level, score, name, UTC time, meaning and U
   assert.match(txt, /Computed 2026-10-09 19:07 UTC/);
   assert.match(txt, /Top mover: Compute & Capital −2\.5 since the previous reading \(19:02 UTC\)/);
   assert.match(txt, /not a probability of harm and not a forecast/);
-  assert.match(txt, /Free tools · verify · Search Trends: https:\/\/siren\.watch\/free-tools\.html · https:\/\/siren\.watch\/verify\.html · https:\/\/siren\.watch\/search-trends\.html · short https:\/\/siren\.watch\/trends\.html/);
+  assert.match(txt, /Free tools · verify · Search Trends · classic: https:\/\/siren\.watch\/free-tools\.html · https:\/\/siren\.watch\/verify\.html · https:\/\/siren\.watch\/search-trends\.html · short https:\/\/siren\.watch\/trends\.html · https:\/\/siren\.watch\/classic\.html/);
   assert.equal(lines[lines.length - 1], 'https://siren.watch/');
   assert.doesNotMatch(txt, /<|undefined|NaN/);
 });
@@ -77,7 +77,8 @@ test('nowTxt omits the mover line when there is no earlier reading, and flags de
   const txt = nowTxt({ state: { ...state, degraded: true }, history: [], url });
   assert.doesNotMatch(txt, /Top mover/);
   assert.match(txt, /degraded/);
-  assert.match(txt, /Free tools · verify · Search Trends:/);
+  assert.match(txt, /Free tools · verify · Search Trends · classic:/);
+  assert.match(txt, /https:\/\/siren\.watch\/classic\.html/);
   assert.ok(txt.trimEnd().split('\n').length >= 3 && txt.trimEnd().split('\n').length <= 6);
 });
 
@@ -92,7 +93,7 @@ test('topStories and mostCovered order strictly from the data', () => {
 test('nowMd carries the reading, pillars, stories, leaders, Takeover Watch and citation', () => {
   const md = nowMd({ state, history, news, leaders, siSignals, url });
   assert.match(md, /^# SIREN: current reading/);
-  assert.match(md, /Also: \[free tools\]\(https:\/\/siren\.watch\/free-tools\.html\) · \[verify a reading\]\(https:\/\/siren\.watch\/verify\.html\) · \[Search Trends\]\(https:\/\/siren\.watch\/search-trends\.html\) \(short alias https:\/\/siren\.watch\/trends\.html\) · \[news sitemap\]\(https:\/\/siren\.watch\/news-sitemap\.xml\)\./);
+  assert.match(md, /Also: \[free tools\]\(https:\/\/siren\.watch\/free-tools\.html\) · \[verify a reading\]\(https:\/\/siren\.watch\/verify\.html\) · \[Search Trends\]\(https:\/\/siren\.watch\/search-trends\.html\) \(short alias https:\/\/siren\.watch\/trends\.html\) · \[news sitemap\]\(https:\/\/siren\.watch\/news-sitemap\.xml\) · \[classic instrument panel\]\(https:\/\/siren\.watch\/classic\.html\)\./);
   assert.match(md, /\| Compute & Capital \| 47\.0 \| 1\/3 \| yes \|/);
   assert.match(md, /\| Markets \| dark \| 0\/4 \| no \|/);
   assert.match(md, /1\. \[Big \\\[model\\\] drop\]\(https:\/\/example\.com\/a_%28b%29\) — The Verge · 2026-10-09 10:00 UTC · score 90\.0/);
@@ -439,12 +440,13 @@ test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {
   assert.match(r, /Verify a reading: https:\/\/siren\.watch\/verify\.html/);
   assert.match(r, /Search Trends \(watched, not scored\): https:\/\/siren\.watch\/search-trends\.html/);
   assert.match(r, /https:\/\/siren\.watch\/api\/search-trends\.json/);
+  assert.match(r, /Classic instrument panel: https:\/\/siren\.watch\/classic\.html/);
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/sitemap\.xml/);
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
   assert.doesNotMatch(r, /Disallow/);
 });
 
-test('sitemap.xml tip comments advertise free-tools, verify, news-sitemap, Search Trends', () => {
+test('sitemap.xml tip comments advertise free-tools, verify, news-sitemap, Search Trends, classic', () => {
   const xml = renderSitemap({
     url,
     state: { generated_at: '2026-10-15T00:00:00Z' },
@@ -455,6 +457,7 @@ test('sitemap.xml tip comments advertise free-tools, verify, news-sitemap, Searc
   assert.match(xml, /<!--[^>]*Verify a reading: https:\/\/siren\.watch\/verify\.html/);
   assert.match(xml, /<!--[^>]*Google News sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
   assert.match(xml, /<!--[^>]*Search Trends: https:\/\/siren\.watch\/search-trends\.html/);
+  assert.match(xml, /<!--[^>]*Classic instrument panel: https:\/\/siren\.watch\/classic\.html/);
   assert.match(xml, /<!--[^>]*llms\.txt/);
   assert.match(xml, /not doom probability/i);
   assert.doesNotMatch(xml, /probability of doom/i);

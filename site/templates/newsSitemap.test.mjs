@@ -33,7 +33,7 @@ test('newsEligible caps and sorts newest first', () => {
   assert.equal(rows[NEWS_SITEMAP_CAP - 1].it.id, `i${NEWS_SITEMAP_CAP - 1}`);
 });
 
-test('news-sitemap tip comments advertise full sitemap, free-tools, verify, Search Trends', () => {
+test('news-sitemap tip comments advertise full sitemap, free-tools, verify, Search Trends, classic', () => {
   const xml = render({
     news: { items: [] },
     url: (p) => `https://siren.watch${p}`,
@@ -43,6 +43,7 @@ test('news-sitemap tip comments advertise full sitemap, free-tools, verify, Sear
   assert.match(xml, /<!--[^>]*Free tools: https:\/\/siren\.watch\/free-tools\.html/);
   assert.match(xml, /<!--[^>]*Verify: https:\/\/siren\.watch\/verify\.html/);
   assert.match(xml, /<!--[^>]*Search Trends[^>]*https:\/\/siren\.watch\/search-trends\.html/);
+  assert.match(xml, /<!--[^>]*Classic instrument panel: https:\/\/siren\.watch\/classic\.html/);
   assert.match(xml, /<!--[^>]*llms\.txt/);
   assert.match(xml, /Not a doom forecast/);
   assert.doesNotMatch(xml, /probability of doom/i);
