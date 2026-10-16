@@ -241,7 +241,8 @@ for hub in watts.html watts/index.html; do
     && ! grep -qF 'Why does SIREN watch IREN stock and AI cloud power in Google Search Trends?' ".pages/$hub" 2>/dev/null; then
     mkdir -p ".pages/$(dirname "$hub")"
     cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
-    echo "restored $hub IREN Trends FAQ (#153)"  fi
+    echo "restored $hub IREN Trends FAQ (#153)"
+  fi
 done
 # FINDABILITY #154 — restore tip /lab/micron.html when #151 DRAM FAQ
 # is missing after mid-merge / orphan Publish on tip < #151.
