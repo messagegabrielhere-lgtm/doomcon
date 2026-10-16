@@ -160,6 +160,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // DeepSeek-R fill 12-cap slots while vs-Nemotron titles drop the V4 Pro
   // product surface (does not match DeepSeek V4.1 Pro).
   'DeepSeek V4 Pro',
+  // FINDABILITY #238 — multi-title Qwen3.8 tape (Max + Omni Flash vs Nemotron);
+  // bare Qwen fills a 12-cap slot while product-class Qwen3.8 titles drop the
+  // version surface (hold standalone Omni Flash bilingual / Max-only needles).
+  'Qwen3.8',
 ]);
 
 /**
