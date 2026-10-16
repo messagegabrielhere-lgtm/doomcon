@@ -941,6 +941,14 @@ export function hasClassicPanel(html) {
 }
 
 /**
+ * FINDABILITY #322 — sitemap.xml must list /classic.html (newsroom orphan
+ * dropped the loc after tip #318). Wipe gap is `classic-sitemap-missing`.
+ */
+export function hasClassicSitemapLoc(xml) {
+  return /<loc>\s*https:\/\/siren\.watch\/classic\.html\s*<\/loc>/i.test(String(xml || ''));
+}
+
+/**
  * /race.html leaderboard lab links must keep #144 labAboutLabel
  * (OpenAI / ChatGPT etc.). Wipe gap is `race-lab-labels-missing`.
  */
@@ -2168,6 +2176,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #322 — sitemap.xml dropped /classic.html after newsroom orphan.
+  if (ours.classic_sitemap === false) {
+    gaps.push({
+      id: 'classic-sitemap-missing',
+      severity: 'medium',
+      text: `sitemap.xml missing /classic.html loc (FINDABILITY #322) — wait for collect/news-fast Publish on tip ≥ #322 or reinject via ensure-classic-sitemap.mjs`,
+    });
+  }
+
   // FINDABILITY #144 — /race.html leaderboard lab links dropped labAboutLabel.
   if (ours.race_lab_about_labels === false) {
     gaps.push({
@@ -2973,10 +2990,17 @@ export function measureSite(site, byUrl) {
   if (sm?.ok) {
     row.sitemap_urls = countLocs(sm.value);
     row.sitemap_is_index = isSitemapIndex(sm.value);
-    if (site.ours) row.sitemap_tips = hasSitemapTips(sm.value);
+    if (site.ours) {
+      row.sitemap_tips = hasSitemapTips(sm.value);
+      // FINDABILITY #322 — classic panel must stay listed in the URL sitemap.
+      row.classic_sitemap = hasClassicSitemapLoc(sm.value);
+    }
   } else if (sm) {
     row.sitemap_error = sm.error?.message || `HTTP ${sm.status}`;
-    if (site.ours) row.sitemap_tips = false;
+    if (site.ours) {
+      row.sitemap_tips = false;
+      row.classic_sitemap = false;
+    }
   }
 
   if (news?.ok) {
@@ -3437,6 +3461,11 @@ export function formatMarkdown(report) {
         `- Classic instrument panel (#318): **${ours.classic_panel ? 'ok' : 'NO'}**`,
       );
     }
+    if (ours && ours.classic_sitemap != null) {
+      lines.push(
+        `- Classic sitemap loc (#322): **${ours.classic_sitemap ? 'ok' : 'NO'}**`,
+      );
+    }
     if (ours && ours.home_activity_level_faq_alias != null) {
       lines.push(
         `- Home AI activity level FAQ alias (#262/#264): **${ours.home_activity_level_faq_alias ? 'ok' : 'NO'}**`,
@@ -3800,7 +3829,7 @@ export function formatMarkdown(report) {
       || ours.home_activity_level_title != null
       || ours.home_activity_h1_head_terms != null
       || ours.home_activity_title_trim != null
-      || ours.classic_panel != null
+      || ours.classic_panel != null || ours.classic_sitemap != null
       || ours.race_lab_about_labels != null
       || ours.lab_head_alias_lags != null
       || ours.conquest_faq_lags != null)) {
@@ -4360,6 +4389,26 @@ function selftest() {
   });
   if (!classicPanelGaps.some((g) => g.id === 'classic-panel-missing')) {
     throw new Error('classic-panel-missing gap');
+  }
+  // FINDABILITY #322 — sitemap must list /classic.html.
+  if (hasClassicSitemapLoc('<url><loc>https://siren.watch/classic.html</loc></url>') !== true) {
+    throw new Error('hasClassicSitemapLoc true');
+  }
+  if (hasClassicSitemapLoc('<url><loc>https://siren.watch/</loc></url>') !== false) {
+    throw new Error('hasClassicSitemapLoc false');
+  }
+  const classicSitemapGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · AI activity level today · SIREN 4',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      classic_sitemap: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!classicSitemapGaps.some((g) => g.id === 'classic-sitemap-missing')) {
+    throw new Error('classic-sitemap-missing gap');
   }
   if (hasRaceLabAboutLabels('<a href="/lab/openai.html">What has SIREN scored about OpenAI / ChatGPT?</a>') !== true) {
     throw new Error('hasRaceLabAboutLabels true');

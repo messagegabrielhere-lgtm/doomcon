@@ -265,6 +265,11 @@ if [ -f "$PRESERVE_FAQ/classic.html" ] \
   cp -a "$PRESERVE_FAQ/classic.html" .pages/classic.html
   echo "restored classic.html classic instrument panel (#318)"
 fi
+# FINDABILITY #322 — newsroom/orphan can drop /classic.html from sitemap.xml
+# when the job checkout predates #318; reinject the loc (template already emits it).
+if [ -f .pages/sitemap.xml ]; then
+  node collector/tools/ensure-classic-sitemap.mjs .pages/sitemap.xml
+fi
 # FINDABILITY #252/#254 — alias body must match restored home.
 # FINDABILITY #262 — /ai-activity-level alias body must match restored home.
 if [ -f .pages/index.html ]; then

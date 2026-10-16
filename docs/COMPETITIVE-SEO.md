@@ -1,9 +1,10 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T19:08Z after **#320** tip `7988c6e` + newsroom merge
-`04ae4fe` + IndexNow **200** (**#321**); `pizzint-news-alive` (14); lead **6,692** /
+**Measured:** 2026-10-16T19:14Z shipping **#322** classic sitemap restore (newsroom
+`04ae4fe` dropped `/classic.html` loc after tip `7186034`); after **#321** PS5 tip
+CDN clear; `pizzint-news-alive` / `google-news-open` flaps; lead **6,692** /
 news **200**; PS5 title↔keywords lag **0** on 3/3; classic panel tip **#318** still
-**ok**; home title score-drop tip **#316** still **ok**; GPT-6 Astra space-form tip
+**ok** (HTML); home title score-drop tip **#316** still **ok**; GPT-6 Astra space-form tip
 **#310** still **ok**; home H1 dual head-term `.v2-sr` tip **#308** still **ok**
 (index + `/ai-activity-index.html` + `/ai-activity-level.html`); NYC Council **#306** tip still **ok**; Dell **#304** tip still **ok**; Elorian **#302** tip still **ok**; Vercel **#298** tip still **ok**; **#296** dual title tip still **ok** (trimmed #312); **#294** Mac Studio singular **ok**;
 **#292** Mac Studios tip **ok**; **#290** Qwen3.8-27B tip **ok**; **#288** CRWV / CoreWeave tip **ok**; **#286** Beam tip **ok**; **#284** home FAQ today **ok**;
