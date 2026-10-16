@@ -8,6 +8,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 
 import * as baseline from './fixtures/engine-baseline.mjs';
 import { runEngine, weightShares, healthFor, hourlyCronMinute, mergeReference, addendaHash, levelFor, readSchedule } from '../engine.mjs';
@@ -23,6 +24,16 @@ const newsFastSrc = () =>
   readFileSync(join(ROOT, '.github', 'workflows', 'news-fast.yml'), 'utf8') +
   '\n' +
   readFileSync(join(ROOT, '.github', 'scripts', 'news-fast-loop.sh'), 'utf8');
+
+// FINDABILITY #192/#197 — collect Publish bodies live in
+// collect-publish-{news,full}.sh (same 21k expression-cap extract). Restore
+// assertions that used to read only collect.yml must see both scripts.
+const collectPublishSrc = () =>
+  readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8') +
+  '\n' +
+  readFileSync(join(ROOT, '.github', 'scripts', 'collect-publish-news.sh'), 'utf8') +
+  '\n' +
+  readFileSync(join(ROOT, '.github', 'scripts', 'collect-publish-full.sh'), 'utf8');
 
 function realInputs() {
   const rawDir = join(ROOT, 'data', 'raw');
@@ -392,6 +403,27 @@ test('news-fast Loop body lives in external script under 21k YAML cap (FINDABILI
   }
 });
 
+test('collect Publish scripts parse under bash -n (FINDABILITY #196/#197)', () => {
+  // 2026-10-16T00:02Z schedule newsroom Publish failed: collect-publish-news.sh
+  // line 245 `syntax error near unexpected token done` after #194 glued `fi`
+  // onto an echo. Keep extracted Publish scripts syntactically valid.
+  const scripts = [
+    'collect-publish-news.sh',
+    'collect-publish-full.sh',
+    'news-fast-loop.sh',
+  ];
+  for (const name of scripts) {
+    const path = join(ROOT, '.github', 'scripts', name);
+    assert.doesNotThrow(
+      () => execFileSync('bash', ['-n', path], { encoding: 'utf8' }),
+      `${name} failed bash -n`,
+    );
+  }
+  const collectYml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  assert.match(collectYml, /run: bash \.github\/scripts\/collect-publish-news\.sh/);
+  assert.match(collectYml, /run: bash \.github\/scripts\/collect-publish-full\.sh/);
+});
+
 test('vs-alias-guard re-arms news-fast when the minute-loop chain is dark (FINDABILITY #189)', () => {
   // Collect schedules went quiet for hours after 2026-10-15T19:10Z while
   // vs-alias-guard kept firing every ~10m. Guard must wake news-fast.yml when
@@ -439,7 +471,8 @@ test('news-fast restores /trends + Outrank dir indexes (FINDABILITY #124)', () =
 test('collect.yml Publish restores vs short aliases (FINDABILITY #115)', () => {
   // collect orphan Publish tars public/ the same way news-fast orphan did —
   // news-only rebuilds omit /vs/doom.html etc. and would wipe tip.
-  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  // #192 moved Publish bodies into collect-publish-{news,full}.sh.
+  const yml = collectPublishSrc();
   assert.match(yml, /FINDABILITY #115/);
   assert.match(yml, /vs\/skynet\.html/);
   assert.match(yml, /vs\/doom\.html/);
@@ -449,7 +482,7 @@ test('collect.yml Publish restores vs short aliases (FINDABILITY #115)', () => {
 });
 
 test('collect.yml Publish restores /trends + Outrank dir indexes (FINDABILITY #124)', () => {
-  const yml = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const yml = collectPublishSrc();
   assert.match(yml, /FINDABILITY #124/);
   const trends = yml.match(/cp -a \.pages\/search-trends\.html \.pages\/trends\.html/g) || [];
   assert.ok(trends.length >= 2, `expected trends restore on newsroom + full Publish, got ${trends.length}`);
@@ -475,7 +508,7 @@ test('build emits /pdoom.html typed-guess alias (FINDABILITY #129)', () => {
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #129/);
   assert.match(newsFast, /pdoom\.html/);
-  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const collect = collectPublishSrc();
   const copies = collect.match(/cp -a \.pages\/p-doom\.html \.pages\/pdoom\.html/g) || [];
   assert.ok(copies.length >= 2, `expected pdoom restore on both Publish paths, got ${copies.length}`);
 });
@@ -483,7 +516,8 @@ test('build emits /pdoom.html typed-guess alias (FINDABILITY #129)', () => {
 test('Publish restores tip agent maps when head-term needles missing (FINDABILITY #136)', () => {
   // Collect run 38730984750 (pre-#134 main) wiped tip agents.md/llms.txt
   // head-term shorts; #136 preserves tip maps across orphan/overlay Publish.
-  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  // #192 moved Publish bodies into collect-publish-{news,full}.sh.
+  const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #136/);
   // Echo grew as later FAQ tips landed (#156…#185); keep the #136/#139 prefix.
   assert.match(collect, /restored \$map agent map \(#136\/#139/);
@@ -510,7 +544,7 @@ test('Publish restores tip agent maps when head-term needles missing (FINDABILIT
 test('Publish restores tip lab/companies hub labels (FINDABILITY #141)', () => {
   // Pre-#140 collect/full orphan wiped hub rows back to bare lab names;
   // #141 stashes + restores /lab/ + companies when OpenAI / ChatGPT is missing.
-  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #141/);
   assert.match(collect, /restored \$hub labAboutLabel \(#141\)/);
   assert.match(collect, /lab\/index\.html/);
@@ -527,7 +561,7 @@ test('Publish restores tip lab/companies hub labels (FINDABILITY #141)', () => {
 test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', () => {
   // news-fast overlays index.html every tick; mid-merge tip < #142 would wipe
   // Organization knowsAbout labAboutLabel until #143 preserve lands.
-  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #143/);
   assert.match(collect, /restored \$hub knowsAbout labAboutLabel \(#143\)/);
   assert.match(collect, /index\.html classic\.html/);
@@ -540,7 +574,7 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
 test('Publish restores tip race labAboutLabel (FINDABILITY #145)', () => {
   // Orphan newsroom Publish force-pushed tip race.html without #144 labels;
   // #145 stashes + restores race.html when OpenAI / ChatGPT is missing.
-  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #145/);
   assert.match(collect, /restored \$hub race labAboutLabel \(#145\)/);
   assert.match(collect, /race\.html/);
@@ -567,7 +601,7 @@ test('doomsday-clock / ai-doom / doom-index aliases (FINDABILITY #133)', () => {
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #133/);
   assert.match(newsFast, /doomsday-clock\.html/);
-  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const collect = collectPublishSrc();
   const clocks = collect.match(/cp -a \.pages\/ai-doomsday-clock\.html \.pages\/doomsday-clock\.html/g) || [];
   assert.ok(clocks.length >= 2, `expected doomsday-clock restore on both Publish paths, got ${clocks.length}`);
   const indexnow = readFileSync(join(ROOT, 'collector', 'indexnow.mjs'), 'utf8');
@@ -588,7 +622,7 @@ test('root rival typed-guess aliases restored (FINDABILITY #131)', () => {
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #131/);
   assert.match(newsFast, /doombench\.html/);
-  const collect = readFileSync(join(ROOT, '.github', 'workflows', 'collect.yml'), 'utf8');
+  const collect = collectPublishSrc();
   const copies = collect.match(/cp -a \.pages\/vs\/doombench\.html \.pages\/doombench\.html/g) || [];
   assert.ok(copies.length >= 2, `expected doombench root restore on both Publish paths, got ${copies.length}`);
   const indexnow = readFileSync(join(ROOT, 'collector', 'indexnow.mjs'), 'utf8');
