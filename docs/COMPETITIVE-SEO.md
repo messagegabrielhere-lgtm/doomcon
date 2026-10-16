@@ -1,12 +1,13 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T11:13Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,692** sitemap URLs / news **200** (pizzint news-sitemap **14** —
-`pizzint-news-alive`; keep keyword-rich lane); **#267** Terafab tip `8da076c`
-CDN clear (title↔keywords lag **0**); **#264** tip FAQ alias prose still
-**ok**; **#252** alias **200**; **#258** Flux 3 lag **0**; Cohere /
-ModelSphere lag **0**; Trends tip (`ai_related_total` **1** — Arabic weather /
-ML forecast tape only, hold doorway); IndexNow ALWAYS **200**; News keywords
+**Measured:** 2026-10-16T11:23Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,689** sitemap URLs / news **200** (pizzint news-sitemap **14** —
+`pizzint-news-alive`; keep keyword-rich lane); **#267** Terafab tip restore
+`ac1fa22` after collect wipe (lag **0**); **#269** Cohere needle armed (lag
+**0**); **#264** tip FAQ alias prose still **ok**; **#252** alias **200**;
+**#258** Flux 3 / ModelSphere lag **0**; Trends tip (`ai_related_total` **1**
+— Arabic weather / ML forecast tape only, hold doorway); IndexNow ALWAYS
+**200**; News keywords
 **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
 **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
