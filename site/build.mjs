@@ -1448,11 +1448,13 @@ async function main() {
     try { ctx.nations = nationsRace({ race: ctx.race, power: pwN, world: ctx.world }); } catch { ctx.nations = null; }
   }
   // The homepage is the PizzINT-style front page (templates/homeV2.mjs). It
-  // borrows the classic page's <head> so the title, card, canonical and
-  // structured data stay exactly as they were. The classic page still builds,
-  // in full, at /classic.html, and the new front page links to it.
-  const classicHtml = indexPage.render(ctx);
-  const classicHead = (classicHtml.match(/<head>[\s\S]*?<\/head>/) || ['<head><meta charset="utf-8"></head>'])[0];
+  // borrows the instrument-home <head> (dual head-term title / FAQ / cards)
+  // from indexPage view=home. The classic panel is a separate view with its
+  // own canonical and question title — FINDABILITY #318: never write
+  // view=home into classic.html (that collapsed classic onto `/`).
+  const homeShellHtml = indexPage.render(ctx);
+  const classicHead = (homeShellHtml.match(/<head>[\s\S]*?<\/head>/) || ['<head><meta charset="utf-8"></head>'])[0];
+  const classicHtml = indexPage.render(ctx, { view: 'classic' });
   // The AI prediction markets that moved most this hour, for the homepage's
   // markets strip: read from the newest raw collector file (polymarket meta).
   try {

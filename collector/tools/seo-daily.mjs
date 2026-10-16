@@ -94,6 +94,8 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   // FINDABILITY #262 — /ai-activity-level typed guess (canonical on /).
   '/ai-activity-level.html',
   '/ai-activity-level/',
+  // FINDABILITY #318 — full instrument panel (own canonical; not a home alias).
+  '/classic.html',
 ]);
 
 /** Our agent / findability surfaces that must keep answering 200. */
@@ -913,6 +915,26 @@ export function hasHomeTitleTrimmed(html) {
   if (HOME_TITLE_LEVEL_NAME_RE.test(title)) return false;
   // FINDABILITY #316 — score in <title> pushes past Google’s ~60-char rewrite.
   if (/\b\d+\.\d+\b/.test(title)) return false;
+  return true;
+}
+
+/**
+ * FINDABILITY #318 — /classic.html must ship the instrument-panel title and
+ * its own canonical (build used to write view=home into classic.html).
+ */
+export const CLASSIC_PANEL_TITLE_NEEDLE = 'Where is the full SIREN instrument panel?';
+export const CLASSIC_PANEL_CANONICAL_NEEDLE =
+  'rel="canonical" href="https://siren.watch/classic.html"';
+
+/**
+ * Classic panel page keeps question title + own canonical.
+ * Wipe gap is `classic-panel-missing`.
+ */
+export function hasClassicPanel(html) {
+  const body = String(html || '');
+  const title = extractTitle(body);
+  if (!String(title || '').includes(CLASSIC_PANEL_TITLE_NEEDLE)) return false;
+  if (!body.includes(CLASSIC_PANEL_CANONICAL_NEEDLE)) return false;
   return true;
 }
 
@@ -2135,6 +2157,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #318 — /classic.html collapsed onto home title/canonical.
+  if (ours.classic_panel === false) {
+    gaps.push({
+      id: 'classic-panel-missing',
+      severity: 'medium',
+      text: `/classic.html missing instrument-panel title or own canonical (FINDABILITY #318) — wait for collect Publish on tip ≥ #318 or restore tip classic.html`,
+    });
+  }
+
   // FINDABILITY #144 — /race.html leaderboard lab links dropped labAboutLabel.
   if (ours.race_lab_about_labels === false) {
     gaps.push({
@@ -3013,6 +3044,9 @@ export function measureSite(site, byUrl) {
     row.llms_lab_about_labels = llms?.ok ? hasLabAboutLabels(llmsBody) : false;
     // FINDABILITY #141 — /lab/ + companies hubs must keep #140 labAboutLabel.
     row.lab_hub_label_lags = labHubLabelLags(byUrl, site.origin);
+    // FINDABILITY #318 — /classic.html must keep panel title + own canonical.
+    const classicHtml = byUrl.get(`${base}/classic.html`);
+    row.classic_panel = classicHtml?.ok ? hasClassicPanel(classicHtml.value) : false;
     // FINDABILITY #144 — /race.html leaderboard lab links must keep labAboutLabel.
     const raceHtml = byUrl.get(`${base}/race.html`);
     row.race_lab_about_labels = raceHtml?.ok ? hasRaceLabAboutLabels(raceHtml.value) : false;
@@ -3396,6 +3430,11 @@ export function formatMarkdown(report) {
         `- Home AI activity title trim (#312/#314/#316): **${ours.home_activity_title_trim ? 'ok' : 'NO'}**`,
       );
     }
+    if (ours && ours.classic_panel != null) {
+      lines.push(
+        `- Classic instrument panel (#318): **${ours.classic_panel ? 'ok' : 'NO'}**`,
+      );
+    }
     if (ours && ours.home_activity_level_faq_alias != null) {
       lines.push(
         `- Home AI activity level FAQ alias (#262/#264): **${ours.home_activity_level_faq_alias ? 'ok' : 'NO'}**`,
@@ -3759,6 +3798,7 @@ export function formatMarkdown(report) {
       || ours.home_activity_level_title != null
       || ours.home_activity_h1_head_terms != null
       || ours.home_activity_title_trim != null
+      || ours.classic_panel != null
       || ours.race_lab_about_labels != null
       || ours.lab_head_alias_lags != null
       || ours.conquest_faq_lags != null)) {
@@ -3945,6 +3985,9 @@ function selftest() {
   }
   for (const p of ['/ai-activity-level.html', '/ai-activity-level/']) {
     if (!CORE_LIVE_SURFACES.includes(p)) throw new Error(`CORE_LIVE_SURFACES missing #262 ${p}`);
+  }
+  if (!CORE_LIVE_SURFACES.includes('/classic.html')) {
+    throw new Error('CORE_LIVE_SURFACES missing #318 /classic.html');
   }
   if (hasActivityIndexAlias('short /ai-activity-index.html') !== true) {
     throw new Error('hasActivityIndexAlias true');
@@ -4290,6 +4333,31 @@ function selftest() {
   });
   if (!homeTitleTrimGaps.some((g) => g.id === 'home-activity-title-trim-missing')) {
     throw new Error('home-activity-title-trim-missing gap');
+  }
+  // FINDABILITY #318 — classic panel title + own canonical.
+  if (hasClassicPanel(
+    `<title>${CLASSIC_PANEL_TITLE_NEEDLE} · SIREN</title><link ${CLASSIC_PANEL_CANONICAL_NEEDLE} />`,
+  ) !== true) {
+    throw new Error('hasClassicPanel true');
+  }
+  if (hasClassicPanel(
+    '<title>AI activity index today · AI activity level today · SIREN 4</title>'
+    + '<link rel="canonical" href="https://siren.watch/">',
+  ) !== false) {
+    throw new Error('hasClassicPanel false when home title/canonical');
+  }
+  const classicPanelGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · AI activity level today · SIREN 4',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      classic_panel: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!classicPanelGaps.some((g) => g.id === 'classic-panel-missing')) {
+    throw new Error('classic-panel-missing gap');
   }
   if (hasRaceLabAboutLabels('<a href="/lab/openai.html">What has SIREN scored about OpenAI / ChatGPT?</a>') !== true) {
     throw new Error('hasRaceLabAboutLabels true');

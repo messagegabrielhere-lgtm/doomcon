@@ -230,7 +230,7 @@ for hub in lab/index.html companies.html companies/index.html; do
     echo "restored $hub labAboutLabel (#141)"
   fi
 done
-# FINDABILITY #143 — restore tip home/classic when #142 knowsAbout
+# FINDABILITY #143 — restore tip home when #142 knowsAbout
 # labAboutLabel is missing after mid-merge collect on tip < #142.
 # FINDABILITY #254 — also restore when exact head-term FAQ is missing.
 # FINDABILITY #284 — also restore when title-match “AI activity index today” FAQ is missing.
@@ -241,7 +241,8 @@ done
 # re-emitted level_name in <title> only (tip must be clean; body scale may say ROUTINE).
 # FINDABILITY #316 — also restore when tip dropped decimal score from <title>
 # but Publish re-emitted it (tip must be score-free).
-for hub in index.html classic.html; do
+# FINDABILITY #318 — home needles apply to index.html only (classic is the panel).
+for hub in index.html; do
   if [ -f "$PRESERVE_FAQ/$hub" ] \
     && { ! grep -qF 'OpenAI / ChatGPT' ".pages/$hub" 2>/dev/null \
       || ! grep -qF 'What is an AI activity index?' ".pages/$hub" 2>/dev/null \
@@ -257,6 +258,13 @@ for hub in index.html classic.html; do
     echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296/#308/#312/#314/#316)"
   fi
 done
+# FINDABILITY #318 — restore tip /classic.html when panel title or canonical missing.
+if [ -f "$PRESERVE_FAQ/classic.html" ] \
+  && { ! grep -qF 'Where is the full SIREN instrument panel?' ".pages/classic.html" 2>/dev/null \
+    || ! grep -qF 'rel="canonical" href="https://siren.watch/classic.html"' ".pages/classic.html" 2>/dev/null; }; then
+  cp -a "$PRESERVE_FAQ/classic.html" .pages/classic.html
+  echo "restored classic.html classic instrument panel (#318)"
+fi
 # FINDABILITY #252/#254 — alias body must match restored home.
 # FINDABILITY #262 — /ai-activity-level alias body must match restored home.
 if [ -f .pages/index.html ]; then
