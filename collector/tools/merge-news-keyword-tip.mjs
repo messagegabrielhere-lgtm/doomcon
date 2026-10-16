@@ -381,6 +381,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Replit')) {
     throw new Error('probe labs must include Replit');
   }
+  // FINDABILITY #342 — Siri product needle stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Siri')) {
+    throw new Error('probe labs must include Siri');
+  }
   // FINDABILITY #310 — GPT-6 Astra space-form title heal.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
     || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {

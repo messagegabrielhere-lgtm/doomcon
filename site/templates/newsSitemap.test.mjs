@@ -2089,6 +2089,49 @@ test('news sitemap keywords include Replit from multi-title Anthropic tape (FIND
   assert.doesNotMatch(c, /\bReplit\b/);
 });
 
+test('news sitemap keywords include Siri from multi-title vs Gemini tape (FINDABILITY #342)', () => {
+  // Multi-title Siri tape: Gemini / Google / Argon / Apple Intelligence fill
+  // 12-cap while product-class Siri titles drop the assistant surface.
+  const a = keywordsFor({
+    title: 'I Tested Siri and Gemini\'s Inbox-Digging Feature for a Week. The Winner Surprised Me.',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Gemini', 'Google'],
+  });
+  assert.match(a, /\bSiri\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Siri') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Siri vs. Gemini: Who Wins the Mobile AI Battle?',
+    summary: 'Assistant comparison without inventing unrelated tags.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Gemini', 'Google'],
+  });
+  assert.match(b, /\bSiri\b/);
+  const c = keywordsFor({
+    title: 'How Does Apple\'s Siri Compete in an Agentic World?',
+    summary: 'Apple Intelligence alias path still keeps the Siri surface.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Google', 'Apple'],
+  });
+  assert.match(c, /\bSiri\b/);
+  const d = keywordsFor({
+    title: 'Mobile assistants compete on inbox digging without naming the products',
+    summary: 'Generic assistant noise must not invent an Apple voice-assistant product needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Gemini', 'Google'],
+  });
+  assert.doesNotMatch(d, /\bSiri\b/);
+});
+
 test('news sitemap keywords include PS5 from multi-title local-AI console tape (FINDABILITY #320)', () => {
   // Multi-title PS5 tape: Llama / Sony / GGUF / topic meta fill 12-cap slots
   // while product-class local-AI console titles drop the PS5 surface.

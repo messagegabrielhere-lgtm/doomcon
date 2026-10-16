@@ -290,6 +290,13 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // ChatGPT / Claude fill the 12-cap and drop the company-class Replit surface
   // (parallel to Accenture #271 / Vercel #298 / Airship #241).
   'Replit',
+  // FINDABILITY #342 — multi-title Siri vs Gemini / Apple Intelligence tape
+  // while pizzint-news-alive (3 titles: I Tested Siri and Gemini… + Siri vs.
+  // Gemini… + How Does Apple’s Siri Compete…); Gemini / Google / Argon /
+  // Apple Intelligence fill the 12-cap and drop the product-class Siri surface
+  // (#172 Apple→Apple Intelligence alias alone leaves bare Siri missing —
+  // parallel to Muse Spark #222 / Copilot product needles).
+  'Siri',
 ]);
 
 /**
