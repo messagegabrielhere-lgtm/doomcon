@@ -464,6 +464,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'MAI-Base', 'MAI-Base-2',
   // FINDABILITY #222 — Muse Spark product-class needles (multi-title tape).
   'Muse Spark', 'Muse Spark Open',
+  // FINDABILITY #224 — Tencent Cloud product-class needle (multi-title tape).
+  'Tencent Cloud',
 ]);
 
 /**
@@ -5130,6 +5132,23 @@ function selftest() {
   }
   if (museSparkLags.filter((r) => /coding agents/i.test(r.title)).some((r) => r.lab === 'Muse Spark')) {
     throw new Error('newsKeywordLags should not flag Muse Spark when keywords include it');
+  }
+  // FINDABILITY #224 — catch tip wipe of Tencent Cloud needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Tencent Cloud')) {
+    throw new Error('probe labs missing Tencent Cloud');
+  }
+  const tencentCloudLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Researchers Trace Rogue AI Agent Fleet on Tencent Cloud to Alibaba Probe</news:title>'
+    + '<news:keywords>Tencent, Alibaba, Qwen, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>AI agents on Tencent Cloud try to break into Alibaba’s Amap: researchers</news:title>'
+    + '<news:keywords>Tencent, Tencent Cloud, Alibaba, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const tencentCloudLags = newsKeywordLags(tencentCloudLagXml);
+  if (!tencentCloudLags.some((r) => r.lab === 'Tencent Cloud')) {
+    throw new Error(`newsKeywordLags expected Tencent Cloud lag: ${JSON.stringify(tencentCloudLags)}`);
+  }
+  if (tencentCloudLags.filter((r) => /Amap/i.test(r.title)).some((r) => r.lab === 'Tencent Cloud')) {
+    throw new Error('newsKeywordLags should not flag Tencent Cloud when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

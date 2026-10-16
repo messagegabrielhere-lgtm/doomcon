@@ -136,6 +136,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // #172 Muse alias already fires beside Meta, but 12-cap leaves product-class
   // titles (Muse Spark Open vs DeepSeek…) without Muse Spark in keywords.
   'Muse Spark', 'Muse Spark Open',
+  // FINDABILITY #224 — multi-title Tencent Cloud rogue-agent tape; bare
+  // Tencent already fills a 12-cap slot (parallel to Alibaba Cloud) while
+  // product-class "Tencent Cloud" titles drop the cloud surface.
+  'Tencent Cloud',
 ]);
 
 /**

@@ -233,6 +233,10 @@ export function selftest() {
     || !NEWS_KEYWORD_PROBE_LABS.includes('Muse Spark Open')) {
     throw new Error('probe labs must include Muse Spark + Muse Spark Open');
   }
+  // FINDABILITY #224 — Tencent Cloud product-class needle stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Tencent Cloud')) {
+    throw new Error('probe labs must include Tencent Cloud');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }
