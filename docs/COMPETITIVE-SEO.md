@@ -9,10 +9,10 @@ doorway); News keywords **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
 GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 **#222** Muse Spark / Muse Spark Open + **#224** Tencent Cloud + **#226** CERT-In
-+ **#228** DeepSeek V4.1 Flash survive collect/newsroom Publish tip (`90d6561`;
-title↔keywords lag **0**; CERT / Tencent / Muse + MAI tips intact); Publish tip
-keyword merge **#210** + **#218** Base-beside-MAI hygiene; `seo-daily` probes
-**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**
++ **#228** DeepSeek V4.1 Flash + **#231** Nemotron 3.5 Super VL (multi-title
+Super VL tape; bare Nemotron left variant missing under 12-cap); tip merge
+**#210** + **#218** Base-beside-MAI hygiene; `seo-daily` probes
+**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**
 catch tip wipe / CDN lag;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
