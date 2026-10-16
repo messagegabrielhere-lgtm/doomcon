@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T16:26Z after **#298** tip overlay `2d76065` + IndexNow **200**: CDN clear (Vercel title↔keywords lag **0** on 2/2); **#296**/`a00cfbc` dual title tip still **ok**; lead **6,684** / news **200** (`pizzint-news-alive`); **#294** Mac Studio singular **ok**;
+**Measured:** 2026-10-16T16:36Z shipping **#300** title-heal for probe `news:keywords` (survives newsroom tip races after **#298** Vercel wipe/`8d10b07` restore); **#296** dual title tip still **ok**; lead **6,684** / news **200**; **#294** Mac Studio singular **ok**;
 **#292** Mac Studios tip **ok**; **#290** Qwen3.8-27B tip **ok**; **#288** CRWV / CoreWeave tip **ok**; **#286** Beam tip **ok**; **#284** home FAQ today **ok**;
 **#279** RTX Spark **ok**; **#264** tip FAQ alias prose still **ok**; **#252** alias **200**; hold doorway (no new multi-title product gap);
 IndexNow ALWAYS **200**; News keywords
