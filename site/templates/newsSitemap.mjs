@@ -7,6 +7,9 @@ import { esc } from './_html.mjs';
 import { slugFor } from './itemPage.mjs';
 import { TOPIC_DEFS, itemMatchesTag } from './tagPages.mjs';
 import * as brand from '../brand.mjs';
+import { labNeedleRe } from '../../collector/tools/lab-needle.mjs';
+
+export { labNeedleRe };
 
 /** Hours a URL stays eligible for the news sitemap. Google's documented
  *  window is roughly two days; keep ours tight so the file stays a freshness
@@ -261,19 +264,6 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // the agency-class NYC Council surface (parallel to G7 #273 / CERT-In #226).
   'NYC Council',
 ]);
-
-/**
- * Boundary regex for a NEWS_KEYWORD_LABS needle.
- * FINDABILITY #216 — Coinbase "Base" must not match the Base token inside
- * MAI-Base / MAI-Base-2 (hyphen is otherwise a valid non-alnum boundary).
- */
-export function labNeedleRe(lab) {
-  const esc = String(lab).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  if (lab === 'Base') {
-    return new RegExp(`(?:^|[^A-Za-z0-9-])${esc}(?:[^A-Za-z0-9]|$)`, 'i');
-  }
-  return new RegExp(`(?:^|[^A-Za-z0-9])${esc}(?:[^A-Za-z0-9]|$)`, 'i');
-}
 
 /**
  * labAboutLabel product/ticker aliases for news:keywords (FINDABILITY #146/#147).

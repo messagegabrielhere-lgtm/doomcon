@@ -898,6 +898,22 @@ test('news sitemap keywords include GPT-6 Astra / Luna / Sol surfaces', () => {
   assert.match(kw, /GPT-6 Astra|GPT-6\.1 Astra|GPT-6 Luna|GPT-6 Sol/);
 });
 
+test('news sitemap keywords match GPT 6 Astra space form (FINDABILITY #310)', () => {
+  // Live HN titles often write "GPT 6 Astra" while NEWS_KEYWORD_LABS uses hyphens.
+  assert.ok(labNeedleRe('GPT-6 Astra').test('It took an octillion calculations to train GPT 6 Astra'));
+  assert.ok(labNeedleRe('GPT-6.1 Astra').test('OpenAI cancels GPT 6.1 Astra release'));
+  assert.ok(!labNeedleRe('GPT-6 Astra').test('GPT-6 Luna launch'));
+  const kw = keywordsFor({
+    title: 'It took an octillion calculations to train GPT 6 Astra',
+    summary: '',
+    pillar: 'attention',
+    kind: 'forum',
+    source: 'hn-fresh-ai',
+    entities: [],
+  });
+  assert.match(kw, /GPT-6 Astra/);
+});
+
 test('news sitemap keywords include Gemini 4 Argon / Carbon surfaces', () => {
   const kw = keywordsFor({
     title: 'Google announces Gemini 4 Argon AI model',
@@ -1048,9 +1064,16 @@ test('news sitemap keywords include MAI-Base from Microsoft MoE tape (FINDABILIT
   assert.match(a, /\bMAI-Base-2\b/);
   assert.doesNotMatch(a, /(^|,\s*)Base(,|$)/);
   const parts = a.split(', ');
-  // Model needles must outrank pillar meta under the 12-cap.
-  assert.ok(parts.indexOf('MAI-Base') < parts.indexOf('capability')
-    || parts.indexOf('MAI-Base-2') < parts.indexOf('capability'), a);
+  // Model needles must outrank pillar meta under the 12-cap when meta survives.
+  // FINDABILITY #310 — hyphen flex also lifts DeepSeek-V4-Pro from the same
+  // title, which can fill the cap before pillar meta — still keep MAI ahead of
+  // any surviving capability bit.
+  if (parts.includes('capability')) {
+    assert.ok(parts.indexOf('MAI-Base') < parts.indexOf('capability')
+      || parts.indexOf('MAI-Base-2') < parts.indexOf('capability'), a);
+  } else {
+    assert.ok(parts.includes('MAI-Base') || parts.includes('MAI-Base-2'), a);
+  }
   // Coinbase Base still matches as a standalone chain needle (#70).
   const b = keywordsFor({
     title: 'Chainalysis Finds AI Agents Made 138 Million x402 Payments on Coinbase Base',
