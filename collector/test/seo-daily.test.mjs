@@ -35,6 +35,8 @@ import {
   LAB_HUB_LABEL_PROBES,
   labHubLabelLags,
   hasHomeLabAboutLabels,
+  hasHomeActivityIndexFaq,
+  HOME_ACTIVITY_INDEX_FAQ_NEEDLE,
   hasRaceLabAboutLabels,
   NEWS_LAB_ALIAS_PROBES,
   newsLabAliasKeywordLags,
@@ -611,6 +613,23 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'home-knowsabout-labels-missing'));
+  });
+
+  it('detects missing home AI activity index FAQ (FINDABILITY #254)', () => {
+    assert.equal(HOME_ACTIVITY_INDEX_FAQ_NEEDLE, 'What is an AI activity index?');
+    assert.equal(hasHomeActivityIndexFaq('What is an AI activity index?'), true);
+    assert.equal(hasHomeActivityIndexFaq('What is the AI activity level today?'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        home_activity_index_faq: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'home-activity-index-faq-missing'));
   });
 
   it('detects missing race board labAboutLabel (FINDABILITY #144)', () => {

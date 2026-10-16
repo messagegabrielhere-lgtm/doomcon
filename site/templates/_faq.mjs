@@ -15,6 +15,9 @@ export function items(ctx) {
     ? `Right now ${brand.NAME} reads level ${state.level} (${state.level_name}), ${Number(state.score).toFixed(1)} of 100, as of the latest hourly reading.`
     : `${brand.NAME} publishes a fresh reading every hour.`;
   return [
+    // FINDABILITY #254 — exact unbranded head-term FAQ (parallel to #126/#127).
+    ['What is an AI activity index?',
+      `An AI activity index is a live score of how much is happening in AI — releases, compute, headlines, rule-making and market prices — not how dangerous it is, and not a forecast. ${brand.NAME} is one: an hourly reading from 0 to 100 across five pillars (${pillars}), with open receipts. ${today} The homepage carries the live dial; /ai-activity-index.html is a short alias for the same page, and /api/state.json is the machine-readable figure.`],
     ['What is the AI activity level today?',
       `${today} The AI Siren Index measures how loud AI activity is across five pillars (${pillars}), not how dangerous it is. Open the homepage for the live dial, or /api/state.json for the machine-readable figure.`],
     ['What is SIREN, and what does the name stand for?',
@@ -295,6 +298,8 @@ export function faqPathLabels() {
     ['/item/archive.html', `Which older AI stories has ${n} kept in the archive?`],
     ['/vs/pizzint.html', `${n} vs PizzINT: which should you use?`],
     ['/ai-doomsday-clock.html', 'Is there an AI doomsday clock?'],
+    // FINDABILITY #254 — short alias for home (canonical stays on /).
+    ['/ai-activity-index.html', 'What is an AI activity index?'],
     ['/alternatives.html', 'What are AI doom index alternatives?'],
     ['/methodology.html', `How the ${n} AI activity index is computed · methodology`],
     ['/companies.html', `Which AI companies has ${n} scored stories about?`],

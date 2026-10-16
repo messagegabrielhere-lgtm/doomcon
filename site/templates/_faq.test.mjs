@@ -11,12 +11,14 @@ const ctx = {
 describe('homepage FAQ', () => {
   it('keeps JSON-LD answers as plain text and linkifies HTML answers', () => {
     const qa = items(ctx);
+    assert.equal(qa[0][0], 'What is an AI activity index?');
     assert.ok(qa.some(([q]) => /leader and topic/i.test(q)));
     const alt = qa.find(([q]) => /DoomBench|Skynet/i.test(q));
     assert.ok(alt[1].includes('/compare.html'));
     const ld = jsonLd(ctx);
     assert.equal(ld['@type'], 'FAQPage');
     assert.ok(ld.mainEntity.every((q) => !String(q.acceptedAnswer.text).includes('<a ')));
+    assert.equal(ld.mainEntity[0].name, 'What is an AI activity index?');
 
     const linked = linkifyAnswer(ctx, 'See /compare.html and /people/ next.');
     assert.match(linked, /href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
@@ -25,6 +27,21 @@ describe('homepage FAQ', () => {
     assert.doesNotMatch(linked, /href="\/people\/">\/people\/<\/a>/);
     assert.doesNotMatch(linked, /&lt;a /);
     assert.ok(faqPathLabels().every(([p, l]) => p.startsWith('/') && /\?|methodology/.test(l)));
+    assert.ok(faqPathLabels().some(([p, l]) => p === '/ai-activity-index.html' && l === 'What is an AI activity index?'));
+  });
+
+  it('answers the exact unbranded head term (FINDABILITY #254)', () => {
+    const qa = items(ctx);
+    const head = qa.find(([q]) => q === 'What is an AI activity index?');
+    assert.ok(head);
+    assert.match(head[1], /not how dangerous it is/);
+    assert.match(head[1], /not a forecast/);
+    assert.match(head[1], /\/ai-activity-index\.html/);
+    assert.doesNotMatch(head[1], /probability of doom/i);
+    const html = render(ctx);
+    assert.match(html, /What is an AI activity index\?/);
+    assert.match(html, /href="\/ai-activity-index\.html">What is an AI activity index\?<\/a>/);
+    assert.doesNotMatch(html, /probability of doom/i);
   });
 
   it('renders people and tags in the FAQ footer and body links', () => {

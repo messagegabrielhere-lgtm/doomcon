@@ -776,6 +776,17 @@ export function hasHomeLabAboutLabels(html, needle = LAB_ABOUT_AGENT_NEEDLE) {
   return String(html || '').includes(needle);
 }
 
+/** FINDABILITY #254 — exact unbranded head-term FAQ on home (+ alias body). */
+export const HOME_ACTIVITY_INDEX_FAQ_NEEDLE = 'What is an AI activity index?';
+
+/**
+ * Home (and /ai-activity-index alias) must keep the #254 head-term FAQ.
+ * Wipe gap is `home-activity-index-faq-missing`.
+ */
+export function hasHomeActivityIndexFaq(html, needle = HOME_ACTIVITY_INDEX_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
 /**
  * /race.html leaderboard lab links must keep #144 labAboutLabel
  * (OpenAI / ChatGPT etc.). Wipe gap is `race-lab-labels-missing`.
@@ -1923,6 +1934,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #254 — home exact head-term FAQ wiped or never landed.
+  if (ours.home_activity_index_faq === false) {
+    gaps.push({
+      id: 'home-activity-index-faq-missing',
+      severity: 'medium',
+      text: `home missing exact FAQ “What is an AI activity index?” (FINDABILITY #254) — re-overlay index.html / ai-activity-index.html or wait for collect/news-fast Publish on tip ≥ #254`,
+    });
+  }
+
   // FINDABILITY #144 — /race.html leaderboard lab links dropped labAboutLabel.
   if (ours.race_lab_about_labels === false) {
     gaps.push({
@@ -2701,6 +2721,8 @@ export function measureSite(site, byUrl) {
     bing_meta: home?.ok ? hasBingMeta(home.value) : null,
     // FINDABILITY #143 — home knowsAbout must keep #142 labAboutLabel (ours only).
     home_lab_about_labels: site.ours && home?.ok ? hasHomeLabAboutLabels(home.value) : null,
+    // FINDABILITY #254 — home exact unbranded head-term FAQ (ours only).
+    home_activity_index_faq: site.ours && home?.ok ? hasHomeActivityIndexFaq(home.value) : null,
     sitemap_urls: null,
     sitemap_is_index: null,
     news_sitemap_urls: null,
@@ -3139,6 +3161,11 @@ export function formatMarkdown(report) {
         `- Home knowsAbout labAboutLabel (#142/#143): **${ours.home_lab_about_labels ? 'ok' : 'NO'}**`,
       );
     }
+    if (ours && ours.home_activity_index_faq != null) {
+      lines.push(
+        `- Home AI activity index FAQ (#254): **${ours.home_activity_index_faq ? 'ok' : 'NO'}**`,
+      );
+    }
     if (ours && ours.race_lab_about_labels != null) {
       lines.push(
         `- Race board labAboutLabel (#144): **${ours.race_lab_about_labels ? 'ok' : 'NO'}**`,
@@ -3491,6 +3518,7 @@ export function formatMarkdown(report) {
       || ours.llms_lab_about_labels != null
       || ours.lab_hub_label_lags != null
       || ours.home_lab_about_labels != null
+      || ours.home_activity_index_faq != null
       || ours.race_lab_about_labels != null
       || ours.lab_head_alias_lags != null
       || ours.conquest_faq_lags != null)) {
@@ -3866,6 +3894,25 @@ function selftest() {
   });
   if (!homeKaGaps.some((g) => g.id === 'home-knowsabout-labels-missing')) {
     throw new Error('home-knowsabout-labels-missing gap');
+  }
+  if (hasHomeActivityIndexFaq('What is an AI activity index?') !== true) {
+    throw new Error('hasHomeActivityIndexFaq true');
+  }
+  if (hasHomeActivityIndexFaq('What is the AI activity level today?') !== false) {
+    throw new Error('hasHomeActivityIndexFaq false');
+  }
+  const homeFaqGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      home_activity_index_faq: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!homeFaqGaps.some((g) => g.id === 'home-activity-index-faq-missing')) {
+    throw new Error('home-activity-index-faq-missing gap');
   }
   if (hasRaceLabAboutLabels('<a href="/lab/openai.html">What has SIREN scored about OpenAI / ChatGPT?</a>') !== true) {
     throw new Error('hasRaceLabAboutLabels true');
