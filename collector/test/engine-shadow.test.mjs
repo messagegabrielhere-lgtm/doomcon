@@ -602,6 +602,16 @@ test('Publish restores tip classic instrument panel (FINDABILITY #318)', () => {
   assert.match(newsFast, /rel="canonical" href="https:\/\/siren\.watch\/classic\.html"/);
 });
 
+test('Publish reinjects classic.html into sitemap.xml (FINDABILITY #322)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #322/);
+  assert.match(collect, /ensure-classic-sitemap\.mjs/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #322/);
+  assert.match(newsFast, /ensure_classic_sitemap/);
+  assert.match(newsFast, /ensure-classic-sitemap\.mjs/);
+});
+
 test('Publish restores tip home AI activity index FAQ (FINDABILITY #254)', () => {
   // Orphan/news-only Publish can wipe the exact head-term FAQ until tip ≥ #254;
   // restore fires on missing needle and re-syncs /ai-activity-index alias body.

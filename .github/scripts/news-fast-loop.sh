@@ -495,6 +495,14 @@ while [ "$(date +%s)" -lt "$END" ]; do
         echo "restored $hub classic instrument panel (#318)"
       fi
     }
+    # FINDABILITY #322 — reinject /classic.html into sitemap.xml when a
+    # newsroom/orphan rewrite dropped the loc (mid-flight checkout < #318).
+    ensure_classic_sitemap() {
+      local root="$1"
+      if [ -f "$root/sitemap.xml" ]; then
+        node collector/tools/ensure-classic-sitemap.mjs "$root/sitemap.xml"
+      fi
+    }
     # FINDABILITY #145 — restore tip /race.html when #144 labAboutLabel
     # is missing after orphan newsroom Publish from tip < #144.
     restore_race_lab_labels() {
@@ -919,6 +927,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_agent_maps .pages "$PRESERVE_MAPS"
       restore_home_knowsabout .pages "$PRESERVE_MAPS"
       restore_classic_panel .pages "$PRESERVE_MAPS"
+      ensure_classic_sitemap .pages
       restore_race_lab_labels .pages "$PRESERVE_MAPS"
       restore_watts_iren_faq .pages "$PRESERVE_MAPS"
       restore_micron_dram_faq .pages "$PRESERVE_MAPS"
@@ -1009,6 +1018,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_lab_hub_labels .pages "$PRESERVE_FAQ"
       restore_home_knowsabout .pages "$PRESERVE_FAQ"
       restore_classic_panel .pages "$PRESERVE_FAQ"
+      ensure_classic_sitemap .pages
       restore_race_lab_labels .pages "$PRESERVE_FAQ"
       restore_watts_iren_faq .pages "$PRESERVE_FAQ"
       restore_micron_dram_faq .pages "$PRESERVE_FAQ"
