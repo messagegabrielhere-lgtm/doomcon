@@ -502,6 +502,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Accenture',
   // FINDABILITY #273 — G7 forum needle (multi-title AI cyber drill tape).
   'G7',
+  // FINDABILITY #275 — Bee Frontier / Bee Eclipse product needles (wearable tape).
+  'Bee Frontier', 'Bee Eclipse',
 ]);
 
 /**
@@ -5643,6 +5645,25 @@ function selftest() {
   }
   if (g7Lags.filter((r) => /Stage Fake AI/i.test(r.title)).some((r) => r.lab === 'G7')) {
     throw new Error('newsKeywordLags should not flag G7 when keywords include it');
+  }
+  // FINDABILITY #275 — catch tip wipe of Bee Frontier / Bee Eclipse needles.
+  for (const lab of ['Bee Frontier', 'Bee Eclipse']) {
+    if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) {
+      throw new Error(`probe labs missing ${lab}`);
+    }
+  }
+  const beeLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Amazon Unveils Bee Frontier and Bee Eclipse AI Listening Devices</news:title>'
+    + '<news:keywords>Amazon, Google, Bee, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Amazon launches two AI wearables, the $75 Bee Frontier wristband and $100 Bee Eclipse magnetic phone-attachment recorder</news:title>'
+    + '<news:keywords>Amazon, Bee Frontier, Bee Eclipse, Bee, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const beeLags = newsKeywordLags(beeLagXml);
+  if (!beeLags.some((r) => r.lab === 'Bee Frontier') || !beeLags.some((r) => r.lab === 'Bee Eclipse')) {
+    throw new Error(`newsKeywordLags expected Bee Frontier/Eclipse lag: ${JSON.stringify(beeLags)}`);
+  }
+  if (beeLags.filter((r) => /wristband/i.test(r.title)).some((r) => r.lab === 'Bee Frontier' || r.lab === 'Bee Eclipse')) {
+    throw new Error('newsKeywordLags should not flag Bee Frontier/Eclipse when keywords include them');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
