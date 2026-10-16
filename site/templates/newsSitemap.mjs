@@ -144,6 +144,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // titles name CERT-In while topic/source meta fill the 12-cap and drop the
   // agency surface.
   'CERT-In',
+  // FINDABILITY #228 — multi-title DeepSeek V4.1 Flash tape; DeepSeek V4.1
+  // already fills a 12-cap slot while product-class "Flash" titles drop the
+  // variant surface (OpenCode free-tier + Muse Spark Open vs Flash).
+  'DeepSeek V4.1 Flash',
 ]);
 
 /**

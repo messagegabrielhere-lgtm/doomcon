@@ -468,6 +468,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Tencent Cloud',
   // FINDABILITY #226 — CERT-In agency needle (multi-title AI cyber tape).
   'CERT-In',
+  // FINDABILITY #228 — DeepSeek V4.1 Flash product-class needle.
+  'DeepSeek V4.1 Flash',
 ]);
 
 /**
@@ -5168,6 +5170,23 @@ function selftest() {
   }
   if (certInLags.filter((r) => /live systems/i.test(r.title)).some((r) => r.lab === 'CERT-In')) {
     throw new Error('newsKeywordLags should not flag CERT-In when keywords include it');
+  }
+  // FINDABILITY #228 — catch tip wipe of DeepSeek V4.1 Flash needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('DeepSeek V4.1 Flash')) {
+    throw new Error('probe labs missing DeepSeek V4.1 Flash');
+  }
+  const dsFlashLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>OpenCode Makes DeepSeek V4.1 Flash Free to Use, With a 200K Context Window</news:title>'
+    + '<news:keywords>DeepSeek, DeepSeek V4.1, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Muse Spark Open vs DeepSeek V4.1 Flash: Same Score, Triple the Cost</news:title>'
+    + '<news:keywords>DeepSeek, DeepSeek V4.1, DeepSeek V4.1 Flash, Muse Spark, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const dsFlashLags = newsKeywordLags(dsFlashLagXml);
+  if (!dsFlashLags.some((r) => r.lab === 'DeepSeek V4.1 Flash')) {
+    throw new Error(`newsKeywordLags expected DeepSeek V4.1 Flash lag: ${JSON.stringify(dsFlashLags)}`);
+  }
+  if (dsFlashLags.filter((r) => /Same Score/i.test(r.title)).some((r) => r.lab === 'DeepSeek V4.1 Flash')) {
+    throw new Error('newsKeywordLags should not flag DeepSeek V4.1 Flash when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

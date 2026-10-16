@@ -241,6 +241,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('CERT-In')) {
     throw new Error('probe labs must include CERT-In');
   }
+  // FINDABILITY #228 — DeepSeek V4.1 Flash product-class needle stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('DeepSeek V4.1 Flash')) {
+    throw new Error('probe labs must include DeepSeek V4.1 Flash');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }
