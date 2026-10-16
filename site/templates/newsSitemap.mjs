@@ -206,6 +206,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // pizzint-news-alive (4 titles); Google / topic / source meta fill the
   // 12-cap and drop the G7 forum surface (parallel to CERT-In #226).
   'G7',
+  // FINDABILITY #277 — multi-title Surface Laptop Ultra AI-laptop tape while
+  // pizzint-news-alive (4 titles); Microsoft / Copilot fill 12-cap slots and
+  // drop the product-class Surface Laptop Ultra surface (parallel to Bee
+  // Frontier #275 / Krea 3 #256).
+  'Surface Laptop Ultra',
 ]);
 
 /**

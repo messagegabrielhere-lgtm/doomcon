@@ -304,6 +304,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Bee Eclipse')) {
     throw new Error('probe labs must include Bee Eclipse');
   }
+  // FINDABILITY #277 — Surface Laptop Ultra stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Surface Laptop Ultra')) {
+    throw new Error('probe labs must include Surface Laptop Ultra');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }
