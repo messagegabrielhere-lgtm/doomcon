@@ -85,6 +85,10 @@ import {
   hasAgentsMicrosoftCopilot,
   MICROSOFT_COPILOT_FAQ_NEEDLE,
   TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
+  hasMicrosoftMaiFaq,
+  hasAgentsMicrosoftMai,
+  MICROSOFT_MAI_FAQ_NEEDLE,
+  TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE,
   hasXaiGrokFaq,
   hasAgentsXaiGrok,
   XAI_GROK_FAQ_NEEDLE,
@@ -939,6 +943,30 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'agents-microsoft-copilot-missing'));
   });
 
+  it('detects Microsoft MAI-Base FAQ + agent-map lag (FINDABILITY #220)', () => {
+    assert.equal(hasMicrosoftMaiFaq(MICROSOFT_MAI_FAQ_NEEDLE), true);
+    assert.equal(hasMicrosoftMaiFaq('Why does SIREN watch Microsoft Copilot?'), false);
+    assert.equal(
+      hasAgentsMicrosoftMai('MAI-Base / MAI-Base-2 → https://siren.watch/lab/microsoft.html'),
+      true,
+    );
+    assert.equal(hasAgentsMicrosoftMai('https://siren.watch/lab/microsoft.html only'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        microsoft_mai_faq: false,
+        agents_microsoft_mai: false,
+        llms_microsoft_mai: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'microsoft-mai-faq-missing'));
+    assert.ok(gaps.some((g) => g.id === 'agents-microsoft-mai-missing'));
+  });
+
   it('detects Grok / xAI FAQ + agent-map lag (FINDABILITY #173)', () => {
     assert.equal(hasXaiGrokFaq(XAI_GROK_FAQ_NEEDLE), true);
     assert.equal(hasXaiGrokFaq('What has SIREN scored about xAI?'), false);
@@ -1333,6 +1361,7 @@ describe('seo-daily surfaces', () => {
       TRENDS_ROUTES_META_APPLE_MAC_NEEDLE,
       TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
       TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
+      TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE,
       TRENDS_ROUTES_XAI_GROK_NEEDLE,
       TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
       TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,

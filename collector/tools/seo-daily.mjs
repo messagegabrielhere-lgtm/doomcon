@@ -854,6 +854,7 @@ export const TRENDS_ROUTES_META_MUSE_NEEDLE = 'Meta Muse / open-weight AI → /l
 export const TRENDS_ROUTES_META_APPLE_MAC_NEEDLE = 'Meta–Apple Mac AI / Muse on Mac → /lab/meta.html';
 export const TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE = 'Apple Intelligence → /lab/apple.html';
 export const TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE = 'Microsoft Copilot → /lab/microsoft.html';
+export const TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE = 'Microsoft MAI-Base / MAI-Base-2 → /lab/microsoft.html';
 export const TRENDS_ROUTES_XAI_GROK_NEEDLE = 'Grok / xAI → /lab/xai.html';
 export const TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma / Argon → /lab/google-deepmind.html';
 export const TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE = 'Samsung / HBM / AI memory → /lab/samsung.html';
@@ -884,6 +885,7 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_META_APPLE_MAC_NEEDLE)
     && text.includes(TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE)
     && text.includes(TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE)
+    && text.includes(TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE)
     && text.includes(TRENDS_ROUTES_XAI_GROK_NEEDLE)
     && text.includes(TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE)
     && text.includes(TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE)
@@ -1061,6 +1063,24 @@ export function hasMicrosoftCopilotFaq(html, needle = MICROSOFT_COPILOT_FAQ_NEED
  * Wipe gap is `agents-microsoft-copilot-missing`.
  */
 export function hasAgentsMicrosoftCopilot(body, needle = AGENTS_MICROSOFT_COPILOT_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/microsoft.html');
+}
+
+/** FINDABILITY #220 — Microsoft MAI-Base FAQ + agent maps (same gated lab as #171). */
+export const MICROSOFT_MAI_FAQ_NEEDLE = 'Why does SIREN watch Microsoft MAI-Base?';
+export const AGENTS_MICROSOFT_MAI_NEEDLE = 'MAI-Base / MAI-Base-2';
+
+/** Tip /lab/microsoft.html must keep the #220 Microsoft MAI-Base FAQ. */
+export function hasMicrosoftMaiFaq(html, needle = MICROSOFT_MAI_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route MAI-Base / MAI-Base-2 tape to Microsoft lab (FINDABILITY #220).
+ * Wipe gap is `agents-microsoft-mai-missing`.
+ */
+export function hasAgentsMicrosoftMai(body, needle = AGENTS_MICROSOFT_MAI_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/microsoft.html');
 }
@@ -1962,7 +1982,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193/#195) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193/#195/#220) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
     });
   }
 
@@ -2152,6 +2172,27 @@ export function deriveGaps(report) {
       id: 'agents-microsoft-copilot-missing',
       severity: 'medium',
       text: `${which} missing Microsoft Copilot → /lab/microsoft.html Trends tip (FINDABILITY #171) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #171`,
+    });
+  }
+
+  // FINDABILITY #220 — Microsoft lab FAQ for MAI-Base wiped or never landed.
+  if (ours.microsoft_mai_faq === false) {
+    gaps.push({
+      id: 'microsoft-mai-faq-missing',
+      severity: 'medium',
+      text: `/lab/microsoft.html missing Microsoft MAI-Base FAQ (FINDABILITY #220) — re-overlay lab/microsoft.html or wait for full collect Publish on tip ≥ #220`,
+    });
+  }
+  // FINDABILITY #220 — agent maps must route MAI-Base / MAI-Base-2 to Microsoft lab.
+  if (ours.agents_microsoft_mai === false || ours.llms_microsoft_mai === false) {
+    const which = [
+      ours.agents_microsoft_mai === false ? 'agents.md' : null,
+      ours.llms_microsoft_mai === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-microsoft-mai-missing',
+      severity: 'medium',
+      text: `${which} missing MAI-Base / MAI-Base-2 → /lab/microsoft.html tip (FINDABILITY #220) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #220`,
     });
   }
 
@@ -2761,6 +2802,10 @@ export function measureSite(site, byUrl) {
     row.microsoft_copilot_faq = msHtml?.ok ? hasMicrosoftCopilotFaq(msHtml.value) : false;
     row.agents_microsoft_copilot = agentsMd?.ok ? hasAgentsMicrosoftCopilot(agentsMd.value) : false;
     row.llms_microsoft_copilot = llms?.ok ? hasAgentsMicrosoftCopilot(llmsBody) : false;
+    // FINDABILITY #220 — Microsoft MAI-Base FAQ + agent maps (same lab as #171).
+    row.microsoft_mai_faq = msHtml?.ok ? hasMicrosoftMaiFaq(msHtml.value) : false;
+    row.agents_microsoft_mai = agentsMd?.ok ? hasAgentsMicrosoftMai(agentsMd.value) : false;
+    row.llms_microsoft_mai = llms?.ok ? hasAgentsMicrosoftMai(llmsBody) : false;
     // FINDABILITY #173 — xAI / Grok FAQ + agent maps.
     const xaiHtml = byUrl.get(`${base}/lab/xai.html`);
     row.xai_grok_faq = xaiHtml?.ok ? hasXaiGrokFaq(xaiHtml.value) : false;
@@ -3174,6 +3219,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_microsoft_copilot == null ? '—' : (ours.agents_microsoft_copilot ? 'yes' : 'NO');
       const lm = ours.llms_microsoft_copilot == null ? '—' : (ours.llms_microsoft_copilot ? 'yes' : 'NO');
       lines.push(`- Agent-map Microsoft Copilot → lab (#171): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.microsoft_mai_faq != null) {
+      lines.push(
+        `- Microsoft MAI-Base FAQ (#220): **${ours.microsoft_mai_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_microsoft_mai != null || ours.llms_microsoft_mai != null)) {
+      const ag = ours.agents_microsoft_mai == null ? '—' : (ours.agents_microsoft_mai ? 'yes' : 'NO');
+      const lm = ours.llms_microsoft_mai == null ? '—' : (ours.llms_microsoft_mai ? 'yes' : 'NO');
+      lines.push(`- Agent-map MAI-Base / MAI-Base-2 → lab (#220): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.xai_grok_faq != null) {
       lines.push(
@@ -4192,6 +4247,36 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/microsoft.html')) {
     throw new Error('OUR_SURFACES missing /lab/microsoft.html');
   }
+  if (hasMicrosoftMaiFaq(MICROSOFT_MAI_FAQ_NEEDLE) !== true) {
+    throw new Error('hasMicrosoftMaiFaq true');
+  }
+  if (hasMicrosoftMaiFaq('Why does SIREN watch Microsoft Copilot?') !== false) {
+    throw new Error('hasMicrosoftMaiFaq false');
+  }
+  if (hasAgentsMicrosoftMai('MAI-Base / MAI-Base-2 → https://siren.watch/lab/microsoft.html') !== true) {
+    throw new Error('hasAgentsMicrosoftMai true');
+  }
+  if (hasAgentsMicrosoftMai('https://siren.watch/lab/microsoft.html only') !== false) {
+    throw new Error('hasAgentsMicrosoftMai needs MAI-Base / MAI-Base-2 needle');
+  }
+  const maiGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      microsoft_mai_faq: false,
+      agents_microsoft_mai: false,
+      llms_microsoft_mai: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!maiGaps.some((g) => g.id === 'microsoft-mai-faq-missing')) {
+    throw new Error('microsoft-mai-faq-missing gap');
+  }
+  if (!maiGaps.some((g) => g.id === 'agents-microsoft-mai-missing')) {
+    throw new Error('agents-microsoft-mai-missing gap');
+  }
   if (hasXaiGrokFaq(XAI_GROK_FAQ_NEEDLE) !== true) {
     throw new Error('hasXaiGrokFaq true');
   }
@@ -4720,6 +4805,7 @@ function selftest() {
     TRENDS_ROUTES_META_APPLE_MAC_NEEDLE,
     TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
     TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
+    TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE,
     TRENDS_ROUTES_XAI_GROK_NEEDLE,
     TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
     TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
@@ -4740,7 +4826,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

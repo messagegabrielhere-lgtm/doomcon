@@ -53,6 +53,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /Apple Intelligence → \/lab\/apple\.html/);
   // FINDABILITY #171 — Microsoft Copilot route to gated lab.
   assert.match(html, /Microsoft Copilot → \/lab\/microsoft\.html/);
+  // FINDABILITY #220 — Microsoft MAI-Base route to same gated lab.
+  assert.match(html, /Microsoft MAI-Base \/ MAI-Base-2 → \/lab\/microsoft\.html/);
   // FINDABILITY #173 — Grok / xAI route to gated lab.
   assert.match(html, /Grok \/ xAI → \/lab\/xai\.html/);
   // FINDABILITY #174 / #187 — Gemini / Gemma / Argon route to gated DeepMind lab.

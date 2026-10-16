@@ -584,6 +584,11 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Microsoft Copilot?`,
       `${brand.NAME} scores press that names Microsoft. When Copilot, Microsoft 365 Copilot, GitHub Copilot, or Azure AI headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not a product review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #220 — Microsoft MAI-Base / MAI-Base-2 MoE tape → same gated lab.
+    faq.push([
+      `Why does ${brand.NAME} watch Microsoft MAI-Base?`,
+      `${brand.NAME} scores press that names Microsoft. When MAI-Base, MAI-Base-2, or Microsoft in-house MoE model headlines dominate the tape — often beside Copilot / Azure AI coverage — this lab page is the crawlable answer — scored story counts only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #173 — xAI / Grok / Grok Voice tape → gated lab.
   if (player.id === 'xai') {
