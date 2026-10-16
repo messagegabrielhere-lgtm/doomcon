@@ -250,6 +250,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Google / GPT / topic meta fill the 12-cap and drop the company-class
   // Elorian surface (parallel to Vercel #298 / Airship #241).
   'Elorian',
+  // FINDABILITY #304 — multi-title Dell AI-infra tape while google-news-open
+  // (2 titles: How Dell Transformed… + …Dell Drops 3%); Google / Supermicro /
+  // topic meta fill the 12-cap and drop the company-class Dell surface
+  // (parallel to Vercel #298 / Accenture #271).
+  'Dell',
 ]);
 
 /**
