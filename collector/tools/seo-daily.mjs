@@ -43,6 +43,8 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/llms.txt',
   '/agents.md',
   '/agents.txt',
+  // FINDABILITY #326 — skill.md must keep classic panel needle after tip.
+  '/skill.md',
   '/openapi.json',
   '/.well-known/api-catalog',
   '/compare.html',
@@ -755,6 +757,15 @@ export function hasActivityLevelAlias(txt, alias = ACTIVITY_LEVEL_ALIAS) {
  */
 export function hasClassicPanelAgentMap(txt, path = CLASSIC_PANEL_AGENT_PATH) {
   return String(txt || '').includes(path);
+}
+
+/**
+ * True when skill.md lists /classic.html (FINDABILITY #326).
+ * Wipe gap is `skill-classic-panel-missing`.
+ */
+export function hasSkillClassicPanel(txt, path = CLASSIC_PANEL_AGENT_PATH) {
+  const body = String(txt || '');
+  return body.includes(path) && /Where is the full SIREN instrument panel\?/i.test(body);
 }
 
 /**
@@ -2080,6 +2091,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #326 — skill.md dropped /classic.html instrument panel.
+  if (ours.skill_classic_panel === false) {
+    gaps.push({
+      id: 'skill-classic-panel-missing',
+      severity: 'medium',
+      text: 'skill.md missing /classic.html instrument-panel lines (FINDABILITY #326) — re-overlay skill.md or wait for collect/news-fast Publish on tip ≥ #326',
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -3087,6 +3107,9 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #324 — agent maps must list /classic.html after overlay.
     row.agents_classic_panel = agentsMd?.ok ? hasClassicPanelAgentMap(agentsMd.value) : false;
     row.llms_classic_panel = llms?.ok ? hasClassicPanelAgentMap(llmsBody) : false;
+    // FINDABILITY #326 — skill.md must list /classic.html after overlay.
+    const skillMd = byUrl.get(`${base}/skill.md`);
+    row.skill_classic_panel = skillMd?.ok ? hasSkillClassicPanel(skillMd.value) : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -3433,6 +3456,9 @@ export function formatMarkdown(report) {
       const ag = ours.agents_classic_panel == null ? '—' : (ours.agents_classic_panel ? 'yes' : 'NO');
       const lm = ours.llms_classic_panel == null ? '—' : (ours.llms_classic_panel ? 'yes' : 'NO');
       lines.push(`- Agent-map /classic.html instrument panel (#324): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.skill_classic_panel != null) {
+      lines.push(`- skill.md /classic.html instrument panel (#326): **${ours.skill_classic_panel ? 'ok' : 'NO'}**`);
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
       const ag = ours.agents_root_rivals == null ? '—' : (ours.agents_root_rivals ? 'yes' : 'NO');
@@ -3852,6 +3878,7 @@ export function formatMarkdown(report) {
       || ours.agents_activity_index_alias != null || ours.llms_activity_index_alias != null
       || ours.agents_activity_level_alias != null || ours.llms_activity_level_alias != null
       || ours.agents_classic_panel != null || ours.llms_classic_panel != null
+      || ours.skill_classic_panel != null
       || ours.agents_root_rivals != null || ours.llms_root_rivals != null
       || ours.agents_head_aliases != null || ours.llms_head_aliases != null
       || ours.llms_lab_about_labels != null
@@ -4110,6 +4137,28 @@ function selftest() {
   });
   if (!classicAgentGaps.some((g) => g.id === 'agents-classic-panel-missing')) {
     throw new Error('agents-classic-panel-missing gap');
+  }
+  if (!CORE_LIVE_SURFACES.includes('/skill.md')) {
+    throw new Error('CORE_LIVE_SURFACES missing #326 /skill.md');
+  }
+  if (hasSkillClassicPanel('## Full instrument panel\nhttps://siren.watch/classic.html — Where is the full SIREN instrument panel?') !== true) {
+    throw new Error('hasSkillClassicPanel true');
+  }
+  if (hasSkillClassicPanel('/classic.html alone') !== false) {
+    throw new Error('hasSkillClassicPanel false without question');
+  }
+  const skillGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      skill_classic_panel: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!skillGaps.some((g) => g.id === 'skill-classic-panel-missing')) {
+    throw new Error('skill-classic-panel-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{

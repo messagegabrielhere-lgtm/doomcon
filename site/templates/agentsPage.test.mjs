@@ -107,6 +107,11 @@ describe('skill.md SEO', () => {
     assert.match(md, /https:\/\/siren\.watch\/verify\.html/);
     assert.match(md, /https:\/\/siren\.watch\/free-tools\.html/);
     assert.match(md, /not edited after the fact/);
+    // FINDABILITY #326 — skill.md lists the classic instrument panel.
+    assert.match(md, /## Full instrument panel/);
+    assert.match(md, /https:\/\/siren\.watch\/classic\.html/);
+    assert.match(md, /Where is the full SIREN instrument panel\?/);
+    assert.match(md, /Classic instrument panel: https:\/\/siren\.watch\/classic\.html/);
     assert.doesNotMatch(md, /doom score:\s*\d/i);
     assert.doesNotMatch(md, /probability of doom/i);
   });

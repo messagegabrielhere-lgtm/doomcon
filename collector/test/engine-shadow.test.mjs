@@ -621,6 +621,19 @@ test('Publish restores tip agent maps when /classic.html missing (FINDABILITY #3
   assert.match(newsFast, /restored \$map agent map \(.*#324\)/);
 });
 
+test('Publish restores tip skill.md when classic panel missing (FINDABILITY #326)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #326/);
+  assert.match(collect, /skills\/siren-ai-index\/SKILL\.md/);
+  assert.match(collect, /Where is the full SIREN instrument panel\?/);
+  assert.match(collect, /restored \$skill classic instrument panel \(#326\)/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #326/);
+  assert.match(newsFast, /restore_skill_classic/);
+  assert.match(newsFast, /skills\/siren-ai-index\/SKILL\.md/);
+  assert.match(newsFast, /restored \$skill classic instrument panel \(#326\)/);
+});
+
 test('Publish restores tip home AI activity index FAQ (FINDABILITY #254)', () => {
   // Orphan/news-only Publish can wipe the exact head-term FAQ until tip ≥ #254;
   // restore fires on missing needle and re-syncs /ai-activity-index alias body.

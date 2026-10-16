@@ -26,7 +26,8 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
   # + Search Trends FAQs so mid-merge collect cannot wipe those overlays.
   # FINDABILITY #210 — stash tip news-sitemap.xml so probe needles (Roadster /
   # Starshield / …) survive orphan Publish on tip < #208.
-  for hub in compare.html alternatives.html agents.md llms.txt \
+  for hub in compare.html alternatives.html agents.md llms.txt skill.md \
+    skills/siren-ai-index/SKILL.md \
     lab/index.html companies.html companies/index.html \
     index.html classic.html race.html race/index.html \
     watts.html watts/index.html lab/micron.html lab/coreweave.html \
@@ -181,6 +182,16 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'Samsung AI glasses' ".pages/$map" 2>/dev/null; }; then
     cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
     echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193/#195/#324)"
+  fi
+done
+# FINDABILITY #326 — restore tip skill.md (+ packaged SKILL.md) when classic panel missing.
+for skill in skill.md skills/siren-ai-index/SKILL.md; do
+  if [ -f "$PRESERVE_FAQ/$skill" ] \
+    && { ! grep -qF '/classic.html' ".pages/$skill" 2>/dev/null \
+      || ! grep -qF 'Where is the full SIREN instrument panel?' ".pages/$skill" 2>/dev/null; }; then
+    mkdir -p ".pages/$(dirname "$skill")"
+    cp -a "$PRESERVE_FAQ/$skill" ".pages/$skill"
+    echo "restored $skill classic instrument panel (#326)"
   fi
 done
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
