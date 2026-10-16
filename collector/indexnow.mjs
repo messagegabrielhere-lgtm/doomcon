@@ -25,6 +25,7 @@ const ENDPOINTS = Object.freeze([
 const ALWAYS = Object.freeze([
   '/',
   '/ai-activity-index.html', // short alias; canonical stays on / (FINDABILITY #252)
+  '/ai-activity-level.html', // short alias; canonical stays on / (FINDABILITY #262)
   '/news.html',
   '/methodology.html',
   '/methodology.md',

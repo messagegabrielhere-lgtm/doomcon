@@ -62,10 +62,14 @@ if [ -f .pages/p-doom.html ]; then
   cp -a .pages/p-doom.html .pages/pdoom/index.html
 fi
 # FINDABILITY #252 — /ai-activity-index typed guess (canonical on /).
+# FINDABILITY #262 — /ai-activity-level typed guess (canonical on /).
 if [ -f .pages/index.html ]; then
   cp -a .pages/index.html .pages/ai-activity-index.html
   mkdir -p .pages/ai-activity-index
   cp -a .pages/index.html .pages/ai-activity-index/index.html
+  cp -a .pages/index.html .pages/ai-activity-level.html
+  mkdir -p .pages/ai-activity-level
+  cp -a .pages/index.html .pages/ai-activity-level/index.html
 fi
 # FINDABILITY #133 — doomsday-clock / ai-doom / doom-index typed guesses.
 if [ -f .pages/ai-doomsday-clock.html ]; then
@@ -139,6 +143,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF '/doomsday-clock.html' ".pages/$map" 2>/dev/null \
       || ! grep -qF '/doom-index.html' ".pages/$map" 2>/dev/null \
       || ! grep -qF '/ai-activity-index.html' ".pages/$map" 2>/dev/null \
+      || ! grep -qF '/ai-activity-level.html' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'root https://siren.watch/doombench.html' ".pages/$map" 2>/dev/null \
       || { grep -qF '/lab/openai.html' ".pages/$map" 2>/dev/null \
         && ! grep -qF 'OpenAI / ChatGPT' ".pages/$map" 2>/dev/null; } \
@@ -199,10 +204,14 @@ for hub in index.html classic.html; do
   fi
 done
 # FINDABILITY #252/#254 — alias body must match restored home.
+# FINDABILITY #262 — /ai-activity-level alias body must match restored home.
 if [ -f .pages/index.html ]; then
   cp -a .pages/index.html .pages/ai-activity-index.html
   mkdir -p .pages/ai-activity-index
   cp -a .pages/index.html .pages/ai-activity-index/index.html
+  cp -a .pages/index.html .pages/ai-activity-level.html
+  mkdir -p .pages/ai-activity-level
+  cp -a .pages/index.html .pages/ai-activity-level/index.html
 fi
 # FINDABILITY #145 — restore tip /race.html when #144 labAboutLabel
 # is missing after mid-merge / news-only orphan on tip < #144.

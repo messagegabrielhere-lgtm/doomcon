@@ -1471,6 +1471,9 @@ async function main() {
   // must not 404 while home is live. Same body; canonical stays on /.
   // Out of sitemap like vs/trends short aliases.
   written.push(await write(args.out, 'ai-activity-index.html', homeHtml));
+  // FINDABILITY #262 — typed /ai-activity-level guess (meta description +
+  // FAQ phrase “AI activity level today”) must not 404 either.
+  written.push(await write(args.out, 'ai-activity-level.html', homeHtml));
   written.push(await write(args.out, 'classic.html', classicHtml));
 
   // NEWS-ONLY FAST PATH. Used by the minute newsroom loop. Rewrites the pages
@@ -1644,7 +1647,9 @@ async function main() {
     }
     await writeDirectoryAliases(args.out, [
       // FINDABILITY #252 — /ai-activity-index/ directory for the typed guess.
+      // FINDABILITY #262 — /ai-activity-level/ directory for the typed guess.
       'news', 'leaders', 'search-trends', 'trends', 'ai-activity-index',
+      'ai-activity-level',
       ...liveDays.map((day) => `news/${day.day}`),
     ], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
@@ -2069,7 +2074,9 @@ async function main() {
       'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'vs', 'guides',
       'ai-doom', 'doom-index', 'ai-doom-index',
       // FINDABILITY #252 — /ai-activity-index/ directory for the home typed guess.
+      // FINDABILITY #262 — /ai-activity-level/ directory for the home typed guess.
       'ai-activity-index',
+      'ai-activity-level',
       'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
       'pillars', 'sources',
       // FINDABILITY #124 — Outrank landings + Search Trends: hand-typed

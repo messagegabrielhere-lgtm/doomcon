@@ -287,10 +287,14 @@ while [ "$(date +%s)" -lt "$END" ]; do
         cp -a "$root/p-doom.html" "$root/pdoom/index.html"
       fi
       # FINDABILITY #252 — /ai-activity-index typed guess (canonical on /).
+      # FINDABILITY #262 — /ai-activity-level typed guess (canonical on /).
       if [ -f "$root/index.html" ]; then
         cp -a "$root/index.html" "$root/ai-activity-index.html"
         mkdir -p "$root/ai-activity-index"
         cp -a "$root/index.html" "$root/ai-activity-index/index.html"
+        cp -a "$root/index.html" "$root/ai-activity-level.html"
+        mkdir -p "$root/ai-activity-level"
+        cp -a "$root/index.html" "$root/ai-activity-level/index.html"
       fi
       # FINDABILITY #133 — doomsday-clock / ai-doom / doom-index typed guesses.
       if [ -f "$root/ai-doomsday-clock.html" ]; then
@@ -374,6 +378,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF '/doomsday-clock.html' "$root/$map" 2>/dev/null \
             || ! grep -qF '/doom-index.html' "$root/$map" 2>/dev/null \
             || ! grep -qF '/ai-activity-index.html' "$root/$map" 2>/dev/null \
+            || ! grep -qF '/ai-activity-level.html' "$root/$map" 2>/dev/null \
             || ! grep -qF 'root https://siren.watch/doombench.html' "$root/$map" 2>/dev/null \
             || { grep -qF '/lab/openai.html' "$root/$map" 2>/dev/null \
               && ! grep -qF 'OpenAI / ChatGPT' "$root/$map" 2>/dev/null; } \
@@ -444,10 +449,14 @@ while [ "$(date +%s)" -lt "$END" ]; do
         fi
       done
       # FINDABILITY #252/#254 — alias body must match restored home.
+      # FINDABILITY #262 — /ai-activity-level alias body must match restored home.
       if [ -f "$root/index.html" ]; then
         cp -a "$root/index.html" "$root/ai-activity-index.html"
         mkdir -p "$root/ai-activity-index"
         cp -a "$root/index.html" "$root/ai-activity-index/index.html"
+        cp -a "$root/index.html" "$root/ai-activity-level.html"
+        mkdir -p "$root/ai-activity-level"
+        cp -a "$root/index.html" "$root/ai-activity-level/index.html"
       fi
     }
     # FINDABILITY #145 — restore tip /race.html when #144 labAboutLabel
