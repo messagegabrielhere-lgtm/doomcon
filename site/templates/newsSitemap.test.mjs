@@ -1853,6 +1853,40 @@ test('news sitemap keywords include Elorian from multi-title Glimpse tape (FINDA
   assert.doesNotMatch(c, /\bElorian\b/);
 });
 
+test('news sitemap keywords include Dell from multi-title AI-infra tape (FINDABILITY #304)', () => {
+  // Multi-title Dell tape: Google / Supermicro / topic meta fill 12-cap slots
+  // while company-class Dell titles drop the infra surface.
+  const a = keywordsFor({
+    title: 'How Dell Transformed From PC King to AI Infrastructure Giant',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Google'],
+  });
+  assert.match(a, /\bDell\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Dell') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Hewlett Packard Enterprise Falls 5% as AI Financing Worries Extend Hardware Selloff; Super Micro Sinks 7%, Dell Drops 3%',
+    summary: 'Selloff tape still matches trailing Dell needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Supermicro', 'Google'],
+  });
+  assert.match(b, /\bDell\b/);
+  const c = keywordsFor({
+    title: 'AI infrastructure giants race to ship more servers this quarter',
+    summary: 'Infra-only tape — company surface not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Google'],
+  });
+  assert.doesNotMatch(c, /\bDell\b/);
+});
+
 test('news sitemap keywords include Mac Studio from Apple–Meta Muse local tape (FINDABILITY #294)', () => {
   // Singular Mac Studio: Apple / Meta / Muse / Apple Intelligence fill 12-cap
   // while #292 plural needle does not match "Mac Studio".

@@ -522,6 +522,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Vercel',
   // FINDABILITY #302 — Elorian company needle (Glimpse vision-model tape).
   'Elorian',
+  // FINDABILITY #304 — Dell company needle (AI infrastructure tape).
+  'Dell',
 ]);
 
 /**
@@ -5945,6 +5947,23 @@ function selftest() {
   }
   if (elorianLags.filter((r) => /reason with images/i.test(r.title)).some((r) => r.lab === 'Elorian')) {
     throw new Error('newsKeywordLags should not flag Elorian when keywords include it');
+  }
+  // FINDABILITY #304 — catch tip wipe of Dell needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Dell')) {
+    throw new Error('probe labs missing Dell');
+  }
+  const dellLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>How Dell Transformed From PC King to AI Infrastructure Giant</news:title>'
+    + '<news:keywords>Google, AI, artificial intelligence, SIREN, AI infrastructure, attention, press, wires-ai</news:keywords></url>'
+    + '<url><news:title>Hewlett Packard Enterprise Falls 5% as AI Financing Worries Extend Hardware Selloff; Super Micro Sinks 7%, Dell Drops 3%</news:title>'
+    + '<news:keywords>Dell, Supermicro, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const dellLags = newsKeywordLags(dellLagXml);
+  if (!dellLags.some((r) => r.lab === 'Dell')) {
+    throw new Error(`newsKeywordLags expected Dell lag: ${JSON.stringify(dellLags)}`);
+  }
+  if (dellLags.filter((r) => /Dell Drops/i.test(r.title)).some((r) => r.lab === 'Dell')) {
+    throw new Error('newsKeywordLags should not flag Dell when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
