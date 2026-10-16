@@ -399,6 +399,7 @@ export function render(ctx) {
 <!-- ${brand.NAME} Google News window (48h, cap ${NEWS_SITEMAP_CAP}). Not a doom forecast. -->
 <!-- Full sitemap: ${ctx.url('/sitemap.xml')} · Free tools: ${ctx.url('/free-tools.html')} · Verify: ${ctx.url('/verify.html')} -->
 <!-- Search Trends (watched, not scored): ${ctx.url('/search-trends.html')} · Agents: ${ctx.url('/llms.txt')} -->
+<!-- Classic instrument panel: ${ctx.url('/classic.html')} -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
 ${body}

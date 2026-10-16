@@ -26,6 +26,7 @@ export function render(ctx, { levelOnly = false } = {}) {
 <!-- ${brand.NAME}: AI activity index moves (not doom probability). Prefer ${ctx.url('/llms.txt')} for agents. -->
 <!-- Free tools: ${ctx.url('/free-tools.html')} · Verify a reading: ${ctx.url('/verify.html')} -->
 <!-- News sitemap: ${ctx.url('/news-sitemap.xml')} · Search Trends: ${ctx.url('/search-trends.html')} · Now: ${ctx.url('/api/now.txt')} -->
+<!-- Classic instrument panel: ${ctx.url('/classic.html')} -->
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <title>${esc(brand.NAME)} — ${levelOnly ? 'level changes only' : 'index moves'}</title>

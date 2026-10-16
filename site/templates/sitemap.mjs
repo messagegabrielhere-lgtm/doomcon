@@ -192,6 +192,7 @@ export function render(ctx) {
 <!-- ${brand.NAME}: AI activity index (not doom probability). Prefer ${ctx.url('/llms.txt')} for agents. -->
 <!-- Free tools: ${ctx.url('/free-tools.html')} · Verify a reading: ${ctx.url('/verify.html')} -->
 <!-- Google News sitemap: ${ctx.url('/news-sitemap.xml')} · Search Trends: ${ctx.url('/search-trends.html')} -->
+<!-- Classic instrument panel: ${ctx.url('/classic.html')} -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${body}
 </urlset>
@@ -229,6 +230,7 @@ export function robots(ctx) {
 # Live reading: ${ctx.url('/api/now.txt')} · markdown ${ctx.url('/now.md')}
 # Free tools: ${ctx.url('/free-tools.html')} · Verify a reading: ${ctx.url('/verify.html')}
 # Search Trends (watched, not scored): ${ctx.url('/search-trends.html')} · ${ctx.url('/api/search-trends.json')}
+# Classic instrument panel: ${ctx.url('/classic.html')}
 
 User-agent: *
 Allow: /

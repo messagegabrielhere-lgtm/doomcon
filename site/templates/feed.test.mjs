@@ -19,13 +19,14 @@ const ctx = {
   }],
 };
 
-test('feed.xml tip comments advertise free-tools, verify, news-sitemap, Search Trends', () => {
+test('feed.xml tip comments advertise free-tools, verify, news-sitemap, Search Trends, classic', () => {
   const xml = render(ctx);
   assert.match(xml, /^<\?xml version="1\.0" encoding="UTF-8"\?>/);
   assert.match(xml, /<!--[^>]*Free tools: https:\/\/siren\.watch\/free-tools\.html/);
   assert.match(xml, /<!--[^>]*Verify a reading: https:\/\/siren\.watch\/verify\.html/);
   assert.match(xml, /<!--[^>]*News sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
   assert.match(xml, /<!--[^>]*Search Trends: https:\/\/siren\.watch\/search-trends\.html/);
+  assert.match(xml, /<!--[^>]*Classic instrument panel: https:\/\/siren\.watch\/classic\.html/);
   assert.match(xml, /<!--[^>]*llms\.txt/);
   assert.match(xml, /not doom probability/i);
   assert.doesNotMatch(xml, /probability of doom/i);
@@ -35,5 +36,6 @@ test('feed.xml tip comments advertise free-tools, verify, news-sitemap, Search T
 test('feed-level.xml keeps the same discovery tips', () => {
   const xml = render(ctx, { levelOnly: true });
   assert.match(xml, /Free tools: https:\/\/siren\.watch\/free-tools\.html/);
+  assert.match(xml, /Classic instrument panel: https:\/\/siren\.watch\/classic\.html/);
   assert.match(xml, /level changes only/);
 });
