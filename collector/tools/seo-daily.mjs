@@ -498,6 +498,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Terafab',
   // FINDABILITY #269 — Cohere lab needle (multi-title AISLE / cyber tape).
   'Cohere',
+  // FINDABILITY #271 — Accenture company needle (multi-title Claude spend tape).
+  'Accenture',
 ]);
 
 /**
@@ -5605,6 +5607,23 @@ function selftest() {
   }
   if (cohereLags.filter((r) => /acquire AISLE/i.test(r.title)).some((r) => r.lab === 'Cohere')) {
     throw new Error('newsKeywordLags should not flag Cohere when keywords include it');
+  }
+  // FINDABILITY #271 — catch tip wipe of Accenture needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Accenture')) {
+    throw new Error('probe labs missing Accenture');
+  }
+  const accentureLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Some Accenture employees spent $1,000 a month on Anthropic’s Claude AI, the company will now pay only $29</news:title>'
+    + '<news:keywords>Anthropic, Claude, Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Accenture Tells Employees They Can Now Spend Only $29 on Claude Per Month</news:title>'
+    + '<news:keywords>Accenture, Claude, Anthropic, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const accentureLags = newsKeywordLags(accentureLagXml);
+  if (!accentureLags.some((r) => r.lab === 'Accenture')) {
+    throw new Error(`newsKeywordLags expected Accenture lag: ${JSON.stringify(accentureLags)}`);
+  }
+  if (accentureLags.filter((r) => /Spend Only \$29/i.test(r.title)).some((r) => r.lab === 'Accenture')) {
+    throw new Error('newsKeywordLags should not flag Accenture when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

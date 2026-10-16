@@ -1509,6 +1509,40 @@ test('news sitemap keywords include Cohere from multi-title AISLE / cyber tape (
   assert.doesNotMatch(c, /\bCohere\b/);
 });
 
+test('news sitemap keywords include Accenture from multi-title Claude spend tape (FINDABILITY #271)', () => {
+  // Multi-title Accenture tape: Claude spend caps; Anthropic / Claude fill
+  // 12-cap slots and drop the consulting-buyer company surface.
+  const a = keywordsFor({
+    title: 'Some Accenture employees spent $1,000 a month on Anthropic’s Claude AI, the company will now pay only $29',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Claude'],
+  });
+  assert.match(a, /\bAccenture\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Accenture') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Accenture Tells Employees They Can Now Spend Only $29 on Claude Per Month',
+    summary: 'Consulting giant caps Claude spend.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Claude'],
+  });
+  assert.match(b, /\bAccenture\b/);
+  const c = keywordsFor({
+    title: 'Enterprises cap monthly Claude spend without naming a consultancy',
+    summary: 'Generic buyer-spend noise must not invent a company needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Claude'],
+  });
+  assert.doesNotMatch(c, /\bAccenture\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.

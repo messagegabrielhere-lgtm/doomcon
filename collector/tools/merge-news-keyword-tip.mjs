@@ -289,6 +289,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Cohere')) {
     throw new Error('probe labs must include Cohere');
   }
+  // FINDABILITY #271 — Accenture company needle stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Accenture')) {
+    throw new Error('probe labs must include Accenture');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }
