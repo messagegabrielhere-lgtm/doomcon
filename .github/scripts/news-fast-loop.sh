@@ -379,6 +379,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF '/doom-index.html' "$root/$map" 2>/dev/null \
             || ! grep -qF '/ai-activity-index.html' "$root/$map" 2>/dev/null \
             || ! grep -qF '/ai-activity-level.html' "$root/$map" 2>/dev/null \
+            || ! grep -qF '/classic.html' "$root/$map" 2>/dev/null \
             || ! grep -qF 'root https://siren.watch/doombench.html' "$root/$map" 2>/dev/null \
             || { grep -qF '/lab/openai.html' "$root/$map" 2>/dev/null \
               && ! grep -qF 'OpenAI / ChatGPT' "$root/$map" 2>/dev/null; } \
@@ -414,7 +415,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'Meta and Apple Mac AI' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Samsung AI glasses' "$root/$map" 2>/dev/null; }; then
           cp -a "$preserve/$map" "$root/$map"
-          echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193/#195)"
+          echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193/#195/#324)"
         fi
       done
     }

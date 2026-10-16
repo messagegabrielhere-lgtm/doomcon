@@ -706,6 +706,9 @@ export const ACTIVITY_INDEX_ALIAS = '/ai-activity-index.html';
 /** Home meta/FAQ typed-guess alias (FINDABILITY #262). Canonical on /. */
 export const ACTIVITY_LEVEL_ALIAS = '/ai-activity-level.html';
 
+/** Classic instrument panel path advertised in agent maps (FINDABILITY #324). */
+export const CLASSIC_PANEL_AGENT_PATH = '/classic.html';
+
 /**
  * Strip `/vs/<basename>` so a conquest primary cannot satisfy a root/short
  * alias probe via naive `includes` (FINDABILITY #135).
@@ -744,6 +747,14 @@ export function hasActivityIndexAlias(txt, alias = ACTIVITY_INDEX_ALIAS) {
  */
 export function hasActivityLevelAlias(txt, alias = ACTIVITY_LEVEL_ALIAS) {
   return String(txt || '').includes(alias);
+}
+
+/**
+ * True when an agent-map body lists /classic.html (FINDABILITY #324).
+ * Wipe gap is `agents-classic-panel-missing`.
+ */
+export function hasClassicPanelAgentMap(txt, path = CLASSIC_PANEL_AGENT_PATH) {
+  return String(txt || '').includes(path);
 }
 
 /**
@@ -2056,6 +2067,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #324 — agents.md / llms.txt dropped /classic.html instrument panel.
+  if (ours.agents_classic_panel === false || ours.llms_classic_panel === false) {
+    const which = [
+      ours.agents_classic_panel === false ? 'agents.md' : null,
+      ours.llms_classic_panel === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-classic-panel-missing',
+      severity: 'medium',
+      text: `${which} missing /classic.html instrument-panel lines (FINDABILITY #324) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #324`,
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -3060,6 +3084,9 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #262 — agent maps must list /ai-activity-level.html after overlay.
     row.agents_activity_level_alias = agentsMd?.ok ? hasActivityLevelAlias(agentsMd.value) : false;
     row.llms_activity_level_alias = llms?.ok ? hasActivityLevelAlias(llmsBody) : false;
+    // FINDABILITY #324 — agent maps must list /classic.html after overlay.
+    row.agents_classic_panel = agentsMd?.ok ? hasClassicPanelAgentMap(agentsMd.value) : false;
+    row.llms_classic_panel = llms?.ok ? hasClassicPanelAgentMap(llmsBody) : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -3401,6 +3428,11 @@ export function formatMarkdown(report) {
       const ag = ours.agents_activity_level_alias == null ? '—' : (ours.agents_activity_level_alias ? 'yes' : 'NO');
       const lm = ours.llms_activity_level_alias == null ? '—' : (ours.llms_activity_level_alias ? 'yes' : 'NO');
       lines.push(`- Agent-map /ai-activity-level short alias (#262): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && (ours.agents_classic_panel != null || ours.llms_classic_panel != null)) {
+      const ag = ours.agents_classic_panel == null ? '—' : (ours.agents_classic_panel ? 'yes' : 'NO');
+      const lm = ours.llms_classic_panel == null ? '—' : (ours.llms_classic_panel ? 'yes' : 'NO');
+      lines.push(`- Agent-map /classic.html instrument panel (#324): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
       const ag = ours.agents_root_rivals == null ? '—' : (ours.agents_root_rivals ? 'yes' : 'NO');
@@ -3818,6 +3850,8 @@ export function formatMarkdown(report) {
       || ours.agents_trends_alias != null || ours.llms_trends_alias != null
       || ours.agents_pdoom_alias != null || ours.llms_pdoom_alias != null
       || ours.agents_activity_index_alias != null || ours.llms_activity_index_alias != null
+      || ours.agents_activity_level_alias != null || ours.llms_activity_level_alias != null
+      || ours.agents_classic_panel != null || ours.llms_classic_panel != null
       || ours.agents_root_rivals != null || ours.llms_root_rivals != null
       || ours.agents_head_aliases != null || ours.llms_head_aliases != null
       || ours.llms_lab_about_labels != null
@@ -4057,6 +4091,25 @@ function selftest() {
   });
   if (!activityLevelGaps.some((g) => g.id === 'agents-activity-level-alias-missing')) {
     throw new Error('agents-activity-level-alias-missing gap');
+  }
+  if (hasClassicPanelAgentMap('see /classic.html panel') !== true) {
+    throw new Error('hasClassicPanelAgentMap true');
+  }
+  if (hasClassicPanelAgentMap('/instruments.html only') !== false) {
+    throw new Error('hasClassicPanelAgentMap false');
+  }
+  const classicAgentGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      agents_classic_panel: false, llms_classic_panel: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!classicAgentGaps.some((g) => g.id === 'agents-classic-panel-missing')) {
+    throw new Error('agents-classic-panel-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{

@@ -612,6 +612,15 @@ test('Publish reinjects classic.html into sitemap.xml (FINDABILITY #322)', () =>
   assert.match(newsFast, /ensure-classic-sitemap\.mjs/);
 });
 
+test('Publish restores tip agent maps when /classic.html missing (FINDABILITY #324)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /! grep -qF '\/classic\.html' "\.pages\/\$map"/);
+  assert.match(collect, /restored \$map agent map \(.*#324\)/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /! grep -qF '\/classic\.html' "\$root\/\$map"/);
+  assert.match(newsFast, /restored \$map agent map \(.*#324\)/);
+});
+
 test('Publish restores tip home AI activity index FAQ (FINDABILITY #254)', () => {
   // Orphan/news-only Publish can wipe the exact head-term FAQ until tip ≥ #254;
   // restore fires on missing needle and re-syncs /ai-activity-index alias body.
