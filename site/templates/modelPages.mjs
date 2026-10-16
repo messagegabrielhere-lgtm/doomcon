@@ -22,6 +22,7 @@ const MODEL_LAB = {
   Sora: 'openai',
   Whisper: 'openai',
   Claude: 'anthropic',
+  Fable: 'anthropic',
   Gemini: 'google-deepmind',
   Gemma: 'google-deepmind',
   Veo: 'google-deepmind',

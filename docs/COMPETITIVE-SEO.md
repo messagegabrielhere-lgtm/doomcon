@@ -13,7 +13,8 @@ GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 **#236** DeepSeek V4 Pro + **#238** Qwen3.8 + **#241** Airship (CDN lag **0**;
 Qwen3.8 / V4 Pro / Bolt / Super VL / CERT / Roadster intact after #243 tip-surviving
 Publish); **#245** Muse Spark model hub (`/model/muse-spark.html`) from ≥3 scored
-stories (distinct from Muse Wonder); tip merge **#210** + **#218** Base-beside-MAI
+stories (distinct from Muse Wonder); **#246** Fable model hub (`/model/fable.html`)
+from versioned / Claude-anchored forms; tip merge **#210** + **#218** Base-beside-MAI
 hygiene; `seo-daily` probes
 **#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**
 catch tip wipe / CDN lag;

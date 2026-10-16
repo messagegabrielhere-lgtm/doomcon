@@ -289,6 +289,7 @@ const ALWAYS = Object.freeze([
   '/model/qwen.html',
   '/model/muse-spark.html', // FINDABILITY #245 — Muse Spark / Muse Spark Open model hub
   '/model/muse-wonder.html',
+  '/model/fable.html', // FINDABILITY #246 — Fable / Claude Fable model hub
   '/pillar/capability.html',
   '/source/aws-ml.html',
   '/source/bloomberg-tech.html',
