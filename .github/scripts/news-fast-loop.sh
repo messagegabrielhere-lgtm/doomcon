@@ -383,7 +383,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'Meta Muse' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Apple Intelligence' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Microsoft Copilot' "$root/$map" 2>/dev/null \
-            || ! grep -qF 'MAI-Base / MAI-Base-2' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'Microsoft MAI-Base' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Grok / xAI' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Gemini / Gemma / Argon' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Samsung / AI memory' "$root/$map" 2>/dev/null \

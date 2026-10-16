@@ -947,7 +947,7 @@ describe('seo-daily surfaces', () => {
     assert.equal(hasMicrosoftMaiFaq(MICROSOFT_MAI_FAQ_NEEDLE), true);
     assert.equal(hasMicrosoftMaiFaq('Why does SIREN watch Microsoft Copilot?'), false);
     assert.equal(
-      hasAgentsMicrosoftMai('MAI-Base / MAI-Base-2 → https://siren.watch/lab/microsoft.html'),
+      hasAgentsMicrosoftMai('Microsoft MAI-Base → https://siren.watch/lab/microsoft.html'),
       true,
     );
     assert.equal(hasAgentsMicrosoftMai('https://siren.watch/lab/microsoft.html only'), false);

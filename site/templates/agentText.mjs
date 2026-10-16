@@ -503,7 +503,7 @@ export function agentsMd(ctx) {
 - ${u('/lab/amazon.html')} — What has SIREN scored about Amazon? (Amazon Bee / AI wearables Trends → Amazon lab)
 - ${u('/lab/meta.html')} — What has SIREN scored about Meta AI / Muse? (Meta Muse / open-weight AI / Meta and Apple Mac AI Trends → Meta lab)
 - ${u('/lab/apple.html')} — What has SIREN scored about Apple / Apple Intelligence? (Apple Intelligence Trends → Apple lab)
-- ${u('/lab/microsoft.html')} — What has SIREN scored about Microsoft / Copilot? (Microsoft Copilot Trends → Microsoft lab; MAI-Base / MAI-Base-2 → Microsoft lab)
+- ${u('/lab/microsoft.html')} — What has SIREN scored about Microsoft / Copilot? (Microsoft Copilot Trends → Microsoft lab; Microsoft MAI-Base / MAI-Base-2 → Microsoft lab)
 - ${u('/lab/xai.html')} — What has SIREN scored about xAI / Grok? (Grok / xAI Trends → xAI lab)
 - ${u('/lab/google-deepmind.html')} — What has SIREN scored about Google DeepMind / Gemini / Argon? (Gemini / Gemma / Argon Trends → DeepMind lab)
 - ${u('/lab/samsung.html')} — What has SIREN scored about Samsung / HBM? (Samsung / AI memory / Samsung AI glasses Trends → Samsung lab)
