@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T04:59Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+**Measured:** 2026-10-16T05:07Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
 live lead **6,691** sitemap URLs / news **200** (pizzint news-sitemap **14** —
 `pizzint-news-alive`; keep keyword-rich lane); Trends tip (`generated_at` ~04:30Z,
 `ai_related_total` **0**; Nvidia + Tesla watchlist trending — already gated; hold
@@ -9,9 +9,9 @@ doorway); News keywords **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
 GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 **#222** Muse Spark / Muse Spark Open + **#224** Tencent Cloud + **#226** CERT-In
-+ **#228** DeepSeek V4.1 Flash (multi-title Flash variant under DeepSeek V4.1);
-Publish tip keyword merge **#210** + **#218** Base-beside-MAI hygiene;
-`seo-daily` probes
++ **#228** DeepSeek V4.1 Flash live on tip (`f3529c4`; CDN lag **0**; CERT /
+Tencent / Muse + MAI tips intact); Publish tip keyword merge **#210** + **#218**
+Base-beside-MAI hygiene; `seo-daily` probes
 **#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**
 catch tip wipe / CDN lag;
 
