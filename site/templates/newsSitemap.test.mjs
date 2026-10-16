@@ -1233,6 +1233,42 @@ test('news sitemap keywords include DeepSeek V4.1 Flash from multi-title tape (F
   assert.doesNotMatch(c, /DeepSeek V4\.1 Flash/);
 });
 
+test('news sitemap keywords include Nemotron 3.5 Super VL from multi-title tape (FINDABILITY #231)', () => {
+  // Multi-title Nemotron 3.5 Super VL tape: bare Nemotron fills a 12-cap slot
+  // while product-class Super VL titles omit the variant surface.
+  const a = keywordsFor({
+    title: 'Nemotron 3.5 Super VL vs Microsoft Mage-VL: two video paths',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Nemotron'],
+  });
+  assert.match(a, /\bNemotron 3\.5 Super VL\b/);
+  assert.match(a, /\bNemotron\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Nemotron 3.5 Super VL') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Nemotron 3.5 Super VL vs Qwen3.8 Omni Flash: You Cannot Have the Ears and the Weights',
+    summary: 'Super VL variant named beside Qwen Omni Flash.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Nemotron'],
+  });
+  assert.match(b, /\bNemotron 3\.5 Super VL\b/);
+  const c = keywordsFor({
+    title: 'Nemotron ships for enterprise agents',
+    summary: 'Bare Nemotron only — Super VL variant not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Nemotron'],
+  });
+  assert.match(c, /\bNemotron\b/);
+  assert.doesNotMatch(c, /Nemotron 3\.5 Super VL/);
+});
+
 test('news sitemap keywords include Fable from live 48h eval tape (FINDABILITY #212)', () => {
   // Contested Google News: Azure Fable 5.5 + GLM→Fable 5 + Gemini-vs-Fable
   // titles name the model class while topic tags bury it under the 12-cap.

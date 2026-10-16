@@ -148,6 +148,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // already fills a 12-cap slot while product-class "Flash" titles drop the
   // variant surface (OpenCode free-tier + Muse Spark Open vs Flash).
   'DeepSeek V4.1 Flash',
+  // FINDABILITY #231 — multi-title Nemotron 3.5 Super VL tape; bare Nemotron
+  // already fills a 12-cap slot while product-class Super VL titles (vs Qwen
+  // Omni Flash + vs Mage-VL) drop the variant surface.
+  'Nemotron 3.5 Super VL',
 ]);
 
 /**

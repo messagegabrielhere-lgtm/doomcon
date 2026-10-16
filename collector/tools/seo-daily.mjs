@@ -470,6 +470,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'CERT-In',
   // FINDABILITY #228 — DeepSeek V4.1 Flash product-class needle.
   'DeepSeek V4.1 Flash',
+  // FINDABILITY #231 — Nemotron 3.5 Super VL product-class needle.
+  'Nemotron 3.5 Super VL',
 ]);
 
 /**
@@ -5187,6 +5189,23 @@ function selftest() {
   }
   if (dsFlashLags.filter((r) => /Same Score/i.test(r.title)).some((r) => r.lab === 'DeepSeek V4.1 Flash')) {
     throw new Error('newsKeywordLags should not flag DeepSeek V4.1 Flash when keywords include it');
+  }
+  // FINDABILITY #231 — catch tip wipe of Nemotron 3.5 Super VL needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Nemotron 3.5 Super VL')) {
+    throw new Error('probe labs missing Nemotron 3.5 Super VL');
+  }
+  const nemotronVlLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Nemotron 3.5 Super VL vs Microsoft Mage-VL: two video paths</news:title>'
+    + '<news:keywords>Nemotron, Microsoft, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Nemotron 3.5 Super VL vs Qwen3.8 Omni Flash: You Cannot Have the Ears and the Weights</news:title>'
+    + '<news:keywords>Nemotron, Nemotron 3.5 Super VL, Qwen, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const nemotronVlLags = newsKeywordLags(nemotronVlLagXml);
+  if (!nemotronVlLags.some((r) => r.lab === 'Nemotron 3.5 Super VL')) {
+    throw new Error(`newsKeywordLags expected Nemotron 3.5 Super VL lag: ${JSON.stringify(nemotronVlLags)}`);
+  }
+  if (nemotronVlLags.filter((r) => /Ears and the Weights/i.test(r.title)).some((r) => r.lab === 'Nemotron 3.5 Super VL')) {
+    throw new Error('newsKeywordLags should not flag Nemotron 3.5 Super VL when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
