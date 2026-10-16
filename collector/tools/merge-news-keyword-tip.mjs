@@ -277,6 +277,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Flux 3')) {
     throw new Error('probe labs must include Flux 3');
   }
+  // FINDABILITY #260 — Together AI hosting needle stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Together AI')) {
+    throw new Error('probe labs must include Together AI');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }
