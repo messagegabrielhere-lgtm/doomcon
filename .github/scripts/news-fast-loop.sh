@@ -430,16 +430,25 @@ while [ "$(date +%s)" -lt "$END" ]; do
     # FINDABILITY #143 — restore tip home/classic when #142 Organization
     # knowsAbout labAboutLabel (OpenAI / ChatGPT) is missing after
     # news-only index.html overlay from tip < #142.
+    # FINDABILITY #254 — also restore when exact head-term FAQ
+    # “What is an AI activity index?” is missing; re-sync #252 alias.
     restore_home_knowsabout() {
       local root="$1" preserve="$2"
       local hub
       for hub in index.html classic.html; do
         if [ -f "$preserve/$hub" ] \
-          && ! grep -qF 'OpenAI / ChatGPT' "$root/$hub" 2>/dev/null; then
+          && { ! grep -qF 'OpenAI / ChatGPT' "$root/$hub" 2>/dev/null \
+            || ! grep -qF 'What is an AI activity index?' "$root/$hub" 2>/dev/null; }; then
           cp -a "$preserve/$hub" "$root/$hub"
-          echo "restored $hub knowsAbout labAboutLabel (#143)"
+          echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254)"
         fi
       done
+      # FINDABILITY #252/#254 — alias body must match restored home.
+      if [ -f "$root/index.html" ]; then
+        cp -a "$root/index.html" "$root/ai-activity-index.html"
+        mkdir -p "$root/ai-activity-index"
+        cp -a "$root/index.html" "$root/ai-activity-index/index.html"
+      fi
     }
     # FINDABILITY #145 — restore tip /race.html when #144 labAboutLabel
     # is missing after orphan newsroom Publish from tip < #144.

@@ -189,13 +189,21 @@ for hub in lab/index.html companies.html companies/index.html; do
 done
 # FINDABILITY #143 — restore tip home/classic when #142 knowsAbout
 # labAboutLabel is missing after mid-merge collect on tip < #142.
+# FINDABILITY #254 — also restore when exact head-term FAQ is missing.
 for hub in index.html classic.html; do
   if [ -f "$PRESERVE_FAQ/$hub" ] \
-    && ! grep -qF 'OpenAI / ChatGPT' ".pages/$hub" 2>/dev/null; then
+    && { ! grep -qF 'OpenAI / ChatGPT' ".pages/$hub" 2>/dev/null \
+      || ! grep -qF 'What is an AI activity index?' ".pages/$hub" 2>/dev/null; }; then
     cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
-    echo "restored $hub knowsAbout labAboutLabel (#143)"
+    echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254)"
   fi
 done
+# FINDABILITY #252/#254 — alias body must match restored home.
+if [ -f .pages/index.html ]; then
+  cp -a .pages/index.html .pages/ai-activity-index.html
+  mkdir -p .pages/ai-activity-index
+  cp -a .pages/index.html .pages/ai-activity-index/index.html
+fi
 # FINDABILITY #145 — restore tip /race.html when #144 labAboutLabel
 # is missing after mid-merge / news-only orphan on tip < #144.
 for hub in race.html race/index.html; do

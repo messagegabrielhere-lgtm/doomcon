@@ -6,7 +6,9 @@ live lead **6,692** sitemap URLs / news **200** (pizzint news-sitemap **14** —
 — generic “artificial intelligence news” / meta-muse + 梁文锋 / DeepSeek already
 gated; hold doorway); **#252** `/ai-activity-index.html` home typed-guess alias
 live via tip `2b0a2dd` + IndexNow **200** (canonical on `/`; agents.md / llms.txt
-list short alias; CORE_LIVE **200**); News keywords
+list short alias; CORE_LIVE **200**); **#254** home FAQ exact head term
+“What is an AI activity index?” (visible + FAQPage; Publish restore +
+`home-activity-index-faq-missing` probe); News keywords
 **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
 **#212** Fable / Fable 5 / 5.1 / 5.5 + **#214** ChatGPT Voice / GPT-Live /
@@ -17,7 +19,7 @@ GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 (CDN lag **0**); **#245** Muse Spark + **#246** Fable model hubs still **200**
 (`#248` preserve); tip merge **#210** + **#218** Base-beside-MAI hygiene;
 `seo-daily` probes
-**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**
+**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**/**#254**
 catch tip wipe / CDN lag;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
@@ -34,7 +36,7 @@ covers Muse Spark / Muse Wonder tape on `/lab/meta.html`. Apple Intelligence FAQ
 so Google News stays aligned with those Trends labs. Grok / xAI FAQ **#173** covers Grok Voice tape on `/lab/xai.html`. Gemini / Gemma FAQ **#174** covers Gemini 4 Argon / Gemma open-model tape on `/lab/google-deepmind.html`. Samsung / HBM FAQ **#175** covers AI memory-chip selloff tape on `/lab/samsung.html`. Character.ai bankruptcy FAQ **#176** covers companion-chatbot Chapter 11 tape on `/tags/chatbots.html`. Qwen FAQ **#177** covers Alibaba open-weight / Tongyi tape on `/lab/qwen.html`. Oracle / AI datacenter FAQ **#178** covers Oracle pipeline / AI-cloud capacity tape on `/tags/datacenters.html`. DeepSeek outage FAQ **#179** covers Chinese open-model downtime / refund tape on `/lab/deepseek.html`. Mistral / Timestral FAQ **#180** covers Timestral / CERN Flare tape on `/lab/mistral.html`. OpenAI outage FAQ **#181** covers ChatGPT status / feature-degradation tape on `/lab/openai.html` (alongside lawsuit FAQ **#162**). Hugging Face hack / incident FAQ **#182** covers model-hub intrusion tape on `/tags/huggingface.html`. Palantir / AIP FAQ **#183** covers government / defense AI contract tape on `/lab/palantir.html`. AMD / MI300 FAQ **#184** covers AI GPU / Instinct accelerator tape on `/lab/amd.html`. Tesla / FSD FAQ **#185** covers Autopilot / FSD / robotaxi tape on `/lab/tesla.html`. ChatGPT Chrome / computer use FAQ **#191** covers Chrome tab-controls / browser-agent tape on `/lab/openai.html` (alongside lawsuit **#162** + outage **#181**). Meta–Apple Mac AI FAQ **#193** covers Muse-on-Mac / Meta–Apple partnership tape on `/lab/meta.html` (alongside Muse **#169**). Agents.md #193 needle + Publish preserve **#194** keeps `Meta and Apple Mac AI` / `ChatGPT Chrome` tips across orphan wipes. Samsung AI glasses FAQ **#195** covers Galaxy glasses / XR wearable tape on `/lab/samsung.html` (alongside HBM **#175**). Collect Publish extract **#192** keeps schedule Publish under GitHub’s expression cap; **#196** fixed glued-`fi` syntax; **#197** `bash -n` + `collectPublishSrc()` keep restores green in CI. Watchlist routing
 **#158** + news keywords **#159**/**#161**/**#172**/**#176**/**#177**/**#178**/**#180**/**#183**/**#184**/**#185** keep Google News aligned. Publish
 restore **#156**/**#158**/**#162**–**#167**/**#169**–**#171**/**#173**–**#185**/**#191**/**#193**–**#195** keeps agent tips + Trends/lab HTML
-across collect wipes (#166/#167/#169–#171/#173–#184/#191/#193/#195/#220 also guard ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/OpenAI-Chrome/Meta-Apple-Mac/Palantir/AMD/Tesla destinations on the routing FAQ). Branded “SIREN AI activity index” still #1; bare “AI activity index today” still weak — **#252** typed-guess alias is live; head-term
+across collect wipes (#166/#167/#169–#171/#173–#184/#191/#193/#195/#220 also guard ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/OpenAI-Chrome/Meta-Apple-Mac/Palantir/AMD/Tesla destinations on the routing FAQ). Branded “SIREN AI activity index” still #1; bare “AI activity index today” still weak — **#252** typed-guess alias + **#254** home exact-match FAQ; head-term
 SERPs still need GSC crawl (issue #202). Companion to `docs/COMPETITIVE.md` and
 `docs/FINDABILITY.md`.
 
