@@ -59,10 +59,11 @@ preserve **#248**). Typed-guess **#262** tip prose still intact after
 **ok** after `a00cfbc` (index + level today middot). Multi-title **#298** Vercel tip
 **ok** (2/2 after `2d76065`); **#294** Mac Studio singular tip
 **ok**; **#292** Mac Studios **ok**; Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Hold doorway on product keywords (no new multi-title gap beyond **#350**). SoftBank lab exists
+Hold doorway on product keywords (shipping **#352** Anthropic IPO event needle). SoftBank lab exists
 and already keywords SoftBank M&A; Allied Universal has no destination — refuse.
-Nemotron 3.5 Lightning holds at 1 title; IPO / Wall Street topic noise refused.
-Trends `ai_related` / oracle is topic noise without a gated destination.
+Warsh person / Glimpse (1 title) / bare Wall Street IPO noise refused.
+Trends quiet (`ai_related_total` **0**).
+**#352** Anthropic IPO news:keywords (FAQ #163 gates lab; 3+ title lag under AI IPOs topic).
 **#351** after **#350** tip `c3e7e10` + IndexNow **200**: PS5s **1/1** CDN clear; lead **6,698**.
 **#350** PS5s tip `c3e7e10` CDN clear (news:keywords probes **ok**).
 **#349** after **#348** tip `f06d9d9` + IndexNow **200**: Xing 4.0 29B-A4B **2/2** CDN clear; lead **6,700**.
