@@ -484,6 +484,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Xing', 'Xing 4.0',
   // FINDABILITY #340 — Replit company needle (multi-title Anthropic/OpenAI tape).
   'Replit',
+  // FINDABILITY #342 — Siri product needle (multi-title vs Gemini tape).
+  'Siri',
   // FINDABILITY #216 — MAI-Base needles while Google News contested.
   'MAI-Base', 'MAI-Base-2',
   // FINDABILITY #222 — Muse Spark product-class needles (multi-title tape).
@@ -6738,6 +6740,22 @@ function selftest() {
     }
     if (replitLags.filter((r) => /no longer working/i.test(r.title)).some((r) => r.lab === 'Replit')) {
       throw new Error('newsKeywordLags should not flag Replit when keywords include it');
+    }
+  }
+  // FINDABILITY #342 — catch tip wipe of Siri product needle.
+  {
+    const siriLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>I Tested Siri and Gemini\'s Inbox-Digging Feature for a Week. The Winner Surprised Me.</news:title>'
+      + '<news:keywords>Gemini, Google, Argon, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>How Does Apple\'s Siri Compete in an Agentic World?</news:title>'
+      + '<news:keywords>Google, Apple, Apple Intelligence, Siri, AI, artificial intelligence, SIREN, AI agents, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const siriLags = newsKeywordLags(siriLagXml);
+    if (!siriLags.some((r) => r.lab === 'Siri')) {
+      throw new Error(`newsKeywordLags expected Siri lag: ${JSON.stringify(siriLags)}`);
+    }
+    if (siriLags.filter((r) => /Agentic World/i.test(r.title)).some((r) => r.lab === 'Siri')) {
+      throw new Error('newsKeywordLags should not flag Siri when keywords include it');
     }
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
