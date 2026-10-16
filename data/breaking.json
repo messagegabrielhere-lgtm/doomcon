@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-16T08:13:04.914Z",
+  "generated_at": "2026-10-16T08:25:39.630Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -47,9 +47,54 @@
       "ycombinator.com"
     ]
   },
-  "live": 12,
-  "fresh": "b4b5b9ff21c21",
+  "live": 10,
+  "fresh": "b71dcf33fc877",
   "clusters": [
+    {
+      "id": "b71dcf33fc877",
+      "title": "AI Cyberattack Alert: CERT-In flags AI Agents attempting unauthorised access to govt websites",
+      "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxPTTFHWWcyekZRMkI4NHppZVN5SVZ0S3dXaExnMXZaQW1ueE93QW1Rb08tSnZoQXRoaUljRzQ4am16Z2R0LWFXSURwbjRvU1F0eEpPczVja1FIRUNRVHdadFFWbDBqcHR0OG12ekRWNGZ0cUVoOFRFdWZUbHJFX0s4c1hxLU8xVlBCNVdmcURrTGtodk8xTmJ4VlZxaWc1MGREOWtRR3pYNjZVa2VMN0dPaGpUMmQ3ZUFwZGszTmVyOTFEODEteXkzZVNkMlQzY2lmeGVfWXlZVFg4MlZHTDNDTlhtbmZ1NFdLNExrc1lzMlpiOC1fVENn?oc=5",
+      "source": "wires-ai",
+      "outlet": "deccanherald.com",
+      "outlets": [
+        "cedarnews.net",
+        "deccanherald.com"
+      ],
+      "tier1_outlets": [],
+      "corroboration": 2,
+      "sources": [
+        "wires-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min"
+      ],
+      "earliest_published_at": "2026-10-16T08:02:06.000Z",
+      "first_seen_at": "2026-10-16T08:13:04.914Z",
+      "latency_s": 659,
+      "breaking_at": "2026-10-16T08:25:39.630Z",
+      "item_ids": [
+        "4195acdd82337e2b"
+      ],
+      "sightings": [
+        {
+          "source": "wires-ai",
+          "outlet": "deccanherald.com",
+          "title": "AI Cyberattack Alert: CERT-In flags AI Agents attempting unauthorised access to govt websites",
+          "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxPTTFHWWcyekZRMkI4NHppZVN5SVZ0S3dXaExnMXZaQW1ueE93QW1Rb08tSnZoQXRoaUljRzQ4am16Z2R0LWFXSURwbjRvU1F0eEpPczVja1FIRUNRVHdadFFWbDBqcHR0OG12ekRWNGZ0cUVoOFRFdWZUbHJFX0s4c1hxLU8xVlBCNVdmcURrTGtodk8xTmJ4VlZxaWc1MGREOWtRR3pYNjZVa2VMN0dPaGpUMmQ3ZUFwZGszTmVyOTFEODEteXkzZVNkMlQzY2lmeGVfWXlZVFg4MlZHTDNDTlhtbmZ1NFdLNExrc1lzMlpiOC1fVENn?oc=5",
+          "published_at": "2026-10-16T08:02:06.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "cedarnews.net",
+          "title": "CERT-In flags AI Agents attempting unauthorised access to govt websites — AI Cyberattack Alert",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxORXBnWHQwRDJWZXlQVWF4MU9ETk5YbXI1N0RvTEF5NmRab2JYclptdTJIQmlHWmh6b2pHbFRTTldLWDFTU3JldlZUaWFERkh5OEQtMy1qUUxRS0NVUElwQlV5NEYtSWFWQm1ZeWY1YjVlSlhGVVVWOTY3YmswbFVlMHktYXhEWFhRX2Q3U3pCc2dBUQ?oc=5",
+          "published_at": "2026-10-16T08:13:04.914Z",
+          "tier1": false
+        }
+      ],
+      "live": true
+    },
     {
       "id": "bcabbcaba4078",
       "title": "Taiwan to Curb AI Chip Exports to China as Part of US Trade Deal",
@@ -58,18 +103,20 @@
       "outlet": "bloomberg.com",
       "outlets": [
         "bloomberg.com",
-        "stocktwits.com"
+        "stocktwits.com",
+        "yahoo.com"
       ],
       "tier1_outlets": [
         "bloomberg.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "bloomberg-tech",
         "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-16T05:49:00.000Z",
@@ -107,6 +154,14 @@
           "title": "Amid TSMC-Terafab Talks, Taiwan Said To Be Mulling Greater Curbs On AI Chip Sales To China",
           "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxNOVFMaTVDTENPZVZ2bUNDRHlzc0FOa293V3NySDZyVl8zNVVLZV9jcC1UeU9EQ2F6N3J2Rm5YNkZXaTFvU2pfME1SUEZYbUMxdkgwdjFjekFKRk5ZM082YlByNUt3dTRjMHBuZ29TVkpNbVNQdTlOeVZ4cmRyTkh6Nnl5WXIyMjlPeV9uZ3ZLTlZqNUdudTJsQ3FQcWV3RXVha1N3bEV1Q0hnRjdaRjRwYjc1Y25WalRJSUhXTUluMHNCV2dNdWdBM19GR0pNQmttMW4zSjJyTk5xM1JzLXdZalAxMVQyUE1r?oc=5",
           "published_at": "2026-10-16T07:48:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "yahoo.com",
+          "title": "Amid TSMC-Terafab Talks, Taiwan Said To Be Mulling Greater Curbs On AI Chip Sales To China",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOMWgydTV0d1JhNFBORzhpZ0RES1YtMTNmc0tnMzJ2N01sYlhZTnlUNE5MSFRieVJQVWxYTmt3UzdmZF9uczBBbHN3UGNGSjhJQ0RjdWxvUEVWSlpUM3djSjNXcFdqZjExMWtJUFJzMElQWmhoRkpobmFiTzgweWZ0VkFSYWVRZUczWV8ydTZNbGlxX2ExOXJKMUhn?oc=5",
+          "published_at": "2026-10-16T07:48:21.000Z",
           "tier1": false
         }
       ],
@@ -234,8 +289,8 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "reuters.com",
-        "straitstimes.com"
+        "kfgo.com",
+        "reuters.com"
       ],
       "tier1_outlets": [
         "reuters.com"
@@ -276,9 +331,9 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "straitstimes.com",
+          "outlet": "kfgo.com",
           "title": "Rogue AI agents broke into Indian firms’ live systems, government says",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNZFFhbmxfbU81b0tNR1lWTXdCU2FTSUsxRVhpS083T2VDNi1vUE1UX2NTaUNUcDg1RU9rekRucld5bzlvUGk1TjBEYVE1RHozZnMzRHZweF9qX3pENE1fSXpkQ1lWbHd6VWJEMGhrX3pLVVlZV0ppSFRnVV82TVVzTFduQmFOWUpUZlQ0S1RsRExpMlAyMTFzUGxoUDRhVERnTzlhQUZ3THhxVkl0N3hiMDdpaw?oc=5",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNLVgtVUNydmp5T3FoSFU5WUVMdnEyYmlFWWoxYl82Ulh6T0FxRlJnb21hYnBlMU5hTGNFbjVTUHRmTUF4dVYwMjFoTjlaLVlBLU5NbEpWOGhwU0FFYVh5YWQ3Wno2SUVUeVM1RkRIOHVndmxGZ0RCTl85b2Y1VXAzXzItc3FybWZsdXQ0Qk1rdnJMQ0NBMzJ2Zldsc042UQ?oc=5",
           "published_at": "2026-10-16T07:28:11.061Z",
           "tier1": false
         }
@@ -470,7 +525,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "bf60239393bee",
@@ -544,7 +599,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b3a0d4e299294",
@@ -1059,10 +1114,11 @@
       "outlets": [
         "etvbharat.com",
         "ssbcrack.com",
+        "techxplore.com",
         "tradingview.com"
       ],
       "tier1_outlets": [],
-      "corroboration": 3,
+      "corroboration": 4,
       "sources": [
         "gnews-ai"
       ],
@@ -1079,9 +1135,12 @@
         "107e3fea8739d8ae",
         "111b69245bdf36ba",
         "19029801c5da1816",
+        "2e6c7d5b62b02c1a",
         "2ebd4c99f33c0d09",
+        "43d2d4db006d3bb4",
         "468b3077a208433f",
         "6ca244a50e07a4f8",
+        "8243c9a70d3f19e1",
         "873e95bd78685b48",
         "bfb624ca1fc56cbe",
         "e2101f5eb4ea2841",
@@ -1113,6 +1172,14 @@
           "title": "Meta Unveils New Open-Weight AI Model To Rival Chinese Competition",
           "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxQcEk2emxMQUo0SFd1WWRSc25yRnhsZXdtXzZ0aEFCVTBmOTNjUElublRwVTByVmRaQWlBbm1ESEZULWZoVTlMd2dNZTQ3Sk1Yd0hUa2dDeVBSbmZsYmtaY2MyU1BsZTlMWFJOM2RycTkzU0dwNDRLdVBwc2dHbHZZY1Q5TlJwOGd2V3p4QnFqWkd4MGZYMEYtZEd1UHJNZklkR2x1Q0ZUU3lkQXhpVEpmbTlNMnZzSmN4UWI2WW13cHJ0ZWNwSkZUUHRNUmwtajV2ZG5STU41emdyUUd1Ujd0QUgyNkhkTGNDTGk1Zmh3OU16YjJvei1Ccl9ld3hHWkVMMmJ5eUNMZDBWOS1idDJ0eFZqdDRQMkXSAZwCQVVfeXFMTTFKemxHRUhnMXFHdGMwS2RPdFFuTS1VMmI4YjhWZVpQdUU5enhBTnZKMWR1YmVNN0Vzb1ZoeEludTdXX0RmWFVTeFVlTWJLcWJnVDRNbUFSWEhlSy1VTFdqM1RKZ3I3aC05dW10MzJJWlV6Z0tVcFZCdXNPTVNGc0h1bS1Va1RfRklacXg1TzUza0xBQVBlNjUyOUJVZDJobDBMUFpVODFQSWZnSzEtUmNoRmNubGdUS3hxWGtrWVZTanpXaWIwaUViREZqbXZibXdrQ2J6SG4yRGJsN0lTYzlONkt3M2pOaHhjSDllRC1EajZLMjZxX3E3S3EydGFDSlh3aktlbkpncEFpeFpfUlpRcHk3eklGb2VZT1k?oc=5",
           "published_at": "2026-10-16T07:43:08.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "techxplore.com",
+          "title": "Meta unveils new 'open' AI model to rival Chinese competition",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBGQlFqcXFfZWNreHVrVFNYMi15aVdrX3M3YURxdlVmMl9laERxWTgyTFViaHFuVnhXc3JIUks0bGpJbjViUmVnSE9tY3doYkVtOFh5N1RZUDdrcEtxaFB0OWhYVmtFMS0wX3ZsWk94cm1jcTd4S0ZndXFn?oc=5",
+          "published_at": "2026-10-16T08:10:02.000Z",
           "tier1": false
         }
       ],
@@ -1335,7 +1402,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b9ca8d8ce5cb0",
@@ -1513,27 +1580,24 @@
       "source": "bluesky-ai",
       "outlet": "wired.com",
       "outlets": [
-        "bloomberg.com",
         "ft.com",
         "wired.com",
         "youtube.com"
       ],
       "tier1_outlets": [
-        "bloomberg.com",
         "ft.com",
         "wired.com"
       ],
-      "corroboration": 4,
+      "corroboration": 3,
       "sources": [
         "bluesky-ai",
         "hn-fresh-ai",
         "wires-ai"
       ],
       "rule": [
-        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-16T02:24:00.000Z",
+      "earliest_published_at": "2026-10-16T02:42:08.000Z",
       "first_seen_at": "2026-10-15T09:28:35.818Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -1553,14 +1617,6 @@
         "c4c5a83e3f6d8a53"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "Tesla Readies Flying Car Demo to Pump Up Sluggish Auto Business",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNOWxFMF9jckZGUDA4TEZRSEFPczJTZWs5RngtQUZGaHU4OFBkb2hZMWFBRmNiSjlNWGs0TVZfb2VwclBySmFobGREeVFwWHJkQ2JBaS0xcmN0OHg5azF0NVMzUERvN0VwTVVQWG1PaXV3ZnpaejgyaDB6WEwtbUw2S1lpWmVzNnFXNVJITXo3M3VNcm9hX2VzUmpBY1NmanRtOVd5b1FxMHE0R2Q2cENxRk9TaUc?oc=5",
-          "published_at": "2026-10-16T02:24:00.000Z",
-          "tier1": true
-        },
         {
           "source": "wires-ai",
           "outlet": "ft.com",
@@ -1744,51 +1800,6 @@
           "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1XMjdxNFFLRXdzUDJiZ3VGVzd3M3BHOXVMRFZFbURPbUNMWDJXUE96dGoycndHS3hQcFA4SE5CVV9oQVBmY1NLZFYwYUN5dTFPSjU5M0FOM19nbzVvWkJsUHFwalg4VTA?oc=5",
           "published_at": "2026-10-15T23:42:27.000Z",
           "tier1": true
-        }
-      ],
-      "live": false
-    },
-    {
-      "id": "bc1dee01a9f23",
-      "title": "Amazon launches two new portable AI listening devices",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOYnBwUHFrMzZHZjlKQmhwSi1yZEtQOUlyNjJKWFVScVZaRjRwUmQ0ZUU3MjVYR3N3aXVaek9QdXZZVFMtM0MwdzgwdjhVSmZqYlFjTzluUng1V2FzVUV4b01VajU4VUhTQmJyMHc1dFdZc2MyM0dUSFc4bkgtMExaNUlKN1d1MlpRMnc?oc=5",
-      "source": "gnews-ai",
-      "outlet": "kfgo.com",
-      "outlets": [
-        "kfgo.com",
-        "whbl.com"
-      ],
-      "tier1_outlets": [],
-      "corroboration": 2,
-      "sources": [
-        "gnews-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min"
-      ],
-      "earliest_published_at": "2026-10-15T23:23:06.000Z",
-      "first_seen_at": "2026-10-16T00:16:03.482Z",
-      "latency_s": 3177,
-      "breaking_at": "2026-10-16T00:36:41.710Z",
-      "item_ids": [
-        "98a940768aeb6045"
-      ],
-      "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "kfgo.com",
-          "title": "Amazon launches two new portable AI listening devices",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOYnBwUHFrMzZHZjlKQmhwSi1yZEtQOUlyNjJKWFVScVZaRjRwUmQ0ZUU3MjVYR3N3aXVaek9QdXZZVFMtM0MwdzgwdjhVSmZqYlFjTzluUng1V2FzVUV4b01VajU4VUhTQmJyMHc1dFdZc2MyM0dUSFc4bkgtMExaNUlKN1d1MlpRMnc?oc=5",
-          "published_at": "2026-10-15T23:23:06.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "whbl.com",
-          "title": "Amazon launches two new portable AI listening devices",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPbmtTSk5sN0FFMnhDWjhoekg3Wl9WdUhjVWhFdU5KTkxveFZGOWxud3R0ZU9mYzN1eEs2YmZBXzdoVDd3OFFLR0F1Nl9ONVRoNVJmUHU3dzhHWkt1YzMwX1ZOaUpHc0pVaHdNTm5tdDJocmRmbnBMOU1KM3VnZFNZdDJEMk5SMDJrNVE?oc=5",
-          "published_at": "2026-10-15T23:38:24.000Z",
-          "tier1": false
         }
       ],
       "live": false
