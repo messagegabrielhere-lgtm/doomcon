@@ -1,10 +1,10 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T14:09Z after **#284** tip overlay `d271b7e` + IndexNow
+**Measured:** 2026-10-16T14:26Z after **#286** tip overlay `6418c74` + IndexNow
 **200** (CDN clear); lead **6,693** / news **200** (pizzint news flaps
-**0↔14** — keep keyword-rich lane); **#284** home FAQ “What is the AI activity index today?” **ok**
-(home / classic / `/ai-activity-index`); **#282** Qwen 4 Max tip **ok** (4); **#279** RTX Spark **ok** (4);
-**#277** Surface Laptop Ultra **ok** (6); Bee Frontier rotated out of newest-200 (needle armed);
+**0↔14** — keep keyword-rich lane); **#286** Beam tip **ok** (1/1 in window;
+Welcome Beam rotated out — needle armed); **#284** home FAQ today **ok**;
+**#282** Qwen 4 Max tip **ok**; **#279** RTX Spark **ok**; **#277** Surface Laptop Ultra **ok**;
 **#264** tip FAQ alias prose still **ok**; **#252** alias **200**; Trends tip quiet / hold doorway;
 IndexNow ALWAYS **200**; News keywords
 **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
@@ -14,10 +14,10 @@ GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 **#222** Muse Spark / Muse Spark Open + **#224** Tencent Cloud + **#226** CERT-In +
 **#228** DeepSeek V4.1 Flash + **#231** Nemotron 3.5 Super VL + **#234** Bolt +
 **#236** DeepSeek V4 Pro + **#238** Qwen3.8 + **#241** Airship + **#250** ModelSphere +
-**#256** Krea / Krea 3 + **#258** Flux 3 + **#260** Together AI + **#267** Terafab + **#269** Cohere + **#271** Accenture + **#273** G7 + **#275** Bee Frontier / Bee Eclipse + **#277** Surface Laptop Ultra + **#279** RTX Spark + **#282** Qwen 4 Max; **#245** Muse Spark + **#246** Fable model hubs still **200**
+**#256** Krea / Krea 3 + **#258** Flux 3 + **#260** Together AI + **#267** Terafab + **#269** Cohere + **#271** Accenture + **#273** G7 + **#275** Bee Frontier / Bee Eclipse + **#277** Surface Laptop Ultra + **#279** RTX Spark + **#282** Qwen 4 Max + **#286** Beam; **#245** Muse Spark + **#246** Fable model hubs still **200**
 (`#248` preserve); tip merge **#210** + **#218** Base-beside-MAI hygiene;
 `seo-daily` probes
-**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**/**#254**/**#256**/**#258**/**#260**/**#262**/**#264**/**#267**/**#269**/**#271**/**#273**/**#275**/**#277**/**#279**/**#282**/**#284**
+**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**/**#254**/**#256**/**#258**/**#260**/**#262**/**#264**/**#267**/**#269**/**#271**/**#273**/**#275**/**#277**/**#279**/**#282**/**#284**/**#286**
 catch tip wipe / CDN lag;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
