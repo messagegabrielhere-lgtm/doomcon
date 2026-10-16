@@ -1,0 +1,258 @@
+#!/usr/bin/env node
+// FINDABILITY #210 — merge tip news:keywords probe needles into a rebuilt
+// news-sitemap.xml so orphan/overlay Publish on tip < #208 cannot wipe
+// Roadster / Starshield / Bluesky / … overlays that seo-daily probes.
+//
+// Usage:
+//   node collector/tools/merge-news-keyword-tip.mjs <tip.xml> <new.xml>
+// Updates <new.xml> in place. No-op (exit 0) when tip is missing or empty.
+//   node collector/tools/merge-news-keyword-tip.mjs --selftest
+
+import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { NEWS_KEYWORD_PROBE_LABS } from './seo-daily.mjs';
+
+/** Google News practical keyword cap (matches site/templates/newsSitemap.mjs). */
+export const NEWS_KEYWORD_CAP = 12;
+
+function decodeXmlText(s) {
+  return String(s || '')
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&');
+}
+
+function escXml(s) {
+  return String(s || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function labRe(lab) {
+  return new RegExp(
+    `(?:^|[^A-Za-z0-9])${String(lab).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`,
+    'i',
+  );
+}
+
+function splitKeywords(kw) {
+  return String(kw || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+/**
+ * Probe labs present in a news:keywords string.
+ * @param {string} keywords
+ * @param {readonly string[]} [labs]
+ * @returns {string[]}
+ */
+export function probeLabsInKeywords(keywords, labs = NEWS_KEYWORD_PROBE_LABS) {
+  const out = [];
+  for (const lab of labs) {
+    if (labRe(lab).test(keywords)) out.push(lab);
+  }
+  return out;
+}
+
+/**
+ * Map <loc> → tip probe lab names found in that entry's news:keywords.
+ * @param {string} tipXml
+ * @param {readonly string[]} [labs]
+ * @returns {Map<string, string[]>}
+ */
+export function tipProbeKeywordsByLoc(tipXml, labs = NEWS_KEYWORD_PROBE_LABS) {
+  const map = new Map();
+  for (const block of String(tipXml || '').matchAll(/<url\b[\s\S]*?<\/url>/gi)) {
+    const chunk = block[0];
+    const locM = chunk.match(/<loc>\s*([\s\S]*?)\s*<\/loc>/i);
+    if (!locM) continue;
+    const loc = decodeXmlText(locM[1]).trim();
+    if (!loc) continue;
+    const kwM = chunk.match(/<news:keywords>\s*([\s\S]*?)\s*<\/news:keywords>/i);
+    const probes = probeLabsInKeywords(decodeXmlText(kwM ? kwM[1] : ''), labs);
+    if (probes.length) map.set(loc, probes);
+  }
+  return map;
+}
+
+/**
+ * Merge tip probe-lab keywords into rebuilt news-sitemap XML for matching <loc>.
+ * Missing tip probes are prepended so they survive the 12-cap.
+ *
+ * @param {string} tipXml
+ * @param {string} newXml
+ * @param {readonly string[]} [labs]
+ * @returns {{ xml: string, merged: number, locs: number }}
+ */
+export function mergeNewsKeywordTip(tipXml, newXml, labs = NEWS_KEYWORD_PROBE_LABS) {
+  const tipMap = tipProbeKeywordsByLoc(tipXml, labs);
+  if (!tipMap.size) return { xml: String(newXml || ''), merged: 0, locs: 0 };
+
+  let merged = 0;
+  let locs = 0;
+  const xml = String(newXml || '').replace(/<url\b[\s\S]*?<\/url>/gi, (chunk) => {
+    const locM = chunk.match(/<loc>\s*([\s\S]*?)\s*<\/loc>/i);
+    if (!locM) return chunk;
+    const loc = decodeXmlText(locM[1]).trim();
+    const tipProbes = tipMap.get(loc);
+    if (!tipProbes || !tipProbes.length) return chunk;
+
+    const kwM = chunk.match(/<news:keywords>\s*([\s\S]*?)\s*<\/news:keywords>/i);
+    const current = decodeXmlText(kwM ? kwM[1] : '');
+    const missing = tipProbes.filter((lab) => !labRe(lab).test(current));
+    if (!missing.length) return chunk;
+
+    const bits = [...missing, ...splitKeywords(current)];
+    const next = [...new Set(bits)].slice(0, NEWS_KEYWORD_CAP).join(', ');
+    merged += missing.length;
+    locs += 1;
+    const tag = `<news:keywords>${escXml(next)}</news:keywords>`;
+    if (kwM) return chunk.replace(kwM[0], tag);
+    // Rare: tip had keywords but rebuild omitted the element — insert before </news:news>.
+    if (/<\/news:news>/i.test(chunk)) {
+      return chunk.replace(/<\/news:news>/i, `      ${tag}\n    </news:news>`);
+    }
+    return chunk;
+  });
+
+  return { xml, merged, locs };
+}
+
+export function selftest() {
+  const tip = `<?xml version="1.0"?>
+<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://siren.watch/item/roadster-a.html</loc>
+    <news:news>
+      <news:title>Tesla Roadster flying cars tape</news:title>
+      <news:keywords>Tesla, Roadster, FSD, AI, SIREN</news:keywords>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://siren.watch/item/starshield-b.html</loc>
+    <news:news>
+      <news:title>SpaceX Starshield Ukraine access</news:title>
+      <news:keywords>SpaceX, Starshield, AI, SIREN</news:keywords>
+    </news:news>
+  </url>
+</urlset>`;
+
+  const rebuilt = `<?xml version="1.0"?>
+<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://siren.watch/item/roadster-a.html</loc>
+    <news:news>
+      <news:title>Tesla Roadster flying cars tape</news:title>
+      <news:keywords>Tesla, FSD, AI, artificial intelligence, SIREN</news:keywords>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://siren.watch/item/starshield-b.html</loc>
+    <news:news>
+      <news:title>SpaceX Starshield Ukraine access</news:title>
+      <news:keywords>SpaceX, AI, artificial intelligence, SIREN</news:keywords>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://siren.watch/item/other.html</loc>
+    <news:news>
+      <news:title>Unrelated</news:title>
+      <news:keywords>Google, AI, SIREN</news:keywords>
+    </news:news>
+  </url>
+</urlset>`;
+
+  const once = mergeNewsKeywordTip(tip, rebuilt);
+  if (once.merged < 2 || once.locs !== 2) {
+    throw new Error(`expected ≥2 merges on 2 locs, got merged=${once.merged} locs=${once.locs}`);
+  }
+  if (!/Roadster/.test(once.xml) || !/Starshield/.test(once.xml)) {
+    throw new Error('merged XML missing Roadster/Starshield');
+  }
+  // Roadster must appear in the roadster loc keywords, not only as a title.
+  const roadsterChunk = once.xml.match(
+    /<loc>\s*https:\/\/siren\.watch\/item\/roadster-a\.html\s*<\/loc>[\s\S]*?<\/url>/i,
+  );
+  if (!roadsterChunk || !/<news:keywords>[^<]*Roadster/.test(roadsterChunk[0])) {
+    throw new Error('Roadster not restored into roadster-a keywords');
+  }
+  const otherChunk = once.xml.match(
+    /<loc>\s*https:\/\/siren\.watch\/item\/other\.html\s*<\/loc>[\s\S]*?<\/url>/i,
+  );
+  if (!otherChunk || /Roadster|Starshield/.test(otherChunk[0])) {
+    throw new Error('unrelated loc must not gain tip probes');
+  }
+
+  const twice = mergeNewsKeywordTip(tip, once.xml);
+  if (twice.merged !== 0) {
+    throw new Error(`idempotent merge expected 0, got ${twice.merged}`);
+  }
+  if (twice.xml !== once.xml) {
+    throw new Error('idempotent merge changed XML');
+  }
+
+  const empty = mergeNewsKeywordTip('', rebuilt);
+  if (empty.merged !== 0 || empty.xml !== rebuilt) {
+    throw new Error('empty tip must be a no-op');
+  }
+
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Roadster')
+    || !NEWS_KEYWORD_PROBE_LABS.includes('Starshield')) {
+    throw new Error('probe labs must include Roadster + Starshield');
+  }
+
+  console.log('merge-news-keyword-tip selftest: ok');
+}
+
+function main(argv = process.argv.slice(2)) {
+  if (argv.includes('--selftest')) {
+    selftest();
+    return;
+  }
+  const tipPath = argv[0];
+  const newPath = argv[1];
+  if (!tipPath || !newPath) {
+    console.error('usage: merge-news-keyword-tip.mjs <tip.xml> <new.xml>');
+    process.exit(2);
+  }
+  let tipXml = '';
+  try {
+    tipXml = readFileSync(tipPath, 'utf8');
+  } catch {
+    console.log('merge-news-keyword-tip: tip missing; skip');
+    return;
+  }
+  let newXml = '';
+  try {
+    newXml = readFileSync(newPath, 'utf8');
+  } catch (err) {
+    console.error(`merge-news-keyword-tip: cannot read ${newPath}: ${err.message || err}`);
+    process.exit(1);
+  }
+  const { xml, merged, locs } = mergeNewsKeywordTip(tipXml, newXml);
+  if (merged > 0) {
+    writeFileSync(newPath, xml);
+    console.log(`merged ${merged} tip news:keywords probe needle(s) across ${locs} loc(s) (#210)`);
+  } else {
+    console.log('merge-news-keyword-tip: nothing to merge');
+  }
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (isMain) {
+  try {
+    main();
+  } catch (err) {
+    console.error(`merge-news-keyword-tip: ${err.message || err}`);
+    process.exit(1);
+  }
+}

@@ -709,3 +709,31 @@ test('collect newsroom refreshes search-trends before --only news (FINDABILITY #
   const rebuildAt = newsroom[0].indexOf('Rebuild the site');
   assert.ok(trendsAt >= 0 && rebuildAt > trendsAt, 'Trends watch must precede Rebuild');
 });
+
+test('Publish merges tip news:keywords probe needles (FINDABILITY #210)', () => {
+  // Orphan collect on tip < #208 wiped Roadster; #210 stashes tip
+  // news-sitemap.xml and merges NEWS_KEYWORD_PROBE_LABS into the rebuild.
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #210/);
+  assert.match(collect, /merge-news-keyword-tip\.mjs/);
+  assert.match(collect, /news-sitemap\.xml/);
+  const collectMerges = collect.match(/merge-news-keyword-tip\.mjs/g) || [];
+  assert.ok(
+    collectMerges.length >= 2,
+    `expected merge on newsroom + full Publish, got ${collectMerges.length}`,
+  );
+  const stash = collect.match(/search-trends\.html news-sitemap\.xml/g) || [];
+  assert.ok(
+    stash.length >= 2,
+    `expected news-sitemap stash on both collect Publish paths, got ${stash.length}`,
+  );
+
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #210/);
+  assert.match(newsFast, /merge-news-keyword-tip\.mjs/);
+  const nfMerges = newsFast.match(/merge-news-keyword-tip\.mjs/g) || [];
+  assert.ok(
+    nfMerges.length >= 2,
+    `expected merge on overlay + orphan news-fast paths, got ${nfMerges.length}`,
+  );
+});

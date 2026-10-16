@@ -804,9 +804,11 @@ while [ "$(date +%s)" -lt "$END" ]; do
       for map in agents.md llms.txt index.html classic.html; do
         [ -f ".pages/$map" ] && cp -a ".pages/$map" "$PRESERVE_MAPS/$map"
       done
+      # FINDABILITY #210 — stash tip news-sitemap before public/ overlay can
+      # wipe Roadster/Starshield probe needles built on tip < #208.
       for hub in race.html race/index.html watts.html watts/index.html \
         lab/micron.html lab/coreweave.html lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html \
-        search-trends.html; do
+        search-trends.html news-sitemap.xml; do
         if [ -f ".pages/$hub" ]; then
           mkdir -p "$PRESERVE_MAPS/$(dirname "$hub")"
           cp -a ".pages/$hub" "$PRESERVE_MAPS/$hub"
@@ -857,6 +859,11 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_qwen_faq .pages "$PRESERVE_MAPS"
       restore_deepseek_faq .pages "$PRESERVE_MAPS"
       restore_mistral_faq .pages "$PRESERVE_MAPS"
+      # FINDABILITY #210 — merge tip news:keywords probe needles after overlay.
+      if [ -f "$PRESERVE_MAPS/news-sitemap.xml" ] && [ -f .pages/news-sitemap.xml ]; then
+        node collector/tools/merge-news-keyword-tip.mjs \
+          "$PRESERVE_MAPS/news-sitemap.xml" .pages/news-sitemap.xml
+      fi
       rm -rf "$PRESERVE_MAPS"
       git -C .pages config user.name  'github-actions[bot]'
       git -C .pages config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -874,12 +881,13 @@ while [ "$(date +%s)" -lt "$END" ]; do
       # FINDABILITY #128 — stash tip conquest FAQ hubs before orphan wipe.
       # FINDABILITY #136/#141/#143/#145/#153/#154/#155/#157/#158/#161 — agent maps +
       # lab hubs + home/race + Watts/Micron/CoreWeave/Nvidia/Neoclouds/Trends FAQs.
+      # FINDABILITY #210 — also stash tip news-sitemap.xml for probe-needle merge.
       PRESERVE_FAQ=$(mktemp -d)
       for hub in compare.html alternatives.html agents.md llms.txt \
         lab/index.html companies.html companies/index.html \
         index.html classic.html race.html race/index.html \
         watts.html watts/index.html lab/micron.html lab/coreweave.html \
-        lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html; do
+        lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html news-sitemap.xml; do
         if [ -f ".pages/$hub" ]; then
           mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
           cp -a ".pages/$hub" "$PRESERVE_FAQ/$hub"
@@ -893,7 +901,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             lab/index.html companies.html companies/index.html \
             index.html classic.html race.html race/index.html \
             watts.html watts/index.html lab/micron.html lab/coreweave.html \
-            lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html; do
+            lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html search-trends.html news-sitemap.xml; do
             if [ -f ".pages-faq-tip/$hub" ]; then
               mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
               cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -938,6 +946,11 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_qwen_faq .pages "$PRESERVE_FAQ"
       restore_deepseek_faq .pages "$PRESERVE_FAQ"
       restore_mistral_faq .pages "$PRESERVE_FAQ"
+      # FINDABILITY #210 — merge tip news:keywords probe needles after orphan tar.
+      if [ -f "$PRESERVE_FAQ/news-sitemap.xml" ] && [ -f .pages/news-sitemap.xml ]; then
+        node collector/tools/merge-news-keyword-tip.mjs \
+          "$PRESERVE_FAQ/news-sitemap.xml" .pages/news-sitemap.xml
+      fi
       rm -rf "$PRESERVE_FAQ"
       git -C .pages init -q
       git -C .pages checkout -q -b gh-pages
