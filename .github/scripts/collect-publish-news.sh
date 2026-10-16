@@ -181,6 +181,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF '/doom-index.html' ".pages/$map" 2>/dev/null \
       || ! grep -qF '/ai-activity-index.html' ".pages/$map" 2>/dev/null \
       || ! grep -qF '/ai-activity-level.html' ".pages/$map" 2>/dev/null \
+      || ! grep -qF '/classic.html' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'root https://siren.watch/doombench.html' ".pages/$map" 2>/dev/null \
       || { grep -qF '/lab/openai.html' ".pages/$map" 2>/dev/null \
         && ! grep -qF 'OpenAI / ChatGPT' ".pages/$map" 2>/dev/null; } \
@@ -216,7 +217,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'Meta and Apple Mac AI' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Samsung AI glasses' ".pages/$map" 2>/dev/null; }; then
     cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-    echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193/#195)"
+    echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193/#195/#324)"
   fi
 done
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
