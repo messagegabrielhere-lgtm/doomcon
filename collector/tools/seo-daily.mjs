@@ -476,6 +476,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Bolt',
   // FINDABILITY #236 — DeepSeek V4 Pro product-class needle.
   'DeepSeek V4 Pro',
+  // FINDABILITY #238 — Qwen3.8 product-class needle (Max + Omni Flash tape).
+  'Qwen3.8',
 ]);
 
 /**
@@ -5244,6 +5246,23 @@ function selftest() {
   }
   if (dsV4ProLags.filter((r) => /pixel economics/i.test(r.title)).some((r) => r.lab === 'DeepSeek V4 Pro')) {
     throw new Error('newsKeywordLags should not flag DeepSeek V4 Pro when keywords include it');
+  }
+  // FINDABILITY #238 — catch tip wipe of Qwen3.8 needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Qwen3.8')) {
+    throw new Error('probe labs missing Qwen3.8');
+  }
+  const qwen38LagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Nemotron 3.5 Super VL vs Qwen3.8 Max: Open vs Hosted</news:title>'
+    + '<news:keywords>Nemotron, Qwen, Nemotron 3.5 Super VL, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Nemotron 3.5 Super VL vs Qwen3.8 Omni Flash: You Cannot Have the Ears and the Weights</news:title>'
+    + '<news:keywords>Nemotron, Qwen, Nemotron 3.5 Super VL, Qwen3.8, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const qwen38Lags = newsKeywordLags(qwen38LagXml);
+  if (!qwen38Lags.some((r) => r.lab === 'Qwen3.8')) {
+    throw new Error(`newsKeywordLags expected Qwen3.8 lag: ${JSON.stringify(qwen38Lags)}`);
+  }
+  if (qwen38Lags.filter((r) => /Ears and the Weights/i.test(r.title)).some((r) => r.lab === 'Qwen3.8')) {
+    throw new Error('newsKeywordLags should not flag Qwen3.8 when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

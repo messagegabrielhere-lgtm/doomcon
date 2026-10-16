@@ -257,6 +257,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('DeepSeek V4 Pro')) {
     throw new Error('probe labs must include DeepSeek V4 Pro');
   }
+  // FINDABILITY #238 — Qwen3.8 product-class needle stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Qwen3.8')) {
+    throw new Error('probe labs must include Qwen3.8');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }

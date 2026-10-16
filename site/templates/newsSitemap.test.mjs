@@ -1269,6 +1269,42 @@ test('news sitemap keywords include Nemotron 3.5 Super VL from multi-title tape 
   assert.doesNotMatch(c, /Nemotron 3\.5 Super VL/);
 });
 
+test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
+  // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
+  // Flash vs-Nemotron titles omit the version surface.
+  const a = keywordsFor({
+    title: 'Nemotron 3.5 Super VL vs Qwen3.8 Max: Open vs Hosted',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Nemotron', 'Qwen'],
+  });
+  assert.match(a, /\bQwen3\.8\b/);
+  assert.match(a, /\bNemotron 3\.5 Super VL\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Qwen3.8') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Nemotron 3.5 Super VL vs Qwen3.8 Omni Flash: You Cannot Have the Ears and the Weights',
+    summary: 'Qwen3.8 Omni Flash named beside Super VL.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Nemotron', 'Qwen'],
+  });
+  assert.match(b, /\bQwen3\.8\b/);
+  const c = keywordsFor({
+    title: 'Qwen ships for enterprise agents',
+    summary: 'Bare Qwen only — versioned Max / Omni surfaces not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Qwen'],
+  });
+  assert.match(c, /\bQwen\b/);
+  assert.doesNotMatch(c, /Qwen3\.8/);
+});
+
 test('news sitemap keywords include DeepSeek V4 Pro from multi-title tape (FINDABILITY #236)', () => {
   // Multi-title DeepSeek V4 Pro tape: bare DeepSeek fills a 12-cap slot while
   // vs-Nemotron titles omit the V4 Pro product surface.
