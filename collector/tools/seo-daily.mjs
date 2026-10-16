@@ -470,6 +470,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'MAI-Base', 'MAI-Base-2',
   // FINDABILITY #222 — Muse Spark product-class needles (multi-title tape).
   'Muse Spark', 'Muse Spark Open',
+  // FINDABILITY #292 — Mac Studios hardware needle (Muse Spark Open tape).
+  'Mac Studios',
   // FINDABILITY #224 — Tencent Cloud product-class needle (multi-title tape).
   'Tencent Cloud',
   // FINDABILITY #226 — CERT-In agency needle (multi-title AI cyber tape).
@@ -5813,6 +5815,23 @@ function selftest() {
   }
   if (qwen3827bLags.filter((r) => /9B slot/i.test(r.title)).some((r) => r.lab === 'Qwen3.8-27B')) {
     throw new Error('newsKeywordLags should not flag Qwen3.8-27B when keywords include it');
+  }
+  // FINDABILITY #292 — catch tip wipe of Mac Studios needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Mac Studios')) {
+    throw new Error('probe labs missing Mac Studios');
+  }
+  const macStudiosLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Meta Muse Spark Open brings 816B-parameter AI to Mac Studios</news:title>'
+    + '<news:keywords>Muse Spark, Google, Meta, Muse, Muse Spark Open, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '<url><news:title>Meta releases Muse Spark Open: it runs on two Mac Studios</news:title>'
+    + '<news:keywords>Mac Studios, Muse Spark, Meta, Muse, Muse Spark Open, AI, artificial intelligence, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const macStudiosLags = newsKeywordLags(macStudiosLagXml);
+  if (!macStudiosLags.some((r) => r.lab === 'Mac Studios')) {
+    throw new Error(`newsKeywordLags expected Mac Studios lag: ${JSON.stringify(macStudiosLags)}`);
+  }
+  if (macStudiosLags.filter((r) => /two Mac Studios/i.test(r.title)).some((r) => r.lab === 'Mac Studios')) {
+    throw new Error('newsKeywordLags should not flag Mac Studios when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
