@@ -442,6 +442,8 @@ while [ "$(date +%s)" -lt "$END" ]; do
     # FAQ is missing (orphan Publish can keep #254 while wiping #284).
     # FINDABILITY #264 — also restore when #262 level-alias FAQ prose is
     # missing (orphan Publish can keep #254 while wiping the tip overlay).
+    # FINDABILITY #296 — also restore when dual head-term <title> loses
+    # contiguous “AI activity level today ·” (middot form; description uses :).
     restore_home_knowsabout() {
       local root="$1" preserve="$2"
       local hub
@@ -450,9 +452,10 @@ while [ "$(date +%s)" -lt "$END" ]; do
           && { ! grep -qF 'OpenAI / ChatGPT' "$root/$hub" 2>/dev/null \
             || ! grep -qF 'What is an AI activity index?' "$root/$hub" 2>/dev/null \
             || ! grep -qF 'What is the AI activity index today?' "$root/$hub" 2>/dev/null \
-            || ! grep -qF '/ai-activity-level.html is a short alias' "$root/$hub" 2>/dev/null; }; then
+            || ! grep -qF '/ai-activity-level.html is a short alias' "$root/$hub" 2>/dev/null \
+            || ! grep -qF 'AI activity level today ·' "$root/$hub" 2>/dev/null; }; then
           cp -a "$preserve/$hub" "$root/$hub"
-          echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284)"
+          echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296)"
         fi
       done
       # FINDABILITY #252/#254 — alias body must match restored home.

@@ -60,7 +60,7 @@ describe('classic page', () => {
 
   it('keeps the homepage head on path / with the live title', () => {
     const html = render(ctx);
-    assert.match(html, /<title>AI activity index today · SIREN/);
+    assert.match(html, /<title>AI activity index today · AI activity level today · SIREN/);
     assert.match(html, /rel="canonical" href="https:\/\/siren\.watch\/"/);
     assert.doesNotMatch(html, /Where is the full SIREN instrument panel\?/);
   });
