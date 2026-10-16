@@ -1,14 +1,14 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T00:24Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
-live lead **6,688** sitemap URLs / news **200** (pizzint news-sitemap **0**, flapping);
+**Measured:** 2026-10-16T01:05Z (live HTTP fetches via `seo-daily` / `fetch.mjs`);
+live lead **6,687** sitemap URLs / news **200** (pizzint news-sitemap **0**, `google-news-open`);
 ChatGPT Chrome **#191** + Meta–Apple Mac **#193** + agents needle **#194** + Samsung
 AI glasses **#195** tipped and survived schedule newsroom Publish; collect extract **#192**
 + syntax fix **#196** + bash-n guard **#197** verified (schedule run 38828432583
 Publish + IndexNow success on tip ≥ #197; Trends tip fresh, `ai_related_total` 0);
-News keywords **#199** add METR + Bee from live 48h tape while google-news-open;
-News keywords **#200** add Apertus / Apertus 1.5 while pizzint-news-alive (14);
-`seo-daily` probes **#201** watch METR / Bee / Apertus title↔keywords lag;
+News keywords **#199** METR + Bee + **#200** Apertus / Apertus 1.5 live on tip;
+`seo-daily` probes **#201** caught full-collect orphan wipe of Apertus (tip &lt; #200)
+and tip restore `9379ca482` cleared `news-keywords-lag` (live lags **0**);
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave→lab,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
