@@ -132,6 +132,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // names the model while Coinbase "Base" + topic tags fill the 12-cap and
   // drop MAI-Base (bare Base also false-matched inside MAI-Base-* — fixed below).
   'MAI-Base', 'MAI-Base-2',
+  // FINDABILITY #222 — multi-title Muse Spark / Muse Spark Open tape;
+  // #172 Muse alias already fires beside Meta, but 12-cap leaves product-class
+  // titles (Muse Spark Open vs DeepSeek…) without Muse Spark in keywords.
+  'Muse Spark', 'Muse Spark Open',
 ]);
 
 /**

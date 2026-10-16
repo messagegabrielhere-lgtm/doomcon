@@ -462,6 +462,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'ChatGPT Voice', 'GPT-Live', 'GPT-Live-1.1',
   // FINDABILITY #216 — MAI-Base needles while Google News contested.
   'MAI-Base', 'MAI-Base-2',
+  // FINDABILITY #222 — Muse Spark product-class needles (multi-title tape).
+  'Muse Spark', 'Muse Spark Open',
 ]);
 
 /**
@@ -5110,6 +5112,24 @@ function selftest() {
   }
   if (maiLags.filter((r) => /enterprise agents/i.test(r.title)).some((r) => r.lab === 'MAI-Base')) {
     throw new Error('newsKeywordLags should not flag MAI-Base when keywords include it');
+  }
+  // FINDABILITY #222 — catch tip wipe of Muse Spark / Muse Spark Open needles.
+  for (const lab of ['Muse Spark', 'Muse Spark Open']) {
+    if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) throw new Error(`probe labs missing ${lab}`);
+  }
+  const museSparkLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Muse Spark Open vs DeepSeek V4.1 Flash: Same Score, Triple the Cost</news:title>'
+    + '<news:keywords>DeepSeek, Muse, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Meta ships Muse Spark update for coding agents</news:title>'
+    + '<news:keywords>Meta, Muse, Muse Spark, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const museSparkLags = newsKeywordLags(museSparkLagXml);
+  if (!museSparkLags.some((r) => r.lab === 'Muse Spark')
+    || !museSparkLags.some((r) => r.lab === 'Muse Spark Open')) {
+    throw new Error(`newsKeywordLags expected Muse Spark / Muse Spark Open lag: ${JSON.stringify(museSparkLags)}`);
+  }
+  if (museSparkLags.filter((r) => /coding agents/i.test(r.title)).some((r) => r.lab === 'Muse Spark')) {
+    throw new Error('newsKeywordLags should not flag Muse Spark when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
