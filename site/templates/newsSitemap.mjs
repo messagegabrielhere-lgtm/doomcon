@@ -140,6 +140,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Tencent already fills a 12-cap slot (parallel to Alibaba Cloud) while
   // product-class "Tencent Cloud" titles drop the cloud surface.
   'Tencent Cloud',
+  // FINDABILITY #226 — multi-title CERT-In AI-agent cyber tape (India CERT);
+  // titles name CERT-In while topic/source meta fill the 12-cap and drop the
+  // agency surface.
+  'CERT-In',
 ]);
 
 /**
