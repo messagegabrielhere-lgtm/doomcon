@@ -344,6 +344,14 @@ describe('lab facets', () => {
     assert.match(msHtml, /[Nn]ot a product review/);
     assert.match(msHtml, /search-trends\.html/);
     assert.doesNotMatch(msHtml, /buy Microsoft|price target|must use Copilot/i);
+    // FINDABILITY #220 — Microsoft MAI-Base FAQ on the same gated lab.
+    assert.match(
+      msHtml,
+      /Why does SIREN watch Microsoft MAI-Base\?/,
+    );
+    assert.match(msHtml, /MAI-Base-2/);
+    assert.match(msHtml, /[Nn]ot a model review/);
+    assert.doesNotMatch(msHtml, /buy MAI-Base|price target|must use MAI-Base/i);
     // FINDABILITY #173 — xAI / Grok FAQ on gated lab.
     assert.equal(LAB_HEAD_ALIASES.xai, 'Grok');
     assert.equal(labAboutLabel({ id: 'xai', name: 'xAI' }), 'xAI / Grok');
