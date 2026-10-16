@@ -1783,6 +1783,42 @@ test('news sitemap keywords include Beam from multi-title open-model tape (FINDA
   assert.doesNotMatch(c, /\bBeam\b/);
 });
 
+test('news sitemap keywords include Vercel from multi-title Jev adoption tape (FINDABILITY #298)', () => {
+  // Multi-title Vercel tape: Jev / Google / OpenRouter fill 12-cap slots while
+  // company-class Vercel titles drop the host surface.
+  const a = keywordsFor({
+    title: 'Vercel data shows Jev posts fastest early AI model adoption',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Google', 'Jev'],
+  });
+  assert.match(a, /\bVercel\b/);
+  assert.match(a, /\bJev\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Vercel') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Jev is Vercel\u2019s fastest-adopted AI model ever',
+    summary: 'Curly-apostrophe possessive still matches the Vercel needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'techcrunch-ai',
+    entities: ['Jev', 'OpenRouter'],
+  });
+  assert.match(b, /\bVercel\b/);
+  const c = keywordsFor({
+    title: 'Jev AI model hits fastest adoption ever, used by Fortune 500',
+    summary: 'Model-only tape — hosting company surface not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Jev'],
+  });
+  assert.match(c, /\bJev\b/);
+  assert.doesNotMatch(c, /\bVercel\b/);
+});
+
 test('news sitemap keywords include Mac Studio from Apple–Meta Muse local tape (FINDABILITY #294)', () => {
   // Singular Mac Studio: Apple / Meta / Muse / Apple Intelligence fill 12-cap
   // while #292 plural needle does not match "Mac Studio".

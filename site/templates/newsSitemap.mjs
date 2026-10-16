@@ -240,6 +240,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // China AI / source meta fill the 12-cap and drop the product-class Beam
   // surface (parallel to Bolt #234 / Qwen 4 Max #282).
   'Beam',
+  // FINDABILITY #298 — multi-title Vercel hosting tape while google-news-open
+  // (2 titles: Vercel data shows Jev… + Jev is Vercel's…); Jev / Google /
+  // OpenRouter fill the 12-cap and drop the company-class Vercel surface
+  // (parallel to Accenture #271 / Airship #241).
+  'Vercel',
 ]);
 
 /**
