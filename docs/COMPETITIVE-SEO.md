@@ -68,8 +68,8 @@ keyword-rich (local cap **200**; head terms before topic/pillar slugs;
 #234 Bolt + #236 DeepSeek V4 Pro + #238 Qwen3.8 + #241 Airship needles). Entity
 model hubs **#245**/**#246** add `/model/muse-spark.html` + `/model/fable.html`
 (lead **6,692**; Publish preserve **#248**; tip `ba49002`). Multi-title
-**ModelSphere** / RiseUnion tape is the next news:keywords ship while the lane
-is open. Outrank free-tool URLs (`/verify.html`, `/free-tools.html`) plus
+**ModelSphere** news:keywords **#250** ships while the lane is open. Outrank
+free-tool URLs (`/verify.html`, `/free-tools.html`) plus
 `robots.txt` / `feed.xml` / `now.md` / `api/now.txt` discovery tips are the
 citation/LLM-mention lever beyond URL count. Blocker for organic proof remains
 FINDABILITY **#11** (GSC).
