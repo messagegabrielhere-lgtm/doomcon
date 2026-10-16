@@ -2296,6 +2296,44 @@ test('news sitemap keywords include PS5 from multi-title local-AI console tape (
   assert.doesNotMatch(c, /\bPS5\b/);
 });
 
+test('news sitemap keywords include Bee AI from multi-title wearable tape (FINDABILITY #356)', () => {
+  // Multi-title Bee AI tape: bare Bee / Amazon fill 12-cap while the contiguous
+  // Bee AI surface is dropped (FAQ #167 gates the lab).
+  const a = keywordsFor({
+    title: "Amazon's new Bee AI devices have a bystander problem, says former AWS security engineer",
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Amazon', 'Google', 'AWS'],
+  });
+  assert.match(a, /\bBee AI\b/);
+  assert.match(a, /\bBee\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Bee AI') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Amazon launches Bee AI devices that can listen throughout your day',
+    summary: 'Always-listening wearable tape beside AWS security commentary.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Amazon', 'Google'],
+  });
+  assert.match(b, /\bBee AI\b/);
+  // Bare Bee Frontier tape must not invent the Bee AI needle.
+  // (Summary must not name the needle — keywordsFor hay is title+summary.)
+  const c = keywordsFor({
+    title: 'Amazon’s all-new Bee Frontier is available now: Shop this always-listening wearable',
+    summary: 'Bare Frontier wearable tape must not invent a contiguous product-class compound needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Amazon', 'Google'],
+  });
+  assert.match(c, /\bBee Frontier\b/);
+  assert.doesNotMatch(c, /(^|,\s*)Bee AI(,|$)/);
+});
+
 test('news sitemap keywords include Flying Roadster from multi-title aerial tape (FINDABILITY #354)', () => {
   // Multi-title Flying Roadster tape: Roadster / FSD / Tesla fill 12-cap while
   // the contiguous Flying Roadster surface is dropped (FAQ #185 gates the lab).
