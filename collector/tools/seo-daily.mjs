@@ -554,6 +554,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'NYC Council',
   // FINDABILITY #320 — PS5 product needle (local-AI / llama.cpp console tape).
   'PS5',
+  // FINDABILITY #350 — plural PS5s companion (boundary misses PS5s titles).
+  'PS5s',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -6684,6 +6686,35 @@ function selftest() {
   }
   if (ps5Lags.filter((r) => /Local AI Machine/i.test(r.title)).some((r) => r.lab === 'PS5')) {
     throw new Error('newsKeywordLags should not flag PS5 when keywords include it');
+  }
+  // FINDABILITY #350 — catch tip wipe of PS5s plural companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('PS5s')) {
+    throw new Error('probe labs missing PS5s');
+  }
+  {
+    const ps5sLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Jailbroken PS5s can now run local AI models at over 100+ tokens per second</news:title>'
+      + '<news:keywords>AI, artificial intelligence, SIREN, GPUs &amp; chips, Inference &amp; serving, Local AI, compute, forum, reddit-artificial</news:keywords></url>'
+      + '<url><news:title>Jailbroken PS5s can now run local AI models at over 100+ tokens per second — fork of PS5LM</news:title>'
+      + '<news:keywords>PS5s, AI, artificial intelligence, SIREN, GPUs &amp; chips, Inference &amp; serving, Local AI, compute, forum</news:keywords></url>'
+      + '</urlset>';
+    const ps5sLags = newsKeywordLags(ps5sLagXml);
+    if (!ps5sLags.some((r) => r.lab === 'PS5s')) {
+      throw new Error(`newsKeywordLags expected PS5s lag: ${JSON.stringify(ps5sLags)}`);
+    }
+    if (ps5sLags.filter((r) => /PS5LM/i.test(r.title)).some((r) => r.lab === 'PS5s')) {
+      throw new Error('newsKeywordLags should not flag PS5s when keywords include it');
+    }
+    // Singular PS5 title must not lag as PS5s.
+    const singularOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Llama.cpp on a jailbroken PS5: run any GGUF model natively on the console</news:title>'
+      + '<news:keywords>Llama, PS5, AI, artificial intelligence, SIREN, Quantization, llama.cpp, GGUF, attention, forum</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (singularOnly.some((r) => r.lab === 'PS5s')) {
+      throw new Error('newsKeywordLags must not flag PS5s on singular PS5 titles');
+    }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
   for (const lab of ['GPT-Live-1', 'Kling', 'Kling 4.0']) {
