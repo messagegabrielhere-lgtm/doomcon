@@ -152,6 +152,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // already fills a 12-cap slot while product-class Super VL titles (vs Qwen
   // Omni Flash + vs Mage-VL) drop the variant surface.
   'Nemotron 3.5 Super VL',
+  // FINDABILITY #234 — multi-title Nemotron 3.5 Bolt companion tape; bare
+  // Nemotron (+ Super VL) fill 12-cap slots while HF slug + "Bolt Models"
+  // titles drop the Bolt product surface (parallel to Bee #199 bare needle).
+  'Bolt',
 ]);
 
 /**

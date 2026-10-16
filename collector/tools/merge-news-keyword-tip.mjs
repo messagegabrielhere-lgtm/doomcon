@@ -249,6 +249,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Nemotron 3.5 Super VL')) {
     throw new Error('probe labs must include Nemotron 3.5 Super VL');
   }
+  // FINDABILITY #234 — Nemotron 3.5 Bolt companion needle stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Bolt')) {
+    throw new Error('probe labs must include Bolt');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }

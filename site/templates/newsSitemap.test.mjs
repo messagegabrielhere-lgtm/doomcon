@@ -1269,6 +1269,45 @@ test('news sitemap keywords include Nemotron 3.5 Super VL from multi-title tape 
   assert.doesNotMatch(c, /Nemotron 3\.5 Super VL/);
 });
 
+test('news sitemap keywords include Bolt from Nemotron 3.5 Bolt multi-title tape (FINDABILITY #234)', () => {
+  // Multi-title Nemotron 3.5 Bolt companion tape: bare Nemotron fills a 12-cap
+  // slot while HF slug + "Bolt Models" titles omit the Bolt product surface.
+  const a = keywordsFor({
+    title: 'Nvidia/Nvidia-Nemotron-3.5-Bolt-74B-A9B-24GB',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'hf-daily-papers',
+    entities: ['NVIDIA', 'Nemotron'],
+  });
+  assert.match(a, /\bBolt\b/);
+  assert.match(a, /\bNemotron\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Bolt') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Open From Data Center to Desktop: NVIDIA Expands Nemotron Family With Highest Efficiency Super VL and Bolt Models',
+    summary: 'Bolt companion named beside Super VL.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['NVIDIA', 'Nemotron'],
+  });
+  assert.match(b, /\bBolt\b/);
+  assert.match(b, /\bNemotron\b/);
+  // Contiguous "Nemotron 3.5 Super VL" is absent here — Super VL needle stays #231.
+  assert.doesNotMatch(b, /Nemotron 3\.5 Super VL/);
+  const c = keywordsFor({
+    title: 'Nemotron ships for enterprise agents',
+    summary: 'Bare Nemotron only — companion variant not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Nemotron'],
+  });
+  assert.match(c, /\bNemotron\b/);
+  assert.doesNotMatch(c, /\bBolt\b/);
+});
+
 test('news sitemap keywords include Fable from live 48h eval tape (FINDABILITY #212)', () => {
   // Contested Google News: Azure Fable 5.5 + GLM→Fable 5 + Gemini-vs-Fable
   // titles name the model class while topic tags bury it under the 12-cap.

@@ -472,6 +472,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'DeepSeek V4.1 Flash',
   // FINDABILITY #231 — Nemotron 3.5 Super VL product-class needle.
   'Nemotron 3.5 Super VL',
+  // FINDABILITY #234 — Nemotron 3.5 Bolt companion needle (bare Bolt).
+  'Bolt',
 ]);
 
 /**
@@ -5206,6 +5208,23 @@ function selftest() {
   }
   if (nemotronVlLags.filter((r) => /Ears and the Weights/i.test(r.title)).some((r) => r.lab === 'Nemotron 3.5 Super VL')) {
     throw new Error('newsKeywordLags should not flag Nemotron 3.5 Super VL when keywords include it');
+  }
+  // FINDABILITY #234 — catch tip wipe of Nemotron 3.5 Bolt (bare Bolt) needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Bolt')) {
+    throw new Error('probe labs missing Bolt');
+  }
+  const boltLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Nvidia/Nvidia-Nemotron-3.5-Bolt-74B-A9B-24GB</news:title>'
+    + '<news:keywords>NVIDIA, Nemotron, NVDA, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>NVIDIA Expands Nemotron Family With Highest Efficiency Super VL and Bolt Models</news:title>'
+    + '<news:keywords>NVIDIA, Nemotron, Nemotron 3.5 Super VL, Bolt, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const boltLags = newsKeywordLags(boltLagXml);
+  if (!boltLags.some((r) => r.lab === 'Bolt')) {
+    throw new Error(`newsKeywordLags expected Bolt lag: ${JSON.stringify(boltLags)}`);
+  }
+  if (boltLags.filter((r) => /Bolt Models/i.test(r.title)).some((r) => r.lab === 'Bolt')) {
+    throw new Error('newsKeywordLags should not flag Bolt when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
