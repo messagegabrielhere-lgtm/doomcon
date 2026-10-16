@@ -115,6 +115,13 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Eclipse titles drop the device surfaces (parallel to Krea 3 #256 /
   // Flux 3 #258).
   'Bee Frontier', 'Bee Eclipse',
+  // FINDABILITY #356 — multi-title Bee AI product-class companion while
+  // google-news-open (2 titles: Amazon's new Bee AI devices… + Amazon
+  // launches Bee AI devices…); bare Bee (+ Amazon / AWS) fill 12-cap slots
+  // and drop the contiguous Bee AI surface (#199 Bee / #275 Frontier alone
+  // leave "Bee AI" missing — parallel to Flying Roadster #354 / Muse Spark
+  // Open #222). Amazon Bee FAQ #167 already gates the lab.
+  'Bee AI',
   // FINDABILITY #200 — pizzint-news-alive (14 URLs); Swiss open multimodal
   // Apertus 1.5 release tape in the live 48h window.
   'Apertus', 'Apertus 1.5',

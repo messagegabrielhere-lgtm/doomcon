@@ -410,6 +410,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Flying Roadster')) {
     throw new Error('probe labs must include Flying Roadster');
   }
+  // FINDABILITY #356 — Bee AI product-class companion stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Bee AI')) {
+    throw new Error('probe labs must include Bee AI');
+  }
   // FINDABILITY #310 — GPT-6 Astra space-form title heal.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
     || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {

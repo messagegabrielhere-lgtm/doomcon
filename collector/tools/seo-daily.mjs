@@ -538,6 +538,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'G7',
   // FINDABILITY #275 — Bee Frontier / Bee Eclipse product needles (wearable tape).
   'Bee Frontier', 'Bee Eclipse',
+  // FINDABILITY #356 — Bee AI product-class companion (multi-title; FAQ #167 gates).
+  'Bee AI',
   // FINDABILITY #277 — Surface Laptop Ultra product needle (AI-laptop tape).
   'Surface Laptop Ultra',
   // FINDABILITY #279 — RTX Spark product needle (on-device AI PC tape).
@@ -6766,6 +6768,35 @@ function selftest() {
     );
     if (roadsterOnly.some((r) => r.lab === 'Flying Roadster')) {
       throw new Error('newsKeywordLags must not flag Flying Roadster on bare Roadster titles');
+    }
+  }
+  // FINDABILITY #356 — catch tip wipe of Bee AI product-class needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Bee AI')) {
+    throw new Error('probe labs missing Bee AI');
+  }
+  {
+    const beeAiLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Amazon\'s new Bee AI devices have a bystander problem, says former AWS security engineer</news:title>'
+      + '<news:keywords>Amazon, Google, AWS, Bee, AI, artificial intelligence, SIREN, Cloud AI, attention, press, gnews-ai</news:keywords></url>'
+      + '<url><news:title>Amazon launches Bee AI devices that can listen throughout your day</news:title>'
+      + '<news:keywords>Amazon, Google, Bee, Bee AI, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const beeAiLags = newsKeywordLags(beeAiLagXml);
+    if (!beeAiLags.some((r) => r.lab === 'Bee AI')) {
+      throw new Error(`newsKeywordLags expected Bee AI lag: ${JSON.stringify(beeAiLags)}`);
+    }
+    if (beeAiLags.filter((r) => /listen throughout/i.test(r.title)).some((r) => r.lab === 'Bee AI')) {
+      throw new Error('newsKeywordLags should not flag Bee AI when keywords include it');
+    }
+    // Bare Bee / Bee Frontier title must not lag as Bee AI.
+    const beeOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Amazon’s all-new Bee Frontier is available now: Shop this always-listening AI wearable</news:title>'
+      + '<news:keywords>Amazon, Google, Bee, Bee Frontier, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (beeOnly.some((r) => r.lab === 'Bee AI')) {
+      throw new Error('newsKeywordLags must not flag Bee AI on bare Bee Frontier titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
