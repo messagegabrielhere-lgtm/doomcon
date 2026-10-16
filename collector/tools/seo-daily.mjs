@@ -452,6 +452,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'METR', 'Bee', 'Apertus', 'Apertus 1.5',
   // FINDABILITY #204 — live 48h needles (Bluesky/Attie/Nscale) while google-news-open.
   'Bluesky', 'Attie', 'Nscale',
+  // FINDABILITY #206 — Starshield product needle while Google News contested.
+  'Starshield',
 ]);
 
 /**
@@ -523,6 +525,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'AMD', alias: 'MI300' },
   // FINDABILITY #185 — Tesla → FSD for Google News keywords.
   { lab: 'Tesla', alias: 'FSD' },
+  // FINDABILITY #206 — SpaceX → Starshield for Google News keywords.
+  { lab: 'SpaceX', alias: 'Starshield' },
 ]);
 
 /**
@@ -4927,6 +4931,10 @@ function selftest() {
   for (const lab of ['Bluesky', 'Attie', 'Nscale']) {
     if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) throw new Error(`probe labs missing ${lab}`);
   }
+  // FINDABILITY #206 — catch tip wipe of Starshield needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Starshield')) {
+    throw new Error('probe labs missing Starshield');
+  }
   const metrLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
     + '<url><news:title>Anthropic grants outside evaluator METR employee-level access</news:title>'
     + '<news:keywords>Anthropic, Google, Claude, AI, SIREN</news:keywords></url>'
@@ -4936,6 +4944,8 @@ function selftest() {
     + '<news:keywords>Google, AI, artificial intelligence, SIREN</news:keywords></url>'
     + '<url><news:title>Nscale’s AI Buildout Hit by Fire, Delays and Angry Workers Ahead of IPO</news:title>'
     + '<news:keywords>Google, Nscale, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Musk Comments Sow Confusion Over Ukraine Starshield Disruption</news:title>'
+    + '<news:keywords>SpaceX, Elon Musk, AI, SIREN</news:keywords></url>'
     + '</urlset>';
   const metrLags = newsKeywordLags(metrLagXml);
   if (!metrLags.some((r) => r.lab === 'METR')) {
@@ -4949,6 +4959,9 @@ function selftest() {
   }
   if (metrLags.some((r) => r.lab === 'Nscale')) {
     throw new Error('newsKeywordLags should not flag Nscale when keywords include it');
+  }
+  if (!metrLags.some((r) => r.lab === 'Starshield')) {
+    throw new Error(`newsKeywordLags expected Starshield lag: ${JSON.stringify(metrLags)}`);
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
@@ -4973,6 +4986,8 @@ function selftest() {
     + '<news:keywords>Alibaba, Google, AI, SIREN</news:keywords></url>'
     + '<url><news:title>Gemini expands enterprise API access</news:title>'
     + '<news:keywords>Gemini, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>SpaceX expands Starlink capacity</news:title>'
+    + '<news:keywords>SpaceX, Google, AI, SIREN</news:keywords></url>'
     + '</urlset>';
   const labAliasLags = newsLabAliasKeywordLags(labAliasLagXml);
   if (!labAliasLags.some((r) => r.lab === 'OpenAI' && r.alias === 'ChatGPT')) {
@@ -5037,6 +5052,13 @@ function selftest() {
   }
   if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.alias === 'Copilot')) {
     throw new Error('NEWS_LAB_ALIAS_PROBES missing Copilot');
+  }
+  // FINDABILITY #206 — SpaceX → Starshield probe + lag selftest.
+  if (!NEWS_LAB_ALIAS_PROBES.some((p) => p.lab === 'SpaceX' && p.alias === 'Starshield')) {
+    throw new Error('NEWS_LAB_ALIAS_PROBES missing SpaceX→Starshield');
+  }
+  if (!labAliasLags.some((r) => r.lab === 'SpaceX' && r.alias === 'Starshield')) {
+    throw new Error(`newsLabAliasKeywordLags SpaceX→Starshield: ${JSON.stringify(labAliasLags)}`);
   }
   const labAliasGaps = deriveGaps({
     sites: [{

@@ -442,6 +442,7 @@ context.
 | 203 | Re-measure after #201 tip restore: full-collect orphan on tip &lt; #200 wiped Apertus keywords; tip `9379ca482` + IndexNow restored needles; live CDN lags **0**; lead **6687**/news **200**; `google-news-open`; Trends quiet; organic blocker remains operator GSC #11 + Bing #120 (issue #202) | Daily agent + Google News | **Done** (this pass) |
 | 204 | News-sitemap `NEWS_KEYWORD_LABS` + `seo-daily` probes: add **Bluesky** / **Attie** / **Nscale** from live 48h titles while `google-news-open` (Bluesky Attie AI builder tape; Nscale neocloud IPO / datacenter tape) so the 12-cap does not bury those surfaces — no new doorway URLs; Trends still quiet (`ai_related_total` 0); organic blocker remains operator GSC #11 + Bing #120 (issue #202) | Google News | **Done** (this pass) |
 | 205 | Re-measure after #204 tip overlay `2370b11` + IndexNow **200**: CDN lags **0** for Bluesky/Attie/Nscale; lead **6688**/news **200**; pizzint news flaps **0** (seo-daily briefly saw 14); Trends quiet; organic blocker remains operator GSC #11 + Bing #120 (issue #202) | Daily agent + Google News | **Done** (this pass) |
+| 206 | News-sitemap `NEWS_KEYWORD_LABS` + SpaceX→Starshield alias + `seo-daily` probes: add **Starshield** from live 48h Ukraine access tape while Google News contested (`pizzint-news-alive` flaps) so the 12-cap does not bury the product under topic tags — no new doorway URLs; Trends still quiet; organic blocker remains operator GSC #11 + Bing #120 (issue #202) | Google News | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
