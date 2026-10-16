@@ -1652,6 +1652,42 @@ test('news sitemap keywords include Surface Laptop Ultra from multi-title AI-lap
   assert.doesNotMatch(c, /\bSurface Laptop Ultra\b/);
 });
 
+test('news sitemap keywords include RTX Spark from multi-title on-device AI PC tape (FINDABILITY #279)', () => {
+  // Multi-title RTX Spark tape: NVIDIA / NVDA fill 12-cap slots while
+  // product-class on-device AI PC titles drop the RTX Spark surface.
+  const a = keywordsFor({
+    title: 'NVIDIA RTX Spark Laptops Launch Worldwide With Local AI Agent Support',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['NVIDIA'],
+  });
+  assert.match(a, /\bRTX Spark\b/);
+  assert.match(a, /\bNVIDIA\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('RTX Spark') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'NVIDIA RTX Spark PCs Available Today — A New Beginning for Windows PCs',
+    summary: 'On-device AI PC launch coverage from NVIDIA.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['NVIDIA'],
+  });
+  assert.match(b, /\bRTX Spark\b/);
+  const c = keywordsFor({
+    title: 'NVIDIA expands NVDA AI GPU lineup for enterprise inference',
+    summary: 'Bare NVIDIA / NVDA tape must not invent the Spark PC product needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['NVIDIA'],
+  });
+  assert.match(c, /\bNVIDIA\b/);
+  assert.doesNotMatch(c, /\bRTX Spark\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.
