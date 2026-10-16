@@ -489,6 +489,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Krea', 'Krea 3',
   // FINDABILITY #258 — Flux 3 image-model needle (multi-title Klein tape).
   'Flux 3',
+  // FINDABILITY #260 — Together AI hosting needle (multi-title tape).
+  'Together AI',
 ]);
 
 /**
@@ -5444,6 +5446,23 @@ function selftest() {
   }
   if (flux3Lags.filter((r) => /^Flux 3 Image Klein$/i.test(r.title)).some((r) => r.lab === 'Flux 3')) {
     throw new Error('newsKeywordLags should not flag Flux 3 when keywords include it');
+  }
+  // FINDABILITY #260 — catch tip wipe of Together AI needles.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Together AI')) {
+    throw new Error('probe labs missing Together AI');
+  }
+  const togetherAiLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>New paper from Stanford, Together AI, UIUC, and Meta introduces Hybrid Reasoning Agents</news:title>'
+    + '<news:keywords>Stanford, Meta, Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Meta Muse Spark Open is live on Together AI</news:title>'
+    + '<news:keywords>Together AI, Muse Spark Open, Meta, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const togetherAiLags = newsKeywordLags(togetherAiLagXml);
+  if (!togetherAiLags.some((r) => r.lab === 'Together AI')) {
+    throw new Error(`newsKeywordLags expected Together AI lag: ${JSON.stringify(togetherAiLags)}`);
+  }
+  if (togetherAiLags.filter((r) => /Muse Spark Open is live/i.test(r.title)).some((r) => r.lab === 'Together AI')) {
+    throw new Error('newsKeywordLags should not flag Together AI when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

@@ -1407,6 +1407,40 @@ test('news sitemap keywords include Flux 3 from multi-title Image Klein tape (FI
   assert.doesNotMatch(c, /\bFlux 3\b/);
 });
 
+test('news sitemap keywords include Together AI from multi-title hosting tape (FINDABILITY #260)', () => {
+  // Multi-title Together AI tape: Stanford Hybrid Reasoning Agents + Muse Spark
+  // Open on Together; topic/source meta fill the 12-cap on rotate-in.
+  const a = keywordsFor({
+    title: 'New paper from Stanford, Together AI, UIUC, and Meta introduces Hybrid Reasoning Agents',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(a, /\bTogether AI\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Together AI') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Meta Muse Spark Open is live on Together AI',
+    summary: 'Open-weight Muse Spark hosted on Together.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Meta'],
+  });
+  assert.match(b, /\bTogether AI\b/);
+  const c = keywordsFor({
+    title: 'Open-weight models race hosted inference platforms',
+    summary: 'No named Together surface — generic hosting noise must not invent a needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /\bTogether AI\b/);
+});
+
 test('news sitemap keywords include Qwen3.8 from multi-title Max + Omni Flash tape (FINDABILITY #238)', () => {
   // Multi-title Qwen3.8 tape: bare Qwen fills a 12-cap slot while Max / Omni
   // Flash vs-Nemotron titles omit the version surface.

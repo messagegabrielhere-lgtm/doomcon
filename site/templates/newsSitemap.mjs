@@ -180,6 +180,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // image tape while google-news-open (Black Forest Labs); topic/source meta
   // fill the 12-cap when titles rotate into the newest-200 window.
   'Flux 3',
+  // FINDABILITY #260 — multi-title Together AI inference/hosting tape
+  // (Stanford Hybrid Reasoning Agents + Muse Spark Open on Together); topic
+  // meta fill the 12-cap when titles rotate into the newest-200 window.
+  'Together AI',
 ]);
 
 /**
