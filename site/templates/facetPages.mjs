@@ -72,6 +72,9 @@ export const LAB_HEAD_ALIASES = Object.freeze({
   // FINDABILITY #161 — ticker people type when Trends shows "nvda" with AI
   // funding / debt / CoreWeave co-move headlines; stories already score under NVIDIA.
   'nvidia': 'NVDA',
+  // FINDABILITY #288 — ticker people type when Trends shows "crwv" with AI
+  // neocloud / GPU-cloud debt headlines; stories already score under CoreWeave.
+  'coreweave': 'CRWV',
   // FINDABILITY #169 — product people type when Trends / tape shows Muse Spark /
   // Muse Wonder with Meta open-weight AI headlines; stories already score under Meta AI.
   'meta': 'Muse',
@@ -495,11 +498,11 @@ export function renderLab(ctx, player) {
       `${brand.NAME} watches Google’s daily trending RSS for findability. When Micron, MU stock, DRAM stock, or HBM stock spikes with AI memory-chip headlines, this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
-  // FINDABILITY #155 — “coreweave stock” / AI neocloud debt Trends → gated lab.
+  // FINDABILITY #155/#288 — “coreweave stock” / CRWV / AI neocloud debt Trends → gated lab.
   if (player.id === 'coreweave') {
     faq.push([
-      `Why does ${brand.NAME} watch CoreWeave stock in Google Search Trends?`,
-      `${brand.NAME} watches Google’s daily trending RSS for findability. When CoreWeave stock spikes with AI neocloud / GPU-cloud debt headlines, this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+      `Why does ${brand.NAME} watch CoreWeave stock and CRWV in Google Search Trends?`,
+      `${brand.NAME} watches Google’s daily trending RSS for findability. When CoreWeave, CRWV stock, or AI neocloud / GPU-cloud debt headlines spike, this lab page is the crawlable answer — story counts only, not investment advice or a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
     // FINDABILITY #160 — selloff tape asks about debt / bond yields, not only “stock”.
     faq.push([

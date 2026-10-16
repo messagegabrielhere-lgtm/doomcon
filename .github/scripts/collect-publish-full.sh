@@ -150,6 +150,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'IREN stock' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'dram stock' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'CoreWeave stock' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'CRWV Trends' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'neoclouds Trends' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'NVDA Trends' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'OpenAI lawsuit' ".pages/$map" 2>/dev/null \
@@ -249,11 +250,11 @@ fi
 # FINDABILITY #155/#160 — restore tip /lab/coreweave.html when CoreWeave
 # stock or debt FAQ is missing after mid-merge / orphan Publish.
 if [ -f "$PRESERVE_FAQ/lab/coreweave.html" ] \
-  && { ! grep -qF 'Why does SIREN watch CoreWeave stock in Google Search Trends?' ".pages/lab/coreweave.html" 2>/dev/null \
+  && { ! grep -qF 'Why does SIREN watch CoreWeave stock and CRWV in Google Search Trends?' ".pages/lab/coreweave.html" 2>/dev/null \
     || ! grep -qF 'Why does SIREN watch CoreWeave debt and bond yields in Google Search Trends?' ".pages/lab/coreweave.html" 2>/dev/null; }; then
   mkdir -p .pages/lab
   cp -a "$PRESERVE_FAQ/lab/coreweave.html" .pages/lab/coreweave.html
-  echo "restored lab/coreweave.html CoreWeave stock/debt FAQ (#155/#160)"
+  echo "restored lab/coreweave.html CoreWeave stock/CRWV/debt FAQ (#155/#160/#288)"
 fi
 # FINDABILITY #161 — restore tip /lab/nvidia.html when Nvidia / NVDA
 # Trends FAQ is missing after mid-merge / orphan Publish on tip < #161.

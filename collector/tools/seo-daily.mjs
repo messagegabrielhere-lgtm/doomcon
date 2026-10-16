@@ -558,6 +558,8 @@ export const NEWS_LAB_ALIAS_PROBES = Object.freeze([
   { lab: 'Micron', alias: 'MU' },
   // FINDABILITY #159 — Trends HEAD_TERM aliases for Google News keywords.
   { lab: 'CoreWeave', alias: 'neocloud' },
+  // FINDABILITY #288 — CoreWeave ticker alias for Google News keywords.
+  { lab: 'CoreWeave', alias: 'CRWV' },
   { lab: 'IREN', alias: 'Iris Energy' },
   // FINDABILITY #161 — NVIDIA ticker alias for Google News keywords.
   { lab: 'NVIDIA', alias: 'NVDA' },
@@ -906,10 +908,13 @@ export function hasAgentsMicronDram(body, needle = AGENTS_MICRON_DRAM_NEEDLE) {
 }
 
 /** FINDABILITY #155 — CoreWeave lab FAQ + agent maps for CoreWeave stock Trends. */
-export const COREWEAVE_STOCK_FAQ_NEEDLE = 'Why does SIREN watch CoreWeave stock in Google Search Trends?';
+// FINDABILITY #288 — title matches CRWV ticker (parallel to Nvidia / NVDA #161).
+export const COREWEAVE_STOCK_FAQ_NEEDLE = 'Why does SIREN watch CoreWeave stock and CRWV in Google Search Trends?';
 /** FINDABILITY #160 — CoreWeave debt / bond-yield FAQ on the same gated lab. */
 export const COREWEAVE_DEBT_FAQ_NEEDLE = 'Why does SIREN watch CoreWeave debt and bond yields in Google Search Trends?';
-export const AGENTS_COREWEAVE_NEEDLE = 'CoreWeave stock';
+// FINDABILITY #288 — prefer CRWV ticker tip (parallel to NVDA Trends #161);
+// keep matching CoreWeave stock for tip transition after FAQ retitle.
+export const AGENTS_COREWEAVE_NEEDLE = 'CRWV Trends';
 
 /** Tip /lab/coreweave.html must keep the #155 CoreWeave Trends FAQ. */
 export function hasCoreweaveStockFaq(html, needle = COREWEAVE_STOCK_FAQ_NEEDLE) {
@@ -1512,6 +1517,8 @@ export const LAB_HEAD_TITLE_PROBES = Object.freeze([
   { path: '/lab/micron.html', needle: 'MU' },
   // FINDABILITY #161 — NVIDIA / NVDA ticker alias in lab title.
   { path: '/lab/nvidia.html', needle: 'NVDA' },
+  // FINDABILITY #288 — CoreWeave / CRWV ticker alias in lab title.
+  { path: '/lab/coreweave.html', needle: 'CRWV' },
   // FINDABILITY #169 — Muse product alias on Meta AI lab title/H1.
   { path: '/lab/meta.html', needle: 'Muse' },
   // FINDABILITY #170 — Apple Intelligence product alias on Apple lab title/H1.
@@ -3199,7 +3206,7 @@ export function formatMarkdown(report) {
     }
     if (ours && Array.isArray(ours.news_lab_alias_lags)) {
       if (ours.news_lab_alias_lags.length === 0) {
-        lines.push('- News labAboutLabel aliases (#146–#148/#159/#161/#172/#173/#176): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / Iris Energy / NVDA / Muse / Apple Intelligence / Copilot / Grok / HBM / Chatbots / Qwen)');
+        lines.push('- News labAboutLabel aliases (#146–#148/#159/#161/#172/#173/#176/#288): **ok** (ChatGPT / Claude / Gemini / MU / neocloud / CRWV / Iris Energy / NVDA / Muse / Apple Intelligence / Copilot / Grok / HBM / Chatbots / Qwen)');
       } else {
         const sample = ours.news_lab_alias_lags
           .slice(0, 3)
@@ -4183,11 +4190,11 @@ function selftest() {
   if (hasCoreweaveDebtFaq(COREWEAVE_STOCK_FAQ_NEEDLE) !== false) {
     throw new Error('hasCoreweaveDebtFaq false');
   }
-  if (hasAgentsCoreweave('CoreWeave stock → https://siren.watch/lab/coreweave.html') !== true) {
+  if (hasAgentsCoreweave('CRWV Trends → https://siren.watch/lab/coreweave.html') !== true) {
     throw new Error('hasAgentsCoreweave true');
   }
   if (hasAgentsCoreweave('https://siren.watch/lab/coreweave.html only') !== false) {
-    throw new Error('hasAgentsCoreweave needs CoreWeave needle');
+    throw new Error('hasAgentsCoreweave needs CRWV needle');
   }
   const cwGaps = deriveGaps({
     sites: [{

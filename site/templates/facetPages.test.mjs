@@ -175,7 +175,9 @@ describe('lab facets', () => {
     assert.match(micronHtml, /search-trends\.html/);
     assert.match(micronHtml, /not investment advice/);
     assert.doesNotMatch(micronHtml, /buy Micron|sell Micron|price target/i);
-    // FINDABILITY #155 — Trends “coreweave stock” FAQ on the gated lab.
+    // FINDABILITY #155/#288 — Trends “coreweave stock” / CRWV FAQ on the gated lab.
+    assert.equal(LAB_HEAD_ALIASES.coreweave, 'CRWV');
+    assert.equal(labAboutLabel({ id: 'coreweave', name: 'CoreWeave' }), 'CoreWeave / CRWV');
     const cwHtml = renderLab(ctx, {
       id: 'coreweave',
       name: 'CoreWeave',
@@ -184,8 +186,9 @@ describe('lab facets', () => {
     });
     assert.match(
       cwHtml,
-      /Why does SIREN watch CoreWeave stock in Google Search Trends\?/,
+      /Why does SIREN watch CoreWeave stock and CRWV in Google Search Trends\?/,
     );
+    assert.match(cwHtml, /CRWV stock/);
     // FINDABILITY #160 — debt / bond-yield FAQ on the same gated lab.
     assert.match(
       cwHtml,

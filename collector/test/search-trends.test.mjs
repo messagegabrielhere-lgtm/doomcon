@@ -87,7 +87,10 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   // FINDABILITY #160 — debt / bond / borrowing phrases also hit the lab.
   assert.ok(matchHeadTerms({ title: 'coreweave debt', news: [] }).includes('coreweave'));
   assert.ok(matchHeadTerms({ title: 'CoreWeave bond yields near 15%', news: [] }).includes('coreweave'));
-  assert.ok(HEAD_TERMS.some((t) => t.id === 'coreweave' && t.path === '/lab/coreweave.html'));
+  // FINDABILITY #288 — bare CRWV ticker Trends → gated CoreWeave lab.
+  assert.ok(matchHeadTerms({ title: 'CRWV stock', news: [] }).includes('coreweave'));
+  assert.ok(matchHeadTerms({ title: 'CRWV', news: [] }).includes('coreweave'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'coreweave' && t.path === '/lab/coreweave.html' && /CRWV/.test(t.label)));
   // FINDABILITY #161 — nvidia / NVDA stock Trends → gated lab.
   assert.ok(matchHeadTerms({ title: 'nvidia stock', news: [] }).includes('nvidia'));
   assert.ok(matchHeadTerms({ title: 'NVDA stock', news: [] }).includes('nvidia'));
