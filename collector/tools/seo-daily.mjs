@@ -1069,7 +1069,7 @@ export function hasAgentsMicrosoftCopilot(body, needle = AGENTS_MICROSOFT_COPILO
 
 /** FINDABILITY #220 — Microsoft MAI-Base FAQ + agent maps (same gated lab as #171). */
 export const MICROSOFT_MAI_FAQ_NEEDLE = 'Why does SIREN watch Microsoft MAI-Base?';
-export const AGENTS_MICROSOFT_MAI_NEEDLE = 'MAI-Base / MAI-Base-2';
+export const AGENTS_MICROSOFT_MAI_NEEDLE = 'Microsoft MAI-Base';
 
 /** Tip /lab/microsoft.html must keep the #220 Microsoft MAI-Base FAQ. */
 export function hasMicrosoftMaiFaq(html, needle = MICROSOFT_MAI_FAQ_NEEDLE) {
@@ -2192,7 +2192,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'agents-microsoft-mai-missing',
       severity: 'medium',
-      text: `${which} missing MAI-Base / MAI-Base-2 → /lab/microsoft.html tip (FINDABILITY #220) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #220`,
+      text: `${which} missing Microsoft MAI-Base → /lab/microsoft.html tip (FINDABILITY #220) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #220`,
     });
   }
 
@@ -3228,7 +3228,7 @@ export function formatMarkdown(report) {
     if (ours && (ours.agents_microsoft_mai != null || ours.llms_microsoft_mai != null)) {
       const ag = ours.agents_microsoft_mai == null ? '—' : (ours.agents_microsoft_mai ? 'yes' : 'NO');
       const lm = ours.llms_microsoft_mai == null ? '—' : (ours.llms_microsoft_mai ? 'yes' : 'NO');
-      lines.push(`- Agent-map MAI-Base / MAI-Base-2 → lab (#220): agents.md **${ag}** · llms.txt **${lm}**`);
+      lines.push(`- Agent-map Microsoft MAI-Base → lab (#220): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.xai_grok_faq != null) {
       lines.push(
@@ -4253,11 +4253,11 @@ function selftest() {
   if (hasMicrosoftMaiFaq('Why does SIREN watch Microsoft Copilot?') !== false) {
     throw new Error('hasMicrosoftMaiFaq false');
   }
-  if (hasAgentsMicrosoftMai('MAI-Base / MAI-Base-2 → https://siren.watch/lab/microsoft.html') !== true) {
+  if (hasAgentsMicrosoftMai('Microsoft MAI-Base → https://siren.watch/lab/microsoft.html') !== true) {
     throw new Error('hasAgentsMicrosoftMai true');
   }
   if (hasAgentsMicrosoftMai('https://siren.watch/lab/microsoft.html only') !== false) {
-    throw new Error('hasAgentsMicrosoftMai needs MAI-Base / MAI-Base-2 needle');
+    throw new Error('hasAgentsMicrosoftMai needs Microsoft MAI-Base needle');
   }
   const maiGaps = deriveGaps({
     sites: [{

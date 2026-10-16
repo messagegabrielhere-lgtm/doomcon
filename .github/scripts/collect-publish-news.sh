@@ -185,7 +185,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'Meta Muse' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Apple Intelligence' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Microsoft Copilot' ".pages/$map" 2>/dev/null \
-      || ! grep -qF 'MAI-Base / MAI-Base-2' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'Microsoft MAI-Base' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Grok / xAI' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Gemini / Gemma / Argon' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Samsung / AI memory' ".pages/$map" 2>/dev/null \

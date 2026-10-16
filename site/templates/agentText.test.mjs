@@ -316,7 +316,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /Microsoft Copilot Trends/);
   assert.match(md, /\/lab\/microsoft\.html/);
   // FINDABILITY #220 — agents.md lists Microsoft lab for MAI-Base tape.
-  assert.match(md, /MAI-Base \/ MAI-Base-2 → Microsoft lab/);
+  assert.match(md, /Microsoft MAI-Base \/ MAI-Base-2 → Microsoft lab/);
   assert.match(md, /\/lab\/microsoft\.html/);
   // FINDABILITY #173 — agents.md lists xAI lab for Grok Trends.
   assert.match(md, /Grok \/ xAI Trends/);
