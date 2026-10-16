@@ -1,9 +1,8 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-16T16:00Z shipping **#296** dual head-term home `<title>` (index + level today) after **#294**/`93da174` tip still **ok**; lead **6,684** / news **200** (`google-news-open`); **#294** Mac Studio singular **ok** (1/1);
+**Measured:** 2026-10-16T16:10Z after **#296** tip overlay `a00cfbc` + IndexNow **200**: CDN clear (home / classic / `/ai-activity-index` / `/ai-activity-level` dual `<title>` **ok**; `seo-daily` Home AI activity level today title **ok**); lead **6,685** / news **200** (`google-news-open`); **#294** Mac Studio singular **ok** (1/1);
 **#292** Mac Studios tip **ok** (2/2); **#290** Qwen3.8-27B tip **ok**; **#288** CRWV / CoreWeave tip **ok**; **#286** Beam tip **ok**; **#284** home FAQ today **ok**;
-**#279** RTX Spark **ok**; **#264** tip FAQ alias prose still **ok**; **#252** alias **200**; Trends `ai_related_total` **1**
-(`soxl stock` chip-ETF — hold doorway; no gated lab);
+**#279** RTX Spark **ok**; **#264** tip FAQ alias prose still **ok**; **#252** alias **200**; hold doorway (no new multi-title product gap);
 IndexNow ALWAYS **200**; News keywords
 **#199** METR + Bee + **#200** Apertus / Apertus 1.5 +
 **#204** Bluesky / Attie / Nscale + **#206** Starshield + **#208** Roadster +
@@ -15,8 +14,8 @@ GPT-Live-1.1 + **#216** MAI-Base / MAI-Base-2 + **#220** MAI-Base FAQ +
 **#256** Krea / Krea 3 + **#258** Flux 3 + **#260** Together AI + **#267** Terafab + **#269** Cohere + **#271** Accenture + **#273** G7 + **#275** Bee Frontier / Bee Eclipse + **#277** Surface Laptop Ultra + **#279** RTX Spark + **#282** Qwen 4 Max + **#286** Beam + **#290** Qwen3.8-27B + **#292** Mac Studios + **#294** Mac Studio; **#245** Muse Spark + **#246** Fable model hubs still **200**
 (`#248` preserve); tip merge **#210** + **#218** Base-beside-MAI hygiene;
 `seo-daily` probes
-**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**/**#254**/**#256**/**#258**/**#260**/**#262**/**#264**/**#267**/**#269**/**#271**/**#273**/**#275**/**#277**/**#279**/**#282**/**#284**/**#286**/**#288**/**#290**/**#292**/**#294**
-catch tip wipe / CDN lag; **#296** dual head-term title;
+**#201**/**#204**/**#206**/**#208**/**#212**/**#214**/**#216**/**#220**/**#222**/**#224**/**#226**/**#228**/**#231**/**#234**/**#236**/**#238**/**#241**/**#250**/**#252**/**#254**/**#256**/**#258**/**#260**/**#262**/**#264**/**#267**/**#269**/**#271**/**#273**/**#275**/**#277**/**#279**/**#282**/**#284**/**#286**/**#288**/**#290**/**#292**/**#294**/**#296**
+catch tip wipe / CDN lag; **#296** dual head-term title tip **ok**;
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -34,8 +33,8 @@ so Google News stays aligned with those Trends labs. Grok / xAI FAQ **#173** cov
 restore **#156**/**#158**/**#162**–**#167**/**#169**–**#171**/**#173**–**#185**/**#191**/**#193**–**#195** keeps agent tips + Trends/lab HTML
 across collect wipes (#166/#167/#169–#171/#173–#184/#191/#193/#195/#220 also guard ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/OpenAI-Chrome/Meta-Apple-Mac/Palantir/AMD/Tesla destinations on the routing FAQ). Branded “SIREN AI activity index” still #1; bare “AI activity index today” /
 “AI activity level today” still weak — **#252**/**#262** typed-guess aliases +
-**#254**/**#284** home exact-match FAQs (definitional + title-today); head-term
-SERPs still need GSC crawl (issue #202).
+**#254**/**#284** home exact-match FAQs (definitional + title-today) +
+**#296** dual head-term `<title>` tip; head-term SERPs still need GSC crawl (issue #202).
 Companion to `docs/COMPETITIVE.md` and `docs/FINDABILITY.md`.
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
@@ -71,10 +70,10 @@ Flux 3 + #260 Together AI + #267 Terafab + #269 Cohere + #271 Accenture +
 RTX Spark + #282 Qwen 4 Max + #290 Qwen3.8-27B needles). Entity model hubs **#245**/**#246** add
 `/model/muse-spark.html` + `/model/fable.html` (lead **6,685**; Publish
 preserve **#248**). Typed-guess **#262** tip prose still intact after
-**#264**/`c1f9a74` beside **#252**. Multi-title **#294** Mac Studio singular tip
+**#264**/`c1f9a74` beside **#252**. Dual head-term home title **#296** tip
+**ok** after `a00cfbc` (index + level today middot). Multi-title **#294** Mac Studio singular tip
 **ok** (1/1 after `93da174`); **#292** Mac Studios **ok** (2/2); Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Trends `ai_related_total` **1** (`soxl stock` chip-ETF — hold doorway).
-Hold singles Pathway / MORENA / Vambo / Warsh. Outrank free-tool URLs
+Hold doorway (no new multi-title product gap). Hold singles Pathway / MORENA / Vambo / Warsh. Outrank free-tool URLs
 (`/verify.html`, `/free-tools.html`) plus `robots.txt` / `feed.xml` /
 `now.md` / `api/now.txt` discovery tips are the citation/LLM-mention lever
 beyond URL count. Blocker for organic proof remains FINDABILITY **#11** (GSC).
