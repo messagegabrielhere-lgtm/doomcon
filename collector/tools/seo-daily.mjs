@@ -524,6 +524,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Elorian',
   // FINDABILITY #304 — Dell company needle (AI infrastructure tape).
   'Dell',
+  // FINDABILITY #306 — NYC Council agency needle (SpaceX AI-safety hearing).
+  'NYC Council',
 ]);
 
 /**
@@ -5964,6 +5966,23 @@ function selftest() {
   }
   if (dellLags.filter((r) => /Dell Drops/i.test(r.title)).some((r) => r.lab === 'Dell')) {
     throw new Error('newsKeywordLags should not flag Dell when keywords include it');
+  }
+  // FINDABILITY #306 — catch tip wipe of NYC Council needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('NYC Council')) {
+    throw new Error('probe labs missing NYC Council');
+  }
+  const nycCouncilLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Elon Musk\'s SpaceX to testify at NYC Council meeting on AI safety</news:title>'
+    + '<news:keywords>SpaceX, Google, Elon Musk, Starshield, AI, artificial intelligence, SIREN, AI safety, attention, press</news:keywords></url>'
+    + '<url><news:title>NYC Council hearing testimony from SpaceX about AI safety</news:title>'
+    + '<news:keywords>NYC Council, SpaceX, Google, Starshield, AI, artificial intelligence, SIREN, AI safety, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const nycCouncilLags = newsKeywordLags(nycCouncilLagXml);
+  if (!nycCouncilLags.some((r) => r.lab === 'NYC Council')) {
+    throw new Error(`newsKeywordLags expected NYC Council lag: ${JSON.stringify(nycCouncilLags)}`);
+  }
+  if (nycCouncilLags.filter((r) => /hearing testimony/i.test(r.title)).some((r) => r.lab === 'NYC Council')) {
+    throw new Error('newsKeywordLags should not flag NYC Council when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'

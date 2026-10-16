@@ -374,6 +374,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Dell')) {
     throw new Error('probe labs must include Dell');
   }
+  // FINDABILITY #306 — NYC Council stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('NYC Council')) {
+    throw new Error('probe labs must include NYC Council');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }

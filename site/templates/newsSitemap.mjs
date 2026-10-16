@@ -255,6 +255,11 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // topic meta fill the 12-cap and drop the company-class Dell surface
   // (parallel to Vercel #298 / Accenture #271).
   'Dell',
+  // FINDABILITY #306 — multi-title NYC Council AI-safety hearing tape while
+  // pizzint-news-alive (2 titles: SpaceX to testify at NYC Council… + NYC
+  // Council hearing…); SpaceX / Starshield / Google fill the 12-cap and drop
+  // the agency-class NYC Council surface (parallel to G7 #273 / CERT-In #226).
+  'NYC Council',
 ]);
 
 /**

@@ -1887,6 +1887,40 @@ test('news sitemap keywords include Dell from multi-title AI-infra tape (FINDABI
   assert.doesNotMatch(c, /\bDell\b/);
 });
 
+test('news sitemap keywords include NYC Council from SpaceX AI-safety hearing tape (FINDABILITY #306)', () => {
+  // Multi-title NYC Council tape: SpaceX / Starshield / Google fill 12-cap
+  // while agency-class NYC Council titles drop the hearing surface.
+  const a = keywordsFor({
+    title: "Elon Musk's SpaceX to testify at NYC Council meeting on AI safety",
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['SpaceX', 'Google', 'Elon Musk'],
+  });
+  assert.match(a, /\bNYC Council\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('NYC Council') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'NYC Council hearing testimony from SpaceX about AI safety',
+    summary: 'Hearing tape still matches leading NYC Council needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['SpaceX', 'Google'],
+  });
+  assert.match(b, /\bNYC Council\b/);
+  const c = keywordsFor({
+    title: 'SpaceX to testify at city council meeting on AI safety',
+    summary: 'Generic council tape — agency surface not named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['SpaceX'],
+  });
+  assert.doesNotMatch(c, /\bNYC Council\b/);
+});
+
 test('news sitemap keywords include Mac Studio from Apple–Meta Muse local tape (FINDABILITY #294)', () => {
   // Singular Mac Studio: Apple / Meta / Muse / Apple Intelligence fill 12-cap
   // while #292 plural needle does not match "Mac Studio".
