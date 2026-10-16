@@ -563,7 +563,7 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   // Organization knowsAbout labAboutLabel until #143 preserve lands.
   const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #143/);
-  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\)/);
+  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\)/);
   assert.match(collect, /index\.html classic\.html/);
   assert.match(collect, /What is an AI activity index\?/);
   const newsFast = newsFastSrc();
@@ -585,6 +585,19 @@ test('Publish restores tip home AI activity index FAQ (FINDABILITY #254)', () =>
   assert.match(newsFast, /FINDABILITY #254/);
   assert.match(newsFast, /What is an AI activity index\?/);
   assert.match(newsFast, /ai-activity-index\.html/);
+});
+
+test('Publish restores tip home AI activity level FAQ alias prose (FINDABILITY #264)', () => {
+  // Orphan Publish can keep #254 while wiping #262 tip FAQ prose until tip ≥ #264;
+  // restore fires on missing needle and re-syncs /ai-activity-level alias body.
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #264/);
+  assert.match(collect, /\/ai-activity-level\.html is a short alias/);
+  assert.match(collect, /ai-activity-level\.html/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #264/);
+  assert.match(newsFast, /\/ai-activity-level\.html is a short alias/);
+  assert.match(newsFast, /ai-activity-level\.html/);
 });
 
 test('Publish restores tip race labAboutLabel (FINDABILITY #145)', () => {
