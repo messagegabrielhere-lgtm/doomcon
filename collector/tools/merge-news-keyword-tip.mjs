@@ -3,9 +3,14 @@
 // news-sitemap.xml so orphan/overlay Publish on tip < #208 cannot wipe
 // Roadster / Starshield / Bluesky / … overlays that seo-daily probes.
 //
+// FINDABILITY #300 — after tip merge (or when tip is missing), also heal
+// NEWS_KEYWORD_PROBE_LABS from each entry's news:title so a newsroom rebuild
+// on tip < newest probe (e.g. Vercel #298) cannot leave title↔keywords lag
+// even if tip stash raced or the 12-cap dropped the surface.
+//
 // Usage:
 //   node collector/tools/merge-news-keyword-tip.mjs <tip.xml> <new.xml>
-// Updates <new.xml> in place. No-op (exit 0) when tip is missing or empty.
+// Updates <new.xml> in place. Tip missing → title-heal only (#300).
 //   node collector/tools/merge-news-keyword-tip.mjs --selftest
 
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -138,6 +143,47 @@ export function mergeNewsKeywordTip(tipXml, newXml, labs = NEWS_KEYWORD_PROBE_LA
   });
 
   return { xml, merged, locs };
+}
+
+/**
+ * FINDABILITY #300 — prepend NEWS_KEYWORD_PROBE_LABS that appear in
+ * news:title but are missing from news:keywords (same 12-cap + Base hygiene).
+ * Self-heals tip-stash races and pre-probe rebuilds without doorway URLs.
+ *
+ * @param {string} xml
+ * @param {readonly string[]} [labs]
+ * @returns {{ xml: string, healed: number, locs: number }}
+ */
+export function healNewsKeywordProbesFromTitle(xml, labs = NEWS_KEYWORD_PROBE_LABS) {
+  let healed = 0;
+  let locs = 0;
+  const out = String(xml || '').replace(/<url\b[\s\S]*?<\/url>/gi, (chunk) => {
+    const titleM = chunk.match(/<news:title>\s*([\s\S]*?)\s*<\/news:title>/i);
+    if (!titleM) return chunk;
+    const title = decodeXmlText(titleM[1]);
+    const kwM = chunk.match(/<news:keywords>\s*([\s\S]*?)\s*<\/news:keywords>/i);
+    const current = decodeXmlText(kwM ? kwM[1] : '');
+    const missing = [];
+    for (const lab of labs) {
+      const re = labRe(lab);
+      if (!re.test(title)) continue;
+      if (re.test(current)) continue;
+      missing.push(lab);
+    }
+    if (!missing.length) return chunk;
+    const bits = dropBareBaseBesideMai([...missing, ...splitKeywords(current)]);
+    const next = [...new Set(bits)].slice(0, NEWS_KEYWORD_CAP).join(', ');
+    if (next === current) return chunk;
+    healed += missing.length;
+    locs += 1;
+    const tag = `<news:keywords>${escXml(next)}</news:keywords>`;
+    if (kwM) return chunk.replace(kwM[0], tag);
+    if (/<\/news:news>/i.test(chunk)) {
+      return chunk.replace(/<\/news:news>/i, `      ${tag}\n    </news:news>`);
+    }
+    return chunk;
+  });
+  return { xml: out, healed, locs };
 }
 
 export function selftest() {
@@ -358,6 +404,57 @@ export function selftest() {
     throw new Error(`Base strip failed: ${maiCleanKw}`);
   }
 
+  // FINDABILITY #300 — title heal restores Vercel without a tip stash.
+  const vercelDirty = `<?xml version="1.0"?>
+<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://siren.watch/item/vercel-a.html</loc>
+    <news:news>
+      <news:title>Vercel data shows Jev posts fastest early AI model adoption</news:title>
+      <news:keywords>Jev, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://siren.watch/item/vercel-b.html</loc>
+    <news:news>
+      <news:title>Jev is Vercel\u2019s fastest-adopted AI model ever</news:title>
+      <news:keywords>Jev, OpenRouter, AI, artificial intelligence, SIREN, attention, press</news:keywords>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://siren.watch/item/mac-studios-only.html</loc>
+    <news:news>
+      <news:title>Meta Muse Spark Open brings 816B-parameter AI to Mac Studios</news:title>
+      <news:keywords>Mac Studios, Muse Spark, Meta, Muse, AI, SIREN</news:keywords>
+    </news:news>
+  </url>
+</urlset>`;
+  const healed = healNewsKeywordProbesFromTitle(vercelDirty);
+  // Two Vercel locs + Mac Studios row may also heal Muse Spark Open (probe).
+  if (healed.healed < 2 || healed.locs < 2) {
+    throw new Error(`title heal expected ≥2 on ≥2 locs, got healed=${healed.healed} locs=${healed.locs}`);
+  }
+  const va = healed.xml.match(
+    /<loc>\s*https:\/\/siren\.watch\/item\/vercel-a\.html\s*<\/loc>[\s\S]*?<\/url>/i,
+  );
+  if (!va || !/<news:keywords>[^<]*Vercel/.test(va[0])) {
+    throw new Error('title heal must prepend Vercel on vercel-a');
+  }
+  const vb = healed.xml.match(
+    /<loc>\s*https:\/\/siren\.watch\/item\/vercel-b\.html\s*<\/loc>[\s\S]*?<\/url>/i,
+  );
+  if (!vb || !/<news:keywords>[^<]*Vercel/.test(vb[0])) {
+    throw new Error('title heal must match curly-apostrophe Vercel’s');
+  }
+  // Plural Mac Studios must not false-heal singular Mac Studio.
+  const ms = healed.xml.match(
+    /<loc>\s*https:\/\/siren\.watch\/item\/mac-studios-only\.html\s*<\/loc>[\s\S]*?<\/url>/i,
+  );
+  const msKw = ms?.[0]?.match(/<news:keywords>([^<]+)/)?.[1] || '';
+  if (!ms || /(^|,\s*)Mac Studio(,|$)/.test(msKw)) {
+    throw new Error(`title heal must not add singular Mac Studio on plural titles: ${msKw}`);
+  }
+
   console.log('merge-news-keyword-tip selftest: ok');
 }
 
@@ -373,11 +470,12 @@ function main(argv = process.argv.slice(2)) {
     process.exit(2);
   }
   let tipXml = '';
+  let tipOk = true;
   try {
     tipXml = readFileSync(tipPath, 'utf8');
   } catch {
-    console.log('merge-news-keyword-tip: tip missing; skip');
-    return;
+    tipOk = false;
+    console.log('merge-news-keyword-tip: tip missing; title-heal only (#300)');
   }
   let newXml = '';
   try {
@@ -386,12 +484,31 @@ function main(argv = process.argv.slice(2)) {
     console.error(`merge-news-keyword-tip: cannot read ${newPath}: ${err.message || err}`);
     process.exit(1);
   }
-  const { xml, merged, locs } = mergeNewsKeywordTip(tipXml, newXml);
-  if (merged > 0) {
+  let xml = newXml;
+  let merged = 0;
+  let mergeLocs = 0;
+  if (tipOk) {
+    const tipMerge = mergeNewsKeywordTip(tipXml, xml);
+    xml = tipMerge.xml;
+    merged = tipMerge.merged;
+    mergeLocs = tipMerge.locs;
+  }
+  const titleHeal = healNewsKeywordProbesFromTitle(xml);
+  xml = titleHeal.xml;
+  if (merged > 0 || titleHeal.healed > 0) {
     writeFileSync(newPath, xml);
-    console.log(`merged ${merged} tip news:keywords probe needle(s) across ${locs} loc(s) (#210)`);
+  }
+  if (merged > 0) {
+    console.log(`merged ${merged} tip news:keywords probe needle(s) across ${mergeLocs} loc(s) (#210)`);
+  } else if (tipOk) {
+    console.log('merge-news-keyword-tip: nothing to merge from tip');
+  }
+  if (titleHeal.healed > 0) {
+    console.log(
+      `healed ${titleHeal.healed} title news:keywords probe needle(s) across ${titleHeal.locs} loc(s) (#300)`,
+    );
   } else {
-    console.log('merge-news-keyword-tip: nothing to merge');
+    console.log('merge-news-keyword-tip: nothing to heal from titles (#300)');
   }
 }
 
