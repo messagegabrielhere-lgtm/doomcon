@@ -518,6 +518,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Qwen 4 Max',
   // FINDABILITY #286 — Beam product needle (Reflection open-model tape).
   'Beam',
+  // FINDABILITY #298 — Vercel company needle (Jev adoption tape).
+  'Vercel',
 ]);
 
 /**
@@ -5907,6 +5909,23 @@ function selftest() {
   // Plural Mac Studios titles must not false-flag the singular needle.
   if (macStudioLags.filter((r) => /Mac Studios/i.test(r.title)).some((r) => r.lab === 'Mac Studio')) {
     throw new Error('newsKeywordLags should not flag Mac Studio on plural Mac Studios titles');
+  }
+  // FINDABILITY #298 — catch tip wipe of Vercel needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Vercel')) {
+    throw new Error('probe labs missing Vercel');
+  }
+  const vercelLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Vercel data shows Jev posts fastest early AI model adoption</news:title>'
+    + '<news:keywords>Jev, Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+    + '<url><news:title>Jev is Vercel\u2019s fastest-adopted AI model ever</news:title>'
+    + '<news:keywords>Vercel, Jev, OpenRouter, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '</urlset>';
+  const vercelLags = newsKeywordLags(vercelLagXml);
+  if (!vercelLags.some((r) => r.lab === 'Vercel')) {
+    throw new Error(`newsKeywordLags expected Vercel lag: ${JSON.stringify(vercelLags)}`);
+  }
+  if (vercelLags.filter((r) => /fastest-adopted/i.test(r.title)).some((r) => r.lab === 'Vercel')) {
+    throw new Error('newsKeywordLags should not flag Vercel when keywords include it');
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
