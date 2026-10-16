@@ -1009,6 +1009,43 @@ test('news sitemap keywords include Roadster from live 48h Tesla Trends tape (FI
   assert.doesNotMatch(b, /(^|,\s*)Roadster(,|$)/);
 });
 
+test('news sitemap keywords include Fable from live 48h eval tape (FINDABILITY #212)', () => {
+  // Contested Google News: Azure Fable 5.5 + GLM→Fable 5 + Gemini-vs-Fable
+  // titles name the model class while topic tags bury it under the 12-cap.
+  const a = keywordsFor({
+    title: 'Breaking News: Fable 5.5 Spotted on Azure – Directly Competing Against Google’s New AI Model',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.match(a, /\bFable\b/);
+  assert.match(a, /\bFable 5\.5\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Fable') < parts.indexOf('attention') || parts.indexOf('Fable 5.5') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Team of 5 post-trains GLM 5.3 Flash to Fable 5 class for $300k all-in',
+    summary: 'On par with Fable 5.1 in eval chatter.',
+    pillar: 'capability',
+    kind: 'forum',
+    source: 'hn-fresh-ai',
+    entities: ['GLM'],
+  });
+  assert.match(b, /\bFable\b/);
+  assert.match(b, /\bFable 5\b/);
+  assert.match(b, /\bFable 5\.1\b/);
+  const c = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No model-class named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /(^|,\s*)Fable(,|$)/);
+});
+
 test('news sitemap keywords include Starshield from live 48h tape (FINDABILITY #206)', () => {
   // Contested Google News: Ukraine Starshield access titles name the product
   // beside SpaceX; without a needle the 12-cap keeps SpaceX and drops Starshield.

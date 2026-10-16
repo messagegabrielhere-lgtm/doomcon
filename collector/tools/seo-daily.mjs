@@ -456,6 +456,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Starshield',
   // FINDABILITY #208 — Roadster product needle while Tesla Trends trending.
   'Roadster',
+  // FINDABILITY #212 — Fable model-class needles while Google News contested.
+  'Fable', 'Fable 5', 'Fable 5.1', 'Fable 5.5',
 ]);
 
 /**
@@ -4941,6 +4943,10 @@ function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Roadster')) {
     throw new Error('probe labs missing Roadster');
   }
+  // FINDABILITY #212 — catch tip wipe of Fable model-class needles.
+  for (const lab of ['Fable', 'Fable 5', 'Fable 5.1', 'Fable 5.5']) {
+    if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) throw new Error(`probe labs missing ${lab}`);
+  }
   const metrLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
     + '<url><news:title>Anthropic grants outside evaluator METR employee-level access</news:title>'
     + '<news:keywords>Anthropic, Google, Claude, AI, SIREN</news:keywords></url>'
@@ -4954,6 +4960,8 @@ function selftest() {
     + '<news:keywords>SpaceX, Elon Musk, AI, SIREN</news:keywords></url>'
     + '<url><news:title>The Tesla Roadster 2 Is Here—and It Flies</news:title>'
     + '<news:keywords>Tesla, FSD, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Breaking News: Fable 5.5 Spotted on Azure – Directly Competing Against Google’s New AI Model</news:title>'
+    + '<news:keywords>Google, AI, artificial intelligence, SIREN, Cloud AI</news:keywords></url>'
     + '</urlset>';
   const metrLags = newsKeywordLags(metrLagXml);
   if (!metrLags.some((r) => r.lab === 'METR')) {
@@ -4973,6 +4981,9 @@ function selftest() {
   }
   if (!metrLags.some((r) => r.lab === 'Roadster')) {
     throw new Error(`newsKeywordLags expected Roadster lag: ${JSON.stringify(metrLags)}`);
+  }
+  if (!metrLags.some((r) => r.lab === 'Fable') || !metrLags.some((r) => r.lab === 'Fable 5.5')) {
+    throw new Error(`newsKeywordLags expected Fable / Fable 5.5 lag: ${JSON.stringify(metrLags)}`);
   }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
