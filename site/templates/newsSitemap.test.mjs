@@ -1089,6 +1089,43 @@ test('news sitemap keywords include ChatGPT Voice / GPT-Live from live 48h tape 
   assert.doesNotMatch(c, /ChatGPT Voice|GPT-Live/);
 });
 
+test('news sitemap keywords include Muse Spark from multi-title tape (FINDABILITY #222)', () => {
+  // Multi-title Muse Spark / Muse Spark Open tape: #172 Muse alias fires beside
+  // Meta, but 12-cap leaves product-class titles without Muse Spark needles.
+  const a = keywordsFor({
+    title: 'Muse Spark Open vs DeepSeek V4.1 Flash: Same Score, Triple the Cost',
+    summary: '',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['DeepSeek'],
+  });
+  assert.match(a, /\bMuse Spark\b/);
+  assert.match(a, /\bMuse Spark Open\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Muse Spark') < parts.indexOf('capability')
+    || parts.indexOf('Muse Spark Open') < parts.indexOf('capability'), a);
+  const b = keywordsFor({
+    title: 'Meta&#39;s new Muse Spark AI model focuses on coding and task automation',
+    summary: 'Open-weight Muse Spark release.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Meta'],
+  });
+  assert.match(b, /\bMuse Spark\b/);
+  assert.match(b, /\bMuse\b/);
+  const c = keywordsFor({
+    title: 'Nasdaq futures fall on debt concerns',
+    summary: 'No Muse product named.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(c, /Muse Spark/);
+});
+
 test('news sitemap keywords include Fable from live 48h eval tape (FINDABILITY #212)', () => {
   // Contested Google News: Azure Fable 5.5 + GLM→Fable 5 + Gemini-vs-Fable
   // titles name the model class while topic tags bury it under the 12-cap.

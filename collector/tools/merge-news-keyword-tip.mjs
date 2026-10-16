@@ -228,6 +228,11 @@ export function selftest() {
     || !NEWS_KEYWORD_PROBE_LABS.includes('MAI-Base-2')) {
     throw new Error('probe labs must include MAI-Base + MAI-Base-2');
   }
+  // FINDABILITY #222 — Muse Spark product-class needles stay in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Muse Spark')
+    || !NEWS_KEYWORD_PROBE_LABS.includes('Muse Spark Open')) {
+    throw new Error('probe labs must include Muse Spark + Muse Spark Open');
+  }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
   }
