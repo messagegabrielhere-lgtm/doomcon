@@ -448,6 +448,8 @@ export function trendsGeneratedAtMs(body) {
  */
 export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Kodiak AI', 'MediaTek', 'Cathie Wood', 'ServiceNow', 'ChatGPT', 'Claude Code',
+  // FINDABILITY #201 — live 48h needles from #199/#200 while pizzint-news-alive.
+  'METR', 'Bee', 'Apertus', 'Apertus 1.5',
 ]);
 
 /**
@@ -4915,6 +4917,23 @@ function selftest() {
   });
   if (!lagGaps.some((g) => g.id === 'news-keywords-lag')) throw new Error('news-keywords-lag gap');
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Kodiak AI')) throw new Error('probe labs missing Kodiak AI');
+  // FINDABILITY #201 — catch tip wipe of #199/#200 Google News needles.
+  for (const lab of ['METR', 'Bee', 'Apertus', 'Apertus 1.5']) {
+    if (!NEWS_KEYWORD_PROBE_LABS.includes(lab)) throw new Error(`probe labs missing ${lab}`);
+  }
+  const metrLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Anthropic grants outside evaluator METR employee-level access</news:title>'
+    + '<news:keywords>Anthropic, Google, Claude, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>Apertus 1.5: Swiss AI Model Hits 262K Context</news:title>'
+    + '<news:keywords>Google, Apertus, Apertus 1.5, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const metrLags = newsKeywordLags(metrLagXml);
+  if (!metrLags.some((r) => r.lab === 'METR')) {
+    throw new Error(`newsKeywordLags expected METR lag: ${JSON.stringify(metrLags)}`);
+  }
+  if (metrLags.some((r) => r.lab === 'Apertus' || r.lab === 'Apertus 1.5')) {
+    throw new Error('newsKeywordLags should not flag Apertus when keywords include it');
+  }
   const labAliasLagXml = '<?xml version="1.0"?><urlset>'
     + '<url><news:title>OpenAI raises new round</news:title>'
     + '<news:keywords>OpenAI, Google, AI, SIREN</news:keywords></url>'
