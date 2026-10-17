@@ -36,23 +36,15 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
-  ['/#readers', 'px:film', 'Where are SIREN readers?', 'A daily map of SIREN readers by country, from GoatCounter.'],
+  // Keep to about six (comment above). Prefer rooms that are not already in
+  // PRIMARY, each with an icon unused by the every-room grid (icons-unique).
+  // /#readers stays off until data/visitors.json ships the map (id="readers").
   ['/nations.html', 'px:tugofwar', 'USA vs China: who is winning the race to superintelligence?', 'The nations race to superintelligence, scored live.'],
-  ['/labs.html', 'px:beaker', 'What is SIREN Labs measuring this week?', 'This week’s experiments in measuring superintelligence.'],
-  ['/games.html', 'px:joystick', 'What free AI games can you play on SIREN?', 'Every SIREN game in one place, one click from any page.'],
-  ['/evolution.html', 'px:logbook', 'How has AI activity moved day by day?', 'Every reading, news pick and Moltbook scan, kept day by day.'],
   ['/charts.html', 'px:trendchart', 'What AI charts does SIREN publish?', 'Live AI odds, the SIREN trend and the power race, each with an X post.'],
   ['/power.html', 'px:pylon', 'Who makes the most electricity (China vs US)?', 'Who makes the most electricity: China vs the US, per person, fastest growing.'],
   ['/threats.html', 'px:threatshield', 'What could take the machines offline tonight?', 'Exploited software, botnets, solar storms and disasters, live.'],
-  ['/self-aware.html', 'px:redeye', 'What if an AI wakes up at 2:14 a.m.?', 'The Skynet scenario, played out on a map of real US data centres.'],
   ['/status.html', 'px:statuspulse', 'Is ChatGPT down? Is Claude down?', 'Live status of ChatGPT, Claude, Copilot, Cursor and more, every minute.'],
-  ['/p-doom.html#voices', 'px:pclock', 'What is p(doom)?', '28 named estimates, Hinton to Yudkowsky, and a dial to set yours.'],
-  ['/waffle.html', 'px:hurricane', 'Is the Waffle House open?', 'Is the Waffle House open? Storms, waffles and AI data centres.'],
-  ['/live.html', 'px:onair', 'What AI is on TV and radio right now?', 'Live AI streams, news-channel segments and AI talk radio.'],
-  ['/si-watch.html#coding', 'px:agentcode', 'What AI autonomy signals is SIREN watching?', 'Live: agent pull requests by kind of work, language and repo.'],
-  ['/day-after.html', 'px:flame', 'What happens the day after an AI catastrophe?', 'Game out the public revolt after an AI catastrophe.'],
-  ['/dispatch.html', 'px:seismo', 'What public feeds does SIREN Dispatch show?', 'Big quakes and extreme weather within about a minute.'],
-  ['/leaders.html', 'px:headline', 'Which AI leaders are on the record this week?', 'Every AI boss’s coverage, refreshed every 15 minutes.'],
+  ['/self-aware.html', 'px:redeye', 'What if an AI wakes up at 2:14 a.m.?', 'The Skynet scenario, played out on a map of real US data centres.'],
 ];
 
 const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

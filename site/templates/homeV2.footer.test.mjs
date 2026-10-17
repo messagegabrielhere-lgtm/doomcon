@@ -43,8 +43,9 @@ describe('home v2 footer', () => {
 
   it('uses question-shaped legal and provenance sibling links', () => {
     const html = render(ctx, { head: '' });
-    assert.match(html, /href="\/classic\.html#oven">Where is the full SIREN instrument panel\? →<\/a>/);
-    assert.doesNotMatch(html, /href="\/classic\.html#oven">full oven with gates →<\/a>/);
+    assert.match(html, /href="\/instruments\.html#oven">What instruments sit behind the SIREN reading\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/classic\.html#oven"/);
+    assert.doesNotMatch(html, /href="\/instruments\.html#oven">full oven with gates →<\/a>/);
     assert.match(html, /href="\/history\.html">What is the history of AI risk\?<\/a>/);
     assert.match(html, /href="\/race\.html">Who is winning the AI race\?<\/a>/);
     assert.doesNotMatch(html, /href="\/history\.html">HISTORY<\/a>/);
@@ -83,6 +84,8 @@ describe('home v2 footer', () => {
     const html = render(ctx, { head: '' });
     assert.match(html, /href="\/alerts\.html">🔔 How do I get alerts when SIREN moves\?<\/a>/);
     assert.match(html, /href="\/export\.html">⤓ How do I export and embed SIREN data\?<\/a>/);
+    assert.match(html, />Copy this reading<\/button>/);
+    assert.match(html, /data-copy="SIREN 4, ROUTINE\./);
     assert.match(html, /href="\/news\.html"[^>]*>[\s\S]*?Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.match(html, /class="tag cool v2-top__x"[^>]*href="\/alerts\.html"[^>]*>How do I get alerts when SIREN moves\?<\/a>/);
     assert.doesNotMatch(html, /href="\/feed-level\.xml"[^>]*>ALERTS<\/a>/);
@@ -90,6 +93,16 @@ describe('home v2 footer', () => {
     assert.doesNotMatch(html, /href="\/export\.html">⤓ DATA &amp; EMBED<\/a>/);
     assert.doesNotMatch(html, /NEWS &amp; ALERTS LIVE/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
+  it('ships a visible feeds strip with RSS and alerts destinations', () => {
+    const html = render(ctx, { head: '' });
+    assert.match(html, /id="feeds"[^>]*aria-labelledby="v2-feeds-h"/);
+    assert.match(html, /id="v2-feeds-h"[^>]*>How do I subscribe to SIREN without an account\?<\/h2>/);
+    assert.match(html, /href="\/feed\.xml"><b>Every index move<\/b><\/a>/);
+    assert.match(html, /href="\/feed-level\.xml"><b>Level changes only<\/b><\/a>/);
+    assert.match(html, /class="v2-feeds__list"[\s\S]*?href="\/alerts\.html"><b>How do I get alerts when SIREN moves\?<\/b><\/a>/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 
