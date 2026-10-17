@@ -874,6 +874,39 @@ export function hasAgentsJsonDualHeadTerm(body, needle = AGENTS_HTML_DUAL_HEAD_T
 }
 
 /**
+ * True when openapi.json paths['/'] summary names dual middot head terms
+ * (FINDABILITY #446). Wipe gap is `openapi-dual-head-term-missing`.
+ * #441 shipped the summary; seo-daily only probed agents.json until #446.
+ */
+export function hasOpenapiDualHeadTerm(body, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  const raw = String(body || '');
+  if (!raw.includes(needle)) return false;
+  try {
+    const j = JSON.parse(raw);
+    const summary = j?.paths?.['/']?.get?.summary;
+    return typeof summary === 'string' && summary.includes(needle);
+  } catch {
+    return true;
+  }
+}
+
+/**
+ * True when api/index.json agents.home_title names dual middot head terms
+ * (FINDABILITY #446). Wipe gap is `api-index-dual-head-term-missing`.
+ */
+export function hasApiIndexDualHeadTerm(body, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  const raw = String(body || '');
+  if (!raw.includes(needle)) return false;
+  try {
+    const j = JSON.parse(raw);
+    const title = j?.agents?.home_title;
+    return typeof title === 'string' && title.includes(needle);
+  } catch {
+    return true;
+  }
+}
+
+/**
  * True when an agent-map body lists /classic.html (FINDABILITY #324).
  * Wipe gap is `agents-classic-panel-missing`.
  */
@@ -2764,6 +2797,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #446 — openapi / api/index dropped dual middot after #441 tip wipe.
+  if (ours.openapi_dual_head_term === false || ours.api_index_dual_head_term === false) {
+    const which = [
+      ours.openapi_dual_head_term === false ? 'openapi.json' : null,
+      ours.api_index_dual_head_term === false ? 'api/index.json' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'openapi-dual-head-term-missing',
+      severity: 'medium',
+      text: `${which} missing dual “AI activity index today · AI activity level today” home head-term (FINDABILITY #446) — re-overlay openapi/api-index or wait for collect/news-fast Publish on tip ≥ #441/#446`,
+    });
+  }
+
   // FINDABILITY #328 — agents.txt / ai.txt / api-catalog dropped classic panel.
   if (
     ours.agents_txt_classic_panel === false
@@ -4232,6 +4278,11 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #441 — agents.json must name dual middot home_title.
     row.agents_json_dual_head_term = agentsJson?.ok
       ? hasAgentsJsonDualHeadTerm(agentsJson.value) : false;
+    // FINDABILITY #446 — openapi `/` + api/index home_title dual (silent after #441 tip wipe).
+    row.openapi_dual_head_term = openapiJson?.ok
+      ? hasOpenapiDualHeadTerm(openapiJson.value) : false;
+    row.api_index_dual_head_term = apiIndexJson?.ok
+      ? hasApiIndexDualHeadTerm(apiIndexJson.value) : false;
     // FINDABILITY #332 — free-tools.html must list classic panel after overlay.
     const freeToolsHtml = byUrl.get(`${base}/free-tools.html`);
     row.freetools_classic_panel = freeToolsHtml?.ok
@@ -4687,6 +4738,13 @@ export function formatMarkdown(report) {
     if (ours && ours.agents_json_dual_head_term != null) {
       lines.push(
         `- Discovery JSON dual index/level head term (#441): agents.json **${ours.agents_json_dual_head_term ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.openapi_dual_head_term != null || ours.api_index_dual_head_term != null)) {
+      const oa = ours.openapi_dual_head_term == null ? '—' : (ours.openapi_dual_head_term ? 'ok' : 'NO');
+      const ai = ours.api_index_dual_head_term == null ? '—' : (ours.api_index_dual_head_term ? 'ok' : 'NO');
+      lines.push(
+        `- OpenAPI / api/index dual index/level head term (#446): openapi **${oa}** · api/index **${ai}**`,
       );
     }
     if (ours && (
@@ -5325,6 +5383,8 @@ export function formatMarkdown(report) {
       || ours.agents_txt_dual_head_term != null
       || ours.ai_txt_dual_head_term != null
       || ours.agents_json_dual_head_term != null
+      || ours.openapi_dual_head_term != null
+      || ours.api_index_dual_head_term != null
       || ours.freetools_dual_head_term != null
       || ours.agents_txt_classic_panel != null
       || ours.ai_txt_classic_panel != null
@@ -5715,6 +5775,40 @@ function selftest() {
   });
   if (!agentsJsonDualGaps.some((g) => g.id === 'agents-json-dual-head-term-missing')) {
     throw new Error('agents-json-dual-head-term-missing gap');
+  }
+  if (hasOpenapiDualHeadTerm(JSON.stringify({
+    paths: { '/': { get: { summary: 'AI activity index today · AI activity level today (live hourly reading)' } } },
+  })) !== true) {
+    throw new Error('hasOpenapiDualHeadTerm true');
+  }
+  if (hasOpenapiDualHeadTerm(JSON.stringify({
+    paths: { '/classic.html': { get: { summary: 'Where is the full SIREN instrument panel?' } } },
+  })) !== false) {
+    throw new Error('hasOpenapiDualHeadTerm false without / dual');
+  }
+  if (hasApiIndexDualHeadTerm(JSON.stringify({
+    agents: { home_title: 'AI activity index today · AI activity level today', home: 'https://siren.watch/' },
+  })) !== true) {
+    throw new Error('hasApiIndexDualHeadTerm true');
+  }
+  if (hasApiIndexDualHeadTerm(JSON.stringify({
+    agents: { classic: 'https://siren.watch/classic.html' },
+  })) !== false) {
+    throw new Error('hasApiIndexDualHeadTerm false without home_title');
+  }
+  const openapiDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      openapi_dual_head_term: false,
+      api_index_dual_head_term: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!openapiDualGaps.some((g) => g.id === 'openapi-dual-head-term-missing')) {
+    throw new Error('openapi-dual-head-term-missing gap');
   }
   if (!CORE_LIVE_SURFACES.includes('/ai.txt')) {
     throw new Error('CORE_LIVE_SURFACES missing #328 /ai.txt');
