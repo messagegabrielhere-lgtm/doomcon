@@ -35,7 +35,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
     lab/index.html companies.html companies/index.html \
     index.html classic.html race.html race/index.html \
     watts.html watts/index.html lab/micron.html lab/coreweave.html \
-    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
+    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
     if [ -f ".pages-faq-tip/$hub" ]; then
       mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
       cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -164,6 +164,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'AI safety bill' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Canadian data' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Waymo Canada' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'Allied Universal' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'ASML stock' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'TSMC stock' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Amazon Bee' ".pages/$map" 2>/dev/null \
@@ -541,6 +542,14 @@ if [ -f "$PRESERVE_FAQ/lab/waymo.html" ] \
   cp -a "$PRESERVE_FAQ/lab/waymo.html" .pages/lab/waymo.html
   echo "restored lab/waymo.html Waymo Canada / Toronto FAQ (#372)"
 fi
+# FINDABILITY #374 — restore tip /lab/softbank.html when SoftBank Allied FAQ
+# is missing after mid-merge / orphan Publish on tip < #374.
+if [ -f "$PRESERVE_FAQ/lab/softbank.html" ] \
+  && ! grep -qF 'Why does SIREN watch SoftBank Allied Universal talks?' ".pages/lab/softbank.html" 2>/dev/null; then
+  mkdir -p .pages/lab
+  cp -a "$PRESERVE_FAQ/lab/softbank.html" .pages/lab/softbank.html
+  echo "restored lab/softbank.html SoftBank Allied Universal FAQ (#374)"
+fi
 # FINDABILITY #178 — restore tip /tags/datacenters.html when Oracle
 # / AI datacenter FAQ is missing after mid-merge / orphan Publish on tip < #178.
 if [ -f "$PRESERVE_FAQ/tags/datacenters.html" ] \
@@ -577,6 +586,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
     || ! grep -qF 'Anthropic AI safety bill → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Anthropic Canadian data centres → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Waymo Canada / Toronto robotaxi → /lab/waymo.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'SoftBank / Allied Universal → /lab/softbank.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Palantir / AIP → /lab/palantir.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'AMD / MI300 → /lab/amd.html' ".pages/search-trends.html" 2>/dev/null \
@@ -586,7 +596,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
   mkdir -p .pages/trends .pages/search-trends
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372)"
+  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374)"
 fi
 # FINDABILITY #248 — restore tip /model/muse-spark.html when Muse Spark model
 # hub FAQ is missing after mid-merge / orphan Publish (tip overlay wiped when

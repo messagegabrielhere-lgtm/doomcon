@@ -394,6 +394,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'AI safety bill' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Canadian data' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Waymo Canada' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'Allied Universal' "$root/$map" 2>/dev/null \
             || ! grep -qF 'ASML stock' "$root/$map" 2>/dev/null \
             || ! grep -qF 'TSMC stock' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Amazon Bee' "$root/$map" 2>/dev/null \
@@ -700,6 +701,17 @@ while [ "$(date +%s)" -lt "$END" ]; do
         echo "restored lab/waymo.html Waymo Canada / Toronto FAQ (#372)"
       fi
     }
+    # FINDABILITY #374 — restore tip /lab/softbank.html when SoftBank Allied FAQ
+    # is missing after orphan Publish from tip < #374.
+    restore_softbank_allied_faq() {
+      local root="$1" preserve="$2"
+      if [ -f "$preserve/lab/softbank.html" ] \
+        && ! grep -qF 'Why does SIREN watch SoftBank Allied Universal talks?' "$root/lab/softbank.html" 2>/dev/null; then
+        mkdir -p "$root/lab"
+        cp -a "$preserve/lab/softbank.html" "$root/lab/softbank.html"
+        echo "restored lab/softbank.html SoftBank Allied Universal FAQ (#374)"
+      fi
+    }
     # FINDABILITY #178 — restore tip /tags/datacenters.html when Oracle
     # / AI datacenter FAQ is missing after orphan Publish from tip < #178.
     restore_oracle_datacenters_faq() {
@@ -742,6 +754,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
           || ! grep -qF 'Anthropic AI safety bill → /lab/anthropic.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Anthropic Canadian data centres → /lab/anthropic.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Waymo Canada / Toronto robotaxi → /lab/waymo.html' "$root/search-trends.html" 2>/dev/null \
+          || ! grep -qF 'SoftBank / Allied Universal → /lab/softbank.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Palantir / AIP → /lab/palantir.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'AMD / MI300 → /lab/amd.html' "$root/search-trends.html" 2>/dev/null \
@@ -751,7 +764,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         mkdir -p "$root/trends" "$root/search-trends"
         cp -a "$preserve/search-trends.html" "$root/trends/index.html"
         cp -a "$preserve/search-trends.html" "$root/search-trends/index.html"
-        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372)"
+        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374)"
       fi
     }
     # FINDABILITY #161 — restore tip /lab/nvidia.html when Nvidia / NVDA
@@ -1006,7 +1019,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       # FINDABILITY #210 — stash tip news-sitemap before public/ overlay can
       # wipe Roadster/Starshield probe needles built on tip < #208.
       for hub in race.html race/index.html watts.html watts/index.html \
-        lab/micron.html lab/coreweave.html lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html \
+        lab/micron.html lab/coreweave.html lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html \
         search-trends.html news-sitemap.xml; do
         if [ -f ".pages/$hub" ]; then
           mkdir -p "$PRESERVE_MAPS/$(dirname "$hub")"
@@ -1050,6 +1063,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_amd_faq .pages "$PRESERVE_MAPS"
       restore_tesla_faq .pages "$PRESERVE_MAPS"
       restore_waymo_canada_faq .pages "$PRESERVE_MAPS"
+      restore_softbank_allied_faq .pages "$PRESERVE_MAPS"
       restore_oracle_datacenters_faq .pages "$PRESERVE_MAPS"
       restore_trends_routes_faq .pages "$PRESERVE_MAPS"
       restore_nvidia_nvda_faq .pages "$PRESERVE_MAPS"
@@ -1101,7 +1115,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         lab/index.html companies.html companies/index.html \
         index.html classic.html race.html race/index.html \
         watts.html watts/index.html lab/micron.html lab/coreweave.html \
-        lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
+        lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
         if [ -f ".pages/$hub" ]; then
           mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
           cp -a ".pages/$hub" "$PRESERVE_FAQ/$hub"
@@ -1118,7 +1132,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             lab/index.html companies.html companies/index.html \
             index.html classic.html race.html race/index.html \
             watts.html watts/index.html lab/micron.html lab/coreweave.html \
-            lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
+            lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
             if [ -f ".pages-faq-tip/$hub" ]; then
               mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
               cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -1151,6 +1165,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_amd_faq .pages "$PRESERVE_FAQ"
       restore_tesla_faq .pages "$PRESERVE_FAQ"
       restore_waymo_canada_faq .pages "$PRESERVE_FAQ"
+      restore_softbank_allied_faq .pages "$PRESERVE_FAQ"
       restore_oracle_datacenters_faq .pages "$PRESERVE_FAQ"
       restore_trends_routes_faq .pages "$PRESERVE_FAQ"
       restore_nvidia_nvda_faq .pages "$PRESERVE_FAQ"

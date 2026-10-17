@@ -117,6 +117,12 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Waymo plans to launch its robotaxis in Toronto in 2028', news: [] }).includes('waymo-canada'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'waymo-canada' && t.path === '/lab/waymo.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'waymo-canada').re.test('Democrats Are Failing the Waymo Test'), false);
+  // FINDABILITY #374 — SoftBank / Allied Universal → SoftBank lab.
+  assert.ok(matchHeadTerms({ title: 'SoftBank weighs $18 billion acquisition of Allied Universal, source says', news: [] }).includes('softbank-allied'));
+  assert.ok(matchHeadTerms({ title: 'SoftBank Is Said to Weigh Buying Top US Security Firm Allied', news: [] }).includes('softbank-allied'));
+  assert.ok(matchHeadTerms({ title: 'Allied Universal sale talks draw SoftBank interest', news: [] }).includes('softbank-allied'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'softbank-allied' && t.path === '/lab/softbank.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'softbank-allied').re.test('SoftBank seeks $100B from Gulf investors to expand AI bet'), false);
   // FINDABILITY #163 — Anthropic IPO / FTC → gated Anthropic lab.
   assert.ok(matchHeadTerms({ title: 'anthropic ipo', news: [] }).includes('anthropic-ipo'));
   assert.ok(matchHeadTerms({ title: 'FTC probes Anthropic', news: [] }).includes('anthropic-ipo'));
