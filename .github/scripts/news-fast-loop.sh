@@ -533,6 +533,8 @@ while [ "$(date +%s)" -lt "$END" ]; do
     # path is missing after orphan newsroom wipe.
     # FINDABILITY #425/#427 — also restore when Skynet Countdown conquest
     # every-room / FAQ path is missing after orphan newsroom wipe.
+    # FINDABILITY #429 — also restore when PizzINT / Takeoff Tracker conquest
+    # every-room is missing after orphan newsroom wipe.
     # FINDABILITY #318 — home needles apply to index.html only (classic is the
     # instrument panel with its own title/canonical; never copy home onto it).
     restore_home_knowsabout() {
@@ -548,12 +550,14 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'AI activity index today · AI activity level today · AI SIREN INDEX' "$root/$hub" 2>/dev/null \
             || ! grep -qF 'SIREN vs DoomBench: which should you use?' "$root/$hub" 2>/dev/null \
             || ! grep -qF 'SIREN vs Skynet Countdown: which should you use?' "$root/$hub" 2>/dev/null \
+            || ! grep -qF 'SIREN vs PizzINT: which should you use?' "$root/$hub" 2>/dev/null \
+            || ! grep -qF 'SIREN vs Takeoff Tracker: which should you use?' "$root/$hub" 2>/dev/null \
             || { grep -qE '<title>[^<]*(DORMANT|ROUTINE|ELEVATED|ACCELERATED|UNPRECEDENTED|UNAVAILABLE)' "$root/$hub" 2>/dev/null \
               && ! grep -qE '<title>[^<]*(DORMANT|ROUTINE|ELEVATED|ACCELERATED|UNPRECEDENTED|UNAVAILABLE)' "$preserve/$hub" 2>/dev/null; } \
             || { grep -qE '<title>[^<]*[0-9]+\.[0-9]+' "$root/$hub" 2>/dev/null \
               && ! grep -qE '<title>[^<]*[0-9]+\.[0-9]+' "$preserve/$hub" 2>/dev/null; }; }; then
           cp -a "$preserve/$hub" "$root/$hub"
-          echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296/#308/#312/#314/#316/#423/#425)"
+          echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296/#308/#312/#314/#316/#423/#425/#429)"
         fi
       done
       # FINDABILITY #252/#254 — alias body must match restored home.

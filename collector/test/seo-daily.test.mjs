@@ -41,6 +41,10 @@ import {
   HOME_DOOMBENCH_CONQUEST_NEEDLE,
   hasHomeSkynetConquest,
   HOME_SKYNET_CONQUEST_NEEDLE,
+  hasHomePizzintConquest,
+  HOME_PIZZINT_CONQUEST_NEEDLE,
+  hasHomeTakeoffConquest,
+  HOME_TAKEOFF_CONQUEST_NEEDLE,
   hasHomeActivityIndexFaq,
   HOME_ACTIVITY_INDEX_FAQ_NEEDLE,
   hasHomeActivityIndexTodayFaq,
@@ -712,6 +716,40 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'home-skynet-conquest-missing'));
+  });
+
+  it('detects missing home PizzINT conquest link (FINDABILITY #429)', () => {
+    assert.equal(HOME_PIZZINT_CONQUEST_NEEDLE, 'SIREN vs PizzINT: which should you use?');
+    assert.equal(hasHomePizzintConquest('SIREN vs PizzINT: which should you use?'), true);
+    assert.equal(hasHomePizzintConquest('SIREN vs DoomBench: which should you use?'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        home_pizzint_conquest: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'home-pizzint-conquest-missing'));
+  });
+
+  it('detects missing home Takeoff Tracker conquest link (FINDABILITY #429)', () => {
+    assert.equal(HOME_TAKEOFF_CONQUEST_NEEDLE, 'SIREN vs Takeoff Tracker: which should you use?');
+    assert.equal(hasHomeTakeoffConquest('SIREN vs Takeoff Tracker: which should you use?'), true);
+    assert.equal(hasHomeTakeoffConquest('SIREN vs PizzINT: which should you use?'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        home_takeoff_conquest: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'home-takeoff-conquest-missing'));
   });
 
   it('detects missing home AI activity index FAQ (FINDABILITY #254)', () => {
