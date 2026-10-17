@@ -451,6 +451,15 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // alone / NSA niche / Warsh / Nudify / dress-rehearsal essay / ollama
   // (labNeedleRe hyphen↔space covers "Navier Stokes").
   'Navier-Stokes',
+  // FINDABILITY #479 — multi-title DeepSeek V4.1 Flash-1017 build SKU tape
+  // while pizzint-news-alive (7 titles: V4.1-Flash-1017 / v4.1 flash 1017 /
+  // DeepSeek-V4.1-Flash-1017 HF slug); DeepSeek / DeepSeek V4.1 Flash fill
+  // the 12-cap and drop the contiguous Flash-1017 build surface — outage /
+  // V4.1 Flash FAQs already gate `/lab/deepseek.html` (parallel to
+  // DeepSeek V4.1 Flash #228 / Bolt #234 / $44T #448). Hold bare Flash /
+  // V4.1 Flash without 1017 / Warsh / Nudify / NSA / ollama (labNeedleRe
+  // hyphen↔space covers "Flash 1017").
+  'Flash-1017',
 ]);
 
 /**

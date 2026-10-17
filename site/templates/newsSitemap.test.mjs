@@ -1431,6 +1431,52 @@ test('news sitemap keywords include Navier-Stokes from OpenAI math-proof tape (F
   assert.doesNotMatch(c, /Navier-Stokes/);
 });
 
+test('news sitemap keywords include Flash-1017 from DeepSeek build SKU tape (FINDABILITY #479)', () => {
+  // Multi-title DeepSeek V4.1 Flash-1017 tape: DeepSeek / V4.1 Flash fill the
+  // 12-cap while the build SKU is dropped. Hyphen↔space flex covers
+  // "Flash 1017" / "V4.1-Flash-1017"; bare V4.1 Flash must not invent 1017.
+  assert.ok(labNeedleRe('Flash-1017').test(
+    'DeepSeek releases V4.1-Flash-1017, an update it says offers stronger benchmark',
+  ));
+  assert.ok(labNeedleRe('Flash-1017').test(
+    'The fastest DeepSeek v4.1 flash 1017 – Day 0',
+  ));
+  assert.ok(labNeedleRe('Flash-1017').test(
+    'deepseek-ai/DeepSeek-V4.1-Flash-1017 — trending on Hugging Face',
+  ));
+  assert.ok(!labNeedleRe('Flash-1017').test('DeepSeek V4.1 Flash without the build'));
+  assert.ok(!labNeedleRe('Flash-1017').test('Flash photography tips for 1017 cameras'));
+  const a = keywordsFor({
+    title: 'Chinese startup DeepSeek releases V4.1-Flash-1017 AI model live on platforms',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['DeepSeek', 'Google'],
+  });
+  assert.match(a, /Flash-1017/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Flash-1017') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'The fastest DeepSeek v4.1 flash 1017 – Day 0',
+    summary: '',
+    pillar: 'attention',
+    kind: 'forum',
+    source: 'hn-fresh-ai',
+    entities: ['DeepSeek'],
+  });
+  assert.match(b, /Flash-1017/);
+  const c = keywordsFor({
+    title: 'DeepSeek V4.1 Flash lands without naming the build SKU',
+    summary: 'Qualitative Flash claim without the 1017 surface.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['DeepSeek'],
+  });
+  assert.doesNotMatch(c, /Flash-1017/);
+});
+
 test('news sitemap keywords include Nemotron 3.5 Super VL from multi-title tape (FINDABILITY #231)', () => {
   // Multi-title Nemotron 3.5 Super VL tape: bare Nemotron fills a 12-cap slot
   // while product-class Super VL titles omit the variant surface.
