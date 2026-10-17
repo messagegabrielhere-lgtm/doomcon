@@ -203,6 +203,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'METR' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'ECDSA' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Claude Opus 5.5' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'Blackstone' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Waymo Canada' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Allied Universal' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Starshield' ".pages/$map" 2>/dev/null \
@@ -406,8 +407,8 @@ if [ -f "$PRESERVE_FAQ/lab/openai.html" ] \
   echo "restored lab/openai.html OpenAI lawsuit / FTC + outage + Chrome FAQ (#162/#181/#191)"
 fi
 
-# FINDABILITY #163/#362/#366/#368/#392/#397/#402 — restore tip /lab/anthropic.html when Anthropic
-# IPO / FTC, AI safety bill, Canadian data-centre, or METR FAQ is missing after
+# FINDABILITY #163/#362/#366/#368/#392/#397/#402/#408 — restore tip /lab/anthropic.html when Anthropic
+# IPO / FTC, AI safety bill, Canadian data-centre, METR, Opus, or Blackstone FAQ is missing after
 # mid-merge / orphan Publish (newsroom wipe kept IPO while dropping newer FAQs —
 # parallel to OpenAI #162/#181/#191).
 if [ -f "$PRESERVE_FAQ/lab/anthropic.html" ] \
@@ -416,10 +417,11 @@ if [ -f "$PRESERVE_FAQ/lab/anthropic.html" ] \
     || ! grep -qF 'Why does SIREN watch Anthropic Canadian data centres?' ".pages/lab/anthropic.html" 2>/dev/null \
     || ! grep -qF 'Why does SIREN watch Anthropic METR evaluator access?' ".pages/lab/anthropic.html" 2>/dev/null \
     || ! grep -qF 'Why does SIREN watch Anthropic ECDSA curve seeds?' ".pages/lab/anthropic.html" 2>/dev/null \
-    || ! grep -qF 'Why does SIREN watch Claude Opus 5.5?' ".pages/lab/anthropic.html" 2>/dev/null; }; then
+    || ! grep -qF 'Why does SIREN watch Claude Opus 5.5?' ".pages/lab/anthropic.html" 2>/dev/null \
+    || ! grep -qF 'Why does SIREN watch Blackstone Anthropic financing?' ".pages/lab/anthropic.html" 2>/dev/null; }; then
   mkdir -p .pages/lab
   cp -a "$PRESERVE_FAQ/lab/anthropic.html" .pages/lab/anthropic.html
-  echo "restored lab/anthropic.html Anthropic IPO / FTC + AI safety bill + Canadian DC + METR + ECDSA + Opus FAQ (#163/#362/#366/#368/#392/#397/#402)"
+  echo "restored lab/anthropic.html Anthropic IPO / FTC + AI safety bill + Canadian DC + METR + ECDSA + Opus + Blackstone FAQ (#163/#362/#366/#368/#392/#397/#402/#408)"
 fi
 
 # FINDABILITY #164 — restore tip /lab/asml.html when ASML Trends FAQ
@@ -644,6 +646,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
     || ! grep -qF 'Anthropic METR → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Anthropic ECDSA → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Claude Opus 5.5 → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'Blackstone / Anthropic → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Waymo Canada / Toronto robotaxi → /lab/waymo.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'SoftBank / Allied Universal → /lab/softbank.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'SpaceX / Starshield → /lab/spacex.html' ".pages/search-trends.html" 2>/dev/null \
@@ -658,7 +661,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
   mkdir -p .pages/trends .pages/search-trends
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402/#406)"
+  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402/#406/#408)"
 fi
 # FINDABILITY #248 — restore tip /model/muse-spark.html when Muse Spark model
 # hub FAQ is missing after mid-merge / orphan Publish (tip overlay wiped when
