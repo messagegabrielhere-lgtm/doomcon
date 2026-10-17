@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-17T02:15:59.588Z",
+  "generated_at": "2026-10-17T02:28:01.656Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -58,12 +58,13 @@
       "outlet": "bloomberg.com",
       "outlets": [
         "bloomberg.com",
+        "moneycontrol.com",
         "theedgemalaysia.com"
       ],
       "tier1_outlets": [
         "bloomberg.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "bloomberg-tech",
         "gnews-ai",
@@ -99,6 +100,14 @@
         },
         {
           "source": "gnews-ai",
+          "outlet": "moneycontrol.com",
+          "title": "Nvidia CEO on AI market turmoil: 'All of this is going to pass'",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQQzgxMlBONlV0Rm5sQy05bHJpOVdtdWJ6Z1UzRlFrZ2phamJveFRTX0w2UVgzV2QzeFI1QlkxVTlxckg5OXJXdnd6d2R5ZGM5SEpKbGVfS3o1dmF3UDBnd1VlWk9Kd3dzMjhQb01sUE9Wc2piNlFJd0NjSnJkUXkzYWZ6cVduMFJVejRmQ1p0VTZTdUtMWnF3czJoUHY3dHp1R2Z1cC1Jc2p0RndLMmw4V2R4WVhpVjVSaVpPd3hn0gHDAUFVX3lxTE5JMC1hQ0d2VWNJazBwWVJSME5FdEhVejFPOG9YRk95Y2VicUR0RVhDb3paYjhnei1kSmVlc3pYMWJFT3djSVRwS3RuWWt4M2xyQmg4N1Y0MHRzVXY3aVdabmdSb044ZzJ2Y09GbklLUGQ0WFFLOWR6alJYV0t6cGg5Y3dlWVMyVXBMSjN2bExLZl85eXhTUUh0b0x3blMya3RhbHF6WjlxWUhlQUdieEF5ZG9EMWRHM3daemZvWXZUUjE5Zw?oc=5",
+          "published_at": "2026-10-16T20:48:25.699Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
           "outlet": "theedgemalaysia.com",
           "title": "Nvidia CEO on AI market turmoil: ‘All of this is going to pass’",
           "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE1GdlJ3TUdfT3d0YTc5MGYzZzlRYlJmTTNhT3VwUF9WMThyMFNNLVJDU2tQVlFzV0tmZkFSVkZTUndka3ctQXJPZTFFTDIzZmx1?oc=5",
@@ -119,14 +128,13 @@
         "globalbankingandfinance.com",
         "investing.com",
         "reuters.com",
-        "ua.news",
-        "wkzo.com"
+        "ua.news"
       ],
       "tier1_outlets": [
         "ft.com",
         "reuters.com"
       ],
-      "corroboration": 6,
+      "corroboration": 5,
       "sources": [
         "gnews-ai",
         "techmeme",
@@ -180,14 +188,6 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "wkzo.com",
-          "title": "Anthropic offers Blackstone double-digit yield in chip-financing deal, FT reports",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPN0ZFMGN1SDdDM2t5VkhGc3JsVVB1bHpGVExmcGJodjVhRVBNTFNuT1pPTkh6bUc3ZTFQd3pCZFpJMDQtT3l3R2pncFRxaU0tZG1SQmZRbEdpNFdTbEpacTk3M0ZaYWlLX0lIUUN2MmIxWktPZ3VRMFl6V1VQNUJvRUtQdW8tSzYwMmxxLS1tVmNEMmR1Z0k0SHFvcWpwVUM5TVgycGdMd1hhSkVHaFE?oc=5",
-          "published_at": "2026-10-17T01:08:25.991Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
           "outlet": "ua.news",
           "title": "FT: Anthropic offers Blackstone yields above 10% — Channel NewsAsia",
           "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOWGlydnNsdWpGb1gtVHF4WFVyZHdrdG1zbmlLd2FSQXpsc09lRmNqREF6bF90a01UOGpWZVl3MEZ0VFp0dlBFXzlhTnQ0cklSM2tjWmxYM0hOazhGRDk0MFNLQ1dHVEZjR3BWREQ5SEdZUnp1X3VhTGFsRkk2cFBaSnhaeEs4azNVUE9tZjZybEg3akNpRFdLVmVOYw?oc=5",
@@ -213,6 +213,7 @@
       "outlet": "reuters.com",
       "outlets": [
         "bloomberg.com",
+        "cryptobriefing.com",
         "findarticles.com",
         "reuters.com"
       ],
@@ -220,13 +221,14 @@
         "bloomberg.com",
         "reuters.com"
       ],
-      "corroboration": 3,
+      "corroboration": 4,
       "sources": [
         "bluesky-ai",
         "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-16T21:49:15.000Z",
@@ -236,8 +238,7 @@
       "item_ids": [
         "12d7e48d3831744e",
         "4ef0e8a8bdbbfe44",
-        "96d84e85afe2b67c",
-        "f679ab1c9f01e0fd"
+        "96d84e85afe2b67c"
       ],
       "sightings": [
         {
@@ -247,6 +248,14 @@
           "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQa1pPWXpWN21QcmZGVXVYWnJraXIyYWg5VERPRldFeWhuTnA5NXFPd2xzMGRlOGh6WGNnMDg0NngxMG5LcURnT21sMFZTMl9Zd2RDclc1a3FxM1Y2bUpSUE5kQnFYM285SmtxWVpIRXN3NDB4SEZJSHZBRnEwM1ZKNmlCLXBSVEEydFNXbTA3OHM5NlV0TFp4NkFUV1RUZS15M3FhQnZFVHRmcWcwUmpfSVNtVS0?oc=5",
           "published_at": "2026-10-16T21:49:15.000Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "cryptobriefing.com",
+          "title": "Anthropic signs lease for first Canadian data center with EverWind",
+          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5WcnNVemNTYXRlZHdZQ1pUWFc2TXZEekV1M1ZuTG5FSVprYVczaWJxcjREWndmYnJRaFNxWjdzc1E5R1U3Q3JQSkI5dzQ0TzNNQ2lTTkNwN0RwZ1FMMkkxek5oWUU2c2V5eXU3STY0MldOd3hmUU1BVnplbEFIQQ?oc=5",
+          "published_at": "2026-10-16T23:03:11.610Z",
+          "tier1": false
         },
         {
           "source": "wires-ai",
@@ -692,18 +701,15 @@
       "outlet": "bloomberg.com",
       "outlets": [
         "apnews.com",
-        "bloomberg.com",
         "clipnotebook.com",
         "pavlin.dev",
         "stocktwits.com"
       ],
       "tier1_outlets": [
-        "apnews.com",
-        "bloomberg.com"
+        "apnews.com"
       ],
-      "corroboration": 5,
+      "corroboration": 4,
       "sources": [
-        "bluesky-ai",
         "gnews-ai",
         "hn-fresh-ai",
         "wires-ai"
@@ -712,7 +718,7 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-16T20:18:36.352Z",
+      "earliest_published_at": "2026-10-16T21:23:00.000Z",
       "first_seen_at": "2026-10-15T07:39:37.691Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -749,14 +755,6 @@
         "f8a74d0fd4ecc302"
       ],
       "sightings": [
-        {
-          "source": "bluesky-ai",
-          "outlet": "bloomberg.com",
-          "title": "Trump, Pichai and Even Altman Praise Tesla’s Flying Roadster EV",
-          "url": "https://bsky.app/profile/bloomberg.com/post/3mxztlcxuj52u",
-          "published_at": "2026-10-16T20:18:36.352Z",
-          "tier1": true
-        },
         {
           "source": "wires-ai",
           "outlet": "apnews.com",
@@ -1334,24 +1332,23 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
+        "cryptobriefing.com",
         "ft.com",
-        "reuters.com",
         "tradingview.com"
       ],
       "tier1_outlets": [
-        "ft.com",
-        "reuters.com"
+        "ft.com"
       ],
       "corroboration": 3,
       "sources": [
-        "bluesky-ai",
         "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-16T20:18:36.352Z",
+      "earliest_published_at": "2026-10-17T00:00:00.000Z",
       "first_seen_at": "2026-10-16T18:52:05.470Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -1361,25 +1358,10 @@
         "8bfc32d947872ee7",
         "b19112c22e87fed6",
         "c4d3783fa87daa91",
-        "d14b05fc43758514"
+        "d14b05fc43758514",
+        "e9fcb4c840fc241a"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "SoftBank weighs $18 billion acquisition of Allied Universal, source says",
-          "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQWXdNdHpBa2pKc200dGJ6aDlPYUNpNTlla3ZxM2ZWQzdXNDBxclZxc3pSRlZNelgwSnIzSzdmRVFhdzRVNVhJckNMTjhFOTNsdWlkMWxJSkJRa3huaXd6d3R6cktEODVnUE5aMGMwWEw0ZzRwTTJnX1ZoQ2F5UVhpMUZNNzNLNGNDT2RhdGZnMHZtTHZjcm9PNFk4bldiTjZ4TnJ6SF9zV0owWERWXzgyYmpYLVpFOE9ITG1kanhfOWdfME40Tmh0eTF5cjNfa3AxdFJV?oc=5",
-          "published_at": "2026-10-16T20:18:36.352Z",
-          "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "reuters.com",
-          "title": "SoftBank weighs $18 billion acquisition of Allied Universal, Bloomberg News reports",
-          "url": "https://bsky.app/profile/reuters.com/post/3mxzgywqwik2t",
-          "published_at": "2026-10-16T20:18:36.352Z",
-          "tier1": true
-        },
         {
           "source": "gnews-ai",
           "outlet": "tradingview.com",
@@ -1395,6 +1377,14 @@
           "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxObzh6bnZfTFFzdEFXbEFldFM5V1VrY1RjdGtiQmhjTlBvV2VNbThiUDNXenlZeC1YZ05pWTQzR1FiYzJQNEl5djF6UExTVUFDN3Axby1YaGxsek1VNldiMXlqUVV5Qk9ESUJRVWE4el9uRm1zbGFvNUhKa3JPc2tHalRzMWk?oc=5",
           "published_at": "2026-10-17T02:07:41.000Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "cryptobriefing.com",
+          "title": "SoftBank weighs a deal for Allied Universal valued at up to $18 billion",
+          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBMaTg3VmpjWC1xTVNjWXk5b0t2SERnWUVRM29ZVWNTcF9FN0lUSTI2ZEtOYkdURzU2UWZxaU45am1PdlFWMFd2Z25NaXpoVG9Wa1hramRZSlVqSlMtQThTMzA0bGgyWTYwblBzbVFWMGlJZGRMWnBpOVdxMjU?oc=5",
+          "published_at": "2026-10-17T02:18:19.000Z",
+          "tier1": false
         }
       ],
       "live": true
