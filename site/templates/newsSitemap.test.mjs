@@ -2591,6 +2591,50 @@ test('news sitemap keywords include Blackstone from Anthropic financing tape (FI
   assert.doesNotMatch(d, /\bBlackstone\b/);
 });
 
+test('news sitemap keywords include Dory 1.0 from Nemotron Labs tape (FINDABILITY #384)', () => {
+  // Multi-title Dory 1.0 tape: NVIDIA / Nemotron / Qwen fill 12-cap while the
+  // contiguous model SKU is dropped (`/lab/nvidia.html` gates the lab).
+  const a = keywordsFor({
+    title: 'NVIDIA Nemotron Labs Dory 1.0 4B: a quiet HF release',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['NVIDIA', 'Nemotron'],
+  });
+  assert.match(a, /\bDory 1\.0\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Dory 1.0') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Dory 1.0 4B vs Qwen 3.8: a 4B against a three-tier line',
+    summary: 'Small open-weight SKU vs Qwen three-tier line.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Qwen'],
+  });
+  assert.match(b, /\bDory 1\.0\b/);
+  // bare Nemotron / Qwen tape must not invent Dory 1.0.
+  const c = keywordsFor({
+    title: 'Nvidia unveils Nemotron 3.5 open models for AI agents',
+    summary: 'Bare Nemotron tape must not invent the Dory SKU.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['NVIDIA', 'Nemotron'],
+  });
+  assert.doesNotMatch(c, /\bDory 1\.0\b/);
+  const d = keywordsFor({
+    title: 'Qwen 3.8 Max lands on Alibaba Cloud',
+    summary: 'Bare Qwen version tape without the Dory SKU.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Qwen'],
+  });
+  assert.doesNotMatch(d, /\bDory 1\.0\b/);
+});
+
 test('news sitemap keywords include AI safety bill from multi-title legislative tape (FINDABILITY #358)', () => {
   // Multi-title AI safety bill tape: Anthropic / Claude / AI safety fill 12-cap
   // while the contiguous legislative surface is dropped (FAQ #163 gates the lab).

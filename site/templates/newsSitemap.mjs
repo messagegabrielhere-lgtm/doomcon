@@ -385,6 +385,14 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // (parallel to Allied #380 / NIST #370). Hold Warsh person / ECDSA niche /
   // EverWind / Nudify / AI Jitters noise without naming Blackstone.
   'Blackstone',
+  // FINDABILITY #384 — multi-title Dory 1.0 Nemotron Labs SKU companion while
+  // google-news-open (2 titles: NVIDIA Nemotron Labs Dory 1.0 4B… + Dory 1.0
+  // 4B vs Qwen 3.8…); NVIDIA / Nemotron / Qwen / NVDA fill the 12-cap and drop
+  // the contiguous model surface — `/lab/nvidia.html` already gates the lab
+  // (parallel to Bolt #234 / Muse Spark #222). Hold bare Dory name noise /
+  // Nemotron 3.5 single-title / Qwen 3.8 spaced single / Warsh / ECDSA /
+  // Nudify / AI Jitters.
+  'Dory 1.0',
 ]);
 
 /**
