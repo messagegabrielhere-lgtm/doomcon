@@ -580,6 +580,7 @@ function howComputed(ctx, bliss, howQ = 'How is BLISS computed?') {
   const k = bliss.constants || {};
   const w = k.composite_weights || { mean: 0.7, max: 0.3 };
 
+  // FINDABILITY #467 — dual middot head terms (bliss was index-only after pillar dual #465).
   return `<section class="bhow" aria-labelledby="how-h">
   <h2 id="how-h" class="bh2">${esc(howQ)}</h2>
   <ol class="bhow__list">
@@ -612,7 +613,7 @@ function howComputed(ctx, bliss, howQ = 'How is BLISS computed?') {
      compiled <time datetime="${esc(bliss.generated_at)}">${esc(utc(bliss.generated_at))}</time>.</p>
   <p class="bhow__links">
     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
-    <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>
+    <a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)}</a>
   </p>
 </section>`;
 }
