@@ -87,6 +87,8 @@ describe('pillar facets', () => {
     assert.match(html, /FAQPage/);
     assert.match(html, /speakable/);
     assert.match(html, /pillar\/attention\.html/);
+    // FINDABILITY #465 — composite-reading CTA names both head terms.
+    assert.match(html, /AI activity index today · AI activity level today · SIREN/);
     assert.doesNotMatch(html, /noindex/);
     assert.equal(pillarPath('capability'), '/pillar/capability.html');
   });

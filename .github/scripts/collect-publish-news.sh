@@ -73,7 +73,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
     lab/index.html companies.html companies/index.html \
     index.html classic.html race.html race/index.html \
     watts.html watts/index.html lab/micron.html lab/coreweave.html \
-    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/agents.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
+    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/agents.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html pillar/compute.html pillar/attention.html pillar/capability.html pillar/governance.html pillar/markets.html search-trends.html news-sitemap.xml; do
     if [ -f ".pages-faq-tip/$hub" ]; then
       mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
       cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -839,6 +839,16 @@ if [ -f "$PRESERVE_FAQ/model/fable.html" ] \
   cp -a "$PRESERVE_FAQ/model/fable.html" .pages/model/fable.html
   echo "restored model/fable.html Fable model hub (#248/#463)"
 fi
+# FINDABILITY #465 — restore tip pillar pages when dual middot head terms are
+# missing after orphan Publish (composite-reading CTA was index-only).
+for pillar in pillar/compute.html pillar/attention.html pillar/capability.html pillar/governance.html pillar/markets.html; do
+  if [ -f "$PRESERVE_FAQ/$pillar" ] \
+    && ! grep -qF 'AI activity index today · AI activity level today' ".pages/$pillar" 2>/dev/null; then
+    mkdir -p .pages/pillar
+    cp -a "$PRESERVE_FAQ/$pillar" ".pages/$pillar"
+    echo "restored $pillar dual head term (#465)"
+  fi
+done
 # FINDABILITY #210 — merge tip news:keywords probe needles into rebuilt
 # news-sitemap so orphan Publish on tip < #208 cannot wipe Roadster/Starshield.
 if [ -f "$PRESERVE_FAQ/news-sitemap.xml" ] && [ -f .pages/news-sitemap.xml ]; then

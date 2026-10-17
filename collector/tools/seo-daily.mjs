@@ -148,6 +148,9 @@ export const OUR_SURFACES = Object.freeze([
   // FINDABILITY #463 — model hub composite-reading CTAs must keep dual head terms.
   '/model/muse-spark.html',
   '/model/fable.html',
+  // FINDABILITY #465 — pillar composite-reading CTAs must keep dual head terms.
+  '/pillar/compute.html',
+  '/pillar/attention.html',
   '/companies.html',
   '/models.html',
   '/pillars.html',
@@ -1119,6 +1122,22 @@ export function hasMuseSparkDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TE
  * Wipe gap is `model-dual-head-term-missing` (paired with muse-spark).
  */
 export function hasFableDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when /pillar/compute.html names dual middot head terms (FINDABILITY #465).
+ * Wipe gap is `pillar-dual-head-term-missing` (paired with attention).
+ */
+export function hasPillarComputeDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when /pillar/attention.html names dual middot head terms (FINDABILITY #465).
+ * Wipe gap is `pillar-dual-head-term-missing` (paired with compute).
+ */
+export function hasPillarAttentionDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
   return String(html || '').includes(needle);
 }
 
@@ -3070,6 +3089,22 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #465 — pillar pages dropped dual middot head terms.
+  if (
+    ours.pillar_compute_dual_head_term === false
+    || ours.pillar_attention_dual_head_term === false
+  ) {
+    const which = [
+      ours.pillar_compute_dual_head_term === false ? 'pillar/compute.html' : null,
+      ours.pillar_attention_dual_head_term === false ? 'pillar/attention.html' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'pillar-dual-head-term-missing',
+      severity: 'medium',
+      text: `${which} missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #465) — re-overlay pillar pages or wait for collect/news-fast Publish on tip ≥ #465`,
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -4557,6 +4592,15 @@ export function measureSite(site, byUrl) {
     row.fable_dual_head_term = fableHtml?.ok
       ? hasFableDualHeadTerm(fableHtml.value)
       : false;
+    // FINDABILITY #465 — pillar composite-reading CTAs must keep dual middot.
+    const pillarComputeHtml = byUrl.get(`${base}/pillar/compute.html`);
+    const pillarAttentionHtml = byUrl.get(`${base}/pillar/attention.html`);
+    row.pillar_compute_dual_head_term = pillarComputeHtml?.ok
+      ? hasPillarComputeDualHeadTerm(pillarComputeHtml.value)
+      : false;
+    row.pillar_attention_dual_head_term = pillarAttentionHtml?.ok
+      ? hasPillarAttentionDualHeadTerm(pillarAttentionHtml.value)
+      : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -5102,6 +5146,16 @@ export function formatMarkdown(report) {
       const fb = ours.fable_dual_head_term == null ? '—' : (ours.fable_dual_head_term ? 'yes' : 'NO');
       lines.push(
         `- model dual index/level head term (#463): muse-spark **${ms}** · fable **${fb}**`,
+      );
+    }
+    if (ours && (
+      ours.pillar_compute_dual_head_term != null
+      || ours.pillar_attention_dual_head_term != null
+    )) {
+      const pc = ours.pillar_compute_dual_head_term == null ? '—' : (ours.pillar_compute_dual_head_term ? 'yes' : 'NO');
+      const pa = ours.pillar_attention_dual_head_term == null ? '—' : (ours.pillar_attention_dual_head_term ? 'yes' : 'NO');
+      lines.push(
+        `- pillar dual index/level head term (#465): compute **${pc}** · attention **${pa}**`,
       );
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
@@ -6443,6 +6497,32 @@ function selftest() {
   });
   if (!modelDualGaps.some((g) => g.id === 'model-dual-head-term-missing')) {
     throw new Error('model-dual-head-term-missing gap');
+  }
+  if (hasPillarComputeDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasPillarComputeDualHeadTerm true');
+  }
+  if (hasPillarComputeDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasPillarComputeDualHeadTerm false for index-only');
+  }
+  if (hasPillarAttentionDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasPillarAttentionDualHeadTerm true');
+  }
+  if (hasPillarAttentionDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasPillarAttentionDualHeadTerm false for index-only');
+  }
+  const pillarDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      pillar_compute_dual_head_term: false,
+      pillar_attention_dual_head_term: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!pillarDualGaps.some((g) => g.id === 'pillar-dual-head-term-missing')) {
+    throw new Error('pillar-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{

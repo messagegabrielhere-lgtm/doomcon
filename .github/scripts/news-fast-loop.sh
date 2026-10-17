@@ -1027,6 +1027,20 @@ while [ "$(date +%s)" -lt "$END" ]; do
         echo "restored model/fable.html Fable model hub (#248/#463)"
       fi
     }
+    # FINDABILITY #465 — restore tip pillar pages when dual middot head terms
+    # are missing after orphan Publish (composite-reading CTA was index-only).
+    restore_pillar_dual_head_term() {
+      local root="$1" preserve="$2"
+      local pillar
+      for pillar in pillar/compute.html pillar/attention.html pillar/capability.html pillar/governance.html pillar/markets.html; do
+        if [ -f "$preserve/$pillar" ] \
+          && ! grep -qF 'AI activity index today · AI activity level today' "$root/$pillar" 2>/dev/null; then
+          mkdir -p "$root/pillar"
+          cp -a "$preserve/$pillar" "$root/$pillar"
+          echo "restored $pillar dual head term (#465)"
+        fi
+      done
+    }
     # FINDABILITY #170 — restore tip /lab/apple.html when Apple Intelligence FAQ
     # is missing after orphan Publish from tip < #170.
     restore_apple_intelligence_faq() {
@@ -1215,7 +1229,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       # FINDABILITY #210 — stash tip news-sitemap before public/ overlay can
       # wipe Roadster/Starshield probe needles built on tip < #208.
       for hub in race.html race/index.html watts.html watts/index.html \
-        lab/micron.html lab/coreweave.html lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/agents.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html \
+        lab/micron.html lab/coreweave.html lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/agents.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html pillar/compute.html pillar/attention.html pillar/capability.html pillar/governance.html pillar/markets.html \
         search-trends.html news-sitemap.xml; do
         if [ -f ".pages/$hub" ]; then
           mkdir -p "$PRESERVE_MAPS/$(dirname "$hub")"
@@ -1274,6 +1288,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_meta_muse_faq .pages "$PRESERVE_MAPS"
       restore_muse_spark_model_hub .pages "$PRESERVE_MAPS"
       restore_fable_model_hub .pages "$PRESERVE_MAPS"
+      restore_pillar_dual_head_term .pages "$PRESERVE_MAPS"
       restore_apple_intelligence_faq .pages "$PRESERVE_MAPS"
       restore_microsoft_copilot_faq .pages "$PRESERVE_MAPS"
       restore_xai_grok_faq .pages "$PRESERVE_MAPS"
@@ -1316,7 +1331,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         lab/index.html companies.html companies/index.html \
         index.html classic.html race.html race/index.html \
         watts.html watts/index.html lab/micron.html lab/coreweave.html \
-        lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/agents.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
+        lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/agents.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html pillar/compute.html pillar/attention.html pillar/capability.html pillar/governance.html pillar/markets.html search-trends.html news-sitemap.xml; do
         if [ -f ".pages/$hub" ]; then
           mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
           cp -a ".pages/$hub" "$PRESERVE_FAQ/$hub"
@@ -1335,7 +1350,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             lab/index.html companies.html companies/index.html \
             index.html classic.html race.html race/index.html \
             watts.html watts/index.html lab/micron.html lab/coreweave.html \
-            lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/agents.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
+            lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/agents.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html pillar/compute.html pillar/attention.html pillar/capability.html pillar/governance.html pillar/markets.html search-trends.html news-sitemap.xml; do
             if [ -f ".pages-faq-tip/$hub" ]; then
               mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
               cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -1383,6 +1398,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_meta_muse_faq .pages "$PRESERVE_FAQ"
       restore_muse_spark_model_hub .pages "$PRESERVE_FAQ"
       restore_fable_model_hub .pages "$PRESERVE_FAQ"
+      restore_pillar_dual_head_term .pages "$PRESERVE_FAQ"
       restore_apple_intelligence_faq .pages "$PRESERVE_FAQ"
       restore_microsoft_copilot_faq .pages "$PRESERVE_FAQ"
       restore_xai_grok_faq .pages "$PRESERVE_FAQ"
