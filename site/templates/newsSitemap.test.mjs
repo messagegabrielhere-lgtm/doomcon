@@ -1301,6 +1301,42 @@ test('news sitemap keywords include DeepSeek V4.1 Flash from multi-title tape (F
   assert.doesNotMatch(c, /DeepSeek V4\.1 Flash/);
 });
 
+test('labNeedleRe matches non-contiguous DeepSeek … V4.1 Flash titles (FINDABILITY #431)', () => {
+  // Live tape writes "DeepSeek Launches V4.1-Flash-…" / "DeepSeek API Key
+  // Setup: V4.1 Flash…" — contiguous labNeedleRe missed those while Trends
+  // #418 already flexed. Parent V4.1 (no Flash) must stay unmatched.
+  assert.ok(labNeedleRe('DeepSeek V4.1 Flash').test(
+    'DeepSeek Launches V4.1-Flash-1017, Beats Claude Opus 5 On Some Benchmarks',
+  ));
+  assert.ok(labNeedleRe('DeepSeek V4.1 Flash').test(
+    'DeepSeek API Key Setup: V4.1 Flash in 13 Steps [2026]',
+  ));
+  assert.ok(labNeedleRe('DeepSeek V4.1 Flash').test(
+    'OpenCode Makes DeepSeek V4.1 Flash Free to Use',
+  ));
+  assert.ok(!labNeedleRe('DeepSeek V4.1 Flash').test(
+    'DeepSeek V4.1 ships for enterprise agents',
+  ));
+  const gap = keywordsFor({
+    title: 'DeepSeek Launches V4.1-Flash-1017, Beats Claude Opus 5 On Some Benchmarks',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['DeepSeek'],
+  });
+  assert.match(gap, /\bDeepSeek V4\.1 Flash\b/);
+  const setup = keywordsFor({
+    title: 'DeepSeek API Key Setup: V4.1 Flash in 13 Steps [2026]',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['DeepSeek'],
+  });
+  assert.match(setup, /\bDeepSeek V4\.1 Flash\b/);
+});
+
 test('news sitemap keywords include Nemotron 3.5 Super VL from multi-title tape (FINDABILITY #231)', () => {
   // Multi-title Nemotron 3.5 Super VL tape: bare Nemotron fills a 12-cap slot
   // while product-class Super VL titles omit the variant surface.
