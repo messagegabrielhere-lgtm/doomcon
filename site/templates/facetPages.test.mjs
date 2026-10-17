@@ -270,6 +270,13 @@ describe('lab facets', () => {
     );
     assert.match(antHtml, /[Nn]ot an audit verdict/);
     assert.doesNotMatch(antHtml, /will pass|doom audit|safety guarantee/i);
+    // FINDABILITY #397 — Anthropic ECDSA curve-seed FAQ on same gated lab.
+    assert.match(
+      antHtml,
+      /Why does SIREN watch Anthropic ECDSA curve seeds\?/,
+    );
+    assert.match(antHtml, /[Nn]ot a cryptography audit/);
+    assert.doesNotMatch(antHtml, /will crack|NSA backdoor confirmed|doom crypto/i);
     // FINDABILITY #164 — ASML / EUV Trends FAQ on gated lab.
     const asmlHtml = renderLab(ctx, {
       id: 'asml',

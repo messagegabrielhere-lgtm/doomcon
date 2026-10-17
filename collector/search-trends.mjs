@@ -63,6 +63,11 @@ export const HEAD_TERMS = Object.freeze([
   // Anthropic / Claude / employee-like access / outside-evaluator tape; bare
   // METR without that context stays unmatched.
   { id: 'anthropic-metr', label: 'Anthropic METR', re: /\b(?:anthropic|claude)\b.{0,64}\bmetr\b|\bmetr\b.{0,64}\b(?:anthropic|claude|employee[- ]like|evaluator|outside[- ]evaluator)\b/i, path: '/lab/anthropic.html' },
+  // FINDABILITY #397 — Anthropic / Claude ECDSA + NIST curve-seed Trends → same
+  // gated Claude lab (story counts only; not a crypto audit). ECDSA / curve
+  // seeds / NIST elliptic-curve origins beside Anthropic / Claude; bare ECDSA
+  // without that context stays unmatched. Do not match bare NSA geography.
+  { id: 'anthropic-ecdsa', label: 'Anthropic ECDSA', re: /\b(?:anthropic|claude)\b.{0,80}\b(?:ecdsa|elliptic[- ]curve|curve[- ]seeds?|nist)\b|\b(?:ecdsa|elliptic[- ]curve|curve[- ]seeds?)\b.{0,80}\b(?:anthropic|claude|nist)\b/i, path: '/lab/anthropic.html' },
   // FINDABILITY #174/#187 — Gemini / Gemma / Argon Trends → gated DeepMind lab
   // (story counts only; not a model review or stock tip). Gemma open-weight and
   // Gemini 4 Argon product tape share the same lab as Gemini headlines.

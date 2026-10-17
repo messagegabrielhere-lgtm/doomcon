@@ -561,6 +561,13 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Anthropic METR evaluator access?`,
       `${brand.NAME} scores press that names Anthropic / Claude. When METR employee-like access, outside-evaluator monitoring, or Claude safety-audit headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not an audit verdict, not a model review, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #397 — Anthropic / Claude ECDSA + NIST curve-seed tape → same
+    // gated lab (story counts only; not a crypto audit). Parallel to METR FAQ
+    // #392 on this lab; do not keyword NSA niche.
+    faq.push([
+      `Why does ${brand.NAME} watch Anthropic ECDSA curve seeds?`,
+      `${brand.NAME} scores press that names Anthropic / Claude. When ECDSA curve-seed reconstructions, NIST elliptic-curve origin headlines, or Claude crypto-history stories dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a cryptography audit, not a backdoor verdict, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #164 — ASML / EUV AI-chip-tool Trends → gated lab.
   if (player.id === 'asml') {

@@ -117,6 +117,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Anthropic grants non-profit METR employee-like access to monitor AI risks', news: [] }).includes('anthropic-metr'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-metr' && t.path === '/lab/anthropic.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'anthropic-metr').re.test('METR publishes a generic blog about metrics'), false);
+  // FINDABILITY #397 — Anthropic / Claude ECDSA curve-seed Trends → Anthropic lab.
+  assert.ok(matchHeadTerms({ title: 'Anthropic Says Claude Traced NIST ECDSA Curve Seeds to a 1990S RNG', news: [] }).includes('anthropic-ecdsa'));
+  assert.ok(matchHeadTerms({ title: 'Claude found the seeds for ECDSA beside a NIST curve reconstruction', news: [] }).includes('anthropic-ecdsa'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-ecdsa' && t.path === '/lab/anthropic.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'anthropic-ecdsa').re.test('ECDSA is used in Bitcoin wallets'), false);
   assert.ok(matchHeadTerms({ title: "Waymo’s robotaxis are headed to Canada", news: [] }).includes('waymo-canada'));
   assert.ok(matchHeadTerms({ title: 'Hello Toronto – Waymo Is En Route', news: [] }).includes('waymo-canada'));
   assert.ok(matchHeadTerms({ title: 'Waymo plans to launch its robotaxis in Toronto in 2028', news: [] }).includes('waymo-canada'));

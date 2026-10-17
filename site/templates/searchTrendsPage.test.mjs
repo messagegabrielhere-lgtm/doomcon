@@ -43,6 +43,7 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /Anthropic Canadian data centres → \/lab\/anthropic\.html/);
   // FINDABILITY #392 — Anthropic METR evaluator route to same gated lab.
   assert.match(html, /Anthropic METR → \/lab\/anthropic\.html/);
+  assert.match(html, /Anthropic ECDSA → \/lab\/anthropic\.html/);
   assert.match(html, /not a construction forecast/);
   // FINDABILITY #164 — ASML / EUV route to gated lab.
   assert.match(html, /ASML \/ EUV AI chip tools → \/lab\/asml\.html/);

@@ -164,6 +164,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'AI safety bill' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Canadian data' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'METR' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'ECDSA' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Waymo Canada' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Allied Universal' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Starshield' ".pages/$map" 2>/dev/null \
@@ -366,7 +367,7 @@ if [ -f "$PRESERVE_FAQ/lab/openai.html" ] \
   echo "restored lab/openai.html OpenAI lawsuit / FTC + outage + Chrome FAQ (#162/#181/#191)"
 fi
 
-# FINDABILITY #163/#362/#366/#368/#392 — restore tip /lab/anthropic.html when Anthropic
+# FINDABILITY #163/#362/#366/#368/#392/#397 — restore tip /lab/anthropic.html when Anthropic
 # IPO / FTC, AI safety bill, Canadian data-centre, or METR FAQ is missing after
 # mid-merge / orphan Publish (newsroom wipe kept IPO while dropping newer FAQs —
 # parallel to OpenAI #162/#181/#191).
@@ -374,10 +375,11 @@ if [ -f "$PRESERVE_FAQ/lab/anthropic.html" ] \
   && { ! grep -qF 'Why does SIREN watch Anthropic IPO and FTC probes?' ".pages/lab/anthropic.html" 2>/dev/null \
     || ! grep -qF 'Why does SIREN watch Anthropic AI safety bill pitches?' ".pages/lab/anthropic.html" 2>/dev/null \
     || ! grep -qF 'Why does SIREN watch Anthropic Canadian data centres?' ".pages/lab/anthropic.html" 2>/dev/null \
-    || ! grep -qF 'Why does SIREN watch Anthropic METR evaluator access?' ".pages/lab/anthropic.html" 2>/dev/null; }; then
+    || ! grep -qF 'Why does SIREN watch Anthropic METR evaluator access?' ".pages/lab/anthropic.html" 2>/dev/null \
+    || ! grep -qF 'Why does SIREN watch Anthropic ECDSA curve seeds?' ".pages/lab/anthropic.html" 2>/dev/null; }; then
   mkdir -p .pages/lab
   cp -a "$PRESERVE_FAQ/lab/anthropic.html" .pages/lab/anthropic.html
-  echo "restored lab/anthropic.html Anthropic IPO / FTC + AI safety bill + Canadian DC + METR FAQ (#163/#362/#366/#368/#392)"
+  echo "restored lab/anthropic.html Anthropic IPO / FTC + AI safety bill + Canadian DC + METR + ECDSA FAQ (#163/#362/#366/#368/#392/#397)"
 fi
 
 # FINDABILITY #164 — restore tip /lab/asml.html when ASML Trends FAQ
@@ -599,6 +601,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
     || ! grep -qF 'Anthropic AI safety bill → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Anthropic Canadian data centres → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Anthropic METR → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'Anthropic ECDSA → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Waymo Canada / Toronto robotaxi → /lab/waymo.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'SoftBank / Allied Universal → /lab/softbank.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'SpaceX / Starshield → /lab/spacex.html' ".pages/search-trends.html" 2>/dev/null \
