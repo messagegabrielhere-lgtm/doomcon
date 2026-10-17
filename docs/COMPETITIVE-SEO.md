@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T00:28Z after **#364** tip `1e5e083` + #362 FAQ restore tip `a226548` + IndexNow **200** (**#365**); M5 Max news:keywords CDN clear **1/1**; Anthropic AI safety bill FAQ restored after newsroom wipe; AI safety bill **#358** still **ok**; Amazon Web Services tip **#360** still **ok**; Bee AI tip **#356** still **ok**; Flying Roadster tip **#354** still **ok**; Anthropic IPO tip **#352** still **ok**; `google-news-open` (pizzint news **0**); lead **6,701** / news **200**; GSC/Bing meta **absent**; News keywords through **#364**; FAQ routes through **#362**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#365** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T00:28Z after **#365**; shipping **#366** Publish preserve for Anthropic AI safety bill FAQ (newsroom wipe kept IPO while dropping #362); M5 Max tip **#364** still **ok** (**1/1**); AI safety bill FAQ tip restored; AI safety bill **#358** still **ok**; Amazon Web Services tip **#360** still **ok**; Bee AI tip **#356** still **ok**; Flying Roadster tip **#354** still **ok**; Anthropic IPO tip **#352** still **ok**; `google-news-open` (pizzint news **0**); lead **6,701** / news **200**; GSC/Bing meta **absent**; News keywords through **#364**; FAQ routes through **#362**; Publish preserve through **#366**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#366** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -66,6 +66,7 @@ ECDSA niche / Beijing AI-exports topic / CoreWeave stock (already gated) /
 Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster + Flying Roadster keyed) /
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise refused.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
+**#366** Publish preserve Anthropic AI safety bill FAQ + agent/Trends needles (newsroom wipe fix for #362).
 **#365** after **#364** tip `1e5e083` + FAQ restore `a226548` + IndexNow **200**: M5 Max **1/1** + AI safety bill FAQ **ok**; lead **6,701**.
 **#364** M5 Max tip `1e5e083` CDN clear (news:keywords probes **ok**; 1 title in newest-200).
 **#363** after **#362** tip + IndexNow **200**: AI safety bill FAQ CDN clear; lead **6,701**.

@@ -198,6 +198,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'NVDA Trends' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'OpenAI lawsuit' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Anthropic IPO' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'AI safety bill' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'ASML stock' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'TSMC stock' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Amazon Bee' ".pages/$map" 2>/dev/null \
@@ -222,7 +223,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'Meta and Apple Mac AI' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Samsung AI glasses' ".pages/$map" 2>/dev/null; }; then
     cp -a "$PRESERVE_FAQ/$map" ".pages/$map"
-    echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193/#195/#324)"
+    echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193/#195/#324/#362/#366)"
   fi
 done
 # FINDABILITY #326 — restore tip skill.md (+ packaged SKILL.md) when classic panel missing.
@@ -396,13 +397,15 @@ if [ -f "$PRESERVE_FAQ/lab/openai.html" ] \
   echo "restored lab/openai.html OpenAI lawsuit / FTC + outage + Chrome FAQ (#162/#181/#191)"
 fi
 
-# FINDABILITY #163 — restore tip /lab/anthropic.html when Anthropic IPO
-# / FTC FAQ is missing after mid-merge / orphan Publish on tip < #163.
+# FINDABILITY #163/#362/#366 — restore tip /lab/anthropic.html when Anthropic
+# IPO / FTC or AI safety bill FAQ is missing after mid-merge / orphan Publish
+# (newsroom wipe kept IPO while dropping #362 — parallel to OpenAI #162/#181/#191).
 if [ -f "$PRESERVE_FAQ/lab/anthropic.html" ] \
-  && ! grep -qF 'Why does SIREN watch Anthropic IPO and FTC probes?' ".pages/lab/anthropic.html" 2>/dev/null; then
+  && { ! grep -qF 'Why does SIREN watch Anthropic IPO and FTC probes?' ".pages/lab/anthropic.html" 2>/dev/null \
+    || ! grep -qF 'Why does SIREN watch Anthropic AI safety bill pitches?' ".pages/lab/anthropic.html" 2>/dev/null; }; then
   mkdir -p .pages/lab
   cp -a "$PRESERVE_FAQ/lab/anthropic.html" .pages/lab/anthropic.html
-  echo "restored lab/anthropic.html Anthropic IPO / FTC FAQ (#163)"
+  echo "restored lab/anthropic.html Anthropic IPO / FTC + AI safety bill FAQ (#163/#362/#366)"
 fi
 
 # FINDABILITY #164 — restore tip /lab/asml.html when ASML Trends FAQ
@@ -595,6 +598,8 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
     || ! grep -qF 'Mistral / Timestral → /lab/mistral.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'OpenAI outage → /lab/openai.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'ChatGPT Chrome / computer use → /lab/openai.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'Anthropic IPO / FTC → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'Anthropic AI safety bill → /lab/anthropic.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Palantir / AIP → /lab/palantir.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'AMD / MI300 → /lab/amd.html' ".pages/search-trends.html" 2>/dev/null \
@@ -604,7 +609,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
   mkdir -p .pages/trends .pages/search-trends
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185)"
+  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366)"
 fi
 # FINDABILITY #248 — restore tip /model/muse-spark.html when Muse Spark model
 # hub FAQ is missing after mid-merge / orphan Publish (tip overlay wiped when
