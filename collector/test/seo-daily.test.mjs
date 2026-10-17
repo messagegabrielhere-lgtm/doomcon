@@ -37,6 +37,10 @@ import {
   LAB_HUB_LABEL_PROBES,
   labHubLabelLags,
   hasHomeLabAboutLabels,
+  hasHomeDoombenchConquest,
+  HOME_DOOMBENCH_CONQUEST_NEEDLE,
+  hasHomeSkynetConquest,
+  HOME_SKYNET_CONQUEST_NEEDLE,
   hasHomeActivityIndexFaq,
   HOME_ACTIVITY_INDEX_FAQ_NEEDLE,
   hasHomeActivityIndexTodayFaq,
@@ -105,6 +109,31 @@ import {
   hasAgentsMicrosoftMai,
   MICROSOFT_MAI_FAQ_NEEDLE,
   TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE,
+  TRENDS_ROUTES_SURFACE_ULTRA_NEEDLE,
+  TRENDS_WATCHLIST_SURFACE_ULTRA_NEEDLE,
+  TRENDS_ROUTES_DEEPSEEK_FLASH_NEEDLE,
+  TRENDS_WATCHLIST_DEEPSEEK_FLASH_NEEDLE,
+  TRENDS_ROUTES_CERT_IN_NEEDLE,
+  TRENDS_WATCHLIST_CERT_IN_NEEDLE,
+  TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE,
+  TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE,
+  TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE,
+  TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE,
+  TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE,
+  TRENDS_ROUTES_REPLIT_ANTHROPIC_NEEDLE,
+  TRENDS_ROUTES_CLAUDE_MYTHOS_5_NEEDLE,
+  TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE,
+  TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE,
+  TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE,
+  TRENDS_WATCHLIST_BLACKSTONE_ANTHROPIC_NEEDLE,
+  TRENDS_WATCHLIST_REPLIT_ANTHROPIC_NEEDLE,
+  TRENDS_WATCHLIST_CLAUDE_MYTHOS_5_NEEDLE,
+  TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE,
+  TRENDS_WATCHLIST_ONDAS_PALANTIR_NEEDLE,
+  TRENDS_ROUTES_WAYMO_CANADA_NEEDLE,
+  TRENDS_ROUTES_SOFTBANK_ALLIED_NEEDLE,
+  TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
+  TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE,
   hasXaiGrokFaq,
   hasAgentsXaiGrok,
   XAI_GROK_FAQ_NEEDLE,
@@ -649,6 +678,40 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'home-knowsabout-labels-missing'));
+  });
+
+  it('detects missing home DoomBench conquest link (FINDABILITY #423)', () => {
+    assert.equal(HOME_DOOMBENCH_CONQUEST_NEEDLE, 'SIREN vs DoomBench: which should you use?');
+    assert.equal(hasHomeDoombenchConquest('SIREN vs DoomBench: which should you use?'), true);
+    assert.equal(hasHomeDoombenchConquest('SIREN vs PizzINT: which should you use?'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        home_doombench_conquest: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'home-doombench-conquest-missing'));
+  });
+
+  it('detects missing home Skynet Countdown conquest link (FINDABILITY #425/#427)', () => {
+    assert.equal(HOME_SKYNET_CONQUEST_NEEDLE, 'SIREN vs Skynet Countdown: which should you use?');
+    assert.equal(hasHomeSkynetConquest('SIREN vs Skynet Countdown: which should you use?'), true);
+    assert.equal(hasHomeSkynetConquest('SIREN vs DoomBench: which should you use?'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        home_skynet_conquest: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'home-skynet-conquest-missing'));
   });
 
   it('detects missing home AI activity index FAQ (FINDABILITY #254)', () => {
@@ -1563,6 +1626,7 @@ describe('seo-daily surfaces', () => {
   });
 
   it('detects Search Trends routing FAQ lag (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185)', () => {
+    // Body must include every needle hasTrendsRoutesFaq AND-chains (routes + watchlist rows).
     const routesBody = [
       TRENDS_ROUTES_FAQ_NEEDLE,
       TRENDS_ROUTES_ASML_NEEDLE,
@@ -1573,22 +1637,47 @@ describe('seo-daily surfaces', () => {
       TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
       TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
       TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE,
+      TRENDS_ROUTES_SURFACE_ULTRA_NEEDLE,
+      TRENDS_WATCHLIST_SURFACE_ULTRA_NEEDLE,
       TRENDS_ROUTES_XAI_GROK_NEEDLE,
       TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
       TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
       TRENDS_ROUTES_SAMSUNG_GLASSES_NEEDLE,
       TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
+      TRENDS_ROUTES_CERT_IN_NEEDLE,
+      TRENDS_WATCHLIST_CERT_IN_NEEDLE,
       TRENDS_ROUTES_QWEN_NEEDLE,
       TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE,
       TRENDS_ROUTES_DEEPSEEK_NEEDLE,
+      TRENDS_ROUTES_DEEPSEEK_FLASH_NEEDLE,
+      TRENDS_WATCHLIST_DEEPSEEK_FLASH_NEEDLE,
       TRENDS_ROUTES_MISTRAL_NEEDLE,
       TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
       TRENDS_ROUTES_OPENAI_CHROME_NEEDLE,
       TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE,
+      TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE,
+      TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE,
+      TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE,
+      TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE,
+      TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE,
+      TRENDS_ROUTES_REPLIT_ANTHROPIC_NEEDLE,
+      TRENDS_ROUTES_CLAUDE_MYTHOS_5_NEEDLE,
+      TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE,
+      TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE,
+      TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE,
+      TRENDS_WATCHLIST_BLACKSTONE_ANTHROPIC_NEEDLE,
+      TRENDS_WATCHLIST_REPLIT_ANTHROPIC_NEEDLE,
+      TRENDS_WATCHLIST_CLAUDE_MYTHOS_5_NEEDLE,
       TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
       TRENDS_ROUTES_PALANTIR_NEEDLE,
+      TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE,
+      TRENDS_WATCHLIST_ONDAS_PALANTIR_NEEDLE,
       TRENDS_ROUTES_AMD_NEEDLE,
       TRENDS_ROUTES_TESLA_NEEDLE,
+      TRENDS_ROUTES_WAYMO_CANADA_NEEDLE,
+      TRENDS_ROUTES_SOFTBANK_ALLIED_NEEDLE,
+      TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
+      TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE,
     ].join('\n');
     assert.equal(hasTrendsRoutesFaq(routesBody), true);
     assert.equal(hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE), false);

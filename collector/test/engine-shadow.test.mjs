@@ -563,7 +563,7 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   // Organization knowsAbout labAboutLabel until #143 preserve lands.
   const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #143/);
-  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314\/#316\)/);
+  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314\/#316\/#423\/#425\)/);
   // FINDABILITY #318 — home needles apply to index.html only (classic is the panel).
   assert.match(collect, /for hub in index\.html/);
   assert.doesNotMatch(collect, /for hub in index\.html classic\.html/);
@@ -571,6 +571,8 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   assert.match(collect, /What is the AI activity index today\?/);
   assert.match(collect, /AI activity level today ·/);
   assert.match(collect, /AI activity index today · AI activity level today · AI SIREN INDEX/);
+  assert.match(collect, /SIREN vs DoomBench: which should you use\?/);
+  assert.match(collect, /SIREN vs Skynet Countdown: which should you use\?/);
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #143/);
   assert.match(newsFast, /FINDABILITY #254/);
@@ -579,6 +581,8 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   assert.match(newsFast, /FINDABILITY #308/);
   assert.match(newsFast, /FINDABILITY #312\/#314/);
   assert.match(newsFast, /FINDABILITY #316/);
+  assert.match(newsFast, /FINDABILITY #423/);
+  assert.match(newsFast, /FINDABILITY #425\/#427/);
   assert.match(newsFast, /restore_home_knowsabout/);
   assert.match(newsFast, /for hub in index\.html/);
   assert.doesNotMatch(newsFast, /for hub in index\.html classic\.html/);
@@ -586,6 +590,8 @@ test('Publish restores tip home knowsAbout labAboutLabel (FINDABILITY #143)', ()
   assert.match(newsFast, /What is the AI activity index today\?/);
   assert.match(newsFast, /AI activity level today ·/);
   assert.match(newsFast, /AI activity index today · AI activity level today · AI SIREN INDEX/);
+  assert.match(newsFast, /SIREN vs DoomBench: which should you use\?/);
+  assert.match(newsFast, /SIREN vs Skynet Countdown: which should you use\?/);
   assert.match(newsFast, /agents\.md llms\.txt index\.html classic\.html/);
 });
 
@@ -736,11 +742,11 @@ test('Publish restores tip home title trim when level_name returns (FINDABILITY 
   const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #312\/#314/);
   assert.match(collect, /DORMANT\|ROUTINE\|ELEVATED\|ACCELERATED\|UNPRECEDENTED\|UNAVAILABLE/);
-  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314\/#316\)/);
+  assert.match(collect, /restored \$hub knowsAbout labAboutLabel \/ activity-index FAQ \(#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314\/#316\/#423\/#425\)/);
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #312\/#314/);
   assert.match(newsFast, /DORMANT\|ROUTINE\|ELEVATED\|ACCELERATED\|UNPRECEDENTED\|UNAVAILABLE/);
-  assert.match(newsFast, /#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314\/#316/);
+  assert.match(newsFast, /#143\/#254\/#264\/#284\/#296\/#308\/#312\/#314\/#316\/#423\/#425/);
 });
 
 test('Publish restores tip home title when decimal score returns (FINDABILITY #316)', () => {
