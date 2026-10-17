@@ -664,12 +664,23 @@ test('Publish restores tip discovery surfaces when classic panel missing (FINDAB
   assert.match(collect, /FINDABILITY #328/);
   assert.match(collect, /for surf in agents\.txt ai\.txt/);
   assert.match(collect, /\.well-known\/api-catalog/);
-  assert.match(collect, /restored \$surf classic instrument panel \(#328\)/);
+  assert.match(collect, /restored \$surf classic instrument panel \/ dual head term \(#328\/#439\)/);
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #328/);
   assert.match(newsFast, /restore_discovery_classic/);
   assert.match(newsFast, /for surf in agents\.txt ai\.txt/);
-  assert.match(newsFast, /restored \$surf classic instrument panel \(#328\)/);
+  assert.match(newsFast, /restored \$surf classic instrument panel \/ dual head term \(#328\/#439\)/);
+});
+
+test('Publish restores tip discovery dual head term (FINDABILITY #439)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #328\/#439/);
+  assert.match(collect, /AI activity index today · AI activity level today/);
+  assert.match(collect, /restored \$surf classic instrument panel \/ dual head term \(#328\/#439\)/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #328\/#439/);
+  assert.match(newsFast, /AI activity index today · AI activity level today/);
+  assert.match(newsFast, /restored \$surf classic instrument panel \/ dual head term \(#328\/#439\)/);
 });
 
 test('Publish restores tip discovery JSON when classic panel missing (FINDABILITY #330)', () => {

@@ -31,6 +31,8 @@ test('agents.txt announces Skills only (no fake HTTP MCP or A2A)', () => {
   // FINDABILITY #328 — capability announcement lists the classic panel.
   assert.match(txt, /Classic instrument panel: https:\/\/siren\.watch\/classic\.html/);
   assert.match(txt, /Where is the full SIREN instrument panel\?/);
+  // FINDABILITY #439 — dual middot head terms beside the live reading URL.
+  assert.match(txt, /AI activity index today · AI activity level today/);
   assert.doesNotMatch(txt, /^MCP:/m);
   assert.doesNotMatch(txt, /^A2A:/m);
   assert.doesNotMatch(txt, /^Protocols:/m);
@@ -121,5 +123,7 @@ test('ai.txt points agents at the discovery stack', () => {
   assert.match(txt, /How do you check a SIREN reading yourself\?/);
   // FINDABILITY #328 — ai.txt Start-here lists the classic panel question.
   assert.match(txt, /Where is the full SIREN instrument panel\?/);
+  // FINDABILITY #439 — dual middot head terms on the live reading Start-here line.
+  assert.match(txt, /AI activity index today · AI activity level today/);
   assert.match(txt, /not a probability of harm/);
 });
