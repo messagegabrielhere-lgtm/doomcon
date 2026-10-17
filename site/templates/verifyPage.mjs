@@ -53,13 +53,15 @@ export function verifyPage(ctx) {
 
   const box = verifyBox(ctx, { omitHeading: true, labelledBy: 'vfy-page-h' });
   const description = `${qTitle} Re-hash the last 12 public receipts in your browser. Proves the published record was not edited after the fact — not that the inputs were right. Free, no account.`;
+  // FINDABILITY #451 — dual middot head terms beside live home (verify was
+  // index-only after free-tools dual #443).
 
   const main = `${CSS}
 <section class="vfyp">
   <p class="eyebrow"><a href="${esc(ctx.href('/free-tools.html'))}">${esc(toolsQ)}</a> · Verify</p>
   <h1 id="vfy-page-h">${esc(qTitle)}</h1>
   <p class="lede">Every reading ships with a receipt. Press the button and your own browser fetches the last 12 receipts from this origin, re-hashes each one with WebCrypto, and walks the chain. Nothing is sent anywhere, and no account is required.</p>
-  <div class="vfyp__box">${box || `<p class="lede">The live reading has no receipt id in this build, so the checker is idle. Open <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a> after the next collect.</p>`}</div>
+  <div class="vfyp__box">${box || `<p class="lede">The live reading has no receipt id in this build, so the checker is idle. Open <a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)}</a> after the next collect.</p>`}</div>
   <h2>${esc(proveQ)}</h2>
   <p>${esc(proveA)}</p>
   <h2>${esc(notQ)}</h2>
@@ -67,7 +69,7 @@ export function verifyPage(ctx) {
     · <a href="${esc(brand.REPO_URL)}" rel="noopener">source</a>.</p>
   <h2>${esc(whereQ)}</h2>
   <p>${esc(whereA)}
-    <a href="${esc(ctx.href('/#vfy'))}">AI activity index today · ${esc(brand.NAME)}</a>
+    <a href="${esc(ctx.href('/#vfy'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)}</a>
     · <a href="${esc(ctx.href('/classic.html#vfy'))}">Where is the full ${esc(brand.NAME)} instrument panel?</a>.</p>
   <section class="vfyp__faq" aria-labelledby="faq">
     <h2 id="faq">What questions do people actually ask?</h2>

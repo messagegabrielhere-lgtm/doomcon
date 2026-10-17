@@ -32,6 +32,8 @@ describe('verify free-tool page', () => {
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/free-tools\.html/);
     assert.match(html, /\/methodology\.html/);
+    // FINDABILITY #451 — dual middot head terms beside live home.
+    assert.match(html, /AI activity index today · AI activity level today/);
     assert.doesNotMatch(html, /id="vfy-h">/);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);

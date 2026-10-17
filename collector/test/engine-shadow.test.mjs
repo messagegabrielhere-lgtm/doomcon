@@ -731,6 +731,17 @@ test('Publish restores tip free-tools dual head term (FINDABILITY #443)', () => 
   assert.match(newsFast, /restored free-tools\.html classic instrument panel \/ dual head term \(#332\/#443\)/);
 });
 
+test('Publish restores tip verify.html dual head term (FINDABILITY #451)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #451/);
+  assert.match(collect, /verify\.html/);
+  assert.match(collect, /restored verify\.html dual head term \(#451\)/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #451/);
+  assert.match(newsFast, /verify\.html/);
+  assert.match(newsFast, /restored verify\.html dual head term \(#451\)/);
+});
+
 test('Publish restores tip home AI activity index FAQ (FINDABILITY #254)', () => {
   // Orphan/news-only Publish can wipe the exact head-term FAQ until tip ≥ #254;
   // restore fires on missing needle and re-syncs /ai-activity-index alias body.

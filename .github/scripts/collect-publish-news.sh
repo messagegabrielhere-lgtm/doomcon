@@ -64,7 +64,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
   # Starshield / …) survive orphan Publish on tip < #208.
   for hub in compare.html alternatives.html agents.md llms.txt skill.md \
     skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt agents.json \
-    openapi.json api/index.json llms-full.txt free-tools.html \
+    openapi.json api/index.json llms-full.txt free-tools.html verify.html \
     .well-known/api-catalog .well-known/api-catalog.json \
     .well-known/mcp/server-card.json \
     .well-known/agent-skills/index.json \
@@ -315,6 +315,15 @@ if [ -f "$PRESERVE_FAQ/free-tools.html" ] \
   mkdir -p .pages/free-tools
   cp -a .pages/free-tools.html .pages/free-tools/index.html
   echo "restored free-tools.html classic instrument panel / dual head term (#332/#443)"
+fi
+# FINDABILITY #451 — restore tip verify.html when dual middot head terms
+# are missing after orphan Publish.
+if [ -f "$PRESERVE_FAQ/verify.html" ] \
+  && ! grep -qF 'AI activity index today · AI activity level today' .pages/verify.html 2>/dev/null; then
+  cp -a "$PRESERVE_FAQ/verify.html" .pages/verify.html
+  mkdir -p .pages/verify
+  cp -a .pages/verify.html .pages/verify/index.html
+  echo "restored verify.html dual head term (#451)"
 fi
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
 # labAboutLabel is missing (OpenAI / ChatGPT on /lab/openai.html rows).
