@@ -659,6 +659,17 @@ while [ "$(date +%s)" -lt "$END" ]; do
           echo "restored $hub crumb dual head term (#475)"
         fi
       done
+      # FINDABILITY #483 — footer SECTIONS dual middot (index-only home link).
+      # Probe press/games — never restore news.html (newsroom freshness).
+      for hub in press.html games.html; do
+        if [ -f "$preserve/$hub" ] \
+          && grep -qF 'href="/">AI activity index today · SIREN</a>' \
+            "$root/$hub" 2>/dev/null; then
+          mkdir -p "$root/$(dirname "$hub")"
+          cp -a "$preserve/$hub" "$root/$hub"
+          echo "restored $hub sections dual head term (#483)"
+        fi
+      done
     }
     # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
     # labAboutLabel is missing after orphan Publish.

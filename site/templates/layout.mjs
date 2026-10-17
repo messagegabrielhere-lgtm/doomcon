@@ -64,7 +64,9 @@ import * as marks from '../brandmarks.mjs';
 // `label` = page H1 question (footer Pages + next/prev + All-rooms palette).
 // `short` = compact chrome for the feature-bar tile and pixel room banner.
 const SECTIONS = [
-  { href: '/', label: 'AI activity index today · SIREN', short: 'Index',
+  // FINDABILITY #483 — dual middot head terms (footer Pages home was
+  // index-only after crumb dual #475; matches live home title / homeCrumbName).
+  { href: '/', label: `AI activity index today · AI activity level today · ${brand.NAME}`, short: 'Index',
     blurb: 'The composite, the five pillars, the live signal feed.',
     count: (ctx) => (ctx.state && Number.isFinite(ctx.state.score)
       ? { v: num(ctx.state.score, 1), k: 'composite score' } : null) },

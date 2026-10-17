@@ -433,6 +433,18 @@ for hub in kind/press.html games.html; do
     echo "restored $hub crumb dual head term (#475)"
   fi
 done
+# FINDABILITY #483 — restore tip when footer SECTIONS home link is still
+# index-only after orphan Publish (dual crumb alone must not satisfy).
+# Probe press/games (already stashed) — never restore news.html (newsroom freshness).
+for hub in press.html games.html; do
+  if [ -f "$PRESERVE_FAQ/$hub" ] \
+    && grep -qF 'href="/">AI activity index today · SIREN</a>' \
+      ".pages/$hub" 2>/dev/null; then
+    mkdir -p ".pages/$(dirname "$hub")"
+    cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
+    echo "restored $hub sections dual head term (#483)"
+  fi
+done
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
 # labAboutLabel is missing (OpenAI / ChatGPT on /lab/openai.html rows).
 for hub in lab/index.html companies.html companies/index.html; do

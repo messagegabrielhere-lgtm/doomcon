@@ -36,7 +36,11 @@ describe('layout SECTIONS question labels', () => {
     const html = shell('/news.html');
     const pages = html.match(/id="foot-pages"[\s\S]*?<\/ul>/);
     assert.ok(pages, 'expected footer Pages list');
-    assert.match(pages[0], /href="\/">AI activity index today · SIREN<\/a>/);
+    assert.match(
+      pages[0],
+      /href="\/">AI activity index today · AI activity level today · SIREN<\/a>/,
+    );
+    assert.doesNotMatch(pages[0], /href="\/">AI activity index today · SIREN<\/a>/);
     // #123: arena / elon stay off footer nav
     assert.doesNotMatch(pages[0], /href="\/arena\.html"/);
     assert.doesNotMatch(pages[0], /href="\/elon\.html"/);
