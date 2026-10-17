@@ -243,13 +243,15 @@ for map in agents.md llms.txt; do
   fi
 done
 # FINDABILITY #326 — restore tip skill.md (+ packaged SKILL.md) when classic panel missing.
+# FINDABILITY #435 — also restore when contiguous “AI activity level today” (#433) is missing.
 for skill in skill.md skills/siren-ai-index/SKILL.md; do
   if [ -f "$PRESERVE_FAQ/$skill" ] \
     && { ! grep -qF '/classic.html' ".pages/$skill" 2>/dev/null \
-      || ! grep -qF 'Where is the full SIREN instrument panel?' ".pages/$skill" 2>/dev/null; }; then
+      || ! grep -qF 'Where is the full SIREN instrument panel?' ".pages/$skill" 2>/dev/null \
+      || ! grep -qF 'AI activity level today' ".pages/$skill" 2>/dev/null; }; then
     mkdir -p ".pages/$(dirname "$skill")"
     cp -a "$PRESERVE_FAQ/$skill" ".pages/$skill"
-    echo "restored $skill classic instrument panel (#326)"
+    echo "restored $skill classic instrument panel / level head term (#326/#435)"
   fi
 done
 # FINDABILITY #328 — restore tip agents.txt / ai.txt when classic panel missing.

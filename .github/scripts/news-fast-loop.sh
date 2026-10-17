@@ -438,16 +438,19 @@ while [ "$(date +%s)" -lt "$END" ]; do
     }
     # FINDABILITY #326 — restore tip skill.md (+ packaged SKILL.md) when
     # classic panel needle is missing after orphan Publish.
+    # FINDABILITY #435 — also restore when contiguous “AI activity level today”
+    # (#433) is missing while classic still present.
     restore_skill_classic() {
       local root="$1" preserve="$2"
       local skill
       for skill in skill.md skills/siren-ai-index/SKILL.md; do
         if [ -f "$preserve/$skill" ] \
           && { ! grep -qF '/classic.html' "$root/$skill" 2>/dev/null \
-            || ! grep -qF 'Where is the full SIREN instrument panel?' "$root/$skill" 2>/dev/null; }; then
+            || ! grep -qF 'Where is the full SIREN instrument panel?' "$root/$skill" 2>/dev/null \
+            || ! grep -qF 'AI activity level today' "$root/$skill" 2>/dev/null; }; then
           mkdir -p "$root/$(dirname "$skill")"
           cp -a "$preserve/$skill" "$root/$skill"
-          echo "restored $skill classic instrument panel (#326)"
+          echo "restored $skill classic instrument panel / level head term (#326/#435)"
         fi
       done
     }
