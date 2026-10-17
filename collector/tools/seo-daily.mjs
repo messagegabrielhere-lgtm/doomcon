@@ -189,6 +189,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/amd.html',
   // FINDABILITY #185 — Tesla / FSD / Autopilot Trends FAQ lab.
   '/lab/tesla.html',
+  // FINDABILITY #372 — Waymo Canada / Toronto robotaxi FAQ lab.
+  '/lab/waymo.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -1228,6 +1230,7 @@ export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/hug
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 export const TRENDS_ROUTES_AMD_NEEDLE = 'AMD / MI300 → /lab/amd.html';
 export const TRENDS_ROUTES_TESLA_NEEDLE = 'Tesla / FSD → /lab/tesla.html';
+export const TRENDS_ROUTES_WAYMO_CANADA_NEEDLE = 'Waymo Canada / Toronto robotaxi → /lab/waymo.html';
 
 /**
  * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180
@@ -1260,7 +1263,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
     && text.includes(TRENDS_ROUTES_AMD_NEEDLE)
-    && text.includes(TRENDS_ROUTES_TESLA_NEEDLE);
+    && text.includes(TRENDS_ROUTES_TESLA_NEEDLE)
+    && text.includes(TRENDS_ROUTES_WAYMO_CANADA_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1677,6 +1681,24 @@ export function hasAnthropicCanadaDcFaq(html, needle = ANTHROPIC_CANADA_DC_FAQ_N
 export function hasAgentsAnthropicCanadaDc(body, needle = AGENTS_ANTHROPIC_CANADA_DC_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/anthropic.html');
+}
+
+/** FINDABILITY #372 — Waymo Canada / Toronto robotaxi FAQ + agent maps. */
+export const WAYMO_CANADA_FAQ_NEEDLE = 'Why does SIREN watch Waymo Canada and Toronto robotaxis?';
+export const AGENTS_WAYMO_CANADA_NEEDLE = 'Waymo Canada';
+
+/** Tip /lab/waymo.html must keep the #372 Waymo Canada FAQ. */
+export function hasWaymoCanadaFaq(html, needle = WAYMO_CANADA_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Waymo Canada / Toronto tape to Waymo lab (FINDABILITY #372).
+ * Wipe gap is `agents-waymo-canada-missing`.
+ */
+export function hasAgentsWaymoCanada(body, needle = AGENTS_WAYMO_CANADA_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/waymo.html');
 }
 
 /** FINDABILITY #193 — Meta–Apple Mac AI / Muse-on-Mac FAQ + agent maps. */
@@ -3135,6 +3157,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #372 — Waymo Canada FAQ wiped or never landed.
+  if (ours.waymo_canada_faq === false) {
+    gaps.push({
+      id: 'waymo-canada-faq-missing',
+      severity: 'medium',
+      text: `/lab/waymo.html missing Waymo Canada / Toronto FAQ (FINDABILITY #372) — re-overlay lab/waymo.html or wait for full collect Publish on tip ≥ #372`,
+    });
+  }
+  // FINDABILITY #372 — agent maps must route Waymo Canada tape to Waymo lab.
+  if (ours.agents_waymo_canada === false || ours.llms_waymo_canada === false) {
+    const which = [
+      ours.agents_waymo_canada === false ? 'agents.md' : null,
+      ours.llms_waymo_canada === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-waymo-canada-missing',
+      severity: 'medium',
+      text: `${which} missing Waymo Canada → /lab/waymo.html tip (FINDABILITY #372) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #372`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -3549,6 +3592,11 @@ export function measureSite(site, byUrl) {
     row.tesla_faq = teslaHtml?.ok ? hasTeslaFaq(teslaHtml.value) : false;
     row.agents_tesla = agentsMd?.ok ? hasAgentsTesla(agentsMd.value) : false;
     row.llms_tesla = llms?.ok ? hasAgentsTesla(llmsBody) : false;
+    // FINDABILITY #372 — Waymo Canada / Toronto FAQ + agent maps.
+    const waymoHtml = byUrl.get(`${base}/lab/waymo.html`);
+    row.waymo_canada_faq = waymoHtml?.ok ? hasWaymoCanadaFaq(waymoHtml.value) : false;
+    row.agents_waymo_canada = agentsMd?.ok ? hasAgentsWaymoCanada(agentsMd.value) : false;
+    row.llms_waymo_canada = llms?.ok ? hasAgentsWaymoCanada(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -4162,6 +4210,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_tesla == null ? '—' : (ours.agents_tesla ? 'yes' : 'NO');
       const lm = ours.llms_tesla == null ? '—' : (ours.llms_tesla ? 'yes' : 'NO');
       lines.push(`- Agent-map Tesla / FSD → lab (#185): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.waymo_canada_faq != null) {
+      lines.push(
+        `- Waymo Canada / Toronto FAQ (#372): **${ours.waymo_canada_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_waymo_canada != null || ours.llms_waymo_canada != null)) {
+      const ag = ours.agents_waymo_canada == null ? '—' : (ours.agents_waymo_canada ? 'yes' : 'NO');
+      const lm = ours.llms_waymo_canada == null ? '—' : (ours.llms_waymo_canada ? 'yes' : 'NO');
+      lines.push(`- Agent-map Waymo Canada → lab (#372): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -6025,6 +6083,40 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/tesla.html')) {
     throw new Error('OUR_SURFACES missing /lab/tesla.html');
   }
+  // FINDABILITY #372 — Waymo Canada / Toronto FAQ + agent maps.
+  if (hasWaymoCanadaFaq(WAYMO_CANADA_FAQ_NEEDLE) !== true) {
+    throw new Error('hasWaymoCanadaFaq true');
+  }
+  if (hasWaymoCanadaFaq('Why does SIREN watch Tesla Autopilot and FSD?') !== false) {
+    throw new Error('hasWaymoCanadaFaq false');
+  }
+  if (hasAgentsWaymoCanada('Waymo Canada → https://siren.watch/lab/waymo.html') !== true) {
+    throw new Error('hasAgentsWaymoCanada true');
+  }
+  if (hasAgentsWaymoCanada('https://siren.watch/lab/waymo.html only') !== false) {
+    throw new Error('hasAgentsWaymoCanada needs Waymo Canada needle');
+  }
+  const waymoCanadaGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      waymo_canada_faq: false,
+      agents_waymo_canada: false,
+      llms_waymo_canada: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!waymoCanadaGaps.some((g) => g.id === 'waymo-canada-faq-missing')) {
+    throw new Error('waymo-canada-faq-missing gap');
+  }
+  if (!waymoCanadaGaps.some((g) => g.id === 'agents-waymo-canada-missing')) {
+    throw new Error('agents-waymo-canada-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/waymo.html')) {
+    throw new Error('OUR_SURFACES missing /lab/waymo.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -6052,12 +6144,13 @@ function selftest() {
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_AMD_NEEDLE,
     TRENDS_ROUTES_TESLA_NEEDLE,
+    TRENDS_ROUTES_WAYMO_CANADA_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Meta-Apple-Mac/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

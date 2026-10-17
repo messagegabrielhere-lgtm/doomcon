@@ -1022,3 +1022,17 @@ test('Publish restores tip Anthropic Canadian data-centre FAQ + routes (FINDABIL
   assert.match(newsFast, /Anthropic Canadian data centres → \/lab\/anthropic\.html/);
   assert.match(newsFast, /! grep -qF 'Canadian data'/);
 });
+
+test('Publish restores tip Waymo Canada FAQ + routes (FINDABILITY #372)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #372/);
+  assert.match(collect, /Why does SIREN watch Waymo Canada and Toronto robotaxis\?/);
+  assert.match(collect, /Waymo Canada \/ Toronto robotaxi → \/lab\/waymo\.html/);
+  assert.match(collect, /! grep -qF 'Waymo Canada'/);
+  assert.match(collect, /restored lab\/waymo\.html Waymo Canada \/ Toronto FAQ \(#372\)/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /Why does SIREN watch Waymo Canada and Toronto robotaxis\?/);
+  assert.match(newsFast, /Waymo Canada \/ Toronto robotaxi → \/lab\/waymo\.html/);
+  assert.match(newsFast, /! grep -qF 'Waymo Canada'/);
+  assert.match(newsFast, /restore_waymo_canada_faq/);
+});

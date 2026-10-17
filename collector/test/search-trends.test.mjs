@@ -112,6 +112,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: "EverWind’s major data centre project in N.S. will power Anthropic’s Claude AI", news: [] }).includes('anthropic-canada-datacenter'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-canada-datacenter' && t.path === '/lab/anthropic.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'anthropic-canada-datacenter').re.test('Nova Scotia lobster festival tourism boom'), false);
+  assert.ok(matchHeadTerms({ title: "Waymo’s robotaxis are headed to Canada", news: [] }).includes('waymo-canada'));
+  assert.ok(matchHeadTerms({ title: 'Hello Toronto – Waymo Is En Route', news: [] }).includes('waymo-canada'));
+  assert.ok(matchHeadTerms({ title: 'Waymo plans to launch its robotaxis in Toronto in 2028', news: [] }).includes('waymo-canada'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'waymo-canada' && t.path === '/lab/waymo.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'waymo-canada').re.test('Democrats Are Failing the Waymo Test'), false);
   // FINDABILITY #163 — Anthropic IPO / FTC → gated Anthropic lab.
   assert.ok(matchHeadTerms({ title: 'anthropic ipo', news: [] }).includes('anthropic-ipo'));
   assert.ok(matchHeadTerms({ title: 'FTC probes Anthropic', news: [] }).includes('anthropic-ipo'));
