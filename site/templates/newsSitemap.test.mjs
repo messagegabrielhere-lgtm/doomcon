@@ -2699,6 +2699,49 @@ test('news sitemap keywords include Nemotron 3.5 from multi-title version tape (
   assert.doesNotMatch(d, /\bNemotron 3\.5\b/);
 });
 
+test('news sitemap keywords include Chrome from ChatGPT browser-assistant tape (FINDABILITY #390)', () => {
+  // Multi-title ChatGPT Chrome tape: ChatGPT / OpenAI / GPT fill 12-cap while
+  // the contiguous browser surface is dropped (FAQ #191 gates OpenAI lab).
+  const a = keywordsFor({
+    title: 'ChatGPT for Chrome can now read tabs, compare prices, and send messages.',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['ChatGPT', 'OpenAI'],
+  });
+  assert.match(a, /\bChrome\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Chrome') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'ChatGPT becomes a full Chrome browser assistant that reads and acts on your open tabs',
+    summary: 'Browser-assistant surface beside ChatGPT computer use.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'the-decoder',
+    entities: ['ChatGPT', 'OpenAI'],
+  });
+  assert.match(b, /\bChrome\b/);
+  const c = keywordsFor({
+    title: 'ChatGPT can peek at your Chrome tabs now',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['ChatGPT'],
+  });
+  assert.match(c, /\bChrome\b/);
+  // bare ChatGPT / OpenAI tape must not invent the browser-assistant surface.
+  const d = keywordsFor({
+    title: 'OpenAI ships ChatGPT voice upgrades for desktop',
+    summary: 'Bare ChatGPT tape without the browser-assistant surface.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['OpenAI', 'ChatGPT'],
+  });
+  assert.doesNotMatch(d, /\bChrome\b/);
+});
 test('news sitemap keywords include AI safety bill from multi-title legislative tape (FINDABILITY #358)', () => {
   // Multi-title AI safety bill tape: Anthropic / Claude / AI safety fill 12-cap
   // while the contiguous legislative surface is dropped (FAQ #163 gates the lab).
