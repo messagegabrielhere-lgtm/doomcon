@@ -426,6 +426,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('M5 Max')) {
     throw new Error('probe labs must include M5 Max');
   }
+  // FINDABILITY #370 — NIST standards-body needle stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('NIST')) {
+    throw new Error('probe labs must include NIST');
+  }
   // FINDABILITY #310 — GPT-6 Astra space-form title heal.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
     || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {

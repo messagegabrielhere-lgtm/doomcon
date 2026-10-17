@@ -2457,6 +2457,51 @@ test('news sitemap keywords include M5 Max from multi-title Apple Silicon tape (
   assert.doesNotMatch(c, /\bM5 Max\b/);
 });
 
+test('news sitemap keywords include NIST from multi-title Anthropic crypto tape (FINDABILITY #370)', () => {
+  // Multi-title NIST tape: Anthropic / Claude fill 12-cap while the contiguous
+  // standards-body surface is dropped (FAQ #368/#362 gate the lab).
+  const a = keywordsFor({
+    title: 'Anthropic Traces NIST P-256 Seed to a 1997 Random Generator',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Google'],
+  });
+  assert.match(a, /\bNIST\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('NIST') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Anthropic Says Claude Traced NIST ECDSA Curve Seeds to a 1990S RNG',
+    summary: 'Claude chain-of-thought on curve seed origins.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Claude', 'Google'],
+  });
+  assert.match(b, /\bNIST\b/);
+  // administration / ECDSA-only tape must not invent the NIST needle.
+  // (Summary must not name the needle — keywordsFor hay is title+summary.)
+  const c = keywordsFor({
+    title: 'Intel CEO Lip-Bu Tan says the Trump administration does not have any policy',
+    summary: 'Bare administration tape must not invent a contiguous standards-body acronym.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'techmeme',
+    entities: ['Intel'],
+  });
+  assert.doesNotMatch(c, /\bNIST\b/);
+  const d = keywordsFor({
+    title: 'Claude reveals ECDSA curve origins',
+    summary: 'Bare curve-seed forum tape without naming the standards body.',
+    pillar: 'attention',
+    kind: 'forum',
+    source: 'hn-fresh-ai',
+    entities: ['Claude'],
+  });
+  assert.doesNotMatch(d, /\bNIST\b/);
+});
+
 test('news sitemap keywords include AI safety bill from multi-title legislative tape (FINDABILITY #358)', () => {
   // Multi-title AI safety bill tape: Anthropic / Claude / AI safety fill 12-cap
   // while the contiguous legislative surface is dropped (FAQ #163 gates the lab).

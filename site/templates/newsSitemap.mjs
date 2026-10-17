@@ -361,6 +361,13 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // #294 / RTX Spark #279). Apple Intelligence FAQ #170 already gates the lab;
   // bare "M5" / MacBook Pro titles must not invent the Max SKU.
   'M5 Max',
+  // FINDABILITY #370 — multi-title NIST standards-body needle while
+  // google-news-open (2 titles: Anthropic Traces NIST P-256… + Anthropic Says
+  // Claude Traced NIST ECDSA…); Anthropic / Claude fill the 12-cap and drop the
+  // contiguous NIST surface — Canadian DC FAQ #368 / AI safety bill FAQ #362
+  // already gate the lab (parallel to CERT-In #226). Hold bare ECDSA niche /
+  // administration substring noise without the NIST acronym.
+  'NIST',
 ]);
 
 /**
