@@ -68,6 +68,10 @@ export const HEAD_TERMS = Object.freeze([
   // seeds / NIST elliptic-curve origins beside Anthropic / Claude; bare ECDSA
   // without that context stays unmatched. Do not match bare NSA geography.
   { id: 'anthropic-ecdsa', label: 'Anthropic ECDSA', re: /\b(?:anthropic|claude)\b.{0,80}\b(?:ecdsa|elliptic[- ]curve|curve[- ]seeds?|nist)\b|\b(?:ecdsa|elliptic[- ]curve|curve[- ]seeds?)\b.{0,80}\b(?:anthropic|claude|nist)\b/i, path: '/lab/anthropic.html' },
+  // FINDABILITY #402 — Claude Opus 5.5 / Opus 5.5 product Trends → same gated
+  // Claude lab (story counts only; not a model review). Contiguous Opus 5.5
+  // beside Claude / Anthropic; bare “opus” without the 5.5 SKU stays unmatched.
+  { id: 'claude-opus-5-5', label: 'Claude Opus 5.5', re: /\b(?:claude\s+)?opus\s*5\.5\b|\bopus\s*5\.5\b.{0,48}\b(?:claude|anthropic)\b|\b(?:claude|anthropic)\b.{0,48}\bopus\s*5\.5\b/i, path: '/lab/anthropic.html' },
   // FINDABILITY #174/#187 — Gemini / Gemma / Argon Trends → gated DeepMind lab
   // (story counts only; not a model review or stock tip). Gemma open-weight and
   // Gemini 4 Argon product tape share the same lab as Gemini headlines.

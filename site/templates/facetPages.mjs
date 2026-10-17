@@ -568,6 +568,13 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Anthropic ECDSA curve seeds?`,
       `${brand.NAME} scores press that names Anthropic / Claude. When ECDSA curve-seed reconstructions, NIST elliptic-curve origin headlines, or Claude crypto-history stories dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a cryptography audit, not a backdoor verdict, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #402 — Claude Opus 5.5 / Opus 5.5 product tape → same gated
+    // lab (story counts only; not a model review). Keywords already ship;
+    // FAQ #163/#362/#368/#392/#397 left the Opus SKU without a crawlable Q&A.
+    faq.push([
+      `Why does ${brand.NAME} watch Claude Opus 5.5?`,
+      `${brand.NAME} scores press that names Anthropic / Claude. When Claude Opus 5.5, Opus 5.5 release, or Claude Opus fast-mode headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a leaderboard verdict, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #164 — ASML / EUV AI-chip-tool Trends → gated lab.
   if (player.id === 'asml') {

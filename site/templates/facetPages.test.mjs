@@ -277,6 +277,14 @@ describe('lab facets', () => {
     );
     assert.match(antHtml, /[Nn]ot a cryptography audit/);
     assert.doesNotMatch(antHtml, /will crack|NSA backdoor confirmed|doom crypto/i);
+    // FINDABILITY #402 — Claude Opus 5.5 FAQ on same gated lab.
+    assert.match(
+      antHtml,
+      /Why does SIREN watch Claude Opus 5\.5\?/,
+    );
+    assert.match(antHtml, /[Nn]ot a model review/);
+    // Avoid matching the race tile label "Market odds (best model)".
+    assert.doesNotMatch(antHtml, /will beat|best Claude|doom benchmark/i);
     // FINDABILITY #164 — ASML / EUV Trends FAQ on gated lab.
     const asmlHtml = renderLab(ctx, {
       id: 'asml',
