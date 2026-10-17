@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T shipping **#380** Allied Universal news:keywords (3-title SoftBank acquisition tape; FAQ #374 gates SoftBank lab); Tesla Flying Roadster FAQ tip still **ok**; SpaceX Starshield FAQ tip still **ok**; SoftBank Allied FAQ tip still **ok**; Waymo Canada FAQ tip still **ok**; NIST tip still **ok**; Canadian data centres FAQ tip still **ok**; AI safety bill FAQ tip still **ok**; Publish preserve **#368**/**#372**/**#374**/**#376**/**#378**; M5 Max tip **#364** still **ok**; pizzint news contested; lead **6,700** / news **200**; GSC/Bing meta **absent**; News keywords through **#380**; FAQ routes through **#378**; Publish preserve through **#378**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#380** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T02:32Z after **#380** tip `1f0c694` (+ heal after newsroom wipe) + IndexNow **200**: Allied Universal news:keywords **3/3** CDN clear; Tesla Flying Roadster FAQ tip still **ok**; SpaceX Starshield FAQ tip still **ok**; SoftBank Allied FAQ tip still **ok**; Waymo Canada FAQ tip still **ok**; NIST tip still **ok**; Canadian data centres FAQ tip still **ok**; AI safety bill FAQ tip still **ok**; Publish preserve **#368**/**#372**/**#374**/**#376**/**#378**; M5 Max tip **#364** still **ok**; pizzint news **14** contested (`pizzint-news-alive`); lead **6,700** / news **200**; GSC/Bing meta **absent**; News keywords through **#380**; FAQ routes through **#378**; Publish preserve through **#378**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#381** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -67,7 +67,8 @@ ECDSA niche / Beijing AI-exports topic / CoreWeave stock (already gated) /
 Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster + Flying Roadster keyed) /
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise / bare Allied shorthand refused.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
-**#380** Allied Universal news:keywords shipping (3 titles; FAQ #374 gates SoftBank lab; hold bare Allied / ECDSA / EverWind / Warsh / Nudify / VCI).
+**#381** after **#380** tip `1f0c694` (+ heal after newsroom wipe) + IndexNow **200**: Allied Universal **3/3** CDN clear; Flying Roadster + Starshield + SoftBank + Waymo FAQs still **ok**; lead **6,700**; pizzint news **14** contested.
+**#380** Allied Universal tip `1f0c694` CDN clear (news:keywords probes **ok**; 3 titles; FAQ #374 gates SoftBank lab; hold bare Allied / ECDSA / EverWind / Warsh / Nudify / VCI).
 **#379** after **#378** tip `ae370bf` (+ heal after newsroom wipe) + IndexNow **200**: Tesla Flying Roadster FAQ CDN clear; Starshield + SoftBank + Waymo FAQs still **ok**; lead **6,700**; pizzint news **14**.
 **#378** Tesla Flying Roadster companion FAQ tip `ae370bf` (lab + agents + Trends; keywords #354 already keyed; FSD FAQ #185 only — parallel Samsung glasses #195; hold ECDSA / EverWind / Warsh / Nudify / VCI / Replit no-lab).
 **#377** after **#376** tip `f88b5bf` + IndexNow **200**: SpaceX Starshield FAQ CDN clear; SoftBank + Waymo FAQs still **ok**; lead **6,698**.
