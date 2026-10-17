@@ -1003,24 +1003,28 @@ while [ "$(date +%s)" -lt "$END" ]; do
     }
     # FINDABILITY #248 — restore tip /model/muse-spark.html when Muse Spark
     # model hub FAQ is missing after orphan Publish (story count < MODEL_INDEX_MIN).
+    # FINDABILITY #463 — also restore when dual middot head terms are missing.
     restore_muse_spark_model_hub() {
       local root="$1" preserve="$2"
       if [ -f "$preserve/model/muse-spark.html" ] \
-        && ! grep -qF 'What has SIREN scored about Muse Spark?' "$root/model/muse-spark.html" 2>/dev/null; then
+        && { ! grep -qF 'What has SIREN scored about Muse Spark?' "$root/model/muse-spark.html" 2>/dev/null \
+          || ! grep -qF 'AI activity index today · AI activity level today' "$root/model/muse-spark.html" 2>/dev/null; }; then
         mkdir -p "$root/model"
         cp -a "$preserve/model/muse-spark.html" "$root/model/muse-spark.html"
-        echo "restored model/muse-spark.html Muse Spark model hub (#248)"
+        echo "restored model/muse-spark.html Muse Spark model hub (#248/#463)"
       fi
     }
     # FINDABILITY #248 — restore tip /model/fable.html when Fable model hub
     # FAQ is missing after orphan Publish.
+    # FINDABILITY #463 — also restore when dual middot head terms are missing.
     restore_fable_model_hub() {
       local root="$1" preserve="$2"
       if [ -f "$preserve/model/fable.html" ] \
-        && ! grep -qF 'What has SIREN scored about Fable?' "$root/model/fable.html" 2>/dev/null; then
+        && { ! grep -qF 'What has SIREN scored about Fable?' "$root/model/fable.html" 2>/dev/null \
+          || ! grep -qF 'AI activity index today · AI activity level today' "$root/model/fable.html" 2>/dev/null; }; then
         mkdir -p "$root/model"
         cp -a "$preserve/model/fable.html" "$root/model/fable.html"
-        echo "restored model/fable.html Fable model hub (#248)"
+        echo "restored model/fable.html Fable model hub (#248/#463)"
       fi
     }
     # FINDABILITY #170 — restore tip /lab/apple.html when Apple Intelligence FAQ

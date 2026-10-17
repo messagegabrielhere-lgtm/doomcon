@@ -145,6 +145,9 @@ export const OUR_SURFACES = Object.freeze([
   '/self-aware.html',
   // FINDABILITY #461 — videos explainer CTA must keep dual head terms after tip.
   '/videos.html',
+  // FINDABILITY #463 — model hub composite-reading CTAs must keep dual head terms.
+  '/model/muse-spark.html',
+  '/model/fable.html',
   '/companies.html',
   '/models.html',
   '/pillars.html',
@@ -1100,6 +1103,22 @@ export function hasSelfAwareDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TE
  * Wipe gap is `videos-dual-head-term-missing`.
  */
 export function hasVideosDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when /model/muse-spark.html names dual middot head terms (FINDABILITY #463).
+ * Wipe gap is `model-dual-head-term-missing` (paired with fable).
+ */
+export function hasMuseSparkDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when /model/fable.html names dual middot head terms (FINDABILITY #463).
+ * Wipe gap is `model-dual-head-term-missing` (paired with muse-spark).
+ */
+export function hasFableDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
   return String(html || '').includes(needle);
 }
 
@@ -3035,6 +3054,22 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #463 — model hub pages dropped dual middot head terms.
+  if (
+    ours.muse_spark_dual_head_term === false
+    || ours.fable_dual_head_term === false
+  ) {
+    const which = [
+      ours.muse_spark_dual_head_term === false ? 'model/muse-spark.html' : null,
+      ours.fable_dual_head_term === false ? 'model/fable.html' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'model-dual-head-term-missing',
+      severity: 'medium',
+      text: `${which} missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #463) — re-overlay model hubs or wait for collect/news-fast Publish on tip ≥ #463`,
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -4513,6 +4548,15 @@ export function measureSite(site, byUrl) {
     row.videos_dual_head_term = videosHtml?.ok
       ? hasVideosDualHeadTerm(videosHtml.value)
       : false;
+    // FINDABILITY #463 — model hub composite-reading CTAs must keep dual middot.
+    const museSparkHtml = byUrl.get(`${base}/model/muse-spark.html`);
+    const fableHtml = byUrl.get(`${base}/model/fable.html`);
+    row.muse_spark_dual_head_term = museSparkHtml?.ok
+      ? hasMuseSparkDualHeadTerm(museSparkHtml.value)
+      : false;
+    row.fable_dual_head_term = fableHtml?.ok
+      ? hasFableDualHeadTerm(fableHtml.value)
+      : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -5049,6 +5093,16 @@ export function formatMarkdown(report) {
     if (ours && ours.videos_dual_head_term != null) {
       const vd = ours.videos_dual_head_term ? 'ok' : 'NO';
       lines.push(`- videos dual index/level head term (#461): **${vd}**`);
+    }
+    if (ours && (
+      ours.muse_spark_dual_head_term != null
+      || ours.fable_dual_head_term != null
+    )) {
+      const ms = ours.muse_spark_dual_head_term == null ? '—' : (ours.muse_spark_dual_head_term ? 'yes' : 'NO');
+      const fb = ours.fable_dual_head_term == null ? '—' : (ours.fable_dual_head_term ? 'yes' : 'NO');
+      lines.push(
+        `- model dual index/level head term (#463): muse-spark **${ms}** · fable **${fb}**`,
+      );
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
       const ag = ours.agents_root_rivals == null ? '—' : (ours.agents_root_rivals ? 'yes' : 'NO');
@@ -6363,6 +6417,32 @@ function selftest() {
   });
   if (!videosDualGaps.some((g) => g.id === 'videos-dual-head-term-missing')) {
     throw new Error('videos-dual-head-term-missing gap');
+  }
+  if (hasMuseSparkDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasMuseSparkDualHeadTerm true');
+  }
+  if (hasMuseSparkDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasMuseSparkDualHeadTerm false for index-only');
+  }
+  if (hasFableDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasFableDualHeadTerm true');
+  }
+  if (hasFableDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasFableDualHeadTerm false for index-only');
+  }
+  const modelDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      muse_spark_dual_head_term: false,
+      fable_dual_head_term: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!modelDualGaps.some((g) => g.id === 'model-dual-head-term-missing')) {
+    throw new Error('model-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{
