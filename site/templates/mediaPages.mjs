@@ -14,7 +14,7 @@ export const VIDEOS = [
   { id: 'road-to-si', file: 'siren-road-to-si', title: 'What is the road to superintelligence from 1950 to 2056?', secs: 101, station: 'SIREN FM',
     blurb: 'From Turing’s question to ChatGPT and AI Nobel prizes, then one plausible path to 2056. The future part is speculation, not a prediction.', page: '/history.html', pageLabel: 'What is the history of AI risk?' },
   { id: 'explainer', file: 'siren-explainer', title: 'What is SIREN in 42 seconds?', secs: 42, station: 'SIREN FM',
-    blurb: 'The hourly reading, the five levels, and the rooms worth opening.', page: '/', pageLabel: 'AI activity index today · SIREN' },
+    blurb: 'The hourly reading, the five levels, and the rooms worth opening.', page: '/', pageLabel: 'AI activity index today · AI activity level today · SIREN' },
   { id: 'tally', file: 'siren-tally', title: 'Who is Tally, SIREN’s duty canary?', secs: 22, station: 'CANARY CHIPTUNE',
     blurb: 'Five moods for five levels, and why a canary watches AI.', page: '/tally.html', pageLabel: 'Who is Tally, the SIREN duty canary?' },
   { id: 'skynet', file: 'siren-skynet', title: 'How loud is AI right now?', secs: 26, station: 'JUDGMENT DAY',
