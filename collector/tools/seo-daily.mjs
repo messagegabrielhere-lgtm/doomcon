@@ -578,6 +578,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'NIST',
   // FINDABILITY #380 — Allied Universal companion (multi-title; FAQ #374 gates SoftBank lab).
   'Allied Universal',
+  // FINDABILITY #382 — Blackstone financing companion (multi-title; FAQ #163/#362/#368 gate Anthropic lab).
+  'Blackstone',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -7494,6 +7496,37 @@ function selftest() {
     );
     if (alliedOnly.some((r) => r.lab === 'Allied Universal')) {
       throw new Error('newsKeywordLags must not flag Allied Universal on bare Allied shorthand titles');
+    }
+  }
+  // FINDABILITY #382 — catch tip wipe of Blackstone financing companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Blackstone')) {
+    throw new Error('probe labs missing Blackstone');
+  }
+  {
+    const bxLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Anthropic offers Blackstone double-digit yield in latest chip financing</news:title>'
+      + '<news:keywords>Anthropic, Google, Claude, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>FT: Anthropic offers Blackstone yields above 10% — Channel NewsAsia</news:title>'
+      + '<news:keywords>Anthropic, Claude, Blackstone, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const bxLags = newsKeywordLags(bxLagXml);
+    if (!bxLags.some((r) => r.lab === 'Blackstone')) {
+      throw new Error(`newsKeywordLags expected Blackstone lag: ${JSON.stringify(bxLags)}`);
+    }
+    if (bxLags.filter((r) => /Channel NewsAsia/i.test(r.title)).some((r) => r.lab === 'Blackstone')) {
+      throw new Error('newsKeywordLags should not flag Blackstone when keywords include it');
+    }
+    // Anthropic / AI Jitters tape without Blackstone must not invent the needle.
+    const bxOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Anthropic raises debt package to buy Google TPUs</news:title>'
+      + '<news:keywords>Anthropic, Google, Claude, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Bloomberg Businessweek Daily: AI Jitters Persist</news:title>'
+      + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (bxOnly.some((r) => r.lab === 'Blackstone')) {
+      throw new Error('newsKeywordLags must not flag Blackstone on Anthropic / AI Jitters titles without it');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.

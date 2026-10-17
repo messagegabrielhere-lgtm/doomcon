@@ -376,6 +376,15 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // NIST #370 / Starshield #206). Hold bare "Allied" shorthand / Warsh /
   // ECDSA / EverWind / Nudify / VCI without the full company name.
   'Allied Universal',
+  // FINDABILITY #382 — multi-title Blackstone financing companion while
+  // google-news-open (3 titles: Anthropic offering Blackstone 10%+ yield…
+  // + FT: Anthropic offers Blackstone… + Anthropic offers Blackstone
+  // double-digit yield…); Anthropic / Claude / Financial AI / compute fill
+  // the 12-cap and drop the contiguous PE surface — IPO / AI safety bill /
+  // Canadian DC FAQs #163/#362/#368 already gate `/lab/anthropic.html`
+  // (parallel to Allied #380 / NIST #370). Hold Warsh person / ECDSA niche /
+  // EverWind / Nudify / AI Jitters noise without naming Blackstone.
+  'Blackstone',
 ]);
 
 /**
