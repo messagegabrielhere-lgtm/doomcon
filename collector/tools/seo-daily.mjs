@@ -143,6 +143,8 @@ export const OUR_SURFACES = Object.freeze([
   '/bets.html',
   '/balance.html',
   '/self-aware.html',
+  // FINDABILITY #461 — videos explainer CTA must keep dual head terms after tip.
+  '/videos.html',
   '/companies.html',
   '/models.html',
   '/pillars.html',
@@ -1090,6 +1092,14 @@ export function hasBalanceDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM
  * Wipe gap is `desk-dual-head-term-missing` (paired with bets + balance).
  */
 export function hasSelfAwareDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when videos.html names dual middot head terms (FINDABILITY #461).
+ * Wipe gap is `videos-dual-head-term-missing`.
+ */
+export function hasVideosDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
   return String(html || '').includes(needle);
 }
 
@@ -3016,6 +3026,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #461 — videos.html dropped dual middot head terms.
+  if (ours.videos_dual_head_term === false) {
+    gaps.push({
+      id: 'videos-dual-head-term-missing',
+      severity: 'medium',
+      text: 'videos.html missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #461) — re-overlay videos page or wait for collect/news-fast Publish on tip ≥ #461',
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -4489,6 +4508,11 @@ export function measureSite(site, byUrl) {
     row.self_aware_dual_head_term = selfAwareHtml?.ok
       ? hasSelfAwareDualHeadTerm(selfAwareHtml.value)
       : false;
+    // FINDABILITY #461 — videos explainer CTA must keep dual middot head terms.
+    const videosHtml = byUrl.get(`${base}/videos.html`);
+    row.videos_dual_head_term = videosHtml?.ok
+      ? hasVideosDualHeadTerm(videosHtml.value)
+      : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -5021,6 +5045,10 @@ export function formatMarkdown(report) {
       lines.push(
         `- desk dual index/level head term (#459): bets **${bt}** · balance **${bal}** · self-aware **${sa}**`,
       );
+    }
+    if (ours && ours.videos_dual_head_term != null) {
+      const vd = ours.videos_dual_head_term ? 'ok' : 'NO';
+      lines.push(`- videos dual index/level head term (#461): **${vd}**`);
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
       const ag = ours.agents_root_rivals == null ? '—' : (ours.agents_root_rivals ? 'yes' : 'NO');
@@ -6316,6 +6344,25 @@ function selftest() {
   });
   if (!deskDualGaps.some((g) => g.id === 'desk-dual-head-term-missing')) {
     throw new Error('desk-dual-head-term-missing gap');
+  }
+  if (hasVideosDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasVideosDualHeadTerm true');
+  }
+  if (hasVideosDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasVideosDualHeadTerm false for index-only');
+  }
+  const videosDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      videos_dual_head_term: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!videosDualGaps.some((g) => g.id === 'videos-dual-head-term-missing')) {
+    throw new Error('videos-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{
