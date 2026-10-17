@@ -315,6 +315,8 @@ done
 # re-emitted level_name in <title> only (tip must be clean; body scale may say ROUTINE).
 # FINDABILITY #316 — also restore when tip dropped decimal score from <title>
 # but Publish re-emitted it (tip must be score-free).
+# FINDABILITY #423 — also restore when DoomBench conquest every-room / FAQ path is missing.
+# FINDABILITY #425/#427 — also restore when Skynet Countdown conquest every-room / FAQ path is missing.
 # FINDABILITY #318 — home needles apply to index.html only (classic is the panel).
 for hub in index.html; do
   if [ -f "$PRESERVE_FAQ/$hub" ] \
@@ -324,12 +326,14 @@ for hub in index.html; do
       || ! grep -qF '/ai-activity-level.html is a short alias' ".pages/$hub" 2>/dev/null \
       || ! grep -qF 'AI activity level today ·' ".pages/$hub" 2>/dev/null \
       || ! grep -qF 'AI activity index today · AI activity level today · AI SIREN INDEX' ".pages/$hub" 2>/dev/null \
+      || ! grep -qF 'SIREN vs DoomBench: which should you use?' ".pages/$hub" 2>/dev/null \
+      || ! grep -qF 'SIREN vs Skynet Countdown: which should you use?' ".pages/$hub" 2>/dev/null \
       || { grep -qE '<title>[^<]*(DORMANT|ROUTINE|ELEVATED|ACCELERATED|UNPRECEDENTED|UNAVAILABLE)' ".pages/$hub" 2>/dev/null \
         && ! grep -qE '<title>[^<]*(DORMANT|ROUTINE|ELEVATED|ACCELERATED|UNPRECEDENTED|UNAVAILABLE)' "$PRESERVE_FAQ/$hub" 2>/dev/null; } \
       || { grep -qE '<title>[^<]*[0-9]+\.[0-9]+' ".pages/$hub" 2>/dev/null \
         && ! grep -qE '<title>[^<]*[0-9]+\.[0-9]+' "$PRESERVE_FAQ/$hub" 2>/dev/null; }; }; then
     cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
-    echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296/#308/#312/#314/#316)"
+    echo "restored $hub knowsAbout labAboutLabel / activity-index FAQ (#143/#254/#264/#284/#296/#308/#312/#314/#316/#423/#425)"
   fi
 done
 # FINDABILITY #318 — restore tip /classic.html when panel title or canonical missing.

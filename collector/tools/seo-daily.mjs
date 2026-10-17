@@ -1007,6 +1007,28 @@ export function hasHomeLabAboutLabels(html, needle = LAB_ABOUT_AGENT_NEEDLE) {
   return String(html || '').includes(needle);
 }
 
+/** FINDABILITY #423 — home every-room + FAQ path for DoomBench conquest. */
+export const HOME_DOOMBENCH_CONQUEST_NEEDLE = 'SIREN vs DoomBench: which should you use?';
+
+/**
+ * Home (and activity-index aliases) must keep the #423 DoomBench conquest link.
+ * Wipe gap is `home-doombench-conquest-missing`.
+ */
+export function hasHomeDoombenchConquest(html, needle = HOME_DOOMBENCH_CONQUEST_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/** FINDABILITY #425 — home every-room + FAQ path for Skynet Countdown conquest. */
+export const HOME_SKYNET_CONQUEST_NEEDLE = 'SIREN vs Skynet Countdown: which should you use?';
+
+/**
+ * Home (and activity-index aliases) must keep the #425 Skynet conquest link.
+ * Wipe gap is `home-skynet-conquest-missing`.
+ */
+export function hasHomeSkynetConquest(html, needle = HOME_SKYNET_CONQUEST_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
 /** FINDABILITY #254 — exact unbranded head-term FAQ on home (+ alias body). */
 export const HOME_ACTIVITY_INDEX_FAQ_NEEDLE = 'What is an AI activity index?';
 
@@ -2704,6 +2726,24 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #423 — home DoomBench conquest every-room + FAQ path wiped.
+  if (ours.home_doombench_conquest === false) {
+    gaps.push({
+      id: 'home-doombench-conquest-missing',
+      severity: 'medium',
+      text: `home missing DoomBench conquest link “SIREN vs DoomBench: which should you use?” (FINDABILITY #423) — re-overlay index.html / aliases or wait for collect/news-fast Publish on tip ≥ #423`,
+    });
+  }
+
+  // FINDABILITY #425/#427 — home Skynet Countdown conquest every-room + FAQ path wiped.
+  if (ours.home_skynet_conquest === false) {
+    gaps.push({
+      id: 'home-skynet-conquest-missing',
+      severity: 'medium',
+      text: `home missing Skynet Countdown conquest link “SIREN vs Skynet Countdown: which should you use?” (FINDABILITY #425/#427) — re-overlay index.html / aliases or wait for collect/news-fast Publish on tip ≥ #425`,
+    });
+  }
+
   // FINDABILITY #254 — home exact head-term FAQ wiped or never landed.
   if (ours.home_activity_index_faq === false) {
     gaps.push({
@@ -3881,6 +3921,10 @@ export function measureSite(site, byUrl) {
     bing_meta: home?.ok ? hasBingMeta(home.value) : null,
     // FINDABILITY #143 — home knowsAbout must keep #142 labAboutLabel (ours only).
     home_lab_about_labels: site.ours && home?.ok ? hasHomeLabAboutLabels(home.value) : null,
+    // FINDABILITY #423 — home DoomBench conquest every-room + FAQ path (ours only).
+    home_doombench_conquest: site.ours && home?.ok ? hasHomeDoombenchConquest(home.value) : null,
+    // FINDABILITY #425/#427 — home Skynet Countdown conquest every-room + FAQ path (ours only).
+    home_skynet_conquest: site.ours && home?.ok ? hasHomeSkynetConquest(home.value) : null,
     // FINDABILITY #254 — home exact unbranded head-term FAQ (ours only).
     home_activity_index_faq: site.ours && home?.ok ? hasHomeActivityIndexFaq(home.value) : null,
     // FINDABILITY #284 — home title-match “AI activity index today” FAQ (ours only).
@@ -4474,6 +4518,16 @@ export function formatMarkdown(report) {
     if (ours && ours.home_lab_about_labels != null) {
       lines.push(
         `- Home knowsAbout labAboutLabel (#142/#143): **${ours.home_lab_about_labels ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && ours.home_doombench_conquest != null) {
+      lines.push(
+        `- Home DoomBench conquest link (#423): **${ours.home_doombench_conquest ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && ours.home_skynet_conquest != null) {
+      lines.push(
+        `- Home Skynet Countdown conquest link (#425): **${ours.home_skynet_conquest ? 'ok' : 'NO'}**`,
       );
     }
     if (ours && ours.home_activity_index_faq != null) {
@@ -5600,6 +5654,44 @@ function selftest() {
   });
   if (!homeKaGaps.some((g) => g.id === 'home-knowsabout-labels-missing')) {
     throw new Error('home-knowsabout-labels-missing gap');
+  }
+  if (hasHomeDoombenchConquest('SIREN vs DoomBench: which should you use?') !== true) {
+    throw new Error('hasHomeDoombenchConquest true');
+  }
+  if (hasHomeDoombenchConquest('SIREN vs PizzINT: which should you use?') !== false) {
+    throw new Error('hasHomeDoombenchConquest false');
+  }
+  const homeDoomGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      home_doombench_conquest: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!homeDoomGaps.some((g) => g.id === 'home-doombench-conquest-missing')) {
+    throw new Error('home-doombench-conquest-missing gap');
+  }
+  if (hasHomeSkynetConquest('SIREN vs Skynet Countdown: which should you use?') !== true) {
+    throw new Error('hasHomeSkynetConquest true');
+  }
+  if (hasHomeSkynetConquest('SIREN vs DoomBench: which should you use?') !== false) {
+    throw new Error('hasHomeSkynetConquest false');
+  }
+  const homeSkynetGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      home_skynet_conquest: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!homeSkynetGaps.some((g) => g.id === 'home-skynet-conquest-missing')) {
+    throw new Error('home-skynet-conquest-missing gap');
   }
   if (hasHomeActivityIndexFaq('What is an AI activity index?') !== true) {
     throw new Error('hasHomeActivityIndexFaq true');
