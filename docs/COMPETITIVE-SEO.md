@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T06:04Z after **#403** hold + Trends `gemini ai` spike (already gated #174/#187); shipping **#404** Ondas news:keywords (2-title Ondas–Palantir JV; Palantir FAQ gates lab). Prior: Claude Opus 5.5 FAQ tip `a43c7e3` CDN clear; ECDSA **3/3**; METR/MOSS/Chrome/Opus keyed; lead **6,702** / news **200**; pizzint news **14** contested; GSC/Bing meta **absent**; News keywords through **#404**; FAQ routes through **#402**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#404** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T06:15Z after **#404** tip overlay `f95f5c7` + IndexNow **200**: Ondas news:keywords **2/2** CDN clear; Claude Opus / ECDSA / METR / MOSS / Chrome still keyed; lead **6,702** / news **200**; pizzint news **14** contested; GSC/Bing meta **absent**; Trends `gemini ai` gated #174/#187; News keywords through **#404**; FAQ routes through **#402**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#405** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -68,7 +68,8 @@ Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster 
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise / bare Allied shorthand / Nudify adult refused /
 Replit no-lab FAQ / ollama release noise / bare AeroVironment third-party / AlphaFold 3 + RTX 5090 singles / Financial Times · Show HN · Stock Movers noise.
 Trends `ai_related_total` **1** (`gemini ai` — already gated #174/#187). Unbranded head-term SERP still misses siren (GSC #11).
-**#404** Ondas news:keywords on main (2-title Ondas–Palantir JV gate; Palantir FAQ gates lab; hold Warsh / Nudify / AI Jitters / NSA / Replit / ollama / bare AeroVironment).
+**#405** after **#404** tip `f95f5c7` + IndexNow **200**: Ondas news:keywords **2/2** CDN clear; Claude Opus / ECDSA / METR / MOSS / Chrome still keyed; lead **6,702**; pizzint news **14** contested; Trends `gemini ai` gated; multi-title product gap empty (hold Warsh / Nudify / AI Jitters / NSA / Replit / ollama / bare AeroVironment).
+**#404** tip `f95f5c7` CDN clear (Ondas news:keywords **2/2**; 2-title Ondas–Palantir JV gate; Palantir FAQ gates lab; hold Warsh / Nudify / AI Jitters / NSA / Replit / ollama / bare AeroVironment).
 **#403** after **#402** tip `a43c7e3` + IndexNow **200**: Claude Opus 5.5 FAQ CDN clear (lab + agents/llms + Trends **48** rows / Opus `<td>` + routes **ok**); ECDSA FAQ + keywords **3/3** still **ok**; METR/MOSS still keyed; Chrome **1/1**; Opus keywords **2/2**; lead **6,702**; pizzint news **0** (`google-news-open`); multi-title product gap empty (hold NSA niche keyword).
 **#402** tip `a43c7e3` CDN clear (Claude Opus 5.5 FAQ lab + agents + Trends; 4-title gate; keywords already shipped; hold NSA / Warsh / Nudify / AI Jitters / Replit / ollama).
 **#401** after **#400** tip `cb7f44f` + IndexNow **200**: Trends watchlist **47** rows CDN clear (ECDSA/METR `<td>` + routes FAQ **ok**); ECDSA FAQ + keywords **3/3** still **ok**; METR/MOSS still keyed; Chrome **1/1**; lead **6,702**; pizzint news **14** contested; multi-title product gap empty (hold NSA niche keyword).
