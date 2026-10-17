@@ -985,8 +985,9 @@ describe('seo-daily surfaces', () => {
     assert.ok(gaps.some((g) => g.id === 'crumb-dual-head-term-missing'));
   });
 
-  it('detects missing dual footer SECTIONS home label (FINDABILITY #483)', () => {
+  it('detects missing dual footer SECTIONS home label (FINDABILITY #483/#485)', () => {
     assert.ok(OUR_SURFACES.includes('/press.html'));
+    assert.ok(OUR_SURFACES.includes('/jobs.html'));
     const dualFoot = '<ul id="foot-pages"><li><a href="/">AI activity index today · AI activity level today · SIREN</a></li></ul>';
     const indexFoot = '<ul id="foot-pages"><li><a href="/">AI activity index today · SIREN</a></li></ul>';
     const crumbOnly = 'AI activity index today · AI activity level today · SIREN'
@@ -1000,11 +1001,17 @@ describe('seo-daily surfaces', () => {
         title: 'AI activity index today · SIREN',
         sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
         footer_sections_dual_head_term: false,
+        footer_sections_press_dual: true,
+        footer_sections_jobs_dual: false,
       }],
       surfaces: [],
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'sections-dual-head-term-missing'));
+    assert.match(
+      gaps.find((g) => g.id === 'sections-dual-head-term-missing').text,
+      /jobs\.html/,
+    );
   });
 
   it('detects missing dual head term on model hubs (FINDABILITY #463)', () => {

@@ -468,18 +468,24 @@ for hub in kind/press.html games.html; do
     echo "restored $hub crumb dual head term (#475)"
   fi
 done
-# FINDABILITY #483 — restore tip when footer SECTIONS home link is still
+# FINDABILITY #483/#485 — in-place patch footer SECTIONS home when still
 # index-only after orphan Publish (dual crumb alone must not satisfy).
-# Probe press/games (already stashed) — never restore news.html (newsroom freshness).
-for hub in press.html games.html; do
-  if [ -f "$PRESERVE_FAQ/$hub" ] \
-    && grep -qF 'href="/">AI activity index today · SIREN</a>' \
-      ".pages/$hub" 2>/dev/null; then
-    mkdir -p ".pages/$(dirname "$hub")"
-    cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
-    echo "restored $hub sections dual head term (#483)"
-  fi
+# Whole-file restore on press/games alone left most rooms wiped (#485).
+if command -v rg >/dev/null 2>&1; then
+  mapfile -t _sec_dual_files < <(rg -l --glob '*.html' \
+    'href="/">AI activity index today · SIREN</a>' .pages 2>/dev/null || true)
+else
+  mapfile -t _sec_dual_files < <(grep -rl --include='*.html' \
+    'href="/">AI activity index today · SIREN</a>' .pages 2>/dev/null || true)
+fi
+for hub in "${_sec_dual_files[@]}"; do
+  [ -f "$hub" ] || continue
+  perl -pi -e \
+    's#href="/">AI activity index today · SIREN</a>#href="/">AI activity index today · AI activity level today · SIREN</a>#g' \
+    "$hub"
+  echo "patched $hub sections dual head term (#485)"
 done
+unset _sec_dual_files
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
 # labAboutLabel is missing (OpenAI / ChatGPT on /lab/openai.html rows).
 for hub in lab/index.html companies.html companies/index.html; do
