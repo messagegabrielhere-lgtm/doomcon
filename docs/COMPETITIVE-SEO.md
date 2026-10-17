@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T00:02Z after **#360** tip `a551451` + IndexNow **200** (**#361**); Amazon Web Services news:keywords CDN clear (**2/2**); AI safety bill tip **#358** still **ok** (**3/3**); Bee AI tip **#356** still **ok** (**2/2**); Flying Roadster tip **#354** still **ok** (**3/3**); Anthropic IPO tip **#352** still **ok** (**3/3**); PS5s tip **#350** still **ok** (**1/1**); Qwen3.8-Max tip **#346** still **ok** (**2/2**); Claude Mythos 5 tip **#344** still **ok**; Replit tip **#340** still **ok**; Siri tip **#342** still **ok**; Xing / Xing 4.0 tip **#338** still **ok**; GPT-Live-1 / Kling tip **#336** still **ok**; robots/feeds/sitemaps/now classic tip **yes**; free-tools classic **ok**; discovery JSON classic **#330** **yes**/**yes**/**yes**; discovery text classic **#328** **yes**/**yes**/**yes**; skill.md classic **ok**; agent-map classic **#324** **yes**/**yes**; `google-news-open` (pizzint news **0**); lead **6,701** / news **200**; Classic sitemap loc **#322** **ok**; Bee Frontier **#275** tip still **ok**; IndexNow ALWAYS on tip Publish; News keywords through **#360** Amazon Web Services; tip merge **#210** + **#218** + **#300** title-heal; `seo-daily` probes through **#360**/**#361** catch tip wipe / CDN lag; **#361** after **#360** tip `a551451` (**ok**); **#359** after **#358** tip `3ee462b` (**ok**); **#358** AI safety bill tip **ok**; **#357** after **#356** tip `6f16b74` (**ok**); **#355** after **#354** tip `147818e` (**ok**); **#354** Flying Roadster tip **ok**; **#353** after **#352** tip `038df3f` (**ok**); **#352** Anthropic IPO tip **ok**; **#351** after **#350** tip `c3e7e10` (**ok**); **#350** PS5s tip **ok**; **#348** Xing 4.0 29B-A4B tip **ok**; **#346** Qwen3.8-Max tip **ok**.
+**Measured:** 2026-10-17T00:12Z after **#362** tip `5c3852b` + IndexNow **200** (**#363**); Anthropic AI safety bill FAQ + agent/Trends routes CDN clear; AI safety bill news:keywords **#358** still **ok** (**3/3**); Amazon Web Services tip **#360** still **ok** (**2/2**); Bee AI tip **#356** still **ok** (**2/2**); Flying Roadster tip **#354** still **ok** (**3/3**); Anthropic IPO tip **#352** still **ok** (**3/3**); `google-news-open` (pizzint news **0**); lead **6,701** / news **200**; GSC/Bing meta **absent**; News keywords through **#360**; FAQ routes through **#362**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#362**/**#363** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -65,7 +65,8 @@ Warsh person / Glimpse (1 title) / Nova Scotia geography / ChatGPT Chrome (0 con
 ECDSA niche / Beijing AI-exports topic / CoreWeave stock (already gated) /
 bare Wall Street · AI Jitters noise refused.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
-**#362** Anthropic AI safety bill FAQ + agent/Trends routes shipping (gates #358 needle on lab).
+**#363** after **#362** tip `5c3852b` + IndexNow **200**: AI safety bill FAQ CDN clear; lead **6,701**.
+**#362** Anthropic AI safety bill FAQ tip `5c3852b` CDN clear (lab + agents + Trends).
 **#361** after **#360** tip `a551451` + IndexNow **200**: Amazon Web Services **2/2** CDN clear; lead **6,701**.
 **#360** Amazon Web Services tip `a551451` CDN clear (news:keywords probes **ok**).
 **#359** after **#358** tip `3ee462b` + IndexNow **200**: AI safety bill **3/3** CDN clear; lead **6,701**.
