@@ -191,6 +191,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'GitHub Copilot agent mode', news: [] }).includes('microsoft-copilot'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'microsoft-copilot' && t.path === '/lab/microsoft.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'microsoft-copilot').re.test('helicopter pilot training'), false);
+  // FINDABILITY #414 — Surface Laptop Ultra → same gated Microsoft lab.
+  assert.ok(matchHeadTerms({ title: 'Surface Laptop Ultra review: a different kind of MacBook Pro', news: [] }).includes('microsoft-surface-ultra'));
+  assert.ok(matchHeadTerms({ title: 'Running local AI models on Microsoft’s Surface Laptop Ultra', news: [] }).includes('microsoft-surface-ultra'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'microsoft-surface-ultra' && t.path === '/lab/microsoft.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'microsoft-surface-ultra').re.test('Surface Pro tablet keyboard'), false);
   // FINDABILITY #173 — Grok / xAI Trends → gated xAI lab.
   assert.ok(matchHeadTerms({ title: 'Grok Voice update from xAI', news: [] }).includes('xai-grok'));
   assert.ok(matchHeadTerms({ title: 'xAI ships new API tier', news: [] }).includes('xai-grok'));

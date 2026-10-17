@@ -179,6 +179,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'Apple Intelligence' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Microsoft Copilot' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Microsoft MAI-Base' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'Surface Laptop Ultra' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Grok / xAI' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Gemini / Gemma / Argon' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Samsung / AI memory' ".pages/$map" 2>/dev/null \
@@ -436,14 +437,16 @@ if [ -f "$PRESERVE_FAQ/lab/apple.html" ] \
   echo "restored lab/apple.html Apple Intelligence FAQ (#170)"
 fi
 
-# FINDABILITY #171/#220 — restore tip /lab/microsoft.html when Microsoft Copilot
-# or MAI-Base FAQ is missing after mid-merge / orphan Publish on tip < #171/#220.
+# FINDABILITY #171/#220/#414 — restore tip /lab/microsoft.html when Microsoft Copilot,
+# MAI-Base, or Surface Laptop Ultra FAQ is missing after mid-merge / orphan Publish
+# on tip < #171/#220/#414.
 if [ -f "$PRESERVE_FAQ/lab/microsoft.html" ] \
   && { ! grep -qF 'Why does SIREN watch Microsoft Copilot?' ".pages/lab/microsoft.html" 2>/dev/null \
-    || ! grep -qF 'Why does SIREN watch Microsoft MAI-Base?' ".pages/lab/microsoft.html" 2>/dev/null; }; then
+    || ! grep -qF 'Why does SIREN watch Microsoft MAI-Base?' ".pages/lab/microsoft.html" 2>/dev/null \
+    || ! grep -qF 'Why does SIREN watch Surface Laptop Ultra?' ".pages/lab/microsoft.html" 2>/dev/null; }; then
   mkdir -p .pages/lab
   cp -a "$PRESERVE_FAQ/lab/microsoft.html" .pages/lab/microsoft.html
-  echo "restored lab/microsoft.html Microsoft Copilot + MAI-Base FAQ (#171/#220)"
+  echo "restored lab/microsoft.html Microsoft Copilot + MAI-Base + Surface Laptop Ultra FAQ (#171/#220/#414)"
 fi
 
 # FINDABILITY #173 — restore tip /lab/xai.html when Grok / xAI FAQ
@@ -603,6 +606,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
     || ! grep -qF 'Apple Intelligence → /lab/apple.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Microsoft MAI-Base / MAI-Base-2 → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'Surface Laptop Ultra → /lab/microsoft.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Grok / xAI → /lab/xai.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Gemini / Gemma / Argon → /lab/google-deepmind.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' ".pages/search-trends.html" 2>/dev/null \

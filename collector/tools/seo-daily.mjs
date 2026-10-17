@@ -1236,6 +1236,9 @@ export const TRENDS_ROUTES_META_APPLE_MAC_NEEDLE = 'Meta–Apple Mac AI / Muse o
 export const TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE = 'Apple Intelligence → /lab/apple.html';
 export const TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE = 'Microsoft Copilot → /lab/microsoft.html';
 export const TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE = 'Microsoft MAI-Base / MAI-Base-2 → /lab/microsoft.html';
+/** FINDABILITY #414 — Surface Laptop Ultra / on-device AI laptop → gated Microsoft lab. */
+export const TRENDS_ROUTES_SURFACE_ULTRA_NEEDLE = 'Surface Laptop Ultra → /lab/microsoft.html';
+export const TRENDS_WATCHLIST_SURFACE_ULTRA_NEEDLE = '<td>Surface Laptop Ultra</td>';
 export const TRENDS_ROUTES_XAI_GROK_NEEDLE = 'Grok / xAI → /lab/xai.html';
 export const TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma / Argon → /lab/google-deepmind.html';
 export const TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE = 'Samsung / HBM / AI memory → /lab/samsung.html';
@@ -1292,6 +1295,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE)
     && text.includes(TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE)
     && text.includes(TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE)
+    && text.includes(TRENDS_ROUTES_SURFACE_ULTRA_NEEDLE)
+    && text.includes(TRENDS_WATCHLIST_SURFACE_ULTRA_NEEDLE)
     && text.includes(TRENDS_ROUTES_XAI_GROK_NEEDLE)
     && text.includes(TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE)
     && text.includes(TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE)
@@ -1508,6 +1513,24 @@ export function hasMicrosoftMaiFaq(html, needle = MICROSOFT_MAI_FAQ_NEEDLE) {
  * Wipe gap is `agents-microsoft-mai-missing`.
  */
 export function hasAgentsMicrosoftMai(body, needle = AGENTS_MICROSOFT_MAI_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/microsoft.html');
+}
+
+/** FINDABILITY #414 — Surface Laptop Ultra FAQ + agent maps (same gated lab as #171/#220). */
+export const SURFACE_ULTRA_FAQ_NEEDLE = 'Why does SIREN watch Surface Laptop Ultra?';
+export const AGENTS_SURFACE_ULTRA_NEEDLE = 'Surface Laptop Ultra';
+
+/** Tip /lab/microsoft.html must keep the #414 Surface Laptop Ultra FAQ. */
+export function hasSurfaceUltraFaq(html, needle = SURFACE_ULTRA_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Surface Laptop Ultra tape to Microsoft lab (FINDABILITY #414).
+ * Wipe gap is `agents-surface-ultra-missing`.
+ */
+export function hasAgentsSurfaceUltra(body, needle = AGENTS_SURFACE_ULTRA_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/microsoft.html');
 }
@@ -2811,7 +2834,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations or Anthropic ECDSA/METR/CERT-In watchlist table rows (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193/#195/#220/#400/#410) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #400`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Surface Laptop Ultra/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations or Anthropic ECDSA/METR/CERT-In/Surface Laptop Ultra watchlist table rows (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193/#195/#220/#400/#410/#414) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #414`,
     });
   }
 
@@ -3162,6 +3185,27 @@ export function deriveGaps(report) {
       id: 'agents-microsoft-mai-missing',
       severity: 'medium',
       text: `${which} missing Microsoft MAI-Base → /lab/microsoft.html tip (FINDABILITY #220) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #220`,
+    });
+  }
+
+  // FINDABILITY #414 — Microsoft lab FAQ for Surface Laptop Ultra wiped or never landed.
+  if (ours.surface_ultra_faq === false) {
+    gaps.push({
+      id: 'surface-ultra-faq-missing',
+      severity: 'medium',
+      text: `/lab/microsoft.html missing Surface Laptop Ultra FAQ (FINDABILITY #414) — re-overlay lab/microsoft.html or wait for full collect Publish on tip ≥ #414`,
+    });
+  }
+  // FINDABILITY #414 — agent maps must route Surface Laptop Ultra to Microsoft lab.
+  if (ours.agents_surface_ultra === false || ours.llms_surface_ultra === false) {
+    const which = [
+      ours.agents_surface_ultra === false ? 'agents.md' : null,
+      ours.llms_surface_ultra === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-surface-ultra-missing',
+      severity: 'medium',
+      text: `${which} missing Surface Laptop Ultra → /lab/microsoft.html tip (FINDABILITY #414) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #414`,
     });
   }
 
@@ -3981,6 +4025,10 @@ export function measureSite(site, byUrl) {
     row.microsoft_mai_faq = msHtml?.ok ? hasMicrosoftMaiFaq(msHtml.value) : false;
     row.agents_microsoft_mai = agentsMd?.ok ? hasAgentsMicrosoftMai(agentsMd.value) : false;
     row.llms_microsoft_mai = llms?.ok ? hasAgentsMicrosoftMai(llmsBody) : false;
+    // FINDABILITY #414 — Surface Laptop Ultra FAQ + agent maps (same lab as #171/#220).
+    row.surface_ultra_faq = msHtml?.ok ? hasSurfaceUltraFaq(msHtml.value) : false;
+    row.agents_surface_ultra = agentsMd?.ok ? hasAgentsSurfaceUltra(agentsMd.value) : false;
+    row.llms_surface_ultra = llms?.ok ? hasAgentsSurfaceUltra(llmsBody) : false;
     // FINDABILITY #173 — xAI / Grok FAQ + agent maps.
     const xaiHtml = byUrl.get(`${base}/lab/xai.html`);
     row.xai_grok_faq = xaiHtml?.ok ? hasXaiGrokFaq(xaiHtml.value) : false;
@@ -4586,6 +4634,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_microsoft_mai == null ? '—' : (ours.agents_microsoft_mai ? 'yes' : 'NO');
       const lm = ours.llms_microsoft_mai == null ? '—' : (ours.llms_microsoft_mai ? 'yes' : 'NO');
       lines.push(`- Agent-map Microsoft MAI-Base → lab (#220): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.surface_ultra_faq != null) {
+      lines.push(
+        `- Surface Laptop Ultra FAQ (#414): **${ours.surface_ultra_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_surface_ultra != null || ours.llms_surface_ultra != null)) {
+      const ag = ours.agents_surface_ultra == null ? '—' : (ours.agents_surface_ultra ? 'yes' : 'NO');
+      const lm = ours.llms_surface_ultra == null ? '—' : (ours.llms_surface_ultra ? 'yes' : 'NO');
+      lines.push(`- Agent-map Surface Laptop Ultra → lab (#414): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.xai_grok_faq != null) {
       lines.push(
@@ -6310,6 +6368,37 @@ function selftest() {
   if (!maiGaps.some((g) => g.id === 'agents-microsoft-mai-missing')) {
     throw new Error('agents-microsoft-mai-missing gap');
   }
+  // FINDABILITY #414 — Surface Laptop Ultra FAQ + agent maps.
+  if (hasSurfaceUltraFaq(SURFACE_ULTRA_FAQ_NEEDLE) !== true) {
+    throw new Error('hasSurfaceUltraFaq true');
+  }
+  if (hasSurfaceUltraFaq('Why does SIREN watch Microsoft MAI-Base?') !== false) {
+    throw new Error('hasSurfaceUltraFaq false');
+  }
+  if (hasAgentsSurfaceUltra('Surface Laptop Ultra → https://siren.watch/lab/microsoft.html') !== true) {
+    throw new Error('hasAgentsSurfaceUltra true');
+  }
+  if (hasAgentsSurfaceUltra('https://siren.watch/lab/microsoft.html only') !== false) {
+    throw new Error('hasAgentsSurfaceUltra needs Surface Laptop Ultra needle');
+  }
+  const surfaceUltraGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      surface_ultra_faq: false,
+      agents_surface_ultra: false,
+      llms_surface_ultra: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!surfaceUltraGaps.some((g) => g.id === 'surface-ultra-faq-missing')) {
+    throw new Error('surface-ultra-faq-missing gap');
+  }
+  if (!surfaceUltraGaps.some((g) => g.id === 'agents-surface-ultra-missing')) {
+    throw new Error('agents-surface-ultra-missing gap');
+  }
   if (hasXaiGrokFaq(XAI_GROK_FAQ_NEEDLE) !== true) {
     throw new Error('hasXaiGrokFaq true');
   }
@@ -7036,6 +7125,8 @@ function selftest() {
     TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
     TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
     TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE,
+    TRENDS_ROUTES_SURFACE_ULTRA_NEEDLE,
+    TRENDS_WATCHLIST_SURFACE_ULTRA_NEEDLE,
     TRENDS_ROUTES_XAI_GROK_NEEDLE,
     TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
     TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
@@ -7076,7 +7167,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/Blackstone-Anthropic/Replit-Anthropic/watchlist-td/Meta-Apple-Mac/Palantir/Ondas-Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402/#406/#408/#410/#412)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Surface-Ultra/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/Blackstone-Anthropic/Replit-Anthropic/watchlist-td/Meta-Apple-Mac/Palantir/Ondas-Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402/#406/#408/#410/#412/#414)');
   }
   // FINDABILITY #400 — FAQ arrow alone must not pass (tip #399 left arrows, dropped table rows).
   if (hasTrendsRoutesFaq([
@@ -7089,6 +7180,7 @@ function selftest() {
     TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
     TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
     TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE,
+    TRENDS_ROUTES_SURFACE_ULTRA_NEEDLE,
     TRENDS_ROUTES_XAI_GROK_NEEDLE,
     TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
     TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
@@ -7118,7 +7210,7 @@ function selftest() {
     TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
     TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE,
   ].join('\n')) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5/Blackstone/Replit/Ondas/CERT-In (#400/#402/#406/#408/#410/#412)');
+    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5/Blackstone/Replit/Ondas/CERT-In/Surface Ultra (#400/#402/#406/#408/#410/#412/#414)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

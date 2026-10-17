@@ -409,6 +409,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'Apple Intelligence' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Microsoft Copilot' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Microsoft MAI-Base' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'Surface Laptop Ultra' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Grok / xAI' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Gemini / Gemma / Argon' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Samsung / AI memory' "$root/$map" 2>/dev/null \
@@ -772,6 +773,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
           || ! grep -qF 'Apple Intelligence → /lab/apple.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Microsoft Copilot → /lab/microsoft.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Microsoft MAI-Base / MAI-Base-2 → /lab/microsoft.html' "$root/search-trends.html" 2>/dev/null \
+          || ! grep -qF 'Surface Laptop Ultra → /lab/microsoft.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Grok / xAI → /lab/xai.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Gemini / Gemma / Argon → /lab/google-deepmind.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' "$root/search-trends.html" 2>/dev/null \
@@ -898,16 +900,18 @@ while [ "$(date +%s)" -lt "$END" ]; do
         echo "restored lab/apple.html Apple Intelligence FAQ (#170)"
       fi
     }
-    # FINDABILITY #171/#220 — restore tip /lab/microsoft.html when Microsoft Copilot
-    # or MAI-Base FAQ is missing after orphan Publish from tip < #171/#220.
+    # FINDABILITY #171/#220/#414 — restore tip /lab/microsoft.html when Microsoft Copilot,
+    # MAI-Base, or Surface Laptop Ultra FAQ is missing after orphan Publish from tip
+    # < #171/#220/#414.
     restore_microsoft_copilot_faq() {
       local root="$1" preserve="$2"
       if [ -f "$preserve/lab/microsoft.html" ] \
         && { ! grep -qF 'Why does SIREN watch Microsoft Copilot?' "$root/lab/microsoft.html" 2>/dev/null \
-          || ! grep -qF 'Why does SIREN watch Microsoft MAI-Base?' "$root/lab/microsoft.html" 2>/dev/null; }; then
+          || ! grep -qF 'Why does SIREN watch Microsoft MAI-Base?' "$root/lab/microsoft.html" 2>/dev/null \
+          || ! grep -qF 'Why does SIREN watch Surface Laptop Ultra?' "$root/lab/microsoft.html" 2>/dev/null; }; then
         mkdir -p "$root/lab"
         cp -a "$preserve/lab/microsoft.html" "$root/lab/microsoft.html"
-        echo "restored lab/microsoft.html Microsoft Copilot + MAI-Base FAQ (#171/#220)"
+        echo "restored lab/microsoft.html Microsoft Copilot + MAI-Base + Surface Laptop Ultra FAQ (#171/#220/#414)"
       fi
     }
     # FINDABILITY #173 — restore tip /lab/xai.html when Grok / xAI FAQ

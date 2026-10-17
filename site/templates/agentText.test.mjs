@@ -230,6 +230,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /\/lab\/microsoft\.html/);
   // FINDABILITY #220 — Microsoft MAI-Base / MoE route to same Microsoft lab.
   assert.match(txt, /Microsoft MAI-Base, MAI-Base-2/);
+  // FINDABILITY #414 — Surface Laptop Ultra route to same Microsoft lab.
+  assert.match(txt, /Surface Laptop Ultra, Microsoft AI laptops/);
   assert.match(txt, /\/lab\/microsoft\.html/);
   // FINDABILITY #173 — Grok / xAI route to xAI lab (contiguous seo-daily needle).
   assert.match(txt, /Grok \/ xAI, Grok Voice, xAI/);
@@ -367,6 +369,8 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /\/lab\/microsoft\.html/);
   // FINDABILITY #220 — agents.md lists Microsoft lab for MAI-Base tape.
   assert.match(md, /Microsoft MAI-Base \/ MAI-Base-2 → Microsoft lab/);
+  // FINDABILITY #414 — agents.md lists Microsoft lab for Surface Laptop Ultra tape.
+  assert.match(md, /Surface Laptop Ultra Trends → Microsoft lab/);
   assert.match(md, /\/lab\/microsoft\.html/);
   // FINDABILITY #173 — agents.md lists xAI lab for Grok Trends.
   assert.match(md, /Grok \/ xAI Trends/);
