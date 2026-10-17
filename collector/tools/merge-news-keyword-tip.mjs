@@ -450,6 +450,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Chrome')) {
     throw new Error('probe labs must include Chrome');
   }
+  // FINDABILITY #394 — MOSS-Image companion stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('MOSS-Image')) {
+    throw new Error('probe labs must include MOSS-Image');
+  }
   // FINDABILITY #310 — GPT-6 Astra space-form title heal.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
     || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {
