@@ -551,6 +551,22 @@ while [ "$(date +%s)" -lt "$END" ]; do
         cp -a "$root/alternatives.html" "$root/alternatives/index.html"
         echo "restored alternatives.html dual head term (#453)"
       fi
+      # FINDABILITY #455 — p-doom / ai-doomsday-clock dual middot head terms.
+      if [ -f "$preserve/p-doom.html" ] \
+        && ! grep -qF 'AI activity index today · AI activity level today' "$root/p-doom.html" 2>/dev/null; then
+        cp -a "$preserve/p-doom.html" "$root/p-doom.html"
+        cp -a "$root/p-doom.html" "$root/pdoom.html"
+        mkdir -p "$root/pdoom"
+        cp -a "$root/p-doom.html" "$root/pdoom/index.html"
+        echo "restored p-doom.html dual head term (#455)"
+      fi
+      if [ -f "$preserve/ai-doomsday-clock.html" ] \
+        && ! grep -qF 'AI activity index today · AI activity level today' "$root/ai-doomsday-clock.html" 2>/dev/null; then
+        cp -a "$preserve/ai-doomsday-clock.html" "$root/ai-doomsday-clock.html"
+        mkdir -p "$root/ai-doomsday-clock"
+        cp -a "$root/ai-doomsday-clock.html" "$root/ai-doomsday-clock/index.html"
+        echo "restored ai-doomsday-clock.html dual head term (#455)"
+      fi
     }
     # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
     # labAboutLabel is missing after orphan Publish.
@@ -1241,6 +1257,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       # FINDABILITY #326/#328 — also stash tip skill.md + discovery surfaces.
       for hub in compare.html alternatives.html agents.md llms.txt skill.md \
         skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt \
+        p-doom.html ai-doomsday-clock.html \
         .well-known/api-catalog .well-known/api-catalog.json \
         .well-known/mcp/server-card.json \
         lab/index.html companies.html companies/index.html \
@@ -1258,6 +1275,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
           for hub in compare.html alternatives.html agents.md llms.txt skill.md \
             skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt \
+            p-doom.html ai-doomsday-clock.html \
             .well-known/api-catalog .well-known/api-catalog.json \
             .well-known/mcp/server-card.json \
             lab/index.html companies.html companies/index.html \
