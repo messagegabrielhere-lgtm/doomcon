@@ -52,7 +52,8 @@ describe('guides hub', () => {
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /guides\.md/);
     assert.match(html, /rel="alternate"[^>]*guides\.md/);
-    assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+    // FINDABILITY #457 — dual middot head terms on guides hub live link.
+    assert.match(html, /href="\/">AI activity index today · AI activity level today · SIREN →<\/a>/);
     assert.match(html, /href="\/guides\.md">What are the AI explainers\?<\/a>/);
     assert.doesNotMatch(html, /href="\/guides\.md">Markdown mirror →<\/a>/);
     assert.doesNotMatch(html, /href="\/">Live reading →<\/a>/);
@@ -64,7 +65,8 @@ describe('guides hub', () => {
     assert.match(md, /\/guides\.html/);
     assert.match(md, /\/p-doom\.html/);
     assert.match(md, /\/ai-doomsday-clock\.html/);
-    assert.match(md, /AI activity index today · SIREN/);
+    // FINDABILITY #457 — dual middot head terms on guides.md live link.
+    assert.match(md, /AI activity index today · AI activity level today · SIREN/);
     assert.match(md, /^## What else sits next to these AI explainers\?/m);
     assert.doesNotMatch(md, /^## Also$/m);
     assert.doesNotMatch(md, /\[Live reading\]/);

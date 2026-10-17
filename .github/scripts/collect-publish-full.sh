@@ -29,7 +29,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
   for hub in compare.html alternatives.html agents.md llms.txt skill.md \
     skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt agents.json \
     openapi.json api/index.json llms-full.txt free-tools.html verify.html \
-    p-doom.html ai-doomsday-clock.html \
+    p-doom.html ai-doomsday-clock.html guide.html guides.html guide.md guides.md \
     .well-known/api-catalog .well-known/api-catalog.json \
     .well-known/mcp/server-card.json \
     .well-known/agent-skills/index.json \
@@ -326,8 +326,39 @@ if [ -f "$PRESERVE_FAQ/ai-doomsday-clock.html" ] \
   cp -a "$PRESERVE_FAQ/ai-doomsday-clock.html" .pages/ai-doomsday-clock.html
   mkdir -p .pages/ai-doomsday-clock
   cp -a .pages/ai-doomsday-clock.html .pages/ai-doomsday-clock/index.html
+  # FINDABILITY #133/#457 — short /doomsday-clock alias must match dual tip.
+  cp -a .pages/ai-doomsday-clock.html .pages/doomsday-clock.html
+  mkdir -p .pages/doomsday-clock
+  cp -a .pages/ai-doomsday-clock.html .pages/doomsday-clock/index.html
   echo "restored ai-doomsday-clock.html dual head term (#455)"
 fi
+# FINDABILITY #457 — restore tip guide.html / guides.html (+ md) when dual
+# middot head terms are missing after orphan Publish (DEFCON compare + explainers
+# hub were index-only after pdoom dual #455).
+if [ -f "$PRESERVE_FAQ/guide.html" ] \
+  && ! grep -qF 'AI activity index today · AI activity level today' .pages/guide.html 2>/dev/null; then
+  cp -a "$PRESERVE_FAQ/guide.html" .pages/guide.html
+  mkdir -p .pages/guide
+  cp -a .pages/guide.html .pages/guide/index.html
+  cp -a .pages/guide.html .pages/ai-doom.html
+  mkdir -p .pages/ai-doom
+  cp -a .pages/guide.html .pages/ai-doom/index.html
+  echo "restored guide.html dual head term (#457)"
+fi
+if [ -f "$PRESERVE_FAQ/guides.html" ] \
+  && ! grep -qF 'AI activity index today · AI activity level today' .pages/guides.html 2>/dev/null; then
+  cp -a "$PRESERVE_FAQ/guides.html" .pages/guides.html
+  mkdir -p .pages/guides
+  cp -a .pages/guides.html .pages/guides/index.html
+  echo "restored guides.html dual head term (#457)"
+fi
+for md in guide.md guides.md; do
+  if [ -f "$PRESERVE_FAQ/$md" ] \
+    && ! grep -qF 'AI activity index today · AI activity level today' ".pages/$md" 2>/dev/null; then
+    cp -a "$PRESERVE_FAQ/$md" ".pages/$md"
+    echo "restored $md dual head term (#457)"
+  fi
+done
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
 # labAboutLabel is missing (OpenAI / ChatGPT on /lab/openai.html rows).
 for hub in lab/index.html companies.html companies/index.html; do

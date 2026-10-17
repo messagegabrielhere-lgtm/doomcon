@@ -565,8 +565,37 @@ while [ "$(date +%s)" -lt "$END" ]; do
         cp -a "$preserve/ai-doomsday-clock.html" "$root/ai-doomsday-clock.html"
         mkdir -p "$root/ai-doomsday-clock"
         cp -a "$root/ai-doomsday-clock.html" "$root/ai-doomsday-clock/index.html"
+        # FINDABILITY #133/#457 — short /doomsday-clock alias must match dual tip.
+        cp -a "$root/ai-doomsday-clock.html" "$root/doomsday-clock.html"
+        mkdir -p "$root/doomsday-clock"
+        cp -a "$root/ai-doomsday-clock.html" "$root/doomsday-clock/index.html"
         echo "restored ai-doomsday-clock.html dual head term (#455)"
       fi
+      # FINDABILITY #457 — guide / guides dual middot head terms.
+      if [ -f "$preserve/guide.html" ] \
+        && ! grep -qF 'AI activity index today · AI activity level today' "$root/guide.html" 2>/dev/null; then
+        cp -a "$preserve/guide.html" "$root/guide.html"
+        mkdir -p "$root/guide"
+        cp -a "$root/guide.html" "$root/guide/index.html"
+        cp -a "$root/guide.html" "$root/ai-doom.html"
+        mkdir -p "$root/ai-doom"
+        cp -a "$root/guide.html" "$root/ai-doom/index.html"
+        echo "restored guide.html dual head term (#457)"
+      fi
+      if [ -f "$preserve/guides.html" ] \
+        && ! grep -qF 'AI activity index today · AI activity level today' "$root/guides.html" 2>/dev/null; then
+        cp -a "$preserve/guides.html" "$root/guides.html"
+        mkdir -p "$root/guides"
+        cp -a "$root/guides.html" "$root/guides/index.html"
+        echo "restored guides.html dual head term (#457)"
+      fi
+      for md in guide.md guides.md; do
+        if [ -f "$preserve/$md" ] \
+          && ! grep -qF 'AI activity index today · AI activity level today' "$root/$md" 2>/dev/null; then
+          cp -a "$preserve/$md" "$root/$md"
+          echo "restored $md dual head term (#457)"
+        fi
+      done
     }
     # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
     # labAboutLabel is missing after orphan Publish.
@@ -1257,7 +1286,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       # FINDABILITY #326/#328 — also stash tip skill.md + discovery surfaces.
       for hub in compare.html alternatives.html agents.md llms.txt skill.md \
         skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt \
-        p-doom.html ai-doomsday-clock.html \
+        p-doom.html ai-doomsday-clock.html guide.html guides.html guide.md guides.md \
         .well-known/api-catalog .well-known/api-catalog.json \
         .well-known/mcp/server-card.json \
         lab/index.html companies.html companies/index.html \
@@ -1275,7 +1304,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
           for hub in compare.html alternatives.html agents.md llms.txt skill.md \
             skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt \
-            p-doom.html ai-doomsday-clock.html \
+            p-doom.html ai-doomsday-clock.html guide.html guides.html guide.md guides.md \
             .well-known/api-catalog .well-known/api-catalog.json \
             .well-known/mcp/server-card.json \
             lab/index.html companies.html companies/index.html \

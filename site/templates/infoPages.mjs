@@ -1337,7 +1337,7 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
     · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a>.</p>
   <h2>${esc(nextQ)}</h2>
-  <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> ·
+  <p><a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)} →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> ·
     <a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers?</a> ·
     <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> ·
     <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a> ·
@@ -1428,7 +1428,7 @@ Because nobody needs the scale explained twice. "Five is calm, one is not" is al
 
 ## Where to go next
 
-- [AI activity index today · ${brand.NAME}](${ctx.url('/')})
+- [AI activity index today · AI activity level today · ${brand.NAME}](${ctx.url('/')})
 - [How the ${brand.NAME} AI activity index is computed · methodology](${ctx.url('/methodology.html')}) · [methodology.md](${ctx.url('/methodology.md')})
 - [Which AI doom indexes can you compare?](${ctx.url('/compare.html')}) · [Which AI indexes does ${brand.NAME} contrast?](${ctx.url('/vs.html')}) · [What are AI doom index alternatives?](${ctx.url('/alternatives.html')})
 - [${brand.NAME} vs PizzINT: which should you use?](${ctx.url('/vs/pizzint.html')})
@@ -1547,7 +1547,7 @@ export function guides(ctx) {
     ${esc(brand.NAME)} stays an hourly activity count with a receipt.</p>
   <ol style="list-style:none;padding:0;margin:16px 0 0">${rows}</ol>
   <h2>${esc(alsoQ)}</h2>
-  <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a>
+  <p><a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)} →</a>
      · <a href="${esc(ctx.href('/guides.md'))}">What are the AI explainers?</a>
      · <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a>
      · <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a></p>
@@ -1624,7 +1624,7 @@ ${lines}
 
 ## What else sits next to these AI explainers?
 
-- [AI activity index today · ${brand.NAME}](${ctx.url('/')})
+- [AI activity index today · AI activity level today · ${brand.NAME}](${ctx.url('/')})
 - [guide.md](${ctx.url('/guide.md')}) · [methodology.md](${ctx.url('/methodology.md')})
 - [What is the history of AI risk?](${ctx.url('/history.html')})
 `;
