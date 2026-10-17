@@ -130,6 +130,10 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #208 — also match Roadster / flying-car tape when Tesla Trends
   // spikes on those related queries (still routes to gated Tesla lab).
   { id: 'tesla', label: 'Tesla / FSD', re: /\btesla(?:\s+stock)?\b|\bfsd\b|\bautopilot\b.{0,40}\btesla\b|\btesla\b.{0,40}\b(?:autopilot|fsd|robotaxi|autonomy|roadster)\b|\broadster\b.{0,40}\btesla\b|\btesla\s+roadster\b/i, path: '/lab/tesla.html' },
+  // FINDABILITY #372 — Waymo Canada / Toronto robotaxi Trends → gated Waymo lab
+  // (story counts only; not a launch forecast). Canada / Toronto beside Waymo;
+  // bare “Waymo” politics tape without the geography stays unmatched.
+  { id: 'waymo-canada', label: 'Waymo Canada / Toronto', re: /\bwaymo\b.{0,64}\b(?:canada|canadian|toronto)\b|\b(?:canada|canadian|toronto)\b.{0,64}\bwaymo\b/i, path: '/lab/waymo.html' },
   // FINDABILITY #177 — Qwen / Tongyi / Alibaba open-weight Trends → gated Qwen lab
   // (story counts only; not a model review or stock tip).
   { id: 'qwen', label: 'Qwen', re: /\bqwen(?:\s+\d|\s+n\d)?\b|\btongyi\b|\balibaba\b.{0,40}\b(?:qwen|open[\s-]?weight)\b/i, path: '/lab/qwen.html' },

@@ -522,6 +522,18 @@ describe('lab facets', () => {
     assert.match(teslaHtml, /crash verdict|safety advice/i);
     assert.match(teslaHtml, /search-trends\.html/);
     assert.doesNotMatch(teslaHtml, /buy Tesla|price target|must use FSD/i);
+    // FINDABILITY #372 — Waymo Canada / Toronto FAQ on gated Waymo entity lab.
+    const waymoHtml = renderLab(ctx, {
+      id: 'waymo',
+      name: 'Waymo',
+      entityOnly: true,
+      entityName: 'Waymo',
+    });
+    assert.match(waymoHtml, /Why does SIREN watch Waymo Canada and Toronto robotaxis\?/);
+    assert.match(waymoHtml, /[Nn]ot a launch forecast/);
+    assert.match(waymoHtml, /safety advice/i);
+    assert.match(waymoHtml, /search-trends\.html/);
+    assert.doesNotMatch(waymoHtml, /will launch|must ride|doom robotaxi/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

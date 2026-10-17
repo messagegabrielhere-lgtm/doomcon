@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T01:02Z after **#370** tip `c185d41` + IndexNow **200** (**#371**); NIST tip **ok** (**2/2**); Canadian data centres FAQ tip still **ok**; AI safety bill FAQ tip still **ok**; Publish preserve **#368** on Anthropic lab; M5 Max tip **#364** still **ok** (**1/1**); AI safety bill **#358** still **ok**; Amazon Web Services tip **#360** still **ok**; Bee AI tip **#356** still **ok**; Flying Roadster tip **#354** still **ok**; Anthropic IPO tip **#352** still **ok**; pizzint news **0** (`google-news-open`); lead **6,700** / news **200**; GSC/Bing meta **absent**; News keywords through **#370**; FAQ routes through **#368**; Publish preserve through **#368**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#371** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T01:10Z shipping **#372** Waymo Canada / Toronto robotaxi FAQ + agent/Trends routes (3 titles; parallel Anthropic Canadian DC #368); NIST tip **ok** (**2/2**); Canadian data centres FAQ tip still **ok**; AI safety bill FAQ tip still **ok**; Publish preserve **#368**/**#372**; M5 Max tip **#364** still **ok** (**1/1**); AI safety bill **#358** still **ok**; Amazon Web Services tip **#360** still **ok**; Bee AI tip **#356** still **ok**; Flying Roadster tip **#354** still **ok**; Anthropic IPO tip **#352** still **ok**; pizzint news **0** (`google-news-open`); lead **6,700** / news **200**; GSC/Bing meta **absent**; News keywords through **#370**; FAQ routes through **#372**; Publish preserve through **#372**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#372** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -66,6 +66,7 @@ ECDSA niche / Beijing AI-exports topic / CoreWeave stock (already gated) /
 Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster + Flying Roadster keyed) /
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise refused.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
+**#372** Waymo Canada / Toronto robotaxi FAQ + agent/Trends + HEAD_TERMS + Publish preserve (3 titles; hold Allied / EverWind / Warsh / Nudify).
 **#371** after **#370** tip `c185d41` + IndexNow **200**: NIST **2/2** CDN clear; Canadian FAQ still **ok**; lead **6,700**.
 **#370** NIST tip `c185d41` CDN clear (news:keywords probes **ok**; 2 titles; FAQ #368/#362 gate Anthropic lab; hold ECDSA niche).
 **#369** after **#368** tip `79436a7` + IndexNow **200**: Canadian data centres FAQ CDN clear; lead **6,701**.

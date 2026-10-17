@@ -72,6 +72,9 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /AMD \/ MI300 → \/lab\/amd\.html/);
   // FINDABILITY #185 — Tesla / FSD route to gated Tesla lab.
   assert.match(html, /Tesla \/ FSD → \/lab\/tesla\.html/);
+  // FINDABILITY #372 — Waymo Canada / Toronto route to gated Waymo lab.
+  assert.match(html, /Waymo Canada \/ Toronto robotaxi → \/lab\/waymo\.html/);
+  assert.match(html, /not a launch forecast/);
   // FINDABILITY #176 — Character.ai bankruptcy route to gated Chatbots tag.
   assert.match(html, /Character\.ai bankruptcy → \/tags\/chatbots\.html/);
   // FINDABILITY #177 — Qwen / Alibaba open models route to gated Qwen lab.
