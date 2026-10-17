@@ -522,6 +522,11 @@ describe('lab facets', () => {
     assert.match(teslaHtml, /crash verdict|safety advice/i);
     assert.match(teslaHtml, /search-trends\.html/);
     assert.doesNotMatch(teslaHtml, /buy Tesla|price target|must use FSD/i);
+    // FINDABILITY #378 — Tesla Flying Roadster companion FAQ on same gated lab.
+    assert.match(teslaHtml, /Why does SIREN watch Tesla Flying Roadster\?/);
+    assert.match(teslaHtml, /[Nn]ot a product review/);
+    assert.match(teslaHtml, /thruster|flying-car|SpaceX-powered/i);
+    assert.doesNotMatch(teslaHtml, /will fly|must buy|doom Roadster/i);
     // FINDABILITY #372 — Waymo Canada / Toronto FAQ on gated Waymo entity lab.
     const waymoHtml = renderLab(ctx, {
       id: 'waymo',

@@ -1064,3 +1064,20 @@ test('Publish restores tip SpaceX Starshield FAQ + routes (FINDABILITY #376)', (
   assert.match(newsFast, /! grep -qF 'Starshield'/);
   assert.match(newsFast, /restore_spacex_starshield_faq/);
 });
+
+test('Publish restores tip Tesla Flying Roadster FAQ + routes (FINDABILITY #378)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #185\/#378/);
+  assert.match(collect, /Why does SIREN watch Tesla Flying Roadster\?/);
+  assert.match(collect, /Tesla Flying Roadster → \/lab\/tesla\.html/);
+  assert.match(collect, /! grep -qF 'Flying Roadster'/);
+  assert.match(
+    collect,
+    /restored lab\/tesla\.html Tesla \/ FSD \+ Flying Roadster FAQ \(#185\/#378\)/,
+  );
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /Why does SIREN watch Tesla Flying Roadster\?/);
+  assert.match(newsFast, /Tesla Flying Roadster → \/lab\/tesla\.html/);
+  assert.match(newsFast, /! grep -qF 'Flying Roadster'/);
+  assert.match(newsFast, /restore_tesla_faq/);
+});
