@@ -193,6 +193,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /not a cryptography audit/);
   // FINDABILITY #408 — Blackstone Anthropic financing tape routes to Anthropic lab.
   assert.match(txt, /Blackstone Anthropic financing/);
+  // FINDABILITY #412 — Replit Anthropic model-switch tape routes to Anthropic lab.
+  assert.match(txt, /Replit dropping Anthropic for OpenAI/);
   assert.match(txt, /not deal advice/);
   // FINDABILITY #372 — Waymo Canada / Toronto tape routes to Waymo lab.
   assert.match(txt, /Waymo Canada/);
@@ -343,7 +345,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /OpenAI lawsuit \/ FTC \/ OpenAI outage \/ ChatGPT Chrome Trends/);
   assert.match(md, /\/lab\/openai\.html/);
   // FINDABILITY #163 — agents.md lists Anthropic lab for IPO / FTC Trends.
-  assert.match(md, /Anthropic IPO \/ FTC probe \/ AI safety bill \/ Canadian data centre \/ METR \/ ECDSA \/ Claude Opus 5\.5 \/ Blackstone Trends/);
+  assert.match(md, /Anthropic IPO \/ FTC probe \/ AI safety bill \/ Canadian data centre \/ METR \/ ECDSA \/ Claude Opus 5\.5 \/ Blackstone \/ Replit Trends/);
   assert.match(md, /Waymo Canada \/ Toronto robotaxi Trends/);
   assert.match(md, /SoftBank \/ Allied Universal Trends/);
   assert.match(md, /SpaceX \/ Starshield Trends/);

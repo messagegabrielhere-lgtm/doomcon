@@ -583,6 +583,15 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Blackstone Anthropic financing?`,
       `${brand.NAME} scores press that names Anthropic / Claude. When Blackstone Anthropic chip financing, Blackstone debt / yield packages for Anthropic GPUs, or Blackstone PE AI-infrastructure headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not deal advice, not a stock tip, not credit analysis, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #412 — Replit / Anthropic / OpenAI model-hosting switch tape →
+    // same gated lab (story counts only; not vendor advice). Keywords already
+    // ship (#340); FAQ #163/#362/#368/#392/#397/#402/#408 left the Replit
+    // surface without a crawlable Q&A — parallel to SoftBank Allied #374 /
+    // Blackstone #408 (no /lab/replit.html doorway).
+    faq.push([
+      `Why does ${brand.NAME} watch Replit Anthropic model switches?`,
+      `${brand.NAME} scores press that names Anthropic / Claude. When Replit drops Anthropic for OpenAI, Replit Anthropic partnership endings, or Replit Claude / ChatGPT model-hosting switches dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not vendor advice, not a product review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #164 — ASML / EUV AI-chip-tool Trends → gated lab.
   if (player.id === 'asml') {

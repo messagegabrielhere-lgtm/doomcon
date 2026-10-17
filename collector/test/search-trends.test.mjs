@@ -131,6 +131,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'FT: Anthropic offers Blackstone yields above 10% for GPU debt package', news: [] }).includes('anthropic-blackstone'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-blackstone' && t.path === '/lab/anthropic.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'anthropic-blackstone').re.test('Blackstone buys Manhattan office tower'), false);
+  // FINDABILITY #412 — Replit / Anthropic model-switch Trends → Anthropic lab.
+  assert.ok(matchHeadTerms({ title: 'Replit Dumps Anthropic for OpenAI, Citing Cost Pressures', news: [] }).includes('anthropic-replit'));
+  assert.ok(matchHeadTerms({ title: 'Replit is no longer working with Anthropic, CEO says', news: [] }).includes('anthropic-replit'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-replit' && t.path === '/lab/anthropic.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'anthropic-replit').re.test('Replit ships a new IDE theme pack'), false);
   assert.ok(matchHeadTerms({ title: "Waymo’s robotaxis are headed to Canada", news: [] }).includes('waymo-canada'));
   assert.ok(matchHeadTerms({ title: 'Hello Toronto – Waymo Is En Route', news: [] }).includes('waymo-canada'));
   assert.ok(matchHeadTerms({ title: 'Waymo plans to launch its robotaxis in Toronto in 2028', news: [] }).includes('waymo-canada'));

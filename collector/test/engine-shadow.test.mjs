@@ -998,7 +998,7 @@ test('Publish restores tip Anthropic AI safety bill FAQ + routes (FINDABILITY #3
   assert.match(collect, /! grep -qF 'AI safety bill'/);
   assert.match(
     collect,
-    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR \+ ECDSA \+ Opus \+ Blackstone FAQ \(#163\/#362\/#366\/#368\/#392\/#397\/#402\/#408\)/,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR \+ ECDSA \+ Opus \+ Blackstone \+ Replit FAQ \(#163\/#362\/#366\/#368\/#392\/#397\/#402\/#408\/#412\)/,
   );
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #163\/#362\/#366/);
@@ -1007,7 +1007,7 @@ test('Publish restores tip Anthropic AI safety bill FAQ + routes (FINDABILITY #3
   assert.match(newsFast, /! grep -qF 'AI safety bill'/);
   assert.match(
     newsFast,
-    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR \+ ECDSA \+ Opus \+ Blackstone FAQ \(#163\/#362\/#366\/#368\/#392\/#397\/#402\/#408\)/,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR \+ ECDSA \+ Opus \+ Blackstone \+ Replit FAQ \(#163\/#362\/#366\/#368\/#392\/#397\/#402\/#408\/#412\)/,
   );
 });
 
@@ -1033,14 +1033,17 @@ test('Publish restores tip Anthropic METR evaluator FAQ + routes (FINDABILITY #3
   assert.match(collect, /Why does SIREN watch Claude Opus 5\.5\?/);
   assert.match(collect, /Claude Opus 5\.5 → \/lab\/anthropic\.html/);
   assert.match(collect, /Why does SIREN watch Blackstone Anthropic financing\?/);
+  assert.match(collect, /Why does SIREN watch Replit Anthropic model switches\?/);
   assert.match(collect, /Blackstone \/ Anthropic → \/lab\/anthropic\.html/);
+  assert.match(collect, /Replit \/ Anthropic → \/lab\/anthropic\.html/);
   assert.match(collect, /! grep -qF 'METR'/);
   assert.match(collect, /! grep -qF 'ECDSA'/);
   assert.match(collect, /! grep -qF 'Claude Opus 5\.5'/);
   assert.match(collect, /! grep -qF 'Blackstone'/);
+  assert.match(collect, /! grep -qF 'Replit'/);
   assert.match(
     collect,
-    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR \+ ECDSA \+ Opus \+ Blackstone FAQ \(#163\/#362\/#366\/#368\/#392\/#397\/#402\/#408\)/,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR \+ ECDSA \+ Opus \+ Blackstone \+ Replit FAQ \(#163\/#362\/#366\/#368\/#392\/#397\/#402\/#408\/#412\)/,
   );
   const newsFast = newsFastSrc();
   assert.match(newsFast, /Why does SIREN watch Anthropic METR evaluator access\?/);
@@ -1050,14 +1053,17 @@ test('Publish restores tip Anthropic METR evaluator FAQ + routes (FINDABILITY #3
   assert.match(newsFast, /Why does SIREN watch Claude Opus 5\.5\?/);
   assert.match(newsFast, /Claude Opus 5\.5 → \/lab\/anthropic\.html/);
   assert.match(newsFast, /Why does SIREN watch Blackstone Anthropic financing\?/);
+  assert.match(newsFast, /Why does SIREN watch Replit Anthropic model switches\?/);
   assert.match(newsFast, /Blackstone \/ Anthropic → \/lab\/anthropic\.html/);
+  assert.match(newsFast, /Replit \/ Anthropic → \/lab\/anthropic\.html/);
   assert.match(newsFast, /! grep -qF 'METR'/);
   assert.match(newsFast, /! grep -qF 'ECDSA'/);
   assert.match(newsFast, /! grep -qF 'Claude Opus 5\.5'/);
   assert.match(newsFast, /! grep -qF 'Blackstone'/);
+  assert.match(newsFast, /! grep -qF 'Replit'/);
   assert.match(
     newsFast,
-    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR \+ ECDSA \+ Opus \+ Blackstone FAQ \(#163\/#362\/#366\/#368\/#392\/#397\/#402\/#408\)/,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR \+ ECDSA \+ Opus \+ Blackstone \+ Replit FAQ \(#163\/#362\/#366\/#368\/#392\/#397\/#402\/#408\/#412\)/,
   );
 });
 
