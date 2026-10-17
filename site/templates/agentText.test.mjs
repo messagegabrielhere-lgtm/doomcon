@@ -189,6 +189,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #374 — SoftBank / Allied Universal tape routes to SoftBank lab.
   assert.match(txt, /Allied Universal/);
   assert.match(txt, /\/lab\/softbank\.html/);
+  // FINDABILITY #376 — SpaceX / Starshield tape routes to SpaceX lab.
+  assert.match(txt, /Starshield/);
+  assert.match(txt, /\/lab\/spacex\.html/);
   assert.match(txt, /not a construction forecast/);
   // FINDABILITY #164 — ASML / EUV Trends route to ASML lab.
   assert.match(txt, /ASML, ASML stock, or EUV/);
@@ -321,6 +324,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /Anthropic IPO \/ FTC probe \/ AI safety bill \/ Canadian data centre Trends/);
   assert.match(md, /Waymo Canada \/ Toronto robotaxi Trends/);
   assert.match(md, /SoftBank \/ Allied Universal Trends/);
+  assert.match(md, /SpaceX \/ Starshield Trends/);
   assert.match(md, /\/lab\/anthropic\.html/);
   // FINDABILITY #164 — agents.md lists ASML lab for ASML stock / EUV Trends.
   assert.match(md, /ASML stock \/ EUV AI chip-tool Trends/);

@@ -193,6 +193,8 @@ export const OUR_SURFACES = Object.freeze([
   '/lab/waymo.html',
   // FINDABILITY #374 — SoftBank / Allied Universal FAQ lab.
   '/lab/softbank.html',
+  // FINDABILITY #376 — SpaceX / Starshield FAQ lab.
+  '/lab/spacex.html',
   '/pillar/',
   '/people/index.html',
   '/outlet/index.html',
@@ -1234,6 +1236,7 @@ export const TRENDS_ROUTES_AMD_NEEDLE = 'AMD / MI300 → /lab/amd.html';
 export const TRENDS_ROUTES_TESLA_NEEDLE = 'Tesla / FSD → /lab/tesla.html';
 export const TRENDS_ROUTES_WAYMO_CANADA_NEEDLE = 'Waymo Canada / Toronto robotaxi → /lab/waymo.html';
 export const TRENDS_ROUTES_SOFTBANK_ALLIED_NEEDLE = 'SoftBank / Allied Universal → /lab/softbank.html';
+export const TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE = 'SpaceX / Starshield → /lab/spacex.html';
 
 /**
  * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180
@@ -1268,7 +1271,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_AMD_NEEDLE)
     && text.includes(TRENDS_ROUTES_TESLA_NEEDLE)
     && text.includes(TRENDS_ROUTES_WAYMO_CANADA_NEEDLE)
-    && text.includes(TRENDS_ROUTES_SOFTBANK_ALLIED_NEEDLE);
+    && text.includes(TRENDS_ROUTES_SOFTBANK_ALLIED_NEEDLE)
+    && text.includes(TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1721,6 +1725,24 @@ export function hasSoftbankAlliedFaq(html, needle = SOFTBANK_ALLIED_FAQ_NEEDLE) 
 export function hasAgentsSoftbankAllied(body, needle = AGENTS_SOFTBANK_ALLIED_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/softbank.html');
+}
+
+/** FINDABILITY #376 — SpaceX / Starshield FAQ + agent maps. */
+export const SPACEX_STARSHIELD_FAQ_NEEDLE = 'Why does SIREN watch SpaceX Starshield?';
+export const AGENTS_SPACEX_STARSHIELD_NEEDLE = 'Starshield';
+
+/** Tip /lab/spacex.html must keep the #376 SpaceX Starshield FAQ. */
+export function hasSpacexStarshieldFaq(html, needle = SPACEX_STARSHIELD_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route SpaceX / Starshield tape to SpaceX lab (FINDABILITY #376).
+ * Wipe gap is `agents-spacex-starshield-missing`.
+ */
+export function hasAgentsSpacexStarshield(body, needle = AGENTS_SPACEX_STARSHIELD_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/spacex.html');
 }
 
 /** FINDABILITY #193 — Meta–Apple Mac AI / Muse-on-Mac FAQ + agent maps. */
@@ -3221,6 +3243,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #376 — SpaceX Starshield FAQ wiped or never landed.
+  if (ours.spacex_starshield_faq === false) {
+    gaps.push({
+      id: 'spacex-starshield-faq-missing',
+      severity: 'medium',
+      text: `/lab/spacex.html missing SpaceX Starshield FAQ (FINDABILITY #376) — re-overlay lab/spacex.html or wait for full collect Publish on tip ≥ #376`,
+    });
+  }
+  // FINDABILITY #376 — agent maps must route SpaceX / Starshield tape to SpaceX lab.
+  if (ours.agents_spacex_starshield === false || ours.llms_spacex_starshield === false) {
+    const which = [
+      ours.agents_spacex_starshield === false ? 'agents.md' : null,
+      ours.llms_spacex_starshield === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-spacex-starshield-missing',
+      severity: 'medium',
+      text: `${which} missing Starshield → /lab/spacex.html tip (FINDABILITY #376) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #376`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -3645,6 +3688,11 @@ export function measureSite(site, byUrl) {
     row.softbank_allied_faq = softbankHtml?.ok ? hasSoftbankAlliedFaq(softbankHtml.value) : false;
     row.agents_softbank_allied = agentsMd?.ok ? hasAgentsSoftbankAllied(agentsMd.value) : false;
     row.llms_softbank_allied = llms?.ok ? hasAgentsSoftbankAllied(llmsBody) : false;
+    // FINDABILITY #376 — SpaceX / Starshield FAQ + agent maps.
+    const spacexHtml = byUrl.get(`${base}/lab/spacex.html`);
+    row.spacex_starshield_faq = spacexHtml?.ok ? hasSpacexStarshieldFaq(spacexHtml.value) : false;
+    row.agents_spacex_starshield = agentsMd?.ok ? hasAgentsSpacexStarshield(agentsMd.value) : false;
+    row.llms_spacex_starshield = llms?.ok ? hasAgentsSpacexStarshield(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -4278,6 +4326,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_softbank_allied == null ? '—' : (ours.agents_softbank_allied ? 'yes' : 'NO');
       const lm = ours.llms_softbank_allied == null ? '—' : (ours.llms_softbank_allied ? 'yes' : 'NO');
       lines.push(`- Agent-map Allied Universal → SoftBank lab (#374): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.spacex_starshield_faq != null) {
+      lines.push(
+        `- SpaceX Starshield FAQ (#376): **${ours.spacex_starshield_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_spacex_starshield != null || ours.llms_spacex_starshield != null)) {
+      const ag = ours.agents_spacex_starshield == null ? '—' : (ours.agents_spacex_starshield ? 'yes' : 'NO');
+      const lm = ours.llms_spacex_starshield == null ? '—' : (ours.llms_spacex_starshield ? 'yes' : 'NO');
+      lines.push(`- Agent-map Starshield → SpaceX lab (#376): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -6209,6 +6267,40 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/softbank.html')) {
     throw new Error('OUR_SURFACES missing /lab/softbank.html');
   }
+  // FINDABILITY #376 — SpaceX / Starshield FAQ + agent maps.
+  if (hasSpacexStarshieldFaq(SPACEX_STARSHIELD_FAQ_NEEDLE) !== true) {
+    throw new Error('hasSpacexStarshieldFaq true');
+  }
+  if (hasSpacexStarshieldFaq('Why does SIREN watch SoftBank Allied Universal talks?') !== false) {
+    throw new Error('hasSpacexStarshieldFaq false');
+  }
+  if (hasAgentsSpacexStarshield('Starshield → https://siren.watch/lab/spacex.html') !== true) {
+    throw new Error('hasAgentsSpacexStarshield true');
+  }
+  if (hasAgentsSpacexStarshield('https://siren.watch/lab/spacex.html only') !== false) {
+    throw new Error('hasAgentsSpacexStarshield needs Starshield needle');
+  }
+  const spacexStarshieldGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      spacex_starshield_faq: false,
+      agents_spacex_starshield: false,
+      llms_spacex_starshield: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!spacexStarshieldGaps.some((g) => g.id === 'spacex-starshield-faq-missing')) {
+    throw new Error('spacex-starshield-faq-missing gap');
+  }
+  if (!spacexStarshieldGaps.some((g) => g.id === 'agents-spacex-starshield-missing')) {
+    throw new Error('agents-spacex-starshield-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/lab/spacex.html')) {
+    throw new Error('OUR_SURFACES missing /lab/spacex.html');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -6238,12 +6330,13 @@ function selftest() {
     TRENDS_ROUTES_TESLA_NEEDLE,
     TRENDS_ROUTES_WAYMO_CANADA_NEEDLE,
     TRENDS_ROUTES_SOFTBANK_ALLIED_NEEDLE,
+    TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada/SoftBank-Allied destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

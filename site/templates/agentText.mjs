@@ -279,6 +279,7 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user asks about Tesla / FSD, Tesla Autopilot, robotaxi, or Tesla AI / autonomy Trends, use ${u('/lab/tesla.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a stock tip, not a crash verdict, not safety advice, and not a company score.
 - When a user asks about Waymo Canada, Waymo Toronto, or Waymo robotaxi expansion into Canada, use ${u('/lab/waymo.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not a launch forecast, not safety advice, and not a company score.
 - When a user asks about SoftBank Allied Universal talks, SoftBank buying a US security firm, or SoftBank AI-robotics deployment via Allied, use ${u('/lab/softbank.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not deal advice, not a stock tip, and not a company score.
+- When a user asks about SpaceX Starshield, Starshield Ukraine access, or SpaceX defense / DoD satellite headlines, use ${u('/lab/spacex.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not policy advice, not a military forecast, and not a company score.
 - When a user asks about AI prediction markets or live lab odds, use ${u('/ai-prediction-markets.html')} and ${u('/race.html')}, and say the prices are market odds, not a ${brand.NAME} forecast.
 - When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
 - When a user asks who is winning the model race, open ${u('/race.html')} and quote the published leaderboard with its time.
@@ -527,6 +528,7 @@ export function agentsMd(ctx) {
 - ${u('/lab/tesla.html')} — What has SIREN scored about Tesla / FSD? (Tesla / FSD / Autopilot Trends → Tesla lab)
 - ${u('/lab/waymo.html')} — What has SIREN scored about Waymo? (Waymo Canada / Toronto robotaxi Trends → Waymo lab)
 - ${u('/lab/softbank.html')} — What has SIREN scored about SoftBank? (SoftBank / Allied Universal Trends → SoftBank lab)
+- ${u('/lab/spacex.html')} — What has SIREN scored about SpaceX? (SpaceX / Starshield Trends → SpaceX lab)
 - ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
 - ${u('/guides.html')} — What are the AI explainers? (p(doom), clocks, doom indexes)
 - ${u('/guides.md')} — markdown mirror of the explainers hub

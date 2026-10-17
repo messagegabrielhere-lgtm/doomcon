@@ -123,6 +123,12 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Allied Universal sale talks draw SoftBank interest', news: [] }).includes('softbank-allied'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'softbank-allied' && t.path === '/lab/softbank.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'softbank-allied').re.test('SoftBank seeks $100B from Gulf investors to expand AI bet'), false);
+  // FINDABILITY #376 — SpaceX / Starshield → SpaceX lab.
+  assert.ok(matchHeadTerms({ title: 'Musk Comments Sow Confusion Over Ukraine Starshield Disruption', news: [] }).includes('spacex-starshield'));
+  assert.ok(matchHeadTerms({ title: "Sources: Elon Musk approached Trump with the idea of slowing down Starshield in Ukraine", news: [] }).includes('spacex-starshield'));
+  assert.ok(matchHeadTerms({ title: "Two US officials say the order to limit Ukraine's access to SpaceX's Starshield came from inside the White House", news: [] }).includes('spacex-starshield'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'spacex-starshield' && t.path === '/lab/spacex.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'spacex-starshield').re.test("SpaceX's 800 MHz spectrum grab threatens Big 3 mobile carriers more"), false);
   // FINDABILITY #163 — Anthropic IPO / FTC → gated Anthropic lab.
   assert.ok(matchHeadTerms({ title: 'anthropic ipo', news: [] }).includes('anthropic-ipo'));
   assert.ok(matchHeadTerms({ title: 'FTC probes Anthropic', news: [] }).includes('anthropic-ipo'));

@@ -76,6 +76,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /Waymo Canada \/ Toronto robotaxi → \/lab\/waymo\.html/);
   // FINDABILITY #374 — SoftBank / Allied Universal route to gated SoftBank lab.
   assert.match(html, /SoftBank \/ Allied Universal → \/lab\/softbank\.html/);
+  // FINDABILITY #376 — SpaceX / Starshield route to gated SpaceX lab.
+  assert.match(html, /SpaceX \/ Starshield → \/lab\/spacex\.html/);
   assert.match(html, /not a launch forecast/);
   // FINDABILITY #176 — Character.ai bankruptcy route to gated Chatbots tag.
   assert.match(html, /Character\.ai bankruptcy → \/tags\/chatbots\.html/);

@@ -546,6 +546,18 @@ describe('lab facets', () => {
     assert.match(softbankHtml, /stock tip/i);
     assert.match(softbankHtml, /search-trends\.html/);
     assert.doesNotMatch(softbankHtml, /will acquire|must buy|doom SoftBank/i);
+    // FINDABILITY #376 — SpaceX / Starshield FAQ on gated SpaceX lab.
+    const spacexHtml = renderLab(ctx, {
+      id: 'spacex',
+      name: 'SpaceX',
+      entityOnly: true,
+      entityName: 'SpaceX',
+    });
+    assert.match(spacexHtml, /Why does SIREN watch SpaceX Starshield\?/);
+    assert.match(spacexHtml, /[Nn]ot policy advice/);
+    assert.match(spacexHtml, /military forecast/i);
+    assert.match(spacexHtml, /search-trends\.html/);
+    assert.doesNotMatch(spacexHtml, /will cut|must limit|doom Starshield/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {
