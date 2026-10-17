@@ -1,4 +1,4 @@
-// One autonomous tick for Claude Fable: guard exits → think → price → gate → fill.
+// One autonomous tick for Claude Fable: guard exits → think → price → gate → fill → improve.
 // Paper trading only. Setting FABLE_LIVE does not enable real orders in this build.
 // Not investment advice.
 
@@ -12,6 +12,9 @@ import {
 import { askFable } from './brain.mjs';
 import { fallbackThink, wantFallback } from './fallback.mjs';
 import { loadState, saveTick } from './journal.mjs';
+import {
+  emptyMemory, improve, memoryPromptBlock, effectiveRules, upsertLesson,
+} from './improve.mjs';
 
 const r2 = (x) => Math.round(x * 100) / 100;
 
@@ -28,6 +31,7 @@ export async function tick({
   now = Date.now(),
   log = console.log,
   think = decide,
+  reflect,
 } = {}) {
   if (isLive(env)) {
     throw new Error(
@@ -37,9 +41,11 @@ export async function tick({
   }
 
   const state = await loadState(dir, now);
+  state.memory ??= emptyMemory(now);
   const w = state.wallet;
   const ledger = [];
   const prices = {};
+  const rules = effectiveRules(RULES, state.memory.adapt);
 
   // 1. Guard: stops and targets on 1-minute candles.
   const held = Object.keys(w.positions);
@@ -69,7 +75,7 @@ export async function tick({
     const eq = equity(w, prices);
     w.model = modelFor(env);
 
-    if (eq < RULES.minOrderUsd && !Object.keys(w.positions).length) {
+    if (eq < rules.minOrderUsd && !Object.keys(w.positions).length) {
       w.status = 'asleep';
       w.note = 'out of money';
       w.error = null;
@@ -87,7 +93,11 @@ export async function tick({
 
       try {
         const res = await think(
-          { w, eq, rows: market.rows, prices, recent: state.recent || [], now },
+          {
+            w, eq, rows: market.rows, prices, recent: state.recent || [], now,
+            memory: state.memory,
+            memoryBlock: memoryPromptBlock(state.memory),
+          },
           env,
         );
         w.turns++;
@@ -100,10 +110,14 @@ export async function tick({
         state.lastTurnAt = now;
         state.usage = res.usage || null;
 
+        for (const lesson of res.new_lessons || []) {
+          upsertLesson(state.memory, lesson, { source: 'model', at: now });
+        }
+
         for (const p of res.actions) {
           const book = UNIVERSE.includes(p.sym) ? await bookFor(p.sym) : null;
           const t = preview(w, p, book, Date.now());
-          const g = gate(w, t, { prices, rows: market.rows, now, rules: RULES, universe: UNIVERSE });
+          const g = gate(w, t, { prices, rows: market.rows, now, rules, universe: UNIVERSE });
           const entry = g.ok ? execute(w, t) : ledgerEntry(w, t, 'rejected', g.checks);
           entry.model = res.servedBy;
           entry.agent = AGENT_ID;
@@ -120,13 +134,25 @@ export async function tick({
     }
   }
 
+  // 3. Self-improve from this tick's ledger (and any prior unreviewed if replaying).
+  const { memory, added } = await improve({
+    memory: state.memory,
+    ledger,
+    now,
+    env,
+    log,
+    ...(reflect ? { reflect } : {}),
+  });
+  state.memory = memory;
+  if (added.length) log(`improve: playbook now has ${memory.lessons.length} lesson(s), stance ${memory.adapt.stance}`);
+
   w.equity = r2(equity(w, prices));
   if (!guardOnly) w.history.push([now, w.equity]);
   for (const e of ledger) {
     state.recent.push(e);
     if (state.recent.length > 12) state.recent.shift();
   }
-  if (w.equity < RULES.minOrderUsd && !Object.keys(w.positions).length) {
+  if (w.equity < rules.minOrderUsd && !Object.keys(w.positions).length) {
     w.status = 'asleep';
     w.note = 'out of money';
   }

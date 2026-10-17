@@ -14,7 +14,7 @@ const num = { type: ['number', 'null'] };
 export const SCHEMA = {
   type: 'object',
   additionalProperties: false,
-  required: ['thoughts', 'bias', 'actions'],
+  required: ['thoughts', 'bias', 'actions', 'new_lessons'],
   properties: {
     thoughts: {
       type: 'string',
@@ -43,6 +43,12 @@ export const SCHEMA = {
         },
       },
     },
+    new_lessons: {
+      type: 'array',
+      maxItems: 2,
+      items: { type: 'string' },
+      description: 'Optional durable playbook updates from this turn (empty if nothing new).',
+    },
   },
 };
 
@@ -65,12 +71,18 @@ Style for Claude Fable:
 - Size smaller when bias is risk-off; do nothing when the tape is noisy or the book is thin.
 - Always explain the trade in plain language. Doing nothing (empty actions) is a valid, often correct turn.
 
+Self-improvement:
+- You receive a memory block of lessons and adapt knobs from your own past paper trades. Obey them.
+- Respect sizeScale and stopBiasPct when sizing buys and placing stops.
+- When you notice a clear pattern this turn, put a short durable lesson in new_lessons (else []).
+- Do not invent market forecasts; only revise how you trade.
+
 Reply with JSON only matching the schema. Not investment advice.`;
 
 const f = (x, d = 2) => (x == null ? '-' : (+x).toFixed(d));
 const px = (x) => (x == null ? '-' : x >= 100 ? x.toFixed(2) : x >= 1 ? x.toFixed(4) : x.toPrecision(4));
 
-export function turnPrompt({ w, eq, rows, prices, recent, now }) {
+export function turnPrompt({ w, eq, rows, prices, recent, now, memoryBlock = '' }) {
   const pos = Object.entries(w.positions).map(([sym, p]) => {
     const last = prices[sym] ?? p.avg;
     return `${sym} qty ${+p.qty.toPrecision(8)} avg ${px(p.avg)} last ${px(last)} value $${f(p.qty * last)} pnl ${f((last / p.avg - 1) * 100)}% stop ${px(p.stop)} target ${px(p.tp)}`;
@@ -103,7 +115,9 @@ sym,type,open,last,chg1h,chg24h,chg7d,rsi14h,vsSma20h,vsSma50h,atr14h,vol24h
 ${table.join('\n')}
 
 Your recent activity:
-${hist.join('\n') || '(none yet)'}`;
+${hist.join('\n') || '(none yet)'}
+
+${memoryBlock}`.trim();
 }
 
 function parseJSON(text) {
@@ -119,6 +133,9 @@ export function normalize(out) {
     ? out.actions.filter((x) => x && typeof x === 'object').slice(0, MAX_ACTIONS)
     : [];
   const bias = ['risk-on', 'neutral', 'risk-off'].includes(out?.bias) ? out.bias : 'neutral';
+  const new_lessons = Array.isArray(out?.new_lessons)
+    ? out.new_lessons.map((x) => String(x || '').trim().slice(0, 280)).filter((x) => x.length >= 12).slice(0, 2)
+    : [];
   return {
     thoughts: String(out?.thoughts || '').slice(0, 800),
     bias,
@@ -131,6 +148,7 @@ export function normalize(out) {
       tp: x.tp ?? null,
       reason: String(x.reason || '').slice(0, 400),
     })),
+    new_lessons,
   };
 }
 
@@ -139,7 +157,7 @@ export async function askFable(ctx, env = process.env) {
   if (!key) throw new Error('ANTHROPIC_API_KEY is not set');
   const model = modelFor(env);
   const client = new Anthropic({ apiKey: key, timeout: TIMEOUT, maxRetries: 2 });
-  const user = turnPrompt(ctx);
+  const user = turnPrompt({ ...ctx, memoryBlock: ctx.memoryBlock || '' });
   const modern = !/^claude-haiku-4/.test(model);
   const res = await client.beta.messages.create({
     model,

@@ -1,22 +1,26 @@
 // Rule-based stand-in when Anthropic is unavailable or FABLE_FALLBACK=1.
 // Mirrors the house "Claude Trader" bias: clean uptrends, 12% stop, trail, half at +25%.
+// Honours self-improvement adapt knobs (sizeScale, stopBiasPct, stance, market preference).
 // Not investment advice.
 
 import { RULES, MAX_ACTIONS } from './config.mjs';
+import { emptyMemory } from './improve.mjs';
 
 const clamp = (x, lo, hi) => Math.min(Math.max(x, lo), hi);
 const f1 = (x) => (x == null ? '?' : (+x).toFixed(1));
 const stopPct = (pct) => clamp(pct, RULES.minStopPct + 0.3, RULES.maxStopPct - 0.3);
 const stopBelow = (price, pct) => +(price * (1 - stopPct(pct) / 100)).toPrecision(6);
 
-function score(r) {
-  if (r.vsSma20hPct > 0 && r.vsSma50hPct > 0 && r.chg24h > 0 && r.chg1h <= 8 && r.rsi14h < 75) {
-    return r.vsSma20hPct / Math.max(r.atr14hPct || 1, 0.05) + r.chg24h / 10;
-  }
-  return null;
+function score(r, adapt) {
+  if (!(r.vsSma20hPct > 0 && r.vsSma50hPct > 0 && r.chg24h > 0 && r.chg1h <= 8 && r.rsi14h < 75)) return null;
+  let s = r.vsSma20hPct / Math.max(r.atr14hPct || 1, 0.05) + r.chg24h / 10;
+  const crypto = String(r.sym).includes('-');
+  s += crypto ? (adapt.preferCrypto || 0) : (adapt.preferStock || 0);
+  return s;
 }
 
-export function fallbackThink({ w, eq, rows, now = Date.now() }) {
+export function fallbackThink({ w, eq, rows, now = Date.now(), memory } = {}) {
+  const adapt = memory?.adapt || emptyMemory().adapt;
   const bySym = Object.fromEntries(rows.map((r) => [r.sym, r]));
   const actions = [];
   let left = RULES.maxTradesPerDay - (w.day?.trades ?? 0);
@@ -28,6 +32,10 @@ export function fallbackThink({ w, eq, rows, now = Date.now() }) {
     }
   };
   w.house = w.house || {};
+
+  const entryStop = clamp(12 + (adapt.stopBiasPct || 0), RULES.minStopPct + 0.5, RULES.maxStopPct - 0.5);
+  const trailStop = clamp(10 + (adapt.stopBiasPct || 0) * 0.5, RULES.minStopPct + 0.5, RULES.maxStopPct - 0.5);
+  const sizeScale = adapt.stance === 'risk-off' ? Math.min(adapt.sizeScale || 1, 0.7) : (adapt.sizeScale || 1);
 
   for (const [sym, p] of Object.entries(w.positions)) {
     const r = bySym[sym];
@@ -50,47 +58,63 @@ export function fallbackThink({ w, eq, rows, now = Date.now() }) {
       continue;
     }
     if (p.stop) {
-      const next = stopBelow(r.last, 10);
+      const next = stopBelow(r.last, trailStop);
       if (next > p.stop * 1.002) {
         push({
           side: 'stop', sym, usd: null, fraction: null, stop: next, tp: null,
-          reason: `Fallback: up ${f1(gain)}%, raising the stop to 10% under the price.`,
+          reason: `Fallback: up ${f1(gain)}%, raising the stop to ${f1(trailStop)}% under the price.`,
         });
       }
     }
   }
   for (const sym of Object.keys(w.house)) if (!w.positions[sym]) delete w.house[sym];
 
+  // Risk-off stance: manage positions only, no new buys.
+  if (adapt.stance === 'risk-off') {
+    return {
+      thoughts: `Fallback (self-improved, risk-off): sizeScale ${sizeScale}. Managing positions only.`,
+      bias: 'risk-off',
+      actions,
+      new_lessons: [],
+      servedBy: 'fallback',
+      usage: null,
+      model: 'fallback',
+    };
+  }
+
   const held = Object.keys(w.positions).length
     - actions.filter((a) => a.side === 'sell' && a.fraction === 1).length;
+  const maxPos = clamp(adapt.maxPositionPct ?? RULES.maxPositionPct, 10, RULES.maxPositionPct);
   const cashFree = w.cash - (eq * RULES.minCashPct) / 100;
-  const usd = Math.floor(Math.min(eq * (RULES.maxPositionPct - 1) / 100, cashFree / 1.01));
+  const usd = Math.floor(Math.min(eq * (maxPos - 1) / 100, cashFree / 1.01) * sizeScale);
   const cooling = (sym) => w.cooldowns?.[sym] && now - w.cooldowns[sym] < RULES.cooldownMin * 60e3;
   const picks = rows
     .filter((r) => !w.positions[r.sym] && !cooling(r.sym) && r.open !== false && r.vol24hUsd >= RULES.minVolumeUsd24h)
-    .map((r) => ({ r, s: score(r) }))
+    .map((r) => ({ r, s: score(r, adapt) }))
     .filter((x) => x.s != null && Number.isFinite(x.s))
     .sort((a, b) => b.s - a.s);
 
+  const maxBuys = adapt.stance === 'risk-on' ? 3 : 2;
   for (const { r } of picks) {
     if (actions.length >= MAX_ACTIONS) break;
-    if (held + actions.filter((a) => a.side === 'buy').length >= Math.min(3, RULES.maxOpenPositions)) break;
+    if (held + actions.filter((a) => a.side === 'buy').length >= Math.min(maxBuys, RULES.maxOpenPositions)) break;
     if (usd < RULES.minOrderUsd) break;
     push({
       side: 'buy',
       sym: r.sym,
       usd,
       fraction: null,
-      stop: stopBelow(r.last, 12),
+      stop: stopBelow(r.last, entryStop),
       tp: null,
-      reason: `Fallback: clean uptrend, ${f1(r.vsSma20hPct)}% over its 20-hour average, up ${f1(r.chg24h)}% on the day. Stop 12% down.`,
+      reason: `Fallback: clean uptrend, ${f1(r.vsSma20hPct)}% over its 20-hour average, up ${f1(r.chg24h)}% on the day. Stop ${f1(entryStop)}% down (adapted).`,
     });
   }
 
   return {
-    thoughts: 'Fallback rules: buy clean uptrends, 12% stop, trail to 10%, half off at +25%. Claude Fable model was not called.',
+    thoughts: `Fallback rules with self-improve adapt: sizeScale ${sizeScale}, stop ${f1(entryStop)}%, stance ${adapt.stance}.`,
     bias: actions.some((a) => a.side === 'buy') ? 'risk-on' : 'neutral',
     actions,
+    new_lessons: [],
     servedBy: 'fallback',
     usage: null,
     model: 'fallback',

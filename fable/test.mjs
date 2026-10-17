@@ -13,6 +13,9 @@ import { RULES, START_CASH, UNIVERSE, isLive, LIVE_PHRASE } from './config.mjs';
 import { preview, execute, equity } from '../arena/broker.mjs';
 import { gate } from '../arena/rules.mjs';
 import { rsi } from '../arena/market.mjs';
+import {
+  emptyMemory, improve, ingestEntry, extractLessons, memoryPromptBlock, effectiveRules,
+} from './improve.mjs';
 
 const NOW = Date.UTC(2026, 9, 17, 15);
 const deepBook = (p, at = NOW) => ({
@@ -49,16 +52,17 @@ function fakeClient(px = (s) => (s.includes('-') ? 100 : 200), at = NOW) {
   };
 }
 
-test('schema requires bias and actions', () => {
-  assert.deepEqual(SCHEMA.required, ['thoughts', 'bias', 'actions']);
+test('schema requires bias, actions, and new_lessons', () => {
+  assert.deepEqual(SCHEMA.required, ['thoughts', 'bias', 'actions', 'new_lessons']);
   assert.ok(SYSTEM.includes('Not investment advice'));
-  assert.ok(SYSTEM.includes('Claude Fable'));
+  assert.ok(SYSTEM.includes('Self-improvement'));
 });
 
 test('normalize drops junk and caps actions', () => {
   const out = normalize({
     thoughts: 'tape is calm',
     bias: 'risk-on',
+    new_lessons: ['Wait for pullbacks into the trend before buying.', 'x'],
     actions: [
       { side: 'BUY', sym: 'btc-usd', usd: 200, fraction: null, stop: 90, tp: null, reason: 'trend' },
       null,
@@ -72,17 +76,23 @@ test('normalize drops junk and caps actions', () => {
   assert.equal(out.actions[0].sym, 'BTC-USD');
   assert.equal(out.actions[0].side, 'buy');
   assert.ok(out.actions.length <= 4);
+  assert.equal(out.new_lessons.length, 1);
 });
 
-test('turn prompt lists wallet and market columns', () => {
+test('turn prompt lists wallet, market, and memory', () => {
   const w = newFableWallet(NOW);
   const rows = [row('BTC-USD', 100)];
+  const mem = emptyMemory(NOW);
+  mem.lessons.push({ id: 'abc', text: 'Prefer clean trends over hour spikes.', source: 'rule', weight: 1, hits: 1, at: NOW });
   const text = turnPrompt({
     w, eq: START_CASH, rows, prices: { 'BTC-USD': 100 }, recent: [], now: NOW,
+    memoryBlock: memoryPromptBlock(mem),
   });
   assert.match(text, /BTC-USD/);
   assert.match(text, /sym,type,open,last/);
   assert.match(text, /Wallet: cash/);
+  assert.match(text, /Self-improvement memory/);
+  assert.match(text, /Prefer clean trends/);
 });
 
 test('fallback buys a clean uptrend and wants fallback without a key', () => {
@@ -99,6 +109,17 @@ test('fallback buys a clean uptrend and wants fallback without a key', () => {
   assert.equal(res.servedBy, 'fallback');
   assert.ok(res.actions.some((a) => a.side === 'buy' && a.sym === 'BTC-USD'));
   assert.ok(res.actions.every((a) => a.side !== 'buy' || a.stop != null));
+});
+
+test('fallback risk-off adapt skips new buys', () => {
+  const w = newFableWallet(NOW);
+  const rows = [row('BTC-USD', 100, { vsSma20hPct: 3, vsSma50hPct: 2, chg24h: 4, rsi14h: 55 })];
+  const memory = emptyMemory(NOW);
+  memory.adapt.stance = 'risk-off';
+  memory.adapt.sizeScale = 0.6;
+  const res = fallbackThink({ w, eq: START_CASH, rows, now: NOW, memory });
+  assert.equal(res.bias, 'risk-off');
+  assert.ok(!res.actions.some((a) => a.side === 'buy'));
 });
 
 test('paper buy through shared gate with fable rules', () => {
@@ -127,7 +148,7 @@ test('live mode is refused', async () => {
       client: fakeClient(),
       now: NOW,
       log: () => {},
-      think: async () => ({ thoughts: 'x', bias: 'neutral', actions: [], servedBy: 't' }),
+      think: async () => ({ thoughts: 'x', bias: 'neutral', actions: [], new_lessons: [], servedBy: 't' }),
     }),
     /paper-only/,
   );
@@ -143,6 +164,7 @@ test('tick with stub brain persists state and can fill', async () => {
     return {
       thoughts: 'stub turn',
       bias: 'risk-on',
+      new_lessons: ['Size smaller after a noisy open.'],
       actions: [{
         side: 'buy', sym: 'BTC-USD', usd: 1200, fraction: null,
         stop: 88, tp: null, reason: 'stub clean uptrend entry for the test',
@@ -159,7 +181,7 @@ test('tick with stub brain persists state and can fill', async () => {
     now: NOW,
     log: () => {},
     think,
-    env: { FABLE_FALLBACK: '0', ANTHROPIC_API_KEY: 'test' },
+    env: { FABLE_FALLBACK: '0', ANTHROPIC_API_KEY: 'test', FABLE_REFLECT: '0' },
   });
   assert.equal(n, 1);
   assert.equal(state.wallet.status, 'awake');
@@ -167,12 +189,59 @@ test('tick with stub brain persists state and can fill', async () => {
   const disk = JSON.parse(await readFile(path.join(dir, 'state.json'), 'utf8'));
   assert.match(disk.disclaimer, /Not investment advice/);
   assert.ok(disk.wallet.positions['BTC-USD']);
+  assert.ok(disk.memory?.lessons?.some((l) => /Size smaller/.test(l.text)));
+  const memFile = JSON.parse(await readFile(path.join(dir, 'memory.json'), 'utf8'));
+  assert.ok(memFile.lessons.length >= 1);
+});
+
+test('self-improve: losses shrink size and write lessons', async () => {
+  const memory = emptyMemory(NOW);
+  const exits = [];
+  for (let i = 0; i < 6; i++) {
+    exits.push({
+      id: `loss-${i}`, at: NOW + i, side: 'sell', sym: 'BTC-USD',
+      outcome: 'stopped', pnl: -40 - i, reason: 'Stop hit',
+    });
+  }
+  const { memory: out } = await improve({
+    memory, ledger: exits, now: NOW + 10, env: { FABLE_REFLECT: '0' }, log: () => {},
+  });
+  assert.equal(out.stats.closed, 6);
+  assert.equal(out.stats.losses, 6);
+  assert.ok(out.adapt.sizeScale < 1);
+  assert.equal(out.adapt.stance, 'risk-off');
+  assert.ok(out.lessons.length >= 1);
+  assert.match(memoryPromptBlock(out), /losing exits|Win rate|Stops fire/i);
+  const rules = effectiveRules(RULES, out.adapt);
+  assert.ok(rules.maxPositionPct <= RULES.maxPositionPct);
+});
+
+test('self-improve: ingest is idempotent per ledger id', () => {
+  const memory = emptyMemory(NOW);
+  const e = { id: 'x1', side: 'sell', outcome: 'filled', sym: 'ETH-USD', pnl: 12 };
+  assert.equal(ingestEntry(memory, e, NOW), true);
+  assert.equal(ingestEntry(memory, e, NOW), false);
+  assert.equal(memory.stats.closed, 1);
+  assert.equal(memory.stats.wins, 1);
+});
+
+test('self-improve: reject reasons become lessons', () => {
+  const memory = emptyMemory(NOW);
+  for (let i = 0; i < 3; i++) {
+    ingestEntry(memory, {
+      id: `rej-${i}`, outcome: 'rejected', side: 'buy', sym: 'SOL-USD',
+      failed: ['stop loss: too tight'],
+    }, NOW);
+  }
+  extractLessons(memory, NOW);
+  assert.ok(memory.lessons.some((l) => /stop loss/i.test(l.text)));
 });
 
 test('journal round-trip', async () => {
   const dir = await mkdtemp(path.join(tmpdir(), 'fable-'));
   const state = await loadState(dir, NOW);
   assert.equal(state.wallet.cash, START_CASH);
+  assert.ok(state.memory);
   state.wallet.note = 'hello';
   await saveTick({ dir, state, ledger: [], market: null, env: {}, now: NOW });
   const again = await loadState(dir, NOW + 1);

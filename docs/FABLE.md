@@ -32,9 +32,12 @@ One tick:
 
 1. **Guard** — walk 1-minute candles; stop/target exits fire even if the model sleeps.
 2. **Snapshot** — Coinbase (crypto) + Yahoo (stocks) into the shared market table.
-3. **Think** — Claude Fable returns `{ thoughts, bias, actions[] }` (or the fallback).
+3. **Think** — Claude Fable returns `{ thoughts, bias, actions[], new_lessons[] }` (or the fallback), with the current memory block in the prompt.
 4. **Price + gate** — each action becomes a ticket; only tickets that pass every rule fill.
-5. **Journal** — wallet, equity history, ledger, last market snapshot.
+5. **Improve** — ingest outcomes → rule lessons + bounded adapt knobs; optional model reflect on new exits.
+6. **Journal** — wallet, `memory.json`, equity history, ledger, last market snapshot.
+
+Self-improvement never bypasses the gate. `sizeScale` / `stopBiasPct` / stance only shape proposals (and the solo `maxPositionPct` overlay).
 
 ## Defaults
 
