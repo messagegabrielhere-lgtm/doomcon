@@ -305,15 +305,16 @@ for surf in .well-known/api-catalog .well-known/api-catalog.json \
     echo "restored $surf dual head term (#441)"
   fi
 done
-# FINDABILITY #332 — restore tip free-tools.html when classic panel listicle
-# row is missing after orphan Publish.
+# FINDABILITY #332/#443 — restore tip free-tools.html when classic panel
+# listicle row or dual head terms are missing after orphan Publish.
 if [ -f "$PRESERVE_FAQ/free-tools.html" ] \
   && { ! grep -qF '/classic.html' .pages/free-tools.html 2>/dev/null \
-    || ! grep -qF 'Where is the full SIREN instrument panel?' .pages/free-tools.html 2>/dev/null; }; then
+    || ! grep -qF 'Where is the full SIREN instrument panel?' .pages/free-tools.html 2>/dev/null \
+    || ! grep -qF 'AI activity index today · AI activity level today' .pages/free-tools.html 2>/dev/null; }; then
   cp -a "$PRESERVE_FAQ/free-tools.html" .pages/free-tools.html
   mkdir -p .pages/free-tools
   cp -a .pages/free-tools.html .pages/free-tools/index.html
-  echo "restored free-tools.html classic instrument panel (#332)"
+  echo "restored free-tools.html classic instrument panel / dual head term (#332/#443)"
 fi
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
 # labAboutLabel is missing (OpenAI / ChatGPT on /lab/openai.html rows).

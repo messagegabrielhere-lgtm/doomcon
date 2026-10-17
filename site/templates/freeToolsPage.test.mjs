@@ -30,6 +30,8 @@ describe('free-tools listicle', () => {
     assert.match(html, /\/classic\.html/);
     assert.match(html, /Where is the full SIREN instrument panel\?/);
     assert.match(html, /classic instrument panel at \/classic\.html/);
+    // FINDABILITY #443 — dual middot head terms beside live home.
+    assert.match(html, /AI activity index today · AI activity level today/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /ItemList/);
     assert.match(html, /FAQPage[\s\S]*Does SIREN ship a doom-probability calculator\?/);
