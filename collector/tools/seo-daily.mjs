@@ -10294,6 +10294,37 @@ function selftest() {
       throw new Error('newsKeywordLags must not flag Navier-Stokes on bare OpenAI / Stokes titles');
     }
   }
+  // FINDABILITY #487 — ECDSA cryptography-seed / NSA crypto-mystery title flex.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('ECDSA')) {
+    throw new Error('probe labs missing ECDSA');
+  }
+  {
+    const ecdsaLags = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Anthropic Says Claude Cracked a 25-Year NSA Cryptography Seed Mystery in 30 Minutes</news:title>'
+      + '<news:keywords>Anthropic, Claude, Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+      + '<url><news:title>Anthropic Says Claude Traced NIST ECDSA Curve Seeds to a 1990S RNG</news:title>'
+      + '<news:keywords>Anthropic, Claude, ECDSA, NIST, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (!ecdsaLags.some((r) => r.lab === 'ECDSA')) {
+      throw new Error(`newsKeywordLags expected ECDSA seed-mystery lag: ${JSON.stringify(ecdsaLags)}`);
+    }
+    if (ecdsaLags.filter((r) => /Curve Seeds/i.test(r.title)).some((r) => r.lab === 'ECDSA')) {
+      throw new Error('newsKeywordLags should not flag ECDSA when keywords include it');
+    }
+    const ecdsaOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>NSA opens a new office in Maryland</news:title>'
+      + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Cryptography mystery novels for summer reading</news:title>'
+      + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (ecdsaOnly.some((r) => r.lab === 'ECDSA')) {
+      throw new Error('newsKeywordLags must not flag ECDSA on bare NSA / cryptography titles');
+    }
+  }
   // FINDABILITY #479 — catch tip wipe of Flash-1017 companion needle.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Flash-1017')) {
     throw new Error('probe labs missing Flash-1017');

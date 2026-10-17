@@ -41,7 +41,7 @@ function escXml(s) {
     .replace(/"/g, '&quot;');
 }
 
-/** FINDABILITY #310/#388/#431 — hyphen↔space + letter↔digit + Flash gap flex via shared labNeedleRe. */
+/** FINDABILITY #310/#388/#431/#487 — hyphen↔space + letter↔digit + Flash gap + ECDSA seed flex via shared labNeedleRe. */
 function labRe(lab) {
   return labNeedleRe(lab);
 }
@@ -457,6 +457,26 @@ export function selftest() {
   // FINDABILITY #397 — ECDSA companion stays in tip merge probes.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('ECDSA')) {
     throw new Error('probe labs must include ECDSA');
+  }
+  // FINDABILITY #487 — NSA cryptography seed/mystery title heal → ECDSA.
+  {
+    const ecdsaDirty = `<?xml version="1.0"?>
+<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://siren.watch/item/ecdsa-seed.html</loc>
+    <news:news>
+      <news:title>Anthropic Says Claude Cracked a 25-Year NSA Cryptography Seed Mystery in 30 Minutes</news:title>
+      <news:keywords>Anthropic, Claude, Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords>
+    </news:news>
+  </url>
+</urlset>`;
+    const ecdsaHealed = healNewsKeywordProbesFromTitle(ecdsaDirty);
+    if (ecdsaHealed.healed < 1 || ecdsaHealed.locs !== 1) {
+      throw new Error(`ECDSA seed-mystery heal expected 1 loc, got ${JSON.stringify(ecdsaHealed)}`);
+    }
+    if (!/<news:keywords>[^<]*ECDSA/.test(ecdsaHealed.xml)) {
+      throw new Error('title heal must prepend ECDSA for NSA cryptography seed mystery title');
+    }
   }
   // FINDABILITY #404 — Ondas companion stays in tip merge probes.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Ondas')) {

@@ -421,6 +421,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // the 12-cap and drop the contiguous ECDSA surface — FAQ #397 gates
   // `/lab/anthropic.html` (parallel to METR FAQ #392 / Chrome #390). Hold NSA
   // niche keyword / Warsh / Nudify / AI Jitters / Replit (FAQ #412).
+  // FINDABILITY #487 — labNeedleRe flex covers NSA cryptography seed/mystery
+  // title forms when live tape drops contiguous ECDSA (3 titles / 0 kw).
   'ECDSA',
   // FINDABILITY #404 — multi-title Ondas–Palantir defense-AI JV tape while
   // pizzint-news-alive (2 titles: RTX, AeroVironment And Ondas-Palantir… +
