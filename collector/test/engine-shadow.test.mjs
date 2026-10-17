@@ -998,7 +998,7 @@ test('Publish restores tip Anthropic AI safety bill FAQ + routes (FINDABILITY #3
   assert.match(collect, /! grep -qF 'AI safety bill'/);
   assert.match(
     collect,
-    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC FAQ \(#163\/#362\/#366\/#368\)/,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR FAQ \(#163\/#362\/#366\/#368\/#392\)/,
   );
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #163\/#362\/#366/);
@@ -1007,7 +1007,7 @@ test('Publish restores tip Anthropic AI safety bill FAQ + routes (FINDABILITY #3
   assert.match(newsFast, /! grep -qF 'AI safety bill'/);
   assert.match(
     newsFast,
-    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC FAQ \(#163\/#362\/#366\/#368\)/,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR FAQ \(#163\/#362\/#366\/#368\/#392\)/,
   );
 });
 
@@ -1021,6 +1021,26 @@ test('Publish restores tip Anthropic Canadian data-centre FAQ + routes (FINDABIL
   assert.match(newsFast, /Why does SIREN watch Anthropic Canadian data centres\?/);
   assert.match(newsFast, /Anthropic Canadian data centres → \/lab\/anthropic\.html/);
   assert.match(newsFast, /! grep -qF 'Canadian data'/);
+});
+
+test('Publish restores tip Anthropic METR evaluator FAQ + routes (FINDABILITY #392)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #163\/#362\/#366\/#368\/#392/);
+  assert.match(collect, /Why does SIREN watch Anthropic METR evaluator access\?/);
+  assert.match(collect, /Anthropic METR → \/lab\/anthropic\.html/);
+  assert.match(collect, /! grep -qF 'METR'/);
+  assert.match(
+    collect,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR FAQ \(#163\/#362\/#366\/#368\/#392\)/,
+  );
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /Why does SIREN watch Anthropic METR evaluator access\?/);
+  assert.match(newsFast, /Anthropic METR → \/lab\/anthropic\.html/);
+  assert.match(newsFast, /! grep -qF 'METR'/);
+  assert.match(
+    newsFast,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC \+ METR FAQ \(#163\/#362\/#366\/#368\/#392\)/,
+  );
 });
 
 test('Publish restores tip Waymo Canada FAQ + routes (FINDABILITY #372)', () => {

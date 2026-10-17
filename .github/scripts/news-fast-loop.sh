@@ -393,6 +393,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'Anthropic IPO' "$root/$map" 2>/dev/null \
             || ! grep -qF 'AI safety bill' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Canadian data' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'METR' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Waymo Canada' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Allied Universal' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Starshield' "$root/$map" 2>/dev/null \
@@ -767,6 +768,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
           || ! grep -qF 'Anthropic IPO / FTC → /lab/anthropic.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Anthropic AI safety bill → /lab/anthropic.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Anthropic Canadian data centres → /lab/anthropic.html' "$root/search-trends.html" 2>/dev/null \
+          || ! grep -qF 'Anthropic METR → /lab/anthropic.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Waymo Canada / Toronto robotaxi → /lab/waymo.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'SoftBank / Allied Universal → /lab/softbank.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'SpaceX / Starshield → /lab/spacex.html' "$root/search-trends.html" 2>/dev/null \
@@ -780,7 +782,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         mkdir -p "$root/trends" "$root/search-trends"
         cp -a "$preserve/search-trends.html" "$root/trends/index.html"
         cp -a "$preserve/search-trends.html" "$root/search-trends/index.html"
-        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378)"
+        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392)"
       fi
     }
     # FINDABILITY #161 — restore tip /lab/nvidia.html when Nvidia / NVDA
@@ -789,9 +791,10 @@ while [ "$(date +%s)" -lt "$END" ]; do
     # FINDABILITY #162 — restore tip /lab/openai.html when OpenAI lawsuit
     # / FTC FAQ is missing after orphan Publish from tip < #162.
 
-    # FINDABILITY #163/#362/#366 — restore tip /lab/anthropic.html when Anthropic
-    # IPO / FTC or AI safety bill FAQ is missing after orphan Publish (newsroom
-    # wipe kept IPO while dropping #362 — parallel to OpenAI #162/#181/#191).
+    # FINDABILITY #163/#362/#366/#368/#392 — restore tip /lab/anthropic.html when
+    # Anthropic IPO / FTC, AI safety bill, Canadian DC, or METR FAQ is missing
+    # after orphan Publish (newsroom wipe kept IPO while dropping newer FAQs —
+    # parallel to OpenAI #162/#181/#191).
 
     # FINDABILITY #164 — restore tip /lab/asml.html when ASML Trends FAQ
     # is missing after orphan Publish from tip < #164.
@@ -955,10 +958,11 @@ while [ "$(date +%s)" -lt "$END" ]; do
       if [ -f "$preserve/lab/anthropic.html" ] \
         && { ! grep -qF 'Why does SIREN watch Anthropic IPO and FTC probes?' "$root/lab/anthropic.html" 2>/dev/null \
           || ! grep -qF 'Why does SIREN watch Anthropic AI safety bill pitches?' "$root/lab/anthropic.html" 2>/dev/null \
-          || ! grep -qF 'Why does SIREN watch Anthropic Canadian data centres?' "$root/lab/anthropic.html" 2>/dev/null; }; then
+          || ! grep -qF 'Why does SIREN watch Anthropic Canadian data centres?' "$root/lab/anthropic.html" 2>/dev/null \
+          || ! grep -qF 'Why does SIREN watch Anthropic METR evaluator access?' "$root/lab/anthropic.html" 2>/dev/null; }; then
         mkdir -p "$root/lab"
         cp -a "$preserve/lab/anthropic.html" "$root/lab/anthropic.html"
-        echo "restored lab/anthropic.html Anthropic IPO / FTC + AI safety bill + Canadian DC FAQ (#163/#362/#366/#368)"
+        echo "restored lab/anthropic.html Anthropic IPO / FTC + AI safety bill + Canadian DC + METR FAQ (#163/#362/#366/#368/#392)"
       fi
     }
     restore_openai_lawsuit_faq() {
