@@ -135,6 +135,9 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #176 — Character.ai / Character AI bankruptcy → gated chatbots tag
   // (story counts only; not a product score or bankruptcy forecast).
   { id: 'character-ai', label: 'Character.ai', re: /\bcharacter\.ai\b|\bcharacter\s+ai\b/i, path: '/tags/chatbots.html' },
+  // FINDABILITY #410 — CERT-In / India AI-agent cyber Trends → gated agents tag
+  // (story counts only; not a security advisory or incident forecast).
+  { id: 'cert-in', label: 'CERT-In', re: /\bcert[- ]?in\b/i, path: '/tags/agents.html' },
   // FINDABILITY #182 — Hugging Face hack / incident / hub Trends → gated tag
   // (story counts only; not a security advisory or incident forecast).
   { id: 'huggingface', label: 'Hugging Face', re: /\bhugging\s*face\b|\bhuggingface\b/i, path: '/tags/huggingface.html' },

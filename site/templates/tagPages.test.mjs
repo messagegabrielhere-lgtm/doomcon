@@ -84,6 +84,10 @@ describe('tag pages', () => {
     const html = renderTag(ctx, 'agents');
     assert.match(html, /<title>What has SIREN scored about AI agents\?/);
     assert.match(html, /<h1>What has SIREN scored about AI agents\?<\/h1>/);
+    // FINDABILITY #410 — CERT-In / India AI-agent cyber FAQ on gated agents tag.
+    assert.match(html, /Why does SIREN watch CERT-In and AI agent cyber incidents\?/);
+    assert.match(html, /search-trends\.html/);
+    assert.match(html, /Not a security advisory, not an incident forecast/);
     assert.match(html, /Which AI stories has SIREN scored in this window\?/);
     assert.match(html, /Which AI news tags have SIREN pages\?/);
     assert.match(html, /Which AI tags has SIREN scored stories about\?/);

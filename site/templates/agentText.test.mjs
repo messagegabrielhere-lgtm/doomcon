@@ -247,6 +247,10 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #176 — Character.ai bankruptcy route to Chatbots tag.
   assert.match(txt, /Character\.ai bankruptcy, Character AI bankruptcy/);
   assert.match(txt, /\/tags\/chatbots\.html/);
+  // FINDABILITY #410 — CERT-In route to Agents tag.
+  assert.match(txt, /CERT-In, India AI-agent cyber incidents/);
+  assert.match(txt, /\/tags\/agents\.html/);
+  assert.match(txt, /not a security advisory/);
   // FINDABILITY #182 — Hugging Face hack / incident route to Hugging Face tag.
   assert.match(txt, /Hugging Face hack, Hugging Face incident/);
   assert.match(txt, /\/tags\/huggingface\.html/);
@@ -378,6 +382,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #176 — agents.md lists Chatbots tag for Character.ai bankruptcy.
   assert.match(md, /Character\.ai bankruptcy/);
   assert.match(md, /\/tags\/chatbots\.html/);
+  // FINDABILITY #410 — agents.md lists Agents tag for CERT-In Trends.
+  assert.match(md, /CERT-In \/ India AI-agent cyber Trends/);
+  assert.match(md, /\/tags\/agents\.html/);
   // FINDABILITY #182 — agents.md lists Hugging Face tag for hack / incident Trends.
   assert.match(md, /Hugging Face hack \/ incident Trends/);
   assert.match(md, /\/tags\/huggingface\.html/);

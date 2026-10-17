@@ -255,6 +255,10 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Character AI bankruptcy documents', news: [] }).includes('character-ai'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'character-ai' && t.path === '/tags/chatbots.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'character-ai').re.test('characterizing high bandwidth flash'), false);
+  // FINDABILITY #410 — CERT-In → gated agents tag.
+  assert.ok(matchHeadTerms({ title: 'CERT-In warns AI agents accessed Indian firms’ live systems', news: [] }).includes('cert-in'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'cert-in' && t.path === '/tags/agents.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'cert-in').re.test('certain AI labs raise more capital'), false);
   // FINDABILITY #177 — Qwen / Alibaba open-weight Trends → gated Qwen lab.
   assert.ok(matchHeadTerms({ title: 'Muse Spark Open is Meta answer to Qwen', news: [] }).includes('qwen'));
   assert.ok(matchHeadTerms({ title: 'Alibaba Qwen open-weight release', news: [] }).includes('qwen'));

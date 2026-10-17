@@ -1061,6 +1061,23 @@ test('Publish restores tip Anthropic METR evaluator FAQ + routes (FINDABILITY #3
   );
 });
 
+test('Publish restores tip CERT-In FAQ + routes (FINDABILITY #410)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #410/);
+  assert.match(collect, /Why does SIREN watch CERT-In and AI agent cyber incidents\?/);
+  assert.match(collect, /CERT-In → \/tags\/agents\.html/);
+  assert.match(collect, /! grep -qF 'CERT-In'/);
+  assert.match(collect, /restored tags\/agents\.html CERT-In FAQ \(#410\)/);
+  assert.match(collect, /tags\/agents\.html/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #410/);
+  assert.match(newsFast, /Why does SIREN watch CERT-In and AI agent cyber incidents\?/);
+  assert.match(newsFast, /CERT-In → \/tags\/agents\.html/);
+  assert.match(newsFast, /! grep -qF 'CERT-In'/);
+  assert.match(newsFast, /restore_cert_in_faq/);
+  assert.match(newsFast, /restored tags\/agents\.html CERT-In FAQ \(#410\)/);
+});
+
 test('Publish restores tip Waymo Canada FAQ + routes (FINDABILITY #372)', () => {
   const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #372/);
