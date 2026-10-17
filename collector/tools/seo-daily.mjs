@@ -592,6 +592,7 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
  * Entries whose news:title matches a probe lab but news:keywords omit it.
  * Returns up to 8 `{ lab, title }` rows for the daily gap line.
  * FINDABILITY #310 — hyphen↔space flex via labNeedleRe.
+ * FINDABILITY #388 — letter↔digit flex via labNeedleRe (Qwen3.8 ↔ Qwen 3.8).
  */
 export function newsKeywordLags(xml, labs = NEWS_KEYWORD_PROBE_LABS) {
   const out = [];
@@ -7216,6 +7217,23 @@ function selftest() {
   }
   if (astraSpaceLags.some((r) => /solves physics/i.test(r.title) && r.lab === 'GPT-6 Astra')) {
     throw new Error('newsKeywordLags should not flag GPT-6 Astra when keywords include it');
+  }
+  // FINDABILITY #388 — Qwen 3.8 spaced titles need letter↔digit flex on Qwen3.8.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Qwen3.8')) {
+    throw new Error('probe labs missing Qwen3.8');
+  }
+  const qwen38SpaceLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>Dory 1.0 4B vs Qwen 3.8: a 4B against a three-tier line</news:title>'
+    + '<news:keywords>Dory 1.0, Nemotron, Qwen, NVIDIA, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+    + '<url><news:title>Nemotron 3.5 Super VL vs Qwen3.8 Omni Flash: You Cannot Have the Ears and the Weights</news:title>'
+    + '<news:keywords>Nemotron, Qwen, Nemotron 3.5 Super VL, Qwen3.8, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const qwen38SpaceLags = newsKeywordLags(qwen38SpaceLagXml);
+  if (!qwen38SpaceLags.some((r) => r.lab === 'Qwen3.8' && /Qwen 3\.8/i.test(r.title))) {
+    throw new Error(`newsKeywordLags expected Qwen3.8 spaced-form lag: ${JSON.stringify(qwen38SpaceLags)}`);
+  }
+  if (qwen38SpaceLags.filter((r) => /Ears and the Weights/i.test(r.title)).some((r) => r.lab === 'Qwen3.8')) {
+    throw new Error('newsKeywordLags should not flag Qwen3.8 when keywords include it');
   }
   const nycCouncilLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
     + '<url><news:title>Elon Musk\'s SpaceX to testify at NYC Council meeting on AI safety</news:title>'

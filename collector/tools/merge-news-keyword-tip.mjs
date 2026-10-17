@@ -41,7 +41,7 @@ function escXml(s) {
     .replace(/"/g, '&quot;');
 }
 
-/** FINDABILITY #310 — hyphen↔space flex via shared labNeedleRe. */
+/** FINDABILITY #310/#388 — hyphen↔space + letter↔digit flex via shared labNeedleRe. */
 function labRe(lab) {
   return labNeedleRe(lab);
 }
@@ -467,6 +467,27 @@ export function selftest() {
   }
   if (!/<news:keywords>[^<]*GPT-6 Astra/.test(astraHealed.xml)) {
     throw new Error('title heal must prepend GPT-6 Astra for space-form title');
+  }
+  // FINDABILITY #388 — Qwen 3.8 spaced-form title heal via letter↔digit flex.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Qwen3.8')) {
+    throw new Error('probe labs must include Qwen3.8');
+  }
+  const qwen38Dirty = `<?xml version="1.0"?>
+<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://siren.watch/item/qwen38-space.html</loc>
+    <news:news>
+      <news:title>Dory 1.0 4B vs Qwen 3.8: a 4B against a three-tier line</news:title>
+      <news:keywords>Dory 1.0, Nemotron, Qwen, NVIDIA, AI, artificial intelligence, SIREN, attention, press</news:keywords>
+    </news:news>
+  </url>
+</urlset>`;
+  const qwen38Healed = healNewsKeywordProbesFromTitle(qwen38Dirty);
+  if (qwen38Healed.healed < 1 || qwen38Healed.locs !== 1) {
+    throw new Error(`Qwen 3.8 spaced heal expected 1 loc, got ${JSON.stringify(qwen38Healed)}`);
+  }
+  if (!/<news:keywords>[^<]*Qwen3\.8/.test(qwen38Healed.xml)) {
+    throw new Error('title heal must prepend Qwen3.8 for spaced-form title');
   }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
