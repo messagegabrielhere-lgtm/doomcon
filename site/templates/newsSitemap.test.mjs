@@ -915,6 +915,26 @@ test('news sitemap keywords match GPT 6 Astra space form (FINDABILITY #310)', ()
   assert.match(kw, /GPT-6 Astra/);
 });
 
+test('labNeedleRe matches Qwen 3.8 spaced form of Qwen3.8 (FINDABILITY #388)', () => {
+  // Live Dory vs Qwen titles write "Qwen 3.8" while NEWS_KEYWORD_LABS keeps the
+  // glued Qwen3.8 needle; letter↔digit flex covers the space without a doorway.
+  assert.ok(labNeedleRe('Qwen3.8').test('Dory 1.0 4B vs Qwen 3.8: a 4B against a three-tier line'));
+  assert.ok(labNeedleRe('Qwen3.8').test('Qwen3.8 Omni Flash'));
+  assert.ok(labNeedleRe('Qwen3.8-Max').test('Qwen 3.8 Max vs Mythos'));
+  assert.ok(labNeedleRe('Nemotron 3.5').test('Nvidia unveils Nemotron3.5 open models'));
+  assert.ok(!labNeedleRe('PS5').test('Jailbroken PS5s can now run local AI'));
+  const spaced = keywordsFor({
+    title: 'Dory 1.0 4B vs Qwen 3.8: a 4B against a three-tier line',
+    summary: 'Spaced Qwen version beside Dory SKU.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Nemotron', 'Qwen', 'NVIDIA'],
+  });
+  assert.match(spaced, /\bQwen3\.8\b/);
+  assert.match(spaced, /\bDory 1\.0\b/);
+});
+
 test('news sitemap keywords include Gemini 4 Argon / Carbon surfaces', () => {
   const kw = keywordsFor({
     title: 'Google announces Gemini 4 Argon AI model',

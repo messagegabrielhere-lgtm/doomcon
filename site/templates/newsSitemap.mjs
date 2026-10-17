@@ -206,6 +206,7 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #238 — multi-title Qwen3.8 tape (Max + Omni Flash vs Nemotron);
   // bare Qwen fills a 12-cap slot while product-class Qwen3.8 titles drop the
   // version surface (Omni Flash bilingual still held; Max SKU is #346).
+  // FINDABILITY #388 — letter↔digit flex also matches live "Qwen 3.8" spaced titles.
   'Qwen3.8',
   // FINDABILITY #346 — multi-title Qwen3.8-Max SKU tape while google-news-open
   // (2 titles: vs Claude Mythos 5 EN/IT); Qwen / Qwen3.8 fill 12-cap slots and
@@ -397,8 +398,8 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // models… + Nvidia's Nemotron 3.5 Super VL…; 1 in newest-200, 1 armed for
   // rotate-in); bare Nemotron / Super VL fill the 12-cap and drop the contiguous
   // version surface — `/lab/nvidia.html` already gates (parallel to Qwen3.8
-  // #238 / Mythos 5 #344 / Flux 3 #258 rotate-in). Hold Qwen 3.8 spaced /
-  // Warsh / ECDSA / Nudify / AI Jitters.
+  // #238 / Mythos 5 #344 / Flux 3 #258 rotate-in). Hold Warsh / ECDSA /
+  // Nudify / AI Jitters (#388 covers Qwen 3.8 spaced via digit flex).
   'Nemotron 3.5',
 ]);
 
