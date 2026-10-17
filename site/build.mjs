@@ -8,7 +8,7 @@
 // which belongs to the collector.
 
 import { stampAll, stampFiles } from './sitebar.mjs';
-import { flattenRooms } from './siteheader.mjs';
+import { flattenRooms, whatsNewFor } from './siteheader.mjs';
 import { readFile, writeFile, mkdir, readdir, copyFile, rm, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
@@ -290,6 +290,15 @@ function parseArgs(argv) {
 
 const warnings = [];
 function warn(message) { warnings.push(message); }
+
+/** Paginated `/item/archive.html` hubs — sitemap and newsroom already link them. */
+async function writeArchiveHubs(ctx, outDir, write, written) {
+  const pages = itemPage.archivePageCount(ctx);
+  for (let i = 1; i <= pages; i += 1) {
+    const rel = itemPage.archivePagePath(i).replace(/^\//, '');
+    written.push(await write(outDir, rel, itemPage.renderArchivePage(ctx, i)));
+  }
+}
 
 // ---------------------------------------------------------------------------
 // /flock — the one page module that is NOT a static import.
@@ -1581,6 +1590,9 @@ async function main() {
         written.push(await write(args.out, rel, itemPage.render(ctx, it, related)));
         itemRewritten += 1;
       }
+      for (let i = 1; i <= itemPage.archivePageCount(ctx); i += 1) {
+        keep.add(path.basename(itemPage.archivePagePath(i)));
+      }
       const itemDir = path.join(args.out, 'item');
       if (existsSync(itemDir)) {
         // GRACE PERIOD. The hourly pages (balance, lab/*, pillar/*, model/*,
@@ -1599,6 +1611,7 @@ async function main() {
         }
       }
       written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
+      await writeArchiveHubs(ctx, args.out, write, written);
     }
     // FINDABILITY #103 — news-only leaves facet/entity hubs to the hourly full
     // pass. Rewriting every pillar/lab/source/model/tag/kind/outlet/people page
@@ -1681,6 +1694,7 @@ async function main() {
       levelName: state.level_name,
       score: state.score,
       rooms: flattenRooms(homeV2.roomGroups(ctx)),
+      whatsNew: whatsNewFor(ctx),
       newsAt: news && news.generated_at,
     });
     const score = num(state.score, 1);
@@ -2031,6 +2045,7 @@ async function main() {
       log(`  archive      ${archiveWritten} written, ${archiveSkipped} kept (FINDABILITY #105)`);
     }
     written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
+    await writeArchiveHubs(ctx, args.out, write, written);
   }
   // Faceted landings (COMPETITIVE-SEO.md): DoomBench/Skynet win on entity URL
   // count; these turn our CSS filters into crawlable pillar and lab pages.
@@ -2397,6 +2412,7 @@ async function main() {
     levelName: state.level_name,
     score: state.score,
     rooms: flattenRooms(homeV2.roomGroups(ctx)),
+    whatsNew: whatsNewFor(ctx),
     intro: mediaPages.INTRO_FOR,
     newsAt: news && news.generated_at,
   });
@@ -2553,6 +2569,18 @@ async function selfCheck(outDir, state, ctx = null) {
     if (!existsSync(path.join(outDir, file))) {
       throw new Error(`build: self-check failed - missing ${file}`);
     }
+  }
+  // Sitemap and newsroom link /item/archive.html; missing hubs were live 404s
+  // while still listed in sitemap.xml (2026-10-15 crawl).
+  if (ctx && itemPage.archivePageCount(ctx) > 0) {
+    const hub = path.join(outDir, 'item', 'archive.html');
+    if (!existsSync(hub)) {
+      throw new Error('build: self-check failed - missing item/archive.html though the item archive has pages');
+    }
+  }
+  // Do not advertise /#readers when the visitors map is not on the homepage.
+  if (ctx && html.includes('href="/#readers"') && !html.includes('id="readers"')) {
+    throw new Error('build: self-check failed - homepage links /#readers but has no #readers section');
   }
   if (!html.includes('v2-plain') || !html.includes('v2-scale') || !html.includes('REUSE THIS READING')) {
     throw new Error('build: self-check failed - homepage fold is missing plain read, scale rail, or reuse block.');
