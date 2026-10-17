@@ -268,6 +268,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #179 — DeepSeek outage route to DeepSeek lab.
   assert.match(txt, /DeepSeek outage, DeepSeek refunds/);
   assert.match(txt, /\/lab\/deepseek\.html/);
+  // FINDABILITY #418 — DeepSeek V4.1 Flash route to same DeepSeek lab.
+  assert.match(txt, /DeepSeek V4\.1 Flash, DeepSeek-v4\.1-Flash/);
+  assert.match(txt, /\/lab\/deepseek\.html/);
   // FINDABILITY #180 — Mistral / Timestral route to Mistral lab.
   assert.match(txt, /Mistral, Timestral, CERN Flare/);
   assert.match(txt, /\/lab\/mistral\.html/);
@@ -402,6 +405,8 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /\/tags\/datacenters\.html/);
   // FINDABILITY #179 — agents.md lists DeepSeek lab for outage Trends.
   assert.match(md, /DeepSeek outage \/ Chinese open-model Trends/);
+  // FINDABILITY #418 — agents.md lists DeepSeek lab for V4.1 Flash tape.
+  assert.match(md, /DeepSeek V4\.1 Flash Trends → DeepSeek lab/);
   assert.match(md, /\/lab\/deepseek\.html/);
   // FINDABILITY #180 — agents.md lists Mistral lab for Timestral Trends.
   assert.match(md, /Mistral \/ Timestral \/ CERN Flare Trends/);

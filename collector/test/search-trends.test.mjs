@@ -285,6 +285,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'DeepSeek-R model update', news: [] }).includes('deepseek'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'deepseek' && t.path === '/lab/deepseek.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'deepseek').re.test('deep seeking treasure'), false);
+  // FINDABILITY #418 — DeepSeek V4.1 Flash → same gated DeepSeek lab.
+  assert.ok(matchHeadTerms({ title: 'DeepSeek-v4.1-Flash-1017 is here', news: [] }).includes('deepseek-v41-flash'));
+  assert.ok(matchHeadTerms({ title: 'DeepSeek v4.1 flash on OpenCode pretty good', news: [] }).includes('deepseek-v41-flash'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'deepseek-v41-flash' && t.path === '/lab/deepseek.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'deepseek-v41-flash').re.test('DeepSeek outage refunds users'), false);
   // FINDABILITY #180 — Mistral / Timestral / CERN Flare → gated Mistral lab.
   assert.ok(matchHeadTerms({ title: 'Mistral Timestral', news: [] }).includes('mistral'));
   assert.ok(matchHeadTerms({ title: 'Introducing Timestral', news: [] }).includes('mistral'));

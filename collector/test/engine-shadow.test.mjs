@@ -1180,3 +1180,24 @@ test('Publish restores tip Surface Laptop Ultra FAQ + routes (FINDABILITY #414)'
     /restored lab\/microsoft\.html Microsoft Copilot \+ MAI-Base \+ Surface Laptop Ultra FAQ \(#171\/#220\/#414\)/,
   );
 });
+
+test('Publish restores tip DeepSeek V4.1 Flash FAQ + routes (FINDABILITY #418)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #179\/#418/);
+  assert.match(collect, /Why does SIREN watch DeepSeek V4\.1 Flash\?/);
+  assert.match(collect, /DeepSeek V4\.1 Flash → \/lab\/deepseek\.html/);
+  assert.match(collect, /! grep -qF 'DeepSeek V4\.1 Flash'/);
+  assert.match(
+    collect,
+    /restored lab\/deepseek\.html DeepSeek outage \+ V4\.1 Flash FAQ \(#179\/#418\)/,
+  );
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #179\/#418/);
+  assert.match(newsFast, /Why does SIREN watch DeepSeek V4\.1 Flash\?/);
+  assert.match(newsFast, /DeepSeek V4\.1 Flash → \/lab\/deepseek\.html/);
+  assert.match(newsFast, /! grep -qF 'DeepSeek V4\.1 Flash'/);
+  assert.match(
+    newsFast,
+    /restored lab\/deepseek\.html DeepSeek outage \+ V4\.1 Flash FAQ \(#179\/#418\)/,
+  );
+});

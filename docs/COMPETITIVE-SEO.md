@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T09:15Z after tip-surviving newsroom refresh `7e8fe6de1` + IndexNow **200**: Surface Laptop Ultra FAQ **#414** still **ok** (Microsoft lab + agents/llms + Trends route/`<td>`); Replit / CERT-In / Blackstone / Ondas / Claude Opus FAQ still **ok**; lead **6,703** / news **200**; `google-news-open` (pizzint news **0**); GSC/Bing meta **absent**; Trends quiet (`ai_related_total` **0**); HTTPS enforced; News keywords through **#404**; FAQ routes through **#414**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#417** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T09:20Z — shipping DeepSeek V4.1 Flash FAQ companion **#418** on gated `/lab/deepseek.html` (keywords **#228**; 5 titles in newest-200; outage FAQ **#179** left Flash without Q&A). Surface Laptop Ultra FAQ **#414** still **ok**; Replit / CERT-In / Blackstone / Ondas / Claude Opus still **ok**; lead **6,703** / news **200**; pizzint news **14** contested; GSC/Bing meta **absent**; Trends quiet (`ai_related_total` **0**); News keywords through **#404**; FAQ routes through **#418**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#418** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -60,9 +60,9 @@ preserve **#248**). Typed-guess **#262** tip prose still intact after
 **ok** after `a00cfbc` (index + level today middot). Multi-title **#298** Vercel tip
 **ok** (2/2 after `2d76065`); **#294** Mac Studio singular tip
 **ok**; **#292** Mac Studios **ok**; Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Hold doorway on product keywords beyond **#414** Surface Laptop Ultra FAQ + **#412** Replit Anthropic FAQ + **#410** CERT-In FAQ + **#408** Blackstone Anthropic financing FAQ + **#406** Ondas-Palantir FAQ + **#404** Ondas news:keywords + **#402** Claude Opus 5.5 FAQ + **#400** Trends HEAD_TERMS merge + **#397** ECDSA FAQ + **#394** MOSS-Image + **#392** METR FAQ + **#390** Chrome + **#388** digit flex + **#386** Nemotron 3.5 (armed).
+Hold doorway on product keywords beyond **#418** DeepSeek V4.1 Flash FAQ + **#414** Surface Laptop Ultra FAQ + **#412** Replit Anthropic FAQ + **#410** CERT-In FAQ + **#408** Blackstone Anthropic financing FAQ + **#406** Ondas-Palantir FAQ + **#404** Ondas news:keywords + **#402** Claude Opus 5.5 FAQ + **#400** Trends HEAD_TERMS merge + **#397** ECDSA FAQ + **#394** MOSS-Image + **#392** METR FAQ + **#390** Chrome + **#388** digit flex + **#386** Nemotron 3.5 (armed).
 MOSS-Image keywords have no doorway lab (parallel Beam #286); Anthropic FAQs gate Opus 5.5 + ECDSA + METR + Blackstone (#382 keywords + #408 FAQ) + Replit (#340 keywords + #412 FAQ);
-Microsoft lab FAQ #171/#220/#414 gates Copilot / MAI-Base / Surface Laptop Ultra (#277 keywords); Agents tag FAQ #410 gates CERT-In (#226 keywords); OpenAI FAQ #191 gates Chrome; NVIDIA lab gates Dory + Nemotron; SoftBank FAQ #374 gates Allied; Palantir FAQ #183/#406 gates Ondas.
+Microsoft lab FAQ #171/#220/#414 gates Copilot / MAI-Base / Surface Laptop Ultra (#277 keywords); DeepSeek lab FAQ #179/#418 gates outage / V4.1 Flash (#228 keywords); Agents tag FAQ #410 gates CERT-In (#226 keywords); OpenAI FAQ #191 gates Chrome; NVIDIA lab gates Dory + Nemotron; SoftBank FAQ #374 gates Allied; Palantir FAQ #183/#406 gates Ondas.
 Warsh person / Glimpse (1 title) / Nova Scotia geography / North Korea geography /
 NSA niche (no keyword) / CSAM / Beijing AI-exports topic / CoreWeave stock (already gated) /
 Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster + Flying Roadster keyed) /
