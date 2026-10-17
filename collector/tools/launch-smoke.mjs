@@ -35,6 +35,18 @@ async function fromDir(dir) {
     }
   }
 
+  // Soft-404 gate: when the live-window index links the durable archive hub,
+  // that hub must exist (sitemap + sitewide internal links advertise it).
+  const itemIndex = await readFile(path.join(dir, 'item/index.html'), 'utf8').catch(() => '');
+  if (itemIndex.includes('/item/archive.html') || itemIndex.includes('item/archive.html')) {
+    try {
+      await access(path.join(dir, 'item/archive.html'), constants.R_OK);
+      ok('file item/archive.html');
+    } catch {
+      bad('file item/archive.html', 'linked from item/index.html but missing from build output');
+    }
+  }
+
   const index = await readFile(path.join(dir, 'index.html'), 'utf8').catch(() => '');
   if (!index) return;
   if (/property="og:image"/.test(index)) ok('og:image on homepage');

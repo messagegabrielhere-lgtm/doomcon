@@ -43,8 +43,9 @@ describe('home v2 footer', () => {
 
   it('uses question-shaped legal and provenance sibling links', () => {
     const html = render(ctx, { head: '' });
-    assert.match(html, /href="\/classic\.html#oven">Where is the full SIREN instrument panel\? →<\/a>/);
-    assert.doesNotMatch(html, /href="\/classic\.html#oven">full oven with gates →<\/a>/);
+    assert.match(html, /href="\/instruments\.html#oven">What instruments sit behind the SIREN reading\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/classic\.html#oven"/);
+    assert.doesNotMatch(html, /href="\/instruments\.html#oven">full oven with gates →<\/a>/);
     assert.match(html, /href="\/history\.html">What is the history of AI risk\?<\/a>/);
     assert.match(html, /href="\/race\.html">Who is winning the AI race\?<\/a>/);
     assert.doesNotMatch(html, /href="\/history\.html">HISTORY<\/a>/);

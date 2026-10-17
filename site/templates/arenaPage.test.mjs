@@ -19,6 +19,8 @@ describe('arena page SEO', () => {
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);
     assert.match(html, /BreadcrumbList/);
+    assert.match(html, /id="battle"/);
+    assert.match(html, /id="view-battle"/);
     assert.match(html, /scanner\.html/);
     assert.match(html, /game\.html/);
     assert.match(html, /What does the SIREN Capitulation Scanner show\?/);

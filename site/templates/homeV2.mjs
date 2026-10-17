@@ -58,7 +58,8 @@ function plainRead(state) {
     + 'This counts how much is happening in AI right now — it is not a claim about how it ends.';
 }
 
-// Compact five-stage scale for the fold. Full oven stays on /classic.html#oven.
+// Compact five-stage scale for the fold. Full oven gates live on /instruments.html#oven
+// (classic keeps the longer panel; the oven section itself moved to instruments).
 function scaleRail(state, href) {
   const level = state.level;
   const prev = Number.isInteger(state.previous_level) && state.previous_level !== level
@@ -81,7 +82,7 @@ function scaleRail(state, href) {
     </li>`;
   }).join('');
   return `<ol class="v2-scale" aria-label="${esc(brand.NAME)} scale, coolest first. ${esc(brand.NAME)} ${esc(level)} is current.">${cells}</ol>
-<p class="v2-scale__note">Five stages · the mark moves both ways · <a href="${esc(href('/classic.html#oven'))}">Where is the full ${esc(brand.NAME)} instrument panel? →</a></p>`;
+<p class="v2-scale__note">Five stages · the mark moves both ways · <a href="${esc(href('/instruments.html#oven'))}">What instruments sit behind the ${esc(brand.NAME)} reading? →</a></p>`;
 }
 
 function raceLeaderLine(ctx, href) {

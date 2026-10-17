@@ -36,7 +36,8 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
-  ['/#readers', 'px:film', 'Where are SIREN readers?', 'A daily map of SIREN readers by country, from GoatCounter.'],
+  // /#readers stays off until data/visitors.json ships the map (id="readers").
+  // A What’s New chip that jumps nowhere is worse than one fewer highlight.
   ['/nations.html', 'px:tugofwar', 'USA vs China: who is winning the race to superintelligence?', 'The nations race to superintelligence, scored live.'],
   ['/labs.html', 'px:beaker', 'What is SIREN Labs measuring this week?', 'This week’s experiments in measuring superintelligence.'],
   ['/games.html', 'px:joystick', 'What free AI games can you play on SIREN?', 'Every SIREN game in one place, one click from any page.'],
