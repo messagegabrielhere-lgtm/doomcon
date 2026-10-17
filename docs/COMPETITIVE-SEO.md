@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T00:42Z after **#367** hold; shipping **#368** Anthropic Canadian data-centre FAQ + agent/Trends routes (6 titles; parallel Oracle #178); AI safety bill FAQ tip still **ok**; Publish preserve **#366**→**#368** on Anthropic lab; M5 Max tip **#364** still **ok** (**1/1**); AI safety bill **#358** still **ok**; Amazon Web Services tip **#360** still **ok**; Bee AI tip **#356** still **ok**; Flying Roadster tip **#354** still **ok**; Anthropic IPO tip **#352** still **ok**; pizzint news **0** (`google-news-open`); lead **6,701** / news **200**; GSC/Bing meta **absent**; News keywords through **#364**; FAQ routes through **#368**; Publish preserve through **#368**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#368** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T00:51Z after **#368** tip `79436a7` + IndexNow **200** (**#369**); Canadian data centres FAQ tip **ok**; AI safety bill FAQ tip still **ok**; Publish preserve **#368** on Anthropic lab; M5 Max tip **#364** still **ok** (**1/1**); AI safety bill **#358** still **ok**; Amazon Web Services tip **#360** still **ok**; Bee AI tip **#356** still **ok**; Flying Roadster tip **#354** still **ok**; Anthropic IPO tip **#352** still **ok**; pizzint news **14** contested (`pizzint-news-alive`); lead **6,701** / news **200**; GSC/Bing meta **absent**; News keywords through **#364**; FAQ routes through **#368**; Publish preserve through **#368**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#369** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -66,7 +66,8 @@ ECDSA niche / Beijing AI-exports topic / CoreWeave stock (already gated) /
 Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster + Flying Roadster keyed) /
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise refused.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
-**#368** Anthropic Canadian data-centre FAQ + agent/Trends + HEAD_TERMS + Publish preserve (6 titles; hold Nova Scotia geography keywords).
+**#369** after **#368** tip `79436a7` + IndexNow **200**: Canadian data centres FAQ CDN clear; lead **6,701**.
+**#368** Anthropic Canadian data-centre FAQ tip `79436a7` (lab + agents + Trends; hold Nova Scotia geography keywords).
 **#367** after **#366** merge + IndexNow **200**: AI safety bill FAQ tip still **ok**; M5 Max **1/1**; pizzint news **14** contested; lead **6,701**.
 **#366** Publish preserve Anthropic AI safety bill FAQ + agent/Trends needles (newsroom wipe fix for #362).
 **#365** after **#364** tip `1e5e083` + FAQ restore `a226548` + IndexNow **200**: M5 Max **1/1** + AI safety bill FAQ **ok**; lead **6,701**.
