@@ -688,12 +688,25 @@ test('Publish restores tip discovery JSON when classic panel missing (FINDABILIT
   assert.match(collect, /FINDABILITY #330/);
   assert.match(collect, /for surf in agents\.json openapi\.json api\/index\.json llms-full\.txt/);
   assert.match(collect, /\.well-known\/agent-skills\/index\.json/);
-  assert.match(collect, /restored \$surf classic instrument panel \(#330\)/);
+  assert.match(collect, /restored \$surf classic instrument panel \/ dual head term \(#330\/#441\)/);
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #330/);
   assert.match(newsFast, /restore_discovery_classic/);
   assert.match(newsFast, /for surf in agents\.json openapi\.json api\/index\.json llms-full\.txt/);
-  assert.match(newsFast, /restored \$surf classic instrument panel \(#330\)/);
+  assert.match(newsFast, /restored \$surf classic instrument panel \/ dual head term \(#330\/#441\)/);
+});
+
+test('Publish restores tip discovery JSON dual head term (FINDABILITY #441)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #330\/#441/);
+  assert.match(collect, /AI activity index today · AI activity level today/);
+  assert.match(collect, /restored \$surf classic instrument panel \/ dual head term \(#330\/#441\)/);
+  assert.match(collect, /restored \$surf dual head term \(#441\)/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #330\/#441/);
+  assert.match(newsFast, /AI activity index today · AI activity level today/);
+  assert.match(newsFast, /restored \$surf classic instrument panel \/ dual head term \(#330\/#441\)/);
+  assert.match(newsFast, /restored \$surf dual head term \(#441\)/);
 });
 
 test('Publish restores tip free-tools.html when classic panel missing (FINDABILITY #332)', () => {

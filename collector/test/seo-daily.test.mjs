@@ -30,6 +30,7 @@ import {
   AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE,
   hasAgentsHtmlDualHeadTerm,
   hasDiscoveryDualHeadTerm,
+  hasAgentsJsonDualHeadTerm,
   ROOT_RIVAL_AGENT_ALIASES,
   hasRootRivalAliases,
   HEAD_TERM_AGENT_ALIASES,
@@ -606,6 +607,33 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'discovery-dual-head-term-missing'));
+  });
+
+  it('detects missing dual head term on agents.json (FINDABILITY #441)', () => {
+    assert.ok(CORE_LIVE_SURFACES.includes('/agents.json'));
+    assert.equal(
+      hasAgentsJsonDualHeadTerm(JSON.stringify({
+        related: { home_title: 'AI activity index today · AI activity level today' },
+      })),
+      true,
+    );
+    assert.equal(
+      hasAgentsJsonDualHeadTerm(JSON.stringify({
+        related: { classic_title: 'Where is the full SIREN instrument panel?' },
+      })),
+      false,
+    );
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        agents_json_dual_head_term: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'agents-json-dual-head-term-missing'));
   });
 
   it('detects missing /pdoom.html in agent maps (FINDABILITY #130)', () => {

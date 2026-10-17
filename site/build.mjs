@@ -2276,6 +2276,9 @@ async function main() {
       welcome: ctx.url('/agents.html'),
       // FINDABILITY #330 — endpoint map lists the classic panel for scrapers.
       classic: ctx.url('/classic.html'),
+      // FINDABILITY #441 — dual head terms for JSON scrapers (parallel #439).
+      home: ctx.url('/'),
+      home_title: 'AI activity index today · AI activity level today',
     },
     endpoints: {
       state: ctx.url('/api/state.json'),
@@ -2292,6 +2295,7 @@ async function main() {
       ai_prediction_markets: ctx.url('/ai-prediction-markets.html'),
       free_tools: ctx.url('/free-tools.html'),
       verify: ctx.url('/verify.html'),
+      home: ctx.url('/'),
       classic: ctx.url('/classic.html'),
       fresh: ctx.url('/api/fresh.json'),
       search_index: ctx.url('/api/search-index.json'),
