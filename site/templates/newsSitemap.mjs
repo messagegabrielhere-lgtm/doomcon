@@ -441,6 +441,16 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Jack Clark person Trends / non-$44 forecasts / Warsh / Nudify / dress
   // rehearsal / ollama (labNeedleRe flex covers trillion / .4 forms).
   '$44T',
+  // FINDABILITY #477 — multi-title OpenAI Navier-Stokes / AI-proof tape while
+  // pizzint-news-alive (2+ titles: OpenAI releases 722 AI written math
+  // papers, Navier-Stokes claim + Mathematicians say OpenAI doesn't
+  // understand its own Navier-Stokes proof); OpenAI / ChatGPT / Google fill
+  // the 12-cap and drop the contiguous Navier-Stokes surface — ChatGPT Chrome /
+  // outage / lawsuit FAQs already gate `/lab/openai.html` (parallel to
+  // CERT-In #226 / Starshield #206 / $44T #448). Hold bare Stokes / Navier
+  // alone / NSA niche / Warsh / Nudify / dress-rehearsal essay / ollama
+  // (labNeedleRe hyphen↔space covers "Navier Stokes").
+  'Navier-Stokes',
 ]);
 
 /**
