@@ -742,6 +742,18 @@ test('Publish restores tip verify.html dual head term (FINDABILITY #451)', () =>
   assert.match(newsFast, /restored verify\.html dual head term \(#451\)/);
 });
 
+test('Publish in-place patches footer SECTIONS dual (FINDABILITY #485)', () => {
+  // Orphan newsroom wiped most rooms back to index-only while press/games
+  // whole-file restore stayed green; #485 patches every HTML in place.
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #483\/#485/);
+  assert.match(collect, /patched \$hub sections dual head term \(#485\)/);
+  assert.match(collect, /AI activity index today · AI activity level today · SIREN/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #483\/#485/);
+  assert.match(newsFast, /patched \$f sections dual head term \(#485\)/);
+});
+
 test('Publish restores tip compare/alternatives dual head term (FINDABILITY #453)', () => {
   const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #453/);

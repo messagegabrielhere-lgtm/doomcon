@@ -659,17 +659,24 @@ while [ "$(date +%s)" -lt "$END" ]; do
           echo "restored $hub crumb dual head term (#475)"
         fi
       done
-      # FINDABILITY #483 — footer SECTIONS dual middot (index-only home link).
-      # Probe press/games — never restore news.html (newsroom freshness).
-      for hub in press.html games.html; do
-        if [ -f "$preserve/$hub" ] \
-          && grep -qF 'href="/">AI activity index today · SIREN</a>' \
-            "$root/$hub" 2>/dev/null; then
-          mkdir -p "$root/$(dirname "$hub")"
-          cp -a "$preserve/$hub" "$root/$hub"
-          echo "restored $hub sections dual head term (#483)"
-        fi
+      # FINDABILITY #483/#485 — in-place patch footer SECTIONS home when
+      # still index-only (whole-file press/games restore left rooms wiped).
+      local f
+      if command -v rg >/dev/null 2>&1; then
+        mapfile -t _sec_dual_files < <(rg -l --glob '*.html' \
+          'href="/">AI activity index today · SIREN</a>' "$root" 2>/dev/null || true)
+      else
+        mapfile -t _sec_dual_files < <(grep -rl --include='*.html' \
+          'href="/">AI activity index today · SIREN</a>' "$root" 2>/dev/null || true)
+      fi
+      for f in "${_sec_dual_files[@]}"; do
+        [ -f "$f" ] || continue
+        perl -pi -e \
+          's#href="/">AI activity index today · SIREN</a>#href="/">AI activity index today · AI activity level today · SIREN</a>#g' \
+          "$f"
+        echo "patched $f sections dual head term (#485)"
       done
+      unset _sec_dual_files
     }
     # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
     # labAboutLabel is missing after orphan Publish.

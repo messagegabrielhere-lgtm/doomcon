@@ -1174,9 +1174,9 @@ export function hasKindPressCrumbDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HE
 
 /**
  * True when footer Pages (id=foot-pages) home link names dual middot head terms
- * (FINDABILITY #483 — layout SECTIONS home label). Scoped to foot-pages so a
- * dual crumb (#475) cannot satisfy an index-only footer. Wipe gap is
- * `sections-dual-head-term-missing`.
+ * (FINDABILITY #483 — layout SECTIONS home label; #485 in-place Publish preserve).
+ * Scoped to foot-pages so a dual crumb (#475) cannot satisfy an index-only
+ * footer. Wipe gap is `sections-dual-head-term-missing`.
  */
 export function hasFooterSectionsDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
   const pages = String(html || '').match(/id="foot-pages"[\s\S]*?<\/ul>/);
@@ -3200,12 +3200,16 @@ export function deriveGaps(report) {
     });
   }
 
-  // FINDABILITY #483 — footer SECTIONS home label dropped dual middot head terms.
+  // FINDABILITY #483/#485 — footer SECTIONS home label dropped dual middot head terms.
   if (ours.footer_sections_dual_head_term === false) {
+    const which = [
+      ours.footer_sections_press_dual === false ? 'press.html' : null,
+      ours.footer_sections_jobs_dual === false ? 'jobs.html' : null,
+    ].filter(Boolean).join(' + ') || 'footer Pages';
     gaps.push({
       id: 'sections-dual-head-term-missing',
       severity: 'medium',
-      text: 'press.html footer Pages home link missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #483) — re-overlay HTML footers or wait for collect/news-fast Publish on tip ≥ #483',
+      text: `${which} footer Pages home link missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #483/#485) — re-overlay HTML footers or wait for collect/news-fast Publish on tip ≥ #485`,
     });
   }
 
@@ -4749,12 +4753,18 @@ export function measureSite(site, byUrl) {
     row.kind_press_crumb_dual_head_term = kindPressHtml?.ok
       ? hasKindPressCrumbDualHeadTerm(kindPressHtml.value)
       : false;
-    // FINDABILITY #483 — footer SECTIONS home label must keep dual middot
-    // (scoped foot-pages probe on press.html — Publish-preserved; not news.html).
+    // FINDABILITY #483/#485 — footer SECTIONS home label must keep dual middot
+    // on press (often tip-preserved) AND jobs (wipe-sensitive room probe).
     const pressFootHtml = byUrl.get(`${base}/press.html`);
-    row.footer_sections_dual_head_term = pressFootHtml?.ok
+    const jobsFootHtml = byUrl.get(`${base}/jobs.html`);
+    row.footer_sections_press_dual = pressFootHtml?.ok
       ? hasFooterSectionsDualHeadTerm(pressFootHtml.value)
       : false;
+    row.footer_sections_jobs_dual = jobsFootHtml?.ok
+      ? hasFooterSectionsDualHeadTerm(jobsFootHtml.value)
+      : false;
+    row.footer_sections_dual_head_term =
+      row.footer_sections_press_dual && row.footer_sections_jobs_dual;
     // FINDABILITY #463 — model hub composite-reading CTAs must keep dual middot.
     const museSparkHtml = byUrl.get(`${base}/model/muse-spark.html`);
     const fableHtml = byUrl.get(`${base}/model/fable.html`);
@@ -5336,7 +5346,11 @@ export function formatMarkdown(report) {
     }
     if (ours && ours.footer_sections_dual_head_term != null) {
       const sd = ours.footer_sections_dual_head_term ? 'ok' : 'NO';
-      lines.push(`- sections dual index/level head term (#483): **${sd}**`);
+      const sp = ours.footer_sections_press_dual == null ? '—' : (ours.footer_sections_press_dual ? 'yes' : 'NO');
+      const sj = ours.footer_sections_jobs_dual == null ? '—' : (ours.footer_sections_jobs_dual ? 'yes' : 'NO');
+      lines.push(
+        `- sections dual index/level head term (#483/#485): **${sd}** (press **${sp}** · jobs **${sj}**)`,
+      );
     }
     if (ours && (
       ours.muse_spark_dual_head_term != null
@@ -6845,12 +6859,18 @@ function selftest() {
       title: 'AI activity index today · SIREN',
       sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
       footer_sections_dual_head_term: false,
+      footer_sections_press_dual: true,
+      footer_sections_jobs_dual: false,
     }],
     surfaces: [],
     open_engineering: [],
   });
   if (!sectionsDualGaps.some((g) => g.id === 'sections-dual-head-term-missing')) {
     throw new Error('sections-dual-head-term-missing gap');
+  }
+  if (!String(sectionsDualGaps.find((g) => g.id === 'sections-dual-head-term-missing').text)
+    .includes('jobs.html')) {
+    throw new Error('sections-dual-head-term-missing should name jobs.html');
   }
   const aliasGaps = deriveGaps({
     sites: [{
