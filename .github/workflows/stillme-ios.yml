@@ -1,0 +1,127 @@
+name: Still Me iOS build
+
+# Compiles the Still Me iPhone app on a macOS runner and captures simulator
+# screenshots (light and dark) on a 6.9" iPhone, the App Store's required size,
+# onto the `stillme-screens` branch so they can be reviewed without a Mac.
+
+on:
+  push:
+    branches: [afterword-ios-app]
+    paths: ['stillme/**', '.github/workflows/stillme-ios.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: stillme-ios-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  ios:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    defaults: { run: { working-directory: stillme/ios } }
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Toolchain
+        run: |
+          xcodebuild -version
+          brew install xcodegen
+          xcodegen generate
+
+      - name: Pick a simulator
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c '
+          import json, sys, re
+          devs = json.load(sys.stdin)["devices"]
+          phones = [d for rt, ds in devs.items() if "iOS" in rt for d in ds
+                    if re.fullmatch(r"iPhone \d+ Pro Max", d["name"])]
+          phones.sort(key=lambda d: [int(n) for n in re.findall(r"\d+", d["name"])])
+          print(phones[-1]["udid"])')
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+          xcrun simctl list devices | grep "$UDID"
+
+      - name: Build
+        run: |
+          set -o pipefail
+          xcodebuild -project StillMe.xcodeproj -scheme StillMe \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -derivedDataPath build CODE_SIGNING_ALLOWED=NO build 2>&1 | tee build.log \
+            | grep -E "error:|warning: .*StillMe/|\*\* BUILD" || true
+          grep -q "BUILD SUCCEEDED" build.log
+
+      - name: Unit tests
+        run: |
+          set -o pipefail
+          xcodebuild test -project StillMe.xcodeproj -scheme StillMe \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -derivedDataPath build CODE_SIGNING_ALLOWED=NO 2>&1 | tee test.log \
+            | grep -E "error:|Test Case .*(passed|failed)|\*\* TEST|Executed" || true
+          grep -q "TEST SUCCEEDED" test.log
+
+      - name: Release build (what the App Store receives)
+        run: |
+          set -o pipefail
+          xcodebuild -project StillMe.xcodeproj -scheme StillMe -configuration Release \
+            -destination "generic/platform=iOS" -derivedDataPath build-release \
+            CODE_SIGNING_ALLOWED=NO build 2>&1 | tee release.log \
+            | grep -E "error:|\*\* BUILD" || true
+          grep -q "BUILD SUCCEEDED" release.log
+
+      - name: Screenshots
+        env:
+          UDID: ${{ steps.sim.outputs.udid }}
+        run: |
+          APP=build/Build/Products/Debug-iphonesimulator/StillMe.app
+          BID=com.messagegabrielhere.stillme
+          mkdir -p shots
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3 || true
+          xcrun simctl install "$UDID" "$APP"
+          shot() { # name, appearance, args...
+            local name=$1 look=$2; shift 2
+            xcrun simctl ui "$UDID" appearance "$look"
+            xcrun simctl terminate "$UDID" "$BID" 2>/dev/null || true
+            xcrun simctl launch "$UDID" "$BID" -StillMeDemo 1 "$@" >/dev/null
+            sleep 5
+            xcrun simctl io "$UDID" screenshot "shots/$name-$look.png"
+          }
+          for look in light dark; do
+            shot 1-welcome      $look -mode ""
+            shot 2-record       $look -mode owner -StillMeTab 0
+            shot 3-memories     $look -mode owner -StillMeTab 1
+            shot 4-rehearse     $look -mode owner -StillMeTab 2
+            shot 5-legacy       $look -mode owner -StillMeTab 3
+            shot 6-you          $look -mode owner -StillMeTab 4
+            shot 7-recipient    $look -mode recipient
+            shot 8-consent      $look -mode "" -StillMeScreen consent
+            shot 9-people       $look -mode owner -StillMeTab 0 -StillMeScreen people
+            shot 10-replies     $look -mode owner -StillMeTab 0 -StillMeScreen replies
+            shot 11-letter      $look -mode recipient -StillMeScreen intro
+          done
+          ls -la shots
+
+      - name: Publish screenshots to the stillme-screens branch
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          cp -r stillme/ios/shots /tmp/shots
+          cp stillme/ios/build.log stillme/ios/test.log /tmp/shots/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan stillme-screens-new
+          git rm -rq --cached . && find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp /tmp/shots/* .
+          echo "Screens from ${GITHUB_SHA}" > README.md
+          git add -A && git commit -qm "Still Me screenshots for ${GITHUB_SHA}"
+          git push -f origin HEAD:stillme-screens
+
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: stillme/ios/build.log

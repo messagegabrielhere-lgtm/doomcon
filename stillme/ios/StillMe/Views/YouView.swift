@@ -1,0 +1,109 @@
+import SwiftUI
+import UniformTypeIdentifiers
+
+/// Your basic facts, how you talk, standing instructions to your AI, and settings.
+struct YouView: View {
+    @Environment(ArchiveStore.self) private var store
+    @AppStorage("mode") private var mode: AppMode = .owner
+    @AppStorage("dailyQuestions") private var dailyQuestions = false
+    @State private var confirmDelete = false
+
+    var body: some View {
+        @Bindable var store = store
+        NavigationStack {
+            Form {
+                Section("About you") {
+                    field("Full name") {
+                        TextField("Required", text: $store.archive.profile.name).textContentType(.name)
+                    }
+                    field("Goes by") {
+                        TextField("Nickname", text: optional($store.archive.profile.preferredName))
+                    }
+                    field("Hometown") {
+                        TextField("City", text: optional($store.archive.profile.hometown))
+                    }
+                    field("Born") {
+                        TextField("Year", value: $store.archive.profile.birthYear, format: .number.grouping(.never))
+                            .keyboardType(.numberPad)
+                    }
+                }
+
+                longText("How you talk", $store.archive.profile.speakingStyle,
+                         "Phrases you use, how you joke, whether you swear, how you sign off, what you call people.")
+                longText("Instructions to your AI", $store.archive.profile.instructions,
+                         "Things it should always do or say. \u{201C}Remind my kids I was proud of them.\u{201D} \u{201C}Never pretend to be alive.\u{201D}")
+                longText("Off limits", $store.archive.profile.boundaries,
+                         "Topics it should gently decline, like old conflicts or private matters.")
+
+                Section {
+                    Toggle("A question every evening", isOn: $dailyQuestions)
+                } footer: {
+                    Text("A notification at 7pm with one interview question you haven't answered yet.")
+                }
+                .onChange(of: dailyQuestions) { _, on in
+                    if !on { Reminders.cancelDailyQuestions() }
+                }
+
+                Section {
+                    ShareLink(item: ArchiveExport(archive: store.archive),
+                              preview: SharePreview("Still Me archive", image: Image(systemName: "doc.text"))) {
+                        Label("Export my archive", systemImage: "square.and.arrow.up")
+                    }
+                } header: {
+                    Text("Your data")
+                } footer: {
+                    Text("The export is a JSON file of everything you've recorded.")
+                }
+
+                Section {
+                    Button("Delete everything", role: .destructive) { confirmDelete = true }
+                }
+            }
+            .brandBackground()
+            .navigationTitle(store.archive.profile.displayName)
+            .confirmationDialog("Delete everything?", isPresented: $confirmDelete, titleVisibility: .visible) {
+                Button("Delete everything on this iPhone", role: .destructive) {
+                    store.deleteEverything()
+                    Reminders.cancelDailyQuestions()
+                    mode = .none
+                }
+            } message: {
+                Text("Your memories and your AI will be permanently erased from this iPhone. Sealed files you already shared still open with their codes.")
+            }
+        }
+    }
+
+    private func field<Content: View>(_ label: String, @ViewBuilder _ content: () -> Content) -> some View {
+        LabeledContent {
+            content().multilineTextAlignment(.trailing)
+        } label: {
+            Text(label).foregroundStyle(Color.slate)
+        }
+    }
+
+    private func longText(_ title: String, _ text: Binding<String>, _ hint: String) -> some View {
+        Section {
+            TextEditor(text: text).frame(minHeight: 100)
+        } header: {
+            Text(title)
+        } footer: {
+            Text(hint)
+        }
+    }
+
+    private func optional(_ binding: Binding<String?>) -> Binding<String> {
+        Binding(get: { binding.wrappedValue ?? "" }, set: { binding.wrappedValue = $0.isEmpty ? nil : $0 })
+    }
+}
+
+struct ArchiveExport: Transferable {
+    let archive: Archive
+
+    static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: .json) { export in
+            let encoder = JSONEncoder.stillme
+            return try encoder.encode(export.archive)
+        }
+        .suggestedFileName("stillme-archive.json")
+    }
+}
