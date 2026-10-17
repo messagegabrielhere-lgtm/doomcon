@@ -58,6 +58,7 @@ export const AGENTS = [
   { id: 'opus',     name: 'Claude Opus',    provider: 'anthropic', model: 'claude-opus-5-5',   color: '#d97757' },
   { id: 'sonnet',   name: 'Claude Sonnet',  provider: 'anthropic', model: 'claude-sonnet-5-5', color: '#e0a07c' },
   { id: 'haiku',    name: 'Claude Haiku',   provider: 'anthropic', model: 'claude-haiku-4-5',  color: '#c9805e' },
+  { id: 'fable',    name: 'Claude Fable',   provider: 'anthropic', model: 'claude-fable-5-1',  color: '#b45309' },
   { id: 'gpt',      name: 'GPT',            provider: 'openai',    model: 'gpt-5',             color: '#10a37f' },
   { id: 'grok',     name: 'Grok',           provider: 'xai',       model: 'grok-4',            color: '#8b8b8b' },
   { id: 'gemini',   name: 'Gemini',         provider: 'gemini',    model: 'gemini-2.5-pro',    color: '#4285f4' },

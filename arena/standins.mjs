@@ -23,6 +23,7 @@ export const STYLES = {
   grok:     { label: 'Contrarian',      blurb: 'Buys the biggest 24-hour losers once selling looks exhausted, wide stops.' },
   gemini:   { label: 'Momentum rider',        blurb: 'Holds the best 7-day performers and rotates out of laggards.' },
   deepseek: { label: 'Value dip buyer', blurb: 'Buys large assets well below their 50-hour average on oversold readings.' },
+  fable:    { label: 'Clean trend',     blurb: 'Claude Fable stand-in: buys names above both hourly averages with a rising day, trails stops, skips hour spikes.' },
 };
 
 // A move measured in the asset's own hourly ATRs, so a strong move in a quiet
@@ -73,6 +74,13 @@ const PLAYS = {
     exit: (r) => r.vsSma50hPct > 1.5 && `back ${f1(r.vsSma50hPct)}% above its 50-hour average; value realized`,
     why: (r) => `${f1(-r.vsSma50hPct)}% under its 50-hour average with RSI ${f1(r.rsi14h)}. Buying the discount on a large coin.`,
     size: 0.2, stopK: 2.5, tpK: 3, trail: false,
+  },
+  fable: {
+    score: (r) => (r.vsSma20hPct > 0 && r.vsSma50hPct > 0 && r.chg24h > 0 && r.chg1h <= 8 && r.rsi14h < 75
+      ? z(r.vsSma20hPct, r) + z(r.chg24h, r) / 3 : null),
+    exit: (r) => r.vsSma20hPct < 0 && r.chg1h < 0 && `fell under its 20-hour average and is still dropping`,
+    why: (r) => `Clean uptrend: ${f1(r.vsSma20hPct)}% over its 20-hour average, up ${f1(r.chg24h)}% on the day. Fable-style entry with a two-ATR stop.`,
+    size: 0.18, stopK: 2, tpK: null, trail: true,
   },
 };
 

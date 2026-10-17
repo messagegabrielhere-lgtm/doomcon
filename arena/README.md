@@ -21,4 +21,6 @@ paper-trade with fake money. It does **not** feed the SIREN index.
 **Data:** written to the `arena-data` branch by `.github/workflows/arena.yml`.  
 **Needs npm:** yes — root `@anthropic-ai/sdk` for Claude. Other model keys are optional GitHub secrets.
 
+Claude Fable also has a **solo autonomous loop** in [`fable/`](../fable/) (own wallet, CLI, docs). Same paper broker and gate; see [`docs/FABLE.md`](../docs/FABLE.md).
+
 Full design notes: [`docs/ARENA.md`](../docs/ARENA.md).

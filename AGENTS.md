@@ -16,6 +16,7 @@ node collector/collect.mjs          # live readings → data/raw/
 node collector/engine.mjs           # score → data/state.json + receipts
 node site/build.mjs                 # static site → public/
 node --test arena/test.mjs
+node --test fable/test.mjs
 node --test agent-kit/test.mjs
 npm run compliance                  # allow-list + audit
 ```
@@ -32,6 +33,7 @@ Docker (no local Node install):
 | `data/` | State, history, receipts (committed) |
 | `agent-kit/` | **For other AI agents**: CLI + MCP over the public API |
 | `arena/` | Side project: model trading battle |
+| `fable/` | Side project: autonomous Claude Fable stock/crypto paper trader |
 | `docs/` | Specs and playbooks |
 
 ## For AI agents *using* SIREN (not editing the repo)
