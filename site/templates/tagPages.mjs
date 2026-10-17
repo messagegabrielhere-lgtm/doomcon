@@ -2018,6 +2018,15 @@ export function renderTag(ctx, id) {
       `${brand.NAME} scores press that names Character.ai / Character AI or chatbots. When Character.ai bankruptcy, companion-chatbot shutdown, or chatbot-product headlines dominate the tape — or spike in Google Search Trends — this tag page is the crawlable answer — scored story counts only. Not a product score, not a bankruptcy forecast, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
+  // FINDABILITY #410 — CERT-In / India AI-agent cyber tape → gated agents tag
+  // (keywords already ship #226 — FAQ left the agency surface without a crawlable
+  // Q&A — parallel to Character.ai #176 / Hugging Face hack #182).
+  if (topic.id === 'agents') {
+    faq.push([
+      `Why does ${brand.NAME} watch CERT-In and AI agent cyber incidents?`,
+      `${brand.NAME} scores press that names AI agents. When CERT-In warnings, India AI-agent cyber incidents, or unauthorized AI-agent access headlines dominate the tape — or spike in Google Search Trends — this tag page is the crawlable answer — scored story counts only. Not a security advisory, not an incident forecast, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   // FINDABILITY #182 — Hugging Face hack / incident / intrusion tape → gated tag.
   if (topic.id === 'huggingface') {
     faq.push([

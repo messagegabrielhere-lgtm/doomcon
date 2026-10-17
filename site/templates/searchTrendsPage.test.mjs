@@ -98,6 +98,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /not a launch forecast/);
   // FINDABILITY #176 — Character.ai bankruptcy route to gated Chatbots tag.
   assert.match(html, /Character\.ai bankruptcy → \/tags\/chatbots\.html/);
+  // FINDABILITY #410 — CERT-In route to gated Agents tag.
+  assert.match(html, /CERT-In → \/tags\/agents\.html/);
   // FINDABILITY #177 — Qwen / Alibaba open models route to gated Qwen lab.
   assert.match(html, /Qwen \/ Alibaba open models → \/lab\/qwen\.html/);
   // FINDABILITY #178 — Oracle / AI datacenters route to gated Datacenters tag.

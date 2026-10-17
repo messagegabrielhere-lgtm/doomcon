@@ -1241,6 +1241,9 @@ export const TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE = 'Gemini / Gemma / Argon → /la
 export const TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE = 'Samsung / HBM / AI memory → /lab/samsung.html';
 export const TRENDS_ROUTES_SAMSUNG_GLASSES_NEEDLE = 'Samsung AI glasses → /lab/samsung.html';
 export const TRENDS_ROUTES_CHARACTER_AI_NEEDLE = 'Character.ai bankruptcy → /tags/chatbots.html';
+/** FINDABILITY #410 — CERT-In / India AI-agent cyber → gated agents tag. */
+export const TRENDS_ROUTES_CERT_IN_NEEDLE = 'CERT-In → /tags/agents.html';
+export const TRENDS_WATCHLIST_CERT_IN_NEEDLE = '<td>CERT-In</td>';
 export const TRENDS_ROUTES_QWEN_NEEDLE = 'Qwen / Alibaba open models → /lab/qwen.html';
 export const TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE = 'Oracle / AI datacenters → /tags/datacenters.html';
 export const TRENDS_ROUTES_DEEPSEEK_NEEDLE = 'DeepSeek outage → /lab/deepseek.html';
@@ -1291,6 +1294,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE)
     && text.includes(TRENDS_ROUTES_SAMSUNG_GLASSES_NEEDLE)
     && text.includes(TRENDS_ROUTES_CHARACTER_AI_NEEDLE)
+    && text.includes(TRENDS_ROUTES_CERT_IN_NEEDLE)
+    && text.includes(TRENDS_WATCHLIST_CERT_IN_NEEDLE)
     && text.includes(TRENDS_ROUTES_QWEN_NEEDLE)
     && text.includes(TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE)
     && text.includes(TRENDS_ROUTES_DEEPSEEK_NEEDLE)
@@ -1590,6 +1595,25 @@ export function hasCharacterAiFaq(html, needle = CHARACTER_AI_FAQ_NEEDLE) {
 export function hasAgentsCharacterAi(body, needle = AGENTS_CHARACTER_AI_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/tags/chatbots.html');
+}
+
+
+/** FINDABILITY #410 — CERT-In FAQ + agent maps on agents tag. */
+export const CERT_IN_FAQ_NEEDLE = 'Why does SIREN watch CERT-In and AI agent cyber incidents?';
+export const AGENTS_CERT_IN_NEEDLE = 'CERT-In';
+
+/** Tip /tags/agents.html must keep the #410 CERT-In FAQ. */
+export function hasCertInFaq(html, needle = CERT_IN_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route CERT-In / India AI-agent cyber Trends to Agents tag (FINDABILITY #410).
+ * Wipe gap is `agents-cert-in-missing`.
+ */
+export function hasAgentsCertIn(body, needle = AGENTS_CERT_IN_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/tags/agents.html');
 }
 
 /** FINDABILITY #177 — Qwen / Alibaba open-weight FAQ + agent maps. */
@@ -2764,7 +2788,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations or Anthropic ECDSA/METR watchlist table rows (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193/#195/#220/#400) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #400`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations or Anthropic ECDSA/METR/CERT-In watchlist table rows (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193/#195/#220/#400/#410) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #400`,
     });
   }
 
@@ -3200,6 +3224,27 @@ export function deriveGaps(report) {
       id: 'agents-character-ai-missing',
       severity: 'medium',
       text: `${which} missing Character.ai bankruptcy → /tags/chatbots.html Trends tip (FINDABILITY #176) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #176`,
+    });
+  }
+
+  // FINDABILITY #410 — Agents tag FAQ for CERT-In wiped or never landed.
+  if (ours.cert_in_faq === false) {
+    gaps.push({
+      id: 'cert-in-faq-missing',
+      severity: 'medium',
+      text: `/tags/agents.html missing CERT-In FAQ (FINDABILITY #410) — re-overlay tags/agents.html or wait for full collect Publish on tip ≥ #410`,
+    });
+  }
+  // FINDABILITY #410 — agent maps must route CERT-In Trends to Agents tag.
+  if (ours.agents_cert_in === false || ours.llms_cert_in === false) {
+    const which = [
+      ours.agents_cert_in === false ? 'agents.md' : null,
+      ours.llms_cert_in === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-cert-in-missing',
+      severity: 'medium',
+      text: `${which} missing CERT-In → /tags/agents.html Trends tip (FINDABILITY #410) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #410`,
     });
   }
 
@@ -3920,6 +3965,11 @@ export function measureSite(site, byUrl) {
     row.character_ai_faq = chatbotsHtml?.ok ? hasCharacterAiFaq(chatbotsHtml.value) : false;
     row.agents_character_ai = agentsMd?.ok ? hasAgentsCharacterAi(agentsMd.value) : false;
     row.llms_character_ai = llms?.ok ? hasAgentsCharacterAi(llmsBody) : false;
+    // FINDABILITY #410 — Agents FAQ + agent maps for CERT-In.
+    const agentsTagHtml = byUrl.get(`${base}/tags/agents.html`);
+    row.cert_in_faq = agentsTagHtml?.ok ? hasCertInFaq(agentsTagHtml.value) : false;
+    row.agents_cert_in = agentsMd?.ok ? hasAgentsCertIn(agentsMd.value) : false;
+    row.llms_cert_in = llms?.ok ? hasAgentsCertIn(llmsBody) : false;
     // FINDABILITY #177 — Qwen FAQ + agent maps.
     const qwenHtml = byUrl.get(`${base}/lab/qwen.html`);
     row.qwen_faq = qwenHtml?.ok ? hasQwenFaq(qwenHtml.value) : false;
@@ -4544,6 +4594,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_character_ai == null ? '—' : (ours.agents_character_ai ? 'yes' : 'NO');
       const lm = ours.llms_character_ai == null ? '—' : (ours.llms_character_ai ? 'yes' : 'NO');
       lines.push(`- Agent-map Character.ai bankruptcy → tag (#176): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.cert_in_faq != null) {
+      lines.push(
+        `- CERT-In FAQ (#410): **${ours.cert_in_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_cert_in != null || ours.llms_cert_in != null)) {
+      const ag = ours.agents_cert_in == null ? '—' : (ours.agents_cert_in ? 'yes' : 'NO');
+      const lm = ours.llms_cert_in == null ? '—' : (ours.llms_cert_in ? 'yes' : 'NO');
+      lines.push(`- Agent-map CERT-In → tag (#410): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.qwen_faq != null) {
       lines.push(
@@ -6327,6 +6387,39 @@ function selftest() {
   if (!OUR_SURFACES.includes('/tags/chatbots.html')) {
     throw new Error('OUR_SURFACES missing /tags/chatbots.html');
   }
+  if (hasCertInFaq(CERT_IN_FAQ_NEEDLE) !== true) {
+    throw new Error('hasCertInFaq true');
+  }
+  if (hasCertInFaq('What has SIREN scored about AI agents?') !== false) {
+    throw new Error('hasCertInFaq false');
+  }
+  if (hasAgentsCertIn('CERT-In → https://siren.watch/tags/agents.html') !== true) {
+    throw new Error('hasAgentsCertIn true');
+  }
+  if (hasAgentsCertIn('https://siren.watch/tags/agents.html only') !== false) {
+    throw new Error('hasAgentsCertIn needs CERT-In needle');
+  }
+  const certInGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      cert_in_faq: false,
+      agents_cert_in: false,
+      llms_cert_in: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!certInGaps.some((g) => g.id === 'cert-in-faq-missing')) {
+    throw new Error('cert-in-faq-missing gap');
+  }
+  if (!certInGaps.some((g) => g.id === 'agents-cert-in-missing')) {
+    throw new Error('agents-cert-in-missing gap');
+  }
+  if (!OUR_SURFACES.includes('/tags/agents.html')) {
+    throw new Error('OUR_SURFACES missing /tags/agents.html');
+  }
   if (hasQwenFaq(QWEN_FAQ_NEEDLE) !== true) {
     throw new Error('hasQwenFaq true');
   }
@@ -6860,6 +6953,8 @@ function selftest() {
     TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
     TRENDS_ROUTES_SAMSUNG_GLASSES_NEEDLE,
     TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
+    TRENDS_ROUTES_CERT_IN_NEEDLE,
+    TRENDS_WATCHLIST_CERT_IN_NEEDLE,
     TRENDS_ROUTES_QWEN_NEEDLE,
     TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE,
     TRENDS_ROUTES_DEEPSEEK_NEEDLE,
@@ -6891,7 +6986,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/Blackstone-Anthropic/watchlist-td/Meta-Apple-Mac/Palantir/Ondas-Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402/#406/#408)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/Blackstone-Anthropic/watchlist-td/Meta-Apple-Mac/Palantir/Ondas-Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402/#406/#408/#410)');
   }
   // FINDABILITY #400 — FAQ arrow alone must not pass (tip #399 left arrows, dropped table rows).
   if (hasTrendsRoutesFaq([
@@ -6909,6 +7004,7 @@ function selftest() {
     TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
     TRENDS_ROUTES_SAMSUNG_GLASSES_NEEDLE,
     TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
+    TRENDS_ROUTES_CERT_IN_NEEDLE,
     TRENDS_ROUTES_QWEN_NEEDLE,
     TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE,
     TRENDS_ROUTES_DEEPSEEK_NEEDLE,
@@ -6931,7 +7027,7 @@ function selftest() {
     TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
     TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE,
   ].join('\n')) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5/Blackstone/Ondas (#400/#402/#406/#408)');
+    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5/Blackstone/Ondas/CERT-In (#400/#402/#406/#408/#410)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

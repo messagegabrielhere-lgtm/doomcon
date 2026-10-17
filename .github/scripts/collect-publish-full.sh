@@ -35,7 +35,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
     lab/index.html companies.html companies/index.html \
     index.html classic.html race.html race/index.html \
     watts.html watts/index.html lab/micron.html lab/coreweave.html \
-    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
+    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/agents.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html search-trends.html news-sitemap.xml; do
     if [ -f ".pages-faq-tip/$hub" ]; then
       mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
       cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -182,6 +182,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'Gemini / Gemma / Argon' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Samsung / AI memory' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Character.ai bankruptcy' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'CERT-In' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Alibaba open-weight' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Oracle datacenter' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'DeepSeek outage' ".pages/$map" 2>/dev/null \
@@ -510,6 +511,14 @@ if [ -f "$PRESERVE_FAQ/tags/chatbots.html" ] \
   cp -a "$PRESERVE_FAQ/tags/chatbots.html" .pages/tags/chatbots.html
   echo "restored tags/chatbots.html Character.ai bankruptcy FAQ (#176)"
 fi
+# FINDABILITY #410 — restore tip /tags/agents.html when CERT-In FAQ is
+# missing after mid-merge / orphan Publish on tip < #410.
+if [ -f "$PRESERVE_FAQ/tags/agents.html" ] \
+  && ! grep -qF 'Why does SIREN watch CERT-In and AI agent cyber incidents?' ".pages/tags/agents.html" 2>/dev/null; then
+  mkdir -p .pages/tags
+  cp -a "$PRESERVE_FAQ/tags/agents.html" .pages/tags/agents.html
+  echo "restored tags/agents.html CERT-In FAQ (#410)"
+fi
 # FINDABILITY #182 — restore tip /tags/huggingface.html when Hugging Face
 # hack FAQ is missing after mid-merge / orphan Publish on tip < #182.
 if [ -f "$PRESERVE_FAQ/tags/huggingface.html" ] \
@@ -597,6 +606,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
     || ! grep -qF 'Samsung / HBM / AI memory → /lab/samsung.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Samsung AI glasses → /lab/samsung.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Character.ai bankruptcy → /tags/chatbots.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'CERT-In → /tags/agents.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Qwen / Alibaba open models → /lab/qwen.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Oracle / AI datacenters → /tags/datacenters.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'DeepSeek outage → /lab/deepseek.html' ".pages/search-trends.html" 2>/dev/null \
@@ -624,7 +634,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
   mkdir -p .pages/trends .pages/search-trends
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402/#406/#408)"
+  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402/#406/#408/#410)"
 fi
 # FINDABILITY #248 — restore tip /model/muse-spark.html when Muse Spark model
 # hub FAQ is missing after mid-merge / orphan Publish (tip overlay wiped when
