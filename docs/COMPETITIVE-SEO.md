@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T04:27Z after **#394** tip heal `d13b889` (MOSS-Image **3/3**) + IndexNow **200**, then collect force-push rotated titles out of newest-200 — tip overlay **N/A**, MOSS-Image tip-merge **armed**; METR FAQ **#392** still **ok**; news keyword probes **ok**; lead **6,702** / news **200**; pizzint news **14** contested; GSC/Bing meta **absent**; News keywords through **#394**; FAQ routes through **#392**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex; `seo-daily` probes through **#395** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T04:32Z after **#394** native rebuild: MOSS-Image news:keywords **3/3** CDN clear (titles rotated back into newest-200); METR FAQ **#392** still **ok**; news keyword probes **ok**; lead **6,702** / news **200**; pizzint news **14** contested; GSC/Bing meta **absent**; News keywords through **#394**; FAQ routes through **#392**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex; `seo-daily` probes through **#396** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -59,15 +59,16 @@ preserve **#248**). Typed-guess **#262** tip prose still intact after
 **ok** after `a00cfbc` (index + level today middot). Multi-title **#298** Vercel tip
 **ok** (2/2 after `2d76065`); **#294** Mac Studio singular tip
 **ok**; **#292** Mac Studios **ok**; Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Hold doorway on product keywords beyond **#394** MOSS-Image (armed) + **#392** METR FAQ + **#390** Chrome + **#388** digit flex + **#386** Nemotron 3.5 (armed).
+Hold doorway on product keywords beyond **#394** MOSS-Image + **#392** METR FAQ + **#390** Chrome + **#388** digit flex + **#386** Nemotron 3.5 (armed).
 MOSS-Image keywords have no doorway lab (parallel Beam #286); Anthropic FAQs gate METR + Blackstone;
 OpenAI FAQ #191 gates Chrome; NVIDIA lab gates Dory + Nemotron; SoftBank FAQ #374 gates Allied.
-Warsh person / Glimpse (1 title) / Nova Scotia geography /
+Warsh person / Glimpse (1 title) / Nova Scotia geography / North Korea geography /
 ECDSA niche / NSA niche / CSAM / Beijing AI-exports topic / CoreWeave stock (already gated) /
 Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster + Flying Roadster keyed) /
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise / bare Allied shorthand / Nudify adult refused /
 Replit no-lab FAQ / AlphaFold 3 + RTX 5090 singles / Financial Times · Show HN · Stock Movers noise.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
+**#396** after **#394** native rebuild: MOSS-Image **3/3** CDN clear; METR FAQ still **ok**; news keyword probes **ok**; lead **6,702**; pizzint news **14** contested; multi-title product gap empty (hold North Korea geography).
 **#395** after **#394** tip heal `d13b889` + IndexNow **200**: MOSS-Image tip-merge **armed** (0 titles in newest-200 after collect force-push); METR FAQ still **ok**; news keyword probes **ok**; lead **6,702**; pizzint news **14** contested; multi-title product gap empty.
 **#394** MOSS-Image news:keywords on main (4-title gate at ship; tip heal **3/3** then rotate-out; no doorway lab; hold Warsh / ECDSA / Nudify / AI Jitters / NSA / CSAM / Replit FAQ).
 **#393** after **#392** tip `2ca0be8` + IndexNow **200**: METR FAQ CDN clear; Chrome **2/2** still keyed; Canadian DC + SoftBank + Flying Roadster + Starshield + Waymo + ChatGPT Chrome FAQs still **ok**; lead **6,704**; pizzint news **0** (`google-news-open`).
