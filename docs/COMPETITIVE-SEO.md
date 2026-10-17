@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T07:50Z shipping **#412** Replit Anthropic model-switch FAQ companion on `/lab/anthropic.html` (keywords #340 already ship; multi-title Replit↔Anthropic/OpenAI tape; no Replit lab doorway); tip overlay pending IndexNow; CERT-In / Blackstone / Ondas / Claude Opus / ECDSA / METR FAQ still **ok**; lead **6,699** / news **200**; GSC/Bing meta **absent**; Trends quiet (`ai_related_total` **0**); News keywords through **#404**; FAQ routes through **#412**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#412** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T08:00Z after **#412** tip overlay `450a92d` + IndexNow **200**: Replit Anthropic model-switch FAQ CDN clear (lab + agents/llms + Trends route/`<td>`); CERT-In / Blackstone / Ondas / Claude Opus / ECDSA / METR FAQ still **ok**; lead **6,698** / news **200**; `google-news-open` (pizzint news **0**); GSC/Bing meta **absent**; Trends quiet (`ai_related_total` **0**); News keywords through **#404**; FAQ routes through **#412**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#413** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
