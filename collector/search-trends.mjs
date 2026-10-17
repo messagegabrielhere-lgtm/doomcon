@@ -136,6 +136,11 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #183 — Palantir / AIP / government AI Trends → gated lab
   // (story counts only; not a stock tip, product review, or legal advice).
   { id: 'palantir', label: 'Palantir / AIP', re: /\bpalantir\b/i, path: '/lab/palantir.html' },
+  // FINDABILITY #406 — Ondas / Ondas-Palantir defense-AI JV Trends → same gated
+  // Palantir lab (story counts only; not deal advice). Contiguous Ondas or
+  // Ondas beside Palantir / defense / drone / autonomy; bare AeroVironment
+  // without Ondas stays unmatched.
+  { id: 'ondas-palantir', label: 'Ondas / Palantir', re: /\bondas(?:[- ]palantir)?\b|\bondas\b.{0,64}\b(?:palantir|defense|drone|autonomy|jv)\b|\bpalantir\b.{0,64}\bondas\b/i, path: '/lab/palantir.html' },
   // FINDABILITY #184 — AMD / MI300 / Instinct / AI GPU Trends → gated lab
   // (story counts only; not a stock tip or chip review).
   { id: 'amd', label: 'AMD / MI300', re: /\bamd(?:\s+stock)?\b|\bmi300(?:x)?\b|\binstinct\b.{0,40}\bamd\b|\bamd\b.{0,40}\b(?:instinct|mi300|gpu)\b/i, path: '/lab/amd.html' },

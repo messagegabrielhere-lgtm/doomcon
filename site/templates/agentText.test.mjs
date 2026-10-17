@@ -197,6 +197,10 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #374 — SoftBank / Allied Universal tape routes to SoftBank lab.
   assert.match(txt, /Allied Universal/);
   assert.match(txt, /\/lab\/softbank\.html/);
+  // FINDABILITY #406 — Ondas / Ondas-Palantir tape routes to Palantir lab.
+  assert.match(txt, /Ondas/);
+  assert.match(txt, /Ondas-Palantir|defense-AI/);
+  assert.match(txt, /\/lab\/palantir\.html/);
   // FINDABILITY #376 — SpaceX / Starshield tape routes to SpaceX lab.
   assert.match(txt, /Starshield/);
   assert.match(txt, /\/lab\/spacex\.html/);
@@ -386,8 +390,8 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #180 — agents.md lists Mistral lab for Timestral Trends.
   assert.match(md, /Mistral \/ Timestral \/ CERN Flare Trends/);
   assert.match(md, /\/lab\/mistral\.html/);
-  // FINDABILITY #183 — agents.md lists Palantir lab for AIP / government AI Trends.
-  assert.match(md, /Palantir \/ AIP \/ government AI Trends/);
+  // FINDABILITY #183/#406 — agents.md lists Palantir lab for AIP / government AI / Ondas Trends.
+  assert.match(md, /Palantir \/ AIP \/ government AI \/ Ondas Trends/);
   assert.match(md, /\/lab\/palantir\.html/);
   // FINDABILITY #184 — agents.md lists AMD lab for MI300 Trends.
   assert.match(md, /AMD \/ MI300 \/ Instinct AI GPU Trends/);

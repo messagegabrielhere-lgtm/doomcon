@@ -681,6 +681,14 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Palantir and government AI?`,
       `${brand.NAME} scores press that names Palantir. When Palantir AIP, Gotham, Foundry, defense / government AI contracts, or surveillance-software headlines dominate the tape — or spike in Google Search Trends — this lab page is the crawlable answer — scored story counts only. Not a stock tip, not a product review, not legal advice, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #406 — Ondas–Palantir defense-AI JV tape → same gated lab
+    // (story counts only; not deal advice). Keywords already ship (#404);
+    // FAQ #183 left the Ondas partner surface without a crawlable Q&A —
+    // parallel to SoftBank Allied #374 / Claude Opus 5.5 #402.
+    faq.push([
+      `Why does ${brand.NAME} watch Ondas-Palantir AI?`,
+      `${brand.NAME} scores press that names Palantir. When Ondas-Palantir joint AI, Ondas defense-AI JV, or Ondas drone / autonomy headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not deal advice, not a stock tip, not a product review, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #184 — AMD / MI300 / Instinct AI-GPU tape → gated lab.
   if (player.id === 'amd') {

@@ -1258,6 +1258,9 @@ export const TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE = '<td>Anthropic METR</td>';
 export const TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE = '<td>Claude Opus 5.5</td>';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
+export const TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE = 'Ondas / Palantir → /lab/palantir.html';
+/** FINDABILITY #406 — watchlist table row (distinct from FAQ arrow text). */
+export const TRENDS_WATCHLIST_ONDAS_PALANTIR_NEEDLE = '<td>Ondas / Palantir</td>';
 export const TRENDS_ROUTES_AMD_NEEDLE = 'AMD / MI300 → /lab/amd.html';
 export const TRENDS_ROUTES_TESLA_NEEDLE = 'Tesla / FSD → /lab/tesla.html';
 export const TRENDS_ROUTES_WAYMO_CANADA_NEEDLE = 'Waymo Canada / Toronto robotaxi → /lab/waymo.html';
@@ -1302,6 +1305,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
+    && text.includes(TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE)
+    && text.includes(TRENDS_WATCHLIST_ONDAS_PALANTIR_NEEDLE)
     && text.includes(TRENDS_ROUTES_AMD_NEEDLE)
     && text.includes(TRENDS_ROUTES_TESLA_NEEDLE)
     && text.includes(TRENDS_ROUTES_WAYMO_CANADA_NEEDLE)
@@ -1902,6 +1907,24 @@ export function hasPalantirFaq(html, needle = PALANTIR_FAQ_NEEDLE) {
  * Wipe gap is `agents-palantir-missing`.
  */
 export function hasAgentsPalantir(body, needle = AGENTS_PALANTIR_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/palantir.html');
+}
+
+/** FINDABILITY #406 — Ondas–Palantir AI FAQ + agent maps. */
+export const ONDAS_PALANTIR_FAQ_NEEDLE = 'Why does SIREN watch Ondas-Palantir AI?';
+export const AGENTS_ONDAS_PALANTIR_NEEDLE = 'Ondas';
+
+/** Tip /lab/palantir.html must keep the #406 Ondas-Palantir FAQ. */
+export function hasOndasPalantirFaq(html, needle = ONDAS_PALANTIR_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Ondas tape to Palantir lab (FINDABILITY #406).
+ * Wipe gap is `agents-ondas-palantir-missing`.
+ */
+export function hasAgentsOndasPalantir(body, needle = AGENTS_ONDAS_PALANTIR_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/palantir.html');
 }
@@ -3325,6 +3348,26 @@ export function deriveGaps(report) {
       text: `${which} missing Palantir / AIP → /lab/palantir.html Trends tip (FINDABILITY #183) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #183`,
     });
   }
+  // FINDABILITY #406 — Ondas-Palantir FAQ wiped or never landed.
+  if (ours.ondas_palantir_faq === false) {
+    gaps.push({
+      id: 'ondas-palantir-faq-missing',
+      severity: 'medium',
+      text: `/lab/palantir.html missing Ondas-Palantir FAQ (FINDABILITY #406) — re-overlay lab/palantir.html or wait for full collect Publish on tip ≥ #406`,
+    });
+  }
+  // FINDABILITY #406 — agent maps must route Ondas tape to Palantir lab.
+  if (ours.agents_ondas_palantir === false || ours.llms_ondas_palantir === false) {
+    const which = [
+      ours.agents_ondas_palantir === false ? 'agents.md' : null,
+      ours.llms_ondas_palantir === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-ondas-palantir-missing',
+      severity: 'medium',
+      text: `${which} missing Ondas → /lab/palantir.html tip (FINDABILITY #406) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #406`,
+    });
+  }
 
   // FINDABILITY #184 — AMD lab FAQ wiped or never landed.
   if (ours.amd_faq === false) {
@@ -3868,6 +3911,10 @@ export function measureSite(site, byUrl) {
     row.palantir_faq = palantirHtml?.ok ? hasPalantirFaq(palantirHtml.value) : false;
     row.agents_palantir = agentsMd?.ok ? hasAgentsPalantir(agentsMd.value) : false;
     row.llms_palantir = llms?.ok ? hasAgentsPalantir(llmsBody) : false;
+    // FINDABILITY #406 — Ondas-Palantir FAQ + agent maps (same Palantir lab HTML).
+    row.ondas_palantir_faq = palantirHtml?.ok ? hasOndasPalantirFaq(palantirHtml.value) : false;
+    row.agents_ondas_palantir = agentsMd?.ok ? hasAgentsOndasPalantir(agentsMd.value) : false;
+    row.llms_ondas_palantir = llms?.ok ? hasAgentsOndasPalantir(llmsBody) : false;
     // FINDABILITY #184 — AMD FAQ + agent maps.
     const amdHtml = byUrl.get(`${base}/lab/amd.html`);
     row.amd_faq = amdHtml?.ok ? hasAmdFaq(amdHtml.value) : false;
@@ -4520,6 +4567,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_palantir == null ? '—' : (ours.agents_palantir ? 'yes' : 'NO');
       const lm = ours.llms_palantir == null ? '—' : (ours.llms_palantir ? 'yes' : 'NO');
       lines.push(`- Agent-map Palantir / AIP → lab (#183): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.ondas_palantir_faq != null) {
+      lines.push(
+        `- Ondas-Palantir FAQ (#406): **${ours.ondas_palantir_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_ondas_palantir != null || ours.llms_ondas_palantir != null)) {
+      const ag = ours.agents_ondas_palantir == null ? '—' : (ours.agents_ondas_palantir ? 'yes' : 'NO');
+      const lm = ours.llms_ondas_palantir == null ? '—' : (ours.llms_ondas_palantir ? 'yes' : 'NO');
+      lines.push(`- Agent-map Ondas → Palantir lab (#406): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.amd_faq != null) {
       lines.push(
@@ -6470,6 +6527,37 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/palantir.html')) {
     throw new Error('OUR_SURFACES missing /lab/palantir.html');
   }
+  // FINDABILITY #406 — Ondas-Palantir FAQ + agent maps.
+  if (hasOndasPalantirFaq(ONDAS_PALANTIR_FAQ_NEEDLE) !== true) {
+    throw new Error('hasOndasPalantirFaq true');
+  }
+  if (hasOndasPalantirFaq('Why does SIREN watch Palantir and government AI?') !== false) {
+    throw new Error('hasOndasPalantirFaq false');
+  }
+  if (hasAgentsOndasPalantir('Ondas → https://siren.watch/lab/palantir.html') !== true) {
+    throw new Error('hasAgentsOndasPalantir true');
+  }
+  if (hasAgentsOndasPalantir('https://siren.watch/lab/palantir.html only') !== false) {
+    throw new Error('hasAgentsOndasPalantir needs Ondas needle');
+  }
+  const ondasPalantirGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      ondas_palantir_faq: false,
+      agents_ondas_palantir: false,
+      llms_ondas_palantir: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!ondasPalantirGaps.some((g) => g.id === 'ondas-palantir-faq-missing')) {
+    throw new Error('ondas-palantir-faq-missing gap');
+  }
+  if (!ondasPalantirGaps.some((g) => g.id === 'agents-ondas-palantir-missing')) {
+    throw new Error('agents-ondas-palantir-missing gap');
+  }
   if (hasAmdFaq(AMD_FAQ_NEEDLE) !== true) {
     throw new Error('hasAmdFaq true');
   }
@@ -6700,6 +6788,8 @@ function selftest() {
     TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
+    TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE,
+    TRENDS_WATCHLIST_ONDAS_PALANTIR_NEEDLE,
     TRENDS_ROUTES_AMD_NEEDLE,
     TRENDS_ROUTES_TESLA_NEEDLE,
     TRENDS_ROUTES_WAYMO_CANADA_NEEDLE,
@@ -6711,7 +6801,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/watchlist-td/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/watchlist-td/Meta-Apple-Mac/Palantir/Ondas-Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402/#406)');
   }
   // FINDABILITY #400 — FAQ arrow alone must not pass (tip #399 left arrows, dropped table rows).
   if (hasTrendsRoutesFaq([
@@ -6742,6 +6832,7 @@ function selftest() {
     TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
+    TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE,
     TRENDS_ROUTES_AMD_NEEDLE,
     TRENDS_ROUTES_TESLA_NEEDLE,
     TRENDS_ROUTES_WAYMO_CANADA_NEEDLE,
@@ -6749,7 +6840,7 @@ function selftest() {
     TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
     TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE,
   ].join('\n')) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5 (#400/#402)');
+    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5/Ondas (#400/#402/#406)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
