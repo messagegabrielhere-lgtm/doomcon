@@ -1137,7 +1137,11 @@ function jumpIndex(mainHtml) {
     if (depth === 1 && m[1]) {
       // The house-name tag after a plain heading (.sec__eb) is decoration; the
       // jump index wants "Where does the index sit?", not "… The oven".
+      // Strip .vh before the tag-strip — spoken-only copy must not leak into
+      // "On this page" (a badge-in-H2 once produced
+      // "…brief? 39 arrived · 1h 39 first seen in the last 1h").
       const text = m[2].replace(/<span class="sec__eb">[\s\S]*?<\/span>/g, '')
+        .replace(/<span class="vh"[^>]*>[\s\S]*?<\/span>/g, '')
         .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
       if (text) items.push({ id: m[1], text });
     }
