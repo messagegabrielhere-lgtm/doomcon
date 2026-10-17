@@ -547,6 +547,13 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Anthropic AI safety bill pitches?`,
       `${brand.NAME} scores press that names Anthropic / Claude. When AI safety bill drafts, Capitol Hill pitches, or frontier-model regulation headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not legal advice, not lobbying analysis, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #368 — Anthropic Canadian / Nova Scotia data-centre tape →
+    // same gated lab (story counts only; not a site forecast). Parallel to
+    // Oracle datacenters FAQ #178 on /tags/datacenters.html.
+    faq.push([
+      `Why does ${brand.NAME} watch Anthropic Canadian data centres?`,
+      `${brand.NAME} scores press that names Anthropic / Claude. When Canadian data-centre leases, Nova Scotia / EverWind campus headlines, or Claude-power infrastructure stories dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a construction forecast, not a power-deal tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #164 — ASML / EUV AI-chip-tool Trends → gated lab.
   if (player.id === 'asml') {

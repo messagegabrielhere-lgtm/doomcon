@@ -998,7 +998,7 @@ test('Publish restores tip Anthropic AI safety bill FAQ + routes (FINDABILITY #3
   assert.match(collect, /! grep -qF 'AI safety bill'/);
   assert.match(
     collect,
-    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill FAQ \(#163\/#362\/#366\)/,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC FAQ \(#163\/#362\/#366\/#368\)/,
   );
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #163\/#362\/#366/);
@@ -1007,6 +1007,18 @@ test('Publish restores tip Anthropic AI safety bill FAQ + routes (FINDABILITY #3
   assert.match(newsFast, /! grep -qF 'AI safety bill'/);
   assert.match(
     newsFast,
-    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill FAQ \(#163\/#362\/#366\)/,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill \+ Canadian DC FAQ \(#163\/#362\/#366\/#368\)/,
   );
+});
+
+test('Publish restores tip Anthropic Canadian data-centre FAQ + routes (FINDABILITY #368)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #163\/#362\/#366\/#368/);
+  assert.match(collect, /Why does SIREN watch Anthropic Canadian data centres\?/);
+  assert.match(collect, /Anthropic Canadian data centres → \/lab\/anthropic\.html/);
+  assert.match(collect, /! grep -qF 'Canadian data'/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /Why does SIREN watch Anthropic Canadian data centres\?/);
+  assert.match(newsFast, /Anthropic Canadian data centres → \/lab\/anthropic\.html/);
+  assert.match(newsFast, /! grep -qF 'Canadian data'/);
 });

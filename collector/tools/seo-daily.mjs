@@ -1221,6 +1221,7 @@ export const TRENDS_ROUTES_MISTRAL_NEEDLE = 'Mistral / Timestral → /lab/mistra
 export const TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE = 'OpenAI outage → /lab/openai.html';
 export const TRENDS_ROUTES_OPENAI_CHROME_NEEDLE = 'ChatGPT Chrome / computer use → /lab/openai.html';
 export const TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE = 'Anthropic AI safety bill → /lab/anthropic.html';
+export const TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE = 'Anthropic Canadian data centres → /lab/anthropic.html';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 export const TRENDS_ROUTES_AMD_NEEDLE = 'AMD / MI300 → /lab/amd.html';
@@ -1253,6 +1254,7 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE)
     && text.includes(TRENDS_ROUTES_OPENAI_CHROME_NEEDLE)
     && text.includes(TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE)
+    && text.includes(TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
     && text.includes(TRENDS_ROUTES_AMD_NEEDLE)
@@ -1653,6 +1655,24 @@ export function hasAnthropicAiSafetyBillFaq(html, needle = ANTHROPIC_AI_SAFETY_B
  * Wipe gap is `agents-anthropic-ai-safety-bill-missing`.
  */
 export function hasAgentsAnthropicAiSafetyBill(body, needle = AGENTS_ANTHROPIC_AI_SAFETY_BILL_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/anthropic.html');
+}
+
+/** FINDABILITY #368 — Anthropic Canadian data-centre FAQ + agent maps. */
+export const ANTHROPIC_CANADA_DC_FAQ_NEEDLE = 'Why does SIREN watch Anthropic Canadian data centres?';
+export const AGENTS_ANTHROPIC_CANADA_DC_NEEDLE = 'Canadian data';
+
+/** Tip /lab/anthropic.html must keep the #368 Canadian data-centre FAQ. */
+export function hasAnthropicCanadaDcFaq(html, needle = ANTHROPIC_CANADA_DC_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Canadian data-centre tape to Anthropic lab (FINDABILITY #368).
+ * Wipe gap is `agents-anthropic-canada-dc-missing`.
+ */
+export function hasAgentsAnthropicCanadaDc(body, needle = AGENTS_ANTHROPIC_CANADA_DC_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/anthropic.html');
 }
@@ -2609,6 +2629,26 @@ export function deriveGaps(report) {
       text: `${which} missing AI safety bill → /lab/anthropic.html tip (FINDABILITY #362) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #362`,
     });
   }
+  // FINDABILITY #368 — Anthropic Canadian data-centre FAQ wiped or never landed.
+  if (ours.anthropic_canada_dc_faq === false) {
+    gaps.push({
+      id: 'anthropic-canada-dc-faq-missing',
+      severity: 'medium',
+      text: `/lab/anthropic.html missing Anthropic Canadian data centres FAQ (FINDABILITY #368) — re-overlay lab/anthropic.html or wait for full collect Publish on tip ≥ #368`,
+    });
+  }
+  // FINDABILITY #368 — agent maps must route Canadian data-centre tape to Anthropic lab.
+  if (ours.agents_anthropic_canada_dc === false || ours.llms_anthropic_canada_dc === false) {
+    const which = [
+      ours.agents_anthropic_canada_dc === false ? 'agents.md' : null,
+      ours.llms_anthropic_canada_dc === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-anthropic-canada-dc-missing',
+      severity: 'medium',
+      text: `${which} missing Canadian data → /lab/anthropic.html tip (FINDABILITY #368) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #368`,
+    });
+  }
 
   // FINDABILITY #164 — ASML lab FAQ for EUV / AI chip-tool Trends wiped or never landed.
   if (ours.asml_trends_faq === false) {
@@ -3386,6 +3426,10 @@ export function measureSite(site, byUrl) {
     row.anthropic_ai_safety_bill_faq = antHtml?.ok ? hasAnthropicAiSafetyBillFaq(antHtml.value) : false;
     row.agents_anthropic_ai_safety_bill = agentsMd?.ok ? hasAgentsAnthropicAiSafetyBill(agentsMd.value) : false;
     row.llms_anthropic_ai_safety_bill = llms?.ok ? hasAgentsAnthropicAiSafetyBill(llmsBody) : false;
+    // FINDABILITY #368 — Anthropic Canadian data-centre FAQ + agent maps (same lab).
+    row.anthropic_canada_dc_faq = antHtml?.ok ? hasAnthropicCanadaDcFaq(antHtml.value) : false;
+    row.agents_anthropic_canada_dc = agentsMd?.ok ? hasAgentsAnthropicCanadaDc(agentsMd.value) : false;
+    row.llms_anthropic_canada_dc = llms?.ok ? hasAgentsAnthropicCanadaDc(llmsBody) : false;
     // FINDABILITY #164 — ASML Trends FAQ + agent maps.
     const asmlHtml = byUrl.get(`${base}/lab/asml.html`);
     row.asml_trends_faq = asmlHtml?.ok ? hasAsmlTrendsFaq(asmlHtml.value) : false;
@@ -3860,6 +3904,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_anthropic_ai_safety_bill == null ? '—' : (ours.agents_anthropic_ai_safety_bill ? 'yes' : 'NO');
       const lm = ours.llms_anthropic_ai_safety_bill == null ? '—' : (ours.llms_anthropic_ai_safety_bill ? 'yes' : 'NO');
       lines.push(`- Agent-map AI safety bill → lab (#362): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.anthropic_canada_dc_faq != null) {
+      lines.push(
+        `- Anthropic Canadian data centres FAQ (#368): **${ours.anthropic_canada_dc_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_anthropic_canada_dc != null || ours.llms_anthropic_canada_dc != null)) {
+      const ag = ours.agents_anthropic_canada_dc == null ? '—' : (ours.agents_anthropic_canada_dc ? 'yes' : 'NO');
+      const lm = ours.llms_anthropic_canada_dc == null ? '—' : (ours.llms_anthropic_canada_dc ? 'yes' : 'NO');
+      lines.push(`- Agent-map Canadian data → lab (#368): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.asml_trends_faq != null) {
       lines.push(
@@ -5191,6 +5245,37 @@ function selftest() {
   if (!billGaps.some((g) => g.id === 'agents-anthropic-ai-safety-bill-missing')) {
     throw new Error('agents-anthropic-ai-safety-bill-missing gap');
   }
+  // FINDABILITY #368 — Anthropic Canadian data-centre FAQ + agent maps.
+  if (hasAnthropicCanadaDcFaq(ANTHROPIC_CANADA_DC_FAQ_NEEDLE) !== true) {
+    throw new Error('hasAnthropicCanadaDcFaq true');
+  }
+  if (hasAnthropicCanadaDcFaq('Why does SIREN watch Anthropic AI safety bill pitches?') !== false) {
+    throw new Error('hasAnthropicCanadaDcFaq false');
+  }
+  if (hasAgentsAnthropicCanadaDc('Canadian data → https://siren.watch/lab/anthropic.html') !== true) {
+    throw new Error('hasAgentsAnthropicCanadaDc true');
+  }
+  if (hasAgentsAnthropicCanadaDc('https://siren.watch/lab/anthropic.html only') !== false) {
+    throw new Error('hasAgentsAnthropicCanadaDc needs Canadian data needle');
+  }
+  const canadaDcGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      anthropic_canada_dc_faq: false,
+      agents_anthropic_canada_dc: false,
+      llms_anthropic_canada_dc: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!canadaDcGaps.some((g) => g.id === 'anthropic-canada-dc-faq-missing')) {
+    throw new Error('anthropic-canada-dc-faq-missing gap');
+  }
+  if (!canadaDcGaps.some((g) => g.id === 'agents-anthropic-canada-dc-missing')) {
+    throw new Error('agents-anthropic-canada-dc-missing gap');
+  }
   if (hasAsmlTrendsFaq(ASML_TRENDS_FAQ_NEEDLE) !== true) {
     throw new Error('hasAsmlTrendsFaq true');
   }
@@ -5960,6 +6045,7 @@ function selftest() {
     TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
     TRENDS_ROUTES_OPENAI_CHROME_NEEDLE,
     TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE,
+    TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_AMD_NEEDLE,
@@ -5969,7 +6055,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Meta-Apple-Mac/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Meta-Apple-Mac/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

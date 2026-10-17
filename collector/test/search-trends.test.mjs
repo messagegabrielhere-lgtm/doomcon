@@ -106,6 +106,12 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Anthropic said to pitch AI safety bill to US Congress', news: [] }).includes('anthropic-ai-safety-bill'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-ai-safety-bill' && t.path === '/lab/anthropic.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'anthropic-ai-safety-bill').re.test('SpaceX to testify at NYC Council meeting on AI safety'), false);
+  // FINDABILITY #368 — Anthropic Canadian / Nova Scotia data-centre Trends.
+  assert.ok(matchHeadTerms({ title: 'Anthropic signs onto $10-billion Nova Scotia data centre project', news: [] }).includes('anthropic-canada-datacenter'));
+  assert.ok(matchHeadTerms({ title: 'Anthropic signs lease for first Canadian data center', news: [] }).includes('anthropic-canada-datacenter'));
+  assert.ok(matchHeadTerms({ title: "EverWind’s major data centre project in N.S. will power Anthropic’s Claude AI", news: [] }).includes('anthropic-canada-datacenter'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-canada-datacenter' && t.path === '/lab/anthropic.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'anthropic-canada-datacenter').re.test('Nova Scotia lobster festival tourism boom'), false);
   // FINDABILITY #163 — Anthropic IPO / FTC → gated Anthropic lab.
   assert.ok(matchHeadTerms({ title: 'anthropic ipo', news: [] }).includes('anthropic-ipo'));
   assert.ok(matchHeadTerms({ title: 'FTC probes Anthropic', news: [] }).includes('anthropic-ipo'));

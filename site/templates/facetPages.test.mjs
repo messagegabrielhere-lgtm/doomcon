@@ -256,6 +256,13 @@ describe('lab facets', () => {
     );
     assert.match(antHtml, /[Nn]ot lobbying analysis/);
     assert.doesNotMatch(antHtml, /must pass|will regulate|doom bill/i);
+    // FINDABILITY #368 — Anthropic Canadian data-centre FAQ on same gated lab.
+    assert.match(
+      antHtml,
+      /Why does SIREN watch Anthropic Canadian data centres\?/,
+    );
+    assert.match(antHtml, /[Nn]ot a construction forecast/);
+    assert.doesNotMatch(antHtml, /will open|will power Canada|doom datacenter/i);
     // FINDABILITY #164 — ASML / EUV Trends FAQ on gated lab.
     const asmlHtml = renderLab(ctx, {
       id: 'asml',
