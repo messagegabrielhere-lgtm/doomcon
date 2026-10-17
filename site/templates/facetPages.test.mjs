@@ -534,6 +534,18 @@ describe('lab facets', () => {
     assert.match(waymoHtml, /safety advice/i);
     assert.match(waymoHtml, /search-trends\.html/);
     assert.doesNotMatch(waymoHtml, /will launch|must ride|doom robotaxi/i);
+    // FINDABILITY #374 — SoftBank / Allied Universal FAQ on gated SoftBank lab.
+    const softbankHtml = renderLab(ctx, {
+      id: 'softbank',
+      name: 'SoftBank',
+      entityOnly: true,
+      entityName: 'SoftBank',
+    });
+    assert.match(softbankHtml, /Why does SIREN watch SoftBank Allied Universal talks\?/);
+    assert.match(softbankHtml, /[Nn]ot deal advice/);
+    assert.match(softbankHtml, /stock tip/i);
+    assert.match(softbankHtml, /search-trends\.html/);
+    assert.doesNotMatch(softbankHtml, /will acquire|must buy|doom SoftBank/i);
   });
 
   it('matches labs on word boundaries and lists archive stories without widening the gate', () => {

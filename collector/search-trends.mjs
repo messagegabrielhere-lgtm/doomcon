@@ -134,6 +134,10 @@ export const HEAD_TERMS = Object.freeze([
   // (story counts only; not a launch forecast). Canada / Toronto beside Waymo;
   // bare “Waymo” politics tape without the geography stays unmatched.
   { id: 'waymo-canada', label: 'Waymo Canada / Toronto', re: /\bwaymo\b.{0,64}\b(?:canada|canadian|toronto)\b|\b(?:canada|canadian|toronto)\b.{0,64}\bwaymo\b/i, path: '/lab/waymo.html' },
+  // FINDABILITY #374 — SoftBank / Allied Universal Trends → gated SoftBank lab
+  // (story counts only; not deal advice). Allied alone or SoftBank+Allied /
+  // SoftBank+security-services acquisition tape; bare SoftBank Gulf funds stay unmatched.
+  { id: 'softbank-allied', label: 'SoftBank / Allied Universal', re: /\ballied\s+universal\b|\bsoftbank\b.{0,64}\b(?:allied|security\s+(?:services|firm)|acquisition)\b|\b(?:allied|security\s+(?:services|firm))\b.{0,64}\bsoftbank\b/i, path: '/lab/softbank.html' },
   // FINDABILITY #177 — Qwen / Tongyi / Alibaba open-weight Trends → gated Qwen lab
   // (story counts only; not a model review or stock tip).
   { id: 'qwen', label: 'Qwen', re: /\bqwen(?:\s+\d|\s+n\d)?\b|\btongyi\b|\balibaba\b.{0,40}\b(?:qwen|open[\s-]?weight)\b/i, path: '/lab/qwen.html' },

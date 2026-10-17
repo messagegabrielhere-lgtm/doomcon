@@ -1036,3 +1036,17 @@ test('Publish restores tip Waymo Canada FAQ + routes (FINDABILITY #372)', () => 
   assert.match(newsFast, /! grep -qF 'Waymo Canada'/);
   assert.match(newsFast, /restore_waymo_canada_faq/);
 });
+
+test('Publish restores tip SoftBank Allied FAQ + routes (FINDABILITY #374)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #374/);
+  assert.match(collect, /Why does SIREN watch SoftBank Allied Universal talks\?/);
+  assert.match(collect, /SoftBank \/ Allied Universal → \/lab\/softbank\.html/);
+  assert.match(collect, /! grep -qF 'Allied Universal'/);
+  assert.match(collect, /restored lab\/softbank\.html SoftBank Allied Universal FAQ \(#374\)/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /Why does SIREN watch SoftBank Allied Universal talks\?/);
+  assert.match(newsFast, /SoftBank \/ Allied Universal → \/lab\/softbank\.html/);
+  assert.match(newsFast, /! grep -qF 'Allied Universal'/);
+  assert.match(newsFast, /restore_softbank_allied_faq/);
+});

@@ -684,6 +684,15 @@ export function renderLab(ctx, player) {
       `${brand.NAME} scores press that names Waymo. When Canada / Toronto robotaxi launches, Element Fleet partnerships, or cross-border Waymo expansion headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not a launch forecast, not safety advice, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
+  // FINDABILITY #374 — SoftBank / Allied Universal acquisition tape → gated
+  // SoftBank entity lab (story counts only; not deal advice). Parallel to
+  // Waymo Canada FAQ #372 — Allied had no standalone destination; SoftBank lab is the route.
+  if (player.id === 'softbank') {
+    faq.push([
+      `Why does ${brand.NAME} watch SoftBank Allied Universal talks?`,
+      `${brand.NAME} scores press that names SoftBank. When Allied Universal acquisition talks, SoftBank security-services deals, or SoftBank AI-robotics deployment headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not deal advice, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
