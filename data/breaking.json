@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-17T16:27:27.812Z",
+  "generated_at": "2026-10-17T16:51:15.093Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 5,
+  "live": 6,
   "fresh": "b2e8dfd2ab3d4",
   "clusters": [
     {
@@ -197,7 +197,7 @@
       "outlet": "bloomberg.com",
       "outlets": [
         "bloomberg.com",
-        "straitstimes.com"
+        "economictimes.com"
       ],
       "tier1_outlets": [
         "bloomberg.com"
@@ -205,10 +205,12 @@
       "corroboration": 2,
       "sources": [
         "bloomberg-tech",
+        "bluesky-ai",
         "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-17T13:47:14.000Z",
@@ -236,22 +238,38 @@
           "tier1": true
         },
         {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "DeepSeek Pushes Out Updated AI Model It Says Is Faster, Leaner",
+          "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQamNRdEQ0djl5LWRpQW8xUm9oTExlTC1YYW8xT2EzdWZLdU9MN2hsWXMyaUdTdjJIbzd2VWFzMHF3dnJ0UUtEY2ppTHlrX1o0TFJJQjNUaE9oY3QwdDBLUHFoOHFHdDZwR1ktUEZrbWZfRTY3YVB4TVhuX0tOUHpGWC11Z0g0d3NTcWNyOTF4R0JUSmR5akg4cUF0aVpia05NR3ZBemZTaHJYV05iSUV6ODBEeXpPODZsS3owcWh0MEFFQWlNZFFPWUk4TVZkZ3Rq?oc=5",
+          "published_at": "2026-10-17T13:47:14.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "bloomberg.com",
+          "title": "DeepSeek Pushes Out Updated AI Model It Says Is Faster, Leaner",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3my3hazjz7g2b",
+          "published_at": "2026-10-17T14:12:44.243Z",
+          "tier1": true
+        },
+        {
           "source": "gnews-ai",
-          "outlet": "straitstimes.com",
+          "outlet": "economictimes.com",
           "title": "DeepSeek pushes out updated AI model it says is faster, leaner",
-          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOQjJJNGtEbm5FOVg2WjBNc2JDX051YTB1aEEzcjBQdlRRbHBnU2pfRnBYaGNSVjRsTWctWFVsVmpLd0hTS1JiNjJWd2RXQ3JQb0dSRkctN2xPZ0MwdTYwcWpxdEVlQ0RaYm5MTzJ4UmFmM3lFWWNFblNTWmQwM1pCcFNfekc4R0lXT0VQZjRJYTNsMFlNb2lJX1A5RnE?oc=5",
+          "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPcUlSczF0d05obnFITFNCY3RPbEwyZWVsU0loTkw1cklfR09vWEJHMi1NYmxkY0hCWU1YQVV4SVE5ZEJuM19wTXpLYzVlNkphYTVwNDJqRl9pMDVISFBHQmR3X3dEYXQ4Um5WMVZvNGxhNlhEd05oLVo0MkN3ZXcwVHhjRmtLNi12VUhONUUxb2FrMGtRWU9CWk5mR1hPY2kyUWhzVFVUb19nNG5ZOXM3V19QRTNTN3VjRGhhLWo5dWRCOENtNC16NGNwdVRhQ3VOSFFSTWlnUFFSMXhZ0gHiAUFVX3lxTE5qQjlIWndxZUxMdkxRVm9mcFFRRE9aSUdGaFpHeVRzTldaQklBNHRVWDBEb2RIRmNZcHhhV1BlVWt1OUQ0UXFDaEJmcGY2RUE3bDlJc2Y5cjIzd0VudXp0VlNQVG1uV3JYUmEzV0h5R3I1Yko4b3dwbnliclRSQ2x2YklHVzd1cW1ZRF9JWHAzSW5vODg0VUZJRDNQR0k1aTZDWGc3NUZSYnJCdmdWc0JLaTJ0MklLd2dYNy1zZzd5MUZTWnNvSXA4c05YSzV5YU82UG90YS1NTFg2Q2JORko5dHc?oc=5",
           "published_at": "2026-10-17T14:12:44.243Z",
           "tier1": false
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "b8f741f4b7007",
-      "title": "States sue OpenAI, saying it gives life to 'cyberhacking agents' while ChatGPT hurts children and deceives adults",
-      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQUmdaME9UZTNjODdob3gtbDdzRnU3RnY1N2tRdzlYdVJKOHpMbEdIalBpY0JaNFV3T2pvLWhZajVRQWJYTkU2ZWRLQ3pfMDB3WnFSd1lEUkQ1bG5pX09GNVUxUl9XcWJaa2ZkVVpycEJCOUotY1FRNklrUzR0aUF6SWV6TGlCQmpxUHdmbmtNbERpOThFRG55bzdoMFdib3NYNnpjdg?oc=5",
+      "title": "Eight US States Sue OpenAI Over ChatGPT Child Safety and Consumer Protection Risks",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9xU3BrWGlVQUM5NWVSTEhFRW5uTWNmdkl3MmZFczNFRHZkOVNQMHUzLXR0R29DMGpNc3JzQVVJTzZZVWtWUDRkMXJkT25iYUU4dS1nLVQ2aG81VVlhQno4bEl3WkJhalI5Y0xWZmRUaXl3QQ?oc=5",
       "source": "gnews-ai",
-      "outlet": "fortune.com",
+      "outlet": "the420.in",
       "outlets": [
         "fortune.com",
         "the420.in"
