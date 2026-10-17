@@ -2522,6 +2522,51 @@ test('news sitemap keywords include NIST from multi-title Anthropic crypto tape 
   assert.doesNotMatch(d, /\bNIST\b/);
 });
 
+test('news sitemap keywords include Ondas from Ondas–Palantir JV tape (FINDABILITY #404)', () => {
+  // Multi-title Ondas–Palantir tape: Palantir / AIP fill 12-cap while the
+  // contiguous Ondas partner surface is dropped (Palantir FAQ gates lab).
+  const a = keywordsFor({
+    title: 'RTX, AeroVironment And Ondas-Palantir Push Deeper Into Drone Defense And AI This Week',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Palantir'],
+  });
+  assert.match(a, /\bOndas\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Ondas') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Stocktwits Defense Watch: RTX Continues Deal Momentum, Ondas-Palantir Launch AI Firm As AeroVironment Strike Four International Deals',
+    summary: 'Ondas and Palantir launch a joint AI firm for defense deployments.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Palantir'],
+  });
+  assert.match(b, /\bOndas\b/);
+  // bare Palantir / AeroVironment titles must not invent the partner needle.
+  // (Summary must not name the needle — keywordsFor hay is title+summary.)
+  const c = keywordsFor({
+    title: 'Palantir AIP wins another government AI contract',
+    summary: 'Defense software tape without naming the JV partner company.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'techmeme',
+    entities: ['Palantir'],
+  });
+  assert.doesNotMatch(c, /\bOndas\b/);
+  const d = keywordsFor({
+    title: 'AeroVironment Strike Four International Deals This Week',
+    summary: 'Drone-defense tape without the JV partner company surface.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(d, /\bOndas\b/);
+});
+
 test('news sitemap keywords include Allied Universal from SoftBank acquisition tape (FINDABILITY #380)', () => {
   // Multi-title Allied Universal tape: SoftBank fills 12-cap while the contiguous
   // company surface is dropped (FAQ #374 gates `/lab/softbank.html`).
