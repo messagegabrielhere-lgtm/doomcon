@@ -1029,6 +1029,28 @@ export function hasHomeSkynetConquest(html, needle = HOME_SKYNET_CONQUEST_NEEDLE
   return String(html || '').includes(needle);
 }
 
+/** FINDABILITY #429 — home every-room + FAQ path for PizzINT conquest. */
+export const HOME_PIZZINT_CONQUEST_NEEDLE = 'SIREN vs PizzINT: which should you use?';
+
+/**
+ * Home (and activity-index aliases) must keep the PizzINT conquest link.
+ * Wipe gap is `home-pizzint-conquest-missing`.
+ */
+export function hasHomePizzintConquest(html, needle = HOME_PIZZINT_CONQUEST_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/** FINDABILITY #429 — home every-room for Takeoff Tracker conquest. */
+export const HOME_TAKEOFF_CONQUEST_NEEDLE = 'SIREN vs Takeoff Tracker: which should you use?';
+
+/**
+ * Home (and activity-index aliases) must keep the Takeoff Tracker conquest link.
+ * Wipe gap is `home-takeoff-conquest-missing`.
+ */
+export function hasHomeTakeoffConquest(html, needle = HOME_TAKEOFF_CONQUEST_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
 /** FINDABILITY #254 — exact unbranded head-term FAQ on home (+ alias body). */
 export const HOME_ACTIVITY_INDEX_FAQ_NEEDLE = 'What is an AI activity index?';
 
@@ -2744,6 +2766,24 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #429 — home PizzINT conquest every-room + FAQ path wiped.
+  if (ours.home_pizzint_conquest === false) {
+    gaps.push({
+      id: 'home-pizzint-conquest-missing',
+      severity: 'medium',
+      text: `home missing PizzINT conquest link “SIREN vs PizzINT: which should you use?” (FINDABILITY #429) — re-overlay index.html / aliases or wait for collect/news-fast Publish on tip with PizzINT every-room`,
+    });
+  }
+
+  // FINDABILITY #429 — home Takeoff Tracker conquest every-room wiped.
+  if (ours.home_takeoff_conquest === false) {
+    gaps.push({
+      id: 'home-takeoff-conquest-missing',
+      severity: 'medium',
+      text: `home missing Takeoff Tracker conquest link “SIREN vs Takeoff Tracker: which should you use?” (FINDABILITY #429) — re-overlay index.html / aliases or wait for collect/news-fast Publish on tip with Takeoff every-room`,
+    });
+  }
+
   // FINDABILITY #254 — home exact head-term FAQ wiped or never landed.
   if (ours.home_activity_index_faq === false) {
     gaps.push({
@@ -3925,6 +3965,9 @@ export function measureSite(site, byUrl) {
     home_doombench_conquest: site.ours && home?.ok ? hasHomeDoombenchConquest(home.value) : null,
     // FINDABILITY #425/#427 — home Skynet Countdown conquest every-room + FAQ path (ours only).
     home_skynet_conquest: site.ours && home?.ok ? hasHomeSkynetConquest(home.value) : null,
+    // FINDABILITY #429 — home PizzINT + Takeoff Tracker conquest every-room (ours only).
+    home_pizzint_conquest: site.ours && home?.ok ? hasHomePizzintConquest(home.value) : null,
+    home_takeoff_conquest: site.ours && home?.ok ? hasHomeTakeoffConquest(home.value) : null,
     // FINDABILITY #254 — home exact unbranded head-term FAQ (ours only).
     home_activity_index_faq: site.ours && home?.ok ? hasHomeActivityIndexFaq(home.value) : null,
     // FINDABILITY #284 — home title-match “AI activity index today” FAQ (ours only).
@@ -4528,6 +4571,16 @@ export function formatMarkdown(report) {
     if (ours && ours.home_skynet_conquest != null) {
       lines.push(
         `- Home Skynet Countdown conquest link (#425): **${ours.home_skynet_conquest ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && ours.home_pizzint_conquest != null) {
+      lines.push(
+        `- Home PizzINT conquest link (#429): **${ours.home_pizzint_conquest ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && ours.home_takeoff_conquest != null) {
+      lines.push(
+        `- Home Takeoff Tracker conquest link (#429): **${ours.home_takeoff_conquest ? 'ok' : 'NO'}**`,
       );
     }
     if (ours && ours.home_activity_index_faq != null) {
@@ -5692,6 +5745,44 @@ function selftest() {
   });
   if (!homeSkynetGaps.some((g) => g.id === 'home-skynet-conquest-missing')) {
     throw new Error('home-skynet-conquest-missing gap');
+  }
+  if (hasHomePizzintConquest('SIREN vs PizzINT: which should you use?') !== true) {
+    throw new Error('hasHomePizzintConquest true');
+  }
+  if (hasHomePizzintConquest('SIREN vs DoomBench: which should you use?') !== false) {
+    throw new Error('hasHomePizzintConquest false');
+  }
+  const homePizzGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      home_pizzint_conquest: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!homePizzGaps.some((g) => g.id === 'home-pizzint-conquest-missing')) {
+    throw new Error('home-pizzint-conquest-missing gap');
+  }
+  if (hasHomeTakeoffConquest('SIREN vs Takeoff Tracker: which should you use?') !== true) {
+    throw new Error('hasHomeTakeoffConquest true');
+  }
+  if (hasHomeTakeoffConquest('SIREN vs PizzINT: which should you use?') !== false) {
+    throw new Error('hasHomeTakeoffConquest false');
+  }
+  const homeTakeoffGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      home_takeoff_conquest: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!homeTakeoffGaps.some((g) => g.id === 'home-takeoff-conquest-missing')) {
+    throw new Error('home-takeoff-conquest-missing gap');
   }
   if (hasHomeActivityIndexFaq('What is an AI activity index?') !== true) {
     throw new Error('hasHomeActivityIndexFaq true');
