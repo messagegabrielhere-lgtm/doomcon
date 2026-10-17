@@ -1018,6 +1018,22 @@ export function hasVerifyDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_
 }
 
 /**
+ * True when compare.html names dual middot head terms (FINDABILITY #453).
+ * Wipe gap is `compare-dual-head-term-missing` (paired with alternatives).
+ */
+export function hasCompareDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when alternatives.html names dual middot head terms (FINDABILITY #453).
+ * Wipe gap is `compare-dual-head-term-missing` (paired with compare).
+ */
+export function hasAlternativesDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
  * True when free-tools.html listicle lists /classic.html with the panel
  * question (FINDABILITY #332). Wipe gap is `freetools-classic-panel-missing`.
  */
@@ -2883,6 +2899,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #453 — compare.html / alternatives.html dropped dual middot head terms.
+  if (ours.compare_dual_head_term === false || ours.alternatives_dual_head_term === false) {
+    const which = [
+      ours.compare_dual_head_term === false ? 'compare.html' : null,
+      ours.alternatives_dual_head_term === false ? 'alternatives.html' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'compare-dual-head-term-missing',
+      severity: 'medium',
+      text: `${which} missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #453) — re-overlay compare hubs or wait for collect/news-fast Publish on tip ≥ #453`,
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -4316,6 +4345,15 @@ export function measureSite(site, byUrl) {
     row.verify_dual_head_term = verifyHtml?.ok
       ? hasVerifyDualHeadTerm(verifyHtml.value)
       : false;
+    // FINDABILITY #453 — compare / alternatives hubs must name dual middot head terms.
+    const compareHtml = byUrl.get(`${base}/compare.html`);
+    const alternativesHtml = byUrl.get(`${base}/alternatives.html`);
+    row.compare_dual_head_term = compareHtml?.ok
+      ? hasCompareDualHeadTerm(compareHtml.value)
+      : false;
+    row.alternatives_dual_head_term = alternativesHtml?.ok
+      ? hasAlternativesDualHeadTerm(alternativesHtml.value)
+      : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -4805,6 +4843,16 @@ export function formatMarkdown(report) {
     if (ours && ours.verify_dual_head_term != null) {
       lines.push(
         `- verify dual index/level head term (#451): **${ours.verify_dual_head_term ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (
+      ours.compare_dual_head_term != null
+      || ours.alternatives_dual_head_term != null
+    )) {
+      const cmp = ours.compare_dual_head_term == null ? '—' : (ours.compare_dual_head_term ? 'yes' : 'NO');
+      const alt = ours.alternatives_dual_head_term == null ? '—' : (ours.alternatives_dual_head_term ? 'yes' : 'NO');
+      lines.push(
+        `- compare / alternatives dual index/level head term (#453): compare **${cmp}** · alternatives **${alt}**`,
       );
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
@@ -5415,6 +5463,9 @@ export function formatMarkdown(report) {
       || ours.openapi_dual_head_term != null
       || ours.api_index_dual_head_term != null
       || ours.freetools_dual_head_term != null
+      || ours.verify_dual_head_term != null
+      || ours.compare_dual_head_term != null
+      || ours.alternatives_dual_head_term != null
       || ours.agents_txt_classic_panel != null
       || ours.ai_txt_classic_panel != null
       || ours.catalog_classic_panel != null
@@ -5985,6 +6036,32 @@ function selftest() {
   });
   if (!verifyDualGaps.some((g) => g.id === 'verify-dual-head-term-missing')) {
     throw new Error('verify-dual-head-term-missing gap');
+  }
+  if (hasCompareDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasCompareDualHeadTerm true');
+  }
+  if (hasCompareDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasCompareDualHeadTerm false for index-only');
+  }
+  if (hasAlternativesDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasAlternativesDualHeadTerm true');
+  }
+  if (hasAlternativesDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasAlternativesDualHeadTerm false for index-only');
+  }
+  const compareDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      compare_dual_head_term: false,
+      alternatives_dual_head_term: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!compareDualGaps.some((g) => g.id === 'compare-dual-head-term-missing')) {
+    throw new Error('compare-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{

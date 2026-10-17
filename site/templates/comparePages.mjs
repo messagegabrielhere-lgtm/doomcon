@@ -137,12 +137,14 @@ function liveStrip(ctx) {
   if (!st || !Number.isFinite(st.level) || !Number.isFinite(st.score)) {
     return `<p class="cmp__lede">${esc(brand.NAME)} publishes a fresh reading every hour at the homepage and in <a href="${esc(ctx.href('/api/state.json'))}">/api/state.json</a>.</p>`;
   }
+  // FINDABILITY #453 — dual middot head terms beside live home (compare /
+  // alternatives / vs hubs were index-only after verify dual #451).
   return `<div class="cmp__stat" role="group" aria-label="Current ${brand.NAME} reading">
     <div><b class="num">${esc(brand.NAME)} ${esc(st.level)}</b><span>${esc(st.level_name)}</span></div>
     <div><b class="num">${esc(num(st.score, 1))}</b><span>of 100 this hour</span></div>
     <div><b class="num">${esc(utc(st.generated_at))}</b><span>UTC reading time</span></div>
   </div>
-  <p class="fresh__key"><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a>
+  <p class="fresh__key"><a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)} →</a>
      · <a href="${esc(ctx.href('/api/state.json'))}">state.json →</a>
      · Scale runs 5 (quietest) to 1 (loudest). Tempo, not danger.</p>`;
 }
@@ -522,7 +524,7 @@ export function vsRival(ctx, rivalId) {
   </ul>
   ${faqBlock(faq)}
   <h2 id="vs-next-h">Where should you go next?</h2>
-  <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a>
+  <p><a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)} →</a>
      · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
      · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>
      · <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a>

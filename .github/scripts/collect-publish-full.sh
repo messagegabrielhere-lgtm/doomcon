@@ -288,6 +288,28 @@ if [ -f "$PRESERVE_FAQ/verify.html" ] \
   cp -a .pages/verify.html .pages/verify/index.html
   echo "restored verify.html dual head term (#451)"
 fi
+# FINDABILITY #453 — restore tip compare.html / alternatives.html when dual
+# middot head terms are missing after orphan Publish (FAQ needles alone can
+# leave hubs index-only after verify dual #451).
+if [ -f "$PRESERVE_FAQ/compare.html" ] \
+  && ! grep -qF 'AI activity index today · AI activity level today' .pages/compare.html 2>/dev/null; then
+  cp -a "$PRESERVE_FAQ/compare.html" .pages/compare.html
+  mkdir -p .pages/compare
+  cp -a .pages/compare.html .pages/compare/index.html
+  cp -a .pages/compare.html .pages/doom-index.html
+  cp -a .pages/compare.html .pages/ai-doom-index.html
+  mkdir -p .pages/doom-index .pages/ai-doom-index
+  cp -a .pages/compare.html .pages/doom-index/index.html
+  cp -a .pages/compare.html .pages/ai-doom-index/index.html
+  echo "restored compare.html dual head term (#453)"
+fi
+if [ -f "$PRESERVE_FAQ/alternatives.html" ] \
+  && ! grep -qF 'AI activity index today · AI activity level today' .pages/alternatives.html 2>/dev/null; then
+  cp -a "$PRESERVE_FAQ/alternatives.html" .pages/alternatives.html
+  mkdir -p .pages/alternatives
+  cp -a .pages/alternatives.html .pages/alternatives/index.html
+  echo "restored alternatives.html dual head term (#453)"
+fi
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
 # labAboutLabel is missing (OpenAI / ChatGPT on /lab/openai.html rows).
 for hub in lab/index.html companies.html companies/index.html; do

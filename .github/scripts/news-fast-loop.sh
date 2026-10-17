@@ -531,6 +531,26 @@ while [ "$(date +%s)" -lt "$END" ]; do
         cp -a "$root/verify.html" "$root/verify/index.html"
         echo "restored verify.html dual head term (#451)"
       fi
+      # FINDABILITY #453 — compare / alternatives dual middot head terms.
+      if [ -f "$preserve/compare.html" ] \
+        && ! grep -qF 'AI activity index today · AI activity level today' "$root/compare.html" 2>/dev/null; then
+        cp -a "$preserve/compare.html" "$root/compare.html"
+        mkdir -p "$root/compare"
+        cp -a "$root/compare.html" "$root/compare/index.html"
+        cp -a "$root/compare.html" "$root/doom-index.html"
+        cp -a "$root/compare.html" "$root/ai-doom-index.html"
+        mkdir -p "$root/doom-index" "$root/ai-doom-index"
+        cp -a "$root/compare.html" "$root/doom-index/index.html"
+        cp -a "$root/compare.html" "$root/ai-doom-index/index.html"
+        echo "restored compare.html dual head term (#453)"
+      fi
+      if [ -f "$preserve/alternatives.html" ] \
+        && ! grep -qF 'AI activity index today · AI activity level today' "$root/alternatives.html" 2>/dev/null; then
+        cp -a "$preserve/alternatives.html" "$root/alternatives.html"
+        mkdir -p "$root/alternatives"
+        cp -a "$root/alternatives.html" "$root/alternatives/index.html"
+        echo "restored alternatives.html dual head term (#453)"
+      fi
     }
     # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
     # labAboutLabel is missing after orphan Publish.

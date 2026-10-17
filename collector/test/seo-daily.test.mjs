@@ -35,6 +35,8 @@ import {
   hasApiIndexDualHeadTerm,
   hasFreeToolsDualHeadTerm,
   hasVerifyDualHeadTerm,
+  hasCompareDualHeadTerm,
+  hasAlternativesDualHeadTerm,
   ROOT_RIVAL_AGENT_ALIASES,
   hasRootRivalAliases,
   HEAD_TERM_AGENT_ALIASES,
@@ -684,6 +686,39 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'verify-dual-head-term-missing'));
+  });
+
+  it('detects missing dual head term on compare + alternatives (FINDABILITY #453)', () => {
+    assert.ok(CORE_LIVE_SURFACES.includes('/compare.html'));
+    assert.ok(CORE_LIVE_SURFACES.includes('/alternatives.html'));
+    assert.equal(
+      hasCompareDualHeadTerm('AI activity index today · AI activity level today · SIREN'),
+      true,
+    );
+    assert.equal(
+      hasCompareDualHeadTerm('AI activity index today · SIREN'),
+      false,
+    );
+    assert.equal(
+      hasAlternativesDualHeadTerm('AI activity index today · AI activity level today · SIREN'),
+      true,
+    );
+    assert.equal(
+      hasAlternativesDualHeadTerm('AI activity index today · SIREN'),
+      false,
+    );
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        compare_dual_head_term: false,
+        alternatives_dual_head_term: true,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'compare-dual-head-term-missing'));
   });
 
   it('detects missing dual head term on openapi + api/index (FINDABILITY #446)', () => {
