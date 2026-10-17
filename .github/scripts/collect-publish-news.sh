@@ -821,19 +821,23 @@ fi
 # FINDABILITY #248 — restore tip /model/muse-spark.html when Muse Spark model
 # hub FAQ is missing after mid-merge / orphan Publish (tip overlay wiped when
 # rebuild story count < MODEL_INDEX_MIN).
+# FINDABILITY #463 — also restore when dual middot head terms are missing.
 if [ -f "$PRESERVE_FAQ/model/muse-spark.html" ] \
-  && ! grep -qF 'What has SIREN scored about Muse Spark?' ".pages/model/muse-spark.html" 2>/dev/null; then
+  && { ! grep -qF 'What has SIREN scored about Muse Spark?' ".pages/model/muse-spark.html" 2>/dev/null \
+    || ! grep -qF 'AI activity index today · AI activity level today' ".pages/model/muse-spark.html" 2>/dev/null; }; then
   mkdir -p .pages/model
   cp -a "$PRESERVE_FAQ/model/muse-spark.html" .pages/model/muse-spark.html
-  echo "restored model/muse-spark.html Muse Spark model hub (#248)"
+  echo "restored model/muse-spark.html Muse Spark model hub (#248/#463)"
 fi
 # FINDABILITY #248 — restore tip /model/fable.html when Fable model hub FAQ
 # is missing after mid-merge / orphan Publish.
+# FINDABILITY #463 — also restore when dual middot head terms are missing.
 if [ -f "$PRESERVE_FAQ/model/fable.html" ] \
-  && ! grep -qF 'What has SIREN scored about Fable?' ".pages/model/fable.html" 2>/dev/null; then
+  && { ! grep -qF 'What has SIREN scored about Fable?' ".pages/model/fable.html" 2>/dev/null \
+    || ! grep -qF 'AI activity index today · AI activity level today' ".pages/model/fable.html" 2>/dev/null; }; then
   mkdir -p .pages/model
   cp -a "$PRESERVE_FAQ/model/fable.html" .pages/model/fable.html
-  echo "restored model/fable.html Fable model hub (#248)"
+  echo "restored model/fable.html Fable model hub (#248/#463)"
 fi
 # FINDABILITY #210 — merge tip news:keywords probe needles into rebuilt
 # news-sitemap so orphan Publish on tip < #208 cannot wipe Roadster/Starshield.

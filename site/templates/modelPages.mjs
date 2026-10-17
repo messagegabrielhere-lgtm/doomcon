@@ -223,7 +223,7 @@ export function renderModel(ctx, name) {
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <p class="fresh__key">${labNote(ctx, name)}
-     The composite reading is on <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>.</p>
+     The composite reading is on <a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)}</a>.</p>
   <h2 id="window">${esc(windowQ)}</h2>
   ${items.length ? `<ol class="fc__list">${storyRows(ctx, items)}</ol>` : '<p>No scored story in this window names this model.</p>'}
   ${olderBlock}

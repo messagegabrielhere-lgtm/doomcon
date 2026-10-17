@@ -95,7 +95,7 @@ describe('model pages', () => {
     assert.doesNotMatch(html, /href="\/lab\/anthropic\.html">Anthropic<\/a>/);
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /not a rating of the model/);
-    assert.match(html, /href="\/">AI activity index today · SIREN<\/a>/);
+    assert.match(html, /href="\/">AI activity index today · AI activity level today · SIREN<\/a>/);
     assert.doesNotMatch(html, /href="\/">homepage<\/a>/);
     assert.doesNotMatch(html, /<h2>Stories in this window<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
