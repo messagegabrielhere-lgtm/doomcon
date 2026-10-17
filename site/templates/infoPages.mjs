@@ -1203,6 +1203,8 @@ export function press(ctx) {
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
+  // FINDABILITY #469 — dual middot head terms on press Current reading CTA
+  // (press was index-only after bliss dual #467).
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Press kit</p>
@@ -1216,7 +1218,7 @@ export function press(ctx) {
     and a button on the home page lets any visitor re-check the last twelve readings in their own browser. It is run by one person, carries no display-ad network, and labels Amazon Associate links where they appear.</p>
   <h2>${esc(factsQ)}</h2>
   <ul>
-    ${now ? `<li><b>Current reading:</b> ${esc(now)}. <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>.</li>` : ''}
+    ${now ? `<li><b>Current reading:</b> ${esc(now)}. <a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)}</a>.</li>` : ''}
     ${n ? `<li><b>Readings published:</b> ${esc(n.toLocaleString('en-US'))}, each with a receipt. <a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves?</a>.</li>` : ''}
     <li><b>Update cadence:</b> the index is scored hourly; the newsroom refreshes every minute.</li>
     <li><b>What it is not:</b> a probability, a prediction, or a measure of how bad anything is.</li>

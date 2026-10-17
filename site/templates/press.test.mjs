@@ -32,7 +32,8 @@ test('press.html ships question-shaped title, speakable, breadcrumbs, and visibl
   assert.doesNotMatch(html, /href="\/instruments\.html#embed">instruments page<\/a>/);
   const facts = html.match(/<h2>What are the key SIREN facts\?<\/h2>\s*<ul>([\s\S]*?)<\/ul>/);
   assert.ok(facts, 'expected press Facts list');
-  assert.match(facts[1], /href="\/">AI activity index today · SIREN<\/a>/);
+  // FINDABILITY #469 — Current reading CTA names both head terms.
+  assert.match(facts[1], /href="\/">AI activity index today · AI activity level today · SIREN<\/a>/);
   assert.doesNotMatch(facts[1], /href="\/">Live page<\/a>/);
   assert.match(facts[1], /href="\/moves\/">Where are the SIREN index moves\?<\/a>/);
   assert.doesNotMatch(facts[1], /href="\/moves\/">Archive<\/a>/);
