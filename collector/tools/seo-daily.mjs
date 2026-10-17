@@ -568,6 +568,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Amazon Web Services',
   // FINDABILITY #364 — M5 Max Apple Silicon SKU companion (multi-title; FAQ #170 gates).
   'M5 Max',
+  // FINDABILITY #370 — NIST standards-body needle (multi-title; FAQ #368/#362 gate lab).
+  'NIST',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -7062,6 +7064,37 @@ function selftest() {
     );
     if (m5Only.some((r) => r.lab === 'M5 Max')) {
       throw new Error('newsKeywordLags must not flag M5 Max on bare M5 / MacBook Pro titles');
+    }
+  }
+  // FINDABILITY #370 — catch tip wipe of NIST standards-body needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('NIST')) {
+    throw new Error('probe labs missing NIST');
+  }
+  {
+    const nistLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Anthropic Traces NIST P-256 Seed to a 1997 Random Generator</news:title>'
+      + '<news:keywords>Anthropic, Google, Claude, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Anthropic Says Claude Traced NIST ECDSA Curve Seeds to a 1990S RNG</news:title>'
+      + '<news:keywords>Anthropic, Claude, Google, NIST, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const nistLags = newsKeywordLags(nistLagXml);
+    if (!nistLags.some((r) => r.lab === 'NIST')) {
+      throw new Error(`newsKeywordLags expected NIST lag: ${JSON.stringify(nistLags)}`);
+    }
+    if (nistLags.filter((r) => /ECDSA Curve Seeds/i.test(r.title)).some((r) => r.lab === 'NIST')) {
+      throw new Error('newsKeywordLags should not flag NIST when keywords include it');
+    }
+    // administration / ECDSA-only titles must not lag as NIST.
+    const nistOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Intel CEO Lip-Bu Tan says the Trump administration does not have any policy</news:title>'
+      + '<news:keywords>Intel, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Claude reveals ECDSA curve origins</news:title>'
+      + '<news:keywords>Claude, AI, artificial intelligence, SIREN, attention, forum</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (nistOnly.some((r) => r.lab === 'NIST')) {
+      throw new Error('newsKeywordLags must not flag NIST on administration / ECDSA-only titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
