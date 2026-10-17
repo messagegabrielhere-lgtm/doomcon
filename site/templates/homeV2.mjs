@@ -218,6 +218,9 @@ export function roomGroups(ctx) {
       ['/guides.html', 'px:explainers', 'What are the AI explainers?', null, 'p(doom), clocks, doom indexes — vocabulary without a doom probability.'],
       ['/compare.html', 'px:updown', 'Which AI doom indexes can you compare?', null, 'SIREN vs DoomBench, Skynet, p(doom), PizzINT and Takeoff Tracker.'],
       ['/vs.html', 'px:versus', 'Which AI indexes does SIREN contrast?', null, 'One honest page per rival — activity tempo, not doom claims.'],
+      // FINDABILITY #423 — DoomBench owns unbranded “AI doom index” SERP; home
+      // rooms listed PizzINT + Takeoff but omitted the DoomBench conquest page.
+      ['/vs/doombench.html', 'px:vsrival', 'SIREN vs DoomBench: which should you use?', null, 'Activity count vs Live AI Doom Index.'],
       ['/vs/pizzint.html', 'px:vsrival', 'SIREN vs PizzINT: which should you use?', null, 'Activity count vs DEFCON/Doomsday title hijack.'],
       ['/vs/takeofftracker.html', 'px:vstakeoff', 'SIREN vs Takeoff Tracker: which should you use?', null, 'Activity count vs AGI metrics dashboard.'],
       ['/alternatives.html', 'px:alts', 'What are AI doom index alternatives?', null, 'When this index is the right substitute — and when it is not.'],

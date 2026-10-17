@@ -15,6 +15,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => /leader and topic/i.test(q)));
     const alt = qa.find(([q]) => /DoomBench|Skynet/i.test(q));
     assert.ok(alt[1].includes('/compare.html'));
+    // FINDABILITY #423 — DoomBench conquest path in the alternatives FAQ answer.
+    assert.ok(alt[1].includes('/vs/doombench.html'));
     const ld = jsonLd(ctx);
     assert.equal(ld['@type'], 'FAQPage');
     assert.ok(ld.mainEntity.every((q) => !String(q.acceptedAnswer.text).includes('<a ')));
@@ -81,6 +83,9 @@ describe('homepage FAQ', () => {
     assert.match(html, /Which AI doom indexes can you compare\?/);
     assert.match(html, /Which AI indexes does SIREN contrast\?/);
     assert.match(html, /What are AI doom index alternatives\?/);
+    // FINDABILITY #423 — FAQ footer + linkified answer point at DoomBench conquest.
+    assert.match(html, /href="\/vs\/doombench\.html">SIREN vs DoomBench: which should you use\?<\/a>/);
+    assert.ok(faqPathLabels().some(([p, l]) => p === '/vs/doombench.html' && /DoomBench/.test(l)));
     assert.match(html, /Which AI leaders have press coverage pages on SIREN\?/);
     assert.match(html, /Which AI news tags have SIREN pages\?/);
     assert.doesNotMatch(html, /href="\/compare\.html">\/compare\.html<\/a>/);
