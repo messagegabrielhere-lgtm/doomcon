@@ -21,6 +21,8 @@ export function render(ctx) {
   const reading = Number.isFinite(st.level)
     ? `Last known reading before this failure: ${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}.`
     : 'No last-known reading is available on this page.';
+  // FINDABILITY #473 — dual middot head terms on 500 home CTA
+  // (error pages were index-only after moves dual #471).
   const main = `<style>
 .nf { margin: var(--s-6) 0; max-width: 60ch; }
 .nf__code { font: 400 clamp(64px, 16vw, 132px)/1 var(--poster); letter-spacing: .01em; color: var(--ink); margin: 0; }
@@ -50,7 +52,7 @@ export function render(ctx) {
     <li><span>What to do</span><b>reload, or come back shortly</b></li>
     <li><span>How to tell us</span><b><a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a></b></li>
   </ul>
-  <p><a class="nf__go" href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a></p>
+  <p><a class="nf__go" href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)} →</a></p>
 </section>`;
   return page({
     ctx,

@@ -18,14 +18,14 @@ const ctx = {
 describe('error pages SEO body links', () => {
   it('404 home CTA uses the live index question stem', () => {
     const html = notFound(ctx);
-    assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.match(html, /href="\/">AI activity index today · AI activity level today · SIREN →<\/a>/);
     assert.doesNotMatch(html, /href="\/">Back to the index →<\/a>/);
     assert.match(html, /noindex/);
   });
 
   it('500 home and feedback links use question H1s', () => {
     const html = serverError(ctx);
-    assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.match(html, /href="\/">AI activity index today · AI activity level today · SIREN →<\/a>/);
     assert.doesNotMatch(html, /href="\/">Back to the index →<\/a>/);
     assert.match(html, /href="\/feedback\.html">How do I report a problem or send an idea to SIREN\?<\/a>/);
     assert.doesNotMatch(html, /href="\/feedback\.html">feedback form<\/a>/);

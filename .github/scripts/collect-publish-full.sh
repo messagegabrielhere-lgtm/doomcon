@@ -31,7 +31,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
     openapi.json api/index.json llms-full.txt free-tools.html verify.html \
     p-doom.html ai-doomsday-clock.html guide.html guides.html guide.md guides.md \
     bets.html balance.html self-aware.html videos.html bliss.html press.html \
-    moves/2026-10-17T15-35-33Z.html \
+    moves/2026-10-17T15-35-33Z.html 404.html 500.html \
     .well-known/api-catalog .well-known/api-catalog.json \
     .well-known/mcp/server-card.json \
     .well-known/agent-skills/index.json \
@@ -411,6 +411,16 @@ if [ -f "$PRESERVE_FAQ/moves/2026-10-17T15-35-33Z.html" ] \
     .pages/moves/2026-10-17T15-35-33Z.html
   echo "restored moves dual head term probe (#471)"
 fi
+# FINDABILITY #473 — restore tip 404/500 when dual middot head terms are
+# missing after orphan Publish.
+for hub in 404.html 500.html; do
+  if [ -f "$PRESERVE_FAQ/$hub" ] \
+    && ! grep -qF 'AI activity index today · AI activity level today' \
+      ".pages/$hub" 2>/dev/null; then
+    cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
+    echo "restored $hub dual head term (#473)"
+  fi
+done
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
 # labAboutLabel is missing (OpenAI / ChatGPT on /lab/openai.html rows).
 for hub in lab/index.html companies.html companies/index.html; do
