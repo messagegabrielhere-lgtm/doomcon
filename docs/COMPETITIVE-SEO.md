@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T05:05Z after **#397** Trends tip heal `9f62b0d` + IndexNow **200**: watchlist **Anthropic ECDSA** row CDN clear; ECDSA FAQ + news:keywords **3/3** still **ok**; METR FAQ **#392** still **ok**; MOSS-Image **#394** **3/3**; Chrome **#390** **2/2**; news keyword probes **ok**; lead **6,702** / news **200**; pizzint news **0** (`google-news-open`); GSC/Bing meta **absent**; News keywords through **#397**; FAQ routes through **#397**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex; `seo-daily` probes through **#399** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T05:27Z after **#400** tip overlay `cb7f44f` + IndexNow **200**: Trends watchlist **47** rows CDN clear (ECDSA/METR `<td>` + routes FAQ **ok**); ECDSA FAQ + news:keywords **3/3** still **ok**; METR FAQ **#392** still **ok**; MOSS-Image **#394** **3/3**; Chrome **#390** **1/1**; news keyword probes **ok**; lead **6,702** / news **200**; pizzint news **14** contested; GSC/Bing meta **absent**; News keywords through **#397**; FAQ routes through **#397**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#401** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -59,7 +59,7 @@ preserve **#248**). Typed-guess **#262** tip prose still intact after
 **ok** after `a00cfbc` (index + level today middot). Multi-title **#298** Vercel tip
 **ok** (2/2 after `2d76065`); **#294** Mac Studio singular tip
 **ok**; **#292** Mac Studios **ok**; Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Hold doorway on product keywords beyond **#397** ECDSA FAQ + **#394** MOSS-Image + **#392** METR FAQ + **#390** Chrome + **#388** digit flex + **#386** Nemotron 3.5 (armed).
+Hold doorway on product keywords beyond **#400** Trends HEAD_TERMS merge + **#397** ECDSA FAQ + **#394** MOSS-Image + **#392** METR FAQ + **#390** Chrome + **#388** digit flex + **#386** Nemotron 3.5 (armed).
 MOSS-Image keywords have no doorway lab (parallel Beam #286); Anthropic FAQs gate ECDSA + METR + Blackstone;
 OpenAI FAQ #191 gates Chrome; NVIDIA lab gates Dory + Nemotron; SoftBank FAQ #374 gates Allied.
 Warsh person / Glimpse (1 title) / Nova Scotia geography / North Korea geography /
@@ -68,6 +68,8 @@ Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster 
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise / bare Allied shorthand / Nudify adult refused /
 Replit no-lab FAQ / AlphaFold 3 + RTX 5090 singles / Financial Times · Show HN · Stock Movers noise.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
+**#401** after **#400** tip `cb7f44f` + IndexNow **200**: Trends watchlist **47** rows CDN clear (ECDSA/METR `<td>` + routes FAQ **ok**); ECDSA FAQ + keywords **3/3** still **ok**; METR/MOSS still keyed; Chrome **1/1**; lead **6,702**; pizzint news **14** contested; multi-title product gap empty (hold NSA niche keyword).
+**#400** tip `cb7f44f` CDN clear (HEAD_TERMS merge at Trends render + seo-daily watchlist `<td>` probe; #399 tip-wipe class).
 **#399** after **#397** Trends tip heal `9f62b0d` + IndexNow **200**: watchlist Anthropic ECDSA row CDN clear; ECDSA FAQ + keywords **3/3** still **ok**; METR/MOSS/Chrome still keyed; lead **6,702**; pizzint news **0** (`google-news-open`); multi-title product gap empty (hold NSA niche keyword).
 **#398** after **#397** tip `0fe6700` + IndexNow **200**: ECDSA FAQ CDN clear + news:keywords **3/3**; METR FAQ still **ok**; MOSS-Image **3/3** + Chrome **2/2** still keyed; news keyword probes **ok**; lead **6,702**; pizzint news **14** contested; multi-title product gap empty (hold NSA niche keyword).
 **#397** Anthropic ECDSA FAQ + news:keywords (4 titles; lab + agents + Trends; hold NSA / Warsh / Nudify / AI Jitters / Replit).
