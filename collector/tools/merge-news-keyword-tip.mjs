@@ -422,6 +422,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Amazon Web Services')) {
     throw new Error('probe labs must include Amazon Web Services');
   }
+  // FINDABILITY #364 — M5 Max Apple Silicon SKU companion stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('M5 Max')) {
+    throw new Error('probe labs must include M5 Max');
+  }
   // FINDABILITY #310 — GPT-6 Astra space-form title heal.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
     || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {

@@ -2419,6 +2419,44 @@ test('news sitemap keywords include Amazon Web Services from multi-title CFO tap
   assert.doesNotMatch(c, /\bAmazon Web Services\b/);
 });
 
+test('news sitemap keywords include M5 Max from multi-title Apple Silicon tape (FINDABILITY #364)', () => {
+  // Multi-title M5 Max tape: Apple / Apple Intelligence / RTX Spark fill 12-cap
+  // while the contiguous Apple Silicon SKU surface is dropped (FAQ #170 gates lab).
+  const a = keywordsFor({
+    title: "Nvidia RTX Spark First Tests: Can These Ambitious AI Laptops Beat Apple's M5 Max?",
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['NVIDIA', 'Google', 'Apple'],
+  });
+  assert.match(a, /\bM5 Max\b/);
+  assert.match(a, /\bRTX Spark\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('M5 Max') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: "Nvidia's RTX Spark Superchip in the Surface Laptop Ultra outperforms Apple's M5 Max MacBook Pro by ~25%",
+    summary: 'Agentic AI completion benchmarks beside Qwen models.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['NVIDIA', 'Apple', 'Qwen'],
+  });
+  assert.match(b, /\bM5 Max\b/);
+  // Bare M5 / MacBook Pro tape must not invent the Max SKU needle.
+  // (Summary must not name the needle — keywordsFor hay is title+summary.)
+  const c = keywordsFor({
+    title: 'Apple M5 chip launch brings on-device AI to MacBook Pro',
+    summary: 'Bare M5 / MacBook Pro tape must not invent a contiguous Max SKU needle.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Apple', 'Google'],
+  });
+  assert.match(c, /\bApple\b/);
+  assert.doesNotMatch(c, /\bM5 Max\b/);
+});
+
 test('news sitemap keywords include AI safety bill from multi-title legislative tape (FINDABILITY #358)', () => {
   // Multi-title AI safety bill tape: Anthropic / Claude / AI safety fill 12-cap
   // while the contiguous legislative surface is dropped (FAQ #163 gates the lab).
