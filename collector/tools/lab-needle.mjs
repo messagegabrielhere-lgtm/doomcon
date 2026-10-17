@@ -9,6 +9,9 @@
 // V4.1-Flash-…" / "DeepSeek API Key Setup: V4.1 Flash…" title↔keywords heal.
 // FINDABILITY #448 — Anthropic GDP "$44T" SKU matches live "$44 trillion" /
 // "$44.4 Trillion" / "44T" title forms (generic bare "GDP" stays unmatched).
+// FINDABILITY #487 — ECDSA matches cryptography-seed / NSA crypto-mystery
+// title forms (live tape drops contiguous ECDSA while Claude/Anthropic fill
+// the 12-cap). Bare NSA niche keyword / bare "cryptography" stay unmatched.
 
 /**
  * Boundary regex for a lab / probe needle.
@@ -20,6 +23,8 @@
  * FINDABILITY #431 — DeepSeek V4.1 Flash non-contiguous title forms (same
  * regex as Trends HEAD_TERM `deepseek-v41-flash`).
  * FINDABILITY #448 — `$44T` matches `$44 trillion` / `$44.4 Trillion` / `44T`.
+ * FINDABILITY #487 — `ECDSA` matches cryptography-seed / NSA crypto-mystery
+ * forms (hold bare NSA niche keyword).
  *
  * @param {string} lab
  * @returns {RegExp}
@@ -39,6 +44,13 @@ export function labNeedleRe(lab) {
   // Hold bare "GDP" / Jack Clark person / non-$44 forecasts.
   if (lab === '$44T') {
     return /(?:^|[^A-Za-z0-9])\$?44(?:\.4)?[\s\-]*t(?:rillion)?(?:[^A-Za-z0-9]|$)/i;
+  }
+  // FINDABILITY #487 — ECDSA curve-seed companion flex for live titles that
+  // name the NSA cryptography seed/mystery tape without the ECDSA SKU.
+  // Hold bare NSA niche keyword / bare cryptography / Bitcoin-wallet ECDSA
+  // alone (literal `\becdsa\b` still matches contiguous SKU titles).
+  if (lab === 'ECDSA') {
+    return /\becdsa\b|\bcurve[- ]seeds?\b|\bNSA\s+cryptograph(?:y|ic)\s+(?:seeds?|mystery|numbers)\b|\bcryptograph(?:y|ic)\s+seeds?\s+mystery\b/i;
   }
   const chunks = String(lab).split(/[\s\-]+/).filter(Boolean);
   const parts = [];

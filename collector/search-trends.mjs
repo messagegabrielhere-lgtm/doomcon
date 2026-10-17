@@ -67,7 +67,9 @@ export const HEAD_TERMS = Object.freeze([
   // gated Claude lab (story counts only; not a crypto audit). ECDSA / curve
   // seeds / NIST elliptic-curve origins beside Anthropic / Claude; bare ECDSA
   // without that context stays unmatched. Do not match bare NSA geography.
-  { id: 'anthropic-ecdsa', label: 'Anthropic ECDSA', re: /\b(?:anthropic|claude)\b.{0,80}\b(?:ecdsa|elliptic[- ]curve|curve[- ]seeds?|nist)\b|\b(?:ecdsa|elliptic[- ]curve|curve[- ]seeds?)\b.{0,80}\b(?:anthropic|claude|nist)\b/i, path: '/lab/anthropic.html' },
+  // FINDABILITY #487 — also match NSA cryptography seed/mystery title forms
+  // beside Anthropic / Claude (live tape drops contiguous ECDSA).
+  { id: 'anthropic-ecdsa', label: 'Anthropic ECDSA', re: /\b(?:anthropic|claude)\b.{0,80}\b(?:ecdsa|elliptic[- ]curve|curve[- ]seeds?|nist|NSA\s+cryptograph(?:y|ic)\s+(?:seeds?|mystery|numbers)|cryptograph(?:y|ic)\s+seeds?\s+mystery)\b|\b(?:ecdsa|elliptic[- ]curve|curve[- ]seeds?|NSA\s+cryptograph(?:y|ic)\s+(?:seeds?|mystery|numbers))\b.{0,80}\b(?:anthropic|claude|nist)\b/i, path: '/lab/anthropic.html' },
   // FINDABILITY #402 — Claude Opus 5.5 / Opus 5.5 product Trends → same gated
   // Claude lab (story counts only; not a model review). Contiguous Opus 5.5
   // beside Claude / Anthropic; bare “opus” without the 5.5 SKU stays unmatched.
