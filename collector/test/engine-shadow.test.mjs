@@ -742,6 +742,21 @@ test('Publish restores tip verify.html dual head term (FINDABILITY #451)', () =>
   assert.match(newsFast, /restored verify\.html dual head term \(#451\)/);
 });
 
+test('Publish restores tip compare/alternatives dual head term (FINDABILITY #453)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #453/);
+  assert.match(collect, /compare\.html/);
+  assert.match(collect, /alternatives\.html/);
+  assert.match(collect, /restored compare\.html dual head term \(#453\)/);
+  assert.match(collect, /restored alternatives\.html dual head term \(#453\)/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #453/);
+  assert.match(newsFast, /compare\.html/);
+  assert.match(newsFast, /alternatives\.html/);
+  assert.match(newsFast, /restored compare\.html dual head term \(#453\)/);
+  assert.match(newsFast, /restored alternatives\.html dual head term \(#453\)/);
+});
+
 test('Publish restores tip home AI activity index FAQ (FINDABILITY #254)', () => {
   // Orphan/news-only Publish can wipe the exact head-term FAQ until tip ≥ #254;
   // restore fires on missing needle and re-syncs /ai-activity-index alias body.

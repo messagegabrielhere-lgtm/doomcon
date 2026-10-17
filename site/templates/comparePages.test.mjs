@@ -112,7 +112,8 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(hub, /\/vs\.html/);
     assert.match(hub, /Which AI indexes does SIREN contrast/);
     assert.match(hub, /\/methodology\.html/);
-    assert.match(hub, /href="\/">AI activity index today · SIREN →<\/a>/);
+    // FINDABILITY #453 — dual middot head terms beside live home.
+    assert.match(hub, /href="\/">AI activity index today · AI activity level today · SIREN →<\/a>/);
     // FINDABILITY #127 — how-to head term in visible FAQ + description.
     assert.match(hub, /How do you compare AI doom indexes\?/);
     assert.match(hub, /content="Which AI doom indexes can you compare\? How do you compare AI doom indexes\?/);
@@ -144,6 +145,8 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(alt, /artificialanalysis\.ai/);
     assert.match(alt, /Which AI doom indexes can you compare/);
     assert.match(alt, /\/compare\.html/);
+    // FINDABILITY #453 — dual middot head terms beside live home.
+    assert.match(alt, /href="\/">AI activity index today · AI activity level today · SIREN →<\/a>/);
     assert.doesNotMatch(alt, /noindex/);
   });
 
@@ -171,7 +174,8 @@ describe('compare / alternatives conquest pages', () => {
     assert.doesNotMatch(page, /<h3>SIREN<\/h3>/);
     assert.doesNotMatch(page, /id="vs-each-h">What each one is<\/h2>/);
     assert.doesNotMatch(page, /id="vs-next-h">Where to go next<\/h2>/);
-    assert.match(page, /href="\/">AI activity index today · SIREN →<\/a>/);
+    // FINDABILITY #453 — dual middot head terms on vs pages (shared liveStrip).
+    assert.match(page, /href="\/">AI activity index today · AI activity level today · SIREN →<\/a>/);
     assert.doesNotMatch(page, /href="\/">Current SIREN reading →<\/a>/);
     assert.doesNotMatch(page, /SIREN.*p\(doom\) of \d/i);
     const pizza = vsRival(ctx, 'pizzint');
