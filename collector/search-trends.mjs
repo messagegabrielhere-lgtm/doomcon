@@ -58,6 +58,11 @@ export const HEAD_TERMS = Object.freeze([
   // EverWind / Point Tupper / Nova Scotia beside Anthropic / Claude; bare
   // “Nova Scotia” geography without the lab stays unmatched.
   { id: 'anthropic-canada-datacenter', label: 'Anthropic Canadian data centres', re: /\b(?:anthropic|claude)\b.{0,64}\b(?:nova\s+scotia|canadian|canada|everwind|point\s+tupper)\b.{0,40}\b(?:data\s*cent(?:er|re)|campus|lease)\b|\b(?:nova\s+scotia|canadian|canada|everwind)\b.{0,64}\b(?:anthropic|claude)\b|\b(?:anthropic|claude)\b.{0,48}\b(?:nova\s+scotia|everwind)\b|\b(?:nova\s+scotia|everwind)\b.{0,48}\b(?:anthropic|claude)\b/i, path: '/lab/anthropic.html' },
+  // FINDABILITY #392 — Anthropic / METR evaluator-access Trends → same gated
+  // Claude lab (story counts only; not an audit verdict). METR beside
+  // Anthropic / Claude / employee-like access / outside-evaluator tape; bare
+  // METR without that context stays unmatched.
+  { id: 'anthropic-metr', label: 'Anthropic METR', re: /\b(?:anthropic|claude)\b.{0,64}\bmetr\b|\bmetr\b.{0,64}\b(?:anthropic|claude|employee[- ]like|evaluator|outside[- ]evaluator)\b/i, path: '/lab/anthropic.html' },
   // FINDABILITY #174/#187 — Gemini / Gemma / Argon Trends → gated DeepMind lab
   // (story counts only; not a model review or stock tip). Gemma open-weight and
   // Gemini 4 Argon product tape share the same lab as Gemini headlines.

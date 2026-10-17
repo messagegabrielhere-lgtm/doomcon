@@ -112,6 +112,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: "EverWind’s major data centre project in N.S. will power Anthropic’s Claude AI", news: [] }).includes('anthropic-canada-datacenter'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-canada-datacenter' && t.path === '/lab/anthropic.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'anthropic-canada-datacenter').re.test('Nova Scotia lobster festival tourism boom'), false);
+  // FINDABILITY #392 — Anthropic / METR evaluator-access Trends → Anthropic lab.
+  assert.ok(matchHeadTerms({ title: 'Anthropic gives METR inside access to audit its AI models and safety practices', news: [] }).includes('anthropic-metr'));
+  assert.ok(matchHeadTerms({ title: 'Anthropic grants non-profit METR employee-like access to monitor AI risks', news: [] }).includes('anthropic-metr'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-metr' && t.path === '/lab/anthropic.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'anthropic-metr').re.test('METR publishes a generic blog about metrics'), false);
   assert.ok(matchHeadTerms({ title: "Waymo’s robotaxis are headed to Canada", news: [] }).includes('waymo-canada'));
   assert.ok(matchHeadTerms({ title: 'Hello Toronto – Waymo Is En Route', news: [] }).includes('waymo-canada'));
   assert.ok(matchHeadTerms({ title: 'Waymo plans to launch its robotaxis in Toronto in 2028', news: [] }).includes('waymo-canada'));
