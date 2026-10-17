@@ -1010,6 +1010,14 @@ export function hasFreeToolsDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TE
 }
 
 /**
+ * True when verify.html names dual middot head terms (FINDABILITY #451).
+ * Wipe gap is `verify-dual-head-term-missing`.
+ */
+export function hasVerifyDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
  * True when free-tools.html listicle lists /classic.html with the panel
  * question (FINDABILITY #332). Wipe gap is `freetools-classic-panel-missing`.
  */
@@ -2866,6 +2874,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #451 — verify.html dropped dual middot head terms.
+  if (ours.verify_dual_head_term === false) {
+    gaps.push({
+      id: 'verify-dual-head-term-missing',
+      severity: 'medium',
+      text: 'verify.html missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #451) — re-overlay verify or wait for collect/news-fast Publish on tip ≥ #451',
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -4294,6 +4311,11 @@ export function measureSite(site, byUrl) {
     row.freetools_dual_head_term = freeToolsHtml?.ok
       ? hasFreeToolsDualHeadTerm(freeToolsHtml.value)
       : false;
+    // FINDABILITY #451 — verify.html must name dual middot head terms.
+    const verifyHtml = byUrl.get(`${base}/verify.html`);
+    row.verify_dual_head_term = verifyHtml?.ok
+      ? hasVerifyDualHeadTerm(verifyHtml.value)
+      : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -4778,6 +4800,11 @@ export function formatMarkdown(report) {
     if (ours && ours.freetools_dual_head_term != null) {
       lines.push(
         `- free-tools dual index/level head term (#443): **${ours.freetools_dual_head_term ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && ours.verify_dual_head_term != null) {
+      lines.push(
+        `- verify dual index/level head term (#451): **${ours.verify_dual_head_term ? 'ok' : 'NO'}**`,
       );
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
@@ -5939,6 +5966,25 @@ function selftest() {
   });
   if (!freeToolsDualGaps.some((g) => g.id === 'freetools-dual-head-term-missing')) {
     throw new Error('freetools-dual-head-term-missing gap');
+  }
+  if (hasVerifyDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasVerifyDualHeadTerm true');
+  }
+  if (hasVerifyDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasVerifyDualHeadTerm false for index-only');
+  }
+  const verifyDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      verify_dual_head_term: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!verifyDualGaps.some((g) => g.id === 'verify-dual-head-term-missing')) {
+    throw new Error('verify-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{

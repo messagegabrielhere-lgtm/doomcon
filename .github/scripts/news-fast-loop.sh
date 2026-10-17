@@ -523,6 +523,14 @@ while [ "$(date +%s)" -lt "$END" ]; do
         cp -a "$root/free-tools.html" "$root/free-tools/index.html"
         echo "restored free-tools.html classic instrument panel / dual head term (#332/#443)"
       fi
+      # FINDABILITY #451 — verify.html dual middot head terms.
+      if [ -f "$preserve/verify.html" ] \
+        && ! grep -qF 'AI activity index today · AI activity level today' "$root/verify.html" 2>/dev/null; then
+        cp -a "$preserve/verify.html" "$root/verify.html"
+        mkdir -p "$root/verify"
+        cp -a "$root/verify.html" "$root/verify/index.html"
+        echo "restored verify.html dual head term (#451)"
+      fi
     }
     # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
     # labAboutLabel is missing after orphan Publish.
@@ -1107,7 +1115,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       # FINDABILITY #330 — also stash agents.json / openapi / api/index / llms-full /
       # agent-skills so news-only overlay cannot drop classic.
       for surf in agents.txt ai.txt agents.json openapi.json api/index.json llms-full.txt \
-        free-tools.html \
+        free-tools.html verify.html \
         .well-known/api-catalog .well-known/api-catalog.json \
         .well-known/mcp/server-card.json \
         .well-known/agent-skills/index.json; do
@@ -1132,7 +1140,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       # discovery surfaces stay in lockstep with news-only writeAgentText.
       # FINDABILITY #330 — also overlay agents.json / openapi / api/index /
       # agent-skills (llms-full already in list).
-      for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms.txt llms-full.txt agents.md agents.txt agents.json ai.txt skill.md openapi.json api/index.json free-tools.html news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html search-trends.html api/search-trends.json .well-known/api-catalog .well-known/api-catalog.json .well-known/mcp/server-card.json .well-known/agent-skills/index.json; do
+      for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms.txt llms-full.txt agents.md agents.txt agents.json ai.txt skill.md openapi.json api/index.json free-tools.html verify.html news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html search-trends.html api/search-trends.json .well-known/api-catalog .well-known/api-catalog.json .well-known/mcp/server-card.json .well-known/agent-skills/index.json; do
         if [ -e "public/$rel" ]; then
           mkdir -p ".pages/$(dirname "$rel")"
           cp -a "public/$rel" ".pages/$rel"
