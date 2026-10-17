@@ -2635,6 +2635,50 @@ test('news sitemap keywords include Dory 1.0 from Nemotron Labs tape (FINDABILIT
   assert.doesNotMatch(d, /\bDory 1\.0\b/);
 });
 
+test('news sitemap keywords include Nemotron 3.5 from multi-title version tape (FINDABILITY #386)', () => {
+  // Multi-title Nemotron 3.5 tape: bare Nemotron / Super VL fill 12-cap while
+  // the contiguous version surface is dropped (`/lab/nvidia.html` gates).
+  const a = keywordsFor({
+    title: 'Nvidia unveils Nemotron 3.5 open models for AI agents, targeting server to edge',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['NVIDIA', 'Nemotron'],
+  });
+  assert.match(a, /\bNemotron 3\.5\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Nemotron 3.5') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Nvidia\'s Nemotron 3.5 Super VL is an open model built to run enterprise AI agents nonstop',
+    summary: 'Super VL SKU beside the Nemotron 3.5 line.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['NVIDIA', 'Nemotron'],
+  });
+  assert.match(b, /\bNemotron 3\.5\b/);
+  // bare Nemotron / Dory tape must not invent the 3.5 version.
+  const c = keywordsFor({
+    title: 'NVIDIA Nemotron Labs Dory 1.0 4B: a quiet HF release',
+    summary: 'Bare Nemotron Labs tape must not invent the 3.5 version SKU.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['NVIDIA', 'Nemotron'],
+  });
+  assert.doesNotMatch(c, /\bNemotron 3\.5\b/);
+  const d = keywordsFor({
+    title: 'Nemotron open models expand agent runtime support',
+    summary: 'Bare Nemotron line without the 3.5 version surface.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Nemotron'],
+  });
+  assert.doesNotMatch(d, /\bNemotron 3\.5\b/);
+});
+
 test('news sitemap keywords include AI safety bill from multi-title legislative tape (FINDABILITY #358)', () => {
   // Multi-title AI safety bill tape: Anthropic / Claude / AI safety fill 12-cap
   // while the contiguous legislative surface is dropped (FAQ #163 gates the lab).

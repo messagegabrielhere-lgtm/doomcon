@@ -390,9 +390,16 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // 4B vs Qwen 3.8…); NVIDIA / Nemotron / Qwen / NVDA fill the 12-cap and drop
   // the contiguous model surface — `/lab/nvidia.html` already gates the lab
   // (parallel to Bolt #234 / Muse Spark #222). Hold bare Dory name noise /
-  // Nemotron 3.5 single-title / Qwen 3.8 spaced single / Warsh / ECDSA /
-  // Nudify / AI Jitters.
+  // Qwen 3.8 spaced single / Warsh / ECDSA / Nudify / AI Jitters.
   'Dory 1.0',
+  // FINDABILITY #386 — multi-title Nemotron 3.5 version companion while
+  // pizzint-news-alive (2 titles in 48h: Nvidia unveils Nemotron 3.5 open
+  // models… + Nvidia's Nemotron 3.5 Super VL…; 1 in newest-200, 1 armed for
+  // rotate-in); bare Nemotron / Super VL fill the 12-cap and drop the contiguous
+  // version surface — `/lab/nvidia.html` already gates (parallel to Qwen3.8
+  // #238 / Mythos 5 #344 / Flux 3 #258 rotate-in). Hold Qwen 3.8 spaced /
+  // Warsh / ECDSA / Nudify / AI Jitters.
+  'Nemotron 3.5',
 ]);
 
 /**
