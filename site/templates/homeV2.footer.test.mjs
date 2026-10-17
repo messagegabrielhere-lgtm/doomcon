@@ -139,6 +139,17 @@ describe('home v2 footer', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
+  // FINDABILITY #423 — home every-room grid must surface DoomBench conquest
+  // (unbranded “AI doom index” SERP rival) beside PizzINT / Takeoff.
+  it('every-room THE RECORD includes DoomBench conquest card (FINDABILITY #423)', () => {
+    const html = render(ctx, { head: '' });
+    assert.match(
+      html,
+      /href="\/vs\/doombench\.html"[^>]*>[\s\S]*?<b>SIREN vs DoomBench: which should you use\?<\/b>/,
+    );
+    assert.match(html, /Activity count vs Live AI Doom Index/);
+  });
+
   it('reuse, bosses, labs and video section H2s use questions', () => {
     const html = render(ctx, { head: '' });
     assert.match(html, /id="v2-share-h"[^>]*>How do you reuse this SIREN reading\?<\/h2>/);
