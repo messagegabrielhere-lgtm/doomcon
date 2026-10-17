@@ -631,6 +631,15 @@ while [ "$(date +%s)" -lt "$END" ]; do
         cp -a "$root/press.html" "$root/press/index.html"
         echo "restored press.html dual head term (#469)"
       fi
+      # FINDABILITY #471 — moves dual middot head terms (probe path).
+      if [ -f "$preserve/moves/2026-10-17T15-35-33Z.html" ] \
+        && ! grep -qF 'AI activity index today · AI activity level today' \
+          "$root/moves/2026-10-17T15-35-33Z.html" 2>/dev/null; then
+        mkdir -p "$root/moves"
+        cp -a "$preserve/moves/2026-10-17T15-35-33Z.html" \
+          "$root/moves/2026-10-17T15-35-33Z.html"
+        echo "restored moves dual head term probe (#471)"
+      fi
     }
     # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
     # labAboutLabel is missing after orphan Publish.
@@ -1342,6 +1351,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt \
         p-doom.html ai-doomsday-clock.html guide.html guides.html guide.md guides.md \
         bets.html balance.html self-aware.html videos.html bliss.html press.html \
+        moves/2026-10-17T15-35-33Z.html \
         .well-known/api-catalog .well-known/api-catalog.json \
         .well-known/mcp/server-card.json \
         lab/index.html companies.html companies/index.html \
@@ -1361,6 +1371,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt \
             p-doom.html ai-doomsday-clock.html guide.html guides.html guide.md guides.md \
             bets.html balance.html self-aware.html videos.html bliss.html press.html \
+            moves/2026-10-17T15-35-33Z.html \
             .well-known/api-catalog .well-known/api-catalog.json \
             .well-known/mcp/server-card.json \
             lab/index.html companies.html companies/index.html \

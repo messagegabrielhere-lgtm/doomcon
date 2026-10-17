@@ -32,7 +32,7 @@ const baseMove = {
 describe('move page', () => {
   it('superseded stamp links home with the live title question', () => {
     const html = render(ctx, { ...baseMove, newer: true });
-    assert.match(html, /class="bstamp bstamp--old"><a href="\/">AI activity index today · SIREN<\/a>/);
+    assert.match(html, /class="bstamp bstamp--old"><a href="\/">AI activity index today · AI activity level today · SIREN<\/a>/);
     assert.doesNotMatch(html, /Superseded · current reading/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);

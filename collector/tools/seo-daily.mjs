@@ -114,6 +114,8 @@ export const OUR_SURFACES = Object.freeze([
   '/privacy.html',
   // FINDABILITY #469 — press Current reading CTA must keep dual head terms.
   '/press.html',
+  // FINDABILITY #471 — superseded-move bstamp CTA must keep dual head terms.
+  '/moves/2026-10-17T15-35-33Z.html',
   '/terms.html',
   '/disclosures.html',
   '/brand.html',
@@ -1125,6 +1127,14 @@ export function hasBlissDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_N
  * Wipe gap is `press-dual-head-term-missing`.
  */
 export function hasPressDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when a superseded move page names dual middot head terms (FINDABILITY #471).
+ * Wipe gap is `moves-dual-head-term-missing`.
+ */
+export function hasMovesDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
   return String(html || '').includes(needle);
 }
 
@@ -3110,6 +3120,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #471 — superseded move bstamp dropped dual middot head terms.
+  if (ours.moves_dual_head_term === false) {
+    gaps.push({
+      id: 'moves-dual-head-term-missing',
+      severity: 'medium',
+      text: 'moves/*.html bstamp missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #471) — re-overlay move pages or wait for collect/news-fast Publish on tip ≥ #471',
+    });
+  }
+
   // FINDABILITY #463 — model hub pages dropped dual middot head terms.
   if (
     ours.muse_spark_dual_head_term === false
@@ -4630,6 +4649,11 @@ export function measureSite(site, byUrl) {
     row.press_dual_head_term = pressHtml?.ok
       ? hasPressDualHeadTerm(pressHtml.value)
       : false;
+    // FINDABILITY #471 — superseded-move bstamp CTA must keep dual middot.
+    const movesProbeHtml = byUrl.get(`${base}/moves/2026-10-17T15-35-33Z.html`);
+    row.moves_dual_head_term = movesProbeHtml?.ok
+      ? hasMovesDualHeadTerm(movesProbeHtml.value)
+      : false;
     // FINDABILITY #463 — model hub composite-reading CTAs must keep dual middot.
     const museSparkHtml = byUrl.get(`${base}/model/muse-spark.html`);
     const fableHtml = byUrl.get(`${base}/model/fable.html`);
@@ -5192,6 +5216,10 @@ export function formatMarkdown(report) {
     if (ours && ours.press_dual_head_term != null) {
       const pd = ours.press_dual_head_term ? 'ok' : 'NO';
       lines.push(`- press dual index/level head term (#469): **${pd}**`);
+    }
+    if (ours && ours.moves_dual_head_term != null) {
+      const md = ours.moves_dual_head_term ? 'ok' : 'NO';
+      lines.push(`- moves dual index/level head term (#471): **${md}**`);
     }
     if (ours && (
       ours.muse_spark_dual_head_term != null
@@ -6616,6 +6644,25 @@ function selftest() {
   });
   if (!pressDualGaps.some((g) => g.id === 'press-dual-head-term-missing')) {
     throw new Error('press-dual-head-term-missing gap');
+  }
+  if (hasMovesDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasMovesDualHeadTerm true');
+  }
+  if (hasMovesDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasMovesDualHeadTerm false for index-only');
+  }
+  const movesDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      moves_dual_head_term: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!movesDualGaps.some((g) => g.id === 'moves-dual-head-term-missing')) {
+    throw new Error('moves-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{
