@@ -422,6 +422,14 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // `/lab/anthropic.html` (parallel to METR FAQ #392 / Chrome #390). Hold NSA
   // niche keyword / Warsh / Nudify / AI Jitters / Replit no-lab.
   'ECDSA',
+  // FINDABILITY #404 — multi-title Ondas–Palantir defense-AI JV tape while
+  // pizzint-news-alive (2 titles: RTX, AeroVironment And Ondas-Palantir… +
+  // Stocktwits… Ondas-Palantir Launch AI Firm…); Palantir / AIP fill the
+  // 12-cap and drop the contiguous Ondas partner surface — Palantir gov FAQ
+  // already gates `/lab/palantir.html` (parallel to CERT-In #226 / Allied
+  // #380). Hold bare AeroVironment third-party / Warsh / Nudify / AI Jitters /
+  // NSA niche / Replit no-lab / ollama release noise.
+  'Ondas',
 ]);
 
 /**

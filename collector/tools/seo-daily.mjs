@@ -592,6 +592,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'ECDSA',
   // FINDABILITY #402 — Claude Opus 5.5 product companion (multi-title; FAQ #402 gates Anthropic lab).
   'Claude Opus 5.5', 'Opus 5.5',
+  // FINDABILITY #404 — Ondas partner companion (multi-title Ondas–Palantir JV; Palantir FAQ gates lab).
+  'Ondas',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -8033,6 +8035,37 @@ function selftest() {
     }
     if (opusLags.filter((r) => /Multiagent/i.test(r.title)).some((r) => r.lab === 'Claude Opus 5.5' || r.lab === 'Opus 5.5')) {
       throw new Error('newsKeywordLags should not flag Opus when keywords include it');
+    }
+  }
+  // FINDABILITY #404 — catch tip wipe of Ondas companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Ondas')) {
+    throw new Error('probe labs missing Ondas');
+  }
+  {
+    const ondasLags = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>RTX, AeroVironment And Ondas-Palantir Push Deeper Into Drone Defense And AI This Week</news:title>'
+      + '<news:keywords>Palantir, Google, AIP, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Stocktwits Defense Watch: RTX Continues Deal Momentum, Ondas-Palantir Launch AI Firm As AeroVironment Strike Four International Deals</news:title>'
+      + '<news:keywords>Palantir, Ondas, AIP, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (!ondasLags.some((r) => r.lab === 'Ondas')) {
+      throw new Error(`newsKeywordLags expected Ondas lag: ${JSON.stringify(ondasLags)}`);
+    }
+    if (ondasLags.filter((r) => /Stocktwits/i.test(r.title)).some((r) => r.lab === 'Ondas')) {
+      throw new Error('newsKeywordLags should not flag Ondas when keywords include it');
+    }
+    const ondasOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Palantir AIP wins another government AI contract</news:title>'
+      + '<news:keywords>Palantir, Google, AIP, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>AeroVironment Strike Four International Deals This Week</news:title>'
+      + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (ondasOnly.some((r) => r.lab === 'Ondas')) {
+      throw new Error('newsKeywordLags must not flag Ondas on bare Palantir / AeroVironment titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
