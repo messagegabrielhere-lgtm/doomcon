@@ -454,6 +454,16 @@ while [ "$(date +%s)" -lt "$END" ]; do
         fi
       done
     }
+    # FINDABILITY #437 — restore tip agents.html when dual middot head terms
+    # are missing after orphan/news-only Publish (level-only pre prompt is not enough).
+    restore_agents_html_dual() {
+      local root="$1" preserve="$2"
+      if [ -f "$preserve/agents.html" ] \
+        && ! grep -qF 'AI activity index today · AI activity level today' "$root/agents.html" 2>/dev/null; then
+        cp -a "$preserve/agents.html" "$root/agents.html"
+        echo "restored agents.html dual head term (#437)"
+      fi
+    }
     # FINDABILITY #328 — restore tip agents.txt / ai.txt / api-catalog when
     # classic panel needle is missing after orphan/news-only Publish.
     restore_discovery_classic() {
@@ -1075,6 +1085,10 @@ while [ "$(date +%s)" -lt "$END" ]; do
         mkdir -p "$PRESERVE_MAPS/skills/siren-ai-index"
         cp -a .pages/skills/siren-ai-index/SKILL.md "$PRESERVE_MAPS/skills/siren-ai-index/SKILL.md"
       fi
+      # FINDABILITY #437 — stash tip agents.html for dual head-term restore.
+      if [ -f .pages/agents.html ]; then
+        cp -a .pages/agents.html "$PRESERVE_MAPS/agents.html"
+      fi
       # FINDABILITY #328 — stash tip agents.txt / ai.txt / api-catalog / MCP card.
       # FINDABILITY #330 — also stash agents.json / openapi / api/index / llms-full /
       # agent-skills so news-only overlay cannot drop classic.
@@ -1120,6 +1134,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_vs_aliases .pages
       restore_agent_maps .pages "$PRESERVE_MAPS"
       restore_skill_classic .pages "$PRESERVE_MAPS"
+      restore_agents_html_dual .pages "$PRESERVE_MAPS"
       restore_discovery_classic .pages "$PRESERVE_MAPS"
       restore_home_knowsabout .pages "$PRESERVE_MAPS"
       restore_classic_panel .pages "$PRESERVE_MAPS"
@@ -1183,7 +1198,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       PRESERVE_FAQ=$(mktemp -d)
       # FINDABILITY #326/#328 — also stash tip skill.md + discovery surfaces.
       for hub in compare.html alternatives.html agents.md llms.txt skill.md \
-        skills/siren-ai-index/SKILL.md agents.txt ai.txt \
+        skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt \
         .well-known/api-catalog .well-known/api-catalog.json \
         .well-known/mcp/server-card.json \
         lab/index.html companies.html companies/index.html \
@@ -1200,7 +1215,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         rm -rf .pages-faq-tip
         if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/dev/null; then
           for hub in compare.html alternatives.html agents.md llms.txt skill.md \
-            skills/siren-ai-index/SKILL.md agents.txt ai.txt \
+            skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt \
             .well-known/api-catalog .well-known/api-catalog.json \
             .well-known/mcp/server-card.json \
             lab/index.html companies.html companies/index.html \
@@ -1223,6 +1238,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       restore_conquest_faqs .pages "$PRESERVE_FAQ"
       restore_agent_maps .pages "$PRESERVE_FAQ"
       restore_skill_classic .pages "$PRESERVE_FAQ"
+      restore_agents_html_dual .pages "$PRESERVE_FAQ"
       restore_discovery_classic .pages "$PRESERVE_FAQ"
       restore_lab_hub_labels .pages "$PRESERVE_FAQ"
       restore_home_knowsabout .pages "$PRESERVE_FAQ"

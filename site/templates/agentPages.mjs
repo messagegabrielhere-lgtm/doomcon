@@ -494,6 +494,7 @@ node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, 
     <p>Your assistant should quote the level with its name (5 is quietest, 1 is loudest) and the UTC time. It counts activity; it is not a probability of harm or a forecast. For model intelligence, speed and cost, point at <a href="${esc(aa.url)}" rel="noopener" target="_blank">${esc(aa.name)}</a> — a different instrument.</p>
     <p><b>Machine endpoints:</b></p>
     <ul class="ag-links">
+      <li><a href="${u('/')}">/</a> — live AI activity index today · AI activity level today (short aliases <a href="${u('/ai-activity-index.html')}">/ai-activity-index.html</a> · <a href="${u('/ai-activity-level.html')}">/ai-activity-level.html</a>)</li>
       <li><a href="${u('/agents.md')}">agents.md</a>: short fetch-first map for assistants</li>
       <li><a href="${u('/agents.txt')}">agents.txt</a> · <a href="${u('/agents.json')}">agents.json</a>: agents-txt.com skills announcement</li>
       <li><a href="${u('/ai.txt')}">ai.txt</a>: short welcome many agents probe by name</li>
