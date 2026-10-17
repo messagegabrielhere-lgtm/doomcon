@@ -7,6 +7,8 @@
 // FINDABILITY #431 — DeepSeek V4.1 Flash allows a short gap between DeepSeek
 // and V4.1 Flash (mirror search-trends.mjs #418) so "DeepSeek Launches
 // V4.1-Flash-…" / "DeepSeek API Key Setup: V4.1 Flash…" title↔keywords heal.
+// FINDABILITY #448 — Anthropic GDP "$44T" SKU matches live "$44 trillion" /
+// "$44.4 Trillion" / "44T" title forms (generic bare "GDP" stays unmatched).
 
 /**
  * Boundary regex for a lab / probe needle.
@@ -17,6 +19,7 @@
  * separators (Qwen3.8 ↔ Qwen 3.8).
  * FINDABILITY #431 — DeepSeek V4.1 Flash non-contiguous title forms (same
  * regex as Trends HEAD_TERM `deepseek-v41-flash`).
+ * FINDABILITY #448 — `$44T` matches `$44 trillion` / `$44.4 Trillion` / `44T`.
  *
  * @param {string} lab
  * @returns {RegExp}
@@ -31,6 +34,11 @@ export function labNeedleRe(lab) {
   // not match (parent version already has its own lab).
   if (lab === 'DeepSeek V4.1 Flash') {
     return /\bdeepseek[- ]?v?4\.1[- ]?flash\b|\bdeepseek\b.{0,80}\bv4\.1[- ]?flash\b|\bv4\.1[- ]?flash\b.{0,80}\bdeepseek\b/i;
+  }
+  // FINDABILITY #448 — Anthropic GDP $44T SKU (trillion / .4 forms).
+  // Hold bare "GDP" / Jack Clark person / non-$44 forecasts.
+  if (lab === '$44T') {
+    return /(?:^|[^A-Za-z0-9])\$?44(?:\.4)?[\s\-]*t(?:rillion)?(?:[^A-Za-z0-9]|$)/i;
   }
   const chunks = String(lab).split(/[\s\-]+/).filter(Boolean);
   const parts = [];

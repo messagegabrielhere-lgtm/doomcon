@@ -430,6 +430,17 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // #380). Hold bare AeroVironment third-party / Warsh / Nudify / AI Jitters /
   // NSA niche / ollama release noise (Replit FAQ #412 on Anthropic lab).
   'Ondas',
+  // FINDABILITY #448 — multi-title Anthropic GDP / $44T forecast tape while
+  // pizzint-news-alive (5+ titles: Anthropic Says AI Could Push US GDP to
+  // $44.4 Trillion… + Clark projects … $44T… + Anthropic forecasts U.S. GDP
+  // at $44T… + AI could boost US GDP to $44 trillion… + Jack Clark Predicts
+  // $44 Trillion…); Anthropic / Claude / compute fill the 12-cap and drop the
+  // contiguous $44T SKU — IPO / AI safety bill / ECDSA / Blackstone /
+  // Replit / Mythos FAQs already gate `/lab/anthropic.html` (parallel to
+  // Anthropic IPO #352 / NIST #370 / Blackstone #382). Hold bare GDP /
+  // Jack Clark person Trends / non-$44 forecasts / Warsh / Nudify / dress
+  // rehearsal / ollama (labNeedleRe flex covers trillion / .4 forms).
+  '$44T',
 ]);
 
 /**
