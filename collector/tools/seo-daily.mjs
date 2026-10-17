@@ -576,6 +576,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'M5 Max',
   // FINDABILITY #370 — NIST standards-body needle (multi-title; FAQ #368/#362 gate lab).
   'NIST',
+  // FINDABILITY #380 — Allied Universal companion (multi-title; FAQ #374 gates SoftBank lab).
+  'Allied Universal',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -7461,6 +7463,37 @@ function selftest() {
     );
     if (nistOnly.some((r) => r.lab === 'NIST')) {
       throw new Error('newsKeywordLags must not flag NIST on administration / ECDSA-only titles');
+    }
+  }
+  // FINDABILITY #380 — catch tip wipe of Allied Universal companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Allied Universal')) {
+    throw new Error('probe labs missing Allied Universal');
+  }
+  {
+    const alliedLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>SoftBank weighs $18 billion acquisition of Allied Universal, source says</news:title>'
+      + '<news:keywords>SoftBank, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>SoftBank weighs $18 billion acquisition of Allied Universal, Bloomberg News reports</news:title>'
+      + '<news:keywords>SoftBank, Allied Universal, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const alliedLags = newsKeywordLags(alliedLagXml);
+    if (!alliedLags.some((r) => r.lab === 'Allied Universal')) {
+      throw new Error(`newsKeywordLags expected Allied Universal lag: ${JSON.stringify(alliedLags)}`);
+    }
+    if (alliedLags.filter((r) => /Bloomberg News reports/i.test(r.title)).some((r) => r.lab === 'Allied Universal')) {
+      throw new Error('newsKeywordLags should not flag Allied Universal when keywords include it');
+    }
+    // bare "Allied" shorthand / SoftBank-only titles must not lag as Allied Universal.
+    const alliedOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>SoftBank Is Said to Weigh Buying Top US Security Firm Allied</news:title>'
+      + '<news:keywords>SoftBank, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Key facts: SoftBank (9984) $18B Allied talks; robotics; Nokia AI RAN</news:title>'
+      + '<news:keywords>SoftBank, Nokia, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (alliedOnly.some((r) => r.lab === 'Allied Universal')) {
+      throw new Error('newsKeywordLags must not flag Allied Universal on bare Allied shorthand titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
