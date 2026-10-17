@@ -446,6 +446,10 @@ export function selftest() {
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Nemotron 3.5')) {
     throw new Error('probe labs must include Nemotron 3.5');
   }
+  // FINDABILITY #390 — Chrome browser-assistant companion stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Chrome')) {
+    throw new Error('probe labs must include Chrome');
+  }
   // FINDABILITY #310 — GPT-6 Astra space-form title heal.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('GPT-6 Astra')
     || !NEWS_KEYWORD_PROBE_LABS.includes('GPT-6.1 Astra')) {

@@ -401,6 +401,14 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // #238 / Mythos 5 #344 / Flux 3 #258 rotate-in). Hold Warsh / ECDSA /
   // Nudify / AI Jitters (#388 covers Qwen 3.8 spaced via digit flex).
   'Nemotron 3.5',
+  // FINDABILITY #390 — multi-title ChatGPT Chrome / browser-assistant tape while
+  // google-news-open (3 titles: ChatGPT for Chrome… + full Chrome browser
+  // assistant… + peek at your Chrome tabs…); ChatGPT / OpenAI / GPT fill the
+  // 12-cap and drop the contiguous browser surface — FAQ #191 already gates
+  // `/lab/openai.html` (parallel to Allied #380 / Blackstone #382 / Flying
+  // Roadster #354). Hold bare browser noise without ChatGPT proximity /
+  // Warsh / ECDSA / Nudify / AI Jitters / METR (no lab FAQ yet) / Replit no-lab.
+  'Chrome',
 ]);
 
 /**

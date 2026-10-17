@@ -584,6 +584,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Dory 1.0',
   // FINDABILITY #386 — Nemotron 3.5 version companion (multi-title 48h; NVIDIA lab gates).
   'Nemotron 3.5',
+  // FINDABILITY #390 — Chrome browser-assistant companion (multi-title ChatGPT Chrome tape; FAQ #191 gates OpenAI lab).
+  'Chrome',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -7611,6 +7613,35 @@ function selftest() {
     );
     if (n35Only.some((r) => r.lab === 'Nemotron 3.5')) {
       throw new Error('newsKeywordLags must not flag Nemotron 3.5 on bare Nemotron / Dory titles');
+    }
+  }
+  // FINDABILITY #390 — catch tip wipe of Chrome browser-assistant companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Chrome')) {
+    throw new Error('probe labs missing Chrome');
+  }
+  {
+    const chromeLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>ChatGPT for Chrome can now read tabs, compare prices, and send messages.</news:title>'
+      + '<news:keywords>GPT, Google, ChatGPT, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+      + '<url><news:title>ChatGPT becomes a full Chrome browser assistant that reads and acts on your open tabs</news:title>'
+      + '<news:keywords>GPT, OpenAI, ChatGPT, Chrome, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const chromeLags = newsKeywordLags(chromeLagXml);
+    if (!chromeLags.some((r) => r.lab === 'Chrome')) {
+      throw new Error(`newsKeywordLags expected Chrome lag: ${JSON.stringify(chromeLags)}`);
+    }
+    if (chromeLags.filter((r) => /browser assistant/i.test(r.title)).some((r) => r.lab === 'Chrome')) {
+      throw new Error('newsKeywordLags should not flag Chrome when keywords include it');
+    }
+    // OpenAI / ChatGPT titles without Chrome must not invent the browser surface.
+    const chromeOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>OpenAI ships ChatGPT voice upgrades for desktop</news:title>'
+      + '<news:keywords>OpenAI, ChatGPT, GPT, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (chromeOnly.some((r) => r.lab === 'Chrome')) {
+      throw new Error('newsKeywordLags must not flag Chrome on bare ChatGPT / OpenAI titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.

@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T03:31Z after **#388** tip `a13d9f5` + IndexNow **200**: Qwen 3.8 spaced → Qwen3.8 news:keywords **1/1** CDN clear; Nemotron 3.5 tip-merge still **armed**; Dory tip still **ok**; Blackstone tip still **ok**; Allied Universal tip still **ok**; Tesla Flying Roadster FAQ tip still **ok**; SpaceX Starshield FAQ tip still **ok**; SoftBank Allied FAQ tip still **ok**; Waymo Canada FAQ tip still **ok**; NIST tip still **ok**; Canadian data centres FAQ tip still **ok**; AI safety bill FAQ tip still **ok**; Publish preserve **#368**/**#372**/**#374**/**#376**/**#378**; M5 Max tip **#364** still **ok**; pizzint news **14** contested (`pizzint-news-alive`); lead **6,704** / news **200**; GSC/Bing meta **absent**; News keywords through **#386**; FAQ routes through **#378**; Publish preserve through **#378**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex; `seo-daily` probes through **#389** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T03:40Z shipping **#390** Chrome news:keywords (3-title ChatGPT browser-assistant tape; FAQ #191 gates OpenAI lab; live lag **2/2** unkeyed under 12-cap); prior **#388** tip `a13d9f5` Qwen digit-flex still **ok**; Nemotron 3.5 tip-merge still **armed**; Dory / Blackstone / Allied tips still **ok**; Tesla Flying Roadster / SpaceX Starshield / SoftBank Allied / Waymo Canada FAQ tips still **ok**; lead **6,704** / news **200**; GSC/Bing meta **absent**; News keywords through **#390**; FAQ routes through **#378**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex; `seo-daily` probes through **#390** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -59,13 +59,16 @@ preserve **#248**). Typed-guess **#262** tip prose still intact after
 **ok** after `a00cfbc` (index + level today middot). Multi-title **#298** Vercel tip
 **ok** (2/2 after `2d76065`); **#294** Mac Studio singular tip
 **ok**; **#292** Mac Studios **ok**; Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Hold doorway on product keywords beyond **#388** digit flex + **#386** Nemotron 3.5 (armed). NVIDIA lab gates
-Dory + Nemotron version tape; Anthropic FAQs gate Blackstone; SoftBank FAQ #374 gates Allied.
-Warsh person / Glimpse (1 title) / Nova Scotia geography / ChatGPT Chrome (0 contiguous / 1 proximity) /
+Hold doorway on product keywords beyond **#390** Chrome + **#388** digit flex + **#386** Nemotron 3.5 (armed).
+OpenAI FAQ #191 gates Chrome browser-assistant tape; NVIDIA lab gates Dory + Nemotron version tape;
+Anthropic FAQs gate Blackstone; SoftBank FAQ #374 gates Allied.
+Warsh person / Glimpse (1 title) / Nova Scotia geography / METR (no lab FAQ) /
 ECDSA niche / Beijing AI-exports topic / CoreWeave stock (already gated) /
 Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster + Flying Roadster keyed) /
-NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise / bare Allied shorthand / Nudify adult refused.
+NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise / bare Allied shorthand / Nudify adult refused /
+Replit no-lab FAQ.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
+**#390** Chrome news:keywords (3 ChatGPT browser-assistant titles; FAQ #191 gates; hold Warsh / ECDSA / Nudify / AI Jitters / METR / Replit).
 **#389** after **#388** tip `a13d9f5` + IndexNow **200**: Qwen 3.8 spaced → Qwen3.8 **1/1** CDN clear; Dory **2/2** + Blackstone + Allied still keyed; Flying Roadster + Starshield + SoftBank + Waymo FAQs still **ok**; lead **6,704**; pizzint news **14** contested.
 **#388** tip `a13d9f5` CDN clear (`labNeedleRe` letter↔digit flex; Qwen 3.8 spaced → Qwen3.8; hold Warsh / ECDSA / Nudify / AI Jitters).
 **#387** after **#386** merge `59a2213` + tip title-heal **noop** + IndexNow **200**: Nemotron 3.5 tip-merge **armed** (0 titles in newest-200); Dory **2/2** + Blackstone + Allied still keyed; Flying Roadster + Starshield + SoftBank + Waymo FAQs still **ok**; lead **6,704**; pizzint news **0** (`google-news-open`).
