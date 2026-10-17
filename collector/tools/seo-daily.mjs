@@ -7932,6 +7932,26 @@ function selftest() {
   if (dsFlashLags.filter((r) => /Same Score/i.test(r.title)).some((r) => r.lab === 'DeepSeek V4.1 Flash')) {
     throw new Error('newsKeywordLags should not flag DeepSeek V4.1 Flash when keywords include it');
   }
+  // FINDABILITY #431 — non-contiguous DeepSeek … V4.1 Flash title forms lag
+  // when keywords omit the product needle (mirror Trends #418 flex).
+  const dsFlashGapLagXml = '<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
+    + '<url><news:title>DeepSeek Launches V4.1-Flash-1017, Beats Claude Opus 5 On Some Benchmarks</news:title>'
+    + '<news:keywords>DeepSeek, DeepSeek-R, Google, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>DeepSeek API Key Setup: V4.1 Flash in 13 Steps [2026]</news:title>'
+    + '<news:keywords>DeepSeek, DeepSeek V4.1 Flash, AI, SIREN</news:keywords></url>'
+    + '<url><news:title>DeepSeek V4.1 ships for enterprise agents</news:title>'
+    + '<news:keywords>DeepSeek, DeepSeek V4.1, AI, SIREN</news:keywords></url>'
+    + '</urlset>';
+  const dsFlashGapLags = newsKeywordLags(dsFlashGapLagXml);
+  if (!dsFlashGapLags.some((r) => r.lab === 'DeepSeek V4.1 Flash' && /Launches/i.test(r.title))) {
+    throw new Error(`newsKeywordLags expected non-contig DeepSeek V4.1 Flash lag: ${JSON.stringify(dsFlashGapLags)}`);
+  }
+  if (dsFlashGapLags.filter((r) => /API Key Setup/i.test(r.title)).some((r) => r.lab === 'DeepSeek V4.1 Flash')) {
+    throw new Error('newsKeywordLags should not flag non-contig Flash when keywords include it');
+  }
+  if (dsFlashGapLags.filter((r) => /ships for enterprise/i.test(r.title)).some((r) => r.lab === 'DeepSeek V4.1 Flash')) {
+    throw new Error('newsKeywordLags must not treat bare DeepSeek V4.1 (no Flash) as Flash');
+  }
   // FINDABILITY #231 — catch tip wipe of Nemotron 3.5 Super VL needles.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Nemotron 3.5 Super VL')) {
     throw new Error('probe labs missing Nemotron 3.5 Super VL');

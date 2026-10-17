@@ -41,7 +41,7 @@ function escXml(s) {
     .replace(/"/g, '&quot;');
 }
 
-/** FINDABILITY #310/#388 — hyphen↔space + letter↔digit flex via shared labNeedleRe. */
+/** FINDABILITY #310/#388/#431 — hyphen↔space + letter↔digit + Flash gap flex via shared labNeedleRe. */
 function labRe(lab) {
   return labNeedleRe(lab);
 }
@@ -504,6 +504,27 @@ export function selftest() {
   }
   if (!/<news:keywords>[^<]*Qwen3\.8/.test(qwen38Healed.xml)) {
     throw new Error('title heal must prepend Qwen3.8 for spaced-form title');
+  }
+  // FINDABILITY #431 — non-contiguous DeepSeek … V4.1 Flash title heal.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('DeepSeek V4.1 Flash')) {
+    throw new Error('probe labs must include DeepSeek V4.1 Flash');
+  }
+  const flashGapDirty = `<?xml version="1.0"?>
+<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://siren.watch/item/flash-gap.html</loc>
+    <news:news>
+      <news:title>DeepSeek Launches V4.1-Flash-1017, Beats Claude Opus 5 On Some Benchmarks</news:title>
+      <news:keywords>DeepSeek, DeepSeek-R, Google, AI, artificial intelligence, SIREN, China AI, attention, press</news:keywords>
+    </news:news>
+  </url>
+</urlset>`;
+  const flashGapHealed = healNewsKeywordProbesFromTitle(flashGapDirty);
+  if (flashGapHealed.healed < 1 || flashGapHealed.locs !== 1) {
+    throw new Error(`Flash non-contig heal expected 1 loc, got ${JSON.stringify(flashGapHealed)}`);
+  }
+  if (!/<news:keywords>[^<]*DeepSeek V4\.1 Flash/.test(flashGapHealed.xml)) {
+    throw new Error('title heal must prepend DeepSeek V4.1 Flash for non-contig title');
   }
   if (dropBareBaseBesideMai(['MAI-Base', 'Base', 'Copilot']).includes('Base')) {
     throw new Error('dropBareBaseBesideMai must remove bare Base beside MAI-Base');
