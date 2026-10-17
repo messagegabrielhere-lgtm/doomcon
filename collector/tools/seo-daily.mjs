@@ -618,6 +618,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Ondas',
   // FINDABILITY #448 — Anthropic GDP $44T SKU companion (multi-title; Anthropic FAQs gate lab).
   '$44T',
+  // FINDABILITY #477 — Navier-Stokes math-proof companion (multi-title; OpenAI FAQs gate lab).
+  'Navier-Stokes',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -10169,6 +10171,46 @@ function selftest() {
     );
     if (ondasOnly.some((r) => r.lab === 'Ondas')) {
       throw new Error('newsKeywordLags must not flag Ondas on bare Palantir / AeroVironment titles');
+    }
+  }
+  // FINDABILITY #477 — catch tip wipe of Navier-Stokes companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Navier-Stokes')) {
+    throw new Error('probe labs missing Navier-Stokes');
+  }
+  {
+    const navierLags = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>OpenAI releases 722 AI written math papers, Navier-Stokes claim</news:title>'
+      + '<news:keywords>OpenAI, Google, ChatGPT, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+      + '<url><news:title>Mathematicians say OpenAI doesn\'t understand its own Navier-Stokes proof</news:title>'
+      + '<news:keywords>OpenAI, ChatGPT, Navier-Stokes, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (!navierLags.some((r) => r.lab === 'Navier-Stokes')) {
+      throw new Error(`newsKeywordLags expected Navier-Stokes lag: ${JSON.stringify(navierLags)}`);
+    }
+    if (navierLags.filter((r) => /Mathematicians/i.test(r.title)).some((r) => r.lab === 'Navier-Stokes')) {
+      throw new Error('newsKeywordLags should not flag Navier-Stokes when keywords include it');
+    }
+    const navierSpace = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>OpenAI Navier Stokes claim draws scrutiny from mathematicians</news:title>'
+      + '<news:keywords>OpenAI, ChatGPT, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (!navierSpace.some((r) => r.lab === 'Navier-Stokes')) {
+      throw new Error(`newsKeywordLags expected Navier-Stokes lag on spaced title: ${JSON.stringify(navierSpace)}`);
+    }
+    const navierOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>OpenAI releases AI written math papers without the equation name</news:title>'
+      + '<news:keywords>OpenAI, ChatGPT, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Stokes flow alone is not a Navier match</news:title>'
+      + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (navierOnly.some((r) => r.lab === 'Navier-Stokes')) {
+      throw new Error('newsKeywordLags must not flag Navier-Stokes on bare OpenAI / Stokes titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.

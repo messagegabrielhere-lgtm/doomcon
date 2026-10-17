@@ -1385,6 +1385,52 @@ test('news sitemap keywords include $44T from Anthropic GDP tape (FINDABILITY #4
   assert.doesNotMatch(c, /\$44T/);
 });
 
+test('news sitemap keywords include Navier-Stokes from OpenAI math-proof tape (FINDABILITY #477)', () => {
+  // Multi-title OpenAI Navier-Stokes tape: OpenAI / ChatGPT fill the 12-cap
+  // while the equation surface is dropped. Hyphen↔space flex covers
+  // "Navier Stokes"; bare Stokes / Navier alone must not invent the lab.
+  assert.ok(labNeedleRe('Navier-Stokes').test(
+    'OpenAI releases 722 AI written math papers, Navier-Stokes claim',
+  ));
+  assert.ok(labNeedleRe('Navier-Stokes').test(
+    'Mathematicians say OpenAI doesn\'t understand its own Navier-Stokes proof',
+  ));
+  assert.ok(labNeedleRe('Navier-Stokes').test(
+    'OpenAI Navier Stokes claim draws scrutiny',
+  ));
+  assert.ok(!labNeedleRe('Navier-Stokes').test('Something about Stokes flow alone'));
+  assert.ok(!labNeedleRe('Navier-Stokes').test('Navier alone is not enough'));
+  const a = keywordsFor({
+    title: 'OpenAI releases 722 AI written math papers, Navier-Stokes claim',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['OpenAI', 'Google', 'ChatGPT'],
+  });
+  assert.match(a, /Navier-Stokes/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Navier-Stokes') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Mathematicians say OpenAI doesn\'t understand its own Navier-Stokes proof',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'the-decoder',
+    entities: ['OpenAI', 'ChatGPT'],
+  });
+  assert.match(b, /Navier-Stokes/);
+  const c = keywordsFor({
+    title: 'OpenAI releases AI written math papers without naming the equation',
+    summary: 'Qualitative math-paper claim without the equation surface.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['OpenAI', 'ChatGPT'],
+  });
+  assert.doesNotMatch(c, /Navier-Stokes/);
+});
+
 test('news sitemap keywords include Nemotron 3.5 Super VL from multi-title tape (FINDABILITY #231)', () => {
   // Multi-title Nemotron 3.5 Super VL tape: bare Nemotron fills a 12-cap slot
   // while product-class Super VL titles omit the variant surface.
