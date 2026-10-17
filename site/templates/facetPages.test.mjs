@@ -506,6 +506,10 @@ describe('lab facets', () => {
     assert.match(dsHtml, /uptime SLA|not an uptime/i);
     assert.match(dsHtml, /search-trends\.html/);
     assert.doesNotMatch(dsHtml, /buy DeepSeek|price target|must use DeepSeek/i);
+    // FINDABILITY #418 — DeepSeek V4.1 Flash FAQ on the same gated lab.
+    assert.match(dsHtml, /Why does SIREN watch DeepSeek V4\.1 Flash\?/);
+    assert.match(dsHtml, /DeepSeek-v4\.1-Flash|Flash variant/i);
+    assert.match(dsHtml, /[Nn]ot a model review/);
     // FINDABILITY #180 — Mistral / Timestral FAQ on gated lab.
     assert.equal(LAB_HEAD_ALIASES.mistral, 'Timestral');
     const misHtml = renderLab(ctx, {

@@ -111,6 +111,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /Oracle \/ AI datacenters → \/tags\/datacenters\.html/);
   // FINDABILITY #179 — DeepSeek outage route to gated DeepSeek lab.
   assert.match(html, /DeepSeek outage → \/lab\/deepseek\.html/);
+  // FINDABILITY #418 — DeepSeek V4.1 Flash route to same gated lab.
+  assert.match(html, /DeepSeek V4\.1 Flash → \/lab\/deepseek\.html/);
   // FINDABILITY #180 — Mistral / Timestral route to gated Mistral lab.
   assert.match(html, /Mistral \/ Timestral → \/lab\/mistral\.html/);
   // FINDABILITY #181 — OpenAI outage route to gated OpenAI lab.

@@ -192,6 +192,11 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #179 — DeepSeek outage / Chinese open-model Trends → gated lab
   // (story counts only; not a model review or uptime SLA).
   { id: 'deepseek', label: 'DeepSeek', re: /\bdeepseek(?:[- ]?r)?\b/i, path: '/lab/deepseek.html' },
+  // FINDABILITY #418 — DeepSeek V4.1 Flash product-class Trends → same gated lab
+  // (story counts only; not a model review). Contiguous Flash / v4.1-Flash tape;
+  // bare DeepSeek without Flash stays on the parent #179 term. Keywords already
+  // ship (#228); no /lab/deepseek-flash.html doorway.
+  { id: 'deepseek-v41-flash', label: 'DeepSeek V4.1 Flash', re: /\bdeepseek[- ]?v?4\.1[- ]?flash\b|\bdeepseek\b.{0,80}\bv4\.1[- ]?flash\b|\bv4\.1[- ]?flash\b.{0,80}\bdeepseek\b/i, path: '/lab/deepseek.html' },
   // FINDABILITY #180 — Mistral / Timestral / CERN Flare Trends → gated lab
   // (story counts only; not a model review or stock tip).
   { id: 'mistral', label: 'Mistral', re: /\bmistral\b|\btimestral\b|\bflare\b.{0,40}\b(?:cern|mistral|physics)\b|\bcern\b.{0,40}\b(?:flare|mistral)\b/i, path: '/lab/mistral.html' },

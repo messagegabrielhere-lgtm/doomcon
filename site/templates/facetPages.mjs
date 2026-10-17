@@ -692,6 +692,14 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch DeepSeek and AI outages?`,
       `${brand.NAME} scores press that names DeepSeek. When DeepSeek outage, refund, or Chinese open-model headlines dominate the tape — or spike in Google Search Trends — this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not an uptime SLA, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #418 — DeepSeek V4.1 Flash product-class tape → same gated lab
+    // (story counts only; not a model review). Keywords already ship (#228);
+    // FAQ #179 left the Flash variant without a crawlable Q&A — parallel to
+    // Surface Laptop Ultra #414 / MAI-Base #220.
+    faq.push([
+      `Why does ${brand.NAME} watch DeepSeek V4.1 Flash?`,
+      `${brand.NAME} scores press that names DeepSeek. When DeepSeek V4.1 Flash, DeepSeek-v4.1-Flash, or Chinese open-weight Flash variant headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #180 — Mistral Timestral / CERN Flare tape → gated lab.
   if (player.id === 'mistral') {

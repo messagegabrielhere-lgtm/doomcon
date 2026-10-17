@@ -418,6 +418,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'Alibaba open-weight' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Oracle datacenter' "$root/$map" 2>/dev/null \
             || ! grep -qF 'DeepSeek outage' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'DeepSeek V4.1 Flash' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Timestral' "$root/$map" 2>/dev/null \
             || ! grep -qF 'OpenAI outage' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Hugging Face hack' "$root/$map" 2>/dev/null \
@@ -783,6 +784,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
           || ! grep -qF 'Qwen / Alibaba open models → /lab/qwen.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Oracle / AI datacenters → /tags/datacenters.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'DeepSeek outage → /lab/deepseek.html' "$root/search-trends.html" 2>/dev/null \
+          || ! grep -qF 'DeepSeek V4.1 Flash → /lab/deepseek.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Mistral / Timestral → /lab/mistral.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'OpenAI outage → /lab/openai.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'ChatGPT Chrome / computer use → /lab/openai.html' "$root/search-trends.html" 2>/dev/null \
@@ -808,7 +810,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         mkdir -p "$root/trends" "$root/search-trends"
         cp -a "$preserve/search-trends.html" "$root/trends/index.html"
         cp -a "$preserve/search-trends.html" "$root/search-trends/index.html"
-        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402/#406/#408/#410/#412)"
+        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402/#406/#408/#410/#412/#414/#418)"
       fi
     }
     # FINDABILITY #161 — restore tip /lab/nvidia.html when Nvidia / NVDA
@@ -959,15 +961,16 @@ while [ "$(date +%s)" -lt "$END" ]; do
         echo "restored lab/qwen.html Qwen FAQ (#177)"
       fi
     }
-    # FINDABILITY #179 — restore tip /lab/deepseek.html when DeepSeek FAQ
-    # is missing after orphan Publish from tip < #179.
+    # FINDABILITY #179/#418 — restore tip /lab/deepseek.html when DeepSeek outage
+    # or DeepSeek V4.1 Flash FAQ is missing after orphan Publish from tip < #179/#418.
     restore_deepseek_faq() {
       local root="$1" preserve="$2"
       if [ -f "$preserve/lab/deepseek.html" ] \
-        && ! grep -qF 'Why does SIREN watch DeepSeek and AI outages?' "$root/lab/deepseek.html" 2>/dev/null; then
+        && { ! grep -qF 'Why does SIREN watch DeepSeek and AI outages?' "$root/lab/deepseek.html" 2>/dev/null \
+          || ! grep -qF 'Why does SIREN watch DeepSeek V4.1 Flash?' "$root/lab/deepseek.html" 2>/dev/null; }; then
         mkdir -p "$root/lab"
         cp -a "$preserve/lab/deepseek.html" "$root/lab/deepseek.html"
-        echo "restored lab/deepseek.html DeepSeek outage FAQ (#179)"
+        echo "restored lab/deepseek.html DeepSeek outage + V4.1 Flash FAQ (#179/#418)"
       fi
     }
     # FINDABILITY #180 — restore tip /lab/mistral.html when Mistral FAQ

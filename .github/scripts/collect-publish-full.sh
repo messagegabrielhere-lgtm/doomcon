@@ -188,6 +188,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'Alibaba open-weight' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Oracle datacenter' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'DeepSeek outage' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'DeepSeek V4.1 Flash' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Timestral' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'OpenAI outage' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Hugging Face hack' ".pages/$map" 2>/dev/null \
@@ -484,13 +485,15 @@ if [ -f "$PRESERVE_FAQ/lab/qwen.html" ] \
   cp -a "$PRESERVE_FAQ/lab/qwen.html" .pages/lab/qwen.html
   echo "restored lab/qwen.html Qwen FAQ (#177)"
 fi
-# FINDABILITY #179 — restore tip /lab/deepseek.html when DeepSeek FAQ
-# is missing after mid-merge / orphan Publish on tip < #179.
+# FINDABILITY #179/#418 — restore tip /lab/deepseek.html when DeepSeek outage
+# or DeepSeek V4.1 Flash FAQ is missing after mid-merge / orphan Publish on tip
+# < #179/#418.
 if [ -f "$PRESERVE_FAQ/lab/deepseek.html" ] \
-  && ! grep -qF 'Why does SIREN watch DeepSeek and AI outages?' ".pages/lab/deepseek.html" 2>/dev/null; then
+  && { ! grep -qF 'Why does SIREN watch DeepSeek and AI outages?' ".pages/lab/deepseek.html" 2>/dev/null \
+    || ! grep -qF 'Why does SIREN watch DeepSeek V4.1 Flash?' ".pages/lab/deepseek.html" 2>/dev/null; }; then
   mkdir -p .pages/lab
   cp -a "$PRESERVE_FAQ/lab/deepseek.html" .pages/lab/deepseek.html
-  echo "restored lab/deepseek.html DeepSeek outage FAQ (#179)"
+  echo "restored lab/deepseek.html DeepSeek outage + V4.1 Flash FAQ (#179/#418)"
 fi
 # FINDABILITY #180 — restore tip /lab/mistral.html when Mistral FAQ
 # is missing after mid-merge / orphan Publish on tip < #180.
@@ -616,6 +619,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
     || ! grep -qF 'Qwen / Alibaba open models → /lab/qwen.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Oracle / AI datacenters → /tags/datacenters.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'DeepSeek outage → /lab/deepseek.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'DeepSeek V4.1 Flash → /lab/deepseek.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Mistral / Timestral → /lab/mistral.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'OpenAI outage → /lab/openai.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'ChatGPT Chrome / computer use → /lab/openai.html' ".pages/search-trends.html" 2>/dev/null \
@@ -641,7 +645,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
   mkdir -p .pages/trends .pages/search-trends
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402/#406/#408/#410/#412)"
+  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402/#406/#408/#410/#412/#414/#418)"
 fi
 # FINDABILITY #248 — restore tip /model/muse-spark.html when Muse Spark model
 # hub FAQ is missing after mid-merge / orphan Publish (tip overlay wiped when
