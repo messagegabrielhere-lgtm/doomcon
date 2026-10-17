@@ -1231,6 +1231,8 @@ ${avatarSprite()}
   <p class="lede">Who is winning, and how sure is the money? ${esc(race.players.length)} frontier labs
      and the people running them, ranked by a live prediction market and annotated with what each one
      actually shipped. Every number links to the thing it came from.</p>
+  <p class="rjump"><a href="#rgfx-h">Jump to the live race charts →</a>
+     <a href="#rtb-h">Jump to the ranked board →</a></p>
   <p class="rclaim"><b>These are market odds and observable activity. They are not a
      ${esc(brand.NAME)} prediction.</b> ${esc(race.rank_basis?.statement ?? '')}
      They are also not the <a href="${esc(aa.url)}" rel="noopener">${esc(aa.name)}</a>
@@ -1492,6 +1494,12 @@ function raceCss(race) {
   return `
 .rintro { padding: 26px 0 0; }
 .rintro__h1 { font-size: clamp(1.8rem, 8vw, 2.6rem); letter-spacing: -0.03em; margin: 0 0 12px; }
+.rjump {
+  display: flex; flex-wrap: wrap; gap: 8px 20px;
+  margin: 0 0 var(--s-4); font-size: var(--t-sm);
+}
+.rjump a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.rjump a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .rclaim {
   border-left: 3px solid var(--accent); background: var(--bg-raised);
   padding: 12px 14px; margin: 0 0 var(--s-5); font-size: var(--t-sm);
