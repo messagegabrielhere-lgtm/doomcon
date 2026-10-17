@@ -580,6 +580,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Allied Universal',
   // FINDABILITY #382 — Blackstone financing companion (multi-title; FAQ #163/#362/#368 gate Anthropic lab).
   'Blackstone',
+  // FINDABILITY #384 — Dory 1.0 Nemotron Labs SKU companion (multi-title; NVIDIA lab gates).
+  'Dory 1.0',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -7527,6 +7529,37 @@ function selftest() {
     );
     if (bxOnly.some((r) => r.lab === 'Blackstone')) {
       throw new Error('newsKeywordLags must not flag Blackstone on Anthropic / AI Jitters titles without it');
+    }
+  }
+  // FINDABILITY #384 — catch tip wipe of Dory 1.0 SKU companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Dory 1.0')) {
+    throw new Error('probe labs missing Dory 1.0');
+  }
+  {
+    const doryLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>NVIDIA Nemotron Labs Dory 1.0 4B: a quiet HF release</news:title>'
+      + '<news:keywords>NVIDIA, Nemotron, Google, NVDA, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Dory 1.0 4B vs Qwen 3.8: a 4B against a three-tier line</news:title>'
+      + '<news:keywords>Alibaba Qwen, Qwen, Dory 1.0, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const doryLags = newsKeywordLags(doryLagXml);
+    if (!doryLags.some((r) => r.lab === 'Dory 1.0')) {
+      throw new Error(`newsKeywordLags expected Dory 1.0 lag: ${JSON.stringify(doryLags)}`);
+    }
+    if (doryLags.filter((r) => /vs Qwen 3\.8/i.test(r.title)).some((r) => r.lab === 'Dory 1.0')) {
+      throw new Error('newsKeywordLags should not flag Dory 1.0 when keywords include it');
+    }
+    // bare Nemotron / Qwen titles must not invent Dory 1.0.
+    const doryOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Nvidia unveils Nemotron 3.5 open models for AI agents</news:title>'
+      + '<news:keywords>NVIDIA, Nemotron, NVDA, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Qwen 3.8 Max lands on Alibaba Cloud</news:title>'
+      + '<news:keywords>Alibaba Qwen, Qwen, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (doryOnly.some((r) => r.lab === 'Dory 1.0')) {
+      throw new Error('newsKeywordLags must not flag Dory 1.0 on bare Nemotron / Qwen titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
