@@ -566,6 +566,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'AI safety bill',
   // FINDABILITY #360 — Amazon Web Services full-name companion (multi-title; FAQ #167 gates).
   'Amazon Web Services',
+  // FINDABILITY #364 — M5 Max Apple Silicon SKU companion (multi-title; FAQ #170 gates).
+  'M5 Max',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -6945,6 +6947,35 @@ function selftest() {
     );
     if (awsOnly.some((r) => r.lab === 'Amazon Web Services')) {
       throw new Error('newsKeywordLags must not flag Amazon Web Services on short AWS titles');
+    }
+  }
+  // FINDABILITY #364 — catch tip wipe of M5 Max Apple Silicon SKU needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('M5 Max')) {
+    throw new Error('probe labs missing M5 Max');
+  }
+  {
+    const m5LagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Nvidia RTX Spark First Tests: Can These Ambitious AI Laptops Beat Apple\'s M5 Max?</news:title>'
+      + '<news:keywords>NVIDIA, Google, Apple, RTX Spark, NVDA, Apple Intelligence, AI, artificial intelligence, SIREN, GPUs &amp; chips, attention, press</news:keywords></url>'
+      + '<url><news:title>Nvidia\'s RTX Spark Superchip in the Surface Laptop Ultra outperforms Apple\'s M5 Max MacBook Pro</news:title>'
+      + '<news:keywords>NVIDIA, Apple, Surface Laptop Ultra, RTX Spark, M5 Max, NVDA, Apple Intelligence, AI, artificial intelligence, SIREN</news:keywords></url>'
+      + '</urlset>';
+    const m5Lags = newsKeywordLags(m5LagXml);
+    if (!m5Lags.some((r) => r.lab === 'M5 Max')) {
+      throw new Error(`newsKeywordLags expected M5 Max lag: ${JSON.stringify(m5Lags)}`);
+    }
+    if (m5Lags.filter((r) => /outperforms Apple/i.test(r.title)).some((r) => r.lab === 'M5 Max')) {
+      throw new Error('newsKeywordLags should not flag M5 Max when keywords include it');
+    }
+    // Bare M5 / MacBook Pro titles must not lag as M5 Max.
+    const m5Only = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Apple M5 chip launch brings on-device AI to MacBook Pro</news:title>'
+      + '<news:keywords>Apple, Google, Apple Intelligence, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (m5Only.some((r) => r.lab === 'M5 Max')) {
+      throw new Error('newsKeywordLags must not flag M5 Max on bare M5 / MacBook Pro titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.

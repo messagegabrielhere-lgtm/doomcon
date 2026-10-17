@@ -354,6 +354,13 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Bee AI #356 / Flying Roadster #354). Amazon Bee FAQ #167 already gates the
   // lab; bare "Amazon" / short "AWS" titles must not invent the long form.
   'Amazon Web Services',
+  // FINDABILITY #364 — multi-title M5 Max Apple Silicon SKU tape while
+  // google-news-open (2 titles: Beat Apple's M5 Max? + outperforms Apple's M5 Max
+  // MacBook Pro…); Apple / Apple Intelligence / RTX Spark / Surface Laptop Ultra
+  // fill the 12-cap and drop the contiguous M5 Max surface (parallel to Mac Studio
+  // #294 / RTX Spark #279). Apple Intelligence FAQ #170 already gates the lab;
+  // bare "M5" / MacBook Pro titles must not invent the Max SKU.
+  'M5 Max',
 ]);
 
 /**
