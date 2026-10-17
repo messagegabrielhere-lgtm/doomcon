@@ -582,6 +582,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Blackstone',
   // FINDABILITY #384 — Dory 1.0 Nemotron Labs SKU companion (multi-title; NVIDIA lab gates).
   'Dory 1.0',
+  // FINDABILITY #386 — Nemotron 3.5 version companion (multi-title 48h; NVIDIA lab gates).
+  'Nemotron 3.5',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -7560,6 +7562,37 @@ function selftest() {
     );
     if (doryOnly.some((r) => r.lab === 'Dory 1.0')) {
       throw new Error('newsKeywordLags must not flag Dory 1.0 on bare Nemotron / Qwen titles');
+    }
+  }
+  // FINDABILITY #386 — catch tip wipe of Nemotron 3.5 version companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Nemotron 3.5')) {
+    throw new Error('probe labs missing Nemotron 3.5');
+  }
+  {
+    const n35LagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Nvidia unveils Nemotron 3.5 open models for AI agents, targeting server to edge</news:title>'
+      + '<news:keywords>NVIDIA, Nemotron, Google, NVDA, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Nvidia\'s Nemotron 3.5 Super VL is an open model built to run enterprise AI agents nonstop</news:title>'
+      + '<news:keywords>NVIDIA, Nemotron, Nemotron 3.5, NVDA, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const n35Lags = newsKeywordLags(n35LagXml);
+    if (!n35Lags.some((r) => r.lab === 'Nemotron 3.5')) {
+      throw new Error(`newsKeywordLags expected Nemotron 3.5 lag: ${JSON.stringify(n35Lags)}`);
+    }
+    if (n35Lags.filter((r) => /Super VL/i.test(r.title)).some((r) => r.lab === 'Nemotron 3.5')) {
+      throw new Error('newsKeywordLags should not flag Nemotron 3.5 when keywords include it');
+    }
+    // bare Nemotron / Dory titles without 3.5 must not invent the version.
+    const n35Only = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>NVIDIA Nemotron Labs Dory 1.0 4B: a quiet HF release</news:title>'
+      + '<news:keywords>NVIDIA, Nemotron, Dory 1.0, NVDA, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Nemotron open models expand agent runtime support</news:title>'
+      + '<news:keywords>Nemotron, NVIDIA, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (n35Only.some((r) => r.lab === 'Nemotron 3.5')) {
+      throw new Error('newsKeywordLags must not flag Nemotron 3.5 on bare Nemotron / Dory titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
