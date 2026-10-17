@@ -674,6 +674,13 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Tesla Autopilot and FSD?`,
       `${brand.NAME} scores press that names Tesla. When Autopilot, FSD, robotaxi, or Tesla AI / autonomy headlines dominate the tape — or spike in Google Search Trends — this lab page is the crawlable answer — scored story counts only. Not a stock tip, not a crash verdict, not safety advice, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #378 — Tesla Flying Roadster / thruster EV tape → same gated
+    // lab (story counts only; not a product review). Parallel to Samsung AI
+    // glasses FAQ #195 sharing /lab/samsung.html with HBM FAQ #175.
+    faq.push([
+      `Why does ${brand.NAME} watch Tesla Flying Roadster?`,
+      `${brand.NAME} scores press that names Tesla. When Flying Roadster, Roadster thruster / SpaceX-powered demo, or Tesla flying-car headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not a product review, not a stock tip, not safety advice, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #372 — Waymo Canada / Toronto robotaxi expansion tape → gated
   // entity lab (story counts only; not a launch forecast). Parallel to Anthropic

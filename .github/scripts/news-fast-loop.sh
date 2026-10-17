@@ -396,6 +396,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'Waymo Canada' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Allied Universal' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Starshield' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'Flying Roadster' "$root/$map" 2>/dev/null \
             || ! grep -qF 'ASML stock' "$root/$map" 2>/dev/null \
             || ! grep -qF 'TSMC stock' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Amazon Bee' "$root/$map" 2>/dev/null \
@@ -680,15 +681,16 @@ while [ "$(date +%s)" -lt "$END" ]; do
       fi
     }
 
-    # FINDABILITY #185 — restore tip /lab/tesla.html when Tesla FAQ
-    # is missing after orphan Publish from tip < #185.
+    # FINDABILITY #185/#378 — restore tip /lab/tesla.html when Tesla / FSD
+    # or Flying Roadster FAQ is missing after orphan Publish.
     restore_tesla_faq() {
       local root="$1" preserve="$2"
       if [ -f "$preserve/lab/tesla.html" ] \
-        && ! grep -qF 'Why does SIREN watch Tesla Autopilot and FSD?' "$root/lab/tesla.html" 2>/dev/null; then
+        && { ! grep -qF 'Why does SIREN watch Tesla Autopilot and FSD?' "$root/lab/tesla.html" 2>/dev/null \
+          || ! grep -qF 'Why does SIREN watch Tesla Flying Roadster?' "$root/lab/tesla.html" 2>/dev/null; }; then
         mkdir -p "$root/lab"
         cp -a "$preserve/lab/tesla.html" "$root/lab/tesla.html"
-        echo "restored lab/tesla.html Tesla / FSD FAQ (#185)"
+        echo "restored lab/tesla.html Tesla / FSD + Flying Roadster FAQ (#185/#378)"
       fi
     }
     # FINDABILITY #372 — restore tip /lab/waymo.html when Waymo Canada FAQ
@@ -768,6 +770,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
           || ! grep -qF 'Waymo Canada / Toronto robotaxi → /lab/waymo.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'SoftBank / Allied Universal → /lab/softbank.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'SpaceX / Starshield → /lab/spacex.html' "$root/search-trends.html" 2>/dev/null \
+          || ! grep -qF 'Tesla Flying Roadster → /lab/tesla.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Palantir / AIP → /lab/palantir.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'AMD / MI300 → /lab/amd.html' "$root/search-trends.html" 2>/dev/null \
@@ -777,7 +780,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         mkdir -p "$root/trends" "$root/search-trends"
         cp -a "$preserve/search-trends.html" "$root/trends/index.html"
         cp -a "$preserve/search-trends.html" "$root/search-trends/index.html"
-        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376)"
+        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378)"
       fi
     }
     # FINDABILITY #161 — restore tip /lab/nvidia.html when Nvidia / NVDA

@@ -1237,6 +1237,7 @@ export const TRENDS_ROUTES_TESLA_NEEDLE = 'Tesla / FSD → /lab/tesla.html';
 export const TRENDS_ROUTES_WAYMO_CANADA_NEEDLE = 'Waymo Canada / Toronto robotaxi → /lab/waymo.html';
 export const TRENDS_ROUTES_SOFTBANK_ALLIED_NEEDLE = 'SoftBank / Allied Universal → /lab/softbank.html';
 export const TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE = 'SpaceX / Starshield → /lab/spacex.html';
+export const TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE = 'Tesla Flying Roadster → /lab/tesla.html';
 
 /**
  * Tip /search-trends.html must keep the #158 routing FAQ and #164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180
@@ -1272,7 +1273,8 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_TESLA_NEEDLE)
     && text.includes(TRENDS_ROUTES_WAYMO_CANADA_NEEDLE)
     && text.includes(TRENDS_ROUTES_SOFTBANK_ALLIED_NEEDLE)
-    && text.includes(TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE);
+    && text.includes(TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE)
+    && text.includes(TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE);
 }
 
 /** FINDABILITY #161 — NVIDIA lab FAQ + agent maps for Nvidia / NVDA Trends. */
@@ -1743,6 +1745,24 @@ export function hasSpacexStarshieldFaq(html, needle = SPACEX_STARSHIELD_FAQ_NEED
 export function hasAgentsSpacexStarshield(body, needle = AGENTS_SPACEX_STARSHIELD_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/spacex.html');
+}
+
+/** FINDABILITY #378 — Tesla Flying Roadster FAQ + agent maps. */
+export const TESLA_FLYING_ROADSTER_FAQ_NEEDLE = 'Why does SIREN watch Tesla Flying Roadster?';
+export const AGENTS_TESLA_FLYING_ROADSTER_NEEDLE = 'Flying Roadster';
+
+/** Tip /lab/tesla.html must keep the #378 Tesla Flying Roadster FAQ. */
+export function hasTeslaFlyingRoadsterFaq(html, needle = TESLA_FLYING_ROADSTER_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Tesla Flying Roadster tape to Tesla lab (FINDABILITY #378).
+ * Wipe gap is `agents-tesla-flying-roadster-missing`.
+ */
+export function hasAgentsTeslaFlyingRoadster(body, needle = AGENTS_TESLA_FLYING_ROADSTER_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/tesla.html');
 }
 
 /** FINDABILITY #193 — Meta–Apple Mac AI / Muse-on-Mac FAQ + agent maps. */
@@ -3264,6 +3284,27 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #378 — Tesla Flying Roadster FAQ wiped or never landed.
+  if (ours.tesla_flying_roadster_faq === false) {
+    gaps.push({
+      id: 'tesla-flying-roadster-faq-missing',
+      severity: 'medium',
+      text: `/lab/tesla.html missing Tesla Flying Roadster FAQ (FINDABILITY #378) — re-overlay lab/tesla.html or wait for full collect Publish on tip ≥ #378`,
+    });
+  }
+  // FINDABILITY #378 — agent maps must route Tesla Flying Roadster tape to Tesla lab.
+  if (ours.agents_tesla_flying_roadster === false || ours.llms_tesla_flying_roadster === false) {
+    const which = [
+      ours.agents_tesla_flying_roadster === false ? 'agents.md' : null,
+      ours.llms_tesla_flying_roadster === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-tesla-flying-roadster-missing',
+      severity: 'medium',
+      text: `${which} missing Flying Roadster → /lab/tesla.html tip (FINDABILITY #378) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #378`,
+    });
+  }
+
 
   // FINDABILITY #121/#122/#123 — lab titles dropped product head-term aliases.
   if (Array.isArray(ours.lab_head_alias_lags) && ours.lab_head_alias_lags.length > 0) {
@@ -3693,6 +3734,10 @@ export function measureSite(site, byUrl) {
     row.spacex_starshield_faq = spacexHtml?.ok ? hasSpacexStarshieldFaq(spacexHtml.value) : false;
     row.agents_spacex_starshield = agentsMd?.ok ? hasAgentsSpacexStarshield(agentsMd.value) : false;
     row.llms_spacex_starshield = llms?.ok ? hasAgentsSpacexStarshield(llmsBody) : false;
+    // FINDABILITY #378 — Tesla Flying Roadster FAQ + agent maps (same Tesla lab HTML).
+    row.tesla_flying_roadster_faq = teslaHtml?.ok ? hasTeslaFlyingRoadsterFaq(teslaHtml.value) : false;
+    row.agents_tesla_flying_roadster = agentsMd?.ok ? hasAgentsTeslaFlyingRoadster(agentsMd.value) : false;
+    row.llms_tesla_flying_roadster = llms?.ok ? hasAgentsTeslaFlyingRoadster(llmsBody) : false;
     // FINDABILITY #158 — Search Trends watchlist routing FAQ.
     const trendsHtml = byUrl.get(`${base}/search-trends.html`);
     row.trends_routes_faq = trendsHtml?.ok ? hasTrendsRoutesFaq(trendsHtml.value) : false;
@@ -4336,6 +4381,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_spacex_starshield == null ? '—' : (ours.agents_spacex_starshield ? 'yes' : 'NO');
       const lm = ours.llms_spacex_starshield == null ? '—' : (ours.llms_spacex_starshield ? 'yes' : 'NO');
       lines.push(`- Agent-map Starshield → SpaceX lab (#376): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.tesla_flying_roadster_faq != null) {
+      lines.push(
+        `- Tesla Flying Roadster FAQ (#378): **${ours.tesla_flying_roadster_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_tesla_flying_roadster != null || ours.llms_tesla_flying_roadster != null)) {
+      const ag = ours.agents_tesla_flying_roadster == null ? '—' : (ours.agents_tesla_flying_roadster ? 'yes' : 'NO');
+      const lm = ours.llms_tesla_flying_roadster == null ? '—' : (ours.llms_tesla_flying_roadster ? 'yes' : 'NO');
+      lines.push(`- Agent-map Flying Roadster → Tesla lab (#378): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.trends_routes_faq != null) {
       lines.push(
@@ -6301,6 +6356,37 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/spacex.html')) {
     throw new Error('OUR_SURFACES missing /lab/spacex.html');
   }
+  // FINDABILITY #378 — Tesla Flying Roadster FAQ + agent maps.
+  if (hasTeslaFlyingRoadsterFaq(TESLA_FLYING_ROADSTER_FAQ_NEEDLE) !== true) {
+    throw new Error('hasTeslaFlyingRoadsterFaq true');
+  }
+  if (hasTeslaFlyingRoadsterFaq('Why does SIREN watch Tesla Autopilot and FSD?') !== false) {
+    throw new Error('hasTeslaFlyingRoadsterFaq false');
+  }
+  if (hasAgentsTeslaFlyingRoadster('Flying Roadster → https://siren.watch/lab/tesla.html') !== true) {
+    throw new Error('hasAgentsTeslaFlyingRoadster true');
+  }
+  if (hasAgentsTeslaFlyingRoadster('https://siren.watch/lab/tesla.html only') !== false) {
+    throw new Error('hasAgentsTeslaFlyingRoadster needs Flying Roadster needle');
+  }
+  const teslaFlyingRoadsterGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      tesla_flying_roadster_faq: false,
+      agents_tesla_flying_roadster: false,
+      llms_tesla_flying_roadster: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!teslaFlyingRoadsterGaps.some((g) => g.id === 'tesla-flying-roadster-faq-missing')) {
+    throw new Error('tesla-flying-roadster-faq-missing gap');
+  }
+  if (!teslaFlyingRoadsterGaps.some((g) => g.id === 'agents-tesla-flying-roadster-missing')) {
+    throw new Error('agents-tesla-flying-roadster-missing gap');
+  }
   const routesBody = [
     TRENDS_ROUTES_FAQ_NEEDLE,
     TRENDS_ROUTES_ASML_NEEDLE,
@@ -6331,12 +6417,13 @@ function selftest() {
     TRENDS_ROUTES_WAYMO_CANADA_NEEDLE,
     TRENDS_ROUTES_SOFTBANK_ALLIED_NEEDLE,
     TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
+    TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE,
   ].join('\n');
   if (hasTrendsRoutesFaq(routesBody) !== true) {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

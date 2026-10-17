@@ -130,6 +130,10 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #208 — also match Roadster / flying-car tape when Tesla Trends
   // spikes on those related queries (still routes to gated Tesla lab).
   { id: 'tesla', label: 'Tesla / FSD', re: /\btesla(?:\s+stock)?\b|\bfsd\b|\bautopilot\b.{0,40}\btesla\b|\btesla\b.{0,40}\b(?:autopilot|fsd|robotaxi|autonomy|roadster)\b|\broadster\b.{0,40}\btesla\b|\btesla\s+roadster\b/i, path: '/lab/tesla.html' },
+  // FINDABILITY #378 — Tesla Flying Roadster product tape → same gated Tesla lab
+  // (story counts only; not a product review). Contiguous Flying Roadster /
+  // flying Roadster; bare Roadster without Tesla stays on #185/#208 matcher.
+  { id: 'tesla-flying-roadster', label: 'Tesla Flying Roadster', re: /\bflying\s+roadster\b|\broadster\b.{0,40}\b(?:flies|flying|thruster|spacex)\b|\b(?:flies|flying|thruster)\b.{0,40}\broadster\b/i, path: '/lab/tesla.html' },
   // FINDABILITY #372 — Waymo Canada / Toronto robotaxi Trends → gated Waymo lab
   // (story counts only; not a launch forecast). Canada / Toronto beside Waymo;
   // bare “Waymo” politics tape without the geography stays unmatched.

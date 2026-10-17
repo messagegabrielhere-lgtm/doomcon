@@ -72,6 +72,9 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /AMD \/ MI300 → \/lab\/amd\.html/);
   // FINDABILITY #185 — Tesla / FSD route to gated Tesla lab.
   assert.match(html, /Tesla \/ FSD → \/lab\/tesla\.html/);
+  // FINDABILITY #378 — Tesla Flying Roadster route to same gated Tesla lab.
+  assert.match(html, /Tesla Flying Roadster → \/lab\/tesla\.html/);
+  assert.match(html, /not a product review/);
   // FINDABILITY #372 — Waymo Canada / Toronto route to gated Waymo lab.
   assert.match(html, /Waymo Canada \/ Toronto robotaxi → \/lab\/waymo\.html/);
   // FINDABILITY #374 — SoftBank / Allied Universal route to gated SoftBank lab.

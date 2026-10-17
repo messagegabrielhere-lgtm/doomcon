@@ -260,6 +260,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   // FINDABILITY #185 — Tesla / FSD route to Tesla lab (contiguous needle).
   assert.match(txt, /Tesla \/ FSD, Tesla Autopilot/);
   assert.match(txt, /\/lab\/tesla\.html/);
+  // FINDABILITY #378 — Tesla Flying Roadster companion tip on same Tesla lab.
+  assert.match(txt, /Tesla Flying Roadster/);
+  assert.match(txt, /not a product review/);
   assert.match(txt, /crash verdict|safety advice/);
   assert.match(txt, /## Explainers \(search head terms\)/);
   assert.match(txt, /## Instruments/);
@@ -381,8 +384,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   // FINDABILITY #184 — agents.md lists AMD lab for MI300 Trends.
   assert.match(md, /AMD \/ MI300 \/ Instinct AI GPU Trends/);
   assert.match(md, /\/lab\/amd\.html/);
-  // FINDABILITY #185 — agents.md lists Tesla lab for FSD / Autopilot Trends.
-  assert.match(md, /Tesla \/ FSD \/ Autopilot Trends/);
+  // FINDABILITY #185/#378 — agents.md lists Tesla lab for FSD / Autopilot /
+  // Flying Roadster Trends.
+  assert.match(md, /Tesla \/ FSD \/ Autopilot \/ Flying Roadster Trends/);
   assert.match(md, /\/lab\/tesla\.html/);
   assert.match(md, /not a prediction|Never call it a prediction/);
   assert.match(md, /Do not scrape Google Search/);

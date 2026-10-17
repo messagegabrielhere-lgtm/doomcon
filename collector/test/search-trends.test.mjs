@@ -208,6 +208,12 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(HEAD_TERMS.find((t) => t.id === 'tesla').re.test('Tesla Autopilot FSD crash probe'));
   assert.ok(HEAD_TERMS.find((t) => t.id === 'tesla').re.test('FSD supervised robotaxi'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'tesla').re.test('airport autopilot training alone'), false);
+  // FINDABILITY #378 — Tesla Flying Roadster → same gated Tesla lab.
+  assert.ok(matchHeadTerms({ title: "Trump, Pichai and Even Altman Praise Tesla's Flying Roadster EV", news: [] }).includes('tesla-flying-roadster'));
+  assert.ok(matchHeadTerms({ title: 'Five Big Questions About Tesla Flying Roadster thrusters', news: [] }).includes('tesla-flying-roadster'));
+  assert.ok(matchHeadTerms({ title: 'Roadster flies with SpaceX thruster demo', news: [] }).includes('tesla-flying-roadster'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'tesla-flying-roadster' && t.path === '/lab/tesla.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'tesla-flying-roadster').re.test('Roadster deposit waitlist alone'), false);
   // FINDABILITY #208 — Roadster / flying-car related queries still route to Tesla lab.
   assert.ok(HEAD_TERMS.find((t) => t.id === 'tesla').re.test('Tesla Roadster flying car demo'));
   assert.ok(HEAD_TERMS.find((t) => t.id === 'tesla').re.test('Roadster arrives after Tesla deposits'));

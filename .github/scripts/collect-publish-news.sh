@@ -203,6 +203,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'Waymo Canada' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Allied Universal' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Starshield' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'Flying Roadster' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'ASML stock' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'TSMC stock' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Amazon Bee' ".pages/$map" 2>/dev/null \
@@ -564,13 +565,14 @@ if [ -f "$PRESERVE_FAQ/lab/amd.html" ] \
   echo "restored lab/amd.html AMD / MI300 FAQ (#184)"
 fi
 
-# FINDABILITY #185 — restore tip /lab/tesla.html when Tesla FAQ
-# is missing after mid-merge / orphan Publish on tip < #185.
+# FINDABILITY #185/#378 — restore tip /lab/tesla.html when Tesla / FSD
+# or Flying Roadster FAQ is missing after mid-merge / orphan Publish.
 if [ -f "$PRESERVE_FAQ/lab/tesla.html" ] \
-  && ! grep -qF 'Why does SIREN watch Tesla Autopilot and FSD?' ".pages/lab/tesla.html" 2>/dev/null; then
+  && { ! grep -qF 'Why does SIREN watch Tesla Autopilot and FSD?' ".pages/lab/tesla.html" 2>/dev/null \
+    || ! grep -qF 'Why does SIREN watch Tesla Flying Roadster?' ".pages/lab/tesla.html" 2>/dev/null; }; then
   mkdir -p .pages/lab
   cp -a "$PRESERVE_FAQ/lab/tesla.html" .pages/lab/tesla.html
-  echo "restored lab/tesla.html Tesla / FSD FAQ (#185)"
+  echo "restored lab/tesla.html Tesla / FSD + Flying Roadster FAQ (#185/#378)"
 fi
 # FINDABILITY #372 — restore tip /lab/waymo.html when Waymo Canada FAQ
 # is missing after mid-merge / orphan Publish on tip < #372.
@@ -634,6 +636,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
     || ! grep -qF 'Waymo Canada / Toronto robotaxi → /lab/waymo.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'SoftBank / Allied Universal → /lab/softbank.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'SpaceX / Starshield → /lab/spacex.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'Tesla Flying Roadster → /lab/tesla.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Palantir / AIP → /lab/palantir.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'AMD / MI300 → /lab/amd.html' ".pages/search-trends.html" 2>/dev/null \
@@ -643,7 +646,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
   mkdir -p .pages/trends .pages/search-trends
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376)"
+  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378)"
 fi
 # FINDABILITY #248 — restore tip /model/muse-spark.html when Muse Spark model
 # hub FAQ is missing after mid-merge / orphan Publish (tip overlay wiped when
