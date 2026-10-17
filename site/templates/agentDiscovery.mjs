@@ -42,6 +42,7 @@ export function agentsTxt(ctx) {
 # JSON: ${u('/agents.json')}
 # Site map for language models: ${u('/llms.txt')}
 # Short fetch-first entry: ${u('/agents.md')}
+# Live reading: ${u('/')} — AI activity index today · AI activity level today
 # Scored stories: ${u('/now.md')} · ${u('/api/news.json')} · ${u('/news.html')}
 # Google News sitemap: ${u('/news-sitemap.xml')}
 # Free tools: ${u('/free-tools.html')} · Verify a reading: ${u('/verify.html')}
@@ -211,6 +212,7 @@ It counts how loud AI is (5 quietest → 1 loudest). It is not a probability of 
 Free under ${brand.LICENSE}. No key, no account.
 
 Start here:
+- ${u('/')} — live AI activity index today · AI activity level today
 - ${u('/agents.md')} — what to fetch first
 - ${u('/agents.txt')} — capability announcement (agents-txt.com)
 - ${u('/skill.md')} — how to phrase and cite the reading

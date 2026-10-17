@@ -464,18 +464,19 @@ while [ "$(date +%s)" -lt "$END" ]; do
         echo "restored agents.html dual head term (#437)"
       fi
     }
-    # FINDABILITY #328 — restore tip agents.txt / ai.txt / api-catalog when
-    # classic panel needle is missing after orphan/news-only Publish.
+    # FINDABILITY #328/#439 — restore tip agents.txt / ai.txt / api-catalog when
+    # classic panel or dual middot head terms are missing after orphan/news-only Publish.
     restore_discovery_classic() {
       local root="$1" preserve="$2"
       local surf
       for surf in agents.txt ai.txt; do
         if [ -f "$preserve/$surf" ] \
           && { ! grep -qF '/classic.html' "$root/$surf" 2>/dev/null \
-            || ! grep -qF 'Where is the full SIREN instrument panel?' "$root/$surf" 2>/dev/null; }; then
+            || ! grep -qF 'Where is the full SIREN instrument panel?' "$root/$surf" 2>/dev/null \
+            || ! grep -qF 'AI activity index today · AI activity level today' "$root/$surf" 2>/dev/null; }; then
           mkdir -p "$root/$(dirname "$surf")"
           cp -a "$preserve/$surf" "$root/$surf"
-          echo "restored $surf classic instrument panel (#328)"
+          echo "restored $surf classic instrument panel / dual head term (#328/#439)"
         fi
       done
       # Catalog + MCP card only need the /classic.html href (no question prose).

@@ -223,14 +223,16 @@ if [ -f "$PRESERVE_FAQ/agents.html" ] \
   cp -a "$PRESERVE_FAQ/agents.html" .pages/agents.html
   echo "restored agents.html dual head term (#437)"
 fi
-# FINDABILITY #328 — restore tip agents.txt / ai.txt when classic panel missing.
+# FINDABILITY #328/#439 — restore tip agents.txt / ai.txt when classic panel
+# or dual middot head terms are missing after orphan Publish.
 for surf in agents.txt ai.txt; do
   if [ -f "$PRESERVE_FAQ/$surf" ] \
     && { ! grep -qF '/classic.html' ".pages/$surf" 2>/dev/null \
-      || ! grep -qF 'Where is the full SIREN instrument panel?' ".pages/$surf" 2>/dev/null; }; then
+      || ! grep -qF 'Where is the full SIREN instrument panel?' ".pages/$surf" 2>/dev/null \
+      || ! grep -qF 'AI activity index today · AI activity level today' ".pages/$surf" 2>/dev/null; }; then
     mkdir -p ".pages/$(dirname "$surf")"
     cp -a "$PRESERVE_FAQ/$surf" ".pages/$surf"
-    echo "restored $surf classic instrument panel (#328)"
+    echo "restored $surf classic instrument panel / dual head term (#328/#439)"
   fi
 done
 # FINDABILITY #328 — restore tip api-catalog / MCP card when /classic.html href missing.
