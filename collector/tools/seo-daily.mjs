@@ -1247,6 +1247,9 @@ export const TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE = 'Anthropic AI safet
 export const TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE = 'Anthropic Canadian data centres → /lab/anthropic.html';
 export const TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE = 'Anthropic METR → /lab/anthropic.html';
 export const TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE = 'Anthropic ECDSA → /lab/anthropic.html';
+/** FINDABILITY #400 — watchlist table row (distinct from FAQ arrow text; tip #399 wipe). */
+export const TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE = '<td>Anthropic ECDSA</td>';
+export const TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE = '<td>Anthropic METR</td>';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 export const TRENDS_ROUTES_AMD_NEEDLE = 'AMD / MI300 → /lab/amd.html';
@@ -1286,6 +1289,9 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE)
     && text.includes(TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE)
     && text.includes(TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE)
+    // FINDABILITY #400 — table rows must survive tip overlays (FAQ arrows alone are not enough).
+    && text.includes(TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE)
+    && text.includes(TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
     && text.includes(TRENDS_ROUTES_AMD_NEEDLE)
@@ -2686,7 +2692,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193/#195/#220) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #166`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations or Anthropic ECDSA/METR watchlist table rows (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193/#195/#220/#400) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #400`,
     });
   }
 
@@ -6597,6 +6603,8 @@ function selftest() {
     TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE,
     TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE,
     TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE,
+    TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE,
+    TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_AMD_NEEDLE,
@@ -6610,7 +6618,44 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/watchlist-td/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400)');
+  }
+  // FINDABILITY #400 — FAQ arrow alone must not pass (tip #399 left arrows, dropped table rows).
+  if (hasTrendsRoutesFaq([
+    TRENDS_ROUTES_FAQ_NEEDLE,
+    TRENDS_ROUTES_ASML_NEEDLE,
+    TRENDS_ROUTES_TSMC_NEEDLE,
+    TRENDS_ROUTES_AMAZON_BEE_NEEDLE,
+    TRENDS_ROUTES_META_MUSE_NEEDLE,
+    TRENDS_ROUTES_META_APPLE_MAC_NEEDLE,
+    TRENDS_ROUTES_APPLE_INTELLIGENCE_NEEDLE,
+    TRENDS_ROUTES_MICROSOFT_COPILOT_NEEDLE,
+    TRENDS_ROUTES_MICROSOFT_MAI_NEEDLE,
+    TRENDS_ROUTES_XAI_GROK_NEEDLE,
+    TRENDS_ROUTES_GEMINI_GEMMA_NEEDLE,
+    TRENDS_ROUTES_SAMSUNG_HBM_NEEDLE,
+    TRENDS_ROUTES_SAMSUNG_GLASSES_NEEDLE,
+    TRENDS_ROUTES_CHARACTER_AI_NEEDLE,
+    TRENDS_ROUTES_QWEN_NEEDLE,
+    TRENDS_ROUTES_ORACLE_DATACENTERS_NEEDLE,
+    TRENDS_ROUTES_DEEPSEEK_NEEDLE,
+    TRENDS_ROUTES_MISTRAL_NEEDLE,
+    TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
+    TRENDS_ROUTES_OPENAI_CHROME_NEEDLE,
+    TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE,
+    TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE,
+    TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE,
+    TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE,
+    TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
+    TRENDS_ROUTES_PALANTIR_NEEDLE,
+    TRENDS_ROUTES_AMD_NEEDLE,
+    TRENDS_ROUTES_TESLA_NEEDLE,
+    TRENDS_ROUTES_WAYMO_CANADA_NEEDLE,
+    TRENDS_ROUTES_SOFTBANK_ALLIED_NEEDLE,
+    TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
+    TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE,
+  ].join('\n')) !== false) {
+    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR (#400)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

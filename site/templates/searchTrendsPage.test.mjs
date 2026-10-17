@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { render } from './searchTrendsPage.mjs';
+import { render, mergeHeadTermsWatchlist } from './searchTrendsPage.mjs';
 import { render as renderMarkets } from './aiPredictionMarketsPage.mjs';
 
 const ctx = {
@@ -44,6 +44,9 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   // FINDABILITY #392 — Anthropic METR evaluator route to same gated lab.
   assert.match(html, /Anthropic METR → \/lab\/anthropic\.html/);
   assert.match(html, /Anthropic ECDSA → \/lab\/anthropic\.html/);
+  // FINDABILITY #400 — watchlist table merges HEAD_TERMS even when JSON omits them.
+  assert.match(html, /<td>Anthropic ECDSA<\/td>/);
+  assert.match(html, /<td>Anthropic METR<\/td>/);
   assert.match(html, /not a construction forecast/);
   // FINDABILITY #164 — ASML / EUV route to gated lab.
   assert.match(html, /ASML \/ EUV AI chip tools → \/lab\/asml\.html/);
@@ -108,6 +111,25 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
 test('searchTrendsPage stays honest when Trends is dark', () => {
   const html = render(ctx, { ok: false, geos: [], ai_trends: [], head_terms: [] }, []);
   assert.match(html, /did not answer|No AI-related/i);
+  // FINDABILITY #400 — empty/stale JSON still lists current HEAD_TERMS (not trending).
+  assert.match(html, /<td>Anthropic ECDSA<\/td>/);
+  assert.match(html, /Not in today’s firehose/);
+});
+
+test('mergeHeadTermsWatchlist fills HEAD_TERMS gaps without inventing hits (FINDABILITY #400)', () => {
+  const merged = mergeHeadTermsWatchlist({
+    head_terms: [{ id: 'chatgpt', label: 'ChatGPT', path: '/lab/openai.html', trending: true, titles: [{ geo: 'US', title: 'chatgpt update' }] }],
+  });
+  const ecdsa = merged.find((t) => t.id === 'anthropic-ecdsa');
+  const chatgpt = merged.find((t) => t.id === 'chatgpt');
+  assert.ok(ecdsa);
+  assert.equal(ecdsa.label, 'Anthropic ECDSA');
+  assert.equal(ecdsa.path, '/lab/anthropic.html');
+  assert.equal(ecdsa.trending, false);
+  assert.deepEqual(ecdsa.titles, []);
+  assert.ok(chatgpt);
+  assert.equal(chatgpt.trending, true);
+  assert.equal(chatgpt.titles[0].title, 'chatgpt update');
 });
 
 test('searchTrendsPage canonical stays on /search-trends.html (FINDABILITY #124 alias reuse)', () => {

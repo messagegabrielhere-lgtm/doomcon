@@ -4,6 +4,30 @@ import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, organization, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
+import { HEAD_TERMS } from '../../collector/search-trends.mjs';
+
+/**
+ * FINDABILITY #400 — merge live HEAD_TERMS into the watchlist table even when
+ * data/search-trends.json still carries a pre-ship head_terms snapshot (tip
+ * overlays and mid-hour Builds). Preserve trending/titles from the JSON when
+ * present; never invent firehose hits.
+ */
+export function mergeHeadTermsWatchlist(trends) {
+  const byId = new Map();
+  for (const row of (trends && Array.isArray(trends.head_terms)) ? trends.head_terms : []) {
+    if (row && row.id) byId.set(row.id, row);
+  }
+  return HEAD_TERMS.map((t) => {
+    const prev = byId.get(t.id);
+    return {
+      id: t.id,
+      label: t.label,
+      path: t.path,
+      trending: Boolean(prev && prev.trending),
+      titles: Array.isArray(prev?.titles) ? prev.titles : [],
+    };
+  });
+}
 
 const CSS = `<style>
 .st{max-width:920px}
@@ -65,7 +89,7 @@ function faqBlocks() {
 export function render(ctx, trends, hist = []) {
   const at = trends && trends.generated_at ? utc(trends.generated_at) : null;
   const ai = (trends && trends.ai_trends) || [];
-  const heads = (trends && trends.head_terms) || [];
+  const heads = mergeHeadTermsWatchlist(trends);
   const geosOk = ((trends && trends.geos) || []).filter((g) => g.ok);
   const dark = !trends || !trends.ok;
 
