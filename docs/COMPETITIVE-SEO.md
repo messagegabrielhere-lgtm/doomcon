@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T01:40Z shipping **#376** SpaceX / Starshield FAQ + agent/Trends routes (4 Starshield titles; SpaceX lab); SoftBank Allied FAQ tip still **ok**; Waymo Canada FAQ tip still **ok**; NIST tip still **ok**; Canadian data centres FAQ tip still **ok**; AI safety bill FAQ tip still **ok**; Publish preserve **#368**/**#372**/**#374**/**#376**; M5 Max tip **#364** still **ok**; pizzint news **0** (`google-news-open`); lead **6,698** / news **200**; GSC/Bing meta **absent**; News keywords through **#370**; FAQ routes through **#376**; Publish preserve through **#376**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#376** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T01:45Z after **#376** tip `f88b5bf` + IndexNow **200**: SpaceX Starshield FAQ CDN clear; SoftBank Allied FAQ tip still **ok**; Waymo Canada FAQ tip still **ok**; NIST tip still **ok**; Canadian data centres FAQ tip still **ok**; AI safety bill FAQ tip still **ok**; Publish preserve **#368**/**#372**/**#374**/**#376**; M5 Max tip **#364** still **ok**; pizzint news **0** (`google-news-open`); lead **6,698** / news **200**; GSC/Bing meta **absent**; News keywords through **#370**; FAQ routes through **#376**; Publish preserve through **#376**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#376** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -66,7 +66,8 @@ ECDSA niche / Beijing AI-exports topic / CoreWeave stock (already gated) /
 Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster + Flying Roadster keyed) /
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise refused.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
-**#376** SpaceX / Starshield FAQ + agent/Trends + HEAD_TERMS + Publish preserve (4 titles; hold ECDSA / EverWind / Warsh / Nudify / VCI / Replit no-lab).
+**#377** after **#376** tip `f88b5bf` + IndexNow **200**: SpaceX Starshield FAQ CDN clear; SoftBank + Waymo FAQs still **ok**; lead **6,698**.
+**#376** SpaceX / Starshield FAQ tip `f88b5bf` (lab + agents + Trends; 4 titles; hold ECDSA / EverWind / Warsh / Nudify / VCI / Replit no-lab).
 **#375** after **#374** tip `73c0d8d` + IndexNow **200**: SoftBank Allied FAQ CDN clear (heal after newsroom wipe); Waymo FAQ still **ok**; lead **6,698**; pizzint news **14** contested.
 **#374** SoftBank / Allied Universal FAQ tip `73c0d8d` (lab + agents + Trends; SoftBank lab unlocks Allied; hold ECDSA / EverWind / Warsh / Nudify / VCI).
 **#373** after **#372** tip `aebde7c` + IndexNow **200**: Waymo Canada / Toronto FAQ CDN clear; NIST **2/2**; Canadian FAQ still **ok**; lead **6,701**.
