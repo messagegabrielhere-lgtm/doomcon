@@ -575,6 +575,14 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Claude Opus 5.5?`,
       `${brand.NAME} scores press that names Anthropic / Claude. When Claude Opus 5.5, Opus 5.5 release, or Claude Opus fast-mode headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a leaderboard verdict, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #408 — Blackstone / Anthropic chip-financing tape → same gated
+    // lab (story counts only; not deal advice). Keywords already ship (#382);
+    // FAQ #163/#362/#368/#392/#397/#402 left the PE surface without a crawlable
+    // Q&A — parallel to SoftBank Allied #374 / Ondas-Palantir #406.
+    faq.push([
+      `Why does ${brand.NAME} watch Blackstone Anthropic financing?`,
+      `${brand.NAME} scores press that names Anthropic / Claude. When Blackstone Anthropic chip financing, Blackstone debt / yield packages for Anthropic GPUs, or Blackstone PE AI-infrastructure headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not deal advice, not a stock tip, not credit analysis, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #164 — ASML / EUV AI-chip-tool Trends → gated lab.
   if (player.id === 'asml') {

@@ -1252,10 +1252,13 @@ export const TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE = 'Anthropic Canadian data
 export const TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE = 'Anthropic METR → /lab/anthropic.html';
 export const TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE = 'Anthropic ECDSA → /lab/anthropic.html';
 export const TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE = 'Claude Opus 5.5 → /lab/anthropic.html';
+export const TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE = 'Blackstone / Anthropic → /lab/anthropic.html';
 /** FINDABILITY #400 — watchlist table row (distinct from FAQ arrow text; tip #399 wipe). */
 export const TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE = '<td>Anthropic ECDSA</td>';
 export const TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE = '<td>Anthropic METR</td>';
 export const TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE = '<td>Claude Opus 5.5</td>';
+/** FINDABILITY #408 — watchlist table row (distinct from FAQ arrow text). */
+export const TRENDS_WATCHLIST_BLACKSTONE_ANTHROPIC_NEEDLE = '<td>Blackstone / Anthropic</td>';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 export const TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE = 'Ondas / Palantir → /lab/palantir.html';
@@ -1299,10 +1302,12 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE)
     && text.includes(TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE)
     && text.includes(TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE)
+    && text.includes(TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE)
     // FINDABILITY #400 — table rows must survive tip overlays (FAQ arrows alone are not enough).
     && text.includes(TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE)
     && text.includes(TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE)
     && text.includes(TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE)
+    && text.includes(TRENDS_WATCHLIST_BLACKSTONE_ANTHROPIC_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
     && text.includes(TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE)
@@ -1781,6 +1786,24 @@ export function hasClaudeOpus55Faq(html, needle = CLAUDE_OPUS_55_FAQ_NEEDLE) {
  * Wipe gap is `agents-claude-opus-55-missing`.
  */
 export function hasAgentsClaudeOpus55(body, needle = AGENTS_CLAUDE_OPUS_55_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/anthropic.html');
+}
+
+/** FINDABILITY #408 — Blackstone / Anthropic financing FAQ + agent maps. */
+export const BLACKSTONE_ANTHROPIC_FAQ_NEEDLE = 'Why does SIREN watch Blackstone Anthropic financing?';
+export const AGENTS_BLACKSTONE_ANTHROPIC_NEEDLE = 'Blackstone';
+
+/** Tip /lab/anthropic.html must keep the #408 Blackstone Anthropic financing FAQ. */
+export function hasBlackstoneAnthropicFaq(html, needle = BLACKSTONE_ANTHROPIC_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Blackstone Anthropic financing tape to Anthropic lab (FINDABILITY #408).
+ * Wipe gap is `agents-blackstone-anthropic-missing`.
+ */
+export function hasAgentsBlackstoneAnthropic(body, needle = AGENTS_BLACKSTONE_ANTHROPIC_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/anthropic.html');
 }
@@ -2907,6 +2930,26 @@ export function deriveGaps(report) {
       text: `${which} missing Claude Opus 5.5 → /lab/anthropic.html tip (FINDABILITY #402) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #402`,
     });
   }
+  // FINDABILITY #408 — Blackstone Anthropic financing FAQ wiped or never landed.
+  if (ours.blackstone_anthropic_faq === false) {
+    gaps.push({
+      id: 'blackstone-anthropic-faq-missing',
+      severity: 'medium',
+      text: `/lab/anthropic.html missing Blackstone Anthropic financing FAQ (FINDABILITY #408) — re-overlay lab/anthropic.html or wait for full collect Publish on tip ≥ #408`,
+    });
+  }
+  // FINDABILITY #408 — agent maps must route Blackstone tape to Anthropic lab.
+  if (ours.agents_blackstone_anthropic === false || ours.llms_blackstone_anthropic === false) {
+    const which = [
+      ours.agents_blackstone_anthropic === false ? 'agents.md' : null,
+      ours.llms_blackstone_anthropic === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-blackstone-anthropic-missing',
+      severity: 'medium',
+      text: `${which} missing Blackstone → /lab/anthropic.html tip (FINDABILITY #408) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #408`,
+    });
+  }
 
   // FINDABILITY #164 — ASML lab FAQ for EUV / AI chip-tool Trends wiped or never landed.
   if (ours.asml_trends_faq === false) {
@@ -3804,6 +3847,10 @@ export function measureSite(site, byUrl) {
     row.claude_opus_55_faq = antHtml?.ok ? hasClaudeOpus55Faq(antHtml.value) : false;
     row.agents_claude_opus_55 = agentsMd?.ok ? hasAgentsClaudeOpus55(agentsMd.value) : false;
     row.llms_claude_opus_55 = llms?.ok ? hasAgentsClaudeOpus55(llmsBody) : false;
+    // FINDABILITY #408 — Blackstone Anthropic financing FAQ + agent maps (same lab).
+    row.blackstone_anthropic_faq = antHtml?.ok ? hasBlackstoneAnthropicFaq(antHtml.value) : false;
+    row.agents_blackstone_anthropic = agentsMd?.ok ? hasAgentsBlackstoneAnthropic(agentsMd.value) : false;
+    row.llms_blackstone_anthropic = llms?.ok ? hasAgentsBlackstoneAnthropic(llmsBody) : false;
     // FINDABILITY #164 — ASML Trends FAQ + agent maps.
     const asmlHtml = byUrl.get(`${base}/lab/asml.html`);
     row.asml_trends_faq = asmlHtml?.ok ? hasAsmlTrendsFaq(asmlHtml.value) : false;
@@ -4341,6 +4388,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_claude_opus_55 == null ? '—' : (ours.agents_claude_opus_55 ? 'yes' : 'NO');
       const lm = ours.llms_claude_opus_55 == null ? '—' : (ours.llms_claude_opus_55 ? 'yes' : 'NO');
       lines.push(`- Agent-map Claude Opus 5.5 → lab (#402): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.blackstone_anthropic_faq != null) {
+      lines.push(
+        `- Blackstone Anthropic financing FAQ (#408): **${ours.blackstone_anthropic_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_blackstone_anthropic != null || ours.llms_blackstone_anthropic != null)) {
+      const ag = ours.agents_blackstone_anthropic == null ? '—' : (ours.agents_blackstone_anthropic ? 'yes' : 'NO');
+      const lm = ours.llms_blackstone_anthropic == null ? '—' : (ours.llms_blackstone_anthropic ? 'yes' : 'NO');
+      lines.push(`- Agent-map Blackstone → Anthropic lab (#408): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.asml_trends_faq != null) {
       lines.push(
@@ -5846,6 +5903,37 @@ function selftest() {
   if (!opusGaps.some((g) => g.id === 'agents-claude-opus-55-missing')) {
     throw new Error('agents-claude-opus-55-missing gap');
   }
+  // FINDABILITY #408 — Blackstone Anthropic financing FAQ + agent maps.
+  if (hasBlackstoneAnthropicFaq(BLACKSTONE_ANTHROPIC_FAQ_NEEDLE) !== true) {
+    throw new Error('hasBlackstoneAnthropicFaq true');
+  }
+  if (hasBlackstoneAnthropicFaq('Why does SIREN watch Claude Opus 5.5?') !== false) {
+    throw new Error('hasBlackstoneAnthropicFaq false');
+  }
+  if (hasAgentsBlackstoneAnthropic('Blackstone → https://siren.watch/lab/anthropic.html') !== true) {
+    throw new Error('hasAgentsBlackstoneAnthropic true');
+  }
+  if (hasAgentsBlackstoneAnthropic('https://siren.watch/lab/anthropic.html only') !== false) {
+    throw new Error('hasAgentsBlackstoneAnthropic needs Blackstone needle');
+  }
+  const blackstoneGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      blackstone_anthropic_faq: false,
+      agents_blackstone_anthropic: false,
+      llms_blackstone_anthropic: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!blackstoneGaps.some((g) => g.id === 'blackstone-anthropic-faq-missing')) {
+    throw new Error('blackstone-anthropic-faq-missing gap');
+  }
+  if (!blackstoneGaps.some((g) => g.id === 'agents-blackstone-anthropic-missing')) {
+    throw new Error('agents-blackstone-anthropic-missing gap');
+  }
   if (hasAsmlTrendsFaq(ASML_TRENDS_FAQ_NEEDLE) !== true) {
     throw new Error('hasAsmlTrendsFaq true');
   }
@@ -6783,9 +6871,11 @@ function selftest() {
     TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE,
     TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE,
     TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE,
+    TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE,
     TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE,
     TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE,
     TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE,
+    TRENDS_WATCHLIST_BLACKSTONE_ANTHROPIC_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE,
@@ -6801,7 +6891,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/watchlist-td/Meta-Apple-Mac/Palantir/Ondas-Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402/#406)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/Blackstone-Anthropic/watchlist-td/Meta-Apple-Mac/Palantir/Ondas-Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402/#406/#408)');
   }
   // FINDABILITY #400 — FAQ arrow alone must not pass (tip #399 left arrows, dropped table rows).
   if (hasTrendsRoutesFaq([
@@ -6830,6 +6920,7 @@ function selftest() {
     TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE,
     TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE,
     TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE,
+    TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE,
@@ -6840,7 +6931,7 @@ function selftest() {
     TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
     TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE,
   ].join('\n')) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5/Ondas (#400/#402/#406)');
+    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5/Blackstone/Ondas (#400/#402/#406/#408)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

@@ -285,6 +285,13 @@ describe('lab facets', () => {
     assert.match(antHtml, /[Nn]ot a model review/);
     // Avoid matching the race tile label "Market odds (best model)".
     assert.doesNotMatch(antHtml, /will beat|best Claude|doom benchmark/i);
+    // FINDABILITY #408 — Blackstone Anthropic financing FAQ on same gated lab.
+    assert.match(
+      antHtml,
+      /Why does SIREN watch Blackstone Anthropic financing\?/,
+    );
+    assert.match(antHtml, /[Nn]ot deal advice/);
+    assert.doesNotMatch(antHtml, /will finance|must buy|doom Blackstone/i);
     // FINDABILITY #164 — ASML / EUV Trends FAQ on gated lab.
     const asmlHtml = renderLab(ctx, {
       id: 'asml',
