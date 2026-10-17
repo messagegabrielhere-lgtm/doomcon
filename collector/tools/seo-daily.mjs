@@ -620,6 +620,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   '$44T',
   // FINDABILITY #477 — Navier-Stokes math-proof companion (multi-title; OpenAI FAQs gate lab).
   'Navier-Stokes',
+  // FINDABILITY #479 — DeepSeek V4.1 Flash-1017 build SKU companion (multi-title; DeepSeek FAQs gate lab).
+  'Flash-1017',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -10211,6 +10213,37 @@ function selftest() {
     );
     if (navierOnly.some((r) => r.lab === 'Navier-Stokes')) {
       throw new Error('newsKeywordLags must not flag Navier-Stokes on bare OpenAI / Stokes titles');
+    }
+  }
+  // FINDABILITY #479 — catch tip wipe of Flash-1017 companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Flash-1017')) {
+    throw new Error('probe labs missing Flash-1017');
+  }
+  {
+    const flashLags = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>DeepSeek releases V4.1-Flash-1017, an update it says offers stronger benchmark performance</news:title>'
+      + '<news:keywords>DeepSeek, DeepSeek-R, DeepSeek V4.1 Flash, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>The fastest DeepSeek v4.1 flash 1017 – Day 0</news:title>'
+      + '<news:keywords>DeepSeek, DeepSeek V4.1 Flash, Flash-1017, AI, artificial intelligence, SIREN, attention, forum</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (!flashLags.some((r) => r.lab === 'Flash-1017')) {
+      throw new Error(`newsKeywordLags expected Flash-1017 lag: ${JSON.stringify(flashLags)}`);
+    }
+    if (flashLags.filter((r) => /Day 0/i.test(r.title)).some((r) => r.lab === 'Flash-1017')) {
+      throw new Error('newsKeywordLags should not flag Flash-1017 when keywords include it');
+    }
+    const flashOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>DeepSeek V4.1 Flash without the build SKU</news:title>'
+      + '<news:keywords>DeepSeek, DeepSeek V4.1 Flash, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Flash photography tips for 1017 cameras</news:title>'
+      + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (flashOnly.some((r) => r.lab === 'Flash-1017')) {
+      throw new Error('newsKeywordLags must not flag Flash-1017 on bare V4.1 Flash / photography titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
