@@ -37,6 +37,17 @@ we do not run a separate paid bug bounty.
    (`publicError`) for anything written to `data/`, `arena-data`, or HTML.
 5. **Input validation** on every automation entrypoint (issue numbers, agent
    proposals, fetch URLs). The arena rule gate rejects bad trades in public.
+6. **Outbound URL gate.** `collector/safe-url.mjs` (wired into `fetch.mjs`)
+   refuses non-HTTPS schemes, embedded credentials, localhost, RFC1918,
+   link-local, and cloud-metadata hosts before any socket opens.
+7. **Browser hardening meta.** Every HTML page gets a Content-Security-Policy
+   and Referrer-Policy from `site/security.mjs` (layout + sitebar stamp).
+   GitHub Pages cannot set these as HTTP response headers; meta is the
+   available control. `frame-ancestors` / HSTS still need an edge proxy if
+   clickjacking or transport policy become a requirement. The compliance rule
+   `security-meta` fails the build when the CSP meta is missing from shipped HTML.
+8. **Href sanitiser.** `safeHref()` in `site/templates/_html.mjs` rejects
+   `javascript:` / `data:` / other non-http(s) schemes for attribute use.
 
 ## Out of scope (by design)
 
