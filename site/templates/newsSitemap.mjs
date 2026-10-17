@@ -409,6 +409,13 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Roadster #354). Hold bare browser noise without ChatGPT proximity /
   // Warsh / ECDSA / Nudify / AI Jitters / METR (no lab FAQ yet) / Replit no-lab.
   'Chrome',
+  // FINDABILITY #394 — multi-title MOSS-Image open-weight image-model tape while
+  // pizzint-news-alive (4 titles: vs GPT Image 2.5 + vs FLUX 3 + vs Qwen Image
+  // 3.0 + vs Nano Banana 2); GPT / FLUX / Flux 3 / Qwen / Nano Banana fill the
+  // 12-cap and drop the contiguous product surface (parallel to Flux 3 #258 /
+  // Beam #286 / ModelSphere #250). No new doorway lab — hold Warsh / ECDSA /
+  // Nudify / AI Jitters / NSA niche / CSAM adult / Replit no-lab FAQ.
+  'MOSS-Image',
 ]);
 
 /**

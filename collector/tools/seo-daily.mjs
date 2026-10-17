@@ -586,6 +586,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Nemotron 3.5',
   // FINDABILITY #390 — Chrome browser-assistant companion (multi-title ChatGPT Chrome tape; FAQ #191 gates OpenAI lab).
   'Chrome',
+  // FINDABILITY #394 — MOSS-Image open-weight image-model companion (multi-title vs GPT/FLUX/Qwen/Nano Banana; no doorway lab).
+  'MOSS-Image',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -7728,6 +7730,35 @@ function selftest() {
     );
     if (chromeOnly.some((r) => r.lab === 'Chrome')) {
       throw new Error('newsKeywordLags must not flag Chrome on bare ChatGPT / OpenAI titles');
+    }
+  }
+  // FINDABILITY #394 — catch tip wipe of MOSS-Image companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('MOSS-Image')) {
+    throw new Error('probe labs missing MOSS-Image');
+  }
+  {
+    const mossLagXml = '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>MOSS-Image vs GPT Image 2.5: Weights or an Endpoint</news:title>'
+      + '<news:keywords>GPT, Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+      + '<url><news:title>MOSS-Image vs FLUX 3: Two Ways to Put a Bounding Box in a Prompt</news:title>'
+      + '<news:keywords>MOSS-Image, FLUX, Flux 3, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>';
+    const mossLags = newsKeywordLags(mossLagXml);
+    if (!mossLags.some((r) => r.lab === 'MOSS-Image')) {
+      throw new Error(`newsKeywordLags expected MOSS-Image lag: ${JSON.stringify(mossLags)}`);
+    }
+    if (mossLags.filter((r) => /FLUX 3/i.test(r.title)).some((r) => r.lab === 'MOSS-Image')) {
+      throw new Error('newsKeywordLags should not flag MOSS-Image when keywords include it');
+    }
+    // bare FLUX / Qwen / Nano Banana titles without MOSS-Image must not invent it.
+    const mossOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>FLUX 3 lands a tighter bounding-box prompt path</news:title>'
+      + '<news:keywords>FLUX, Flux 3, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (mossOnly.some((r) => r.lab === 'MOSS-Image')) {
+      throw new Error('newsKeywordLags must not flag MOSS-Image on bare FLUX titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.

@@ -2699,6 +2699,50 @@ test('news sitemap keywords include Nemotron 3.5 from multi-title version tape (
   assert.doesNotMatch(d, /\bNemotron 3\.5\b/);
 });
 
+test('news sitemap keywords include MOSS-Image from multi-title image-model tape (FINDABILITY #394)', () => {
+  // Multi-title MOSS-Image tape: GPT / FLUX / Qwen / Nano Banana fill 12-cap
+  // while the contiguous product surface is dropped (no doorway lab).
+  const a = keywordsFor({
+    title: 'MOSS-Image vs GPT Image 2.5: Weights or an Endpoint',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['GPT'],
+  });
+  assert.match(a, /\bMOSS-Image\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('MOSS-Image') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'MOSS-Image vs FLUX 3: Two Ways to Put a Bounding Box in a Prompt',
+    summary: 'Open-weight image model beside FLUX 3.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['FLUX'],
+  });
+  assert.match(b, /\bMOSS-Image\b/);
+  const c = keywordsFor({
+    title: 'MOSS-Image vs Nano Banana 2: Twelve Days to Shutdown',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Nano Banana'],
+  });
+  assert.match(c, /\bMOSS-Image\b/);
+  // bare FLUX / Nano Banana tape must not invent the open-weight image surface.
+  const d = keywordsFor({
+    title: 'FLUX 3 lands a tighter bounding-box prompt path',
+    summary: 'Bare FLUX tape without the open-weight image product surface.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['FLUX'],
+  });
+  assert.doesNotMatch(d, /\bMOSS-Image\b/);
+});
+
 test('news sitemap keywords include Chrome from ChatGPT browser-assistant tape (FINDABILITY #390)', () => {
   // Multi-title ChatGPT Chrome tape: ChatGPT / OpenAI / GPT fill 12-cap while
   // the contiguous browser surface is dropped (FAQ #191 gates OpenAI lab).
