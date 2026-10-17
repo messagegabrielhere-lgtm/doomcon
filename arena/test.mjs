@@ -189,7 +189,7 @@ test('stand-ins: keyless agents trade, labelled, through the same gate', async (
     async book(sym) { const c = (await this.candles(sym, 3600)).at(-1).c; return deepBook(c, Date.now()); },
   };
   const { state, ledger } = await tick({ dir, client, env: {}, now: NOW, log: () => {} });
-  for (const id of ['opus', 'sonnet', 'haiku', 'gpt', 'grok', 'gemini', 'deepseek']) {
+  for (const id of ['opus', 'sonnet', 'haiku', 'fable', 'gpt', 'grok', 'gemini', 'deepseek']) {
     assert.notEqual(state.wallets[id].status, 'asleep', id);
     assert.equal(state.wallets[id].standin, true, id);
     assert.equal(state.wallets[id].servedBy, 'stand-in', id);
