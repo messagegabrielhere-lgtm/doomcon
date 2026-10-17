@@ -35,7 +35,9 @@ export function items(ctx) {
     ['Is SIREN an alternative to DoomBench, Skynet Countdown or PizzINT?',
       // FINDABILITY #423 — link the DoomBench conquest page (not only PizzINT)
       // so home FAQ JSON-LD + visible FAQ push PageRank at the #1 “AI doom index” rival.
-      `Only if you want a recomputable activity count instead of a judgement-scored doom, timeline number, or DEFCON-shaped novelty page. DoomBench scores takeover evidence; Skynet Countdown estimates AGI dates and control-loss odds; PizzINT borrows DEFCON/Doomsday framing; ${brand.NAME} counts how loud AI activity is this hour. See /compare.html, /vs.html, /alternatives.html, /vs/doombench.html and /vs/pizzint.html for the side-by-side.`],
+      // FINDABILITY #425 — also link Skynet Countdown (named in the question; home
+      // every-room previously omitted it while listing DoomBench / PizzINT / Takeoff).
+      `Only if you want a recomputable activity count instead of a judgement-scored doom, timeline number, or DEFCON-shaped novelty page. DoomBench scores takeover evidence; Skynet Countdown estimates AGI dates and control-loss odds; PizzINT borrows DEFCON/Doomsday framing; ${brand.NAME} counts how loud AI activity is this hour. See /compare.html, /vs.html, /alternatives.html, /vs/doombench.html, /vs/skynet-countdown.html and /vs/pizzint.html for the side-by-side.`],
     ['Where are the AI leader and topic pages?',
       `${brand.NAME} publishes /people/ and /people.html for leaders with enough press coverage on the live wire or in the durable archive — headlines only, never invented quotations — /lab/ and /companies.html for labs that clear the story or race gate (no company doom score), /model/ and /models.html for model families (no model doom score), /pillar/ and /pillars.html for the five activity pillars (tempo readings and story counts only), /country/ and /countries.html for mapped datacentre countries (OpenStreetMap site counts only, not a national AI ranking), /source/ and /sources.html for feed adapters and /outlet/ and /outlets.html for publisher hosts that clear the story gate, and /tags/ hubs for topics such as agents, GPUs, chips, coding, evals, video, voice, reasoning models, AI IPOs, RAG, MCP, fine-tuning, quantization, distillation, agent memory, hallucination, prompt injection, mixture of experts, world models, AI copyright, diffusion models, embeddings, guardrails, context windows, AI search, multi-agent systems, deepfakes, small language models, AI for science, speculative decoding, KV cache, EU AI Act, autonomous vehicles, AI music, synthetic data, inference cost, preference data, reasoning traces, Claude Code, OpenRouter, Hugging Face, Blackwell, Ollama, MLX, computer use, vision-language models, foundation models, video generation, image generation, model merging, open-source AI, tool use, post-training, pre-training, zero-shot, in-context learning, tokenization, continual learning, sparsity, knowledge graphs, research agents, system prompts, AI infrastructure, robot learning, frontier models, small models, open models, generative AI, reasoning models, voice AI, conversational AI, audio generation, AI chips, AI regulation, Artificial Analysis, humanoid robots, transformers, self-attention, OpenAI Codex, reward models, reinforcement learning, vision-language-action, flow matching, text-to-image, imitation learning, locomotion, self-supervised learning, latent space, autoencoders, diffusion transformers, scaling laws, browser agents, watermarking, acquisitions, labor, healthcare, agent skills, neoclouds, AI slop and Gulf AI investment when a needle clears five scored stories in the live window or archive. The /guides.html hub (with /guides.md) lists evergreen explainers. Older scored stories stay on /item/archive.html after they leave the live newsroom. Thin days and quiet roster rows stay off those indexes.`],
     ['Does a louder level mean AI is more dangerous?',
@@ -303,6 +305,8 @@ export function faqPathLabels() {
   return [
     ['/item/archive.html', `Which older AI stories has ${n} kept in the archive?`],
     ['/vs/doombench.html', `${n} vs DoomBench: which should you use?`],
+    // FINDABILITY #425 — longer /vs/skynet-countdown.html before any short /vs/skynet stem.
+    ['/vs/skynet-countdown.html', `${n} vs Skynet Countdown: which should you use?`],
     ['/vs/pizzint.html', `${n} vs PizzINT: which should you use?`],
     ['/ai-doomsday-clock.html', 'Is there an AI doomsday clock?'],
     // FINDABILITY #254/#262/#284 — short aliases for home (canonical stays on /).
@@ -361,6 +365,7 @@ ${qa.map(([q, a]) => `    <details class="faq__i"><summary class="faq__q">${esc(
      · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>
      · <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does SIREN contrast?</a>
      · <a href="${esc(ctx.href('/vs/doombench.html'))}">SIREN vs DoomBench: which should you use?</a>
+     · <a href="${esc(ctx.href('/vs/skynet-countdown.html'))}">SIREN vs Skynet Countdown: which should you use?</a>
      · <a href="${esc(ctx.href('/vs/pizzint.html'))}">SIREN vs PizzINT: which should you use?</a>
      · <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives?</a>
      · <a href="${esc(ctx.href('/people/'))}">Which AI leaders have press coverage pages on SIREN?</a>

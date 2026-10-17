@@ -150,6 +150,17 @@ describe('home v2 footer', () => {
     assert.match(html, /Activity count vs Live AI Doom Index/);
   });
 
+  // FINDABILITY #425 — Skynet Countdown conquest card (named in home FAQ; was
+  // omitted while DoomBench / PizzINT / Takeoff rooms shipped).
+  it('every-room THE RECORD includes Skynet Countdown conquest card (FINDABILITY #425)', () => {
+    const html = render(ctx, { head: '' });
+    assert.match(
+      html,
+      /href="\/vs\/skynet-countdown\.html"[^>]*>[\s\S]*?<b>SIREN vs Skynet Countdown: which should you use\?<\/b>/,
+    );
+    assert.match(html, /Activity count vs AGI timeline and control-loss odds/);
+  });
+
   it('reuse, bosses, labs and video section H2s use questions', () => {
     const html = render(ctx, { head: '' });
     assert.match(html, /id="v2-share-h"[^>]*>How do you reuse this SIREN reading\?<\/h2>/);

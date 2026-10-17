@@ -17,6 +17,8 @@ describe('homepage FAQ', () => {
     assert.ok(alt[1].includes('/compare.html'));
     // FINDABILITY #423 — DoomBench conquest path in the alternatives FAQ answer.
     assert.ok(alt[1].includes('/vs/doombench.html'));
+    // FINDABILITY #425 — Skynet Countdown (named in the question) also linked.
+    assert.ok(alt[1].includes('/vs/skynet-countdown.html'));
     const ld = jsonLd(ctx);
     assert.equal(ld['@type'], 'FAQPage');
     assert.ok(ld.mainEntity.every((q) => !String(q.acceptedAnswer.text).includes('<a ')));
@@ -86,6 +88,9 @@ describe('homepage FAQ', () => {
     // FINDABILITY #423 — FAQ footer + linkified answer point at DoomBench conquest.
     assert.match(html, /href="\/vs\/doombench\.html">SIREN vs DoomBench: which should you use\?<\/a>/);
     assert.ok(faqPathLabels().some(([p, l]) => p === '/vs/doombench.html' && /DoomBench/.test(l)));
+    // FINDABILITY #425 — Skynet Countdown FAQ path + footer.
+    assert.match(html, /href="\/vs\/skynet-countdown\.html">SIREN vs Skynet Countdown: which should you use\?<\/a>/);
+    assert.ok(faqPathLabels().some(([p, l]) => p === '/vs/skynet-countdown.html' && /Skynet Countdown/.test(l)));
     assert.match(html, /Which AI leaders have press coverage pages on SIREN\?/);
     assert.match(html, /Which AI news tags have SIREN pages\?/);
     assert.doesNotMatch(html, /href="\/compare\.html">\/compare\.html<\/a>/);
