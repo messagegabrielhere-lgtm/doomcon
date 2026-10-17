@@ -122,6 +122,10 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Claude found the seeds for ECDSA beside a NIST curve reconstruction', news: [] }).includes('anthropic-ecdsa'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-ecdsa' && t.path === '/lab/anthropic.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'anthropic-ecdsa').re.test('ECDSA is used in Bitcoin wallets'), false);
+  // FINDABILITY #402 — Claude Opus 5.5 product Trends → Anthropic lab.
+  assert.ok(matchHeadTerms({ title: 'Claude Opus 5.5 beats a human baseline and AI researchers move up their self improvement clock', news: [] }).includes('claude-opus-5-5'));
+  assert.ok(matchHeadTerms({ title: 'Tips for Multiagent Work with Claude Opus 5.5', news: [] }).includes('claude-opus-5-5'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'claude-opus-5-5').re.test('The musical opus was published in 1855'), false);
   assert.ok(matchHeadTerms({ title: "Waymo’s robotaxis are headed to Canada", news: [] }).includes('waymo-canada'));
   assert.ok(matchHeadTerms({ title: 'Hello Toronto – Waymo Is En Route', news: [] }).includes('waymo-canada'));
   assert.ok(matchHeadTerms({ title: 'Waymo plans to launch its robotaxis in Toronto in 2028', news: [] }).includes('waymo-canada'));

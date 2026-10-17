@@ -44,9 +44,11 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   // FINDABILITY #392 — Anthropic METR evaluator route to same gated lab.
   assert.match(html, /Anthropic METR → \/lab\/anthropic\.html/);
   assert.match(html, /Anthropic ECDSA → \/lab\/anthropic\.html/);
+  assert.match(html, /Claude Opus 5\.5 → \/lab\/anthropic\.html/);
   // FINDABILITY #400 — watchlist table merges HEAD_TERMS even when JSON omits them.
   assert.match(html, /<td>Anthropic ECDSA<\/td>/);
   assert.match(html, /<td>Anthropic METR<\/td>/);
+  assert.match(html, /<td>Claude Opus 5\.5<\/td>/);
   assert.match(html, /not a construction forecast/);
   // FINDABILITY #164 — ASML / EUV route to gated lab.
   assert.match(html, /ASML \/ EUV AI chip tools → \/lab\/asml\.html/);
@@ -113,6 +115,7 @@ test('searchTrendsPage stays honest when Trends is dark', () => {
   assert.match(html, /did not answer|No AI-related/i);
   // FINDABILITY #400 — empty/stale JSON still lists current HEAD_TERMS (not trending).
   assert.match(html, /<td>Anthropic ECDSA<\/td>/);
+  assert.match(html, /<td>Claude Opus 5\.5<\/td>/);
   assert.match(html, /Not in today’s firehose/);
 });
 

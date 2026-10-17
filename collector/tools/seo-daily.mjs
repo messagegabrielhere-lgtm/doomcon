@@ -590,6 +590,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'MOSS-Image',
   // FINDABILITY #397 — ECDSA curve-seed companion (multi-title; FAQ #397 gates Anthropic lab).
   'ECDSA',
+  // FINDABILITY #402 — Claude Opus 5.5 product companion (multi-title; FAQ #402 gates Anthropic lab).
+  'Claude Opus 5.5', 'Opus 5.5',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -1247,9 +1249,11 @@ export const TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE = 'Anthropic AI safet
 export const TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE = 'Anthropic Canadian data centres → /lab/anthropic.html';
 export const TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE = 'Anthropic METR → /lab/anthropic.html';
 export const TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE = 'Anthropic ECDSA → /lab/anthropic.html';
+export const TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE = 'Claude Opus 5.5 → /lab/anthropic.html';
 /** FINDABILITY #400 — watchlist table row (distinct from FAQ arrow text; tip #399 wipe). */
 export const TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE = '<td>Anthropic ECDSA</td>';
 export const TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE = '<td>Anthropic METR</td>';
+export const TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE = '<td>Claude Opus 5.5</td>';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 export const TRENDS_ROUTES_AMD_NEEDLE = 'AMD / MI300 → /lab/amd.html';
@@ -1289,9 +1293,11 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE)
     && text.includes(TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE)
     && text.includes(TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE)
+    && text.includes(TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE)
     // FINDABILITY #400 — table rows must survive tip overlays (FAQ arrows alone are not enough).
     && text.includes(TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE)
     && text.includes(TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE)
+    && text.includes(TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
     && text.includes(TRENDS_ROUTES_AMD_NEEDLE)
@@ -1750,6 +1756,24 @@ export function hasAnthropicEcdsaFaq(html, needle = ANTHROPIC_ECDSA_FAQ_NEEDLE) 
  * Wipe gap is `agents-anthropic-ecdsa-missing`.
  */
 export function hasAgentsAnthropicEcdsa(body, needle = AGENTS_ANTHROPIC_ECDSA_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/anthropic.html');
+}
+
+/** FINDABILITY #402 — Claude Opus 5.5 FAQ + agent maps. */
+export const CLAUDE_OPUS_55_FAQ_NEEDLE = 'Why does SIREN watch Claude Opus 5.5?';
+export const AGENTS_CLAUDE_OPUS_55_NEEDLE = 'Claude Opus 5.5';
+
+/** Tip /lab/anthropic.html must keep the #402 Claude Opus 5.5 FAQ. */
+export function hasClaudeOpus55Faq(html, needle = CLAUDE_OPUS_55_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Claude Opus 5.5 tape to Anthropic lab (FINDABILITY #402).
+ * Wipe gap is `agents-claude-opus-55-missing`.
+ */
+export function hasAgentsClaudeOpus55(body, needle = AGENTS_CLAUDE_OPUS_55_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/anthropic.html');
 }
@@ -2838,6 +2862,26 @@ export function deriveGaps(report) {
       text: `${which} missing ECDSA → /lab/anthropic.html tip (FINDABILITY #397) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #397`,
     });
   }
+  // FINDABILITY #402 — Claude Opus 5.5 FAQ wiped or never landed.
+  if (ours.claude_opus_55_faq === false) {
+    gaps.push({
+      id: 'claude-opus-55-faq-missing',
+      severity: 'medium',
+      text: `/lab/anthropic.html missing Claude Opus 5.5 FAQ (FINDABILITY #402) — re-overlay lab/anthropic.html or wait for full collect Publish on tip ≥ #402`,
+    });
+  }
+  // FINDABILITY #402 — agent maps must route Claude Opus 5.5 tape to Anthropic lab.
+  if (ours.agents_claude_opus_55 === false || ours.llms_claude_opus_55 === false) {
+    const which = [
+      ours.agents_claude_opus_55 === false ? 'agents.md' : null,
+      ours.llms_claude_opus_55 === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-claude-opus-55-missing',
+      severity: 'medium',
+      text: `${which} missing Claude Opus 5.5 → /lab/anthropic.html tip (FINDABILITY #402) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #402`,
+    });
+  }
 
   // FINDABILITY #164 — ASML lab FAQ for EUV / AI chip-tool Trends wiped or never landed.
   if (ours.asml_trends_faq === false) {
@@ -3711,6 +3755,10 @@ export function measureSite(site, byUrl) {
     row.anthropic_ecdsa_faq = antHtml?.ok ? hasAnthropicEcdsaFaq(antHtml.value) : false;
     row.agents_anthropic_ecdsa = agentsMd?.ok ? hasAgentsAnthropicEcdsa(agentsMd.value) : false;
     row.llms_anthropic_ecdsa = llms?.ok ? hasAgentsAnthropicEcdsa(llmsBody) : false;
+    // FINDABILITY #402 — Claude Opus 5.5 FAQ + agent maps (same lab).
+    row.claude_opus_55_faq = antHtml?.ok ? hasClaudeOpus55Faq(antHtml.value) : false;
+    row.agents_claude_opus_55 = agentsMd?.ok ? hasAgentsClaudeOpus55(agentsMd.value) : false;
+    row.llms_claude_opus_55 = llms?.ok ? hasAgentsClaudeOpus55(llmsBody) : false;
     // FINDABILITY #164 — ASML Trends FAQ + agent maps.
     const asmlHtml = byUrl.get(`${base}/lab/asml.html`);
     row.asml_trends_faq = asmlHtml?.ok ? hasAsmlTrendsFaq(asmlHtml.value) : false;
@@ -4234,6 +4282,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_anthropic_ecdsa == null ? '—' : (ours.agents_anthropic_ecdsa ? 'yes' : 'NO');
       const lm = ours.llms_anthropic_ecdsa == null ? '—' : (ours.llms_anthropic_ecdsa ? 'yes' : 'NO');
       lines.push(`- Agent-map ECDSA → lab (#397): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.claude_opus_55_faq != null) {
+      lines.push(
+        `- Claude Opus 5.5 FAQ (#402): **${ours.claude_opus_55_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_claude_opus_55 != null || ours.llms_claude_opus_55 != null)) {
+      const ag = ours.agents_claude_opus_55 == null ? '—' : (ours.agents_claude_opus_55 ? 'yes' : 'NO');
+      const lm = ours.llms_claude_opus_55 == null ? '—' : (ours.llms_claude_opus_55 ? 'yes' : 'NO');
+      lines.push(`- Agent-map Claude Opus 5.5 → lab (#402): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.asml_trends_faq != null) {
       lines.push(
@@ -5698,6 +5756,37 @@ function selftest() {
   if (!ecdsaGaps.some((g) => g.id === 'agents-anthropic-ecdsa-missing')) {
     throw new Error('agents-anthropic-ecdsa-missing gap');
   }
+  // FINDABILITY #402 — Claude Opus 5.5 FAQ + agent maps.
+  if (hasClaudeOpus55Faq(CLAUDE_OPUS_55_FAQ_NEEDLE) !== true) {
+    throw new Error('hasClaudeOpus55Faq true');
+  }
+  if (hasClaudeOpus55Faq('Why does SIREN watch Anthropic ECDSA curve seeds?') !== false) {
+    throw new Error('hasClaudeOpus55Faq false');
+  }
+  if (hasAgentsClaudeOpus55('Claude Opus 5.5 → https://siren.watch/lab/anthropic.html') !== true) {
+    throw new Error('hasAgentsClaudeOpus55 true');
+  }
+  if (hasAgentsClaudeOpus55('https://siren.watch/lab/anthropic.html only') !== false) {
+    throw new Error('hasAgentsClaudeOpus55 needs Claude Opus 5.5 needle');
+  }
+  const opusGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      claude_opus_55_faq: false,
+      agents_claude_opus_55: false,
+      llms_claude_opus_55: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!opusGaps.some((g) => g.id === 'claude-opus-55-faq-missing')) {
+    throw new Error('claude-opus-55-faq-missing gap');
+  }
+  if (!opusGaps.some((g) => g.id === 'agents-claude-opus-55-missing')) {
+    throw new Error('agents-claude-opus-55-missing gap');
+  }
   if (hasAsmlTrendsFaq(ASML_TRENDS_FAQ_NEEDLE) !== true) {
     throw new Error('hasAsmlTrendsFaq true');
   }
@@ -6603,8 +6692,10 @@ function selftest() {
     TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE,
     TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE,
     TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE,
+    TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE,
     TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE,
     TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE,
+    TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_AMD_NEEDLE,
@@ -6618,7 +6709,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/watchlist-td/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/watchlist-td/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402)');
   }
   // FINDABILITY #400 — FAQ arrow alone must not pass (tip #399 left arrows, dropped table rows).
   if (hasTrendsRoutesFaq([
@@ -6646,6 +6737,7 @@ function selftest() {
     TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE,
     TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE,
     TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE,
+    TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_AMD_NEEDLE,
@@ -6655,7 +6747,7 @@ function selftest() {
     TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
     TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE,
   ].join('\n')) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR (#400)');
+    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5 (#400/#402)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
@@ -7921,6 +8013,26 @@ function selftest() {
     );
     if (ecdsaOnly.some((r) => r.lab === 'ECDSA')) {
       throw new Error('newsKeywordLags must not flag ECDSA on bare Claude titles');
+    }
+  }
+  // FINDABILITY #402 — catch tip wipe of Claude Opus 5.5 companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Claude Opus 5.5') || !NEWS_KEYWORD_PROBE_LABS.includes('Opus 5.5')) {
+    throw new Error('probe labs missing Claude Opus 5.5 / Opus 5.5');
+  }
+  {
+    const opusLags = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Claude Opus 5.5 beats a human baseline and AI researchers move up their self improvement clock</news:title>'
+      + '<news:keywords>Claude, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Tips for Multiagent Work with Claude Opus 5.5</news:title>'
+      + '<news:keywords>Claude Opus 5.5, Opus 5.5, Claude, AI, artificial intelligence, SIREN, attention, forum</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (!opusLags.some((r) => r.lab === 'Claude Opus 5.5' || r.lab === 'Opus 5.5')) {
+      throw new Error(`newsKeywordLags expected Claude Opus 5.5 lag: ${JSON.stringify(opusLags)}`);
+    }
+    if (opusLags.filter((r) => /Multiagent/i.test(r.title)).some((r) => r.lab === 'Claude Opus 5.5' || r.lab === 'Opus 5.5')) {
+      throw new Error('newsKeywordLags should not flag Opus when keywords include it');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
