@@ -44,7 +44,8 @@ describe('bliss page', () => {
     const links = html.match(/<p class="bhow__links">([\s\S]*?)<\/p>/);
     assert.ok(links, 'expected bliss methodology links');
     assert.match(links[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
-    assert.match(links[1], /href="\/">AI activity index today · SIREN<\/a>/);
+    // FINDABILITY #467 — composite home CTA names both head terms.
+    assert.match(links[1], /href="\/">AI activity index today · AI activity level today · SIREN<\/a>/);
     assert.doesNotMatch(links[1], /href="\/methodology\.html">Full methodology<\/a>/);
     assert.doesNotMatch(links[1], /href="\/">SIREN index<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
