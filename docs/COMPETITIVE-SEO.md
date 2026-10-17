@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T07:40Z after **#410** tip overlay `45dbe62` + IndexNow **200**: CERT-In FAQ CDN clear (agents tag + agents/llms + Trends route/`<td>`); Blackstone / Ondas / Claude Opus / ECDSA / METR FAQ still **ok**; lead **6,703** / news **200**; pizzint news **14** contested; GSC/Bing meta **absent**; Trends quiet (`ai_related_total` **0**); News keywords through **#404**; FAQ routes through **#410**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#411** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T07:50Z shipping **#412** Replit Anthropic model-switch FAQ companion on `/lab/anthropic.html` (keywords #340 already ship; multi-title Replit↔Anthropic/OpenAI tape; no Replit lab doorway); tip overlay pending IndexNow; CERT-In / Blackstone / Ondas / Claude Opus / ECDSA / METR FAQ still **ok**; lead **6,699** / news **200**; GSC/Bing meta **absent**; Trends quiet (`ai_related_total` **0**); News keywords through **#404**; FAQ routes through **#412**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#412** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -59,7 +59,7 @@ preserve **#248**). Typed-guess **#262** tip prose still intact after
 **ok** after `a00cfbc` (index + level today middot). Multi-title **#298** Vercel tip
 **ok** (2/2 after `2d76065`); **#294** Mac Studio singular tip
 **ok**; **#292** Mac Studios **ok**; Qwen3.8-27B **ok**; Beam **ok**; RTX Spark **ok**; CRWV **#288** **ok**.
-Hold doorway on product keywords beyond **#410** CERT-In FAQ + **#408** Blackstone Anthropic financing FAQ + **#406** Ondas-Palantir FAQ + **#404** Ondas news:keywords + **#402** Claude Opus 5.5 FAQ + **#400** Trends HEAD_TERMS merge + **#397** ECDSA FAQ + **#394** MOSS-Image + **#392** METR FAQ + **#390** Chrome + **#388** digit flex + **#386** Nemotron 3.5 (armed).
+Hold doorway on product keywords beyond **#412** Replit Anthropic FAQ + **#410** CERT-In FAQ + **#408** Blackstone Anthropic financing FAQ + **#406** Ondas-Palantir FAQ + **#404** Ondas news:keywords + **#402** Claude Opus 5.5 FAQ + **#400** Trends HEAD_TERMS merge + **#397** ECDSA FAQ + **#394** MOSS-Image + **#392** METR FAQ + **#390** Chrome + **#388** digit flex + **#386** Nemotron 3.5 (armed).
 MOSS-Image keywords have no doorway lab (parallel Beam #286); Anthropic FAQs gate Opus 5.5 + ECDSA + METR + Blackstone (#382 keywords + #408 FAQ);
 Agents tag FAQ #410 gates CERT-In (#226 keywords); OpenAI FAQ #191 gates Chrome; NVIDIA lab gates Dory + Nemotron; SoftBank FAQ #374 gates Allied; Palantir FAQ #183/#406 gates Ondas.
 Warsh person / Glimpse (1 title) / Nova Scotia geography / North Korea geography /

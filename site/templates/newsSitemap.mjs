@@ -407,20 +407,20 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // 12-cap and drop the contiguous browser surface — FAQ #191 already gates
   // `/lab/openai.html` (parallel to Allied #380 / Blackstone #382 / Flying
   // Roadster #354). Hold bare browser noise without ChatGPT proximity /
-  // Warsh / ECDSA / Nudify / AI Jitters / METR (no lab FAQ yet) / Replit no-lab.
+  // Warsh / ECDSA / Nudify / AI Jitters / METR (FAQ #392) / Replit (FAQ #412 on Anthropic lab).
   'Chrome',
   // FINDABILITY #394 — multi-title MOSS-Image open-weight image-model tape while
   // pizzint-news-alive (4 titles: vs GPT Image 2.5 + vs FLUX 3 + vs Qwen Image
   // 3.0 + vs Nano Banana 2); GPT / FLUX / Flux 3 / Qwen / Nano Banana fill the
   // 12-cap and drop the contiguous product surface (parallel to Flux 3 #258 /
   // Beam #286 / ModelSphere #250). No new doorway lab — hold Warsh / ECDSA /
-  // Nudify / AI Jitters / NSA niche / CSAM adult / Replit no-lab FAQ.
+  // Nudify / AI Jitters / NSA niche / CSAM adult / Replit (FAQ #412; no /lab/replit.html).
   'MOSS-Image',
   // FINDABILITY #397 — multi-title Anthropic / Claude ECDSA + NIST curve-seed
   // tape while pizzint-news-alive (4 titles); Claude / Anthropic / NIST fill
   // the 12-cap and drop the contiguous ECDSA surface — FAQ #397 gates
   // `/lab/anthropic.html` (parallel to METR FAQ #392 / Chrome #390). Hold NSA
-  // niche keyword / Warsh / Nudify / AI Jitters / Replit no-lab.
+  // niche keyword / Warsh / Nudify / AI Jitters / Replit (FAQ #412).
   'ECDSA',
   // FINDABILITY #404 — multi-title Ondas–Palantir defense-AI JV tape while
   // pizzint-news-alive (2 titles: RTX, AeroVironment And Ondas-Palantir… +
@@ -428,7 +428,7 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // 12-cap and drop the contiguous Ondas partner surface — Palantir gov FAQ
   // already gates `/lab/palantir.html` (parallel to CERT-In #226 / Allied
   // #380). Hold bare AeroVironment third-party / Warsh / Nudify / AI Jitters /
-  // NSA niche / Replit no-lab / ollama release noise.
+  // NSA niche / ollama release noise (Replit FAQ #412 on Anthropic lab).
   'Ondas',
 ]);
 

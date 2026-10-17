@@ -292,6 +292,13 @@ describe('lab facets', () => {
     );
     assert.match(antHtml, /[Nn]ot deal advice/);
     assert.doesNotMatch(antHtml, /will finance|must buy|doom Blackstone/i);
+    // FINDABILITY #412 — Replit Anthropic model-switch FAQ on same gated lab.
+    assert.match(
+      antHtml,
+      /Why does SIREN watch Replit Anthropic model switches\?/,
+    );
+    assert.match(antHtml, /[Nn]ot vendor advice/);
+    assert.doesNotMatch(antHtml, /will switch|must dump|doom Replit/i);
     // FINDABILITY #164 — ASML / EUV Trends FAQ on gated lab.
     const asmlHtml = renderLab(ctx, {
       id: 'asml',

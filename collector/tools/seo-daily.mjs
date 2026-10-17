@@ -1256,12 +1256,15 @@ export const TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE = 'Anthropic METR → /lab/anth
 export const TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE = 'Anthropic ECDSA → /lab/anthropic.html';
 export const TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE = 'Claude Opus 5.5 → /lab/anthropic.html';
 export const TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE = 'Blackstone / Anthropic → /lab/anthropic.html';
+export const TRENDS_ROUTES_REPLIT_ANTHROPIC_NEEDLE = 'Replit / Anthropic → /lab/anthropic.html';
 /** FINDABILITY #400 — watchlist table row (distinct from FAQ arrow text; tip #399 wipe). */
 export const TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE = '<td>Anthropic ECDSA</td>';
 export const TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE = '<td>Anthropic METR</td>';
 export const TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE = '<td>Claude Opus 5.5</td>';
 /** FINDABILITY #408 — watchlist table row (distinct from FAQ arrow text). */
 export const TRENDS_WATCHLIST_BLACKSTONE_ANTHROPIC_NEEDLE = '<td>Blackstone / Anthropic</td>';
+/** FINDABILITY #412 — watchlist table row (distinct from FAQ arrow text). */
+export const TRENDS_WATCHLIST_REPLIT_ANTHROPIC_NEEDLE = '<td>Replit / Anthropic</td>';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 export const TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE = 'Ondas / Palantir → /lab/palantir.html';
@@ -1308,11 +1311,13 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE)
     && text.includes(TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE)
     && text.includes(TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE)
+    && text.includes(TRENDS_ROUTES_REPLIT_ANTHROPIC_NEEDLE)
     // FINDABILITY #400 — table rows must survive tip overlays (FAQ arrows alone are not enough).
     && text.includes(TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE)
     && text.includes(TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE)
     && text.includes(TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE)
     && text.includes(TRENDS_WATCHLIST_BLACKSTONE_ANTHROPIC_NEEDLE)
+    && text.includes(TRENDS_WATCHLIST_REPLIT_ANTHROPIC_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
     && text.includes(TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE)
@@ -1828,6 +1833,24 @@ export function hasBlackstoneAnthropicFaq(html, needle = BLACKSTONE_ANTHROPIC_FA
  * Wipe gap is `agents-blackstone-anthropic-missing`.
  */
 export function hasAgentsBlackstoneAnthropic(body, needle = AGENTS_BLACKSTONE_ANTHROPIC_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/anthropic.html');
+}
+
+/** FINDABILITY #412 — Replit / Anthropic model-switch FAQ + agent maps. */
+export const REPLIT_ANTHROPIC_FAQ_NEEDLE = 'Why does SIREN watch Replit Anthropic model switches?';
+export const AGENTS_REPLIT_ANTHROPIC_NEEDLE = 'Replit';
+
+/** Tip /lab/anthropic.html must keep the #412 Replit Anthropic model-switch FAQ. */
+export function hasReplitAnthropicFaq(html, needle = REPLIT_ANTHROPIC_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Replit Anthropic model-switch tape to Anthropic lab (FINDABILITY #412).
+ * Wipe gap is `agents-replit-anthropic-missing`.
+ */
+export function hasAgentsReplitAnthropic(body, needle = AGENTS_REPLIT_ANTHROPIC_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/anthropic.html');
 }
@@ -2974,6 +2997,26 @@ export function deriveGaps(report) {
       text: `${which} missing Blackstone → /lab/anthropic.html tip (FINDABILITY #408) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #408`,
     });
   }
+  // FINDABILITY #412 — Replit Anthropic model-switch FAQ wiped or never landed.
+  if (ours.replit_anthropic_faq === false) {
+    gaps.push({
+      id: 'replit-anthropic-faq-missing',
+      severity: 'medium',
+      text: `/lab/anthropic.html missing Replit Anthropic model-switch FAQ (FINDABILITY #412) — re-overlay lab/anthropic.html or wait for full collect Publish on tip ≥ #412`,
+    });
+  }
+  // FINDABILITY #412 — agent maps must route Replit tape to Anthropic lab.
+  if (ours.agents_replit_anthropic === false || ours.llms_replit_anthropic === false) {
+    const which = [
+      ours.agents_replit_anthropic === false ? 'agents.md' : null,
+      ours.llms_replit_anthropic === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-replit-anthropic-missing',
+      severity: 'medium',
+      text: `${which} missing Replit → /lab/anthropic.html tip (FINDABILITY #412) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #412`,
+    });
+  }
 
   // FINDABILITY #164 — ASML lab FAQ for EUV / AI chip-tool Trends wiped or never landed.
   if (ours.asml_trends_faq === false) {
@@ -3896,6 +3939,10 @@ export function measureSite(site, byUrl) {
     row.blackstone_anthropic_faq = antHtml?.ok ? hasBlackstoneAnthropicFaq(antHtml.value) : false;
     row.agents_blackstone_anthropic = agentsMd?.ok ? hasAgentsBlackstoneAnthropic(agentsMd.value) : false;
     row.llms_blackstone_anthropic = llms?.ok ? hasAgentsBlackstoneAnthropic(llmsBody) : false;
+    // FINDABILITY #412 — Replit Anthropic model-switch FAQ + agent maps (same lab).
+    row.replit_anthropic_faq = antHtml?.ok ? hasReplitAnthropicFaq(antHtml.value) : false;
+    row.agents_replit_anthropic = agentsMd?.ok ? hasAgentsReplitAnthropic(agentsMd.value) : false;
+    row.llms_replit_anthropic = llms?.ok ? hasAgentsReplitAnthropic(llmsBody) : false;
     // FINDABILITY #164 — ASML Trends FAQ + agent maps.
     const asmlHtml = byUrl.get(`${base}/lab/asml.html`);
     row.asml_trends_faq = asmlHtml?.ok ? hasAsmlTrendsFaq(asmlHtml.value) : false;
@@ -4448,6 +4495,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_blackstone_anthropic == null ? '—' : (ours.agents_blackstone_anthropic ? 'yes' : 'NO');
       const lm = ours.llms_blackstone_anthropic == null ? '—' : (ours.llms_blackstone_anthropic ? 'yes' : 'NO');
       lines.push(`- Agent-map Blackstone → Anthropic lab (#408): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.replit_anthropic_faq != null) {
+      lines.push(
+        `- Replit Anthropic model-switch FAQ (#412): **${ours.replit_anthropic_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_replit_anthropic != null || ours.llms_replit_anthropic != null)) {
+      const ag = ours.agents_replit_anthropic == null ? '—' : (ours.agents_replit_anthropic ? 'yes' : 'NO');
+      const lm = ours.llms_replit_anthropic == null ? '—' : (ours.llms_replit_anthropic ? 'yes' : 'NO');
+      lines.push(`- Agent-map Replit → Anthropic lab (#412): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.asml_trends_faq != null) {
       lines.push(
@@ -5994,6 +6051,37 @@ function selftest() {
   if (!blackstoneGaps.some((g) => g.id === 'agents-blackstone-anthropic-missing')) {
     throw new Error('agents-blackstone-anthropic-missing gap');
   }
+  // FINDABILITY #412 — Replit Anthropic model-switch FAQ + agent maps.
+  if (hasReplitAnthropicFaq(REPLIT_ANTHROPIC_FAQ_NEEDLE) !== true) {
+    throw new Error('hasReplitAnthropicFaq true');
+  }
+  if (hasReplitAnthropicFaq('Why does SIREN watch Blackstone Anthropic financing?') !== false) {
+    throw new Error('hasReplitAnthropicFaq false');
+  }
+  if (hasAgentsReplitAnthropic('Replit → https://siren.watch/lab/anthropic.html') !== true) {
+    throw new Error('hasAgentsReplitAnthropic true');
+  }
+  if (hasAgentsReplitAnthropic('https://siren.watch/lab/anthropic.html only') !== false) {
+    throw new Error('hasAgentsReplitAnthropic needs Replit needle');
+  }
+  const replitGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      replit_anthropic_faq: false,
+      agents_replit_anthropic: false,
+      llms_replit_anthropic: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!replitGaps.some((g) => g.id === 'replit-anthropic-faq-missing')) {
+    throw new Error('replit-anthropic-faq-missing gap');
+  }
+  if (!replitGaps.some((g) => g.id === 'agents-replit-anthropic-missing')) {
+    throw new Error('agents-replit-anthropic-missing gap');
+  }
   if (hasAsmlTrendsFaq(ASML_TRENDS_FAQ_NEEDLE) !== true) {
     throw new Error('hasAsmlTrendsFaq true');
   }
@@ -6967,10 +7055,12 @@ function selftest() {
     TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE,
     TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE,
     TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE,
+    TRENDS_ROUTES_REPLIT_ANTHROPIC_NEEDLE,
     TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE,
     TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE,
     TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE,
     TRENDS_WATCHLIST_BLACKSTONE_ANTHROPIC_NEEDLE,
+    TRENDS_WATCHLIST_REPLIT_ANTHROPIC_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE,
@@ -6986,7 +7076,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/Blackstone-Anthropic/watchlist-td/Meta-Apple-Mac/Palantir/Ondas-Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402/#406/#408/#410)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/Blackstone-Anthropic/Replit-Anthropic/watchlist-td/Meta-Apple-Mac/Palantir/Ondas-Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402/#406/#408/#410/#412)');
   }
   // FINDABILITY #400 — FAQ arrow alone must not pass (tip #399 left arrows, dropped table rows).
   if (hasTrendsRoutesFaq([
@@ -7017,6 +7107,7 @@ function selftest() {
     TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE,
     TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE,
     TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE,
+    TRENDS_ROUTES_REPLIT_ANTHROPIC_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE,
@@ -7027,7 +7118,7 @@ function selftest() {
     TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
     TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE,
   ].join('\n')) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5/Blackstone/Ondas/CERT-In (#400/#402/#406/#408/#410)');
+    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5/Blackstone/Replit/Ondas/CERT-In (#400/#402/#406/#408/#410/#412)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

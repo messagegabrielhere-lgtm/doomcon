@@ -77,6 +77,11 @@ export const HEAD_TERMS = Object.freeze([
   // Anthropic / Claude / chip / debt / yield / GPU; bare Blackstone real-estate
   // tape without that context stays unmatched.
   { id: 'anthropic-blackstone', label: 'Blackstone / Anthropic', re: /\bblackstone\b.{0,80}\b(?:anthropic|claude|chip|debt|financ|yield|gpu)\b|\b(?:anthropic|claude)\b.{0,80}\bblackstone\b/i, path: '/lab/anthropic.html' },
+  // FINDABILITY #412 — Replit / Anthropic / OpenAI model-hosting switch Trends →
+  // same gated Anthropic lab (story counts only; not vendor advice). Replit
+  // beside Anthropic / Claude / OpenAI / ChatGPT; bare Replit IDE noise without
+  // that context stays unmatched. No /lab/replit.html doorway.
+  { id: 'anthropic-replit', label: 'Replit / Anthropic', re: /\breplit\b.{0,80}\b(?:anthropic|claude|openai|chatgpt)\b|\b(?:anthropic|claude|openai|chatgpt)\b.{0,80}\breplit\b/i, path: '/lab/anthropic.html' },
   // FINDABILITY #174/#187 — Gemini / Gemma / Argon Trends → gated DeepMind lab
   // (story counts only; not a model review or stock tip). Gemma open-weight and
   // Gemini 4 Argon product tape share the same lab as Gemini headlines.
