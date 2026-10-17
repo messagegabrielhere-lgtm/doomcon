@@ -39,6 +39,9 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   // FINDABILITY #362 — Anthropic AI safety bill route to same gated lab.
   assert.match(html, /Anthropic AI safety bill → \/lab\/anthropic\.html/);
   assert.match(html, /not IPO advice/);
+  // FINDABILITY #368 — Anthropic Canadian data-centre route to same gated lab.
+  assert.match(html, /Anthropic Canadian data centres → \/lab\/anthropic\.html/);
+  assert.match(html, /not a construction forecast/);
   // FINDABILITY #164 — ASML / EUV route to gated lab.
   assert.match(html, /ASML \/ EUV AI chip tools → \/lab\/asml\.html/);
   // FINDABILITY #165 — TSMC / AI foundry route to gated lab.

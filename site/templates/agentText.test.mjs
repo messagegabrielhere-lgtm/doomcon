@@ -181,6 +181,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /Anthropic AI safety bill/);
   assert.match(txt, /\/lab\/anthropic\.html/);
   assert.match(txt, /not IPO advice/);
+  // FINDABILITY #368 — Anthropic Canadian data-centre tape routes to Anthropic lab.
+  assert.match(txt, /Anthropic Canadian data centre/);
+  assert.match(txt, /not a construction forecast/);
   // FINDABILITY #164 — ASML / EUV Trends route to ASML lab.
   assert.match(txt, /ASML, ASML stock, or EUV/);
   assert.match(txt, /\/lab\/asml\.html/);
@@ -309,7 +312,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /OpenAI lawsuit \/ FTC \/ OpenAI outage \/ ChatGPT Chrome Trends/);
   assert.match(md, /\/lab\/openai\.html/);
   // FINDABILITY #163 — agents.md lists Anthropic lab for IPO / FTC Trends.
-  assert.match(md, /Anthropic IPO \/ FTC probe \/ AI safety bill Trends/);
+  assert.match(md, /Anthropic IPO \/ FTC probe \/ AI safety bill \/ Canadian data centre Trends/);
   assert.match(md, /\/lab\/anthropic\.html/);
   // FINDABILITY #164 — agents.md lists ASML lab for ASML stock / EUV Trends.
   assert.match(md, /ASML stock \/ EUV AI chip-tool Trends/);
