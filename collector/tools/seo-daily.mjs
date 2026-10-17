@@ -1218,6 +1218,7 @@ export const TRENDS_ROUTES_DEEPSEEK_NEEDLE = 'DeepSeek outage → /lab/deepseek.
 export const TRENDS_ROUTES_MISTRAL_NEEDLE = 'Mistral / Timestral → /lab/mistral.html';
 export const TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE = 'OpenAI outage → /lab/openai.html';
 export const TRENDS_ROUTES_OPENAI_CHROME_NEEDLE = 'ChatGPT Chrome / computer use → /lab/openai.html';
+export const TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE = 'Anthropic AI safety bill → /lab/anthropic.html';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 export const TRENDS_ROUTES_AMD_NEEDLE = 'AMD / MI300 → /lab/amd.html';
@@ -1249,6 +1250,7 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_MISTRAL_NEEDLE)
     && text.includes(TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE)
     && text.includes(TRENDS_ROUTES_OPENAI_CHROME_NEEDLE)
+    && text.includes(TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
     && text.includes(TRENDS_ROUTES_AMD_NEEDLE)
@@ -1633,6 +1635,24 @@ export function hasOpenaiChromeFaq(html, needle = OPENAI_CHROME_FAQ_NEEDLE) {
 export function hasAgentsOpenaiChrome(body, needle = AGENTS_OPENAI_CHROME_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/openai.html');
+}
+
+/** FINDABILITY #362 — Anthropic AI safety bill FAQ + agent maps. */
+export const ANTHROPIC_AI_SAFETY_BILL_FAQ_NEEDLE = 'Why does SIREN watch Anthropic AI safety bill pitches?';
+export const AGENTS_ANTHROPIC_AI_SAFETY_BILL_NEEDLE = 'AI safety bill';
+
+/** Tip /lab/anthropic.html must keep the #362 AI safety bill FAQ. */
+export function hasAnthropicAiSafetyBillFaq(html, needle = ANTHROPIC_AI_SAFETY_BILL_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route AI safety bill tape to Anthropic lab (FINDABILITY #362).
+ * Wipe gap is `agents-anthropic-ai-safety-bill-missing`.
+ */
+export function hasAgentsAnthropicAiSafetyBill(body, needle = AGENTS_ANTHROPIC_AI_SAFETY_BILL_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/anthropic.html');
 }
 
 /** FINDABILITY #193 — Meta–Apple Mac AI / Muse-on-Mac FAQ + agent maps. */
@@ -2567,6 +2587,26 @@ export function deriveGaps(report) {
       text: `${which} missing Anthropic IPO → /lab/anthropic.html tip (FINDABILITY #163) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #163`,
     });
   }
+  // FINDABILITY #362 — Anthropic AI safety bill FAQ wiped or never landed.
+  if (ours.anthropic_ai_safety_bill_faq === false) {
+    gaps.push({
+      id: 'anthropic-ai-safety-bill-faq-missing',
+      severity: 'medium',
+      text: `/lab/anthropic.html missing Anthropic AI safety bill FAQ (FINDABILITY #362) — re-overlay lab/anthropic.html or wait for full collect Publish on tip ≥ #362`,
+    });
+  }
+  // FINDABILITY #362 — agent maps must route AI safety bill tape to Anthropic lab.
+  if (ours.agents_anthropic_ai_safety_bill === false || ours.llms_anthropic_ai_safety_bill === false) {
+    const which = [
+      ours.agents_anthropic_ai_safety_bill === false ? 'agents.md' : null,
+      ours.llms_anthropic_ai_safety_bill === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-anthropic-ai-safety-bill-missing',
+      severity: 'medium',
+      text: `${which} missing AI safety bill → /lab/anthropic.html tip (FINDABILITY #362) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #362`,
+    });
+  }
 
   // FINDABILITY #164 — ASML lab FAQ for EUV / AI chip-tool Trends wiped or never landed.
   if (ours.asml_trends_faq === false) {
@@ -3340,6 +3380,10 @@ export function measureSite(site, byUrl) {
     row.anthropic_ipo_faq = antHtml?.ok ? hasAnthropicIpoFaq(antHtml.value) : false;
     row.agents_anthropic_ipo = agentsMd?.ok ? hasAgentsAnthropicIpo(agentsMd.value) : false;
     row.llms_anthropic_ipo = llms?.ok ? hasAgentsAnthropicIpo(llmsBody) : false;
+    // FINDABILITY #362 — Anthropic AI safety bill FAQ + agent maps (same lab).
+    row.anthropic_ai_safety_bill_faq = antHtml?.ok ? hasAnthropicAiSafetyBillFaq(antHtml.value) : false;
+    row.agents_anthropic_ai_safety_bill = agentsMd?.ok ? hasAgentsAnthropicAiSafetyBill(agentsMd.value) : false;
+    row.llms_anthropic_ai_safety_bill = llms?.ok ? hasAgentsAnthropicAiSafetyBill(llmsBody) : false;
     // FINDABILITY #164 — ASML Trends FAQ + agent maps.
     const asmlHtml = byUrl.get(`${base}/lab/asml.html`);
     row.asml_trends_faq = asmlHtml?.ok ? hasAsmlTrendsFaq(asmlHtml.value) : false;
@@ -3804,6 +3848,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_anthropic_ipo == null ? '—' : (ours.agents_anthropic_ipo ? 'yes' : 'NO');
       const lm = ours.llms_anthropic_ipo == null ? '—' : (ours.llms_anthropic_ipo ? 'yes' : 'NO');
       lines.push(`- Agent-map Anthropic IPO → lab (#163): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.anthropic_ai_safety_bill_faq != null) {
+      lines.push(
+        `- Anthropic AI safety bill FAQ (#362): **${ours.anthropic_ai_safety_bill_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_anthropic_ai_safety_bill != null || ours.llms_anthropic_ai_safety_bill != null)) {
+      const ag = ours.agents_anthropic_ai_safety_bill == null ? '—' : (ours.agents_anthropic_ai_safety_bill ? 'yes' : 'NO');
+      const lm = ours.llms_anthropic_ai_safety_bill == null ? '—' : (ours.llms_anthropic_ai_safety_bill ? 'yes' : 'NO');
+      lines.push(`- Agent-map AI safety bill → lab (#362): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.asml_trends_faq != null) {
       lines.push(
@@ -5104,6 +5158,37 @@ function selftest() {
   if (!OUR_SURFACES.includes('/lab/anthropic.html')) {
     throw new Error('OUR_SURFACES missing /lab/anthropic.html');
   }
+  // FINDABILITY #362 — Anthropic AI safety bill FAQ + agent maps.
+  if (hasAnthropicAiSafetyBillFaq(ANTHROPIC_AI_SAFETY_BILL_FAQ_NEEDLE) !== true) {
+    throw new Error('hasAnthropicAiSafetyBillFaq true');
+  }
+  if (hasAnthropicAiSafetyBillFaq('Why does SIREN watch Anthropic IPO and FTC probes?') !== false) {
+    throw new Error('hasAnthropicAiSafetyBillFaq false');
+  }
+  if (hasAgentsAnthropicAiSafetyBill('AI safety bill → https://siren.watch/lab/anthropic.html') !== true) {
+    throw new Error('hasAgentsAnthropicAiSafetyBill true');
+  }
+  if (hasAgentsAnthropicAiSafetyBill('https://siren.watch/lab/anthropic.html only') !== false) {
+    throw new Error('hasAgentsAnthropicAiSafetyBill needs AI safety bill needle');
+  }
+  const billGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      anthropic_ai_safety_bill_faq: false,
+      agents_anthropic_ai_safety_bill: false,
+      llms_anthropic_ai_safety_bill: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!billGaps.some((g) => g.id === 'anthropic-ai-safety-bill-faq-missing')) {
+    throw new Error('anthropic-ai-safety-bill-faq-missing gap');
+  }
+  if (!billGaps.some((g) => g.id === 'agents-anthropic-ai-safety-bill-missing')) {
+    throw new Error('agents-anthropic-ai-safety-bill-missing gap');
+  }
   if (hasAsmlTrendsFaq(ASML_TRENDS_FAQ_NEEDLE) !== true) {
     throw new Error('hasAsmlTrendsFaq true');
   }
@@ -5872,6 +5957,7 @@ function selftest() {
     TRENDS_ROUTES_MISTRAL_NEEDLE,
     TRENDS_ROUTES_OPENAI_OUTAGE_NEEDLE,
     TRENDS_ROUTES_OPENAI_CHROME_NEEDLE,
+    TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_AMD_NEEDLE,
@@ -5881,7 +5967,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Meta-Apple-Mac/Palantir/AMD destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');

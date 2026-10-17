@@ -101,6 +101,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'FTC probes OpenAI', news: [] }).includes('openai-lawsuit'));
   assert.ok(matchHeadTerms({ title: 'states sue OpenAI over ChatGPT', news: [] }).includes('openai-lawsuit'));
   assert.ok(HEAD_TERMS.some((t) => t.id === 'openai-lawsuit' && t.path === '/lab/openai.html'));
+  // FINDABILITY #362 — Anthropic AI safety bill → gated Anthropic lab.
+  assert.ok(matchHeadTerms({ title: 'Anthropic proposes AI safety bill with strict intervention thresholds', news: [] }).includes('anthropic-ai-safety-bill'));
+  assert.ok(matchHeadTerms({ title: 'Anthropic said to pitch AI safety bill to US Congress', news: [] }).includes('anthropic-ai-safety-bill'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'anthropic-ai-safety-bill' && t.path === '/lab/anthropic.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'anthropic-ai-safety-bill').re.test('SpaceX to testify at NYC Council meeting on AI safety'), false);
   // FINDABILITY #163 — Anthropic IPO / FTC → gated Anthropic lab.
   assert.ok(matchHeadTerms({ title: 'anthropic ipo', news: [] }).includes('anthropic-ipo'));
   assert.ok(matchHeadTerms({ title: 'FTC probes Anthropic', news: [] }).includes('anthropic-ipo'));
