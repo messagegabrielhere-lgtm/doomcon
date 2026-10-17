@@ -460,6 +460,12 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // V4.1 Flash without 1017 / Warsh / Nudify / NSA / ollama (labNeedleRe
   // hyphen↔space covers "Flash 1017").
   'Flash-1017',
+  // FINDABILITY #481 — multi-title Stripe OpenRouter acquisition tape while
+  // pizzint-news-alive (2 titles); OpenRouter / Google fill 12-cap slots and
+  // drop the payments-buyer company surface (parallel to Accenture #271 /
+  // Vercel #298 / SoftBank Allied #374). Hold Warsh / Nudify / NSA / ollama /
+  // Workday thin / Series B thin / dress-rehearsal essay.
+  'Stripe',
 ]);
 
 /**
