@@ -2547,6 +2547,50 @@ test('news sitemap keywords include Allied Universal from SoftBank acquisition t
   assert.doesNotMatch(d, /\bAllied Universal\b/);
 });
 
+test('news sitemap keywords include Blackstone from Anthropic financing tape (FINDABILITY #382)', () => {
+  // Multi-title Blackstone tape: Anthropic / Claude fill 12-cap while the
+  // contiguous PE surface is dropped (FAQ #163/#362/#368 gate the lab).
+  const a = keywordsFor({
+    title: 'Anthropic offers Blackstone double-digit yield in latest chip financing',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Google'],
+  });
+  assert.match(a, /\bBlackstone\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Blackstone') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Sources: Anthropic is offering Blackstone a 10%+ yield to help finance Anthropic\'s $60B debt package to buy Google TPUs; Blackstone would invest $9B in the debt (Financial Times)',
+    summary: 'High borrowing costs complicate AI lab debt package.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'techmeme',
+    entities: ['Anthropic', 'Google'],
+  });
+  assert.match(b, /\bBlackstone\b/);
+  // Anthropic / AI Jitters tape without Blackstone must not invent the needle.
+  const c = keywordsFor({
+    title: 'Anthropic raises debt package to buy Google TPUs',
+    summary: 'Bare Anthropic financing tape must not invent a PE counterparty.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Google'],
+  });
+  assert.doesNotMatch(c, /\bBlackstone\b/);
+  const d = keywordsFor({
+    title: 'Bloomberg Businessweek Daily: AI Jitters Persist',
+    summary: 'Market-jitter noise without naming the PE firm.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: [],
+  });
+  assert.doesNotMatch(d, /\bBlackstone\b/);
+});
+
 test('news sitemap keywords include AI safety bill from multi-title legislative tape (FINDABILITY #358)', () => {
   // Multi-title AI safety bill tape: Anthropic / Claude / AI safety fill 12-cap
   // while the contiguous legislative surface is dropped (FAQ #163 gates the lab).
