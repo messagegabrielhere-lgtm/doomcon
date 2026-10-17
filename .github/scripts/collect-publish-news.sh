@@ -63,7 +63,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
   # FINDABILITY #210 — stash tip news-sitemap.xml so probe needles (Roadster /
   # Starshield / …) survive orphan Publish on tip < #208.
   for hub in compare.html alternatives.html agents.md llms.txt skill.md \
-    skills/siren-ai-index/SKILL.md agents.txt ai.txt agents.json \
+    skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt agents.json \
     openapi.json api/index.json llms-full.txt free-tools.html \
     .well-known/api-catalog .well-known/api-catalog.json \
     .well-known/mcp/server-card.json \
@@ -254,6 +254,12 @@ for skill in skill.md skills/siren-ai-index/SKILL.md; do
     echo "restored $skill classic instrument panel / level head term (#326/#435)"
   fi
 done
+# FINDABILITY #437 — restore tip agents.html when dual middot head terms missing.
+if [ -f "$PRESERVE_FAQ/agents.html" ] \
+  && ! grep -qF 'AI activity index today · AI activity level today' .pages/agents.html 2>/dev/null; then
+  cp -a "$PRESERVE_FAQ/agents.html" .pages/agents.html
+  echo "restored agents.html dual head term (#437)"
+fi
 # FINDABILITY #328 — restore tip agents.txt / ai.txt when classic panel missing.
 for surf in agents.txt ai.txt; do
   if [ -f "$PRESERVE_FAQ/$surf" ] \

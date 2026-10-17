@@ -56,6 +56,10 @@ describe('agents page SEO', () => {
     assert.match(html, /What are AI agents saying on Moltbook\?/);
     assert.match(html, /Where are the SIREN index moves\?/);
     assert.match(html, /not a probability of harm/);
+    // FINDABILITY #437 — dual unbranded head terms on machine-endpoints list.
+    assert.match(html, /AI activity index today · AI activity level today/);
+    assert.match(html, /\/ai-activity-index\.html/);
+    assert.match(html, /\/ai-activity-level\.html/);
     assert.doesNotMatch(html, /<h2>Start here<\/h2>/);
     assert.doesNotMatch(html, /<h2>Tell your agent<\/h2>/);
     assert.doesNotMatch(html, /<h2>On Moltbook<\/h2>/);
@@ -112,6 +116,8 @@ describe('skill.md SEO', () => {
     assert.match(md, /https:\/\/siren\.watch\/classic\.html/);
     assert.match(md, /Where is the full SIREN instrument panel\?/);
     assert.match(md, /Classic instrument panel: https:\/\/siren\.watch\/classic\.html/);
+    // FINDABILITY #433 — dual head terms beside home aliases.
+    assert.match(md, /AI activity index today · AI activity level today/);
     assert.doesNotMatch(md, /doom score:\s*\d/i);
     assert.doesNotMatch(md, /probability of doom/i);
   });

@@ -45,6 +45,8 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/agents.txt',
   // FINDABILITY #326 — skill.md must keep classic panel needle after tip.
   '/skill.md',
+  // FINDABILITY #437 — agents.html must keep dual index/level head terms after tip.
+  '/agents.html',
   // FINDABILITY #328 — ai.txt Start-here must keep classic panel needle after tip.
   '/ai.txt',
   // FINDABILITY #330 — agents.json related.classic must survive tip wipe.
@@ -780,6 +782,14 @@ export const ACTIVITY_LEVEL_ALIAS = '/ai-activity-level.html';
  */
 export const ACTIVITY_LEVEL_HEAD_TERM_NEEDLE = 'AI activity level today';
 
+/**
+ * Dual middot head terms on /agents.html machine endpoints (FINDABILITY #437).
+ * A lone “AI activity level today” in an assistant prompt is not enough —
+ * the HTML welcome must name both head terms beside the home aliases.
+ */
+export const AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE =
+  'AI activity index today · AI activity level today';
+
 /** Classic instrument panel path advertised in agent maps (FINDABILITY #324). */
 export const CLASSIC_PANEL_AGENT_PATH = '/classic.html';
 
@@ -828,6 +838,14 @@ export function hasActivityLevelAlias(txt, alias = ACTIVITY_LEVEL_ALIAS) {
  * Wipe gap is `agents-activity-level-head-term-missing` (FINDABILITY #433).
  */
 export function hasActivityLevelHeadTerm(txt, needle = ACTIVITY_LEVEL_HEAD_TERM_NEEDLE) {
+  return String(txt || '').includes(needle);
+}
+
+/**
+ * True when /agents.html names dual middot head terms (FINDABILITY #437).
+ * Wipe gap is `agents-html-dual-head-term-missing`.
+ */
+export function hasAgentsHtmlDualHeadTerm(txt, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
   return String(txt || '').includes(needle);
 }
 
@@ -2683,6 +2701,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #437 — agents.html dropped dual middot head terms.
+  if (ours.agents_html_dual_head_term === false) {
+    gaps.push({
+      id: 'agents-html-dual-head-term-missing',
+      severity: 'medium',
+      text: 'agents.html missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #437) — re-overlay agents.html or wait for collect/news-fast Publish on tip ≥ #437',
+    });
+  }
+
   // FINDABILITY #328 — agents.txt / ai.txt / api-catalog dropped classic panel.
   if (
     ours.agents_txt_classic_panel === false
@@ -4116,6 +4143,10 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #435 — skill.md must name contiguous “AI activity level today”.
     row.skill_activity_level_head_term = skillMd?.ok
       ? hasActivityLevelHeadTerm(skillMd.value) : false;
+    // FINDABILITY #437 — agents.html must name dual middot head terms.
+    const agentsHtml = byUrl.get(`${base}/agents.html`);
+    row.agents_html_dual_head_term = agentsHtml?.ok
+      ? hasAgentsHtmlDualHeadTerm(agentsHtml.value) : false;
     // FINDABILITY #328 — agents.txt / ai.txt / api-catalog must list classic.
     const agentsTxt = byUrl.get(`${base}/agents.txt`);
     const aiTxt = byUrl.get(`${base}/ai.txt`);
@@ -4563,6 +4594,11 @@ export function formatMarkdown(report) {
     if (ours && ours.skill_activity_level_head_term != null) {
       lines.push(
         `- skill.md “AI activity level today” head term (#435): **${ours.skill_activity_level_head_term ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && ours.agents_html_dual_head_term != null) {
+      lines.push(
+        `- agents.html dual index/level head term (#437): **${ours.agents_html_dual_head_term ? 'ok' : 'NO'}**`,
       );
     }
     if (ours && (
@@ -5192,6 +5228,7 @@ export function formatMarkdown(report) {
       || ours.agents_classic_panel != null || ours.llms_classic_panel != null
       || ours.skill_classic_panel != null
       || ours.skill_activity_level_head_term != null
+      || ours.agents_html_dual_head_term != null
       || ours.agents_txt_classic_panel != null
       || ours.ai_txt_classic_panel != null
       || ours.catalog_classic_panel != null
@@ -5516,6 +5553,28 @@ function selftest() {
   });
   if (!skillLevelHeadGaps.some((g) => g.id === 'skill-activity-level-head-term-missing')) {
     throw new Error('skill-activity-level-head-term-missing gap');
+  }
+  if (!CORE_LIVE_SURFACES.includes('/agents.html')) {
+    throw new Error('CORE_LIVE_SURFACES missing #437 /agents.html');
+  }
+  if (hasAgentsHtmlDualHeadTerm('live AI activity index today · AI activity level today (dual)') !== true) {
+    throw new Error('hasAgentsHtmlDualHeadTerm true');
+  }
+  if (hasAgentsHtmlDualHeadTerm('What is the AI activity level today on siren.watch?') !== false) {
+    throw new Error('hasAgentsHtmlDualHeadTerm false for level-only pre');
+  }
+  const agentsHtmlDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      agents_html_dual_head_term: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!agentsHtmlDualGaps.some((g) => g.id === 'agents-html-dual-head-term-missing')) {
+    throw new Error('agents-html-dual-head-term-missing gap');
   }
   if (!CORE_LIVE_SURFACES.includes('/ai.txt')) {
     throw new Error('CORE_LIVE_SURFACES missing #328 /ai.txt');

@@ -638,12 +638,25 @@ test('Publish restores tip skill.md when classic panel missing (FINDABILITY #326
   assert.match(collect, /FINDABILITY #326/);
   assert.match(collect, /skills\/siren-ai-index\/SKILL\.md/);
   assert.match(collect, /Where is the full SIREN instrument panel\?/);
-  assert.match(collect, /restored \$skill classic instrument panel \(#326\)/);
+  assert.match(collect, /restored \$skill classic instrument panel \/ level head term \(#326\/#435\)/);
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #326/);
   assert.match(newsFast, /restore_skill_classic/);
   assert.match(newsFast, /skills\/siren-ai-index\/SKILL\.md/);
-  assert.match(newsFast, /restored \$skill classic instrument panel \(#326\)/);
+  assert.match(newsFast, /restored \$skill classic instrument panel \/ level head term \(#326\/#435\)/);
+});
+
+test('Publish restores tip agents.html when dual head term missing (FINDABILITY #437)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #437/);
+  assert.match(collect, /AI activity index today · AI activity level today/);
+  assert.match(collect, /restored agents\.html dual head term \(#437\)/);
+  assert.match(collect, /agents\.html agents\.txt/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #437/);
+  assert.match(newsFast, /restore_agents_html_dual/);
+  assert.match(newsFast, /AI activity index today · AI activity level today/);
+  assert.match(newsFast, /restored agents\.html dual head term \(#437\)/);
 });
 
 test('Publish restores tip discovery surfaces when classic panel missing (FINDABILITY #328)', () => {
