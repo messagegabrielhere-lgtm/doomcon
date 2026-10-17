@@ -839,8 +839,10 @@ export const TCLK_CSS = `
 
 function nowLine(ctx) {
   const st = ctx.state;
+  // FINDABILITY #455 — dual middot head terms beside live home (p(doom) /
+  // AI doomsday-clock glossaries were index-only after compare dual #453).
   return st && Number.isFinite(st.level)
-    ? `<p><b>Right now:</b> ${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}, composite ${esc(Number(st.score).toFixed(1))} of 100, observed ${esc(utc(st.generated_at))}. <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a></p>` : '';
+    ? `<p><b>Right now:</b> ${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}, composite ${esc(Number(st.score).toFixed(1))} of 100, observed ${esc(utc(st.generated_at))}. <a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)} →</a></p>` : '';
 }
 
 export function pdoom(ctx) {

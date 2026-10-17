@@ -1034,6 +1034,22 @@ export function hasAlternativesDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD
 }
 
 /**
+ * True when pdoom.html (canonical /p-doom.html) names dual middot head terms
+ * (FINDABILITY #455). Wipe gap is `pdoom-dual-head-term-missing`.
+ */
+export function hasPdoomDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when ai-doomsday-clock.html names dual middot head terms
+ * (FINDABILITY #455, shared nowLine). Wipe gap is `pdoom-dual-head-term-missing`.
+ */
+export function hasAiDoomsdayClockDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
  * True when free-tools.html listicle lists /classic.html with the panel
  * question (FINDABILITY #332). Wipe gap is `freetools-classic-panel-missing`.
  */
@@ -2912,6 +2928,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #455 — pdoom / ai-doomsday-clock dropped dual middot head terms.
+  if (ours.pdoom_dual_head_term === false || ours.ai_doomsday_clock_dual_head_term === false) {
+    const which = [
+      ours.pdoom_dual_head_term === false ? 'pdoom.html' : null,
+      ours.ai_doomsday_clock_dual_head_term === false ? 'ai-doomsday-clock.html' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'pdoom-dual-head-term-missing',
+      severity: 'medium',
+      text: `${which} missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #455) — re-overlay p(doom) glossaries or wait for collect/news-fast Publish on tip ≥ #455`,
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -4354,6 +4383,15 @@ export function measureSite(site, byUrl) {
     row.alternatives_dual_head_term = alternativesHtml?.ok
       ? hasAlternativesDualHeadTerm(alternativesHtml.value)
       : false;
+    // FINDABILITY #455 — pdoom / ai-doomsday-clock must name dual middot head terms.
+    const pdoomHtml = byUrl.get(`${base}/pdoom.html`);
+    const aiClockHtml = byUrl.get(`${base}/ai-doomsday-clock.html`);
+    row.pdoom_dual_head_term = pdoomHtml?.ok
+      ? hasPdoomDualHeadTerm(pdoomHtml.value)
+      : false;
+    row.ai_doomsday_clock_dual_head_term = aiClockHtml?.ok
+      ? hasAiDoomsdayClockDualHeadTerm(aiClockHtml.value)
+      : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -4853,6 +4891,16 @@ export function formatMarkdown(report) {
       const alt = ours.alternatives_dual_head_term == null ? '—' : (ours.alternatives_dual_head_term ? 'yes' : 'NO');
       lines.push(
         `- compare / alternatives dual index/level head term (#453): compare **${cmp}** · alternatives **${alt}**`,
+      );
+    }
+    if (ours && (
+      ours.pdoom_dual_head_term != null
+      || ours.ai_doomsday_clock_dual_head_term != null
+    )) {
+      const pd = ours.pdoom_dual_head_term == null ? '—' : (ours.pdoom_dual_head_term ? 'yes' : 'NO');
+      const clk = ours.ai_doomsday_clock_dual_head_term == null ? '—' : (ours.ai_doomsday_clock_dual_head_term ? 'yes' : 'NO');
+      lines.push(
+        `- pdoom / ai-doomsday-clock dual index/level head term (#455): pdoom **${pd}** · ai-doomsday-clock **${clk}**`,
       );
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
@@ -5466,6 +5514,8 @@ export function formatMarkdown(report) {
       || ours.verify_dual_head_term != null
       || ours.compare_dual_head_term != null
       || ours.alternatives_dual_head_term != null
+      || ours.pdoom_dual_head_term != null
+      || ours.ai_doomsday_clock_dual_head_term != null
       || ours.agents_txt_classic_panel != null
       || ours.ai_txt_classic_panel != null
       || ours.catalog_classic_panel != null
@@ -6062,6 +6112,32 @@ function selftest() {
   });
   if (!compareDualGaps.some((g) => g.id === 'compare-dual-head-term-missing')) {
     throw new Error('compare-dual-head-term-missing gap');
+  }
+  if (hasPdoomDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasPdoomDualHeadTerm true');
+  }
+  if (hasPdoomDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasPdoomDualHeadTerm false for index-only');
+  }
+  if (hasAiDoomsdayClockDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasAiDoomsdayClockDualHeadTerm true');
+  }
+  if (hasAiDoomsdayClockDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasAiDoomsdayClockDualHeadTerm false for index-only');
+  }
+  const pdoomDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      pdoom_dual_head_term: false,
+      ai_doomsday_clock_dual_head_term: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!pdoomDualGaps.some((g) => g.id === 'pdoom-dual-head-term-missing')) {
+    throw new Error('pdoom-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{

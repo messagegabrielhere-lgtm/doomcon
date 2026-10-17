@@ -83,7 +83,8 @@ describe('guides hub', () => {
 
   it('ai-doomsday-clock ships matching question H1 and visible FAQ', () => {
     const html = aiClock(ctx);
-    assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+    // FINDABILITY #455 — dual middot head terms on shared nowLine.
+    assert.match(html, /href="\/">AI activity index today · AI activity level today · SIREN →<\/a>/);
     assert.doesNotMatch(html, /href="\/">See the live reading →<\/a>/);
     assert.match(html, /<title>Is there an AI doomsday clock\? Bulletin vs verifiable count/);
     assert.match(html, /<h1 class="bp__h1">Is there an AI doomsday clock\?<\/h1>/);
@@ -129,7 +130,8 @@ describe('guides hub', () => {
 
   it('p-doom ships matching question H1 and visible FAQ', () => {
     const html = pdoom(ctx);
-    assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+    // FINDABILITY #455 — dual middot head terms on shared nowLine.
+    assert.match(html, /href="\/">AI activity index today · AI activity level today · SIREN →<\/a>/);
     assert.doesNotMatch(html, /href="\/">See the live reading →<\/a>/);
     assert.match(html, /<title>What is p\(doom\)\? Hinton, Amodei, Musk, LeCun/);
     assert.match(html, /<h1 class="bp__h1">What is p\(doom\)\?<\/h1>/);

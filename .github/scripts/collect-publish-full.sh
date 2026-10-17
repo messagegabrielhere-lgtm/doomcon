@@ -29,6 +29,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
   for hub in compare.html alternatives.html agents.md llms.txt skill.md \
     skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt agents.json \
     openapi.json api/index.json llms-full.txt free-tools.html verify.html \
+    p-doom.html ai-doomsday-clock.html \
     .well-known/api-catalog .well-known/api-catalog.json \
     .well-known/mcp/server-card.json \
     .well-known/agent-skills/index.json \
@@ -309,6 +310,23 @@ if [ -f "$PRESERVE_FAQ/alternatives.html" ] \
   mkdir -p .pages/alternatives
   cp -a .pages/alternatives.html .pages/alternatives/index.html
   echo "restored alternatives.html dual head term (#453)"
+fi
+# FINDABILITY #455 — restore tip p-doom.html / ai-doomsday-clock.html when
+# dual middot head terms are missing after orphan Publish.
+if [ -f "$PRESERVE_FAQ/p-doom.html" ] \
+  && ! grep -qF 'AI activity index today · AI activity level today' .pages/p-doom.html 2>/dev/null; then
+  cp -a "$PRESERVE_FAQ/p-doom.html" .pages/p-doom.html
+  cp -a .pages/p-doom.html .pages/pdoom.html
+  mkdir -p .pages/pdoom
+  cp -a .pages/p-doom.html .pages/pdoom/index.html
+  echo "restored p-doom.html dual head term (#455)"
+fi
+if [ -f "$PRESERVE_FAQ/ai-doomsday-clock.html" ] \
+  && ! grep -qF 'AI activity index today · AI activity level today' .pages/ai-doomsday-clock.html 2>/dev/null; then
+  cp -a "$PRESERVE_FAQ/ai-doomsday-clock.html" .pages/ai-doomsday-clock.html
+  mkdir -p .pages/ai-doomsday-clock
+  cp -a .pages/ai-doomsday-clock.html .pages/ai-doomsday-clock/index.html
+  echo "restored ai-doomsday-clock.html dual head term (#455)"
 fi
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
 # labAboutLabel is missing (OpenAI / ChatGPT on /lab/openai.html rows).
