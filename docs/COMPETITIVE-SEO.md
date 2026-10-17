@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T07:20Z shipping **#408** Blackstone Anthropic financing FAQ companion (lab + agents/llms + Trends route/`<td>` + HEAD_TERMS); keywords already ship **#382**; Ondas-Palantir FAQ **#406** tip still live; lead **6,703** / news **200**; pizzint news **14** contested; GSC/Bing meta **absent**; Trends quiet (`ai_related_total` **0**); News keywords through **#404**; FAQ routes through **#408**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#408** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T07:19Z after **#408** tip overlay `deb9ea4` + IndexNow **200**: Blackstone Anthropic financing FAQ CDN clear (lab + agents/llms + Trends route/`<td>`); Claude Opus / ECDSA / METR / Ondas-Palantir FAQ still **ok**; lead **6,703** / news **200**; pizzint news **14** contested; GSC/Bing meta **absent**; Trends quiet (`ai_related_total` **0**); News keywords through **#404**; FAQ routes through **#408**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#409** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
