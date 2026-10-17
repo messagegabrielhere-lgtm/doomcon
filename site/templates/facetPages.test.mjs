@@ -292,6 +292,13 @@ describe('lab facets', () => {
     );
     assert.match(antHtml, /[Nn]ot deal advice/);
     assert.doesNotMatch(antHtml, /will finance|must buy|doom Blackstone/i);
+    // FINDABILITY #420 — Claude Mythos 5 FAQ on same gated lab.
+    assert.match(
+      antHtml,
+      /Why does SIREN watch Claude Mythos 5\?/,
+    );
+    assert.match(antHtml, /Mythos 5|quantum-circuit/i);
+    assert.match(antHtml, /[Nn]ot a model review/);
     // FINDABILITY #412 — Replit Anthropic model-switch FAQ on same gated lab.
     assert.match(
       antHtml,

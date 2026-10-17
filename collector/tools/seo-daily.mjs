@@ -1263,6 +1263,8 @@ export const TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE = 'Anthropic ECDSA → /lab/an
 export const TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE = 'Claude Opus 5.5 → /lab/anthropic.html';
 export const TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE = 'Blackstone / Anthropic → /lab/anthropic.html';
 export const TRENDS_ROUTES_REPLIT_ANTHROPIC_NEEDLE = 'Replit / Anthropic → /lab/anthropic.html';
+/** FINDABILITY #420 — Claude Mythos 5 product-class → gated Anthropic lab. */
+export const TRENDS_ROUTES_CLAUDE_MYTHOS_5_NEEDLE = 'Claude Mythos 5 → /lab/anthropic.html';
 /** FINDABILITY #400 — watchlist table row (distinct from FAQ arrow text; tip #399 wipe). */
 export const TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE = '<td>Anthropic ECDSA</td>';
 export const TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE = '<td>Anthropic METR</td>';
@@ -1271,6 +1273,8 @@ export const TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE = '<td>Claude Opus 5.5</td>'
 export const TRENDS_WATCHLIST_BLACKSTONE_ANTHROPIC_NEEDLE = '<td>Blackstone / Anthropic</td>';
 /** FINDABILITY #412 — watchlist table row (distinct from FAQ arrow text). */
 export const TRENDS_WATCHLIST_REPLIT_ANTHROPIC_NEEDLE = '<td>Replit / Anthropic</td>';
+/** FINDABILITY #420 — watchlist table row (distinct from FAQ arrow text). */
+export const TRENDS_WATCHLIST_CLAUDE_MYTHOS_5_NEEDLE = '<td>Claude Mythos 5</td>';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 export const TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE = 'Ondas / Palantir → /lab/palantir.html';
@@ -1322,12 +1326,14 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE)
     && text.includes(TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE)
     && text.includes(TRENDS_ROUTES_REPLIT_ANTHROPIC_NEEDLE)
+    && text.includes(TRENDS_ROUTES_CLAUDE_MYTHOS_5_NEEDLE)
     // FINDABILITY #400 — table rows must survive tip overlays (FAQ arrows alone are not enough).
     && text.includes(TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE)
     && text.includes(TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE)
     && text.includes(TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE)
     && text.includes(TRENDS_WATCHLIST_BLACKSTONE_ANTHROPIC_NEEDLE)
     && text.includes(TRENDS_WATCHLIST_REPLIT_ANTHROPIC_NEEDLE)
+    && text.includes(TRENDS_WATCHLIST_CLAUDE_MYTHOS_5_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
     && text.includes(TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE)
@@ -1898,6 +1904,24 @@ export function hasReplitAnthropicFaq(html, needle = REPLIT_ANTHROPIC_FAQ_NEEDLE
  * Wipe gap is `agents-replit-anthropic-missing`.
  */
 export function hasAgentsReplitAnthropic(body, needle = AGENTS_REPLIT_ANTHROPIC_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/anthropic.html');
+}
+
+/** FINDABILITY #420 — Claude Mythos 5 FAQ + agent maps. */
+export const CLAUDE_MYTHOS_5_FAQ_NEEDLE = 'Why does SIREN watch Claude Mythos 5?';
+export const AGENTS_CLAUDE_MYTHOS_5_NEEDLE = 'Claude Mythos 5';
+
+/** Tip /lab/anthropic.html must keep the #420 Claude Mythos 5 FAQ. */
+export function hasClaudeMythos5Faq(html, needle = CLAUDE_MYTHOS_5_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Claude Mythos 5 / quantum-circuit tape to Anthropic lab (FINDABILITY #420).
+ * Wipe gap is `agents-claude-mythos-5-missing`.
+ */
+export function hasAgentsClaudeMythos5(body, needle = AGENTS_CLAUDE_MYTHOS_5_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/anthropic.html');
 }
@@ -2858,7 +2882,7 @@ export function deriveGaps(report) {
     gaps.push({
       id: 'trends-routes-faq-missing',
       severity: 'medium',
-      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Surface Laptop Ultra/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/DeepSeek-V4.1-Flash/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations or Anthropic ECDSA/METR/CERT-In/Surface Laptop Ultra/DeepSeek V4.1 Flash watchlist table rows (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193/#195/#220/#400/#410/#414/#418) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #418`,
+      text: `/search-trends.html missing IREN/dram/CoreWeave/neocloud routing FAQ or ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Surface Laptop Ultra/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/DeepSeek-V4.1-Flash/Mistral/OpenAI-outage/ChatGPT-Chrome/Meta-Apple-Mac destinations or Anthropic ECDSA/METR/CERT-In/Surface Laptop Ultra/DeepSeek V4.1 Flash/Claude Mythos 5 watchlist table rows (FINDABILITY #158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#191/#193/#195/#220/#400/#410/#414/#418/#420) — re-overlay search-trends.html (+ trends.html alias) or wait for full collect Publish on tip ≥ #420`,
     });
   }
 
@@ -3062,6 +3086,26 @@ export function deriveGaps(report) {
       id: 'agents-replit-anthropic-missing',
       severity: 'medium',
       text: `${which} missing Replit → /lab/anthropic.html tip (FINDABILITY #412) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #412`,
+    });
+  }
+  // FINDABILITY #420 — Claude Mythos 5 FAQ wiped or never landed.
+  if (ours.claude_mythos_5_faq === false) {
+    gaps.push({
+      id: 'claude-mythos-5-faq-missing',
+      severity: 'medium',
+      text: `/lab/anthropic.html missing Claude Mythos 5 FAQ (FINDABILITY #420) — re-overlay lab/anthropic.html or wait for full collect Publish on tip ≥ #420`,
+    });
+  }
+  // FINDABILITY #420 — agent maps must route Mythos tape to Anthropic lab.
+  if (ours.agents_claude_mythos_5 === false || ours.llms_claude_mythos_5 === false) {
+    const which = [
+      ours.agents_claude_mythos_5 === false ? 'agents.md' : null,
+      ours.llms_claude_mythos_5 === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-claude-mythos-5-missing',
+      severity: 'medium',
+      text: `${which} missing Claude Mythos 5 → /lab/anthropic.html tip (FINDABILITY #420) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #420`,
     });
   }
 
@@ -4032,6 +4076,10 @@ export function measureSite(site, byUrl) {
     row.replit_anthropic_faq = antHtml?.ok ? hasReplitAnthropicFaq(antHtml.value) : false;
     row.agents_replit_anthropic = agentsMd?.ok ? hasAgentsReplitAnthropic(agentsMd.value) : false;
     row.llms_replit_anthropic = llms?.ok ? hasAgentsReplitAnthropic(llmsBody) : false;
+    // FINDABILITY #420 — Claude Mythos 5 FAQ + agent maps (same lab).
+    row.claude_mythos_5_faq = antHtml?.ok ? hasClaudeMythos5Faq(antHtml.value) : false;
+    row.agents_claude_mythos_5 = agentsMd?.ok ? hasAgentsClaudeMythos5(agentsMd.value) : false;
+    row.llms_claude_mythos_5 = llms?.ok ? hasAgentsClaudeMythos5(llmsBody) : false;
     // FINDABILITY #164 — ASML Trends FAQ + agent maps.
     const asmlHtml = byUrl.get(`${base}/lab/asml.html`);
     row.asml_trends_faq = asmlHtml?.ok ? hasAsmlTrendsFaq(asmlHtml.value) : false;
@@ -4602,6 +4650,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_replit_anthropic == null ? '—' : (ours.agents_replit_anthropic ? 'yes' : 'NO');
       const lm = ours.llms_replit_anthropic == null ? '—' : (ours.llms_replit_anthropic ? 'yes' : 'NO');
       lines.push(`- Agent-map Replit → Anthropic lab (#412): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.claude_mythos_5_faq != null) {
+      lines.push(
+        `- Claude Mythos 5 FAQ (#420): **${ours.claude_mythos_5_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_claude_mythos_5 != null || ours.llms_claude_mythos_5 != null)) {
+      const ag = ours.agents_claude_mythos_5 == null ? '—' : (ours.agents_claude_mythos_5 ? 'yes' : 'NO');
+      const lm = ours.llms_claude_mythos_5 == null ? '—' : (ours.llms_claude_mythos_5 ? 'yes' : 'NO');
+      lines.push(`- Agent-map Claude Mythos 5 → Anthropic lab (#420): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.asml_trends_faq != null) {
       lines.push(
@@ -6199,6 +6257,37 @@ function selftest() {
   if (!replitGaps.some((g) => g.id === 'agents-replit-anthropic-missing')) {
     throw new Error('agents-replit-anthropic-missing gap');
   }
+  // FINDABILITY #420 — Claude Mythos 5 FAQ + agent maps.
+  if (hasClaudeMythos5Faq(CLAUDE_MYTHOS_5_FAQ_NEEDLE) !== true) {
+    throw new Error('hasClaudeMythos5Faq true');
+  }
+  if (hasClaudeMythos5Faq('Why does SIREN watch Claude Opus 5.5?') !== false) {
+    throw new Error('hasClaudeMythos5Faq false');
+  }
+  if (hasAgentsClaudeMythos5('Claude Mythos 5 → https://siren.watch/lab/anthropic.html') !== true) {
+    throw new Error('hasAgentsClaudeMythos5 true');
+  }
+  if (hasAgentsClaudeMythos5('https://siren.watch/lab/anthropic.html only') !== false) {
+    throw new Error('hasAgentsClaudeMythos5 needs Claude Mythos 5 needle');
+  }
+  const mythosGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      claude_mythos_5_faq: false,
+      agents_claude_mythos_5: false,
+      llms_claude_mythos_5: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!mythosGaps.some((g) => g.id === 'claude-mythos-5-faq-missing')) {
+    throw new Error('claude-mythos-5-faq-missing gap');
+  }
+  if (!mythosGaps.some((g) => g.id === 'agents-claude-mythos-5-missing')) {
+    throw new Error('agents-claude-mythos-5-missing gap');
+  }
   if (hasAsmlTrendsFaq(ASML_TRENDS_FAQ_NEEDLE) !== true) {
     throw new Error('hasAsmlTrendsFaq true');
   }
@@ -7239,11 +7328,13 @@ function selftest() {
     TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE,
     TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE,
     TRENDS_ROUTES_REPLIT_ANTHROPIC_NEEDLE,
+    TRENDS_ROUTES_CLAUDE_MYTHOS_5_NEEDLE,
     TRENDS_WATCHLIST_ANTHROPIC_ECDSA_NEEDLE,
     TRENDS_WATCHLIST_ANTHROPIC_METR_NEEDLE,
     TRENDS_WATCHLIST_CLAUDE_OPUS_55_NEEDLE,
     TRENDS_WATCHLIST_BLACKSTONE_ANTHROPIC_NEEDLE,
     TRENDS_WATCHLIST_REPLIT_ANTHROPIC_NEEDLE,
+    TRENDS_WATCHLIST_CLAUDE_MYTHOS_5_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE,
@@ -7259,7 +7350,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Surface-Ultra/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/DeepSeek-Flash/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/Blackstone-Anthropic/Replit-Anthropic/watchlist-td/Meta-Apple-Mac/Palantir/Ondas-Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402/#406/#408/#410/#412/#414/#418)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Surface-Ultra/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/CERT-In/Hugging Face/Qwen/Oracle/DeepSeek/DeepSeek-Flash/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Claude-Opus-5.5/Claude-Mythos-5/Blackstone-Anthropic/Replit-Anthropic/watchlist-td/Meta-Apple-Mac/Palantir/Ondas-Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397/#400/#402/#406/#408/#410/#412/#414/#418/#420)');
   }
   // FINDABILITY #400 — FAQ arrow alone must not pass (tip #399 left arrows, dropped table rows).
   if (hasTrendsRoutesFaq([
@@ -7293,6 +7384,7 @@ function selftest() {
     TRENDS_ROUTES_CLAUDE_OPUS_55_NEEDLE,
     TRENDS_ROUTES_BLACKSTONE_ANTHROPIC_NEEDLE,
     TRENDS_ROUTES_REPLIT_ANTHROPIC_NEEDLE,
+    TRENDS_ROUTES_CLAUDE_MYTHOS_5_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_ONDAS_PALANTIR_NEEDLE,
@@ -7303,7 +7395,7 @@ function selftest() {
     TRENDS_ROUTES_SPACEX_STARSHIELD_NEEDLE,
     TRENDS_ROUTES_TESLA_FLYING_ROADSTER_NEEDLE,
   ].join('\n')) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5/Blackstone/Replit/Ondas/CERT-In/Surface Ultra/DeepSeek V4.1 Flash (#400/#402/#406/#408/#410/#412/#414/#418)');
+    throw new Error('hasTrendsRoutesFaq needs watchlist <td> Anthropic ECDSA/METR/Claude Opus 5.5/Claude Mythos 5/Blackstone/Replit/Ondas/CERT-In/Surface Ultra/DeepSeek V4.1 Flash (#400/#402/#406/#408/#410/#412/#414/#418/#420)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
