@@ -51,6 +51,9 @@ test('agents.json matches the Skills announcement and carries the schema', () =>
   // FINDABILITY #330 — structured companion lists the classic panel.
   assert.equal(j.related?.classic, 'https://siren.watch/classic.html');
   assert.equal(j.related?.classic_title, 'Where is the full SIREN instrument panel?');
+  // FINDABILITY #441 — dual middot head terms beside live home.
+  assert.equal(j.related?.home, 'https://siren.watch/');
+  assert.equal(j.related?.home_title, 'AI activity index today · AI activity level today');
 });
 
 test('api-catalog is an RFC 9727 linkset pointing at the live surfaces', () => {
@@ -58,7 +61,7 @@ test('api-catalog is an RFC 9727 linkset pointing at the live surfaces', () => {
   assert.ok(Array.isArray(cat.linkset));
   const items = cat.linkset[0].item.map((i) => i.href);
   for (const p of [
-    '/openapi.json', '/api/state.json', '/api/now.txt', '/api/news.json', '/news-sitemap.xml', '/news.html',
+    '/', '/openapi.json', '/api/state.json', '/api/now.txt', '/api/news.json', '/news-sitemap.xml', '/news.html',
     '/api/search-trends.json', '/search-trends.html', '/ai-prediction-markets.html',
     '/free-tools.html', '/verify.html', '/classic.html',
     '/agents.md', '/agents.txt',
@@ -68,6 +71,9 @@ test('api-catalog is an RFC 9727 linkset pointing at the live surfaces', () => {
   }
   const classicItem = cat.linkset[0].item.find((i) => i.href === 'https://siren.watch/classic.html');
   assert.equal(classicItem?.title, 'Where is the full SIREN instrument panel?');
+  // FINDABILITY #441 — catalog home item names dual middot head terms.
+  const homeItem = cat.linkset[0].item.find((i) => i.href === 'https://siren.watch/');
+  assert.equal(homeItem?.title, 'AI activity index today · AI activity level today');
   assert.equal(cat.linkset[0].anchor, 'https://siren.watch/.well-known/api-catalog');
 });
 
@@ -82,6 +88,9 @@ test('skills index digests the skill body and uses the packaged path', () => {
   // FINDABILITY #330 — skill index related.classic matches agents.json.
   assert.equal(idx.skills[0].related?.classic, 'https://siren.watch/classic.html');
   assert.equal(idx.skills[0].related?.classic_title, 'Where is the full SIREN instrument panel?');
+  // FINDABILITY #441 — skill index related.home_title matches agents.json.
+  assert.equal(idx.skills[0].related?.home, 'https://siren.watch/');
+  assert.equal(idx.skills[0].related?.home_title, 'AI activity index today · AI activity level today');
 });
 
 test('MCP server card documents stdio transport and the tool names', () => {
@@ -102,6 +111,9 @@ test('MCP server card documents stdio transport and the tool names', () => {
   assert.equal(card.related.free_tools, 'https://siren.watch/free-tools.html');
   assert.equal(card.related.verify, 'https://siren.watch/verify.html');
   assert.equal(card.related.classic, 'https://siren.watch/classic.html');
+  // FINDABILITY #441 — MCP card related.home_title dual middot head terms.
+  assert.equal(card.related.home, 'https://siren.watch/');
+  assert.equal(card.related.home_title, 'AI activity index today · AI activity level today');
 });
 
 test('ai.txt points agents at the discovery stack', () => {

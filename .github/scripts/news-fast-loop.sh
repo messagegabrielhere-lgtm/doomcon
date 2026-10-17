@@ -489,16 +489,27 @@ while [ "$(date +%s)" -lt "$END" ]; do
           echo "restored $surf classic instrument panel (#328)"
         fi
       done
-      # FINDABILITY #330 — agents.json / openapi / api/index / llms-full /
-      # agent-skills need the /classic.html href after news-only overlay.
+      # FINDABILITY #330/#441 — agents.json / openapi / api/index / llms-full /
+      # agent-skills need classic href or dual head terms after news-only overlay.
       for surf in agents.json openapi.json api/index.json llms-full.txt \
         .well-known/agent-skills/index.json; do
         if [ -f "$preserve/$surf" ] \
-          && ! grep -qF '/classic.html' "$root/$surf" 2>/dev/null \
-          && ! grep -qF '"/classic.html"' "$root/$surf" 2>/dev/null; then
+          && { { ! grep -qF '/classic.html' "$root/$surf" 2>/dev/null \
+              && ! grep -qF '"/classic.html"' "$root/$surf" 2>/dev/null; } \
+            || ! grep -qF 'AI activity index today · AI activity level today' "$root/$surf" 2>/dev/null; }; then
           mkdir -p "$root/$(dirname "$surf")"
           cp -a "$preserve/$surf" "$root/$surf"
-          echo "restored $surf classic instrument panel (#330)"
+          echo "restored $surf classic instrument panel / dual head term (#330/#441)"
+        fi
+      done
+      # FINDABILITY #441 — api-catalog / MCP card dual head terms.
+      for surf in .well-known/api-catalog .well-known/api-catalog.json \
+        .well-known/mcp/server-card.json; do
+        if [ -f "$preserve/$surf" ] \
+          && ! grep -qF 'AI activity index today · AI activity level today' "$root/$surf" 2>/dev/null; then
+          mkdir -p "$root/$(dirname "$surf")"
+          cp -a "$preserve/$surf" "$root/$surf"
+          echo "restored $surf dual head term (#441)"
         fi
       done
       # FINDABILITY #332 — free-tools listicle needs classic panel question.

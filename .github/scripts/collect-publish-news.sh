@@ -282,16 +282,27 @@ for surf in .well-known/api-catalog .well-known/api-catalog.json \
     echo "restored $surf classic instrument panel (#328)"
   fi
 done
-# FINDABILITY #330 — restore tip agents.json / openapi / api/index / llms-full /
-# agent-skills when /classic.html is missing after orphan Publish.
+# FINDABILITY #330/#441 — restore tip agents.json / openapi / api/index /
+# llms-full / agent-skills when classic panel or dual head terms missing.
 for surf in agents.json openapi.json api/index.json llms-full.txt \
   .well-known/agent-skills/index.json; do
   if [ -f "$PRESERVE_FAQ/$surf" ] \
-    && ! grep -qF '/classic.html' ".pages/$surf" 2>/dev/null \
-    && ! grep -qF '"/classic.html"' ".pages/$surf" 2>/dev/null; then
+    && { { ! grep -qF '/classic.html' ".pages/$surf" 2>/dev/null \
+        && ! grep -qF '"/classic.html"' ".pages/$surf" 2>/dev/null; } \
+      || ! grep -qF 'AI activity index today · AI activity level today' ".pages/$surf" 2>/dev/null; }; then
     mkdir -p ".pages/$(dirname "$surf")"
     cp -a "$PRESERVE_FAQ/$surf" ".pages/$surf"
-    echo "restored $surf classic instrument panel (#330)"
+    echo "restored $surf classic instrument panel / dual head term (#330/#441)"
+  fi
+done
+# FINDABILITY #441 — restore tip api-catalog / MCP card when dual head terms missing.
+for surf in .well-known/api-catalog .well-known/api-catalog.json \
+  .well-known/mcp/server-card.json; do
+  if [ -f "$PRESERVE_FAQ/$surf" ] \
+    && ! grep -qF 'AI activity index today · AI activity level today' ".pages/$surf" 2>/dev/null; then
+    mkdir -p ".pages/$(dirname "$surf")"
+    cp -a "$PRESERVE_FAQ/$surf" ".pages/$surf"
+    echo "restored $surf dual head term (#441)"
   fi
 done
 # FINDABILITY #332 — restore tip free-tools.html when classic panel listicle

@@ -197,6 +197,20 @@ export function render(ctx) {
           },
         },
       },
+      '/': {
+        get: {
+          tags: ['surfaces'],
+          // FINDABILITY #441 — dual middot head terms for OpenAPI scrapers.
+          summary: 'AI activity index today · AI activity level today (live hourly reading)',
+          operationId: 'getHomeHtml',
+          responses: {
+            200: {
+              description: 'Live SIREN reading — activity tempo index, not a doom probability',
+              content: { 'text/html': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
       '/classic.html': {
         get: {
           tags: ['surfaces'],

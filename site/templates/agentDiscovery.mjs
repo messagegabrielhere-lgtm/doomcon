@@ -78,7 +78,11 @@ export function agentsJson(ctx) {
     ],
     // FINDABILITY #330 — structured companion lists the classic panel beside
     // agents.txt / ai.txt / api-catalog (#328) so JSON scrapers find it too.
+    // FINDABILITY #441 — dual middot head terms beside live home (parallel to
+    // discovery text #439) so JSON scrapers see both unbranded phrases.
     related: {
+      home: u('/'),
+      home_title: 'AI activity index today · AI activity level today',
       classic: u('/classic.html'),
       classic_title: 'Where is the full SIREN instrument panel?',
     },
@@ -97,6 +101,7 @@ export function apiCatalog(ctx) {
       {
         anchor: catalog,
         item: [
+          { href: u('/'), type: 'text/html', title: 'AI activity index today · AI activity level today' },
           { href: u('/openapi.json'), type: 'application/json', title: 'OpenAPI 3.1 description of the public API' },
           { href: u('/api/index.json'), type: 'application/json', title: 'Endpoint map' },
           { href: u('/api/state.json'), type: 'application/json', title: 'Current SIREN reading' },
@@ -148,7 +153,11 @@ export function agentSkillsIndex(ctx, skillBody) {
         digest: `sha256:${sha256Hex(skillBody)}`,
         // FINDABILITY #330 — skill index points at the classic panel (same
         // question needle as agents.json / skill.md).
+        // FINDABILITY #441 — dual head terms beside live home (same needle as
+        // agents.json / agents.txt).
         related: {
+          home: ctx.url('/'),
+          home_title: 'AI activity index today · AI activity level today',
           classic: ctx.url('/classic.html'),
           classic_title: 'Where is the full SIREN instrument panel?',
         },
@@ -188,6 +197,8 @@ export function mcpServerCard(ctx) {
       agents_md: ctx.url('/agents.md'),
       skill: ctx.url('/skill.md'),
       openapi: ctx.url('/openapi.json'),
+      home: ctx.url('/'),
+      home_title: 'AI activity index today · AI activity level today',
       now: ctx.url('/api/now.txt'),
       news: ctx.url('/api/news.json'),
       news_sitemap: ctx.url('/news-sitemap.xml'),

@@ -858,6 +858,22 @@ export function hasDiscoveryDualHeadTerm(txt, needle = AGENTS_HTML_DUAL_HEAD_TER
 }
 
 /**
+ * True when agents.json related.home_title names dual middot head terms
+ * (FINDABILITY #441). Wipe gap is `agents-json-dual-head-term-missing`.
+ */
+export function hasAgentsJsonDualHeadTerm(body, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  const raw = String(body || '');
+  if (!raw.includes(needle)) return false;
+  try {
+    const j = JSON.parse(raw);
+    const title = j?.related?.home_title;
+    return typeof title === 'string' && title.includes(needle);
+  } catch {
+    return true;
+  }
+}
+
+/**
  * True when an agent-map body lists /classic.html (FINDABILITY #324).
  * Wipe gap is `agents-classic-panel-missing`.
  */
@@ -2731,6 +2747,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #441 — agents.json dropped dual middot home_title.
+  if (ours.agents_json_dual_head_term === false) {
+    gaps.push({
+      id: 'agents-json-dual-head-term-missing',
+      severity: 'medium',
+      text: 'agents.json missing dual “AI activity index today · AI activity level today” related.home_title (FINDABILITY #441) — re-overlay agents.json or wait for collect/news-fast Publish on tip ≥ #441',
+    });
+  }
+
   // FINDABILITY #328 — agents.txt / ai.txt / api-catalog dropped classic panel.
   if (
     ours.agents_txt_classic_panel === false
@@ -4187,6 +4212,9 @@ export function measureSite(site, byUrl) {
     row.agents_json_classic_panel = agentsJson?.ok ? hasAgentsJsonClassicPanel(agentsJson.value) : false;
     row.openapi_classic_panel = openapiJson?.ok ? hasOpenapiClassicPanel(openapiJson.value) : false;
     row.api_index_classic_panel = apiIndexJson?.ok ? hasApiIndexClassicPanel(apiIndexJson.value) : false;
+    // FINDABILITY #441 — agents.json must name dual middot home_title.
+    row.agents_json_dual_head_term = agentsJson?.ok
+      ? hasAgentsJsonDualHeadTerm(agentsJson.value) : false;
     // FINDABILITY #332 — free-tools.html must list classic panel after overlay.
     const freeToolsHtml = byUrl.get(`${base}/free-tools.html`);
     row.freetools_classic_panel = freeToolsHtml?.ok
@@ -4634,6 +4662,11 @@ export function formatMarkdown(report) {
       const at = ours.agents_txt_dual_head_term == null ? '—' : (ours.agents_txt_dual_head_term ? 'yes' : 'NO');
       const ai = ours.ai_txt_dual_head_term == null ? '—' : (ours.ai_txt_dual_head_term ? 'yes' : 'NO');
       lines.push(`- Discovery dual index/level head term (#439): agents.txt **${at}** · ai.txt **${ai}**`);
+    }
+    if (ours && ours.agents_json_dual_head_term != null) {
+      lines.push(
+        `- Discovery JSON dual index/level head term (#441): agents.json **${ours.agents_json_dual_head_term ? 'ok' : 'NO'}**`,
+      );
     }
     if (ours && (
       ours.agents_txt_classic_panel != null
@@ -5265,6 +5298,7 @@ export function formatMarkdown(report) {
       || ours.agents_html_dual_head_term != null
       || ours.agents_txt_dual_head_term != null
       || ours.ai_txt_dual_head_term != null
+      || ours.agents_json_dual_head_term != null
       || ours.agents_txt_classic_panel != null
       || ours.ai_txt_classic_panel != null
       || ours.catalog_classic_panel != null
@@ -5631,6 +5665,29 @@ function selftest() {
   });
   if (!discoveryDualGaps.some((g) => g.id === 'discovery-dual-head-term-missing')) {
     throw new Error('discovery-dual-head-term-missing gap');
+  }
+  if (hasAgentsJsonDualHeadTerm(JSON.stringify({
+    related: { home_title: 'AI activity index today · AI activity level today', home: 'https://siren.watch/' },
+  })) !== true) {
+    throw new Error('hasAgentsJsonDualHeadTerm true');
+  }
+  if (hasAgentsJsonDualHeadTerm(JSON.stringify({
+    related: { classic_title: 'Where is the full SIREN instrument panel?' },
+  })) !== false) {
+    throw new Error('hasAgentsJsonDualHeadTerm false without dual');
+  }
+  const agentsJsonDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      agents_json_dual_head_term: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!agentsJsonDualGaps.some((g) => g.id === 'agents-json-dual-head-term-missing')) {
+    throw new Error('agents-json-dual-head-term-missing gap');
   }
   if (!CORE_LIVE_SURFACES.includes('/ai.txt')) {
     throw new Error('CORE_LIVE_SURFACES missing #328 /ai.txt');

@@ -26,6 +26,11 @@ test('openapi lists Outrank free-tool and Search Trends HTML landings', () => {
   assert.match(spec.paths['/search-trends.html'].get.summary, /Search Trends/i);
   // FINDABILITY #330 — OpenAPI path for the classic instrument panel.
   assert.match(spec.paths['/classic.html'].get.summary, /full SIREN instrument panel/i);
+  // FINDABILITY #441 — OpenAPI `/` names dual middot head terms.
+  assert.match(
+    spec.paths['/'].get.summary,
+    /AI activity index today · AI activity level today/,
+  );
   assert.equal(
     spec.paths['/verify.html'].get.responses['200'].content['text/html'].schema.type,
     'string',
