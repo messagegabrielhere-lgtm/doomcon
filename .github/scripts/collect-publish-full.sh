@@ -30,6 +30,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
     skills/siren-ai-index/SKILL.md agents.html agents.txt ai.txt agents.json \
     openapi.json api/index.json llms-full.txt free-tools.html verify.html \
     p-doom.html ai-doomsday-clock.html guide.html guides.html guide.md guides.md \
+    bets.html balance.html self-aware.html \
     .well-known/api-catalog .well-known/api-catalog.json \
     .well-known/mcp/server-card.json \
     .well-known/agent-skills/index.json \
@@ -357,6 +358,19 @@ for md in guide.md guides.md; do
     && ! grep -qF 'AI activity index today · AI activity level today' ".pages/$md" 2>/dev/null; then
     cp -a "$PRESERVE_FAQ/$md" ".pages/$md"
     echo "restored $md dual head term (#457)"
+  fi
+done
+# FINDABILITY #459 — restore tip bets / balance / self-aware when dual middot
+# head terms are missing after orphan Publish (desk live links were index-only
+# after guide dual #457).
+for desk in bets.html balance.html self-aware.html; do
+  if [ -f "$PRESERVE_FAQ/$desk" ] \
+    && ! grep -qF 'AI activity index today · AI activity level today' ".pages/$desk" 2>/dev/null; then
+    cp -a "$PRESERVE_FAQ/$desk" ".pages/$desk"
+    base="${desk%.html}"
+    mkdir -p ".pages/$base"
+    cp -a ".pages/$desk" ".pages/$base/index.html"
+    echo "restored $desk dual head term (#459)"
   fi
 done
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140

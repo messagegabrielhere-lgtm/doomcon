@@ -49,6 +49,8 @@ describe('balance page', () => {
     assert.match(html, /\/bliss\.html/);
     assert.match(html, /href="\/bliss\.html">What is BLISS, the SIREN upside index\? →<\/a>/);
     assert.doesNotMatch(html, /href="\/bliss\.html">The upside index, in full →<\/a>/);
+    // FINDABILITY #459 — dual middot head terms on balance live link.
+    assert.match(html, /href="\/">AI activity index today · AI activity level today · SIREN →<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /net score of good versus evil/i);
     assert.doesNotMatch(html, /noindex/);

@@ -139,6 +139,10 @@ export const OUR_SURFACES = Object.freeze([
   '/vs/takeofftracker.html',
   '/guides.html',
   '/guides.md',
+  // FINDABILITY #459 — desk/joke live links must keep dual head terms after tip.
+  '/bets.html',
+  '/balance.html',
+  '/self-aware.html',
   '/companies.html',
   '/models.html',
   '/pillars.html',
@@ -1062,6 +1066,30 @@ export function hasGuideDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_N
  * Wipe gap is `guide-dual-head-term-missing` (paired with guide).
  */
 export function hasGuidesDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when bets.html names dual middot head terms (FINDABILITY #459).
+ * Wipe gap is `desk-dual-head-term-missing` (paired with balance + self-aware).
+ */
+export function hasBetsDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when balance.html names dual middot head terms (FINDABILITY #459).
+ * Wipe gap is `desk-dual-head-term-missing` (paired with bets + self-aware).
+ */
+export function hasBalanceDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when self-aware.html names dual middot head terms (FINDABILITY #459).
+ * Wipe gap is `desk-dual-head-term-missing` (paired with bets + balance).
+ */
+export function hasSelfAwareDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
   return String(html || '').includes(needle);
 }
 
@@ -2970,6 +2998,24 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #459 — bets / balance / self-aware dropped dual middot head terms.
+  if (
+    ours.bets_dual_head_term === false
+    || ours.balance_dual_head_term === false
+    || ours.self_aware_dual_head_term === false
+  ) {
+    const which = [
+      ours.bets_dual_head_term === false ? 'bets.html' : null,
+      ours.balance_dual_head_term === false ? 'balance.html' : null,
+      ours.self_aware_dual_head_term === false ? 'self-aware.html' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'desk-dual-head-term-missing',
+      severity: 'medium',
+      text: `${which} missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #459) — re-overlay desk pages or wait for collect/news-fast Publish on tip ≥ #459`,
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -4430,6 +4476,19 @@ export function measureSite(site, byUrl) {
     row.guides_dual_head_term = guidesHtml?.ok
       ? hasGuidesDualHeadTerm(guidesHtml.value)
       : false;
+    // FINDABILITY #459 — desk/joke pages must name dual middot head terms.
+    const betsHtml = byUrl.get(`${base}/bets.html`);
+    const balanceHtml = byUrl.get(`${base}/balance.html`);
+    const selfAwareHtml = byUrl.get(`${base}/self-aware.html`);
+    row.bets_dual_head_term = betsHtml?.ok
+      ? hasBetsDualHeadTerm(betsHtml.value)
+      : false;
+    row.balance_dual_head_term = balanceHtml?.ok
+      ? hasBalanceDualHeadTerm(balanceHtml.value)
+      : false;
+    row.self_aware_dual_head_term = selfAwareHtml?.ok
+      ? hasSelfAwareDualHeadTerm(selfAwareHtml.value)
+      : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -4949,6 +5008,18 @@ export function formatMarkdown(report) {
       const gds = ours.guides_dual_head_term == null ? '—' : (ours.guides_dual_head_term ? 'yes' : 'NO');
       lines.push(
         `- guide / guides dual index/level head term (#457): guide **${gd}** · guides **${gds}**`,
+      );
+    }
+    if (ours && (
+      ours.bets_dual_head_term != null
+      || ours.balance_dual_head_term != null
+      || ours.self_aware_dual_head_term != null
+    )) {
+      const bt = ours.bets_dual_head_term == null ? '—' : (ours.bets_dual_head_term ? 'yes' : 'NO');
+      const bal = ours.balance_dual_head_term == null ? '—' : (ours.balance_dual_head_term ? 'yes' : 'NO');
+      const sa = ours.self_aware_dual_head_term == null ? '—' : (ours.self_aware_dual_head_term ? 'yes' : 'NO');
+      lines.push(
+        `- desk dual index/level head term (#459): bets **${bt}** · balance **${bal}** · self-aware **${sa}**`,
       );
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
@@ -6212,6 +6283,39 @@ function selftest() {
   });
   if (!guideDualGaps.some((g) => g.id === 'guide-dual-head-term-missing')) {
     throw new Error('guide-dual-head-term-missing gap');
+  }
+  if (hasBetsDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasBetsDualHeadTerm true');
+  }
+  if (hasBetsDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasBetsDualHeadTerm false for index-only');
+  }
+  if (hasBalanceDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasBalanceDualHeadTerm true');
+  }
+  if (hasBalanceDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasBalanceDualHeadTerm false for index-only');
+  }
+  if (hasSelfAwareDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasSelfAwareDualHeadTerm true');
+  }
+  if (hasSelfAwareDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasSelfAwareDualHeadTerm false for index-only');
+  }
+  const deskDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      bets_dual_head_term: false,
+      balance_dual_head_term: true,
+      self_aware_dual_head_term: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!deskDualGaps.some((g) => g.id === 'desk-dual-head-term-missing')) {
+    throw new Error('desk-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{
