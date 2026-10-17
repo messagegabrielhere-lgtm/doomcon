@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T01:20Z shipping **#374** SoftBank / Allied Universal FAQ + agent/Trends routes (SoftBank lab destination unlocks prior Allied hold); Waymo Canada FAQ tip still **ok**; NIST tip **ok** (**2/2**); Canadian data centres FAQ tip still **ok**; AI safety bill FAQ tip still **ok**; Publish preserve **#368**/**#372**/**#374**; M5 Max tip **#364** still **ok** (**1/1**); AI safety bill **#358** still **ok**; Amazon Web Services tip **#360** still **ok**; Bee AI tip **#356** still **ok**; Flying Roadster tip **#354** still **ok**; Anthropic IPO tip **#352** still **ok**; pizzint news **0** (`google-news-open`); lead **6,701** / news **200**; GSC/Bing meta **absent**; News keywords through **#370**; FAQ routes through **#374**; Publish preserve through **#374**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#374** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T01:35Z after **#374** tip `73c0d8d` + IndexNow **200**: SoftBank Allied Universal FAQ CDN clear (heal after newsroom wipe); Waymo Canada FAQ tip still **ok**; NIST tip still **ok**; Canadian data centres FAQ tip still **ok**; AI safety bill FAQ tip still **ok**; Publish preserve **#368**/**#372**/**#374**; M5 Max tip **#364** still **ok**; pizzint news **14** contested (`pizzint-news-alive`); lead **6,698** / news **200**; GSC/Bing meta **absent**; News keywords through **#370**; FAQ routes through **#374**; Publish preserve through **#374**; tip merge **#210** + **#300** title-heal; `seo-daily` probes through **#374** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -66,7 +66,8 @@ ECDSA niche / Beijing AI-exports topic / CoreWeave stock (already gated) /
 Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster + Flying Roadster keyed) /
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise refused.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
-**#374** SoftBank / Allied Universal FAQ + agent/Trends + HEAD_TERMS + Publish preserve (SoftBank lab; hold ECDSA / EverWind / Warsh / Nudify / VCI).
+**#375** after **#374** tip `73c0d8d` + IndexNow **200**: SoftBank Allied FAQ CDN clear (heal after newsroom wipe); Waymo FAQ still **ok**; lead **6,698**; pizzint news **14** contested.
+**#374** SoftBank / Allied Universal FAQ tip `73c0d8d` (lab + agents + Trends; SoftBank lab unlocks Allied; hold ECDSA / EverWind / Warsh / Nudify / VCI).
 **#373** after **#372** tip `aebde7c` + IndexNow **200**: Waymo Canada / Toronto FAQ CDN clear; NIST **2/2**; Canadian FAQ still **ok**; lead **6,701**.
 **#372** Waymo Canada / Toronto robotaxi FAQ tip `aebde7c` (lab + agents + Trends; 3 titles; hold Allied / EverWind / Warsh / Nudify).
 **#371** after **#370** tip `c185d41` + IndexNow **200**: NIST **2/2** CDN clear; Canadian FAQ still **ok**; lead **6,700**.
