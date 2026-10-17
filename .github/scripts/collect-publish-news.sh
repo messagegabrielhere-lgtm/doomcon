@@ -225,6 +225,7 @@ for map in agents.md llms.txt; do
       || ! grep -qF 'OpenAI outage' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Hugging Face hack' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Palantir / AIP' ".pages/$map" 2>/dev/null \
+      || ! grep -qF 'Ondas' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'AMD / MI300' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'Tesla / FSD' ".pages/$map" 2>/dev/null \
       || ! grep -qF 'ChatGPT Chrome' ".pages/$map" 2>/dev/null \
@@ -553,13 +554,14 @@ if [ -f "$PRESERVE_FAQ/tags/huggingface.html" ] \
   echo "restored tags/huggingface.html Hugging Face hack FAQ (#182)"
 fi
 
-# FINDABILITY #183 — restore tip /lab/palantir.html when Palantir FAQ
-# is missing after mid-merge / orphan Publish on tip < #183.
+# FINDABILITY #183/#406 — restore tip /lab/palantir.html when Palantir
+# or Ondas-Palantir FAQ is missing after mid-merge / orphan Publish.
 if [ -f "$PRESERVE_FAQ/lab/palantir.html" ] \
-  && ! grep -qF 'Why does SIREN watch Palantir and government AI?' ".pages/lab/palantir.html" 2>/dev/null; then
+  && { ! grep -qF 'Why does SIREN watch Palantir and government AI?' ".pages/lab/palantir.html" 2>/dev/null \
+    || ! grep -qF 'Why does SIREN watch Ondas-Palantir AI?' ".pages/lab/palantir.html" 2>/dev/null; }; then
   mkdir -p .pages/lab
   cp -a "$PRESERVE_FAQ/lab/palantir.html" .pages/lab/palantir.html
-  echo "restored lab/palantir.html Palantir / AIP FAQ (#183)"
+  echo "restored lab/palantir.html Palantir / AIP + Ondas FAQ (#183/#406)"
 fi
 
 # FINDABILITY #184 — restore tip /lab/amd.html when AMD FAQ
@@ -648,6 +650,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
     || ! grep -qF 'Tesla Flying Roadster → /lab/tesla.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Palantir / AIP → /lab/palantir.html' ".pages/search-trends.html" 2>/dev/null \
+    || ! grep -qF 'Ondas / Palantir → /lab/palantir.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'AMD / MI300 → /lab/amd.html' ".pages/search-trends.html" 2>/dev/null \
     || ! grep -qF 'Tesla / FSD → /lab/tesla.html' ".pages/search-trends.html" 2>/dev/null; }; then
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends.html
@@ -655,7 +658,7 @@ if [ -f "$PRESERVE_FAQ/search-trends.html" ] \
   mkdir -p .pages/trends .pages/search-trends
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/trends/index.html
   cp -a "$PRESERVE_FAQ/search-trends.html" .pages/search-trends/index.html
-  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402)"
+  echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402/#406)"
 fi
 # FINDABILITY #248 — restore tip /model/muse-spark.html when Muse Spark model
 # hub FAQ is missing after mid-merge / orphan Publish (tip overlay wiped when

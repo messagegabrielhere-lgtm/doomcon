@@ -418,6 +418,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'OpenAI outage' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Hugging Face hack' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Palantir / AIP' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'Ondas' "$root/$map" 2>/dev/null \
             || ! grep -qF 'AMD / MI300' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Tesla / FSD' "$root/$map" 2>/dev/null \
             || ! grep -qF 'ChatGPT Chrome' "$root/$map" 2>/dev/null \
@@ -660,15 +661,16 @@ while [ "$(date +%s)" -lt "$END" ]; do
       fi
     }
 
-    # FINDABILITY #183 — restore tip /lab/palantir.html when Palantir FAQ
-    # is missing after orphan Publish from tip < #183.
+    # FINDABILITY #183/#406 — restore tip /lab/palantir.html when Palantir
+    # or Ondas-Palantir FAQ is missing after orphan Publish.
     restore_palantir_faq() {
       local root="$1" preserve="$2"
       if [ -f "$preserve/lab/palantir.html" ] \
-        && ! grep -qF 'Why does SIREN watch Palantir and government AI?' "$root/lab/palantir.html" 2>/dev/null; then
+        && { ! grep -qF 'Why does SIREN watch Palantir and government AI?' "$root/lab/palantir.html" 2>/dev/null \
+          || ! grep -qF 'Why does SIREN watch Ondas-Palantir AI?' "$root/lab/palantir.html" 2>/dev/null; }; then
         mkdir -p "$root/lab"
         cp -a "$preserve/lab/palantir.html" "$root/lab/palantir.html"
-        echo "restored lab/palantir.html Palantir / AIP FAQ (#183)"
+        echo "restored lab/palantir.html Palantir / AIP + Ondas FAQ (#183/#406)"
       fi
     }
 
@@ -779,6 +781,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
           || ! grep -qF 'Tesla Flying Roadster → /lab/tesla.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Palantir / AIP → /lab/palantir.html' "$root/search-trends.html" 2>/dev/null \
+          || ! grep -qF 'Ondas / Palantir → /lab/palantir.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'AMD / MI300 → /lab/amd.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Tesla / FSD → /lab/tesla.html' "$root/search-trends.html" 2>/dev/null; }; then
         cp -a "$preserve/search-trends.html" "$root/search-trends.html"
@@ -786,7 +789,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         mkdir -p "$root/trends" "$root/search-trends"
         cp -a "$preserve/search-trends.html" "$root/trends/index.html"
         cp -a "$preserve/search-trends.html" "$root/search-trends/index.html"
-        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402)"
+        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366/#368/#372/#374/#376/#378/#392/#397/#402/#406)"
       fi
     }
     # FINDABILITY #161 — restore tip /lab/nvidia.html when Nvidia / NVDA

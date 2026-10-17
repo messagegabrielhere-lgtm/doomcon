@@ -1113,3 +1113,20 @@ test('Publish restores tip Tesla Flying Roadster FAQ + routes (FINDABILITY #378)
   assert.match(newsFast, /! grep -qF 'Flying Roadster'/);
   assert.match(newsFast, /restore_tesla_faq/);
 });
+
+test('Publish restores tip Ondas-Palantir FAQ + routes (FINDABILITY #406)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #183\/#406/);
+  assert.match(collect, /Why does SIREN watch Ondas-Palantir AI\?/);
+  assert.match(collect, /Ondas \/ Palantir → \/lab\/palantir\.html/);
+  assert.match(collect, /! grep -qF 'Ondas'/);
+  assert.match(
+    collect,
+    /restored lab\/palantir\.html Palantir \/ AIP \+ Ondas FAQ \(#183\/#406\)/,
+  );
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /Why does SIREN watch Ondas-Palantir AI\?/);
+  assert.match(newsFast, /Ondas \/ Palantir → \/lab\/palantir\.html/);
+  assert.match(newsFast, /! grep -qF 'Ondas'/);
+  assert.match(newsFast, /restore_palantir_faq/);
+});

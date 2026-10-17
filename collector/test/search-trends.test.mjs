@@ -210,6 +210,12 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(HEAD_TERMS.some((t) => t.id === 'palantir' && t.path === '/lab/palantir.html'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'palantir').label, 'Palantir / AIP');
   assert.equal(HEAD_TERMS.find((t) => t.id === 'palantir').re.test('palatial gardens tour'), false);
+  // FINDABILITY #406 — Ondas / Ondas-Palantir defense-AI JV → Palantir lab.
+  assert.ok(matchHeadTerms({ title: 'RTX, AeroVironment And Ondas-Palantir Push Deeper Into Drone Defense And AI This Week', news: [] }).includes('ondas-palantir'));
+  assert.ok(matchHeadTerms({ title: 'Stocktwits Defense Watch: RTX Continues Deal Momentum, Ondas-Palantir Launch AI Firm As AeroVironment Strike Four International Deals', news: [] }).includes('ondas-palantir'));
+  assert.ok(matchHeadTerms({ title: 'Ondas Holdings expands defense AI autonomy stack', news: [] }).includes('ondas-palantir'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'ondas-palantir' && t.path === '/lab/palantir.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'ondas-palantir').re.test('AeroVironment Strike Four International Deals'), false);
   // FINDABILITY #184 — AMD / MI300 / Instinct Trends → gated lab.
   assert.ok(matchHeadTerms({ title: 'AMD Helion for Agentic AI and Enterprise', news: [] }).includes('amd'));
   assert.ok(matchHeadTerms({ title: 'AMD MI300X AI GPU demand', news: [] }).includes('amd'));

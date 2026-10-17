@@ -514,6 +514,11 @@ describe('lab facets', () => {
     assert.match(palHtml, /not legal advice/i);
     assert.match(palHtml, /search-trends\.html/);
     assert.doesNotMatch(palHtml, /buy Palantir|price target|must use Palantir/i);
+    // FINDABILITY #406 — Ondas-Palantir companion FAQ on same gated lab.
+    assert.match(palHtml, /Why does SIREN watch Ondas-Palantir AI\?/);
+    assert.match(palHtml, /[Nn]ot deal advice/);
+    assert.match(palHtml, /Ondas|defense-AI|drone/i);
+    assert.doesNotMatch(palHtml, /will acquire|must buy|doom Ondas/i);
     // FINDABILITY #184 — AMD / MI300 / Instinct FAQ on gated lab.
     assert.equal(LAB_HEAD_ALIASES.amd, 'MI300');
     const amdHtml = renderLab(ctx, {
