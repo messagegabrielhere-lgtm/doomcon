@@ -252,6 +252,8 @@ export function renderPillar(ctx, pillarId) {
   <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
     : '';
 
+  // FINDABILITY #465 — dual middot head terms on pillar composite-reading CTA
+  // (pillars were index-only after model dual #463).
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/pillar/'))}">Which AI activity pillars have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a></p>
@@ -264,7 +266,7 @@ export function renderPillar(ctx, pillarId) {
     <div><b>${esc(st && st.dark ? 'DARK' : (st && st.uncalibrated ? 'CALIBRATING' : 'LIVE'))}</b><span>Source posture</span></div>
   </div>
   <p class="fresh__key">This page is the crawlable face of the ${esc(meta.name)} filter on the newsroom.
-     The composite ${esc(brand.NAME)} reading still lives on <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>;
+     The composite ${esc(brand.NAME)} reading still lives on <a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)}</a>;
      the method is on <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
   <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
