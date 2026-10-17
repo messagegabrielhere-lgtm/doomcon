@@ -902,7 +902,7 @@ export function organization(ctx) {
 /** Visible + schema label for the site root (matches the live home title). */
 export function homeCrumbName() {
   // FINDABILITY #475 — dual middot head terms (homeCrumbName lagged the dual
-  // home <title> after error dual #473; footer SECTIONS stay index-only).
+  // home <title> after error dual #473). FINDABILITY #483 duals footer SECTIONS.
   return `AI activity index today · AI activity level today · ${brand.NAME}`;
 }
 

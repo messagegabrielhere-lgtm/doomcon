@@ -51,6 +51,7 @@ import {
   hasNotFoundDualHeadTerm,
   hasServerErrorDualHeadTerm,
   hasKindPressCrumbDualHeadTerm,
+  hasFooterSectionsDualHeadTerm,
   hasMuseSparkDualHeadTerm,
   hasFableDualHeadTerm,
   hasPillarComputeDualHeadTerm,
@@ -982,6 +983,28 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'crumb-dual-head-term-missing'));
+  });
+
+  it('detects missing dual footer SECTIONS home label (FINDABILITY #483)', () => {
+    assert.ok(OUR_SURFACES.includes('/press.html'));
+    const dualFoot = '<ul id="foot-pages"><li><a href="/">AI activity index today · AI activity level today · SIREN</a></li></ul>';
+    const indexFoot = '<ul id="foot-pages"><li><a href="/">AI activity index today · SIREN</a></li></ul>';
+    const crumbOnly = 'AI activity index today · AI activity level today · SIREN'
+      + '<ul id="foot-pages"><li><a href="/">AI activity index today · SIREN</a></li></ul>';
+    assert.equal(hasFooterSectionsDualHeadTerm(dualFoot), true);
+    assert.equal(hasFooterSectionsDualHeadTerm(indexFoot), false);
+    assert.equal(hasFooterSectionsDualHeadTerm(crumbOnly), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        footer_sections_dual_head_term: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'sections-dual-head-term-missing'));
   });
 
   it('detects missing dual head term on model hubs (FINDABILITY #463)', () => {

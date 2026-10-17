@@ -1173,6 +1173,18 @@ export function hasKindPressCrumbDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HE
 }
 
 /**
+ * True when footer Pages (id=foot-pages) home link names dual middot head terms
+ * (FINDABILITY #483 — layout SECTIONS home label). Scoped to foot-pages so a
+ * dual crumb (#475) cannot satisfy an index-only footer. Wipe gap is
+ * `sections-dual-head-term-missing`.
+ */
+export function hasFooterSectionsDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  const pages = String(html || '').match(/id="foot-pages"[\s\S]*?<\/ul>/);
+  if (!pages) return false;
+  return pages[0].includes(`href="/">${needle} · SIREN</a>`);
+}
+
+/**
  * True when /model/muse-spark.html names dual middot head terms (FINDABILITY #463).
  * Wipe gap is `model-dual-head-term-missing` (paired with fable).
  */
@@ -3188,6 +3200,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #483 — footer SECTIONS home label dropped dual middot head terms.
+  if (ours.footer_sections_dual_head_term === false) {
+    gaps.push({
+      id: 'sections-dual-head-term-missing',
+      severity: 'medium',
+      text: 'press.html footer Pages home link missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #483) — re-overlay HTML footers or wait for collect/news-fast Publish on tip ≥ #483',
+    });
+  }
+
   // FINDABILITY #463 — model hub pages dropped dual middot head terms.
   if (
     ours.muse_spark_dual_head_term === false
@@ -4728,6 +4749,12 @@ export function measureSite(site, byUrl) {
     row.kind_press_crumb_dual_head_term = kindPressHtml?.ok
       ? hasKindPressCrumbDualHeadTerm(kindPressHtml.value)
       : false;
+    // FINDABILITY #483 — footer SECTIONS home label must keep dual middot
+    // (scoped foot-pages probe on press.html — Publish-preserved; not news.html).
+    const pressFootHtml = byUrl.get(`${base}/press.html`);
+    row.footer_sections_dual_head_term = pressFootHtml?.ok
+      ? hasFooterSectionsDualHeadTerm(pressFootHtml.value)
+      : false;
     // FINDABILITY #463 — model hub composite-reading CTAs must keep dual middot.
     const museSparkHtml = byUrl.get(`${base}/model/muse-spark.html`);
     const fableHtml = byUrl.get(`${base}/model/fable.html`);
@@ -5306,6 +5333,10 @@ export function formatMarkdown(report) {
     if (ours && ours.kind_press_crumb_dual_head_term != null) {
       const kd = ours.kind_press_crumb_dual_head_term ? 'ok' : 'NO';
       lines.push(`- crumb dual index/level head term (#475): **${kd}**`);
+    }
+    if (ours && ours.footer_sections_dual_head_term != null) {
+      const sd = ours.footer_sections_dual_head_term ? 'ok' : 'NO';
+      lines.push(`- sections dual index/level head term (#483): **${sd}**`);
     }
     if (ours && (
       ours.muse_spark_dual_head_term != null
@@ -6794,6 +6825,32 @@ function selftest() {
   });
   if (!crumbDualGaps.some((g) => g.id === 'crumb-dual-head-term-missing')) {
     throw new Error('crumb-dual-head-term-missing gap');
+  }
+  const footDualOk = '<ul id="foot-pages"><li><a href="/">AI activity index today · AI activity level today · SIREN</a></li></ul>';
+  const footDualIndexOnly = '<ul id="foot-pages"><li><a href="/">AI activity index today · SIREN</a></li></ul>';
+  const footDualCrumbOnly = 'AI activity index today · AI activity level today · SIREN'
+    + '<ul id="foot-pages"><li><a href="/">AI activity index today · SIREN</a></li></ul>';
+  if (hasFooterSectionsDualHeadTerm(footDualOk) !== true) {
+    throw new Error('hasFooterSectionsDualHeadTerm true');
+  }
+  if (hasFooterSectionsDualHeadTerm(footDualIndexOnly) !== false) {
+    throw new Error('hasFooterSectionsDualHeadTerm false for index-only');
+  }
+  if (hasFooterSectionsDualHeadTerm(footDualCrumbOnly) !== false) {
+    throw new Error('hasFooterSectionsDualHeadTerm false when only crumb is dual');
+  }
+  const sectionsDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      footer_sections_dual_head_term: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!sectionsDualGaps.some((g) => g.id === 'sections-dual-head-term-missing')) {
+    throw new Error('sections-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{
