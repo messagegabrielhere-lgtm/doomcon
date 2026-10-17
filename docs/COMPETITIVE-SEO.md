@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T03:50Z shipping **#392** Anthropic METR evaluator FAQ (4-title tape; Anthropic lab gates; news:keywords already ship METR); prior **#390** tip `f521cc8` Chrome **2/2** still **ok**; Blackstone / Allied still keyed; Tesla Flying Roadster / SpaceX Starshield / SoftBank Allied / Waymo Canada / ChatGPT Chrome FAQ tips still **ok**; lead **6,702** / news **200**; GSC/Bing meta **absent**; News keywords through **#390**; FAQ routes through **#392**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex; `seo-daily` probes through **#392** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T04:03Z after **#392** tip `2ca0be8` + IndexNow **200**: Anthropic METR FAQ CDN clear (lab + agents + Trends); Chrome **#390** **2/2** still keyed; Canadian DC / SoftBank Allied / Flying Roadster / Starshield / Waymo / ChatGPT Chrome FAQ tips still **ok**; lead **6,704** / news **200**; GSC/Bing meta **absent**; News keywords through **#390**; FAQ routes through **#392**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex; `seo-daily` probes through **#393** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -68,7 +68,8 @@ Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster 
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise / bare Allied shorthand / Nudify adult refused /
 Replit no-lab FAQ.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
-**#392** Anthropic METR evaluator FAQ (4 titles; lab + agents + Trends; hold Warsh / ECDSA / Nudify / AI Jitters / Replit).
+**#393** after **#392** tip `2ca0be8` + IndexNow **200**: METR FAQ CDN clear; Chrome **2/2** still keyed; Canadian DC + SoftBank + Flying Roadster + Starshield + Waymo + ChatGPT Chrome FAQs still **ok**; lead **6,704**; pizzint news **0** (`google-news-open`).
+**#392** tip `2ca0be8` CDN clear (Anthropic METR FAQ lab + agents + Trends; 4-title gate; hold Warsh / ECDSA / Nudify / AI Jitters / Replit).
 **#391** after **#390** tip `f521cc8` + IndexNow **200**: Chrome **2/2** CDN clear; Blackstone **3/3** + Allied **4/4** still keyed; Flying Roadster + Starshield + SoftBank + Waymo + ChatGPT Chrome FAQs still **ok**; lead **6,702**; pizzint news **0** (`google-news-open`).
 **#390** tip `f521cc8` CDN clear (Chrome news:keywords **2/2**; 3-title ChatGPT browser-assistant gate; FAQ #191 gates OpenAI lab; hold Warsh / ECDSA / Nudify / AI Jitters / METR / Replit).
 **#389** after **#388** tip `a13d9f5` + IndexNow **200**: Qwen 3.8 spaced → Qwen3.8 **1/1** CDN clear; Dory **2/2** + Blackstone + Allied still keyed; Flying Roadster + Starshield + SoftBank + Waymo FAQs still **ok**; lead **6,704**; pizzint news **14** contested.
