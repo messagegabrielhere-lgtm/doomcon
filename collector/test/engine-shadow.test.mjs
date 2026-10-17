@@ -1050,3 +1050,17 @@ test('Publish restores tip SoftBank Allied FAQ + routes (FINDABILITY #374)', () 
   assert.match(newsFast, /! grep -qF 'Allied Universal'/);
   assert.match(newsFast, /restore_softbank_allied_faq/);
 });
+
+test('Publish restores tip SpaceX Starshield FAQ + routes (FINDABILITY #376)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #376/);
+  assert.match(collect, /Why does SIREN watch SpaceX Starshield\?/);
+  assert.match(collect, /SpaceX \/ Starshield → \/lab\/spacex\.html/);
+  assert.match(collect, /! grep -qF 'Starshield'/);
+  assert.match(collect, /restored lab\/spacex\.html SpaceX Starshield FAQ \(#376\)/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /Why does SIREN watch SpaceX Starshield\?/);
+  assert.match(newsFast, /SpaceX \/ Starshield → \/lab\/spacex\.html/);
+  assert.match(newsFast, /! grep -qF 'Starshield'/);
+  assert.match(newsFast, /restore_spacex_starshield_faq/);
+});

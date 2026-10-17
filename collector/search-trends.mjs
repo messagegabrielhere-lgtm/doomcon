@@ -138,6 +138,10 @@ export const HEAD_TERMS = Object.freeze([
   // (story counts only; not deal advice). Allied alone or SoftBank+Allied /
   // SoftBank+security-services acquisition tape; bare SoftBank Gulf funds stay unmatched.
   { id: 'softbank-allied', label: 'SoftBank / Allied Universal', re: /\ballied\s+universal\b|\bsoftbank\b.{0,64}\b(?:allied|security\s+(?:services|firm)|acquisition)\b|\b(?:allied|security\s+(?:services|firm))\b.{0,64}\bsoftbank\b/i, path: '/lab/softbank.html' },
+  // FINDABILITY #376 — SpaceX / Starshield Trends → gated SpaceX lab
+  // (story counts only; not policy advice). Starshield or SpaceX+Starshield /
+  // SpaceX+Ukraine satellite tape; bare Roadster / spectrum SpaceX stays unmatched.
+  { id: 'spacex-starshield', label: 'SpaceX / Starshield', re: /\bstarshield\b|\bspacex\b.{0,64}\b(?:starshield|ukraine).{0,40}\b(?:satellite|access|dod|defense)\b|\b(?:ukraine|dod)\b.{0,48}\bstarshield\b/i, path: '/lab/spacex.html' },
   // FINDABILITY #177 — Qwen / Tongyi / Alibaba open-weight Trends → gated Qwen lab
   // (story counts only; not a model review or stock tip).
   { id: 'qwen', label: 'Qwen', re: /\bqwen(?:\s+\d|\s+n\d)?\b|\btongyi\b|\balibaba\b.{0,40}\b(?:qwen|open[\s-]?weight)\b/i, path: '/lab/qwen.html' },

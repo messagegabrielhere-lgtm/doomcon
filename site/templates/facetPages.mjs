@@ -693,6 +693,15 @@ export function renderLab(ctx, player) {
       `${brand.NAME} scores press that names SoftBank. When Allied Universal acquisition talks, SoftBank security-services deals, or SoftBank AI-robotics deployment headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not deal advice, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
   }
+  // FINDABILITY #376 — SpaceX / Starshield defense-satellite tape → gated
+  // SpaceX entity lab (story counts only; not policy advice). Parallel to
+  // SoftBank Allied FAQ #374 / Palantir government AI FAQ #183.
+  if (player.id === 'spacex') {
+    faq.push([
+      `Why does ${brand.NAME} watch SpaceX Starshield?`,
+      `${brand.NAME} scores press that names SpaceX. When Starshield, Ukraine access / DoD satellite headlines, or SpaceX defense AI coverage dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not policy advice, not a military forecast, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
+  }
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
