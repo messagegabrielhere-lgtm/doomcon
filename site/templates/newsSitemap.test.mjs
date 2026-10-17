@@ -2743,6 +2743,48 @@ test('news sitemap keywords include MOSS-Image from multi-title image-model tape
   assert.doesNotMatch(d, /\bMOSS-Image\b/);
 });
 
+test('news sitemap keywords include ECDSA from multi-title Anthropic curve-seed tape (FINDABILITY #397)', () => {
+  const a = keywordsFor({
+    title: 'Anthropic Says Claude Traced NIST ECDSA Curve Seeds to a 1990S RNG',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Claude', 'NIST'],
+  });
+  assert.match(a, /\bECDSA\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('ECDSA') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Claude found the seeds for ECDSA. Proof of no NSA backdoor, but also...',
+    summary: 'Forum tape beside Claude curve-seed reconstruction.',
+    pillar: 'attention',
+    kind: 'forum',
+    source: 'reddit-singularity',
+    entities: ['Claude'],
+  });
+  assert.match(b, /\bECDSA\b/);
+  const c = keywordsFor({
+    title: 'Claude reveals ECDSA curve origins',
+    summary: '',
+    pillar: 'attention',
+    kind: 'forum',
+    source: 'hn-fresh-ai',
+    entities: ['Claude'],
+  });
+  assert.match(c, /\bECDSA\b/);
+  // bare Claude / Anthropic tape must not invent ECDSA.
+  const d = keywordsFor({
+    title: 'Anthropic ships a quieter Claude coding update',
+    summary: 'Bare Claude tape without the curve-seed surface.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Claude'],
+  });
+  assert.doesNotMatch(d, /\bECDSA\b/);
+});
+
 test('news sitemap keywords include Chrome from ChatGPT browser-assistant tape (FINDABILITY #390)', () => {
   // Multi-title ChatGPT Chrome tape: ChatGPT / OpenAI / GPT fill 12-cap while
   // the contiguous browser surface is dropped (FAQ #191 gates OpenAI lab).

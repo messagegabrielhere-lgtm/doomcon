@@ -416,6 +416,12 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Beam #286 / ModelSphere #250). No new doorway lab — hold Warsh / ECDSA /
   // Nudify / AI Jitters / NSA niche / CSAM adult / Replit no-lab FAQ.
   'MOSS-Image',
+  // FINDABILITY #397 — multi-title Anthropic / Claude ECDSA + NIST curve-seed
+  // tape while pizzint-news-alive (4 titles); Claude / Anthropic / NIST fill
+  // the 12-cap and drop the contiguous ECDSA surface — FAQ #397 gates
+  // `/lab/anthropic.html` (parallel to METR FAQ #392 / Chrome #390). Hold NSA
+  // niche keyword / Warsh / Nudify / AI Jitters / Replit no-lab.
+  'ECDSA',
 ]);
 
 /**

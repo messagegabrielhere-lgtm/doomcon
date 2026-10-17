@@ -588,6 +588,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Chrome',
   // FINDABILITY #394 — MOSS-Image open-weight image-model companion (multi-title vs GPT/FLUX/Qwen/Nano Banana; no doorway lab).
   'MOSS-Image',
+  // FINDABILITY #397 — ECDSA curve-seed companion (multi-title; FAQ #397 gates Anthropic lab).
+  'ECDSA',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -1244,6 +1246,7 @@ export const TRENDS_ROUTES_OPENAI_CHROME_NEEDLE = 'ChatGPT Chrome / computer use
 export const TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE = 'Anthropic AI safety bill → /lab/anthropic.html';
 export const TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE = 'Anthropic Canadian data centres → /lab/anthropic.html';
 export const TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE = 'Anthropic METR → /lab/anthropic.html';
+export const TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE = 'Anthropic ECDSA → /lab/anthropic.html';
 export const TRENDS_ROUTES_HUGGINGFACE_NEEDLE = 'Hugging Face hack → /tags/huggingface.html';
 export const TRENDS_ROUTES_PALANTIR_NEEDLE = 'Palantir / AIP → /lab/palantir.html';
 export const TRENDS_ROUTES_AMD_NEEDLE = 'AMD / MI300 → /lab/amd.html';
@@ -1282,6 +1285,7 @@ export function hasTrendsRoutesFaq(html, needle = TRENDS_ROUTES_FAQ_NEEDLE) {
     && text.includes(TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE)
     && text.includes(TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE)
     && text.includes(TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE)
+    && text.includes(TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE)
     && text.includes(TRENDS_ROUTES_HUGGINGFACE_NEEDLE)
     && text.includes(TRENDS_ROUTES_PALANTIR_NEEDLE)
     && text.includes(TRENDS_ROUTES_AMD_NEEDLE)
@@ -1722,6 +1726,24 @@ export function hasAnthropicMetrFaq(html, needle = ANTHROPIC_METR_FAQ_NEEDLE) {
  * Wipe gap is `agents-anthropic-metr-missing`.
  */
 export function hasAgentsAnthropicMetr(body, needle = AGENTS_ANTHROPIC_METR_NEEDLE) {
+  const text = String(body || '');
+  return text.includes(needle) && text.includes('/lab/anthropic.html');
+}
+
+/** FINDABILITY #397 — Anthropic / Claude ECDSA curve-seed FAQ + agent maps. */
+export const ANTHROPIC_ECDSA_FAQ_NEEDLE = 'Why does SIREN watch Anthropic ECDSA curve seeds?';
+export const AGENTS_ANTHROPIC_ECDSA_NEEDLE = 'ECDSA';
+
+/** Tip /lab/anthropic.html must keep the #397 ECDSA curve-seed FAQ. */
+export function hasAnthropicEcdsaFaq(html, needle = ANTHROPIC_ECDSA_FAQ_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * Agent maps must route Anthropic / ECDSA tape to Anthropic lab (FINDABILITY #397).
+ * Wipe gap is `agents-anthropic-ecdsa-missing`.
+ */
+export function hasAgentsAnthropicEcdsa(body, needle = AGENTS_ANTHROPIC_ECDSA_NEEDLE) {
   const text = String(body || '');
   return text.includes(needle) && text.includes('/lab/anthropic.html');
 }
@@ -2790,6 +2812,26 @@ export function deriveGaps(report) {
       text: `${which} missing METR → /lab/anthropic.html tip (FINDABILITY #392) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #392`,
     });
   }
+  // FINDABILITY #397 — Anthropic ECDSA curve-seed FAQ wiped or never landed.
+  if (ours.anthropic_ecdsa_faq === false) {
+    gaps.push({
+      id: 'anthropic-ecdsa-faq-missing',
+      severity: 'medium',
+      text: `/lab/anthropic.html missing Anthropic ECDSA curve-seed FAQ (FINDABILITY #397) — re-overlay lab/anthropic.html or wait for full collect Publish on tip ≥ #397`,
+    });
+  }
+  // FINDABILITY #397 — agent maps must route Anthropic / ECDSA tape to Anthropic lab.
+  if (ours.agents_anthropic_ecdsa === false || ours.llms_anthropic_ecdsa === false) {
+    const which = [
+      ours.agents_anthropic_ecdsa === false ? 'agents.md' : null,
+      ours.llms_anthropic_ecdsa === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-anthropic-ecdsa-missing',
+      severity: 'medium',
+      text: `${which} missing ECDSA → /lab/anthropic.html tip (FINDABILITY #397) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #397`,
+    });
+  }
 
   // FINDABILITY #164 — ASML lab FAQ for EUV / AI chip-tool Trends wiped or never landed.
   if (ours.asml_trends_faq === false) {
@@ -3659,6 +3701,10 @@ export function measureSite(site, byUrl) {
     row.anthropic_metr_faq = antHtml?.ok ? hasAnthropicMetrFaq(antHtml.value) : false;
     row.agents_anthropic_metr = agentsMd?.ok ? hasAgentsAnthropicMetr(agentsMd.value) : false;
     row.llms_anthropic_metr = llms?.ok ? hasAgentsAnthropicMetr(llmsBody) : false;
+    // FINDABILITY #397 — Anthropic ECDSA curve-seed FAQ + agent maps (same lab).
+    row.anthropic_ecdsa_faq = antHtml?.ok ? hasAnthropicEcdsaFaq(antHtml.value) : false;
+    row.agents_anthropic_ecdsa = agentsMd?.ok ? hasAgentsAnthropicEcdsa(agentsMd.value) : false;
+    row.llms_anthropic_ecdsa = llms?.ok ? hasAgentsAnthropicEcdsa(llmsBody) : false;
     // FINDABILITY #164 — ASML Trends FAQ + agent maps.
     const asmlHtml = byUrl.get(`${base}/lab/asml.html`);
     row.asml_trends_faq = asmlHtml?.ok ? hasAsmlTrendsFaq(asmlHtml.value) : false;
@@ -4172,6 +4218,16 @@ export function formatMarkdown(report) {
       const ag = ours.agents_anthropic_metr == null ? '—' : (ours.agents_anthropic_metr ? 'yes' : 'NO');
       const lm = ours.llms_anthropic_metr == null ? '—' : (ours.llms_anthropic_metr ? 'yes' : 'NO');
       lines.push(`- Agent-map METR → lab (#392): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && ours.anthropic_ecdsa_faq != null) {
+      lines.push(
+        `- Anthropic ECDSA curve-seed FAQ (#397): **${ours.anthropic_ecdsa_faq ? 'ok' : 'NO'}**`,
+      );
+    }
+    if (ours && (ours.agents_anthropic_ecdsa != null || ours.llms_anthropic_ecdsa != null)) {
+      const ag = ours.agents_anthropic_ecdsa == null ? '—' : (ours.agents_anthropic_ecdsa ? 'yes' : 'NO');
+      const lm = ours.llms_anthropic_ecdsa == null ? '—' : (ours.llms_anthropic_ecdsa ? 'yes' : 'NO');
+      lines.push(`- Agent-map ECDSA → lab (#397): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && ours.asml_trends_faq != null) {
       lines.push(
@@ -5605,6 +5661,37 @@ function selftest() {
   if (!metrGaps.some((g) => g.id === 'agents-anthropic-metr-missing')) {
     throw new Error('agents-anthropic-metr-missing gap');
   }
+  // FINDABILITY #397 — Anthropic ECDSA curve-seed FAQ + agent maps.
+  if (hasAnthropicEcdsaFaq(ANTHROPIC_ECDSA_FAQ_NEEDLE) !== true) {
+    throw new Error('hasAnthropicEcdsaFaq true');
+  }
+  if (hasAnthropicEcdsaFaq('Why does SIREN watch Anthropic METR evaluator access?') !== false) {
+    throw new Error('hasAnthropicEcdsaFaq false');
+  }
+  if (hasAgentsAnthropicEcdsa('ECDSA → https://siren.watch/lab/anthropic.html') !== true) {
+    throw new Error('hasAgentsAnthropicEcdsa true');
+  }
+  if (hasAgentsAnthropicEcdsa('https://siren.watch/lab/anthropic.html only') !== false) {
+    throw new Error('hasAgentsAnthropicEcdsa needs ECDSA needle');
+  }
+  const ecdsaGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      anthropic_ecdsa_faq: false,
+      agents_anthropic_ecdsa: false,
+      llms_anthropic_ecdsa: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!ecdsaGaps.some((g) => g.id === 'anthropic-ecdsa-faq-missing')) {
+    throw new Error('anthropic-ecdsa-faq-missing gap');
+  }
+  if (!ecdsaGaps.some((g) => g.id === 'agents-anthropic-ecdsa-missing')) {
+    throw new Error('agents-anthropic-ecdsa-missing gap');
+  }
   if (hasAsmlTrendsFaq(ASML_TRENDS_FAQ_NEEDLE) !== true) {
     throw new Error('hasAsmlTrendsFaq true');
   }
@@ -6509,6 +6596,7 @@ function selftest() {
     TRENDS_ROUTES_ANTHROPIC_AI_SAFETY_BILL_NEEDLE,
     TRENDS_ROUTES_ANTHROPIC_CANADA_DC_NEEDLE,
     TRENDS_ROUTES_ANTHROPIC_METR_NEEDLE,
+    TRENDS_ROUTES_ANTHROPIC_ECDSA_NEEDLE,
     TRENDS_ROUTES_HUGGINGFACE_NEEDLE,
     TRENDS_ROUTES_PALANTIR_NEEDLE,
     TRENDS_ROUTES_AMD_NEEDLE,
@@ -6522,7 +6610,7 @@ function selftest() {
     throw new Error('hasTrendsRoutesFaq true');
   }
   if (hasTrendsRoutesFaq(TRENDS_ROUTES_FAQ_NEEDLE) !== false) {
-    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392)');
+    throw new Error('hasTrendsRoutesFaq needs ASML/TSMC/Amazon Bee/Meta Muse/Apple Intelligence/Microsoft Copilot/MAI-Base/Grok/Gemini/Samsung/Samsung-glasses/Character.ai/Hugging Face/Qwen/Oracle/DeepSeek/Mistral/OpenAI-outage/ChatGPT-Chrome/Anthropic-AI-safety-bill/Anthropic-Canadian-DC/Anthropic-METR/Anthropic-ECDSA/Meta-Apple-Mac/Palantir/AMD/Waymo-Canada/SoftBank-Allied/SpaceX-Starshield/Tesla-Flying-Roadster destinations (#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#191/#193/#195/#220/#362/#368/#372/#374/#376/#378/#392/#397)');
   }
   if (hasTrendsRoutesFaq('Where do live AI prediction-market odds live') !== false) {
     throw new Error('hasTrendsRoutesFaq false');
@@ -7759,6 +7847,35 @@ function selftest() {
     );
     if (mossOnly.some((r) => r.lab === 'MOSS-Image')) {
       throw new Error('newsKeywordLags must not flag MOSS-Image on bare FLUX titles');
+    }
+  }
+  // FINDABILITY #397 — catch tip wipe of ECDSA companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('ECDSA')) {
+    throw new Error('probe labs missing ECDSA');
+  }
+  {
+    const ecdsaLags = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Anthropic Says Claude Traced NIST ECDSA Curve Seeds to a 1990S RNG</news:title>'
+      + '<news:keywords>Anthropic, Claude, Google, NIST, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Claude reveals ECDSA curve origins</news:title>'
+      + '<news:keywords>ECDSA, Claude, AI, artificial intelligence, SIREN, attention, forum</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (!ecdsaLags.some((r) => r.lab === 'ECDSA')) {
+      throw new Error(`newsKeywordLags expected ECDSA lag: ${JSON.stringify(ecdsaLags)}`);
+    }
+    if (ecdsaLags.filter((r) => /curve origins/i.test(r.title)).some((r) => r.lab === 'ECDSA')) {
+      throw new Error('newsKeywordLags should not flag ECDSA when keywords include it');
+    }
+    const ecdsaOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Anthropic ships a quieter Claude coding update</news:title>'
+      + '<news:keywords>Anthropic, Claude, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (ecdsaOnly.some((r) => r.lab === 'ECDSA')) {
+      throw new Error('newsKeywordLags must not flag ECDSA on bare Claude titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
