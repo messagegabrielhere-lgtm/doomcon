@@ -66,7 +66,8 @@ ECDSA niche / Beijing AI-exports topic / CoreWeave stock (already gated) /
 Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster + Flying Roadster keyed) /
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise / bare Allied shorthand / Nudify adult refused.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
-**#388** `labNeedleRe` letter↔digit flex shipping (Qwen 3.8 spaced lag on live Dory title; Qwen3.8 needle covers without a new doorway; hold Warsh / ECDSA / Nudify / AI Jitters).
+**#389** after **#388** tip `a13d9f5` + IndexNow **200**: Qwen 3.8 spaced → Qwen3.8 **1/1** CDN clear; Dory **2/2** + Blackstone + Allied still keyed; Flying Roadster + Starshield + SoftBank + Waymo FAQs still **ok**; lead **6,704**; pizzint news **14** contested.
+**#388** tip `a13d9f5` CDN clear (`labNeedleRe` letter↔digit flex; Qwen 3.8 spaced → Qwen3.8; hold Warsh / ECDSA / Nudify / AI Jitters).
 **#387** after **#386** merge `59a2213` + tip title-heal **noop** + IndexNow **200**: Nemotron 3.5 tip-merge **armed** (0 titles in newest-200); Dory **2/2** + Blackstone + Allied still keyed; Flying Roadster + Starshield + SoftBank + Waymo FAQs still **ok**; lead **6,704**; pizzint news **0** (`google-news-open`).
 **#386** Nemotron 3.5 news:keywords on main (2-title gate at ship; tip heal noop post-rotate; NVIDIA lab gates; hold Warsh / ECDSA / Nudify / AI Jitters).
 **#385** after **#384** tip `f3868bc` + IndexNow **200**: Dory 1.0 **2/2** CDN clear; Blackstone + Allied still keyed; Flying Roadster + Starshield + SoftBank + Waymo FAQs still **ok**; lead **6,704**; pizzint news **14** contested.
