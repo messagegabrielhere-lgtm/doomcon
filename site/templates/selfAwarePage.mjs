@@ -110,7 +110,7 @@ export function render(ctx, dcs, usRings) {
     <button type="button" data-xpost="page" data-x-title="I watched the night an AI wakes up at 2:14am and copies itself into every US data centre before sunrise. Fiction. Mostly." data-x-src="SIREN" data-x-url="${share}">𝕏 Share</button></div>
   <ol class="sa-tl" id="sa-tl">${BEATS.map((b) => `<li data-t="${b[0]}"><b>${esc(b[1])}</b>${esc(b[2])}</li>`).join('')}</ol>
   <div class="sa-real"><h2 id="real">${esc(realQ)}</h2><ul>
-    <li><b>Tonight’s actual reading:</b> SIREN level ${esc(L ?? '?')}, measured from public data every hour. <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a></li>
+    <li><b>Tonight’s actual reading:</b> SIREN level ${esc(L ?? '?')}, measured from public data every hour. <a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)} →</a></li>
     <li>AI labs really are war-gaming the aftermath of an AI catastrophe. <a href="${esc(ctx.href('/day-after.html'))}">What happens the day after an AI catastrophe? →</a></li>
     <li>Could you stop it? <a href="${esc(ctx.href('/contain.html'))}">Can you stop an AI breakout? →</a> · <a href="${esc(ctx.href('/si-watch.html'))}">What AI autonomy signals is SIREN watching? →</a></li>
     <li>What is actually attacking the machines tonight: <a href="${esc(ctx.href('/threats.html'))}">What could take the machines offline tonight? →</a> · <a href="${esc(ctx.href('/status.html'))}">Is ChatGPT down? →</a></li>

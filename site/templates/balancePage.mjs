@@ -616,7 +616,7 @@ function indicesSection(ctx, b) {
   ${blissTable(ctx.bliss)}
   <p class="bp__n">Both are percentile positions in two separate frozen reference distributions of activity
     tempo, not measures of harm or benefit. <a href="${esc(ctx.href('/bliss.html'))}">What is BLISS, the ${esc(brand.NAME)} upside index? →</a>
-    · <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a></p>
+    · <a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)} →</a></p>
 </section>`;
 }
 

@@ -50,7 +50,8 @@ describe('self-aware page', () => {
     assert.doesNotMatch(html, /href="\/map\.html">power map<\/a>/);
     assert.match(html, /href="\/p-doom\.html#voices">What is p\(doom\)\? →<\/a>/);
     assert.doesNotMatch(html, /href="\/p-doom\.html#voices">28 named p\(doom\) estimates →<\/a>/);
-    assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+    // FINDABILITY #459 — dual middot head terms on self-aware live link.
+    assert.match(html, /href="\/">AI activity index today · AI activity level today · SIREN →<\/a>/);
     assert.doesNotMatch(html, /href="\/">See the index →<\/a>/);
     assert.doesNotMatch(html, /id="real">Back to what.?s real<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);

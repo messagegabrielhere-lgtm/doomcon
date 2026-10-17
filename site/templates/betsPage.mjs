@@ -125,7 +125,7 @@ export function render(ctx) {
   <h2 class="sec__h" id="bt-limit-h">What can a base rate not see?</h2>
   <p>It knows how often something happened before and nothing else. It does not know that the score is sitting just under a boundary today,
     or that a big release is due. The history is also short${B.open[0] ? `: the 24-hour bets rest on ${esc(B.open[0].basis.n)} past cases` : ''}, and a level that has never moved gives a base rate that says it never will. That is a limit of the method, stated here so the first miss is not a surprise.</p>
-  <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology →</a></p>
+  <p><a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)} →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology →</a></p>
   <section class="bt-faq" aria-labelledby="faq">
     <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
