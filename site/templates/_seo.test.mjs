@@ -30,7 +30,10 @@ describe('SEO helpers', () => {
     assert.equal(bc['@type'], 'BreadcrumbList');
     assert.equal(bc.itemListElement.length, 3);
     assert.equal(bc.itemListElement[0].item, 'https://siren.watch/');
-    assert.equal(bc.itemListElement[0].name, 'AI activity index today · SIREN');
+    assert.equal(
+      bc.itemListElement[0].name,
+      'AI activity index today · AI activity level today · SIREN',
+    );
     assert.notEqual(bc.itemListElement[0].name, 'SIREN');
     assert.equal(bc.itemListElement[2].name, 'A story');
     assert.equal(bc.itemListElement[2].position, 3);
@@ -42,7 +45,10 @@ describe('SEO helpers', () => {
       { name: 'What free AI games can you play on SIREN?', path: '/games.html' },
     ]);
     assert.equal(bc.itemListElement.length, 2);
-    assert.equal(bc.itemListElement[0].name, 'AI activity index today · SIREN');
+    assert.equal(
+      bc.itemListElement[0].name,
+      'AI activity index today · AI activity level today · SIREN',
+    );
     assert.equal(bc.itemListElement[1].name, 'What free AI games can you play on SIREN?');
     assert.doesNotMatch(JSON.stringify(bc), /"name":"Home"/);
   });
