@@ -20,6 +20,7 @@ import * as brand from '../brand.mjs';
 const SOURCE_LINKS = {
   arxiv: 'https://arxiv.org/list/cs.AI/recent',
   huggingface: 'https://huggingface.co/models',
+  'hf-datasets': 'https://huggingface.co/datasets',
   openrouter: 'https://openrouter.ai/models',
   epoch: 'https://epoch.ai/data/notable-ai-models',
   'hacker-news': 'https://news.ycombinator.com/',

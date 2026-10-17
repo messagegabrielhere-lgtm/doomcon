@@ -199,6 +199,7 @@ export const NOT_BACKFILLABLE = Object.freeze([
   { id: 'kalshi', reason: 'per-market candlesticks exist, but the frozen series basket and its open-event screen cannot be evaluated at past instants without survivorship (resolved markets drop out).' },
   { id: 'manifold', reason: '24h volume is a current aggregate; per-bet history would have to be re-aggregated across a search result set that is itself time-dependent.' },
   { id: 'huggingface', reason: 'as in v1: no keyless historical endpoint for the live statistic.' },
+  { id: 'hf-datasets', reason: 'same Hub listing as huggingface: no keyless historical endpoint for createdAt counts; reconstructing them would require paging the entire dataset index.' },
   { id: 'openrouter', reason: 'as in v1: the model catalogue is a survivor set.' },
   { id: 'github-releases', reason: 'as in v1: releases.atom has no date-range parameter.' },
 ]);

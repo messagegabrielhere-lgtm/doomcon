@@ -97,9 +97,10 @@ export const PILLARS = [
     name: 'Access',
     blurb: 'What a dollar buys, and what you may keep.',
     description:
-      'The price of a million tokens at the cheap frontier, and the volume of weights ' +
+      'The price of a million tokens at the cheap frontier, the volume of weights ' +
       'published under a licence that lets a stranger run them commercially without ' +
-      'asking. Falling cost is not a proxy for broadening access. It is broadening access.',
+      'asking, and the share of Hub uploads that carry that licence. Falling cost is ' +
+      'not a proxy for broadening access. It is broadening access.',
   },
   {
     id: 'adoption',
