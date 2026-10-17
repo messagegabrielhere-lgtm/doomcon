@@ -1477,6 +1477,50 @@ test('news sitemap keywords include Flash-1017 from DeepSeek build SKU tape (FIN
   assert.doesNotMatch(c, /Flash-1017/);
 });
 
+test('news sitemap keywords include Stripe from OpenRouter acquisition tape (FINDABILITY #481)', () => {
+  // Multi-title Stripe OpenRouter tape: OpenRouter / Google fill the 12-cap
+  // while the payments-buyer company surface is dropped (parallel Accenture /
+  // Vercel). Bare OpenRouter-only titles must not invent Stripe.
+  assert.ok(labNeedleRe('Stripe').test(
+    "Stripe's $7.5 Billion OpenRouter Deal Puts a Payments Company in Charge of AI Model Choice",
+  ));
+  assert.ok(labNeedleRe('Stripe').test(
+    'Stripe will pay more than $7 billion to buy AI router OpenRouter',
+  ));
+  assert.ok(!labNeedleRe('Stripe').test(
+    'OpenRouter raises a round without naming the buyer',
+  ));
+  const a = keywordsFor({
+    title: "Stripe's $7.5 Billion OpenRouter Deal Puts a Payments Company in Charge of AI Model Choice",
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['OpenRouter', 'Google'],
+  });
+  assert.match(a, /\bStripe\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Stripe') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Stripe will pay more than $7 billion to buy AI router OpenRouter',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['OpenRouter'],
+  });
+  assert.match(b, /\bStripe\b/);
+  const c = keywordsFor({
+    title: 'OpenRouter catalogue listings expand without naming the buyer',
+    summary: 'Qualitative OpenRouter claim without the payments-buyer company surface.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['OpenRouter'],
+  });
+  assert.doesNotMatch(c, /(^|,\s*)Stripe(,|$)/);
+});
+
 test('news sitemap keywords include Nemotron 3.5 Super VL from multi-title tape (FINDABILITY #231)', () => {
   // Multi-title Nemotron 3.5 Super VL tape: bare Nemotron fills a 12-cap slot
   // while product-class Super VL titles omit the variant surface.

@@ -622,6 +622,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Navier-Stokes',
   // FINDABILITY #479 — DeepSeek V4.1 Flash-1017 build SKU companion (multi-title; DeepSeek FAQs gate lab).
   'Flash-1017',
+  // FINDABILITY #481 — Stripe company needle (multi-title OpenRouter acquisition tape).
+  'Stripe',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -10244,6 +10246,26 @@ function selftest() {
     );
     if (flashOnly.some((r) => r.lab === 'Flash-1017')) {
       throw new Error('newsKeywordLags must not flag Flash-1017 on bare V4.1 Flash / photography titles');
+    }
+  }
+  // FINDABILITY #481 — catch tip wipe of Stripe companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Stripe')) {
+    throw new Error('probe labs missing Stripe');
+  }
+  {
+    const stripeLags = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Stripe\'s $7.5 Billion OpenRouter Deal Puts a Payments Company in Charge of AI Model Choice</news:title>'
+      + '<news:keywords>OpenRouter, Google, AI, artificial intelligence, SIREN, AI startups, compute, press, gnews-ai</news:keywords></url>'
+      + '<url><news:title>Stripe will pay more than $7 billion to buy AI router OpenRouter</news:title>'
+      + '<news:keywords>Stripe, OpenRouter, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (!stripeLags.some((r) => r.lab === 'Stripe')) {
+      throw new Error(`newsKeywordLags expected Stripe lag: ${JSON.stringify(stripeLags)}`);
+    }
+    if (stripeLags.filter((r) => /will pay more/i.test(r.title)).some((r) => r.lab === 'Stripe')) {
+      throw new Error('newsKeywordLags should not flag Stripe when keywords include it');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.
