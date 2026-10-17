@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T03:40Z shipping **#390** Chrome news:keywords (3-title ChatGPT browser-assistant tape; FAQ #191 gates OpenAI lab; live lag **2/2** unkeyed under 12-cap); prior **#388** tip `a13d9f5` Qwen digit-flex still **ok**; Nemotron 3.5 tip-merge still **armed**; Dory / Blackstone / Allied tips still **ok**; Tesla Flying Roadster / SpaceX Starshield / SoftBank Allied / Waymo Canada FAQ tips still **ok**; lead **6,704** / news **200**; GSC/Bing meta **absent**; News keywords through **#390**; FAQ routes through **#378**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex; `seo-daily` probes through **#390** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T03:44Z after **#390** tip `f521cc8` + IndexNow **200**: Chrome news:keywords **2/2** CDN clear; Blackstone **3/3** + Allied **4/4** still keyed; Nemotron 3.5 tip-merge still **armed**; Tesla Flying Roadster / SpaceX Starshield / SoftBank Allied / Waymo Canada / ChatGPT Chrome FAQ tips still **ok**; lead **6,702** / news **200**; GSC/Bing meta **absent**; News keywords through **#390**; FAQ routes through **#378**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex; `seo-daily` probes through **#391** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -68,7 +68,8 @@ Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster 
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise / bare Allied shorthand / Nudify adult refused /
 Replit no-lab FAQ.
 Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
-**#390** Chrome news:keywords (3 ChatGPT browser-assistant titles; FAQ #191 gates; hold Warsh / ECDSA / Nudify / AI Jitters / METR / Replit).
+**#391** after **#390** tip `f521cc8` + IndexNow **200**: Chrome **2/2** CDN clear; Blackstone **3/3** + Allied **4/4** still keyed; Flying Roadster + Starshield + SoftBank + Waymo + ChatGPT Chrome FAQs still **ok**; lead **6,702**; pizzint news **0** (`google-news-open`).
+**#390** tip `f521cc8` CDN clear (Chrome news:keywords **2/2**; 3-title ChatGPT browser-assistant gate; FAQ #191 gates OpenAI lab; hold Warsh / ECDSA / Nudify / AI Jitters / METR / Replit).
 **#389** after **#388** tip `a13d9f5` + IndexNow **200**: Qwen 3.8 spaced → Qwen3.8 **1/1** CDN clear; Dory **2/2** + Blackstone + Allied still keyed; Flying Roadster + Starshield + SoftBank + Waymo FAQs still **ok**; lead **6,704**; pizzint news **14** contested.
 **#388** tip `a13d9f5` CDN clear (`labNeedleRe` letter↔digit flex; Qwen 3.8 spaced → Qwen3.8; hold Warsh / ECDSA / Nudify / AI Jitters).
 **#387** after **#386** merge `59a2213` + tip title-heal **noop** + IndexNow **200**: Nemotron 3.5 tip-merge **armed** (0 titles in newest-200); Dory **2/2** + Blackstone + Allied still keyed; Flying Roadster + Starshield + SoftBank + Waymo FAQs still **ok**; lead **6,704**; pizzint news **0** (`google-news-open`).
