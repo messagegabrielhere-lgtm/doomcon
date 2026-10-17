@@ -64,7 +64,8 @@ and already keywords SoftBank M&A; Allied Universal has no destination — refus
 Warsh person / Glimpse (1 title) / Nova Scotia geography / ChatGPT Chrome (0 contiguous / 1 proximity) /
 ECDSA niche / Beijing AI-exports topic / CoreWeave stock (already gated) /
 bare Wall Street · AI Jitters noise refused.
-Trends quiet (`ai_related_total` **0**).
+Trends quiet (`ai_related_total` **0**). Unbranded head-term SERP still misses siren (GSC #11).
+**#362** Anthropic AI safety bill FAQ + agent/Trends routes shipping (gates #358 needle on lab).
 **#361** after **#360** tip `a551451` + IndexNow **200**: Amazon Web Services **2/2** CDN clear; lead **6,701**.
 **#360** Amazon Web Services tip `a551451` CDN clear (news:keywords probes **ok**).
 **#359** after **#358** tip `3ee462b` + IndexNow **200**: AI safety bill **3/3** CDN clear; lead **6,701**.

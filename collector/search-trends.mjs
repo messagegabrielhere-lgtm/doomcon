@@ -49,6 +49,10 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #163 — “anthropic ipo” / FTC probe Trends → gated Claude lab
   // (story counts only; not IPO advice or legal advice).
   { id: 'anthropic-ipo', label: 'Anthropic IPO / FTC', re: /\banthropic\b.{0,40}\b(?:ipo|ftc|lawsuit|lawsuits|probe|probes|subpoena)\b|\b(?:ipo|ftc|lawsuit|lawsuits|probe|probes|subpoena)\b.{0,40}\banthropic\b|\bclaude\b.{0,40}\b(?:ipo|ftc|lawsuit|lawsuits)\b/i, path: '/lab/anthropic.html' },
+  // FINDABILITY #362 — Anthropic AI safety bill / Capitol Hill pitch Trends →
+  // same gated Claude lab (story counts only; not legal advice). Contiguous
+  // “AI safety bill” beside Anthropic / Claude; bare “AI safety” alone stays unmatched.
+  { id: 'anthropic-ai-safety-bill', label: 'Anthropic AI safety bill', re: /\b(?:anthropic|claude)\b.{0,48}\bai\s+safety\s+bill\b|\bai\s+safety\s+bill\b.{0,48}\b(?:anthropic|claude)\b/i, path: '/lab/anthropic.html' },
   // FINDABILITY #174/#187 — Gemini / Gemma / Argon Trends → gated DeepMind lab
   // (story counts only; not a model review or stock tip). Gemma open-weight and
   // Gemini 4 Argon product tape share the same lab as Gemini headlines.

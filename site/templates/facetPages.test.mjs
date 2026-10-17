@@ -249,6 +249,13 @@ describe('lab facets', () => {
     assert.match(antHtml, /[Nn]ot legal advice/);
     assert.match(antHtml, /search-trends\.html/);
     assert.doesNotMatch(antHtml, /buy Anthropic|price target|will IPO at/i);
+    // FINDABILITY #362 — Anthropic AI safety bill FAQ on same gated lab.
+    assert.match(
+      antHtml,
+      /Why does SIREN watch Anthropic AI safety bill pitches\?/,
+    );
+    assert.match(antHtml, /[Nn]ot lobbying analysis/);
+    assert.doesNotMatch(antHtml, /must pass|will regulate|doom bill/i);
     // FINDABILITY #164 — ASML / EUV Trends FAQ on gated lab.
     const asmlHtml = renderLab(ctx, {
       id: 'asml',

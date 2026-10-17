@@ -540,6 +540,13 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Anthropic IPO and FTC probes?`,
       `${brand.NAME} scores press that names Anthropic / Claude. When IPO headlines, FTC probes, or safety subpoenas dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not IPO advice, not legal advice, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #362 — AI safety bill legislative tape → same gated lab
+    // (story counts only; not legal advice or a doom score). Parallel to #191
+    // ChatGPT Chrome FAQ sharing /lab/openai.html with lawsuit / outage FAQs.
+    faq.push([
+      `Why does ${brand.NAME} watch Anthropic AI safety bill pitches?`,
+      `${brand.NAME} scores press that names Anthropic / Claude. When AI safety bill drafts, Capitol Hill pitches, or frontier-model regulation headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not legal advice, not lobbying analysis, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #164 — ASML / EUV AI-chip-tool Trends → gated lab.
   if (player.id === 'asml') {

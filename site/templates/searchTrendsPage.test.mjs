@@ -36,6 +36,8 @@ test('searchTrendsPage renders watchlist and FAQ schema', () => {
   assert.match(html, /not legal advice/);
   // FINDABILITY #163 — Anthropic IPO / FTC route to gated lab.
   assert.match(html, /Anthropic IPO \/ FTC → \/lab\/anthropic\.html/);
+  // FINDABILITY #362 — Anthropic AI safety bill route to same gated lab.
+  assert.match(html, /Anthropic AI safety bill → \/lab\/anthropic\.html/);
   assert.match(html, /not IPO advice/);
   // FINDABILITY #164 — ASML / EUV route to gated lab.
   assert.match(html, /ASML \/ EUV AI chip tools → \/lab\/asml\.html/);
