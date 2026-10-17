@@ -45,7 +45,10 @@ describe('games page', () => {
     const faqKey = html.match(/<p class="gm-faq-key">([\s\S]*?)<\/p>/);
     assert.ok(faqKey, 'expected gm-faq-key');
     assert.match(faqKey[1], /href="\/videos\.html">What free AI explainer videos does SIREN publish\?<\/a>/);
-    assert.match(html, /BreadcrumbList[\s\S]*?"name"\s*:\s*"AI activity index today · SIREN"/);
+    assert.match(
+      html,
+      /BreadcrumbList[\s\S]*?"name"\s*:\s*"AI activity index today · AI activity level today · SIREN"/,
+    );
     assert.doesNotMatch(html, /BreadcrumbList[\s\S]*?"name"\s*:\s*"Home"/);
     assert.doesNotMatch(html, /BreadcrumbList[\s\S]*?"name"\s*:\s*"Games"/);
     const fine = html.match(/<p class="foot__fine"><b>Not advice\.<\/b>([\s\S]*?)<\/p>/);

@@ -32,6 +32,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
     p-doom.html ai-doomsday-clock.html guide.html guides.html guide.md guides.md \
     bets.html balance.html self-aware.html videos.html bliss.html press.html \
     moves/2026-10-17T15-35-33Z.html 404.html 500.html \
+    kind/press.html games.html \
     .well-known/api-catalog .well-known/api-catalog.json \
     .well-known/mcp/server-card.json \
     .well-known/agent-skills/index.json \
@@ -419,6 +420,17 @@ for hub in 404.html 500.html; do
       ".pages/$hub" 2>/dev/null; then
     cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
     echo "restored $hub dual head term (#473)"
+  fi
+done
+# FINDABILITY #475 — restore tip kind/press + games when dual home-crumb
+# head terms are missing after orphan Publish.
+for hub in kind/press.html games.html; do
+  if [ -f "$PRESERVE_FAQ/$hub" ] \
+    && ! grep -qF 'AI activity index today · AI activity level today' \
+      ".pages/$hub" 2>/dev/null; then
+    mkdir -p ".pages/$(dirname "$hub")"
+    cp -a "$PRESERVE_FAQ/$hub" ".pages/$hub"
+    echo "restored $hub crumb dual head term (#475)"
   fi
 done
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140

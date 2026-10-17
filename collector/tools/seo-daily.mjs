@@ -1158,6 +1158,15 @@ export function hasServerErrorDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_
 }
 
 /**
+ * True when /kind/press.html names dual middot home-crumb head terms
+ * (FINDABILITY #475 — homeCrumbName / BreadcrumbList). Wipe gap is
+ * `crumb-dual-head-term-missing`.
+ */
+export function hasKindPressCrumbDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
  * True when /model/muse-spark.html names dual middot head terms (FINDABILITY #463).
  * Wipe gap is `model-dual-head-term-missing` (paired with fable).
  */
@@ -3164,6 +3173,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #475 — home crumb / BreadcrumbList dropped dual middot head terms.
+  if (ours.kind_press_crumb_dual_head_term === false) {
+    gaps.push({
+      id: 'crumb-dual-head-term-missing',
+      severity: 'medium',
+      text: 'kind/press.html missing dual “AI activity index today · AI activity level today” home-crumb head-term phrase (FINDABILITY #475) — re-overlay kind hubs or wait for collect/news-fast Publish on tip ≥ #475',
+    });
+  }
+
   // FINDABILITY #463 — model hub pages dropped dual middot head terms.
   if (
     ours.muse_spark_dual_head_term === false
@@ -4698,6 +4716,12 @@ export function measureSite(site, byUrl) {
     row.server_error_dual_head_term = serverErrorHtml?.ok
       ? hasServerErrorDualHeadTerm(serverErrorHtml.value)
       : false;
+    // FINDABILITY #475 — homeCrumbName / BreadcrumbList must keep dual middot
+    // (kind hubs have no body CTA — crumb is the probe).
+    const kindPressHtml = byUrl.get(`${base}/kind/press.html`);
+    row.kind_press_crumb_dual_head_term = kindPressHtml?.ok
+      ? hasKindPressCrumbDualHeadTerm(kindPressHtml.value)
+      : false;
     // FINDABILITY #463 — model hub composite-reading CTAs must keep dual middot.
     const museSparkHtml = byUrl.get(`${base}/model/muse-spark.html`);
     const fableHtml = byUrl.get(`${base}/model/fable.html`);
@@ -5272,6 +5296,10 @@ export function formatMarkdown(report) {
       const nf = ours.not_found_dual_head_term == null ? '—' : (ours.not_found_dual_head_term ? 'yes' : 'NO');
       const se = ours.server_error_dual_head_term == null ? '—' : (ours.server_error_dual_head_term ? 'yes' : 'NO');
       lines.push(`- error dual index/level head term (#473): 404 **${nf}** · 500 **${se}**`);
+    }
+    if (ours && ours.kind_press_crumb_dual_head_term != null) {
+      const kd = ours.kind_press_crumb_dual_head_term ? 'ok' : 'NO';
+      lines.push(`- crumb dual index/level head term (#475): **${kd}**`);
     }
     if (ours && (
       ours.muse_spark_dual_head_term != null
@@ -6741,6 +6769,25 @@ function selftest() {
   });
   if (!errorDualGaps.some((g) => g.id === 'error-dual-head-term-missing')) {
     throw new Error('error-dual-head-term-missing gap');
+  }
+  if (hasKindPressCrumbDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasKindPressCrumbDualHeadTerm true');
+  }
+  if (hasKindPressCrumbDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasKindPressCrumbDualHeadTerm false for index-only');
+  }
+  const crumbDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      kind_press_crumb_dual_head_term: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!crumbDualGaps.some((g) => g.id === 'crumb-dual-head-term-missing')) {
+    throw new Error('crumb-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{
