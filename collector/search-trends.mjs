@@ -72,6 +72,12 @@ export const HEAD_TERMS = Object.freeze([
   // Claude lab (story counts only; not a model review). Contiguous Opus 5.5
   // beside Claude / Anthropic; bare “opus” without the 5.5 SKU stays unmatched.
   { id: 'claude-opus-5-5', label: 'Claude Opus 5.5', re: /\b(?:claude\s+)?opus\s*5\.5\b|\bopus\s*5\.5\b.{0,48}\b(?:claude|anthropic)\b|\b(?:claude|anthropic)\b.{0,48}\bopus\s*5\.5\b/i, path: '/lab/anthropic.html' },
+  // FINDABILITY #420 — Claude Mythos 5 / quantum-circuit design Trends → same
+  // gated Anthropic lab (story counts only; not a model review). Contiguous
+  // Mythos 5 / Claude Mythos beside Claude / Anthropic / quantum circuits;
+  // bare “mythos” folklore without that context stays unmatched. Keywords
+  // already ship (#344); no /lab/mythos.html doorway.
+  { id: 'claude-mythos-5', label: 'Claude Mythos 5', re: /\b(?:claude\s+)?mythos\s*5\b|\bmythos\s*5\b.{0,64}\b(?:claude|anthropic|quantum)\b|\b(?:claude|anthropic)\b.{0,80}\bmythos\s*5\b|\b(?:claude|anthropic)\b.{0,80}\bquantum\s+(?:circuits?|optimization)\b|\bquantum\s+(?:circuits?|optimization)\b.{0,80}\b(?:claude|anthropic|mythos)\b/i, path: '/lab/anthropic.html' },
   // FINDABILITY #408 — Blackstone / Anthropic chip-financing Trends → same gated
   // Anthropic lab (story counts only; not deal advice). Blackstone beside
   // Anthropic / Claude / chip / debt / yield / GPU; bare Blackstone real-estate

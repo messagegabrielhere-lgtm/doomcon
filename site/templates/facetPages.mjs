@@ -592,6 +592,15 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Replit Anthropic model switches?`,
       `${brand.NAME} scores press that names Anthropic / Claude. When Replit drops Anthropic for OpenAI, Replit Anthropic partnership endings, or Replit Claude / ChatGPT model-hosting switches dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not vendor advice, not a product review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #420 — Claude Mythos 5 / quantum-circuit design tape → same
+    // gated lab (story counts only; not a model review). Keywords already ship
+    // (#344); FAQ #163/#362/#368/#392/#397/#402/#408/#412 left the Mythos /
+    // quantum-circuit surface without a crawlable Q&A — parallel to Claude Opus
+    // 5.5 #402 / DeepSeek V4.1 Flash #418 (no /lab/mythos.html doorway).
+    faq.push([
+      `Why does ${brand.NAME} watch Claude Mythos 5?`,
+      `${brand.NAME} scores press that names Anthropic / Claude. When Claude Mythos 5, Mythos 5, or Claude quantum-circuit design headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts and, when published, market odds only. Not a model review, not a physics verdict, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #164 — ASML / EUV AI-chip-tool Trends → gated lab.
   if (player.id === 'asml') {

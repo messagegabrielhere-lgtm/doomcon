@@ -126,6 +126,11 @@ test('AI_QUERY_RE and HEAD_TERMS catch findability spikes', () => {
   assert.ok(matchHeadTerms({ title: 'Claude Opus 5.5 beats a human baseline and AI researchers move up their self improvement clock', news: [] }).includes('claude-opus-5-5'));
   assert.ok(matchHeadTerms({ title: 'Tips for Multiagent Work with Claude Opus 5.5', news: [] }).includes('claude-opus-5-5'));
   assert.equal(HEAD_TERMS.find((t) => t.id === 'claude-opus-5-5').re.test('The musical opus was published in 1855'), false);
+  // FINDABILITY #420 — Claude Mythos 5 / quantum-circuit → Anthropic lab.
+  assert.ok(matchHeadTerms({ title: 'Claude Mythos 5 designed quantum circuits that improve on the best published ones', news: [] }).includes('claude-mythos-5'));
+  assert.ok(matchHeadTerms({ title: "Anthropic's Claude Improves Quantum Optimization Designs", news: [] }).includes('claude-mythos-5'));
+  assert.ok(HEAD_TERMS.some((t) => t.id === 'claude-mythos-5' && t.path === '/lab/anthropic.html'));
+  assert.equal(HEAD_TERMS.find((t) => t.id === 'claude-mythos-5').re.test('Greek mythos in literature class'), false);
   // FINDABILITY #408 — Blackstone / Anthropic chip-financing Trends → Anthropic lab.
   assert.ok(matchHeadTerms({ title: 'Anthropic offers Blackstone double-digit yield in latest chip financing', news: [] }).includes('anthropic-blackstone'));
   assert.ok(matchHeadTerms({ title: 'FT: Anthropic offers Blackstone yields above 10% for GPU debt package', news: [] }).includes('anthropic-blackstone'));
