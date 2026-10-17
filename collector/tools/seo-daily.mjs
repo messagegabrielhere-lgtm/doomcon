@@ -1050,6 +1050,22 @@ export function hasAiDoomsdayClockDualHeadTerm(html, needle = AGENTS_HTML_DUAL_H
 }
 
 /**
+ * True when guide.html names dual middot head terms (FINDABILITY #457).
+ * Wipe gap is `guide-dual-head-term-missing` (paired with guides).
+ */
+export function hasGuideDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when guides.html names dual middot head terms (FINDABILITY #457).
+ * Wipe gap is `guide-dual-head-term-missing` (paired with guide).
+ */
+export function hasGuidesDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
  * True when free-tools.html listicle lists /classic.html with the panel
  * question (FINDABILITY #332). Wipe gap is `freetools-classic-panel-missing`.
  */
@@ -2941,6 +2957,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #457 — guide.html / guides.html dropped dual middot head terms.
+  if (ours.guide_dual_head_term === false || ours.guides_dual_head_term === false) {
+    const which = [
+      ours.guide_dual_head_term === false ? 'guide.html' : null,
+      ours.guides_dual_head_term === false ? 'guides.html' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'guide-dual-head-term-missing',
+      severity: 'medium',
+      text: `${which} missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #457) — re-overlay guide hubs or wait for collect/news-fast Publish on tip ≥ #457`,
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -4392,6 +4421,15 @@ export function measureSite(site, byUrl) {
     row.ai_doomsday_clock_dual_head_term = aiClockHtml?.ok
       ? hasAiDoomsdayClockDualHeadTerm(aiClockHtml.value)
       : false;
+    // FINDABILITY #457 — guide / guides hubs must name dual middot head terms.
+    const guideHtml = byUrl.get(`${base}/guide.html`);
+    const guidesHtml = byUrl.get(`${base}/guides.html`);
+    row.guide_dual_head_term = guideHtml?.ok
+      ? hasGuideDualHeadTerm(guideHtml.value)
+      : false;
+    row.guides_dual_head_term = guidesHtml?.ok
+      ? hasGuidesDualHeadTerm(guidesHtml.value)
+      : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -4901,6 +4939,16 @@ export function formatMarkdown(report) {
       const clk = ours.ai_doomsday_clock_dual_head_term == null ? '—' : (ours.ai_doomsday_clock_dual_head_term ? 'yes' : 'NO');
       lines.push(
         `- pdoom / ai-doomsday-clock dual index/level head term (#455): pdoom **${pd}** · ai-doomsday-clock **${clk}**`,
+      );
+    }
+    if (ours && (
+      ours.guide_dual_head_term != null
+      || ours.guides_dual_head_term != null
+    )) {
+      const gd = ours.guide_dual_head_term == null ? '—' : (ours.guide_dual_head_term ? 'yes' : 'NO');
+      const gds = ours.guides_dual_head_term == null ? '—' : (ours.guides_dual_head_term ? 'yes' : 'NO');
+      lines.push(
+        `- guide / guides dual index/level head term (#457): guide **${gd}** · guides **${gds}**`,
       );
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
@@ -6138,6 +6186,32 @@ function selftest() {
   });
   if (!pdoomDualGaps.some((g) => g.id === 'pdoom-dual-head-term-missing')) {
     throw new Error('pdoom-dual-head-term-missing gap');
+  }
+  if (hasGuideDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasGuideDualHeadTerm true');
+  }
+  if (hasGuideDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasGuideDualHeadTerm false for index-only');
+  }
+  if (hasGuidesDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasGuidesDualHeadTerm true');
+  }
+  if (hasGuidesDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasGuidesDualHeadTerm false for index-only');
+  }
+  const guideDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      guide_dual_head_term: false,
+      guides_dual_head_term: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!guideDualGaps.some((g) => g.id === 'guide-dual-head-term-missing')) {
+    throw new Error('guide-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{
