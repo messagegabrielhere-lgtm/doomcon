@@ -116,6 +116,9 @@ export const OUR_SURFACES = Object.freeze([
   '/press.html',
   // FINDABILITY #471 — superseded-move bstamp CTA must keep dual head terms.
   '/moves/2026-10-17T15-35-33Z.html',
+  // FINDABILITY #473 — error-page home CTAs must keep dual head terms.
+  '/404.html',
+  '/500.html',
   '/terms.html',
   '/disclosures.html',
   '/brand.html',
@@ -1135,6 +1138,22 @@ export function hasPressDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_N
  * Wipe gap is `moves-dual-head-term-missing`.
  */
 export function hasMovesDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when 404.html names dual middot head terms (FINDABILITY #473).
+ * Wipe gap is `error-dual-head-term-missing` (paired with 500).
+ */
+export function hasNotFoundDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
+ * True when 500.html names dual middot head terms (FINDABILITY #473).
+ * Wipe gap is `error-dual-head-term-missing` (paired with 404).
+ */
+export function hasServerErrorDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
   return String(html || '').includes(needle);
 }
 
@@ -3129,6 +3148,22 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #473 — error pages dropped dual middot head terms.
+  if (
+    ours.not_found_dual_head_term === false
+    || ours.server_error_dual_head_term === false
+  ) {
+    const which = [
+      ours.not_found_dual_head_term === false ? '404.html' : null,
+      ours.server_error_dual_head_term === false ? '500.html' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'error-dual-head-term-missing',
+      severity: 'medium',
+      text: `${which} missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #473) — re-overlay error pages or wait for collect/news-fast Publish on tip ≥ #473`,
+    });
+  }
+
   // FINDABILITY #463 — model hub pages dropped dual middot head terms.
   if (
     ours.muse_spark_dual_head_term === false
@@ -4654,6 +4689,15 @@ export function measureSite(site, byUrl) {
     row.moves_dual_head_term = movesProbeHtml?.ok
       ? hasMovesDualHeadTerm(movesProbeHtml.value)
       : false;
+    // FINDABILITY #473 — error-page home CTAs must keep dual middot.
+    const notFoundHtml = byUrl.get(`${base}/404.html`);
+    const serverErrorHtml = byUrl.get(`${base}/500.html`);
+    row.not_found_dual_head_term = notFoundHtml?.ok
+      ? hasNotFoundDualHeadTerm(notFoundHtml.value)
+      : false;
+    row.server_error_dual_head_term = serverErrorHtml?.ok
+      ? hasServerErrorDualHeadTerm(serverErrorHtml.value)
+      : false;
     // FINDABILITY #463 — model hub composite-reading CTAs must keep dual middot.
     const museSparkHtml = byUrl.get(`${base}/model/muse-spark.html`);
     const fableHtml = byUrl.get(`${base}/model/fable.html`);
@@ -5220,6 +5264,14 @@ export function formatMarkdown(report) {
     if (ours && ours.moves_dual_head_term != null) {
       const md = ours.moves_dual_head_term ? 'ok' : 'NO';
       lines.push(`- moves dual index/level head term (#471): **${md}**`);
+    }
+    if (ours && (
+      ours.not_found_dual_head_term != null
+      || ours.server_error_dual_head_term != null
+    )) {
+      const nf = ours.not_found_dual_head_term == null ? '—' : (ours.not_found_dual_head_term ? 'yes' : 'NO');
+      const se = ours.server_error_dual_head_term == null ? '—' : (ours.server_error_dual_head_term ? 'yes' : 'NO');
+      lines.push(`- error dual index/level head term (#473): 404 **${nf}** · 500 **${se}**`);
     }
     if (ours && (
       ours.muse_spark_dual_head_term != null
@@ -6663,6 +6715,32 @@ function selftest() {
   });
   if (!movesDualGaps.some((g) => g.id === 'moves-dual-head-term-missing')) {
     throw new Error('moves-dual-head-term-missing gap');
+  }
+  if (hasNotFoundDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasNotFoundDualHeadTerm true');
+  }
+  if (hasNotFoundDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasNotFoundDualHeadTerm false for index-only');
+  }
+  if (hasServerErrorDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasServerErrorDualHeadTerm true');
+  }
+  if (hasServerErrorDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasServerErrorDualHeadTerm false for index-only');
+  }
+  const errorDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      not_found_dual_head_term: false,
+      server_error_dual_head_term: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!errorDualGaps.some((g) => g.id === 'error-dual-head-term-missing')) {
+    throw new Error('error-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{
