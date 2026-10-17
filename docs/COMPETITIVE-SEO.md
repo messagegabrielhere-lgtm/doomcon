@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T07:20Z shipping **#408** Blackstone Anthropic financing FAQ companion (lab + agents/llms + Trends route/`<td>` + HEAD_TERMS); keywords already ship **#382**; Ondas-Palantir FAQ **#406** tip still live; lead **6,703** / news **200**; pizzint news **14** contested; GSC/Bing meta **absent**; Trends quiet (`ai_related_total` **0**); News keywords through **#404**; FAQ routes through **#408**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#408** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T07:19Z after **#408** tip overlay `deb9ea4` + IndexNow **200**: Blackstone Anthropic financing FAQ CDN clear (lab + agents/llms + Trends route/`<td>`); Claude Opus / ECDSA / METR / Ondas-Palantir FAQ still **ok**; lead **6,703** / news **200**; pizzint news **14** contested; GSC/Bing meta **absent**; Trends quiet (`ai_related_total` **0**); News keywords through **#404**; FAQ routes through **#408**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex + **#400** HEAD_TERMS watchlist merge; `seo-daily` probes through **#409** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
@@ -68,7 +68,8 @@ Nvidia RTX Spark long-form (RTX Spark already keyed) / Tesla Roadster (Roadster 
 NovaCore · AIBotics thin wires / bare Wall Street · AI Jitters noise / bare Allied shorthand / Nudify adult refused /
 Replit no-lab FAQ / ollama release noise / bare AeroVironment third-party / AlphaFold 3 + RTX 5090 singles / Financial Times · Show HN · Stock Movers noise.
 Trends `ai_related_total` **0**. Unbranded head-term SERP still misses siren (GSC #11).
-**#408** Blackstone Anthropic financing FAQ stack (lab + agents + Trends + HEAD_TERMS; keywords #382 already shipped; hold Warsh / Nudify / AI Jitters / NSA / Replit / ollama / bare AeroVironment).
+**#409** after **#408** tip `deb9ea4` + IndexNow **200**: Blackstone Anthropic financing FAQ CDN clear (lab + agents/llms + Trends route/`<td>`); Claude Opus / ECDSA / METR / Ondas-Palantir still **ok**; lead **6,703**; pizzint news **14** contested; Trends quiet; multi-title product gap empty (hold Warsh / Nudify / AI Jitters / NSA / Replit / ollama / bare AeroVironment).
+**#408** tip `deb9ea4` CDN clear (Blackstone Anthropic financing FAQ lab + agents + Trends; keywords #382 already shipped; hold Warsh / Nudify / AI Jitters / NSA / Replit / ollama / bare AeroVironment).
 **#407** after **#406** tip `5c82dae` + IndexNow **200**: Ondas-Palantir FAQ CDN clear (lab + agents/llms + Trends route/`<td>`); Claude Opus / ECDSA / METR still **ok**; Ondas news:keywords **1/1**; lead **6,703**; pizzint news **14** contested; Trends quiet; multi-title product gap empty (hold Warsh / Nudify / AI Jitters / NSA / Replit / ollama / bare AeroVironment).
 **#406** tip `5c82dae` CDN clear (Ondas-Palantir FAQ lab + agents + Trends; keywords #404 already shipped; hold Warsh / Nudify / AI Jitters / NSA / Replit / ollama / bare AeroVironment).
 **#405** after **#404** tip `f95f5c7` + IndexNow **200**: Ondas news:keywords **2/2** CDN clear; Claude Opus / ECDSA / METR / MOSS / Chrome still keyed; lead **6,702**; pizzint news **14** contested; Trends `gemini ai` gated; multi-title product gap empty (hold Warsh / Nudify / AI Jitters / NSA / Replit / ollama / bare AeroVironment).
