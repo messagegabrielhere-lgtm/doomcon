@@ -85,4 +85,39 @@ describe('digest page', () => {
     assert.doesNotMatch(html, /<h3 class="dg__labh">[^<]*OpenAI<\/h3>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
+
+  it('keeps the brief H2 clean and puts the headline before the meta row', () => {
+    // Real news.json so the arrivals badge has something to count — the empty
+    // stub on the shared ctx would leave the badge slot blank and hide the
+    // "beside, not inside" layout under test.
+    let news = ctx.news;
+    try {
+      news = JSON.parse(readFileSync(new URL('../../data/news.json', import.meta.url), 'utf8'));
+    } catch {
+      /* fixture optional when the clone has no news.json */
+    }
+    const html = render({ ...ctx, news });
+    // Arrivals badge sits beside the H2, never inside it — so the jump index
+    // and the section title stay the question a reader bookmarks.
+    assert.match(html, /id="dg-brief-h">What is in today's brief\?<\/h2>/);
+    // Badge must not live inside the H2 element (that was the TOC leak).
+    assert.doesNotMatch(html, /id="dg-brief-h">[^<]*newbadge/);
+    assert.doesNotMatch(html, /id="dg-brief-h"><[^>]*newbadge/);
+    assert.match(html, /class="dg__briefhead"/);
+    if (news && Array.isArray(news.items) && news.items.length) {
+      assert.match(html, /class="dg__briefhead"[\s\S]*?class="newbadge"/);
+    }
+    const jump = html.match(/aria-label="On this page"[\s\S]*?<\/nav>/);
+    assert.ok(jump, 'expected On this page jump nav');
+    assert.match(jump[0], /href="#dg-brief-h">What is in today(?:'|&#39;)s brief\?<\/a>/);
+    assert.doesNotMatch(jump[0], /arrived|first seen/i);
+    // Title before meta: first brief item opens with rank + H3, not the clock.
+    const first = html.match(/<li class="dg__item"[\s\S]*?<\/li>/);
+    assert.ok(first, 'expected brief item markup');
+    const titleAt = first[0].indexOf('class="dg__title"');
+    const metaAt = first[0].indexOf('class="dg__meta"');
+    assert.ok(titleAt >= 0 && metaAt >= 0 && titleAt < metaAt, 'headline must precede meta');
+    assert.match(first[0], /class="dg__src"[^>]*title="/);
+    assert.match(first[0], /class="dg__src"[^>]*>[a-z0-9-]+/);
+  });
 });
