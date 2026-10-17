@@ -359,7 +359,7 @@ Honesty rules:
 
 ## Explainers (search head terms)
 
-- [AI activity index today](${u('/')}) (short aliases ${u('/ai-activity-index.html')} · ${u('/ai-activity-level.html')}, same page): the live hourly reading
+- [AI activity index today · AI activity level today](${u('/')}) (short aliases ${u('/ai-activity-index.html')} · ${u('/ai-activity-level.html')}, same page): the live hourly reading
 - [How the SIREN AI activity index is computed · methodology](${u('/methodology.html')}): every formula and constant ([markdown](${u('/methodology.md')}))
 - [Where is the full SIREN instrument panel?](${u('/classic.html')}): war room, oven, pillars, moves, embed — kept after the shorter home page shipped
 - [What instruments sit behind the SIREN reading?](${u('/instruments.html')})
@@ -506,7 +506,7 @@ export function agentsMd(ctx) {
 
 ## Head-term pages (Google + answer engines)
 
-- ${u('/')} — live AI activity index today (short aliases ${u('/ai-activity-index.html')} · ${u('/ai-activity-level.html')}, same page)
+- ${u('/')} — live AI activity index today · AI activity level today (short aliases ${u('/ai-activity-index.html')} · ${u('/ai-activity-level.html')}, same page)
 - ${u('/classic.html')} — Where is the full SIREN instrument panel? (war room, oven, pillars, moves, embed)
 - ${u('/news-sitemap.xml')} — Google News rolling sitemap (keyword-rich; hold while rivals flap)
 - ${u('/news.html')} — Which AI stories has SIREN scored in this window? (day hubs under /news/YYYY-MM-DD.html)

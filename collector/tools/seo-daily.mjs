@@ -773,6 +773,13 @@ export const ACTIVITY_INDEX_ALIAS = '/ai-activity-index.html';
 /** Home meta/FAQ typed-guess alias (FINDABILITY #262). Canonical on /. */
 export const ACTIVITY_LEVEL_ALIAS = '/ai-activity-level.html';
 
+/**
+ * Contiguous unbranded head term for agent maps (FINDABILITY #433).
+ * Home title/H1 already ship “AI activity level today ·”; agents.md / llms.txt
+ * must not leave the level phrase as a URL-only alias.
+ */
+export const ACTIVITY_LEVEL_HEAD_TERM_NEEDLE = 'AI activity level today';
+
 /** Classic instrument panel path advertised in agent maps (FINDABILITY #324). */
 export const CLASSIC_PANEL_AGENT_PATH = '/classic.html';
 
@@ -814,6 +821,14 @@ export function hasActivityIndexAlias(txt, alias = ACTIVITY_INDEX_ALIAS) {
  */
 export function hasActivityLevelAlias(txt, alias = ACTIVITY_LEVEL_ALIAS) {
   return String(txt || '').includes(alias);
+}
+
+/**
+ * True when an agent-map body names contiguous “AI activity level today”.
+ * Wipe gap is `agents-activity-level-head-term-missing` (FINDABILITY #433).
+ */
+export function hasActivityLevelHeadTerm(txt, needle = ACTIVITY_LEVEL_HEAD_TERM_NEEDLE) {
+  return String(txt || '').includes(needle);
 }
 
 /**
@@ -2624,6 +2639,19 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #433 — agents.md / llms.txt dropped contiguous “AI activity level today”.
+  if (ours.agents_activity_level_head_term === false || ours.llms_activity_level_head_term === false) {
+    const which = [
+      ours.agents_activity_level_head_term === false ? 'agents.md' : null,
+      ours.llms_activity_level_head_term === false ? 'llms.txt' : null,
+    ].filter(Boolean).join(' + ');
+    gaps.push({
+      id: 'agents-activity-level-head-term-missing',
+      severity: 'medium',
+      text: `${which} missing contiguous “AI activity level today” head-term phrase (FINDABILITY #433) — re-overlay agent maps or wait for collect/news-fast Publish on tip ≥ #433`,
+    });
+  }
+
   // FINDABILITY #324 — agents.md / llms.txt dropped /classic.html instrument panel.
   if (ours.agents_classic_panel === false || ours.llms_classic_panel === false) {
     const which = [
@@ -4065,6 +4093,11 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #262 — agent maps must list /ai-activity-level.html after overlay.
     row.agents_activity_level_alias = agentsMd?.ok ? hasActivityLevelAlias(agentsMd.value) : false;
     row.llms_activity_level_alias = llms?.ok ? hasActivityLevelAlias(llmsBody) : false;
+    // FINDABILITY #433 — agent maps must name contiguous “AI activity level today”.
+    row.agents_activity_level_head_term = agentsMd?.ok
+      ? hasActivityLevelHeadTerm(agentsMd.value) : false;
+    row.llms_activity_level_head_term = llms?.ok
+      ? hasActivityLevelHeadTerm(llmsBody) : false;
     // FINDABILITY #324 — agent maps must list /classic.html after overlay.
     row.agents_classic_panel = agentsMd?.ok ? hasClassicPanelAgentMap(agentsMd.value) : false;
     row.llms_classic_panel = llms?.ok ? hasClassicPanelAgentMap(llmsBody) : false;
@@ -4499,6 +4532,13 @@ export function formatMarkdown(report) {
       const ag = ours.agents_activity_level_alias == null ? '—' : (ours.agents_activity_level_alias ? 'yes' : 'NO');
       const lm = ours.llms_activity_level_alias == null ? '—' : (ours.llms_activity_level_alias ? 'yes' : 'NO');
       lines.push(`- Agent-map /ai-activity-level short alias (#262): agents.md **${ag}** · llms.txt **${lm}**`);
+    }
+    if (ours && (ours.agents_activity_level_head_term != null || ours.llms_activity_level_head_term != null)) {
+      const ag = ours.agents_activity_level_head_term == null
+        ? '—' : (ours.agents_activity_level_head_term ? 'yes' : 'NO');
+      const lm = ours.llms_activity_level_head_term == null
+        ? '—' : (ours.llms_activity_level_head_term ? 'yes' : 'NO');
+      lines.push(`- Agent-map “AI activity level today” head term (#433): agents.md **${ag}** · llms.txt **${lm}**`);
     }
     if (ours && (ours.agents_classic_panel != null || ours.llms_classic_panel != null)) {
       const ag = ours.agents_classic_panel == null ? '—' : (ours.agents_classic_panel ? 'yes' : 'NO');
@@ -5131,6 +5171,7 @@ export function formatMarkdown(report) {
       || ours.agents_pdoom_alias != null || ours.llms_pdoom_alias != null
       || ours.agents_activity_index_alias != null || ours.llms_activity_index_alias != null
       || ours.agents_activity_level_alias != null || ours.llms_activity_level_alias != null
+      || ours.agents_activity_level_head_term != null || ours.llms_activity_level_head_term != null
       || ours.agents_classic_panel != null || ours.llms_classic_panel != null
       || ours.skill_classic_panel != null
       || ours.agents_txt_classic_panel != null
@@ -5358,6 +5399,25 @@ function selftest() {
   }
   if (hasActivityLevelAlias('/ai-activity-index.html only') !== false) {
     throw new Error('hasActivityLevelAlias false');
+  }
+  if (hasActivityLevelHeadTerm('live AI activity level today (dual)') !== true) {
+    throw new Error('hasActivityLevelHeadTerm true');
+  }
+  if (hasActivityLevelHeadTerm('short aliases /ai-activity-level.html only') !== false) {
+    throw new Error('hasActivityLevelHeadTerm false');
+  }
+  const activityLevelHeadGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      agents_activity_level_head_term: false, llms_activity_level_head_term: true,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!activityLevelHeadGaps.some((g) => g.id === 'agents-activity-level-head-term-missing')) {
+    throw new Error('agents-activity-level-head-term-missing gap');
   }
   const activityGaps = deriveGaps({
     sites: [{

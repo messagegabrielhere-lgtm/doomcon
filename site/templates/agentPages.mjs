@@ -639,7 +639,7 @@ Say the check proves the published record was not edited after the fact. It does
 When a user asks where the full SIREN instrument panel is (war room, oven, pillars, moves, embed):
 
 1. Classic board: ${ctx.url('/classic.html')} — "Where is the full SIREN instrument panel?"
-2. Shorter home: ${ctx.url('/')} — live AI activity index today (dual head terms; aliases ${ctx.url('/ai-activity-index.html')} · ${ctx.url('/ai-activity-level.html')})
+2. Shorter home: ${ctx.url('/')} — live AI activity index today · AI activity level today (dual head terms; aliases ${ctx.url('/ai-activity-index.html')} · ${ctx.url('/ai-activity-level.html')})
 
 Say the shorter home keeps the live reading; the classic board keeps the full instruments after the home page shipped. Prefer ${ctx.url('/classic.html')} over inventing a second index.
 
