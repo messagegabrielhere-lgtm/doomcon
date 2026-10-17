@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-17T03:50Z shipping **#392** Anthropic METR evaluator FAQ (4-title tape; Anthropic lab gates; news:keywords already ship METR); prior **#390** tip `f521cc8` Chrome **2/2** still **ok**; Blackstone / Allied still keyed; Tesla Flying Roadster / SpaceX Starshield / SoftBank Allied / Waymo Canada / ChatGPT Chrome FAQ tips still **ok**; lead **6,702** / news **200**; GSC/Bing meta **absent**; News keywords through **#390**; FAQ routes through **#392**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex; `seo-daily` probes through **#392** catch tip wipe / CDN lag.
+**Measured:** 2026-10-17T04:03Z after **#392** tip `2ca0be8` + IndexNow **200**: Anthropic METR FAQ CDN clear (lab + agents + Trends); Chrome **#390** **2/2** still keyed; Canadian DC / SoftBank Allied / Flying Roadster / Starshield / Waymo / ChatGPT Chrome FAQ tips still **ok**; lead **6,704** / news **200**; GSC/Bing meta **absent**; News keywords through **#390**; FAQ routes through **#392**; tip merge **#210** + **#300** title-heal + **#310**/**#388** needle flex; `seo-daily` probes through **#393** catch tip wipe / CDN lag.
 
 Trends FAQs + agent tips intact (IREN→Watts, dram→Micron, CoreWeave/CRWV→lab **#288**,
 Nvidia/NVDA→lab, neocloud→tag); OpenAI lawsuit / FTC FAQ **#162** + Anthropic
