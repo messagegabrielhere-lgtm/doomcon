@@ -142,6 +142,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /short alias https:\/\/siren\.watch\/pdoom\.html/);
   assert.match(txt, /short aliases https:\/\/siren\.watch\/ai-activity-index\.html/);
   assert.match(txt, /https:\/\/siren\.watch\/ai-activity-level\.html/);
+  // FINDABILITY #433 — contiguous level head term (not only the URL alias).
+  assert.match(txt, /AI activity index today · AI activity level today/);
   assert.match(txt, /Where is the full SIREN instrument panel\?/);
   assert.match(txt, /root https:\/\/siren\.watch\/doombench\.html/);
   assert.match(txt, /short https:\/\/siren\.watch\/doomsday-clock\.html/);
@@ -328,6 +330,8 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /short alias https:\/\/siren\.watch\/pdoom\.html/);
   assert.match(md, /short aliases https:\/\/siren\.watch\/ai-activity-index\.html/);
   assert.match(md, /https:\/\/siren\.watch\/ai-activity-level\.html/);
+  // FINDABILITY #433 — contiguous level head term in agents.md Head-term pages.
+  assert.match(md, /AI activity index today · AI activity level today/);
   assert.match(md, /Where is the full SIREN instrument panel\?/);
   assert.match(md, /root https:\/\/siren\.watch\/doombench\.html/);
   assert.match(md, /short https:\/\/siren\.watch\/doomsday-clock\.html/);
