@@ -67,6 +67,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
     openapi.json api/index.json llms-full.txt free-tools.html verify.html \
     p-doom.html ai-doomsday-clock.html guide.html guides.html guide.md guides.md \
     bets.html balance.html self-aware.html videos.html bliss.html press.html \
+    moves/2026-10-17T15-35-33Z.html \
     .well-known/api-catalog .well-known/api-catalog.json \
     .well-known/mcp/server-card.json \
     .well-known/agent-skills/index.json \
@@ -434,6 +435,16 @@ if [ -f "$PRESERVE_FAQ/press.html" ] \
   mkdir -p .pages/press
   cp -a .pages/press.html .pages/press/index.html
   echo "restored press.html dual head term (#469)"
+fi
+# FINDABILITY #471 — restore tip moves dual probe when dual middot head terms
+# are missing after orphan Publish.
+if [ -f "$PRESERVE_FAQ/moves/2026-10-17T15-35-33Z.html" ] \
+  && ! grep -qF 'AI activity index today · AI activity level today' \
+    .pages/moves/2026-10-17T15-35-33Z.html 2>/dev/null; then
+  mkdir -p .pages/moves
+  cp -a "$PRESERVE_FAQ/moves/2026-10-17T15-35-33Z.html" \
+    .pages/moves/2026-10-17T15-35-33Z.html
+  echo "restored moves dual head term probe (#471)"
 fi
 # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140
 # labAboutLabel is missing (OpenAI / ChatGPT on /lab/openai.html rows).
