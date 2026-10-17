@@ -615,10 +615,11 @@ test('Publish reinjects classic.html into sitemap.xml (FINDABILITY #322)', () =>
 test('Publish restores tip agent maps when /classic.html missing (FINDABILITY #324)', () => {
   const collect = collectPublishSrc();
   assert.match(collect, /! grep -qF '\/classic\.html' "\.pages\/\$map"/);
-  assert.match(collect, /restored \$map agent map \(.*#324\)/);
+  // Echo suffix grows as later FAQ tips land (#362/#366…); keep the #324 marker.
+  assert.match(collect, /restored \$map agent map \(.*#324/);
   const newsFast = newsFastSrc();
   assert.match(newsFast, /! grep -qF '\/classic\.html' "\$root\/\$map"/);
-  assert.match(newsFast, /restored \$map agent map \(.*#324\)/);
+  assert.match(newsFast, /restored \$map agent map \(.*#324/);
 });
 
 test('Publish restores tip skill.md when classic panel missing (FINDABILITY #326)', () => {
@@ -984,4 +985,28 @@ test('Publish restores tip Muse Spark + Fable model hubs (FINDABILITY #248)', ()
   assert.match(newsFast, /restore_fable_model_hub/);
   assert.match(newsFast, /model\/muse-spark\.html/);
   assert.match(newsFast, /model\/fable\.html/);
+});
+
+test('Publish restores tip Anthropic AI safety bill FAQ + routes (FINDABILITY #366)', () => {
+  // Newsroom Publish kept IPO FAQ while wiping #362 AI safety bill FAQ;
+  // #366 extends #163 anthropic lab preserve (parallel to OpenAI #162/#181/#191).
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #163\/#362\/#366/);
+  assert.match(collect, /Why does SIREN watch Anthropic AI safety bill pitches\?/);
+  assert.match(collect, /Anthropic IPO \/ FTC → \/lab\/anthropic\.html/);
+  assert.match(collect, /Anthropic AI safety bill → \/lab\/anthropic\.html/);
+  assert.match(collect, /! grep -qF 'AI safety bill'/);
+  assert.match(
+    collect,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill FAQ \(#163\/#362\/#366\)/,
+  );
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #163\/#362\/#366/);
+  assert.match(newsFast, /Why does SIREN watch Anthropic AI safety bill pitches\?/);
+  assert.match(newsFast, /Anthropic AI safety bill → \/lab\/anthropic\.html/);
+  assert.match(newsFast, /! grep -qF 'AI safety bill'/);
+  assert.match(
+    newsFast,
+    /restored lab\/anthropic\.html Anthropic IPO \/ FTC \+ AI safety bill FAQ \(#163\/#362\/#366\)/,
+  );
 });

@@ -391,6 +391,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'NVDA Trends' "$root/$map" 2>/dev/null \
             || ! grep -qF 'OpenAI lawsuit' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Anthropic IPO' "$root/$map" 2>/dev/null \
+            || ! grep -qF 'AI safety bill' "$root/$map" 2>/dev/null \
             || ! grep -qF 'ASML stock' "$root/$map" 2>/dev/null \
             || ! grep -qF 'TSMC stock' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Amazon Bee' "$root/$map" 2>/dev/null \
@@ -415,7 +416,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
             || ! grep -qF 'Meta and Apple Mac AI' "$root/$map" 2>/dev/null \
             || ! grep -qF 'Samsung AI glasses' "$root/$map" 2>/dev/null; }; then
           cp -a "$preserve/$map" "$root/$map"
-          echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193/#195/#324)"
+          echo "restored $map agent map (#136/#139/#156/#157/#161/#162/#163/#164/#165/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#191/#193/#195/#324/#362/#366)"
         fi
       done
     }
@@ -724,6 +725,8 @@ while [ "$(date +%s)" -lt "$END" ]; do
           || ! grep -qF 'Mistral / Timestral → /lab/mistral.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'OpenAI outage → /lab/openai.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'ChatGPT Chrome / computer use → /lab/openai.html' "$root/search-trends.html" 2>/dev/null \
+          || ! grep -qF 'Anthropic IPO / FTC → /lab/anthropic.html' "$root/search-trends.html" 2>/dev/null \
+          || ! grep -qF 'Anthropic AI safety bill → /lab/anthropic.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Hugging Face hack → /tags/huggingface.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'Palantir / AIP → /lab/palantir.html' "$root/search-trends.html" 2>/dev/null \
           || ! grep -qF 'AMD / MI300 → /lab/amd.html' "$root/search-trends.html" 2>/dev/null \
@@ -733,7 +736,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
         mkdir -p "$root/trends" "$root/search-trends"
         cp -a "$preserve/search-trends.html" "$root/trends/index.html"
         cp -a "$preserve/search-trends.html" "$root/search-trends/index.html"
-        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185)"
+        echo "restored search-trends.html routing FAQ (#158/#166/#167/#169/#170/#171/#173/#174/#175/#176/#177/#178/#179/#180/#181/#182/#183/#184/#185/#362/#366)"
       fi
     }
     # FINDABILITY #161 — restore tip /lab/nvidia.html when Nvidia / NVDA
@@ -742,8 +745,9 @@ while [ "$(date +%s)" -lt "$END" ]; do
     # FINDABILITY #162 — restore tip /lab/openai.html when OpenAI lawsuit
     # / FTC FAQ is missing after orphan Publish from tip < #162.
 
-    # FINDABILITY #163 — restore tip /lab/anthropic.html when Anthropic IPO
-    # / FTC FAQ is missing after orphan Publish from tip < #163.
+    # FINDABILITY #163/#362/#366 — restore tip /lab/anthropic.html when Anthropic
+    # IPO / FTC or AI safety bill FAQ is missing after orphan Publish (newsroom
+    # wipe kept IPO while dropping #362 — parallel to OpenAI #162/#181/#191).
 
     # FINDABILITY #164 — restore tip /lab/asml.html when ASML Trends FAQ
     # is missing after orphan Publish from tip < #164.
@@ -905,10 +909,11 @@ while [ "$(date +%s)" -lt "$END" ]; do
     restore_anthropic_ipo_faq() {
       local root="$1" preserve="$2"
       if [ -f "$preserve/lab/anthropic.html" ] \
-        && ! grep -qF 'Why does SIREN watch Anthropic IPO and FTC probes?' "$root/lab/anthropic.html" 2>/dev/null; then
+        && { ! grep -qF 'Why does SIREN watch Anthropic IPO and FTC probes?' "$root/lab/anthropic.html" 2>/dev/null \
+          || ! grep -qF 'Why does SIREN watch Anthropic AI safety bill pitches?' "$root/lab/anthropic.html" 2>/dev/null; }; then
         mkdir -p "$root/lab"
         cp -a "$preserve/lab/anthropic.html" "$root/lab/anthropic.html"
-        echo "restored lab/anthropic.html Anthropic IPO / FTC FAQ (#163)"
+        echo "restored lab/anthropic.html Anthropic IPO / FTC + AI safety bill FAQ (#163/#362/#366)"
       fi
     }
     restore_openai_lawsuit_faq() {
