@@ -2502,6 +2502,51 @@ test('news sitemap keywords include NIST from multi-title Anthropic crypto tape 
   assert.doesNotMatch(d, /\bNIST\b/);
 });
 
+test('news sitemap keywords include Allied Universal from SoftBank acquisition tape (FINDABILITY #380)', () => {
+  // Multi-title Allied Universal tape: SoftBank fills 12-cap while the contiguous
+  // company surface is dropped (FAQ #374 gates `/lab/softbank.html`).
+  const a = keywordsFor({
+    title: 'SoftBank weighs $18 billion acquisition of Allied Universal, source says',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['SoftBank'],
+  });
+  assert.match(a, /\bAllied Universal\b/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('Allied Universal') < parts.indexOf('attention'), a);
+  const b = keywordsFor({
+    title: 'Sources: SoftBank weighs buying US security services giant Allied Universal at an ~$18B equity valuation, as Masayoshi Son explores deploying AI-powered robots (Bloomberg)',
+    summary: 'SoftBank Group Corp. is considering an acquisition of Allied Universal.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['SoftBank'],
+  });
+  assert.match(b, /\bAllied Universal\b/);
+  // bare "Allied" shorthand must not invent the full company needle.
+  // (Summary must not name the needle — keywordsFor hay is title+summary.)
+  const c = keywordsFor({
+    title: 'SoftBank Is Said to Weigh Buying Top US Security Firm Allied',
+    summary: 'Bare Allied shorthand tape must not invent the full company name.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'techmeme',
+    entities: ['SoftBank'],
+  });
+  assert.doesNotMatch(c, /\bAllied Universal\b/);
+  const d = keywordsFor({
+    title: 'Key facts: SoftBank (9984) $18B Allied talks; robotics; Nokia AI RAN',
+    summary: 'Deal-talk shorthand without the Universal company surface.',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['SoftBank', 'Nokia'],
+  });
+  assert.doesNotMatch(d, /\bAllied Universal\b/);
+});
+
 test('news sitemap keywords include AI safety bill from multi-title legislative tape (FINDABILITY #358)', () => {
   // Multi-title AI safety bill tape: Anthropic / Claude / AI safety fill 12-cap
   // while the contiguous legislative surface is dropped (FAQ #163 gates the lab).

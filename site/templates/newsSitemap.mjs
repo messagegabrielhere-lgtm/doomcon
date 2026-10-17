@@ -368,6 +368,14 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // already gate the lab (parallel to CERT-In #226). Hold bare ECDSA niche /
   // administration substring noise without the NIST acronym.
   'NIST',
+  // FINDABILITY #380 — multi-title Allied Universal acquisition companion while
+  // google-news-open (3 titles: SoftBank weighs… Allied Universal… + Bloomberg
+  // reports + Sources: … Allied Universal at ~$18B); SoftBank / robotics /
+  // topic meta fill the 12-cap and drop the contiguous company surface —
+  // SoftBank Allied FAQ #374 already gates `/lab/softbank.html` (parallel to
+  // NIST #370 / Starshield #206). Hold bare "Allied" shorthand / Warsh /
+  // ECDSA / EverWind / Nudify / VCI without the full company name.
+  'Allied Universal',
 ]);
 
 /**
