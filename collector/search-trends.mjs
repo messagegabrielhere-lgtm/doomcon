@@ -131,6 +131,11 @@ export const HEAD_TERMS = Object.freeze([
   // FINDABILITY #171 — Microsoft Copilot / Azure AI → gated Microsoft lab
   // (story counts only; not a product review or stock tip).
   { id: 'microsoft-copilot', label: 'Microsoft Copilot', re: /\b(?:microsoft\s+)?copilot\b|\bmicrosoft\b.{0,40}\b(?:azure\s+ai|365\s+copilot|github\s+copilot)\b|\bgithub\s+copilot\b/i, path: '/lab/microsoft.html' },
+  // FINDABILITY #414 — Surface Laptop Ultra / on-device AI laptop Trends → same
+  // gated Microsoft lab (story counts only; not a product review). Contiguous
+  // Surface Laptop Ultra product tape; bare “Surface” / non-Ultra devices stay
+  // unmatched. Keywords already ship (#277); no /lab/surface.html doorway.
+  { id: 'microsoft-surface-ultra', label: 'Surface Laptop Ultra', re: /\bsurface\s+laptop\s+ultra\b/i, path: '/lab/microsoft.html' },
   // FINDABILITY #173 — xAI / Grok → gated xAI lab
   // (story counts only; not a model review or stock tip).
   { id: 'xai-grok', label: 'Grok / xAI', re: /\bgrok(?:\s+(?:voice|3|4|4\.7))?\b|\bxai\b|\bx\.ai\b/i, path: '/lab/xai.html' },

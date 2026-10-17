@@ -644,6 +644,14 @@ export function renderLab(ctx, player) {
       `Why does ${brand.NAME} watch Microsoft MAI-Base?`,
       `${brand.NAME} scores press that names Microsoft. When MAI-Base, MAI-Base-2, or Microsoft in-house MoE model headlines dominate the tape — often beside Copilot / Azure AI coverage — this lab page is the crawlable answer — scored story counts only. Not a model review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
     ]);
+    // FINDABILITY #414 — Surface Laptop Ultra / on-device AI laptop tape → same
+    // gated lab (story counts only; not a product review). Keywords already ship
+    // (#277); FAQ #171/#220 left the product-class Surface surface without a
+    // crawlable Q&A — parallel to MAI-Base #220 / Replit #412.
+    faq.push([
+      `Why does ${brand.NAME} watch Surface Laptop Ultra?`,
+      `${brand.NAME} scores press that names Microsoft. When Surface Laptop Ultra, Microsoft AI-laptop, or on-device Copilot PC headlines dominate the tape (or spike in Google Search Trends), this lab page is the crawlable answer — scored story counts only. Not a product review, not a stock tip, and not a doom score. The live watchlist is on ${ctx.url('/search-trends.html')}.`,
+    ]);
   }
   // FINDABILITY #173 — xAI / Grok / Grok Voice tape → gated lab.
   if (player.id === 'xai') {

@@ -1159,3 +1159,24 @@ test('Publish restores tip Ondas-Palantir FAQ + routes (FINDABILITY #406)', () =
   assert.match(newsFast, /! grep -qF 'Ondas'/);
   assert.match(newsFast, /restore_palantir_faq/);
 });
+
+test('Publish restores tip Surface Laptop Ultra FAQ + routes (FINDABILITY #414)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #171\/#220\/#414/);
+  assert.match(collect, /Why does SIREN watch Surface Laptop Ultra\?/);
+  assert.match(collect, /Surface Laptop Ultra → \/lab\/microsoft\.html/);
+  assert.match(collect, /! grep -qF 'Surface Laptop Ultra'/);
+  assert.match(
+    collect,
+    /restored lab\/microsoft\.html Microsoft Copilot \+ MAI-Base \+ Surface Laptop Ultra FAQ \(#171\/#220\/#414\)/,
+  );
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #171\/#220\/#414/);
+  assert.match(newsFast, /Why does SIREN watch Surface Laptop Ultra\?/);
+  assert.match(newsFast, /Surface Laptop Ultra → \/lab\/microsoft\.html/);
+  assert.match(newsFast, /! grep -qF 'Surface Laptop Ultra'/);
+  assert.match(
+    newsFast,
+    /restored lab\/microsoft\.html Microsoft Copilot \+ MAI-Base \+ Surface Laptop Ultra FAQ \(#171\/#220\/#414\)/,
+  );
+});
