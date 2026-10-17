@@ -2674,6 +2674,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #435 — skill.md dropped contiguous “AI activity level today”.
+  if (ours.skill_activity_level_head_term === false) {
+    gaps.push({
+      id: 'skill-activity-level-head-term-missing',
+      severity: 'medium',
+      text: 'skill.md missing contiguous “AI activity level today” head-term phrase (FINDABILITY #435) — re-overlay skill.md or wait for collect/news-fast Publish on tip ≥ #435',
+    });
+  }
+
   // FINDABILITY #328 — agents.txt / ai.txt / api-catalog dropped classic panel.
   if (
     ours.agents_txt_classic_panel === false
@@ -4104,6 +4113,9 @@ export function measureSite(site, byUrl) {
     // FINDABILITY #326 — skill.md must list /classic.html after overlay.
     const skillMd = byUrl.get(`${base}/skill.md`);
     row.skill_classic_panel = skillMd?.ok ? hasSkillClassicPanel(skillMd.value) : false;
+    // FINDABILITY #435 — skill.md must name contiguous “AI activity level today”.
+    row.skill_activity_level_head_term = skillMd?.ok
+      ? hasActivityLevelHeadTerm(skillMd.value) : false;
     // FINDABILITY #328 — agents.txt / ai.txt / api-catalog must list classic.
     const agentsTxt = byUrl.get(`${base}/agents.txt`);
     const aiTxt = byUrl.get(`${base}/ai.txt`);
@@ -4547,6 +4559,11 @@ export function formatMarkdown(report) {
     }
     if (ours && ours.skill_classic_panel != null) {
       lines.push(`- skill.md /classic.html instrument panel (#326): **${ours.skill_classic_panel ? 'ok' : 'NO'}**`);
+    }
+    if (ours && ours.skill_activity_level_head_term != null) {
+      lines.push(
+        `- skill.md “AI activity level today” head term (#435): **${ours.skill_activity_level_head_term ? 'ok' : 'NO'}**`,
+      );
     }
     if (ours && (
       ours.agents_txt_classic_panel != null
@@ -5174,6 +5191,7 @@ export function formatMarkdown(report) {
       || ours.agents_activity_level_head_term != null || ours.llms_activity_level_head_term != null
       || ours.agents_classic_panel != null || ours.llms_classic_panel != null
       || ours.skill_classic_panel != null
+      || ours.skill_activity_level_head_term != null
       || ours.agents_txt_classic_panel != null
       || ours.ai_txt_classic_panel != null
       || ours.catalog_classic_panel != null
@@ -5485,6 +5503,19 @@ function selftest() {
   });
   if (!skillGaps.some((g) => g.id === 'skill-classic-panel-missing')) {
     throw new Error('skill-classic-panel-missing gap');
+  }
+  const skillLevelHeadGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      skill_activity_level_head_term: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!skillLevelHeadGaps.some((g) => g.id === 'skill-activity-level-head-term-missing')) {
+    throw new Error('skill-activity-level-head-term-missing gap');
   }
   if (!CORE_LIVE_SURFACES.includes('/ai.txt')) {
     throw new Error('CORE_LIVE_SURFACES missing #328 /ai.txt');
