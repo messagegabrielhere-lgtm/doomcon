@@ -596,6 +596,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Claude Opus 5.5', 'Opus 5.5',
   // FINDABILITY #404 — Ondas partner companion (multi-title Ondas–Palantir JV; Palantir FAQ gates lab).
   'Ondas',
+  // FINDABILITY #448 — Anthropic GDP $44T SKU companion (multi-title; Anthropic FAQs gate lab).
+  '$44T',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);

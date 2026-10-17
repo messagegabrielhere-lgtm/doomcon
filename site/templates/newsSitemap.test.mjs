@@ -1337,6 +1337,54 @@ test('labNeedleRe matches non-contiguous DeepSeek … V4.1 Flash titles (FINDABI
   assert.match(setup, /\bDeepSeek V4\.1 Flash\b/);
 });
 
+test('news sitemap keywords include $44T from Anthropic GDP tape (FINDABILITY #448)', () => {
+  // Multi-title Anthropic GDP / $44T tape: Anthropic / Claude fill the 12-cap
+  // while trillion / $44T SKU titles omit the contiguous surface. Flex covers
+  // "$44.4 Trillion" / "$44 trillion" / "44T"; bare GDP must not invent $44T.
+  assert.ok(labNeedleRe('$44T').test(
+    'Anthropic Says AI Could Push US GDP to $44.4 Trillion by 2030',
+  ));
+  assert.ok(labNeedleRe('$44T').test(
+    'Anthropic co-founder Clark projects U.S. GDP to hit $44T by 2030 thanks to AI',
+  ));
+  assert.ok(labNeedleRe('$44T').test(
+    'AI could boost US GDP to $44 trillion by 2030, Anthropic model forecasts',
+  ));
+  assert.ok(!labNeedleRe('$44T').test(
+    'AI rapidly improving, could vastly boost US GDP, Anthropic\'s Clark tells policymakers',
+  ));
+  assert.ok(!labNeedleRe('$44T').test('US GDP grew 2.1% last quarter'));
+  const a = keywordsFor({
+    title: 'Anthropic Says AI Could Push US GDP to $44.4 Trillion by 2030, but Its Modest Scenario Sees $34.1 Tr',
+    summary: '',
+    pillar: 'compute',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Google', 'Claude'],
+  });
+  assert.match(a, /\$44T/);
+  const parts = a.split(', ');
+  assert.ok(parts.indexOf('$44T') < parts.indexOf('compute'), a);
+  const b = keywordsFor({
+    title: 'Anthropic forecasts U.S. GDP at $44T by 2030 due to AI (ANTHRO)',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'gnews-ai',
+    entities: ['Anthropic', 'Claude'],
+  });
+  assert.match(b, /\$44T/);
+  const c = keywordsFor({
+    title: 'AI rapidly improving, could vastly boost US GDP, Anthropic\'s Clark tells policymakers',
+    summary: 'Qualitative GDP claim without the forecast SKU.',
+    pillar: 'governance',
+    kind: 'press',
+    source: 'wires-ai',
+    entities: ['Anthropic', 'Claude'],
+  });
+  assert.doesNotMatch(c, /\$44T/);
+});
+
 test('news sitemap keywords include Nemotron 3.5 Super VL from multi-title tape (FINDABILITY #231)', () => {
   // Multi-title Nemotron 3.5 Super VL tape: bare Nemotron fills a 12-cap slot
   // while product-class Super VL titles omit the variant surface.
