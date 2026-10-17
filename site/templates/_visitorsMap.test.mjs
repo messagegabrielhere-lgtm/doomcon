@@ -4,6 +4,7 @@ import {
   hasVisitors,
   visitorsModel,
   visitorsHomePanel,
+  visitorsAwaitingPanel,
 } from './_visitorsMap.mjs';
 
 const outline = {
@@ -67,4 +68,15 @@ test('visitorsHomePanel is server HTML with the top list and no script', () => {
   assert.match(html, /\/api\/visitors\.json/);
   assert.match(html, /<svg /);
   assert.doesNotMatch(html, /<script/);
+});
+
+test('visitorsHomePanel keeps /#readers alive when there is no snapshot', () => {
+  const html = visitorsHomePanel(null, {
+    titleHtml: '<span>WHERE THE READERS ARE</span>',
+  });
+  assert.match(html, /id="readers"/);
+  assert.match(html, /No country counts on this build/);
+  assert.doesNotMatch(html, /GOATCOUNTER_API_KEY/);
+  assert.doesNotMatch(html, /<svg /);
+  assert.equal(visitorsAwaitingPanel({ titleHtml: 'x' }).includes('id="readers"'), true);
 });
