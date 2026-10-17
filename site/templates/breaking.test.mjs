@@ -16,6 +16,7 @@ describe('breaking strip', () => {
     assert.match(html, /first seen 20:14 UTC · 2 sources/);
     assert.match(html, /<button type="button" class="brk__xp" data-xpost="news" data-x-title="Lab ships &lt;model&gt; &amp; more" data-x-src="theverge.com" data-x-url="https:\/\/theverge.com\/x"/);
     assert.ok(!html.includes('<model>'));
+    assert.match(html, /escalation signal \(rogue \/ escaped \/ containment \/ self-replication\)/);
   });
 
   it('renders nothing without a live cluster or a file', () => {

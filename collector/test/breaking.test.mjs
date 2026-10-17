@@ -11,6 +11,7 @@ import { pathToFileURL } from 'node:url';
 import {
   outletOf, sightingsOf, clusterItems, evaluateCluster, detectBreaking,
   updateSightings, speedTable, median, breakingPass, BREAKING_RULES, RELAYS,
+  ESCALATION_RULE,
 } from '../breaking.mjs';
 
 const NOW_ISO = '2026-10-09T20:30:00.000Z';
@@ -90,6 +91,78 @@ describe('the breaking rule', () => {
     assert.ok(ev);
     assert.deepEqual(ev.tier1, ['theverge.com']);
     assert.deepEqual(ev.rule, ['tier-one outlet plus one more']);
+  });
+
+  it('fires immediately on a tier-one desk alone when the headline carries an escalation signal', () => {
+    // The NYT / Bloomberg rogue-agent shape: one paper-of-record, no second
+    // independent outlet yet (Bluesky of the same newsroom is the same outlet).
+    const nyt = item({
+      source: 'nyt-tech',
+      url: 'https://nytimes.com/2026/10/14/technology/chinese-ai-agents-rogue.html',
+      title: 'Rogue A.I. Agents from China Chatted with Researchers',
+      pub: at(10),
+      also: [{
+        source: 'bluesky-ai',
+        url: 'https://bsky.app/profile/nytimes.com/post/1',
+        title: 'Rogue A.I. Agents from China Chatted with Researchers',
+        published_at: at(8),
+        outlet: 'nytimes.com',
+      }],
+    });
+    const ev = evalOne([nyt]);
+    assert.ok(ev, 'a single tier-one escalation headline must not wait for a second desk');
+    assert.deepEqual(ev.outlets, ['nytimes.com']);
+    assert.deepEqual(ev.tier1, ['nytimes.com']);
+    assert.equal(ev.escalation, true);
+    assert.deepEqual(ev.rule, [ESCALATION_RULE]);
+  });
+
+  it('does not fire on an ordinary tier-one headline with only one outlet', () => {
+    const a = item({
+      source: 'nyt-tech',
+      url: 'https://nytimes.com/2026/10/14/technology/ordinary.html',
+      title: 'OpenAI Names a New Data Center Chief',
+      pub: at(10),
+    });
+    assert.equal(evalOne([a]), null);
+  });
+
+  it('does not fire on an escalation headline from a non-tier-one desk alone', () => {
+    const a = item({
+      source: 'the-decoder',
+      url: 'https://the-decoder.com/rogue-fleet',
+      title: 'Researchers tracked down a rogue fleet of Chinese AI agents',
+      pub: at(10),
+      outlet: 'the-decoder.com',
+    });
+    assert.equal(evalOne([a]), null);
+  });
+
+  it('fires on a delayed RSS row the moment SIREN first sees the escalation headline', () => {
+    // Bloomberg's pubDate can sit hours behind the scrape. Ordinary rules key
+    // on published_at and would miss it; the escalation path keys on first_seen.
+    const bloom = item({
+      source: 'bloomberg-tech',
+      url: 'https://bloomberg.com/news/articles/2026-10-14/tencent-linked-rogue-ai',
+      title: "Researchers Find 'Chinese Fleet' of Rogue AI Probing Alibaba",
+      pub: at(7 * 60),
+      seen: at(5),
+    });
+    const ev = evalOne([bloom]);
+    assert.ok(ev, 'a tier-one escalation headline must break on first sight, not wait for pubDate');
+    assert.deepEqual(ev.outlets, ['bloomberg.com']);
+    assert.deepEqual(ev.rule, [ESCALATION_RULE]);
+  });
+
+  it('does not resurrect a day-old escalation headline when the feed finally catches up', () => {
+    const old = item({
+      source: 'nyt-tech',
+      url: 'https://nytimes.com/2026/10/13/technology/old-rogue.html',
+      title: 'Rogue AI Agents Chatted with Researchers Last Week',
+      pub: at(30 * 60),
+      seen: at(5),
+    });
+    assert.equal(evalOne([old]), null);
   });
 
   it('counts two subreddits as one outlet, and relays as none', () => {
