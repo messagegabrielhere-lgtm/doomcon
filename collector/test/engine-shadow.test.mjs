@@ -713,11 +713,22 @@ test('Publish restores tip free-tools.html when classic panel missing (FINDABILI
   const collect = collectPublishSrc();
   assert.match(collect, /FINDABILITY #332/);
   assert.match(collect, /free-tools\.html/);
-  assert.match(collect, /restored free-tools\.html classic instrument panel \(#332\)/);
+  assert.match(collect, /restored free-tools\.html classic instrument panel \/ dual head term \(#332\/#443\)/);
   const newsFast = newsFastSrc();
   assert.match(newsFast, /FINDABILITY #332/);
   assert.match(newsFast, /restore_discovery_classic/);
-  assert.match(newsFast, /restored free-tools\.html classic instrument panel \(#332\)/);
+  assert.match(newsFast, /restored free-tools\.html classic instrument panel \/ dual head term \(#332\/#443\)/);
+});
+
+test('Publish restores tip free-tools dual head term (FINDABILITY #443)', () => {
+  const collect = collectPublishSrc();
+  assert.match(collect, /FINDABILITY #332\/#443/);
+  assert.match(collect, /AI activity index today · AI activity level today/);
+  assert.match(collect, /restored free-tools\.html classic instrument panel \/ dual head term \(#332\/#443\)/);
+  const newsFast = newsFastSrc();
+  assert.match(newsFast, /FINDABILITY #332\/#443/);
+  assert.match(newsFast, /AI activity index today · AI activity level today/);
+  assert.match(newsFast, /restored free-tools\.html classic instrument panel \/ dual head term \(#332\/#443\)/);
 });
 
 test('Publish restores tip home AI activity index FAQ (FINDABILITY #254)', () => {

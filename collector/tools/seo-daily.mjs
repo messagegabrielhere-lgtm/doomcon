@@ -967,6 +967,14 @@ export function hasApiIndexClassicPanel(body, path = CLASSIC_PANEL_AGENT_PATH) {
 }
 
 /**
+ * True when free-tools.html names dual middot head terms (FINDABILITY #443).
+ * Wipe gap is `freetools-dual-head-term-missing`.
+ */
+export function hasFreeToolsDualHeadTerm(html, needle = AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE) {
+  return String(html || '').includes(needle);
+}
+
+/**
  * True when free-tools.html listicle lists /classic.html with the panel
  * question (FINDABILITY #332). Wipe gap is `freetools-classic-panel-missing`.
  */
@@ -2801,6 +2809,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #443 — free-tools.html dropped dual middot head terms.
+  if (ours.freetools_dual_head_term === false) {
+    gaps.push({
+      id: 'freetools-dual-head-term-missing',
+      severity: 'medium',
+      text: 'free-tools.html missing dual “AI activity index today · AI activity level today” head-term phrase (FINDABILITY #443) — re-overlay free-tools or wait for collect/news-fast Publish on tip ≥ #443',
+    });
+  }
+
   // FINDABILITY #131/#132 — agents.md / llms.txt dropped root rival brand aliases.
   if (ours.agents_root_rivals === false || ours.llms_root_rivals === false) {
     const which = [
@@ -4220,6 +4237,10 @@ export function measureSite(site, byUrl) {
     row.freetools_classic_panel = freeToolsHtml?.ok
       ? hasFreeToolsClassicPanel(freeToolsHtml.value)
       : false;
+    // FINDABILITY #443 — free-tools.html must name dual middot head terms.
+    row.freetools_dual_head_term = freeToolsHtml?.ok
+      ? hasFreeToolsDualHeadTerm(freeToolsHtml.value)
+      : false;
     // FINDABILITY #132 — agent maps must list root rival aliases after #131.
     row.agents_root_rivals = agentsMd?.ok ? hasRootRivalAliases(agentsMd.value) : false;
     row.llms_root_rivals = llms?.ok ? hasRootRivalAliases(llmsBody) : false;
@@ -4693,6 +4714,11 @@ export function formatMarkdown(report) {
     }
     if (ours && ours.freetools_classic_panel != null) {
       lines.push(`- free-tools /classic.html instrument panel (#332): **${ours.freetools_classic_panel ? 'ok' : 'NO'}**`);
+    }
+    if (ours && ours.freetools_dual_head_term != null) {
+      lines.push(
+        `- free-tools dual index/level head term (#443): **${ours.freetools_dual_head_term ? 'ok' : 'NO'}**`,
+      );
     }
     if (ours && (ours.agents_root_rivals != null || ours.llms_root_rivals != null)) {
       const ag = ours.agents_root_rivals == null ? '—' : (ours.agents_root_rivals ? 'yes' : 'NO');
@@ -5299,6 +5325,7 @@ export function formatMarkdown(report) {
       || ours.agents_txt_dual_head_term != null
       || ours.ai_txt_dual_head_term != null
       || ours.agents_json_dual_head_term != null
+      || ours.freetools_dual_head_term != null
       || ours.agents_txt_classic_panel != null
       || ours.ai_txt_classic_panel != null
       || ours.catalog_classic_panel != null
@@ -5797,6 +5824,25 @@ function selftest() {
   });
   if (!freeToolsGaps.some((g) => g.id === 'freetools-classic-panel-missing')) {
     throw new Error('freetools-classic-panel-missing gap');
+  }
+  if (hasFreeToolsDualHeadTerm('AI activity index today · AI activity level today · SIREN') !== true) {
+    throw new Error('hasFreeToolsDualHeadTerm true');
+  }
+  if (hasFreeToolsDualHeadTerm('AI activity index today · SIREN') !== false) {
+    throw new Error('hasFreeToolsDualHeadTerm false for index-only');
+  }
+  const freeToolsDualGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      freetools_dual_head_term: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!freeToolsDualGaps.some((g) => g.id === 'freetools-dual-head-term-missing')) {
+    throw new Error('freetools-dual-head-term-missing gap');
   }
   const aliasGaps = deriveGaps({
     sites: [{

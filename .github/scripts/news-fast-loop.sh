@@ -512,14 +512,16 @@ while [ "$(date +%s)" -lt "$END" ]; do
           echo "restored $surf dual head term (#441)"
         fi
       done
-      # FINDABILITY #332 — free-tools listicle needs classic panel question.
+      # FINDABILITY #332/#443 — free-tools listicle needs classic panel question
+      # or dual middot head terms.
       if [ -f "$preserve/free-tools.html" ] \
         && { ! grep -qF '/classic.html' "$root/free-tools.html" 2>/dev/null \
-          || ! grep -qF 'Where is the full SIREN instrument panel?' "$root/free-tools.html" 2>/dev/null; }; then
+          || ! grep -qF 'Where is the full SIREN instrument panel?' "$root/free-tools.html" 2>/dev/null \
+          || ! grep -qF 'AI activity index today · AI activity level today' "$root/free-tools.html" 2>/dev/null; }; then
         cp -a "$preserve/free-tools.html" "$root/free-tools.html"
         mkdir -p "$root/free-tools"
         cp -a "$root/free-tools.html" "$root/free-tools/index.html"
-        echo "restored free-tools.html classic instrument panel (#332)"
+        echo "restored free-tools.html classic instrument panel / dual head term (#332/#443)"
       fi
     }
     # FINDABILITY #141 — restore tip /lab/ + companies hubs when #140

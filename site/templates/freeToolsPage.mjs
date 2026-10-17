@@ -93,7 +93,9 @@ export function freeToolsPage(ctx) {
   const qTitle = `What free tools does ${brand.NAME} publish?`;
   const rows = freeToolRows();
   const alsoQ = 'What else sits next to these free tools?';
-  const alsoA = `The AI explainers hub, the live AI activity index, and the fetch-first map for agents.`;
+  // FINDABILITY #443 — dual middot head terms beside live home (Outrank listicle
+  // was index-only after discovery dual #439/#441).
+  const alsoA = `The AI explainers hub, the live AI activity index today · AI activity level today, and the fetch-first map for agents.`;
   const doomQ = `Does ${brand.NAME} ship a doom-probability calculator?`;
   const doomA = `No. These tools expose an hourly activity count, receipts, feeds and public JSON. None of them publishes a chance of harm.`;
 
@@ -128,7 +130,7 @@ export function freeToolsPage(ctx) {
     Each row below is a real page. None of them is a doom-probability calculator.</p>
   <ol>${list}</ol>
   <h2>${esc(alsoQ)}</h2>
-  <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a>
+  <p><a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)} →</a>
      · <a href="${esc(ctx.href('/guides.html'))}">What are the AI explainers?</a>
      · <a href="${esc(ctx.href('/agents.md'))}">agents.md</a>
      · <a href="${esc(ctx.href('/llms.txt'))}">llms.txt</a>.</p>
