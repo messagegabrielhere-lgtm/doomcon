@@ -242,7 +242,7 @@ def kalshi():
         return out
     now_ts = int(NOW.timestamp())
     soon = fetch({"status": "open", "min_close_ts": now_ts, "max_close_ts": now_ts + 48 * 3600})
-    easy = []; n93 = 0; n93v = 0
+    easy = []; n93 = 0; n93v = 0; dbg = []
     for m in soon:
         try: ct = datetime.datetime.fromisoformat(m["close_time"].replace("Z", "+00:00"))
         except Exception: continue
@@ -251,11 +251,14 @@ def kalshi():
         side, price = ("YES", ya) if 93 <= ya < 100 else (("NO", na) if 93 <= na < 100 else (None, None))
         if not side: continue
         n93 += 1
-        if v24 < 100 and vtot < 1000: continue
+        oi = float(m.get("open_interest") or m.get("open_interest_fp") or 0)
+        liq = float(m.get("liquidity") or m.get("liquidity_dollars") or 0)
+        if len(dbg) < 3: dbg.append({k: m.get(k) for k in ("ticker", "title", "yes_ask", "no_ask", "yes_ask_dollars", "volume", "volume_24h", "volume_fp", "open_interest", "open_interest_fp", "liquidity", "liquidity_dollars", "close_time", "status")})
+        if v24 < 100 and vtot < 1000 and oi < 500 and liq < 500: continue
         n93v += 1
         hrs = max((ct - NOW).total_seconds() / 3600, 0.5)
         easy.append({"t": m.get("ticker", ""), "title": (m.get("title") or m.get("subtitle") or "")[:70], "side": side, "c": round(price), "close": ct.strftime("%m/%d %H:%MZ"),
-                     "vol": int(vol), "ret_pct": round((100 - price) / price * 100, 1), "per_day": round((100 - price) / price * 100 * 24 / hrs, 1)})
+                     "vol": int(vol), "oi": int(oi), "ret_pct": round((100 - price) / price * 100, 1), "per_day": round((100 - price) / price * 100 * 24 / hrs, 1)})
     easy.sort(key=lambda r: (-r["per_day"], -r["vol"]))
     btcr = []
     for series in ("KXBTCD", "KXBTC"):
@@ -269,7 +272,7 @@ def kalshi():
         except Exception as e:
             ERRS.append(f"kalshi {series} {type(e).__name__}")
     log(f"kalshi soon={len(soon)} ge93={n93} ge93_with_vol={n93v} easy={len(easy)} btc={len(btcr)}")
-    return {"easy": easy[:15], "btc_range": sorted(btcr, key=lambda r: r["close"])[:8], "seen": len(soon), "ge93": n93, "ge93_vol": n93v}
+    return {"easy": easy[:15], "btc_range": sorted(btcr, key=lambda r: r["close"])[:8], "seen": len(soon), "ge93": n93, "ge93_vol": n93v, "debug": dbg}
 
 def f(x, n=2):
     return "-" if x is None else (f"{x:.{n}f}" if isinstance(x, float) else str(x))
@@ -294,7 +297,7 @@ def main():
     L.append(f"STOCK universe {s.get('universe')}. LONG (1-8%, >SMA20, RSI55-75, vol>=avg): " + ("; ".join(f"{r['sym']} {f(r['px'])} +{f(r['d'],1)}% rsi {f(r['rsi'],0)} volx {f(r['volx'],1)}" for r in s.get("longs", [])) or "none"))
     L.append("PUT LIST (<SMA20, RSI25-45, vol>1M): " + ("; ".join(f"{r['sym']} {f(r['px'])} {f(r['d'],1)}% rsi {f(r['rsi'],0)}" for r in s.get("puts", [])) or "none"))
     L.append("WATCH: " + "; ".join(f"{k2} {f(v.get('px'))} rsi {f(v.get('rsi'),0)} {'>' if v.get('above20') else '<'}20d {'>' if v.get('above50') else '<'}50d" if 'px' in v else f"{k2} err" for k2, v in s.get("watch", {}).items()))
-    L.append("KALSHI EASY (>=93c, closes<48h, 24h vol>=100 or total>=1000; advisory, owner places): " + ("; ".join(f"{r['t']} '{r['title']}' {r['side']} {r['c']}c -> +{r['ret_pct']}% ({r['per_day']}%/day) closes {r['close']} vol {r['vol']}" for r in k.get("easy", [])[:10]) or "none"))
+    L.append("KALSHI EASY (>=93c, closes<48h, 24h vol>=100 or total>=1000; advisory, owner places): " + ("; ".join(f"{r['t']} '{r['title']}' {r['side']} {r['c']}c -> +{r['ret_pct']}% ({r['per_day']}%/day) closes {r['close']} vol {r['vol']} oi {r.get('oi')}" for r in k.get("easy", [])[:10]) or "none"))
     L.append("KALSHI BTC RANGE near 50c (<30h): " + ("; ".join(f"{r['t']} '{r['title']}' yes {r['yes']}c closes {r['close']}" for r in k.get("btc_range", [])) or "none"))
     if ERRS: L.append("ERRORS: " + "; ".join(ERRS))
     (OUT / "scan.md").write_text("\n".join(L) + "\n")
