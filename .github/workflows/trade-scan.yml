@@ -15,11 +15,11 @@ concurrency:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 14
     steps:
       - uses: actions/checkout@v4
       - name: Scan crypto, stocks, Kalshi (free public data)
-        run: python3 trades/scan.py
+        run: python3 -u trades/scan.py
       - name: Publish to trade-data branch (single overwritten commit, keeps main clean)
         run: |
           set -e

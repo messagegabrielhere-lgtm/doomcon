@@ -12,12 +12,20 @@ UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/1
 NOW = datetime.datetime.now(datetime.timezone.utc)
 ERRS = []
 
-def get(url, raw=False, tries=2, headers=None):
+T0 = time.time()
+def log(msg):
+    print(f"[{time.time()-T0:6.1f}s] {msg}", flush=True)
+
+class Budget:
+    def __init__(self, secs): self.end = time.time() + secs
+    def ok(self): return time.time() < self.end
+
+def get(url, raw=False, tries=1, headers=None, timeout=12):
     last = None
     for i in range(tries):
         try:
             req = urllib.request.Request(url, headers=headers or UA)
-            with urllib.request.urlopen(req, timeout=25) as r:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
                 b = r.read()
             return b.decode("utf-8", "replace") if raw else json.loads(b.decode())
         except Exception as e:
@@ -48,7 +56,9 @@ CB = "https://api.exchange.coinbase.com"
 def crypto():
     syms = [s.strip() for s in (ROOT / "crypto_syms.txt").read_text().replace("\n", ",").split(",") if s.strip()]
     rows = []
+    bud = Budget(170)
     for s in syms:
+        if not bud.ok(): rows.append({"sym": s.split("-")[0], "err": "budget"}); continue
         try:
             st = get(f"{CB}/products/{s}/stats"); tk = get(f"{CB}/products/{s}/ticker")
             last, op = float(st["last"]), float(st["open"])
@@ -60,6 +70,7 @@ def crypto():
             rows.append({"sym": s.split("-")[0], "err": type(e).__name__})
         time.sleep(0.12)
     ok = [r for r in rows if "err" not in r]
+    log(f"crypto quotes done: {len(ok)} ok, {len(rows)-len(ok)} missing")
     # BTC context: 1h candles -> 20-SMA, midnight-ET mark, last-hour move
     btc = {}
     try:
@@ -158,13 +169,17 @@ def stocks():
     longc = sorted([r for r in liquid if 1 <= r["d"] <= 8], key=lambda r: -r["vol"] * r["d"])[:30]
     putc = sorted([r for r in liquid if r["d"] <= -2], key=lambda r: r["d"] * r["vol"])[:25]
     longs, puts = [], []
+    log(f"stock universe {out.get('universe')}, liquid {len(liquid)}, longc {len(longc)}, putc {len(putc)}")
+    bud = Budget(240)
     for r in longc:
+        if not bud.ok(): break
         try:
             t = tech(r["sym"], px=r["px"], vol=r["vol"]); r.update(t)
             if t["above20"] and t["rsi"] and 55 <= t["rsi"] <= 75 and (t["volx"] or 0) >= 1.0: longs.append(r)
         except Exception: pass
         time.sleep(0.15)
     for r in putc:
+        if not bud.ok(): break
         try:
             t = tech(r["sym"], px=r["px"], vol=r["vol"]); r.update(t)
             if not t["above20"] and t["rsi"] and 25 <= t["rsi"] <= 45: puts.append(r)
@@ -184,7 +199,8 @@ def kalshi():
     base = "https://api.elections.kalshi.com/trade-api/v2/markets"
     easy, btcr, cursor, pages = [], [], None, 0
     horizon = NOW + datetime.timedelta(hours=48)
-    while pages < 12:
+    bud = Budget(120)
+    while pages < 12 and bud.ok():
         q = {"limit": 1000, "status": "open"}
         if cursor: q["cursor"] = cursor
         j = get(base + "?" + urllib.parse.urlencode(q))
@@ -216,8 +232,10 @@ def f(x, n=2):
 def main():
     res = {"utc": NOW.strftime("%Y-%m-%dT%H:%MZ")}
     for name, fn in (("crypto", crypto), ("stocks", stocks), ("kalshi", kalshi)):
+        log(f"start {name}")
         try: res[name] = fn()
         except Exception as e: ERRS.append(f"{name} {type(e).__name__}: {str(e)[:80]}"); res[name] = {}
+        log(f"end {name}")
     res["errors"] = ERRS
     (OUT / "scan.json").write_text(json.dumps(res, indent=1, default=str))
     c, s, k = res.get("crypto", {}), res.get("stocks", {}), res.get("kalshi", {})
