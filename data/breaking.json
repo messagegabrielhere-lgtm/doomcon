@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-18T17:27:32.218Z",
+  "generated_at": "2026-10-18T17:51:51.132Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 7,
+  "live": 5,
   "fresh": "bcd37b9903316",
   "clusters": [
     {
@@ -58,29 +58,52 @@
       "outlet": "ft.com",
       "outlets": [
         "bbc.co.uk",
-        "ft.com"
+        "business-standard.com",
+        "ft.com",
+        "ibtimes.sg",
+        "tech-insider.org",
+        "theguardian.com"
       ],
       "tier1_outlets": [
         "bbc.co.uk",
-        "ft.com"
+        "ft.com",
+        "theguardian.com"
       ],
-      "corroboration": 2,
+      "corroboration": 6,
       "sources": [
         "gnews-ai",
+        "guardian-ai",
         "wires-ai"
       ],
       "rule": [
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-18T13:36:43.000Z",
-      "first_seen_at": "2026-10-18T13:52:45.860Z",
-      "latency_s": 963,
+      "earliest_published_at": "2026-10-18T12:31:41.170Z",
+      "first_seen_at": "2026-10-16T03:50:38.755Z",
+      "latency_s": 0,
+      "clock_skew": true,
       "breaking_at": "2026-10-18T17:13:01.539Z",
       "item_ids": [
-        "33a6c9669b325ece"
+        "05024dfcec43aa17",
+        "19a2db1edc5a06dd",
+        "33a6c9669b325ece",
+        "7eddf3968a281f96",
+        "976bab17f5720b37",
+        "9b79916aad9469d6",
+        "b1ffb7a221a74dcd",
+        "c6100d6a5d4fdd12",
+        "ebfd12efc651051c"
       ],
       "sightings": [
+        {
+          "source": "guardian-ai",
+          "outlet": "theguardian.com",
+          "title": "Microsoft pulls out of AI datacentre project in Essex over power supply concerns",
+          "url": "https://theguardian.com/uk-news/2026/oct/18/microsoft-drops-huge-ai-datacentre-project-in-essex-over-power-supply-concerns",
+          "published_at": "2026-10-18T12:31:41.170Z",
+          "tier1": true
+        },
         {
           "source": "wires-ai",
           "outlet": "ft.com",
@@ -104,6 +127,30 @@
           "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBCWEVrV2w2MHRUWXFxUHBfbHltcUVMUFRFbHFoZmdLQ0Vsd1M3LXVjXzhWbVdPZ1hVWHpDMlc5VnlaQ3FnajF4STNISFFlSFNHeXJ5VWl2bFlPeHJ5Y3c?oc=5",
           "published_at": "2026-10-18T13:52:45.860Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "tech-insider.org",
+          "title": "Microsoft Exits Nscale Deal, UK Grid Lags to 2030s [2026]",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNZF92OVFfMUQtcDNPV2JRdE9oaEJJZTRTVVktZEduaGVfXzZIRk5raThvTXYzMmZlWXVZNzB6OWdPVVNaN01RamNMbG8wYjdJempqQkV5bC14N0NHaG1yWDFZakJ1dGVDVzF0MnpoTVRaNjY5cWpXUWNJSm5EN0JIUm1sYTQ?oc=5",
+          "published_at": "2026-10-18T16:22:54.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "business-standard.com",
+          "title": "Microsoft exits Nscale data centre deal in UK amid power delays: Report",
+          "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNcDE5SFFaakdMOUpqYWJLd2pRaWRZaWRtNnFpU2czS3JtRERxWV9USzBUY2VmYUhXc1ZVSGV0ei16ZzZLV2ZaZUIwcm96eTBsYURmV3I2Q3dSMFpYRm8taVdrVmlkN3VyUHJTSUtNMjRnY29oa2x4OE9KNXZmX3p5NnVhUk1GeVFNTXNxT0Nhc0F6eXJTMFFIUW5BbnRFYzE5N1IxTWl1RnRYTVFoaThzWGJSbG40MlphWVVicmFTVXJ0ZjlWdHk2Z0dPV1ZPc21Y0gHWAUFVX3lxTFBIR2ZfZDFhWV81SFZKaHVMSmptaXZ5dGNybU1aWXpLWW1tZlFQcmZtTE5HY3hPUDJYN012LUJfS24zRU01X1ZZZ251Z0pBNVVJd1J1UFpiVG4xUDFvQWFZdFVPR3hiVlRfczJ5Vk5Reng1c1BSbmlDUlhjZ1JDWWlxLWJoWFJKNlhtaGMwM29Hc2ZuSXNDVWlzM21QODBzUXh5enpXdmVmakxvUHUxNEtPcnFqQXFWSlNhbzZqTDlTa1NkVk8zZUFoQWRWcmxWa0llaWhCc2c?oc=5",
+          "published_at": "2026-10-18T17:02:25.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "ibtimes.sg",
+          "title": "Microsoft Walks Away From Nscale's UK AI Data Centre Deal, Leaving a 23,000-Chip Project in Limbo",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPOWJvUEktSnh3UWtjNnB1SjByM0Vuc3FLb2o0Rl94cGs3SWkwMFpNWkYwb2xNUnlmUklMMTBfTUJiVWMwUmdBeUhtbTd2WUR2bmwwX3ZnUktDSDZLZGswMUFOVWY3SmZSNUstR0h4UWFQSGJ3NDRrUUhaVC1PSmRpaDUzTWlTUDhrclpRMVBYTl8xNVV1RlRlT09hekNWQXZITXhidnJJcFR4aWZab3NWZ2I0QQ?oc=5",
+          "published_at": "2026-10-18T17:27:01.000Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -233,7 +280,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b155923d03c64",
@@ -693,7 +740,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "be84baaf0e782",
