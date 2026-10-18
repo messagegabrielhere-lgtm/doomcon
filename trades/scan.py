@@ -216,39 +216,58 @@ def stocks():
 # ---------- KALSHI (public market data) ----------
 def kalshi():
     base = "https://api.elections.kalshi.com/trade-api/v2/markets"
-    easy, btcr, cursor, pages = [], [], None, 0
-    horizon = NOW + datetime.timedelta(hours=48)
-    bud = Budget(120)
-    seen = 0
-    while pages < 12 and bud.ok():
-        q = {"limit": 1000, "status": "open"}
-        if cursor: q["cursor"] = cursor
-        j = get(base + "?" + urllib.parse.urlencode(q))
-        ms = j.get("markets", [])
-        seen += len(ms)
-        if pages == 0: log(f"kalshi page0 markets={len(ms)} keys={list(j.keys())} sample={(ms[0].get('ticker'), ms[0].get('yes_ask'), ms[0].get('close_time'), ms[0].get('volume_24h')) if ms else None}")
-        for m in ms:
-            try:
-                ct = datetime.datetime.fromisoformat(m["close_time"].replace("Z", "+00:00"))
-            except Exception:
-                continue
-            ya, na = m.get("yes_ask") or 0, m.get("no_ask") or 0
-            vol = m.get("volume_24h") or m.get("volume") or 0
-            t = m.get("ticker", "")
-            if t.startswith("KXBTC") and ct <= NOW + datetime.timedelta(hours=30) and 35 <= ya <= 65:
-                btcr.append({"t": t, "title": m.get("title", "")[:70], "yes": ya, "close": ct.strftime("%m/%d %H:%MZ"), "vol": vol})
-            if ct <= horizon and vol >= 300:
-                side, price = ("YES", ya) if ya >= 93 else (("NO", na) if na >= 93 else (None, None))
-                if side and price < 100:
-                    hrs = max((ct - NOW).total_seconds() / 3600, 0.5)
-                    easy.append({"t": t, "title": m.get("title", "")[:70], "side": side, "c": price, "close": ct.strftime("%m/%d %H:%MZ"),
-                                 "vol": vol, "ret_pct": round((100 - price) / price * 100, 1), "per_day": round((100 - price) / price * 100 * 24 / hrs, 1)})
-        cursor = j.get("cursor"); pages += 1
-        if not cursor: break
-        time.sleep(0.2)
+    def cents(m, k):
+        v = m.get(k)
+        if v is None:
+            d = m.get(k + "_dollars")
+            if d is None: return 0
+            try: return float(d) * 100
+            except Exception: return 0
+        try: v = float(v)
+        except Exception: return 0
+        return v * 100 if v <= 1.0 else v
+    def fetch(params, max_pages=8):
+        out, cursor, pages = [], None, 0
+        bud = Budget(100)
+        while pages < max_pages and bud.ok():
+            q = dict(params); q["limit"] = 1000
+            if cursor: q["cursor"] = cursor
+            j = get(base + "?" + urllib.parse.urlencode(q))
+            ms = j.get("markets", []); out += ms
+            if pages == 0 and ms:
+                m0 = ms[0]; log(f"kalshi {params} page0 n={len(ms)} sample={m0.get('ticker')} yes_ask={m0.get('yes_ask')} yes_ask_dollars={m0.get('yes_ask_dollars')} close={m0.get('close_time')} vol24={m0.get('volume_24h')} vol={m0.get('volume')}")
+            cursor = j.get("cursor"); pages += 1
+            if not cursor or not ms: break
+            time.sleep(0.2)
+        return out
+    now_ts = int(NOW.timestamp())
+    soon = fetch({"status": "open", "min_close_ts": now_ts, "max_close_ts": now_ts + 48 * 3600})
+    easy = []
+    for m in soon:
+        try: ct = datetime.datetime.fromisoformat(m["close_time"].replace("Z", "+00:00"))
+        except Exception: continue
+        ya, na = cents(m, "yes_ask"), cents(m, "no_ask")
+        vol = float(m.get("volume_24h") or 0) or float(m.get("volume") or 0)
+        if vol < 300: continue
+        side, price = ("YES", ya) if 93 <= ya < 100 else (("NO", na) if 93 <= na < 100 else (None, None))
+        if not side: continue
+        hrs = max((ct - NOW).total_seconds() / 3600, 0.5)
+        easy.append({"t": m.get("ticker", ""), "title": (m.get("title") or m.get("subtitle") or "")[:70], "side": side, "c": round(price), "close": ct.strftime("%m/%d %H:%MZ"),
+                     "vol": int(vol), "ret_pct": round((100 - price) / price * 100, 1), "per_day": round((100 - price) / price * 100 * 24 / hrs, 1)})
     easy.sort(key=lambda r: (-r["per_day"], -r["vol"]))
-    log(f"kalshi seen {seen} markets in {pages} pages, easy {len(easy)}, btc {len(btcr)}")
-    return {"easy": easy[:15], "btc_range": sorted(btcr, key=lambda r: r["close"])[:8], "pages": pages, "seen": seen}
+    btcr = []
+    for series in ("KXBTCD", "KXBTC"):
+        try:
+            for m in fetch({"status": "open", "series_ticker": series, "max_close_ts": now_ts + 30 * 3600}, max_pages=2):
+                ya = cents(m, "yes_ask")
+                try: ct = datetime.datetime.fromisoformat(m["close_time"].replace("Z", "+00:00"))
+                except Exception: continue
+                if 35 <= ya <= 65:
+                    btcr.append({"t": m.get("ticker", ""), "title": (m.get("title") or m.get("subtitle") or "")[:70], "yes": round(ya), "close": ct.strftime("%m/%d %H:%MZ"), "vol": m.get("volume_24h") or m.get("volume")})
+        except Exception as e:
+            ERRS.append(f"kalshi {series} {type(e).__name__}")
+    log(f"kalshi soon={len(soon)} easy={len(easy)} btc={len(btcr)}")
+    return {"easy": easy[:15], "btc_range": sorted(btcr, key=lambda r: r["close"])[:8], "seen": len(soon)}
 
 def f(x, n=2):
     return "-" if x is None else (f"{x:.{n}f}" if isinstance(x, float) else str(x))
