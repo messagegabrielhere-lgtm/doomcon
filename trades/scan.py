@@ -247,14 +247,16 @@ def kalshi():
         try: ct = datetime.datetime.fromisoformat(m["close_time"].replace("Z", "+00:00"))
         except Exception: continue
         ya, na = cents(m, "yes_ask"), cents(m, "no_ask")
-        v24 = float(m.get("volume_24h") or 0); vtot = float(m.get("volume") or 0); vol = v24 or vtot
-        side, price = ("YES", ya) if 93 <= ya < 100 else (("NO", na) if 93 <= na < 100 else (None, None))
+        v24 = float(m.get("volume_24h") or m.get("volume_24h_fp") or 0); vtot = float(m.get("volume") or m.get("volume_fp") or 0); vol = v24 or vtot
+        t = m.get("ticker", "")
+        if t.startswith("KXMVE") or "CROSSCATEGORY" in t: continue  # multi-leg parlays, not simple contracts
+        side, price = ("YES", ya) if 93 <= ya <= 98 else (("NO", na) if 93 <= na <= 98 else (None, None))
         if not side: continue
         n93 += 1
         oi = float(m.get("open_interest") or m.get("open_interest_fp") or 0)
         liq = float(m.get("liquidity") or m.get("liquidity_dollars") or 0)
         if len(dbg) < 3: dbg.append({k: m.get(k) for k in ("ticker", "title", "yes_ask", "no_ask", "yes_ask_dollars", "volume", "volume_24h", "volume_fp", "open_interest", "open_interest_fp", "liquidity", "liquidity_dollars", "close_time", "status")})
-        if v24 < 100 and vtot < 1000 and oi < 500 and liq < 500: continue
+        if vtot < 100 and oi < 100 and liq < 500: continue
         n93v += 1
         hrs = max((ct - NOW).total_seconds() / 3600, 0.5)
         easy.append({"t": m.get("ticker", ""), "title": (m.get("title") or m.get("subtitle") or "")[:70], "side": side, "c": round(price), "close": ct.strftime("%m/%d %H:%MZ"),
@@ -268,7 +270,7 @@ def kalshi():
                 try: ct = datetime.datetime.fromisoformat(m["close_time"].replace("Z", "+00:00"))
                 except Exception: continue
                 if 35 <= ya <= 65:
-                    btcr.append({"t": m.get("ticker", ""), "title": (m.get("title") or m.get("subtitle") or "")[:70], "yes": round(ya), "close": ct.strftime("%m/%d %H:%MZ"), "vol": m.get("volume_24h") or m.get("volume")})
+                    btcr.append({"t": m.get("ticker", ""), "title": (m.get("title") or m.get("subtitle") or "")[:70], "yes": round(ya), "close": ct.strftime("%m/%d %H:%MZ"), "vol": m.get("volume_fp") or m.get("volume")})
         except Exception as e:
             ERRS.append(f"kalshi {series} {type(e).__name__}")
     log(f"kalshi soon={len(soon)} ge93={n93} ge93_with_vol={n93v} easy={len(easy)} btc={len(btcr)}")
@@ -297,7 +299,7 @@ def main():
     L.append(f"STOCK universe {s.get('universe')}. LONG (1-8%, >SMA20, RSI55-75, vol>=avg): " + ("; ".join(f"{r['sym']} {f(r['px'])} +{f(r['d'],1)}% rsi {f(r['rsi'],0)} volx {f(r['volx'],1)}" for r in s.get("longs", [])) or "none"))
     L.append("PUT LIST (<SMA20, RSI25-45, vol>1M): " + ("; ".join(f"{r['sym']} {f(r['px'])} {f(r['d'],1)}% rsi {f(r['rsi'],0)}" for r in s.get("puts", [])) or "none"))
     L.append("WATCH: " + "; ".join(f"{k2} {f(v.get('px'))} rsi {f(v.get('rsi'),0)} {'>' if v.get('above20') else '<'}20d {'>' if v.get('above50') else '<'}50d" if 'px' in v else f"{k2} err" for k2, v in s.get("watch", {}).items()))
-    L.append("KALSHI EASY (>=93c, closes<48h, 24h vol>=100 or total>=1000; advisory, owner places): " + ("; ".join(f"{r['t']} '{r['title']}' {r['side']} {r['c']}c -> +{r['ret_pct']}% ({r['per_day']}%/day) closes {r['close']} vol {r['vol']} oi {r.get('oi')}" for r in k.get("easy", [])[:10]) or "none"))
+    L.append("KALSHI EASY (93-98c, closes<48h, vol or OI>=100, no parlays; advisory, owner places): " + ("; ".join(f"{r['t']} '{r['title']}' {r['side']} {r['c']}c -> +{r['ret_pct']}% ({r['per_day']}%/day) closes {r['close']} vol {r['vol']} oi {r.get('oi')}" for r in k.get("easy", [])[:10]) or "none"))
     L.append("KALSHI BTC RANGE near 50c (<30h): " + ("; ".join(f"{r['t']} '{r['title']}' yes {r['yes']}c closes {r['close']}" for r in k.get("btc_range", [])) or "none"))
     if ERRS: L.append("ERRORS: " + "; ".join(ERRS))
     (OUT / "scan.md").write_text("\n".join(L) + "\n")
