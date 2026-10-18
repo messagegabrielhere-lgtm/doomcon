@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-18T03:16:36.177Z",
+  "generated_at": "2026-10-18T03:38:19.007Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -1645,267 +1645,141 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 1945,
-      "n": 1074
+      "median_s": 35071,
+      "n": 90
     },
     "by_source": [
       {
-        "source": "scmp-tech",
-        "label": "SCMP — Tech",
-        "median_s": 390,
-        "n": 3
-      },
-      {
-        "source": "alignment-forum",
-        "label": "AI Alignment Forum",
-        "median_s": 544,
-        "n": 1
-      },
-      {
-        "source": "404media",
-        "label": "404 Media",
-        "median_s": 654,
-        "n": 5
-      },
-      {
-        "source": "bluesky-ai",
-        "label": "Bluesky — AI posts from vetted newsrooms and reporters",
-        "median_s": 757,
-        "n": 61
+        "source": "federal-register-ai",
+        "label": "Federal Register — AI",
+        "median_s": 0,
+        "n": 2
       },
       {
         "source": "gnews-ai",
         "label": "Google News — AI searches, last hour",
-        "median_s": 1124,
-        "n": 414
+        "median_s": 1737,
+        "n": 10
       },
       {
-        "source": "the-decoder",
-        "label": "The Decoder",
-        "median_s": 1215,
+        "source": "wires-ai",
+        "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
+        "median_s": 2150,
+        "n": 1
+      },
+      {
+        "source": "bluesky-ai",
+        "label": "Bluesky — AI posts from vetted newsrooms and reporters",
+        "median_s": 12193,
+        "n": 3
+      },
+      {
+        "source": "github-releases",
+        "label": "GitHub releases (AI basket)",
+        "median_s": 15867,
+        "n": 5
+      },
+      {
+        "source": "alignment-forum",
+        "label": "AI Alignment Forum",
+        "median_s": 16217,
+        "n": 1
+      },
+      {
+        "source": "lesswrong",
+        "label": "LessWrong",
+        "median_s": 16743,
+        "n": 6
+      },
+      {
+        "source": "nvidia-blog",
+        "label": "NVIDIA Blog",
+        "median_s": 23886,
+        "n": 1
+      },
+      {
+        "source": "techcrunch-ai",
+        "label": "TechCrunch — AI",
+        "median_s": 26220,
+        "n": 3
+      },
+      {
+        "source": "hn-ai",
+        "label": "Hacker News AI stories (72h)",
+        "median_s": 32809,
+        "n": 7
+      },
+      {
+        "source": "reddit-controlproblem",
+        "label": "Reddit r/ControlProblem",
+        "median_s": 35289,
         "n": 10
       },
       {
         "source": "techmeme",
         "label": "Techmeme front page (AI-filtered)",
-        "median_s": 1300,
-        "n": 39
+        "median_s": 45462,
+        "n": 11
       },
       {
-        "source": "nvidia-blog",
-        "label": "NVIDIA Blog",
-        "median_s": 1344,
-        "n": 5
-      },
-      {
-        "source": "govuk-ai",
-        "label": "GOV.UK — AI",
-        "median_s": 1833,
-        "n": 4
-      },
-      {
-        "source": "deepmind",
-        "label": "Google DeepMind blog",
-        "median_s": 1945,
+        "source": "interconnects",
+        "label": "Interconnects (newsletter)",
+        "median_s": 48685,
         "n": 1
-      },
-      {
-        "source": "hn-fresh-ai",
-        "label": "Hacker News — newest AI submissions (2h)",
-        "median_s": 2041,
-        "n": 49
-      },
-      {
-        "source": "wires-ai",
-        "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
-        "median_s": 2655,
-        "n": 122
-      },
-      {
-        "source": "bloomberg-tech",
-        "label": "Bloomberg Technology",
-        "median_s": 5787,
-        "n": 43
-      },
-      {
-        "source": "ft-ai",
-        "label": "Financial Times — AI",
-        "median_s": 7267,
-        "n": 17
-      },
-      {
-        "source": "lesswrong",
-        "label": "LessWrong",
-        "median_s": 8647,
-        "n": 17
-      },
-      {
-        "source": "nyt-tech",
-        "label": "The New York Times — Technology",
-        "median_s": 10638,
-        "n": 6
-      },
-      {
-        "source": "mistral",
-        "label": "Mistral AI blog",
-        "median_s": 12516,
-        "n": 1
-      },
-      {
-        "source": "openai-status",
-        "label": "OpenAI incident history",
-        "median_s": 13830,
-        "n": 2
-      },
-      {
-        "source": "guardian-ai",
-        "label": "The Guardian — AI",
-        "median_s": 14858,
-        "n": 12
-      },
-      {
-        "source": "github-releases",
-        "label": "GitHub releases (AI basket)",
-        "median_s": 14945,
-        "n": 7
-      },
-      {
-        "source": "hn-ai",
-        "label": "Hacker News AI stories (72h)",
-        "median_s": 19080,
-        "n": 26
-      },
-      {
-        "source": "reddit-controlproblem",
-        "label": "Reddit r/ControlProblem",
-        "median_s": 20651,
-        "n": 18
-      },
-      {
-        "source": "bbc-tech",
-        "label": "BBC News — Technology",
-        "median_s": 21176,
-        "n": 2
-      },
-      {
-        "source": "latent-space",
-        "label": "Latent Space (newsletter)",
-        "median_s": 21340,
-        "n": 3
-      },
-      {
-        "source": "techcrunch-ai",
-        "label": "TechCrunch — AI",
-        "median_s": 21959,
-        "n": 15
-      },
-      {
-        "source": "arstechnica-ai",
-        "label": "Ars Technica AI",
-        "median_s": 22836,
-        "n": 5
-      },
-      {
-        "source": "mit-news-ai",
-        "label": "MIT News — AI",
-        "median_s": 23048,
-        "n": 2
-      },
-      {
-        "source": "reddit-artificial",
-        "label": "Reddit r/artificial",
-        "median_s": 24773,
-        "n": 27
-      },
-      {
-        "source": "ai-snake-oil",
-        "label": "AI Snake Oil (newsletter)",
-        "median_s": 27588,
-        "n": 1
-      },
-      {
-        "source": "infoq-ai",
-        "label": "InfoQ — AI/ML",
-        "median_s": 28415,
-        "n": 2
-      },
-      {
-        "source": "reddit-machinelearning",
-        "label": "Reddit r/MachineLearning",
-        "median_s": 29505,
-        "n": 8
       },
       {
         "source": "verge-ai",
         "label": "The Verge — AI",
-        "median_s": 31174,
-        "n": 14
+        "median_s": 48961,
+        "n": 2
       },
       {
-        "source": "simon-willison",
-        "label": "Simon Willison",
-        "median_s": 31295,
+        "source": "bloomberg-tech",
+        "label": "Bloomberg Technology",
+        "median_s": 52346,
+        "n": 5
+      },
+      {
+        "source": "guardian-ai",
+        "label": "The Guardian — AI",
+        "median_s": 57899,
+        "n": 7
+      },
+      {
+        "source": "the-decoder",
+        "label": "The Decoder",
+        "median_s": 61491,
+        "n": 5
+      },
+      {
+        "source": "scmp-tech",
+        "label": "SCMP — Tech",
+        "median_s": 63488,
         "n": 2
       },
       {
         "source": "wired-ai",
         "label": "WIRED — AI",
-        "median_s": 33692,
+        "median_s": 67099,
         "n": 1
       },
       {
-        "source": "reddit-singularity",
-        "label": "Reddit r/singularity",
-        "median_s": 34603,
-        "n": 27
-      },
-      {
-        "source": "google-research",
-        "label": "Google Research Blog",
-        "median_s": 40952,
-        "n": 3
-      },
-      {
-        "source": "meta-news",
-        "label": "Meta newsroom",
-        "median_s": 42972,
-        "n": 2
-      },
-      {
-        "source": "aws-ml",
-        "label": "AWS Machine Learning Blog",
-        "median_s": 44707,
-        "n": 4
-      },
-      {
-        "source": "hf-daily-papers",
-        "label": "Hugging Face Daily Papers",
-        "median_s": 47258,
-        "n": 81
-      },
-      {
-        "source": "nature-ml",
-        "label": "Nature — machine learning",
-        "median_s": 47258,
-        "n": 2
-      },
-      {
-        "source": "huggingface-blog",
-        "label": "Hugging Face blog",
-        "median_s": 48373,
-        "n": 4
-      },
-      {
-        "source": "openai",
-        "label": "OpenAI newsroom",
-        "median_s": 56192,
-        "n": 5
-      },
-      {
-        "source": "apple-ml",
-        "label": "Apple Machine Learning Research",
-        "median_s": 61332,
+        "source": "latent-space",
+        "label": "Latent Space (newsletter)",
+        "median_s": 71441,
         "n": 1
+      },
+      {
+        "source": "ft-ai",
+        "label": "Financial Times — AI",
+        "median_s": 75188,
+        "n": 4
+      },
+      {
+        "source": "infoq-ai",
+        "label": "InfoQ — AI/ML",
+        "median_s": 77059,
+        "n": 2
       }
     ]
   }
