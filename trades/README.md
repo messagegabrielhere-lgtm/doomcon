@@ -18,3 +18,15 @@ A position row:
 symbol like `BTC`). `trail_pct` arms only once price has reached `trail_from`;
 `high` is maintained by the script. Timestamps are UTC. A quote older than
 15 minutes is normal (delayed feeds).
+
+## scan.py — free market scan (every 30 min)
+
+`trade-scan.yml` runs `scan.py` and publishes `scan.md` + `scan.json` to the
+orphan branch `trade-data` (force-pushed, one commit, so `main` stays clean):
+`https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/trade-data/scan.md`.
+It covers every Robinhood-listed coin (`crypto_syms.txt`, via Coinbase Exchange),
+the whole US stock table (Nasdaq screener, with 20/50-day SMA, RSI14 and volume
+ratio from stooq/Yahoo for the candidates), SPY/VIX regime, a BTC-linked and
+inverse-ETF watch row, and Kalshi public markets: near-certain contracts
+(>=93c, closing within 48h) plus BTC daily range markets near 50c. Advisory
+only; nothing here places orders.
