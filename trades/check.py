@@ -27,11 +27,13 @@ def price(p):
             m = get(f"https://query1.finance.yahoo.com/v8/finance/chart/{p['symbol']}?range=1d&interval=1m")
             return float(m["chart"]["result"][0]["meta"]["regularMarketPrice"])
     if t == "option":
-        for o in cboe(p["symbol"])["options"]:
-            if o["option"] == p["occ"]:
+        opts = cboe(p["symbol"]).get("options") or []
+        for o in opts:
+            if o.get("option") == p["occ"]:
                 bid, ask = float(o.get("bid") or 0), float(o.get("ask") or 0)
                 return round((bid + ask) / 2, 2) if bid and ask else float(o.get("last_trade_price") or 0)
-        raise RuntimeError("occ not found")
+        sample = [o.get("option") for o in opts[:2]]
+        raise RuntimeError(f"occ {p['occ']} not in {len(opts)} opts, e.g. {sample}")
     raise RuntimeError("bad type")
 
 def verdict(p, px):
@@ -55,7 +57,7 @@ def main():
             px = price(p)
             v = verdict(p, px)
         except Exception as e:
-            px, v = None, f"ERR {type(e).__name__}"
+            px, v = None, f"ERR {type(e).__name__}: {str(e)[:120]}"
         if v in ("STOP", "TARGET", "TRAIL"):
             breach = True
         lines.append(f"{p['id']} px={px} stop={p.get('stop')} target={p.get('target')} high={p.get('high')} -> {v} | {p.get('action','')}")
