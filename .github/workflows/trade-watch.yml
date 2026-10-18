@@ -1,0 +1,30 @@
+name: trade-watch
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trade-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check prices against watch.json
+        run: python3 trades/check.py
+      - name: Commit status if changed
+        run: |
+          git config user.name 'trade-watch'
+          git config user.email 'trade-watch@users.noreply.github.com'
+          git add trades/status.txt trades/watch.json
+          if git diff --cached --quiet; then echo 'no change'; exit 0; fi
+          git commit -m "trade-watch: $(head -1 trades/status.txt) [skip ci]"
+          for i in 1 2 3; do git push && break || { git pull --rebase && sleep 3; }; done
