@@ -103,18 +103,32 @@ def crypto():
             "leaders": sorted(ok, key=lambda r: -(r["d"] or -99))[:5]}
 
 # ---------- STOCKS ----------
+NQH = dict(UA); NQH["Origin"] = "https://www.nasdaq.com"; NQH["Referer"] = "https://www.nasdaq.com/"
+ETFS = {"SPY", "QQQ", "IBIT", "SQQQ", "TZA", "SPXU", "SOXS", "TQQQ", "SOXL", "UVXY", "IWM", "DIA", "GLD", "SLV", "TLT", "XLF", "XLE", "ARKK", "BITO", "ETHA"}
+def num(x):
+    return float(str(x).replace("$", "").replace(",", "").replace("%", "").strip() or 0)
+
+def nq(path, sym):
+    """Nasdaq API with stocks/etf asset class fallback."""
+    classes = ("etf", "stocks") if sym.upper() in ETFS else ("stocks", "etf")
+    last = None
+    for ac in classes:
+        try:
+            j = get(f"https://api.nasdaq.com/api/quote/{sym.upper()}/{path}&assetclass={ac}", headers=NQH, timeout=10)
+            if j.get("data"): return j["data"]
+        except Exception as e:
+            last = e
+    raise last or RuntimeError("no data")
+
+def nq_px(sym):
+    return num(nq("info?x=1", sym)["primaryData"]["lastSalePrice"])
+
 def hist(sym, days=80):
-    """Daily closes/volumes, oldest first. stooq first, Yahoo fallback."""
-    try:
-        t = get(f"https://stooq.com/q/d/l/?s={sym.lower()}.us&i=d", raw=True)
-        rd = list(csv.DictReader(io.StringIO(t)))
-        if len(rd) > 30:
-            return [float(r["Close"]) for r in rd[-days:]], [float(r["Volume"] or 0) for r in rd[-days:]]
-    except Exception:
-        pass
-    m = get(f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range=4mo&interval=1d")["chart"]["result"][0]
-    q = m["indicators"]["quote"][0]
-    return [c for c in q["close"] if c is not None][-days:], [v or 0 for v in q["volume"]][-days:]
+    """Daily closes/volumes, oldest first, from the Nasdaq historical API."""
+    frm = (NOW - datetime.timedelta(days=150)).strftime("%Y-%m-%d"); to = NOW.strftime("%Y-%m-%d")
+    rows = nq(f"historical?fromdate={frm}&todate={to}&limit=120", sym)["tradesTable"]["rows"]
+    rows = list(reversed(rows))  # API is newest first
+    return [num(r["close"]) for r in rows][-days:], [num(r["volume"]) for r in rows][-days:]
 
 def tech(sym, px=None, vol=None):
     cl, vo = hist(sym)
@@ -125,20 +139,24 @@ def tech(sym, px=None, vol=None):
     return {"sma20": s20, "sma50": s50, "rsi": rsi(cl), "volx": (vo[-1] / avgv) if avgv else None,
             "above20": bool(s20 and cl[-1] > s20), "above50": bool(s50 and cl[-1] > s50), "px": cl[-1]}
 
+CBOE_UA = {"User-Agent": "Mozilla/5.0 (trade-watch)"}
 def cboe_px(sym):
-    return float(get(f"https://cdn.cboe.com/api/global/delayed_quotes/options/{sym}.json")["data"]["current_price"])
+    try:
+        return float(get(f"https://cdn.cboe.com/api/global/delayed_quotes/options/{sym}.json", headers=CBOE_UA)["data"]["current_price"])
+    except Exception:
+        return nq_px(sym.lstrip("_"))
 
 def stocks():
     out = {}
     # regime
     try:
         spy = tech("SPY", px=cboe_px("SPY"))
-        try: vix = cboe_px("_VIX")
-        except Exception: vix = get("https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=1d&interval=1m")["chart"]["result"][0]["meta"]["regularMarketPrice"]
+        try: vix = float(get("https://cdn.cboe.com/api/global/delayed_quotes/options/_VIX.json", headers=CBOE_UA)["data"]["current_price"])
+        except Exception as e: ERRS.append(f"vix {type(e).__name__}"); vix = 0
         reg = "RISK-OFF" if (not spy["above50"] or vix > 25) else ("MIXED" if not spy["above20"] else "RISK-ON")
         out["regime"] = {"spy": spy, "vix": vix, "label": reg}
     except Exception as e:
-        ERRS.append(f"regime {type(e).__name__}"); out["regime"] = {"label": "UNKNOWN"}
+        ERRS.append(f"regime {type(e).__name__}: {str(e)[:60]}"); out["regime"] = {"label": "UNKNOWN"}
     # all-stock table
     rows = []
     try:
@@ -176,7 +194,8 @@ def stocks():
         try:
             t = tech(r["sym"], px=r["px"], vol=r["vol"]); r.update(t)
             if t["above20"] and t["rsi"] and 55 <= t["rsi"] <= 75 and (t["volx"] or 0) >= 1.0: longs.append(r)
-        except Exception: pass
+        except Exception as e:
+            if len(ERRS) < 6: ERRS.append(f"hist {r['sym']} {type(e).__name__}")
         time.sleep(0.15)
     for r in putc:
         if not bud.ok(): break
@@ -200,11 +219,15 @@ def kalshi():
     easy, btcr, cursor, pages = [], [], None, 0
     horizon = NOW + datetime.timedelta(hours=48)
     bud = Budget(120)
+    seen = 0
     while pages < 12 and bud.ok():
         q = {"limit": 1000, "status": "open"}
         if cursor: q["cursor"] = cursor
         j = get(base + "?" + urllib.parse.urlencode(q))
-        for m in j.get("markets", []):
+        ms = j.get("markets", [])
+        seen += len(ms)
+        if pages == 0: log(f"kalshi page0 markets={len(ms)} keys={list(j.keys())} sample={(ms[0].get('ticker'), ms[0].get('yes_ask'), ms[0].get('close_time'), ms[0].get('volume_24h')) if ms else None}")
+        for m in ms:
             try:
                 ct = datetime.datetime.fromisoformat(m["close_time"].replace("Z", "+00:00"))
             except Exception:
@@ -224,7 +247,8 @@ def kalshi():
         if not cursor: break
         time.sleep(0.2)
     easy.sort(key=lambda r: (-r["per_day"], -r["vol"]))
-    return {"easy": easy[:15], "btc_range": sorted(btcr, key=lambda r: r["close"])[:8], "pages": pages}
+    log(f"kalshi seen {seen} markets in {pages} pages, easy {len(easy)}, btc {len(btcr)}")
+    return {"easy": easy[:15], "btc_range": sorted(btcr, key=lambda r: r["close"])[:8], "pages": pages, "seen": seen}
 
 def f(x, n=2):
     return "-" if x is None else (f"{x:.{n}f}" if isinstance(x, float) else str(x))
