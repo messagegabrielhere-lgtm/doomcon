@@ -420,7 +420,8 @@ def cnbc_quotes():
         r = next((by[c] for c in cands if c in by and by[c].get("last")), None)
         if not r: continue
         try:
-            px = num(r.get("last")); chg = num(r.get("change_pct"))
+            px = num(r.get("last")); cp = str(r.get("change_pct") or "").strip().upper()
+            chg = 0.0 if cp in ("UNCH", "", "--") else num(cp)
             if px: out[k] = {"px": px, "chg": chg, "t": r.get("last_time")}
         except Exception: pass
     return out
