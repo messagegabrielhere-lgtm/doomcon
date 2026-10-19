@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-19T00:43:49.893Z",
-  "news_generated_at": "2026-10-19T00:43:49.893Z",
+  "generated_at": "2026-10-19T01:04:58.749Z",
+  "news_generated_at": "2026-10-19T01:04:58.749Z",
   "matcher_version": "1.2.0",
   "window_days": 7,
-  "window_start": "2026-10-12T00:43:49.893Z",
+  "window_start": "2026-10-12T01:04:58.749Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -143,7 +143,7 @@
     "window_binds": true,
     "oldest_item_at": "2026-10-16T00:00:00.000Z",
     "newest_item_at": "2026-10-19T04:00:00.000Z",
-    "named_without_cue": 13
+    "named_without_cue": 15
   },
   "cross_check": {
     "source": "data/race.json",
@@ -162,8 +162,8 @@
     "no_line": 13,
     "lines": 8,
     "distinct_items": 7,
-    "quiet": 13,
-    "unreachable": 0,
+    "quiet": 12,
+    "unreachable": 1,
     "no_sources": 3,
     "press_lines": 7,
     "direct_lines": 1
@@ -173,7 +173,7 @@
     "ran": true,
     "feeds_configured": 27,
     "feeds_checked": 27,
-    "feeds_ok": 21,
+    "feeds_ok": 16,
     "reasons": [
       "quiet",
       "sources_unreachable",
@@ -190,15 +190,15 @@
     "source": "Google News search RSS (news.google.com/rss/search), one exact-phrase query per person",
     "is_statement": false,
     "means": "Stories in the press that mention the person, counted as distinct (title, outlet) pairs ever observed. Coverage is not a statement: it never puts anyone on the record, and only the outlet's own headline is shown.",
-    "generated_at": "2026-10-19T00:44:34.871Z",
+    "generated_at": "2026-10-19T01:05:12.045Z",
     "min_interval_minutes": 15,
     "days": 14,
     "ran": true,
     "polled": 20,
     "leaders_with_data": 20,
     "leaders_dark": 0,
-    "total_24h": 50,
-    "total_7d": 1902,
+    "total_24h": 52,
+    "total_7d": 1904,
     "trend_means": "Week over week: this 7 days against the 7 before. Shown only once a full previous week has been observed; flat inside ±10% or ±2 stories.",
     "profile_source": "Wikipedia REST summary (en.wikipedia.org/api/rest_v1/page/summary), CC BY-SA 4.0, refreshed at most daily",
     "profile_min_interval_hours": 24,
@@ -228,7 +228,7 @@
         "kind": "forum",
         "url": "https://reddit.com/r/OpenAI/comments/1x8pvx0/if_you_think_si_will_revere_sam_altman_or_any",
         "published_at": "2026-10-18T00:45:15.000Z",
-        "score": 26.4,
+        "score": 26.3,
         "pillar": "attention",
         "matched_alias": "Sam Altman",
         "cue": "speak",
@@ -252,7 +252,7 @@
           "kind": "forum",
           "url": "https://reddit.com/r/OpenAI/comments/1x8pvx0/if_you_think_si_will_revere_sam_altman_or_any",
           "published_at": "2026-10-18T00:45:15.000Z",
-          "score": 26.4,
+          "score": 26.3,
           "pillar": "attention",
           "matched_alias": "Sam Altman",
           "cue": "speak",
@@ -298,7 +298,7 @@
       },
       "days_silent": 0,
       "sources_checked": 4,
-      "sources_ok": 4,
+      "sources_ok": 3,
       "direct_sources": [
         {
           "id": "samaltman-blog",
@@ -311,7 +311,7 @@
           "ok": true,
           "error": null,
           "entries": 30,
-          "fetched_at": "2026-10-19T00:44:34.871Z",
+          "fetched_at": "2026-10-19T01:05:12.046Z",
           "attributed": 20,
           "newest_attributed_at": "2026-04-10T22:55:13.000Z"
         },
@@ -326,7 +326,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-19T00:44:35.282Z",
+          "fetched_at": "2026-10-19T01:05:12.670Z",
           "attributed": 1,
           "newest_attributed_at": "2026-09-23T12:00:00.000Z"
         },
@@ -338,11 +338,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-19T00:44:35.846Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
+          "entries": null,
+          "fetched_at": "2026-10-19T01:05:13.091Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -363,11 +363,17 @@
         "source": "Google News search (RSS)",
         "query": "\"Sam Altman\"",
         "url": "https://news.google.com/rss/search?q=%22Sam%20Altman%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:34.872Z",
-        "fetched_at": "2026-10-19T00:44:34.872Z",
+        "attempted_at": "2026-10-19T01:05:12.046Z",
+        "fetched_at": "2026-10-19T01:05:12.046Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Zoom and big financial firms add 'Proof of Human' badges from Sam Altman's World to stop fraud and deep fakes",
+            "outlet": "Fortune",
+            "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQUlZPR0wzMFl3RmFpMmVXODM3bGoydy1EcjNHTlhaaUtPdVRsdWUxalFMckRCZjV2RlJoVFJRYjExZG5yRkdiWnhZa1kzbzVXMlJySzFYMnlNcDdHbjIzamNrVU1aUEh0dmctYlozczRkWVNJcHpwUVB3S3JMMXFyY0ptdjJIeXdsUVpUUG9KMWl1R2pVcVhoWnJDZm0?oc=5",
+            "published_at": "2026-10-19T01:00:00.000Z"
+          },
           {
             "title": "Sam Altman praises the Tesla Roadster he gave up on",
             "outlet": "TheStreet",
@@ -409,16 +415,10 @@
             "outlet": "France 24",
             "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQTkxCcUcxTmp1dU9MUGx0M0x3cU1zYmM3akItcm5SdW85N3dTeGpZWDRMWTNGejRESUFkdkxlbUhyTjY4Tk9WdDB0QjVRbkNKS2pDdnJIaVMwWnZGc1FJZjBsMEhDTzk2bTdqVnVIMVJIWHdHcmNjM0dnX0s2UVZyUFd6Wk5Zdk4zb0xIalhuOGhTWXkxMU5WdEs0eExUaUItR095YXdBMnBZQ3FS?oc=5",
             "published_at": "2026-10-18T01:27:25.000Z"
-          },
-          {
-            "title": "Hollywood's fresh take on tech titans: from heroes to villains",
-            "outlet": "KMVU FOX 26 Medford",
-            "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPU0RuckRXMmtVTU9DT3VMNjBxV2pUb0x3ZlUxVlQyVFIzbmNiX2pyaklPVGRrdW9rUHdGbmUwZUl4MGJlTGk2WWo2WFRHejBEckE1RElBbDlSWTVxejgzQVNyaFFIb0prc09tVDdhNHFDTEkyTDdJeWxqU2lqNXM5dEFWVXprQjJZRXVRUjNiQWc5ZXRieDBoQ2lBQUZDd3k4ZFJGeU9YWGpVc09WOW1ZWFN1SkhvX3Z1ckd6Yjc2ZmpvOWpmZWZNNXQ4NXRsSXRaLXg3MW9UckJyZ0xXMk9KNmlwWXhFVE92?oc=5",
-            "published_at": "2026-10-18T01:22:03.000Z"
           }
         ],
-        "count_24h": 8,
-        "count_7d": 178,
+        "count_24h": 9,
+        "count_7d": 179,
         "count_prev_7d": 250,
         "daily": [
           {
@@ -475,13 +475,13 @@
           },
           {
             "day": "2026-10-19",
-            "n": 1
+            "n": 2
           }
         ],
         "trend": {
           "dir": "down",
-          "delta": -72,
-          "pct": -29,
+          "delta": -71,
+          "pct": -28,
           "baseline_complete": true
         },
         "saturated": false,
@@ -515,8 +515,8 @@
         "verdict": "both_quiet",
         "note": "The watch floor reads no feed and no headline in this window named Dario Amodei beside a speech cue. Two separate silences, neither imputed from the other."
       },
-      "group": "quiet",
-      "reason": "quiet",
+      "group": "unreachable",
+      "reason": "sources_unreachable",
       "press_count": 0,
       "direct_count": 0,
       "press_sources": [],
@@ -531,7 +531,7 @@
       },
       "days_silent": 1,
       "sources_checked": 2,
-      "sources_ok": 2,
+      "sources_ok": 1,
       "direct_sources": [
         {
           "id": "yt-anthropic",
@@ -541,11 +541,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCrDwWp7EBBv4NwvScIpBDOA",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-19T00:44:35.911Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCrDwWp7EBBv4NwvScIpBDOA — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
+          "entries": null,
+          "fetched_at": "2026-10-19T01:05:13.117Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -566,11 +566,17 @@
         "source": "Google News search (RSS)",
         "query": "\"Dario Amodei\"",
         "url": "https://news.google.com/rss/search?q=%22Dario%20Amodei%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:34.872Z",
-        "fetched_at": "2026-10-19T00:44:34.872Z",
+        "attempted_at": "2026-10-19T01:05:12.046Z",
+        "fetched_at": "2026-10-19T01:05:12.046Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "What to Know About the Obscure Private Trust Looming Over Anthropic’s IPO",
+            "outlet": "WSJ",
+            "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1ISFpZMnFpbzQ3NWZQZmF0ZDUyNk1wSFg2WUFZT0hiSXh6THFObUw3dUFCbzk5UVY0NjNfdXQxQWhybEQxLXNZNlB4cllkOXFMa05CZ3dmekU1dTZkSGdMczZqeXFneFFCcUxmc3d4UDczdw?oc=5",
+            "published_at": "2026-10-19T01:00:00.000Z"
+          },
           {
             "title": "Anthropic commits 5% of its stock to a new 'public benefit' fund",
             "outlet": "CT Insider",
@@ -612,17 +618,11 @@
             "outlet": "TribLIVE.com",
             "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBibE9xbGt1Um1OYmJwWGJhNUkxaGdrbUpTY0pLQ1h5SUtEbFo4dmR2SXRJRzhVbjdwTUZjem5DZVFPVDNjMmg5eEEtVEpRNm1tMm8zTEt3?oc=5",
             "published_at": "2026-10-18T18:44:31.000Z"
-          },
-          {
-            "title": "Junior Tech Hires’ Share at Anthropic Falls From 27% to 9% as AI Reshapes Work",
-            "outlet": "Open Magazine",
-            "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNMUZRNHV0QWlySjY3d3lEcEM5MFlOMVN0eldydkFzUEFTRWRraXV2X3cyWENlUkhHNS1hOHJlUEZfZWF2WTNaLVFjcmVZUnVZSlVJSWJvOWFSMzQ3bW5Yb0N5SHBZU1NUY1FCcmhucEJHV21xeHFFZXg0eEduUHpwUWlyLU82R1Z0bWhOWXllUVQ0VmdaWWNTelFqei1oSmlEWlJJazA1b0s4UkNpLVZOVkZ3?oc=5",
-            "published_at": "2026-10-18T18:04:25.000Z"
           }
         ],
-        "count_24h": 14,
-        "count_7d": 251,
-        "count_prev_7d": 179,
+        "count_24h": 15,
+        "count_7d": 252,
+        "count_prev_7d": 178,
         "daily": [
           {
             "day": "2026-10-06",
@@ -678,13 +678,13 @@
           },
           {
             "day": "2026-10-19",
-            "n": 0
+            "n": 1
           }
         ],
         "trend": {
           "dir": "up",
-          "delta": 72,
-          "pct": 40,
+          "delta": 74,
+          "pct": 42,
           "baseline_complete": true
         },
         "saturated": true,
@@ -734,7 +734,7 @@
       },
       "days_silent": 4,
       "sources_checked": 5,
-      "sources_ok": 5,
+      "sources_ok": 4,
       "direct_sources": [
         {
           "id": "deepmind-blog",
@@ -747,7 +747,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-19T00:44:35.363Z",
+          "fetched_at": "2026-10-19T01:05:12.755Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -762,7 +762,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-19T00:44:35.443Z",
+          "fetched_at": "2026-10-19T01:05:12.785Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -777,7 +777,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-19T00:44:35.650Z",
+          "fetched_at": "2026-10-19T01:05:13.004Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -789,11 +789,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-19T00:44:35.917Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-19T01:05:13.267Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -814,8 +814,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Demis Hassabis\"",
         "url": "https://news.google.com/rss/search?q=%22Demis%20Hassabis%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:34.872Z",
-        "fetched_at": "2026-10-19T00:44:34.872Z",
+        "attempted_at": "2026-10-19T01:05:12.046Z",
+        "fetched_at": "2026-10-19T01:05:12.046Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -963,7 +963,7 @@
         "kind": "press",
         "url": "https://techmeme.com/261017/p16",
         "published_at": "2026-10-17T19:10:04.000Z",
-        "score": 40.8,
+        "score": 40.7,
         "pillar": "attention",
         "matched_alias": "Musk",
         "cue": "says",
@@ -988,7 +988,7 @@
           "kind": "press",
           "url": "https://techmeme.com/261017/p16",
           "published_at": "2026-10-17T19:10:04.000Z",
-          "score": 40.8,
+          "score": 40.7,
           "pillar": "attention",
           "matched_alias": "Musk",
           "cue": "says",
@@ -1012,7 +1012,7 @@
           "kind": "forum",
           "url": "https://reddit.com/r/technology/comments/1x8e0is/tiktok_permanently_suspends_the_musk_film_account",
           "published_at": "2026-10-17T16:08:25.000Z",
-          "score": 21.2,
+          "score": 21.1,
           "pillar": "attention",
           "matched_alias": "Musk",
           "cue": "quoted text",
@@ -1059,7 +1059,7 @@
       },
       "days_silent": 0,
       "sources_checked": 3,
-      "sources_ok": 2,
+      "sources_ok": 1,
       "direct_sources": [
         {
           "id": "yt-xai",
@@ -1072,7 +1072,7 @@
           "ok": false,
           "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCo2ri0cvAs8Lxbp18UHZsgg — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
           "entries": null,
-          "fetched_at": "2026-10-19T00:44:36.025Z",
+          "fetched_at": "2026-10-19T01:05:13.445Z",
           "attributed": null,
           "newest_attributed_at": null
         },
@@ -1084,11 +1084,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC5WjFrtBdufl6CZojX3D8dQ",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-19T00:44:36.049Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UC5WjFrtBdufl6CZojX3D8dQ — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-19T01:05:13.509Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -1109,8 +1109,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Elon Musk\"",
         "url": "https://news.google.com/rss/search?q=%22Elon%20Musk%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:34.872Z",
-        "fetched_at": "2026-10-19T00:44:34.872Z",
+        "attempted_at": "2026-10-19T01:05:12.046Z",
+        "fetched_at": "2026-10-19T01:05:12.046Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -1125,12 +1125,6 @@
             "outlet": "The Free Press",
             "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFB6UEk4WjR0UTFiU1NkUzFNTEJYQmo5X21CaW01MV9MX054WllsZndOT3Y2WTFpZzY1SGZ4LWw0cG5ndDNCaHpBS3dwQkh4ajk5LUpfX2xoeE11UndPWC1KWFh5Q29JWG1VZ2ROd2pwVlQ5b0tvU2c?oc=5",
             "published_at": "2026-10-18T18:43:01.000Z"
-          },
-          {
-            "title": "Exclusive: Musk tells Isaacson \"AI and robots\" will need to fix deficit",
-            "outlet": "Axios",
-            "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE44U2w2LWYybWZUbUVseTk4VFlMcGpBN0JjamkwM2VLb1QzUksyVmdnd3k4YVZaUV9PaWFkR2ExVXFuN2hOVHNCTGFnWE1YRUNHdWtuaHFpaTE1VFd3OWtjYjU5R1hsVmVDbmdsajdlR09RY3ZXNUpRbmZtTQ?oc=5",
-            "published_at": "2026-10-18T11:09:42.000Z"
           },
           {
             "title": "TikTok suspends 'Musk' documentary account over political content",
@@ -1155,6 +1149,12 @@
             "outlet": "Cleveland.com",
             "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPZkMtT1ljSzdKdWhKZ2Z2d2F5b2Y1WVpRUTh6Sk9YSDQ3enVJQmVvYU5NNkZkSWZJMEx0elRJOVBHT2VORnFVWmdpbFhLalM2Tkd3Q3dtd1BpQnd4X3J6Y0hGc0htZ3hEbmRyelRTbG4yeWdWWDlnOG5jejVpQWY5eVgwcEVIRHNJVGhtX1E1RkFyMS1PbWpLX3d4N1VpRHM3ZkVESWlB0gG6AUFVX3lxTE9yTDNicldwOGs3MkVQQXZXQjB2ODdST1J5TEJvS0dSV19DZ0h3UmZLcWhCZEdiZGpkMVAyR3E1cEhBLUNTdTFQU3B6ZkNJejZpZEdHUlpVU3VURnBYaEV3M0JRc0xOQkdKeVA1QXQzdXdCWGs2WFRKSVJuN09DdmYtbTBhNWd1U2Y1U2lfaHg0aC1Ld0RsX1VCRUlCREZ1aTNFZlVNRlhndjZHeUdPYlkyZTVFZ0VoaUpSZw?oc=5",
             "published_at": "2026-10-17T20:36:00.000Z"
+          },
+          {
+            "title": "Exclusive: Musk tells Isaacson \"AI and robots\" will need to fix deficit",
+            "outlet": "Axios",
+            "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE44U2w2LWYybWZUbUVseTk4VFlMcGpBN0JjamkwM2VLb1QzUksyVmdnd3k4YVZaUV9PaWFkR2ExVXFuN2hOVHNCTGFnWE1YRUNHdWtuaHFpaTE1VFd3OWtjYjU5R1hsVmVDbmdsajdlR09RY3ZXNUpRbmZtTQ?oc=5",
+            "published_at": "2026-10-17T18:51:46.000Z"
           },
           {
             "title": "Zelensky says Musk-owned satellite system still restricted in Ukraine",
@@ -1258,7 +1258,7 @@
         "kind": "press",
         "url": "https://techmeme.com/261017/p8",
         "published_at": "2026-10-17T06:35:01.000Z",
-        "score": 26.4,
+        "score": 26.3,
         "pillar": "attention",
         "matched_alias": "Zuckerberg",
         "cue": "say",
@@ -1283,7 +1283,7 @@
           "kind": "press",
           "url": "https://techmeme.com/261017/p8",
           "published_at": "2026-10-17T06:35:01.000Z",
-          "score": 26.4,
+          "score": 26.3,
           "pillar": "attention",
           "matched_alias": "Zuckerberg",
           "cue": "say",
@@ -1330,7 +1330,7 @@
       },
       "days_silent": 1,
       "sources_checked": 3,
-      "sources_ok": 3,
+      "sources_ok": 2,
       "direct_sources": [
         {
           "id": "meta-newsroom",
@@ -1343,7 +1343,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-19T00:44:35.713Z",
+          "fetched_at": "2026-10-19T01:05:13.012Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1355,11 +1355,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC5qxlwEKM7-5YZudb24l0bg",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-19T00:44:36.024Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UC5qxlwEKM7-5YZudb24l0bg — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-19T01:05:13.439Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -1380,8 +1380,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Mark Zuckerberg\"",
         "url": "https://news.google.com/rss/search?q=%22Mark%20Zuckerberg%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:35.344Z",
-        "fetched_at": "2026-10-19T00:44:35.344Z",
+        "attempted_at": "2026-10-19T01:05:12.609Z",
+        "fetched_at": "2026-10-19T01:05:12.609Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -1610,7 +1610,7 @@
           "ok": true,
           "error": null,
           "entries": 18,
-          "fetched_at": "2026-10-19T00:44:35.653Z",
+          "fetched_at": "2026-10-19T01:05:13.008Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1625,7 +1625,7 @@
           "ok": false,
           "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCHuiy8bXnmK5nisYHUd1J5g — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
           "entries": null,
-          "fetched_at": "2026-10-19T00:44:35.998Z",
+          "fetched_at": "2026-10-19T01:05:13.349Z",
           "attributed": null,
           "newest_attributed_at": null
         }
@@ -1647,8 +1647,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Jensen Huang\"",
         "url": "https://news.google.com/rss/search?q=%22Jensen%20Huang%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:35.439Z",
-        "fetched_at": "2026-10-19T00:44:35.439Z",
+        "attempted_at": "2026-10-19T01:05:12.704Z",
+        "fetched_at": "2026-10-19T01:05:12.704Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -1877,7 +1877,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-19T00:44:35.556Z",
+          "fetched_at": "2026-10-19T01:05:12.826Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1892,7 +1892,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-19T00:44:35.644Z",
+          "fetched_at": "2026-10-19T01:05:12.971Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1905,9 +1905,9 @@
           "verified": true,
           "checked": true,
           "ok": false,
-          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
           "entries": null,
-          "fetched_at": "2026-10-19T00:44:35.947Z",
+          "fetched_at": "2026-10-19T01:05:13.274Z",
           "attributed": null,
           "newest_attributed_at": null
         }
@@ -1929,8 +1929,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Satya Nadella\"",
         "url": "https://news.google.com/rss/search?q=%22Satya%20Nadella%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:35.517Z",
-        "fetched_at": "2026-10-19T00:44:35.517Z",
+        "attempted_at": "2026-10-19T01:05:12.737Z",
+        "fetched_at": "2026-10-19T01:05:12.737Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -2109,7 +2109,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-19T00:44:35.443Z",
+          "fetched_at": "2026-10-19T01:05:12.785Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2124,7 +2124,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-19T00:44:35.492Z",
+          "fetched_at": "2026-10-19T01:05:12.816Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2139,7 +2139,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-19T00:44:35.650Z",
+          "fetched_at": "2026-10-19T01:05:13.004Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2152,9 +2152,9 @@
           "verified": true,
           "checked": true,
           "ok": false,
-          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCK8sQmJBp8GCxrOtXWBpyEA — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCK8sQmJBp8GCxrOtXWBpyEA — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
           "entries": null,
-          "fetched_at": "2026-10-19T00:44:35.946Z",
+          "fetched_at": "2026-10-19T01:05:13.271Z",
           "attributed": null,
           "newest_attributed_at": null
         }
@@ -2176,8 +2176,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Sundar Pichai\"",
         "url": "https://news.google.com/rss/search?q=%22Sundar%20Pichai%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:35.550Z",
-        "fetched_at": "2026-10-19T00:44:35.550Z",
+        "attempted_at": "2026-10-19T01:05:12.763Z",
+        "fetched_at": "2026-10-19T01:05:12.763Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -2349,7 +2349,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-19T00:44:35.556Z",
+          "fetched_at": "2026-10-19T01:05:12.826Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2364,7 +2364,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-19T00:44:35.644Z",
+          "fetched_at": "2026-10-19T01:05:12.971Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2377,9 +2377,9 @@
           "verified": true,
           "checked": true,
           "ok": false,
-          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
           "entries": null,
-          "fetched_at": "2026-10-19T00:44:35.947Z",
+          "fetched_at": "2026-10-19T01:05:13.274Z",
           "attributed": null,
           "newest_attributed_at": null
         }
@@ -2401,8 +2401,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Mustafa Suleyman\" AI",
         "url": "https://news.google.com/rss/search?q=%22Mustafa%20Suleyman%22%20AI%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:35.725Z",
-        "fetched_at": "2026-10-19T00:44:35.725Z",
+        "attempted_at": "2026-10-19T01:05:13.056Z",
+        "fetched_at": "2026-10-19T01:05:13.056Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -2615,7 +2615,7 @@
       },
       "days_silent": 5,
       "sources_checked": 5,
-      "sources_ok": 5,
+      "sources_ok": 4,
       "direct_sources": [
         {
           "id": "deepmind-blog",
@@ -2628,7 +2628,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-19T00:44:35.363Z",
+          "fetched_at": "2026-10-19T01:05:12.755Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2643,7 +2643,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-19T00:44:35.443Z",
+          "fetched_at": "2026-10-19T01:05:12.785Z",
           "attributed": 1,
           "newest_attributed_at": "2026-10-13T16:00:00.000Z"
         },
@@ -2658,7 +2658,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-19T00:44:35.650Z",
+          "fetched_at": "2026-10-19T01:05:13.004Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2670,11 +2670,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-19T00:44:35.917Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-19T01:05:13.267Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -2685,8 +2685,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Koray Kavukcuoglu\"",
         "url": "https://news.google.com/rss/search?q=%22Koray%20Kavukcuoglu%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:35.832Z",
-        "fetched_at": "2026-10-19T00:44:35.832Z",
+        "attempted_at": "2026-10-19T01:05:13.088Z",
+        "fetched_at": "2026-10-19T01:05:13.088Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -2866,8 +2866,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Yann LeCun\"",
         "url": "https://news.google.com/rss/search?q=%22Yann%20LeCun%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:35.851Z",
-        "fetched_at": "2026-10-19T00:44:35.851Z",
+        "attempted_at": "2026-10-19T01:05:13.142Z",
+        "fetched_at": "2026-10-19T01:05:13.142Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -3103,8 +3103,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Geoffrey Hinton\"",
         "url": "https://news.google.com/rss/search?q=%22Geoffrey%20Hinton%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:35.942Z",
-        "fetched_at": "2026-10-19T00:44:35.942Z",
+        "attempted_at": "2026-10-19T01:05:13.201Z",
+        "fetched_at": "2026-10-19T01:05:13.201Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -3283,7 +3283,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-19T00:44:34.872Z",
+          "fetched_at": "2026-10-19T01:05:12.046Z",
           "attributed": 10,
           "newest_attributed_at": "2026-10-08T15:02:06.000Z"
         }
@@ -3305,8 +3305,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Yoshua Bengio\"",
         "url": "https://news.google.com/rss/search?q=%22Yoshua%20Bengio%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:35.950Z",
-        "fetched_at": "2026-10-19T00:44:35.950Z",
+        "attempted_at": "2026-10-19T01:05:13.308Z",
+        "fetched_at": "2026-10-19T01:05:13.308Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -3479,7 +3479,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-19T00:44:35.739Z",
+          "fetched_at": "2026-10-19T01:05:13.045Z",
           "attributed": 0,
           "newest_attributed_at": null
         }
@@ -3501,8 +3501,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Arthur Mensch\" Mistral",
         "url": "https://news.google.com/rss/search?q=%22Arthur%20Mensch%22%20Mistral%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:36.001Z",
-        "fetched_at": "2026-10-19T00:44:36.001Z",
+        "attempted_at": "2026-10-19T01:05:13.314Z",
+        "fetched_at": "2026-10-19T01:05:13.314Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -3681,8 +3681,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Liang Wenfeng\"",
         "url": "https://news.google.com/rss/search?q=%22Liang%20Wenfeng%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:36.097Z",
-        "fetched_at": "2026-10-19T00:44:36.097Z",
+        "attempted_at": "2026-10-19T01:05:13.416Z",
+        "fetched_at": "2026-10-19T01:05:13.416Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -3860,8 +3860,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Ilya Sutskever\"",
         "url": "https://news.google.com/rss/search?q=%22Ilya%20Sutskever%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:36.188Z",
-        "fetched_at": "2026-10-19T00:44:36.188Z",
+        "attempted_at": "2026-10-19T01:05:13.511Z",
+        "fetched_at": "2026-10-19T01:05:13.511Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4033,7 +4033,7 @@
           "ok": true,
           "error": null,
           "entries": 7,
-          "fetched_at": "2026-10-19T00:44:35.748Z",
+          "fetched_at": "2026-10-19T01:05:13.060Z",
           "attributed": 0,
           "newest_attributed_at": null
         }
@@ -4055,8 +4055,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Mira Murati\"",
         "url": "https://news.google.com/rss/search?q=%22Mira%20Murati%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:36.191Z",
-        "fetched_at": "2026-10-19T00:44:36.191Z",
+        "attempted_at": "2026-10-19T01:05:13.607Z",
+        "fetched_at": "2026-10-19T01:05:13.607Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4235,7 +4235,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-19T00:44:34.872Z",
+          "fetched_at": "2026-10-19T01:05:12.046Z",
           "attributed": 10,
           "newest_attributed_at": "2026-04-30T16:00:00.000Z"
         },
@@ -4250,7 +4250,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-19T00:44:34.872Z",
+          "fetched_at": "2026-10-19T01:05:12.046Z",
           "attributed": 10,
           "newest_attributed_at": "2026-02-12T07:00:00.000Z"
         },
@@ -4265,7 +4265,7 @@
           "ok": false,
           "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCXUPKJO5MZQN11PqgIvyuvQ — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
           "entries": null,
-          "fetched_at": "2026-10-19T00:44:35.065Z",
+          "fetched_at": "2026-10-19T01:05:12.291Z",
           "attributed": null,
           "newest_attributed_at": null
         }
@@ -4287,8 +4287,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Andrej Karpathy\"",
         "url": "https://news.google.com/rss/search?q=%22Andrej%20Karpathy%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:36.271Z",
-        "fetched_at": "2026-10-19T00:44:36.271Z",
+        "attempted_at": "2026-10-19T01:05:13.634Z",
+        "fetched_at": "2026-10-19T01:05:13.634Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4448,7 +4448,7 @@
       "last_statement": null,
       "days_silent": null,
       "sources_checked": 4,
-      "sources_ok": 3,
+      "sources_ok": 2,
       "direct_sources": [
         {
           "id": "brockman-blog",
@@ -4461,7 +4461,7 @@
           "ok": false,
           "error": "HTTP 404 Not Found from https://blog.gregbrockman.com/posts.atom — <!doctype html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <title>404 - Not found</title> <script>(function(d) {var config = {kit",
           "entries": null,
-          "fetched_at": "2026-10-19T00:44:35.127Z",
+          "fetched_at": "2026-10-19T01:05:12.398Z",
           "attributed": null,
           "newest_attributed_at": null
         },
@@ -4476,7 +4476,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-19T00:44:35.282Z",
+          "fetched_at": "2026-10-19T01:05:12.670Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -4488,11 +4488,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-19T00:44:35.846Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 500 Internal Server Error from https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"init",
+          "entries": null,
+          "fetched_at": "2026-10-19T01:05:13.091Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -4513,8 +4513,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Greg Brockman\"",
         "url": "https://news.google.com/rss/search?q=%22Greg%20Brockman%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:36.274Z",
-        "fetched_at": "2026-10-19T00:44:36.274Z",
+        "attempted_at": "2026-10-19T01:05:13.777Z",
+        "fetched_at": "2026-10-19T01:05:13.777Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4687,7 +4687,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-19T00:44:35.227Z",
+          "fetched_at": "2026-10-19T01:05:12.405Z",
           "attributed": 0,
           "newest_attributed_at": null
         }
@@ -4709,8 +4709,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Alex Karp\"",
         "url": "https://news.google.com/rss/search?q=%22Alex%20Karp%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-19T00:44:36.462Z",
-        "fetched_at": "2026-10-19T00:44:36.462Z",
+        "attempted_at": "2026-10-19T01:05:13.814Z",
+        "fetched_at": "2026-10-19T01:05:13.814Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4835,5 +4835,5 @@
       }
     }
   ],
-  "fingerprint": "8920a0483de3fa23"
+  "fingerprint": "f23d89d8c08a06f4"
 }
