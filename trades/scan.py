@@ -298,8 +298,9 @@ NEWS_FEEDS = [("CNBC", "https://www.cnbc.com/id/100003114/device/rss/rss.html"),
               ("CNBC-mkts", "https://www.cnbc.com/id/15839069/device/rss/rss.html"),
               ("CNBC-econ", "https://www.cnbc.com/id/20910258/device/rss/rss.html")]
 GNEWS = "https://news.google.com/rss/search?q={q}+when:1d&hl=en-US&gl=US&ceid=US:en"
-CNBC_Q = {"ES": "@ES.1", "NQ": "@NQ.1", "RTY": "@RTY.1", "VIX": ".VIX", "N225": ".N225", "HSI": ".HSI",
-          "DAX": ".GDAXI", "DXY": ".DXY", "US10Y": "US10Y", "OIL": "@CL.1", "GOLD": "@GC.1"}
+CNBC_Q = {"ES": ["@SP.1", "@ES.1"], "NQ": ["@ND.1", "@NQ.1"], "RTY": ["@TFS.1", "@RTY.1"], "VIX": [".VIX"],
+          "N225": [".N225", ".NI225", "N225"], "HSI": [".HSI"], "DAX": [".GDAXI"], "DXY": [".DXY"], "US10Y": ["US10Y"],
+          "OIL": ["@CL.1"], "GOLD": ["@GC.1"]}
 NEWS_KW = {3: ["tariff", "sanction", "war ", "missile", "attack", "invasion", "default", "shutdown", "emergency",
                "crash", "halt", "bankrupt", "hack", "exploit", "indict", "fomc", "powell", "rate cut", "rate hike"],
            2: ["fed ", "federal reserve", "inflation", "cpi", "jobs report", "payrolls", "recession", "downgrade",
@@ -334,6 +335,9 @@ def et_from_gmt(day, hhmm):
     except Exception:
         return None
 
+def clean(x):
+    return re.sub(r"&nbsp;|\s+", " ", str(x or "")).strip()
+
 CAL_DEBUG = {"rows": 0, "countries": [], "sample": None}
 def econ_calendar(days):
     h = dict(UA); h["Origin"] = "https://www.nasdaq.com"; h["Referer"] = "https://www.nasdaq.com/"
@@ -351,8 +355,7 @@ def econ_calendar(days):
             if not any(k.lower() in name.lower() for k in HIGH_EVENTS): continue
             et = et_from_gmt(d, r.get("gmt") or "")
             ev.append({"et": et.isoformat() if et else None, "when": et.strftime("%a %m/%d %H:%M ET") if et else f"{d} ?",
-                       "name": re.sub(r"\s+", " ", name)[:48], "cons": (r.get("consensus") or "").strip(),
-                       "prev": (r.get("previous") or "").strip(), "actual": (r.get("actual") or "").strip(),
+                       "name": re.sub(r"\s+", " ", name)[:48], "cons": clean(r.get("consensus")), "prev": clean(r.get("previous")), "actual": clean(r.get("actual")),
                        "tier1": any(k.lower() in name.lower() for k in TIER1)})
     ev.sort(key=lambda x: x["et"] or "")
     return ev
@@ -396,17 +399,23 @@ def news(syms, held=()):
             tone = sum(1 for k in BULL if k in low) - sum(1 for k in BEAR if k in low)
             if score >= 2: items.append({"src": src, "age_h": round(age_h, 1), "score": score, "tone": tone, "title": title[:110]})
     items.sort(key=lambda x: (-x["score"], x["age_h"]))
-    return items
+    out, g = [], 0
+    for i in items:
+        if i["src"].startswith("G-"):
+            g += 1
+            if g > 2: continue
+        out.append(i)
+    return out
 
 def cnbc_quotes():
-    syms = "|".join(CNBC_Q.values())
+    syms = "|".join(c for cs in CNBC_Q.values() for c in cs)
     j = get("https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols="
             + urllib.parse.quote(syms) + "&requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json", timeout=12)
     rows = (((j or {}).get("FormattedQuoteResult") or {}).get("FormattedQuote")) or []
     by = {r.get("symbol"): r for r in rows}
     out = {}
-    for k, cs in CNBC_Q.items():
-        r = by.get(cs)
+    for k, cands in CNBC_Q.items():
+        r = next((by[c] for c in cands if c in by and by[c].get("last")), None)
         if not r: continue
         try:
             px = num(r.get("last")); chg = num(r.get("change_pct"))
@@ -501,7 +510,7 @@ def main():
         v = q.get(k)
         if not v or v.get("px") is None: return f"{k} -"
         return f"{k} {f(float(v['px']), n)} ({'+' if (v.get('chg') or 0) >= 0 else ''}{f(v.get('chg'), 1)}%)"
-    L.append("MACRO (Yahoo, ~10-15m delayed; % vs prior close/settle): " + "; ".join(mq(k, 0 if k in ("ES", "NQ", "RTY", "N225", "HSI", "DAX") else 2) for k, _ in MACRO_SYMS))
+    L.append("MACRO (CNBC/Yahoo, delayed; % vs prior close/settle): " + "; ".join(mq(k, 0 if k in ("ES", "NQ", "RTY", "N225", "HSI", "DAX") else 2) for k, _ in MACRO_SYMS))
     er = m.get("event_risk") or []
     L.append("EVENT RISK (tier-1 US release within 2h): " + ("; ".join(er) if er else "none"))
     L.append("CALENDAR US high-impact (today+next session, ET): " + ("; ".join(f"{e['when']} {e['name']}{' [T1]' if e['tier1'] else ''}" + (f" cons {e['cons']}" if e['cons'] else "") + (f" act {e['actual']}" if e['actual'] else "") for e in m.get("events", [])[:6]) or "none"))
