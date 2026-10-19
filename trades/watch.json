@@ -1,23 +1,17 @@
 {
- "positions": [
-  {
-   "id": "SMOKE_BTC",
-   "type": "crypto",
-   "symbol": "BTC",
-   "stop": 1,
-   "target": 9999999,
-   "action": "smoke test row, remove when a real position is added",
-   "high": 82794.985
-  },
-  {
-   "id": "SMOKE_SQQQ_OPT",
-   "type": "option",
-   "symbol": "SQQQ",
-   "occ": "SQQQ261023C00039000",
-   "stop": 0.001,
-   "target": 999,
-   "action": "smoke test row",
-   "high": 1.48
-  }
- ]
+  "positions": [
+    {
+      "id": "MARA_PUT1030",
+      "type": "option",
+      "symbol": "MARA",
+      "occ": "MARA261030P00006500",
+      "qty": 1,
+      "cost": 0.16,
+      "stop": 0.06,
+      "target": 0.32,
+      "trail_pct": 50,
+      "trail_from": 0.32,
+      "action": "SELL TO CLOSE 1 MARA 2026-10-30 6.50 put (instrument 30dbbde6-871b-449a-b998-65075731b4af) at limit = live bid; at TARGET sell unless MARA is making a new low, then trail 50% of peak gain; at STOP sell at market"
+    }
+  ]
 }
