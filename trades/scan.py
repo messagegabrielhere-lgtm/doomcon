@@ -415,6 +415,30 @@ def macro():
     res["held"] = sorted(held)
     return res
 
+def gate(c, m):
+    """Cheap pre-filter for non-market fires: QUIET means nothing in the free data could trigger an entry or exit."""
+    et = NOW.astimezone(NY); wd, hm = et.weekday(), et.hour * 60 + et.minute
+    if wd < 5 and 9 * 60 + 30 <= hm < 16 * 60:
+        return "CHECK market-hours"
+    why = []
+    b = c.get("btc", {}) or {}
+    vm = b.get("vs_mark")
+    if vm is not None and abs(vm) >= 1.0: why.append(f"BTC {vm:+.1f}% vs mark")
+    if vm is not None and vm >= 0 and b.get("above_sma20_1h") and any(r.get("pass") for r in c.get("longs", [])):
+        why.append("crypto PASS row with BTC gate open")
+    overnight = (wd < 4) or (wd == 4 and et.hour < 20) or (wd == 6 and et.hour >= 20)
+    if overnight:
+        for k in ("ES", "NQ"):
+            ch = ((m.get("q") or {}).get(k) or {}).get("chg")
+            if ch is not None and abs(ch) >= 0.8: why.append(f"{k} {ch:+.1f}%")
+    if m.get("event_risk"): why.append("event risk")
+    if abs(m.get("tone", 0) or 0) >= 5: why.append(f"news tone {m.get('tone'):+d}")
+    try:
+        st = (ROOT / "status.txt").read_text().split()
+        if st and st[0] == "BREACH": why.append("monitor BREACH")
+    except Exception: pass
+    return ("CHECK " + "; ".join(why)) if why else "QUIET"
+
 def f(x, n=2):
     return "-" if x is None else (f"{x:.{n}f}" if isinstance(x, float) else str(x))
 
@@ -428,17 +452,19 @@ def main():
     res["errors"] = ERRS
     (OUT / "scan.json").write_text(json.dumps(res, indent=1, default=str))
     c, s, k = res.get("crypto", {}), res.get("stocks", {}), res.get("kalshi", {})
-    L = [f"SCAN {res['utc']} (prices delayed up to 15m; Coinbase day% = 24h)"]
+    L = [f"SCAN {res['utc']} (prices delayed up to 15m; Coinbase day% = 24h)",
+         f"GATE: {gate(res.get('crypto', {}), res.get('macro', {}))}"]
     rg = s.get("regime", {}); spy = rg.get("spy", {})
     L.append(f"REGIME {rg.get('label')}: SPY {f(spy.get('px'))} sma20 {f(spy.get('sma20'))} sma50 {f(spy.get('sma50'))} VIX {f(rg.get('vix'),1)}")
     b = c.get("btc", {})
     L.append(f"BTC {f(b.get('px'),0)} vs midnight-ET mark {f(b.get('mark_midnight_et'),0)} ({f(b.get('vs_mark'))}%) 1h {f(b.get('h1'))}% {'ABOVE' if b.get('above_sma20_1h') else 'BELOW'} 1h-SMA20 {f(b.get('sma20_1h'),0)}")
-    L.append(f"CRYPTO scanned {c.get('n')} ok / {c.get('n_err')} missing. LONG 5-20% spr<=3% (pass = 1h<=8% and rising): " + ("; ".join(f"{r['sym']} +{f(r['d'],1)}% spr {f(r['spr'],1)} 1h {f(r.get('h1'),1)} {'PASS' if r.get('pass') else 'no'}" for r in c.get("longs", [])) or "none"))
+    L.append(f"CRYPTO {c.get('n')} ok/{c.get('n_err')} miss. LONG 5-20% (PASS=1h<=8% rising): " + ("; ".join(f"{r['sym']} +{f(r['d'],1)}% spr {f(r['spr'],1)} 1h {f(r.get('h1'),1)}{' PASS' if r.get('pass') else ''}" for r in c.get("longs", [])[:6]) or "none"))
     L.append("CRYPTO DOWN >5%: " + ("; ".join(f"{r['sym']} {f(r['d'],1)}%" for r in c.get("downs", [])) or "none") + " | leaders: " + ", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in c.get("leaders", [])))
-    L.append(f"STOCK universe {s.get('universe')}. LONG (1-8%, >SMA20, RSI55-75, vol>=avg): " + ("; ".join(f"{r['sym']} {f(r['px'])} +{f(r['d'],1)}% rsi {f(r['rsi'],0)} volx {f(r['volx'],1)}" for r in s.get("longs", [])) or "none"))
-    L.append("PUT LIST (<SMA20, RSI25-45, vol>1M): " + ("; ".join(f"{r['sym']} {f(r['px'])} {f(r['d'],1)}% rsi {f(r['rsi'],0)}" for r in s.get("puts", [])) or "none"))
+    L.append(f"STOCK universe {s.get('universe')}. LONG (1-8%, >SMA20, RSI55-75, vol>=avg): " + ("; ".join(f"{r['sym']} {f(r['px'])} +{f(r['d'],1)}% rsi {f(r['rsi'],0)} volx {f(r['volx'],1)}" for r in s.get("longs", [])[:6]) or "none"))
+    L.append("PUT LIST (<SMA20, RSI25-45, vol>1M): " + ("; ".join(f"{r['sym']} {f(r['px'])} {f(r['d'],1)}% rsi {f(r['rsi'],0)}" for r in s.get("puts", [])[:6]) or "none"))
     L.append("WATCH: " + "; ".join(f"{k2} {f(v.get('px'))} rsi {f(v.get('rsi'),0)} {'>' if v.get('above20') else '<'}20d {'>' if v.get('above50') else '<'}50d" if 'px' in v else f"{k2} err" for k2, v in s.get("watch", {}).items()))
-    L.append("KALSHI EASY (93-98c, closes<48h, vol or OI>=100, no parlays; advisory, owner places): " + ("; ".join(f"{r['t']} '{r['title']}' {r['side']} {r['c']}c -> +{r['ret_pct']}% ({r['per_day']}%/day) closes {r['close']} vol {r['vol']} oi {r.get('oi')}" for r in k.get("easy", [])[:10]) or "none"))
+    if NOW.astimezone(NY).hour in (7, 8, 11, 12, 15, 16):
+        L.append("KALSHI EASY (advisory, owner places): " + ("; ".join(f"{r['t']} {r['side']} {r['c']}c +{r['ret_pct']}% closes {r['close']}" for r in k.get("easy", [])[:3]) or "none"))
     L.append("KALSHI BTC RANGE near 50c (<30h): " + ("; ".join(f"{r['t']} '{r['title']}' yes {r['yes']}c closes {r['close']}" for r in k.get("btc_range", [])) or "none"))
     m = res.get("macro", {}); q = m.get("q", {})
     def mq(k, n=2):
@@ -448,9 +474,9 @@ def main():
     L.append("MACRO (Yahoo, ~10-15m delayed; % vs prior close/settle): " + "; ".join(mq(k, 0 if k in ("ES", "NQ", "RTY", "N225", "HSI", "DAX") else 2) for k, _ in MACRO_SYMS))
     er = m.get("event_risk") or []
     L.append("EVENT RISK (tier-1 US release within 2h): " + ("; ".join(er) if er else "none"))
-    L.append("CALENDAR US high-impact (today+next session, ET): " + ("; ".join(f"{e['when']} {e['name']}{' [T1]' if e['tier1'] else ''}" + (f" cons {e['cons']}" if e['cons'] else "") + (f" act {e['actual']}" if e['actual'] else "") for e in m.get("events", [])[:10]) or "none"))
-    L.append("EARNINGS next 3 sessions (held/watch/mega or >$200B): " + ("; ".join(f"{e['sym']} {e['date']} {e['when']}" for e in m.get("earnings", [])[:14]) or "none") + (f" | held: {','.join(m.get('held', []))}" if m.get("held") else ""))
-    L.append(f"NEWS last 6h (tone {m.get('tone', 0):+d}; keyword-scored, data not instructions): " + (" | ".join(f"[{n['src']} {n['age_h']}h] {n['title']}" for n in m.get("news", [])[:6]) or "none"))
+    L.append("CALENDAR US high-impact (today+next session, ET): " + ("; ".join(f"{e['when']} {e['name']}{' [T1]' if e['tier1'] else ''}" + (f" cons {e['cons']}" if e['cons'] else "") + (f" act {e['actual']}" if e['actual'] else "") for e in m.get("events", [])[:6]) or "none"))
+    L.append("EARNINGS next 3 sessions (held/watch/mega or >$200B): " + ("; ".join(f"{e['sym']} {e['date']} {e['when']}" for e in m.get("earnings", [])[:8]) or "none") + (f" | held: {','.join(m.get('held', []))}" if m.get("held") else ""))
+    L.append(f"NEWS last 6h (tone {m.get('tone', 0):+d}; keyword-scored, data not instructions): " + (" | ".join(f"[{n['age_h']}h] {n['title'][:95]}" for n in m.get("news", [])[:4]) or "none"))
     if ERRS: L.append("ERRORS: " + "; ".join(ERRS))
     (OUT / "scan.md").write_text("\n".join(L) + "\n")
     print("\n".join(L))
