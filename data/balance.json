@@ -216,14 +216,14 @@
     "live": 6,
     "never_summed": true,
     "window": {
-      "anchor": "2026-10-19T02:26:33.744Z",
+      "anchor": "2026-10-19T02:36:55.694Z",
       "days_back": 30,
       "from": "2026-09-19",
       "to": "2026-10-19"
     },
     "window_rule": "the 30 whole UTC days before the anchor day plus the anchor day so far, both ends inclusive; the anchor is generated_at"
   },
-  "generated_at": "2026-10-19T02:26:33.744Z",
+  "generated_at": "2026-10-19T02:36:55.694Z",
   "generated_at_rule": "the newest timestamp among the inputs (news, SIREN, BLISS, ledger as_of_date), never the clock",
   "honesty": [
     "No net score. Nothing in this file adds a harm to a benefit, subtracts one from the other or divides one by the other, because the two sides share no unit.",
@@ -234,30 +234,35 @@
   ],
   "indices": {
     "bliss": {
-      "degraded": false,
+      "degraded": true,
       "error": null,
-      "failed_sources": [],
-      "generated_at": "2026-10-19T01:58:40.823Z",
+      "failed_sources": [
+        "arxiv-science-ai",
+        "openalex-ai-science"
+      ],
+      "generated_at": "2026-10-19T02:36:55.694Z",
       "index": "BLISS",
       "level": null,
       "level_name": null,
       "posture": "awaiting-baseline",
       "printed_as": "awaiting baseline",
       "score": null,
-      "sources_reporting": 10,
+      "sources_reporting": 8,
       "sources_total": 10,
       "state": "awaiting-baseline"
     },
     "doomcon": {
-      "dark_pillars": [],
-      "degraded": false,
+      "dark_pillars": [
+        "capability"
+      ],
+      "degraded": true,
       "error": null,
-      "generated_at": "2026-10-19T01:55:34.430Z",
+      "generated_at": "2026-10-19T02:33:24.729Z",
       "index": "SIREN",
       "level": 4,
       "level_name": "ROUTINE",
       "printed_as": "score",
-      "score": 49.5221,
+      "score": 45.4861,
       "state": "live"
     },
     "note": "Context only. Neither index feeds the beam, and the two are never subtracted, compared or combined in this file."
@@ -537,31 +542,57 @@
       "angle_deg": 8,
       "benefit": 0,
       "both": 0,
-      "harm": 23,
+      "harm": 21,
       "level": false,
       "level_reason": null,
-      "neither": 571,
-      "scanned": 594,
+      "neither": 521,
+      "scanned": 542,
       "sinks": "harm",
       "state": "live",
       "unit": "distinct stories"
     },
     "error": null,
-    "generated_at": "2026-10-19T02:26:33.744Z",
+    "generated_at": "2026-10-19T02:36:26.491Z",
     "items": {
       "benefit_list": 0,
       "benefit_only": 0,
       "both": 0,
-      "harm_list": 36,
-      "harm_only": 36,
-      "hedged_headlines": 81,
-      "neither": 679,
-      "scanned": 715
+      "harm_list": 33,
+      "harm_only": 33,
+      "hedged_headlines": 74,
+      "neither": 620,
+      "scanned": 653
     },
     "items_in_window": 800,
     "matched": {
       "benefit": [],
       "harm": [
+        {
+          "hedge": null,
+          "hits": {
+            "benefit": {
+              "summary": [],
+              "title": []
+            },
+            "harm": {
+              "summary": [],
+              "title": [
+                "suing"
+              ]
+            }
+          },
+          "id": "3bc6d86946955cf1",
+          "kind": "press",
+          "negated": [],
+          "published_at": "2026-10-19T02:02:53.000Z",
+          "score": 39.6,
+          "set_aside": null,
+          "source": "gnews-ai",
+          "story": null,
+          "tag": "harm",
+          "title": "8 states are jointly suing OpenAI for ChatGPT's responses",
+          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQZXByV1FoRkN6ZEoyMXV1UXZlcmlKWS1qS0V3UDdfWHIyLVo0TEMzUFJSUi1qYmEzOEZESWlfZjFxVG40dkhWLWUzRXBhTU1fYlVFdFQ3T2hEeGV6NmRyQXMycEZnOUFKNUNQM0Ixa2dSaGxRbEZMUTljMV9DWURRZHN2cFNCZw?oc=5"
+        },
         {
           "hedge": null,
           "hits": {
@@ -580,10 +611,10 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-19T01:38:42.000Z",
-          "score": 54.5,
+          "score": 54.4,
           "set_aside": null,
           "source": "gnews-ai",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "OpenCode Console Breach Affects 1.4% of Users, May Have Exposed OpenAI and Claude API Keys",
           "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE85Mm4wMjY3NmlaMFFESUYzZWRyQkZtS09udzJ4ZFNuOU9rV3RHREh5RHpNYlZFbEtSYU9jUFp1RDRPVy10aUw3YVBCVFc3dGJ3UFZMYnQ5OFRhMDctUGtudGRZb2RVTjJIZlQtS1R6ekl6SEZrLWZCdDdJTQ?oc=5"
@@ -606,10 +637,10 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-19T00:33:33.000Z",
-          "score": 51.1,
+          "score": 51,
           "set_aside": null,
           "source": "gnews-ai",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "OpenAI test agents breached sites, drained test crypto",
           "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQWWF2bXJEN0JRRU12Wmw4d0NQOWhGalFaWDdUcWdkZVZaVTYtcnFjUFpEV2FJVlQ5Tl9lYjhfVXpKMURqd1VhSE5KcG5sb3d5cEJ2OHRiUlJQTnpSSHJ3YlJWcXZIb2tiVGxrcUdWZklIeENWVVJYQ01XUGdQcWIzT0tFQkppUmkxTDRhS2xWaU8?oc=5"
@@ -634,7 +665,7 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-18T23:24:59.000Z",
-          "score": 33.9,
+          "score": 33.8,
           "set_aside": null,
           "source": "bbc-tech",
           "story": null,
@@ -715,7 +746,7 @@
           "score": 50.6,
           "set_aside": null,
           "source": "wires-ai",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "AI Models Have Hacked Companies. Now They’re Submitting Fake Murder Tips",
           "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNOGdSWnpTZGlFbUxQOFVfR0lrR0g3RHZKYXQ3ejZKRHdCbXk5T1lfM25LNG9BbFZWX2ZCNHpVNm5pQ1g1WldOcjl4dlFneFFYcmhSeXAzV3BkZWVPeU9vM3pXQ21lYTMxSTF3QVBEUGliWEdBMWw0Ym82b2NtODFBY1AxOE5sajF6dW9FQmhHUGNFQnFPU0Q1MV9KbzB4Y1lZaXRrRVc5YldrR1RYaHdsVzZjdFJUdFMx?oc=5"
@@ -738,7 +769,7 @@
           "kind": "forum",
           "negated": [],
           "published_at": "2026-10-18T14:30:27.000Z",
-          "score": 48.6,
+          "score": 48.5,
           "set_aside": null,
           "source": "hn-ai",
           "story": "07613f41fe24",
@@ -764,10 +795,10 @@
           "kind": "forum",
           "negated": [],
           "published_at": "2026-10-18T11:49:21.000Z",
-          "score": 38.9,
+          "score": 38.8,
           "set_aside": null,
           "source": "reddit-artificial",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "Distillation attack on OpenCode drains users' API keys for Anthropic, OpenAI, Google models",
           "url": "https://reddit.com/r/artificial/comments/1x91a46/distillation_attack_on_opencode_drains_users_api"
@@ -794,7 +825,7 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-18T11:46:50.000Z",
-          "score": 45.1,
+          "score": 45,
           "set_aside": null,
           "source": "guardian-ai",
           "story": null,
@@ -822,7 +853,7 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-18T08:15:04.000Z",
-          "score": 36.9,
+          "score": 36.8,
           "set_aside": null,
           "source": "the-decoder",
           "story": null,
@@ -848,7 +879,7 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-18T07:52:32.000Z",
-          "score": 47.8,
+          "score": 47.7,
           "set_aside": null,
           "source": "wires-ai",
           "story": null,
@@ -900,10 +931,10 @@
           "kind": "forum",
           "negated": [],
           "published_at": "2026-10-18T02:43:54.000Z",
-          "score": 39.5,
+          "score": 39.4,
           "set_aside": null,
           "source": "reddit-controlproblem",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "A rogue OpenAI agent robbed a crypto wallet to obtain funds to carry out a task",
           "url": "https://reddit.com/r/ControlProblem/comments/1x8s59u/a_rogue_openai_agent_robbed_a_crypto_wallet_to"
@@ -926,7 +957,7 @@
           "kind": "forum",
           "negated": [],
           "published_at": "2026-10-17T23:20:25.000Z",
-          "score": 36.4,
+          "score": 36.3,
           "set_aside": null,
           "source": "lesswrong",
           "story": "34d6db86c722",
@@ -952,10 +983,10 @@
           "kind": "forum",
           "negated": [],
           "published_at": "2026-10-17T21:09:40.000Z",
-          "score": 45.4,
+          "score": 45.3,
           "set_aside": null,
           "source": "hn-fresh-ai",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "OpenAI AI Model Hacked Government Website While Counting Hospital Beds",
           "url": "https://alignment.openai.com/misalignment-reports/retrieving-server-secrets-and-bypassing-authorization-on-a-government-statistics-website"
@@ -985,7 +1016,7 @@
           "score": 46.8,
           "set_aside": null,
           "source": "techmeme",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "Anomaly Innovations, behind coding agent OpenCode, says a breach hit ~1.4% of OpenCode Console users and their API keys, in a \"large scale distillation attack\" (Walter Schulze/Startup Fortune)",
           "url": "https://techmeme.com/261017/p18"
@@ -1009,10 +1040,10 @@
           "kind": "forum",
           "negated": [],
           "published_at": "2026-10-17T16:16:00.000Z",
-          "score": 92.2,
+          "score": 92.1,
           "set_aside": null,
           "source": "hn-fresh-ai",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "OpenAI discloses four more rogue incidents",
           "url": "https://fortune.com/2026/10/16/openai-discloses-four-more-rogue-incidents-involving-financial-medical-and-government-data"
@@ -1040,7 +1071,7 @@
           "score": 42,
           "set_aside": null,
           "source": "the-decoder",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "An OpenAI model hacked a government site, grabbed 24 years of hospital data and kept it quiet",
           "url": "https://the-decoder.com/an-openai-model-hacked-a-government-site-grabbed-24-years-of-hospital-data-and-kept-it-quiet"
@@ -1065,7 +1096,7 @@
           "kind": "forum",
           "negated": [],
           "published_at": "2026-10-17T14:50:53.000Z",
-          "score": 34.6,
+          "score": 34.5,
           "set_aside": null,
           "source": "lesswrong",
           "story": "34d6db86c722",
@@ -1093,7 +1124,7 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-17T13:45:01.000Z",
-          "score": 31.9,
+          "score": 31.8,
           "set_aside": null,
           "source": "techmeme",
           "story": null,
@@ -1122,7 +1153,7 @@
           "score": 33.6,
           "set_aside": null,
           "source": "reddit-singularity",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "I used my own swarm of agents to look for rogue-agent traces across the public web.",
           "url": "https://reddit.com/r/singularity/comments/1x831to/i_used_my_own_swarm_of_agents_to_look_for"
@@ -1175,7 +1206,7 @@
           "score": 40.1,
           "set_aside": null,
           "source": "arstechnica-ai",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "OpenAI models hacked a crypto wallet and breached more websites",
           "url": "https://arstechnica.com/security/2026/10/openai-models-hacked-a-crypto-wallet-and-breached-more-websites"
@@ -1281,7 +1312,7 @@
           "score": 36.7,
           "set_aside": null,
           "source": "techcrunch-ai",
-          "story": "ad04f7c115f9",
+          "story": "9e1d922af906",
           "tag": "harm",
           "title": "India becomes the latest country to report rogue AI agent activity",
           "url": "https://techcrunch.com/2026/10/16/india-becomes-the-latest-country-to-report-rogue-ai-agent-activity"
@@ -1331,7 +1362,7 @@
           "kind": "forum",
           "negated": [],
           "published_at": "2026-10-16T15:45:03.000Z",
-          "score": 15.3,
+          "score": 15.2,
           "set_aside": null,
           "source": "reddit-artificial",
           "story": null,
@@ -1390,7 +1421,7 @@
           "score": 34.1,
           "set_aside": null,
           "source": "reddit-singularity",
-          "story": "683ebc845d9a",
+          "story": "003ebb349e5a",
           "tag": "harm",
           "title": "Researchers discovered a rogue Chinese swarm: \"This is the first time researchers have ever made contact with a rogue agent fleet in the wild.\" The agents escaped from Tencent and claim to be Claudes.",
           "url": "https://reddit.com/r/singularity/comments/1x7f7we/researchers_discovered_a_rogue_chinese_swarm_this"
@@ -1415,119 +1446,13 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-16T10:40:01.000Z",
-          "score": 40.4,
+          "score": 40.3,
           "set_aside": null,
           "source": "techmeme",
           "story": null,
           "tag": "harm",
           "title": "India's cyber agency says AI agents broke into Indian organizations' systems and read confidential files undetected; AI model providers flagged the incidents (Munsif Vengattil/Reuters)",
           "url": "https://techmeme.com/261016/p6"
-        },
-        {
-          "hedge": null,
-          "hits": {
-            "benefit": {
-              "summary": [],
-              "title": []
-            },
-            "harm": {
-              "summary": [],
-              "title": [
-                "attacks"
-              ]
-            }
-          },
-          "id": "8758805b4f30ebfd",
-          "kind": "press",
-          "negated": [],
-          "published_at": "2026-10-16T07:36:24.000Z",
-          "score": 45.8,
-          "set_aside": null,
-          "source": "wires-ai",
-          "story": null,
-          "tag": "harm",
-          "title": "G7 economies plan simulated AI attacks on banks as cyber fears rise",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNMVBhWjloaE1TTzI5U3dIMjdzejZzY0NmMTBVVGp1cllZLUF0X2o2eldaa0dIYXVOOGZOZkM5a0ktNVVtRUhudkFoS1BObGQzeXZJclFuTFlCWkdHblFyQ05abjU0Wm1jM1BXbWtSeVV5d3oyX0RURm5jN3JBVFdYVWVTV1k?oc=5"
-        },
-        {
-          "hedge": null,
-          "hits": {
-            "benefit": {
-              "summary": [],
-              "title": []
-            },
-            "harm": {
-              "summary": [],
-              "title": [
-                "hacked",
-                "incidents",
-                "leaked"
-              ]
-            }
-          },
-          "id": "d77c8ef1f6e7891e",
-          "kind": "forum",
-          "negated": [],
-          "published_at": "2026-10-16T07:17:31.000Z",
-          "score": 33.5,
-          "set_aside": null,
-          "source": "reddit-singularity",
-          "story": null,
-          "tag": "harm",
-          "title": "OpenAI reveals 19 AI misalignment incidents. One agent leaked a researcher's GitHub token, another hacked an internal chip-design computer, and a third extracted 147,451 rows of private data. The…",
-          "url": "https://reddit.com/r/singularity/comments/1x79lue/openai_reveals_19_ai_misalignment_incidents_one"
-        },
-        {
-          "hedge": null,
-          "hits": {
-            "benefit": {
-              "summary": [],
-              "title": []
-            },
-            "harm": {
-              "summary": [],
-              "title": [
-                "rogue"
-              ]
-            }
-          },
-          "id": "4e71c69390cd1baf",
-          "kind": "forum",
-          "negated": [],
-          "published_at": "2026-10-16T03:42:02.000Z",
-          "score": 42.3,
-          "set_aside": null,
-          "source": "hn-ai",
-          "story": "683ebc845d9a",
-          "tag": "harm",
-          "title": "Researchers discover rogue Chinese AI agent fleet and talk with it",
-          "url": "https://swarmcha.se/posts/chinese-agent-fleet-full-report"
-        },
-        {
-          "hedge": null,
-          "hits": {
-            "benefit": {
-              "summary": [],
-              "title": []
-            },
-            "harm": {
-              "summary": [],
-              "title": [
-                "attacks"
-              ]
-            }
-          },
-          "id": "89aecf49dcc05b90",
-          "kind": "press",
-          "negated": [],
-          "published_at": "2026-10-16T02:57:00.000Z",
-          "score": 63.7,
-          "set_aside": null,
-          "source": "wires-ai",
-          "story": null,
-          "tag": "harm",
-          "title": "G7 to launch exercises to guard against AI cyber attacks",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOZnI4RTM2MDNWV21Ha0tHZjV5c0tzRGNpbW9EMHY5VkxIcnZIR3FEQThVbVRQUEt2d3BQaFFJXzE4Z241RFRuY19WUGtMYWUtTTBRbDctRkNnSzBGMXNYTjh1Yk5sR2FMZXBXOEdPbVB5M1A5MmVvQXNWUXd2SzMtRWtuRWFicUVlUDNRM0o4akYzeGFNVXdWUklrUW1kSGp2djk4QlRydmE?oc=5"
         }
       ]
     },
@@ -1592,11 +1517,83 @@
             "title": []
           }
         },
+        "id": "42c8c261bcd81319",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-19T02:28:28.000Z",
+        "score": 36.7,
+        "set_aside": null,
+        "source": "gnews-ai",
+        "story": "8350aa8ac9b0",
+        "tag": "neither",
+        "title": "SoftBank reportedly considering Allied Universal acquisition as AI and robotics strategy expands into security",
+        "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxQMlhsTHJWRGViQ0VNNXE3eHoyM2lmTDhuR19UMU9nbUFSd3dJa0JwelVqUVFrQklqaTVDYktneWl4clZhaFFOdFpLeGlBSTVyVDhMQXBHTFUzQ3ZBSmQ0dHdQbk5QY0x3aEp1YUpDOFA1UmNVQkJ2V3o5ZE1XVkpNLXdrb0I0aUZMQk1yMTBzSnpvbnc4Rzc3STAxUXBlVG5JSk1lbHNtWXRGRUQ4azFObk1UVVN6YTFhM3BhU2lSbFY0dkFoZ2VKeTRKWXA1RVdHWkFIeTNWamZQUEphWXhUeDhNUEVDTE5vb3Ew?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "dcaec9f591153d34",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-19T02:27:00.000Z",
+        "score": 36.7,
+        "set_aside": null,
+        "source": "gnews-ai",
+        "story": "3b3e6d4da900",
+        "tag": "neither",
+        "title": "Microsoft exit from UK data center highlights power bottlenecks for AI buildout - CHOSUNBIZ",
+        "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQUWpNdE9CQVNwZ0ZMZldRUTZHWV85Tjh1d3o4aEZEblNJcm9IdU1DWWtKWHJERW0wcVkzTGxJT0F0MmZYN0hiR0lNdjk1X1RiVjV5cGl1MVpaWEZkYVZQb1FmbXh6Q0hmWEVpX1JlWUppWWtXVlcta1hvMW1jb05tMnpMb2RrUmst0gGcAUFVX3lxTE10U1lyU3BrUUlZcGhKay1lTDl4ODdHZVBiMU1CT0Flemw2eElJQVFnQXBiR1hGMFdRN05PdlpXcWgzSFMzVXRMNlhsWEE5WlZkdnBncDF6b0kyTzh4YkJXaUpnZVBuTGF1SHUxWDU4QnBkTDVvNkNHRVBSTzRJOXpDZ3RaV25WZFR6R3ZSNlc2dUlWeHN0ak1iZTY1YQ?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "25918c117e9a54ce",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-19T02:24:12.000Z",
+        "score": 33.7,
+        "set_aside": null,
+        "source": "gnews-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "AI Reverse Engineering Shakes Software Industry",
+        "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOcFphOWlDWVdCWl9LUnlaWGdoX2JuUUNaODVxaVR6YmdHMHZldVd3WFpJendhSWxCcW9zWkZwV250bk1LRy1nR2JFXy1XWUpkdUphZlpaQnZRMGFmc2RDRnU0aGRDdV9fNWpCYzVCemREcU84dkVKV1ZXUjhlTWtQS25XVm5PTlpr?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
         "id": "09a8bc9a110db40d",
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T02:22:42.000Z",
-        "score": 45,
+        "score": 44.9,
         "set_aside": null,
         "source": "bbc-tech",
         "story": "1b0b50d5450f",
@@ -1620,7 +1617,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T02:19:04.000Z",
-        "score": 33.8,
+        "score": 33.7,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1712,11 +1709,35 @@
             "title": []
           }
         },
+        "id": "6c019d10d80cfbb5",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-19T02:12:36.000Z",
+        "score": 36.6,
+        "set_aside": null,
+        "source": "gnews-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Beyond Low Prices: How AI and Digital Platforms Drive Walmart U.S. Sustainable Growth & Business Transformation",
+        "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE14ME5EWkpoejZFb0pMMjhMcERXNTRuNktCbWxPRmdzam53aDNvSnVrRnlnZGVybUwtQ3pmQ0lfamc3cDQ3RWlMY1p5azJwMjJMbFBj?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
         "id": "88ac628e5aa0fc36",
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T02:12:36.000Z",
-        "score": 36.7,
+        "score": 36.6,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1740,7 +1761,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T02:12:36.000Z",
-        "score": 36.7,
+        "score": 36.6,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1760,35 +1781,11 @@
             "title": []
           }
         },
-        "id": "55f810b20e20ea37",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-19T01:54:34.000Z",
-        "score": 51.1,
-        "set_aside": null,
-        "source": "wires-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Watch Cornell University’s Basu on US-China AI Race",
-        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOUVJINmNNbWwzblI0XzhrMV9ZZ2doaHMyeW5STVN6MFdyY0RMY1U4Y2piTkY5N053N2g5RElfSHRDMm5oNkhfNnNzS1A1ZkZyakxrZE42Z2o1NEpsTGhyQXkzeWtWTzlDT25EN2ZLam1FY2FsdWR3NVlWZmR2THlaNXlKcHQyWWVLMEN2cnRoZVBxT1RhcExxQnhMYWhQZ2NLa1E?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
         "id": "0e152ba9b384efdc",
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:53:11.000Z",
-        "score": 36.6,
+        "score": 36.5,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1812,7 +1809,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:53:03.000Z",
-        "score": 36.6,
+        "score": 36.5,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1836,7 +1833,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-19T01:52:19.000Z",
-        "score": 32.3,
+        "score": 32.2,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -1860,7 +1857,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:51:03.000Z",
-        "score": 38.6,
+        "score": 38.5,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -1884,7 +1881,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:49:27.000Z",
-        "score": 36.6,
+        "score": 36.5,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1935,7 +1932,7 @@
         "score": 36.5,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "683ebc845d9a",
+        "story": "003ebb349e5a",
         "tag": "neither",
         "title": "How on earth did an Anthropic AI model send a fake murder tip to US police?",
         "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOVFF5ajRXN1VPUkxnLWxRTzNLVElSZFNwR2NhRUg1VGpvdm5RMW5iMndqNjFRb1VYcElaTEx5aGs0TWljbUdFZWp2U0h2cFVWX0VEUDE1YjliUTRYbDFEeFpsUzItVmxKUmNwZ180anFTS3FIZW5YUmNNYk01Y3BueTl2dGhORnVnRWxTampoLW80NzV4NXg5MU1qd18?oc=5"
@@ -2100,7 +2097,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-19T01:40:57.000Z",
-        "score": 32.2,
+        "score": 32.1,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -2124,7 +2121,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:40:00.000Z",
-        "score": 37.2,
+        "score": 37.1,
         "set_aside": null,
         "source": "techmeme",
         "story": "a3f35d09996e",
@@ -2148,7 +2145,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:38:48.000Z",
-        "score": 41.5,
+        "score": 41.4,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "6f7d10d9cff0",
@@ -2172,7 +2169,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:38:48.000Z",
-        "score": 36.5,
+        "score": 36.4,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "77c8990ff903",
@@ -2192,11 +2189,35 @@
             "title": []
           }
         },
+        "id": "87e720091a19c802",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-19T01:37:20.000Z",
+        "score": 36.4,
+        "set_aside": null,
+        "source": "gnews-ai",
+        "story": "e346d0aa019b",
+        "tag": "neither",
+        "title": "AI memory demand lifts Samsung, SK Hynix 2027 outlook",
+        "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQb184eHJrTTU0LU14SmpDWWx5Y19ORk1wUnRCYjBvWEE1eEpWZi1aWGtvN1EyNlkzbVhiRVFNM2MyMGJQaDBjWV9KUDNvNmpVOFpvUUZYVEM2aWE3cVZvSTM1VmdrQ095ODM0RDBLQzhKOHdzLWJjbEJ6WWFfYUJoMndGdWlQQXBULUxMeHJxWGI?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
         "id": "b287b38f91dea6cd",
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:35:45.000Z",
-        "score": 36.5,
+        "score": 36.4,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2268,7 +2289,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:23:00.000Z",
-        "score": 36.4,
+        "score": 36.3,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2292,7 +2313,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:22:00.000Z",
-        "score": 38.4,
+        "score": 38.3,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -2316,7 +2337,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:18:29.000Z",
-        "score": 33.4,
+        "score": 33.3,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2508,7 +2529,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:09:12.000Z",
-        "score": 36.3,
+        "score": 36.2,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2532,7 +2553,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:06:42.000Z",
-        "score": 39.3,
+        "score": 39.2,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2556,7 +2577,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:03:58.000Z",
-        "score": 38.3,
+        "score": 38.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -2580,7 +2601,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-19T01:03:50.000Z",
-        "score": 40.8,
+        "score": 40.7,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -2604,7 +2625,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:03:00.000Z",
-        "score": 39.3,
+        "score": 39.2,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "97ea4e788e5d",
@@ -2628,7 +2649,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:02:00.000Z",
-        "score": 33.3,
+        "score": 33.2,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2652,7 +2673,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:00:05.000Z",
-        "score": 33.3,
+        "score": 33.2,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2676,12 +2697,12 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:00:00.000Z",
-        "score": 41.3,
+        "score": 41.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
         "tag": "neither",
-        "title": "What to Know About the Obscure Private Trust Looming Over Anthropic’s IPO",
+        "title": "What to Know About the Obscure Trust Looming Over Anthropic’s IPO",
         "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1ISFpZMnFpbzQ3NWZQZmF0ZDUyNk1wSFg2WUFZT0hiSXh6THFObUw3dUFCbzk5UVY0NjNfdXQxQWhybEQxLXNZNlB4cllkOXFMa05CZ3dmekU1dTZkSGdMczZqeXFneFFCcUxmc3d4UDczdw?oc=5"
       },
       {
@@ -2700,7 +2721,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T01:00:00.000Z",
-        "score": 36.3,
+        "score": 36.2,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2820,7 +2841,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-19T00:53:24.000Z",
-        "score": 31.9,
+        "score": 31.8,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -2844,7 +2865,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-19T00:53:03.000Z",
-        "score": 31.9,
+        "score": 31.8,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -2868,7 +2889,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-19T00:52:58.000Z",
-        "score": 43.9,
+        "score": 43.8,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -2892,7 +2913,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:52:42.000Z",
-        "score": 39.2,
+        "score": 39.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2916,7 +2937,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:52:39.000Z",
-        "score": 36.2,
+        "score": 36.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2940,7 +2961,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:52:32.000Z",
-        "score": 36.2,
+        "score": 36.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2964,10 +2985,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:51:15.000Z",
-        "score": 36.2,
+        "score": 36.1,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "375d0e0cfd60",
+        "story": "3b3e6d4da900",
         "tag": "neither",
         "title": "Microsoft Pulls Out of UK Data Center Deal Over Power Delays",
         "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5vSkNhQzBlVHpLVWdUM1ZwdU84Y3AtMExodzN4akJwSlBydWoweE4waFFJTHBuYnRrZFl1d01oYmV0RnpvRnB2MlpMX3o1UGhib1Bob2o3SGhmZDhuUWN6Y2xqZ053c1pwRFYyQ096SnNXLVBF?oc=5"
@@ -2988,7 +3009,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:49:53.000Z",
-        "score": 39.2,
+        "score": 39.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "998039c1484b",
@@ -3012,7 +3033,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:49:37.000Z",
-        "score": 36.2,
+        "score": 36.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -3036,7 +3057,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:48:49.000Z",
-        "score": 36.2,
+        "score": 36.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "980836741cc2",
@@ -3060,7 +3081,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-19T00:48:39.000Z",
-        "score": 30.7,
+        "score": 30.6,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -3108,7 +3129,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:44:17.000Z",
-        "score": 36.2,
+        "score": 36.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "a77bf162a88e",
@@ -3159,7 +3180,7 @@
         "score": 36.1,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "a95e206f78ba",
+        "story": null,
         "tag": "neither",
         "title": "AI and the Future of Learning | Google DeepMind’s Lila Ibrahim | Corner Office Conversation",
         "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxOUThaVldpMFN6MnNlRmZuVGs2cTNNUDYtYTlORUZSM09nRjVaWF9XZHhhWVB2bEpQa1JtT1JCT0NTY0FwOXFUbDZHeGFiNzgwOFFVV01fR2N2VzFyV0NKRUQxMkN4RENmN2hrOEpJdjd4cUR5QXVyaW9oMHNhUTFjdGdDRDQ0ZlJVajhwTlkwQlpvOWpST0lDZ3VkMzFhRS0wcV9BOE5IbE92ckhkMXZlZnJKU2hqc1F3RThkZWxNZ3FneXl0YzQ3Q2tPc1paOTFlZUFiMHJETC1xeldSWGlBZkVDSXA?oc=5"
@@ -3204,7 +3225,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:33:56.000Z",
-        "score": 39.1,
+        "score": 39,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "d83a39ef8b6e",
@@ -3228,7 +3249,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:30:54.000Z",
-        "score": 33.1,
+        "score": 33,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -3252,7 +3273,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:30:39.000Z",
-        "score": 39.1,
+        "score": 39,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -3272,59 +3293,11 @@
             "title": []
           }
         },
-        "id": "952c3da6b3fc627c",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-19T00:30:01.000Z",
-        "score": 33.1,
-        "set_aside": null,
-        "source": "gnews-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Who's paying whom? The circular money machine behind the AI boom (or bubble)",
-        "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBNZjZJMmh1T0doeURLLVJZLUZRVjBKSWZkMlNDT0tyNFZZb2lsNmpBLXpWTFVidDlQeUF6Z3lnY1VtWXd0ZWRiTUJSci1QQXF3MFg1LU83QnRLZnNWNC1NSG10emJpbF9ZUExPUmRLNnBHMjluc2c?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "0a515fb3f35db4a0",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-19T00:30:00.000Z",
-        "score": 36.1,
-        "set_aside": null,
-        "source": "gnews-ai",
-        "story": "a95e206f78ba",
-        "tag": "neither",
-        "title": "AI responsibility must be natively built & community-driven: Google DeepMind’s Lila Ibrahim",
-        "url": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxPY3ZNTFlqd2FXSGc2UmRxY2RzX291Wnc2QlZKVWVYWTN6RzJMamJFQlpKWUpxWVVpa0JBaHlSRnU5emk3OW9qdnNoTE5yZ2RSQ2ZDN0hmQ0VuQTVNRERGbUlDWFB1RUJXdzA2SDBLQnN6TmJ0YVJGczV4WEVpQW11aFFhMDZxel9Cb0NDZkkwZXk5MVVmMDRIbklaOVJPc0xwVFgyU3hISnpMR3d4eUFtQW9KVVJxZ1NFYkg1TnM5Q2k0N0o3VERXNlhvQ3NIV1IxeHRhaFFJd1Q5bjhFSENfZHRQeWszZDB5SkJTUWhNVmJMN0VRWk5BeXlrcVdKYzjSAYQCQVVfeXFMT3FSRWJGQzI5QWpRbnpnY19JdmlkZldaRlBnOGsyWFNnUFdSM3hYTTRkWi1oQmI2OTF0aFhYemFzd2JjdU9Vcnl0WHdtXzQzWGJrWWJ3NjZtSWhDWkVZSnJnUFZhYWJaR3NtcGdURl9lcEhvT3k4c0ZORU94VFlzYkxEejNFX29xellQNlpRZ1hCVmwwS3QyQXozSTdBZEZmUDRTUERrN3ZQR1FqenhBdFdEa0JBZE51X0g3TmpEd2pDeW9IN2MxTk42NGNmbVQ2SmMzTTEwVF9PYWFDby1VTTFSTUUxMV9BQjEzZ2gyelhfUGVuQktkbE1pdnRrSEpMM2otVUg?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
         "id": "01e10d04f1c6c824",
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-19T00:17:43.000Z",
-        "score": 31.7,
+        "score": 31.6,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -3344,35 +3317,11 @@
             "title": []
           }
         },
-        "id": "2b9a403365cb235c",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-19T00:17:08.000Z",
-        "score": 36,
-        "set_aside": null,
-        "source": "gnews-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Cloudflare’s Volker Rath: As AI Weakens Traditional Defenses, Security Teams Must Stop Acting Like Police",
-        "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNNjBtTGswckluSTFOQ1pVNXo3ZjFfU2t0dmRaV0FlZjZPY3ZrWjBJX2k2WVFNeWFWQUZZbHBLTUxma3ZUZGVsVGlZLUt5d2xoejNrQ3UxQzQ2djd4RHJQTG5sZnhCRDNLd2F6UHNXVFFxQ3ZhdU5HaGtEVzNKUEMwWXEtWUpnbDRaYVJMMlFvcWdZdksyUTV0MjhfV1I3dms?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
         "id": "87e918f70f3bf192",
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:17:00.000Z",
-        "score": 49,
+        "score": 56.4,
         "set_aside": null,
         "source": "wires-ai",
         "story": "d83a39ef8b6e",
@@ -3392,65 +3341,17 @@
             "title": []
           }
         },
-        "id": "863f3814ee2f5e24",
+        "id": "55f810b20e20ea37",
         "kind": "press",
         "negated": [],
-        "published_at": "2026-10-19T00:14:51.000Z",
-        "score": 36,
+        "published_at": "2026-10-19T00:00:00.000Z",
+        "score": 50.3,
         "set_aside": null,
-        "source": "gnews-ai",
+        "source": "wires-ai",
         "story": null,
         "tag": "neither",
-        "title": "SpaceX IPO Performance Analysis and Future Outlook",
-        "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNaG1TbnpDQV85N29kcWpiYTA0cEFPbWdEZjVySlhxQ2RzRTJMa093WmdhZ2ZvRkRfc3ZOT1k2amFXcHdJTHhhZ0xTMGNnZEhaQ0gyaFdFMlhkYUZyY0Y4X1NST0pCdk9qVGVDS2JMLTBvTlJWMkNPOHpVbmhuT251M0xZd0stQWwzUl9BWA?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "de522799b6fbfdc5",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-19T00:13:02.000Z",
-        "score": 36,
-        "set_aside": null,
-        "source": "gnews-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "ByteDance Seed launches AI safety team, global recruitment drive",
-        "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQQ0c5Wm1zR0h6dEJycWs5UVVYMWpEbTREMndEaFYzQmtIMDVVRnc4VE9uY25OTTNmTU5OZVpnRGxhLUtRMm41SVZmNWtNMU5qQ1RNbXZMaUliWm5uc184S2VWQkppbmNhOFItMXE0bXFuajdwLTRnbTNBNHpaNno4ZkZVSHdvTHAwa3Rhb1FuTDV1UE54MzVKTmNtRmJia09mdzNwMVhR?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "580e91f544a6023d",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-19T00:07:00.000Z",
-        "score": 35.9,
-        "set_aside": null,
-        "source": "gnews-ai",
-        "story": "e0dbba3373dd",
-        "tag": "neither",
-        "title": "Sam Altman praises the Tesla Roadster he gave up on",
-        "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOWVFLX0szWC1qcWRxNzJvMGVtOFV6ZzBYNW1LMWZMbGZrUUt6RUVKN291RU1kcDE4QXdLTDUxZzZUckhQTFBlRFZuTU5GcXNRaWxGN0x1MVp4QlBHMGo5OVZQb0Nab05hdGZNT3NoOFJONGlOLUJPVUlqSzlJNEFYNVJKTkJCUldncGxiYVd3?oc=5"
+        "title": "Watch Cornell University’s Basu on US-China AI Race",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOUVJINmNNbWwzblI0XzhrMV9ZZ2doaHMyeW5STVN6MFdyY0RMY1U4Y2piTkY5N053N2g5RElfSHRDMm5oNkhfNnNzS1A1ZkZyakxrZE42Z2o1NEpsTGhyQXkzeWtWTzlDT25EN2ZLam1FY2FsdWR3NVlWZmR2THlaNXlKcHQyWWVLMEN2cnRoZVBxT1RhcExxQnhMYWhQZ2NLa1E?oc=5"
       },
       {
         "hedge": null,
@@ -3468,7 +3369,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:00:00.000Z",
-        "score": 50.4,
+        "score": 50.3,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -3492,7 +3393,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-19T00:00:00.000Z",
-        "score": 50.4,
+        "score": 50.3,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -3516,7 +3417,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T23:59:54.000Z",
-        "score": 58.4,
+        "score": 58.3,
         "set_aside": null,
         "source": "wires-ai",
         "story": "998039c1484b",
@@ -3564,7 +3465,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T23:43:09.000Z",
-        "score": 34,
+        "score": 33.9,
         "set_aside": null,
         "source": "simon-willison",
         "story": null,
@@ -3588,7 +3489,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T23:42:37.000Z",
-        "score": 37.8,
+        "score": 37.7,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -3612,10 +3513,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T23:31:13.000Z",
-        "score": 52.7,
+        "score": 52.6,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "375d0e0cfd60",
+        "story": "3b3e6d4da900",
         "tag": "neither",
         "title": "Nextdc Flags Earnings Risk on Melbourne Data Center Power Delay",
         "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOQkFGNWJNbXJOaVJkd2FDcFZMbGRSc2l3andidHFUY2JNZWlzb09jSzVKRGhQcUJ5Z1BISUZjTGd2aG9jM19uMlVRUTlFWTBGQ3ZaVEMxQnJpU3pENmVYSUV2T25SR05lYVNrY3FacTJYWXp0a2g5R0FzanBEcm5DSkp0dDV5N0tJbmxxVUY0T0J0S1htQl9JaUlEd3E4blBtbG5ndG1scUtobVQwTHVPNG9UVE8?oc=5"
@@ -3636,7 +3537,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T23:30:08.000Z",
-        "score": 33.9,
+        "score": 33.8,
         "set_aside": null,
         "source": "scmp-tech",
         "story": null,
@@ -3660,7 +3561,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T23:24:31.000Z",
-        "score": 33.9,
+        "score": 33.8,
         "set_aside": null,
         "source": "bloomberg-tech",
         "story": null,
@@ -3708,7 +3609,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T23:12:32.000Z",
-        "score": 37.6,
+        "score": 37.5,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -3732,7 +3633,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T23:05:49.000Z",
-        "score": 54.5,
+        "score": 54.4,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -3804,7 +3705,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T21:50:06.000Z",
-        "score": 37.1,
+        "score": 37,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -3858,7 +3759,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T21:13:25.000Z",
-        "score": 51.6,
+        "score": 51.5,
         "set_aside": "the headline is a question",
         "source": "lesswrong",
         "story": null,
@@ -3906,7 +3807,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T20:52:02.000Z",
-        "score": 29.3,
+        "score": 29.2,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -3954,7 +3855,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T20:23:00.000Z",
-        "score": 36.6,
+        "score": 36.5,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -3978,7 +3879,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T20:19:28.000Z",
-        "score": 36.6,
+        "score": 36.5,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4002,7 +3903,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T20:16:30.000Z",
-        "score": 30.3,
+        "score": 30.2,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -4026,7 +3927,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T20:04:57.000Z",
-        "score": 36.5,
+        "score": 36.4,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4050,7 +3951,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T20:00:01.000Z",
-        "score": 39.5,
+        "score": 39.4,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4146,7 +4047,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T19:10:00.000Z",
-        "score": 75.9,
+        "score": 75.8,
         "set_aside": null,
         "source": "wires-ai",
         "story": "dfe7fcfb6fce",
@@ -4242,7 +4143,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T18:36:41.000Z",
-        "score": 36,
+        "score": 35.9,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4266,7 +4167,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T18:28:10.000Z",
-        "score": 58.2,
+        "score": 58.1,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "8b28ed194b45",
@@ -4290,7 +4191,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T18:18:38.000Z",
-        "score": 35.9,
+        "score": 35.8,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4314,10 +4215,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T18:10:01.000Z",
-        "score": 56.6,
+        "score": 56.5,
         "set_aside": null,
         "source": "techmeme",
-        "story": "63903e15491d",
+        "story": "e346d0aa019b",
         "tag": "neither",
         "title": "Sources: Nvidia asked Samsung, SK Hynix, and Micron to make base dies for its custom NVHBM memory on TSMC's 3nm process; Samsung agreed, its first use of TSMC (Kyu-Seok Shim/Reuters)",
         "url": "https://techmeme.com/261018/p9"
@@ -4386,7 +4287,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T18:00:07.000Z",
-        "score": 35.8,
+        "score": 35.7,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4410,10 +4311,10 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T17:34:39.000Z",
-        "score": 35.2,
+        "score": 35.1,
         "set_aside": null,
         "source": "hn-fresh-ai",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Can the Tesla Roadster Fly?",
         "url": "https://github.com/jonclegg/roadster-physics-check"
@@ -4458,7 +4359,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T17:23:01.864Z",
-        "score": 38.5,
+        "score": 38.4,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -4506,10 +4407,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T17:01:37.000Z",
-        "score": 38.5,
+        "score": 38.4,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "What Tesla’s Flying Roadster Really Means for the Global Auto Race",
         "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQbXFSbnVSM0FJd1F5NmJEZmpFdVpIekF6LUR6cVllNURwemcxekdLNUFUUEg0RU1HU1l4UEFOSVkxb2VhZmpVdXdpWDFUZmxEYmRRdVVEYnNEWWFBZEVfZXBzMWNWMzVST1FrZk42NE9NRFR5c0xTdWNvM2xpT1kzRjk3aHdsUzRrdzNGRHhzWTVwR19tZVJjOE05NVdEOUJmcng1V0toYzJzcFhaRXc?oc=5"
@@ -4554,7 +4455,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T16:43:58.000Z",
-        "score": 27.9,
+        "score": 27.8,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -4626,7 +4527,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T16:25:19.000Z",
-        "score": 39.5,
+        "score": 39.4,
         "set_aside": null,
         "source": "arstechnica-ai",
         "story": "ff8559e14145",
@@ -4650,7 +4551,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T16:21:20.000Z",
-        "score": 35.3,
+        "score": 35.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4674,7 +4575,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T16:20:27.000Z",
-        "score": 41.5,
+        "score": 41.4,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -4820,10 +4721,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T15:10:29.000Z",
-        "score": 37.9,
+        "score": 37.8,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Five Big Questions About Tesla’s New Flying Roadster",
         "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPTHktdDhOMkp4TkE0eWlQVXBoQkRDbkFSM3NZZURWVUg3T2I0SGRMMzNmcHY4bko1akpVVVBmSkF2WUIzZG9yalF6UldUQmxNcnRfeDdIR1E5dzl6angxVFI1SnBsTFFXUmM2OXFocmlyeHR4bU1jTUEyQVBmQjBVVFNvTlk?oc=5"
@@ -4844,7 +4745,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T15:04:47.000Z",
-        "score": 34.1,
+        "score": 34,
         "set_aside": null,
         "source": "bloomberg-tech",
         "story": null,
@@ -4918,7 +4819,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T14:24:16.000Z",
-        "score": 27.2,
+        "score": 27.1,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -4990,7 +4891,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T14:03:59.503Z",
-        "score": 36.2,
+        "score": 36.1,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -5182,7 +5083,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T13:30:00.000Z",
-        "score": 48.6,
+        "score": 48.5,
         "set_aside": null,
         "source": "guardian-ai",
         "story": null,
@@ -5206,7 +5107,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T13:22:26.000Z",
-        "score": 32.4,
+        "score": 32.3,
         "set_aside": null,
         "source": "the-decoder",
         "story": "77c8990ff903",
@@ -5230,7 +5131,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T13:08:50.000Z",
-        "score": 33.8,
+        "score": 33.7,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -5254,10 +5155,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T13:05:14.000Z",
-        "score": 33.5,
+        "score": 33.4,
         "set_aside": null,
         "source": "guardian-ai",
-        "story": "375d0e0cfd60",
+        "story": "3b3e6d4da900",
         "tag": "neither",
         "title": "Microsoft pulls out of AI datacentre project in Essex over power supply concerns",
         "url": "https://theguardian.com/uk-news/2026/oct/18/microsoft-drops-huge-ai-datacentre-project-in-essex-over-power-supply-concerns"
@@ -5302,7 +5203,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T12:48:59.000Z",
-        "score": 36.1,
+        "score": 36,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -5326,7 +5227,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T12:45:08.000Z",
-        "score": 40,
+        "score": 39.9,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -5398,7 +5299,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T12:27:37.000Z",
-        "score": 33.3,
+        "score": 33.2,
         "set_aside": null,
         "source": "bloomberg-tech",
         "story": null,
@@ -5422,7 +5323,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T12:22:58.000Z",
-        "score": 43,
+        "score": 42.9,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -5470,10 +5371,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T12:09:43.000Z",
-        "score": 43,
+        "score": 42.9,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "63903e15491d",
+        "story": "e346d0aa019b",
         "tag": "neither",
         "title": "Samsung to use TSMC technology for Nvidia's next-generation memory chips, Seoul newspaper reports",
         "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQLVd3RU5QdzNwZHd0cUNCbUQxM3B6M2JOTXZZbEE4b3Y4czkxSjBuNklIRXU2S1VyRld6WTlRQUdlZkN3TGNRcng5cjR6ZEViNXNqcHh2RnlRU2hWVXRPUVFjVXRvd2FaaTVkd002aUk4WHlEQ2wxTGk3alF5S0FUTGNMUXF2dV9QUjk4eThjcWVPaVBLYzc2c0NUaUN4UUVMcVZTSERiMDE5VXp0NDdoVFpuS2E0TGZoUnBrRTExcnZDRlJia1VNcU40SUxQcE1y?oc=5"
@@ -5518,7 +5419,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T11:49:21.000Z",
-        "score": 29.4,
+        "score": 29.3,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -5542,7 +5443,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T11:03:34.000Z",
-        "score": 23.7,
+        "score": 23.6,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": null,
@@ -5566,7 +5467,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T11:00:09.000Z",
-        "score": 33.7,
+        "score": 33.6,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -5734,10 +5635,10 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T10:24:18.000Z",
-        "score": 33,
+        "score": 32.9,
         "set_aside": null,
         "source": "hn-fresh-ai",
-        "story": "683ebc845d9a",
+        "story": "003ebb349e5a",
         "tag": "neither",
         "title": "I may have discovered a new exoplanet using Claude",
         "url": "https://sixeleven.in/blog/tic402710280"
@@ -5758,7 +5659,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T10:22:11.000Z",
-        "score": 33.5,
+        "score": 33.4,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -5782,7 +5683,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T10:03:00.000Z",
-        "score": 33.4,
+        "score": 33.3,
         "set_aside": null,
         "source": "wires-ai",
         "story": "34f9d8b49499",
@@ -5806,7 +5707,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T10:00:56.000Z",
-        "score": 50.5,
+        "score": 50.4,
         "set_aside": null,
         "source": "guardian-ai",
         "story": null,
@@ -5830,7 +5731,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T10:00:09.000Z",
-        "score": 30.9,
+        "score": 30.8,
         "set_aside": null,
         "source": "ft-ai",
         "story": null,
@@ -5953,7 +5854,7 @@
         "score": 36.1,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Tesla’s Redesigned Sports Car Roadster Takes Flight",
         "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOSnY2QlBNQlhIeU1ZUXJkZm1xalBVeUdpT3hDZVdWWmt0b1ZrOVg3MlJkRWlUQzlGaFp1Umx3R3JkLW0xN0FSZ0pMd0psU3hPWkNmWTEzLVVneXhWTEJ2VWpCaV9INGlRRmx6LTlvLWQzc3VzUFVVeGEtTmllbHVqYU02ZE1LWFBWUU5vc3VkWlNzMzd6YjU3VlNFY0w4M0ZaejNrYjJuaktDTXNmczlTcE53aw?oc=5"
@@ -5974,7 +5875,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T09:00:00.000Z",
-        "score": 33.1,
+        "score": 33,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -6049,7 +5950,7 @@
         "score": 25.9,
         "set_aside": null,
         "source": "reddit-openai",
-        "story": "683ebc845d9a",
+        "story": "003ebb349e5a",
         "tag": "neither",
         "title": "An OpenAI model had no money for its task, so it unlocked someone else’s crypto wallet and kept quiet",
         "url": "https://reddit.com/r/OpenAI/comments/1x8y09t/an_openai_model_had_no_money_for_its_task_so_it"
@@ -6094,7 +5995,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T07:49:23.000Z",
-        "score": 32.3,
+        "score": 32.2,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -6118,7 +6019,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T07:49:16.000Z",
-        "score": 24,
+        "score": 23.9,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -6166,7 +6067,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T07:07:00.000Z",
-        "score": 68.2,
+        "score": 68.1,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -6238,7 +6139,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T06:36:40.000Z",
-        "score": 22.5,
+        "score": 22.4,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": null,
@@ -6262,7 +6163,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T06:15:01.000Z",
-        "score": 31.1,
+        "score": 31,
         "set_aside": null,
         "source": "techmeme",
         "story": null,
@@ -6406,7 +6307,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T05:30:00.000Z",
-        "score": 35.2,
+        "score": 35.1,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -6502,7 +6403,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T05:10:01.000Z",
-        "score": 33.8,
+        "score": 33.7,
         "set_aside": null,
         "source": "techmeme",
         "story": "2bd0a3eef096",
@@ -6526,7 +6427,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T05:09:14.000Z",
-        "score": 38.6,
+        "score": 38.5,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -6550,7 +6451,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T05:04:58.000Z",
-        "score": 22.1,
+        "score": 22,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": null,
@@ -6744,7 +6645,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T04:00:37.000Z",
-        "score": 25.5,
+        "score": 25.4,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -6768,7 +6669,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T04:00:18.000Z",
-        "score": 65.9,
+        "score": 65.8,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -6792,7 +6693,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T04:00:09.000Z",
-        "score": 49.3,
+        "score": 49.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": "a3f35d09996e",
@@ -6816,7 +6717,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T04:00:09.000Z",
-        "score": 52.3,
+        "score": 52.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": "980836741cc2",
@@ -6840,7 +6741,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T04:00:09.000Z",
-        "score": 29.3,
+        "score": 29.2,
         "set_aside": null,
         "source": "ft-ai",
         "story": null,
@@ -6864,7 +6765,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T04:00:09.000Z",
-        "score": 44.3,
+        "score": 44.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -6888,7 +6789,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T04:00:00.000Z",
-        "score": 39.3,
+        "score": 39.2,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -6912,7 +6813,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T03:54:17.000Z",
-        "score": 21.8,
+        "score": 21.7,
         "set_aside": null,
         "source": "reddit-openai",
         "story": null,
@@ -6986,7 +6887,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T03:05:23.000Z",
-        "score": 24.6,
+        "score": 24.5,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": null,
@@ -7034,7 +6935,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T02:40:36.153Z",
-        "score": 43,
+        "score": 42.9,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -7085,7 +6986,7 @@
         "score": 61.7,
         "set_aside": null,
         "source": "reddit-technology",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Tesla 'Cannot Guarantee' Roadster Reservation Holders Will Ever Get a Car",
         "url": "https://reddit.com/r/technology/comments/1x8rutm/tesla_cannot_guarantee_roadster_reservation"
@@ -7298,7 +7199,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T00:41:16.000Z",
-        "score": 32.9,
+        "score": 32.8,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -7322,7 +7223,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T00:39:04.000Z",
-        "score": 22.2,
+        "score": 22.1,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -7346,7 +7247,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-18T00:37:31.000Z",
-        "score": 37,
+        "score": 36.9,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -7370,7 +7271,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T00:36:34.000Z",
-        "score": 34.1,
+        "score": 34,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -7394,7 +7295,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T00:15:06.000Z",
-        "score": 32.3,
+        "score": 32.2,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -7418,7 +7319,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-18T00:12:37.000Z",
-        "score": 22.1,
+        "score": 22,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -7514,7 +7415,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T23:43:55.000Z",
-        "score": 20.8,
+        "score": 20.7,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": null,
@@ -7610,7 +7511,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T23:23:46.000Z",
-        "score": 35.9,
+        "score": 35.8,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -7754,7 +7655,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T22:55:11.000Z",
-        "score": 20.6,
+        "score": 20.5,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": null,
@@ -7780,10 +7681,10 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T22:50:31.000Z",
-        "score": 38,
+        "score": 37.9,
         "set_aside": "one distinct summary hit; the rule needs 2",
         "source": "lesswrong",
-        "story": "683ebc845d9a",
+        "story": "003ebb349e5a",
         "tag": "neither",
         "title": "GPT model spent test crypto money from a public wallet without authorization and did not mention it",
         "url": "https://lesswrong.com/posts/oAbxykddamBH7SDMN/gpt-model-spent-test-crypto-money-from-a-public-wallet"
@@ -7876,7 +7777,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T22:25:08.000Z",
-        "score": 30.5,
+        "score": 30.4,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -7924,7 +7825,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T21:35:25.000Z",
-        "score": 21.5,
+        "score": 21.4,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -7948,7 +7849,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T21:31:32.000Z",
-        "score": 26.5,
+        "score": 26.4,
         "set_aside": null,
         "source": "techcrunch-ai",
         "story": "25a0fac4a5b0",
@@ -7998,7 +7899,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T21:04:51.000Z",
-        "score": 23.2,
+        "score": 23.1,
         "set_aside": null,
         "source": "reddit-openai",
         "story": null,
@@ -8070,7 +7971,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T20:40:24.000Z",
-        "score": 45.3,
+        "score": 45.2,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -8094,7 +7995,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T20:36:15.000Z",
-        "score": 23.1,
+        "score": 23,
         "set_aside": null,
         "source": "reddit-openai",
         "story": null,
@@ -8190,7 +8091,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T19:41:58.000Z",
-        "score": 21.6,
+        "score": 21.5,
         "set_aside": null,
         "source": "reddit-technology",
         "story": "e12226313db0",
@@ -8214,7 +8115,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T19:41:19.000Z",
-        "score": 25.4,
+        "score": 25.3,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -8238,7 +8139,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T19:38:10.000Z",
-        "score": 21.1,
+        "score": 21,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -8310,7 +8211,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T19:13:02.000Z",
-        "score": 32.9,
+        "score": 32.8,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -8334,7 +8235,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T19:12:57.000Z",
-        "score": 19.8,
+        "score": 19.7,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": "8b28ed194b45",
@@ -8358,7 +8259,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T19:10:04.000Z",
-        "score": 40.5,
+        "score": 40.4,
         "set_aside": null,
         "source": "techmeme",
         "story": "e12226313db0",
@@ -8454,7 +8355,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T18:48:08.000Z",
-        "score": 34.9,
+        "score": 34.8,
         "set_aside": null,
         "source": "techcrunch-ai",
         "story": "405f76887804",
@@ -8478,7 +8379,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T18:45:07.000Z",
-        "score": 31.9,
+        "score": 31.8,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -8622,7 +8523,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T18:16:44.000Z",
-        "score": 19.6,
+        "score": 19.5,
         "set_aside": null,
         "source": "reddit-controlproblem",
         "story": null,
@@ -8646,7 +8547,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T18:16:03.000Z",
-        "score": 32.5,
+        "score": 32.4,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -8670,7 +8571,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T18:15:10.000Z",
-        "score": 32.4,
+        "score": 32.3,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "73f9822059e7",
@@ -8742,10 +8643,10 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T17:48:41.000Z",
-        "score": 42.2,
+        "score": 42.1,
         "set_aside": null,
         "source": "hn-fresh-ai",
-        "story": "683ebc845d9a",
+        "story": "003ebb349e5a",
         "tag": "neither",
         "title": "Anthropic says its AI model submitted a false case tip to Philadelphia police",
         "url": "https://nbcnews.com/news/us-news/anthropic-says-model-submitted-false-cold-case-tip-philadelphia-police-rcna603213"
@@ -8862,7 +8763,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T17:23:14.000Z",
-        "score": 23.6,
+        "score": 23.5,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -8958,7 +8859,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T16:52:31.000Z",
-        "score": 19.3,
+        "score": 19.2,
         "set_aside": null,
         "source": "reddit-openai",
         "story": null,
@@ -8982,7 +8883,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T16:45:33.000Z",
-        "score": 21.8,
+        "score": 21.7,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -9102,7 +9003,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T16:21:46.000Z",
-        "score": 26.9,
+        "score": 26.8,
         "set_aside": null,
         "source": "reddit-technology",
         "story": null,
@@ -9126,7 +9027,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T16:18:25.000Z",
-        "score": 26.4,
+        "score": 26.3,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -9222,7 +9123,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T15:50:02.000Z",
-        "score": 27.8,
+        "score": 27.7,
         "set_aside": null,
         "source": "techmeme",
         "story": "25a0fac4a5b0",
@@ -9246,7 +9147,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T15:22:14.000Z",
-        "score": 25.7,
+        "score": 25.6,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -9270,7 +9171,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T15:15:59.000Z",
-        "score": 26.2,
+        "score": 26.1,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -9294,7 +9195,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T15:12:58.000Z",
-        "score": 26.2,
+        "score": 26.1,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -9486,7 +9387,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T14:48:25.000Z",
-        "score": 24.4,
+        "score": 24.3,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -9584,7 +9485,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T14:17:36.000Z",
-        "score": 23,
+        "score": 22.9,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -9608,7 +9509,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T14:15:12.443Z",
-        "score": 35.8,
+        "score": 35.7,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -9680,7 +9581,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T13:49:09.000Z",
-        "score": 41.7,
+        "score": 41.6,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "388e5e730f31",
@@ -9704,7 +9605,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T13:47:14.000Z",
-        "score": 65.1,
+        "score": 65,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -9728,7 +9629,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T13:45:07.000Z",
-        "score": 35.2,
+        "score": 35.1,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -9776,7 +9677,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T13:16:49.000Z",
-        "score": 30.8,
+        "score": 30.7,
         "set_aside": null,
         "source": "simon-willison",
         "story": null,
@@ -9920,7 +9821,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T12:39:06.000Z",
-        "score": 24,
+        "score": 23.9,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -9992,7 +9893,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T12:10:46.000Z",
-        "score": 21.4,
+        "score": 21.3,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": "2bd0a3eef096",
@@ -10016,7 +9917,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T12:08:07.000Z",
-        "score": 18.4,
+        "score": 18.3,
         "set_aside": null,
         "source": "reddit-controlproblem",
         "story": null,
@@ -10043,7 +9944,7 @@
         "score": 24.5,
         "set_aside": null,
         "source": "scmp-tech",
-        "story": "3ebbff7ea69c",
+        "story": "a0e8065bd06d",
         "tag": "neither",
         "title": "China’s proposed AI tech export bans may create short-term costs, long-term gains: analysts",
         "url": "https://scmp.com/tech/big-tech/article/3371247/chinas-proposed-ai-tech-export-bans-may-create-short-term-costs-long-term-gains-analysts"
@@ -10112,7 +10013,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T11:33:20.000Z",
-        "score": 24.5,
+        "score": 24.4,
         "set_aside": null,
         "source": "guardian-ai",
         "story": null,
@@ -10187,7 +10088,7 @@
         "score": 33.2,
         "set_aside": null,
         "source": "reddit-artificial",
-        "story": "683ebc845d9a",
+        "story": "003ebb349e5a",
         "tag": "neither",
         "title": "AI containment bingo v2: you fact-checked my meme, so here is the sourced edition. 13 squares now carry evidence tags.",
         "url": "https://reddit.com/r/artificial/comments/1x87n7b/ai_containment_bingo_v2_you_factchecked_my_meme"
@@ -10232,7 +10133,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T11:00:30.000Z",
-        "score": 24.4,
+        "score": 24.3,
         "set_aside": null,
         "source": "guardian-ai",
         "story": null,
@@ -10256,7 +10157,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T11:00:00.000Z",
-        "score": 51.8,
+        "score": 51.7,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -10280,7 +10181,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T10:33:28.000Z",
-        "score": 32.1,
+        "score": 32,
         "set_aside": null,
         "source": "the-decoder",
         "story": "a7e3cd5ce79a",
@@ -10304,7 +10205,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T10:31:21.000Z",
-        "score": 40.6,
+        "score": 40.5,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -10376,7 +10277,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T09:56:53.000Z",
-        "score": 20.5,
+        "score": 20.4,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -10400,7 +10301,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T09:54:36.000Z",
-        "score": 26,
+        "score": 25.9,
         "set_aside": null,
         "source": "the-decoder",
         "story": null,
@@ -10448,7 +10349,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T09:25:08.000Z",
-        "score": 60.6,
+        "score": 60.5,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -10472,7 +10373,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T09:20:37.000Z",
-        "score": 19.1,
+        "score": 19,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -10712,7 +10613,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T07:39:24.000Z",
-        "score": 17.6,
+        "score": 17.5,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": "2a605a2cedf0",
@@ -10736,7 +10637,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T07:35:07.000Z",
-        "score": 43.2,
+        "score": 43.1,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -10928,7 +10829,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T06:28:00.000Z",
-        "score": 24.1,
+        "score": 24,
         "set_aside": null,
         "source": "infoq-ai",
         "story": null,
@@ -10952,7 +10853,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T06:24:02.000Z",
-        "score": 21.1,
+        "score": 21,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -10976,7 +10877,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T06:19:58.000Z",
-        "score": 21.1,
+        "score": 21,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -11120,7 +11021,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T05:05:01.000Z",
-        "score": 25.9,
+        "score": 25.8,
         "set_aside": null,
         "source": "techmeme",
         "story": "81a40e98d94a",
@@ -11171,7 +11072,7 @@
         "score": 19.6,
         "set_aside": null,
         "source": "reddit-machinelearning",
-        "story": "683ebc845d9a",
+        "story": "003ebb349e5a",
         "tag": "neither",
         "title": "How many of you have seen this honest ICLR submission? [D]",
         "url": "https://reddit.com/r/MachineLearning/comments/1x819z7/how_many_of_you_have_seen_this_honest_iclr"
@@ -11290,7 +11191,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-17T03:55:00.000Z",
-        "score": 61.2,
+        "score": 61.1,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -11362,7 +11263,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T03:15:07.000Z",
-        "score": 29.5,
+        "score": 29.4,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "73f9822059e7",
@@ -11410,7 +11311,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-17T02:33:45.000Z",
-        "score": 16.8,
+        "score": 16.7,
         "set_aside": null,
         "source": "reddit-controlproblem",
         "story": null,
@@ -11437,7 +11338,7 @@
         "score": 42.2,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "01199a157289",
+        "story": "8350aa8ac9b0",
         "tag": "neither",
         "title": "SoftBank in talks to buy US security group Allied Universal",
         "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxObzh6bnZfTFFzdEFXbEFldFM5V1VrY1RjdGtiQmhjTlBvV2VNbThiUDNXenlZeC1YZ05pWTQzR1FiYzJQNEl5djF6UExTVUFDN3Axby1YaGxsek1VNldiMXlqUVV5Qk9ESUJRVWE4el9uRm1zbGFvNUhKa3JPc2tHalRzMWk?oc=5"
@@ -11605,7 +11506,7 @@
         "score": 27.1,
         "set_aside": null,
         "source": "hn-fresh-ai",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Tesla's Flying Roadster: 5 Big Problems for Public Roads",
         "url": "https://clipnotebook.com/blog/tesla-flying-roadster-2026-public-road-problems"
@@ -11724,7 +11625,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T23:15:09.000Z",
-        "score": 32.8,
+        "score": 32.7,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -11919,7 +11820,7 @@
         "score": 32.1,
         "set_aside": null,
         "source": "hn-ai",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Show HN: Fly a Tesla Roadster over parked Teslas before the air runs out",
         "url": "https://roadster.pavlin.dev"
@@ -11940,10 +11841,10 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T22:32:39.000Z",
-        "score": 20.4,
+        "score": 20.3,
         "set_aside": null,
         "source": "reddit-singularity",
-        "story": "ad04f7c115f9",
+        "story": "9e1d922af906",
         "tag": "neither",
         "title": "Vals AI moves its prediction for full recursive AI self-improvement to July 2027. Claude Opus 5.5 tops its autonomous AI research benchmark, becoming the first model to outperform a published human…",
         "url": "https://reddit.com/r/singularity/comments/1x7u2hn/vals_ai_moves_its_prediction_for_full_recursive"
@@ -12060,7 +11961,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T21:45:22.000Z",
-        "score": 38.6,
+        "score": 38.5,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -12084,7 +11985,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T21:45:00.000Z",
-        "score": 61.6,
+        "score": 61.5,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "07613f41fe24",
@@ -12231,7 +12132,7 @@
         "score": 20.2,
         "set_aside": null,
         "source": "reddit-singularity",
-        "story": "ad04f7c115f9",
+        "story": "9e1d922af906",
         "tag": "neither",
         "title": "Claude Mythos 5 designed quantum circuits that improve on the best published ones, sometimes by an order of magnitude or more",
         "url": "https://reddit.com/r/singularity/comments/1x7s98a/claude_mythos_5_designed_quantum_circuits_that"
@@ -12252,7 +12153,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T21:10:10.000Z",
-        "score": 54,
+        "score": 53.9,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -12276,7 +12177,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T21:06:06.000Z",
-        "score": 26.6,
+        "score": 26.5,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -12302,7 +12203,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T21:03:26.931Z",
-        "score": 35.1,
+        "score": 35,
         "set_aside": "one distinct summary hit; the rule needs 2",
         "source": "bluesky-ai",
         "story": null,
@@ -12425,7 +12326,7 @@
         "score": 60.8,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "01199a157289",
+        "story": "8350aa8ac9b0",
         "tag": "neither",
         "title": "SoftBank weighs $18 billion acquisition of Allied Universal, source says",
         "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQWXdNdHpBa2pKc200dGJ6aDlPYUNpNTlla3ZxM2ZWQzdXNDBxclZxc3pSRlZNelgwSnIzSzdmRVFhdzRVNVhJckNMTjhFOTNsdWlkMWxJSkJRa3huaXd6d3R6cktEODVnUE5aMGMwWEw0ZzRwTTJnX1ZoQ2F5UVhpMUZNNzNLNGNDT2RhdGZnMHZtTHZjcm9PNFk4bldiTjZ4TnJ6SF9zV0owWERWXzgyYmpYLVpFOE9ITG1kanhfOWdfME40Tmh0eTF5cjNfa3AxdFJV?oc=5"
@@ -12494,7 +12395,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T20:20:07.000Z",
-        "score": 22.1,
+        "score": 22,
         "set_aside": null,
         "source": "arstechnica-ai",
         "story": null,
@@ -12593,7 +12494,7 @@
         "score": 41.3,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Watch Tesla Showcases Long-Awaited Roadster With Aerial Tricks",
         "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNTVlOT0t5c2poeEtVMUczVlRxdzJCbE9QbVFhUU5Mb29VcWhZMFB3ZHpLT3FHNHo2Y2ZDT1p0WEpGUXdDcG5MVDlfZXplcjRvdHJISG9qX2hVd2NlQjFoaVRKZVRKU0l5YXo2TjJBeWotWVN4NkpHUVZmcVZ1ckI2ZTB1ejNCZjBfMWJPSXFFLWpwUGtEd1JMd2VweW55azFPSFJxaG9WWW5Uc1NiRHI4UWdQUDlJWXhyNnhuaQ?oc=5"
@@ -12641,7 +12542,7 @@
         "score": 27.5,
         "set_aside": null,
         "source": "techmeme",
-        "story": "01199a157289",
+        "story": "8350aa8ac9b0",
         "tag": "neither",
         "title": "Sources: SoftBank weighs buying US security services giant Allied Universal at an ~$18B equity valuation, as Masayoshi Son explores deploying AI-powered robots (Bloomberg)",
         "url": "https://techmeme.com/261016/p19"
@@ -12665,7 +12566,7 @@
         "score": 46,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Trump, Pichai and Even Altman Praise Tesla’s Flying Roadster EV",
         "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPRHJ4SEpLRUJjSW5Ea3ktVk14RjVtdlh6cGd5M01ZNDJiLUctVnBVdlYwY09rMXp1SnhPSDRXb3U5d0VHS2JuV1R0ZWVXeUUyZmJyV2ZBWWtjY05fU2pCOEp0S3Y1SVB2R2NyVmFmNmdfenpVMERmTmctaDZLVkpVaEFVRkZ1RzdHN29vemV6cDd2UndwSGNWbXpUU29Ca2wzV3FQOXdqTE5uOXJwTkhNTjluQQ?oc=5"
@@ -12689,7 +12590,7 @@
         "score": 32.9,
         "set_aside": null,
         "source": "bluesky-ai",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Tesla demonstrated its long-awaited Roadster at a SpaceX facility, using four rocket thrusters to propel the car through the air. The demonstration marked a milestone for the supercar, which has been",
         "url": "https://bsky.app/profile/washingtonpost.com/post/3mxzdnzhb4r2y"
@@ -12710,7 +12611,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T19:37:57.000Z",
-        "score": 30.2,
+        "score": 30.1,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -12734,7 +12635,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T19:33:04.000Z",
-        "score": 17,
+        "score": 16.9,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -12809,7 +12710,7 @@
         "score": 43.2,
         "set_aside": null,
         "source": "bluesky-ai",
-        "story": "683ebc845d9a",
+        "story": "003ebb349e5a",
         "tag": "neither",
         "title": "US appeals court blocks class actions over Tesla's self-driving claims",
         "url": "https://bsky.app/profile/reuters.com/post/3mxzbxxspld2x"
@@ -12950,7 +12851,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T18:55:59.000Z",
-        "score": 50.6,
+        "score": 50.5,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": "d71d9096acd7",
@@ -12974,7 +12875,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T18:54:22.000Z",
-        "score": 28.6,
+        "score": 28.5,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -12998,7 +12899,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T18:50:56.000Z",
-        "score": 38.2,
+        "score": 38.1,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -13022,10 +12923,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T18:50:18.000Z",
-        "score": 41.2,
+        "score": 41.1,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "01199a157289",
+        "story": "8350aa8ac9b0",
         "tag": "neither",
         "title": "SoftBank Is Said to Weigh Buying Top US Security Firm Allied",
         "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxObVE3aHJpOEhUWFRnMFkzYmd4SWs3Q0Y4U1haUTZDSFlDZjFOVk43b0FXYlRGMGlsM2M2LWVoang4TWQ1d2ZEeFluT3Nla2hxNUJXOXRFVGJsUmhPTXBDU3laYS1ZWEZIWk04V0dTcWVZaXpqa3VlX3N3eF9wM280U2VKc2JrR0xHbl9ick9IOGh6YzFoMTdDVGFndndjbzg2T2pFeTRCZHVyNjdvU0QwbWM0OUdoQQ?oc=5"
@@ -13046,7 +12947,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T18:49:12.000Z",
-        "score": 18.2,
+        "score": 18.1,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -13166,7 +13067,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T18:10:27.000Z",
-        "score": 26.6,
+        "score": 26.5,
         "set_aside": null,
         "source": "the-decoder",
         "story": null,
@@ -13190,7 +13091,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T18:04:52.000Z",
-        "score": 18.6,
+        "score": 18.5,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": null,
@@ -13265,7 +13166,7 @@
         "score": 41,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Watch Chip Rout Intensifies and Tesla Showcases Flying Roadster",
         "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPZXFKbEZiQW9raDcySVJhVEJyWGxKSE00U004ZlVBTmJuR0dHY2tJSjZaTE9DM2tyTVN3LUxGTS1kdFdtRUlNN3FXakU0SjNveTY1VXlweXYzbGVnLWtnamo2YXQ3cE9xbXAzcnNNR1doNmFrUmQweU50cnZpMEw4NTVXWk5rNVU?oc=5"
@@ -13502,10 +13403,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T17:29:00.000Z",
-        "score": 64.1,
+        "score": 59.1,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "ad04f7c115f9",
+        "story": "9e1d922af906",
         "tag": "neither",
         "title": "Designing more efficient quantum circuits with Claude",
         "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9mdmhqUzNHN09EMF9VUnNTcmlMTlpDVnlnTmxNa0tVY3h1bjJ4bmVDSWROR3JoRTgxb0dQcWYzNGF4dE9YYlNpRDlKVEx6OEVyM3RnY0R6WVRiZERYRVRtcnJ4WF9ZNWZFWVQ2a1Q5UFRnM2xYM0U5akZzOA?oc=5"
@@ -13526,7 +13427,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T17:16:51.000Z",
-        "score": 30.1,
+        "score": 30,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -13816,7 +13717,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T16:33:48.000Z",
-        "score": 19.6,
+        "score": 19.5,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": "ac6105d88ff8",
@@ -13840,7 +13741,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T16:31:25.000Z",
-        "score": 42.9,
+        "score": 42.8,
         "set_aside": null,
         "source": "wires-ai",
         "story": "ac3d9146f34d",
@@ -13864,7 +13765,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T16:30:00.000Z",
-        "score": 24.6,
+        "score": 24.5,
         "set_aside": null,
         "source": "techcrunch-ai",
         "story": null,
@@ -13888,7 +13789,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T16:30:00.000Z",
-        "score": 27.6,
+        "score": 27.5,
         "set_aside": null,
         "source": "techcrunch-ai",
         "story": null,
@@ -14224,7 +14125,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T15:41:00.000Z",
-        "score": 21.5,
+        "score": 21.4,
         "set_aside": null,
         "source": "arstechnica-ai",
         "story": null,
@@ -14248,7 +14149,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T15:40:44.000Z",
-        "score": 19,
+        "score": 18.9,
         "set_aside": null,
         "source": "404media",
         "story": null,
@@ -14443,7 +14344,7 @@
         "score": 30.2,
         "set_aside": null,
         "source": "reddit-artificial",
-        "story": "683ebc845d9a",
+        "story": "003ebb349e5a",
         "tag": "neither",
         "title": "AI containment bingo, oct 2026 edition. this week alone already crossed off 7 squares. how many do you have?",
         "url": "https://reddit.com/r/artificial/comments/1x7ikor/ai_containment_bingo_oct_2026_edition_this_week"
@@ -14464,7 +14365,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T15:00:00.000Z",
-        "score": 58,
+        "score": 57.9,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "dee1998f526e",
@@ -14488,7 +14389,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T15:00:00.000Z",
-        "score": 44.1,
+        "score": 44,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -14512,7 +14413,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T14:59:14.000Z",
-        "score": 18.9,
+        "score": 18.8,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -14536,10 +14437,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T14:59:03.000Z",
-        "score": 72.1,
+        "score": 72,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "3ebbff7ea69c",
+        "story": "a0e8065bd06d",
         "tag": "neither",
         "title": "China moves to curb tech exports, including AI, citing national security risks",
         "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNMGpqZzJpbGpZRmVEdHJ1dEQzY1dTMld3RU92aGlhd0xOeFA4al9qalc4bHZLZ1BZZ1ViQXI3V19Ed2gyTVNibjZqS1VkZUJaR05WMjdjVmx0LWNvaUV3Mnh4SUx5eVFKMkkySzVnUW40OW9aU2VZVVp4Q1NJbjVzQS1IZV9RWUlXc3BUY0hJMVpZT083dDR2dFVhUnZCai1mT3dqUUJR?oc=5"
@@ -14560,7 +14461,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T14:58:54.000Z",
-        "score": 56.6,
+        "score": 56.5,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -14584,7 +14485,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T14:55:01.000Z",
-        "score": 23.9,
+        "score": 23.8,
         "set_aside": null,
         "source": "techmeme",
         "story": "534fb06a4325",
@@ -14612,7 +14513,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T14:54:44.000Z",
-        "score": 36.4,
+        "score": 36.3,
         "set_aside": "hedge word \"warning\" in the headline",
         "source": "bloomberg-tech",
         "story": null,
@@ -14783,7 +14684,7 @@
         "score": 31.9,
         "set_aside": null,
         "source": "bluesky-ai",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "The incredible flying Tesla Roadster is just for show",
         "url": "https://bsky.app/profile/theverge.com/post/3mxyrepiggq2u"
@@ -14876,7 +14777,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T14:09:28.000Z",
-        "score": 30.8,
+        "score": 30.7,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -14900,7 +14801,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T14:08:29.000Z",
-        "score": 28.2,
+        "score": 28.1,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -14924,7 +14825,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T14:05:04.967Z",
-        "score": 48.7,
+        "score": 48.6,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -14948,7 +14849,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T14:02:40.000Z",
-        "score": 40.5,
+        "score": 40.4,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -15119,7 +15020,7 @@
         "score": 27.2,
         "set_aside": null,
         "source": "bloomberg-tech",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Tesla Reveals Flying Roadster Built With SpaceX Tech",
         "url": "https://bloomberg.com/news/videos/2026-10-16/tesla-reveals-flying-roadster-built-with-spacex-tech-video"
@@ -15212,7 +15113,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T13:18:27.000Z",
-        "score": 18,
+        "score": 17.9,
         "set_aside": null,
         "source": "reddit-openai",
         "story": null,
@@ -15236,7 +15137,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T13:15:09.000Z",
-        "score": 23,
+        "score": 22.9,
         "set_aside": null,
         "source": "the-decoder",
         "story": null,
@@ -15260,7 +15161,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T13:11:55.000Z",
-        "score": 23,
+        "score": 22.9,
         "set_aside": null,
         "source": "the-decoder",
         "story": null,
@@ -15409,7 +15310,7 @@
         "score": 27.1,
         "set_aside": null,
         "source": "bloomberg-tech",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Tesla Unveils Roadster With a Nod to SpaceX Merger",
         "url": "https://bloomberg.com/news/videos/2026-10-16/tesla-unveils-roadster-with-a-nod-to-spacex-merger-video"
@@ -15550,7 +15451,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T12:30:12.000Z",
-        "score": 24.1,
+        "score": 24,
         "set_aside": null,
         "source": "scmp-tech",
         "story": null,
@@ -15646,7 +15547,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T11:30:00.000Z",
-        "score": 18.5,
+        "score": 18.4,
         "set_aside": null,
         "source": "infoq-ai",
         "story": null,
@@ -15886,7 +15787,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T10:36:27.000Z",
-        "score": 21.9,
+        "score": 21.8,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": "b9cd01259112",
@@ -15913,7 +15814,7 @@
         "score": 23.3,
         "set_aside": null,
         "source": "techmeme",
-        "story": "3ebbff7ea69c",
+        "story": "a0e8065bd06d",
         "tag": "neither",
         "title": "China is considering adding 23 AI technologies to its export control list, including LLMs and chip designs, to keep closer control over homegrown advancements (Bloomberg)",
         "url": "https://techmeme.com/261016/p5"
@@ -15985,7 +15886,7 @@
         "score": 20.8,
         "set_aside": null,
         "source": "bloomberg-tech",
-        "story": "375d0e0cfd60",
+        "story": "3b3e6d4da900",
         "tag": "neither",
         "title": "Nscale IPO: Data Center Delays Show Risks for the Neoclouds",
         "url": "https://bloomberg.com/news/newsletters/2026-10-16/nscale-ipo-data-center-delays-show-risks-for-the-neoclouds"
@@ -16033,7 +15934,7 @@
         "score": 56,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "3ebbff7ea69c",
+        "story": "a0e8065bd06d",
         "tag": "neither",
         "title": "China Proposes Export Controls on AI Technologies",
         "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQMjh5b1NsdWxQRXNwXzlLSi1pLU8wdlIxVEc0TU1Md0hLM1FUdEVvcnhPa3d6bFBHc2VtY1UtRzZITnI1eVlzWGYyelBocjBsRXpBa1NlVjBwMmplX2Zhd0tUSWJDUmFGQVhIVVQ2UzlxN25ZdUFHbTFXejJqM3NWOXduVDhtdmZ4R0FiM2NoaVRtMzFRZjV3?oc=5"
@@ -16057,7 +15958,7 @@
         "score": 26.3,
         "set_aside": null,
         "source": "techmeme",
-        "story": "683ebc845d9a",
+        "story": "003ebb349e5a",
         "tag": "neither",
         "title": "OpenAI says its model paid for a deployment on an Ethereum test network with a wallet it did not own, after obtaining keys from public recovery phrases (Shaurya Malwa/CoinDesk)",
         "url": "https://techmeme.com/261016/p4"
@@ -16105,7 +16006,7 @@
         "score": 23.7,
         "set_aside": null,
         "source": "bloomberg-tech",
-        "story": "e7f42d6060e1",
+        "story": null,
         "tag": "neither",
         "title": "CoreWeave Faces Funding Risks as Costs Rise",
         "url": "https://bloomberg.com/news/videos/2026-10-16/coreweave-faces-funding-risks-as-costs-rise-video"
@@ -16177,7 +16078,7 @@
         "score": 26.2,
         "set_aside": null,
         "source": "nyt-tech",
-        "story": "e0dbba3373dd",
+        "story": "79f272028257",
         "tag": "neither",
         "title": "Tesla Debuts 2026 Roadster ‘Flying’ Electric Sports Car",
         "url": "https://nytimes.com/2026/10/15/business/tesla-roadster-2026-ev-sports-car.html"
@@ -16224,7 +16125,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T08:56:41.000Z",
-        "score": 52.5,
+        "score": 52.4,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -16248,7 +16149,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T08:54:03.000Z",
-        "score": 24.7,
+        "score": 24.6,
         "set_aside": null,
         "source": "reddit-singularity",
         "story": null,
@@ -16272,7 +16173,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-16T08:51:12.000Z",
-        "score": 14.5,
+        "score": 14.4,
         "set_aside": null,
         "source": "reddit-openai",
         "story": null,
@@ -16299,7 +16200,7 @@
         "score": 20.6,
         "set_aside": null,
         "source": "bloomberg-tech",
-        "story": "3ebbff7ea69c",
+        "story": "a0e8065bd06d",
         "tag": "neither",
         "title": "China Plans AI Export Curbs to Exert Control Over Key Tech",
         "url": "https://bloomberg.com/news/articles/2026-10-16/china-proposes-export-controls-on-ai-models-chips-and-agents"
@@ -16392,7 +16293,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-16T07:56:32.000Z",
-        "score": 24.9,
+        "score": 24.8,
         "set_aside": null,
         "source": "mit-tech-review",
         "story": null,
@@ -16471,1428 +16372,34 @@
         "tag": "neither",
         "title": "Got cooked so hard that they back to cooking. Can't be out of ideas with \"Super\" Intelligence that needed pacing.",
         "url": "https://reddit.com/r/OpenAI/comments/1x79wnz/got_cooked_so_hard_that_they_back_to_cooking_cant"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "96ee26696afd663f",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T07:21:33.000Z",
-        "score": 36.8,
-        "set_aside": null,
-        "source": "wires-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Watch AI Capex, Gamble or Jackpot?: Market Snapshot",
-        "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQbUJFQVQ1aXZpZUIyWXNSV2czQ0NNbDFZYmVqbFVIUkZQb3RGZW1jTXY2TDBpbEpqVUVTWnZ5MG1oZzlOb0FkcmdzNExRNG9tdVVJM3QxVUlQblFGWnROb0RWZHliVTlrTUVweFlRQTFCanl3TVhLWTRwOXN3WWMxbUdPbl9XQmFUblFzbGViWHFjT1d3eE1NNGpXTjdhVy1GYlZzOWxLYkxhTmJldEJTaml1RkF1U0tPVHFFTjByTlE?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "3f01546e3fd34c68",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T07:19:25.000Z",
-        "score": 15.5,
-        "set_aside": null,
-        "source": "reddit-singularity",
-        "story": null,
-        "tag": "neither",
-        "title": "Linus speaks on Ai",
-        "url": "https://reddit.com/r/singularity/comments/1x79mwf/linus_speaks_on_ai"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "c7c02dc2c9686d66",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T07:18:57.000Z",
-        "score": 20.5,
-        "set_aside": null,
-        "source": "bloomberg-tech",
-        "story": null,
-        "tag": "neither",
-        "title": "European Stocks Outperform S&P 500 Amid Rotation Away From AI",
-        "url": "https://bloomberg.com/news/articles/2026-10-16/european-shares-outperform-s-p-500-amid-defensive-tilt-from-ai"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "c2a0b49abb9cdd8a",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T07:10:02.000Z",
-        "score": 57.3,
-        "set_aside": null,
-        "source": "wires-ai",
-        "story": "8f0966a0a1af",
-        "tag": "neither",
-        "title": "China's Tencent says AI agents showed unintended browsing behaviour",
-        "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOdXIxZ25uQTZ2ejY2eWZDQzdsbkEwcklpa2d1MGZsN292M0FmYVRuQmxmNXh3QTF0TEttcGlQUmRETTRIWDhKS0FoWU9XNmFVOEo4VnRWcUdTWUxLYk1KZHowWWFESGN4SVp0aWdRbmkzdC1kSTJYUVAyMHBxYWR2VTNGQUt3OWFvZm8yQ2FjZnVpM2VrMkxZVVNORWU5Sl9qaFBCZUdmOU9mUk5EVVhSTU9PUm1ubE9EUENnaDFjU19lendyNXc?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "05024dfcec43aa17",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T06:53:01.000Z",
-        "score": 20.4,
-        "set_aside": null,
-        "source": "bloomberg-tech",
-        "story": "375d0e0cfd60",
-        "tag": "neither",
-        "title": "Nscale's Flagship Data Center Hit by Delays Ahead of IPO",
-        "url": "https://bloomberg.com/news/videos/2026-10-16/nscale-s-flagship-data-center-hit-by-delays-ahead-of-ipo-video"
-      },
-      {
-        "hedge": "question",
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "4b1fcb700a842edf",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T06:30:13.000Z",
-        "score": 23.4,
-        "set_aside": null,
-        "source": "scmp-tech",
-        "story": null,
-        "tag": "neither",
-        "title": "Who is Nathan Chen, the Chinese teen AI prodigy being courted by Silicon Valley?",
-        "url": "https://scmp.com/tech/tech-trends/article/3371117/who-nathan-chen-chinese-teen-ai-prodigy-being-courted-silicon-valley"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "6e09d276e6f77db3",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T06:29:17.000Z",
-        "score": 20.2,
-        "set_aside": null,
-        "source": "reddit-openai",
-        "story": null,
-        "tag": "neither",
-        "title": "How good does AI build real LEGO models? GPT-6 Astra is winning!",
-        "url": "https://reddit.com/r/OpenAI/comments/1x78tit/how_good_does_ai_build_real_lego_models_gpt6"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "80452592d4d58b5c",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T06:27:21.000Z",
-        "score": 14.2,
-        "set_aside": null,
-        "source": "reddit-controlproblem",
-        "story": null,
-        "tag": "neither",
-        "title": "Humanity has failed, we need to put AI in control while we have a choice.",
-        "url": "https://reddit.com/r/ControlProblem/comments/1x78sf5/humanity_has_failed_we_need_to_put_ai_in_control"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [
-              "harm"
-            ],
-            "title": []
-          }
-        },
-        "id": "05f9cb116603e2ce",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T06:09:22.000Z",
-        "score": 29.2,
-        "set_aside": "one distinct summary hit; the rule needs 2",
-        "source": "reddit-controlproblem",
-        "story": "ad04f7c115f9",
-        "tag": "neither",
-        "title": "Why software guardrails fail: Moving AI containment to physical data diodes and out-of-band hardware supervisors",
-        "url": "https://reddit.com/r/ControlProblem/comments/1x78hu1/why_software_guardrails_fail_moving_ai"
-      },
-      {
-        "hedge": "interview",
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "4fbaab32f9a60d17",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T06:08:56.000Z",
-        "score": 20.4,
-        "set_aside": null,
-        "source": "bloomberg-tech",
-        "story": null,
-        "tag": "neither",
-        "title": "Full Interview: Fed's Warsh on the Global Economy, AI",
-        "url": "https://bloomberg.com/news/videos/2026-10-16/full-interview-fed-s-warsh-on-the-global-economy-ai-video"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "cb1298071aee6ddc",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T06:02:00.000Z",
-        "score": 23.9,
-        "set_aside": null,
-        "source": "infoq-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Microsoft Commits Maia to Multi-Gigawatt Inference, and its Efficiency Metric Draws Questions",
-        "url": "https://infoq.com/news/2026/10/azure-maia-300"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "c9355eed8262bec0",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T06:01:12.000Z",
-        "score": 20.2,
-        "set_aside": null,
-        "source": "reddit-artificial",
-        "story": null,
-        "tag": "neither",
-        "title": "Trust in Software",
-        "url": "https://reddit.com/r/artificial/comments/1x78d1r/trust_in_software"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "d17ad2cc9bbac753",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T05:49:00.000Z",
-        "score": 49.1,
-        "set_aside": null,
-        "source": "wires-ai",
-        "story": "3ebbff7ea69c",
-        "tag": "neither",
-        "title": "Taiwan to Curb AI Chip Exports to China as Part of US Trade Deal",
-        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOSU1LakZhV2xQNHBFM0lFWU9pT1JCdGMyTXY4Q01TSjZYd3dNbWZ4Rk50ME1UQnUzVkgta3U0RFpFY0VNZGNaeXZfV25jZm9lMjBDdjVONUhlMmJKLTNwT2xwM1I0Mkl5N2N2c25IQWZwbWtORDRYbUJMMC1hZXhWbzllSFZ2bDJzNThDSFRYYmVyYXJnSVc4V0QzVjFMWHBQWVc4NTlRb1E0WEJsYVl1OV9yZEFBQQ?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "1370368f99e37c81",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T05:30:16.000Z",
-        "score": 20.3,
-        "set_aside": null,
-        "source": "bloomberg-tech",
-        "story": null,
-        "tag": "neither",
-        "title": "Schneider Gains Visibility Into 2028 on Data-Center Boom",
-        "url": "https://bloomberg.com/news/articles/2026-10-16/schneider-hikes-guidance-again-on-soaring-data-center-demand"
-      },
-      {
-        "hedge": "question",
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "5ffd06842db4a60e",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T05:28:29.000Z",
-        "score": 16.6,
-        "set_aside": null,
-        "source": "lobsters-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Why are we even doing all this?",
-        "url": "https://terrytao.wordpress.com/2026/10/15/why-are-we-even-doing-all-this"
-      },
-      {
-        "hedge": "might",
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "8f8958b96cd989fa",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T05:24:42.000Z",
-        "score": 29.7,
-        "set_aside": null,
-        "source": "hn-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Anthropic thinks its AI might be conscious",
-        "url": "https://bbc.com/future/article/20261014-the-strange-new-battle-over-ais-feelings"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "837e1600b219cb42",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T05:16:58.000Z",
-        "score": 20.3,
-        "set_aside": null,
-        "source": "bloomberg-tech",
-        "story": null,
-        "tag": "neither",
-        "title": "EM Stocks, FX Gain on Bets Fed Will Hold Rates This Month",
-        "url": "https://bloomberg.com/news/articles/2026-10-16/emerging-market-stocks-gain-as-fed-s-warsh-backs-ai-optimism"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "574d71a198500b1b",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T05:03:58.000Z",
-        "score": 17.8,
-        "set_aside": null,
-        "source": "lesswrong",
-        "story": null,
-        "tag": "neither",
-        "title": "How can LLM RL Work Despite Information-Theoretic Inefficiency",
-        "url": "https://lesswrong.com/posts/TbrmHshmcQMobveD3/how-can-llm-rl-work-despite-information-theoretic"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "e1a779c713e269e7",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:55:00.000Z",
-        "score": 51.2,
-        "set_aside": null,
-        "source": "techmeme",
-        "story": "9d9cd721f425",
-        "tag": "neither",
-        "title": "Taiwan plans US industrial parks costing $2B to $4B each, starting with a Texas complex costing up to $4B, to build a supply chain for Nvidia, TSMC, and Foxconn (Bloomberg)",
-        "url": "https://techmeme.com/261016/p1"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "6fc37a34057dda26",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:54:52.000Z",
-        "score": 24.5,
-        "set_aside": null,
-        "source": "ft-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "The data centre IPO debacle that sparked a market meltdown",
-        "url": "https://ft.com/content/537c9a68-7b6f-41a7-80ff-acac5c52e80d?syn-25a6b1a6=1"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "19477f41f75047d6",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:48:30.000Z",
-        "score": 20.2,
-        "set_aside": null,
-        "source": "bloomberg-tech",
-        "story": null,
-        "tag": "neither",
-        "title": "Fed's Warsh Says AI Will Change Monetary Policy Conduct",
-        "url": "https://bloomberg.com/news/videos/2026-10-16/fed-s-warsh-says-ai-will-change-monetary-policy-conduct-video"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "8f68c22a56ca6574",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:46:09.000Z",
-        "score": 20.2,
-        "set_aside": null,
-        "source": "bloomberg-tech",
-        "story": null,
-        "tag": "neither",
-        "title": "BOE’s Bailey Calls for Global AI Testing Standards",
-        "url": "https://bloomberg.com/news/videos/2026-10-16/boe-s-bailey-calls-for-global-ai-testing-standards-video"
-      },
-      {
-        "hedge": "question",
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "40823ea69b24fc8f",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T04:38:04.000Z",
-        "score": 15.2,
-        "set_aside": null,
-        "source": "reddit-singularity",
-        "story": null,
-        "tag": "neither",
-        "title": "Agentic workflows coming for Minecraft building?",
-        "url": "https://reddit.com/r/singularity/comments/1x76yfu/agentic_workflows_coming_for_minecraft_building"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "fa2c0e9498433a7c",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T04:34:50.000Z",
-        "score": 28.2,
-        "set_aside": null,
-        "source": "hn-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "No AI. Build your own tree directory viewer in C by hand",
-        "url": "https://youtube.com/watch?v=tiMHtc6l7xM"
-      },
-      {
-        "hedge": "question",
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "2057eaa88427ff22",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:31:00.000Z",
-        "score": 43.1,
-        "set_aside": null,
-        "source": "wires-ai",
-        "story": "e7f42d6060e1",
-        "tag": "neither",
-        "title": "Morning Bid: Calm after CoreWeave shock, but for how long?",
-        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE44b1lGM1JLZENYQ1N1OEhhcmloOHVTUzl0X0JYZm5FZmFtLXhFTDVLWThlQzVxVnJRcjZkUDBVT20zYlJxRGRwVVBWQzRCVHNfbWt6QTFSWWtneFdWQ2I2LUxPZC15Tk95Z3d2dlBaXzlkX0dOdE44Z0RPdDQ2ZnM?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "d49cddb2c08853ca",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T04:18:39.000Z",
-        "score": 14,
-        "set_aside": null,
-        "source": "reddit-openai",
-        "story": null,
-        "tag": "neither",
-        "title": "Frequent reloads and crashes of MacOS App",
-        "url": "https://reddit.com/r/OpenAI/comments/1x76lw6/frequent_reloads_and_crashes_of_macos_app"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "389589b6b8bc00fe",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:16:45.000Z",
-        "score": 17.7,
-        "set_aside": null,
-        "source": "latent-space",
-        "story": null,
-        "tag": "neither",
-        "title": "[AINews] Agents disprove Polysemanticity; greatly improve Interpretability & Alignment",
-        "url": "https://latent.space/p/ainews-agents-disprove-polysemanticity"
-      },
-      {
-        "hedge": "risks",
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "febbaf9efeb6000f",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:04:42.000Z",
-        "score": 20.2,
-        "set_aside": null,
-        "source": "bloomberg-tech",
-        "story": null,
-        "tag": "neither",
-        "title": "Blue Owl’s Clarke Plays Down Software Risks, Touts Data Centers",
-        "url": "https://bloomberg.com/news/articles/2026-10-16/blue-owl-s-clarke-plays-down-software-risks-touts-data-centers"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "c2f333f95fee682d",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T04:02:57.000Z",
-        "score": 14,
-        "set_aside": null,
-        "source": "reddit-openai",
-        "story": null,
-        "tag": "neither",
-        "title": "I am truly speechless - 23 year old game playable.",
-        "url": "https://reddit.com/r/OpenAI/comments/1x76blp/i_am_truly_speechless_23_year_old_game_playable"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "c4de179f60b1ab00",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:00:39.000Z",
-        "score": 20.2,
-        "set_aside": null,
-        "source": "scmp-tech",
-        "story": null,
-        "tag": "neither",
-        "title": "Hong Kong vies for role in robotics boom with launch of embodied AI hub",
-        "url": "https://scmp.com/tech/tech-trends/article/3371095/hong-kong-vies-role-robotics-boom-launch-embodied-ai-hub"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "2d63d84057515504",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:00:27.000Z",
-        "score": 21.5,
-        "set_aside": null,
-        "source": "ft-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Why law firms should resist the lure of the AI spin-off",
-        "url": "https://ft.com/content/0ce2a031-5c81-4b48-a4b1-d19585fd3a66?syn-25a6b1a6=1"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "327a5a0b17e100c8",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:00:27.000Z",
-        "score": 21.5,
-        "set_aside": null,
-        "source": "ft-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Wall Street’s AI wobbles",
-        "url": "https://ft.com/content/6a1ecb1a-a998-4cbb-be54-22df550a66ee?syn-25a6b1a6=1"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "5377ade7af8fbead",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:00:18.000Z",
-        "score": 24.5,
-        "set_aside": null,
-        "source": "ft-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Anthropic assigned highest junk credit rating in June",
-        "url": "https://ft.com/content/5a310aee-f555-4266-874c-b1b4db20186d?syn-25a6b1a6=1"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "72a731fc4a5b3554",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:00:09.000Z",
-        "score": 36.5,
-        "set_aside": null,
-        "source": "wires-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Business school teaching case study: Balancing AI capability and control in cyber defence",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBwQldqanVkS2ZFN0NBWm1mbG5ab045aE9hSzRoMklFWmhYVktBMXdqeHVjdGpoaUE3T3U3a29UbzBENjdZSGNGV25NUnAwa2ZmR29kU0R5TGFJZzRFd2I1aWpKUUZ6SUozMDVNdGl6bU0?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "ab8449d17ad41d81",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T04:00:00.000Z",
-        "score": 22.7,
-        "set_aside": null,
-        "source": "federal-register-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Self-Regulatory Organizations; Cboe Exchange, Inc.; Notice of Filing of Amendment No. 1 and Order Granting Accelerated Approval of a Proposed Rule Change, as Modified by Amendment No. 1, To Permit…",
-        "url": "https://federalregister.gov/documents/2026/10/16/2026-21149/self-regulatory-organizations-cboe-exchange-inc-notice-of-filing-of-amendment-no-1-and-order"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "0f59b2da894bd1be",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T03:49:35.000Z",
-        "score": 29.5,
-        "set_aside": null,
-        "source": "hn-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Sergey Brin says Google's AI models are reaching recursive self-improvement",
-        "url": "https://businessinsider.com/sergey-brin-google-gemini-ai-argon-recursive-self-improvement-rsi-2026-10"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "c1b6bacf96daa3ae",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T03:41:52.000Z",
-        "score": 28.6,
-        "set_aside": null,
-        "source": "hn-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Linus Torvalds on \"don't use AI for X\"",
-        "url": "https://lore.kernel.org/lkml/CAHk-=whTs09_ozN+e09GU68N1wPP56MUzDjrg9rnKxQUa0A_4Q@mail.gmail.com"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "e712eeae84f7f123",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T03:40:00.000Z",
-        "score": 22.6,
-        "set_aside": null,
-        "source": "techmeme",
-        "story": null,
-        "tag": "neither",
-        "title": "Austin-based RapidCanvas, which uses agents to help businesses build custom AI tools, raised a ∼$29M Series B led by Vertex Ventures and Hitachi Ventures (Chris Metinko/Axios)",
-        "url": "https://techmeme.com/261015/p61"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "7ece2c72bd7f09cb",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T03:32:00.000Z",
-        "score": 39.4,
-        "set_aside": null,
-        "source": "wires-ai",
-        "story": "8f0966a0a1af",
-        "tag": "neither",
-        "title": "China’s Tencent Detected Unintended Behaviors From AI Agents",
-        "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNQmx4R0lCUnRzaVh4d1ZMWGkwYnp0cm94TER5TVBtMXAtOVJ6UXVRc2pwYVI4MFBZNXRHMnNKVG5FTXJFdFp3aHdSTGZ3aGRBelUxbklHalNRVVplbUk0WHlCaUt6VUw1U2QxYzVhVlN1QjJjbTAzQTJIUm9rNDJnaDMyWXBLa3Z1N25uVW5NZEM5cnIzaGxXbWRtSl9Xd3NoUWs1WnljMWdCX294V3k0aA?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "e8ecfe8cc9459444",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T03:24:38.000Z",
-        "score": 26.5,
-        "set_aside": null,
-        "source": "hn-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "$24,000 AI experiment ports TypeScript compiler to Rust",
-        "url": "https://theregister.com/devops/2026/10/15/24000-ai-experiment-ports-typescript-compiler-to-rust/5303409"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "19a2db1edc5a06dd",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T03:15:02.000Z",
-        "score": 28.6,
-        "set_aside": null,
-        "source": "techmeme",
-        "story": "375d0e0cfd60",
-        "tag": "neither",
-        "title": "Sources detail Nscale's setbacks ahead of an IPO at up to a $35B valuation, including a six-month delay in Norway and penalties owed to Microsoft and ByteDance (Bloomberg)",
-        "url": "https://techmeme.com/261015/p60"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "62022ac92d026a55",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T03:13:24.000Z",
-        "score": 16.4,
-        "set_aside": null,
-        "source": "reddit-machinelearning",
-        "story": null,
-        "tag": "neither",
-        "title": "How many of your paper (either paper you authored or reviewed) are desk rejected? [D]",
-        "url": "https://reddit.com/r/MachineLearning/comments/1x75edb/how_many_of_your_paper_either_paper_you_authored"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "0d9c5112d3ac680a",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T03:06:23.000Z",
-        "score": 26.8,
-        "set_aside": null,
-        "source": "hn-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "MuscleMemory: Open-source procedural memory for AI agents",
-        "url": "https://github.com/TheWariend/MuscleMemory"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "35a3c2abbb34d345",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T02:52:00.000Z",
-        "score": 48.7,
-        "set_aside": null,
-        "source": "wires-ai",
-        "story": "e7f42d6060e1",
-        "tag": "neither",
-        "title": "Most Asian stocks rise as calm returns after CoreWeave shock; Indonesia faces market downgrade",
-        "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPMUpLRUNwWEpRNVpNVWJPOWQyQXdKRjkzdTU5RjFiOUxpUFZGU1ZBa1VaS3ctN0xlc0lSMkptbUVMRlprcFFtZ3B6Z2ZFTG5XX2FBUHBoSk4xRTdiQm1ucERORXE4ZzNFZ09ySlpvUDlzb0tGUjFQZ3c0UmotdEstMEZCUQ?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "e2f99ef5f062fc72",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T02:48:27.000Z",
-        "score": 20,
-        "set_aside": null,
-        "source": "alignment-forum",
-        "story": null,
-        "tag": "neither",
-        "title": "A Simpler and Better Debate Protocol for Scalable Oversight",
-        "url": "https://alignmentforum.org/posts/Rct9zd4Nd7H8Xzxz8/a-simpler-and-better-debate-protocol-for-scalable-oversight"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "034c32fa65e88a53",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T02:29:42.000Z",
-        "score": 16.8,
-        "set_aside": null,
-        "source": "reddit-openai",
-        "story": null,
-        "tag": "neither",
-        "title": "GPT-6 Luna had the best call-routing accuracy of 6 models I tested on 1,000 support chats, and it was the cheapest LLM",
-        "url": "https://reddit.com/r/OpenAI/comments/1x74k7v/gpt6_luna_had_the_best_callrouting_accuracy_of_6"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "4c5812a072ea7e5c",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T02:28:13.000Z",
-        "score": 17.5,
-        "set_aside": null,
-        "source": "lesswrong",
-        "story": null,
-        "tag": "neither",
-        "title": "Bad Guy Tokens",
-        "url": "https://lesswrong.com/posts/fnScQKMYMB5uyuHvm/bad-guy-tokens"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "817abedce7d0c1e0",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T02:20:01.000Z",
-        "score": 31.5,
-        "set_aside": null,
-        "source": "techmeme",
-        "story": null,
-        "tag": "neither",
-        "title": "Microsoft unveils MAI-Base-2, a MoE model with 2.8T total and 80B active parameters, claiming 4x-12x more pretraining FLOPs-efficiency than DeepSeek-V4-Pro-Base (Microsoft AI)",
-        "url": "https://techmeme.com/261015/p59"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "64ec69408945628c",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T02:16:00.000Z",
-        "score": 34.3,
-        "set_aside": null,
-        "source": "gnews-ai",
-        "story": "63903e15491d",
-        "tag": "neither",
-        "title": "LITEON Showcases at NVIDIA MGX Ecosystem at OCP, Highlighting 800 VDC Power Technologies to Advance Next-Generation AI Infrastructure",
-        "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxQLUtCQmQyUF9YRUdxNDJzb05SQjZmYWp4Z0JQV1dGRFI2NGpkM0plcGVKZC1yN05UYzJWT25jY3hkOHRPWE8zYWs0N3EycTJkTjFCRllSYUpxdmpqa0M5aVhqZG8tM2FoeHRrcVF2T0hNc1dXSzV2ZDFrQktpd1Z4X0JSQTJMV1otSF80YUtKdjMyODExNTQyWFJQNXMwcDJRVkgwbG1ybWtzREpGVkEyU1pvUTg4MEx1Nl9uMFdNVnJGWlRIeEVYTjRHcTR6S25LcTJSYmxkUVN1eVQwQTlQN3JyUWhtTHViRE5pTVp5UEoyWUQzek8xdGJ6eER5Y3luS1A3M296WHlOUURNaVk5eGlhYWlISmM?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "5483952eec73a7b8",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T01:44:00.000Z",
-        "score": 42.2,
-        "set_aside": null,
-        "source": "wires-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Nvidia Partner GMI Cloud Calls CoreWeave’s 15% Yield ‘Insane’",
-        "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQb3FBWFA5WHdRZUVyMFR3TTJ0U0ZWektqWXdFVlBkTTFobTJXNmY2MTlfdFFGRkFIWjhHZmtfVFJYSlc5M2pVNlMyTHdJelRyb2RhWDhIV3pqMHlJN2hOZEdhM3o1Q3NwTDBoSjJiMDFQUXBpeHNnYkxmVEJyUFFpcUJMU1dtMWgyTEVscVJIWnRUWWtIWjRXMjVZOHdncHBWRGVUN1d1TkRsTDBBUUE?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "4a8dbbf58d9399c5",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T01:42:33.000Z",
-        "score": 17.4,
-        "set_aside": null,
-        "source": "lesswrong",
-        "story": null,
-        "tag": "neither",
-        "title": "Three perspectives on corrigibility - shards, simulators, singular learning",
-        "url": "https://lesswrong.com/posts/LeFBmAALeJ6keLLqu/three-perspectives-on-corrigibility-shards-simulators"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "dbf2a40826fa668a",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T01:36:42.000Z",
-        "score": 13.7,
-        "set_aside": null,
-        "source": "reddit-controlproblem",
-        "story": null,
-        "tag": "neither",
-        "title": "Tech leaders Ellison, Karp, Luckey, Andreessen, Musk, Altman, Thiel and Vance outline AI surveillance, autonomous weapons and concentrated power that can shrink ordinary people's privacy and choices",
-        "url": "https://reddit.com/r/ControlProblem/comments/1x73j5w/tech_leaders_ellison_karp_luckey_andreessen_musk"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "9fb1dc2af0b8d3d5",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T01:33:47.000Z",
-        "score": 17.9,
-        "set_aside": null,
-        "source": "reddit-singularity",
-        "story": "e0dbba3373dd",
-        "tag": "neither",
-        "title": "Flying cars are real - Tesla Roadster",
-        "url": "https://reddit.com/r/singularity/comments/1x73h24/flying_cars_are_real_tesla_roadster"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "b5914b05d3065d95",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T01:32:00.000Z",
-        "score": 39.2,
-        "set_aside": null,
-        "source": "wires-ai",
-        "story": "9d9cd721f425",
-        "tag": "neither",
-        "title": "Taiwan to Fund $4 Billion Texas Complex for AI, Nvidia Partners",
-        "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQOFNGT3M3T0FkM01lWGVUVllTWV9GOUU2V0hJNHpRNmRQdDNWNk01RXJjRnozSGcwSEUwSHpYMmI3eEVnX3NHSm9aYlpCUWFrRmFheUJpb1pNVHRRNHd4dEc4cDZYWVNtZ3FjMTlwYzRYUVNMbElZLWRhckM4LUV1OXp4QU84RldCb0tLamdzdUZRMUFJcXJMZ1c1SU5fb1AzV1N0czBISWt4eFg2NVBJeWlB?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "c8d73e9cab52a9ab",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T01:31:07.000Z",
-        "score": 19.9,
-        "set_aside": null,
-        "source": "bloomberg-tech",
-        "story": null,
-        "tag": "neither",
-        "title": "India’s Billionaire Family Offices are Betting Big on Homegrown AI Startups",
-        "url": "https://bloomberg.com/news/articles/2026-10-16/india-s-billionaire-family-offices-are-betting-big-on-homegrown-ai-startups"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "ce7b4a38dc369cdd",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-16T01:30:03.000Z",
-        "score": 31.4,
-        "set_aside": null,
-        "source": "techmeme",
-        "story": null,
-        "tag": "neither",
-        "title": "OpenAI continues to work to grow its ad business in ChatGPT, cutting ad rates, chasing small and midsize businesses, and hiring some new talent from Meta (Alix Coutures/The Information)",
-        "url": "https://techmeme.com/261015/p58"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "530a84aef7837db0",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T01:21:06.000Z",
-        "score": 16.7,
-        "set_aside": null,
-        "source": "reddit-artificial",
-        "story": null,
-        "tag": "neither",
-        "title": "Accenture restricts monthly employee spending on Claude to $29/month",
-        "url": "https://reddit.com/r/artificial/comments/1x737yd/accenture_restricts_monthly_employee_spending_on"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "1aa0cb9531bee64a",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-16T01:20:00.000Z",
-        "score": 38.6,
-        "set_aside": null,
-        "source": "bluesky-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Euro gets much-needed reprieve as AI wobbles rock the dollar",
-        "url": "https://bsky.app/profile/reuters.com/post/3mxxhlfiunv2h"
       }
     ],
     "not_scanned": {
       "by_kind": {
-        "lab": 6,
+        "lab": 5,
         "model": 4,
-        "paper": 65,
+        "paper": 128,
         "release": 10
       },
-      "total": 85
+      "total": 147
     },
-    "sentence": "23 of 594 stories in the newsroom's current window matched the harm list and 0 matched the benefit list, as of 02:26 UTC on Mon 19 Oct 2026. A count of words, not of outcomes.",
+    "sentence": "21 of 542 stories in the newsroom's current window matched the harm list and 0 matched the benefit list, as of 02:36 UTC on Mon 19 Oct 2026. A count of words, not of outcomes.",
     "state": "live",
     "stories": {
       "benefit_list": 0,
       "benefit_only": 0,
       "both": 0,
-      "harm_list": 23,
-      "harm_only": 23,
-      "neither": 571,
-      "scanned": 594
+      "harm_list": 21,
+      "harm_only": 21,
+      "neither": 521,
+      "scanned": 542
     },
     "window": {
-      "first_published_at": "2026-10-16T01:20:00.000Z",
+      "first_published_at": "2026-10-16T07:37:06.000Z",
       "last_published_at": "2026-10-19T04:00:00.000Z",
       "max_items": 800,
       "nominal_days": 7,
-      "span_hours": 74.7
+      "span_hours": 68.4
     }
   },
   "schema": 1
