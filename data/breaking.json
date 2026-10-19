@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-19T01:58:06.540Z",
+  "generated_at": "2026-10-19T02:19:20.359Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -230,18 +230,20 @@
       "outlet": "bloomberg.com",
       "outlets": [
         "bloomberg.com",
+        "detroitnews.com",
         "startupfortune.com"
       ],
       "tier1_outlets": [
         "bloomberg.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "bloomberg-tech",
         "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-18T23:59:54.000Z",
@@ -268,6 +270,14 @@
           "url": "https://bloomberg.com/news/articles/2026-10-18/meta-says-claude-ai-tool-triggered-no-kings-instagram-suspension",
           "published_at": "2026-10-18T23:59:54.000Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "detroitnews.com",
+          "title": "Meta blames Claude AI tool for No Kings Instagram suspension",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNa0hyQVo4V3NlRkMwV1FGb0xRYzhLYjNrLUJKWVUtbHpOa0ZrR0ZNYm11Z2Y0QUNTTGVLNDVMSF9lZ1gtYXZpelVXQ0NzM2cwX3hQT2FkY0p3dkkzZ3daNE5hLUtJYUpSWG1iRGlhVElWa1lSZnRRaXZPRmstM1lIZnZqU3k3SEhRVEZrdERuejFnbktxTER2YnJsNU9lbW9mcmdQQm05YjZneWcySUJmd29PZWd3U2E0eFBlSHpTdk1KWmQ2Vnc?oc=5",
+          "published_at": "2026-10-19T00:14:02.928Z",
+          "tier1": false
         },
         {
           "source": "gnews-ai",
@@ -341,19 +351,17 @@
       "outlet": "reuters.com",
       "outlets": [
         "briefs.co",
-        "chosun.com",
-        "firstpost.com",
-        "kingy.ai"
+        "chosun.com"
       ],
       "tier1_outlets": [],
-      "corroboration": 4,
+      "corroboration": 2,
       "sources": [
         "gnews-ai"
       ],
       "rule": [
         "two outlets within 20 min"
       ],
-      "earliest_published_at": "2026-10-18T23:40:25.000Z",
+      "earliest_published_at": "2026-10-19T00:33:35.000Z",
       "first_seen_at": "2026-10-18T18:28:51.990Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -361,28 +369,10 @@
       "item_ids": [
         "149b4b5c314888d6",
         "3e14a468e14a3cfa",
-        "a15ba8bf374ebe0e",
         "a47bd18ec8909c58",
-        "bc8bf2332d08b262",
-        "bfb14a44cb26314a"
+        "bc8bf2332d08b262"
       ],
       "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "kingy.ai",
-          "title": "Anthropic Public Benefit Fund: Start Date, Equity and Eligibility",
-          "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFAtaEtXZlRobWZGUlk2SC03dVFtbEV4dGZ4dHpYd3owWUd6ZldMOHVHYU9rRF9TNDhIaFlQU1hSRXRTZkF5dXZzWWpPMmlwUlNqT3o5NUt4WEtHZm5OMHNhS2tfeVNTYURuZTVmeVAzYw?oc=5",
-          "published_at": "2026-10-18T23:40:25.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "firstpost.com",
-          "title": "Who benefits from AI’s wealth? Anthropic sets aside 5% stake for public good",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNZ3l0T1EtZzFMZjBSZVhTdkZydEpfbE12YWlndDdRWDJUT05UeXdaUmQ4NVdwcDJrMGRVUWQ0UFMtd3ctWEVrTzVuS1ZRVUVRdkMtSmVUTFBfQTFDcVlkcEc4MGtjcDJOSmgxd2x2eVdIQ0NJZmJrUjMtTDY2VVY5ekNlRUVDanNKNjV3MDA0NVZ0c1hRT1kxcTljMFlSUkZvV0FtSdIBqgFBVV95cUxNM09uNGlSWVlVRmZvOFFreTg4QjN1WmN2U2FFNEphTjM3VEhtWHpRcFNEWFZYS0VRNGdxZDNjTkhzT2ZJamRyckVYWlBCUFFRYnhmYnJXLWluRkh3bDV2Z1FrSHk1d29BeUNLM2FDdWtLZ09QUWhLRDhDMXhPN3diWnVmMmRjVlp6MnZBNlgzc19IZnNxMWdRczAwenRYcFJ4d08wNUk1UjB2QQ?oc=5",
-          "published_at": "2026-10-18T23:46:47.000Z",
-          "tier1": false
-        },
         {
           "source": "gnews-ai",
           "outlet": "briefs.co",
