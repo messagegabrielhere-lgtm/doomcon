@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-19T05:00:11.458Z",
+  "generated_at": "2026-10-19T05:22:01.213Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 3,
+  "live": 4,
   "fresh": null,
   "clusters": [
     {
@@ -358,10 +358,11 @@
         "indiatimes.com",
         "indiatoday.in",
         "stocktwits.com",
-        "tradingview.com"
+        "tradingview.com",
+        "yahoo.com"
       ],
       "tier1_outlets": [],
-      "corroboration": 6,
+      "corroboration": 7,
       "sources": [
         "gnews-ai"
       ],
@@ -446,6 +447,14 @@
           "outlet": "businessinsider.com",
           "title": "What smart people are saying about Anthropic's 5% 'public benefit' pledge",
           "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPVEFoeTgtWUdzOTU4NHBYSWVmYmQ0bVplckZSM1FVdVpYMWdYcU82WWpnLWZpNDUzMEE0aHg4emRhWC1mYmVVOXhJVHJKR1JhN3NVblkweXVmd0tUaGRpejVjSUM2eFVvTmZCSXl0Z21xVXNnS04wd1BPTF9OcHRjbjJxVV9lZmFqV3BTM3RzNUltV2VuMHpRVg?oc=5",
+          "published_at": "2026-10-19T04:36:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "yahoo.com",
+          "title": "What smart people are saying about Anthropic's 5% 'public benefit' pledge",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQV1JXMV84SE5xTXF5V1laTGhpTnJwSjRCZnVVZE9Vb0FQa3hmX2p4M2hLWXZKQkFIUVFDN2YxYzBYd2pfYTU3a2k0eUhrZEdqbUlUclNMckZ6UEN2LTZnMWtUZUhEdDhmY3JqcWJuVzc2NFVPd1Z2NEl4eDVySUFvVXh3aE5jdlJn?oc=5",
           "published_at": "2026-10-19T04:36:00.000Z",
           "tier1": false
         }
@@ -898,70 +907,64 @@
       "source": "hn-fresh-ai",
       "outlet": "anthropic.com",
       "outlets": [
-        "ciol.com",
-        "livemint.com",
-        "officechai.com",
-        "openthemagazine.com"
+        "economictimes.com",
+        "indiatimes.com",
+        "wsj.com"
       ],
-      "tier1_outlets": [],
-      "corroboration": 4,
+      "tier1_outlets": [
+        "wsj.com"
+      ],
+      "corroboration": 3,
       "sources": [
-        "gnews-ai"
+        "gnews-ai",
+        "wires-ai"
       ],
       "rule": [
-        "two outlets within 20 min"
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-18T18:04:25.000Z",
+      "earliest_published_at": "2026-10-19T01:22:00.000Z",
       "first_seen_at": "2026-10-17T01:08:25.991Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-10-18T16:00:40.230Z",
       "item_ids": [
-        "1c7402a64dc12a1a",
-        "4fad7e9419f761e8",
+        "143f954a008a2135",
+        "15e636e6254d1355",
+        "30f6bebebd6794cd",
         "5365820f4dd21c16",
         "7a1cd32307fdcbaa",
-        "97ace3dc00aa15aa",
+        "c07f587c72c997e2",
         "c8338e7920329a66",
-        "cf094e5a184228bf",
-        "e12523299e83c6d8",
-        "ec0f189f0b04dacc"
+        "e12523299e83c6d8"
       ],
       "sightings": [
         {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
+          "title": "JGBs Rise Amid AI-Related Credit Concerns",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNVWlGZml4V2JESElWVjd5RDgtN0htcHAxSEUwT3p6LUlWQm1nLVNkR2lzSlNxQ2ZaQW5ZMjZiVnZJeWZjaDJNS2o4LXU3TEljOHNjU052OC1laGhOZ0lRbU5XeWZRR0FDSXVpcm04S0FLTDFpQTJpNkIyQUpqdTRNLW9udEk?oc=5",
+          "published_at": "2026-10-19T01:22:00.000Z",
+          "tier1": true
+        },
+        {
           "source": "gnews-ai",
-          "outlet": "openthemagazine.com",
-          "title": "Junior Tech Hires’ Share at Anthropic Falls From 27% to 9% as AI Reshapes Work",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNMUZRNHV0QWlySjY3d3lEcEM5MFlOMVN0eldydkFzUEFTRWRraXV2X3cyWENlUkhHNS1hOHJlUEZfZWF2WTNaLVFjcmVZUnVZSlVJSWJvOWFSMzQ3bW5Yb0N5SHBZU1NUY1FCcmhucEJHV21xeHFFZXg0eEduUHpwUWlyLU82R1Z0bWhOWXllUVQ0VmdaWWNTelFqei1oSmlEWlJJazA1b0s4UkNpLVZOVkZ3?oc=5",
-          "published_at": "2026-10-18T18:04:25.000Z",
+          "outlet": "economictimes.com",
+          "title": "Anthropic sees junior tech hires' share fall from 27% to 9% amid growing AI adoption",
+          "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxPN2Z6UV9fYndrT2RFRmowV3QtZHFfMndCb0JRMTNycHRDb1kweDhqR3lLUDlCbnNJRWRpWE9yWEVvaWhMRWRsLVhRdG9ocWUwM1lId09kUzhjbW5wcnFWaFprWjRObXhVM1Z4Y2Y0cDZ1dlVHc0hjSDF6Y0UxUUN4VUZWQmtjQzVCNzl2dDJ6TDlUVGNnY0E1a01sQlNMeFd1WVJRM2QydUhBamJOdVVLckd4R19jUkRTT0xRcXVQdTFDMklFQ3VZUzBiWW5RZ0N2TWRTZ0ttbWpXS2NzZUdtdTBtMG9neWZITjgyQ2tBcllMdF84dDVr0gH8AUFVX3lxTFB6alFWZ1JILWtBQkVWSkdzcklpbGJsVVdqS0syQWx1dkdWaEdFOUFwbG5DN3hFTWtVR1VVWmsxVTRwTzZSWGlhRG1obElZdndmU3VTX0pQVHhDWHZPejA3QVNfLXU5NmpCcTAwZGFNaFFhZVBQTHotbjJPMVdEdEQyYTg1alFJd0FjLXhHeXEyY0NZTHRzRU1XZE56N1RWd2NpZlJySXVuZzJFMUh2amdCTGYzRnp3QjlROUxUWWwxRlpKWmVROTR4b2ZWVVJOdjNqeVBvS0ZENkx4ZlpGbnF2dEMyek9SajZRUWVob2ppZ1FQLXdZNk5LYWF4bA?oc=5",
+          "published_at": "2026-10-19T04:35:15.000Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "livemint.com",
-          "title": "AI automation reshapes recruitment as Anthropic sees entry-level hiring drop to 9%",
-          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOTDNIVmxlRHZzS2VKazJBeEdBdng0TEJ6MnNjek8zcmtIbHJyTXpVVEQ3U0V2MnpORjlOVkFOU3FDMzlzQ01Ta1VTZk1MRlUxUlZDRXR0OXA2RDVlN3lEM1ZxN3BRQnFIWmthdGw1NXRHTUNRSGplcE1jUkduX0htemJxTTZoRmtoZXlwRG0zZnJMTG1PeTYxSEREakhjR0pRSl9IMFZKVkoxb2xxbzlQOFQ0MGpjT3dDNl9XT214cHl1ZzR0RzNaQ9IBzgFBVV95cUxPQkhqRHlDLVlaTmNzdEtqZ3FhcFlIZmZySlRqVmNzLVVyZnJEV2VMeFMwbnYyZ1NwY0xYUGlEbVdseXR2MVBIRjd1UmpsUEN1dVNNc0Ntb0dUeGU5eFc3aXZjSjUyYjQweWNEUklfdWlGS1plMjEtdmVhenI2VmdmWm9NdmQ2U1psYS0zTmMtem9PaXE4aWJSUzYyOERQOHlSVnB5Q2xKMy16b3dBeEJRSjZadnZSTUtweGRaaW1vX1E1N1lndXNid3ZpT2lJdw?oc=5",
-          "published_at": "2026-10-18T18:19:41.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "officechai.com",
-          "title": "Anthropic Has Seen A 33% Drop In Junior-Level Employees Since Early 2025, Says Company",
-          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNSUlDVGZHcHZ6RVA4VlNNMlZGdTdlLTYtN241T0xOWjN5WmpDRmxMT2FtMGZmMll3TUhSWTlLVWtLQXhJYmdFTzRPamRTcFh6ekh3QTZZWElaazhLQkY2ZnJkR0xodTFZT0tZazJsVFQwSDZpcWVnUXFvYUU1aGViVFRZYUF2QUFVZERjbi1uc3B4OS0zemxUX1BDZzUyVEV5aFRkWEh2WXdUU2RVSGNoZQ?oc=5",
-          "published_at": "2026-10-18T18:54:13.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "ciol.com",
-          "title": "Anthropic Cuts Junior Technical Hiring as AI Agents Take on More Work",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNa1NzUW9TVmlsQVJ3UnhnS3VfWmZ2T1NDcFlEMmJVRndwUEQ5dk9ZVHlYTTNMSTRfOE1LZTFNTlZRLXJZQ3FFaDc3c3gwWHBQa2tNMWQxSXZlYVhBbFhlZlZTN25hVDNwVDY3MkRBQWJhN1A5VGJmbGU1LThCN3J0MmZCWndGS3ktRWVF0gGLAUFVX3lxTE1rU3NRb1NWaWxBUndSeGdLdV9aZnZPU0NwWUQyYlVGd3BQRDl2T1lUeVhNM0xJNF84TUtlMU1OVlEtcllDcUVoNzdzeDBYcFBra00xZDFJdmVhWEFsWGVmVlM3bmFUM3BUNjcyREFBYmE3UDlUYmZsZTUtOEI3cnQyZkJad0ZLeS1FZUU?oc=5",
-          "published_at": "2026-10-18T19:17:21.000Z",
+          "outlet": "indiatimes.com",
+          "title": "Shift in Junior Tech Hiring at Anthropic Amid AI Rise: A Concern for Entry-Level Jobs",
+          "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxNQjJoenRnMk5zR3VvZ0xPeUtwMTR2aVA3ZHQzaDAyUUVKblQwbE5FOElZb0l0QnQ5aFltdk56UU91dmJObndULTktaEdxLWJtRzNWQlFfT2JqSXpSd3dQcGxpeXU5M0xXYXk1VWgxNDZYYWxGZFRXNEtFLXBNdXBRaFkzeVJ3aFB3cnFEN0ZSNlpVMnphTjFXTlVOQ0l0bmFELWtOdXN6Szc5UkJFVDQxa1VkeDNjbmZxYWQ0VzNnS1g4cjE4cG5kRktIVUtETVlrMWptZG9TS09lUkpMNmVVVHNNM3FKbUlPS3A5VjNNVmE?oc=5",
+          "published_at": "2026-10-19T04:35:15.000Z",
           "tier1": false
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "b155923d03c64",
