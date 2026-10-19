@@ -296,7 +296,10 @@ MEGA = ["AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META", "TSLA", "AVGO", "NFLX",
         "RIOT", "IBIT", "RGTI", "IONQ", "INTC", "SMCI", "PLTR", "JPM", "TSM"]
 NEWS_FEEDS = [("CNBC", "https://www.cnbc.com/id/100003114/device/rss/rss.html"),
               ("CNBC-mkts", "https://www.cnbc.com/id/15839069/device/rss/rss.html"),
-              ("Yahoo", "https://feeds.finance.yahoo.com/rss/2.0/headline?s={syms}&region=US&lang=en-US")]
+              ("CNBC-econ", "https://www.cnbc.com/id/20910258/device/rss/rss.html")]
+GNEWS = "https://news.google.com/rss/search?q={q}+when:1d&hl=en-US&gl=US&ceid=US:en"
+CNBC_Q = {"ES": "@ES.1", "NQ": "@NQ.1", "RTY": "@RTY.1", "VIX": ".VIX", "N225": ".N225", "HSI": ".HSI",
+          "DAX": ".GDAXI", "DXY": ".DXY", "US10Y": "US10Y", "OIL": "@CL.1", "GOLD": "@GC.1"}
 NEWS_KW = {3: ["tariff", "sanction", "war ", "missile", "attack", "invasion", "default", "shutdown", "emergency",
                "crash", "halt", "bankrupt", "hack", "exploit", "indict", "fomc", "powell", "rate cut", "rate hike"],
            2: ["fed ", "federal reserve", "inflation", "cpi", "jobs report", "payrolls", "recession", "downgrade",
@@ -331,6 +334,7 @@ def et_from_gmt(day, hhmm):
     except Exception:
         return None
 
+CAL_DEBUG = {"rows": 0, "countries": [], "sample": None}
 def econ_calendar(days):
     h = dict(UA); h["Origin"] = "https://www.nasdaq.com"; h["Referer"] = "https://www.nasdaq.com/"
     ev = []
@@ -339,7 +343,11 @@ def econ_calendar(days):
         except Exception as e: ERRS.append(f"econcal {d} {type(e).__name__}"); continue
         for r in ((j.get("data") or {}).get("rows") or []):
             name = (r.get("eventName") or "").strip()
-            if "united states" not in (r.get("country") or "").lower(): continue
+            CAL_DEBUG["rows"] += 1
+            ctry = (r.get("country") or "").strip()
+            if len(CAL_DEBUG["countries"]) < 12 and ctry not in CAL_DEBUG["countries"]: CAL_DEBUG["countries"].append(ctry)
+            if CAL_DEBUG.get("sample") is None: CAL_DEBUG["sample"] = r
+            if ctry.lower() not in ("united states", "us", "usa", "u.s.") and "united states" not in ctry.lower(): continue
             if not any(k.lower() in name.lower() for k in HIGH_EVENTS): continue
             et = et_from_gmt(d, r.get("gmt") or "")
             ev.append({"et": et.isoformat() if et else None, "when": et.strftime("%a %m/%d %H:%M ET") if et else f"{d} ?",
@@ -363,10 +371,11 @@ def earnings(days, names):
                 out.append({"sym": sym, "date": d.strftime("%m/%d"), "when": {"pre-market": "BMO", "after-hours": "AMC"}.get(t, "?")})
     return out
 
-def news(syms):
+def news(syms, held=()):
     items, seen = [], set()
-    for src, url in NEWS_FEEDS:
-        try: raw = get(url.format(syms=urllib.parse.quote(",".join(syms))), raw=True, timeout=10)
+    feeds = list(NEWS_FEEDS) + [(f"G-{h}", GNEWS.format(q=urllib.parse.quote(h + " stock"))) for h in sorted(held)[:4]]
+    for src, url in feeds:
+        try: raw = get(url, raw=True, timeout=10)
         except Exception as e: ERRS.append(f"news {src} {type(e).__name__}"); continue
         try: root = ET.fromstring(raw.encode("utf-8", "replace"))
         except Exception: ERRS.append(f"news {src} parse"); continue
@@ -389,11 +398,31 @@ def news(syms):
     items.sort(key=lambda x: (-x["score"], x["age_h"]))
     return items
 
+def cnbc_quotes():
+    syms = "|".join(CNBC_Q.values())
+    j = get("https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols="
+            + urllib.parse.quote(syms) + "&requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json", timeout=12)
+    rows = (((j or {}).get("FormattedQuoteResult") or {}).get("FormattedQuote")) or []
+    by = {r.get("symbol"): r for r in rows}
+    out = {}
+    for k, cs in CNBC_Q.items():
+        r = by.get(cs)
+        if not r: continue
+        try:
+            px = num(r.get("last")); chg = num(r.get("change_pct"))
+            if px: out[k] = {"px": px, "chg": chg, "t": r.get("last_time")}
+        except Exception: pass
+    return out
+
 def macro():
     res = {"q": {}}
+    try: res["q"] = cnbc_quotes()
+    except Exception as e: ERRS.append(f"macro cnbc {type(e).__name__}")
     for k, sym in MACRO_SYMS:
+        if k in res["q"]: continue
         try: res["q"][k] = yq(sym)
-        except Exception as e: ERRS.append(f"macro {k} {type(e).__name__}")
+        except Exception as e: res.setdefault("q_miss", []).append(k)
+    if res.get("q_miss") and len(res["q_miss"]) > 3: ERRS.append("macro missing " + ",".join(res["q_miss"]))
     today = NOW.astimezone(NY).date()
     days = [today + datetime.timedelta(days=i) for i in range(4)]
     days = [d for d in days if d.weekday() < 5][:3]
@@ -403,7 +432,7 @@ def macro():
     names = set(MEGA) | held
     try: res["earnings"] = earnings(days, names)
     except Exception as e: ERRS.append(f"earncal {type(e).__name__}"); res["earnings"] = []
-    try: res["news"] = news(sorted({"SPY", "QQQ", "BTC-USD"} | held)[:12])
+    try: res["news"] = news(sorted({"SPY", "QQQ", "BTC"} | held)[:12], held)
     except Exception as e: ERRS.append(f"news {type(e).__name__}"); res["news"] = []
     soon = []
     for e in res["events"]:
@@ -413,6 +442,7 @@ def macro():
     res["event_risk"] = soon
     res["tone"] = sum(i["tone"] for i in res["news"][:12])
     res["held"] = sorted(held)
+    res["cal_debug"] = CAL_DEBUG
     return res
 
 def gate(c, m):
