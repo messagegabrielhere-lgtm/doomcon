@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-19T09:37:58.984Z",
+  "generated_at": "2026-10-19T09:58:50.184Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 5,
+  "live": 6,
   "fresh": "b489908269d9b",
   "clusters": [
     {
@@ -148,49 +148,33 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "bbc.co.uk",
+        "bloomberg.com",
         "reuters.com"
       ],
       "tier1_outlets": [
-        "bbc.co.uk",
+        "bloomberg.com",
         "reuters.com"
       ],
       "corroboration": 2,
       "sources": [
-        "bbc-tech",
         "bluesky-ai",
-        "techmeme",
         "wires-ai"
       ],
       "rule": [
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-19T02:19:20.359Z",
+      "earliest_published_at": "2026-10-19T07:14:09.000Z",
       "first_seen_at": "2026-10-19T02:19:20.359Z",
       "latency_s": 0,
+      "clock_skew": true,
       "breaking_at": "2026-10-19T07:35:55.610Z",
       "item_ids": [
         "09a8bc9a110db40d",
         "622ea4fe069434d5",
-        "7f3d5f63f5dcc637"
+        "7f3d5f63f5dcc637",
+        "c4e10a509807de09"
       ],
       "sightings": [
-        {
-          "source": "bbc-tech",
-          "outlet": "bbc.co.uk",
-          "title": "China's growth accelerates as AI boom helps boost exports",
-          "url": "https://bbc.co.uk/news/articles/cm5yn098xz8lo",
-          "published_at": "2026-10-19T02:19:20.359Z",
-          "tier1": true
-        },
-        {
-          "source": "techmeme",
-          "outlet": "techmeme.com",
-          "title": "China's GDP is set to grow 4.5% YoY in Q3, up from Q2's three-year-low growth rate of 4.3%, as AI-driven exports helped offset weak domestic spending (Osmond Chia/BBC)",
-          "url": "https://techmeme.com/261018/p17",
-          "published_at": "2026-10-19T03:30:00.000Z",
-          "tier1": false
-        },
         {
           "source": "wires-ai",
           "outlet": "reuters.com",
@@ -206,9 +190,17 @@
           "url": "https://bsky.app/profile/reuters.com/post/3my7lp3ggrj2k",
           "published_at": "2026-10-19T07:25:11.000Z",
           "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "China Signals Overnight Rate Set to Become Main Policy Benchmark",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNQTJ2Yk9DZFpac05XbzR1VnA1Wmo0OVdiN2JIdXk2YnVhMTgwTUNxT0RFUDhRdnExaC1WSlFMeUdBc2dDVDdrV3lXaVV0NXVLcWNQZm5LQWRlWi1mcHhYX05odGNEXzZ4Vi1zWmZaQ3hRQVFzX29GUUVRYjV3VGV1dkh3SDFQUkppQmo0QXN3d0gxN3BtWWpsdmZVZTE0aWVRb2NhdmdSZnFKLWNEZzdoaUs5czJwUQ?oc=5",
+          "published_at": "2026-10-19T08:58:31.000Z",
+          "tier1": true
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "b5fcc7d73b70b",
@@ -864,26 +856,26 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "bloomberg.com",
-        "chosun.com",
-        "independent.co.uk",
-        "yahoo.com"
-      ],
-      "tier1_outlets": [
+        "bbc.co.uk",
         "bloomberg.com"
       ],
-      "corroboration": 4,
+      "tier1_outlets": [
+        "bbc.co.uk",
+        "bloomberg.com"
+      ],
+      "corroboration": 2,
       "sources": [
+        "bbc-tech",
         "bloomberg-tech",
         "bluesky-ai",
-        "gnews-ai",
+        "techmeme",
         "wires-ai"
       ],
       "rule": [
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-19T07:59:18.000Z",
+      "earliest_published_at": "2026-10-19T08:56:49.000Z",
       "first_seen_at": "2026-10-16T19:39:17.419Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -891,38 +883,12 @@
       "item_ids": [
         "3e14a468e14a3cfa",
         "44326c057677bddc",
-        "4801e6fb70d51288",
-        "740866c2541f7c0e",
         "9b7f779e7bd3d4cd",
         "a47bd18ec8909c58",
-        "d624a16caa770ac4",
-        "db18dd4f69ae0ecf"
+        "db18dd4f69ae0ecf",
+        "df8b9f7ef50c70c8"
       ],
       "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "chosun.com",
-          "title": "Anthropic Unveils 64.4 Trillion Won Public Benefit Fund",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNUnR3NTB5cjdFRVlJWnFhM3AzdHJPbUN3TW1VR09IYW5Kb2NfVzhqY3JpV2xxb3dIMkNyTVowWjlOQ3F5SkxWSzZqdlhNWV9BdlJFTGtmZkJVeURpU3lETjRTUFE1X3NvU1M4eHBwUDlCS2hpZ1dta1hUYW9kVEFVQUxtXzZ3ZTJw?oc=5",
-          "published_at": "2026-10-19T07:59:18.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "independent.co.uk",
-          "title": "AI giant Anthropic pledges 5% of shares to help society face AI",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNRnF3WFMzazJpWno2T2ROXzJPd2Y4SVNFc19yV2JPeklxTkk5dEVBODZ4TUhyMWgySGFBa2ZwTEx0QXQ0aXByT1VieDVNYW1yaXN2aGpOUFNFVk1TTzFORUdWem1obHRhZkdXaVhPUGFDenVOZ19GM25DRDJKSEllajNLMGhHMjYybEU0LQ?oc=5",
-          "published_at": "2026-10-19T08:07:00.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "yahoo.com",
-          "title": "AI giant Anthropic pledges massive slice of company to help people whose jobs could be wiped out by AI",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPVGpHbExsN0dLRU5rRXdPcjh6MHRrTVp2eUU5X2dKQkJDUkdwYWVXZ0hQUlpyQmxBcVEyTXc5bG96dVBVTkU4VEk1TldsNGNsYkUzeTBOVE5DcGhsY0pPQTBWeldCYmFRU3hSMmFjZ1VjV2NBVWZWU1NYS2JNYXZBcjEtRmNEdFJsVFFv?oc=5",
-          "published_at": "2026-10-19T08:07:23.000Z",
-          "tier1": false
-        },
         {
           "source": "wires-ai",
           "outlet": "bloomberg.com",
@@ -934,10 +900,18 @@
         {
           "source": "bloomberg-tech",
           "outlet": "bloomberg.com",
-          "title": "Musk Says He Will Gift SpaceX Shares to ‘Every Kid in America’",
+          "title": "Musk Says He’ll Gift SpaceX Shares to ‘Every Kid in America’",
           "url": "https://bloomberg.com/news/articles/2026-10-19/musk-says-he-will-gift-spacex-shares-to-every-kid-in-america",
           "published_at": "2026-10-19T08:56:49.000Z",
           "tier1": true
+        },
+        {
+          "source": "techmeme",
+          "outlet": "techmeme.com",
+          "title": "Elon Musk says \"I will give one of my SpaceX shares to every kid in America\" in 2027; at SpaceX's $146.03 Friday close, the gift would be valued at ~$10.5B (Kai Nicol-Schwarz/CNBC)",
+          "url": "https://techmeme.com/261019/p11",
+          "published_at": "2026-10-19T09:23:18.899Z",
+          "tier1": false
         },
         {
           "source": "bluesky-ai",
@@ -945,6 +919,14 @@
           "title": "Elon Musk pledged to distribute a share of SpaceX to each American child after competitor Anthropic said it would set aside a portion of its shares for the public benefit. Read more: bloom.bg/4Bb2zoR",
           "url": "https://bsky.app/profile/bloomberg.com/post/3my7sxeu7f522",
           "published_at": "2026-10-19T09:35:06.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bbc-tech",
+          "outlet": "bbc.co.uk",
+          "title": "Musk and Anthropic pledge public share giveaways",
+          "url": "https://bbc.co.uk/news/articles/cm2kez327gdko",
+          "published_at": "2026-10-19T09:38:25.000Z",
           "tier1": true
         }
       ],
