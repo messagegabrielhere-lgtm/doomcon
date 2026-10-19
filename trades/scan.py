@@ -407,12 +407,14 @@ def news(syms, held=()):
         out.append(i)
     return out
 
+CNBC_DEBUG = []
 def cnbc_quotes():
     syms = "|".join(c for cs in CNBC_Q.values() for c in cs)
     j = get("https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols="
             + urllib.parse.quote(syms) + "&requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json", timeout=12)
     rows = (((j or {}).get("FormattedQuoteResult") or {}).get("FormattedQuote")) or []
     by = {r.get("symbol"): r for r in rows}
+    CNBC_DEBUG[:] = [{k: r.get(k) for k in ("symbol", "code", "last", "change_pct", "last_time", "shortName")} for r in rows][:30]
     out = {}
     for k, cands in CNBC_Q.items():
         r = next((by[c] for c in cands if c in by and by[c].get("last")), None)
@@ -452,6 +454,7 @@ def macro():
     res["tone"] = sum(i["tone"] for i in res["news"][:12])
     res["held"] = sorted(held)
     res["cal_debug"] = CAL_DEBUG
+    res["cnbc_debug"] = CNBC_DEBUG
     return res
 
 def gate(c, m):
