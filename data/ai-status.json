@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_at": "2026-10-19T12:28:50.949Z",
+ "generated_at": "2026-10-19T13:32:37.606Z",
  "services": [
   {
    "id": "openai",
@@ -9,12 +9,43 @@
    "page": "https://status.openai.com",
    "api": "https://status.openai.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "none",
-   "description": "All Systems Operational",
-   "updated_at": "2026-10-16T20:01:40Z",
-   "degraded": [],
+   "indicator": "minor",
+   "description": "Partial System Degradation",
+   "updated_at": "2026-10-19T13:31:52Z",
+   "degraded": [
+    {
+     "name": "Responses",
+     "status": "degraded_performance"
+    },
+    {
+     "name": "Images",
+     "status": "degraded_performance"
+    },
+    {
+     "name": "Files",
+     "status": "degraded_performance"
+    },
+    {
+     "name": "File uploads",
+     "status": "degraded_performance"
+    },
+    {
+     "name": "Image Generation",
+     "status": "degraded_performance"
+    }
+   ],
    "components": 25,
-   "incidents": [],
+   "incidents": [
+    {
+     "name": "File Download errors",
+     "impact": "minor",
+     "status": "identified",
+     "started_at": "2026-10-19T13:31:52Z",
+     "updated_at": "2026-10-19T13:31:52Z",
+     "url": null,
+     "latest": "We have identified that users are experiencing elevated errors for the impacted services.\n\nWe are working on implementing a mitigation."
+    }
+   ],
    "maintenance": 0,
    "error": null
   },
@@ -57,12 +88,39 @@
    "page": "https://status.cursor.com",
    "api": "https://status.cursor.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "none",
-   "description": "All Systems Operational",
-   "updated_at": "2026-10-19T12:21:23.357Z",
-   "degraded": [],
+   "indicator": "minor",
+   "description": "Partially Degraded Service",
+   "updated_at": "2026-10-19T13:24:52.567Z",
+   "degraded": [
+    {
+     "name": "CLI",
+     "status": "degraded_performance"
+    },
+    {
+     "name": "Cloud Agents",
+     "status": "degraded_performance"
+    },
+    {
+     "name": "cursor.com",
+     "status": "degraded_performance"
+    },
+    {
+     "name": "IDE",
+     "status": "degraded_performance"
+    }
+   ],
    "components": 8,
-   "incidents": [],
+   "incidents": [
+    {
+     "name": "Investigating service degradation",
+     "impact": "minor",
+     "status": "investigating",
+     "started_at": "2026-10-19T13:24:52.403Z",
+     "updated_at": "2026-10-19T13:24:52.565Z",
+     "url": "https://stspg.io/zf1tvrpck8sj",
+     "latest": "We are investigating elevated errors for Anthropic Opus 5.5."
+    }
+   ],
    "maintenance": 0,
    "error": null
   },
