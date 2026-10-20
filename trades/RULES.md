@@ -81,6 +81,7 @@ Summary <= 2 lines (+ INVALID on an entry): "TRADES: ... | regime (live SPY $X v
 - SM-BEAR: A <= -0.15 and C >= +0.15 (best traders short into a long crowd). SM-BULL: A >= +0.15 and S >= 0, or S >= +0.25 and A >= 0, with C <= +0.15. Else SM-MIXED.
 - Scoring (sec 4.2) on BTC-beta names (coins, MARA RIOT COIN MSTR IBIT, crypto-linked puts/calls): +1 if the trade is on the SM side, -1 against. No new coin or BTC-beta long in SM-BEAR; no new BTC-beta put/bearish moonshot in SM-BULL.
 - Held BTC-beta bearish position whose INVALID is a close above a level: in SM-BEAR, require two consecutive closes above it (the -60% stop and expiry rules still apply unchanged); in SM-BULL, apply INVALID on the first close. Mirror for bullish positions.
+- CROWD (scan line, retail-trending, owner 2026-10-20): a name in the top 10 with rising mentions is crowded. Bearish trade on a crowded name +1; new long on a crowded name that is already up >8% today -1. Never trades alone; costs no calls.
 - Coin candidates also get their own live_cohort_bias (sec 10). Smart money never opens or closes a trade alone: a live price must confirm.
 - Summary: add "SM: A x / S y / C z -> BEAR|BULL|MIXED". Report a flip (BEAR<->BULL) in the summary and act on held positions that pass.
 

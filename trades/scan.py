@@ -482,6 +482,21 @@ def gate(c, m):
     except Exception: pass
     return ("CHECK " + "; ".join(why)) if why else "QUIET"
 
+def crowd(flag=()):
+    """Retail-trending names (Reddit via ApeWisdom, fallback Stocktwits). Contrarian context only."""
+    flag = {x.upper() for x in flag}
+    try:
+        r = get("https://apewisdom.io/api/v1.0/filter/all-stocks", timeout=10).get("results", [])[:10]
+        rows = [{"sym": x["ticker"].upper(), "m": x.get("mentions"), "m0": x.get("mentions_24h_ago")} for x in r]
+        src = "reddit"
+    except Exception as e:
+        ERRS.append(f"crowd apewisdom {type(e).__name__}")
+        r = get("https://api.stocktwits.com/api/2/trending/symbols.json", timeout=10).get("symbols", [])[:10]
+        rows = [{"sym": x["symbol"].upper()} for x in r]
+        src = "stocktwits"
+    for x in rows: x["hit"] = x["sym"] in flag
+    return {"src": src, "top": rows}
+
 def f(x, n=2):
     return "-" if x is None else (f"{x:.{n}f}" if isinstance(x, float) else str(x))
 
@@ -492,6 +507,9 @@ def main():
         try: res[name] = fn()
         except Exception as e: ERRS.append(f"{name} {type(e).__name__}: {str(e)[:80]}"); res[name] = {}
         log(f"end {name}")
+    st = res.get("stocks", {})
+    try: res["crowd"] = crowd(held_syms() | set(st.get("watch", {})) | {r["sym"] for r in st.get("puts", [])})
+    except Exception as e: ERRS.append(f"crowd {type(e).__name__}"); res["crowd"] = {}
     res["errors"] = ERRS
     (OUT / "scan.json").write_text(json.dumps(res, indent=1, default=str))
     c, s, k = res.get("crypto", {}), res.get("stocks", {}), res.get("kalshi", {})
@@ -506,6 +524,12 @@ def main():
     L.append(f"STOCK universe {s.get('universe')}. LONG (1-8%, >SMA20, RSI55-75, vol>=avg): " + ("; ".join(f"{r['sym']} {f(r['px'])} +{f(r['d'],1)}% rsi {f(r['rsi'],0)} volx {f(r['volx'],1)}" for r in s.get("longs", [])[:6]) or "none"))
     L.append("PUT LIST (<SMA20, RSI25-45, vol>1M): " + ("; ".join(f"{r['sym']} {f(r['px'])} {f(r['d'],1)}% rsi {f(r['rsi'],0)}" for r in s.get("puts", [])[:6]) or "none"))
     L.append("WATCH: " + "; ".join(f"{k2} {f(v.get('px'))} rsi {f(v.get('rsi'),0)} {'>' if v.get('above20') else '<'}20d {'>' if v.get('above50') else '<'}50d" if 'px' in v else f"{k2} err" for k2, v in s.get("watch", {}).items()))
+    cr = res.get("crowd", {})
+    def cm(x):
+        t = x["sym"] + ("*" if x["hit"] else "")
+        if x.get("m") and x.get("m0"): t += f" {x['m']}({'+' if x['m'] >= x['m0'] else ''}{x['m'] - x['m0']})"
+        return t
+    L.append(f"CROWD retail-trending ({cr.get('src', '-')}; *=held/watch/put list; contrarian, never trade alone): " + (", ".join(cm(x) for x in cr.get("top", [])) or "none"))
     if NOW.astimezone(NY).hour in (7, 8, 11, 12, 15, 16):
         L.append("KALSHI EASY (advisory, owner places): " + ("; ".join(f"{r['t']} {r['side']} {r['c']}c +{r['ret_pct']}% closes {r['close']}" for r in k.get("easy", [])[:3]) or "none"))
     L.append("KALSHI BTC RANGE near 50c (<30h): " + ("; ".join(f"{r['t']} '{r['title']}' yes {r['yes']}c closes {r['close']}" for r in k.get("btc_range", [])) or "none"))
