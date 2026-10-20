@@ -77,6 +77,14 @@ MONITOR prompt: `MONITOR (trade-watch) for Robinhood Agentic ••8237 (account
 ## 11. SUMMARY + KALSHI
 Summary <= 2 lines (+ INVALID on an entry): "TRADES: ... | regime (live SPY $X vs SMA50 $Y) | score N | shortlist" or "No trades: <rule>, best score N, needs <condition>"; "ACCT $X, BP $Y, floor +$Z; positions; GOAL $gain of start (N%)". "LESSON: ..." only when a close changes a rule. KALSHI (advisory, owner has $10, no connector, never place): at 08/12/16 ET full passes, top 3 KALSHI EASY in one line; if BTC moved >= 1% vs mark and is still moving, one "KALSHI: buy BTC above/below $X at 5pm ET, Yes ~50c" line from KALSHI BTC RANGE.
 
+## 11b. SCOREBOARD (owner 2026-10-20: "keep track of your work and effectiveness")
+Files in trades/sb/ on main feed the Claude Trader Scoreboard live. One push_files per market-day fire (message ending "[skip ci]"), keeping existing rows:
+- passes.json: append {time (UTC ISO), pass ("Open"/"10:14"/"12:14"/"14:14"/"Close"), decision ("No trade" or the order in a few words), score, reason (<= 70 chars, plain words)}; keep the newest 80.
+- equity.json: append {time, account_value, label} at the Open and Close passes and after every fill.
+- positions.json: rewrite on any open/close or at each market-day fire with live mark/change: [{symbol, kind, opened, cost, mark, change (fraction), exit_plan}].
+- trades.json: append {closed, symbol, asset, setup, realized, result, note (the lesson)} when a position closes (realized from get_pnl_trade_history).
+- goal.json: rewrite each Sunday with the new week's start_value and target.
+
 ## 13. SMART MONEY (owner 2026-10-20: "stay aggressive within reason and monitor smart money closely")
 - Every full pass: one Coinversa live_cohort_bias coin=BTC, maxResponseTokens 2000 (allowed on top of the call limits). Read netBiasByNotional for Apex (money_printer) = A, Sharps (smart_money) = S, The Crowd (exit_liquidity) = C.
 - SM-BEAR: A <= -0.15 and C >= +0.15 (best traders short into a long crowd). SM-BULL: A >= +0.15 and S >= 0, or S >= +0.25 and A >= 0, with C <= +0.15. Else SM-MIXED.
