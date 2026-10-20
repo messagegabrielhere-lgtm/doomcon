@@ -127,6 +127,11 @@ def nq(path, sym):
             last = e
     raise last or RuntimeError("no data")
 
+def nq_live(sym):
+    """Live-ish (15 min delayed) last price and day % from Nasdaq info."""
+    d = nq("info?x=1", sym)["primaryData"]
+    return num(d["lastSalePrice"]), num(d.get("percentageChange") or 0)
+
 def nq_px(sym):
     return num(nq("info?x=1", sym)["primaryData"]["lastSalePrice"])
 
@@ -196,9 +201,21 @@ def stocks():
     longs, puts = [], []
     log(f"stock universe {out.get('universe')}, liquid {len(liquid)}, longc {len(longc)}, putc {len(putc)}")
     bud = Budget(240)
+    stale = [0, 0]
+    def fresh(r):
+        """Screener day% can be yesterday's; re-price each candidate from Nasdaq info."""
+        try:
+            px, d = nq_live(r["sym"])
+            if px:
+                stale[1] += 1
+                if abs(d - r["d"]) > 1.0: stale[0] += 1
+                r["px"], r["d"] = px, d
+        except Exception: pass
     for r in longc:
         if not bud.ok(): break
         try:
+            fresh(r)
+            if not 1 <= r["d"] <= 8: continue
             t = tech(r["sym"], px=r["px"], vol=r["vol"]); r.update(t)
             if t["above20"] and t["rsi"] and 55 <= t["rsi"] <= 75 and (t["volx"] or 0) >= 1.0: longs.append(r)
         except Exception as e:
@@ -207,6 +224,8 @@ def stocks():
     for r in putc:
         if not bud.ok(): break
         try:
+            fresh(r)
+            if r["d"] > -2: continue
             t = tech(r["sym"], px=r["px"], vol=r["vol"]); r.update(t)
             if not t["above20"] and t["rsi"] and 25 <= t["rsi"] <= 45: puts.append(r)
         except Exception: pass
@@ -217,7 +236,7 @@ def stocks():
             px = cboe_px(s); t = tech(s, px=px); watch[s] = {"px": px, "rsi": t["rsi"], "above20": t["above20"], "above50": t["above50"]}
         except Exception as e: watch[s] = {"err": type(e).__name__}
         time.sleep(0.1)
-    out.update({"longs": longs[:10], "puts": puts[:10], "watch": watch})
+    out.update({"longs": longs[:10], "puts": puts[:10], "watch": watch, "repriced": f"{stale[1]} repriced, {stale[0]} moved >1pt vs screener"})
     return out
 
 # ---------- KALSHI (public market data) ----------
@@ -521,7 +540,7 @@ def main():
     L.append(f"BTC {f(b.get('px'),0)} vs midnight-ET mark {f(b.get('mark_midnight_et'),0)} ({f(b.get('vs_mark'))}%) 1h {f(b.get('h1'))}% {'ABOVE' if b.get('above_sma20_1h') else 'BELOW'} 1h-SMA20 {f(b.get('sma20_1h'),0)}")
     L.append(f"CRYPTO {c.get('n')} ok/{c.get('n_err')} miss. LONG 5-20% (PASS=1h<=8% rising): " + ("; ".join(f"{r['sym']} +{f(r['d'],1)}% spr {f(r['spr'],1)} 1h {f(r.get('h1'),1)}{' PASS' if r.get('pass') else ''}" for r in c.get("longs", [])[:6]) or "none"))
     L.append("CRYPTO DOWN >5%: " + ("; ".join(f"{r['sym']} {f(r['d'],1)}%" for r in c.get("downs", [])) or "none") + " | leaders: " + ", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in c.get("leaders", [])))
-    L.append(f"STOCK universe {s.get('universe')}. LONG (1-8%, >SMA20, RSI55-75, vol>=avg): " + ("; ".join(f"{r['sym']} {f(r['px'])} +{f(r['d'],1)}% rsi {f(r['rsi'],0)} volx {f(r['volx'],1)}" for r in s.get("longs", [])[:6]) or "none"))
+    L.append(f"STOCK universe {s.get('universe')} ({s.get('repriced', '-')}). LONG (1-8%, >SMA20, RSI55-75, vol>=avg): " + ("; ".join(f"{r['sym']} {f(r['px'])} +{f(r['d'],1)}% rsi {f(r['rsi'],0)} volx {f(r['volx'],1)}" for r in s.get("longs", [])[:6]) or "none"))
     L.append("PUT LIST (<SMA20, RSI25-45, vol>1M): " + ("; ".join(f"{r['sym']} {f(r['px'])} {f(r['d'],1)}% rsi {f(r['rsi'],0)}" for r in s.get("puts", [])[:6]) or "none"))
     L.append("WATCH: " + "; ".join(f"{k2} {f(v.get('px'))} rsi {f(v.get('rsi'),0)} {'>' if v.get('above20') else '<'}20d {'>' if v.get('above50') else '<'}50d" if 'px' in v else f"{k2} err" for k2, v in s.get("watch", {}).items()))
     cr = res.get("crowd", {})
