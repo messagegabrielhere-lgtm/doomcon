@@ -161,6 +161,27 @@ describe('home v2 footer', () => {
     assert.match(html, /Activity count vs AGI timeline and control-loss odds/);
   });
 
+  it('keeps the wire and the score path on story pages', () => {
+    const html = render({
+      ...ctx,
+      news: {
+        items: [
+          { id: 'n1', title: 'Chip order', source: 'reuters', url: 'https://example.test/chip', published_at: '2026-10-14T14:00:00Z', score: 40 },
+          { id: 'n2', title: 'Model card', source: 'openai', url: 'https://example.test/model', published_at: '2026-10-14T13:00:00Z', score: 90 },
+        ],
+        generated_at: '2026-10-14T15:00:00Z',
+      },
+    }, { head: '' });
+    assert.match(html, /id="v2-next-h"[^>]*>Which scored stories sit on this reading\?<\/h2>/);
+    assert.match(html, /href="\/item\/model-card-n2\.html">Model card<\/a><b>90\.0<\/b>/);
+    assert.match(html, /class="v2-ticker"[\s\S]*href="\/item\/chip-order-n1\.html"/);
+    assert.doesNotMatch(html, /class="v2-ticker"[\s\S]*href="https:\/\/example\.test\/chip"/);
+    assert.match(html, /href="\/charts\.html">What AI charts does SIREN publish\?<\/a>/);
+    assert.match(html, /href="\/alerts\.html">How do I get alerts when SIREN moves\?<\/a>/);
+    assert.match(html, /"@type":"ItemList"/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
   it('reuse, bosses, labs and video section H2s use questions', () => {
     const html = render(ctx, { head: '' });
     assert.match(html, /id="v2-share-h"[^>]*>How do you reuse this SIREN reading\?<\/h2>/);

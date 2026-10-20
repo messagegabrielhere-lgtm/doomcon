@@ -7,6 +7,7 @@
 // data renders nothing; it is never filled in.
 
 import { esc, utcClock, duration } from './_html.mjs';
+import { slugFor } from './itemPage.mjs';
 
 const STRIP_MAX = 3;
 const SPEED_ROWS = 10;
@@ -35,6 +36,20 @@ function outletCount(c) {
   return Number.isFinite(c.corroboration) ? c.corroboration : Array.isArray(c.outlets) ? c.outlets.length : 0;
 }
 
+/**
+ * The permanent story page when this cluster matches a scored item.
+ * Otherwise the outlet URL, which is where the headline was published.
+ */
+export function clusterLink(ctx, href, c) {
+  const items = (ctx && ctx.news && ctx.news.items) || [];
+  const ids = new Set((c && c.item_ids) || []);
+  const hit = items.find((i) => i && i.id && (
+    ids.has(i.id) || (c.url && i.url === c.url) || (c.title && i.title === c.title)
+  ));
+  if (hit) return { href: href(`/item/${slugFor(hit)}.html`), external: false, source: (c && c.url) || '' };
+  return { href: (c && c.url) || '', external: true, source: '' };
+}
+
 /** "first seen 21:14 UTC · 3 sources" */
 export function breakingMeta(c) {
   const n = outletCount(c);
@@ -52,10 +67,15 @@ export function breakingStrip(ctx, { href = (p) => p } = {}) {
   const rows = live.map((c) => {
     const outlets = Array.isArray(c.outlets) ? c.outlets.join(', ') : '';
     const rule = Array.isArray(c.rule) ? c.rule.join('; ') : '';
+    const link = clusterLink(ctx, href, c);
+    const source = !link.external && link.source
+      ? `<a class="brk__src" href="${esc(link.source)}" rel="noopener nofollow">source</a>`
+      : '';
     return `<li class="brk__row">
   <span class="brk__tag" aria-hidden="true">⚡ BREAKING</span><span class="vh">Breaking:</span>
   <span class="brk__meta" title="${esc(`Outlets: ${outlets}. Rule: ${rule}.`)}">${esc(breakingMeta(c))}</span>
-  <a class="brk__t" href="${esc(c.url)}" rel="noopener">${esc(c.title)}</a>
+  <a class="brk__t" href="${esc(link.href)}"${link.external ? ' rel="noopener"' : ''}>${esc(c.title)}</a>
+  ${source}
   ${xButton(c)}
 </li>`;
   }).join('');

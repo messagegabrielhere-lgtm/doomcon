@@ -57,4 +57,21 @@ describe('charts page', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /noindex/);
   });
+
+  it('links the highest-scored stories behind the charts', () => {
+    const html = render({
+      ...ctx,
+      news: {
+        items: [
+          { id: 's1', title: 'Quiet paper', url: 'https://example.test/a', score: 20 },
+          { id: 's2', title: 'Loud filing', url: 'https://example.test/b', score: 80 },
+        ],
+      },
+    }, { history });
+    assert.match(html, /id="ch-stories-h">Which scored stories sit behind these charts\?<\/h2>/);
+    assert.match(html, /href="\/item\/loud-filing-s2\.html">Loud filing<\/a><span>80\.0<\/span>/);
+    assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.match(html, /Which scored stories sit behind these charts\?/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });

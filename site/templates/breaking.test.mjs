@@ -23,6 +23,16 @@ describe('breaking strip', () => {
     assert.equal(breakingStrip({}), '');
   });
 
+  it('links a matched story to its page and keeps the outlet as source', () => {
+    const html = breakingStrip({
+      news: { items: [{ id: 'abc123', title: 'Lab ships <model> & more', url: 'https://theverge.com/x', score: 70 }] },
+      breaking: { generated_at: '2026-10-09T21:00:00.000Z', clusters: [cluster({ item_ids: ['abc123'] })] },
+    });
+    assert.match(html, /href="\/item\/lab-ships-model-more-abc123\.html"/);
+    assert.match(html, /href="https:\/\/theverge\.com\/x" rel="noopener nofollow">source<\/a>/);
+    assert.doesNotMatch(html, /<a class="brk__t" href="https:\/\/theverge\.com\/x"/);
+  });
+
   it('offers the homepage only a cluster under two hours old', () => {
     assert.equal(freshCluster(ctx([cluster()])).id, 'b1');
     assert.equal(freshCluster(ctx([cluster({ first_seen_at: '2026-10-09T18:00:00.000Z' })])), null);

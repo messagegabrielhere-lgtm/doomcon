@@ -13,11 +13,12 @@
 // it opens the share sheet with the image and text (pick X); on desktop it
 // copies the image, opens X with the text, and the reader pastes the image.
 // Nothing is estimated: a dark feed keeps the build-time chart.
-import { esc } from './_html.mjs';
+import { esc, num } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { polymarketUrl } from '../monetize.mjs';
+import { slugFor } from './itemPage.mjs';
 
 export const CHART_JS = String.raw`
 var FONT = "IBM Plex Mono,Menlo,Consolas,monospace";
@@ -143,6 +144,13 @@ const CSS = `<style>
 .chfaq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:16px 0 8px;color:#E6EAF0}
 .chfaq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim,#94A3B8);margin:0 0 8px}
 .chfaq__key{margin-top:16px!important}
+.ch-stories{margin:28px 0 8px;max-width:68ch}
+.ch-stories h2{font:600 var(--t-lg,1.25rem)/1.2 var(--sans);margin:0 0 10px;color:#E6EAF0}
+.ch-stories ol{margin:0;padding:0;list-style:none}
+.ch-stories li{display:flex;gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid #1F2937}
+.ch-stories a{color:#E6EAF0;text-decoration:none}
+.ch-stories a:hover{text-decoration:underline}
+.ch-stories span{margin-left:auto;flex:none;font:700 12px var(--mono);color:#4ADE80}
 .ch-c .tk{margin:6px 0 10px;color:#FDE68A;font:600 15px/1.45 var(--sans)}
 .ch-c [data-svg] svg{display:block;width:100%;height:auto}
 .ch-f{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between;margin-top:8px;font:600 11.5px var(--mono);color:var(--ink-faint,#6B7686)}
@@ -170,6 +178,23 @@ function card(id, n, title, takeaway, svg, source, xTitle, live, share) {
   return `<article class="ch-c" id="${id}" data-title="${esc(title)}"><h2>${n}. ${esc(title)}</h2><p class="tk" data-tk>${esc(takeaway)}</p><div data-svg>${svg}</div>
   <div class="ch-f"><span>${live ? '<span class="ch-live"><i></i>LIVE</span> · ' : ''}<span data-src>${source}</span></span>
   <span class="ch-btns"><button type="button" class="ch-x img" data-img-post="${id}">🖼 Post with image</button><button type="button" class="ch-x" data-xpost="page" data-x-title="${esc(xTitle)}" data-x-src="SIREN" data-x-url="${share}#${id}">𝕏 Post link</button></span></div></article>`;
+}
+
+/** Highest-scoring stories in the window, so a long chart visit has a next page. */
+function storyRail(ctx) {
+  const items = ((ctx.news && ctx.news.items) || [])
+    .filter((i) => i && i.id && i.title && Number.isFinite(i.score))
+    .slice()
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5);
+  if (!items.length) return '';
+  const q = 'Which scored stories sit behind these charts?';
+  const lis = items.map((i) => `<li><a href="${esc(ctx.href(`/item/${slugFor(i)}.html`))}">${esc(i.title)}</a><span>${esc(num(i.score, 1))}</span></li>`).join('');
+  return `<section class="ch-stories" aria-labelledby="ch-stories-h">
+  <h2 id="ch-stories-h">${esc(q)}</h2>
+  <ol>${lis}</ol>
+  <p class="chfaq__key"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>
+</section>`;
 }
 
 export function render(ctx, { history = [], race = null, power = null } = {}) {
@@ -252,6 +277,8 @@ export function render(ctx, { history = [], race = null, power = null } = {}) {
       'The power race chart links to the full Our World in Data table on the power page.'],
     [`Does ${brand.NAME} publish a charts-page doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} These charts show activity tempo and electricity — not a probability of harm.`],
+    ['Which scored stories sit behind these charts?',
+      `The highest-scoring stories in the current window, each on its own page. The charts above are the reading; the stories are what the newsroom scored in the same window.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -270,6 +297,7 @@ export function render(ctx, { history = [], race = null, power = null } = {}) {
   ${card('power', 6, powerQ, pwTk, pwSvg, `Our World in Data · <a href="${esc(ctx.href('/power.html'))}">Who makes the most electricity (China vs US)?</a>`, pwTk, false, share)}
   ${card('waffle', 7, waffleQ, wafTk, wafSvg, `Our World in Data · ${esc(power && power.year || '')}`, wafTk, false, share)}
   <p style="font-size:12.5px">Polymarket links carry SIREN’s tracking tag. Prediction markets are restricted in some places. Not financial advice. Every chart is drawn from the data shown; nothing is estimated. A dark feed keeps the build-time chart.</p>
+  ${storyRail(ctx)}
 <section class="chfaq" aria-labelledby="faq">
   <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}

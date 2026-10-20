@@ -82,6 +82,8 @@ export function items(ctx) {
       `Inside the classic desk switcher, the Latest panel lists the eight newest scored stories by publication time. Membership is automated; nothing is hand-picked into that rail.`],
     [`How do you reuse this ${brand.NAME} reading?`,
       `The homepage reuse strip offers a README badge, an iframe embed, a plain-text citation and a copy-link control. No script, no key, and no tracking in the embed.`],
+    ['Which scored stories sit on this reading?',
+      `The homepage lists the highest-scoring stories in the current window, each on its own page, plus the newsroom, the charts, and level alerts. Scores rank items inside the window. They are not a probability of harm.`],
     ['Which AI bosses are on watch?',
       `The homepage bosses strip links to /leaders.html for people with enough on-record press this week. Portraits are generated illustrations, not photographs.`],
     ['Which labs are monitored on the home board?',
