@@ -58,6 +58,8 @@ export function render(ctx) {
     { loc: '/llms.txt', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/llms-full.txt', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/agents.md', changefreq: 'weekly', priority: '0.5', lastmod: ctx.state.generated_at },
+    // FINDABILITY #489 — uppercase path coding agents request (same body).
+    { loc: '/AGENTS.md', changefreq: 'weekly', priority: '0.5', lastmod: ctx.state.generated_at },
     { loc: '/agents.txt', changefreq: 'weekly', priority: '0.5', lastmod: ctx.state.generated_at },
     { loc: '/agents.json', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/ai.txt', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
@@ -226,6 +228,8 @@ export const AI_AGENTS = [
 export function robots(ctx) {
   return `# AI crawlers and assistants welcome (ChatGPT, Grok, Claude, Perplexity, …).
 # Start with ${ctx.url('/llms.txt')} · short agent entry ${ctx.url('/agents.md')}
+# How to use (no key): GET ${ctx.url('/api/now.txt')} · how to cite ${ctx.url('/skill.md')}
+# AGENTS.md convention (same body as agents.md): ${ctx.url('/AGENTS.md')}
 # Capability announcement: ${ctx.url('/agents.txt')} · API catalog ${ctx.url('/.well-known/api-catalog')}
 # Live reading: ${ctx.url('/api/now.txt')} · markdown ${ctx.url('/now.md')}
 # Free tools: ${ctx.url('/free-tools.html')} · Verify a reading: ${ctx.url('/verify.html')}

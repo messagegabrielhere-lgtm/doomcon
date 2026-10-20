@@ -274,6 +274,16 @@ export function render(ctx) {
           },
         },
       },
+      '/AGENTS.md': {
+        get: {
+          tags: ['index'],
+          summary: 'Same fetch-first entry as /agents.md, at the uppercase path coding agents request',
+          operationId: 'getAgentsMdUpper',
+          responses: {
+            200: { description: 'Markdown', content: { 'text/markdown': { schema: { type: 'string' } } } },
+          },
+        },
+      },
       '/skill.md': {
         get: {
           tags: ['index'],

@@ -30,6 +30,7 @@ import {
   AGENTS_HTML_DUAL_HEAD_TERM_NEEDLE,
   hasAgentsHtmlDualHeadTerm,
   hasDiscoveryDualHeadTerm,
+  hasAgentUseLinks,
   hasAgentsJsonDualHeadTerm,
   hasOpenapiDualHeadTerm,
   hasApiIndexDualHeadTerm,
@@ -607,6 +608,26 @@ describe('seo-daily surfaces', () => {
       open_engineering: [],
     });
     assert.ok(gaps.some((g) => g.id === 'agents-html-dual-head-term-missing'));
+  });
+
+  it('detects missing agent use links on home head + robots (FINDABILITY #489)', () => {
+    assert.ok(CORE_LIVE_SURFACES.includes('/AGENTS.md'));
+    const head = '<head><link rel="alternate" type="text/markdown" href="/skill.md" title="How to use and cite SIREN"><link rel="alternate" type="text/plain" href="/api/now.txt" title="Current reading"></head><a href="/skill.md">body</a>';
+    const robots = '# how to cite https://siren.watch/skill.md\n# https://siren.watch/AGENTS.md\n';
+    assert.equal(hasAgentUseLinks(head, robots), true);
+    assert.equal(hasAgentUseLinks('<head></head><a href="/skill.md">', robots), false);
+    assert.equal(hasAgentUseLinks(head, 'User-agent: *\nAllow: /\n'), false);
+    const gaps = deriveGaps({
+      sites: [{
+        id: 'siren', name: 'siren.watch', ours: true, ok: true,
+        title: 'AI activity index today · SIREN',
+        sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+        agent_use_links: false,
+      }],
+      surfaces: [],
+      open_engineering: [],
+    });
+    assert.ok(gaps.some((g) => g.id === 'agent-use-links-missing'));
   });
 
   it('detects missing dual head term on agents.txt / ai.txt (FINDABILITY #439)', () => {

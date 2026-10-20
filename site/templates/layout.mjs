@@ -1249,6 +1249,10 @@ ${ogImage}
 <link rel="alternate" type="text/markdown" href="${esc(ctx.href('/agents.md'))}" title="For AI agents">
 <link rel="alternate" type="text/plain" href="${esc(ctx.href('/agents.txt'))}" title="agents.txt">
 <link rel="alternate" type="text/plain" href="${esc(ctx.href('/ai.txt'))}" title="ai.txt">
+<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/skill.md'))}" title="How to use and cite SIREN">
+<link rel="alternate" type="text/plain" href="${esc(ctx.href('/api/now.txt'))}" title="Current reading (plain text)">
+<link rel="alternate" type="application/json" href="${esc(ctx.href('/.well-known/agent-skills/index.json'))}" title="Agent skills index">
+<link rel="alternate" type="application/json" href="${esc(ctx.href('/.well-known/mcp/server-card.json'))}" title="MCP server card (stdio)">
 <link rel="describedby" href="${esc(ctx.href('/openapi.json'))}" type="application/json">
 <link rel="api-catalog" href="${esc(ctx.href('/.well-known/api-catalog'))}" type="application/linkset+json">
 <link rel="preload" as="style" href="${esc(ctx.href(FONT_HREF))}">

@@ -1304,7 +1304,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
       # discovery surfaces stay in lockstep with news-only writeAgentText.
       # FINDABILITY #330 — also overlay agents.json / openapi / api/index /
       # agent-skills (llms-full already in list).
-      for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms.txt llms-full.txt agents.md agents.txt agents.json ai.txt skill.md openapi.json api/index.json free-tools.html verify.html news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html search-trends.html api/search-trends.json .well-known/api-catalog .well-known/api-catalog.json .well-known/mcp/server-card.json .well-known/agent-skills/index.json; do
+      for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms.txt llms-full.txt agents.md AGENTS.md agents.txt agents.json ai.txt skill.md openapi.json api/index.json free-tools.html verify.html news.html index.html classic.html instruments.html feed.xml news-sitemap.xml sitemap.xml robots.txt api/leaders.json leaders.html leaders/index.html search-trends.html api/search-trends.json .well-known/api-catalog .well-known/api-catalog.json .well-known/mcp/server-card.json .well-known/agent-skills/index.json; do
         if [ -e "public/$rel" ]; then
           mkdir -p ".pages/$(dirname "$rel")"
           cp -a "public/$rel" ".pages/$rel"

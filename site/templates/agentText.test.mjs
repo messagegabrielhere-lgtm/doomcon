@@ -128,7 +128,7 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.ok(lines.length < 240, `${lines.length} lines`);
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
-    '/methodology.md', '/guide.md', '/guides.md', '/agents.md', '/agents.txt', '/.well-known/api-catalog', '/guides.html', '/free-tools.html', '/verify.html', '/compare.html', '/vs.html', '/alternatives.html',
+    '/methodology.md', '/guide.md', '/guides.md', '/agents.md', '/AGENTS.md', '/agents.txt', '/.well-known/api-catalog', '/guides.html', '/free-tools.html', '/verify.html', '/compare.html', '/vs.html', '/alternatives.html',
     '/vs/pizzint.html', '/vs/skynet.html', '/vs/doom.html', '/vs/takeoff.html', '/pillars.html', '/sources.html', '/countries.html', '/news-sitemap.xml', '/news.html',
     '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/api/search-trends.json',
     '/watts.html',
@@ -315,6 +315,10 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   const md = agentsMd({ url });
   assert.match(md, /^# SIREN for AI agents/);
   assert.match(md, /ChatGPT, Grok/);
+  // FINDABILITY #489 — first screen is a no-key GET, plus the uppercase path.
+  assert.match(md, /## Use it \(no key\)/);
+  assert.match(md, /GET https:\/\/siren\.watch\/api\/now\.txt/);
+  assert.ok(md.includes('https://siren.watch/AGENTS.md'));
   for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html',
     '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/watts.html', '/lab/micron.html', '/lab/coreweave.html',
     '/tags/neoclouds.html', '/tags/datacenters.html', '/lab/deepseek.html', '/lab/mistral.html', '/lab/palantir.html', '/lab/amd.html', '/lab/tesla.html',
@@ -495,6 +499,10 @@ test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {
   assert.ok(AI_AGENTS.includes('OAI-SearchBot') && AI_AGENTS.includes('GrokBot') && AI_AGENTS.includes('xAI-SearchBot'));
   assert.match(r, /https:\/\/siren\.watch\/llms\.txt/);
   assert.match(r, /https:\/\/siren\.watch\/agents\.md/);
+  // FINDABILITY #489 — robots.txt names how to use the index.
+  assert.match(r, /How to use \(no key\): GET https:\/\/siren\.watch\/api\/now\.txt/);
+  assert.match(r, /how to cite https:\/\/siren\.watch\/skill\.md/);
+  assert.match(r, /https:\/\/siren\.watch\/AGENTS\.md/);
   assert.match(r, /https:\/\/siren\.watch\/agents\.txt/);
   assert.match(r, /https:\/\/siren\.watch\/\.well-known\/api-catalog/);
   assert.match(r, /Free tools: https:\/\/siren\.watch\/free-tools\.html/);

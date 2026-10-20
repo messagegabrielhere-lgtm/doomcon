@@ -31,6 +31,18 @@ function shell(path) {
   });
 }
 
+describe('layout agent use links (FINDABILITY #489)', () => {
+  it('head points at skill.md and the plain-text reading', () => {
+    const html = shell('/');
+    const end = html.toLowerCase().indexOf('</head>');
+    const head = html.slice(0, end);
+    assert.match(head, /rel="alternate"[^>]*href="\/skill\.md"/);
+    assert.match(head, /rel="alternate"[^>]*href="\/api\/now\.txt"/);
+    assert.match(head, /rel="alternate"[^>]*href="\/\.well-known\/agent-skills\/index\.json"/);
+    assert.match(head, /rel="alternate"[^>]*href="\/\.well-known\/mcp\/server-card\.json"/);
+  });
+});
+
 describe('layout SECTIONS question labels', () => {
   it('footer Pages and next/prev use page H1 questions', () => {
     const html = shell('/news.html');

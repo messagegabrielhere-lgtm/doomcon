@@ -42,6 +42,8 @@ export function agentsTxt(ctx) {
 # JSON: ${u('/agents.json')}
 # Site map for language models: ${u('/llms.txt')}
 # Short fetch-first entry: ${u('/agents.md')}
+# AGENTS.md convention (same body): ${u('/AGENTS.md')}
+# How to cite: ${u('/skill.md')}
 # Live reading: ${u('/')} — AI activity index today · AI activity level today
 # Scored stories: ${u('/now.md')} · ${u('/api/news.json')} · ${u('/news.html')}
 # Google News sitemap: ${u('/news-sitemap.xml')}
@@ -117,6 +119,7 @@ export function apiCatalog(ctx) {
           { href: u('/news-sitemap.xml'), type: 'application/xml', title: 'Google News rolling sitemap' },
           { href: u('/news.html'), type: 'text/html', title: 'Which AI stories has SIREN scored in this window?' },
           { href: u('/agents.md'), type: 'text/markdown', title: 'Short agent entry: what to fetch first' },
+          { href: u('/AGENTS.md'), type: 'text/markdown', title: 'AGENTS.md convention: same fetch-first entry as agents.md' },
           { href: u('/agents.txt'), type: 'text/plain', title: 'agents.txt capability announcement' },
           { href: u('/agents.json'), type: 'application/json', title: 'agents.json structured capabilities' },
           { href: u('/skill.md'), type: 'text/markdown', title: 'Agent skill: how to report and cite' },
@@ -225,6 +228,7 @@ Free under ${brand.LICENSE}. No key, no account.
 Start here:
 - ${u('/')} — live AI activity index today · AI activity level today
 - ${u('/agents.md')} — what to fetch first
+- ${u('/AGENTS.md')} — same fetch-first map (uppercase path coding agents request)
 - ${u('/agents.txt')} — capability announcement (agents-txt.com)
 - ${u('/skill.md')} — how to phrase and cite the reading
 - ${u('/llms.txt')} — full site map for language models

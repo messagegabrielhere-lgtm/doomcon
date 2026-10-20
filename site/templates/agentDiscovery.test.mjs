@@ -20,6 +20,9 @@ test('agents.txt announces Skills only (no fake HTTP MCP or A2A)', () => {
   assert.match(txt, /^# agents\.txt/);
   assert.match(txt, /Standard: https:\/\/agents-txt\.com/);
   assert.match(txt, /JSON: https:\/\/siren\.watch\/agents\.json/);
+  // FINDABILITY #489 — uppercase path + cite pointer, still no fake MCP/A2A.
+  assert.match(txt, /AGENTS\.md convention \(same body\): https:\/\/siren\.watch\/AGENTS\.md/);
+  assert.match(txt, /How to cite: https:\/\/siren\.watch\/skill\.md/);
   assert.match(txt, /Skills: https:\/\/siren\.watch\/skill\.md/);
   assert.ok(txt.includes(`Skills: https://siren.watch${SKILL_PATH}`));
   assert.match(txt, /Google News sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
@@ -64,7 +67,7 @@ test('api-catalog is an RFC 9727 linkset pointing at the live surfaces', () => {
     '/', '/openapi.json', '/api/state.json', '/api/now.txt', '/api/news.json', '/news-sitemap.xml', '/news.html',
     '/api/search-trends.json', '/search-trends.html', '/ai-prediction-markets.html',
     '/free-tools.html', '/verify.html', '/classic.html',
-    '/agents.md', '/agents.txt',
+    '/agents.md', '/AGENTS.md', '/agents.txt',
     '/skill.md', '/llms.txt', '/.well-known/mcp/server-card.json', '/.well-known/agent-skills/index.json',
   ]) {
     assert.ok(items.includes(`https://siren.watch${p}`), p);
@@ -120,7 +123,7 @@ test('ai.txt points agents at the discovery stack', () => {
   const txt = aiTxt(ctx);
   assert.match(txt, /AI agents are welcome/);
   for (const p of [
-    '/agents.md', '/agents.txt', '/skill.md', '/llms.txt', '/api/now.txt', '/.well-known/api-catalog',
+    '/agents.md', '/AGENTS.md', '/agents.txt', '/skill.md', '/llms.txt', '/api/now.txt', '/.well-known/api-catalog',
     '/now.md', '/api/news.json', '/news-sitemap.xml', '/news.html',
     '/api/search-trends.json', '/search-trends.html', '/ai-prediction-markets.html',
     '/free-tools.html', '/verify.html', '/classic.html',

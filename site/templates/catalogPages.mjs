@@ -149,6 +149,7 @@ const DATA = {
   'api/receipts/index.json': ['Receipts index (JSON)', 'Every receipt id, newest first.'],
   'openapi.json': ['OpenAPI spec', 'The public API, described for code generators.'],
   'agents.md': ['agents.md', 'Short fetch-first map for ChatGPT, Grok and other AI agents.'],
+  'AGENTS.md': ['AGENTS.md', 'Same fetch-first map at the uppercase path coding agents request.'],
   'agents.txt': ['agents.txt', 'agents-txt.com capability announcement (skills).'],
   'agents.json': ['agents.json', 'Structured companion to agents.txt.'],
   'ai.txt': ['ai.txt', 'Short welcome for AI agents probing by well-known name.'],
