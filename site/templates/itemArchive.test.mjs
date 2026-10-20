@@ -82,6 +82,9 @@ describe('item archive hubs', () => {
   it('item pages use question-shaped newsroom and pillar sibling crumbs', () => {
     const html = render(ctx, ctx.news.items[0]);
     assert.match(html, /<h1 class="it__h">Live one<\/h1>/);
+    assert.match(html, /class="it__next"/);
+    assert.match(html, /href="\/charts\.html">What AI charts does SIREN publish\?<\/a>/);
+    assert.match(html, /href="\/">AI activity index today<\/a>/);
     assert.match(html, /Which AI stories has SIREN scored in this window\?/);
     assert.match(html, /What has SIREN scored under Capability\?/);
     assert.match(html, /it__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);

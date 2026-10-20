@@ -247,6 +247,7 @@ function uniqueDays(items) {
  */
 function entityDirNav(ctx) {
   const links = [
+    ['/charts.html', `What AI charts does ${brand.NAME} publish?`],
     ['/companies.html', `Which AI companies has ${brand.NAME} scored stories about?`],
     ['/models.html', `Which AI models has ${brand.NAME} scored stories about?`],
     ['/people.html', `Which AI people has ${brand.NAME} scored press about?`],

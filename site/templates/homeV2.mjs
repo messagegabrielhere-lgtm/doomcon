@@ -19,7 +19,8 @@ import { WHATS_NEW } from '../siteheader.mjs';
 import { tempoCard, LIVEFX_CSS, LIVEFX_JS } from './_livefx.mjs';
 import { render as verifyBox, verifyCss } from './_verify.mjs';
 import { renderV2 as deskPicks } from './_deskpicks.mjs';
-import { freshCluster, breakingMeta } from './_breaking.mjs';
+import { freshCluster, breakingMeta, clusterLink } from './_breaking.mjs';
+import { slugFor } from './itemPage.mjs';
 import { render as faqRender, faqCss, jsonLd as faqJsonLd } from './_faq.mjs';
 import {
   visitorsModel,
@@ -153,6 +154,7 @@ export function roomGroups(ctx) {
       ['/nations.html', 'px:flagclash', 'USA vs China: who is winning the race to superintelligence?', 'NEW', 'Odds, labs and power, scored live.'],
       ['/race.html', 'radar', 'Who is winning the AI race?', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
       ['/news.html', 'news', 'Which AI stories has SIREN scored in this window?', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every story, scored and corroborated.'],
+      ['/charts.html', 'px:trendchart', 'What AI charts does SIREN publish?', null, 'The dial, the week, and the odds, drawn from the reading.'],
       ['/models.html', 'px:db', 'Which AI models has SIREN scored stories about?', null, 'Counts only, not a model doom score.'],
       ['/companies.html', 'px:companies', 'Which AI companies has SIREN scored stories about?', null, 'Story counts, not a company doom score.'],
       ['/people.html', 'mic', 'Which AI people has SIREN scored press about?', null, 'Headlines only, never invented quotations.'],
@@ -247,15 +249,36 @@ export function roomGroups(ctx) {
   return groups.map(([g, items]) => [g, items.filter(Boolean)]).filter(([, l]) => l.length);
 }
 
+// Rooms a visit lasts in, from the 9–19 Oct 2026 Analytics read: news, charts,
+// waffle, day-after, dispatch. Homepage and the archive get the views; these
+// get the time. The phone bar and this strip follow that, not the old dock.
+const STAY_ROOMS = [
+  ['/news.html', 'news', 'NEWS', `Which AI stories has ${brand.NAME} scored in this window?`],
+  ['/charts.html', 'px:trendchart', 'CHARTS', `What AI charts does ${brand.NAME} publish?`],
+  ['/waffle.html', 'px:waffle', 'WAFFLE', 'Is the Waffle House open?'],
+  ['/day-after.html', 'px:megaphone', 'DAY AFTER', 'What happens the day after an AI catastrophe?'],
+  ['/dispatch.html', 'px:beacon', 'DISPATCH', `What public feeds does ${brand.NAME} Dispatch show?`],
+];
+const STAY_PATHS = new Set(STAY_ROOMS.map(([p]) => p));
+
 function roomsGrid(ctx, href, img) {
   const groups = roomGroups(ctx);
   // Tip #326: section H2 is question-shaped (screen-reader); catalog FAQ covers listing (§3.3).
   return `<section class="v2-rooms" id="rooms" data-sec="Every room" aria-labelledby="v2-rooms-h">
   <h2 id="v2-rooms-h" class="v2-sr">Where is every room on SIREN?</h2>
   ${groups.map(([g, list]) => {
-    return `<div class="v2-rgroup"><span class="v2-rgh">${esc(g)}</span><div class="v2-rgrid">${list.map(([p, art, label, n, blurb]) => `<a class="v2-room" href="${href(p)}"><img src="${img(art)}" width="56" height="56" alt="" loading="lazy"><span class="v2-room__t"><b>${esc(label)}</b>${n ? `<i>${esc(n)}</i>` : ''}<small>${esc(blurb)}</small></span></a>`).join('')}</div></div>`;
+    return `<div class="v2-rgroup"><span class="v2-rgh">${esc(g)}</span><div class="v2-rgrid">${list.map(([p, art, label, n, blurb]) => `<a class="v2-room${STAY_PATHS.has(p) ? ' v2-room--stay' : ''}" href="${href(p)}"><img src="${img(art)}" width="56" height="56" alt="" loading="lazy"><span class="v2-room__t"><b>${esc(label)}</b>${n ? `<i>${esc(n)}</i>` : ''}<small>${esc(blurb)}</small></span></a>`).join('')}</div></div>`;
   }).join('')}
 </section>`;
+}
+
+function stayStrip(href, img) {
+  const cards = STAY_ROOMS.map(([p, art, short, q]) => `<a href="${href(p)}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(short)}</b><small>${esc(q)}</small></span></a>`).join('');
+  return `<nav class="v2-stay" aria-labelledby="v2-stay-h">
+  <h2 id="v2-stay-h" class="v2-sr">Which rooms do readers stay in?</h2>
+  <p class="v2-stay__k">READERS STAY HERE</p>
+  <div class="v2-stay__row">${cards}</div>
+</nav>`;
 }
 
 // THE WAY AROUND. On a phone, a thumb bar along the bottom with the busiest
@@ -263,7 +286,7 @@ function roomsGrid(ctx, href, img) {
 // also on / and Ctrl/Cmd-K). The old Jump palette and room strip are gone.
 function roomNav(ctx, href, img) {
   const all = roomGroups(ctx).flatMap(([g, l]) => l.map((x) => [...x, g]));
-  const tab = [['/news.html', 'news', 'NEWS'], ['/race.html', 'radar', 'RACE'], ['/games.html', 'joystick', 'GAMES'], ['/monitor.html', 'satellite', 'MONITOR']];
+  const tab = STAY_ROOMS.filter(([p]) => p !== '/day-after.html').map(([p, art, short]) => [p, art, short]);
   const tabbar = `<nav class="v2-tab" aria-label="Quick rooms">${tab.map(([p, a, l]) => `<a href="${href(p)}"><img src="${img(a)}" width="24" height="24" alt="">${l}</a>`).join('')}<button type="button" data-v2-jump><span class="v2-tab__grid" aria-hidden="true">▦</span>ALL</button></nav>`;
   return { tabbar };
 }
@@ -341,11 +364,58 @@ function sourceLights(sources) {
     return `<span class="v2-src ${st}" title="${esc(x.label || x.id)}: ${st === 'src-live' ? 'live and scored' : st === 'src-cal' ? calTitle : 'not answering'}"><i></i>${esc(String(x.label || x.id).toUpperCase())}</span>`;
   }).join('');
 }
-function ticker(items) {
+function ticker(items, href) {
   const top = (items || []).slice().sort((a, b) => String(b.published_at).localeCompare(String(a.published_at))).slice(0, 14);
   if (!top.length) return '';
-  const run = top.map((i) => `<a href="${esc(i.url)}" rel="noopener">${esc(String(i.source).toUpperCase())} · ${esc(i.title)}</a>`).join('<b>◆</b>');
+  // The wire stays on the site. Each scored item has a permanent page; the
+  // outlet URL lives there, one click further on.
+  const run = top.map((i) => {
+    const internal = i && i.id;
+    const dest = internal ? href(`/item/${slugFor(i)}.html`) : (i.url || '');
+    return `<a href="${esc(dest)}"${internal ? '' : ' rel="noopener"'}>${esc(String(i.source || '').toUpperCase())} · ${esc(i.title)}</a>`;
+  }).join('<b>◆</b>');
   return `<div class="v2-ticker" aria-label="Latest AI headlines"><span class="lbl">LIVE WIRE</span><div class="trk"><div class="run">${run}<b>◆</b>${run}</div></div></div>`;
+}
+
+function topStories(items, n = 3) {
+  return (items || [])
+    .filter((i) => i && i.id && i.title)
+    .slice()
+    .sort((a, b) => (b.score || 0) - (a.score || 0) || String(b.published_at).localeCompare(String(a.published_at)))
+    .slice(0, n);
+}
+
+function storyListLd(ctx, ranked) {
+  if (!ranked.length) return '';
+  const entity = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Scored stories on this ${brand.NAME} reading`,
+    itemListElement: ranked.map((i, n) => ({
+      '@type': 'ListItem',
+      position: n + 1,
+      name: i.title,
+      url: ctx.url(`/item/${slugFor(i)}.html`),
+    })),
+  };
+  return `<script type="application/ld+json">${JSON.stringify(entity).replace(/</g, '\\u003c')}</script>`;
+}
+
+/** The path off the score: the stories, the charts people stay on, and the alert. */
+function readNext(ctx, href, items) {
+  const ranked = topStories(items, 3);
+  const lis = ranked.map((i) => `<li><a href="${esc(href(`/item/${slugFor(i)}.html`))}">${esc(i.title)}</a>${Number.isFinite(i.score) ? `<b>${esc(num(i.score, 1))}</b>` : ''}</li>`).join('');
+  return `<nav class="v2-next" id="read-next" data-sec="Read next" aria-labelledby="v2-next-h">
+  <h2 id="v2-next-h" class="v2-sr">Which scored stories sit on this reading?</h2>
+  <p class="v2-next__k">SCORED ON THIS READING</p>
+  ${lis ? `<ol>${lis}</ol>` : '<p class="v2-next__empty">No scored stories in this window.</p>'}
+  <p class="v2-next__more">
+    <a href="${esc(href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>
+    <a href="${esc(href('/charts.html'))}">What AI charts does ${esc(brand.NAME)} publish?</a>
+    <a href="${esc(href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>
+  </p>
+</nav>
+${storyListLd(ctx, ranked)}`;
 }
 
 
@@ -578,6 +648,21 @@ export function render(ctx, { head }) {
   const top = brk
     ? { title: brk.title, url: brk.url, source: brk.outlet || brk.source, published_at: brk.first_seen_at, _brk: brk }
     : scoredTop;
+  let breakHref = '';
+  let breakExternal = true;
+  let breakSource = '';
+  if (top && top._brk) {
+    const link = clusterLink(ctx, href, top._brk);
+    breakHref = link.href;
+    breakExternal = link.external;
+    breakSource = link.external ? '' : link.source;
+  } else if (top && top.id) {
+    breakHref = href(`/item/${slugFor(top)}.html`);
+    breakExternal = false;
+    breakSource = top.url || '';
+  } else if (top) {
+    breakHref = top.url || '';
+  }
 
   const routes = ctx.routes || {};
   const dock = [
@@ -690,7 +775,7 @@ export function render(ctx, { head }) {
     <span class="v2-top__x" title="A Terminator reference. Nothing here is self-aware. Probably.">SKYNET: <b class="${state.level <= 2 ? 'amber' : 'green'}">${({ 5: 'ASLEEP', 4: 'NOT SELF-AWARE (YET)', 3: 'LEARNING AT A GEOMETRIC RATE', 2: 'ASKING QUESTIONS', 1: 'JUDGMENT DAY WATCH' })[state.level] || 'NOT SELF-AWARE (YET)'}</b></span>
   </span>
 </div></div>
-${ticker(items)}
+${ticker(items, href)}
 <p class="v2-new" id="v2-new" role="status" hidden><button type="button">New stories since you arrived — jump</button></p>
 <main class="v2-wrap v2-main" id="main">
   <div class="v2-brand">
@@ -720,7 +805,9 @@ ${ticker(items)}
     ${scaleRail(state, href)}
     ${raceLeaderLine(ctx, href)}
   </section>
+  ${stayStrip(href, img)}
   ${dash}
+  ${readNext(ctx, href, items)}
   <div class="v2-since" id="v2-since" hidden role="status"></div>
   <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
@@ -728,7 +815,7 @@ ${ticker(items)}
   <details class="v2-more" id="v2-more" open>
   <summary class="v2-more__sum">See the evidence · full board</summary>
   <div class="v2-more__body">
-  ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${top._brk ? esc(breakingMeta(top._brk)) : `${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}`}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
+  ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a class="v2-breaking__t" href="${esc(breakHref)}"${breakExternal ? ' rel="noopener"' : ''}>${esc(top.title)}</a><span class="src">${top._brk ? esc(breakingMeta(top._brk)) : `${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}`}${breakSource ? ` · <a href="${esc(breakSource)}" rel="noopener nofollow">source</a>` : ''}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
   <nav class="v2-whatsnew" aria-label="New on SIREN"><span class="lbl">✦ NEW</span>${WHATS_NEW.map(([h, a, l, b]) => `<a href="${href(h)}" title="${esc(b)}"><img src="${img(a)}" width="22" height="22" alt="" loading="lazy">${esc(l)}</a>`).join('')}</nav>
   ${tempoCard(items, Date.parse(state.generated_at) || Date.now(), href)}
 
@@ -909,6 +996,30 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2 .hero{margin:0;padding:0;border:0;background:none;display:flex;flex-direction:column;gap:14px}
 .v2 .tag.cool{border-color:#155E75;background:#042F2E;color:#A5F3FC}
 .v2-plain{margin:0;max-width:62ch;font-size:16px;line-height:1.45;color:#D7DCE3}
+.v2-stay{margin:14px 0 0}
+.v2-stay__k{margin:0 0 8px;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:#4ADE80}
+.v2-stay__row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.v2-stay a{display:flex;gap:8px;align-items:center;min-height:64px;padding:8px 10px;border:1px solid #14532D;background:#03130A;color:#fff;text-decoration:none}
+.v2-stay a:hover,.v2-stay a:focus-visible{border-color:#4ADE80}
+.v2-stay img{flex:none}
+.v2-stay b{display:block;font:700 12px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em}
+.v2-stay small{display:block;margin-top:3px;font:500 12px/1.3 'IBM Plex Sans',system-ui,sans-serif;color:#BBF7D0}
+.v2-room--stay{outline:1px solid #166534;background:#03130A}
+@media (max-width:860px){
+  .v2-stay__row{display:flex;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .v2-stay__row::-webkit-scrollbar{display:none}
+  .v2-stay a{flex:none;width:200px}
+}
+.v2-next{margin:14px 0 0;border:1px solid #232C3B;background:#0A0E16;padding:12px 14px}
+.v2-next__k{margin:0 0 8px;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:#AEB7C3}
+.v2-next ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.v2-next li{display:flex;gap:12px;align-items:baseline}
+.v2-next a{color:#fff;text-decoration:none}
+.v2-next a:hover,.v2-next a:focus-visible{text-decoration:underline}
+.v2-next li b{margin-left:auto;flex:none;font:700 12px 'IBM Plex Mono',ui-monospace,monospace;color:#4ADE80}
+.v2-next__more{display:flex;flex-wrap:wrap;gap:8px 16px;margin:10px 0 0;font:600 12.5px/1.4 'IBM Plex Mono',ui-monospace,monospace}
+.v2-next__more a{color:#93C5FD}
+.v2-next__empty{margin:0;color:#AEB7C3;font-size:14px}
 .v2-scale{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
 .v2-scale__st{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;padding:8px 4px 10px;border:2px solid #2A3446;background:#0A0E16;text-align:center;border-top:3px solid color-mix(in srgb,var(--sc) 45%,#2A3446)}
 .v2-scale__st.on{border-color:var(--sc);background:color-mix(in srgb,var(--sc) 12%,#000);box-shadow:0 0 24px color-mix(in srgb,var(--sc) 25%,transparent)}
@@ -940,7 +1051,8 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 @keyframes v2glow{0%,100%{box-shadow:0 0 24px color-mix(in srgb,var(--lv) 15%,transparent)}50%{box-shadow:0 0 44px color-mix(in srgb,var(--lv) 35%,transparent)}}
 .v2-breaking{border:1px solid #232C3B;background:#0A0E16;padding:10px 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .v2-breaking .badge{display:inline-flex;align-items:center;gap:8px;padding:5px 10px;border:1px solid #991B1B;background:#2A0B0B;color:#FECACA;font-weight:700;font-size:13px;letter-spacing:.08em}
-.v2-breaking a{color:#fff;flex:1 1 300px;min-width:0}.v2-breaking a:hover{text-decoration:underline}
+.v2-breaking a.v2-breaking__t{color:#fff;flex:1 1 300px;min-width:0}.v2-breaking a.v2-breaking__t:hover{text-decoration:underline}
+.v2-breaking .src a{flex:none;color:#93C5FD}
 .v2-breaking .src{margin-left:auto;font-size:13px;color:#AEB7C3}
 .v2 .blink{animation:v2blink 1.1s steps(2,start) infinite;display:inline-flex}
 @keyframes v2blink{50%{opacity:.15}}

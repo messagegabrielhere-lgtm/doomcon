@@ -305,6 +305,11 @@ export function render(ctx, item, related = []) {
   <p class="it__k"><a href="${esc(ctx.href('/news.html'))}">${esc(newsroomQ)}</a> · ${pillarHref ? `<a href="${esc(pillarHref)}">${esc(pillarQ)}</a>` : esc(pillarName)}${kindLabel ? ` · ${kindHref ? `<a href="${esc(kindHref)}">${esc(kindQ)}</a>` : esc(kindLabel)}` : ''} · <time datetime="${esc(item.published_at)}">${esc(utc(item.published_at))}</time></p>
 
   <h1 class="it__h">${esc(item.title)}</h1>
+  <nav class="it__next" aria-label="Keep reading">
+    <a href="${esc(ctx.href('/charts.html'))}">What AI charts does ${esc(brand.NAME)} publish?</a>
+    <a href="${esc(ctx.href('/news.html'))}">${esc(newsroomQ)}</a>
+    <a href="${esc(ctx.href('/'))}">AI activity index today</a>
+  </nav>
   ${item.summary ? `<blockquote class="lede" cite="${esc(item.url)}"><p>${esc(clipX(item.summary, 200))}</p><footer>— excerpt from ${esc(item.source)}; the full story and its rights belong to them.</footer></blockquote>` : ''}
 
   <p class="it__src">
@@ -580,6 +585,8 @@ export function styleTag() {
   return `<style>
 .it__k{font-family:var(--mono);font-size: var(--t-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
 .it__h{margin:var(--s-2) 0;max-width:24ch;font-size:clamp(22px,4vw,34px);line-height:1.15}
+.it__next{display:flex;flex-wrap:wrap;gap:8px 14px;margin:0 0 var(--s-3);font-family:var(--mono);font-size:var(--t-xs)}
+.it__next a{color:var(--accent,#93C5FD)}
 .it__src{font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-dim)}
 .it blockquote.lede{margin:var(--s-2) 0;padding-left:var(--s-3);border-left:3px solid var(--rule)}.it blockquote.lede p{margin:0}.it blockquote.lede footer{margin-top:6px;font-family:var(--mono);font-size:var(--t-xs);color:var(--ink-faint)}
 .it__s{margin-top:var(--s-5);border-top:1px solid var(--rule);padding-top:var(--s-3)}
