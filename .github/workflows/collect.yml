@@ -1022,6 +1022,16 @@ jobs:
           GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
         run: node collector/visitors.mjs
 
+      - name: GoatCounter visitor report
+        # Hourly pageview totals + top paths for the Actions log (and for any
+        # Slack step that shells this out). Soft when the key is missing —
+        # exit 2 from visitor-report.mjs must not fail the index lane.
+        continue-on-error: true
+        env:
+          GOATCOUNTER_API_KEY: ${{ secrets.GOATCOUNTER_API_KEY }}
+          GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
+        run: node collector/visitor-report.mjs || true
+
       - name: Build site
         # Runs even when the engine was skipped: the generator is a pure function
         # of data/, so a rebuild on unchanged data produces byte-identical output
