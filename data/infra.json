@@ -1,13 +1,13 @@
 {
   "schema": 1,
   "engine_version": "1.0.0",
-  "generated_at": "2026-10-20T09:35:47.289Z",
+  "generated_at": "2026-10-20T10:27:03.919Z",
   "index": {
     "name": "SUBSTRATE",
     "question": "How loaded is the physical substrate the models are being built on?",
     "feeds_main_index": false
   },
-  "score": 49.3,
+  "score": 52.3,
   "level": 4,
   "level_name": "STEADY",
   "level_gloss": "Ordinary. This is where most observations sit.",
@@ -19,8 +19,8 @@
     "level": 4,
     "level_name": "STEADY",
     "level_since": "2026-09-24T03:20:33.302Z",
-    "score": 49.3,
-    "generated_at": "2026-10-20T09:35:47.289Z"
+    "score": 52.3,
+    "generated_at": "2026-10-20T10:27:03.919Z"
   },
   "degraded": true,
   "dark_pillars": [],
@@ -87,7 +87,7 @@
       "id": "water",
       "name": "The water",
       "blurb": "The state of the rivers and the ground the clusters were built beside.",
-      "score": 39.7,
+      "score": 48.5,
       "state": "live",
       "dark": false,
       "sources_live": 2,
@@ -128,9 +128,9 @@
       "baseline_span": null,
       "baseline_note": null,
       "observed_at": null,
-      "error": "caiso-baseload: overnight window incomplete — 31 of 72 intervals present (need 68), 42 still blank. CAISO publishes the current Pacific day only, so this is the normal state between 00:00 and 06:00 Pacific and an outage at any other hour.",
+      "error": "caiso-baseload: overnight window incomplete — 41 of 72 intervals present (need 68), 32 still blank. CAISO publishes the current Pacific day only, so this is the normal state between 00:00 and 06:00 Pacific and an outage at any other hour.",
       "meta": {},
-      "ms": 284
+      "ms": 539
     },
     {
       "id": "ercot-baseload",
@@ -165,11 +165,11 @@
           "2026-10-20",
           "2026-10-19"
         ],
-        "feed_last_updated": "2026-10-20 04:31:00-0500",
+        "feed_last_updated": "2026-10-20 05:26:00-0500",
         "direction": "higher = more always-on load",
         "source_note": "net generation summed across all fuel categories, five-minute resolution; Power Storage is negative while batteries charge and that sign is kept"
       },
-      "ms": 211
+      "ms": 271
     },
     {
       "id": "ercot-tightness",
@@ -181,7 +181,7 @@
       "cadence": "every 5 minutes",
       "direction": "higher = less slack between load and the committed fleet",
       "state": "awaiting-baseline",
-      "value": 64.51,
+      "value": 67.411,
       "score": null,
       "percentile": null,
       "baseline_n": 27,
@@ -189,24 +189,24 @@
       "baseline_source": null,
       "baseline_span": null,
       "baseline_note": "27 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-20T09:30:00.000Z",
+      "observed_at": "2026-10-20T10:25:00.000Z",
       "error": null,
       "meta": {
-        "demand_mw": 43343,
-        "committed_capacity_mw": 67188,
-        "headroom_mw": 23845,
-        "interval_local": "2026-10-20 04:30:00-0500",
-        "intervals_today": 55,
+        "demand_mw": 44592,
+        "committed_capacity_mw": 66149,
+        "headroom_mw": 21557,
+        "interval_local": "2026-10-20 05:25:00-0500",
+        "intervals_today": 66,
         "intervals_in_feed": 289,
-        "intervals_dropped_forecast": 234,
+        "intervals_dropped_forecast": 223,
         "today_high_pct": 67.51,
         "today_low_pct": 63.096,
-        "feed_last_updated": "2026-10-20 04:30:00-0500",
+        "feed_last_updated": "2026-10-20 05:25:00-0500",
         "prc": {
-          "current_mw": 16028,
+          "current_mw": 14710,
           "day_low_mw": 12252,
           "day_low_at_local": "2026-10-20 00:04:05-0500",
-          "samples": 1653,
+          "samples": 1960,
           "ercot_state": "normal",
           "ercot_title": "Normal Conditions",
           "ercot_note": "There is enough power for current demand.",
@@ -215,7 +215,7 @@
         "direction": "higher = tighter",
         "source_note": "capacity is COMMITTED capacity, which follows expected load, so this ratio understates the swing in physical margin; PRC is enrichment and never scored; rows ERCOT flags as forecast, and any row stamped after the run clock, are dropped before the ratio and the day high and low are computed"
       },
-      "ms": 215
+      "ms": 293
     },
     {
       "id": "nyiso-baseload",
@@ -227,33 +227,31 @@
       "cadence": "daily, settles at 06:00 Eastern",
       "direction": "higher = more load that never switches off",
       "state": "awaiting-baseline",
-      "value": 12840.7,
+      "value": 12771.4,
       "score": null,
       "percentile": null,
-      "baseline_n": 27,
+      "baseline_n": 28,
       "baseline_origin": "accumulated",
       "baseline_source": null,
       "baseline_span": null,
-      "baseline_note": "27 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-19T07:35:00.000Z",
+      "baseline_note": "28 of 30 points needed before this source can be scored",
+      "observed_at": "2026-10-20T07:45:00.000Z",
       "error": null,
       "meta": {
-        "local_day": "2026-10-19",
+        "local_day": "2026-10-20",
         "window_local": "00:00–06:00 ET",
-        "intervals_used": 74,
+        "intervals_used": 72,
         "intervals_expected": 72,
         "intervals_dropped_incomplete": 0,
         "blank_load_cells": 0,
         "zones": 11,
-        "floor_at_local": "10/19/2026 03:35:00",
+        "floor_at_local": "10/20/2026 03:45:00",
         "time_zone": "EDT",
-        "attempts": [
-          "20261020pal.csv: 65 complete intervals (need 66)"
-        ],
+        "attempts": [],
         "direction": "higher = more always-on load",
         "source_note": "statewide sum of all eleven NYISO load zones; a timestamp missing any zone is discarded rather than summed short"
       },
-      "ms": 777
+      "ms": 585
     },
     {
       "id": "usdm-drought",
@@ -407,7 +405,7 @@
         "direction": "higher = drier",
         "source_note": "US Drought Monitor, produced weekly by NDMC, USDA and NOAA; an expert assessment, not an instrument reading, and averaged here without area or population weighting"
       },
-      "ms": 1077,
+      "ms": 1268,
       "z": -0.391294,
       "baseline_min": 1.539,
       "baseline_median": 19.031,
@@ -423,9 +421,9 @@
       "cadence": "daily, one day in arrears",
       "direction": "higher = less water in the rivers these clusters draw on",
       "state": "live",
-      "value": -8.35,
-      "score": 34.3,
-      "percentile": 0.1046,
+      "value": 13.17,
+      "score": 51.8,
+      "percentile": 0.5585,
       "baseline_n": 1095,
       "baseline_origin": "feed",
       "baseline_source": "the same nine-gauge median recomputed for every earlier day in the window",
@@ -435,11 +433,9 @@
       "error": null,
       "meta": {
         "reading_day": "2026-10-19",
-        "gauges_reporting": 8,
+        "gauges_reporting": 9,
         "gauges_total": 9,
-        "gauges_missing": [
-          "14105700 Columbia Rv at The Dalles"
-        ],
+        "gauges_missing": [],
         "gauges": [
           {
             "site": "08158000",
@@ -536,10 +532,22 @@
             "percent_of_normal": 76.4,
             "deficit_pct": 23.6,
             "record_years": "1922–2026"
+          },
+          {
+            "site": "14105700",
+            "name": "Columbia Rv at The Dalles",
+            "state": "OR",
+            "cluster": "The Dalles",
+            "note": "the Oregon cluster sits on this river",
+            "flow_cfs": 78700,
+            "normal_cfs": 97000,
+            "percent_of_normal": 81.1,
+            "deficit_pct": 18.9,
+            "record_years": "1879–2025"
           }
         ],
-        "median_deficit_pct": -8.35,
-        "mean_deficit_pct": -42.38,
+        "median_deficit_pct": 13.17,
+        "mean_deficit_pct": -35.57,
         "aggregator": "median across gauges; the mean is reported but never scored",
         "driest": "Chattahoochee Rv near Norcross",
         "wettest": "Goose Creek near Leesburg",
@@ -549,8 +557,8 @@
         "direction": "higher = drier",
         "source_note": "denominator is the USGS published median for that gauge on that day of the year, over the gauge’s full period of record; it is not computed by this project"
       },
-      "ms": 894,
-      "z": -1.255559,
+      "ms": 868,
+      "z": 0.147228,
       "baseline_min": -139.437,
       "baseline_median": 11.343,
       "baseline_max": 57.167
@@ -573,7 +581,7 @@
       "baseline_source": "the same 180-day rolling count taken at weekly anchors across the fetched corpus",
       "baseline_span": "2022-04-18 to 2026-10-13",
       "baseline_note": "windows overlap, so these points are strongly autocorrelated and the effective sample size is much smaller than the count",
-      "observed_at": "2026-10-20T09:35:47.315Z",
+      "observed_at": "2026-10-20T10:27:03.944Z",
       "error": null,
       "meta": {
         "term": "data center",
@@ -588,7 +596,7 @@
         "direction": "higher = more federal documents mention datacentres",
         "source_note": "the noisiest source in this index: \"data center\" also matches the National Climatic Data Center, federal facility consolidation notices and every agency building with the words in its name"
       },
-      "ms": 1718,
+      "ms": 1839,
       "z": 0.349295,
       "baseline_min": 94,
       "baseline_median": 126,
@@ -604,7 +612,7 @@
       "cadence": "continuous; EDGAR indexes on filing",
       "direction": "higher = more disclosed datacentre activity",
       "state": "awaiting-baseline",
-      "value": 1486,
+      "value": 1492,
       "score": null,
       "percentile": null,
       "baseline_n": 25,
@@ -612,7 +620,7 @@
       "baseline_source": null,
       "baseline_span": null,
       "baseline_note": "25 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-20T09:35:49.157Z",
+      "observed_at": "2026-10-20T10:27:04.721Z",
       "error": null,
       "meta": {
         "phrase": "data centers",
@@ -623,7 +631,7 @@
         "direction": "higher = more filings mention datacentres",
         "source_note": "efts.sec.gov full-text search; a count of matching filings, not of dollars, and it carries EDGAR’s own filing calendar — 10-K season lifts every phrase"
       },
-      "ms": 1841
+      "ms": 777
     },
     {
       "id": "sec-power-contracts",
@@ -643,7 +651,7 @@
       "baseline_source": null,
       "baseline_span": null,
       "baseline_note": "25 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-20T09:35:48.510Z",
+      "observed_at": "2026-10-20T10:27:05.390Z",
       "error": null,
       "meta": {
         "phrase": "power purchase agreement",
@@ -654,7 +662,7 @@
         "direction": "higher = more bulk power contracted",
         "source_note": "efts.sec.gov full-text search; PPAs are signed by every heavy industry, and nothing in a phrase count separates a datacentre’s from a smelter’s"
       },
-      "ms": 1194
+      "ms": 1445
     }
   ],
   "thresholds": {
@@ -666,11 +674,6 @@
     "normalisation": "empirical percentile -> inverse normal CDF -> 50 + 12.5z, clamped to [0,100]"
   },
   "history": [
-    {
-      "generated_at": "2026-10-08T03:24:04.696Z",
-      "score": 53.9,
-      "level": 4
-    },
     {
       "generated_at": "2026-10-08T03:25:43.403Z",
       "score": 53.9,
@@ -3065,6 +3068,11 @@
       "generated_at": "2026-10-20T09:35:47.289Z",
       "score": 49.3,
       "level": 4
+    },
+    {
+      "generated_at": "2026-10-20T10:27:03.919Z",
+      "score": 52.3,
+      "level": 4
     }
   ],
   "baselines": {
@@ -3396,7 +3404,7 @@
         },
         {
           "d": "2026-10-20",
-          "v": 64.51
+          "v": 67.411
         }
       ]
     },
@@ -3509,6 +3517,10 @@
         {
           "d": "2026-10-19",
           "v": 12840.7
+        },
+        {
+          "d": "2026-10-20",
+          "v": 12771.4
         }
       ]
     },
@@ -3648,7 +3660,7 @@
         },
         {
           "d": "2026-10-19",
-          "v": -8.35
+          "v": 13.17
         }
       ]
     },
@@ -3864,7 +3876,7 @@
         },
         {
           "d": "2026-10-20",
-          "v": 1486
+          "v": 1492
         }
       ]
     },
