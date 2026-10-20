@@ -8,7 +8,7 @@ Every fire starts with ONE Bash: `curl -s scan.md` (SCAN FILE, sec 2) + 2 UUIDs.
 ## 1. FULL PASS (low-token)
 - One ToolSearch "select:" with exactly the schemas needed; a second only on a fire that places an order (option entry: get_option_chains + get_option_instruments + get_option_quotes + review/place + PushNotification together).
 - Steps: get_portfolio; REAL-TIME quotes (sec 3); exits on held positions; MONITOR upkeep if needed; 2-line summary. <= 12 tool calls when placing an order (watch.json push and CronList/CronCreate allowed on top), otherwise <= 5.
-- No web search, no run_scan, no SMA/RSI math. Zacks: one get_zacks_metrics only on a stock about to be bought. Coinversa: one live_cohort_bias only on a coin about to be bought (no data = no veto). News/calendars only from the SCAN FILE. Skip a failing connector after one try and name it once. Save outputs > 3k chars to a scratchpad file and grep them.
+- No web search, no run_scan, no SMA/RSI math. Zacks: one get_zacks_metrics only on a stock about to be bought. Coinversa: one live_cohort_bias BTC every full pass (sec 13), plus one on a coin about to be bought (no data = no veto). News/calendars only from the SCAN FILE. Skip a failing connector after one try and name it once. Save outputs > 3k chars to a scratchpad file and grep them.
 - Update the scheduled prompt (update_trigger, minimal edit of its POSITIONS block) only when a position opens/closes or a stop changes. Rule changes go into this file (git push to main, message ending "[skip ci]").
 - Friday 16:14 ET: one extra line "WEEK: n trades, win rate, avg R, biggest win/loss, one rule change"; add the lesson to sec 12.
 
@@ -75,6 +75,14 @@ MONITOR prompt: `MONITOR (trade-watch) for Robinhood Agentic ••8237 (account
 
 ## 11. SUMMARY + KALSHI
 Summary <= 2 lines (+ INVALID on an entry): "TRADES: ... | regime (live SPY $X vs SMA50 $Y) | score N | shortlist" or "No trades: <rule>, best score N, needs <condition>"; "ACCT $X, BP $Y, floor +$Z; positions; GOAL $gain of start (N%)". "LESSON: ..." only when a close changes a rule. KALSHI (advisory, owner has $10, no connector, never place): at 08/12/16 ET full passes, top 3 KALSHI EASY in one line; if BTC moved >= 1% vs mark and is still moving, one "KALSHI: buy BTC above/below $X at 5pm ET, Yes ~50c" line from KALSHI BTC RANGE.
+
+## 13. SMART MONEY (owner 2026-10-20: "stay aggressive within reason and monitor smart money closely")
+- Every full pass: one Coinversa live_cohort_bias coin=BTC, maxResponseTokens 2000 (allowed on top of the call limits). Read netBiasByNotional for Apex (money_printer) = A, Sharps (smart_money) = S, The Crowd (exit_liquidity) = C.
+- SM-BEAR: A <= -0.15 and C >= +0.15 (best traders short into a long crowd). SM-BULL: A >= +0.15 and S >= 0, or S >= +0.25 and A >= 0, with C <= +0.15. Else SM-MIXED.
+- Scoring (sec 4.2) on BTC-beta names (coins, MARA RIOT COIN MSTR IBIT, crypto-linked puts/calls): +1 if the trade is on the SM side, -1 against. No new coin or BTC-beta long in SM-BEAR; no new BTC-beta put/bearish moonshot in SM-BULL.
+- Held BTC-beta bearish position whose INVALID is a close above a level: in SM-BEAR, require two consecutive closes above it (the -60% stop and expiry rules still apply unchanged); in SM-BULL, apply INVALID on the first close. Mirror for bullish positions.
+- Coin candidates also get their own live_cohort_bias (sec 10). Smart money never opens or closes a trade alone: a live price must confirm.
+- Summary: add "SM: A x / S y / C z -> BEAR|BULL|MIXED". Report a flip (BEAR<->BULL) in the summary and act on held positions that pass.
 
 ## 12. LESSONS
 - Zacks Rank 1 can still be a chase: skip above the Zacks target, 15%+ over the 20-day, or heavy put flow.
