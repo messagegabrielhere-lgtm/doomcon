@@ -200,17 +200,21 @@ def stocks():
     try:
         j = get("https://api.nasdaq.com/api/marketmovers?assetclass=stocks&exchangestatus=currentMarket&limit=40", headers=NQH)
         st = (j.get("data") or {}).get("STOCKS") or {}
-        for key, side in (("MostAdvanced", "up"), ("MostDeclined", "down")):
-            for x in ((st.get(key) or {}).get("table") or {}).get("rows") or []:
+        junk = lambda y: (not y.isalpha()) or (len(y) == 5 and y[-1] in "WRUZ")
+        for key, blk in st.items():
+            sides = ("up",) if "Advanced" in key else ("down",) if "Declined" in key else ("up", "down")
+            for x in ((blk or {}).get("table") or {}).get("rows") or []:
                 sym = str(x.get("symbol", "")).strip().upper()
-                if sym: movers[side].append(sym)
+                if sym and not junk(sym):
+                    for sd in sides:
+                        if sym not in movers[sd]: movers[sd].append(sym)
         if not movers["up"] and not movers["down"]: ERRS.append("movers keys " + ",".join(list(st)[:6] or list(j.get("data") or {})[:6]))
     except Exception as e: ERRS.append(f"movers {type(e).__name__}")
     known = {r["sym"]: r for r in liquid}
     def mv(sym, d):
         return known.get(sym) or {"sym": sym, "px": 0, "d": d, "vol": 0, "mc": 0, "name": ""}
-    longc = [mv(x, 2) for x in movers["up"][:20]]
-    putc = [mv(x, -3) for x in movers["down"][:20]]
+    longc = [mv(x, 2) for x in movers["up"][:30]]
+    putc = [mv(x, -3) for x in movers["down"][:30]]
     longc += sorted([r for r in liquid if 1 <= r["d"] <= 8], key=lambda r: -r["vol"] * r["d"])[:30]
     putc += sorted([r for r in liquid if r["d"] <= -2], key=lambda r: r["d"] * r["vol"])[:25]
     seen = set(); longc = [r for r in longc if not (r["sym"] in seen or seen.add(r["sym"]))]
@@ -253,7 +257,10 @@ def stocks():
             px = cboe_px(s); t = tech(s, px=px); watch[s] = {"px": px, "rsi": t["rsi"], "above20": t["above20"], "above50": t["above50"]}
         except Exception as e: watch[s] = {"err": type(e).__name__}
         time.sleep(0.1)
-    mvr = lambda side: [{"sym": r["sym"], "d": r["d"], "px": r["px"]} for r in (longc if side == "up" else putc) if r["sym"] in movers[side] and r.get("px")][:6]
+    def mvr(side):
+        pool = [r for r in (longc if side == "up" else putc) if r["sym"] in movers[side] and (r.get("px") or 0) >= 5 and abs(r.get("d") or 0) >= 1 and ((r["d"] > 0) == (side == "up"))]
+        pool.sort(key=lambda r: -abs(r["d"]))
+        return [{"sym": r["sym"], "d": r["d"], "px": r["px"]} for r in pool][:8]
     out["movers"] = {"up": mvr("up"), "down": mvr("down")}
     out.update({"longs": longs[:10], "puts": puts[:10], "watch": watch, "repriced": f"{stale[1]} repriced, {stale[0]} moved >1pt vs screener"})
     return out
@@ -561,7 +568,7 @@ def main():
     L.append("CRYPTO DOWN >5%: " + ("; ".join(f"{r['sym']} {f(r['d'],1)}%" for r in c.get("downs", [])) or "none") + " | leaders: " + ", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in c.get("leaders", [])))
     L.append(f"STOCK universe {s.get('universe')} ({s.get('repriced', '-')}). LONG (1-8%, >SMA20, RSI55-75, vol>=avg): " + ("; ".join(f"{r['sym']} {f(r['px'])} +{f(r['d'],1)}% rsi {f(r['rsi'],0)} volx {f(r['volx'],1)}" for r in s.get("longs", [])[:6]) or "none"))
     mo = s.get("movers", {})
-    L.append("MOVERS live (Nasdaq, ~15m delay; context, rules still gate): up " + (", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in mo.get("up", [])) or "-") + " | down " + (", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in mo.get("down", [])) or "-"))
+    L.append("MOVERS live >=$5 (Nasdaq, ~15m delay; context, rules still gate): up " + (", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in mo.get("up", [])) or "-") + " | down " + (", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in mo.get("down", [])) or "-"))
     L.append("PUT LIST (<SMA20, RSI25-45, vol>1M): " + ("; ".join(f"{r['sym']} {f(r['px'])} {f(r['d'],1)}% rsi {f(r['rsi'],0)}" for r in s.get("puts", [])[:6]) or "none"))
     L.append("WATCH: " + "; ".join(f"{k2} {f(v.get('px'))} rsi {f(v.get('rsi'),0)} {'>' if v.get('above20') else '<'}20d {'>' if v.get('above50') else '<'}50d" if 'px' in v else f"{k2} err" for k2, v in s.get("watch", {}).items()))
     cr = res.get("crowd", {})
