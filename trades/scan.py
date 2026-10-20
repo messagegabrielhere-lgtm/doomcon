@@ -196,8 +196,25 @@ def stocks():
         except Exception as e2:
             ERRS.append(f"yahoo screener {type(e2).__name__}")
     liquid = [r for r in rows if r["px"] and r["px"] >= 5 and r["vol"] >= 1_000_000 and r["mc"] >= 300e6 and "/" not in r["sym"] and "^" not in r["sym"]]
-    longc = sorted([r for r in liquid if 1 <= r["d"] <= 8], key=lambda r: -r["vol"] * r["d"])[:30]
-    putc = sorted([r for r in liquid if r["d"] <= -2], key=lambda r: r["d"] * r["vol"])[:25]
+    movers = {"up": [], "down": []}
+    try:
+        j = get("https://api.nasdaq.com/api/marketmovers?assetclass=stocks&exchangestatus=currentMarket&limit=40", headers=NQH)
+        st = (j.get("data") or {}).get("STOCKS") or {}
+        for key, side in (("MostAdvanced", "up"), ("MostDeclined", "down")):
+            for x in ((st.get(key) or {}).get("table") or {}).get("rows") or []:
+                sym = str(x.get("symbol", "")).strip().upper()
+                if sym: movers[side].append(sym)
+        if not movers["up"] and not movers["down"]: ERRS.append("movers keys " + ",".join(list(st)[:6] or list(j.get("data") or {})[:6]))
+    except Exception as e: ERRS.append(f"movers {type(e).__name__}")
+    known = {r["sym"]: r for r in liquid}
+    def mv(sym, d):
+        return known.get(sym) or {"sym": sym, "px": 0, "d": d, "vol": 0, "mc": 0, "name": ""}
+    longc = [mv(x, 2) for x in movers["up"][:20]]
+    putc = [mv(x, -3) for x in movers["down"][:20]]
+    longc += sorted([r for r in liquid if 1 <= r["d"] <= 8], key=lambda r: -r["vol"] * r["d"])[:30]
+    putc += sorted([r for r in liquid if r["d"] <= -2], key=lambda r: r["d"] * r["vol"])[:25]
+    seen = set(); longc = [r for r in longc if not (r["sym"] in seen or seen.add(r["sym"]))]
+    seen = set(); putc = [r for r in putc if not (r["sym"] in seen or seen.add(r["sym"]))]
     longs, puts = [], []
     log(f"stock universe {out.get('universe')}, liquid {len(liquid)}, longc {len(longc)}, putc {len(putc)}")
     bud = Budget(240)
@@ -215,7 +232,7 @@ def stocks():
         if not bud.ok(): break
         try:
             fresh(r)
-            if not 1 <= r["d"] <= 8: continue
+            if not 1 <= r["d"] <= 8 or (r["px"] or 0) < 5: continue
             t = tech(r["sym"], px=r["px"], vol=r["vol"]); r.update(t)
             if t["above20"] and t["rsi"] and 55 <= t["rsi"] <= 75 and (t["volx"] or 0) >= 1.0: longs.append(r)
         except Exception as e:
@@ -225,7 +242,7 @@ def stocks():
         if not bud.ok(): break
         try:
             fresh(r)
-            if r["d"] > -2: continue
+            if r["d"] > -2 or (r["px"] or 0) < 5: continue
             t = tech(r["sym"], px=r["px"], vol=r["vol"]); r.update(t)
             if not t["above20"] and t["rsi"] and 25 <= t["rsi"] <= 45: puts.append(r)
         except Exception: pass
