@@ -84,6 +84,7 @@ Files in trades/sb/ on main feed the Claude Trader Scoreboard live. One push_fil
 - positions.json: rewrite on any open/close or at each market-day fire with live mark/change: [{symbol, kind, opened, cost, mark, change (fraction), exit_plan}].
 - trades.json: append {closed, symbol, asset, setup, realized, result, note (the lesson)} when a position closes (realized from get_pnl_trade_history).
 - goal.json: rewrite each Sunday with the new week's start_value and target.
+- Publish (Close pass, after every fill, Sunday goal change): for each changed file, Artifact publish url https://claude.ai/artifact/TUz5CuF782TXbHSLcPQQG1 asset:true file_path <local copy>; then ArtifactData update collection "datasets", doc_id = file name without .json, data {source:{kind:"file",url:<returned url>,name:<file>}, updated:{at,by:"Claude"}} with if_version from a get. goal.json stays a one-row array.
 
 ## 13. SMART MONEY (owner 2026-10-20: "stay aggressive within reason and monitor smart money closely")
 - Every full pass: one Coinversa live_cohort_bias coin=BTC, maxResponseTokens 2000 (allowed on top of the call limits). Read netBiasByNotional for Apex (money_printer) = A, Sharps (smart_money) = S, The Crowd (exit_liquidity) = C.
