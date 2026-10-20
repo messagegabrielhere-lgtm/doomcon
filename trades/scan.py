@@ -253,6 +253,8 @@ def stocks():
             px = cboe_px(s); t = tech(s, px=px); watch[s] = {"px": px, "rsi": t["rsi"], "above20": t["above20"], "above50": t["above50"]}
         except Exception as e: watch[s] = {"err": type(e).__name__}
         time.sleep(0.1)
+    mvr = lambda side: [{"sym": r["sym"], "d": r["d"], "px": r["px"]} for r in (longc if side == "up" else putc) if r["sym"] in movers[side] and r.get("px")][:6]
+    out["movers"] = {"up": mvr("up"), "down": mvr("down")}
     out.update({"longs": longs[:10], "puts": puts[:10], "watch": watch, "repriced": f"{stale[1]} repriced, {stale[0]} moved >1pt vs screener"})
     return out
 
@@ -558,6 +560,8 @@ def main():
     L.append(f"CRYPTO {c.get('n')} ok/{c.get('n_err')} miss. LONG 5-20% (PASS=1h<=8% rising): " + ("; ".join(f"{r['sym']} +{f(r['d'],1)}% spr {f(r['spr'],1)} 1h {f(r.get('h1'),1)}{' PASS' if r.get('pass') else ''}" for r in c.get("longs", [])[:6]) or "none"))
     L.append("CRYPTO DOWN >5%: " + ("; ".join(f"{r['sym']} {f(r['d'],1)}%" for r in c.get("downs", [])) or "none") + " | leaders: " + ", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in c.get("leaders", [])))
     L.append(f"STOCK universe {s.get('universe')} ({s.get('repriced', '-')}). LONG (1-8%, >SMA20, RSI55-75, vol>=avg): " + ("; ".join(f"{r['sym']} {f(r['px'])} +{f(r['d'],1)}% rsi {f(r['rsi'],0)} volx {f(r['volx'],1)}" for r in s.get("longs", [])[:6]) or "none"))
+    mo = s.get("movers", {})
+    L.append("MOVERS live (Nasdaq, ~15m delay; context, rules still gate): up " + (", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in mo.get("up", [])) or "-") + " | down " + (", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in mo.get("down", [])) or "-"))
     L.append("PUT LIST (<SMA20, RSI25-45, vol>1M): " + ("; ".join(f"{r['sym']} {f(r['px'])} {f(r['d'],1)}% rsi {f(r['rsi'],0)}" for r in s.get("puts", [])[:6]) or "none"))
     L.append("WATCH: " + "; ".join(f"{k2} {f(v.get('px'))} rsi {f(v.get('rsi'),0)} {'>' if v.get('above20') else '<'}20d {'>' if v.get('above50') else '<'}50d" if 'px' in v else f"{k2} err" for k2, v in s.get("watch", {}).items()))
     cr = res.get("crowd", {})
