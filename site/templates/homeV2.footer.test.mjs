@@ -161,6 +161,28 @@ describe('home v2 footer', () => {
     assert.match(html, /Activity count vs AGI timeline and control-loss odds/);
   });
 
+  it('highlights the rooms readers stay in, on the score and the phone bar', () => {
+    const html = render(ctx, { head: '' });
+    const stay = html.match(/<nav class="v2-stay"[\s\S]*?<\/nav>/);
+    assert.ok(stay, 'expected the stay strip');
+    assert.match(stay[0], /Which rooms do readers stay in\?/);
+    assert.match(stay[0], /READERS STAY HERE/);
+    for (const path of ['/news.html', '/charts.html', '/waffle.html', '/day-after.html', '/dispatch.html']) {
+      assert.match(stay[0], new RegExp(`href="${path.replace('.', '\\.')}"`));
+    }
+    const tab = html.match(/<nav class="v2-tab"[\s\S]*?<\/nav>/);
+    assert.ok(tab, 'expected the phone bar');
+    assert.match(tab[0], /href="\/news\.html"/);
+    assert.match(tab[0], /href="\/charts\.html"/);
+    assert.match(tab[0], /href="\/waffle\.html"/);
+    assert.match(tab[0], /href="\/dispatch\.html"/);
+    assert.doesNotMatch(tab[0], /href="\/race\.html"/);
+    assert.doesNotMatch(tab[0], /href="\/monitor\.html"/);
+    assert.match(html, /class="v2-room v2-room--stay" href="\/charts\.html"/);
+    assert.match(html, /class="v2-room v2-room--stay" href="\/news\.html"/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
   it('keeps the wire and the score path on story pages', () => {
     const html = render({
       ...ctx,

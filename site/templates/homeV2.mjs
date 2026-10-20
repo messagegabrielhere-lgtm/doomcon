@@ -154,6 +154,7 @@ export function roomGroups(ctx) {
       ['/nations.html', 'px:flagclash', 'USA vs China: who is winning the race to superintelligence?', 'NEW', 'Odds, labs and power, scored live.'],
       ['/race.html', 'radar', 'Who is winning the AI race?', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
       ['/news.html', 'news', 'Which AI stories has SIREN scored in this window?', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every story, scored and corroborated.'],
+      ['/charts.html', 'px:trendchart', 'What AI charts does SIREN publish?', null, 'The dial, the week, and the odds, drawn from the reading.'],
       ['/models.html', 'px:db', 'Which AI models has SIREN scored stories about?', null, 'Counts only, not a model doom score.'],
       ['/companies.html', 'px:companies', 'Which AI companies has SIREN scored stories about?', null, 'Story counts, not a company doom score.'],
       ['/people.html', 'mic', 'Which AI people has SIREN scored press about?', null, 'Headlines only, never invented quotations.'],
@@ -248,15 +249,36 @@ export function roomGroups(ctx) {
   return groups.map(([g, items]) => [g, items.filter(Boolean)]).filter(([, l]) => l.length);
 }
 
+// Rooms a visit lasts in, from the 9–19 Oct 2026 Analytics read: news, charts,
+// waffle, day-after, dispatch. Homepage and the archive get the views; these
+// get the time. The phone bar and this strip follow that, not the old dock.
+const STAY_ROOMS = [
+  ['/news.html', 'news', 'NEWS', `Which AI stories has ${brand.NAME} scored in this window?`],
+  ['/charts.html', 'px:trendchart', 'CHARTS', `What AI charts does ${brand.NAME} publish?`],
+  ['/waffle.html', 'px:waffle', 'WAFFLE', 'Is the Waffle House open?'],
+  ['/day-after.html', 'px:megaphone', 'DAY AFTER', 'What happens the day after an AI catastrophe?'],
+  ['/dispatch.html', 'px:beacon', 'DISPATCH', `What public feeds does ${brand.NAME} Dispatch show?`],
+];
+const STAY_PATHS = new Set(STAY_ROOMS.map(([p]) => p));
+
 function roomsGrid(ctx, href, img) {
   const groups = roomGroups(ctx);
   // Tip #326: section H2 is question-shaped (screen-reader); catalog FAQ covers listing (§3.3).
   return `<section class="v2-rooms" id="rooms" data-sec="Every room" aria-labelledby="v2-rooms-h">
   <h2 id="v2-rooms-h" class="v2-sr">Where is every room on SIREN?</h2>
   ${groups.map(([g, list]) => {
-    return `<div class="v2-rgroup"><span class="v2-rgh">${esc(g)}</span><div class="v2-rgrid">${list.map(([p, art, label, n, blurb]) => `<a class="v2-room" href="${href(p)}"><img src="${img(art)}" width="56" height="56" alt="" loading="lazy"><span class="v2-room__t"><b>${esc(label)}</b>${n ? `<i>${esc(n)}</i>` : ''}<small>${esc(blurb)}</small></span></a>`).join('')}</div></div>`;
+    return `<div class="v2-rgroup"><span class="v2-rgh">${esc(g)}</span><div class="v2-rgrid">${list.map(([p, art, label, n, blurb]) => `<a class="v2-room${STAY_PATHS.has(p) ? ' v2-room--stay' : ''}" href="${href(p)}"><img src="${img(art)}" width="56" height="56" alt="" loading="lazy"><span class="v2-room__t"><b>${esc(label)}</b>${n ? `<i>${esc(n)}</i>` : ''}<small>${esc(blurb)}</small></span></a>`).join('')}</div></div>`;
   }).join('')}
 </section>`;
+}
+
+function stayStrip(href, img) {
+  const cards = STAY_ROOMS.map(([p, art, short, q]) => `<a href="${href(p)}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(short)}</b><small>${esc(q)}</small></span></a>`).join('');
+  return `<nav class="v2-stay" aria-labelledby="v2-stay-h">
+  <h2 id="v2-stay-h" class="v2-sr">Which rooms do readers stay in?</h2>
+  <p class="v2-stay__k">READERS STAY HERE</p>
+  <div class="v2-stay__row">${cards}</div>
+</nav>`;
 }
 
 // THE WAY AROUND. On a phone, a thumb bar along the bottom with the busiest
@@ -264,7 +286,7 @@ function roomsGrid(ctx, href, img) {
 // also on / and Ctrl/Cmd-K). The old Jump palette and room strip are gone.
 function roomNav(ctx, href, img) {
   const all = roomGroups(ctx).flatMap(([g, l]) => l.map((x) => [...x, g]));
-  const tab = [['/news.html', 'news', 'NEWS'], ['/race.html', 'radar', 'RACE'], ['/games.html', 'joystick', 'GAMES'], ['/monitor.html', 'satellite', 'MONITOR']];
+  const tab = STAY_ROOMS.filter(([p]) => p !== '/day-after.html').map(([p, art, short]) => [p, art, short]);
   const tabbar = `<nav class="v2-tab" aria-label="Quick rooms">${tab.map(([p, a, l]) => `<a href="${href(p)}"><img src="${img(a)}" width="24" height="24" alt="">${l}</a>`).join('')}<button type="button" data-v2-jump><span class="v2-tab__grid" aria-hidden="true">▦</span>ALL</button></nav>`;
   return { tabbar };
 }
@@ -783,6 +805,7 @@ ${ticker(items, href)}
     ${scaleRail(state, href)}
     ${raceLeaderLine(ctx, href)}
   </section>
+  ${stayStrip(href, img)}
   ${dash}
   ${readNext(ctx, href, items)}
   <div class="v2-since" id="v2-since" hidden role="status"></div>
@@ -973,6 +996,20 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2 .hero{margin:0;padding:0;border:0;background:none;display:flex;flex-direction:column;gap:14px}
 .v2 .tag.cool{border-color:#155E75;background:#042F2E;color:#A5F3FC}
 .v2-plain{margin:0;max-width:62ch;font-size:16px;line-height:1.45;color:#D7DCE3}
+.v2-stay{margin:14px 0 0}
+.v2-stay__k{margin:0 0 8px;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:#4ADE80}
+.v2-stay__row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.v2-stay a{display:flex;gap:8px;align-items:center;min-height:64px;padding:8px 10px;border:1px solid #14532D;background:#03130A;color:#fff;text-decoration:none}
+.v2-stay a:hover,.v2-stay a:focus-visible{border-color:#4ADE80}
+.v2-stay img{flex:none}
+.v2-stay b{display:block;font:700 12px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em}
+.v2-stay small{display:block;margin-top:3px;font:500 12px/1.3 'IBM Plex Sans',system-ui,sans-serif;color:#BBF7D0}
+.v2-room--stay{outline:1px solid #166534;background:#03130A}
+@media (max-width:860px){
+  .v2-stay__row{display:flex;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .v2-stay__row::-webkit-scrollbar{display:none}
+  .v2-stay a{flex:none;width:200px}
+}
 .v2-next{margin:14px 0 0;border:1px solid #232C3B;background:#0A0E16;padding:12px 14px}
 .v2-next__k{margin:0 0 8px;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:#AEB7C3}
 .v2-next ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
