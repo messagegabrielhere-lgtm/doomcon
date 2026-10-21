@@ -77,7 +77,7 @@ export const ROOM_ART = {
   '/': 'siren', '/arena.html': 'stocks', '/scanner.html': 'magnifier', '/monitor.html': 'satellite', '/dispatch.html': 'radar', '/race.html': 'radar', '/news.html': 'news',
   '/watts.html': 'power', '/map.html': 'server', '/world.html': 'globe', '/flock.html': 'camera',
   '/exploits.html': 'bug', '/leaders.html': 'mic', '/elon.html': 'camera', '/digest.html': 'clipboard', '/jobs.html': 'case',
-  '/medicine.html': 'pill', '/balance.html': 'scales', '/bliss.html': 'sun', '/prepper-checklist.html': 'clipboard', '/feedback.html': 'mic', '/si-ready.html': 'scales', '/ai-proof-job.html': 'case', '/breakthroughs.html': 'sun', '/live-x.html': 'satellite', '/staff.html': 'server', '/tally.html': 'canary', '/careers.html': 'case', '/agents.html': 'globe', '/bug-out-land.html': 'globe',
+  '/medicine.html': 'pill', '/balance.html': 'scales', '/bliss.html': 'sun', '/prepper-checklist.html': 'clipboard', '/feedback.html': 'mic', '/si-ready.html': 'scales', '/ai-proof-job.html': 'case', '/for-people.html': 'scales', '/breakthroughs.html': 'sun', '/live-x.html': 'satellite', '/staff.html': 'server', '/tally.html': 'canary', '/careers.html': 'case', '/agents.html': 'globe', '/bug-out-land.html': 'globe',
   '/methodology.html': 'magnifier', '/instruments.html': 'magnifier', '/bets.html': 'dice',
   '/ai-doomsday-clock.html': 'clock', '/nothing.html': 'clock', '/desk.html': 'canary', '/game.html': 'joystick',
   '/library.html': 'books', '/bunker-kit.html': 'bunker', '/history.html': 'archive', '/moves/': 'archive',

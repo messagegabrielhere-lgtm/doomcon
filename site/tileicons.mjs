@@ -219,8 +219,10 @@ export const TILE_ICONS = {
   // What's New twin for midterms (icons must stay unique per destination).
   midterm: [{ a: '#818CF8', b: '#0B1020', c: '#4ADE80', d: '#F87171', e: '#FDE68A' }, [
     '................', '....eeeeeeee....', '...eaaaaaaaae...', '..ea........ae..', '..ea.cc..dd.ae..', '..ea.ccc.ddd.ae.', '..ea.cc..dd.ae..', '..ea........ae..',
-    '..eaaaaaaaaaae..', '...eeeeeeeeee...', '......bbbb......', '.....bbbbbb.....', '....bbbbbbbb....', '...bbbbbbbbbb...', '................', '................']],
-};
+    '..eaaaaaaaaaae..', '...eeeeeeeeee...', '......bbbb......', '.....bbbbbb.....', '....bbbbbbbb....', '...bbbbbbbbbb...', '................', '................']],  // For People: two figures under a shared shelter — AI steered toward help.
+  people: [{ a: '#4ADE80', b: '#166534', c: '#BBF7D0', d: '#60A5FA', e: '#1E3A8A', f: '#BFDBFE' }, [
+    '................', '......aaaa......', '....aaaaaaaa....', '...aaaaaaaaaa...', '..aa........aa..', '..a..........a..', '................', '..bb......dd....',
+    '.bbbb....dddd...', '.bcbcb..dfdfdf..', '.bbbb....dddd...', '..bb......dd....', '.cccc....ffff...', 'cccccc..ffffff..', '.c..c....f..f...', '................']],};
 
 export function tileSvg(name, bg = '#0B1220') {
   const [pal, rows] = TILE_ICONS[name];

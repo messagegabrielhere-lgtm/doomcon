@@ -263,9 +263,9 @@ export function siReady(ctx) {
   <h2>${esc(keepQ)}</h2>
   <div class="fx-grid">
     <a class="fx-card" href="${esc(ctx.href('/ai-proof-job.html'))}"><h3>How do I AI-proof my job? →</h3><p>Where AI hits your work, and how to grow with it.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/for-people.html'))}"><h3>What tools help AI and SI serve people? →</h3><p>A people-first deploy gate, oversight planner, and agent charter.</p></a>
     <a class="fx-card" href="${esc(ctx.href('/prepper-checklist.html'))}"><h3>What belongs in a 72-hour prepper kit? →</h3><p>The physical side: water, food, power, documents.</p></a>
-    <a class="fx-card" href="${esc(ctx.href('/breakthroughs.html'))}"><h3>What AI breakthroughs has ${esc(brand.NAME)} tracked? →</h3><p>The good news, because there is a lot of it.</p></a>
-  </div>
+    <a class="fx-card" href="${esc(ctx.href('/breakthroughs.html'))}"><h3>What AI breakthroughs has ${esc(brand.NAME)} tracked? →</h3><p>The good news, because there is a lot of it.</p></a>  </div>
   <p class="fx-note">General information, not financial, legal, career or medical advice. ${esc(brand.NAME)} counts AI activity; it does not predict superintelligence.</p>
   <section class="fx-faq" aria-labelledby="faq">
     <h2 id="faq">What questions do people actually ask?</h2>

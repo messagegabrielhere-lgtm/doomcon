@@ -30,7 +30,7 @@ export const VIDEOS = [
 // Which video plays in the corner the first time a visitor lands on a page.
 export const INTRO_FOR = {
   'tally.html': 'siren-tally', 'staff.html': 'siren-tally', 'bets.html': 'siren-tally', 'desk.html': 'siren-tally',
-  'si-ready.html': 'siren-si-ready', 'breakthroughs.html': 'siren-si-ready', 'bliss.html': 'siren-si-ready',
+  'si-ready.html': 'siren-si-ready', 'breakthroughs.html': 'siren-si-ready', 'bliss.html': 'siren-si-ready', 'for-people.html': 'siren-si-ready',
   'ai-proof-job.html': 'siren-ai-proof-job', 'jobs.html': 'siren-ai-proof-job', 'careers.html': 'siren-ai-proof-job',
   'bunker-kit.html': 'siren-supply-drop', 'prepper-checklist.html': 'siren-supply-drop', 'bug-out-land.html': 'siren-supply-drop',
   'history.html': 'siren-road-to-si', 'methodology.html': 'siren-skynet', 'classic.html': 'siren-skynet', 'ai-doomsday-clock.html': 'siren-skynet',

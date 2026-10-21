@@ -197,6 +197,7 @@ export function roomGroups(ctx) {
       ['/bliss.html', 'sun', 'What is BLISS, the SIREN upside index?', null, 'The direction we would be glad to see move.'],
       ['/nothing.html', 'px:shrug', 'How often do dated AI claims miss?', 'NEW', 'Public scorekeeping for confident, dated claims.'],
       ['/breakthroughs.html', 'px:bulb', 'What AI breakthroughs has SIREN tracked?', null, 'AI curing, solving and restoring: the good news.'],
+      ['/for-people.html', 'px:people', 'What tools help AI and SI serve people?', 'NEW', 'Deploy gate, oversight planner, agent charter.'],
       ['/ai-proof-job.html', 'px:rocket', 'How do I AI-proof my job?', null, 'A 2-minute plan to keep your job and grow with AI.'],
     ]],
     ['PLAY & PREP', [

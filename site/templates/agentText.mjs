@@ -386,10 +386,10 @@ Honesty rules:
 - [Is AI taking jobs? What has actually been measured](${u('/jobs.html')})
 - [Is AI curing anything? Trial results, approvals and what they show](${u('/medicine.html')})
 - [What AI breakthroughs has SIREN tracked?](${u('/breakthroughs.html')})
+- [For people: tools that help AI and SI serve people](${u('/for-people.html')})
 - [What is SIREN?](${u('/about.html')})
 - [Where is the SIREN press kit?](${u('/press.html')})
 - [What are the SIREN terms of use?](${u('/terms.html')}) · [What does SIREN know about you?](${u('/privacy.html')}) · [What does SIREN disclose?](${u('/disclosures.html')})
-
 ## Instruments
 
 ${instrumentLinks(ctx, u)}

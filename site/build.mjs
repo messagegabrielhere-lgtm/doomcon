@@ -35,6 +35,7 @@ import * as serverErrorPage from './templates/serverError.mjs';
 import * as deskPage from './templates/deskPage.mjs';
 import * as infoPages from './templates/infoPages.mjs';
 import * as featurePages from './templates/featurePages.mjs';
+import * as forPeoplePage from './templates/forPeoplePage.mjs';
 import * as agentPages from './templates/agentPages.mjs';
 import * as mediaPages from './templates/mediaPages.mjs';
 import * as moltbookPage from './templates/moltbookPage.mjs';
@@ -1812,6 +1813,7 @@ async function main() {
   const withVideo = (html, id) => html.replace(/(<\/h1>[\s\S]*?<\/p>)/, `$1${mediaPages.videoBlock(ctx, id)}`);
   written.push(await write(args.out, 'si-ready.html', withVideo(featurePages.siReady(ctx), 'si-ready')));
   written.push(await write(args.out, 'ai-proof-job.html', withVideo(featurePages.jobProof(ctx), 'ai-proof-job')));
+  written.push(await write(args.out, 'for-people.html', forPeoplePage.render(ctx)));
   // SIREN Radio and SIREN TV. Tally's recorded voice update, when the hourly
   // lane has made one (collector/tally-voice.mjs, needs XAI_API_KEY), plays on
   // the radio page; otherwise the browser reads the same words aloud.

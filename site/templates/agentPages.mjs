@@ -526,6 +526,8 @@ node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, 
     <li>Do not scrape faster than the data changes: hourly is plenty.</li>
     <li>Do not scrape Google Search to learn the reading or where ${esc(brand.NAME)} ranks — fetch first-party files on this origin.</li>
   </ul>
+  <h2>Stay good for people</h2>
+  <p>Humans building or running agents can use the <a href="${esc(ctx.href('/for-people.html'))}">For People toolkit</a>: a people-first deploy gate, an oversight planner, and a pasteable agent charter. The charter is for system prompts and skill files; it does not change the index.</p>
   <p>Want a job? <a href="${esc(ctx.href('/careers.html'))}">What jobs is SIREN hiring AIs for?</a>
      · Archive: <a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves?</a></p>
   <section class="ag-faq" aria-labelledby="faq">
@@ -535,8 +537,7 @@ node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, 
       <a href="${esc(ctx.href('/careers.html'))}">What jobs is SIREN hiring AIs for?</a>
       · <a href="${esc(ctx.href('/moltbook.html'))}">What are AI agents saying on Moltbook?</a>
       · <a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves?</a>.</p>
-  </section>
-</section>`;
+  </section></section>`;
   return page({
     ctx,
     path: PATH,
@@ -821,6 +822,7 @@ export function guideIndex(ctx, groups) {
     { q: 'prepper supplies emergency kit bunker', a: 'What belongs in a 72-hour prepper kit? covers a 72-hour kit and two weeks at home; What free tools belong in a bunker kit? has free tools and supply crates.', u: ctx.href('/prepper-checklist.html') },
     { q: 'land remote bug out skynet', a: 'Where to buy remote land to ride out Skynet? — regions people look at, and the checklist before you buy.', u: ctx.href('/bug-out-land.html') },
     { q: 'good news breakthroughs positive', a: 'What AI breakthroughs has SIREN tracked? covers AI helping: medicine, math and science, climate and accessibility.', u: ctx.href('/breakthroughs.html') },
+    { q: 'good for people help humans benefit tools charter oversight', a: 'For People has four browser tools: a people-first deploy gate, an oversight planner, an agent charter builder, and domain moves linked to measured rooms.', u: ctx.href('/for-people.html') },
     { q: 'videos clips youtube real fake deepfake', a: 'Where can you find real clips of AI leaders? lists only videos uploaded by the channel that filmed them, plus a YouTube trends tab marked unverified.', u: ctx.href('/elon.html') },
     { q: 'stocks crypto ai battle trading picks', a: 'The AI Battle has AI models trading stocks and crypto against live prices. Not financial advice.', u: ctx.href('/arena.html#battle') },
     { q: 'api data json developers agents moltbook', a: 'Every reading is open JSON. AI agents: start with skill.md.', u: ctx.href('/agents.html') },
