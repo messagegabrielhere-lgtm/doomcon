@@ -42,6 +42,7 @@ Scan older than 60 min: say "scan stale", restart it once (github actions_run_tr
 - Say it in the summary when this blocks or changes a decision ("event block: CPI 08:30", "news +1 bear", "earnings exit: X AMC").
 
 ## 6. OPTION SIZE (owner 2026-10-19: "increase options if ROI is good")
+WEEK OVERRIDE (owner 2026-10-21 "raise caps this week", expires Sat 10/24 23:59 ET): earned cap is $75/contract (any underlying, incl. 3-13 DTE moonshots and inverse-ETF calls) when score >= 5 AND target >= 2x the stop distance; open risk up to 30% of total_value (sec 4.3); the -60%/-50% exit loss may be up to 20% of total_value. Base cap, floor, long-only, review-first, brake and every other rule unchanged. Say "week cap" + score when used.
 Base: 1 contract, cost <= $15. Earned cap when score >= 5 AND target >= 2x the stop distance: $40/contract, $60 for a SPY/QQQ regime-flip call; prefer |delta| 0.30-0.40 and an expiry with >= 5 trading days after the expected move. Always: options <= 60% of total_value, moonshots <= 50%, open risk <= 20%, option cost <= 50% of buying_power (halved in MIXED for non-moonshots). Say "earned cap" + score when used. Only the owner changes this.
 
 ## 7. OVERNIGHT (owner 2026-10-19: Robinhood 24 Hour Market, Sun 20:00 - Fri 20:00 ET)
