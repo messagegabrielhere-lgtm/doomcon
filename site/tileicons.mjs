@@ -212,6 +212,14 @@ export const TILE_ICONS = {
   defcon: [{ a: '#F87171', b: '#0B1020', c: '#FACC15', d: '#4ADE80' }, [
     '......cccc......', '.....cccccc.....', '....cccccccc....', '...cccccccccc...', '..cccccccccccc..', '.cccccccccccccc.', 'cccccccccccccccc', 'cccccbbbbbbccccc',
     'ccccbbaaaabbcccc', 'ccccbbaaaabbcccc', 'cccccbbbbbbccccc', 'cccccccccccccccc', '.ccccccddcccccc.', '..cccccccccccc..', '................', '................']],
+  // 2026 midterms AI stance board: ballot box (room tile).
+  ballot: [{ a: '#A5B4FC', b: '#1E1B4B', c: '#4ADE80', d: '#F87171', e: '#FACC15' }, [
+    '.......ee.......', '......eeee......', '.....aeeeea.....', '....aaaaaaaa....', '...aaaaaaaaaa...', '..aaaaaaaaaaaa..', '.aaaaaaaaaaaaaa.', 'aaaaaaaaaaaaaaaa',
+    'abbbbbbbbbbbbbba', 'ab.cc....dd...ba', 'ab.ccc..dddd..ba', 'ab.cc....dd...ba', 'ab............ba', 'abbbbbbbbbbbbbba', '.aaaaaaaaaaaaaa.', '................']],
+  // What's New twin for midterms (icons must stay unique per destination).
+  midterm: [{ a: '#818CF8', b: '#0B1020', c: '#4ADE80', d: '#F87171', e: '#FDE68A' }, [
+    '................', '....eeeeeeee....', '...eaaaaaaaae...', '..ea........ae..', '..ea.cc..dd.ae..', '..ea.ccc.ddd.ae.', '..ea.cc..dd.ae..', '..ea........ae..',
+    '..eaaaaaaaaaae..', '...eeeeeeeeee...', '......bbbb......', '.....bbbbbb.....', '....bbbbbbbb....', '...bbbbbbbbbb...', '................', '................']],
 };
 
 export function tileSvg(name, bg = '#0B1220') {

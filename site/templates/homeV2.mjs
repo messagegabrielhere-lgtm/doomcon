@@ -7,6 +7,7 @@
 //
 // The full instrument panel this replaced still builds, at /classic.html.
 import { highlightHtml as nationsHighlight } from './nationsPage.mjs';
+import { highlightHtml as midtermsHighlight } from './midtermsPage.mjs';
 import { esc, num } from './_html.mjs';
 import { baselinePhrase, baselineCompact } from '../../collector/forward-coverage.mjs';
 import * as brand from '../brand.mjs';
@@ -151,6 +152,7 @@ export function roomGroups(ctx) {
   const lt = (ctx.leaders && ctx.leaders.totals) || {};
   const groups = [
     ['LIVE INTEL', [
+      ['/midterms.html', 'px:ballot', 'Who is pro-AI, against, or neutral in the 2026 midterms?', 'NEW', 'Cited stance tags for midterm candidates on AI.'],
       ['/nations.html', 'px:flagclash', 'USA vs China: who is winning the race to superintelligence?', 'NEW', 'Odds, labs and power, scored live.'],
       ['/race.html', 'radar', 'Who is winning the AI race?', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
       ['/news.html', 'news', 'Which AI stories has SIREN scored in this window?', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every story, scored and corroborated.'],
@@ -804,6 +806,7 @@ ${ticker(items, href)}
     <p class="v2-plain">${esc(plainRead(state))}</p>
     ${scaleRail(state, href)}
     ${raceLeaderLine(ctx, href)}
+    ${midtermsHighlight({ href: (p) => href(p), url: (p) => ctx.url ? ctx.url(p) : p }, ctx.midterms)}
   </section>
   ${stayStrip(href, img)}
   ${dash}

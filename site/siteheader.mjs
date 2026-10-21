@@ -36,6 +36,7 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
+  ['/midterms.html', 'px:midterm', 'Who is pro-AI, against, or neutral in the 2026 midterms?', 'Cited AI stance tags for midterm candidates, with Post to X.'],
   ['/#readers', 'px:film', 'Where are SIREN readers?', 'A daily map of SIREN readers by country, from GoatCounter.'],
   ['/nations.html', 'px:tugofwar', 'USA vs China: who is winning the race to superintelligence?', 'The nations race to superintelligence, scored live.'],
   ['/labs.html', 'px:beaker', 'What is SIREN Labs measuring this week?', 'This week’s experiments in measuring superintelligence.'],
