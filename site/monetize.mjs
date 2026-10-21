@@ -213,10 +213,10 @@ export const MZ_CSS = `<style>
 .mz-nl--big{max-width:none;gap:10px}.mz-nl .mz-k{margin:0;font:700 13px/1.2 "IBM Plex Mono",monospace;letter-spacing:.14em;color:var(--lv,#4ADE80)}
 .mz-nl .mz-pitch{margin:0;font:400 15px/1.5 "IBM Plex Sans",system-ui,sans-serif;color:#D7DCE3;max-width:70ch}
 .mz-nl .mz-row{display:flex;gap:8px;flex-wrap:wrap}.mz-nl .mz-row input{flex:1 1 240px;min-height:48px}
-.mz-nl--big button,.mz-nl--big .mz-btn{min-height:48px;padding:0 18px;display:inline-flex;align-items:center;background:var(--lv,#4ADE80);color:#05070B}
-.mz-nl .mz-btn--ghost{background:transparent;color:#fff;border:2px solid var(--lv,#4ADE80)}
+.mz-nl--big button,.mz-nl--big .mz-btn{min-height:48px;padding:0 18px;display:inline-flex;align-items:center;background:var(--ui,#E8ECF2);color:#05070B}
+.mz-nl .mz-btn--ghost{background:transparent;color:#fff;border:2px solid #3A4558}
 .mz-tags{border:0;margin:0;padding:0;display:flex;gap:16px;flex-wrap:wrap}.mz-tags label{font:500 14px/1.4 "IBM Plex Sans",sans-serif;letter-spacing:0;text-transform:none;color:#D7DCE3;display:inline-flex;gap:6px;align-items:center}
-.mz-tags input{accent-color:var(--lv,#4ADE80);width:18px;height:18px}
+.mz-tags input{accent-color:var(--ui,#E8ECF2);width:18px;height:18px}
 .vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>`;
 
