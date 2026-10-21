@@ -6,7 +6,7 @@
 import { esc } from './_html.mjs';
 import { renderMarkdown, stripMarkup } from './_markdown.mjs';
 import { page } from './layout.mjs';
-import { breadcrumbs, speakable } from './_seo.mjs';
+import { answerBlock, ANSWER_BLOCK_CSS, breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 /** Head-term title + H1 (FINDABILITY tip #202). Must match visible <h1>. */
@@ -17,10 +17,15 @@ export function methodologyTitle() {
 export function render(ctx) {
   const { html, sections } = renderMarkdown(ctx.methodologyMd);
 
-  const main = `<article class="prose">${html}</article>`;
-
   const description = firstParagraph(html) ||
     `How ${brand.NAME} turns public data into a 0-100 score and a level, in full.`;
+  const ans = answerBlock({
+    q: `How is the ${brand.NAME} index computed?`,
+    a: `Every hour a collector reads public sources across five pillars, scores each against a frozen reference, and combines them into a 0–100 composite and a level from 5 (quietest) to 1 (loudest). Every formula and constant is on this page; every reading ships a receipt you can recompute.`,
+  });
+  const main = `<style>${ANSWER_BLOCK_CSS}</style>
+${ans}
+<article class="prose">${html}</article>`;
   // Head-term title: people search “how is the AI activity index computed”.
   // H1 comes from docs/METHODOLOGY.md and must match this string (tip #202).
   const title = methodologyTitle();
@@ -80,7 +85,7 @@ function buildJsonLd(ctx, sections, title, description) {
       dateModified: ctx.state.generated_at,
       license: 'https://creativecommons.org/licenses/by/4.0/',
       author: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
-      speakable: speakable(['h1', 'article.prose > p']),
+      speakable: speakable(['h1', '.ans__a', 'article.prose > p']),
     },
     breadcrumbs(ctx, [
       { name: 'Home', path: '/' },

@@ -301,6 +301,16 @@ They win social memes, not Google. Do not imitate.
    earned Reddit/Quora/HN answers with a receipt link over more `llms.txt`
    churn; spot-check `/guide.html` and `/ai-doomsday-clock.html` for question
    H2s + `dateModified` in Rich Results.
+5. After the 2026-10-14 Perplexity discovery thread (`FINDABILITY.md` §2.7):
+   confirm `.ans` answer blocks render on `/guide.html`, `/methodology.html`,
+   `/compare.html` and a sample `/item/*.html`. Keep Google crawl strong —
+   AI answer engines still appear to discover via SERPs. Refuse bought
+   backlink packages.
+6. After the 2026-10-13 ChatGPT citation study (`FINDABILITY.md` §2.6): prefer
+   earned Reddit/Quora/HN answers with a receipt link over more `llms.txt`
+   churn; spot-check `/guide.html` and `/ai-doomsday-clock.html` for question
+   H2s + `dateModified` in Rich Results.
+
 ---
 
 ## 4. Next entity axes, 2026-10-10

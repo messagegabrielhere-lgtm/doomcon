@@ -2,7 +2,7 @@
 
 **Status:** playbook, measured against the live site on **2026-10-08**, with
 engineering checklist updates through **2026-10-14** (ChatGPT / Grok agent
-surfaces + ChatGPT citation study §2.6). Companion to `docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md`
+surfaces, citation study §2.6, AI-search answer blocks §2.7). Companion to `docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md`
 (URL-count war), `docs/COMPETITIVE-SEO.md` (live reverse-engineer of rival
 titles/sitemaps/schema), `docs/VIRAL.md` (distribution on X),
 `docs/MONETIZE.md` (earning without losing rank),
@@ -250,6 +250,16 @@ already answer head terms. Authority and Reddit/Quora are operator work;
 `llms.txt` expansion is maintenance, not a citation strategy.
 
 ---
+
+
+### 2.7 Perplexity / AI-search discovery (2026-10-14)
+
+AI answer engines often discover pages via Google SERPs, then chunk HTML into
+short reusable fragments. A visible short-answer block (`.ans` / `.ans__a`) is
+the on-page form of that fragment — paired with Speakable selectors and
+`dateModified`. It is not a special AI file and not a substitute for organic
+rank. Prefer earned structure on pages that already answer head terms over
+more `llms.txt` churn (§2.6).
 
 ## 3. Ranked checklist
 

@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { describe, it } from 'node:test';
 import {
   organization, breadcrumbs, speakable, webPage, faqPage, evergreenJsonLd,
+  answerBlock, ANSWER_BLOCK_CSS,
 } from './_seo.mjs';
 import { locsFromSitemap, defaultUrlList, INDEXNOW_KEY } from '../../collector/indexnow.mjs';
 
@@ -24,6 +25,21 @@ describe('SEO helpers', () => {
     assert.ok(org.sameAs.some((u) => /x\.com|twitter\.com/i.test(u) || u.includes('github.com')));
     assert.ok(org.alternateName.includes('SIREN'));
   });
+
+  it('answerBlock emits a short extractable fragment with escaped text', () => {
+    const html = answerBlock({
+      q: 'What is SIREN?',
+      a: 'An hourly AI activity index <not html>.',
+    });
+    assert.match(html, /class="ans"/);
+    assert.match(html, /class="ans__q"/);
+    assert.match(html, /class="ans__a"/);
+    assert.match(html, /What is SIREN\?/);
+    assert.match(html, /&lt;not html&gt;/);
+    assert.ok(!html.includes('<not html>'));
+    assert.match(ANSWER_BLOCK_CSS, /\.ans__/);
+  });
+
 
   it('builds breadcrumbs with home title first and current last (tip #258)', () => {
     const bc = breadcrumbs(ctx, [

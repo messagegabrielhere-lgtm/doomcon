@@ -8,7 +8,13 @@
 // §2.6): well-structured pages with question-shaped headings, clear answers,
 // and recent dateModified earned far more citations than llms.txt. Prefer
 // WebPage freshness + FAQ that mirrors visible Q&A over agent-map churn.
+//
+// Perplexity / AI-search discovery (Groberman 2026-10-14; FINDABILITY §2.7):
+// engines often discover pages via Google SERPs, then chunk them into short
+// reusable fragments. Visible answer blocks (`.ans`) are the HTML form of
+// that fragment — not a special AI file, and not a substitute for Google rank.
 
+import { esc } from './_html.mjs';
 import * as brand from '../brand.mjs';
 
 /** Publisher Organization with sameAs profiles Google can join for E-E-A-T. */
@@ -1019,10 +1025,41 @@ export function evergreenJsonLd(ctx, opts) {
       name: opts.name,
       description: opts.description,
       dateModified: modified,
-      speakable: opts.speakable || ['h1', '.lede'],
+      speakable: opts.speakable || ['h1', '.ans__a', '.lede'],
     }),
     breadcrumbs(ctx, opts.crumbs),
   ];
   if (opts.faq && opts.faq.length) blocks.push(faqPage(opts.faq));
   return blocks;
 }
+
+/**
+ * Visible short-answer / TLDR block for AI chunk extraction and humans.
+ * Text must already be a claim the page makes elsewhere — never invent.
+ * Keep `a` under ~500 characters so one fragment fits a retrieval chunk.
+ *
+ * @param {{ q?: string, a: string, label?: string }} opts
+ * @returns {string} HTML
+ */
+export function answerBlock(opts) {
+  const a = String(opts.a || '').trim();
+  if (!a) return '';
+  const label = opts.label || 'In short';
+  const q = opts.q ? String(opts.q).trim() : '';
+  const qHtml = q
+    ? `<p class="ans__q">${esc(q)}</p>`
+    : '';
+  return `<aside class="ans" aria-label="${esc(label)}">
+  <p class="ans__k">${esc(label)}</p>
+  ${qHtml}<p class="ans__a">${esc(a)}</p>
+</aside>`;
+}
+
+/** CSS for `.ans` — inject into page-local `<style>` or the layout sheet. */
+export const ANSWER_BLOCK_CSS = `
+.ans{margin:var(--s-3,16px) 0 var(--s-4,24px);padding:12px 14px;border-left:3px solid var(--accent,#ffb020);background:var(--bg-sunken,#12151c);border-radius:0 8px 8px 0;max-width:68ch}
+.ans__k{margin:0 0 6px;font:700 var(--t-2xs,10px)/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint,#8b93a7)}
+.ans__q{margin:0 0 6px;font:600 var(--t-sm,14px)/1.35 var(--sans);color:var(--ink,#e8eaee)}
+.ans__a{margin:0;font:400 var(--t-base,16px)/1.5 var(--sans);color:var(--ink-dim,#c4cad6)}
+.ans__a b{color:var(--ink,#e8eaee)}
+`;
