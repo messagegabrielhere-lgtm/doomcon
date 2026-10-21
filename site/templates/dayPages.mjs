@@ -64,6 +64,32 @@ export function itemsForDay(ctx, day) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/**
+ * Closing SIREN reading for a UTC day: the last scored history row stamped to
+ * that day, else the live state when it was generated that day. Null when no
+ * reading is on file — the hub then prints stories only, never an imputed level.
+ */
+export function closingReading(ctx, day) {
+  if (!isDayKey(day)) return null;
+  const rows = (Array.isArray(ctx.history) ? ctx.history : [])
+    .filter((r) => r && r.backfilled !== true && typeof r.t === 'string' && r.t.slice(0, 10) === day
+      && Number.isFinite(r.score) && Number.isFinite(r.level));
+  let r = null;
+  if (rows.length) {
+    const last = rows[rows.length - 1];
+    r = { t: last.t, score: last.score, level: last.level, degraded: !!last.degraded, count: rows.length };
+  } else {
+    const st = ctx.state;
+    if (st && typeof st.generated_at === 'string' && st.generated_at.slice(0, 10) === day
+      && Number.isFinite(st.score) && Number.isFinite(st.level)) {
+      r = { t: st.generated_at, score: st.score, level: st.level, degraded: !!st.degraded, count: 1 };
+    }
+  }
+  if (!r) return null;
+  const hit = brand.LEVELS.find((l) => l.level === r.level);
+  return { ...r, level_name: (hit && hit.name) || '' };
+}
+
 /** Older scored stories published on this UTC day, kept in the durable item archive. */
 export function archiveItemsForDay(ctx, day) {
   if (!isDayKey(day)) return [];
@@ -119,9 +145,16 @@ export function renderDay(ctx, day) {
   const otherDaysQ = 'Which other days have scored stories?';
   const days = indexableDays(ctx);
   const others = days.filter((d) => d.day !== day);
+  // Retention: pair the day's stories with the reading the index closed on.
+  const reading = closingReading(ctx, day);
+  const readingQ = `What was the ${brand.NAME} reading at the close of ${day}?`;
+  const readingA = reading
+    ? `${brand.NAME} ${reading.level} (${reading.level_name}), composite ${reading.score.toFixed(1)} of 100 at ${utc(reading.t)}${reading.degraded ? ', degraded' : ''}. Last of ${reading.count} hourly ${reading.count === 1 ? 'reading' : 'readings'} on file for that UTC day. ${brand.DISCLAIMER_SHORT}`
+    : '';
   const faq = [
     [`Which AI stories did ${brand.NAME} score on ${day}?`,
       `${total} scored ${total === 1 ? 'story' : 'stories'} carry a published time on ${day} UTC (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} in the archive` : ''}). Each row links the permanent story page — not a day doom score.`],
+    ...(reading ? [[readingQ, readingA]] : []),
     [windowQ,
       items.length
         ? `${items.length} scored ${items.length === 1 ? 'story' : 'stories'} with a published time on this UTC day in the live window.`
@@ -156,7 +189,12 @@ export function renderDay(ctx, day) {
   <div class="nd__stat" role="group" aria-label="Day totals">
     <div><b class="num">${esc(String(items.length))}</b><span>In live window · ${esc(day)} UTC</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
+    ${reading ? `<div><b class="num">${esc(reading.score.toFixed(1))}</b><span>${esc(brand.NAME)} ${esc(String(reading.level))} · close of ${esc(day)}</span></div>` : ''}
   </div>
+  ${reading ? `<h2 id="reading">${esc(readingQ)}</h2>
+  <p class="nd__lede" id="day-reading">${esc(readingA)}</p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>
+     · <a href="${esc(ctx.href('/changelog.html'))}">What moved the ${esc(brand.NAME)} score this hour?</a></p>` : ''}
   <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="nd__list">${storyRows(ctx, items)}</ol>`
@@ -184,6 +222,7 @@ export function renderDay(ctx, day) {
       url: ctx.url(path),
       description,
       datePublished: `${day}T00:00:00Z`,
+      ...(reading ? { dateModified: reading.t } : {}),
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       speakable: speakable(['h1', '.nd__lede']),
       // Live first, then archive — fill up to DAY_LIST_CAP visible rows (#51/#53).
