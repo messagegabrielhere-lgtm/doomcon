@@ -13,6 +13,7 @@ changes until then.
 | Affiliates | each program's partner page (Incogni, DeleteMe, Proton, NordVPN, 1Password, ElevenLabs, Descript; usually via Impact or PartnerStack) | the `aff` link on that entry | Bunker Kit "Paid upgrades" crate switches to the tracked link, marked Paid link |
 | Analytics | analytics.google.com (GA4) and/or goatcounter.com | `analytics.gtag` (`G-…`) and/or `analytics.goatcounter` | gtag in every page `<head>`; GoatCounter before `</body>`; privacy page disclosure |
 | Readers map | GoatCounter Settings → API (token needs **Stats** permission) | GitHub Actions secret `GOATCOUNTER_API_KEY` (optional `GOATCOUNTER_CODE`) | Daily country choropleth on the homepage (`/#readers`) + `/api/visitors.json`. Soft no-op until the key is set; the collect step prints a `::warning::` and the homepage keeps an honest empty section rather than inventing counts. |
+| Outrank publisher (sell placements) | [outrank.so/sell](https://www.outrank.so/sell) — see `OUTRANK-PUBLISHER.md` | Nothing in `monetize.mjs` until a separate blog exists | Paid articles on an isolated blog only; never on the newsroom or instrument pages |
 
 ## SEO rules the code keeps
 - `rel="sponsored noopener"` on every paid link.
@@ -24,3 +25,4 @@ changes until then.
 ## Still to do by hand
 - Amazon Associates: list the site URL in your Associates account.
 - Newsletter: CAN-SPAM needs a postal address in the email footer; use a PO box, never a home address.
+- Outrank publisher: finish GSC (`FINDABILITY.md` #11), earn organic history, then follow `OUTRANK-PUBLISHER.md`. Do not buy their backlinks product.

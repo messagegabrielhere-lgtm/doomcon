@@ -81,7 +81,8 @@ These docs guide **wording and design**, not the scoring engine:
 
 [`BRAND.md`](BRAND.md) · [`VOICE.md`](VOICE.md) · [`WORDING.md`](WORDING.md) ·
 [`GROWTH.md`](GROWTH.md) · [`VIRAL.md`](VIRAL.md) · [`ENGAGEMENT.md`](ENGAGEMENT.md) ·
-[`COMPETITIVE.md`](COMPETITIVE.md)
+[`COMPETITIVE.md`](COMPETITIVE.md) · [`FINDABILITY.md`](FINDABILITY.md) ·
+[`MONETIZE.md`](MONETIZE.md) · [`OUTRANK-PUBLISHER.md`](OUTRANK-PUBLISHER.md)
 
 ---
 

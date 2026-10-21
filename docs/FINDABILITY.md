@@ -4,8 +4,10 @@
 engineering checklist updates through **2026-10-11** (ChatGPT / Grok agent
 surfaces). Companion to `docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md`
 (URL-count war), `docs/COMPETITIVE-SEO.md` (live reverse-engineer of rival
-titles/sitemaps/schema), `docs/VIRAL.md` (distribution on X), and
-`docs/MONETIZE.md` (earning without losing rank).
+titles/sitemaps/schema), `docs/VIRAL.md` (distribution on X),
+`docs/MONETIZE.md` (earning without losing rank), and
+`docs/OUTRANK-PUBLISHER.md` (Outrank sell-side marketplace map — Operator /
+later; never buy links).
 
 Two different surfaces, one shared substrate:
 
@@ -738,6 +740,7 @@ context.
 | Schema that does not match visible text | Rich-result spam policy |
 | Treating `llms.txt` as a Google ranking factor | [Google: not used](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) |
 | Monetization that breaks the SEO rules in `MONETIZE.md` | Ads above the fold / layout shift / AdSense consent walls |
+| Buying backlinks (including Outrank backlinks-only) | Link schemes; refused in `OUTREACH.md`. Sell-side Outrank placements, if ever, stay on an isolated blog per `OUTRANK-PUBLISHER.md` |
 
 ---
 
@@ -793,4 +796,5 @@ sitemap vanity (`COMPETITIVE.md` Phase 2).
 | `llms.txt` format (H1, blockquote, H2 file lists, optional markdown mirrors) | [llmstxt.org](https://llmstxt.org/) v2 | 2026-10-08 |
 | Live robots, sitemap (~480 URLs), `llms.txt`, API index, homepage title/description, news-sitemap 404 | HTTP checks against the Pages site | 2026-10-08 |
 | Rival SEO re-measure: pizzint news-sitemap empty; DoomBench 2,081 URLs; Skynet 1,237; SIREN ~530 + news-sitemap 100 | `docs/COMPETITIVE-SEO.md` | 2026-10-10 |
+| Outrank publisher marketplace (sell placements; DR pay rate; eligibility) | [X post](https://x.com/tibo_maker/status/2110343675691548745) + [publishers page](https://www.outrank.so/marketplace/publishers) → `OUTRANK-PUBLISHER.md` | 2026-10-15 |
 | URL-count strategy, news sitemap, Speakable, Search Console success metric | `docs/COMPETITIVE.md`, `docs/VIRAL.md` §7 | this repo |

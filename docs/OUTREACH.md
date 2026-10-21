@@ -39,8 +39,10 @@ who will cite the number if copying it takes one tap.
    `https://siren.watch/ai-doomsday-clock.html`. One useful reply beats a
    blast.
 
-Do not buy links. Do not open synonym pages. Do not drop the same pitch
-into a pile of subreddits.
+Do not buy links (including Outrank’s backlinks-only product). Do not open
+synonym pages. Do not drop the same pitch into a pile of subreddits. Selling
+placements later, if ever, is gated in `OUTRANK-PUBLISHER.md` — not this
+outreach queue.
 
 ## 1. Hacker News
 
