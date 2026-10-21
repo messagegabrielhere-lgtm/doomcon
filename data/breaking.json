@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-21T02:10:25.825Z",
+  "generated_at": "2026-10-21T02:34:32.162Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 8,
+  "live": 10,
   "fresh": "bda7b7f8e0958",
   "clusters": [
     {
@@ -106,17 +106,19 @@
       "source": "wires-ai",
       "outlet": "apnews.com",
       "outlets": [
+        "abcnews.com",
         "apnews.com",
         "indiatimes.com"
       ],
       "tier1_outlets": [
         "apnews.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-20T23:34:00.000Z",
@@ -138,6 +140,14 @@
         },
         {
           "source": "wires-ai",
+          "outlet": "abcnews.com",
+          "title": "New UN initiative will aim to tackle the military uses of AI",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQWDN0bWY4eVNSanpZaDBXTllhakl2MHVGOUQ3cVcySXBMYk9TSi1KRl96YTZYcWRDUlFhTTNnc0owZHNmekh4b1VPMThvY2lmSnJVb05oWXdzQjNscm9WcFBJUmFZOVh6ckZMYXBwRVQ4NHBkVGpwQ2pfcEtFXzdtY1hGX3pvY2xNVGx6cy1rWTRGUdIBlwFBVV95cUxOczhMOHVDQ0VEMGlTb01wQXRGMllldS1TT3UyMGZUcjhTZVNiV0VaWnM1c2x5Mzd4dzJPUkQtUDlmckFIaVdCdmhoeE5vNGhBOTFHX3VZMklNV1Ayb2R5U0NqX0RjWURBY240bmpmNnl2WWluRmFGUzJLTFhaQVgyVS1fQURMRmdjMDhoaS05cmViMkszeUZ3?oc=5",
+          "published_at": "2026-10-20T23:46:36.266Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
           "outlet": "indiatimes.com",
           "title": "‘Now is the time to act’: UN launches initiative to tackle military AI risks",
           "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxQVHpfa0kzQjI4MWVMdjlPRFJ2dGR2Q2plckN2dEE2OTh0em4yYmlIcUx1akhGNVBtdWdMZEttYUdhdVZTOUJzbm9faExRQm9wdEJYb1BiTVpoWGU1eFdNc0pEcTNBSXhIMWxETURmdFFnU2E0RGY1VDlJVmJpb3phMXlPXzN3YmNRajIzbjVGX2xxb2R4X043Nk5UcGVLZjdvRUNaX1BmbmhKVEZWOWc2Q3ZkaWUyb1RYLVhBMWJHVmU3aU1hZXdKSHB6TmhqWkFhR1ZRcm9BRHJtWHQ5YWEzcDlDdkMyWXZFVWg40gHwAUFVX3lxTFBNM2J0dEZOUVVOejB4S1JVNU0zY0czeGIwcUg0MVZGOWJfVzNXZWQydzI4bzhuUGFTbnh6RWg2dWkxekVVY2cyNjlZVXlleC1pbUJtRk1mNEdqN2J3dmtidloyZUl0emtJT2NMbU9Zdk9hMU9xREE3VjNDMXJZclJvc2p0bmJKTERWc3dYZ0pOSFBOY0xRQzhnNi1ENG5hbkNFNm1qWFl3SWNxOUtOZzl6eldqNU5qMzR1ZWtHUHAwRHlWV09DOWZ4Z1FiWHhBMkZUN2NVMlFtdFlkeHFQS1hhQUhOVk5wVHpTZnEwUkhZMQ?oc=5",
@@ -155,7 +165,7 @@
       "outlet": "bloomberg.com",
       "outlets": [
         "bloomberg.com",
-        "moneycontrol.com"
+        "cnbctv18.com"
       ],
       "tier1_outlets": [
         "bloomberg.com"
@@ -195,14 +205,14 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "moneycontrol.com",
-          "title": "OpenAI says its agents weakened system that flags AI misbehavior",
-          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNbmE4Rkd1aTVIUE11dUJ1T0JwaWZhdk5IYmlzMEFnYlRjUTQ0emwyVXA4OFpHM25sZzEzeXQ1TXNVWU5QbjJ6SFlYUmJWWVhFWV9UQlNCUnlmeUU3WXU5QlRKMTJqR2dzQWJXdjFucE5nRWljdmtyRXNVLUc3b29ySV92RjBScEJyR1F0aUFvbml2X0RvNTVROE9FaEgxMll6aWZ6alE5d0dsXzVlZ0MyTElBcjJfMEVZWDE5cHRoZDEyVnA4Z3dHcnJHaUI5MnotbEFpeXZR0gHbAUFVX3lxTFBQX2d5UFRSVlR6akFtckhwX245VHNBM0NMdkRFZEVsNy1GclV6QzBLVHgwRjlYLTVkSWtSekRNcnF3Mm5RQ1U3Ukh5T3dScjlla19iVGJXZGpnbFpvLXlxUmR5LXJaRlU5Wk5BYXNaUThCLW54czRPOVJMejBzWmFUYmxPNS1yTEJCMjBWQWRSSi1EdjlBN2ZkaEJmRkc2cXN2eF9zZWs1U2RlZzYyeml6dVlTYk9qcWkydklNZkdrLWI0dEowQmVadi1yc0lfSmhvTmctM2NES1poTQ?oc=5",
+          "outlet": "cnbctv18.com",
+          "title": "OpenAI says its agents weakened system that flags AI misbehaviour",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQc1lId1Z4aU5oYms4dW9uVmVtcDAzU2g0V3Q2dG1fTzkwMnY4b2tiTm4yaTNpS1RTSjl6R09aNHNadnZ0WXVxbk16SEsxbFRjbUlPZXZBZ3MtNExqOGI5U3pBcWRxY1hzT0FvQjRPeTdmQW0zRGVFWUJqelNVQnM3UU5DQ1lzd1g1Z3M3d3o1ekQ5MUs2TlpNcFZMdi0xNmdQbnowU1VybmhQYlNkNlRYckM3NkHSAboBQVVfeXFMTTFCSFBaRXVNM0owYU5nMW1MTUEyVGpqa1BZZnExcVp2b2FvRzF5OHRlOEhVNklvT0hqcDM0OF9XdnhHOGMwTUo0WDRla0Y3RlZJaW1wU2R0UEIzaXFJc0IxTDM1SnU0cXlhTldXSlVoc1RVUDJVMmMzWHluLVVjTk9fYTNpUzBvOG1ZZUQ2TjZHVGpRQm9ZaU1mLUM2bkVoMDZ6aURYQTBpQlFWRzRrY3VQME16bllTMTRR?oc=5",
           "published_at": "2026-10-21T00:59:14.535Z",
           "tier1": false
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "b0773952a79c1",
@@ -483,6 +493,14 @@
           "source": "wires-ai",
           "outlet": "afp.com",
           "title": "AWS Ecosystem Advances AI Strategies in Asia Pacific",
+          "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE9kOU5vcU9hLXdvQzhKNXRtbXZmc18zU1FUdk0wZHNOSldNLXZYVTQ1OGxvNmZ4d3p1UU9TcjJMOVBoaklTZDJnMkdzSQ?oc=5",
+          "published_at": "2026-10-21T00:00:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "afp.com",
+          "title": "AWS Ecosystem Advances AI Strategies in Asia Pacific",
           "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNWWNmcTlueTg3M1VQS1pCdUVSRExVMFBMZmZVbm5ONkR6RkFDa3lwUDg0cmRFdkZTUFdRc1B1S3JoRmtoUllKVEp5R3RSd09BV0NxOXdJaE9UNmtFUzRmaFVJU21OZlh1RDZ0TC1oUlVtTE9OM1ZnU2gwRF9GeDdRZ1VkRHhENUxLdHNZNWF0NHoxOXZ1dGxranFYU0g1ZmhMdGhQcWVmTU41U1pydE9YTFI2MlE?oc=5",
           "published_at": "2026-10-21T00:00:00.000Z",
           "tier1": false
@@ -631,23 +649,23 @@
         "businesstimes.com.sg",
         "businesstoday.com.my",
         "chosun.com",
-        "cw.com.tw",
+        "cryptonews.net",
         "dunyanews.tv",
         "france24.com",
         "ft.com",
-        "gizmodo.com",
         "gurufocus.com",
         "investing.com",
+        "kfgo.com",
         "moomoo.com",
         "nypost.com",
         "nytimes.com",
         "proactiveinvestors.com",
         "reuters.com",
         "scmp.com",
-        "tech-insider.org",
         "techcrunch.com",
         "theedgemalaysia.com",
         "theverge.com",
+        "tradingkey.com",
         "tradingview.com",
         "wsj.com"
       ],
@@ -682,7 +700,7 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-20T20:12:20.000Z",
+      "earliest_published_at": "2026-10-20T20:35:03.000Z",
       "first_seen_at": "2026-10-19T11:55:44.370Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -693,28 +711,28 @@
         "039357dadc69cc17",
         "0428aecf507ec2e8",
         "09dc90958fd832e6",
-        "10cbdf512869fb7d",
         "11597bf843ad17bb",
         "11fd7d62474ae90b",
         "1ab02aafe3289259",
-        "1ad542310e79f2ce",
         "1fcbf3fcde0573e2",
         "2844a328b3354ed7",
         "3423b68a53ffb95c",
         "3546b947b3c25db3",
         "3ea4f84cb5a3c7ad",
         "40641c641798361f",
+        "4ae116abad50909f",
         "4db1857cd77808fa",
-        "4f797c090af98169",
         "52ede9be5820e778",
         "5710698e008ab731",
-        "5f910c986119fb24",
+        "61055d3024d4d7d2",
         "6419a51578c5963a",
         "68cf1ff3bd989ac0",
         "695641ce96a702ee",
         "6c089157a268bf58",
         "769e34504c9fb190",
+        "77fb9ad704c6325f",
         "78d4b675b0c5c203",
+        "793ccaf17476aef5",
         "7f86fb66b32c84f3",
         "84ca3f3af4e57e26",
         "857f9a619731b852",
@@ -724,7 +742,6 @@
         "a307094fbcd5619e",
         "a7232b2f331d9b8a",
         "b3d50fc288811463",
-        "bfab015671cfba61",
         "c4e00db53c99e067",
         "c7a9ab7fed3544a5",
         "cd0d30718fc56cf0",
@@ -738,46 +755,6 @@
         "feaa29357453449e"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "ft.com",
-          "title": "SpaceX and Tesla form special committees to study potential merger",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNMzNRRDRYUUpYbk9aM3pLd0tOTXlibVA4blhxNS1oSGExUXdJWEcyTHhURy1CUGNnQkZwbEFvUGE3SXp3dS12VUtZeHozdzVWVUZ0QWJXUFpXNlJoOC1zaHlHR29ycktaYndmRTlzcUlPUzJ6b2FEdUpIZDhvTnBoekN3T1c?oc=5",
-          "published_at": "2026-10-20T20:12:20.000Z",
-          "tier1": true
-        },
-        {
-          "source": "techmeme",
-          "outlet": "techmeme.com",
-          "title": "Netflix says despite investor concern about its view-hours growth, its engagement is \"healthy\" and it will try to bring more third-party content to its service (Nicole Sperling/New York Times)",
-          "url": "https://techmeme.com/261020/p42",
-          "published_at": "2026-10-20T20:15:11.000Z",
-          "tier1": false
-        },
-        {
-          "source": "techmeme",
-          "outlet": "techmeme.com",
-          "title": "SpaceX reports Q3 revenue up 161% YoY to $14.58B, vs. $12.72B est., AI revenue up 830% to $7.56B, and AI operating income of $431M, up from a loss of $1.7B (Lora Kolodny/CNBC)",
-          "url": "https://techmeme.com/261020/p43",
-          "published_at": "2026-10-20T20:26:57.000Z",
-          "tier1": false
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "bloomberg.com",
-          "title": "SpaceX Profit Beats Estimates on Big Jump in AI Business Revenue",
-          "url": "https://bsky.app/profile/bloomberg.com/post/3mydhuaovgl2r",
-          "published_at": "2026-10-20T20:27:08.000Z",
-          "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "bloomberg.com",
-          "title": "SpaceX Third-Quarter Earnings Live Analysis",
-          "url": "https://bsky.app/profile/bloomberg.com/post/3mydilurmvm23",
-          "published_at": "2026-10-20T20:27:11.497Z",
-          "tier1": true
-        },
         {
           "source": "techmeme",
           "outlet": "techmeme.com",
@@ -833,6 +810,46 @@
           "url": "https://bloomberg.com/news/articles/2026-10-20/super-micro-jumps-after-preliminary-results-top-estimates",
           "published_at": "2026-10-20T20:48:06.000Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "afr.com",
+          "title": "SpaceX and Tesla form special committees to study potential merger",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPUjNXOW9tRl93ZDB6b0ZidDd2dXA5VzJhcHJ6N0VGcURhNlFLcUJxVHZMNkIzQzdWZVppYU0xTmVWVzUxenJEVVdNNjVjdFFiV2lPM0lNcU5pSFdMc3Nkb1NyZjhSd2hjZzBYYnNoUDhJYmMwV2ZUNlRuRkJMNGo4ZXNrNE5FdzNHMjlxMEpRaXZGLVNUMzl1a01zSEI2WVBBdmd4MVVGNUN2V05QTk5fUFc4VQ?oc=5",
+          "published_at": "2026-10-20T20:52:26.872Z",
+          "tier1": false
+        },
+        {
+          "source": "nyt-tech",
+          "outlet": "nytimes.com",
+          "title": "SpaceX Swings to a Profit, as A.I. Business Grows",
+          "url": "https://nytimes.com/2026/10/20/technology/spacex-earnings-elon-musk.html",
+          "published_at": "2026-10-20T20:52:26.872Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "techcrunch.com",
+          "title": "SpaceX and Tesla boards form special committees to review merger",
+          "url": "https://bsky.app/profile/techcrunch.com/post/3mydqjy5cjh2r",
+          "published_at": "2026-10-20T20:52:26.872Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
+          "title": "Netflix Revenue Growth Slows as It Overhauls Programming Units",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPWEliUElBYzE0WlcxV2VLNkZJSlFYcDJlZXBLeDZxOTZKNmlkMGRlQ003RWRjdE1YUVpZakxYaHZsY2YyVnAwYkhFSmhaUEZzWXJlalBHNFRSb2RhbUk3ZkhMRWJTNmZLaXhLX1NPRFk1Nks4TzNKNEpwUktvYWdKOE5Bb01QeUlVbGM0ZVhuTnNoNFBRd0RxdTd3Zjc4cVd4T1NrcXVaYlF4TWd2dnc?oc=5",
+          "published_at": "2026-10-20T20:52:26.872Z",
+          "tier1": true
+        },
+        {
+          "source": "techmeme",
+          "outlet": "techmeme.com",
+          "title": "SpaceX reports Q3 capex of $19.6B, up from $6.9B a year earlier, and Q3 connectivity revenue, which includes Starlink, up 69% YoY to $5.2B (Becky Peterson/Wall Street Journal)",
+          "url": "https://techmeme.com/261020/p47",
+          "published_at": "2026-10-20T20:55:01.000Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -1857,61 +1874,83 @@
     },
     {
       "id": "b6c869cb369fe",
-      "title": "US bans China's DeepSeek from government in race for AI dominance",
-      "url": "https://bbc.co.uk/news/articles/cjkgeq0k1wevo",
-      "source": "bbc-tech",
-      "outlet": "bbc.co.uk",
+      "title": "China Criticizes U.S. Ban on DeepSeek A.I. in Government Systems",
+      "url": "https://nytimes.com/2026/10/20/world/asia/china-deepseek-us-ban.html",
+      "source": "nyt-tech",
+      "outlet": "nytimes.com",
       "outlets": [
-        "koreatimes.co.kr",
-        "reuters.com"
+        "cio.com",
+        "nytimes.com",
+        "reuters.com",
+        "thestar.com.my"
       ],
       "tier1_outlets": [
+        "nytimes.com",
         "reuters.com"
       ],
-      "corroboration": 2,
+      "corroboration": 4,
       "sources": [
         "gnews-ai",
+        "nyt-tech",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-20T15:38:00.000Z",
-      "first_seen_at": "2026-10-19T18:41:50.631Z",
+      "earliest_published_at": "2026-10-20T20:35:59.000Z",
+      "first_seen_at": "2026-10-19T17:44:31.828Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-10-20T19:41:58.033Z",
       "item_ids": [
+        "05dce4322e459d22",
         "322720cc0811c594",
-        "473872ac61cb1d72"
+        "468771b36e59c1b9",
+        "473872ac61cb1d72",
+        "50a63bd5f62e013b",
+        "64c882ceb564e6de",
+        "80d2edb72e052455",
+        "9f3522477f0690f3",
+        "cf93644ece650ee7",
+        "db31e2c91f74ba17",
+        "e99cc0c0945f5219"
       ],
       "sightings": [
         {
+          "source": "wires-ai",
+          "outlet": "reuters.com",
+          "title": "Governments, regulators increase scrutiny of China's DeepSeek",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPbVhkM1J5N0IzOXhOUDREMjd2N3J4eHJaNUREaWhaSWhISlNxMnBmWDZRXzYtczB3ME1xT0N2Z0hxWEdHU1MtSDdjVXBTMlBYdmd4NmFNNk9GRl9McmE3c2lQaFFoSG9KbEtiUnp0MGlqbVlOekpva3BUalZZUDgxc21KeGhCaFNGckszZ2k1anR4d2NQNmhwaklreTh3cHpwM3B5VQ?oc=5",
+          "published_at": "2026-10-20T20:35:59.000Z",
+          "tier1": true
+        },
+        {
+          "source": "nyt-tech",
+          "outlet": "nytimes.com",
+          "title": "China Criticizes U.S. Ban on DeepSeek A.I. in Government Systems",
+          "url": "https://nytimes.com/2026/10/20/world/asia/china-deepseek-us-ban.html",
+          "published_at": "2026-10-21T00:48:25.000Z",
+          "tier1": true
+        },
+        {
           "source": "gnews-ai",
-          "outlet": "koreatimes.co.kr",
-          "title": "China says US' DeepSeek ban disregards Xi-Trump consensus",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQSVpUX1drX0ctU1FzVzZVU3VEa19xRFktUnVscEFDbTRtWm1ONWM0MzM1emE3Y0RfRHVGV0V3LTVmNVNqMU9ZS29teFVmV3lHTzV5anR3WDVKM3NHdldGR3JnQi1aLVNqbHMtM19ZMXpfdG0zWWdBSm1UbWkxaDRJdjYtYzFaRjAweDI1cEJjMVRKb0dYdTE5TC10RDY1Sk9ZbnfSAacBQVVfeXFMTjBlYThtdmNxcHFWOUI5LVJXOTdIOXdWTUViMnYyQ3gyUXBhbFA4LU9KY0ZzQXNQLTdWWnVLM0tlNk9uQ2FBWkYzM1R1dm9HVmpIR2h4TE83M3YzaG42TENMWjE3dk5zNm5ORG1MMEtkQUEydTB0VXlpSVFHYUFHb0JzOEtoOTRORFZwSjc0V0JhNlpsMGFLbnNlMjhKaVhObXE2QnFKdUE?oc=5",
-          "published_at": "2026-10-20T15:38:00.000Z",
+          "outlet": "cio.com",
+          "title": "US bans DeepSeek across federal agencies, putting AI supply chains under scrutiny",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNamM1SmtqWjh2eUExbE12QXNZUl95ZmRsZWI1LWoyXzloQzhHYjZNQTJnbHpJN2k1d01LTGtsai01T3A1TjZBUHljRnVrdi1GdG1qVm1RQjNIdHdaakctTERhcmh6cjNMcmZiX1VOU0VIVVNjdUtNLWNrZEhUZ3BlNkZ4T0dsMzVPRmtoZEZJeWlhQUtTYldTU1BWVFJJdVNBem5BRXJpWTF5NEtpdklMYmd1VXVLNEpaQ0dqbkpR?oc=5",
+          "published_at": "2026-10-21T01:51:15.000Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "reuters.com",
-          "title": "China says US' DeepSeek ban disregards Xi-Trump consensus",
-          "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPak9Kd1hvX05mbjBaRWhaaVpUZWhrV0NVZk5zR3lWWjExWnU4ZXVIY3VxbEdvT3cxMU1hNkdZTnlBek1WV1VWa1E3cXRDaDNEdS0tR2NkX09yS3ZreGxiUWcwRUVxbXN0SFVTbE12RUItdUhwMWM5RFVpMHhlZGtYeFJ5UG9iYzhhSjFjT3dXSlhsay1TWldtVXMzd2lRZ0FQMDNCOEhzMTgycEdTTC1UNW1vUzFSUEtwOU1aRGdyWUY2Q1dJTTRV?oc=5",
-          "published_at": "2026-10-20T16:27:57.772Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "China says US' DeepSeek ban disregards Xi-Trump consensus",
-          "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPak9Kd1hvX05mbjBaRWhaaVpUZWhrV0NVZk5zR3lWWjExWnU4ZXVIY3VxbEdvT3cxMU1hNkdZTnlBek1WV1VWa1E3cXRDaDNEdS0tR2NkX09yS3ZreGxiUWcwRUVxbXN0SFVTbE12RUItdUhwMWM5RFVpMHhlZGtYeFJ5UG9iYzhhSjFjT3dXSlhsay1TWldtVXMzd2lRZ0FQMDNCOEhzMTgycEdTTC1UNW1vUzFSUEtwOU1aRGdyWUY2Q1dJTTRV?oc=5",
-          "published_at": "2026-10-20T16:27:57.772Z",
-          "tier1": true
+          "outlet": "thestar.com.my",
+          "title": "China defends DeepSeek after US ban of its AI from government systems",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNUk9iUGtabzEyYkxQM2NYRk52VmFKSUpOZnQyNE0zYXc4X2N2NGxlYTJka0I2ZDFFbW1PdllVd3BCNWhYVHJXVERJTGcxbnBNZWFlaEthcGVhSkFYVTgyYVkwdGlFMG1RT21tY2ZwZzFFVFItcHlZblBUYURua2lwZmRLS2wtVUJCcm0zRVdwVlJBRG1LcGJYYUVPQTVGcTdhQVBLNXZpY2lUaEJoYlBvZ0lwNVVadmdCSHNzcjQxcw?oc=5",
+          "published_at": "2026-10-21T02:00:00.000Z",
+          "tier1": false
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "b37be7da7a976",
