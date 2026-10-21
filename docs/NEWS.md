@@ -382,6 +382,23 @@ abstract, it does not belong in a governance keyword list.**
 
 ---
 
+## What counts as a change
+
+Every run writes `run` onto `data/news.json`:
+
+| field | true when |
+|---|---|
+| `items_changed` | the set of item ids arrived or departed |
+| `surface_changed` | the reader-visible surface moved — item set, titles, corroboration counts, or story membership |
+| `surface` | sha256 of that surface (stable across score-only decay) |
+
+`collect.yml`'s newsroom gate publishes on `surface_changed` (falling back to
+`items_changed` for older files), and the minute loop folds `surface` into its
+publish fingerprint. Score decay alone never moves either: the recency term
+re-decays every pass and would otherwise force a deploy every minute.
+
+---
+
 ## Rolling window and idempotency
 
 - 7 days, newest first, capped at **800 items** — `MAX_ITEMS` is the live

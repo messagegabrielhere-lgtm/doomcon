@@ -187,7 +187,10 @@ jobs:
               const n = JSON.parse(readFileSync("data/news.json", "utf8"));
               const r = n.run ?? {};
               const count = Array.isArray(n.items) ? n.items.length : 0;
-              const changed = r.items_changed === true && count > 0;
+              // surface_changed also counts title / corroboration / story moves;
+              // fall back to items_changed for files written before it existed.
+              const surface = r.surface_changed === true || (r.surface_changed == null && r.items_changed === true);
+              const changed = surface && count > 0;
               if (count === 0) console.error("::warning::data/news.json parsed but carries no items; refusing to publish an empty newsroom");
               process.stdout.write(`true ${changed ? "true" : "false"}`);
               console.error(`news: ${count} items, ${r.arrived ?? "?"} arrived, ${r.departed ?? "?"} departed, ${r.fetched ?? "?"}/${r.adapters ?? "?"} sources asked`);
