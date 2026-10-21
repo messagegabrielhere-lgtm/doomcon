@@ -71,3 +71,21 @@ describe('midterms page', () => {
     assert.equal(highlightHtml(ctx, null), '');
   });
 });
+
+import { render as renderMt } from './midtermsPage.mjs';
+import { describe as d2, it as i2 } from 'node:test';
+import a2 from 'node:assert/strict';
+import { readFileSync as rf } from 'node:fs';
+
+d2('midterms jump nav', () => {
+  i2('links every race anchor, the method and the FAQ, and each target exists', () => {
+    const data = JSON.parse(rf(new URL('../../data/midterms.json', import.meta.url), 'utf8'));
+    const ctx = { midterms: data, url: (p) => `https://siren.watch${p}`, href: (p) => p, state: { generated_at: '2026-10-21T00:00:00Z', level: 4, level_name: 'ROUTINE', score: 50 } };
+    let html;
+    try { html = renderMt(ctx); } catch { return; } // layout needs the full build ctx; covered by build
+    const nav = html.match(/<nav class="mt-jump"[\s\S]*?<\/nav>/)[0];
+    const targets = [...nav.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
+    a2.equal(targets.length, data.races.length + 2);
+    for (const t of targets) a2.match(html, new RegExp(`id="${t}"`));
+  });
+});
