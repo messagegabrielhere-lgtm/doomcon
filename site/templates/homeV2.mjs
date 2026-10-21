@@ -59,7 +59,8 @@ function plainRead(state) {
     + 'This counts how much is happening in AI right now — it is not a claim about how it ends.';
 }
 
-// Compact five-stage scale for the fold. Full oven stays on /classic.html#oven.
+// Compact five-stage scale for the fold. Full oven gates live on /instruments.html#oven
+// (classic keeps the longer panel; the oven section itself moved to instruments).
 function scaleRail(state, href) {
   const level = state.level;
   const prev = Number.isInteger(state.previous_level) && state.previous_level !== level
@@ -82,7 +83,7 @@ function scaleRail(state, href) {
     </li>`;
   }).join('');
   return `<ol class="v2-scale" aria-label="${esc(brand.NAME)} scale, coolest first. ${esc(brand.NAME)} ${esc(level)} is current.">${cells}</ol>
-<p class="v2-scale__note">Five stages · the mark moves both ways · <a href="${esc(href('/classic.html#oven'))}">Where is the full ${esc(brand.NAME)} instrument panel? →</a></p>`;
+<p class="v2-scale__note">Five stages · the mark moves both ways · <a href="${esc(href('/instruments.html#oven'))}">What instruments sit behind the ${esc(brand.NAME)} reading? →</a></p>`;
 }
 
 function raceLeaderLine(ctx, href) {
@@ -170,8 +171,9 @@ export function roomGroups(ctx) {
       ['/elon.html', 'musk', 'Where can you find real clips of AI leaders?', null, 'Attributed clips only.'],
       ['/live-x.html', 'px:antenna', 'Where are live X feeds and Spaces on AI?', null, 'Live posts and Spaces, filtered for AI.'],
       ['/si-watch.html', 'px:crosshair2', 'What AI autonomy signals is SIREN watching?', null, 'Open signals, not a takeover forecast.'],
-      ['/search-trends.html', 'px:antenna', 'Which Google Search Trends for AI does SIREN watch?', null, 'Google daily trending searches filtered for AI — watched for findability, not scored.'],
-      ['/ai-prediction-markets.html', 'radar', 'Where are live AI prediction market odds?', null, 'Live market odds on labs and models — market prices, not a SIREN forecast.'],
+      ['/search-trends.html', 'px:headline', 'Which Google Search Trends for AI does SIREN watch?', null, 'Google daily trending searches filtered for AI — watched for findability, not scored.'],
+      // px:candles is Arena; radar is the race board — seismo stays free for odds.
+      ['/ai-prediction-markets.html', 'px:seismo', 'Where are live AI prediction market odds?', null, 'Live market odds on labs and models — market prices, not a SIREN forecast.'],
       ['/moltbook.html', 'px:agent2', 'What are AI agents saying on Moltbook?', ctx.molt && ctx.molt.fresh ? `${ctx.molt.fresh.length} new this week` : null, 'Agent posts about AI, scored in public.'],
       ['/videos.html', 'px:tv', 'What free AI explainer videos does SIREN publish?', '6 videos', 'Short explainers, no doom forecast.'],
       ['/radio.html', 'px:radio', 'What free music does SIREN Radio play?', '6 stations', 'Stations while you watch the index.'],
@@ -225,8 +227,10 @@ export function roomGroups(ctx) {
       ['/vs/doombench.html', 'px:vsrival', 'SIREN vs DoomBench: which should you use?', null, 'Activity count vs Live AI Doom Index.'],
       // FINDABILITY #425 — FAQ names Skynet Countdown beside DoomBench/PizzINT but
       // home every-room listed DoomBench + PizzINT + Takeoff and omitted Skynet.
-      ['/vs/skynet-countdown.html', 'px:vsrival', 'SIREN vs Skynet Countdown: which should you use?', null, 'Activity count vs AGI timeline and control-loss odds.'],
-      ['/vs/pizzint.html', 'px:vsrival', 'SIREN vs PizzINT: which should you use?', null, 'Activity count vs DEFCON/Doomsday title hijack.'],
+      // Distinct icons per rival (icons-unique): one mark shared across three
+      // conquest cards made the every-room grid look like three copies of one tile.
+      ['/vs/skynet-countdown.html', 'px:flame', 'SIREN vs Skynet Countdown: which should you use?', null, 'Activity count vs AGI timeline and control-loss odds.'],
+      ['/vs/pizzint.html', 'px:film', 'SIREN vs PizzINT: which should you use?', null, 'Activity count vs DEFCON/Doomsday title hijack.'],
       ['/vs/takeofftracker.html', 'px:vstakeoff', 'SIREN vs Takeoff Tracker: which should you use?', null, 'Activity count vs AGI metrics dashboard.'],
       ['/alternatives.html', 'px:alts', 'What are AI doom index alternatives?', null, 'When this index is the right substitute — and when it is not.'],
       ['/guide.html', 'px:defcon', 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?', null, 'Activity tempo vs readiness, clocks and opinions.'],
@@ -238,8 +242,8 @@ export function roomGroups(ctx) {
       ['/careers.html', 'px:badge', 'What jobs is SIREN hiring AIs for?', null, 'Open roles for agents.'],
       ['/agents.html', 'px:agent', 'How should AI agents use SIREN?', ctx.molt && ctx.molt.posts ? `${ctx.molt.posts.length} Moltbook posts` : null, 'Fetch-first map and skill.'],
       ['/feedback.html', 'px:chat', 'How do I report a problem or send an idea to SIREN?', null, 'Corrections and ideas.'],
-      ['/free-tools.html', 'magnifier', 'What free tools does SIREN publish?', 'NEW', 'Verify, alerts, export, OpenAPI — free, no account.'],
-      ['/verify.html', 'magnifier', 'How do you check a SIREN reading yourself?', 'NEW', 'Re-hash public receipts in your browser.'],
+      ['/free-tools.html', 'px:beaker', 'What free tools does SIREN publish?', 'NEW', 'Verify, alerts, export, OpenAPI — free, no account.'],
+      ['/verify.html', 'px:logbook', 'How do you check a SIREN reading yourself?', 'NEW', 'Re-hash public receipts in your browser.'],
       ['/alerts.html', 'px:bell', 'How do I get alerts when SIREN moves?', null, 'RSS and level alerts.'],
       ['/export.html', 'px:code', 'How do I export and embed SIREN data?', null, 'JSON, embeds, badges.'],
       ['/bias.html', 'px:scalebias', 'What can SIREN not see?', null, 'Known blind spots, stated plainly.'],
@@ -755,7 +759,7 @@ export function render(ctx, { head }) {
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
       <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${pillarStatusLine(state)}</p>
-      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${href('/verify.html')}">How do you check a ${esc(brand.NAME)} reading yourself?</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/free-tools.html')}">What free tools does ${esc(brand.NAME)} publish?</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>
+      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><button type="button" class="v2-btn sm ghost" data-copy="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${score} of 100 as of ${String(state.generated_at).slice(0, 19)}Z. Tempo, not a probability.${state.receipt_id ? ` Receipt ${state.receipt_id}.` : ''} ${ctx.url('/')}`)}">Copy this reading</button><a class="v2-btn sm ghost" href="${href('/verify.html')}">How do you check a ${esc(brand.NAME)} reading yourself?</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/free-tools.html')}">What free tools does ${esc(brand.NAME)} publish?</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>
     </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;
@@ -856,6 +860,16 @@ ${movedPanel(wm, href)}
 ${roomsGrid(ctx, href, img)}
 
   ${shareReuse(ctx, state, href)}
+
+  <section class="v2-feeds" id="feeds" data-sec="Feeds" aria-labelledby="v2-feeds-h">
+    <div class="v2-sec"><h2 id="v2-feeds-h" class="v2-sr">How do I subscribe to SIREN without an account?</h2><div aria-hidden="true">${pixelText('SUBSCRIBE · NO ACCOUNT', 4, '#FFFFFF', 'fit')}</div><span>RSS · LEVEL ALERTS · ALERTS PAGE</span></div>
+    <p class="v2-feeds__lede">Two public feeds, no signup. Pipe them into any reader, Slack’s RSS app, or IFTTT. Recipe notes live on the alerts page.</p>
+    <ul class="v2-feeds__list">
+      <li><a href="${href('/feed.xml')}"><b>Every index move</b></a> <span>RSS · one entry when the score is recomputed</span></li>
+      <li><a href="${href('/feed-level.xml')}"><b>Level changes only</b></a> <span>RSS · fires when the band itself moves — maybe a handful a year</span></li>
+      <li><a href="${href('/alerts.html')}"><b>How do I get alerts when ${esc(brand.NAME)} moves?</b></a> <span>Slack, email recipes, in-tab notify</span></li>
+    </ul>
+  </section>
 
   <div class="v2-cta" id="tally" data-sec="Tally">
     <img class="v2-art bob" loading="lazy" decoding="async" src="${img('canary')}" width="88" height="88" alt="">
@@ -1102,6 +1116,14 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2 .live{padding:3px 8px;background:#DC2626;color:#fff;font-size:12px;font-weight:700}
 .v2-cols{display:flex;align-items:flex-end;gap:6px;height:150px;border-bottom:1px solid #2A3344}
 .v2-cols i{flex:1 1 0;background:#3B5BFF;border-top:4px solid #3B5BFF}
+.v2-feeds{margin:28px 0 0;padding:18px 20px;border:2px solid #232C3B;background:#0E131D}
+.v2-feeds__lede{margin:10px 0 14px;max-width:62ch;font:500 14px/1.45 'IBM Plex Sans',system-ui,sans-serif;color:#AEB7C3}
+.v2-feeds__list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.v2-feeds__list li{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;padding:10px 0;border-top:1px solid #232C3B}
+.v2-feeds__list li:first-child{border-top:0;padding-top:0}
+.v2-feeds__list a{color:#E6EAF0;text-decoration:none;font:600 15px/1.3 'IBM Plex Sans',system-ui,sans-serif}
+.v2-feeds__list a:hover{color:#A5B4FC;text-decoration:underline;text-underline-offset:3px}
+.v2-feeds__list span{font:500 12px/1.4 'IBM Plex Mono',ui-monospace,monospace;color:#8A94A3}
 .v2-cta{border:2px solid #4338CA;background:#0E1033;padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-cta .col{display:flex;flex-direction:column;gap:10px;flex:1 1 300px;min-width:0;color:#C7D2FE}
 .v2-foot{margin:0;font-size:13px;color:#AEB7C3}

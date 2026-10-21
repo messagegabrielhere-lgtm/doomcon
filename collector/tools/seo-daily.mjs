@@ -136,6 +136,9 @@ export const OUR_SURFACES = Object.freeze([
   '/catalog.html',
   '/library.html',
   '/moves/',
+  // Item archive hubs — sitemapped + linked sitewide; must not soft-404.
+  '/item/archive.html',
+  '/item/archive/',
   // Conquest + entity hubs shipped in-repo; flag until gh-pages deploy catches up.
   // Short aliases live in CORE_LIVE_SURFACES (#119); primaries stay here.
   '/vs.html',

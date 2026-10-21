@@ -860,6 +860,38 @@ async function writeDirectoryAliases(outDir, names, write, written) {
   }
 }
 
+/**
+ * Paginated /item/archive.html hubs.
+ *
+ * sitemap.mjs already lists every page via archiveSitemapEntries(), and the
+ * newsroom / entity templates link page 1 widely. Until these files are
+ * written, that is a sitewide soft-404: live siren.watch returned HTTP 404 for
+ * all 50 hubs while sitemap.xml still advertised them (audited 2026-10-17).
+ *
+ * `onlyMissing` is for the news-only lane: heal gaps without rewriting every
+ * hub on a fast tick (FINDABILITY #103/#106 budget). The hourly full pass
+ * always refreshes the set so page count tracks data/item-archive.json.
+ */
+async function writeItemArchiveHubs(ctx, outDir, write, written, { onlyMissing = false } = {}) {
+  const pages = itemPage.archivePageCount(ctx);
+  if (!pages) return 0;
+  let n = 0;
+  for (let i = 1; i <= pages; i++) {
+    const rel = itemPage.archivePagePath(i).replace(/^\//, '');
+    if (onlyMissing && existsSync(path.join(outDir, rel))) continue;
+    written.push(await write(outDir, rel, itemPage.renderArchivePage(ctx, i)));
+    n += 1;
+  }
+  return n;
+}
+
+/** Basenames the news-only prune must never delete (archive.html, archive-2.html, …). */
+function itemArchiveHubNames(ctx) {
+  const pages = itemPage.archivePageCount(ctx);
+  if (!pages) return [];
+  return Array.from({ length: pages }, (_, i) => path.basename(itemPage.archivePagePath(i + 1)));
+}
+
 function seriesBuilder(history) {
   return (pillarId) => history
     .slice(-SPARK_POINTS)
@@ -1528,7 +1560,10 @@ async function main() {
         log('  items        as-of moved; skipping blanket item rewrite (FINDABILITY #102)');
       }
       const prevById = new Map(prevItems.map((it) => [it.id, it]));
-      const keep = new Set(['index.html']);
+      // Keep the live index and every archive hub. Without the hub names here,
+      // the 72h item grace prune deletes /item/archive*.html while sitemap.xml
+      // and dozens of internal links still point at them.
+      const keep = new Set(['index.html', ...itemArchiveHubNames(ctx)]);
       // Safety valve if a seed/prev mismatch still marks hundreds dirty: prefer
       // missing files and newest published_at so Google News gets fresh URLs first.
       const NEWS_ONLY_ITEM_REWRITE_CAP = 120;
@@ -1599,6 +1634,9 @@ async function main() {
         }
       }
       written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
+      // Heal missing archive hubs on the fast lane; full rewrite stays hourly.
+      const hubs = await writeItemArchiveHubs(ctx, args.out, write, written, { onlyMissing: true });
+      if (hubs) log(`  archive hubs ${hubs} written (missing)`);
     }
     // FINDABILITY #103 — news-only leaves facet/entity hubs to the hourly full
     // pass. Rewriting every pillar/lab/source/model/tag/kind/outlet/people page
@@ -1652,6 +1690,8 @@ async function main() {
       // FINDABILITY #262 — /ai-activity-level/ directory for the typed guess.
       'news', 'leaders', 'search-trends', 'trends', 'ai-activity-index',
       'ai-activity-level',
+      // Heal /item/archive/ when the fast lane writes a missing hub.
+      'item/archive',
       ...liveDays.map((day) => `news/${day.day}`),
     ], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
@@ -2031,6 +2071,8 @@ async function main() {
       log(`  archive      ${archiveWritten} written, ${archiveSkipped} kept (FINDABILITY #105)`);
     }
     written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
+    const hubs = await writeItemArchiveHubs(ctx, args.out, write, written);
+    if (hubs) log(`  archive hubs ${hubs} pages`);
   }
   // Faceted landings (COMPETITIVE-SEO.md): DoomBench/Skynet win on entity URL
   // count; these turn our CSS filters into crawlable pillar and lab pages.
@@ -2081,6 +2123,9 @@ async function main() {
       'ai-activity-level',
       'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
       'pillars', 'sources',
+      // Archive hub: hand-typed /item/archive/ was 404 while .html was the
+      // linked path (and itself missing until writeItemArchiveHubs landed).
+      'item/archive',
       // FINDABILITY #124 — Outrank landings + Search Trends: hand-typed
       // /verify/ /free-tools/ /search-trends/ /trends/ were 404 while .html worked.
       // FINDABILITY #129 — /pdoom/ directory for the unhyphenated typed guess.

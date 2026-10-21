@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 import {
   ARCHIVE_PAGE_SIZE,
   archivePageCount,
@@ -92,6 +95,18 @@ describe('item archive hubs', () => {
     assert.doesNotMatch(html, /it__k"><a href="\/news\.html">Newsroom<\/a>/);
     assert.doesNotMatch(html, /href="\/pillar\/capability\.html">Capability<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
+
+  it('build.mjs writes archive hubs (not only sitemap entries)', () => {
+    // Regression: sitemap listed /item/archive*.html while build never emitted
+    // the files — 50 live 404s on siren.watch (2026-10-17 link audit).
+    const buildSrc = readFileSync(
+      path.join(path.dirname(fileURLToPath(import.meta.url)), '../build.mjs'),
+      'utf8',
+    );
+    assert.match(buildSrc, /writeItemArchiveHubs/);
+    assert.match(buildSrc, /renderArchivePage/);
+    assert.match(buildSrc, /itemArchiveHubNames/);
   });
 
   it('item pages use question-shaped section H2s and FAQPage', () => {
