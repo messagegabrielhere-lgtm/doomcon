@@ -52,6 +52,7 @@ import * as gamesPage from './templates/gamesPage.mjs';
 import * as labsPage from './templates/labsPage.mjs';
 import * as nationsPage from './templates/nationsPage.mjs';
 import { nationsRace } from './nations.mjs';
+import * as midtermsPage from './templates/midtermsPage.mjs';
 import * as chartsPage from './templates/chartsPage.mjs';
 import { SERVICES as AI_SERVICES } from '../collector/ai-status.mjs';
 import * as catalogPages from './templates/catalogPages.mjs';
@@ -1142,6 +1143,20 @@ async function main() {
     catch (err) { warn(`data/leaders.json unreadable (${err.message}); building without /leaders.`); }
   }
 
+  let midterms = null;
+  let midtermsText = null;
+  const midtermsFile = path.join(args.data, 'midterms.json');
+  if (existsSync(midtermsFile)) {
+    try {
+      midtermsText = await readFile(midtermsFile, 'utf8');
+      midterms = JSON.parse(midtermsText);
+    } catch (err) {
+      midterms = null;
+      midtermsText = null;
+      warn(`data/midterms.json unreadable (${err.message}); building without /midterms.`);
+    }
+  }
+
   let digest = null;
   const digestFile = path.join(args.data, 'digest.json');
   if (existsSync(digestFile)) {
@@ -1403,6 +1418,7 @@ async function main() {
         gzBytes: gzipSync(Buffer.from(flockPointsText, 'utf8'), { level: 6 }).length,
       },
     leaders,
+    midterms,
     exploits,
     // /world. The parsed payloads only. What /api/world.json and
     // /api/orbital.json serve is the verbatim text read above, never a
@@ -1857,6 +1873,8 @@ async function main() {
     written.push(await write(args.out, 'labs.html', labsPage.render(ctx)));
     written.push(await write(args.out, 'nations.html', nationsPage.render(ctx, ctx.nations)));
     if (ctx.nations) written.push(await write(args.out, 'api/nations.json', JSON.stringify({ schema: 1, generated_at: new Date().toISOString(), ...ctx.nations }, null, 1) + '\n'));
+    written.push(await write(args.out, 'midterms.html', midtermsPage.render(ctx)));
+    if (midtermsText !== null) written.push(await write(args.out, 'api/midterms.json', midtermsText));
     written.push(await write(args.out, 'api/labs.json', labsPage.labsJson()));
     // This week in charts: live odds + SIREN trend + power race.
     let chHist = [], chRace = null;
@@ -2336,6 +2354,8 @@ async function main() {
       news: ctx.news ? ctx.url('/api/news.json') : undefined,
       visitors: ctx.visitors ? ctx.url('/api/visitors.json') : undefined,
       leaders: ctx.url('/api/leaders.json'),
+      midterms: ctx.midterms ? ctx.url('/api/midterms.json') : undefined,
+      midterms_html: ctx.midterms ? ctx.url('/midterms.html') : undefined,
       si_signals: ctx.url('/api/si-signals.json'),
       search_trends: ctx.url('/api/search-trends.json'),
       search_trends_html: ctx.url('/search-trends.html'),

@@ -132,6 +132,32 @@ export function render(ctx) {
           },
         },
       },
+      '/api/midterms.json': {
+        get: {
+          tags: ['surfaces'],
+          summary: '2026 midterm AI stance board (pro / against / neutral), cited public lines',
+          operationId: 'getMidterms',
+          responses: {
+            200: {
+              description: 'Races and candidates with coarse AI stance tags and evidence URLs',
+              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
+      '/midterms.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Who is pro-AI, against, or neutral in the 2026 midterms? (HTML)',
+          operationId: 'getMidtermsHtml',
+          responses: {
+            200: {
+              description: 'Question-shaped HTML stance board with Post to X',
+              content: { 'text/html': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
       '/api/search-trends.json': {
         get: {
           tags: ['surfaces'],

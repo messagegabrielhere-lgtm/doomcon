@@ -38,7 +38,8 @@ export const PRIMARY = [
 export const WHATS_NEW = [
   // Keep to about six (comment above). Prefer rooms that are not already in
   // PRIMARY, each with an icon unused by the every-room grid (icons-unique).
-  // /#readers stays off until data/visitors.json ships the map (id="readers").
+  // /#readers stays off this reel (map lives on the homepage; see #121).
+  ['/midterms.html', 'px:midterm', 'Who is pro-AI, against, or neutral in the 2026 midterms?', 'Cited AI stance tags for midterm candidates, with Post to X.'],
   ['/nations.html', 'px:tugofwar', 'USA vs China: who is winning the race to superintelligence?', 'The nations race to superintelligence, scored live.'],
   ['/charts.html', 'px:trendchart', 'What AI charts does SIREN publish?', 'Live AI odds, the SIREN trend and the power race, each with an X post.'],
   ['/power.html', 'px:pylon', 'Who makes the most electricity (China vs US)?', 'Who makes the most electricity: China vs the US, per person, fastest growing.'],
