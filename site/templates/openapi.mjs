@@ -132,6 +132,19 @@ export function render(ctx) {
           },
         },
       },
+      '/api/mood.json': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Headline-tone index per AI company (−100…100) from fixed word lists',
+          operationId: 'getMood',
+          responses: {
+            200: {
+              description: 'Per-company mood board and lexicons',
+              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
       '/api/compute-clock.json': {
         get: {
           tags: ['surfaces'],
@@ -139,7 +152,19 @@ export function render(ctx) {
           operationId: 'getComputeClock',
           responses: {
             200: {
-              description: 'Watched (not scored) compute-clock snapshot from Epoch AI CSVs',
+              description: 'Watched (not scored) compute-clock snapshot from Epoch AI CSVs',              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
+      '/api/boards.json': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Public model boards: OpenRouter usage, LMArena order, Hugging Face video downloads',
+          operationId: 'getBoards',
+          responses: {
+            200: {
+              description: 'Model board snapshots with upstream sources',
               content: { 'application/json': { schema: { type: 'object' } } },
             },
           },
@@ -152,7 +177,19 @@ export function render(ctx) {
           operationId: 'getMidterms',
           responses: {
             200: {
-              description: 'Races and candidates with coarse AI stance tags and evidence URLs',
+              description: 'Races and candidates with coarse AI stance tags and evidence URLs',              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
+      '/api/coding-agents.json': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Coding agents and MCP hubs: stars, releases, health from GitHub',
+          operationId: 'getCodingAgents',
+          responses: {
+            200: {
+              description: 'Agent and MCP rosters with health labels',
               content: { 'application/json': { schema: { type: 'object' } } },
             },
           },
@@ -191,8 +228,72 @@ export function render(ctx) {
           operationId: 'getSearchTrends',
           responses: {
             200: {
-              description: 'AI-related trending titles, geos, and head-term watchlist hits',
-              content: { 'application/json': { schema: { type: 'object' } } },
+              description: 'AI-related trending titles, geos, and head-term watchlist hits',              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
+      '/today.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Today: mood + boards + coding agents (HTML)',
+          operationId: 'getTodayHtml',
+          responses: {
+            200: {
+              description: 'Daily AI dashboard',
+              content: { 'text/html': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
+      '/mood.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Headline mood board (HTML)',
+          operationId: 'getMoodHtml',
+          responses: {
+            200: {
+              description: 'Per-company headline tone',
+              content: { 'text/html': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
+      '/boards.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Public model boards (HTML)',
+          operationId: 'getBoardsHtml',
+          responses: {
+            200: {
+              description: 'OpenRouter / LMArena / Hugging Face boards',
+              content: { 'text/html': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
+      '/coding-agents.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Coding agents roster (HTML)',
+          operationId: 'getCodingAgentsHtml',
+          responses: {
+            200: {
+              description: 'Coding agents with GitHub health',
+              content: { 'text/html': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
+      '/mcp-hub.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'MCP hub roster (HTML)',
+          operationId: 'getMcpHubHtml',
+          responses: {
+            200: {
+              description: 'MCP servers with GitHub health',
+              content: { 'text/html': { schema: { type: 'string' } } },
             },
           },
         },
@@ -275,8 +376,7 @@ export function render(ctx) {
             },
           },
         },
-      },      '/api/now.txt': {
-        get: {
+      },      '/api/now.txt': {        get: {
           tags: ['index'],
           summary: 'Current reading as 3-6 plain lines: level, score, name, UTC time, top mover, meaning, URL',
           operationId: 'getNowText',

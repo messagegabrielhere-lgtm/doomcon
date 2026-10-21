@@ -1021,6 +1021,27 @@ jobs:
         continue-on-error: true
         run: timeout 150 node collector/leaders.mjs
 
+      - name: Score market mood
+        # Offline: pure function of data/news.json. Ainnect-gap headline-tone
+        # board for AI companies. Must run after the newsroom.
+        continue-on-error: true
+        run: node collector/mood.mjs
+
+      - name: Refresh model boards
+        # Public leaderboards (OpenRouter HTML table, LMArena JSON-LD, Hugging
+        # Face video API). Failures go dark per board; never invent Elo/tokens.
+        continue-on-error: true
+        run: timeout 120 node collector/boards.mjs
+
+      - name: Refresh coding agents and MCP hub
+        # GitHub stars/releases for the published agent + MCP rosters. Prefer
+        # an authenticated token so the unauthenticated 60 req/h budget does
+        # not dark the second half of the roster mid-run.
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: timeout 240 node collector/coding-agents.mjs
+
       - name: Compile the digest
         # Runs LAST of the collectors: it reads state.json, news.json, race.json
         # and infra.json to compute what changed, so everything else must have

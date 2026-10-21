@@ -215,7 +215,10 @@ import * as dayPages from './templates/dayPages.mjs';
 import * as tagPages from './templates/tagPages.mjs';
 import * as kindPages from './templates/kindPages.mjs';
 import * as outletPages from './templates/outletPages.mjs';
-import { page as layoutPage } from './templates/layout.mjs';
+import * as moodPage from './templates/moodPage.mjs';
+import * as boardsPage from './templates/boardsPage.mjs';
+import * as codingAgentsPage from './templates/codingAgentsPage.mjs';
+import * as todayPage from './templates/todayPage.mjs';import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 import { INDEXNOW_KEY } from '../collector/indexnow.mjs';
 import { loadArchive, archiveOnlyItems } from '../collector/item-archive.mjs';
@@ -1168,6 +1171,27 @@ async function main() {
     catch (err) { warn(`data/digest.json unreadable (${err.message}); building without /digest.`); }
   }
 
+  // Ainnect-gap surfaces: mood (offline from news), boards (public leaderboards),
+  // coding-agents hub (GitHub). Each fails dark on its own; the build continues.
+  let mood = null;
+  const moodFile = path.join(args.data, 'mood.json');
+  if (existsSync(moodFile)) {
+    try { mood = JSON.parse(await readFile(moodFile, 'utf8')); }
+    catch (err) { warn(`data/mood.json unreadable (${err.message}); building without /mood.`); }
+  }
+  let boards = null;
+  const boardsFile = path.join(args.data, 'boards.json');
+  if (existsSync(boardsFile)) {
+    try { boards = JSON.parse(await readFile(boardsFile, 'utf8')); }
+    catch (err) { warn(`data/boards.json unreadable (${err.message}); building without /boards.`); }
+  }
+  let codingAgents = null;
+  const codingAgentsFile = path.join(args.data, 'coding-agents.json');
+  if (existsSync(codingAgentsFile)) {
+    try { codingAgents = JSON.parse(await readFile(codingAgentsFile, 'utf8')); }
+    catch (err) { warn(`data/coding-agents.json unreadable (${err.message}); building without coding-agents/mcp hubs.`); }
+  }
+
   let bliss = null;
   const blissFile = path.join(args.data, 'bliss.json');
   if (existsSync(blissFile)) {
@@ -1400,6 +1424,9 @@ async function main() {
     race,
     infra,
     digest,
+    mood,
+    boards,
+    codingAgents,
     bliss,
     datacenters,
     flock,
@@ -1946,6 +1973,31 @@ async function main() {
     if (trends) written.push(await write(args.out, 'api/search-trends.json', JSON.stringify(trends, null, 2) + '\n'));
     written.push(await write(args.out, 'ai-prediction-markets.html', aiPredictionMarketsPage.render(ctx, ctx.race)));
   }
+  // Ainnect-gap rooms: daily dashboard, market mood, model boards, coding-agents + MCP hubs.
+  if (todayPage.hasToday(ctx)) {
+    written.push(await write(args.out, 'today.html', todayPage.render(ctx)));
+  }
+  if (moodPage.hasMood(ctx)) {
+    written.push(await write(args.out, 'mood.html', moodPage.render(ctx)));
+    written.push(await write(args.out, 'api/mood.json', stableJson(ctx.mood)));
+  }
+  if (boardsPage.hasBoards(ctx)) {
+    written.push(await write(args.out, 'boards.html', boardsPage.render(ctx)));
+    written.push(await write(args.out, 'api/boards.json', stableJson(ctx.boards)));
+  }
+  if (codingAgentsPage.hasCodingAgents(ctx)) {
+    written.push(await write(args.out, 'coding-agents.html', codingAgentsPage.renderAgents(ctx)));
+    written.push(await write(args.out, 'api/coding-agents.json', stableJson(ctx.codingAgents)));
+    for (const id of codingAgentsPage.agentIds(ctx)) {
+      written.push(await write(args.out, `coding-agents/${id}.html`, codingAgentsPage.renderAgentEntity(ctx, id)));
+    }
+  }
+  if (codingAgentsPage.hasMcpHub(ctx)) {
+    written.push(await write(args.out, 'mcp-hub.html', codingAgentsPage.renderMcp(ctx)));
+    for (const id of codingAgentsPage.mcpIds(ctx)) {
+      written.push(await write(args.out, `mcp-hub/${id}.html`, codingAgentsPage.renderMcpEntity(ctx, id)));
+    }
+  }
   written.push(await write(args.out, 'bug-out-land.html', agentPages.land(ctx)));
   // skill.md (+ discovery mirrors) is written in writeAgentText so the news
   // lane keeps the skill digest and agents.txt in lockstep with the reading.
@@ -2181,7 +2233,11 @@ async function main() {
         r.path.replace(/^\//, '').replace(/\.html$/, ''),
         ...(r.aliases || []).map((a) => a.replace(/^\//, '').replace(/\.html$/, '')),
       ]),
-      ...brand.PILLARS.map((p) => `pillar/${p.id}`),
+      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives',
+      'today', 'mood', 'boards', 'coding-agents', 'mcp-hub',
+      ...codingAgentsPage.agentIds(ctx).map((id) => `coding-agents/${id}`),
+      ...codingAgentsPage.mcpIds(ctx).map((id) => `mcp-hub/${id}`),
+      ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),      ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...facetPages.allLabs(ctx).map((p) => `lab/${p.id}`),
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
@@ -2406,7 +2462,9 @@ async function main() {
       home: ctx.url('/'),
       classic: ctx.url('/classic.html'),
       compute_clock: ctx.url('/api/compute-clock.json'),
-      fresh: ctx.url('/api/fresh.json'),
+      mood: ctx.mood ? ctx.url('/api/mood.json') : undefined,
+      boards: ctx.boards ? ctx.url('/api/boards.json') : undefined,
+      coding_agents: ctx.codingAgents ? ctx.url('/api/coding-agents.json') : undefined,      fresh: ctx.url('/api/fresh.json'),
       search_index: ctx.url('/api/search-index.json'),
       embed: ctx.url('/embed.html'),
       feed: ctx.url('/feed.xml'),

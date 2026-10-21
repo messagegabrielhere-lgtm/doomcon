@@ -84,6 +84,28 @@ export function render(ctx) {
     ...(ctx.digest && ctx.digest.generated_at
       ? [{ loc: '/digest.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.digest.generated_at }]
       : []),
+    ...((ctx.mood || ctx.boards || ctx.codingAgents)
+      ? [{ loc: '/today.html', changefreq: 'hourly', priority: '0.9',
+        lastmod: ctx.mood?.generated_at || ctx.boards?.generated_at || ctx.codingAgents?.generated_at || ctx.state.generated_at }]
+      : []),
+    ...(ctx.mood && ctx.mood.generated_at
+      ? [{ loc: '/mood.html', changefreq: 'hourly', priority: '0.85', lastmod: ctx.mood.generated_at }]
+      : []),
+    ...(ctx.boards && ctx.boards.generated_at
+      ? [{ loc: '/boards.html', changefreq: 'daily', priority: '0.85', lastmod: ctx.boards.generated_at }]
+      : []),
+    ...(ctx.codingAgents && ctx.codingAgents.generated_at
+      ? [
+        { loc: '/coding-agents.html', changefreq: 'daily', priority: '0.85', lastmod: ctx.codingAgents.generated_at },
+        { loc: '/mcp-hub.html', changefreq: 'daily', priority: '0.8', lastmod: ctx.codingAgents.generated_at },
+        ...((ctx.codingAgents.agents || []).map((a) => ({
+          loc: `/coding-agents/${a.id}.html`, changefreq: 'daily', priority: '0.6', lastmod: ctx.codingAgents.generated_at,
+        }))),
+        ...((ctx.codingAgents.mcp || []).map((a) => ({
+          loc: `/mcp-hub/${a.id}.html`, changefreq: 'daily', priority: '0.55', lastmod: ctx.codingAgents.generated_at,
+        }))),
+      ]
+      : []),
     ...(ctx.bliss && ctx.bliss.generated_at
       ? [{ loc: '/bliss.html', changefreq: 'hourly', priority: '0.8', lastmod: ctx.bliss.generated_at }]
       : []),

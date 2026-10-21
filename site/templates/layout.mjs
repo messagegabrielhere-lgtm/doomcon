@@ -159,6 +159,33 @@ const SECTIONS = [
     } },
   { href: '/digest.html', label: 'What is the SIREN daily brief?', short: 'Digest', needs: 'digest',
     blurb: 'The day in one page, assembled from the scored corpus.' },
+  { href: '/today.html', label: 'Today', short: 'Today', needs: 'today',
+    blurb: 'Daily dashboard: headline mood, model boards, coding-agent updates.' },
+  { href: '/mood.html', label: 'Mood', short: 'Mood', needs: 'mood',
+    blurb: 'Headline tone for each major AI company, from fixed word lists.',
+    count: (ctx) => {
+      const g = ctx.mood && ctx.mood.glance;
+      if (!g || !g.leading) return null;
+      const v = g.leading.index;
+      const sign = Number.isFinite(v) && v > 0 ? '+' : '';
+      return { v: `${g.leading.name} ${sign}${v}`, k: 'leading headline tone' };
+    } },
+  { href: '/boards.html', label: 'Boards', short: 'Boards', needs: 'boards',
+    blurb: 'Public model leaderboards with sources: OpenRouter, LMArena, Hugging Face.',
+    count: (ctx) => {
+      const g = ctx.boards && ctx.boards.glance;
+      if (!g || !Number.isFinite(g.boards_ok)) return null;
+      return { v: `${g.boards_ok}/${g.boards_total}`, k: 'model boards live' };
+    } },
+  { href: '/coding-agents.html', label: 'Agents hub', short: 'Agents', needs: 'codingAgents',
+    blurb: 'Coding agents: GitHub stars, releases and maintenance status.',
+    count: (ctx) => {
+      const s = ctx.codingAgents && ctx.codingAgents.agents_summary;
+      if (!s || !Number.isFinite(s.tracked)) return null;
+      return { v: `${s.updated_this_week ?? 0}/${s.tracked}`, k: 'agents with a release this week' };
+    } },
+  { href: '/mcp-hub.html', label: 'MCP hub', short: 'MCP', needs: 'mcpHub',
+    blurb: 'Model Context Protocol servers agents connect through.' },
   // BALANCE TAKES UPSIDE'S TILE. The operator asked for the other viewpoint —
   // AI solving problems, beside the doom case — and /balance is where that
   // lives: benefit and harm counted side by side and never summed, with BLISS
@@ -1322,6 +1349,17 @@ function hasSection(ctx, key) {
       && Array.isArray(ctx.infra.pillars));
   }
   if (key === 'digest') return Boolean(ctx.digest && typeof ctx.digest === 'object');
+  if (key === 'mood') return Boolean(ctx.mood && Array.isArray(ctx.mood.companies) && ctx.mood.companies.length);
+  if (key === 'boards') return Boolean(ctx.boards && Array.isArray(ctx.boards.boards) && ctx.boards.boards.length);
+  if (key === 'codingAgents') return Boolean(ctx.codingAgents && Array.isArray(ctx.codingAgents.agents) && ctx.codingAgents.agents.length);
+  if (key === 'mcpHub') return Boolean(ctx.codingAgents && Array.isArray(ctx.codingAgents.mcp) && ctx.codingAgents.mcp.length);
+  if (key === 'today') {
+    return Boolean(
+      (ctx.mood && Array.isArray(ctx.mood.companies))
+      || (ctx.boards && Array.isArray(ctx.boards.boards))
+      || (ctx.codingAgents && Array.isArray(ctx.codingAgents.agents)),
+    );
+  }
   if (key === 'bliss') return Boolean(ctx.bliss && Array.isArray(ctx.bliss.sources) && ctx.bliss.sources.length);
   if (key === 'nothing') return Boolean(ctx && ctx.state);
   if (key === 'leaders') {
