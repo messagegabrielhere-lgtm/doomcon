@@ -75,5 +75,42 @@ async function molt() {
     note(r.ok, 'MOLTBOOK_API_KEY', r.ok ? `works (${JSON.stringify(b).slice(0, 120)})` : `HTTP ${r.status}`);
   } catch (e) { note(false, 'MOLTBOOK_API_KEY', e.message); }
 }
-await Promise.all([x(), sec(), youtube(), xai(), molt()]);
+async function goat() {
+  // Optional. Without it, collector/visitors.mjs soft-skips and the homepage
+  // readers map + /api/visitors.json stay dark. Token from GoatCounter →
+  // Settings → API; never print the value.
+  if (!has('GOATCOUNTER_API_KEY')) {
+    return note(false, 'GOATCOUNTER_API_KEY', 'not set (readers map + visitor-report stay off)');
+  }
+  const code = (process.env.GOATCOUNTER_CODE || 'messagegabriel').trim() || 'messagegabriel';
+  if (!/^[a-z0-9][a-z0-9-]{0,62}$/i.test(code)) {
+    return note(false, 'GOATCOUNTER_API_KEY', 'set, but GOATCOUNTER_CODE looks invalid');
+  }
+  try {
+    const end = new Date();
+    end.setUTCMinutes(0, 0, 0);
+    const start = new Date(end.getTime() - 3600_000);
+    const qs = new URLSearchParams({
+      start: start.toISOString().replace(/\.\d{3}Z$/, 'Z'),
+      end: end.toISOString().replace(/\.\d{3}Z$/, 'Z'),
+    });
+    const r = await fetch(
+      `https://${code}.goatcounter.com/api/v0/stats/total?${qs}`,
+      {
+        headers: { authorization: `Bearer ${process.env.GOATCOUNTER_API_KEY.trim()}` },
+        signal: t(15000),
+      },
+    );
+    const b = await r.json().catch(() => ({}));
+    const total = Number(b && b.total);
+    note(
+      r.ok && Number.isFinite(total),
+      'GOATCOUNTER_API_KEY',
+      r.ok && Number.isFinite(total)
+        ? `works (${code}; last hour total ${total})`
+        : `HTTP ${r.status} against ${code}.goatcounter.com`,
+    );
+  } catch (e) { note(false, 'GOATCOUNTER_API_KEY', e.message); }
+}
+await Promise.all([x(), sec(), youtube(), xai(), molt(), goat()]);
 console.log(`${out.filter(Boolean).length} of ${out.length} OK`);
