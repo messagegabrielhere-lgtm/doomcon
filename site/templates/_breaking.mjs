@@ -81,7 +81,7 @@ export function breakingStrip(ctx, { href = (p) => p } = {}) {
   }).join('');
   return `<section class="brk" aria-label="Breaking stories">
 <ul class="brk__list">${rows}</ul>
-<p class="brk__note">Breaking = two independent outlets within 20 minutes, or one lab / wire / major tech desk plus one more.
+<p class="brk__note">Breaking = two independent outlets within 20 minutes, or one lab / wire / major tech desk plus one more, or a tier-one desk alone when the headline carries an escalation signal (rogue / escaped / containment / self-replication).
  <a href="${esc(href('/api/breaking.json'))}">The data</a></p>
 </section>`;
 }
