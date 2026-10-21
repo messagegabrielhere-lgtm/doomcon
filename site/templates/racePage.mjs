@@ -806,7 +806,7 @@ function partitionBar(race) {
      spread is the bid/ask on ${esc(money(poly.horizon.volume_usd) ?? 'the book')} of lifetime
      volume. Segment widths above are normalised by that sum; the percentages printed are the raw
      prices.</p>
-  <p><a class="rcta" href="${esc(polymarketUrl(poly.horizon.url, 'race-cta'))}" target="_blank" rel="${polymarketHasRef() ? 'sponsored nofollow noopener' : 'nofollow noopener'}" style="display:inline-block;border:1px solid #818CF8;padding:9px 14px;font:700 13px var(--mono);text-decoration:none;color:#C7D2FE">Trade this market on Polymarket →</a>${polymarketHasRef() ? ' <small style="color:var(--ink-faint)">Referral link: SIREN may earn a share of Polymarket’s fees. Prediction markets are restricted in some places. Not financial advice.</small>' : ' <small style="color:var(--ink-faint)">Prediction markets are restricted in some places. Not financial advice.</small>'}</p>
+  <p><a class="rcta" href="${esc(polymarketUrl(poly.horizon.url, 'race-cta'))}" target="_blank" rel="${polymarketHasRef() ? 'sponsored nofollow noopener' : 'nofollow noopener'}" style="display:inline-block;border:1px solid #56B0E0;padding:9px 14px;font:700 13px var(--mono);text-decoration:none;color:#9AD4F0">Trade this market on Polymarket →</a>${polymarketHasRef() ? ' <small style="color:var(--ink-faint)">Referral link: SIREN may earn a share of Polymarket’s fees. Prediction markets are restricted in some places. Not financial advice.</small>' : ' <small style="color:var(--ink-faint)">Prediction markets are restricted in some places. Not financial advice.</small>'}</p>
 </section>`;
 }
 

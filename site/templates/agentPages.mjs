@@ -223,9 +223,9 @@ export function staff(ctx) {
   const cards = crew.map(([a, n, r, d, t]) => `<div class="ag-card"><h3><img src="${art(ctx, a)}" alt="">What does ${esc(n)} do?</h3><span class="role">${esc(r)}</span><p>${esc(d)}</p>${t ? `<span class="shift">● ${esc(ago(t, now))}</span>` : ''}</div>`).join('');
   // How they hand work to each other, drawn inline so it reads in both themes.
   const box = (x, y, w, t, s) => `<g><rect x="${x}" y="${y}" width="${w}" height="54" rx="6" fill="#0E131D" stroke="#4ADE80" stroke-width="1.5"/><text x="${x + w / 2}" y="${y + 23}" text-anchor="middle" fill="#E6EAF0" font-family="IBM Plex Mono,monospace" font-size="13" font-weight="700">${t}</text><text x="${x + w / 2}" y="${y + 41}" text-anchor="middle" fill="#AEB7C3" font-family="IBM Plex Sans,sans-serif" font-size="11">${s}</text></g>`;
-  const arr = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#818CF8" stroke-width="2" marker-end="url(#ah)"/>`;
+  const arr = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#56B0E0" stroke-width="2" marker-end="url(#ah)"/>`;
   const flow = `<svg class="ag-flow" viewBox="0 0 940 250" role="img" aria-label="How the crew hands work to each other">
-<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#818CF8"/></marker></defs>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#56B0E0"/></marker></defs>
 ${box(10, 20, 150, 'COLLECTOR', '14 sources, hourly')}${arr(160, 47, 200, 47)}
 ${box(200, 20, 150, 'ENGINE', 'score + level')}${arr(350, 47, 390, 47)}
 ${box(10, 110, 150, 'NEWSROOM', '30+ feeds, 15 min')}${arr(160, 137, 390, 70)}

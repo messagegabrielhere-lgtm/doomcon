@@ -3063,14 +3063,14 @@ const V2SKIN = `
   --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
   --poster: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
   --stencil: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
-  --bar: #3B5BFF;
-  --accent: #4ADE80; --accent-ink: #03130A; --accent-2: #818CF8; --stale: #FACC15;
+  --bar: #56B0E0;
+  --accent: #4ADE80; --accent-ink: #03130A; --accent-2: #56B0E0; --stale: #FACC15;
   --radius: 3px; --radius-lg: 4px;
   color-scheme: dark;
 }
 body { background: #000; color: var(--ink); }
 .give { color: var(--ink-dim); }
-.give a { color: #A5B4FC; }
+.give a { color: #56B0E0; }
 /* masthead */
 .masthead.v2m { background: #000; border-bottom: 1px solid var(--rule); }
 .masthead.v2m::before, .masthead.v2m::after { display: none; }
@@ -3091,10 +3091,10 @@ body { background: #000; color: var(--ink); }
 .fb, .fb--inline { background: transparent; border: 0; }
 .fb__t { border: 2px solid #2A3446; border-radius: 0; background: #111827; color: #D7DCE3;
   font-family: var(--mono); font-weight: 700; padding: 6px 10px; gap: 8px; }
-.fb__t:hover { border-color: #6366F1; background: #161D33; color: #fff; }
-.fb__t[aria-current="page"] { border-color: #6366F1; background: #1E1B4B; color: #fff; box-shadow: none; }
+.fb__t:hover { border-color: #56B0E0; background: #0C1822; color: #fff; }
+.fb__t[aria-current="page"] { border-color: #56B0E0; background: #0A1A24; color: #fff; box-shadow: none; }
 .fb__img { display: block; width: 30px; height: 30px; flex: none; }
-.fb__n { color: #A5B4FC; font-weight: 700; }
+.fb__n { color: #56B0E0; font-weight: 700; }
 .fb__menu { background: #0A0E16; border: 2px solid #2A3446; border-radius: 0; }
 /* room header band */
 .v2pt { display: flex; align-items: center; gap: 22px; margin: 6px 0 22px; padding: 20px 22px;
@@ -3107,7 +3107,7 @@ body { background: #000; color: var(--ink); }
 @media (max-width: 640px) { .v2pt { gap: 14px; padding: 14px; } .v2pt img { width: 64px; height: 64px; } .v2m-word svg { width: 168px; height: auto; } }
 /* panels and type */
 h1, h2, h3, .sec__h, .prose > h1 { font-family: var(--mono); letter-spacing: .01em; }
-a { color: #A5B4FC; } a:hover { color: #E0E7FF; }
+a { color: #56B0E0; } a:hover { color: #B8E0F5; }
 .foot, footer { background: #0A0E16; }
 /* section heads: white mono caps with a phosphor block, like the homepage */
 .sec__h { color: #fff !important; font-weight: 700; letter-spacing: .1em; display: flex; align-items: center; gap: 10px; }

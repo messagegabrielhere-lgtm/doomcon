@@ -54,7 +54,7 @@ const CSS = `<style>
 .ev-key span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--c)}
 .ev-runs{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px}
 .ev-runs>li{border:1px solid var(--rule);background:var(--bg-raised,#0E131D);padding:14px 16px;border-radius:4px}
-.ev-runs h3{font:700 13px/1.2 var(--mono);letter-spacing:.08em;color:#C4B5FD;margin:0 0 8px}
+.ev-runs h3{font:700 13px/1.2 var(--mono);letter-spacing:.08em;color:#7EC8E8;margin:0 0 8px}
 .ev-runs ul,.ev-arch ul{list-style:none;padding:0;margin:0 0 8px;display:flex;flex-direction:column;gap:6px}
 .ev-runs li li,.ev-arch li{border-left:3px solid var(--c,#A78BFA);padding:2px 0 2px 10px}
 .ev a{color:var(--ink)}

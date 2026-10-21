@@ -67,7 +67,7 @@ function currentPath(rel) {
 }
 
 export const HEADER_CSS = `<style ${HEADER_MARK}-css>
-.sh{--sh-bg:#000;--sh-panel:#0E131D;--sh-line:#232C3B;--sh-btn:#2A3446;--sh-ink:#E6EAF0;--sh-mute:#AEB7C3;--sh-acc:#4F46E5;--sh-acc2:#818CF8;
+.sh{--sh-bg:#000;--sh-panel:#0E131D;--sh-line:#232C3B;--sh-btn:#2A3446;--sh-ink:#E6EAF0;--sh-mute:#AEB7C3;--sh-acc:#56B0E0;--sh-acc2:#56B0E0;
   position:relative;z-index:60;background:var(--sh-bg);border-bottom:2px solid var(--sh-line);color:var(--sh-ink);
   font:600 12px/1.2 'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em;-webkit-text-size-adjust:100%}
 .sh *,.sh *::before,.sh *::after{box-sizing:border-box}
@@ -89,8 +89,8 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh__nav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:0 9px;color:var(--sh-mute);border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;text-transform:uppercase;font-size:11.5px}
 .sh__nav a:hover{color:#fff}
 .sh__nav a[aria-current=page]{color:#fff;border-bottom-color:var(--sh-acc2)}
-.sh__all{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;background:var(--sh-acc);color:#fff;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
-.sh__all:hover{background:#4338CA}
+.sh__all{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;background:var(--sh-acc);color:#06070b;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh__all:hover{background:#7EC8E8}
 .sh__new{flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 12px;border:2px solid #FACC15;background:transparent;color:#FACC15;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
 .sh__new:hover{background:#FACC15;color:#000}
 @media (max-width:560px){.sh__new{padding:0 10px}.sh__new span{display:none}}
@@ -100,11 +100,11 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh-rooms__chips{flex:0 0 auto;display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid #232C3B;scrollbar-width:none}
 .sh-rooms__chips::-webkit-scrollbar{display:none}
 .sh-rooms__chips button{flex:0 0 auto;min-height:32px;padding:0 10px;border:1px solid #2A3446;background:#0E131D;color:#D7DCE3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
-.sh-rooms__chips button:hover{border-color:#818CF8;color:#fff}
+.sh-rooms__chips button:hover{border-color:#56B0E0;color:#fff}
 .sh-rooms__g--rec{color:#FACC15}
 .sh-pn{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}
 .sh-pn a{display:flex;flex-direction:column;gap:3px;min-height:56px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
-.sh-pn a:hover{border-color:#6366F1;background:#161D33}
+.sh-pn a:hover{border-color:#56B0E0;background:#0C1822}
 .sh-pn small{color:#AEB7C3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase}
 .sh-pn b{font-weight:650}
 .sh-pn a[data-sh-next]{text-align:right;grid-column:2}
@@ -132,9 +132,9 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh-rooms__i span{min-width:0;display:flex;flex-direction:column}
 .sh-rooms__i b{font-weight:650}
 .sh-rooms__i small{color:#AEB7C3;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sh-rooms__i:hover,.sh-rooms__i.on{background:#161D33;border-left-color:#818CF8}
+.sh-rooms__i:hover,.sh-rooms__i.on{background:#0C1822;border-left-color:#56B0E0}
 .sh-rooms__i[aria-current=page] b::after{content:' · you are here';color:#86EFAC;font-weight:500;font-size:12px}
-.sh-rooms__i--x b{color:#A5B4FC}
+.sh-rooms__i--x b{color:#56B0E0}
 .sh-rooms__i mark{background:rgba(250,204,21,.28);color:inherit}
 .sh-rooms__k{margin:0;padding:8px 16px;border-top:1px solid #232C3B;color:#AEB7C3;font:500 11px/1.3 'IBM Plex Mono',ui-monospace,monospace}
 @media (max-width:560px){.sh-rooms{margin:10px auto auto;max-height:calc(100vh - 20px)}.sh-rooms__box{max-height:calc(100vh - 20px)}.sh-rooms__k{display:none}}
@@ -148,17 +148,17 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh-rel__h{margin:0 0 10px;color:#AEB7C3;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}
 .sh-rel__g{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
 .sh-rel__a{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
-.sh-rel__a:hover{border-color:#6366F1;background:#161D33}
+.sh-rel__a:hover{border-color:#56B0E0;background:#0C1822}
 .sh-rel__a img{flex:0 0 auto;width:40px;height:40px;display:block}
 .sh-rel__a span{min-width:0;display:flex;flex-direction:column;gap:2px}
 .sh-rel__a b{font:700 12px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
 .sh-rel__a small{color:#AEB7C3;font-size:12.5px;line-height:1.35}
 .sh-rel__more{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px 16px}
-.sh-rel__more a,.sh-rel__more button{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;color:#A5B4FC;font:600 12px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-rel__more a,.sh-rel__more button{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;color:#56B0E0;font:600 12px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
 .sh-rel__more a:hover,.sh-rel__more button:hover{color:#fff}
 .sh-top{position:fixed;left:12px;bottom:12px;z-index:9997;display:none;align-items:center;justify-content:center;width:44px;height:44px;border:2px solid #2A3446;background:rgba(10,14,22,.94);color:#E6EAF0;font:700 18px/1 system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.4)}
 .sh-top.on{display:inline-flex}
-.sh-top:hover{border-color:#6366F1;color:#fff}
+.sh-top:hover{border-color:#56B0E0;color:#fff}
 @media (max-width:700px){#sitebar,.sh-top{transition:transform .25s ease,opacity .25s ease}html.sh-dn #sitebar,html.sh-dn .sh-top{transform:translateY(160%);opacity:0;pointer-events:none}}
 @media (prefers-reduced-motion:reduce){#sitebar,.sh-top{transition:none}}
 @media print{.sh,.sh-rel,.sh-top{display:none}}
@@ -199,7 +199,7 @@ export const RAIL_CSS = `<style ${HEADER_MARK}-rail>
 .sr a img{width:26px;height:26px;display:block;image-rendering:pixelated}
 .sr a:hover,.sr a:focus-visible{background:#141B27;border-color:#334155}
 .sr a[aria-current]{background:#10251A;border-color:#4ADE80}
-.sr a span{position:absolute;left:50px;top:50%;transform:translateY(-50%);white-space:nowrap;padding:5px 9px;border-radius:6px;background:#0B0F16;border:1px solid #818CF8;color:#E6EAF0;font:600 12px/1 system-ui,sans-serif;opacity:0;pointer-events:none;transition:opacity .12s}
+.sr a span{position:absolute;left:50px;top:50%;transform:translateY(-50%);white-space:nowrap;padding:5px 9px;border-radius:6px;background:#0B0F16;border:1px solid #56B0E0;color:#E6EAF0;font:600 12px/1 system-ui,sans-serif;opacity:0;pointer-events:none;transition:opacity .12s}
 .sr a:hover span,.sr a:focus-visible span{opacity:1}
 .sr i{display:block;width:30px;height:1px;background:#2A3446;margin:5px 0;font:700 8.5px/1 'IBM Plex Mono',monospace;font-style:normal;color:#4ADE80;letter-spacing:.12em;text-align:center}
 .sr i.t{height:auto;background:none;border-top:1px solid #2A3446;padding-top:5px}
@@ -301,8 +301,7 @@ function build(){
   // Group chips: jump straight to a section of the list.
   h=h.replace('<ul class="sh-rooms__l">','<nav class="sh-rooms__chips" aria-label="Jump to a group">'+groups.map(function(x,i){return '<button type="button" data-shg="'+(i+1)+'">'+e(x.charAt(0)+x.slice(1).toLowerCase())+'</button>'}).join('')+'</nav><ul class="sh-rooms__l">');
   // Tip #256: keyboard-help links match destination H1s (search + catalog).
-  h+='</ul><p class="sh-rooms__k">↑ ↓ move · Enter open · Esc close · / anywhere · [ ] prev/next room · <a href="'+e(D.base)+'/search.html" style="color:#A5B4FC">How do you search everything on SIREN?</a> · <a href="'+e(D.base)+'/catalog.html" style="color:#A5B4FC">Where is everything on SIREN listed?</a></p></div>';
-  dlg.innerHTML=h;document.body.appendChild(dlg);
+  h+='</ul><p class="sh-rooms__k">↑ ↓ move · Enter open · Esc close · / anywhere · [ ] prev/next room · <a href="'+e(D.base)+'/search.html" style="color:#56B0E0">How do you search everything on SIREN?</a> · <a href="'+e(D.base)+'/catalog.html" style="color:#56B0E0">Where is everything on SIREN listed?</a></p></div>';  dlg.innerHTML=h;document.body.appendChild(dlg);
   q=dlg.querySelector('.sh-rooms__q');stat=items=[].slice.call(dlg.querySelectorAll('.sh-rooms__i'));
   q.addEventListener('input',filt);
   q.addEventListener('keydown',function(ev){var v=vis(),n=Math.max(1,v.length);if(ev.key==='ArrowDown'){ev.preventDefault();sel=(sel+1)%n;mark()}else if(ev.key==='ArrowUp'){ev.preventDefault();sel=(sel-1+n)%n;mark()}else if(ev.key==='Enter'&&v[sel]){ev.preventDefault();dlg.close();if(v[sel].target==='_blank')window.open(v[sel].href,'_blank','noopener');else location.href=v[sel].href}});

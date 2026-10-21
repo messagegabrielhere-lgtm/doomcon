@@ -180,7 +180,7 @@ function prerenderStatic(html, name, ctx) {
   // sitebar.mjs stamps the one shared header (site/siteheader.mjs) onto every
   // page, hand-built or templated, after the build.
   out = out.replace(/<html([^>]*)>/, (m, a) => (/data-theme=/.test(a) ? m : `<html${a} data-theme="dark">`));
-  const brandVars = `<style>html:root,html:root[data-theme="dark"]{--bg:#000;--panel:#0E131D;--sunk:#0A0E16;--line:#232C3B;--ink:#F3F4F6;--mute:#AEB7C3;--accent:#4ADE80;--accent-ink:#03130A;--cmp:#818CF8;--zone:rgba(74,222,128,.12);color-scheme:dark}</style>`;
+  const brandVars = `<style>html:root,html:root[data-theme="dark"]{--bg:#000;--panel:#0E131D;--sunk:#0A0E16;--line:#232C3B;--ink:#F3F4F6;--mute:#AEB7C3;--accent:#4ADE80;--accent-ink:#03130A;--cmp:#56B0E0;--zone:rgba(74,222,128,.12);color-scheme:dark}</style>`;
   out = out.replace(/<body([^>]*)>/, (m) => `${m}\n${brandVars}`);
   // Hand-built pages have no shared footer, so they get the same legal line
   // the templated footer carries, pointing at the full terms page.
