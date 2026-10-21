@@ -23,7 +23,7 @@ import { readFeed } from '../collector/news-sources/_feed.mjs';
 import {
   CATS, GDELT_QUERY, categorize, prepCountries, countryNear, countryAt, makeMatcher, clusterStories,
   countryInputs, newsPart, hazardPart, CORE_VERSION,
-  adsbModality, adsbCells, adsbModeTotals, assessAircraftHealth,
+  adsbModality, adsbCells, adsbModeTotals, assessAircraftHealth, isAdsbRateLimit,
 } from './core.mjs';
 
 const args = process.argv.slice(2);
@@ -254,6 +254,9 @@ async function hazards(sources, countries) {
       const pts = [];
       let okN = 0;
       let last;
+      // Ask squawk codes one at a time. A 429/420 on the first means the shared
+      // adsb.lol budget is spent — stop instead of burning two more 429s that
+      // leave emerg with no stale_from and trip the watchdog.
       for (let i = 0; i < SRC.emerg.length; i++) {
         const code = ['7700', '7600', '7500'][i];
         try {
@@ -263,7 +266,10 @@ async function hazards(sources, countries) {
             const p = adsbPoint(a);
             if (p) pts.push({ ...p, by: { [code]: 1 } });
           }
-        } catch (e) { last = e; }
+        } catch (e) {
+          last = e;
+          if (isAdsbRateLimit(e && e.message)) break;
+        }
       }
       if (!okN) throw last || new Error('no squawk feed answered');
       res.emerg = pts;
@@ -373,7 +379,6 @@ export async function main() {
 
   // A source that failed this run keeps its previous data, marked stale, rather than vanishing.
   carryForward(sources, hz, prevSnap);
-
   const stories = clusterStories(items);
   const inputs = countryInputs({ stories, quakes: hz.quakes, gdacs: hz.gdacs, eonet: hz.eonet, now: Date.now() });
   const history = appendHistory(prevHist, Date.now(), inputs);

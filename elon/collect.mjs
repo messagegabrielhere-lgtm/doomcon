@@ -480,7 +480,14 @@ async function main() {
   if (dated) clips = merge(clips, [], now);   // re-sort now that they have dates
 
   if (!report.some((r) => r.ok)) {
-    console.error('Every source failed; not publishing.');
+    // YouTube occasionally 404s every RSS feed from Actions IPs for a few
+    // minutes. Wiping elon-data or painting the hourly job red on that is the
+    // wrong tool — keep the previous index on the branch and exit clean.
+    if (prev?.clips?.length) {
+      console.warn('Every source failed; keeping the previous index on elon-data (not publishing).');
+      process.exit(0);
+    }
+    console.error('Every source failed; not publishing (no previous index to keep).');
     process.exit(1);
   }
   await mkdir(outDir, { recursive: true });

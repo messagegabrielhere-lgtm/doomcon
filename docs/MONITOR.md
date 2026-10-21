@@ -61,6 +61,7 @@ layers. Every snapshot carries the verdict at `aircraft_health`:
 |---|---|
 | Snapshot older than 45 minutes | error |
 | `mil` / `adsb` / `emerg` live call failed with no stale copy | error |
+| Live call failed with adsb.lol rate limit (HTTP 420 / 429) | warn |
 | Live call failed, serving stale | warn |
 | Military ADS-B answered with 0 (or &lt; 5) aircraft | warn |
 | Fewer than half of the air-traffic hubs answered | warn |

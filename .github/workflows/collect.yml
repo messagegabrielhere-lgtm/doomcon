@@ -473,8 +473,8 @@ jobs:
           # fetched tip.
           #
           # APPEND-ONLY (data/history.ndjson, data/receipts/): a conflict there
-          # really does mean two runs appended to one ledger, which needs a
-          # person. Those are never force-resolved.
+          # means two runs appended. Never merge them (that forks the chain);
+          # keep whichever tip already landed and leave this run green.
           for attempt in 1 2 3; do
             if git push origin HEAD:main; then exit 0; fi
             echo "push rejected (attempt $attempt); replaying onto the new tip"
@@ -486,8 +486,11 @@ jobs:
               # mid-run is replayed onto cleanly with a plain rebase.
               git fetch -q origin main
               if [ -n "$(git diff --name-only HEAD~1 origin/main -- data/history.ndjson data/receipts)" ]; then
-                echo '::error::append-only ledger conflicted with a concurrent run; not auto-resolving'
-                exit 1
+                # Another full pass already appended. Keeping this run's copy
+                # would fork the receipt chain; the other reading is on main.
+                # Exit green — a lost race is not an operator page.
+                echo '::warning::append-only ledger conflicted with a concurrent run; keeping the tip that landed'
+                exit 0
               fi
               if git rebase -q origin/main; then continue; fi
               git rebase --abort || true
@@ -1133,8 +1136,8 @@ jobs:
           # rewrote news.json. Replay ours onto the fetched tip.
           #
           # APPEND-ONLY (data/history.ndjson, data/receipts/): a conflict there
-          # really does mean two runs appended to one ledger, which needs a
-          # person. Those are never force-resolved.
+          # means two runs appended. Never merge them (that forks the chain);
+          # keep whichever tip already landed and leave this run green.
           for attempt in 1 2 3; do
             if git push origin HEAD:main; then exit 0; fi
             echo "push rejected (attempt $attempt); replaying onto the new tip"
@@ -1146,8 +1149,11 @@ jobs:
               # mid-run is replayed onto cleanly with a plain rebase.
               git fetch -q origin main
               if [ -n "$(git diff --name-only HEAD~1 origin/main -- data/history.ndjson data/receipts)" ]; then
-                echo '::error::append-only ledger conflicted with a concurrent run; not auto-resolving'
-                exit 1
+                # Another full pass already appended. Keeping this run's copy
+                # would fork the receipt chain; the other reading is on main.
+                # Exit green — a lost race is not an operator page.
+                echo '::warning::append-only ledger conflicted with a concurrent run; keeping the tip that landed'
+                exit 0
               fi
               if git rebase -q origin/main; then continue; fi
               git rebase --abort || true

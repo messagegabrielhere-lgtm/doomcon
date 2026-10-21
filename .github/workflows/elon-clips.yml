@@ -53,6 +53,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # Collect exits 0 without writing clips.json when every YouTube source
+          # failed but a previous index still lives on elon-data. Skip publish.
+          if [ ! -f "$RUNNER_TEMP/elon-out/clips.json" ]; then
+            echo "No new index this run; leaving elon-data as-is"
+            exit 0
+          fi
           cd "$RUNNER_TEMP/elon-out"
           git init -q -b elon-data
           git config user.name "github-actions[bot]"

@@ -156,7 +156,30 @@ test('carryForward still keeps a previous non-empty layer', () => {
     mil: [{ n: 12 }, { n: NaN }],
   });
   assert.equal(sources.mil.stale_from, '2026-10-21T09:00:00Z');
-  assert.deepEqual(hz.mil, [{ n: 12 }]);
+  assert.deepEqual(hz.mil, [{ n: 12 }]);});
+
+test('assessAircraftHealth warns on adsb.lol rate limits instead of paging', () => {
+  const now = Date.parse('2026-10-12T12:40:00Z');
+  const health = assessAircraftHealth({
+    generated: '2026-10-12T12:39:00Z',
+    sources: {
+      mil: { ok: false, error: 'HTTP 420 from https://api.adsb.lol/v2/mil', stale_from: '2026-10-12T11:23:52.041Z' },
+      adsb: { ok: true, n: 200 },
+      emerg: { ok: false, error: 'HTTP 429 Too Many Requests from https://api.adsb.lol/v2/sqk/7500' },
+      mil_modes: { n: 80 },
+      adsb_modes: { n: 200 },
+      adsb_hubs: { ok: 6, of: 40, unique: 200 },
+    },
+    mil: [{ lat: 40, lon: -74, n: 80 }],
+    adsb: [{ lat: 1, lon: 1, n: 200 }],
+    emerg: [],
+  }, now);
+  assert.equal(health.ok, true, 'rate limits alone must not fail the watchdog');
+  const byId = Object.fromEntries(health.issues.map((i) => [i.id, i]));
+  assert.equal(byId.mil_stale?.severity, 'warn');
+  assert.equal(byId.emerg_rate_limited?.severity, 'warn');
+  assert.equal(byId.adsb_hubs_thin?.severity, 'warn');
+  assert.equal(health.issues.some((i) => i.severity === 'error'), false);
 });
 
 test('assessAircraftHealth warns when mil answers empty', () => {

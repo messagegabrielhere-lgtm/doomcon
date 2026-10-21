@@ -436,6 +436,16 @@ export const AIRCRAFT_STALE_MIN = 45;
 export const MIL_THIN_FLOOR = 5;
 /** Hub-sample unique aircraft below this (while claiming ok) is a warning. */
 export const ADSB_THIN_FLOOR = 50;
+/**
+ * adsb.lol answers HTTP 420 (Enhance Your Calm) and 429 when the monitor's
+ * hub fan-out spends the shared budget. Those are transient throttles, not a
+ * down feed — same class as the index heal ladder's rate-limit rule.
+ */
+export const ADSB_RATE_LIMIT = /\b(420|429)\b|rate exceeded|too many requests|enhance your calm/i;
+
+export function isAdsbRateLimit(error) {
+  return ADSB_RATE_LIMIT.test(String(error || ''));
+}
 
 function cellSum(cells) {
   return (cells || []).reduce((t, c) => t + (Number.isFinite(c.n) ? c.n : 0), 0);
@@ -473,6 +483,10 @@ export function assessAircraftHealth(snap, now = Date.now()) {
     }
     if (!s.ok && s.stale_from) {
       issues.push({ id: `${id}_stale`, severity: 'warn', msg: `${label}: live call failed (${s.error || 'unknown'}); serving stale from ${s.stale_from}` });
+    } else if (!s.ok && isAdsbRateLimit(s.error)) {
+      // Rate limits clear on the next tick; paging the operator every quarter
+      // hour painted watchdog red while the rest of the monitor stayed live.
+      issues.push({ id: `${id}_rate_limited`, severity: 'warn', msg: `${label}: rate-limited — ${s.error || 'unknown'}` });
     } else if (!s.ok) {
       issues.push({ id: `${id}_down`, severity: 'error', msg: `${label}: failed — ${s.error || 'unknown'}` });
     }
