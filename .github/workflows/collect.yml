@@ -679,6 +679,9 @@ jobs:
           # snapshots yet" into a job failure, and a first-ever run has none.
           # shellcheck disable=SC2012
           echo "snapshot=$(ls -1 data/raw/*.json 2>/dev/null | sort | tail -1 || true)" >> "$GITHUB_OUTPUT"
+          # The published state this run starts from, so the Slack report can
+          # tell a level move or a newly dark pillar from one already reported.
+          cp data/state.json "$RUNNER_TEMP/prev-state.json" 2>/dev/null || true
 
       - name: Collect
         id: collect
@@ -1069,6 +1072,18 @@ jobs:
           GOATCOUNTER_API_KEY: ${{ secrets.GOATCOUNTER_API_KEY }}
           GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
         run: node collector/visitor-report.mjs || true
+
+      - name: Slack hourly report
+        # One message per full pass: index line, GoatCounter page views, and an
+        # alert line when the level moved or the index went degraded/recovered
+        # since the state this run started from. No SLACK_WEBHOOK_URL → the
+        # report is printed and the step exits 0. Never fails the lane.
+        continue-on-error: true
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          GOATCOUNTER_API_KEY: ${{ secrets.GOATCOUNTER_API_KEY }}
+          GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
+        run: node collector/slack-report.mjs --prev "$RUNNER_TEMP/prev-state.json"
 
       - name: Build site
         # Runs even when the engine was skipped: the generator is a pure function
