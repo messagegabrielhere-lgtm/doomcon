@@ -69,8 +69,23 @@ jobs:
         run: |
           set -e
           URL="https://siren.watch/"
-          CODE=$(curl -sS -o /tmp/siren-home.html -w "%{http_code}" --max-time 25 "$URL" || echo 000)
-          BYTES=$(wc -c </tmp/siren-home.html | tr -d ' ')
+          # curl -w prints 000 and exits non-zero on a timeout. `|| echo 000`
+          # appended a second 000, so one blip was reported as HTTP 000000
+          # (2026-10-20 06:28Z). Retry once: that run burned the whole 25s budget.
+          probe() {
+            curl -sS -o /tmp/siren-home.html -w "%{http_code}" --max-time 25 "$1" || true
+          }
+          CODE=$(probe "$URL")
+          if [ "$CODE" != "200" ]; then
+            sleep 5
+            CODE=$(probe "$URL")
+          fi
+          CODE=${CODE:-000}
+          if [ -f /tmp/siren-home.html ]; then
+            BYTES=$(wc -c </tmp/siren-home.html | tr -d ' ')
+          else
+            BYTES=0
+          fi
           echo "homepage HTTP ${CODE}, ${BYTES} bytes"
           if [ "$CODE" != "200" ]; then
             echo "::error title=Homepage down::HTTP ${CODE} from ${URL}"
@@ -94,7 +109,8 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.probe || github.event_name == 'workflow_run' || github.event_name == 'schedule' }}
         run: |
           set -euo pipefail
-          CODE=$(curl -sS -o /tmp/siren-state.json -w "%{http_code}" --max-time 25 "https://siren.watch/api/state.json" || echo 000)
+          CODE=$(curl -sS -o /tmp/siren-state.json -w "%{http_code}" --max-time 25 "https://siren.watch/api/state.json" || true)
+          CODE=${CODE:-000}
           if [ "$CODE" != "200" ]; then
             echo "::error title=state.json down::HTTP ${CODE}"
             exit 1
@@ -141,7 +157,8 @@ jobs:
         run: |
           set -euo pipefail
           URL="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/monitor-data/monitor.json"
-          CODE=$(curl -sS -o /tmp/monitor.json -w "%{http_code}" --max-time 25 "$URL" || echo 000)
+          CODE=$(curl -sS -o /tmp/monitor.json -w "%{http_code}" --max-time 25 "$URL" || true)
+          CODE=${CODE:-000}
           echo "monitor.json HTTP ${CODE}"
           if [ "$CODE" != "200" ]; then
             echo "::error title=monitor snapshot down::HTTP ${CODE} from ${URL}"

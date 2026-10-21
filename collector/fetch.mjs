@@ -117,6 +117,15 @@ const HOST_MIN_INTERVAL_MS = {
   'api.bsky.app': 400,
   // Substack Cloudflare: several newsletters share the edge; burst = 403.
   'substack.com': 1500,
+  // adsb.lol answers "rate limit exceeded: 10 req/min". monitor/collect.mjs
+  // hits this host with one military read, 40 hub samples and 3 squawk codes
+  // in the same run. At 6s, 10 starts still land inside one minute and the
+  // shared Actions IP was 429ing after the first ~10 calls (2026-10-19 through
+  // 2026-10-21: emergency squawks failed, 7–12 of 40 hubs answered). 7s puts
+  // the 10th start past the minute, so the squawk reads are not the ones that
+  // lose the race. 44 calls × 7s is about 5 minutes, inside monitor-data's
+  // 12-minute job.
+  'api.adsb.lol': 7000,
 };
 
 // Suffix rules for hosts that share one rate-limit bucket (*.substack.com).
@@ -133,6 +142,13 @@ function gateKeyFor(host) {
     if (host.endsWith(suffix)) return { key: suffix, minMs };
   }
   return null;
+}
+
+/** Minimum spacing for a URL, or 0 when that host is not gated. */
+export function hostMinIntervalMs(url) {
+  let host;
+  try { host = new URL(url).hostname; } catch { return 0; }
+  return gateKeyFor(host)?.minMs ?? 0;
 }
 
 function hostGate(url) {

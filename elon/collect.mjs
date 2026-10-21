@@ -29,6 +29,7 @@ import { fileURLToPath } from 'node:url';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PREV_DEFAULT = 'https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/elon-data/clips.json';
 const MAX_CLIPS = 6000;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36';
 
 // Names him: "Elon", "Musk", "Musk's". Not "muskrat", not "Elongated".
@@ -255,13 +256,52 @@ export function merge(prevClips, fresh, now = new Date().toISOString()) {
     .slice(0, MAX_CLIPS);
 }
 
+/**
+ * Delay before another try, or 0 when this failure should stand.
+ *
+ * YouTube's Atom feed has answered a whole pass of valid channel ids with
+ * HTTP 404 (one 500) from an Actions runner, then the same urls on the next
+ * hour. Measured 2026-10-19 04:59Z: all 47 channels, cached ids, ~5s. `null`
+ * status is a timeout or a dropped connection. A 404 is retried only on
+ * youtube.com — a Data API 404 is a real miss, and 403 (quota, bad key) is not
+ * worth repeating. Two waits: 2s then 8s.
+ */
+export function youtubeRetryDelayMs(url, status, attempt) {
+  let host = '';
+  try { host = new URL(url).hostname; } catch { return 0; }
+  const youtube = host === 'www.youtube.com' || host === 'youtube.com' || host.endsWith('.youtube.com');
+  const api = host === 'www.googleapis.com';
+  if (!youtube && !api) return 0;
+  const transient = status == null
+    || status === 408
+    || status === 429
+    || (status >= 500 && status <= 599)
+    || (status === 404 && youtube);
+  if (!transient) return 0;
+  return [2000, 8000][attempt] ?? 0;
+}
+
+function retryableTransport(err) {
+  return err?.name === 'TimeoutError' || err?.name === 'AbortError' || err?.name === 'TypeError';
+}
+
 async function get(url, { json = false } = {}) {
-  const res = await fetch(url, {
-    headers: { 'user-agent': UA, 'accept-language': 'en-US,en;q=0.9', cookie: 'CONSENT=YES+1; SOCS=CAI' },
-    signal: AbortSignal.timeout(20000),
-  });
-  if (!res.ok) { const e = new Error(`HTTP ${res.status}`); e.status = res.status; throw e; }
-  return json ? res.json() : res.text();
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const res = await fetch(url, {
+        headers: { 'user-agent': UA, 'accept-language': 'en-US,en;q=0.9', cookie: 'CONSENT=YES+1; SOCS=CAI' },
+        signal: AbortSignal.timeout(20000),
+      });
+      if (!res.ok) { const e = new Error(`HTTP ${res.status}`); e.status = res.status; throw e; }
+      return json ? res.json() : res.text();
+    } catch (err) {
+      const delay = (err?.status != null || retryableTransport(err))
+        ? youtubeRetryDelayMs(url, err.status ?? null, attempt)
+        : 0;
+      if (!delay) throw err;
+      await sleep(delay);
+    }
+  }
 }
 
 async function loadPrevious(src) {
