@@ -363,6 +363,14 @@ export const LICENSE_BLURB = 'Code MIT; data and index values CC BY 4.0';
 export const CONTACT_EMAIL = 'contactus@siren.watch';
 export const REPO_URL = 'https://github.com/messagegabrielhere-lgtm/doomcon';
 
+// Satire / parody framing, kept as data so the about page, the terms and the
+// static joke pages deny the same things in the same words: humour is not a
+// literal claim, not an official alert, and not advice.
+export const SATIRE =
+  'Parts of this site — including the mascot, joke pages, exaggerated language ' +
+  'and some commentary — are satire, parody and humour. They are not literal ' +
+  'statements of fact, not official alerts, and not advice of any kind.';
+
 // Shared legal lines so footers, the disclosures hub and the sitebar cannot
 // drift. Voice stays flat: instrument room, not oracle (docs/VOICE.md).
 export const LEGAL_NOT_ADVICE =

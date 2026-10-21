@@ -1,17 +1,31 @@
 # Compliance auditor
 
 A zero-dependency scanner that blocks the expensive legal mistakes AI-built sites
-tend to ship with. It runs on every push, weekly, and as a gate before every
+tend to ship with. It runs on every push, daily, and as a gate before every
 deploy to GitHub Pages.
 
 ```bash
 npm run compliance            # self-test the rules, then audit (strict)
+npm run compliance:daily      # same + daily market-regime checklist + REMEDIATION.md
 npm run compliance:fix        # apply safe auto-fixes, then write REMEDIATION.md
 node compliance/audit.mjs     # fails on HIGH only
 node compliance/audit.mjs --strict --dir public   # also scan the built site
 node compliance/audit.mjs --verbose               # step-by-step for manual checks
 node compliance/audit.mjs --json
 ```
+
+## Daily schedule (all markets)
+
+GitHub Actions runs this audit **every day** at 13:17 UTC (see
+`.github/workflows/compliance.yml`). Each run self-tests every rule, audits the
+repo under `--strict`, runs `npm audit` on both lockfiles, and writes
+`REMEDIATION.md` (uploaded as an artifact) including the recurring
+**daily market-regime checklist** from [`markets.mjs`](markets.mjs) — US
+federal, California, EU/EEA, UK, prediction-market geo and Amazon Associates —
+across the scanner, arena, monitor, terms, sitebar and shop surfaces.
+
+Those daily regime checks reset every day; do **not** mark them `done` in
+`manual.json`. One-time operator setup items stay in `manual.json`.
 
 ## Human audit findings
 
@@ -63,6 +77,14 @@ It never edits a build folder passed with `--dir`.
 | `social-affiliate` | high | FTC + Amazon: affiliate links in posts need #ad |
 | `ytdlp-cookies` | low | YouTube ToS: logged-in cookies put that Google account at risk |
 | `security-meta` | medium | XSS backstop: every shipped HTML page needs CSP meta (Pages has no HTTP headers) |
+| `terms-page` | medium | Terms of use for not-advice, licences and liability posture |
+| `security-policy` | medium | SECURITY.md reporting policy at the repo root |
+| `dependabot-config` | medium | Declared npm dependencies need `.github/dependabot.yml` |
+| `workflow-permissions` | high | Every workflow declares a top-level least-privilege `permissions:` block |
+| `workflow-secret-echo` | high | No `echo`/`printf`/`cat` of a `secrets.*` value into Actions logs |
+| `market-surface-disclaimer` | high | Advisers Act / UDAP / FCA tone — finance surfaces need "not advice" |
+| `polymarket-geo` | medium | Polymarket odds UI without a US/geo availability notice |
+| `markets-privacy-coverage` | medium | Market APIs (Yahoo, OKX, Binance, Polymarket, Coinbase) missing from privacy |
 
 `compliance/selftest.mjs` plants a violation and a fix for every rule and fails CI
 if any rule stops catching its violation, starts flagging the fix, or if an

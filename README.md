@@ -58,6 +58,9 @@ Next 90 days of site work (merge queue, retention, SEO, operator handoffs):
 
 ## Architecture
 
+**New here?** Start with the novice map: **[docs/README.md](docs/README.md)** —
+what every folder does, side projects vs the index, and which workflow to look at.
+
 ```
 collector/fetch.mjs        shared HTTP: timeout, retry, User-Agent, structured errors
 collector/sources/*.mjs    one adapter per source — drop a file in, it is discovered
@@ -170,6 +173,12 @@ Before you share the URL widely, walk **[docs/LAUNCH.md](docs/LAUNCH.md)**
 (the 20-point checklist) and keep **[docs/ROLLBACK.md](docs/ROLLBACK.md)**
 handy. Secrets never belong in `site/` or in git — see [SECURITY.md](SECURITY.md).
 
+Privacy, terms and disclosures are live at `/privacy.html`, `/terms.html` and
+`/disclosures.html`. `npm run compliance` is the local gate; it also runs on
+every push, daily, and before every Pages publish. Operator checklists:
+[GO-LIVE.md](GO-LIVE.md) (Step 5), [docs/X-OPERATOR.md](docs/X-OPERATOR.md)
+and `compliance/REMEDIATION.md`.
+
 ## Licence
 
-Code MIT. Data and index values CC-BY 4.0.
+Code MIT. Data and index values CC BY 4.0. See [LICENSE](LICENSE).

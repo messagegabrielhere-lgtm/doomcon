@@ -38,6 +38,7 @@ const CASES = {
       F('a.html', '<form><input type="email" name="email"> <a href="/privacy.html">Privacy</a></form>'),
       // Public RSS URLs on newsletter hosts are not email capture.
       F('feed.mjs', "export const FEED = 'https://epochai.substack.com/feed';\n"),
+      F('rss.mjs', "export const FEED = 'https://news.example.substack.com/rss';\n"),
     ],
   },
   'can-spam': {
@@ -61,7 +62,10 @@ const CASES = {
     good: [F('a.html', 'RSI below 30, golden cross, stop-loss hit. Not investment advice.')],
   },
   'secret-in-repo': {
-    bad: [F('a.mjs', "const k = 'sk-ant-api03-ABCDEFGHIJKLMNOPQRSTUVWX'")],
+    bad: [
+      F('a.mjs', "const k = 'sk-ant-api03-ABCDEFGHIJKLMNOPQRSTUVWX'"),
+      F('b.mjs', "const t = 'npm_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcd'"),
+    ],
     good: [F('a.mjs', 'const k = process.env.ANTHROPIC_API_KEY')],
   },
   'owner-pii': {
@@ -96,6 +100,46 @@ const CASES = {
   'privacy-page': {
     bad: [F('a.html', '<p>hi</p>')],
     good: [F('a.html', '<a href="/privacy.html">Privacy</a>')],
+  },
+  'terms-page': {
+    bad: [F('a.html', '<p>hi</p>')],
+    good: [F('a.html', '<a href="/terms.html">Terms</a>')],
+  },
+  'security-policy': {
+    bad: [F('README.md', '# hi')],
+    good: [F('SECURITY.md', '# Security\n\nReport via advisories.')],
+  },
+  'dependabot-config': {
+    bad: [F('package.json', '{"dependencies":{"left-pad":"1.0.0"}}')],
+    good: [F('package.json', '{"dependencies":{"left-pad":"1.0.0"}}'), F('.github/dependabot.yml', 'version: 2\nupdates: []')],
+  },
+  'workflow-permissions': {
+    bad: [F('.github/workflows/x.yml', 'name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n    steps: []\n')],
+    good: [F('.github/workflows/x.yml', 'name: x\non: push\npermissions:\n  contents: read\njobs:\n  a:\n    runs-on: ubuntu-latest\n    steps: []\n')],
+  },
+  'workflow-secret-echo': {
+    bad: [F('.github/workflows/x.yml', 'run: echo "key=${{ secrets.ANTHROPIC_API_KEY }}"')],
+    good: [F('.github/workflows/x.yml', 'env:\n  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}\nrun: node script.mjs')],
+  },
+  'market-surface-disclaimer': {
+    bad: [F('site/static/scanner.html', '<h1>Capitulation Scanner</h1><p>RSI and breakouts</p>'), F('site/sitebar.mjs', 'export const DISCLOSURE = "hello";')],
+    good: [F('site/static/scanner.html', '<h1>Capitulation Scanner</h1><p>Not investment advice.</p>'), F('site/sitebar.mjs', 'export const DISCLOSURE = "Not financial advice. We are not financial advisors.";')],
+  },
+  'polymarket-geo': {
+    bad: [F('site/static/scanner.html', '<p>Compare live BTC with Polymarket odds via gamma-api.polymarket.com</p>')],
+    good: [F('site/static/scanner.html', '<p>Compare live BTC with Polymarket odds via gamma-api.polymarket.com. Not available to people in the US and some other countries.</p>')],
+  },
+  'markets-privacy-coverage': {
+    bad: [
+      F('site/static/scanner.html', '<p>scanner</p>'),
+      F('site/static/arena.html', '<p>arena</p>'),
+      F('site/templates/infoPages.mjs', 'export function privacy() { return "<p>No analytics. GitHub Pages hosts the site.</p>"; }'),
+    ],
+    good: [
+      F('site/static/scanner.html', '<p>scanner</p>'),
+      F('site/static/arena.html', '<p>arena</p>'),
+      F('site/templates/infoPages.mjs', 'export function privacy() { return "<p>Yahoo, OKX, Binance, Polymarket, Coinbase. No analytics.</p>"; }'),
+    ],
   },
   'security-meta': {
     // Built-site fixture: HTML without CSP meta fails; with data-siren-csp passes.
