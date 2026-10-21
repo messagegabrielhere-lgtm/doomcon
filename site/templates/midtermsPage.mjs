@@ -105,6 +105,7 @@ const CSS = `<style>
 .mt-cand .sum{font:400 13.5px/1.45 var(--sans);color:#AEB7C3;margin:0}
 .mt-cand .ev{font:400 12.5px/1.4 var(--sans);color:#94A3B8;margin:0;border-left:2px solid #334155;padding-left:10px}
 .mt-cand .ev a{color:#A5B4FC}
+.mt-cand .ev-k{font:600 11px/1.3 var(--mono);letter-spacing:.04em;color:#6B7686;display:block;margin-bottom:2px}
 .mt-chip{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;font:800 10px/1 var(--mono);letter-spacing:.08em;background:var(--sc);color:var(--si)}
 .mt-x{appearance:none;border:1px solid #A5B4FC;background:#0B1020;color:#C7D2FE;padding:10px 14px;font:700 13px var(--mono);cursor:pointer;margin:8px 8px 8px 0}
 .mt-x:hover{background:#161D33}
@@ -139,7 +140,7 @@ function raceBlock(ctx, race) {
       ? utcDay(ev.date.length === 10 ? `${ev.date}T00:00:00.000Z` : ev.date)
       : null;
     const evHtml = ev
-      ? `<p class="ev">“${esc(ev.quote)}” — ${ev.url ? `<a href="${esc(ev.url)}" target="_blank" rel="noopener nofollow">${esc(ev.source || 'source')}</a>` : esc(ev.source || 'source')}${evDate ? ` · ${esc(evDate)}` : ''}</p>`
+      ? `<p class="ev">${ev.kind === 'summary' ? `<span class="ev-k">Tracker summary, not the candidate's words:</span> ${esc(ev.quote)}` : `“${esc(ev.quote)}”`} — ${ev.url ? `<a href="${esc(ev.url)}" target="_blank" rel="noopener nofollow">${esc(ev.source || 'source')}</a>` : esc(ev.source || 'source')}${evDate ? ` · ${esc(evDate)}` : ''}</p>`
       : '<p class="ev">No cited line in this build.</p>';
     return `<article class="mt-cand" id="${esc(c.id)}">
       <div class="row"><span class="nm">${esc(c.name)}${c.incumbent ? ' · inc.' : ''}</span>${stanceChip(c.stance)}</div>
