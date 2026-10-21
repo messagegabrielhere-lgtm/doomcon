@@ -10,7 +10,7 @@
 //   api/pillars.csv              the current pillars
 //   api/latest.txt               the current reading as one line
 //   verify.html free-tools.html alerts.html export.html bias.html
-//   reference-plan.html changelog.html
+//   reference-plan.html changelog.html evidence.html
 // feed-level.xml and feed.xml are build.mjs's and are not touched.
 //
 // Also exported for the homepage: whatMoved(ctx), alternativeSignals(state).
@@ -26,7 +26,7 @@ import {
   readings, transitions, readingPath, receiptId, whatMoved, alternativeSignals,
 } from './templates/extrasData.mjs';
 import {
-  alertsPage, exportPage, biasPage, referencePlanPage, changelogPage,
+  alertsPage, exportPage, biasPage, referencePlanPage, changelogPage, evidencePage,
 } from './templates/extrasPages.mjs';
 import { verifyPage } from './templates/verifyPage.mjs';
 import { freeToolsPage } from './templates/freeToolsPage.mjs';
@@ -41,6 +41,7 @@ const MAX_ITEMS = 50;
 export const EXTRAS_PAGES = [
   { path: '/verify.html', label: 'Verify a reading', blurb: 'How do you check a SIREN reading yourself?' },
   { path: '/free-tools.html', label: 'Free tools', blurb: 'What free tools does SIREN publish?' },
+  { path: '/evidence.html', label: 'Evidence', blurb: 'What backs the SIREN number?' },
   { path: '/alerts.html', label: 'Alerts', blurb: 'RSS, email, webhook and X alerts for level changes and spikes.' },
   { path: '/export.html', label: 'Export and embed', blurb: 'CSV and JSON downloads, the widget, the badge, the API.' },
   { path: '/changelog.html', label: 'What moved', blurb: 'What moved the SIREN score this hour?' },
@@ -244,5 +245,6 @@ export async function writeExtras(ctx, write, outDir, opts = {}) {
   written.push(await write(outDir, 'bias.html', biasPage(ctx)));
   written.push(await write(outDir, 'reference-plan.html', referencePlanPage(ctx, referenceFacts(ctx, dataDir))));
   written.push(await write(outDir, 'changelog.html', changelogPage(ctx)));
+  written.push(await write(outDir, 'evidence.html', evidencePage(ctx)));
   return written;
 }
