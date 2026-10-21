@@ -99,13 +99,32 @@ export function hasVisitors(visitors) {
 }
 
 /**
+ * Honest empty state so /#readers is never a dead hash. No invented counts.
+ * @param {{ titleHtml?: string }} [opts]
+ */
+export function visitorsAwaitingPanel({ titleHtml } = {}) {
+  const heading = titleHtml || `<span class="v2-sr">Where the readers are</span>`;
+  return `<section class="v2-vmap v2-vmap--await" id="readers" data-sec="Readers" aria-labelledby="v2-vmap-h">
+  <div class="v2-sec"><h2 id="v2-vmap-h">${heading}</h2>
+    <span>DAILY · COUNTRY COUNTS · NO SNAPSHOT YET</span></div>
+  <div class="v2-vmap__box v2-vmap__box--await">
+    <p class="v2-vmap__await">No country counts on this build. The daily GoatCounter refresh fills
+      this section with an equal-area map of where SIREN readers are —
+      aggregate country totals only, from a truncated IP that is not stored.
+      Until that file is here, the page shows no invented numbers.</p>
+  </div>
+</section>`;
+}
+
+/**
  * Compact homepage figure: choropleth + top-country list.
- * Returns '' when the model cannot be built.
- * @param {object} model
+ * Falls back to the awaiting panel when the model cannot be built, so the
+ * ✦ New link to /#readers always lands on a real section.
+ * @param {object|null} model
  * @param {{ href?: Function, titleHtml?: string }} [opts]
  */
 export function visitorsHomePanel(model, { href, titleHtml } = {}) {
-  if (!model) return '';
+  if (!model) return visitorsAwaitingPanel({ titleHtml });
   const days = (model.window && model.window.days) || 7;
   const countries = Number(model.totals.countries) || model.ranked.length;
   const located = Number(model.totals.visitors_located)
@@ -161,10 +180,13 @@ export function visitorsHomePanel(model, { href, titleHtml } = {}) {
 export const VISITORS_MAP_CSS = `
 .v2-vmap{margin:18px 0 8px}
 .v2-vmap__box{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(200px,0.9fr);gap:16px;align-items:stretch;border:2px solid #232C3B;background:#0E131D;padding:16px}
+.v2-vmap__box--await{grid-template-columns:1fr}
+.v2-vmap__await{margin:0;font-size:14px;line-height:1.55;color:#AEB7C3;max-width:62ch}
+.v2-vmap__await code{font:600 12px/1.4 'IBM Plex Mono',monospace;color:#D7DCE3}
 .v2-vmap__fig{margin:0;min-width:0}
 .v2-vmap__fig svg{display:block;width:100%;height:auto;border:1px solid #1A2232;background:#05070B}
 .v2-vmap__fig figcaption{margin-top:10px;font-size:12.5px;line-height:1.45;color:#AEB7C3}
-.v2-vmap__fig figcaption a{color:#A5B4FC}
+.v2-vmap__fig figcaption a{color:#5EEAD4}
 .v2-vmap__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .v2-vmap__list li{display:grid;grid-template-columns:28px minmax(0,1fr) auto auto;gap:8px;align-items:baseline;font-size:13px;color:#D7DCE3}
 .v2-vmap__r{font:700 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#8A94A3}
