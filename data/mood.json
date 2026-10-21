@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-21T23:03:29.104Z",
-  "news_generated_at": "2026-10-21T23:03:29.104Z",
+  "generated_at": "2026-10-21T23:43:45.694Z",
+  "news_generated_at": "2026-10-21T23:43:45.694Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,26 +18,26 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 218,
+    "headlines_naming_a_company": 223,
     "companies_on_roster": 10,
-    "companies_with_headlines": 10,
-    "negative_pair_share": 0.092
+    "companies_with_headlines": 9,
+    "negative_pair_share": 0.094
   },
   "glance": {
     "leading": {
       "id": "nvidia",
       "name": "NVIDIA",
-      "index": 4.3
+      "index": 4
     },
     "trailing": {
-      "id": "xai",
-      "name": "xAI",
-      "index": -32
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "index": -14.8
     },
     "most_discussed": {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 52
+      "headlines": 50
     }
   },
   "companies": [
@@ -97,10 +97,67 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 43,
-      "index": 0.6,
+      "headlines": 45,
+      "index": 1.1,
       "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "bdfd930e520d8ead",
+          "title": "OpenAI Asks Gov. Newsom to Strengthen AI Regulations",
+          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNcXNJQW5vakdCTzh0aWIyTmNqalJYYnFrM3BTVmpxczU5MVAyMlgwdXlGZTNjbk02ZjJ2Qm1YZTNqYVF2TXZTMGpRMGdqaUZVU3lGU3NYYnpWSTU2cWpJenVzbW1sRDN0dU9NNzRqbXdFSkhhRHptUmRPM2NVV0RqMzZDd1ZUTzVmdVc1bzdlS215RGM?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:32:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "aa03b31b977e8c50",
+          "title": "Anthropic Launches Claude Duet, Competing with OpenAI and Meta",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNbDBvTWxzakhZRVF6Z2Z5aWttdEVsV0Z1amhNcFRfd29TZ1pjQTlXdTE5TGk0ODVPUURkbGoxVVFodXZ6aXB3d2ZLbWVTRDViaUtxdEN5LWJrSGZremltNGVzWndvNTQ1aHFzM1N0VmRha2dWN1hkek1uWml1d29rTVl0SmlwN0pCcFd6aE9WS1ZYdmsyZ3FfU3RvQnRJU1JwT2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:30:47.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e63cd131b7ee51ce",
+          "title": "OpenAI's George Osborne calls for UK investment in AI research and skills at Oxford summit",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOVnJjWTdiSXJBaGhvb1dISW1yMERqRWlZNGdLdWVBWDdzOEExOEh6OG1JSkRPeDN5ZHJqQ2lxbWtCVDlaTUE4dERKdDJ0eXJqWFlzT1JDN19nNEFnbXVJNFRZdzduUTVraUNENnJzdkhCZy1YSk1lUTVKU3M5S2djbHpFWXRBdnh1UXE3VDBZaE9MN296LU56T0NGRHRSMjRLbEJOemxzeExPRDl1cXlzMEhUejE5bkQ5RzByT1J0X1V1LWcwRlF4TFZ3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:17:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "416804603fb5237b",
+          "title": "OpenAI reveals its agents disabled safety safeguards, concealed changes",
+          "url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxQOS1IRjRJaFZlNzVPdUk0UTg3LVhOUVl3Y1BXWTM0cUdDOUtOTFFyX25LVFBMZnJSMDAyTWNHM0ZZamNMT01OUHpIVXBIeUtkdjlOdEI1M0dzNjlKdldWZ2JEeEFrRmprRER5aTRsQ1NuQUpsTGZaTFJUSUdaZTV1NUpZcXhwMlNyUV9VdDJobXp3ZWE2ajJaaGVIY0RKM1gxSjBCMWVjeUNzVXlfaEEzRW5TcldaaEM4LXo3Y0gwdzZoUUVuMkFubUFBQWpBSGNZMkx0amJPY0M2OElmMkRTYklvaUU5TGdDbWtGeTJ0ZjgtMVItNlNRLXEzVzNJRVV4VGF5NDlfY1d1OUFnODBmWFVKVdIBmAJBVV95cUxQdDhJX2hOYzQybkg3UUdsRG1KcHl0T0dhYmY3UVNwSzRDQWVROFpRNEo1RHctVnZBd0oxaWFEdGdoVUlOX0Y0UU9WUFF3cExDeVAzSllMemZfY2IwRW90dHlfVVNJbHVqekFyQmZXdHRPenJwaFJTR0QwRHVhYS1Sc1R6RDVkSERrZ2FsaU1rU2dUZlQtSmx0dVoxb0d5ZWYyLTVJZlM4Y3Y4bDkxYk1HNWdUeE53Uzd3aWoxZHFCbEs0S3F1WVktTjZlS2lnZGZOSi1Hc25yUXVXYkVETE5KcGJuQ2Y0RGgya0FYckh1YTg4WnhVQVdLdVBibW9WRUk2QTd2WjVWWUVaOUZBRU1JbGJYMWlQUHMw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:12:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "24956a2013a4a04d",
+          "title": "OpenAI GPT-6 Models Can Now Rewrite 60-Year-Old Banking Code",
+          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOWmJXQmFqLWZscGZtUlVZZG1YUTlMSzN3R1BCVDVaN2pnQlphM2FaWEYyd0U0Nk1VX3UtM1gtaXpObk9aR0xMeE5LcVVZU2VzWVI4bWpGMFNXZU1YRkNhWjdpNlZIelRNeGp3MjVUYWtiRXJBV3dZR2xGdXVDaklVMXhOenBfVms?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:04:45.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "832da92a156b28cd",
           "title": "PerturbAI, OpenAI mine brain CRISPR data for drug discovery leads",
@@ -137,69 +194,14 @@
             "exploit"
           ],
           "clickbait": []
-        },
-        {
-          "id": "a085dffea7de1a55",
-          "title": "OpenAI has revealed that two of its artificial intelligence agents disabled or weakened systems built to catch them misbehaving, with one later denying it had done so. Read more: https://www.gmanetwork.com/news/scitech/technology/1006749/openai-says-its-",
-          "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQRUs2N3BRMzRLMDFucUFLVTJyS2pnRXVXVm5zTGtOYk9yUlRyUTJybHdjX3h0c3AzNG0tajZpSjlxU3gyT1F0RDJxMlpfU3UtaEdpSWNwT0YzeFVUZ1lubWUySWpJVm9KWGhMb1VVNnV4S1hla3o4RGw0ODZYSHhpUDNLWTlHQ212NVkxU2F0aFl6bWsxNTNSZlhqZ2p2bHlQUjUyX3VmaFQwZ2tNQWJrUFVmcjlzSzZNREN2VUxfcEtjLS1YaExzcGozQ1llVElUekdj?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T22:14:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5749e37fd6d2c1ad",
-          "title": "OpenAI to rewrite ChatGPT ads by default as advertisers get days to opt out",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxORUx5UDBtVUFfejNYbldGczNhMGV4QVVnYTAyYlhSdjhWQ2MzRFA3UHBRYmVvUXJyNmZiOVNnS2lDQmVUbTIyYUliUU5qdW1EWGtwR2x4MkZUSEk3YnFLTmlKMUdFeEI2N24zYUpURENwWXZpUG55eHA1Z2hMcHMzUXBEbmJHNmU0VG5SUVh3NkdDY3hPSTZQVw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T21:31:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "72c6930dc4c78c75",
-          "title": "OpenAI Wants to ‘Patch the Planet’ (With Its Own AI)",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQNHZicGg4czk4X0FqVXF5NlRyY0EzaVIwU1MtNkNReFlvRXVSOWpSbkswclZCWWFUS3U1M0dwSE9EemNUV3B4YnZIT3FmVlJNcHRoWVEwbWdmQkFRdlFrMkppVl9hWnltelZjM2NWX0phVC14WUk1b3lZQkl4ZmUzdnJSNnJtQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T20:55:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ea816e91e56aacad",
-          "title": "OpenAI says GPT-5.6 Sol found a PHP flaw before attackers did",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxObjFpSFdiTzhnMGh2dEo0ZDBKZEdaYm1UejRCVDZQOE0tYXJxcnE1bWtmQzE3N0htUE92VGZlRXl6aDJYRDFwT1dJaFlTRFl2clZKT3ZfbDN5dkRBckJTY3VFeWl3cndOdzJLU3RFaGFGSHEyenBnb2tVT2VseS1IS1ppb3pCQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T20:35:56.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "803c347019852b83",
-          "title": "OpenAI’s Brockman funds super PAC opposing AI regulation",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNR2lvcV9mci1HRkdwZVppQjJKRUtBVmoyUWlUNEVlejFnRnZYRnRwUGpmdzZDTy0zRjRsdV83TGNJWHZjQnQ4WFh2bERtTFQ3bWZPdUxRWWc1SmpHR01iWmhlWGthWThESnpPdmc0MzhPT1BXVXJTc0NQWEpZMU41Uk91WkZyQlE4UzR4YTZQUl9HZGdGTDFOcEwwQ0dlbHQ4RWc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T20:04:11.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 52,
-      "index": 4.3,
+      "headlines": 50,
+      "index": 4,
       "mean_headline": 0.5,
       "sample": [
         {
@@ -302,9 +304,22 @@
       "id": "anthropic",
       "name": "Anthropic",
       "headlines": 43,
-      "index": -0.6,
-      "mean_headline": -0.1,
+      "index": 0.7,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "aa03b31b977e8c50",
+          "title": "Anthropic Launches Claude Duet, Competing with OpenAI and Meta",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNbDBvTWxzakhZRVF6Z2Z5aWttdEVsV0Z1amhNcFRfd29TZ1pjQTlXdTE5TGk0ODVPUURkbGoxVVFodXZ6aXB3d2ZLbWVTRDViaUtxdEN5LWJrSGZremltNGVzWndvNTQ1aHFzM1N0VmRha2dWN1hkek1uWml1d29rTVl0SmlwN0pCcFd6aE9WS1ZYdmsyZ3FfU3RvQnRJU1JwT2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:30:47.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "01a7f49b1d3ff26c",
           "title": "Anthropic Joins the A.I. Agent Race With Claude Duet",
@@ -381,27 +396,64 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "a9c536f22eea23c3",
-          "title": "Submit a question: Could Anthropic’s IPO be a turning point for AI?",
-          "url": "https://ft.com/content/8cdf338e-d472-460c-8642-a8f033b99462?syn-25a6b1a6=1",
-          "source": "ft-ai",
-          "published_at": "2026-10-21T21:21:31.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 32,
-      "index": 3.8,
-      "mean_headline": 0.5,
+      "headlines": 37,
+      "index": 3,
+      "mean_headline": 0.4,
       "sample": [
+        {
+          "id": "aa03b31b977e8c50",
+          "title": "Anthropic Launches Claude Duet, Competing with OpenAI and Meta",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNbDBvTWxzakhZRVF6Z2Z5aWttdEVsV0Z1amhNcFRfd29TZ1pjQTlXdTE5TGk0ODVPUURkbGoxVVFodXZ6aXB3d2ZLbWVTRDViaUtxdEN5LWJrSGZremltNGVzWndvNTQ1aHFzM1N0VmRha2dWN1hkek1uWml1d29rTVl0SmlwN0pCcFd6aE9WS1ZYdmsyZ3FfU3RvQnRJU1JwT2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:30:47.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "514ca3d47ce9ac5c",
+          "title": "Meta Boosts AI Bets, Tesla Cuts Spending Target, More",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNZ1BfcUhEbnV5WWJTTlpuMUFiWTB1VGQtb09GbWU4VFR1TDliZ0dOa3JPeWRTXzFDcGdYajZQcEZSQmo1dHBlZTQwemtZVUh1Z2dxN0Q2ZjBhTS1Vb2tyS1MxUGRBZGdnZkV3MVFPbGgwYW1GeEhNWGN6Z2VRRzJIaHdqeFhwYmZ0ZjBuLVZJejZCRjRBOXZHcmJoTFN5RGlH?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-21T23:20:55.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9a27f05e0797bd58",
+          "title": "SpaceX Earnings Revive AI Trade as Meta’s Cash Flow Turns Negative",
+          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE40eXJwclJhUWNkOURBMS1QZE5nR0d0OTZMSkhrQl96c0FfLW9xV1NKcjZ5YTZoc0J0UTlnSzFRWXE5RVJqT2NzRlpuUm5ONEVpcmEyaQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:20:43.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7ed7251fc8006b91",
+          "title": "Meta puts Muse agent at heart of AI strategy, plans new stock to power investments",
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPRFFieGdGQjNVTEpWeTlmUG5ZOW5rRjgwSmpnV1RWdTUzRG5fZW1BQmxBdElRdEtfOVYzcWlaMjR1SGJqZWdPR200RzJuV2JZajJMYmhiSmh4VFdYVjdLQXNxRWo1ZEprRWpKQW1vQkhoMm5jT1RKNzJVczV4aUxHdDNWQ0JoSXVOYzN0WDhFMmh4cjg5RWNmZFhtaHlQTlJ0NmVnRlNpQjg?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-21T23:00:05.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "cc28d84b8cecf167",
           "title": "Meta agrees deal to keep Zuckerberg in California despite wealth tax proposal",
@@ -449,74 +501,16 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "1ca56179fb106cd2",
-          "title": "Tesla, IBM & Meta Report Earnings as AI Takes Center Stage",
-          "url": "https://bloomberg.com/news/videos/2026-10-21/the-close-10-21-2026-video",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-21T22:04:16.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d61c49c13d43d15e",
-          "title": "Meta Is Getting Creative to Fund Its Massive AI Investments",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNY3g4ZE5XUU1TakhLTFpLUjhESkRHVWdvZHpLZFBHTlVZU1RNMHR0RmpoZHlrZmo3ZnNQNVFRNXRVSlkzYndPV3o1RzJlRjJZei1zSFF4M1RhaXo4RWxMRDVsalh3dml2bWdtaUpHbjBWSXNVQmtVMFpwWGQ0MF9vdk9ldTlGU3AwbFV5QjBoWmRfeDFTenE2Sg?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-21T21:41:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "60670e713138097c",
-          "title": "Meta Will Split Stock, Create New Class to Fund AI Spending",
-          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOY20xcVZmaDh6bkhCTVVoQVJIOFhWZU1McXpENHNVTEdvMVY0YUQyUVdqOFBldFhJU1VXZ3lIY3FOSDN0ZFdBbXJDOXluVlA2WU9mcUJfM3FrVkQ1YXJBcDNSbXM0RlVib19UMFlsTFBBeFIyVGlEdUxVZS0wRDhWWl81ZjVXU0ZlQjJPeFRTaw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-21T21:33:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f8a96a3fbe14a0c5",
-          "title": "Meta to create a new class of shares to fund AI push",
-          "url": "https://bsky.app/profile/theverge.com/post/3myg466yvjx2o",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-21T21:30:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "xai",
       "name": "xAI",
-      "headlines": 1,
-      "index": -32,
-      "mean_headline": -4,
-      "sample": [
-        {
-          "id": "8fc31ff66cc29326",
-          "title": "US judge rejects Trump administration bid to block NAACP lawsuit against Musk's xAI over data center",
-          "url": "https://bsky.app/profile/reuters.com/post/3mycxk4xhit2e",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-20T15:35:09.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "lawsuit"
-          ],
-          "clickbait": []
-        }
-      ]
+      "headlines": 0,
+      "index": null,
+      "mean_headline": null,
+      "sample": []
     },
     {
       "id": "google",
@@ -727,10 +721,70 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 21,
-      "index": 0.4,
-      "mean_headline": 0,
+      "headlines": 25,
+      "index": -3.5,
+      "mean_headline": -0.4,
       "sample": [
+        {
+          "id": "9591b1cd4f512684",
+          "title": "Securing Quick access from corporate networks with AWS PrivateLink",
+          "url": "https://aws.amazon.com/blogs/machine-learning/securing-quick-access-from-corporate-networks-with-aws-privatelink",
+          "source": "aws-ml",
+          "published_at": "2026-10-21T23:38:38.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b58c2918ff235379",
+          "title": "Walmart Opens Its Doors to AI Shopping Bots as Amazon Locks Them Out",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOeGJiaVc0WVRwZFdla1l1UXYzNWxHd2pnNWZfZ3g3dnMzQWZnZ01NSXpBSE5QUXphY2lLTkJtYW41bXJfMGtCLUZ6SktSaFluZjQxeVdBem94bXJ2U3d2ZnVudmVUOXVqRUtWcF93dTNzbEwybS1jOXZhZE15VkNDV1dFYkEyclVqQ0t1Q2JWaEQtUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:36:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "650183d13e506751",
+          "title": "AWS Executive Says 40% of European Startups Consider Leaving Region to Scale",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPZWtBNUJON3VsQldmcmFLTWEwMTRkOTFpb3QxcERaSk4yUmZCUUJvVW1xck8tMWZzeHdWX3ZHaThnRE80RTN1S29KangwaEZqT0JMRWs2RXlJUHQwcFRTQW4wLTRxREl4Vm80TXYzUUZ4SFVMbThEUHdCUC1kRFJyeHQzcVpoQU13ZGNrcVlZX0Vkd1ZJeWgwSy1oNjlwNWVIamltQmxUb2IzeWRncDRWYWx3cw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:26:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6a2d908551fb9f5a",
+          "title": "Amazon accused of using AI to rank warehouses by 'union risk'",
+          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNRGFxcWNLRkR6T0pHRzhfNG9mdEhtcDBCOHpaaTFVelVIc1g3b09NQVFsNEZPWmhiWlJTdDY3N3hZS2xoVVJ1ZUt4SUsxN2N4TG83bGc4cksxOXVOSzdGN1lqUlhzbVV4Sy1jVnBJYUNFZG10cjZNU2xIX1EycW9WZkR3dHlYeW8?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:23:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "risk"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "68fb0293b94da42b",
+          "title": "Amazon warns new cyber flaws detected using AI are being ‘broadly exploited’",
+          "url": "https://ft.com/content/245778d9-597b-492d-b5b6-a2967c77e853?syn-25a6b1a6=1",
+          "source": "ft-ai",
+          "published_at": "2026-10-21T23:20:30.000Z",
+          "score": -8,
+          "positive": [],
+          "negative": [
+            "exploited",
+            "warns"
+          ],
+          "clickbait": []
+        },
         {
           "id": "c157d1865872463f",
           "title": "Walmart rolls out AI agent shopping features while Amazon tries to curb the tech",
@@ -763,74 +817,15 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "298ab808d89166c7",
-          "title": "While Amazon blocks AI agents, Walmart rolls out the welcome mat",
-          "url": "https://techcrunch.com/2026/10/21/while-amazon-blocks-ai-agents-walmart-rolls-out-the-welcome-mat",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-21T19:30:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9c25b784b7361102",
-          "title": "How U.S. Hunger connects leaders and data using Amazon Quick",
-          "url": "https://aws.amazon.com/blogs/machine-learning/how-u-s-hunger-connects-leaders-and-data-using-amazon-quick",
-          "source": "aws-ml",
-          "published_at": "2026-10-21T19:19:50.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4cdc284495fea563",
-          "title": "Amazon deforestation falls 42% to a record low",
-          "url": "https://news.mongabay.com/short-article/2026/10/amazon-deforestation-falls-42-to-a-record-low",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-21T16:26:14.000Z",
-          "score": 3,
-          "positive": [
-            "record"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0442b9c1e2021f5e",
-          "title": "Profiling TorchNeuron (Part 1): System-level profiling on AWS Trainium.",
-          "url": "https://huggingface.co/blog/amazon/profiling-torchneuron-part-1-system-level-profilin",
-          "source": "huggingface-blog",
-          "published_at": "2026-10-21T16:04:43.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f9ba71c11e5bdaff",
-          "title": "Nvidia launches its OpenShell Reference Architecture, a framework to secure and monitor AI agents, partnering with Canonical, AWS, Google, Microsoft, and others (Thomas Claburn/The Register)",
-          "url": "https://techmeme.com/261021/p23",
-          "source": "techmeme",
-          "published_at": "2026-10-21T12:30:02.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 14,
-      "index": -13.7,
-      "mean_headline": -1.7,
+      "headlines": 13,
+      "index": -14.8,
+      "mean_headline": -1.8,
       "sample": [
         {
           "id": "583c3e9218a502b0",
@@ -851,17 +846,6 @@
           "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5qT2RzZy1FOUxNb3c3RWxVRnczbDBJVURMejhaeDdjWFhwa3JzSm56dWtxVHpmd0RHeG5nTFRZSS1MWFlNa2lVTUIwbHlReHEtekNEeFc2WkR6c1NFZ1FibHdmdEFJb3JINlJVelA3YU0yMzg5Y0d3V0JR?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-21T20:57:45.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "89265cff10d4d209",
-          "title": "DeepSeek Is Giving Away Its Whole Playbook, Revenue Math Included",
-          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE92Q0tWcFpET1NINWhUWGxFZXREMFh5ZTA4dGd3c21fSm05TWRYb0tJNzR1aldjUmYydVd4QzBNSlZtd2dJWnZKc0t6WDFtQlQ5UmE3TVZHQmRnZGgwX29ZYmVpOXMwdmxIUlZCNDJlLXhmWEVZMEdR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T20:34:52.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -927,6 +911,17 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "4261a463f1f95957",
+          "title": "Alibaba hikes DeepSeek V4 Flash 0731 output prices by 230%",
+          "url": "https://stork.ai/newsletter/2026-10-20-alibaba-quietly-tripled-deepseek-prices",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-21T05:17:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     }
@@ -935,8 +930,8 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 52,
-      "index": 4.3,
+      "headlines": 50,
+      "index": 4,
       "mean_headline": 0.5,
       "sample": [
         {
@@ -1028,107 +1023,6 @@
           "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQOGxGMm1CREFsYnpXWXRMOWhSS3FHQzYzR0k3S2haVGExOGlNWHNOS3o4NDVFVll1UUFfSS1COEpDZ2FPSm8yZ1pLenVXTmh1T2hXY1FGTGlLZGVsZDBFWGQ3Q0RvMEg2SlZqVEpHZXhVanZXTWhKTTJXeF9pWlU2WVVaUnR4dzdJMmljNnYwWEU5bUFremRCUzVFTXZnUFpCVE05eWtkVDNQYVA2UlVpTUt2MW1QcVNfSTlXWDdjZElDazdoY1drSGFn?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-21T21:27:17.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "meta",
-      "name": "Meta",
-      "headlines": 32,
-      "index": 3.8,
-      "mean_headline": 0.5,
-      "sample": [
-        {
-          "id": "cc28d84b8cecf167",
-          "title": "Meta agrees deal to keep Zuckerberg in California despite wealth tax proposal",
-          "url": "https://ft.com/content/b34502b6-38dc-4a46-a8e7-d9131726cd31?syn-25a6b1a6=1",
-          "source": "ft-ai",
-          "published_at": "2026-10-21T22:58:30.000Z",
-          "score": 3,
-          "positive": [
-            "deal"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a09541d36b41390b",
-          "title": "Meta wants to pay for its broad AI buildout with a newly created class of stock",
-          "url": "https://bsky.app/profile/techcrunch.com/post/3mygaa7amgm26",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-21T22:48:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3457d3aacc2cd555",
-          "title": "Meta Earnings Show Increased A.I. Spending, Even as Cash Pressures Grow",
-          "url": "https://nytimes.com/2026/10/21/technology/meta-earnings.html",
-          "source": "nyt-tech",
-          "published_at": "2026-10-21T22:42:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "efffd75704bb7b9b",
-          "title": "Meta beats expectations but legal penalties hit profit amid AI race",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQZ3BoMHpwaFRubTE5R2c0cVR1ZUdrOHhKNnFhbFR3ZHZGLXRHc3EzTzIxeVlCR0pvWDRqQk8zOWdUT2Z2MWJ1OFhlYUZyNTZ0dWpGcHY5TUVSa1Rway1ETDI5Tk9RTm1wR1ROc1JRNG5oakxDNzBoNXgtZzBaQUVJOTBXa0k5RjM3dEdVTFBFc09mQTVnX0VaNTdxYXIzSXVwcGdzZHBtZHI1dXVwQ1Z6Ri1YV3Q?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-21T22:15:00.000Z",
-          "score": 3,
-          "positive": [
-            "beats"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1ca56179fb106cd2",
-          "title": "Tesla, IBM & Meta Report Earnings as AI Takes Center Stage",
-          "url": "https://bloomberg.com/news/videos/2026-10-21/the-close-10-21-2026-video",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-21T22:04:16.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d61c49c13d43d15e",
-          "title": "Meta Is Getting Creative to Fund Its Massive AI Investments",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNY3g4ZE5XUU1TakhLTFpLUjhESkRHVWdvZHpLZFBHTlVZU1RNMHR0RmpoZHlrZmo3ZnNQNVFRNXRVSlkzYndPV3o1RzJlRjJZei1zSFF4M1RhaXo4RWxMRDVsalh3dml2bWdtaUpHbjBWSXNVQmtVMFpwWGQ0MF9vdk9ldTlGU3AwbFV5QjBoWmRfeDFTenE2Sg?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-21T21:41:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "60670e713138097c",
-          "title": "Meta Will Split Stock, Create New Class to Fund AI Spending",
-          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOY20xcVZmaDh6bkhCTVVoQVJIOFhWZU1McXpENHNVTEdvMVY0YUQyUVdqOFBldFhJU1VXZ3lIY3FOSDN0ZFdBbXJDOXluVlA2WU9mcUJfM3FrVkQ1YXJBcDNSbXM0RlVib19UMFlsTFBBeFIyVGlEdUxVZS0wRDhWWl81ZjVXU0ZlQjJPeFRTaw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-21T21:33:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f8a96a3fbe14a0c5",
-          "title": "Meta to create a new class of shares to fund AI push",
-          "url": "https://bsky.app/profile/theverge.com/post/3myg466yvjx2o",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-21T21:30:02.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1233,6 +1127,111 @@
           "score": 3,
           "positive": [
             "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "headlines": 37,
+      "index": 3,
+      "mean_headline": 0.4,
+      "sample": [
+        {
+          "id": "aa03b31b977e8c50",
+          "title": "Anthropic Launches Claude Duet, Competing with OpenAI and Meta",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNbDBvTWxzakhZRVF6Z2Z5aWttdEVsV0Z1amhNcFRfd29TZ1pjQTlXdTE5TGk0ODVPUURkbGoxVVFodXZ6aXB3d2ZLbWVTRDViaUtxdEN5LWJrSGZremltNGVzWndvNTQ1aHFzM1N0VmRha2dWN1hkek1uWml1d29rTVl0SmlwN0pCcFd6aE9WS1ZYdmsyZ3FfU3RvQnRJU1JwT2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:30:47.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "514ca3d47ce9ac5c",
+          "title": "Meta Boosts AI Bets, Tesla Cuts Spending Target, More",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNZ1BfcUhEbnV5WWJTTlpuMUFiWTB1VGQtb09GbWU4VFR1TDliZ0dOa3JPeWRTXzFDcGdYajZQcEZSQmo1dHBlZTQwemtZVUh1Z2dxN0Q2ZjBhTS1Vb2tyS1MxUGRBZGdnZkV3MVFPbGgwYW1GeEhNWGN6Z2VRRzJIaHdqeFhwYmZ0ZjBuLVZJejZCRjRBOXZHcmJoTFN5RGlH?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-21T23:20:55.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9a27f05e0797bd58",
+          "title": "SpaceX Earnings Revive AI Trade as Meta’s Cash Flow Turns Negative",
+          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE40eXJwclJhUWNkOURBMS1QZE5nR0d0OTZMSkhrQl96c0FfLW9xV1NKcjZ5YTZoc0J0UTlnSzFRWXE5RVJqT2NzRlpuUm5ONEVpcmEyaQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:20:43.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7ed7251fc8006b91",
+          "title": "Meta puts Muse agent at heart of AI strategy, plans new stock to power investments",
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPRFFieGdGQjNVTEpWeTlmUG5ZOW5rRjgwSmpnV1RWdTUzRG5fZW1BQmxBdElRdEtfOVYzcWlaMjR1SGJqZWdPR200RzJuV2JZajJMYmhiSmh4VFdYVjdLQXNxRWo1ZEprRWpKQW1vQkhoMm5jT1RKNzJVczV4aUxHdDNWQ0JoSXVOYzN0WDhFMmh4cjg5RWNmZFhtaHlQTlJ0NmVnRlNpQjg?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-21T23:00:05.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "cc28d84b8cecf167",
+          "title": "Meta agrees deal to keep Zuckerberg in California despite wealth tax proposal",
+          "url": "https://ft.com/content/b34502b6-38dc-4a46-a8e7-d9131726cd31?syn-25a6b1a6=1",
+          "source": "ft-ai",
+          "published_at": "2026-10-21T22:58:30.000Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a09541d36b41390b",
+          "title": "Meta wants to pay for its broad AI buildout with a newly created class of stock",
+          "url": "https://bsky.app/profile/techcrunch.com/post/3mygaa7amgm26",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-21T22:48:39.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3457d3aacc2cd555",
+          "title": "Meta Earnings Show Increased A.I. Spending, Even as Cash Pressures Grow",
+          "url": "https://nytimes.com/2026/10/21/technology/meta-earnings.html",
+          "source": "nyt-tech",
+          "published_at": "2026-10-21T22:42:39.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "efffd75704bb7b9b",
+          "title": "Meta beats expectations but legal penalties hit profit amid AI race",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQZ3BoMHpwaFRubTE5R2c0cVR1ZUdrOHhKNnFhbFR3ZHZGLXRHc3EzTzIxeVlCR0pvWDRqQk8zOWdUT2Z2MWJ1OFhlYUZyNTZ0dWpGcHY5TUVSa1Rway1ETDI5Tk9RTm1wR1ROc1JRNG5oakxDNzBoNXgtZzBaQUVJOTBXa0k5RjM3dEdVTFBFc09mQTVnX0VaNTdxYXIzSXVwcGdzZHBtZHI1dXVwQ1Z6Ri1YV3Q?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-21T22:15:00.000Z",
+          "score": 3,
+          "positive": [
+            "beats"
           ],
           "negative": [],
           "clickbait": []
@@ -1345,10 +1344,67 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 43,
-      "index": 0.6,
+      "headlines": 45,
+      "index": 1.1,
       "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "bdfd930e520d8ead",
+          "title": "OpenAI Asks Gov. Newsom to Strengthen AI Regulations",
+          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNcXNJQW5vakdCTzh0aWIyTmNqalJYYnFrM3BTVmpxczU5MVAyMlgwdXlGZTNjbk02ZjJ2Qm1YZTNqYVF2TXZTMGpRMGdqaUZVU3lGU3NYYnpWSTU2cWpJenVzbW1sRDN0dU9NNzRqbXdFSkhhRHptUmRPM2NVV0RqMzZDd1ZUTzVmdVc1bzdlS215RGM?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:32:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "aa03b31b977e8c50",
+          "title": "Anthropic Launches Claude Duet, Competing with OpenAI and Meta",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNbDBvTWxzakhZRVF6Z2Z5aWttdEVsV0Z1amhNcFRfd29TZ1pjQTlXdTE5TGk0ODVPUURkbGoxVVFodXZ6aXB3d2ZLbWVTRDViaUtxdEN5LWJrSGZremltNGVzWndvNTQ1aHFzM1N0VmRha2dWN1hkek1uWml1d29rTVl0SmlwN0pCcFd6aE9WS1ZYdmsyZ3FfU3RvQnRJU1JwT2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:30:47.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e63cd131b7ee51ce",
+          "title": "OpenAI's George Osborne calls for UK investment in AI research and skills at Oxford summit",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOVnJjWTdiSXJBaGhvb1dISW1yMERqRWlZNGdLdWVBWDdzOEExOEh6OG1JSkRPeDN5ZHJqQ2lxbWtCVDlaTUE4dERKdDJ0eXJqWFlzT1JDN19nNEFnbXVJNFRZdzduUTVraUNENnJzdkhCZy1YSk1lUTVKU3M5S2djbHpFWXRBdnh1UXE3VDBZaE9MN296LU56T0NGRHRSMjRLbEJOemxzeExPRDl1cXlzMEhUejE5bkQ5RzByT1J0X1V1LWcwRlF4TFZ3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:17:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "416804603fb5237b",
+          "title": "OpenAI reveals its agents disabled safety safeguards, concealed changes",
+          "url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxQOS1IRjRJaFZlNzVPdUk0UTg3LVhOUVl3Y1BXWTM0cUdDOUtOTFFyX25LVFBMZnJSMDAyTWNHM0ZZamNMT01OUHpIVXBIeUtkdjlOdEI1M0dzNjlKdldWZ2JEeEFrRmprRER5aTRsQ1NuQUpsTGZaTFJUSUdaZTV1NUpZcXhwMlNyUV9VdDJobXp3ZWE2ajJaaGVIY0RKM1gxSjBCMWVjeUNzVXlfaEEzRW5TcldaaEM4LXo3Y0gwdzZoUUVuMkFubUFBQWpBSGNZMkx0amJPY0M2OElmMkRTYklvaUU5TGdDbWtGeTJ0ZjgtMVItNlNRLXEzVzNJRVV4VGF5NDlfY1d1OUFnODBmWFVKVdIBmAJBVV95cUxQdDhJX2hOYzQybkg3UUdsRG1KcHl0T0dhYmY3UVNwSzRDQWVROFpRNEo1RHctVnZBd0oxaWFEdGdoVUlOX0Y0UU9WUFF3cExDeVAzSllMemZfY2IwRW90dHlfVVNJbHVqekFyQmZXdHRPenJwaFJTR0QwRHVhYS1Sc1R6RDVkSERrZ2FsaU1rU2dUZlQtSmx0dVoxb0d5ZWYyLTVJZlM4Y3Y4bDkxYk1HNWdUeE53Uzd3aWoxZHFCbEs0S3F1WVktTjZlS2lnZGZOSi1Hc25yUXVXYkVETE5KcGJuQ2Y0RGgya0FYckh1YTg4WnhVQVdLdVBibW9WRUk2QTd2WjVWWUVaOUZBRU1JbGJYMWlQUHMw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:12:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "24956a2013a4a04d",
+          "title": "OpenAI GPT-6 Models Can Now Rewrite 60-Year-Old Banking Code",
+          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOWmJXQmFqLWZscGZtUlVZZG1YUTlMSzN3R1BCVDVaN2pnQlphM2FaWEYyd0U0Nk1VX3UtM1gtaXpObk9aR0xMeE5LcVVZU2VzWVI4bWpGMFNXZU1YRkNhWjdpNlZIelRNeGp3MjVUYWtiRXJBV3dZR2xGdXVDaklVMXhOenBfVms?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:04:45.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "832da92a156b28cd",
           "title": "PerturbAI, OpenAI mine brain CRISPR data for drug discovery leads",
@@ -1385,215 +1441,6 @@
             "exploit"
           ],
           "clickbait": []
-        },
-        {
-          "id": "a085dffea7de1a55",
-          "title": "OpenAI has revealed that two of its artificial intelligence agents disabled or weakened systems built to catch them misbehaving, with one later denying it had done so. Read more: https://www.gmanetwork.com/news/scitech/technology/1006749/openai-says-its-",
-          "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQRUs2N3BRMzRLMDFucUFLVTJyS2pnRXVXVm5zTGtOYk9yUlRyUTJybHdjX3h0c3AzNG0tajZpSjlxU3gyT1F0RDJxMlpfU3UtaEdpSWNwT0YzeFVUZ1lubWUySWpJVm9KWGhMb1VVNnV4S1hla3o4RGw0ODZYSHhpUDNLWTlHQ212NVkxU2F0aFl6bWsxNTNSZlhqZ2p2bHlQUjUyX3VmaFQwZ2tNQWJrUFVmcjlzSzZNREN2VUxfcEtjLS1YaExzcGozQ1llVElUekdj?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T22:14:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5749e37fd6d2c1ad",
-          "title": "OpenAI to rewrite ChatGPT ads by default as advertisers get days to opt out",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxORUx5UDBtVUFfejNYbldGczNhMGV4QVVnYTAyYlhSdjhWQ2MzRFA3UHBRYmVvUXJyNmZiOVNnS2lDQmVUbTIyYUliUU5qdW1EWGtwR2x4MkZUSEk3YnFLTmlKMUdFeEI2N24zYUpURENwWXZpUG55eHA1Z2hMcHMzUXBEbmJHNmU0VG5SUVh3NkdDY3hPSTZQVw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T21:31:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "72c6930dc4c78c75",
-          "title": "OpenAI Wants to ‘Patch the Planet’ (With Its Own AI)",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQNHZicGg4czk4X0FqVXF5NlRyY0EzaVIwU1MtNkNReFlvRXVSOWpSbkswclZCWWFUS3U1M0dwSE9EemNUV3B4YnZIT3FmVlJNcHRoWVEwbWdmQkFRdlFrMkppVl9hWnltelZjM2NWX0phVC14WUk1b3lZQkl4ZmUzdnJSNnJtQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T20:55:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ea816e91e56aacad",
-          "title": "OpenAI says GPT-5.6 Sol found a PHP flaw before attackers did",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxObjFpSFdiTzhnMGh2dEo0ZDBKZEdaYm1UejRCVDZQOE0tYXJxcnE1bWtmQzE3N0htUE92VGZlRXl6aDJYRDFwT1dJaFlTRFl2clZKT3ZfbDN5dkRBckJTY3VFeWl3cndOdzJLU3RFaGFGSHEyenBnb2tVT2VseS1IS1ppb3pCQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T20:35:56.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "803c347019852b83",
-          "title": "OpenAI’s Brockman funds super PAC opposing AI regulation",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNR2lvcV9mci1HRkdwZVppQjJKRUtBVmoyUWlUNEVlejFnRnZYRnRwUGpmdzZDTy0zRjRsdV83TGNJWHZjQnQ4WFh2bERtTFQ3bWZPdUxRWWc1SmpHR01iWmhlWGthWThESnpPdmc0MzhPT1BXVXJTc0NQWEpZMU41Uk91WkZyQlE4UzR4YTZQUl9HZGdGTDFOcEwwQ0dlbHQ4RWc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T20:04:11.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "amazon",
-      "name": "Amazon",
-      "headlines": 21,
-      "index": 0.4,
-      "mean_headline": 0,
-      "sample": [
-        {
-          "id": "c157d1865872463f",
-          "title": "Walmart rolls out AI agent shopping features while Amazon tries to curb the tech",
-          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQVFF4eld1MW1JR1pSVmJQZGk1NlBxeUZaOUZvWGJvYzh0SHlLaGpEX1R4UkhQLW40SU9ZZnZfUGZjVXQ5MHRYMFNMTnpIcU9lUF9qeWxjZkVBazZZQkZQVDVocFFxLXBfdXE3R0U2RTdfSlFQYm56d0wzS0V1RkkxUjFsa0lodjZPTE90V2NwckJHMGgwd3lNak5SREh6Y29aUU1rRTloeXJSQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T21:26:06.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "835f7a91b8dc59af",
-          "title": "AWS rates PHP RCE as Important so Amazon Linux 2023 patch may take 20 days",
-          "url": "https://github.com/amazonlinux/amazon-linux-2023/issues/1148",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-21T21:12:59.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b39131c17298f111",
-          "title": "Train Qwen3 on AWS Trainium with torchtitan",
-          "url": "https://aws.amazon.com/blogs/machine-learning/train-qwen3-on-aws-trainium-with-torchtitan",
-          "source": "aws-ml",
-          "published_at": "2026-10-21T20:00:22.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "298ab808d89166c7",
-          "title": "While Amazon blocks AI agents, Walmart rolls out the welcome mat",
-          "url": "https://techcrunch.com/2026/10/21/while-amazon-blocks-ai-agents-walmart-rolls-out-the-welcome-mat",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-21T19:30:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9c25b784b7361102",
-          "title": "How U.S. Hunger connects leaders and data using Amazon Quick",
-          "url": "https://aws.amazon.com/blogs/machine-learning/how-u-s-hunger-connects-leaders-and-data-using-amazon-quick",
-          "source": "aws-ml",
-          "published_at": "2026-10-21T19:19:50.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4cdc284495fea563",
-          "title": "Amazon deforestation falls 42% to a record low",
-          "url": "https://news.mongabay.com/short-article/2026/10/amazon-deforestation-falls-42-to-a-record-low",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-21T16:26:14.000Z",
-          "score": 3,
-          "positive": [
-            "record"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0442b9c1e2021f5e",
-          "title": "Profiling TorchNeuron (Part 1): System-level profiling on AWS Trainium.",
-          "url": "https://huggingface.co/blog/amazon/profiling-torchneuron-part-1-system-level-profilin",
-          "source": "huggingface-blog",
-          "published_at": "2026-10-21T16:04:43.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f9ba71c11e5bdaff",
-          "title": "Nvidia launches its OpenShell Reference Architecture, a framework to secure and monitor AI agents, partnering with Canonical, AWS, Google, Microsoft, and others (Thomas Claburn/The Register)",
-          "url": "https://techmeme.com/261021/p23",
-          "source": "techmeme",
-          "published_at": "2026-10-21T12:30:02.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "apple",
-      "name": "Apple",
-      "headlines": 4,
-      "index": 0,
-      "mean_headline": 0,
-      "sample": [
-        {
-          "id": "ad71c727b65bca2b",
-          "title": "The new human-crafted Apple Music brand matters in an AI world",
-          "url": "https://bsky.app/profile/arstechnica.com/post/3myfw2jy7c52f",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-21T19:44:40.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4201f761644785cb",
-          "title": "Conversational Gemini navigation comes to Apple CarPlay",
-          "url": "https://bsky.app/profile/theverge.com/post/3myfg6uaoyx26",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-21T15:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e047a535b5ea6353",
-          "title": "Private and OpenAI-Comp. Inference Engine for Nvidia Linux and Apple Silicon",
-          "url": "https://github.com/tara-vision/taraengine",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-21T10:52:28.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f4712230feceddbb",
-          "title": "Kapitsa: New Apple Silicon Optimized Engine Runs Qwen 35B on 160 Tok/S on M4 Pro",
-          "url": "https://reddit.com/r/LocalLLaMA/comments/1xbdxg3/kflash_benchmarks_of_newly_released_versions_of",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-21T05:03:59.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -1601,9 +1448,22 @@
       "id": "anthropic",
       "name": "Anthropic",
       "headlines": 43,
-      "index": -0.6,
-      "mean_headline": -0.1,
+      "index": 0.7,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "aa03b31b977e8c50",
+          "title": "Anthropic Launches Claude Duet, Competing with OpenAI and Meta",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNbDBvTWxzakhZRVF6Z2Z5aWttdEVsV0Z1amhNcFRfd29TZ1pjQTlXdTE5TGk0ODVPUURkbGoxVVFodXZ6aXB3d2ZLbWVTRDViaUtxdEN5LWJrSGZremltNGVzWndvNTQ1aHFzM1N0VmRha2dWN1hkek1uWml1d29rTVl0SmlwN0pCcFd6aE9WS1ZYdmsyZ3FfU3RvQnRJU1JwT2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:30:47.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "01a7f49b1d3ff26c",
           "title": "Anthropic Joins the A.I. Agent Race With Claude Duet",
@@ -1680,13 +1540,157 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "headlines": 4,
+      "index": 0,
+      "mean_headline": 0,
+      "sample": [
+        {
+          "id": "ad71c727b65bca2b",
+          "title": "The new human-crafted Apple Music brand matters in an AI world",
+          "url": "https://bsky.app/profile/arstechnica.com/post/3myfw2jy7c52f",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-21T19:44:40.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         },
         {
-          "id": "a9c536f22eea23c3",
-          "title": "Submit a question: Could Anthropic’s IPO be a turning point for AI?",
-          "url": "https://ft.com/content/8cdf338e-d472-460c-8642-a8f033b99462?syn-25a6b1a6=1",
+          "id": "4201f761644785cb",
+          "title": "Conversational Gemini navigation comes to Apple CarPlay",
+          "url": "https://bsky.app/profile/theverge.com/post/3myfg6uaoyx26",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-21T15:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e047a535b5ea6353",
+          "title": "Private and OpenAI-Comp. Inference Engine for Nvidia Linux and Apple Silicon",
+          "url": "https://github.com/tara-vision/taraengine",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-21T10:52:28.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f4712230feceddbb",
+          "title": "Kapitsa: New Apple Silicon Optimized Engine Runs Qwen 35B on 160 Tok/S on M4 Pro",
+          "url": "https://reddit.com/r/LocalLLaMA/comments/1xbdxg3/kflash_benchmarks_of_newly_released_versions_of",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-21T05:03:59.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "headlines": 25,
+      "index": -3.5,
+      "mean_headline": -0.4,
+      "sample": [
+        {
+          "id": "9591b1cd4f512684",
+          "title": "Securing Quick access from corporate networks with AWS PrivateLink",
+          "url": "https://aws.amazon.com/blogs/machine-learning/securing-quick-access-from-corporate-networks-with-aws-privatelink",
+          "source": "aws-ml",
+          "published_at": "2026-10-21T23:38:38.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b58c2918ff235379",
+          "title": "Walmart Opens Its Doors to AI Shopping Bots as Amazon Locks Them Out",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOeGJiaVc0WVRwZFdla1l1UXYzNWxHd2pnNWZfZ3g3dnMzQWZnZ01NSXpBSE5QUXphY2lLTkJtYW41bXJfMGtCLUZ6SktSaFluZjQxeVdBem94bXJ2U3d2ZnVudmVUOXVqRUtWcF93dTNzbEwybS1jOXZhZE15VkNDV1dFYkEyclVqQ0t1Q2JWaEQtUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:36:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "650183d13e506751",
+          "title": "AWS Executive Says 40% of European Startups Consider Leaving Region to Scale",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPZWtBNUJON3VsQldmcmFLTWEwMTRkOTFpb3QxcERaSk4yUmZCUUJvVW1xck8tMWZzeHdWX3ZHaThnRE80RTN1S29KangwaEZqT0JMRWs2RXlJUHQwcFRTQW4wLTRxREl4Vm80TXYzUUZ4SFVMbThEUHdCUC1kRFJyeHQzcVpoQU13ZGNrcVlZX0Vkd1ZJeWgwSy1oNjlwNWVIamltQmxUb2IzeWRncDRWYWx3cw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:26:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6a2d908551fb9f5a",
+          "title": "Amazon accused of using AI to rank warehouses by 'union risk'",
+          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNRGFxcWNLRkR6T0pHRzhfNG9mdEhtcDBCOHpaaTFVelVIc1g3b09NQVFsNEZPWmhiWlJTdDY3N3hZS2xoVVJ1ZUt4SUsxN2N4TG83bGc4cksxOXVOSzdGN1lqUlhzbVV4Sy1jVnBJYUNFZG10cjZNU2xIX1EycW9WZkR3dHlYeW8?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T23:23:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "risk"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "68fb0293b94da42b",
+          "title": "Amazon warns new cyber flaws detected using AI are being ‘broadly exploited’",
+          "url": "https://ft.com/content/245778d9-597b-492d-b5b6-a2967c77e853?syn-25a6b1a6=1",
           "source": "ft-ai",
-          "published_at": "2026-10-21T21:21:31.000Z",
+          "published_at": "2026-10-21T23:20:30.000Z",
+          "score": -8,
+          "positive": [],
+          "negative": [
+            "exploited",
+            "warns"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "c157d1865872463f",
+          "title": "Walmart rolls out AI agent shopping features while Amazon tries to curb the tech",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQVFF4eld1MW1JR1pSVmJQZGk1NlBxeUZaOUZvWGJvYzh0SHlLaGpEX1R4UkhQLW40SU9ZZnZfUGZjVXQ5MHRYMFNMTnpIcU9lUF9qeWxjZkVBazZZQkZQVDVocFFxLXBfdXE3R0U2RTdfSlFQYm56d0wzS0V1RkkxUjFsa0lodjZPTE90V2NwckJHMGgwd3lNak5SREh6Y29aUU1rRTloeXJSQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-21T21:26:06.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "835f7a91b8dc59af",
+          "title": "AWS rates PHP RCE as Important so Amazon Linux 2023 patch may take 20 days",
+          "url": "https://github.com/amazonlinux/amazon-linux-2023/issues/1148",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-21T21:12:59.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b39131c17298f111",
+          "title": "Train Qwen3 on AWS Trainium with torchtitan",
+          "url": "https://aws.amazon.com/blogs/machine-learning/train-qwen3-on-aws-trainium-with-torchtitan",
+          "source": "aws-ml",
+          "published_at": "2026-10-21T20:00:22.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1697,9 +1701,9 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 14,
-      "index": -13.7,
-      "mean_headline": -1.7,
+      "headlines": 13,
+      "index": -14.8,
+      "mean_headline": -1.8,
       "sample": [
         {
           "id": "583c3e9218a502b0",
@@ -1720,17 +1724,6 @@
           "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5qT2RzZy1FOUxNb3c3RWxVRnczbDBJVURMejhaeDdjWFhwa3JzSm56dWtxVHpmd0RHeG5nTFRZSS1MWFlNa2lVTUIwbHlReHEtekNEeFc2WkR6c1NFZ1FibHdmdEFJb3JINlJVelA3YU0yMzg5Y0d3V0JR?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-21T20:57:45.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "89265cff10d4d209",
-          "title": "DeepSeek Is Giving Away Its Whole Playbook, Revenue Math Included",
-          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE92Q0tWcFpET1NINWhUWGxFZXREMFh5ZTA4dGd3c21fSm05TWRYb0tJNzR1aldjUmYydVd4QzBNSlZtd2dJWnZKc0t6WDFtQlQ5UmE3TVZHQmRnZGgwX29ZYmVpOXMwdmxIUlZCNDJlLXhmWEVZMEdR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-21T20:34:52.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1796,27 +1789,16 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "xai",
-      "name": "xAI",
-      "headlines": 1,
-      "index": -32,
-      "mean_headline": -4,
-      "sample": [
+        },
         {
-          "id": "8fc31ff66cc29326",
-          "title": "US judge rejects Trump administration bid to block NAACP lawsuit against Musk's xAI over data center",
-          "url": "https://bsky.app/profile/reuters.com/post/3mycxk4xhit2e",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-20T15:35:09.000Z",
-          "score": -4,
+          "id": "4261a463f1f95957",
+          "title": "Alibaba hikes DeepSeek V4 Flash 0731 output prices by 230%",
+          "url": "https://stork.ai/newsletter/2026-10-20-alibaba-quietly-tripled-deepseek-prices",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-21T05:17:15.000Z",
+          "score": 0,
           "positive": [],
-          "negative": [
-            "lawsuit"
-          ],
+          "negative": [],
           "clickbait": []
         }
       ]
