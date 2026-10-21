@@ -2217,6 +2217,12 @@ async function main() {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
   }
 
+  // Alerts feeds, CSV exports, and the verify / free-tools / alerts / export /
+  // bias / reference-plan / changelog / evidence pages (site/extras.mjs).
+  // Written before the directory aliases so /alerts/, /evidence/ and friends
+  // resolve on a clean build, not only on the build after.
+  written.push(...await writeExtras(ctx, write, args.out, { dataDir: args.data }));
+
   // Pretty directories for hand-typed / verbally shared paths. VISITORS.md §0
   // found /race/ 404 while race.html worked; the same trap hits every .html
   // room when someone says "slash jobs" or bookmarks without the extension.
@@ -2228,7 +2234,7 @@ async function main() {
       'about', 'classic', 'embed', 'guide', 'library', 'press', 'brand', 'desk',
       'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
       'p-doom', 'pdoom', 'ai-doomsday-clock', 'doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
-      'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
+      'game', 'bunker-kit', 'alerts', 'export', 'evidence', 'moltbook', 'staff', 'careers',
       // FINDABILITY #133 — /ai-doom /doom-index typed guesses.
       'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'vs', 'guides',
       'ai-doom', 'doom-index', 'ai-doom-index',
@@ -2277,9 +2283,6 @@ async function main() {
   written.push(await write(args.out, 'feed-level.xml', feed.render(ctx, { levelOnly: true })));
   // The daily brief: one entry per completed UTC day (email via Blogtrottr or a newsletter's RSS mode).
   written.push(await write(args.out, 'feed-daily.xml', feed.renderDaily(ctx, { days: dayPages.indexableDays(ctx), itemsForDay: dayPages.itemsForDay, dayPath: dayPages.dayPath })));
-  // Alerts feeds, CSV exports, and the alerts / export / bias / reference-plan /
-  // changelog pages (site/extras.mjs).
-  written.push(...await writeExtras(ctx, write, args.out, { dataDir: args.data }));
   // THE BRAND MARKS. A smoke-detector mark whose five grille slots stand for
   // the five SIREN levels, and whose FAVICON LIGHTS THE SLOTS UP TO THE
   // CURRENT LEVEL in heat colours — so the browser tab itself carries the
@@ -2750,6 +2753,14 @@ async function selfCheck(outDir, state, ctx = null) {
   }
   if (!html.includes('v2-plain') || !html.includes('v2-scale') || !html.includes('REUSE THIS READING')) {
     throw new Error('build: self-check failed - homepage fold is missing plain read, scale rail, or reuse block.');
+  }
+  // Phone fold (spark + movers + evidence control) and the evidence board it opens.
+  if (!html.includes('class="v2-phone"') || !html.includes('id="v2-more"') || !html.includes('data-v2-more-open')) {
+    throw new Error('build: self-check failed - homepage is missing the phone fold or the evidence board it opens.');
+  }
+  // The What's New strip must not advertise /#readers without a #readers section.
+  if (html.includes('href="/#readers"') && !html.includes('id="readers"')) {
+    throw new Error('build: self-check failed - homepage links /#readers but has no #readers section.');
   }
 
   // /world makes two claims this build can check, so it does. The count is in

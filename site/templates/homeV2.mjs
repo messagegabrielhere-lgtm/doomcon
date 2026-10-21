@@ -3,7 +3,12 @@
 // Everything is server-rendered: the level, the score and every count are text
 // or inline SVG in the HTML, so the build's self-check and every screenshot see
 // them without a script. Client scripts: UTC clock, room jump, war-room rail,
-// and the "since your last visit" strip.
+// the "since your last visit" strip, the evidence-board opener and the
+// browser-only pillar watchlist.
+//
+// Phones (PHONE_CSS): breaking, the reading, a spark + three movers card and
+// the email signup fill the first screen; the full board stays in the HTML
+// behind "See the evidence".
 //
 // The full instrument panel this replaced still builds, at /classic.html.
 import { highlightHtml as nationsHighlight } from './nationsPage.mjs';
@@ -158,6 +163,7 @@ export function roomGroups(ctx) {
       ['/race.html', 'radar', 'Who is winning the AI race?', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
       ['/news.html', 'news', 'Which AI stories has SIREN scored in this window?', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every story, scored and corroborated.'],
       ['/charts.html', 'px:trendchart', 'What AI charts does SIREN publish?', null, 'The dial, the week, and the odds, drawn from the reading.'],
+      ['/evidence.html', 'px:onair', 'What backs the SIREN number?', null, 'Stories, markets, leaders, compute and receipts, one page.'],
       ['/models.html', 'px:db', 'Which AI models has SIREN scored stories about?', null, 'Counts only, not a model doom score.'],
       ['/companies.html', 'px:companies', 'Which AI companies has SIREN scored stories about?', null, 'Story counts, not a company doom score.'],
       ['/people.html', 'mic', 'Which AI people has SIREN scored press about?', null, 'Headlines only, never invented quotations.'],
@@ -313,13 +319,14 @@ else if(e.key==='t'||e.key==='Home'&&!e.shiftKey){if(e.key==='t'){e.preventDefau
 var K='doomcon.visit.v1',LEGACY='siren:visit',P=null;
 try{P=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
 if(!P){try{var L=JSON.parse(localStorage.getItem(LEGACY)||'null');if(L){P={t:L.seen,score:L.score,level:L.level,leader:L.leader,lp:L.lp,at:L.at};}}catch(e){}}
-var cur={t:Date.now(),score:N.score,level:N.level,name:N.name||'',leader:N.leader,lp:N.lp,at:N.at||null};
+var cur={t:Date.now(),score:N.score,level:N.level,name:N.name||'',leader:N.leader,lp:N.lp,at:N.at||null,pillars:N.pillars||{}};
 try{localStorage.setItem(K,JSON.stringify(cur));localStorage.removeItem(LEGACY)}catch(e){}
 var seen=P&&(P.t||P.seen);if(!P||!seen||Date.now()-seen<20*60000)return;var out=[],h=(Date.now()-seen)/36e5;
 if(P.level!==N.level)out.push('<b>Level moved</b> SIREN '+P.level+' → <b>SIREN '+N.level+'</b>');
 if(P.score!=null&&N.score!=null){var d=Math.round((N.score-P.score)*10)/10;out.push('Score '+P.score.toFixed(1)+' → <b>'+N.score.toFixed(1)+'</b>'+(d?' ('+(d>0?'▲':'▼')+Math.abs(d).toFixed(1)+')':' (no change)'))}
 var nn=(N.news||[]).filter(function(t){return t>seen}).length;if(nn)out.push('<a href="news.html"><b>'+nn+'</b> new '+(nn===1?'story':'stories')+'</a>');
 if(N.leader&&P.leader&&N.leader!==P.leader)out.push('<a href="race.html"><b>'+N.leader+'</b> took the lead from '+P.leader+'</a>');else if(N.leader&&P.lp!=null&&N.lp!=null&&Math.abs(N.lp-P.lp)>=0.5)out.push('<a href="race.html">'+N.leader+' '+P.lp.toFixed(1)+'% → <b>'+N.lp.toFixed(1)+'%</b></a>');
+try{var W=JSON.parse(localStorage.getItem('siren.watch.v1')||'null'),pp=P.pillars||{},np=N.pillars||{};((W&&W.pillars)||[]).forEach(function(id){var a=pp[id],b=np[id];if(typeof a!=='number'||typeof b!=='number')return;var dd=Math.round((b-a)*10)/10;if(Math.abs(dd)>=3)out.push('<a href="#watch"><b>'+((N.pillarNames&&N.pillarNames[id])||id)+'</b> '+(dd>0?'▲':'▼')+Math.abs(dd).toFixed(1)+' on your watchlist</a>')})}catch(e){}
 if(!out.length)return;var ago=h<1?Math.round(h*60)+' MIN':h<48?Math.round(h)+' H':Math.round(h/24)+' DAYS';
 box.innerHTML='<span class="k">SINCE YOUR LAST VISIT · '+ago+' AGO</span><span class="v">'+out.join('<i>·</i>')+'</span><button type="button" aria-label="Dismiss">×</button>';box.hidden=false;box.querySelector('button').onclick=function(){box.hidden=true}})();
 var f=document.getElementById('v2-fresh');if(f){var at=Date.parse(f.getAttribute('data-at'));var h=(Date.now()-at)/36e5;var lb=f.querySelector('b');if(lb){var mm=Math.max(0,Math.round(h*60));lb.textContent=new Date(at).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · '+(mm<60?mm+' MIN AGO':Math.round(h)+' H AGO');}f.title='The SIREN score is recalculated once an hour from every source, usually 10–30 minutes past the hour. News and alerts are live.';if(h>2){f.classList.add('stale');f.title='The newest SIREN score is '+Math.round(h)+' hours old. It normally updates every hour. News and alerts are still live.';f.insertAdjacentHTML('beforeend',' · OVERDUE')}}
@@ -542,6 +549,88 @@ function spark(rows, pid) {
   pts.forEach((v, i) => { if (!Number.isFinite(v)) { pen = false; return; } d += `${pen ? 'L' : 'M'}${(i / (pts.length - 1) * 118 + 1).toFixed(1)},${(26 - v / 100 * 24).toFixed(1)}`; pen = true; });
   return `<svg class="v2-spark" viewBox="0 0 120 28" aria-hidden="true"><path d="${d}" fill="none" stroke="${PILLAR_HUE[pid] || '#AEB7C3'}" stroke-width="1.6"/></svg>`;
 }
+
+// PHONE FOLD (from cursor/mobile-optimize-8127 + site-retention-fold-8040):
+// under 721px the first screen is breaking, the reading, this card and the
+// signup. Spark of the composite, three pillar movers with short labels, and
+// one control into the evidence board. Hidden on wider screens, where the dial
+// and the loud panel carry the same facts.
+const SHORT_PILLAR = { capability: 'CAPABILITY', compute: 'COMPUTE', attention: 'ATTENTION', governance: 'GOVERNANCE', markets: 'MARKETS' };
+
+function scoreSpark(rows) {
+  const pts = (rows || []).slice(-72).map((r) => r.score).filter(Number.isFinite);
+  if (pts.length < 2) return '';
+  const W = 280, H = 40, pad = 3;
+  const lo = Math.min(...pts), hi = Math.max(...pts), span = Math.max(1, hi - lo);
+  const x = (i) => pad + (i / (pts.length - 1)) * (W - pad * 2);
+  const y = (v) => pad + (1 - (v - lo) / span) * (H - pad * 2);
+  const d = pts.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join('');
+  const last = pts[pts.length - 1];
+  return `<svg class="v2-phone__spark" viewBox="0 0 ${W} ${H}" role="img" aria-label="Composite score over the last ${pts.length} readings, now ${last.toFixed(1)} of 100"><path d="${d}"/><circle cx="${x(pts.length - 1).toFixed(1)}" cy="${y(last).toFixed(1)}" r="3.5"/></svg>`;
+}
+
+/** The pillars that moved this hour, topped up with the loudest live ones. */
+export function phoneMovers(wm, state) {
+  const fromHour = ((wm && wm.pillar_deltas) || []).slice(0, 3);
+  const have = new Set(fromHour.map((p) => p.id));
+  const fill = (state.pillars || [])
+    .filter((p) => Number.isFinite(p.score) && !p.dark && !have.has(p.id))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, Math.max(0, 3 - fromHour.length))
+    .map((p) => ({ id: p.id, name: p.name, kind: 'hold', delta: null, score: p.score }));
+  return fromHour.concat(fill).slice(0, 3);
+}
+
+function phoneFold(wm, state, rows, href) {
+  const movers = phoneMovers(wm, state).map((p) => {
+    const label = SHORT_PILLAR[p.id] || String(p.name || p.id).toUpperCase();
+    let val;
+    if (p.kind === 'live') val = '<b class="dn">BACK LIVE</b>';
+    else if (p.kind === 'dark') val = '<b class="mute">WENT DARK</b>';
+    else if (Number.isFinite(p.delta)) val = `<b class="${p.delta > 0 ? 'up' : p.delta < 0 ? 'dn' : ''}">${p.delta > 0 ? '▲' : p.delta < 0 ? '▼' : '='}${Math.abs(p.delta).toFixed(1)}</b>`;
+    else if (Number.isFinite(p.score)) val = `<b>${num(p.score, 1)}</b>`;
+    else val = '<b class="mute">—</b>';
+    return `<li><span>${esc(label)}</span>${val}</li>`;
+  }).join('');
+  return `<div class="v2-phone" aria-label="This hour at a glance">
+  ${scoreSpark(rows)}
+  <ul class="v2-phone__mv">${movers || '<li><span>NO PILLAR MOVED</span><b class="mute">—</b></li>'}</ul>
+  <p class="v2-phone__acts"><a class="v2-phone__ev" href="#v2-more" data-v2-more-open>See the evidence ↓</a><a href="${esc(href('/evidence.html'))}">What backs the number?</a></p>
+</div>`;
+}
+
+// YOUR WATCHLIST (from cursor/site-retention-fold-8040): star pillars in this
+// browser; the "since your last visit" strip names a watched pillar that moved
+// 3+ points. localStorage only, nothing leaves the device.
+function watchPanel(state) {
+  const lis = (state.pillars || []).map((p) => {
+    const live = Number.isFinite(p.score) && !p.dark;
+    return `<li><button type="button" class="v2-watch__star" data-watch-pillar="${esc(p.id)}" aria-pressed="false" aria-label="Watch ${esc(p.name)}">☆</button><a href="#loud"><b>${esc(SHORT_PILLAR[p.id] || String(p.name || p.id).toUpperCase())}</b><span class="${live ? '' : 'mute'}">${live ? num(p.score, 1) : (p.dark ? 'DARK' : 'CALIB')}</span></a></li>`;
+  }).join('');
+  return `<section class="v2-watch" id="watch" data-sec="Watch" aria-labelledby="v2-watch-h">
+  <div class="v2-sec"><h2 id="v2-watch-h" class="v2-sr">Which pillars am I watching?</h2><div aria-hidden="true">${pixelText('YOUR WATCHLIST', 4, '#FFFFFF', 'fit')}</div><span>THIS BROWSER ONLY · NO ACCOUNT</span></div>
+  <p class="v2-watch__note">Star a pillar. On your next visit, a watched pillar that moved 3 or more points shows up in the “since your last visit” line. Nothing leaves this device.</p>
+  <ul class="v2-watch__l">${lis}</ul>
+  <p class="v2-watch__out" id="v2-watch-out" hidden role="status"></p>
+</section>`;
+}
+
+const WATCH_JS = `(function(){var K='siren.watch.v1';
+function load(){try{return JSON.parse(localStorage.getItem(K)||'null')||{pillars:[]}}catch(e){return{pillars:[]}}}
+function paint(){var set={};(load().pillars||[]).forEach(function(id){set[id]=1});var names=[];
+[].slice.call(document.querySelectorAll('[data-watch-pillar]')).forEach(function(b){var on=!!set[b.getAttribute('data-watch-pillar')];b.setAttribute('aria-pressed',on?'true':'false');b.textContent=on?'★':'☆';if(on){var n=b.parentNode.querySelector('b');names.push(n?n.textContent:'')}});
+var out=document.getElementById('v2-watch-out');if(out){out.hidden=!names.length;out.textContent=names.length?'Watching '+names.join(', ')+' in this browser.':''}}
+document.addEventListener('click',function(e){var b=e.target&&e.target.closest&&e.target.closest('[data-watch-pillar]');if(!b)return;var w=load(),l=w.pillars||[],id=b.getAttribute('data-watch-pillar'),i=l.indexOf(id);if(i>=0)l.splice(i,1);else l.push(id);w.pillars=l;try{localStorage.setItem(K,JSON.stringify(w))}catch(x){}paint()});
+paint()})();`;
+
+// The evidence board is a <details>, closed on phones. Open it for the fold
+// button, and whenever a hash (rail, room finder, shared link) points inside it.
+const MORE_JS = `(function(){var d=document.getElementById('v2-more');if(!d)return;
+if(window.matchMedia&&matchMedia('(max-width:720px)').matches)d.open=false;
+function inside(){var h=location.hash;if(!h||h.length<2)return false;var t=null;try{t=document.getElementById(decodeURIComponent(h.slice(1)))}catch(e){}return !!(t&&t!==d&&d.contains(t))}
+function sync(){if(inside()&&!d.open){d.open=true;var t=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(t)t.scrollIntoView()}}
+sync();window.addEventListener('hashchange',sync);
+[].slice.call(document.querySelectorAll('[data-v2-more-open]')).forEach(function(a){a.addEventListener('click',function(){d.open=true})})})();`;
 
 function loudPanel(state, rows, wm) {
   const by = {}; for (const s of state.sources || []) (by[s.pillar] = by[s.pillar] || []).push(s);
@@ -846,6 +935,8 @@ export function render(ctx, { head }) {
     leader: lead0 ? lead0.name : null,
     lp: lead0 && lead0.market && Number.isFinite(lead0.market.probability) ? Math.round(lead0.market.probability * 1000) / 10 : null,
     news: items.map((i) => Date.parse(i.published_at)).filter((t) => Number.isFinite(t) && t > weekAgo),
+    pillars: Object.fromEntries((state.pillars || []).map((p) => [p.id, Number.isFinite(p.score) && !p.dark ? Math.round(p.score * 10) / 10 : null])),
+    pillarNames: Object.fromEntries((state.pillars || []).map((p) => [p.id, SHORT_PILLAR[p.id] || p.name || p.id])),
   };
   const maxRel = Math.max(1, ...players.map((p) => (p.shipping && p.shipping.github && p.shipping.github.releases_30d) || 0));
   const maxMs = Math.max(0.01, ...players.map((p) => (p.mindshare && p.mindshare.share) || 0));
@@ -954,10 +1045,13 @@ ${ticker(items, href)}
       </div>
     </div>
     <p class="v2-plain">${esc(plainRead(state))}</p>
+    ${phoneFold(wm, state, rows, href)}
+  </section>
+  <div class="v2-ctx">
     ${scaleRail(state, href)}
     ${raceLeaderLine(ctx, href)}
     ${midtermsHighlight({ href: (p) => href(p), url: (p) => ctx.url ? ctx.url(p) : p }, ctx.midterms)}
-  </section>
+  </div>
   ${signupPanel(ctx, href, { id: 'nl', heading: `GET THE ${brand.NAME} BRIEF BY EMAIL` })}
   ${stayStrip(href, img)}
   ${dash}
@@ -976,7 +1070,8 @@ ${movedPanel(wm, href)}
     href,
     titleHtml: `<span class="v2-sr">Where are SIREN readers?</span><span aria-hidden="true">${pixelText('WHERE THE READERS ARE', 4, '#FFFFFF', 'fit')}</span>`,
   })}
-  <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>  ${marketsPanel(ctx, href)}
+  <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>
+  ${watchPanel(state)}  ${marketsPanel(ctx, href)}
   ${moltPanel(ctx, href)}
 
 
@@ -1036,11 +1131,12 @@ ${LIVEFX_CSS}<script>${LIVEFX_JS}</script>
 <script>${WAR_JS}</script>
 <script>${DASH_JS}</script>
 <script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>
-<script>(function(){var d=document.getElementById('v2-more');if(!d||!window.matchMedia)return;if(matchMedia('(max-width:720px)').matches)d.open=false})();</script>`;
+<script>${MORE_JS}</script>
+<script>${WATCH_JS}</script>`;
 
   return `<!doctype html>
 <html lang="en">
-${head.replace('</head>', `<style>${CSS}${DASH_CSS}${VISITORS_MAP_CSS}</style><style>${verifyCss()}</style><style>${faqCss()}</style>${MZ_CSS}\n</head>`)}
+${head.replace('</head>', `<style>${CSS}${DASH_CSS}${PHONE_CSS}${VISITORS_MAP_CSS}</style><style>${verifyCss()}</style><style>${faqCss()}</style>${MZ_CSS}\n</head>`)}
 <body class="v2-body"><a class="v2-skip" href="#signal">Skip to the reading</a>${body}
 <script type="module" src="${href('/media/siren3d.js')}"></script>
 <script src="${href('/media/radio.js')}" defer></script>
@@ -1446,3 +1542,81 @@ const DASH_CSS = `
   .v2-scale__name{font-size:7px;letter-spacing:0}
   .v2-plain{font-size:15px}
 }`;
+
+// PHONE FOLD. On a ~390x844 phone the first screen holds, in this order: the
+// breaking bar, the reading (level, score, plain read), the spark + movers
+// card, and the email signup. Everything else keeps its DOM order (desktop is
+// unchanged) and follows below. Accents use the level colour (--lv).
+// Tap targets 44px+ and chrome clearance from cursor/mobile-optimize-7ea6.
+const PHONE_CSS = `
+.v2-ctx{display:flex;flex-direction:column;gap:14px}
+.v2-phone{display:none}
+.v2-watch{display:flex;flex-direction:column;gap:10px}
+.v2-watch__note{margin:0;font-size:13px;color:#AEB7C3;max-width:62ch}
+.v2-watch__l{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.v2-watch__l li{display:flex;align-items:center;gap:8px;padding:6px 10px;border:2px solid #2A3446;background:#0E131D}
+.v2-watch__l a{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex:1;min-width:0;min-height:44px;align-items:center;color:#E6EAF0!important;font-size:13px}
+.v2-watch__l .mute{color:#8A94A3}
+.v2-watch__star{appearance:none;-webkit-appearance:none;flex:none;width:44px;height:44px;border:1px solid #2A3446;background:#05070C;color:#AEB7C3;font-size:18px;line-height:1;cursor:pointer;padding:0;touch-action:manipulation}
+.v2-watch__star[aria-pressed=true]{border-color:var(--lv);color:var(--lv);background:var(--lvg)}
+.v2-watch__star:focus-visible{outline:2px solid var(--lv);outline-offset:2px}
+.v2-watch__out{margin:0;font-size:13px;color:#D7DCE3}.v2-watch__out[hidden]{display:none}
+@media (max-width:720px){
+  body.v2-body{overflow-x:hidden;-webkit-text-size-adjust:100%}
+  .v2-main{padding-bottom:calc(160px + env(safe-area-inset-bottom,0px));padding-top:10px;gap:12px}
+  .v2-wrap{padding-inline:14px}
+  .v2-dial{max-width:min(340px,100%)}
+  /* Top strip: freshness + the brief + radio on one row. The ticker and the
+     newsroom question link repeat the breaking bar and the NEWS tab. */
+  .v2-top .v2-live,.v2-ticker{display:none}
+  .v2-top .v2-wrap{padding-block:6px;gap:6px;flex-wrap:nowrap}
+  .v2-top .tag.red{font-size:10px;padding:3px 6px;flex:1 1 auto;min-width:0;min-height:36px}
+  .v2-top .right{margin-left:0;flex:0 0 auto}
+  .v2-top .tag.v2-getbrief{min-height:36px;font-size:11px;padding:3px 8px}
+  .v2-top .tag.radio{display:none}
+  /* First screen order; the rest keeps DOM order after it. */
+  .v2-main>.v2-hot{order:-4;margin:0}
+  .v2-main>.hero{order:-3}
+  .v2-main>.v2-signup{order:-2;margin:0}
+  .v2-hot{padding:10px 12px;gap:6px}
+  .v2-hot__badge{font-size:11px;padding:5px 8px}
+  .v2-hot__t{flex-basis:100%;font-size:17px}
+  .v2-hot__meta{font-size:12px;gap:4px 8px}
+  .v2-hot__more{display:none}
+  .v2 .hero{gap:8px}
+  .v2-banner{padding:10px 12px;gap:10px;flex-wrap:nowrap;align-items:center}
+  .v2-banner>:first-child{display:none}
+  .v2-banner .col{flex:1 1 auto;gap:6px}
+  .v2-banner .col .v2-ptext svg{max-height:26px;width:auto;max-width:100%}
+  .v2-banner .lbl{font-size:11px;letter-spacing:.06em}
+  .v2-banner .v2-score{margin-left:auto;width:auto;flex:0 0 auto;align-items:flex-end;gap:4px}
+  .v2-banner .v2-score .v2-ptext svg{max-height:38px;width:auto}
+  .v2-plain{font-size:13px;line-height:1.38;overflow-wrap:anywhere}
+  .v2-phone{display:flex;flex-direction:column;gap:6px;padding:8px 10px;border:2px solid color-mix(in srgb,var(--lv) 45%,#000);background:#0A0E16}
+  .v2-phone__spark{display:block;width:100%;height:32px}
+  .v2-phone__spark path{fill:none;stroke:var(--lv);stroke-width:2;stroke-linejoin:round}
+  .v2-phone__spark circle{fill:var(--lv)}
+  .v2-phone__mv{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .v2-phone__mv li{display:flex;flex-direction:column;gap:2px;min-width:0;padding:6px 6px 8px;border-top:3px solid var(--lv);background:#060A10}
+  .v2-phone__mv span{font-size:9.5px;font-weight:700;letter-spacing:.05em;color:#AEB7C3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .v2-phone__mv b{font-size:15px;font-variant-numeric:tabular-nums;color:#E6EAF0}
+  .v2-phone__mv b.up{color:#FCA5A5}.v2-phone__mv b.dn{color:#86EFAC}.v2-phone__mv b.mute{color:#8A94A3;font-size:12px}
+  .v2-phone__acts{margin:0;display:flex;flex-wrap:nowrap;align-items:center;gap:10px;font-size:11.5px}
+  .v2-phone__acts a{display:inline-flex;align-items:center;min-height:44px;touch-action:manipulation;white-space:nowrap}
+  .v2-phone__ev{flex:1 1 auto;justify-content:center;padding:0 10px;border:2px solid var(--lv);background:var(--lvg);color:#fff!important;font-weight:700;letter-spacing:.04em}
+  /* Signup: heading + buttons + privacy note; the pitch line waits for wider screens. */
+  .v2-signup{padding:12px}
+  .v2-signup .mz-pitch{display:none}
+  .v2-signup .mz-note{font-size:11.5px}
+  .v2-signup .mz-row{gap:8px}
+  .v2-signup .mz-btn,.v2-signup button{flex:1 1 100%;justify-content:center;touch-action:manipulation}
+  /* Brand block follows the fold on phones (the shared header carries the mark). */
+  .v2-brand .v2-art{width:48px;height:48px}
+  .v2-brand .v2-3d,.v2-brand .v2-3d canvas{width:56px!important;height:56px!important}
+  .v2-btn,.v2-btn.sm,.v2-tab a,.v2-tab button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+  .v2-bosses{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .v2-labs{grid-template-columns:1fr}
+  .v2-cta{padding:16px;gap:14px}
+  .v2-foot{font-size:12px;line-height:1.45}
+}`;
+
