@@ -37,6 +37,10 @@ here without changing it everywhere. Agents building in parallel rely on it.
    cannot send a request body, and its retries could post the same paid write
    twice. Folding it back needs a `body` option and a no-retry switch in
    fetch.mjs.
+   `fetchText` / `fetchJson` now accept `body`, `method` and `retries`. The
+   Slack webhook in `collector/slack-report.mjs` goes through `fetchText` with
+   `retries: 0`, so a message is never delivered twice, and replaces any thrown
+   error before logging so the webhook URL never reaches the Actions log.
 
 ## Directory ownership
 
@@ -49,6 +53,7 @@ collector/receipts.mjs       hash-chained receipt writer
 collector/posts.mjs          index state -> post text variants
 collector/card.mjs           index state -> share-card SVG
 collector/visitors.mjs       GoatCounter country counts -> data/visitors.json (daily)
+collector/slack-report.mjs   state + GoatCounter views -> hourly Slack message, alert lines
 site/build.mjs               data/ -> public/  (static site generator)
 site/templates/*.mjs         page templates, each exporting render(ctx)
 agent-kit/                   CLI + MCP for external AI agents (public API client)
