@@ -42,6 +42,8 @@ export const CORE_LIVE_SURFACES = Object.freeze([
   '/news-sitemap.xml',
   '/llms.txt',
   '/agents.md',
+  // FINDABILITY #490 — uppercase path must stay 200 (same body as agents.md).
+  '/AGENTS.md',
   '/agents.txt',
   // FINDABILITY #326 — skill.md must keep classic panel needle after tip.
   '/skill.md',
@@ -444,6 +446,21 @@ export function hasFeedTips(xml) {
  */
 export function hasRobotsTips(txt) {
   return hasSitemapTips(txt);
+}
+
+/**
+ * True when the homepage `<head>` and robots.txt both point an agent at
+ * how to use the index (FINDABILITY #490): skill.md + api/now.txt in head,
+ * skill.md + /AGENTS.md in robots.txt. Body links do not count.
+ */
+export function hasAgentUseLinks(html, robots) {
+  const h = String(html || '');
+  const end = h.toLowerCase().indexOf('</head>');
+  const head = end >= 0 ? h.slice(0, end) : '';
+  const skill = /rel="alternate"[^>]*href="[^"]*\/skill\.md"/.test(head);
+  const now = /rel="alternate"[^>]*href="[^"]*\/api\/now\.txt"/.test(head);
+  const r = String(robots || '');
+  return skill && now && /\/skill\.md/.test(r) && /\/AGENTS\.md/.test(r);
 }
 
 /**
@@ -2829,6 +2846,15 @@ export function deriveGaps(report) {
     });
   }
 
+  // FINDABILITY #490 — homepage head + robots.txt must point at how to use the index.
+  if (ours.agent_use_links === false) {
+    gaps.push({
+      id: 'agent-use-links-missing',
+      severity: 'medium',
+      text: 'home <head> or robots.txt missing skill.md / api/now.txt / AGENTS.md use links (FINDABILITY #490) — re-overlay or wait for collect Publish on tip ≥ #490',
+    });
+  }
+
   // FINDABILITY #90/#91 — live reading tip lines missing until tip ≥ #334 deploys or overlay.
   if (ours.now_md_tips === false || ours.now_txt_tips === false) {
     const which = [
@@ -4549,6 +4575,10 @@ export function measureSite(site, byUrl) {
 
   if (site.ours) {
     row.robots_tips = robots?.ok ? hasRobotsTips(robots.value) : false;
+    // FINDABILITY #490 — head + robots must name skill.md, now.txt, and /AGENTS.md.
+    row.agent_use_links = (home?.ok && robots?.ok)
+      ? hasAgentUseLinks(home.value, robots.value)
+      : false;
   }
 
   if (sm?.ok) {
@@ -5119,6 +5149,9 @@ export function formatMarkdown(report) {
     }
     if (ours && ours.robots_tips != null) {
       lines.push(`- Robots tip comments (#79): robots.txt **${ours.robots_tips ? 'yes' : 'NO'}**`);
+    }
+    if (ours && ours.agent_use_links != null) {
+      lines.push(`- Agent use links (#490): home head + robots **${ours.agent_use_links ? 'ok' : 'NO'}**`);
     }
     if (ours && (ours.sitemap_tips != null || ours.news_sitemap_tips != null)) {
       const smTip = ours.sitemap_tips == null ? '—' : (ours.sitemap_tips ? 'yes' : 'NO');
@@ -6137,6 +6170,24 @@ function selftest() {
     open_engineering: [],
   });
   if (!robotsTipGaps.some((g) => g.id === 'robots-tips-missing')) throw new Error('robots-tips-missing gap');
+  const useHead = '<head><link rel="alternate" type="text/markdown" href="/skill.md" title="How to use and cite SIREN"><link rel="alternate" type="text/plain" href="/api/now.txt" title="Current reading (plain text)"></head>';
+  const useRobots = '# How to use (no key): GET https://siren.watch/api/now.txt · how to cite https://siren.watch/skill.md\n# AGENTS.md convention: https://siren.watch/AGENTS.md\n';
+  if (hasAgentUseLinks(useHead, useRobots) !== true) throw new Error('hasAgentUseLinks true');
+  if (hasAgentUseLinks(useHead, 'User-agent: *\nAllow: /\n') !== false) throw new Error('hasAgentUseLinks false without robots');
+  if (hasAgentUseLinks('<head></head><a href="/skill.md">skill</a><a href="/api/now.txt">now</a>', useRobots) !== false) {
+    throw new Error('hasAgentUseLinks false outside head');
+  }
+  const useGaps = deriveGaps({
+    sites: [{
+      id: 'siren', name: 'siren.watch', ours: true, ok: true,
+      title: 'AI activity index today · SIREN',
+      sitemap_urls: 6000, news_sitemap_urls: 200, schema_types: ['WebSite'],
+      agent_use_links: false,
+    }],
+    surfaces: [],
+    open_engineering: [],
+  });
+  if (!useGaps.some((g) => g.id === 'agent-use-links-missing')) throw new Error('agent-use-links-missing gap');
   const nowTipped = 'Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](https://siren.watch/verify.html) · [Search Trends](https://siren.watch/search-trends.html) (short alias https://siren.watch/trends.html) · [classic instrument panel](https://siren.watch/classic.html).\n';
   if (hasNowTips(nowTipped) !== true) throw new Error('hasNowTips true');
   if (hasNowTips('# SIREN: current reading\n') !== false) throw new Error('hasNowTips false');
@@ -6317,6 +6368,9 @@ function selftest() {
   }
   if (!CORE_LIVE_SURFACES.includes('/agents.html')) {
     throw new Error('CORE_LIVE_SURFACES missing #437 /agents.html');
+  }
+  if (!CORE_LIVE_SURFACES.includes('/AGENTS.md')) {
+    throw new Error('CORE_LIVE_SURFACES missing #490 /AGENTS.md');
   }
   if (hasAgentsHtmlDualHeadTerm('live AI activity index today · AI activity level today (dual)') !== true) {
     throw new Error('hasAgentsHtmlDualHeadTerm true');

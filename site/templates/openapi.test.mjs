@@ -17,6 +17,7 @@ test('openapi lists Outrank free-tool and Search Trends HTML landings', () => {
     '/free-tools.html',
     '/verify.html',
     '/classic.html',
+    '/AGENTS.md',
   ]) {
     assert.ok(spec.paths[p], p);
     assert.ok(spec.paths[p].get?.operationId, p);

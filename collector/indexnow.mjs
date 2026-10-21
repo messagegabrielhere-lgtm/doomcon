@@ -76,6 +76,7 @@ const ALWAYS = Object.freeze([
   '/news-sitemap.xml',
   '/llms.txt',
   '/agents.md',
+  '/AGENTS.md', // uppercase convention; same body as agents.md (FINDABILITY #489)
   '/agents.txt',
   '/agents.json',
   '/ai.txt',

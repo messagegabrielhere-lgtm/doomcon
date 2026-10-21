@@ -43,7 +43,7 @@ Docker (no local Node install):
 
 Do not scrape HTML. Use:
 
-- https://siren.watch/agents.md — fetch-first map
+- https://siren.watch/agents.md — fetch-first map (also https://siren.watch/AGENTS.md)
 - https://siren.watch/agents.txt — agents-txt.com skills announcement
 - https://siren.watch/skill.md — how to phrase and cite
 - https://siren.watch/api/now.txt — current reading

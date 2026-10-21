@@ -2308,6 +2308,8 @@ async function main() {
     openapi: ctx.url('/openapi.json'),
     agents: {
       entry: ctx.url('/agents.md'),
+      // FINDABILITY #489 — uppercase path coding agents request (same body).
+      entry_upper: ctx.url('/AGENTS.md'),
       skill: ctx.url('/skill.md'),
       skill_package: ctx.url(agentDiscovery.SKILL_PATH),
       llms: ctx.url('/llms.txt'),
@@ -2352,6 +2354,7 @@ async function main() {
       llms_txt: ctx.url('/llms.txt'),
       llms_full: ctx.url('/llms-full.txt'),
       agents_md: ctx.url('/agents.md'),
+      agents_md_upper: ctx.url('/AGENTS.md'),
       agents_txt: ctx.url('/agents.txt'),
       agents_json: ctx.url('/agents.json'),
       ai_txt: ctx.url('/ai.txt'),
@@ -2469,7 +2472,10 @@ async function writeAgentText(ctx, dataDir, outDir, write, written) {
   written.push(await write(outDir, 'api/now.txt', agentText.nowTxt(src)));
   written.push(await write(outDir, 'now.md', agentText.nowMd(src)));
   written.push(await write(outDir, 'llms-full.txt', agentText.llmsFullTxt(ctx, src)));
-  written.push(await write(outDir, 'agents.md', agentText.agentsMd(ctx)));
+  const agentsBody = agentText.agentsMd(ctx);
+  written.push(await write(outDir, 'agents.md', agentsBody));
+  // FINDABILITY #489 — coding agents request /AGENTS.md (case-sensitive hosts).
+  written.push(await write(outDir, 'AGENTS.md', agentsBody));
   written.push(await write(outDir, 'llms.txt', agentText.llmsTxt(ctx)));
   written.push(await write(outDir, '.well-known/llms.txt', agentText.llmsTxt(ctx)));
 

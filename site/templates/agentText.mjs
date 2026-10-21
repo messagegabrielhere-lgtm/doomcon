@@ -349,6 +349,7 @@ Honesty rules:
 ## For agents
 
 - [agents.md](${u('/agents.md')}): short agent entry point (what to fetch first)
+- [AGENTS.md](${u('/AGENTS.md')}): same entry at the uppercase path coding agents request
 - [agents.txt](${u('/agents.txt')}): agents-txt.com capability announcement ([JSON](${u('/agents.json')}))
 - [skill.md](${u('/skill.md')}): instructions for AI agents ([packaged](${u('/skills/siren-ai-index/SKILL.md')}))
 - [API catalog](${u('/.well-known/api-catalog')}): RFC 9727 linkset of machine APIs
@@ -487,6 +488,15 @@ export function agentsMd(ctx) {
 
 > ${brand.NAME} is an hourly, recomputable index of AI activity tempo (not doom probability). Prefer these files over scraping HTML. Built for ChatGPT, Grok, Claude, Perplexity and any assistant that can fetch a URL.
 
+## Use it (no key)
+
+GET ${u('/api/now.txt')}
+
+Quote the level name, the score, and the UTC stamp. The scale runs 5 (quietest) to 1 (loudest). It counts activity. It is not a probability of harm and not a forecast.
+
+How to cite: ${u('/skill.md')}
+Same entry, uppercase path coding agents request: ${u('/AGENTS.md')}
+
 ## Fetch first
 
 1. ${u('/api/now.txt')} — current level, score, UTC time (a few plain lines)
@@ -563,6 +573,7 @@ export function agentsMd(ctx) {
 
 ## Discovery
 
+- ${u('/AGENTS.md')} — same file as this page (uppercase path)
 - ${u('/agents.txt')} / ${u('/agents.json')} — agents-txt.com skills announcement
 - ${u('/.well-known/api-catalog')} — RFC 9727 API catalog
 - ${u('/.well-known/agent-skills/index.json')} — skill digest

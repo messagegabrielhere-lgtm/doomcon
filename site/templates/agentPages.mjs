@@ -656,7 +656,7 @@ Say the shorter home keeps the live reading; the classic board keeps the full in
 
 ## More
 
-- Agent entry: ${ctx.url('/agents.md')}
+- Agent entry: ${ctx.url('/agents.md')} (uppercase ${ctx.url('/AGENTS.md')})
 - Capability announcement: ${ctx.url('/agents.txt')} (${ctx.url('/agents.json')})
 - Snapshot (markdown, top stories, leaders, Takeover Watch): ${ctx.url('/now.md')}
 - News JSON: ${ctx.url('/api/news.json')}
