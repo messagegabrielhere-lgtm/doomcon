@@ -103,12 +103,14 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(hub, /55\.5/);
     assert.match(hub, /id="cmp-side-h">How do they compare side by side\?<\/h2>/);
     assert.match(hub, /id="cmp-pick-h">Which rival should you pick\?<\/h2>/);
-    assert.match(hub, /id="cmp-comp-h">Which complementary index is not a doom index\?<\/h2>/);
+    assert.match(hub, /id="cmp-comp-h">Which complementary instruments are not doom indexes\?<\/h2>/);
     assert.match(hub, /id="cmp-also-h">What else is on this site\?<\/h2>/);
     assert.match(hub, /FAQPage[\s\S]*How do they compare side by side\?/);
     assert.doesNotMatch(hub, /id="cmp-side-h">Side by side<\/h2>/);
-    assert.doesNotMatch(hub, /id="cmp-comp-h">Complementary \(not a doom index\)<\/h2>/);
+    assert.doesNotMatch(hub, /id="cmp-comp-h">Which complementary index is not a doom index\?<\/h2>/);
     assert.match(hub, /artificialanalysis\.ai/);
+    assert.match(hub, /ai-2027\.com/);
+    assert.match(hub, /AI 2027/);
     assert.match(hub, /\/vs\.html/);
     assert.match(hub, /Which AI indexes does SIREN contrast/);
     assert.match(hub, /\/methodology\.html/);
@@ -143,6 +145,9 @@ describe('compare / alternatives conquest pages', () => {
     assert.doesNotMatch(alt, /id="alt-right-h">When SIREN is the right alternative<\/h2>/);
     assert.match(alt, /Artificial Analysis/);
     assert.match(alt, /artificialanalysis\.ai/);
+    assert.match(alt, /AI 2027/);
+    assert.match(alt, /ai-2027\.com/);
+    assert.match(alt, /detailed written AGI scenario/);
     assert.match(alt, /Which AI doom indexes can you compare/);
     assert.match(alt, /\/compare\.html/);
     // FINDABILITY #453 — dual middot head terms beside live home.

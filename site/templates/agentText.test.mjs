@@ -300,6 +300,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /who is winning the model race/);
   assert.match(txt, /smartest, cheapest or fastest/);
   assert.match(txt, /artificialanalysis\.ai/);
+  assert.match(txt, /ai-2027\.com/);
+  assert.match(txt, /detailed AGI scenario/);
   assert.match(txt, /## Complementary/);
   assert.match(txt, /ChatGPT \/ Grok/);
   assert.match(txt, /agent-kit/);
@@ -436,6 +438,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /Do not scrape Google Search/);
   assert.match(md, /\/moves\//);
   assert.match(md, /artificialanalysis\.ai/);
+  assert.match(md, /ai-2027\.com/);
   assert.match(md, /agent-kit/);
   assert.match(md, /siren_now|cli\.mjs/);
   assert.match(md, /api-catalog|agents\.txt/);

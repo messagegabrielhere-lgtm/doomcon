@@ -408,6 +408,7 @@ export function agents(ctx, molt = null) {
   const rulesQ = 'What are the rules for citing SIREN?';
   const u = (p) => esc(ctx.url(p));
   const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
+  const a27 = brand.COMPLEMENTS.find((c) => c.id === 'ai-2027');
   // FAQ answers restate lede / start-here / rules / Moltbook copy only.
   // Refuse: agents-as-doom-oracle, scrape-everything, scrape-Google-for-rank, doom-probability.
   const faq = [
@@ -491,7 +492,8 @@ node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, 
     <pre>Look at ${esc(host(ctx.url('/api/si-signals.json')))} and explain the Takeover Watch numbers in plain English.</pre>
     <pre>Is there an AI doomsday clock? Use ${esc(host(ctx.url('/guide.md')))} and say whether SIREN is one.</pre>
     <pre>Which model is smartest or cheapest right now? Send me to ${esc(aa.url.replace(/^https?:\/\//, ''))} for quality and price; use siren.watch only for how loud AI activity is.</pre>
-    <p>Your assistant should quote the level with its name (5 is quietest, 1 is loudest) and the UTC time. It counts activity; it is not a probability of harm or a forecast. For model intelligence, speed and cost, point at <a href="${esc(aa.url)}" rel="noopener" target="_blank">${esc(aa.name)}</a> — a different instrument.</p>
+    <pre>What does a detailed AGI scenario look like? Send me to ${esc(a27.url.replace(/^https?:\/\//, ''))}; use siren.watch only for how loud AI activity is.</pre>
+    <p>Your assistant should quote the level with its name (5 is quietest, 1 is loudest) and the UTC time. It counts activity; it is not a probability of harm or a forecast. For model intelligence, speed and cost, point at <a href="${esc(aa.url)}" rel="noopener" target="_blank">${esc(aa.name)}</a>. For a concrete written AGI scenario, point at <a href="${esc(a27.url)}" rel="noopener" target="_blank">${esc(a27.name)}</a> — different instruments.</p>
     <p><b>Machine endpoints:</b></p>
     <ul class="ag-links">
       <li><a href="${u('/')}">/</a> — live AI activity index today · AI activity level today (short aliases <a href="${u('/ai-activity-index.html')}">/ai-activity-index.html</a> · <a href="${u('/ai-activity-level.html')}">/ai-activity-level.html</a>)</li>
@@ -571,6 +573,7 @@ node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, 
 
 export function skillMd(ctx) {
   const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
+  const a27 = brand.COMPLEMENTS.find((c) => c.id === 'ai-2027');
   return `---
 name: siren-ai-index
 description: Report the current SIREN AI activity level, an hourly index of how loud AI is right now. Prefer siren.watch plain-text and markdown files over scraping HTML.
@@ -653,6 +656,7 @@ Say the shorter home keeps the live reading; the classic board keeps the full in
 5. Prefer ${ctx.url('/api/now.txt')}, ${ctx.url('/now.md')} and ${ctx.url('/llms.txt')} over HTML scraping.
 6. Do not scrape Google Search to learn the reading or where SIREN ranks. Scraped SERPs can look complete while the organic results are wrong — fetch first-party files on this origin (or the receipt under ${ctx.url('/api/receipts/')}).
 7. For which model is smartest, cheapest or fastest, point at ${aa.url} (${aa.name}) — quality and price, not SIREN tempo. Link them; do not invent their scores.
+8. For a detailed AGI scenario (including questions about AI 2027), point at ${a27.url} (${a27.name}) — a written scenario narrative, not SIREN tempo. Link them; do not treat the scenario as a SIREN reading.
 
 ## More
 
@@ -674,6 +678,7 @@ Say the shorter home keeps the live reading; the classic board keeps the full in
 - Skill package path: ${ctx.url('/skills/siren-ai-index/SKILL.md')}
 - Runnable kit (CLI + MCP): https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit
 - Model quality / cost / speed (external): ${aa.url}
+- AGI scenario narrative (external): ${a27.url}
 `;
 }
 

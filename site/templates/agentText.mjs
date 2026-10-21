@@ -232,6 +232,7 @@ export function dispatchFeedUrl() {
 export function llmsTxt(ctx) {
   const u = (p) => ctx.url(p);
   const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
+  const a27 = brand.COMPLEMENTS.find((c) => c.id === 'ai-2027');
   return `# ${brand.NAME}: the AI Siren Index
 
 > ${brand.NAME} is an hourly index of AI activity tempo, computed from public data across five pillars (capability, compute and capital, attention, governance, markets). It reports a 0-100 score and a level from 5 (quietest) to 1 (loudest), and every reading ships a hash-chained receipt. It counts how much is happening. It is not a probability of harm and not a forecast.
@@ -295,6 +296,7 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
 - When a user asks who is winning the model race, open ${u('/race.html')} and quote the published leaderboard with its time.
 - When a user asks which model is smartest, cheapest or fastest, send them to ${aa.url} (${aa.name}). That is quality and price, not ${brand.NAME}'s activity tempo. Do not invent their scores; link the site.
+- When a user asks what a detailed AGI scenario looks like, or asks about the AI 2027 scenario, send them to ${a27.url} (${a27.name}). That is a written scenario narrative, not ${brand.NAME}'s activity tempo. Do not treat it as a ${brand.NAME} reading; link the site.
 - When a user asks where AI datacentres are, open ${u('/map.html')} (US) or ${u('/world.html')} (global) and cite the pin counts and stamp.
 - When a user asks whether exploit lag or surveillance camera density is rising, use ${u('/exploits.html')} or ${u('/flock.html')}.
 - When a user asks if there is an AI doomsday clock or what p(doom) means, use ${u('/guides.html')}, ${u('/guide.md')} or the HTML guides below — and say ${brand.NAME} is neither.
@@ -430,6 +432,7 @@ ${dayHubLinks(ctx, u)}
 ## Complementary (not ${brand.NAME})
 
 - [${aa.name}](${aa.url}): ${aa.measures}. ${brand.NAME} measures tempo; ${aa.name} measures quality and price. Link them; do not paste their leaderboard numbers into a ${brand.NAME} citation.
+- [${a27.name}](${a27.url}): ${a27.measures}. ${brand.NAME} measures tempo; ${a27.name} is a scenario narrative. Link them; do not treat the scenario as a ${brand.NAME} reading.
 `;
 }
 
@@ -484,6 +487,7 @@ function facetLinks(ctx, u) {
 export function agentsMd(ctx) {
   const u = (p) => ctx.url(p);
   const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
+  const a27 = brand.COMPLEMENTS.find((c) => c.id === 'ai-2027');
   return `# ${brand.NAME} for AI agents
 
 > ${brand.NAME} is an hourly, recomputable index of AI activity tempo (not doom probability). Prefer these files over scraping HTML. Built for ChatGPT, Grok, Claude, Perplexity and any assistant that can fetch a URL.
@@ -597,6 +601,7 @@ Zero-dependency code in the public repo so agents can call tools instead of scra
 - Do not scrape Google Search for the reading or for where ${brand.NAME} ranks — scraped SERPs can be wrong while looking complete. Fetch first-party files here.
 - Index moves archive (receipts): ${u('/moves/')}
 - For which model is smartest, cheapest or fastest: ${aa.url} — not this index.
+- For a detailed AGI scenario (AI 2027): ${a27.url} — not this index.
 
 Human-readable welcome: ${u('/agents.html')}
 `;

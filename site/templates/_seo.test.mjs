@@ -570,7 +570,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Which desk picks are kept'));
     assert.ok(org.knowsAbout.includes('How do they compare side by side'));
     assert.ok(org.knowsAbout.includes('Which rival should you pick'));
-    assert.ok(org.knowsAbout.includes('Which complementary index is not a doom index'));
+    assert.ok(org.knowsAbout.includes('Which complementary instruments are not doom indexes'));
     assert.ok(org.knowsAbout.includes('When is SIREN the right alternative'));
     assert.ok(org.knowsAbout.includes('When is SIREN the wrong alternative'));
     assert.ok(org.knowsAbout.includes('Where is one page per rival'));

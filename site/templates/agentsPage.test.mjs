@@ -101,6 +101,8 @@ describe('skill.md SEO', () => {
     assert.match(md, /News sitemap \(Google News\): https:\/\/siren\.watch\/news-sitemap\.xml/);
     assert.match(md, /Newsroom \+ day hubs: https:\/\/siren\.watch\/news\.html/);
     assert.match(md, /Do not invent a day doom score/);
+    assert.match(md, /ai-2027\.com/);
+    assert.match(md, /detailed AGI scenario/);
     assert.match(md, /## Search trends and prediction markets/);
     assert.match(md, /https:\/\/siren\.watch\/search-trends\.html/);
     assert.match(md, /https:\/\/siren\.watch\/api\/search-trends\.json/);

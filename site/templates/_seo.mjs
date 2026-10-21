@@ -525,7 +525,7 @@ export function organization(ctx) {
       'Which desk picks are kept',
       'How do they compare side by side',
       'Which rival should you pick',
-      'Which complementary index is not a doom index',
+      'Which complementary instruments are not doom indexes',
       'When is SIREN the right alternative',
       'When is SIREN the wrong alternative',
       'Where is one page per rival',

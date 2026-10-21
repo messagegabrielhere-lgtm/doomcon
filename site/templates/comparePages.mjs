@@ -224,6 +224,7 @@ function pageJsonLd(ctx, path, title, description, crumbs, faqPairs) {
 export function compareHub(ctx) {
   const path = '/compare.html';
   const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
+  const a27 = brand.COMPLEMENTS.find((c) => c.id === 'ai-2027');
   // Head-term question (FINDABILITY tip #206): H1 must match <title> stem.
   // Was “Which AI doom indexes can you compare honestly?” under a shorter title.
   const qTitle = 'Which AI doom indexes can you compare?';
@@ -231,7 +232,7 @@ export function compareHub(ctx) {
   // Tip #267: section H2s are question-shaped and mirrored in FAQ (§3.3).
   const sideQ = 'How do they compare side by side?';
   const pickQ = 'Which rival should you pick?';
-  const compQ = 'Which complementary index is not a doom index?';
+  const compQ = 'Which complementary instruments are not doom indexes?';
   const alsoQ = 'What else is on this site?';
   // FAQ from the SAME pairs as FAQPage (§3.3). Refuse doom-probability / DEFCON hijack / forecast.
   const faq = [
@@ -246,7 +247,7 @@ export function compareHub(ctx) {
     [pickQ,
       'Each rival has a dedicated versus page: DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker.'],
     [compQ,
-      `For which model is smartest, cheapest or fastest, use Artificial Analysis. That is independent quality, speed and cost. ${brand.NAME} is tempo. They pair; they do not substitute.`],
+      `For which model is smartest, cheapest or fastest, use Artificial Analysis. For a detailed written AGI scenario, use AI 2027. ${brand.NAME} is tempo. They pair; they do not substitute.`],
     [alsoQ,
       'Versus hub, alternatives hub, guide, methodology and export/embed live on this site beside the comparison table.'],
     [`What is the difference between ${brand.NAME} and DoomBench?`,
@@ -273,11 +274,13 @@ export function compareHub(ctx) {
     <h3><a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}: which should you use?</a></h3>
     <p>${esc(r.short)}. ${esc(r.measures)}. ${esc(r.recomputableNote)}.</p>
   </div>`).join('')}
-  <h2 id="cmp-comp-h">Which complementary index is not a doom index?</h2>
+  <h2 id="cmp-comp-h">Which complementary instruments are not doom indexes?</h2>
   <p>For <b>which model is smartest, cheapest or fastest</b>, use
     <a href="${esc(aa.url)}" rel="noopener">${esc(aa.name)}</a>.
-    That is independent quality, speed and cost. ${esc(brand.NAME)} is tempo.
-    They pair; they do not substitute. We link out; we do not republish their leaderboard.</p>
+    That is independent quality, speed and cost. For <b>what a detailed AGI scenario looks like</b>, use
+    <a href="${esc(a27.url)}" rel="noopener">${esc(a27.name)}</a>.
+    That is a written scenario narrative. ${esc(brand.NAME)} is tempo.
+    They pair; they do not substitute. We link out; we do not republish their numbers or their story as ours.</p>
   ${faqBlock(faq)}
   <p>Search-shaped sibling:
     <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a>
@@ -371,6 +374,7 @@ export function vsHub(ctx) {
 export function alternatives(ctx) {
   const path = '/alternatives.html';
   const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
+  const a27 = brand.COMPLEMENTS.find((c) => c.id === 'ai-2027');
   // Head-term question (FINDABILITY tip #207): H1 must match <title> stem.
   // Was “What are AI doom index alternatives, and what is each one?” under a shorter title.
   const qTitle = 'What are AI doom index alternatives?';
@@ -391,7 +395,7 @@ export function alternatives(ctx) {
     [rightQ,
       'When you want a number a stranger can recompute from public data and a published receipt, an embeddable widget and CORS-open JSON, and tempo rather than a takeover probability or fake DEFCON.'],
     [wrongQ,
-      'When you need a scored takeover argument (DoomBench), an AGI date (Skynet Countdown), a personal p(doom), Pentagon-pizza novelty, a multi-panel takeoff dashboard, or model intelligence rankings.'],
+      'When you need a scored takeover argument (DoomBench), an AGI date (Skynet Countdown), a personal p(doom), Pentagon-pizza novelty, a multi-panel takeoff dashboard, model intelligence rankings, or a detailed written AGI scenario.'],
     [oneQ,
       'Each rival has a dedicated versus page listed below, with the queries that page answers.'],
     [allQ,
@@ -429,6 +433,7 @@ export function alternatives(ctx) {
     <li>You want Pentagon-pizza novelty or a military DEFCON reading — that is not an AI activity index; see /vs/pizzint.html.</li>
     <li>You want a multi-panel AGI takeoff dashboard (timelines, stocks, arena ranks, collected p(doom)) — that is Takeoff Tracker’s product, not ours.</li>
     <li>You need model intelligence, speed or cost rankings — that is <a href="${esc(aa.url)}" rel="noopener">${esc(aa.name)}</a>, not an activity index.</li>
+    <li>You want a detailed written AGI scenario — that is <a href="${esc(a27.url)}" rel="noopener">${esc(a27.name)}</a>, not an activity index.</li>
   </ul>
   <h2 id="alt-one-h">Where is one page per rival?</h2>
   ${RIVALS.map((r) => `<div class="cmp__card">
