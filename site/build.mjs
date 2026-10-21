@@ -1877,7 +1877,8 @@ async function main() {
   }
   {
     // The Waffle House Index (collector/waffle.mjs): storms, Waffle Houses in
-    // the path, Google open/closed when enabled, AI data centres alongside.
+    // the path, open/closed from the official Waffle House locator (Google
+    // Places only when the locator is dark), AI data centres alongside.
     let wfText = null, wf = null, usRings = null;
     try { wfText = await readFile(path.join(args.data, 'waffle.json'), 'utf8'); wf = JSON.parse(wfText); } catch { wfText = null; wf = null; }
     try { const wo = JSON.parse(await readFile(path.join(args.data, 'world-outline.json'), 'utf8')); usRings = ((wo.countries || []).find((c) => c.iso2 === 'US') || {}).rings || null; } catch { usRings = null; }

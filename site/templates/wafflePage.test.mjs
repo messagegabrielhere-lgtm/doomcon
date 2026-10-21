@@ -74,7 +74,15 @@ describe('waffle page', () => {
   });
 
   it('other-storms section H2 uses a question mirrored in FAQPage when visible', () => {
-    const html = render(ctx, waffle, null);
+    // data/waffle.json is live and often lists a single storm, so build a
+    // two-storm payload here instead of depending on the hour's weather.
+    const storm = (id, name) => ({
+      id, name, cls: 'HU', wind_kt: 90, category: 'Hurricane 2', at: '2026-10-13T15:00:00Z',
+      now: { lat: 27, lon: -88 }, later: { lat: 29, lon: -87 }, radius_km: 150,
+      url: `https://www.nhc.noaa.gov/${id}`, waffle_in_path: 3, stores: [], datacenters_in_path: 1, datacenters: [],
+      google: null, index: { level: 'UNKNOWN', label: 'No live status', color: '#94A3B8' }, dc_impact: [],
+    });
+    const html = render(ctx, { ...waffle, storms: [storm('al01', 'Alpha'), storm('al02', 'Bravo')] }, null);
     assert.match(html, /<h2>Which other storms are active\?<\/h2>/);
     assert.doesNotMatch(html, /<h2>Other active storms<\/h2>/);
     assert.match(html, /"name"\s*:\s*"Which other storms are active\?"/);

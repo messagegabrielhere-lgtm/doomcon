@@ -244,7 +244,7 @@ export function indexFrom(closed, known, limited = 0) {
   if (!known) return { level: 'UNKNOWN', label: 'No live status', color: '#94A3B8' };
   const pct = closed / known;
   if (pct >= 0.35) return { level: 'RED', label: 'Very bad: Waffle Houses are closed', color: '#F87171', pct };
-  if (pct >= 0.05) return { level: 'YELLOW', label: 'Bad: some closed, expect limited menus', color: '#FACC15', pct };
+  if (pct >= 0.05) return { level: 'YELLOW', label: 'Bad: some Waffle Houses closed', color: '#FACC15', pct };
   if (limited / known >= 0.1) return { level: 'YELLOW', label: 'Bad: many on limited hours', color: '#FACC15', pct };
   return { level: 'GREEN', label: 'Open for business', color: '#4ADE80', pct };
 }

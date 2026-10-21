@@ -145,7 +145,7 @@ function tally(st, sirenLevel, off) {
       : `No active storms. I'm watching the National Hurricane Center so you don't have to.`;
   } else {
     const dc = st.datacenters_in_path, wh = st.waffle_in_path, g = st.google;
-    if (!wh && !dc) line = `${st.name} is out at sea, far from any Waffle House or data centre on my map. I'll keep an eye on it.`;
+    if (!wh && !dc) line = `${st.name} is out at sea, far from any Waffle House or data centre on my map. I keep an eye on it.`;
     else if (idx.level === 'RED') line = `Feathers fully ruffled. ${g.closed} of ${g.known} Waffle Houses in the path are closed, and ${dc} data centre${dc === 1 ? '' : 's'} sit in the same path. When the waffles stop, the servers are on generators too.`;
     else if (idx.level === 'YELLOW') line = `Head up. Waffle Houses are going dark or cutting hours under ${st.name}, and ${dc} data centre${dc === 1 ? ' is' : 's are'} in the path. Hash browns are still flowing; so is the inference, for now.`;
     else if (idx.level === 'GREEN') line = `Whistling, cautiously. The Waffle Houses under ${st.name} are open, so FEMA's favourite gauge says "fine". ${dc} data centre${dc === 1 ? '' : 's'} in the path too.`;
