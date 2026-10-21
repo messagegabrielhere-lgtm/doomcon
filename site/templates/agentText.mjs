@@ -293,7 +293,7 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user asks about SoftBank Allied Universal talks, SoftBank buying a US security firm, or SoftBank AI-robotics deployment via Allied, use ${u('/lab/softbank.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not deal advice, not a stock tip, and not a company score.
 - When a user asks about SpaceX Starshield, Starshield Ukraine access, or SpaceX defense / DoD satellite headlines, use ${u('/lab/spacex.html')} (and the Search Trends watchlist above), and say the lab page is story counts only — not policy advice, not a military forecast, and not a company score.
 - When a user asks about AI prediction markets or live lab odds, use ${u('/ai-prediction-markets.html')} and ${u('/race.html')}, and say the prices are market odds, not a ${brand.NAME} forecast.
-- When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
+- When a user asks how fast frontier training compute is growing, open ${u('/compute.html')} or ${u('/api/compute-clock.json')} (Epoch AI data, recomputed on SIREN) and say it is watched, not scored.- When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
 - When a user asks who is winning the model race, open ${u('/race.html')} and quote the published leaderboard with its time.
 - When a user asks which model is smartest, cheapest or fastest, send them to ${aa.url} (${aa.name}). That is quality and price, not ${brand.NAME}'s activity tempo. Do not invent their scores; link the site.
 - When a user asks what a detailed AGI scenario looks like, or asks about the AI 2027 scenario, send them to ${a27.url} (${a27.name}). That is a written scenario narrative, not ${brand.NAME}'s activity tempo. Do not treat it as a ${brand.NAME} reading; link the site.
@@ -334,7 +334,7 @@ Honesty rules:
 - [leaders.json](${u('/api/leaders.json')}): AI leaders: statements on the record and press coverage this week
 - [si-signals.json](${u('/api/si-signals.json')}): Takeover Watch: AI agents' pull requests, frontier models, agent chatter
 - [search-trends.json](${u('/api/search-trends.json')}): Google daily trending searches filtered for AI (watched, not scored)
-- [search-index.json](${u('/api/search-index.json')}): full-site search index
+- [compute-clock.json](${u('/api/compute-clock.json')}): largest disclosed training run, FLOP doubling time, Epoch AI data centres- [search-index.json](${u('/api/search-index.json')}): full-site search index
 - [fresh.json](${u('/api/fresh.json')}): two timestamps (index, newsroom) to check before downloading more
 - [health.json](${u('/api/health.json')}): pipeline health and source freshness
 - [Where are the SIREN reading receipts?](${u('/api/receipts/')}): the hash-chained receipt behind every reading ([index.json](${u('/api/receipts/index.json')}))
@@ -411,9 +411,9 @@ ${facetLinks(ctx, u)}
 - [Which AI story kinds have SIREN pages?](${u('/kind/')})
 - [Which AI story kinds has SIREN scored?](${u('/kinds.html')})
 - [Takeover Watch](${u('/si-watch.html')})
+- [The compute clock](${u('/compute.html')})
 - [Ready for superintelligence?](${u('/si-ready.html')})
-- [How do I AI-proof my job?](${u('/ai-proof-job.html')})
-- [The staff: the automated crew](${u('/staff.html')})
+- [How do I AI-proof my job?](${u('/ai-proof-job.html')})- [The staff: the automated crew](${u('/staff.html')})
 - [Bunker Kit: free tools and gear checklist](${u('/bunker-kit.html')})
 - [Where is everything on SIREN listed?](${u('/catalog.html')})
 - [How do you search everything on SIREN?](${u('/search.html')})

@@ -42,12 +42,13 @@ describe('labs page SEO', () => {
   });
 });
 
-test('labs week of Oct 12 is shipped to /bench.html', () => {
+test('labs week of Oct 12 is shipped to /bench.html (compute → /compute.html)', () => {
   const week = LABS.weeks[0];
   assert.equal(week.start, '2026-10-12');
   for (const it of week.items) {
     assert.equal(it.status, 'shipped', it.id);
-    assert.match(it.href, /^\/bench\.html#/);
+    if (it.id === 'compute') assert.equal(it.href, '/compute.html');
+    else assert.match(it.href, /^\/bench\.html#/);
   }
   const html = render({
     href: (p) => p,
@@ -57,5 +58,6 @@ test('labs week of Oct 12 is shipped to /bench.html', () => {
   }, Date.parse('2026-10-13T12:00:00Z'));
   assert.match(html, /● LIVE/);
   assert.match(html, /href="\/bench\.html#rsi"/);
+  assert.match(html, /href="\/compute\.html"/);
   assert.match(html, /Open the instrument/);
 });

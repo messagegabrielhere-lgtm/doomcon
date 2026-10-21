@@ -132,6 +132,19 @@ export function render(ctx) {
           },
         },
       },
+      '/api/compute-clock.json': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Compute clock (Epoch AI): largest training run, FLOP doubling time, AI data centres',
+          operationId: 'getComputeClock',
+          responses: {
+            200: {
+              description: 'Watched (not scored) compute-clock snapshot from Epoch AI CSVs',
+              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
       '/api/midterms.json': {
         get: {
           tags: ['surfaces'],
@@ -141,6 +154,19 @@ export function render(ctx) {
             200: {
               description: 'Races and candidates with coarse AI stance tags and evidence URLs',
               content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
+      '/compute.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'The compute clock (HTML): Epoch AI training FLOP and data centres',
+          operationId: 'getComputeClockHtml',
+          responses: {
+            200: {
+              description: 'HTML page for the compute clock',
+              content: { 'text/html': { schema: { type: 'string' } } },
             },
           },
         },
@@ -249,8 +275,7 @@ export function render(ctx) {
             },
           },
         },
-      },
-      '/api/now.txt': {
+      },      '/api/now.txt': {
         get: {
           tags: ['index'],
           summary: 'Current reading as 3-6 plain lines: level, score, name, UTC time, top mover, meaning, URL',

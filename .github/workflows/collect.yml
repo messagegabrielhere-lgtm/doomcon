@@ -766,7 +766,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SI_SEARCH_TOKEN: ${{ secrets.SI_SEARCH_TOKEN }}
         run: node collector/labs-bench.mjs
-
+      - name: The compute clock
+        # Epoch AI notable-models + data-centres CSVs (CC BY, keyless).
+        # Refetches at most every 12h; Labs experiment, not scored.
+        continue-on-error: true
+        run: node collector/compute-clock.mjs
       - name: Waffle House Index
         # Storms from NHC, Waffle Houses in the path (OpenStreetMap, weekly),
         # open/closed from Google Places when GOOGLE_PLACES_API_KEY is set

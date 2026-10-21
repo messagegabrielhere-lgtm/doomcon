@@ -298,7 +298,10 @@ is a bug and we want the issue.
 ## Where does the historical training-compute data come from?
 
 Historical training-compute and notable-model data comes from **[Epoch
-AI](https://epoch.ai/)**, used under CC-BY 4.0.
+AI](https://epoch.ai/)**, used under CC-BY 4.0. The live **Compute Clock**
+(`/compute.html`, `api/compute-clock.json`) recomputes the largest disclosed
+training run, a frontier FLOP doubling time, and Epoch’s AI data-centre stock
+from those public CSVs; it is watched, not scored into the main index.
 
 ## What are the limitations, stated plainly?
 

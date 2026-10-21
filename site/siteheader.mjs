@@ -45,8 +45,7 @@ export const WHATS_NEW = [
   ['/power.html', 'px:pylon', 'Who makes the most electricity (China vs US)?', 'Who makes the most electricity: China vs the US, per person, fastest growing.'],
   ['/threats.html', 'px:threatshield', 'What could take the machines offline tonight?', 'Exploited software, botnets, solar storms and disasters, live.'],
   ['/status.html', 'px:statuspulse', 'Is ChatGPT down? Is Claude down?', 'Live status of ChatGPT, Claude, Copilot, Cursor and more, every minute.'],
-  ['/self-aware.html', 'px:redeye', 'What if an AI wakes up at 2:14 a.m.?', 'The Skynet scenario, played out on a map of real US data centres.'],
-];
+  ['/self-aware.html', 'px:redeye', 'What if an AI wakes up at 2:14 a.m.?', 'The Skynet scenario, played out on a map of real US data centres.'],];
 
 const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const imgOf = (base, n) => (String(n).startsWith('px:') ? `${base}/img/px-${String(n).slice(3)}.svg` : `${base}/img/art-${n}.webp`);

@@ -127,7 +127,7 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(lines[2], /^> /);
   assert.ok(lines.length < 240, `${lines.length} lines`);
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
-    '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
+    '/api/si-signals.json', '/api/compute-clock.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
     '/methodology.md', '/guide.md', '/guides.md', '/agents.md', '/AGENTS.md', '/agents.txt', '/.well-known/api-catalog', '/guides.html', '/free-tools.html', '/verify.html', '/compare.html', '/vs.html', '/alternatives.html',
     '/vs/pizzint.html', '/vs/skynet.html', '/vs/doom.html', '/vs/takeoff.html', '/pillars.html', '/sources.html', '/countries.html', '/news-sitemap.xml', '/news.html',
     '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/api/search-trends.json',
@@ -135,8 +135,7 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
     '/p-doom.html', '/pdoom.html',
     '/ai-activity-index.html', '/ai-activity-level.html', '/classic.html',
     '/doombench.html', '/skynet-countdown.html', '/pizzint.html', '/takeofftracker.html',
-    '/doomsday-clock.html', '/ai-doom.html', '/doom-index.html']) {
-    assert.ok(txt.includes(`https://siren.watch${p}`), p);
+    '/doomsday-clock.html', '/ai-doom.html', '/doom-index.html']) {    assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.match(txt, /short alias https:\/\/siren\.watch\/trends\.html/);
   assert.match(txt, /short alias https:\/\/siren\.watch\/pdoom\.html/);

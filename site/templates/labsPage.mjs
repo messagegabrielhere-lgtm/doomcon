@@ -22,7 +22,7 @@ export const LABS = {
       { id: 'rsi', name: 'The Recursion Meter', q: 'How much of the code that builds AI is now written by AI?', build: 'Count agent-authored pull requests merged into the core AI stacks (PyTorch, Transformers, vLLM, JAX, llama.cpp) each day, as a share of all merged PRs.', data: 'GitHub public API; the agent-PR tracker behind Takeover Watch.', measure: 'A daily share with a 30-day trend line, recomputable from the PR list.', icon: 'px:agentcode', c: '#4ADE80', status: 'shipped', href: '/bench.html#rsi' },
       { id: 'horizon', name: 'The Task-Horizon Clock', q: 'How long a job can an AI agent finish on its own?', build: 'Chart the published length of tasks frontier agents complete half the time (METR’s time-horizon measure) and the doubling time it implies.', data: 'METR published results; model release dates.', measure: 'Hours of human work per task, per model, on a log scale.', icon: 'px:pclock', c: '#22D3EE', status: 'shipped', href: '/bench.html#horizon' },
       { id: 'jump', name: 'Capability Jump Alarm', q: 'When does a new model land far off the trend?', build: 'Fit the trend on public leaderboards and flag any release that beats it by more than two standard deviations.', data: 'LMArena, Epoch AI benchmarks hub, Artificial Analysis.', measure: 'A list of flagged jumps with the size of the gap, each linked to its source.', icon: 'px:trendchart', c: '#FACC15', status: 'shipped', href: '/bench.html#jump' },
-      { id: 'compute', name: 'The Compute Clock', q: 'How fast is frontier training compute growing?', build: 'A live clock of the largest disclosed training run, with the doubling time from Epoch’s notable-models data.', data: 'Epoch AI notable models dataset (CC BY).', measure: 'FLOP of the largest known run and months per doubling.', icon: 'px:db', c: '#A78BFA', status: 'shipped', href: '/bench.html#compute' },
+      { id: 'compute', name: 'The Compute Clock', q: 'How fast is frontier training compute growing?', build: 'A live clock of the largest disclosed training run, with the doubling time from Epoch’s notable-models data.', data: 'Epoch AI notable models dataset (CC BY).', measure: 'FLOP of the largest known run and months per doubling.', icon: 'px:db', c: '#A78BFA', status: 'shipped', href: '/compute.html' },
       { id: 'quiet', name: 'The Lab Silence Index', q: 'Do labs go quiet before a big release?', build: 'Track each lab’s posting cadence (blog, GitHub, X) and mark unusual silences, then check them against what shipped next.', data: 'The newsroom feeds and the Leaders tracker already on SIREN.', measure: 'Days of silence versus each lab’s normal rhythm, scored after the fact.', icon: 'px:shrug', c: '#94A3B8', status: 'shipped', href: '/bench.html#quiet' },
     ] },
     { start: '2026-10-19', theme: 'Who is watching the watchers?', items: [
@@ -47,6 +47,7 @@ export const LABS = {
   // Earlier ideas that are already live on the site.
   shipped: [
     ['/bench.html', 'Is AI building AI yet? (week of Oct 12)'],
+    ['/compute.html', 'How fast is frontier training compute growing?'],
     ['/si-watch.html#coding', 'What AI autonomy signals is SIREN watching?'],
     ['/self-aware.html', 'What if an AI wakes up at 2:14 a.m.?'],
     ['/charts.html', 'What AI charts does SIREN publish?'],
