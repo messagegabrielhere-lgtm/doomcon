@@ -775,11 +775,13 @@ jobs:
         continue-on-error: true
         run: node collector/compute-clock.mjs
       - name: Waffle House Index
-        # Storms from NHC, Waffle Houses in the path (OpenStreetMap, weekly),
-        # open/closed from Google Places when GOOGLE_PLACES_API_KEY is set
-        # (at most GOOGLE_WAFFLE_MAX_CALLS lookups a run, default 10), AI data
-        # centres alongside. Presentation only; never moves the index.
+        # Storms from NHC; every store and its opening_status from the official
+        # locations.wafflehouse.com locator (no key). If the locator is dark,
+        # OpenStreetMap stores plus Google Places when GOOGLE_PLACES_API_KEY is
+        # set (at most GOOGLE_WAFFLE_MAX_CALLS lookups a run, default 10). AI
+        # data centres alongside. Presentation only; never moves the index.
         continue-on-error: true
+        timeout-minutes: 8
         env:
           GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
         run: node collector/waffle.mjs
