@@ -1,0 +1,65 @@
+name: market-keeper
+
+# GitHub's cron skips many runs, which left scan.md and status.txt over an hour old.
+# This keeps ONE long-running job alive through market hours that refreshes the scan
+# every 10 min and the stop watcher every 3 min. Extra cron lines are redundant starts:
+# if one is skipped, the next one picks up. A start after the end time exits at once.
+
+on:
+  schedule:
+    - cron: '3,23,43 13-20 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-keeper
+  cancel-in-progress: false
+
+jobs:
+  scan-loop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v7
+      - name: Refresh scan every 10 min until 21:10 UTC (or ~5h50m)
+        run: |
+          git config user.name 'trade-scan'
+          git config user.email 'trade-scan@users.noreply.github.com'
+          start=$(date +%s); stop_utc=$(date -u -d '21:10' +%s)
+          while [ "$(date +%s)" -lt "$stop_utc" ] && [ $(( $(date +%s) - start )) -lt 20700 ]; do
+            t0=$(date +%s)
+            if timeout 600 python3 -u trades/scan.py; then
+              rm -rf /tmp/pub && mkdir /tmp/pub && cp trades/out/scan.md trades/out/scan.json /tmp/pub/
+              ( cd /tmp/pub && rm -rf .git && git init -q -b trade-data \
+                && git add scan.md scan.json \
+                && git -c user.name=trade-scan -c user.email=trade-scan@users.noreply.github.com commit -qm "trade-scan $(head -1 scan.md | head -c 40) [skip ci]" \
+                && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" trade-data ) \
+                || echo "publish failed"
+            else
+              echo "scan failed"
+            fi
+            sleep $(( 600 - ( $(date +%s) - t0 ) > 30 ? 600 - ( $(date +%s) - t0 ) : 30 ))
+          done
+
+  watch-loop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check stops every 3 min until 21:10 UTC (or ~5h50m)
+        run: |
+          git config user.name 'trade-watch'
+          git config user.email 'trade-watch@users.noreply.github.com'
+          start=$(date +%s); stop_utc=$(date -u -d '21:10' +%s)
+          while [ "$(date +%s)" -lt "$stop_utc" ] && [ $(( $(date +%s) - start )) -lt 20700 ]; do
+            git pull -q --rebase origin main || true
+            timeout 150 python3 trades/check.py || echo "check failed"
+            git add trades/status.txt trades/watch.json
+            if ! git diff --cached --quiet; then
+              git commit -qm "trade-watch: $(head -1 trades/status.txt) [skip ci]"
+              for i in 1 2 3; do git push -q origin HEAD:main && break || { git pull -q --rebase origin main; sleep 3; }; done
+            fi
+            sleep 180
+          done
