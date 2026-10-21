@@ -90,6 +90,11 @@ const CSS = `<style>
 .mt-how p,.mt-faq p,.mt-how li{font:400 1rem/1.55 var(--sans);color:#94A3B8;margin:0 0 8px}
 .mt-how ul{margin:0 0 10px;padding-left:1.2em}
 .mt-key{margin-top:14px!important}
+.mt-jump{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 14px;padding:8px 0;background:var(--bg,#05070B)}
+.mt-jump span{font:700 11px/1 var(--mono);letter-spacing:.14em;color:#6B7686;margin-right:4px}
+.mt-jump a{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid #2A3446;background:#0E131D;color:#E6EAF0;font:700 12px/1 var(--mono);letter-spacing:.06em;text-decoration:none}
+.mt-jump a:hover,.mt-jump a:focus-visible{border-color:#A5B4FC;color:#fff}
+.mt-race{scroll-margin-top:64px}.mt-how h2,.mt-faq h2{scroll-margin-top:64px}
 @media (max-width:640px){.mt-cands{grid-template-columns:1fr}}
 </style>`;
 
@@ -170,6 +175,7 @@ export function render(ctx) {
     <button type="button" class="mt-x" data-xpost="page" data-x-title="${esc(xTitle)}" data-x-src="SIREN" data-x-url="${share}">𝕏 Post the midterms board</button>
     <a class="mt-x" href="${esc(ctx.href('/api/midterms.json'))}" style="display:inline-flex;align-items:center;text-decoration:none">JSON</a>
   </p>
+  <nav class="mt-jump" aria-label="Jump to a race"><span>JUMP TO A RACE</span>${model.races.map((r) => `<a href="#${esc(r.id)}" title="${esc(`${r.state_name} · ${r.seat}`)}">${esc(r.state)}</a>`).join('')}<a href="#how">HOW WE CODE</a><a href="#faq">FAQ</a></nav>
   ${model.races.map((r) => raceBlock(ctx, r)).join('')}
   <section class="mt-how" aria-labelledby="how">
     <h2 id="how">${esc(howQ)}</h2>

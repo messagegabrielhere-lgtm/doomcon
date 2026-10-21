@@ -52,13 +52,22 @@ function listFiles() {
     paths = walk(ROOT).map((p) => path.relative(ROOT, p));
   }
   if (buildDir && existsSync(path.join(ROOT, buildDir))) paths.push(...walk(path.join(ROOT, buildDir)).map((p) => path.relative(ROOT, p)));
+  const buildPrefix = buildDir ? path.relative(ROOT, path.join(ROOT, buildDir)) + path.sep : null;
   return [...new Set(paths)]
     .filter((p) => !SKIP_DIR.test(p) && TEXT.test(p) && !p.startsWith('compliance/'))
     .map((p) => {
       const abs = path.join(ROOT, p);
       try {
         if (statSync(abs).size > MAX) return null;
-        return { path: p.split(path.sep).join('/'), text: readFileSync(abs, 'utf8') };
+        const rel = p.split(path.sep).join('/');
+        // Built output (--dir public) is the whole site: thousands of pages,
+        // more text than an 8 GB heap holds at once (collect.yml's Compliance
+        // gate died with exit 134 and blocked every publish). Its text is read
+        // when a rule asks for it and never kept, so memory stays one file deep.
+        if (buildPrefix && p.startsWith(buildPrefix)) {
+          return { path: rel, get text() { try { return readFileSync(abs, 'utf8'); } catch { return ''; } } };
+        }
+        return { path: rel, text: readFileSync(abs, 'utf8') };
       } catch { return null; }
     })
     .filter(Boolean);
