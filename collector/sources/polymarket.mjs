@@ -73,6 +73,7 @@ export const AI_SLUG_ALLOW = Object.freeze([
   'will-anthropics-valuation',
   'openai-ipo',
   'openai-announces-agi',
+  'openai-valuation',
   'which-company-has-best-ai-model',
   'which-company-has-the-best-ai-model',
   'best-ai-model',
@@ -85,6 +86,24 @@ export const AI_SLUG_ALLOW = Object.freeze([
   'claude-5',
   'deepseek-',
   'agi-',
+  // Expanded 2026-10-13 (IMPROVEMENTS-v1): more lab / model stems that fuzzy
+  // search retrieves under non-AI wording or truncated titles.
+  'llama-5',
+  'llama-4',
+  'meta-ai',
+  'mistral-',
+  'safe-superintelligence',
+  'ssi-',
+  'thinking-machines',
+  'chatgpt-',
+  'o3-',
+  'o4-',
+  'claude-4',
+  'gemini-2',
+  'will-agi',
+  'ai-model',
+  'frontier-ai',
+  'artificial-intelligence',
 ]);
 
 const AMBIG = true;
@@ -103,7 +122,7 @@ const AI_TERMS = [
   ['large-language-model', /\blarge\s+language\s+models?\b/i, 2],
   ['machine-learning', /\bmachine\s+learning\b/i, 2],
   ['xai', /(?:^|[^a-z0-9])xai\b/i, 2],
-  ['ai-lab-ceo', /\b(?:sam\s+altman|dario\s+amodei|demis\s+hassabis|ilya\s+sutskever|mustafa\s+suleyman)\b/i, 2],
+  ['ai-lab-ceo', /\b(?:sam\s+altman|dario\s+amodei|demis\s+hassabis|ilya\s+sutskever|mustafa\s+suleyman|fei-?fei\s+li|aidan\s+gomez|clem\s+delangue)\b/i, 2],
   ['ai', /\b(?:a\.i\.?|ai)\b/i, 2, AMBIG, /\bai\s+weiwei\b|\bai\s+(?:yazawa|uehara|otsuka)\b/i],
   ['gemini', /\bgemini\b/i, 2, AMBIG,
     /\bgemini\b[^.?!]{0,40}\b(?:exchange|trust|space\s+station|winklevoss|crypto|bitcoin|stablecoin|zodiac|horoscope|capsule|astronaut|spacecraft)\b|\b(?:winklevoss|crypto|bitcoin|zodiac|horoscope|nasa)\b[^.?!]{0,40}\bgemini\b|\bGEMI\b/i],
@@ -112,9 +131,13 @@ const AI_TERMS = [
   ['grok', /\bgrok\b/i, 2, AMBIG, /\bgrok(?:king)?\s+(?:fest|festival)\b/i],
   ['mistral', /\bmistral\b/i, 2, AMBIG, /\bmistral\s+(?:wind|class|amphibious|ship|helicopter\s+carrier)\b/i],
   ['llama', /\bllama\s?\d/i, 2],
+  ['ssi', /\b(?:safe\s+superintelligence|ssi\s+inc)\b/i, 2],
+  ['thinking-machines', /\bthinking\s+machines(?:\s+lab)?\b/i, 2],
+  ['huggingface', /\bhugging\s?face\b/i, 2],
+  ['cohere', /\bcohere\b/i, 2, AMBIG, /\bcohere(?:nce|nt)\b/i],
   ['sora', /\bsora\b/i, 1, AMBIG, /\bsora\s+(?:aoi|no\s+oto)\b/i],
   ['copilot', /\bcopilot\b/i, 1],
-  ['ai-context', /\b(?:chatbot|lmarena|chatbot\s+arena|frontier\s+model|neural\s+net(?:work)?s?|model\s+release|benchmark|humanity'?s\s+last\s+exam|swe-?bench|turing\s+test)\b/i, 1],
+  ['ai-context', /\b(?:chatbot|lmarena|chatbot\s+arena|frontier\s+model|neural\s+net(?:work)?s?|model\s+release|benchmark|humanity'?s\s+last\s+exam|swe-?bench|turing\s+test|inference\s+provider|gpu\s+cluster)\b/i, 1],
 ];
 
 // "Will X say 'AI' / mention AI during …" — bets on a speech's word count. The

@@ -499,8 +499,9 @@ export function biasPage(ctx) {
   const inputs = [
     ['arXiv', 'Capability', 'Preprints are overwhelmingly in English, and the habit of posting to arXiv first is strongest in US and European labs. Work that appears first in Chinese-language venues or company blogs is undercounted.'],
     ['GitHub releases, Hugging Face, OpenRouter', 'Capability (uncalibrated)', 'Western-hosted platforms. Chinese labs often ship first on ModelScope or domestic mirrors, so a busy week in Beijing can look quiet here.'],
-    ['SEC full-text search, US equities, Vast.ai prices', 'Compute & Capital', 'US filings and US-listed companies, priced in dollars. Capital spent by state-backed or unlisted companies outside the US barely registers.'],
+    ['SEC full-text search, US equities, Vast.ai / DataCrunch prices', 'Compute & Capital', 'US filings and US-listed companies, priced in dollars. Cloud GPU markets are global but still dollar-denominated Western venues. Capital spent by state-backed or unlisted companies outside the US barely registers.'],
     ['Hacker News', 'Attention', 'An English-language forum with a mostly US and European tech audience. Its idea of "big news" is a Silicon Valley one.'],
+    ['Chinese Wikipedia pageviews (uncalibrated)', 'Attention', 'A first non-English attention leg. Still Wikimedia, still public web curiosity — not WeChat, Zhihu, or domestic model hubs — so it narrows the English mirror without claiming to measure China.'],
     ['English Wikipedia pageviews', 'Attention', 'Only the English edition. Interest that shows up as Japanese, German or Spanish readers is invisible.'],
     ['US Federal Register, GOV.UK', 'Governance', 'Two English-speaking jurisdictions. EU implementing acts, Chinese administrative rules and other national regulators do not move the pillar.'],
     ['Polymarket, Kalshi, Manifold', 'Markets (uncalibrated)', 'English-language questions written mostly by and for US traders. What they choose to list is itself a filter.'],

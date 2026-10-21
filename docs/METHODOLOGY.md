@@ -255,19 +255,25 @@ that:
 | arXiv `cs.AI`/`cs.LG`/`cs.CL` | English-language preprints; Chinese labs publish heavily on arXiv, but domestic venues and Chinese-language reports are invisible |
 | Hacker News | US/European tech audience, startup-weighted |
 | en.wikipedia pageviews | English-reading readership only |
+| zh.wikipedia pageviews (uncalibrated) | Chinese-language readership; still Wikimedia public curiosity, not WeChat/Zhihu/domestic hubs |
 | IntelligenceArena mentions | English-heavy social + developer corpus; their catalogue and NLP pipeline, not ours |
 | Federal Register | US federal executive branch only (GOV.UK, uncalibrated, is the UK) |
 | SEC EDGAR full text | US-listed filers only |
 | equity basket (NVDA, AMD, TSM, AVGO) | US-listed; TSM is an ADR |
+| Vast.ai / DataCrunch GPU prices (uncalibrated) | Dollar cloud markets; visibility into Western rental books, not state compute |
 | Polymarket / Kalshi / Manifold | US-centric bettors and question writers |
 
-**Possible additions that would not break recomputability** — proposals only,
-none is implemented, and each would enter through the addenda process above
-with its own backfill test:
+The public bias page is `/bias.html`. The versioned improvement queue that tracks
+further geographic coverage is [`IMPROVEMENTS-v1.md`](IMPROVEMENTS-v1.md).
 
-- **Other-language Wikipedia pageviews** (zh, ja, de, fr, es, ko) for the same
-  frozen article set via Wikidata sitelinks — same Wikimedia REST endpoint,
-  backfillable exactly like the English series.
+**Possible additions that would not break recomputability** — each enters
+through the addenda process above with its own backfill or forward-build test:
+
+- **zh.wikipedia** is collected live as `wikipedia-zh` (uncalibrated). Promotion
+  waits on a forward-built reference (≥300 days of our own readings) or an
+  honest backfill of the same frozen title set.
+- **Other-language Wikipedia pageviews** (ja, de, fr, es, ko) for parallel
+  frozen article sets via Wikidata sitelinks — same Wikimedia REST endpoint.
 - **EUR-Lex** — count of EU legal acts and preparatory documents mentioning
   artificial intelligence over a trailing window, from the public search
   service (needs a check that historical windows are not survivor-biased).

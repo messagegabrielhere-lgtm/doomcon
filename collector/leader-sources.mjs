@@ -210,12 +210,44 @@ export const LEADER_SOURCES = Object.freeze([
     url: YT('UC5WjFrtBdufl6CZojX3D8dQ'), leaders: ['musk'],
     verified: true, note: 'Channel id resolved from @tesla; feed OK on the elon-data run.',
   },
+
+  // ---- added 2026-10-13 (IMPROVEMENTS-v1) ---------------------------------
+  {
+    id: 'stanford-hai', label: 'hai.stanford.edu', kind: 'org', format: 'rss',
+    url: 'https://hai.stanford.edu/news/rss.xml',
+    leaders: ['li'],
+    verified: false, note: 'UNVERIFIED: Stanford HAI news RSS path; collector treats miss as unreachable.',
+  },
+  {
+    id: 'cohere-blog', label: 'cohere.com/blog', kind: 'org', format: 'rss',
+    url: 'https://cohere.com/blog/rss.xml',
+    leaders: ['gomez'],
+    verified: false, note: 'UNVERIFIED: Cohere blog feed path; confirm on next full collect.',
+  },
+  {
+    id: 'huggingface-blog', label: 'huggingface.co/blog', kind: 'org', format: 'rss',
+    url: 'https://huggingface.co/blog/feed.xml',
+    leaders: ['delangue'],
+    verified: true, note: 'Public Atom/RSS for the Hugging Face blog; titles that name Clem count as org statements.',
+  },
+  {
+    id: 'vector-institute', label: 'vectorinstitute.ai', kind: 'org', format: 'rss',
+    url: 'https://vectorinstitute.ai/feed/',
+    leaders: ['hinton'],
+    verified: false, note: 'UNVERIFIED: Vector Institute newsroom; Hinton is affiliated — entries count only when the title names him (org rule).',
+  },
+  {
+    id: 'mila-news', label: 'mila.quebec', kind: 'org', format: 'rss',
+    url: 'https://mila.quebec/en/feed/',
+    leaders: ['bengio'],
+    verified: false, note: 'UNVERIFIED: Mila news feed; supplements Bengio\'s personal blog.',
+  },
 ]);
 
 // Leaders deliberately left with NO direct source, and why. Published on the
 // row so "no sources" reads as a finding, not an oversight.
 export const NO_SOURCE_REASON = Object.freeze({
-  hinton: 'Publishes no blog or feed of his own; speaks through interviews and lectures hosted by others.',
+  // hinton: Vector Institute feed listed above — silence is sources_unreachable / quiet, not no_sources.
   sutskever: 'ssi.inc is a single static page with no feed, and SSI publishes nothing else.',
   liang: 'DeepSeek publishes release notes without a feed, and Liang Wenfeng keeps no public channel.',
   lecun: 'No official feed is known: AMI Labs, his company since leaving Meta, publishes none we have verified, and his own posts go to social platforms this site does not scrape.',

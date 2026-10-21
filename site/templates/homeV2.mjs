@@ -429,7 +429,14 @@ ${storyListLd(ctx, ranked)}`;
 
 
 // ---------- THE DASHBOARD (score first, then why) ----------
-const SRC_NAME = { arxiv: 'arXiv preprints', 'github-releases': 'GitHub releases', huggingface: 'Hugging Face uploads', 'hf-datasets': 'Hugging Face datasets', openrouter: 'OpenRouter models', 'sec-fts': 'SEC filings', stockanalysis: 'AI chip stocks', vastai: 'GPU rental prices', hn: 'Hacker News', wikipedia: 'Wikipedia pageviews', 'intelligence-arena': 'IntelligenceArena mentions', 'federal-register': 'US Federal Register', govuk: 'GOV.UK', kalshi: 'Kalshi', manifold: 'Manifold', polymarket: 'Polymarket' };
+const SRC_NAME = {
+  arxiv: 'arXiv preprints', 'github-releases': 'GitHub releases', huggingface: 'Hugging Face uploads',
+  'hf-datasets': 'Hugging Face datasets', openrouter: 'OpenRouter models', 'sec-fts': 'SEC filings',
+  stockanalysis: 'AI chip stocks', vastai: 'GPU rental prices', datacrunch: 'DataCrunch GPU prices',
+  hn: 'Hacker News', wikipedia: 'Wikipedia pageviews', 'wikipedia-zh': 'Chinese Wikipedia pageviews',
+  'intelligence-arena': 'IntelligenceArena mentions', 'federal-register': 'US Federal Register',
+  govuk: 'GOV.UK', kalshi: 'Kalshi', manifold: 'Manifold', polymarket: 'Polymarket',
+};
 const RULE_TXT = {
   frozen_dark_pillar: 'The level is held while any pillar is dark, so a missing input can never move it.',
   deadband: 'The score is inside the dead band around the boundary, so the level holds.',
@@ -451,17 +458,38 @@ function agoTxt(iso, nowMs) {
 }
 
 function dial(state, L) {
-  const v = Number.isFinite(state.score) ? state.score : 0;
-  const cx = 160, cy = 150, R = 120, W = 22;
+  const has = Number.isFinite(state.score);
+  const v = has ? state.score : 0;
+  const deg = !!state.degraded || (state.dark_pillars && state.dark_pillars.length > 0);
+  const cx = 160, cy = 150, R = 120, W = 24;
   const pt = (val, r) => { const a = Math.PI * (1 - val / 100); return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; };
-  const arc = (a, b, c) => { const [x1, y1] = pt(a, R), [x2, y2] = pt(b, R); return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)}A${R} ${R} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}" stroke="${c}" stroke-width="${W}" fill="none" opacity="${v >= a && v < b ? 1 : 0.28}"/>`; };
-  const ticks = [0, 35, 55, 70, 85, 100].map((t) => { const [a, b] = pt(t, R - 16), [c, d] = pt(t, R + 14); return `<line x1="${a.toFixed(1)}" y1="${b.toFixed(1)}" x2="${c.toFixed(1)}" y2="${d.toFixed(1)}" stroke="#6B7686" stroke-width="2"/><text x="${pt(t, R + 28)[0].toFixed(1)}" y="${(pt(t, R + 28)[1] + 4).toFixed(1)}" text-anchor="middle" font-size="11" fill="#8A94A3" font-family="IBM Plex Mono,monospace">${t}</text>`; }).join('');
+  const arc = (a, b, c) => {
+    const live = has && v >= a && v < b;
+    const [x1, y1] = pt(a, R), [x2, y2] = pt(b, R);
+    return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)}A${R} ${R} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}" stroke="${c}" stroke-width="${live ? W + 4 : W}" fill="none" opacity="${!has ? 0.2 : live ? 1 : 0.28}"/>`;
+  };
+  const ticks = [0, 35, 55, 70, 85, 100].map((t) => {
+    const [a, b] = pt(t, R - 16), [c, d] = pt(t, R + 14);
+    return `<line x1="${a.toFixed(1)}" y1="${b.toFixed(1)}" x2="${c.toFixed(1)}" y2="${d.toFixed(1)}" stroke="#6B7686" stroke-width="2"/><text x="${pt(t, R + 28)[0].toFixed(1)}" y="${(pt(t, R + 28)[1] + 4).toFixed(1)}" text-anchor="middle" font-size="11" fill="#8A94A3" font-family="IBM Plex Mono,monospace">${t}</text>`;
+  }).join('');
+  // Progress track: thin inner arc showing 0→score fill so the reading is obvious at a glance.
+  const [px0, py0] = pt(0, R - 34), [px1, py1] = pt(Math.max(0.5, v), R - 34);
+  const progress = has
+    ? `<path d="M${px0.toFixed(1)} ${py0.toFixed(1)}A${R - 34} ${R - 34} 0 ${v > 50 ? 1 : 0} 1 ${px1.toFixed(1)} ${py1.toFixed(1)}" stroke="${L.color}" stroke-width="6" fill="none" opacity=".9" stroke-linecap="round"/>`
+    : '';
   const ang = 180 * (v / 100) - 90;
-  return `<svg class="v2-dial" viewBox="0 0 320 222" role="img" aria-label="Score ${v.toFixed(1)} of 100, SIREN ${state.level}">
-${BAND.map(([a, b, c]) => arc(a, b, c)).join('')}${ticks}
-<g class="v2-needle" style="--to:${ang.toFixed(1)}deg;transform-origin:${cx}px ${cy}px"><line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - R + 6}" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="9" fill="#fff"/></g>
-<text x="${cx}" y="${cy + 50}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="700" font-size="40" fill="#fff" data-count="${v.toFixed(1)}">${v.toFixed(1)}</text>
-<text x="${cx}" y="${cy + 68}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="${L.color}" letter-spacing="2">OF 100</text></svg>`;
+  const needle = has
+    ? `<g class="v2-needle" style="--to:${ang.toFixed(1)}deg;transform-origin:${cx}px ${cy}px">
+        <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - R + 6}" stroke="#fff" stroke-width="4" stroke-linecap="round" ${deg ? 'stroke-dasharray="6 5"' : ''}/>
+        <circle cx="${cx}" cy="${cy}" r="9" fill="${deg ? 'none' : '#fff'}" stroke="#fff" stroke-width="3"/>
+      </g>`
+    : '';
+  const label = has ? v.toFixed(1) : '—';
+  const sub = deg ? 'DEGRADED · PROVISIONAL' : 'OF 100';
+  return `<svg class="v2-dial" viewBox="0 0 320 222" role="img" aria-label="${has ? `Score ${v.toFixed(1)} of 100, SIREN ${state.level}${deg ? ', degraded' : ''}` : 'No score'}">
+${BAND.map(([a, b, c]) => arc(a, b, c)).join('')}${ticks}${progress}${needle}
+<text x="${cx}" y="${cy + 50}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="700" font-size="40" fill="#fff"${has ? ` data-count="${v.toFixed(1)}"` : ''}>${label}</text>
+<text x="${cx}" y="${cy + 68}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="${deg ? '#FACC15' : L.color}" letter-spacing="1.5">${sub}</text></svg>`;
 }
 
 function levelFromScore(v) { if (!Number.isFinite(v)) return null; const i = BAND.findIndex(([a, b]) => v >= a && v < b); return i < 0 ? 1 : 5 - i; }
@@ -515,8 +543,9 @@ function spark(rows, pid) {
   return `<svg class="v2-spark" viewBox="0 0 120 28" aria-hidden="true"><path d="${d}" fill="none" stroke="${PILLAR_HUE[pid] || '#AEB7C3'}" stroke-width="1.6"/></svg>`;
 }
 
-function loudPanel(state, rows) {
+function loudPanel(state, rows, wm) {
   const by = {}; for (const s of state.sources || []) (by[s.pillar] = by[s.pillar] || []).push(s);
+  const movers = (wm && wm.top_items) || [];
   const rowsHtml = (state.pillars || []).map((p) => {
     const meta = PILLAR_META[p.id] || {};
     const live = Number.isFinite(p.score) && !p.dark;
@@ -524,15 +553,85 @@ function loudPanel(state, rows) {
     const share = Number.isFinite(p.weight_share) && p.weight_share > 0 ? `${Math.round(p.weight_share * 100)}% OF THE SCORE` : 'NOT IN THE SCORE';
     const wait = baselinePhrase(p.baseline_days, p.baseline_required);
     const why = live ? `Running at the ${ordinal(Math.round((p.percentile || 0) * 100))} percentile of the last year.` : p.dark ? 'No source answered this hour, so the pillar is left out and the level is held.' : (wait ? `Its sources report. The baseline is ${wait} on the current definition, so it is shown and not scored.` : 'Its sources report, but none has a year of baseline yet, so it is shown and not scored.');
+    // Top contributing live source: highest percentile among scored sources on this pillar.
+    const scoredSrc = (by[p.id] || []).filter((s) => s.ok && Number.isFinite(s.percentile));
+    scoredSrc.sort((a, b) => b.percentile - a.percentile);
+    const top = scoredSrc[0];
+    const topLine = top
+      ? ` Loudest input: <b>${esc(srcName(top))}</b> at the ${ordinal(Math.round(top.percentile * 100))} percentile` +
+        (Number.isFinite(top.value) ? ` (${Number(top.value).toLocaleString('en-US')} ${esc(top.unit || '')}).` : '.')
+      : '';
     const srcs = (by[p.id] || []).map((s) => {
       const days = s.uncalibrated ? baselinePhrase(s.baseline_days, s.baseline_required) : null;
       return `<li class="${s.ok ? 'ok' : s.uncalibrated ? 'cal' : 'bad'}"><b>${esc(srcName(s))}</b> ${Number.isFinite(s.value) ? `${Number(s.value).toLocaleString('en-US')} ${esc(s.unit || '')}` : ''}${s.ok && Number.isFinite(s.percentile) ? ` · ${ordinal(Math.round(s.percentile * 100))} pct` : s.uncalibrated ? ` · awaiting baseline${days ? `, ${esc(days)}` : ''}` : !s.ok ? ' · not answering' : ''}</li>`;
     }).join('');
-    return `<details class="v2-loud"><summary><span class="pn" style="color:${PILLAR_HUE[p.id]}">${esc(p.name.toUpperCase())}</span><span class="t"><i style="width:${live ? p.score.toFixed(1) : 0}%;background:${PILLAR_HUE[p.id]}"></i></span>${spark(rows, p.id)}<b class="${live ? '' : 'mute'}">${status}</b></summary>
-  <p>${esc(meta.blurb || '')} ${esc(why)} <span class="sh">${share}</span></p><ul>${srcs}</ul></details>`;
+    return `<details class="v2-loud"${live && p.score >= 60 ? ' open' : ''}><summary><span class="pn" style="color:${PILLAR_HUE[p.id]}">${esc(p.name.toUpperCase())}</span><span class="t"><i style="width:${live ? p.score.toFixed(1) : 0}%;background:${PILLAR_HUE[p.id]}"></i></span>${spark(rows, p.id)}<b class="${live ? '' : 'mute'}">${status}</b></summary>
+  <p>${esc(meta.blurb || '')} ${esc(why)}${topLine} <span class="sh">${share}</span></p><ul>${srcs}</ul></details>`;
   }).join('');
+  const newsBits = movers.slice(0, 2).map((i) => `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a></li>`).join('');
   return `<div class="v2-card" id="loud" data-sec="What’s loud"><div class="row sb"><h3 id="v2-loud-h"><span class="v2-sr">What pillars are loud right now?</span><span aria-hidden="true">${icon('speaker', 3)}${pixelText("WHAT'S LOUD", 3, '#FFFFFF')}</span></h3><span class="live">TAP A PILLAR</span></div>${rowsHtml}
+  ${newsBits ? `<p class="v2-loudnews">Stories moving with this hour:</p><ul class="v2-mvi">${newsBits}</ul>` : ''}
   <p class="v2-formula" id="v2-formula"></p></div>`;
+}
+
+function healthStrip(state, href) {
+  const now = Date.parse(state.generated_at);
+  const srcs = state.sources || [];
+  const scored = srcs.filter((s) => s.ok).length;
+  const reporting = srcs.filter((s) => s.ok || s.uncalibrated).length;
+  const bad = srcs.filter((s) => !s.ok && !s.uncalibrated);
+  const liveP = (state.pillars || []).filter((p) => Number.isFinite(p.score) && !p.dark).length;
+  const totalP = (state.pillars || []).length;
+  const h = state.health || {};
+  const lag = Number.isFinite(h.typical_lag_minutes) ? h.typical_lag_minutes : null;
+  const next = h.expected_next_run_utc ? String(h.expected_next_run_utc).slice(11, 16) + 'Z' : null;
+  const chips = srcs.map((s) => {
+    const cls = s.ok ? 'ok' : s.uncalibrated ? 'cal' : 'bad';
+    const tip = s.ok || s.uncalibrated
+      ? `${srcName(s)} · last ${agoTxt(s.observed_at || s.last_ok, now)}`
+      : `${srcName(s)} · DOWN · last good ${agoTxt(s.last_ok, now)}`;
+    return `<span class="v2-hchip ${cls}" title="${esc(tip)}"><i></i>${esc(srcName(s))}</span>`;
+  }).join('');
+  return `<div class="v2-hstrip" id="health-strip" data-sec="Source health">
+  <div class="v2-hstrip__sum">
+    <b class="${bad.length || state.degraded ? 'amber' : 'green'}">${state.degraded ? 'DEGRADED' : 'LIVE'}</b>
+    <span>${reporting}/${srcs.length} reporting · ${scored} scored · score from ${liveP}/${totalP} pillars</span>
+    <span class="mute">Hourly at :07 UTC${lag != null ? ` · typically ~${lag} min late` : ''}${next ? ` · next ~${next}` : ''}. “Overdue” means the scheduler queued late — not that the last reading is wrong.</span>
+  </div>
+  <div class="v2-hstrip__chips">${chips}</div>
+  <p class="v2-hstrip__links"><a href="#health">Full health table ↓</a> · <a href="${href('/bias.html')}">Known biases</a> · <a href="${href('/reference-plan.html')}">Reference plan</a></p>
+</div>`;
+}
+
+function degradedBanner(state, href) {
+  if (!state.degraded && !(state.dark_pillars && state.dark_pillars.length)) return '';
+  const now = Date.parse(state.generated_at);
+  const dark = (state.pillars || []).filter((p) => p.dark).map((p) => p.name);
+  const bad = (state.sources || []).filter((s) => !s.ok && !s.uncalibrated);
+  const liveP = (state.pillars || []).filter((p) => Number.isFinite(p.score) && !p.dark).length;
+  const scored = (state.sources || []).filter((s) => s.ok).length;
+  const parts = [];
+  if (dark.length) {
+    parts.push(`<b>${esc(dark.join(', '))}</b> ${dark.length === 1 ? 'is' : 'are'} dark — the level is held so a missing pillar cannot move it.`);
+  }
+  if (bad.length) {
+    parts.push(`Down: ${bad.map((s) => `${esc(srcName(s))} (last good ${agoTxt(s.last_ok, now)})`).join('; ')}.`);
+  }
+  parts.push(`Impact: the composite still uses ${liveP} live pillar${liveP === 1 ? '' : 's'} and ${scored} scored source${scored === 1 ? '' : 's'}; dark pillars are left out of the mean, not filled with zeros.`);
+  const sh = state.shadow;
+  if (sh && Number.isFinite(sh.score) && !sh.error) {
+    parts.push(`Shadow score with proposed calibrations: <b>${num(sh.score, 1)}</b> (not official — see <a href="${href('/reference-plan.html')}">reference plan</a>).`);
+  }
+  return `<aside class="v2-deg" id="degraded" role="status">${icon('shield', 3, '#FACC15')}<div><p class="k">WHY THIS READING IS DEGRADED</p><p>${parts.join(' ')}</p><p><a href="#health">Source-by-source ↓</a></div></aside>`;
+}
+
+function shadowNote(state, href) {
+  const sh = state.shadow;
+  if (!sh || sh.error || !Number.isFinite(sh.score)) return '';
+  if (state.degraded) return ''; // already shown in degradedBanner
+  const delta = Number.isFinite(sh.delta_vs_official) ? sh.delta_vs_official : sh.score - state.score;
+  const add = Array.isArray(sh.addenda_sources) ? sh.addenda_sources.join(', ') : 'addenda';
+  return `<p class="v2-shadow">Proposed calibrations (${esc(add)}): shadow score <b>${num(sh.score, 1)}</b>${Number.isFinite(delta) ? ` · ${delta >= 0 ? '+' : ''}${delta.toFixed(1)} vs official` : ''}. Not in the receipt. <a href="${href('/reference-plan.html')}">How cutover works →</a></p>`;
 }
 
 function healthPanel(state) {
@@ -549,13 +648,17 @@ function healthPanel(state) {
   const calP = (state.pillars || []).filter((p) => !p.dark && !Number.isFinite(p.score)).map((p) => p.name);
   if (calP.length) why.push(`<b>${esc(calP.join(', '))}</b> is still building its baseline, so it is shown but left out of the score.`);
   why.push(esc(RULE_TXT[state.rule_fired] || ''));
-  const impact = `The score is computed from ${(state.pillars || []).filter((p) => Number.isFinite(p.score) && !p.dark).length} of ${(state.pillars || []).length} pillars and ${scored} scored sources.`;
-  const table = srcs.map((s) => `<tr><td><span class="v2-dot ${s.ok ? 'ok' : s.uncalibrated ? 'cal' : 'bad'}"></span>${esc(srcName(s))}</td><td>${esc(String(s.pillar || '').toUpperCase())}</td><td>${s.ok ? 'SCORED' : s.uncalibrated ? 'REPORTING' : 'DOWN'}</td><td>${s.ok || s.uncalibrated ? agoTxt(s.observed_at, now) : agoTxt(s.last_ok, now)}</td></tr>`).join('');
+  const impact = `The score is computed from ${(state.pillars || []).filter((p) => Number.isFinite(p.score) && !p.dark).length} of ${(state.pillars || []).length} pillars and ${scored} scored sources. Missing sources are omitted — never zeroed — so a dark pillar shrinks the average rather than inventing calm.`;
+  const table = srcs.map((s) => {
+    const last = s.ok || s.uncalibrated ? (s.observed_at || s.last_ok) : s.last_ok;
+    const lastUtc = last ? String(last).slice(0, 19).replace('T', ' ') + 'Z' : 'never';
+    return `<tr><td><span class="v2-dot ${s.ok ? 'ok' : s.uncalibrated ? 'cal' : 'bad'}"></span>${esc(srcName(s))}</td><td>${esc(String(s.pillar || '').toUpperCase())}</td><td>${s.ok ? 'SCORED' : s.uncalibrated ? 'REPORTING' : 'DOWN'}</td><td title="${esc(lastUtc)}">${s.ok || s.uncalibrated ? agoTxt(s.observed_at, now) : agoTxt(s.last_ok, now)}</td><td class="mute">${esc(lastUtc)}</td></tr>`;
+  }).join('');
   return `<div class="v2-card v2-health" id="health" data-sec="Health">
   <div class="row sb"><h3 id="v2-health-h"><span class="v2-sr">How is source health right now?</span><span aria-hidden="true">${icon('shield', 3, state.degraded ? '#FACC15' : '#4ADE80')}${pixelText(state.degraded ? 'DEGRADED: WHY' : 'ALL SYSTEMS', 3, '#FFFFFF')}</span></h3><span class="live">${scored} SCORED · ${cal} REPORTING · ${bad.length} DOWN</span></div>
   <p>${why.filter(Boolean).join(' ')} ${esc(impact)}</p>
-  <p class="v2-eta">Readings land hourly${lag ? `, usually about ${lag} min past the hour` : ''}${next ? `. Next expected around <b>${next}</b>` : ''}. A reading older than two hours is flagged as overdue at the top of the page.</p>
-  <details><summary>Every source and when it last answered</summary><div class="v2-tw"><table><thead><tr><th>Source</th><th>Pillar</th><th>Status</th><th>Last good</th></tr></thead><tbody>${table}</tbody></table></div></details>
+  <p class="v2-eta">Full index pass hourly at minute :07 UTC${lag ? `, usually about ${lag} min late under Actions load` : ''}${next ? `. Next expected around <b>${next}</b>` : ''}. News refreshes every ~15 min. A reading older than two hours is flagged overdue — that is scheduler drift, not a corrupted number.</p>
+  <details ${state.degraded || bad.length ? 'open' : ''}><summary>Every source and when it last answered</summary><div class="v2-tw"><table><thead><tr><th>Source</th><th>Pillar</th><th>Status</th><th>Age</th><th>Last good (UTC)</th></tr></thead><tbody>${table}</tbody></table></div></details>
 </div>`;
 }
 
@@ -762,8 +865,7 @@ export function render(ctx, { head }) {
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
       <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${pillarStatusLine(state)}</p>
-      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><button type="button" class="v2-btn sm ghost" data-copy="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${score} of 100 as of ${String(state.generated_at).slice(0, 19)}Z. Tempo, not a probability.${state.receipt_id ? ` Receipt ${state.receipt_id}.` : ''} ${ctx.url('/')}`)}">Copy this reading</button><a class="v2-btn sm ghost" href="${href('/verify.html')}">How do you check a ${esc(brand.NAME)} reading yourself?</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/free-tools.html')}">What free tools does ${esc(brand.NAME)} publish?</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>
-    </div>
+      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><button type="button" class="v2-btn sm ghost" data-copy="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${score} of 100 as of ${String(state.generated_at).slice(0, 19)}Z. Tempo, not a probability.${state.receipt_id ? ` Receipt ${state.receipt_id}.` : ''} ${ctx.url('/')}`)}">Copy this reading</button><a class="v2-btn sm ghost" href="${href('/verify.html')}">How do you check a ${esc(brand.NAME)} reading yourself?</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/free-tools.html')}">What free tools does ${esc(brand.NAME)} publish?</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>    </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;
   const body = `
@@ -772,8 +874,7 @@ export function render(ctx, { head }) {
   <span class="v2-chip v2-top__x">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
   <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}">SIREN SCORE UPDATED <b>${esc(hhmm(state.generated_at))}</b> · HOURLY</span>
   <a class="v2-chip v2-live" href="${href('/news.html')}" title="The newsroom checks its sources every minute and Dispatch alerts refresh through the hour. Only the SIREN score is hourly."><i aria-hidden="true"></i>Which AI stories has ${esc(brand.NAME)} scored in this window?</a>
-  <span class="v2-chip v2-top__x" title="${dark ? `${dark} source${dark === 1 ? '' : 's'} failed this pass` : 'Every source answered'}">${icon('eye', 2)}${reporting}/${sources.length} REPORTING${dark ? ` · ${dark} DARK` : ''} · ${scored} SCORED</span>
-  <span class="right">
+  <span class="v2-chip v2-top__x" title="${dark ? `${dark} source${dark === 1 ? '' : 's'} failed this pass` : 'Every source answered'}">${icon('eye', 2)}${reporting}/${sources.length} REPORTING${dark ? ` · ${dark} DARK` : ''} · ${scored} SCORED</span>  <span class="right">
     <button type="button" class="tag radio" id="siren-radio" data-level="${state.level}" aria-pressed="false" title="Play SIREN Radio: an original soundtrack generated in your browser. Its mood follows the level.">♪ RADIO</button>
     <a class="tag blue v2-top__x" href="${href('/history.html')}">What is the history of AI risk?</a>
     <a class="tag violet v2-top__x" href="${href('/race.html')}">Who is winning the AI race?</a>
@@ -815,18 +916,15 @@ ${ticker(items, href)}
   </section>
   ${stayStrip(href, img)}
   ${dash}
-  ${readNext(ctx, href, items)}
-  <div class="v2-since" id="v2-since" hidden role="status"></div>
+  ${readNext(ctx, href, items)}  <div class="v2-since" id="v2-since" hidden role="status"></div>
   <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
   <details class="v2-more" id="v2-more" open>
   <summary class="v2-more__sum">See the evidence · full board</summary>
   <div class="v2-more__body">
-  ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a class="v2-breaking__t" href="${esc(breakHref)}"${breakExternal ? ' rel="noopener"' : ''}>${esc(top.title)}</a><span class="src">${top._brk ? esc(breakingMeta(top._brk)) : `${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}`}${breakSource ? ` · <a href="${esc(breakSource)}" rel="noopener nofollow">source</a>` : ''}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
-  <nav class="v2-whatsnew" aria-label="New on SIREN"><span class="lbl">✦ NEW</span>${WHATS_NEW.map(([h, a, l, b]) => `<a href="${href(h)}" title="${esc(b)}"><img src="${img(a)}" width="22" height="22" alt="" loading="lazy">${esc(l)}</a>`).join('')}</nav>
+  ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a class="v2-breaking__t" href="${esc(breakHref)}"${breakExternal ? ' rel="noopener"' : ''}>${esc(top.title)}</a><span class="src">${top._brk ? esc(breakingMeta(top._brk)) : `${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}`}${breakSource ? ` · <a href="${esc(breakSource)}" rel="noopener nofollow">source</a>` : ''}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}  <nav class="v2-whatsnew" aria-label="New on SIREN"><span class="lbl">✦ NEW</span>${WHATS_NEW.map(([h, a, l, b]) => `<a href="${href(h)}" title="${esc(b)}"><img src="${img(a)}" width="22" height="22" alt="" loading="lazy">${esc(l)}</a>`).join('')}</nav>
   ${tempoCard(items, Date.parse(state.generated_at) || Date.now(), href)}
-
 ${deskPicks(ctx, pixelText)}
 ${movedPanel(wm, href)}
   ${historyPanel(rows)}
@@ -834,15 +932,11 @@ ${movedPanel(wm, href)}
     href,
     titleHtml: `<span class="v2-sr">Where are SIREN readers?</span><span aria-hidden="true">${pixelText('WHERE THE READERS ARE', 4, '#FFFFFF', 'fit')}</span>`,
   })}
-  <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>
-  ${marketsPanel(ctx, href)}
+  <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>  ${marketsPanel(ctx, href)}
   ${moltPanel(ctx, href)}
-  ${altPanel(alts)}
-  <div class="v2-vfywrap">${verifyBox(ctx)}</div>
 
 
-  <div class="v2-sec" id="bosses" data-sec="Bosses"><h2 id="v2-bosses-h" class="v2-sr">Which AI bosses are on watch?</h2><div aria-hidden="true">${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</div><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
-  <div class="v2-bosses">
+  <div class="v2-sec" id="bosses" data-sec="Bosses"><h2 id="v2-bosses-h" class="v2-sr">Which AI bosses are on watch?</h2><div aria-hidden="true">${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</div><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>  <div class="v2-bosses">
     ${leaders.map((l) => { const s = bossStatus(l); return `<a class="boss" href="${href('/leaders.html')}"><img class="v2-face" loading="lazy" decoding="async" src="${img(FACE_BY_LEADER[l.id])}" width="96" height="96" alt=""><span class="nm">${esc(l.name.toUpperCase())}</span><span class="co">${esc(String(l.org).toUpperCase())}</span><span class="st ${s.cls}">${s.t}</span></a>`; }).join('')}
   </div>
 
@@ -1198,8 +1292,26 @@ const DASH_CSS = `
 .v2-dline{margin:0;font-size:15px;color:#D7DCE3}
 .v2-dbtns{display:flex;gap:8px;flex-wrap:wrap}
 .v2-btn.sm{min-height:44px;padding:0 14px;font-size:13px}
-.v2-btn.ghost{background:transparent;border:2px solid #1E5A72}
-.v2 b.up,.v2 .up{color:#FCA5A5}.v2 b.dn,.v2 .dn{color:#86EFAC}
+.v2-btn.ghost{background:transparent;border:2px solid #1E5A72}.v2 b.up,.v2 .up{color:#FCA5A5}.v2 b.dn,.v2 .dn{color:#86EFAC}
+.v2-deg{display:flex;gap:14px;align-items:flex-start;border:2px solid #854D0E;background:#1A1205;padding:14px 16px;margin:4px 0}
+.v2-deg .k{margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:.14em;color:#FACC15}
+.v2-deg p{margin:0;font-size:14px;line-height:1.5;color:#FDE68A}
+.v2-deg a{color:#FDE68A!important;text-decoration:underline}
+.v2-hstrip{border:2px solid #232C3B;background:#0A0E16;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.v2-hstrip__sum{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;font-size:13px;color:#D7DCE3}
+.v2-hstrip__sum .mute{flex:1 1 100%;font-size:12px;color:#8A94A3}
+.v2-hstrip__chips{display:flex;flex-wrap:wrap;gap:6px}
+.v2-hchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 8px;border:1px solid #2A3446;color:#AEB7C3;min-height:32px}
+.v2-hchip i{width:7px;height:7px;border-radius:50%;background:#6B7686;flex:none}
+.v2-hchip.ok{border-color:#166534;color:#86EFAC}.v2-hchip.ok i{background:#4ADE80}
+.v2-hchip.cal{border-color:#854D0E;color:#FDE68A}.v2-hchip.cal i{background:#FACC15}
+.v2-hchip.bad{border-color:#7F1D1D;color:#FCA5A5}.v2-hchip.bad i{background:#F87171}
+.v2-hstrip__links{margin:0;font-size:12.5px;color:#8A94A3}
+.v2-hstrip__links a{color:#A5B4FC!important}
+.v2-shadow{margin:0;font-size:13px;color:#AEB7C3;border-left:3px solid #6366F1;padding:8px 12px;background:#0B0A1F}
+.v2-shadow a{color:#A5B4FC!important}
+.v2-loudnews{margin:12px 0 0;font-size:12px;font-weight:700;letter-spacing:.1em;color:#AEB7C3}
+.v2-health td.mute{color:#8A94A3;font-size:11px}
 .v2-moved .v2-mv{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 0;font-size:14px}
 .v2-mvi{margin:10px 0 0;padding-left:18px;font-size:14px;line-height:1.45}.v2-mvi small{color:#8A94A3}
 .v2-hist .v2-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
@@ -1248,12 +1360,14 @@ const DASH_CSS = `
   .v2-loud .pn{grid-area:n}.v2-loud b{grid-area:b}.v2-loud .t{grid-area:t}.v2-loud .v2-spark{grid-area:s;width:100%}
   .v2-sub{padding-left:0;font-size:14px}
   .v2-top .right{margin-left:0}
-  /* Phones: the status bar is one row (last reading + radio). The clock, source count, links and
-     status lines wrapped to ~200px above the brand; the shared header and the war room carry them. */
-  .v2-top .v2-wrap{flex-wrap:nowrap;gap:8px;padding-block:6px;font-size:12px}
+  /* Phones: keep freshness + reporting count; hide lore/status that wrapped the fold. */
+  .v2-top .v2-wrap{flex-wrap:wrap;gap:8px;padding-block:6px;font-size:12px}
   .v2-top .right{margin-left:auto;flex-wrap:nowrap}
   .v2-top .v2-top__x{display:none!important}
+  .v2-top .v2-chip.v2-report{display:inline-flex!important;order:3;flex:1 1 100%}
   .v2 .tag{min-height:32px;display:inline-flex;align-items:center}
+  .v2-hstrip__chips{max-height:4.8em;overflow:auto;-webkit-overflow-scrolling:touch}
+  .v2-dbtns .v2-btn{flex:1 1 auto;justify-content:center}
   .v2-main{padding-top:18px;gap:16px}
   .v2-brand{flex-wrap:nowrap;gap:12px}
   .v2-brand .v2-art{width:64px;height:64px}
