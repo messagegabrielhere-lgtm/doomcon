@@ -15,6 +15,7 @@
 // That is the whole point: a dark source is a first-class state, never a zero.
 
 import { setTimeout as sleep } from 'node:timers/promises';
+import { assertSafeUrl } from './safe-url.mjs';
 
 // Identifies the project and links the repo so an operator we are rate-limiting
 // can find out who we are and mail us instead of silently banning the IP.
@@ -70,6 +71,9 @@ export class FetchError extends Error {
  */
 function isRetryable(kind, status) {
   if (kind === 'network' || kind === 'timeout') return true;
+  // status null = never contacted the network (URL gate, aborted before send).
+  // Retrying a refused localhost URL just burns the loop.
+  if (kind === 'http' && status == null) return false;
   return kind === 'http' && status >= 500 && status <= 599;
 }
 
@@ -168,11 +172,24 @@ function hostGate(url) {
 }
 
 async function attemptOnce(url, { method, headers, timeoutMs, body: reqBody }) {
+  // Refuse localhost / metadata / non-HTTPS before any socket opens.
+  // TypeError from assertSafeUrl becomes a non-retryable FetchError below.
+  let safe;
+  try {
+    safe = assertSafeUrl(url);
+  } catch (cause) {
+    throw new FetchError(cause?.message ?? String(cause), {
+      url: String(url),
+      kind: 'http',
+      status: null,
+      cause,
+    });
+  }
   // Wait our turn on hosts that ask us to. Costs seconds; saves a source.
-  await hostGate(url);
+  await hostGate(safe.href);
   let res;
   try {
-    res = await fetch(url, {
+    res = await fetch(safe.href, {
       method,
       redirect: 'follow',
       headers: { 'user-agent': USER_AGENT, ...headers },

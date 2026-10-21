@@ -14,8 +14,10 @@ const SECRETISH = [
   /\bghp_[A-Za-z0-9]{20,}/g,
   /\bgithub_pat_[A-Za-z0-9_]{20,}/g,
   /\bAIza[0-9A-Za-z_-]{20,}/g,
+  /\bxox[baprs]-[A-Za-z0-9-]{10,}/g,
+  /\bAKIA[0-9A-Z]{16}/g,
   /\bBearer\s+[A-Za-z0-9._\-+=\/]{8,}/gi,
-  /\b(api[_-]?key|access[_-]?token|client[_-]?secret|refresh[_-]?token)\s*[:=]\s*\S+/gi,
+  /\b(api[_-]?key|access[_-]?token|client[_-]?secret|refresh[_-]?token|app[_-]?password)\s*[:=]\s*\S+/gi,
 ];
 
 const ABS_PATH = /(?:\/(?:home|Users|var|tmp|opt|workspace|runner)\/[^\s:)"']+|file:\/\/\/[^\s:)"']+)/g;

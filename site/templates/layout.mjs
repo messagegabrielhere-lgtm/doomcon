@@ -38,6 +38,7 @@ import { degradedBanner, deltaChip } from './_parts.mjs';
 import { motionBlock } from './_motion.mjs';
 import { organization } from './_seo.mjs';
 import { css, FONT_HREF } from '../styles.mjs';
+import { securityHeadMeta } from '../security.mjs';
 import { pixelText, icon, roomArt } from './_pixel.mjs';
 import * as brand from '../brand.mjs';
 import { MONETIZE, on as mzOn } from '../monetize.mjs';
@@ -1225,6 +1226,7 @@ export function page(o) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+${securityHeadMeta()}
 <title>${esc(serpTitle(o.title))}</title>
 <meta name="description" content="${esc(serpDescription(o.description))}">
 <link rel="canonical" href="${esc(canonical)}">

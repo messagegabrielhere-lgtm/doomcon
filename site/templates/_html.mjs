@@ -14,6 +14,33 @@ export function esc(value) {
     .replace(/'/g, '&#39;');
 }
 
+/**
+ * Escape a URL for an href/src attribute. Rejects javascript:, data:, and
+ * other non-http(s) schemes so a poisoned feed title cannot become an XSS
+ * vector even if a caller forgets to filter. Returns '' when unsafe.
+ */
+export function safeHref(value) {
+  const raw = String(value == null ? '' : value).trim();
+  if (!raw) return '';
+  let u;
+  try {
+    u = new URL(raw, 'https://siren.watch/');
+  } catch {
+    return '';
+  }
+  const scheme = u.protocol.replace(/:$/, '').toLowerCase();
+  if (scheme !== 'http' && scheme !== 'https') return '';
+  // Relative site paths resolve against the base above; keep path-only form
+  // when the input was relative so local links stay root-relative.
+  if (/^https?:\/\//i.test(raw) || raw.startsWith('//')) return esc(u.href);
+  if (raw.startsWith('/') || raw.startsWith('#') || raw.startsWith('?')) {
+    return esc(raw);
+  }
+  // Bare "foo.html" style relatives — allow only after scheme check via URL.
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(raw)) return esc(raw);
+  return '';
+}
+
 // JSON embedded in <script> needs '<' neutralised or a string containing
 // "</script>" ends the block early and the rest of the page becomes markup.
 export function jsonScript(obj, type = 'application/ld+json') {

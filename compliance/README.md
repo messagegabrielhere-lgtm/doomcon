@@ -62,6 +62,7 @@ It never edits a build folder passed with `--dir`.
 | `social-mention-guard` | high | X/Bluesky spam rules: an automated poster must refuse @mentions |
 | `social-affiliate` | high | FTC + Amazon: affiliate links in posts need #ad |
 | `ytdlp-cookies` | low | YouTube ToS: logged-in cookies put that Google account at risk |
+| `security-meta` | medium | XSS backstop: every shipped HTML page needs CSP meta (Pages has no HTTP headers) |
 
 `compliance/selftest.mjs` plants a violation and a fix for every rule and fails CI
 if any rule stops catching its violation, starts flagging the fix, or if an
