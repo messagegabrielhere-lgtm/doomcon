@@ -29,6 +29,16 @@ mechanically prevented from using future tense — `will`, `expect`, `predict`,
 `imminent`, `soon`, `coming`, `warns`, `forecast`, `likely` are a hard-banned
 word list enforced by a unit test, not by editorial discipline.
 
+### Related instrument: AI Risk Map
+
+A different job, kept separate on purpose. Evan Wheeler’s
+[AI Risk Map](https://www.riskframework.org/ai-risk-map/) (v1.3) is a one-page
+enterprise thought-starter: 196 risk factors across 12 owner-based domains for
+the AI *you* build, buy, and deploy. It does not score, forecast, or feed this
+index. SIREN does not inventory those factors. The domain ↔ pillar adjacency
+table — and the explicit non-overlap on data/privacy and security — lives in
+[`docs/AI-RISK-MAP.md`](AI-RISK-MAP.md).
+
 ## What are the five pillars?
 
 | id | measures | current sources |

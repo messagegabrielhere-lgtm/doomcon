@@ -173,6 +173,11 @@ The AI vertical is **already crowded**, which the pizza framing obscures:
 | takeofftracker.com | Takeoff tracking | Ships a page of "Loading…" |
 | pdoom.ai / pdoom100.com / theagiclock.com / doomclockai.com / aidoomsdaycountdown.com | Countdown clocks | Judgment-scored |
 
+Not on this table on purpose: Wheeler’s
+[AI Risk Map](https://www.riskframework.org/ai-risk-map/) is an enterprise risk
+factor inventory (unscored), not a field index. Crosswalk:
+[`docs/AI-RISK-MAP.md`](AI-RISK-MAP.md).
+
 `takeoff.watch` and `agi.watch` are already registered.
 
 ### The two gaps nobody has filled
