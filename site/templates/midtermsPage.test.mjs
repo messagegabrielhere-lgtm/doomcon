@@ -89,3 +89,32 @@ d2('midterms jump nav', () => {
     for (const t of targets) a2.match(html, new RegExp(`id="${t}"`));
   });
 });
+
+import { racesByChamber } from './midtermsPage.mjs';
+
+d2('midterms chambers', () => {
+  i2('groups races by chamber in fixed order and caps FAQ to one entry per chamber', () => {
+    const data = JSON.parse(rf(new URL('../../data/midterms.json', import.meta.url), 'utf8'));
+    const groups = racesByChamber(data.races);
+    a2.deepEqual(groups.map((g) => g.key), [...new Set(['senate', 'house', 'governor'].filter((k) => data.races.some((r) => r.chamber === k)))]);
+    a2.equal(groups.reduce((n, g) => n + g.races.length, 0), data.races.length);
+    const ctx = { midterms: data, url: (p) => `https://siren.watch${p}`, href: (p) => p, state: { generated_at: '2026-10-21T00:00:00Z', level: 4, level_name: 'ROUTINE', score: 50 } };
+    let html;
+    try { html = renderMt(ctx); } catch { return; }
+    const faq = html.match(/<section class="mt-faq"[\s\S]*?<\/section>/)[0];
+    a2.equal((faq.match(/<h3>/g) || []).length, 5 + groups.length);
+    for (const g of groups) a2.match(html, new RegExp(`id="ch-${g.key}"`));
+  });
+
+  i2('every candidate carries dated, linked, quoted evidence', () => {
+    const data = JSON.parse(rf(new URL('../../data/midterms.json', import.meta.url), 'utf8'));
+    for (const r of data.races) for (const c of r.candidates) {
+      a2.ok(c.evidence && c.evidence.length, c.id);
+      for (const e of c.evidence) {
+        a2.match(e.url, /^https:\/\//, c.id);
+        a2.ok(e.quote && e.source, c.id);
+        a2.match(e.date, /^\d{4}-\d{2}-\d{2}$/, c.id);
+      }
+    }
+  });
+});

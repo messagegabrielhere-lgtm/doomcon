@@ -40,6 +40,30 @@ export function midtermsModel(data) {
   return { races: data.races, candidates, totals, data };
 }
 
+const CHAMBERS = [
+  ['senate', 'Senate', 'U.S. Senate races'],
+  ['house', 'House', 'U.S. House races'],
+  ['governor', 'Governor', 'Governor races'],
+];
+
+/** Races grouped by chamber, in a fixed order; unknown chambers land last. */
+export function racesByChamber(races) {
+  const known = new Set(CHAMBERS.map(([k]) => k));
+  const groups = CHAMBERS.map(([key, short, label]) => ({ key, short, label, races: races.filter((r) => r.chamber === key) }));
+  const other = races.filter((r) => !known.has(r.chamber));
+  if (other.length) groups.push({ key: 'other', short: 'Other', label: 'Other races', races: other });
+  return groups.filter((g) => g.races.length);
+}
+
+function stanceCounts(races) {
+  const n = { candidates: 0, pro: 0, against: 0, neutral: 0 };
+  for (const r of races) for (const c of r.candidates || []) {
+    n.candidates += 1;
+    n[STANCE[c.stance] ? c.stance : 'neutral'] += 1;
+  }
+  return n;
+}
+
 function partyMark(p) {
   const s = String(p || '').toUpperCase();
   if (s.startsWith('D')) return 'D';
@@ -71,7 +95,7 @@ const CSS = `<style>
 .mt-bar i{display:flex;align-items:center;justify-content:center;font:800 11px/1 var(--mono);color:#061018;min-width:0;white-space:nowrap;padding:0 6px}
 .mt-note{font-size:13px;color:#CBD5E1;margin:0 0 20px}
 .mt-race{border:1px solid #2A3446;background:#0A0E16;margin:0 0 14px;padding:14px 16px}
-.mt-race h2{margin:0 0 4px;font:700 15px/1.3 var(--sans);color:#fff}
+.mt-race h3{margin:0 0 4px;font:700 15px/1.3 var(--sans);color:#fff}
 .mt-race .meta{font:600 11.5px/1.4 var(--mono);color:#6B7686;margin:0 0 10px}
 .mt-cands{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .mt-cand{border:1px solid #232C3B;background:#0E131D;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
@@ -81,6 +105,7 @@ const CSS = `<style>
 .mt-cand .sum{font:400 13.5px/1.45 var(--sans);color:#AEB7C3;margin:0}
 .mt-cand .ev{font:400 12.5px/1.4 var(--sans);color:#94A3B8;margin:0;border-left:2px solid #334155;padding-left:10px}
 .mt-cand .ev a{color:#A5B4FC}
+.mt-cand .ev-k{font:600 11px/1.3 var(--mono);letter-spacing:.04em;color:#6B7686;display:block;margin-bottom:2px}
 .mt-chip{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;font:800 10px/1 var(--mono);letter-spacing:.08em;background:var(--sc);color:var(--si)}
 .mt-x{appearance:none;border:1px solid #A5B4FC;background:#0B1020;color:#C7D2FE;padding:10px 14px;font:700 13px var(--mono);cursor:pointer;margin:8px 8px 8px 0}
 .mt-x:hover{background:#161D33}
@@ -94,9 +119,18 @@ const CSS = `<style>
 .mt-jump span{font:700 11px/1 var(--mono);letter-spacing:.14em;color:#6B7686;margin-right:4px}
 .mt-jump a{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid #2A3446;background:#0E131D;color:#E6EAF0;font:700 12px/1 var(--mono);letter-spacing:.06em;text-decoration:none}
 .mt-jump a:hover,.mt-jump a:focus-visible{border-color:#A5B4FC;color:#fff}
+.mt-jump .grp{display:flex;flex-wrap:wrap;align-items:center;gap:6px;width:100%}
+.mt-jump .grp b{font:700 11px/1 var(--mono);letter-spacing:.12em;color:#A5B4FC;min-width:78px}
+.mt-ch{margin:22px 0 10px;font:700 1.125rem/1.2 var(--sans);color:#E6EAF0;scroll-margin-top:64px}
+.mt-ch small{display:block;font:600 11.5px/1.4 var(--mono);color:#6B7686;margin-top:4px}
 .mt-race{scroll-margin-top:64px}.mt-how h2,.mt-faq h2{scroll-margin-top:64px}
 @media (max-width:640px){.mt-cands{grid-template-columns:1fr}}
 </style>`;
+
+function jumpLabel(race) {
+  const m = /^house-[a-z]{2}-(\d+)-/.exec(race.id || '');
+  return m ? `${race.state}-${m[1]}` : race.state;
+}
 
 function raceBlock(ctx, race) {
   const pageUrl = ctx.url ? ctx.url(PATH) : `https://siren.watch${PATH}`;
@@ -106,7 +140,7 @@ function raceBlock(ctx, race) {
       ? utcDay(ev.date.length === 10 ? `${ev.date}T00:00:00.000Z` : ev.date)
       : null;
     const evHtml = ev
-      ? `<p class="ev">“${esc(ev.quote)}” — ${ev.url ? `<a href="${esc(ev.url)}" target="_blank" rel="noopener nofollow">${esc(ev.source || 'source')}</a>` : esc(ev.source || 'source')}${evDate ? ` · ${esc(evDate)}` : ''}</p>`
+      ? `<p class="ev">${ev.kind === 'summary' ? `<span class="ev-k">Tracker summary, not the candidate's words:</span> ${esc(ev.quote)}` : `“${esc(ev.quote)}”`} — ${ev.url ? `<a href="${esc(ev.url)}" target="_blank" rel="noopener nofollow">${esc(ev.source || 'source')}</a>` : esc(ev.source || 'source')}${evDate ? ` · ${esc(evDate)}` : ''}</p>`
       : '<p class="ev">No cited line in this build.</p>';
     return `<article class="mt-cand" id="${esc(c.id)}">
       <div class="row"><span class="nm">${esc(c.name)}${c.incumbent ? ' · inc.' : ''}</span>${stanceChip(c.stance)}</div>
@@ -117,8 +151,8 @@ function raceBlock(ctx, race) {
     </article>`;
   }).join('');
   return `<section class="mt-race" id="${esc(race.id)}">
-    <h2>${esc(race.state_name)} · ${esc(race.seat)}</h2>
-    <p class="meta">${esc(race.state)} · <a href="${esc(race.compare_url)}" target="_blank" rel="noopener nofollow">Compare on AI Congress</a></p>
+    <h3 class="mt-rh">${esc(race.state_name)} · ${esc(race.seat)}</h3>
+    <p class="meta">${esc(race.state)} · <a href="${esc(race.compare_url)}" target="_blank" rel="noopener nofollow">${/aicongress\.us/.test(race.compare_url || '') ? 'Compare on AI Congress' : 'Cited coverage'}</a></p>
     <div class="mt-cands">${rows}</div>
   </section>`;
 }
@@ -133,6 +167,8 @@ export function render(ctx) {
   const method = data.methodology || {};
   const stanceDefs = method.stances || {};
   const howQ = 'How does SIREN code pro, against, and neutral?';
+  const groups = racesByChamber(model.races);
+  const chamberLine = groups.map((g) => `${g.races.length} ${g.short.toLowerCase()}`).join(', ');
   const barParts = [
     t.pro > 0 ? `<i style="flex:${t.pro};background:${STANCE.pro.color}">${t.pro} PRO</i>` : '',
     t.against > 0 ? `<i style="flex:${t.against};background:${STANCE.against.color}">${t.against} AGAINST</i>` : '',
@@ -150,10 +186,13 @@ export function render(ctx) {
       `${brand.DISCLAIMER_SHORT} The midterms board is a separate room; it does not move the SIREN score.`],
     ['Where does the evidence come from?',
       method.sources_note || 'Cited campaign statements and legislative records, with primary pages on AI Congress.'],
-    ...model.races.map((r) => [
-      `Who is on the ballot for AI stance in ${r.state_name}?`,
-      (r.candidates || []).map((c) => `${c.name} (${partyMark(c.party)}): ${(STANCE[c.stance] || STANCE.neutral).label}`).join('; ') + '.',
-    ]),
+    ...groups.map((g) => {
+      const n = stanceCounts(g.races);
+      return [
+        `How do ${g.label.toLowerCase()} break down on AI?`,
+        `${n.candidates} candidates across ${g.races.length} ${g.label.toLowerCase()}: ${n.pro} pro, ${n.against} against, ${n.neutral} neutral. States: ${[...new Set(g.races.map((r) => r.state))].join(', ')}.`,
+      ];
+    }),
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
@@ -167,7 +206,7 @@ export function render(ctx) {
     <div style="--c:${STANCE.pro.color}"><span>PRO</span><b>${t.pro}</b><small>${esc(STANCE.pro.blurb)}</small></div>
     <div style="--c:${STANCE.against.color}"><span>AGAINST</span><b>${t.against}</b><small>${esc(STANCE.against.blurb)}</small></div>
     <div style="--c:${STANCE.neutral.color}"><span>NEUTRAL</span><b>${t.neutral}</b><small>${esc(STANCE.neutral.blurb)}</small></div>
-    <div style="--c:#A5B4FC"><span>TRACKED</span><b>${t.candidates}</b><small>${t.races} races · updated ${esc(utc(data.generated_at))}</small></div>
+    <div style="--c:#A5B4FC"><span>TRACKED</span><b>${t.candidates}</b><small>${t.races} races (${esc(chamberLine)}) · updated ${esc(utc(data.generated_at))}</small></div>
   </div>
   <div class="mt-bar" role="img" aria-label="${t.pro} pro, ${t.against} against, ${t.neutral} neutral">${barParts}</div>
   <p class="mt-note">One tag per person. Click through to the cited line. Missing evidence stays missing.</p>
@@ -175,8 +214,12 @@ export function render(ctx) {
     <button type="button" class="mt-x" data-xpost="page" data-x-title="${esc(xTitle)}" data-x-src="SIREN" data-x-url="${share}">𝕏 Post the midterms board</button>
     <a class="mt-x" href="${esc(ctx.href('/api/midterms.json'))}" style="display:inline-flex;align-items:center;text-decoration:none">JSON</a>
   </p>
-  <nav class="mt-jump" aria-label="Jump to a race"><span>JUMP TO A RACE</span>${model.races.map((r) => `<a href="#${esc(r.id)}" title="${esc(`${r.state_name} · ${r.seat}`)}">${esc(r.state)}</a>`).join('')}<a href="#how">HOW WE CODE</a><a href="#faq">FAQ</a></nav>
-  ${model.races.map((r) => raceBlock(ctx, r)).join('')}
+  <nav class="mt-jump" aria-label="Jump to a race"><span>JUMP TO A RACE</span>${groups.map((g) => `<div class="grp"><b>${esc(g.short.toUpperCase())}</b>${g.races.map((r) => `<a href="#${esc(r.id)}" title="${esc(`${r.state_name} · ${r.seat}`)}">${esc(jumpLabel(r))}</a>`).join('')}</div>`).join('')}<div class="grp"><a href="#how">HOW WE CODE</a><a href="#faq">FAQ</a></div></nav>
+  ${groups.map((g) => {
+    const n = stanceCounts(g.races);
+    return `<h2 class="mt-ch" id="ch-${esc(g.key)}">${esc(g.label)}<small>${g.races.length} races · ${n.candidates} candidates · ${n.pro} pro · ${n.against} against · ${n.neutral} neutral</small></h2>
+  ${g.races.map((r) => raceBlock(ctx, r)).join('')}`;
+  }).join('')}
   <section class="mt-how" aria-labelledby="how">
     <h2 id="how">${esc(howQ)}</h2>
     <ul>
