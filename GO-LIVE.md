@@ -4,6 +4,9 @@ The site builds and deploys itself. What is left needs your identity, your
 judgement and your hands on the keyboard. Budget **20 minutes**, most of it on
 the X account rather than the site.
 
+**New to the codebase?** Read [docs/README.md](docs/README.md) first — a plain
+map of every folder and workflow.
+
 Before the first public post, run the operator checklist in
 **[docs/LAUNCH.md](docs/LAUNCH.md)** (secrets, spend caps, backup selftest,
 404/500, analytics, rollback). Keep **[docs/ROLLBACK.md](docs/ROLLBACK.md)**
@@ -155,6 +158,35 @@ In rough order of return on your time:
 
 ---
 
+## Step 5 — Legal and compliance *(10 minutes, once)*
+
+The repo ships a compliance auditor that blocks expensive mistakes (undisclosed
+affiliates, third-party fonts, missing finance disclaimers, leaked secrets). Run
+it locally any time with `npm run compliance`. It also runs on every push, daily,
+and as a gate before every GitHub Pages publish. The open manual items need your
+hands:
+
+1. **Privacy, terms and disclosures are live** at `/privacy.html`, `/terms.html`
+   and `/disclosures.html`. Skim them once so you know what the site claims.
+2. **X account `@SIRENutf6`** — bio, Automated label and `#ad` rules for Amazon
+   posts: **[docs/X-OPERATOR.md](docs/X-OPERATOR.md)**. Mark `x-automated-label`
+   and `x-bio-disclosure` done in `compliance/manual.json` only after the live
+   profile matches.
+3. **Amazon Associates** — list the site URL **and** `x.com/SIRENutf6` in
+   Associates Central.
+4. **Repo secret `COMPLIANCE_PII_TERMS`** — comma-separated private strings that
+   must never appear in this public repo, so the audit fails if one lands in a
+   tracked file. Never commit the values themselves.
+5. **Rotate API keys** at least yearly; tick `secrets-rotated` when done.
+6. **Repo settings** — turn on private vulnerability reporting and Dependabot
+   alerts (Settings → Code security); tick `private-vulnerability-reporting`
+   and `dependabot-alerts`.
+
+Reporting a vulnerability: [SECURITY.md](SECURITY.md). Licence: code MIT,
+published index data CC BY 4.0 — see [LICENSE](LICENSE).
+
+---
+
 ## What I could not do, and why
 
 - **Buy the domain.** Entering payment details is off-limits to me regardless of
@@ -167,6 +199,9 @@ In rough order of return on your time:
 - **Backtest the index against outcomes.** Deliberately. It does not predict
   outcomes, so there is nothing to backtest against. Anyone who says it "called"
   an event is misusing it, and you should say so.
+- **Complete the manual compliance checks.** The X label, the Associates website
+  list and the PII secret need your accounts. The auditor prints the open list
+  every run.
 
 One piece of housekeeping: `stockanalysis.com` is an unofficial endpoint and will
 go dark intermittently behind bot protection. That is expected and handled — it

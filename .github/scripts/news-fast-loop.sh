@@ -8,6 +8,10 @@ set -uo pipefail
 case "$MINUTES" in
   ''|*[!0-9]*) echo "::error::minutes must be a whole number"; exit 1 ;;
 esac
+# The job's timeout-minutes is 58; a longer loop would be killed mid-publish.
+if [ "$MINUTES" -lt 1 ] || [ "$MINUTES" -gt 55 ]; then
+  echo "::error::minutes must be between 1 and 55 (got: $MINUTES)"; exit 1
+fi
 END=$(( $(date +%s) + MINUTES * 60 ))
 PUBLISHED=0
 TICK=0

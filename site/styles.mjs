@@ -297,13 +297,10 @@ ${pillarHues('', PILLARS_DARK).root}
 
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-  /* THE PERIOD FACES, 2026-10-03. The operator asked for a 1950s doomsday look.
-     Anton is the condensed poster gothic of a civil-defense broadside; Stardos
-     Stencil is the crate-and-placard stencil. Display only - headlines, stamps,
-     the seal, section placards. Body text stays Inter Tight and figures stay
-     JetBrains Mono, because a reading has to be legible before it is stylish.
-     Each stack ends in faces every system has, so display=swap degrades to
-     something still condensed or still monospaced, never to nothing. */
+  /* Display and body both use self-hosted Inter Tight / JetBrains Mono (OFL).
+     An earlier draft named Anton and Stardos Stencil; the live sheet never
+     shipped those files. Stacks end in system faces so display=swap degrades
+     cleanly. */
   --poster: 'Inter Tight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --bar: #3d5cff;
   --stencil: 'JetBrains Mono', ui-monospace, Menlo, monospace;

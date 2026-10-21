@@ -358,10 +358,13 @@ export async function selfTest() {
     if (!r.embed.external.title || !r.embed.external.description) throw new Error('card has no title/description');
   });
   await check('the link card copy passes the future-tense ban', () => {
-    // linkCardMeta() throws if its own words trip the ban. (The old DOOMCON
-    // PUBLICATION, "AI Early Warning", did; the SIREN one may not, so it is no
-    // longer asserted here.)
-    linkCardMeta();
+    // linkCardMeta() throws on its own words; also hold PUBLICATION to the ban
+    // so a rename that brings back a "Warning"-style word fails here.
+    const meta = linkCardMeta();
+    for (const t of [meta.title, meta.description, SITE_BRAND.PUBLICATION]) {
+      const v = findFutureViolation(t);
+      if (v) throw new Error(`"${t}" trips the ban on "${v.match}"`);
+    }
   });
   await check('preflightBluesky accepts a real manual-variant post', () => { preflightBluesky(FIXTURE_MANUAL_TEXT, FIXTURE_LINK); });
   await check('preflightBluesky rejects 301 graphemes, a second URL, no link, future tense, a mention', () => {
