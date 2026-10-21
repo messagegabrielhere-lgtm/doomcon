@@ -68,7 +68,11 @@ disclosure made after the fact; nothing is real time.
 - **ARK trades** are estimates: each position against its old size times the
   median change across the fund, which takes out creations and redemptions.
   Changes under 1% or $250K are ignored. Same-day re-runs keep yesterday in
-  `state.arkPrev` so the next distinct date still produces a diff.
+  `state.arkPrev` so the next distinct date still produces a diff. Each trade
+  carries `pctPos` (% of the creation-adjusted prior position) and `pctEtf`
+  (|USD| / that day's fund AUM); the Arena table shows Date / Fund / Ticker /
+  Direction / Market value / % of position / % of ETF, with an Opened / Closed
+  position-changes block drawn from `ark.changes` (kinds `new` and `exit`).
 - **House reports** are read with pdf.js (installed only in that workflow).
   Up to 120 reports a run, newest first; parsed reports are cached in
   `state.json`. A report that can't be read (a scanned paper filing, a row the

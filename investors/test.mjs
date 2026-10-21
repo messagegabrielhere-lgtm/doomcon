@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   advanceArk, DEFAULT_SEC_UA, highlights, inDollars, parseInfoTable, aggregate, compare,
-  latestTwo, ownershipXmlName, parseArk, arkTrades, parseForm4, recentForm4Filings,
+  latestTwo, ownershipXmlName, parseArk, arkTrades, arkPositionChanges, parseForm4, recentForm4Filings,
   parseHouseIndex, parsePtr, pdfLines,
 } from './collect.mjs';
 
@@ -198,6 +198,20 @@ test('ARK: a creation scales every line; only real trades come out', () => {
   const t = arkTrades('ARKK', a, b);
   assert.deepEqual(t.map((x) => [x.ticker, x.kind, x.dShares]), [['OLD', 'exit', -50000], ['NEW', 'new', 40000], ['BBB', 'buy', 20000]]);
   assert.deepEqual(arkTrades('ARKK', b, b), [], 'same day: nothing');
+  // % of position: exit/new are 100; BBB bought 20k on a creation-adjusted 220k prior → ~9.09%.
+  const by = Object.fromEntries(t.map((x) => [x.ticker, x]));
+  assert.equal(by.OLD.pctPos, 100);
+  assert.equal(by.NEW.pctPos, 100);
+  assert.ok(Math.abs(by.BBB.pctPos - (20000 / 220000) * 100) < 0.01);
+  // % of ETF: |usd| / that day's AUM (prev AUM for exits).
+  const curAum = Object.values(b.rows).reduce((s, x) => s + x.value, 0);
+  const prevAum = Object.values(a.rows).reduce((s, x) => s + x.value, 0);
+  assert.ok(Math.abs(by.NEW.pctEtf - (by.NEW.usd / curAum) * 100) < 0.01);
+  assert.ok(Math.abs(by.OLD.pctEtf - (Math.abs(by.OLD.usd) / prevAum) * 100) < 0.01);
+  assert.ok(Math.abs(by.BBB.pctEtf - (Math.abs(by.BBB.usd) / curAum) * 100) < 0.01);
+  const ch = arkPositionChanges(t);
+  assert.deepEqual(ch.opened.map((x) => x.ticker), ['NEW']);
+  assert.deepEqual(ch.closed.map((x) => x.ticker), ['OLD']);
 });
 
 test('13F: a filer reporting thousands is scaled to dollars, one in dollars is left alone', () => {

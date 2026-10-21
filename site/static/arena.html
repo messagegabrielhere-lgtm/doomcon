@@ -292,7 +292,18 @@ table.mk.iv td.asset small{display:block;color:var(--mute)}
 .iv-fund h3{margin:4px 0 6px;font:600 12px/1.2 var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
 .iv-fund .note{padding:0 14px 10px;font-size:12.5px;color:var(--mute)}
 .iv-trump{padding:14px} .iv-trump h2{margin:0 0 6px;font:600 20px/1.1 var(--f-display)} .iv-trump p{margin:0 0 8px;max-width:80ch}
-@media (max-width:760px){.iv-fund .cols{grid-template-columns:1fr}}
+.iv-ark-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:0 14px 10px}
+.iv-ark-tools .seg{margin:0}
+.iv-pos{padding:0 14px 14px}
+.iv-pos h3{margin:12px 0 6px;font:600 12px/1.2 var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.iv-pos .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.iv-pos .chg{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.iv-pos .chg li{display:grid;grid-template-columns:auto 1fr auto;gap:8px 12px;align-items:baseline;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--sunk);font-size:13px}
+.iv-pos .chg .when{font:11px/1.3 var(--f-mono);color:var(--mute)}
+.iv-pos .chg .who{font-weight:600}
+.iv-pos .chg .who small{display:block;font-weight:400;color:var(--mute)}
+.iv-pos .chg .sz{font:12px/1.3 var(--f-mono);text-align:right;color:var(--mute)}
+@media (max-width:760px){.iv-fund .cols,.iv-pos .cols{grid-template-columns:1fr}}
 
 @media (max-width:760px){
   .how{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -393,8 +404,27 @@ table.mk.iv td.asset small{display:block;color:var(--mute)}
     </section>
 
     <section class="panel" aria-label="Cathie Wood's ARK trades" id="ivArk" hidden>
-      <div class="ph"><h2>Cathie Wood: ARK's daily trades</h2><span class="mute" style="font-size:12px" id="ivArkNote"></span></div>
+      <div class="ph"><h2>Cathie Wood: combined ARK trades</h2><span class="mute" style="font-size:12px" id="ivArkNote"></span></div>
+      <p class="mute" style="margin:0 14px 10px;font-size:12.5px;max-width:72ch">Latest estimated trades across ARKK, ARKW, ARKG, ARKQ, ARKF and ARKX — date, fund, ticker, direction, market value, % of position and % of ETF. Opened and closed positions sit under the table.</p>
+      <div class="iv-ark-tools">
+        <div class="seg" role="group" aria-label="ARK fund filter" id="ivArkSeg"></div>
+        <button type="button" class="more" id="ivArkMore" hidden>Show more</button>
+      </div>
       <div class="tbl-wrap"><table class="mk iv" id="ivArkT"></table></div>
+      <div class="iv-pos" id="ivArkPos" hidden>
+        <h3>Position changes</h3>
+        <p class="mute" style="margin:0 0 8px;font-size:12.5px">Recently opened and closed positions, from the same daily holdings diff.</p>
+        <div class="cols">
+          <div>
+            <h3>Opened</h3>
+            <ul class="chg" id="ivArkOpen"></ul>
+          </div>
+          <div>
+            <h3>Closed</h3>
+            <ul class="chg" id="ivArkClose"></ul>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section aria-label="Fund managers' 13F filings"><div id="ivFunds"></div></section>
@@ -406,7 +436,7 @@ table.mk.iv td.asset small{display:block;color:var(--mute)}
       <ul class="rules">
         <li>Corporate insiders: SEC Form 4 ownership filings from EDGAR for a fixed AI-equity watchlist (NVDA, AMD, AVGO, META, GOOGL, MSFT, AMZN, TSLA, AAPL, PLTR, SMCI, ORCL, CRM, NOW). Open-market codes P and S are listed as trades; awards, option exercises and tax withholds stay in the collector output but are not the default table. Filed up to two business days after the trade.</li>
         <li>Fund managers: each fund's two latest SEC Form 13F-HR filings from EDGAR. A 13F lists US-listed stocks, ETFs and options held at the end of a quarter. It leaves out short sales, cash, bonds and non-US holdings, so it is part of the picture, not all of it. "Added" and "trimmed" count shares, so a price move alone isn't a trade; dollar figures use the quarter-end price.</li>
-        <li>Cathie Wood: ARK publishes every ETF's holdings each day. Trades here are estimated from the change in each position since the last snapshot, net of the whole fund growing or shrinking. Small changes are ignored. ARK's own daily trade notices are the exact record.</li>
+        <li>Cathie Wood: ARK publishes every ETF's holdings each day. Trades here are estimated from the change in each position since the last snapshot, net of the whole fund growing or shrinking. Each row shows market value, % of the (creation-adjusted) prior position, and % of that ETF's AUM — the same columns a combined ARK trades tracker uses. Opened and closed positions are listed under the table. Small changes are ignored. ARK's own daily trade notices are the exact record.</li>
         <li>Congress: House members' periodic transaction reports (STOCK Act) from the Clerk of the House, read from the report PDFs. Owner codes: SP spouse, JT joint, DC dependent child, blank the member. Senate reports are not included yet. A report that couldn't be read is listed with a link instead of being guessed.</li>
         <li>Names shown are the person most associated with each fund. A 13F is filed by the firm, not the person.</li>
       </ul>
@@ -1176,7 +1206,10 @@ const usd = (x) => { if(x == null) return "-"; const a = Math.abs(x), s = x < 0 
 const shs = (x) => (x == null ? "-" : `${x > 0 ? "+" : ""}${Math.round(x).toLocaleString("en-US")}`);
 const isoDay = (d) => d ? new Date(d + "T12:00:00Z").toLocaleDateString("en-US", {month:"short", day:"numeric", year:"numeric", timeZone:"UTC"}) : "-";
 const quarter = (d) => { if(!d) return "-"; const [y, m] = d.split("-").map(Number); return `Q${Math.ceil(m / 3)} ${y}`; };
-const kindTag = (k) => { const c = /^(buy|new|add)/.test(k) ? "buy" : /^(sell|exit|trim)/.test(k) ? "sell" : "other"; const label = {buy:"Buy", sell:"Sell", "sell (partial)":"Sell part", exchange:"Exch.", new:"New", add:"Added", trim:"Trimmed", exit:"Sold out", award:"Award", exercise:"Exercise", "tax withhold":"Tax", gift:"Gift"}[k] || k; return `<span class="kind ${c} ${esc(String(k).split(" ")[0])}">${esc(label)}</span>`; };
+const kindTag = (k) => { const c = /^(buy|new|add)/.test(k) ? "buy" : /^(sell|exit|trim)/.test(k) ? "sell" : "other"; const label = {buy:"Buy", sell:"Sell", "sell (partial)":"Sell part", exchange:"Exch.", new:"Buy New", add:"Added", trim:"Trimmed", exit:"Sold out", award:"Award", exercise:"Exercise", "tax withhold":"Tax", gift:"Gift"}[k] || k; return `<span class="kind ${c} ${esc(String(k).split(" ")[0])}">${esc(label)}</span>`; };
+const pctCell = (n, digits = 2) => n == null || !Number.isFinite(n) ? "-" : `${n.toFixed(digits)}%`;
+let ivArkFund = "";
+let ivArkN = 80;
 const secName = (x) => `${esc(x.ticker || "")}${x.ticker ? " · " : ""}${esc(x.name || x.company || "")}${x.putCall ? ` <small>${esc(x.putCall)} options</small>` : ""}`;
 
 async function loadInvestors(){
@@ -1251,14 +1284,31 @@ function renderInvestors(){
     }
   }else $("#ivCongress").hidden = true;
 
-  // ARK
+  // ARK — combined trades table (cathiesark-style columns) + position changes
   if(A){
     const dates = [...new Set((A.funds || []).map((f) => f.date))].sort();
+    const funds = [...new Set((A.trades || []).map((t) => t.fund).filter(Boolean))].sort();
     $("#ivArkNote").textContent = `Holdings as of ${isoDay(dates.at(-1))} · estimated, see below`;
-    const rows = (A.trades || []).slice(0, 60);
-    $("#ivArkT").innerHTML = `<thead><tr><th>Date</th><th>Fund</th><th>Trade</th><th>Stock</th><th>Shares</th><th>About</th><th>Weight now</th></tr></thead><tbody>` +
-      (rows.map((t) => `<tr><td class="nw">${isoDay(t.date)}</td><td>${esc(t.fund)}</td><td>${kindTag(t.kind)}</td><td class="asset"><b>${esc(t.ticker)}</b> <small>${esc(t.company)}</small></td><td class="num">${shs(t.dShares)}</td><td class="num ${t.usd >= 0 ? "up" : "down"}">${usd(t.usd)}</td><td class="num">${t.weight ? t.weight.toFixed(2) + "%" : "-"}</td></tr>`).join("") ||
-      `<tr><td colspan="7" class="mute">No trades yet. The first comparison needs two days of holdings, so trades appear after the second run.</td></tr>`) + "</tbody>";
+    const seg = $("#ivArkSeg");
+    if(seg && !seg.dataset.ready){
+      seg.innerHTML = [`<button type="button" data-f="" aria-pressed="true">All</button>`]
+        .concat(funds.map((f) => `<button type="button" data-f="${esc(f)}" aria-pressed="false">${esc(f)}</button>`)).join("");
+      seg.addEventListener("click", (e) => {
+        const b = e.target.closest("button[data-f]");
+        if(!b) return;
+        ivArkFund = b.dataset.f;
+        ivArkN = 80;
+        for(const x of seg.querySelectorAll("button")) x.setAttribute("aria-pressed", String(x === b));
+        renderArk();
+      });
+      seg.dataset.ready = "1";
+    }
+    const more = $("#ivArkMore");
+    if(more && !more.dataset.ready){
+      more.addEventListener("click", () => { ivArkN += 80; renderArk(); });
+      more.dataset.ready = "1";
+    }
+    renderArk();
   }else $("#ivArk").hidden = true;
 
   // Funds
@@ -1280,6 +1330,49 @@ function renderInvestors(){
   const T = IV.trump;
   $("#ivTrump").innerHTML = T ? `<h2>${esc(T.name)}</h2><p>${esc(T.text)}</p><p>${T.links.map((l) => `<a href="${esc(l.url)}" rel="noopener" target="_blank">${esc(l.label)}</a>`).join(" · ")}</p>` : "";
   $("#ivTrump").hidden = !T;
+}
+
+function renderArk(){
+  const A = IV.ark;
+  if(!A){ $("#ivArk").hidden = true; return; }
+  const all = (A.trades || []).filter((t) => !ivArkFund || t.fund === ivArkFund);
+  const rows = all.slice(0, ivArkN);
+  $("#ivArkT").innerHTML = `<thead><tr><th>Date</th><th>Fund</th><th>Ticker</th><th>Direction</th><th>Market value</th><th>% of position</th><th>% of ETF</th></tr></thead><tbody>` +
+    (rows.map((t) => `<tr>
+      <td class="nw">${isoDay(t.date)}</td>
+      <td class="nw">${esc(t.fund)}</td>
+      <td class="asset"><b>${esc(t.ticker)}</b>${t.company ? ` <small>${esc(t.company)}</small>` : ""}</td>
+      <td>${kindTag(t.kind)}</td>
+      <td class="num ${t.usd >= 0 ? "up" : "down"}">${usd(t.usd)}</td>
+      <td class="num">${pctCell(t.pctPos)}</td>
+      <td class="num">${pctCell(t.pctEtf)}</td>
+    </tr>`).join("") ||
+    `<tr><td colspan="7" class="mute">No trades yet. The first comparison needs two days of holdings, so trades appear after the second run.</td></tr>`) + "</tbody>";
+  $("#ivArkMore").hidden = all.length <= ivArkN;
+
+  // Fall back to scanning the trade log when an older snapshot has no changes block.
+  const fromTrades = (kind) => {
+    const seen = new Set(), out = [];
+    for(const t of A.trades || []){
+      if(t.kind !== kind || (ivArkFund && t.fund !== ivArkFund)) continue;
+      const key = `${t.fund}|${t.ticker}`;
+      if(seen.has(key)) continue;
+      seen.add(key);
+      out.push(t);
+      if(out.length >= 40) break;
+    }
+    return out;
+  };
+  const openRows = A.changes
+    ? (A.changes.opened || []).filter((t) => !ivArkFund || t.fund === ivArkFund)
+    : fromTrades("new");
+  const closeRows = A.changes
+    ? (A.changes.closed || []).filter((t) => !ivArkFund || t.fund === ivArkFund)
+    : fromTrades("exit");
+  const item = (t) => `<li><span class="when">${isoDay(t.date)}</span><span class="who"><b>${esc(t.ticker)}</b> <small>${esc(t.fund)}${t.company ? " · " + esc(t.company) : ""}</small></span><span class="sz">${usd(Math.abs(t.usd || 0))}${t.pctEtf != null ? " · " + pctCell(t.pctEtf) + " ETF" : ""}</span></li>`;
+  $("#ivArkOpen").innerHTML = openRows.map(item).join("") || `<li class="mute">No recently opened positions.</li>`;
+  $("#ivArkClose").innerHTML = closeRows.map(item).join("") || `<li class="mute">No recently closed positions.</li>`;
+  $("#ivArkPos").hidden = !(openRows.length || closeRows.length || (A.trades || []).length);
 }
 
 function renderCongress(){
