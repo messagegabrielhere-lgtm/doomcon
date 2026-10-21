@@ -1,6 +1,6 @@
 # Outreach drafts
 
-Updated 2026-10-10. Nothing here has been sent. Each draft is for the operator
+Updated 2026-10-14. Nothing here has been sent. Each draft is for the operator
 to send from their own account, after refreshing every number from the live
 site. The pitch is the same: an activity number you can check.
 
@@ -38,6 +38,10 @@ who will cite the number if copying it takes one tap.
    `https://siren.watch/guide.html` or
    `https://siren.watch/ai-doomsday-clock.html`. One useful reply beats a
    blast.
+10. **Weekly image-credit pass (§4).** After the cards have travelled,
+    `node collector/tools/image-credit.mjs list`, Lens each brand asset,
+    ask uncredited hosts for a link. Empty queue is normal until embeds
+    and daily posts put the PNGs in other people's posts.
 
 Do not buy links (including Outrank’s backlinks-only product). Do not open
 synonym pages. Do not drop the same pitch into a pile of subreddits. Selling
@@ -119,3 +123,42 @@ https://siren.watch/press.html
 Happy to answer method questions on the record.
 
 [name]
+
+## 4. Image-credit backlinks (Google Lens)
+
+Play from [this thread](https://x.com/hridoyreh/status/2110398077404356995):
+find pages that reused a SIREN image, check whether they link back, email the
+owner with the image URL, ask for a credit link. The scoreboard is Search
+Console → Links → Top linked pages (external links / referring sites).
+
+Do not buy links. Do not claim faces of public figures. Only brand assets:
+share cards, posters, badge, touch icon, `art-siren`.
+
+### Operator loop
+
+```bash
+node collector/tools/image-credit.mjs list
+# Open each Lens / TinEye / Bing URL in a browser (captchas are normal).
+# For every foreign hit:
+node collector/tools/image-credit.mjs check 'https://example.com/post' \
+  --image 'https://siren.watch/cards/state.png'
+node collector/tools/image-credit.mjs draft \
+  --page 'https://example.com/post' \
+  --image 'https://siren.watch/cards/state.png' \
+  --to Alex
+```
+
+Send the draft from your own account. Prefer one short ask over a blast.
+
+### Run log — 2026-10-14
+
+Automated text search and reverse-image probes (TinEye cookie wall, Google
+Lens captcha from this environment, Yandex keyword noise) found **no
+third-party pages** hotlinking `siren.watch/cards/*`, `/badge.svg`, or the
+video posters. X mentions of the cards are almost entirely `@SIRENutf6`.
+The domain is days old; reverse-image credit asks need the cards to travel
+first. Re-run `list` weekly after daily posts and embeds go out.
+
+While the Lens queue is empty, the same backlink goal still moves through
+§0 items 8–9 (README badge placements and answering existing questions with
+a link) and the embed snippets on https://siren.watch/export.html.
