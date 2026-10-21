@@ -1,6 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseFeed, matchElon, channelIdFromPage, merge } from '../collect.mjs';
+import {
+  parseFeed, matchElon, channelIdFromPage, merge, parseChannelSearch, relativeToIso,
+  matchSI, topicsFor, mergeTrends, youtubeRetryDelayMs,
+} from '../collect.mjs';
 
 const FEED = `<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns:yt="http://www.youtube.com/xml/schemas/2015" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
@@ -68,8 +71,6 @@ test('merge keeps firstSeen and old views, sorts newest first', () => {
   assert.equal(out[0].firstSeen, 'T1');
 });
 
-import { parseChannelSearch, relativeToIso } from '../collect.mjs';
-
 test('relativeToIso', () => {
   const now = Date.UTC(2026, 9, 7);
   assert.equal(relativeToIso('Streamed 2 years ago', now), new Date(now - 2 * 31536e6).toISOString());
@@ -112,8 +113,6 @@ test('parseChannelSearch dates a result from its accessibility label when publis
   assert.equal(r.videos[0].published, new Date(now - 7 * 31536e6).toISOString());
 });
 
-import { matchSI, topicsFor } from '../collect.mjs';
-
 test('matchSI: title anywhere, description only on labs and his companies', () => {
   assert.equal(matchSI({ title: 'Ilya Sutskever on Safe Superintelligence', description: '' }, 'interview'), true);
   assert.equal(matchSI({ title: 'The road to super-intelligent AI', description: '' }, 'news'), true);
@@ -139,8 +138,21 @@ test('leader topics need the name in the title, or the description on their own 
 });
 
 
-test('mergeTrends keeps newest first, merges queries, drops old', async () => {
-  const { mergeTrends } = await import('../collect.mjs');
+test('youtube feed 404s are retried; quota errors and other hosts are not', () => {
+  const feed = 'https://www.youtube.com/feeds/videos.xml?channel_id=UC5WjFrtBdufl6CZojX3D8dQ';
+  assert.equal(youtubeRetryDelayMs(feed, 404, 0), 2000);
+  assert.equal(youtubeRetryDelayMs(feed, 404, 1), 8000);
+  assert.equal(youtubeRetryDelayMs(feed, 404, 2), 0);
+  assert.equal(youtubeRetryDelayMs(feed, 500, 0), 2000);
+  assert.equal(youtubeRetryDelayMs(feed, null, 0), 2000);
+  assert.equal(youtubeRetryDelayMs(feed, 403, 0), 0);
+  assert.equal(youtubeRetryDelayMs('https://www.googleapis.com/youtube/v3/videos?id=x', 404, 0), 0);
+  assert.equal(youtubeRetryDelayMs('https://www.googleapis.com/youtube/v3/videos?id=x', 429, 0), 2000);
+  assert.equal(youtubeRetryDelayMs('https://www.googleapis.com/youtube/v3/videos?id=x', 403, 0), 0);
+  assert.equal(youtubeRetryDelayMs('https://raw.githubusercontent.com/x/y/clips.json', 404, 0), 0);
+});
+
+test('mergeTrends keeps newest first, merges queries, drops old', () => {
   const now = Date.parse('2026-10-08T00:00:00Z');
   const out = mergeTrends(
     [{ id: 'a', published: '2026-10-01T00:00:00Z', queries: ['AGI'] }, { id: 'old', published: '2026-01-01T00:00:00Z', queries: ['AGI'] }],

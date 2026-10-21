@@ -62,6 +62,12 @@ layers. Every snapshot carries the verdict at `aircraft_health`:
 | Fewer than half of the air-traffic hubs answered | warn |
 | Hub sample under 50 unique aircraft | warn |
 
+adsb.lol allows about 10 requests a minute. `collector/fetch.mjs` spaces every
+call to that host by 7 seconds (one military read, 40 hub samples, three
+squawk codes). An empty squawk reading is normal. When the previous fetch
+succeeded, including with zero aircraft, a later failure is kept as stale and
+the health check warns. A failure with no earlier success still pages.
+
 Who reads it:
 
 | Surface | What it does |

@@ -5,6 +5,7 @@ import {
   adsbModality, adsbCells, adsbModeTotals, adsbModeLine, ADSB_CELL_DEG,
   assessAircraftHealth, AIRCRAFT_STALE_MIN, MIL_THIN_FLOOR, ADSB_THIN_FLOOR,
 } from './core.mjs';
+import { carryForward } from './collect.mjs';
 
 test('adsbModality buckets adsb.lol type strings the way FlightAware names them', () => {
   assert.equal(adsbModality('adsb_icao'), 'adsb');
@@ -104,6 +105,57 @@ test('assessAircraftHealth errors on a down mil feed and a stale snapshot', () =
   assert.ok(ids.includes('mil_down'));
   assert.ok(ids.includes('emerg_stale'));
   assert.ok(ids.includes('adsb_hubs_thin') || ids.includes('adsb_thin'));
+});
+
+test('carryForward keeps a previously ok empty squawk layer, so a 429 warns instead of paging', () => {
+  const sources = { emerg: { ok: false, error: 'HTTP 429 Too Many Requests — rate limit exceeded: 10 req/min' } };
+  const hz = { emerg: [] };
+  carryForward(sources, hz, {
+    generated: '2026-10-21T09:00:00Z',
+    sources: { emerg: { ok: true, n: 0 } },
+    emerg: [],
+  });
+  assert.equal(sources.emerg.ok, false);
+  assert.equal(sources.emerg.stale_from, '2026-10-21T09:00:00Z');
+  const health = assessAircraftHealth({
+    generated: '2026-10-21T09:10:00Z',
+    sources: {
+      mil: { ok: true, n: 80 },
+      adsb: { ok: true, n: 400 },
+      emerg: sources.emerg,
+      mil_modes: { n: 80 },
+      adsb_modes: { n: 400 },
+      adsb_hubs: { ok: 40, of: 40, unique: 400 },
+    },
+    mil: [{ n: 80 }],
+    adsb: [{ n: 400 }],
+    emerg: hz.emerg,
+  }, Date.parse('2026-10-21T09:10:00Z'));
+  assert.equal(health.ok, true);
+  assert.ok(health.issues.some((i) => i.id === 'emerg_stale' && i.severity === 'warn'));
+});
+
+test('carryForward does not launder a previous hard failure with no rows', () => {
+  const sources = { emerg: { ok: false, error: 'HTTP 429' } };
+  const hz = { emerg: [{ n: 3 }] };
+  carryForward(sources, hz, {
+    generated: '2026-10-21T09:00:00Z',
+    sources: { emerg: { ok: false, error: 'HTTP 429' } },
+    emerg: [],
+  });
+  assert.equal(sources.emerg.stale_from, undefined);
+  assert.equal(hz.emerg.length, 1);
+});
+
+test('carryForward still keeps a previous non-empty layer', () => {
+  const sources = { mil: { ok: false, error: 'HTTP 502' } };
+  const hz = { mil: [] };
+  carryForward(sources, hz, {
+    generated: '2026-10-21T09:00:00Z',
+    mil: [{ n: 12 }, { n: NaN }],
+  });
+  assert.equal(sources.mil.stale_from, '2026-10-21T09:00:00Z');
+  assert.deepEqual(hz.mil, [{ n: 12 }]);
 });
 
 test('assessAircraftHealth warns when mil answers empty', () => {

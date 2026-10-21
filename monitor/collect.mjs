@@ -215,6 +215,8 @@ async function hazards(sources, countries) {
     tryIt('adsb', async () => {
       // Civilian / mixed traffic density around major hubs. Hex is used only to
       // dedupe overlapping 250 nm circles, then discarded before publish.
+      // The four workers share api.adsb.lol's gate in collector/fetch.mjs
+      // (10 req/min). They queue; they must not burst.
       const seen = new Set();
       const pts = [];
       let next = 0;
@@ -308,6 +310,29 @@ export function appendHistory(prev, now, inputs) {
   return h;
 }
 
+/**
+ * Keep the previous reading when this run's fetch failed.
+ * An empty array still counts when that previous fetch succeeded: emergency
+ * squawks are usually zero aircraft, and treating "no rows" as "no archive"
+ * turned a 429 into an error-severity outage instead of a stale warning.
+ */
+export function carryForward(sources, hz, prevSnap) {
+  const cellKeys = new Set(['mil', 'adsb', 'emerg']);
+  for (const k of ['quakes', 'eonet', 'gdacs', 'mil', 'adsb', 'emerg', 'kev']) {
+    const sid = k === 'quakes' ? 'usgs' : k;
+    if (sources[sid]?.ok) continue;
+    const prevRows = prevSnap?.[k];
+    const hasRows = Array.isArray(prevRows) && prevRows.length > 0;
+    const prevSrc = prevSnap?.sources?.[sid];
+    const prevOk = prevSrc?.ok === true || Boolean(prevSrc?.stale_from);
+    if (!hasRows && !prevOk) continue;
+    if (Array.isArray(prevRows)) {
+      hz[k] = cellKeys.has(k) ? prevRows.filter((c) => Number.isFinite(c.n)) : prevRows;
+    }
+    sources[sid] = { ...(sources[sid] || {}), stale_from: prevSnap.generated };
+  }
+}
+
 /* ------------------------------------------------------------------ main */
 
 export async function main() {
@@ -344,14 +369,7 @@ export async function main() {
   const items = [...byUrl.values()].sort((a, b) => b.t - a.t).slice(0, MAX_ITEMS);
 
   // A source that failed this run keeps its previous data, marked stale, rather than vanishing.
-  const cellKeys = new Set(['mil', 'adsb', 'emerg']);
-  for (const k of ['quakes', 'eonet', 'gdacs', 'mil', 'adsb', 'emerg', 'kev']) {
-    const sid = k === 'quakes' ? 'usgs' : k;
-    if (!sources[sid]?.ok && prevSnap?.[k]?.length) {
-      hz[k] = cellKeys.has(k) ? prevSnap[k].filter((c) => Number.isFinite(c.n)) : prevSnap[k];
-      sources[sid] = { ...sources[sid], stale_from: prevSnap.generated };
-    }
-  }
+  carryForward(sources, hz, prevSnap);
 
   const stories = clusterStories(items);
   const inputs = countryInputs({ stories, quakes: hz.quakes, gdacs: hz.gdacs, eonet: hz.eonet, now: Date.now() });
