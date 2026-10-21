@@ -58,7 +58,9 @@ its own Git branch for JSON so the main branch stays small.
 
 Deep specs: [`ARENA.md`](ARENA.md), [`MONITOR.md`](MONITOR.md), [`MARKETS.md`](MARKETS.md),
 [`AUTOUPDATE.md`](AUTOUPDATE.md) (how GitHub Actions keep data fresh).
-Coding agents editing this repo: see root [`AGENTS.md`](../AGENTS.md).
+Coding agents editing this repo: see root [`AGENTS.md`](../AGENTS.md) and
+[`CLAUDE.md`](../CLAUDE.md). Claude Code pack install:
+[`CLAUDE-CODE.md`](CLAUDE-CODE.md).
 
 ---
 

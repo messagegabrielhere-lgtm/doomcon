@@ -8,6 +8,7 @@ AI activity tempo. Public site: https://siren.watch/
 1. Read [`docs/CONTRACT.md`](docs/CONTRACT.md) — shapes, pillars, Node built-ins rule.
 2. Read [`docs/VOICE.md`](docs/VOICE.md) if you touch generated copy (no future tense / doom claims).
 3. Prefer existing modules over new dependencies. The collector, engine, receipts, and site **must not** import from `node_modules`.
+4. Claude Code / Cursor: read root [`CLAUDE.md`](CLAUDE.md) (Karpathy rules + SIREN hard rules) and optional pack install in [`docs/CLAUDE-CODE.md`](docs/CLAUDE-CODE.md).
 
 ## Run / verify
 
@@ -33,6 +34,8 @@ Docker (no local Node install):
 | `agent-kit/` | **For other AI agents**: CLI + MCP over the public API |
 | `arena/` | Side project: model trading battle |
 | `docs/` | Specs and playbooks |
+| `.claude/skills/` | Claude Code skills (verify, TDD, handoff, tooling) |
+| `CLAUDE.md` | Project instructions for Claude Code |
 
 ## For AI agents *using* SIREN (not editing the repo)
 
