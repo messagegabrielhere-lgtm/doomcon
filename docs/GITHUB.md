@@ -37,7 +37,6 @@ Never merge `gh-pages`, `arena-data`, `scanner-data`, or `investors-data` into
 | `investors` | weekdays `12:17` + `23:47` | `investors` | `investors-data` | none (`SEC_UA` variable optional) |
 | `clipper` | `:04,:19,:34,:49` | `clipper` | Actions cache only | YouTube + Anthropic |
 | `compliance` | every push/PR; Mondays `13:17` | PR runs cancel stale | none | optional `COMPLIANCE_PII_TERMS` |
-| `labeler` | pull requests | — | PR labels | none |
 | `ops-health` | Mondays `15:00` + manual | — | job summary only | none |
 
 GitHub crons are hints. Scheduled runs are often 5–20 minutes late and can be
@@ -94,8 +93,12 @@ Rotate provider keys at least annually (`secrets-rotated` in
 
 ## Triage labels
 
-Path labeler (`.github/labeler.yml`) applies area labels on every PR. Bootstrap
-colours live in `.github/labels.yml` and are ensured by the labeler workflow.
+Path rules live in `.github/labeler.yml`; names, colours and descriptions live
+in `.github/labels.yml`. No labeler workflow runs yet: it needs
+`actions/labeler` and `actions/github-script` pinned to full commit SHAs, and
+neither is pinned anywhere in this repo. Until then, create the labels once by
+hand and apply them manually. Review requests default to the owner via
+`.github/CODEOWNERS`.
 
 | Label | Meaning |
 |---|---|
@@ -146,6 +149,5 @@ These return 403 for ordinary automation tokens. Click them once:
 4. Optional: disable **Wiki** and **Projects** if unused (reduces noise)
 5. Set secret `COMPLIANCE_PII_TERMS` (name, personal email, phone)
 
-Community profile files (LICENSE, SECURITY, CONTRIBUTING, CoC, issue/PR
-templates) live in the tree — merge the community-health PR if they are not on
-`main` yet.
+Community profile files (LICENSE, SECURITY, CONTRIBUTING, CoC, SUPPORT,
+CODEOWNERS, issue/PR templates) live in the tree.
