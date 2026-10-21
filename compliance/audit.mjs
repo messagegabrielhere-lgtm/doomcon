@@ -29,7 +29,7 @@ const flag = (n) => args.includes(`--${n}`);
 const opt = (n) => { const i = args.indexOf(`--${n}`); return i >= 0 ? args[i + 1] : null; };
 
 const SKIP_DIR = /(^|\/)(node_modules|\.git|data|dist|coverage|\.cache)(\/|$)/;
-const TEXT = /\.(html?|mjs|cjs|js|jsx|ts|tsx|json|ya?ml|md|txt|css|py|sh|env|toml|vue|svelte|astro)$|(^|\/)\.env[^/]*$/i;
+const TEXT = /\.(html?|mjs|cjs|js|jsx|ts|tsx|json|ya?ml|md|txt|css|py|sh|env|toml|vue|svelte|astro|php)$|(^|\/)\.env[^/]*$/i;
 const MAX = 2_000_000;
 const buildDir = opt('dir');
 

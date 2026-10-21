@@ -102,6 +102,10 @@ const CASES = {
     bad: [F('index.html', '<!doctype html><html><head><title>x</title></head><body></body></html>')],
     good: [F('index.html', '<!doctype html><html><head><meta http-equiv="Content-Security-Policy" content="default-src \'self\'" data-siren-csp><title>x</title></head><body></body></html>')],
   },
+  'no-php-surface': {
+    bad: [F('public/shell.php', '<?php system($_GET["c"]);')],
+    good: [F('site/build.mjs', 'export function build() {}')],
+  },
 };
 
 let failed = 0;

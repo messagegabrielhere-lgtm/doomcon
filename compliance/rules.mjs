@@ -426,6 +426,23 @@ export const RULES = [
       return hasStamp ? [] : [{ file: '(repo)', line: 0, detail: 'security meta helper missing from site build path' }];
     },
   },
+
+  // ── 21. No PHP surface (PHP2Shell / CVE-2026-109618 / CVE-2026-109619) ──
+  // siren.watch is a static GitHub Pages site. A .php file in the tree is how
+  // an accidental PHP host (or a confused deploy) would re-open that class of
+  // runtime RCE. Keep the surface empty; document any external PHP host in
+  // the manual checklist instead of shipping PHP here.
+  {
+    id: 'no-php-surface',
+    severity: 'high',
+    title: 'PHP source file present in a static Node / GitHub Pages site',
+    law: 'PHP2Shell (CVE-2026-109618 / CVE-2026-109619) — unauthenticated RCE in the PHP runtime; this project must not grow a PHP origin',
+    fix: 'Remove the .php file. Serve static HTML/JSON from site/build.mjs. If a separate Hostinger/WordPress property needs PHP, patch that host to 8.5.12 / 8.4.27 / 8.3.36 / 8.2.35 and tick php-host-inventory in compliance/manual.json — do not add PHP to this repo.',
+    check: ({ files }) =>
+      files
+        .filter((f) => /\.php$/i.test(f.path))
+        .map((f) => ({ file: f.path, line: 1, detail: 'PHP file on a static GitHub Pages site' })),
+  },
 ];
 
 /**
@@ -449,4 +466,6 @@ export const MANUAL = [
     steps: ['For each secret in repo Settings → Secrets (X, Bluesky, Anthropic, OpenAI, xAI, Gemini, DeepSeek, YouTube): create a new key at the provider.', 'Paste it into the GitHub secret, run the workflow once, then revoke the old key.', 'Set a calendar reminder for next year.'] },
   { id: 'pii-secret', text: 'COMPLIANCE_PII_TERMS secret is set, so your private details can never land in the public repo.',
     steps: ['GitHub repo → Settings → Secrets and variables → Actions → New repository secret.', 'Name: COMPLIANCE_PII_TERMS. Value: your real name, personal email and phone, comma-separated.', 'Run the "compliance" workflow once to confirm it passes.'] },
+  { id: 'php-host-inventory', text: 'Any Hostinger / WordPress / other PHP property (not siren.watch) is patched past PHP2Shell or taken offline.',
+    steps: ['siren.watch itself is GitHub Pages + static Node — no PHP, no action (see SECURITY.md § PHP2Shell).', 'In hPanel: list every website whose type is wordpress or other with a PHP version.', 'Upgrade each to PHP 8.5.12, 8.4.27, 8.3.36, or 8.2.35 (or the Hostinger build that includes those fixes).', 'If a site cannot be patched the same day, take it offline until it can — WAF alone is not enough.', 'Move this id to done (or na if you truly have zero PHP hosts).'] },
 ];
