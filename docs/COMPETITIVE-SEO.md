@@ -297,7 +297,10 @@ They win social memes, not Google. Do not imitate.
 3. Re-fetch pizzint `news-sitemap.xml` monthly; if it starts rolling again, treat Google News as contested again.
 4. Weekly: indexed count vs sitemap count (vanity = sitemap-only growth).
 5. Tick open rows in `docs/SEO-CHECKLIST.md` (GSC, Bing, AI citation spot-check).
-
+5. After the 2026-10-13 ChatGPT citation study (`FINDABILITY.md` §2.6): prefer
+   earned Reddit/Quora/HN answers with a receipt link over more `llms.txt`
+   churn; spot-check `/guide.html` and `/ai-doomsday-clock.html` for question
+   H2s + `dateModified` in Rich Results.
 ---
 
 ## 4. Next entity axes, 2026-10-10

@@ -1,8 +1,8 @@
 # Findability — Google Search and AI answer engines
 
 **Status:** playbook, measured against the live site on **2026-10-08**, with
-engineering checklist updates through **2026-10-11** (ChatGPT / Grok agent
-surfaces). Companion to `docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md`
+engineering checklist updates through **2026-10-14** (ChatGPT / Grok agent
+surfaces + ChatGPT citation study §2.6). Companion to `docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md`
 (URL-count war), `docs/COMPETITIVE-SEO.md` (live reverse-engineer of rival
 titles/sitemaps/schema), `docs/VIRAL.md` (distribution on X),
 `docs/MONETIZE.md` (earning without losing rank),
@@ -224,6 +224,30 @@ context.
 - Gating the JSON behind keys or blocking CORS on public reads.
 - Changing URLs when the score updates (the receipt is the version; the path
   stays stable).
+- Treating `llms.txt` as a ChatGPT citation lever — see §2.6.
+
+### 2.6 ChatGPT citation study (2026-10-13)
+
+SE Ranking analysed ~129k sites / ~216k pages / 100k prompts for what correlates
+with ChatGPT citations ([thread](https://x.com/alexgroberman/status/2110035111853109297)).
+Headline factors, mapped onto what this repo can actually do:
+
+| Study signal | Approximate lift | Our honest move |
+|---|---|---|
+| Referring domains / domain trust | Strongest (≈3.5× at extreme DR) | Earn links via HN / press / methodology cites; **refuse bought backlinks** (§2.5, `VOICE.md`) |
+| Homepage / domain traffic | ≈2× | Distribution in `VIRAL.md`; keep the home reading quotable |
+| Reddit / Quora mentions | ≈4× | Operator: answer real questions with a receipt link — never spam farms |
+| Content depth with data / examples | Longer + multi-angle beat short | Evergreen explainers already carry tables + live reading; keep expanding with verifiable counts |
+| Clear structure (question H2s, short sections) | ≈70% more citations | **Ship** question-shaped H2s + FAQ that mirrors visible text on `/guide`, `/p-doom`, `/ai-doomsday-clock`, compare hubs |
+| Freshness (updated in last ~3 months) | ≈2× | Hourly rebuild already refreshes live pages; emit `dateModified` + `article:modified_time` from `state.generated_at` |
+| Question titles + FAQs | Helped smaller sites | Already on home / compare; extend to guide + clock pages |
+| Review platforms (G2, Trustpilot, …) | 3–6× | N/A for a free index — skip fake profiles |
+| Core Web Vitals | ≈3× for fast vs slow | Still open: mobile card view / less above-fold weight (#10) |
+| `llms.txt` | **Negligible** | Keep as an agent map (§2.1); do **not** treat as a ranking or citation factor |
+
+Engineering priority after this study: structure + freshness + CWV on pages that
+already answer head terms. Authority and Reddit/Quora are operator work;
+`llms.txt` expansion is maintenance, not a citation strategy.
 
 ---
 
@@ -236,6 +260,7 @@ context.
 - [ ] When the custom domain is live: re-verify, set preferred domain, 301 map.
 - [ ] Spot-check: ask ChatGPT / Perplexity / Claude "What is SIREN / DOOMCON AI index right now?" and "Is there an AI doomsday clock?" — record whether they cite us, and which URL.
 - [ ] Register the site in Google Merchant / News only if we ship a real news sitemap with dated `NewsArticle` pages — not before.
+- [ ] Earn mentions: answer one real Reddit / Quora / HN question per week with a receipt link (no self-promo spam; §2.6). Prefer threads already asking for a number.
 
 ### 3.2 Engineering, ranked by expected findability per unit of work
 
@@ -730,7 +755,6 @@ context.
 | 488 | Re-measure after #487 tip overlay `651ee6af` + IndexNow **200**: CDN clear (news-sitemap ECDSA cryptography-seed keywords **3/3**; footer SECTIONS dual **#485** still **ok** (press **and** jobs); crumb dual **#475** still **ok**; Stripe **#481** still keyed; Flash-1017 **#479** still keyed; Navier-Stokes **#477** still keyed; dual stack / conquest / Mythos **#420** / Flash FAQ **#418** / Surface **#414** still **ok**; news keyword probes **ok**; lead **6685**/news **200**; `pizzint-news-alive` (pizzint news **14**); Trends quiet (`ai_related_total` **0**); multi-title product gap empty (hold Warsh / Nudify / AI Jitters / bare NSA niche keyword / ollama / bare AeroVironment / NovaCore·AIBotics / RTX Spark FAQ keywords-only / Workday thin wire / OpenAI–Apple thin legal / dress-rehearsal essay / Nova Scotia geography / bare GDP / Jack Clark person / bare Stokes / Navier alone / bare Flash / V4.1 Flash without 1017 / Series B thin / Starlink geopolitics); organic blocker remains operator GSC #11 + Bing #120 (issue #202) | Daily agent + Google News + Trends + Deploy | **Done** (this pass) |
 | 489 | News-sitemap `NEWS_KEYWORD_LABS` + `seo-daily` probes + tip merge: add **Razor Lake-AX** from multi-title Intel AI-PC / TOPS SKU tape while `pizzint-news-alive` (2 titles; Intel / Google fill 12-cap and drop the contiguous product surface — `/lab/intel.html` already gates; parallel to RTX Spark #279 / M5 Max #364); no new doorway URLs; hold bare Panther Lake baseline / Battlemage single / Warsh / Nudify / ollama / Series B thin / Starlink geopolitics; organic blocker remains operator GSC #11 + Bing #120 (issue #202) | Google News | **Done** (this pass) |
 | 490 | Homepage `<head>` links `skill.md` (how to cite) and `api/now.txt` (the reading); `robots.txt` names that GET plus `/AGENTS.md`; the uppercase path is the same body as `agents.md` (case-sensitive hosts 404 the coding-agent convention today); api-catalog, OpenAPI, sitemap, IndexNow, and news-fast overlay carry it; `seo-daily` `agent-use-links-missing` + CORE_LIVE `/AGENTS.md`; no fake HTTP MCP or A2A line | Agents | **Done** (this pass) |
-
 ### 3.3 Refusals (search edition)
 
 | Refuse | Why |
@@ -740,6 +764,8 @@ context.
 | `Disallow` lines for unshipped experiments | Publishes the roadmap (`TEARDOWN` / pizzint lesson) |
 | Schema that does not match visible text | Rich-result spam policy |
 | Treating `llms.txt` as a Google ranking factor | [Google: not used](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) |
+| Treating `llms.txt` as a ChatGPT citation factor | SE Ranking 2026-10 study: negligible vs authority / structure / freshness |
+| Buying DR50+ backlinks or fake review profiles | Study’s #1 correlator is authority; buying it is spam and banned here |
 | Monetization that breaks the SEO rules in `MONETIZE.md` | Ads above the fold / layout shift / AdSense consent walls |
 | Buying backlinks (including Outrank backlinks-only) | Link schemes; refused in `OUTREACH.md`. Sell-side Outrank placements, if ever, stay on an isolated blog per `OUTRANK-PUBLISHER.md` |
 
@@ -800,3 +826,4 @@ sitemap vanity (`COMPETITIVE.md` Phase 2).
 | Outrank publisher marketplace (sell placements; DR pay rate; eligibility) | [X post](https://x.com/tibo_maker/status/2110343675691548745) + [publishers page](https://www.outrank.so/marketplace/publishers) → `OUTRANK-PUBLISHER.md` | 2026-10-15 |
 | Semrush 43-tip SEO + AI Search (ASO) checklist → SIREN Done/Operator/N/A map | `docs/SEO-CHECKLIST.md` | 2026-10-15 |
 | URL-count strategy, news sitemap, Speakable, Search Console success metric | `docs/COMPETITIVE.md`, `docs/VIRAL.md` §7 | this repo |
+| ChatGPT citation correlates: backlinks, structure, freshness, Reddit/Quora; `llms.txt` negligible | [Alex Groberman / SE Ranking thread](https://x.com/alexgroberman/status/2110035111853109297) | 2026-10-13 |

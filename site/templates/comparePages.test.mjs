@@ -96,7 +96,8 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(hub, /What questions do people actually ask\?/);
     assert.match(hub, /What is the difference between SIREN and DoomBench/);
     assert.match(hub, /Does a louder SIREN reading mean AI is more dangerous/);
-    assert.match(hub, /DoomBench/);
+    assert.match(hub, /"dateModified"\s*:\s*"2026-10-10T14:00:00Z"/);
+    assert.match(hub, /article:modified_time/);    assert.match(hub, /DoomBench/);
     assert.match(hub, /Skynet Countdown/);
     assert.match(hub, /PizzINT/);
     assert.match(hub, /SIREN 4/);

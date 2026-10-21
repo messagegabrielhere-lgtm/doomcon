@@ -1122,6 +1122,22 @@ function jumpIndex(mainHtml) {
 </nav>`;
 }
 
+/**
+ * Freshness meta for crawlers and AI retrieval. Prefer an explicit
+ * `o.modified` ISO stamp; otherwise the current reading. Never invent a
+ * wall-clock "now" — static HTML must stay recomputable from inputs
+ * (CONTRACT.md). FINDABILITY §2.6: pages updated in the last quarter earned
+ * roughly 2× ChatGPT citations in the SE Ranking study.
+ */
+function freshnessMeta(o, ctx) {
+  const stamp = (typeof o.modified === 'string' && o.modified)
+    || (ctx.state && typeof ctx.state.generated_at === 'string' && ctx.state.generated_at)
+    || '';
+  if (!stamp || !Number.isFinite(Date.parse(stamp))) return '';
+  return `<meta property="article:modified_time" content="${esc(stamp)}">
+<meta property="og:updated_time" content="${esc(stamp)}">`;
+}
+
 export function page(o) {
   const { ctx } = o;
   const canonical = ctx.url(o.path);
@@ -1241,6 +1257,7 @@ ${bingMeta}
 <meta property="og:title" content="${esc(o.ogTitle || o.title)}">
 <meta property="og:description" content="${esc(o.description)}">
 <meta property="og:url" content="${esc(canonical)}">
+${freshnessMeta(o, ctx)}
 <meta name="twitter:card" content="summary_large_image">
 ${twitterSite}
 ${ogImage}

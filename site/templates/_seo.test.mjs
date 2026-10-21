@@ -3,11 +3,14 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, it } from 'node:test';
-import { organization, breadcrumbs, speakable } from './_seo.mjs';
+import {
+  organization, breadcrumbs, speakable, webPage, faqPage, evergreenJsonLd,
+} from './_seo.mjs';
 import { locsFromSitemap, defaultUrlList, INDEXNOW_KEY } from '../../collector/indexnow.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
+  state: { generated_at: '2026-10-14T01:00:00.000Z', level: 4, score: 46.3 },
 };
 
 describe('SEO helpers', () => {
@@ -829,5 +832,40 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Takeoff Tracker alternative'));
     assert.ok(org.knowsAbout.includes('Pentagon Pizza Index alternative'));
     assert.ok(org.alternateName.includes('AI Siren Index'));
+  });
+
+  it('webPage carries dateModified when the reading stamp is known', () => {
+    const wp = webPage(ctx, {
+      path: '/guide.html',
+      name: 'Guide',
+      description: 'What each number measures',
+      dateModified: ctx.state.generated_at,
+      speakable: ['h1', '.lede'],
+    });
+    assert.equal(wp['@type'], 'WebPage');
+    assert.equal(wp.dateModified, '2026-10-14T01:00:00.000Z');
+    assert.equal(wp.url, 'https://siren.watch/guide.html');
+    assert.equal(wp.speakable['@type'], 'SpeakableSpecification');
+  });
+
+  it('faqPage mirrors visible Q&A pairs without inventing schema', () => {
+    const f = faqPage([['What is p(doom)?', 'An opinion expressed as a percentage.']]);
+    assert.equal(f['@type'], 'FAQPage');
+    assert.equal(f.mainEntity[0].name, 'What is p(doom)?');
+    assert.equal(f.mainEntity[0].acceptedAnswer.text, 'An opinion expressed as a percentage.');
+  });
+
+  it('evergreenJsonLd stacks WebPage freshness, breadcrumbs and FAQ', () => {
+    const blocks = evergreenJsonLd(ctx, {
+      path: '/p-doom.html',
+      name: 'What is p(doom)?',
+      description: 'Opinion as a percentage.',
+      crumbs: [{ name: 'p(doom)', path: '/p-doom.html' }],
+      faq: [['What is p(doom)?', 'An opinion expressed as a percentage.']],
+    });
+    assert.equal(blocks.length, 3);
+    assert.equal(blocks[0].dateModified, '2026-10-14T01:00:00.000Z');
+    assert.equal(blocks[1]['@type'], 'BreadcrumbList');
+    assert.equal(blocks[2]['@type'], 'FAQPage');
   });
 });
