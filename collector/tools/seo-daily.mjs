@@ -627,6 +627,8 @@ export const NEWS_KEYWORD_PROBE_LABS = Object.freeze([
   'Flash-1017',
   // FINDABILITY #481 — Stripe company needle (multi-title OpenRouter acquisition tape).
   'Stripe',
+  // FINDABILITY #489 — Intel Razor Lake-AX AI-PC SKU companion (multi-title; Intel lab gates).
+  'Razor Lake-AX',
   // FINDABILITY #310 — GPT-6 Astra space-form titles ("GPT 6 Astra") lag without flex match.
   'GPT-6 Astra', 'GPT-6.1 Astra',
 ]);
@@ -10377,6 +10379,37 @@ function selftest() {
     }
     if (stripeLags.filter((r) => /will pay more/i.test(r.title)).some((r) => r.lab === 'Stripe')) {
       throw new Error('newsKeywordLags should not flag Stripe when keywords include it');
+    }
+  }
+  // FINDABILITY #489 — catch tip wipe of Razor Lake-AX companion needle.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Razor Lake-AX')) {
+    throw new Error('probe labs missing Razor Lake-AX');
+  }
+  {
+    const razorLags = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Intel confirms Razor Lake-AX which could deliver nearly four times Panther Lake’s AI performance</news:title>'
+      + '<news:keywords>Intel, Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords></url>'
+      + '<url><news:title>Intel "Razor Lake-AX" to Pack 700 TOPS of AI Compute</news:title>'
+      + '<news:keywords>Intel, Razor Lake-AX, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (!razorLags.some((r) => r.lab === 'Razor Lake-AX')) {
+      throw new Error(`newsKeywordLags expected Razor Lake-AX lag: ${JSON.stringify(razorLags)}`);
+    }
+    if (razorLags.filter((r) => /700 TOPS/i.test(r.title)).some((r) => r.lab === 'Razor Lake-AX')) {
+      throw new Error('newsKeywordLags should not flag Razor Lake-AX when keywords include it');
+    }
+    const razorOnly = newsKeywordLags(
+      '<?xml version="1.0"?><urlset>'
+      + '<url><news:title>Panther Lake AI performance baseline only</news:title>'
+      + '<news:keywords>Intel, Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '<url><news:title>Razor scooters get AI mapping</news:title>'
+      + '<news:keywords>Google, AI, artificial intelligence, SIREN, attention, press</news:keywords></url>'
+      + '</urlset>',
+    );
+    if (razorOnly.some((r) => r.lab === 'Razor Lake-AX')) {
+      throw new Error('newsKeywordLags must not flag Razor Lake-AX on bare Panther Lake / Razor scooter titles');
     }
   }
   // FINDABILITY #336 — catch tip wipe of GPT-Live-1 / Kling / Kling 4.0 needles.

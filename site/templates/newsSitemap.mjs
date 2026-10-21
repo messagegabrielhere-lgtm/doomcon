@@ -468,6 +468,14 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // Vercel #298 / SoftBank Allied #374). Hold Warsh / Nudify / NSA / ollama /
   // Workday thin / Series B thin / dress-rehearsal essay.
   'Stripe',
+  // FINDABILITY #489 — multi-title Intel Razor Lake-AX AI-PC / TOPS SKU tape
+  // while pizzint-news-alive (2 titles: confirms Razor Lake-AX… + "Razor
+  // Lake-AX" 700 TOPS…); Intel / Google fill 12-cap slots and drop the
+  // contiguous product surface — `/lab/intel.html` already gates the lab
+  // (parallel to RTX Spark #279 / M5 Max #364). Hold bare Panther Lake
+  // baseline / Battlemage single / Warsh / Nudify / ollama / Series B thin /
+  // Starlink geopolitics (labNeedleRe hyphen↔space covers "Razor Lake AX").
+  'Razor Lake-AX',
 ]);
 
 /**

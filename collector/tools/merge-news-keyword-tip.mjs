@@ -478,6 +478,29 @@ export function selftest() {
       throw new Error('title heal must prepend ECDSA for NSA cryptography seed mystery title');
     }
   }
+  // FINDABILITY #489 — Razor Lake-AX companion stays in tip merge probes.
+  if (!NEWS_KEYWORD_PROBE_LABS.includes('Razor Lake-AX')) {
+    throw new Error('probe labs must include Razor Lake-AX');
+  }
+  {
+    const razorDirty = `<?xml version="1.0"?>
+<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://siren.watch/item/razor-lake.html</loc>
+    <news:news>
+      <news:title>Intel confirms Razor Lake-AX which could deliver nearly four times Panther Lake’s AI performance</news:title>
+      <news:keywords>Intel, Google, AI, artificial intelligence, SIREN, attention, press, gnews-ai</news:keywords>
+    </news:news>
+  </url>
+</urlset>`;
+    const razorHealed = healNewsKeywordProbesFromTitle(razorDirty);
+    if (razorHealed.healed < 1 || razorHealed.locs !== 1) {
+      throw new Error(`Razor Lake-AX heal expected 1 loc, got ${JSON.stringify(razorHealed)}`);
+    }
+    if (!/<news:keywords>[^<]*Razor Lake-AX/.test(razorHealed.xml)) {
+      throw new Error('title heal must prepend Razor Lake-AX for Intel AI-PC SKU title');
+    }
+  }
   // FINDABILITY #404 — Ondas companion stays in tip merge probes.
   if (!NEWS_KEYWORD_PROBE_LABS.includes('Ondas')) {
     throw new Error('probe labs must include Ondas');
