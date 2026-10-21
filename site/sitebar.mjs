@@ -61,7 +61,7 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 @media (max-width:560px){#siren-intro.playing{width:140px;left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro.chip{left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro .bar{padding:2px 4px}#siren-intro.playing .bar>span:first-child{display:none}#siren-intro.playing .bar>span:last-child{display:flex;width:100%;justify-content:space-between}#siren-intro button{min-height:32px;display:inline-flex;align-items:center}}
 @keyframes sitebar-spin{to{transform:rotate(360deg)}}
 @media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}#sitebar .kofi{color:#93b8f5}}
-/* Phones: the bar sits left and the round Ask SIREN button (media/guide.js) takes the same row on
+/* Phones: the bar sits left and the round Talk to Tally button (media/guide.mjs) takes the same row on
    the right, so the two never stack on each other or on the reading. */
 @media (max-width:560px){#sitebar{left:8px;right:auto;bottom:10px;max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:30px;box-sizing:border-box}#sitebar .fb{display:inline-flex;align-items:center;min-height:30px}}
 @media (max-width:360px){#sitebar #sitebar-x{display:none}}
@@ -312,8 +312,12 @@ export function stamp(html, asOf, rel = '') {
   const gc = MONETIZE.analytics && MONETIZE.analytics.goatcounter;
   const analytics = gc ? `\n<script data-goatcounter="https://${gc}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>` : '';
   const ga = gtagHead();
+<<<<<<< HEAD
   const consent = ga ? `\n<script>${CONSENT_JS}</script>` : '';
   const radio = `\n<script src="${BASE}/media/radio.js" defer></script>\n<script src="${BASE}/media/guide.js" defer></script>`;
+=======
+  const radio = `\n<script src="${BASE}/media/radio.js" defer></script>\n<script type="module" src="${BASE}/media/guide.mjs"></script>`;
+>>>>>>> 69de3a05 (Make Talk to Tally agentic and speakable)
   let out = withHeader(html, rel);
   // Browser security meta (CSP + referrer). Layout pages already carry it;
   // static apps in site/static/ get it here so every shipped HTML file has

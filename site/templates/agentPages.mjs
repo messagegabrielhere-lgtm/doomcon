@@ -103,9 +103,12 @@ export function tally(ctx) {
   <div class="ag-hero">${mascot({ size: 150, level: L })}
     <div><p class="eyebrow">MEET THE DUTY CANARY</p><h1 class="bp__h1">${esc(qTitle)}</h1>
     <p class="lede">Miners took a canary underground because it noticed trouble first. SIREN's canary wears a civil-defence helmet painted in the level's colour and keeps watch on AI. Right now, at SIREN ${L}, Tally is <b>${esc(MOODS[L])}</b>.</p>
-    <a class="ag-btn" href="https://x.com/SIRENutf6" target="_blank" rel="noopener">FOLLOW TALLY ON X →</a>
+    <a class="ag-btn" href="#talk">TALK TO TALLY →</a>
+    <a class="ag-btn ghost" href="https://x.com/SIRENutf6" target="_blank" rel="noopener">FOLLOW TALLY ON X →</a>
     <a class="ag-btn ghost" href="${esc(xShare(ctx, `Tally the duty canary is ${MOODS[L]} at SIREN ${L}. How loud is AI right now?`, PATH))}" target="_blank" rel="noopener">𝕏 POST TALLY</a></div>
   </div>
+  <h2 id="talk">Talk to Tally</h2>
+  <p>The green <b>Talk to Tally</b> button on every page opens the duty canary. She plans tools against the live public dials (level, pillars, news, breaking clusters, lab status, agent PRs, her bets), answers in the open, and — when you flip <b>Speak</b> — reads the answer aloud in your browser. On a phone the chat opens as a sheet above the site bar. Nothing you type leaves the page.</p>
   <h2 id="moods">${esc(moodsQ)}</h2>
   <p>Tally's face is the reading. The mood says how <b>loud</b> AI is, never how bad: the index counts tempo, and so does the bird.</p>
   <div class="ag-grid" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr))">${moods}</div>
@@ -831,5 +834,23 @@ export function guideIndex(ctx, groups) {
     { q: 'x twitter follow live spaces', a: 'Follow @SIRENutf6, and see live X feeds and Spaces on AI.', u: ctx.href('/live-x.html') },
     { q: 'sponsor advertise', a: 'One labelled sponsor at a time, with no say over the number.', u: ctx.href('/sponsor.html') },
   ];
-  return { rooms, faq, state: ctx.href('/api/state.json') };
+  return {
+    rooms,
+    faq,
+    state: ctx.href('/api/state.json'),
+    // Tool catalogue for the on-page Tally agent (and other clients). Same
+    // public JSON the chat widget fetches; nothing here is secret.
+    tools: [
+      { id: 'get_reading', path: ctx.href('/api/state.json'), does: 'Current SIREN level, score, and clock.' },
+      { id: 'get_pillars', path: ctx.href('/api/state.json'), does: 'Five pillars, dark and awaiting-baseline flags.' },
+      { id: 'get_news', path: ctx.href('/api/news.json'), does: 'Newsroom items scored for the last window.' },
+      { id: 'get_breaking', path: ctx.href('/api/breaking.json'), does: 'Live breaking clusters from independent outlets.' },
+      { id: 'get_bets', path: ctx.href('/api/bets.json'), does: "Tally's open and scored bets." },
+      { id: 'get_leaders', path: ctx.href('/api/leaders.json'), does: 'Leaders board: speech-cue headlines only.' },
+      { id: 'get_si_signals', path: ctx.href('/api/si-signals.json'), does: 'Takeover Watch agent-PR tallies (watched, not scored).' },
+      { id: 'get_ai_status', path: ctx.href('/api/ai-status.json'), does: 'Lab status-page indicators.' },
+      { id: 'get_voice', path: ctx.href('/api/tally-voice.json'), does: "Tally's last recorded voice update." },
+      { id: 'search_guide', path: ctx.href('/api/guide.json'), does: 'Room map and FAQ for navigation.' },
+    ],
+  };
 }

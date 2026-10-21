@@ -1819,11 +1819,21 @@ async function main() {
   // the radio page; otherwise the browser reads the same words aloud.
   {
     let voice = null;
-    try { voice = JSON.parse(await readFile(path.join(args.data, 'tally-voice.json'), 'utf8')); } catch { voice = null; }
+    let voiceText = null;
+    try {
+      voiceText = await readFile(path.join(args.data, 'tally-voice.json'), 'utf8');
+      voice = JSON.parse(voiceText);
+    } catch { voice = null; voiceText = null; }
     if (voice && voice.audio && existsSync(path.join(args.data, voice.audio))) {
       written.push(await write(args.out, `media/${voice.audio}`, await readFile(path.join(args.data, voice.audio))));
     } else if (voice) voice.audio = null;
     ctx.tallyVoice = voice;
+    if (voiceText !== null && voice) {
+      // Public API for the on-page Tally agent (and anyone else). Same bytes the
+      // collector wrote, with audio rewritten to null when the file is missing.
+      const pub = { ...voice };
+      written.push(await write(args.out, 'api/tally-voice.json', JSON.stringify(pub, null, 2) + '\n'));
+    }
     written.push(await write(args.out, 'radio.html', mediaPages.radio(ctx, voice)));
   }
   written.push(await write(args.out, 'videos.html', mediaPages.videos(ctx)));
@@ -2218,13 +2228,16 @@ async function main() {
   }
   // Pixel icons for rooms without an illustration of their own (site/tileicons.mjs).
   for (const name of Object.keys(TILE_ICONS)) written.push(await write(args.out, `img/px-${name}.svg`, tileSvg(name)));
-  // Media: the explainer video and its poster, and the radio script.
+  // Media: the explainer video and its poster, and the radio / Tally scripts.
   const mediaDir = path.join(ROOT, 'assets', 'media');
   if (existsSync(mediaDir)) {
-    for (const name of (await readdir(mediaDir)).filter((f) => /\.(mp4|webm|jpg|png|webp|vtt|js)$/i.test(f)).sort()) {
+    for (const name of (await readdir(mediaDir)).filter((f) => /\.(mp4|webm|jpg|png|webp|vtt|js|mjs)$/i.test(f)).sort()) {
       written.push(await write(args.out, `media/${name}`, await readFile(path.join(mediaDir, name))));
     }
   }
+  // Tally's agent brain: single source in site/, published next to guide.mjs so
+  // the browser can import it with a relative path.
+  written.push(await write(args.out, 'media/tally-agent.mjs', await readFile(path.join(ROOT, 'site', 'tally-agent.mjs'))));
   // Self-hosted fonts (see styles.mjs FONT_HREF): copied through as-is.
   const fontDir = path.join(ROOT, 'assets', 'fonts');
   if (existsSync(fontDir)) {
