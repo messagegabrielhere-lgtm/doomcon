@@ -57,13 +57,28 @@ collector/slack-report.mjs   state + GoatCounter views -> hourly Slack message, 
 site/build.mjs               data/ -> public/  (static site generator)
 site/templates/*.mjs         page templates, each exporting render(ctx)
 agent-kit/                   CLI + MCP for external AI agents (public API client)
-public/                      BUILD OUTPUT. Never hand-edit. Gitignored? NO -
-                             committed, because GitHub Pages serves it.
+public/                      BUILD OUTPUT. Never hand-edit. Gitignored on
+                             main; published to the gh-pages branch by CI / deploy.sh.
 data/raw/<iso>.json          one snapshot per collector run
 data/state.json              current index state (single source of truth)
 data/receipts/<id>.json      hash-chained receipts, append-only
 data/history.ndjson          one line per scored observation, append-only
 ```
+
+Side projects (they do not change the index score). Each has a short README:
+
+```
+arena/                       AI paper-trading battle + tests  -> arena-data
+scanner/                     stock candles / scanner UI       -> scanner-data
+investors/                   13F / ARK / House PTR            -> investors-data
+monitor/                     world map + stress index         -> monitor-data
+elon/                        Elon-clip channel index          -> elon-data
+clipper/                     optional Shorts pipeline (own package.json)
+compliance/                  legal / secret tripwire scanner (CI gate)
+```
+
+Novice map of the whole repo: [`docs/README.md`](README.md). Reporting and
+secrets policy: [`SECURITY.md`](../SECURITY.md).
 
 ## The five pillars
 

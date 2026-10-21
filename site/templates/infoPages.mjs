@@ -120,7 +120,8 @@ export function about(ctx) {
     <li>The site is information, not advice. Do not use it as the basis for financial, legal, safety or policy decisions.</li>
     <li>It measures activity, not danger. ${esc(brand.DISCLAIMER_SHORT)}</li>
     <li>Third-party data is shown under its own licence, credited on the page that uses it. ${esc(brand.LICENSE_BLURB)}.</li>
-    <li>The joke pages (Tally's desk, the game, the Bunker Kit) are jokes. Their numbers are still real counts.</li>
+    <li>${esc(brand.SATIRE)}</li>
+    <li>The joke pages (Tally's desk, the game, the Bunker Kit) are satire. Their index numbers, when shown, are still real counts.</li>
   </ul>
   <p>The full version is on <a href="${esc(ctx.href('/terms.html'))}">What are the ${esc(brand.NAME)} terms of use?</a>.
     A one-page map of every disclosure is on <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a>.</p>
@@ -316,7 +317,10 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
     · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>.</p>
   <h2>${esc(contactQ)}</h2>
   <p>See <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a> for how to get in touch, or
-    <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a> for the short map of every legal notice on the site.</p>
+    <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a> for the short map of every legal notice on the site.
+    To report a security issue, use
+    <a href="${esc(brand.REPO_URL)}/security/advisories/new" rel="noopener">private vulnerability reporting</a>
+    or read <a href="${esc(brand.REPO_URL)}/blob/main/SECURITY.md" rel="noopener">SECURITY.md</a>.</p>
 </section>`;
   const description = hasGa
     ? `${qTitle} ${brand.NAME} uses Google Analytics (${gaId}) and${hasGc ? ' cookieless GoatCounter' : ''} to count visits. What a visit touches: GitHub Pages, Google,${hasGc ? ' GoatCounter,' : ''} live-data APIs you open, and the sites you choose to click through to. ${brand.LEGAL_NO_SELL}`
@@ -595,7 +599,7 @@ export function terms(ctx) {
       commentary.</li>
     <li>Illustrated portraits of public figures are generated artwork, not photographs. They are used to identify the person in
       reporting and commentary and say nothing about their views, conduct or approval of this site.</li>
-    <li>Humour and exaggeration on the site, including anything said by the mascot, are satire and not literal statements of fact.</li>
+    <li>${esc(brand.SATIRE)}</li>
   </ul>
 
   <h2>${esc(accuracyQ)}</h2>
@@ -1059,7 +1063,7 @@ export function brandPage(ctx) {
     [colourQ,
       'The five level colours carry meaning and are never used as decoration for something else. Amber is the brand accent.'],
     [typeQ,
-      'Anton for headlines; Inter Tight for reading; JetBrains Mono for labels and numbers; Stardos Stencil for the wordmark and stamps only.'],
+      'Inter Tight for headlines and reading; JetBrains Mono for labels, numbers, the wordmark and stamps. Both are self-hosted under the SIL Open Font License.'],
     [voiceQ,
       'Put the joke in the framing and keep the number straight. Say what was counted, by whom, and when. Say “loud” and “quiet”. Do not predict in the index or say a loud level means danger.'],
     [filesQ,
@@ -1114,10 +1118,10 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
 
   <h2>${esc(typeQ)}</h2>
   <div class="br__type">
-    <p style="font:400 44px/1 var(--poster);text-transform:uppercase">Anton, for headlines</p>
+    <p style="font:650 44px/1 var(--poster);text-transform:uppercase">Inter Tight, for headlines</p>
     <p style="font:400 18px/1.5 var(--sans)">Inter Tight, for reading. Sentences, explanations, anything longer than a label.</p>
     <p style="font:600 14px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase">JetBrains Mono, for labels and numbers 52.4</p>
-    <p style="font:700 20px/1.2 var(--stencil);letter-spacing:.14em;text-transform:uppercase">Stardos Stencil, for the wordmark and stamps only</p>
+    <p style="font:700 20px/1.2 var(--stencil);letter-spacing:.14em;text-transform:uppercase">JetBrains Mono, for the wordmark and stamps</p>
   </div>
 
   <h2>${esc(voiceQ)}</h2>

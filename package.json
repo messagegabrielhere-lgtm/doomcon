@@ -55,7 +55,8 @@
     "backup": "node collector/tools/backup.mjs backup",
     "compliance": "node compliance/selftest.mjs && node compliance/audit.mjs --strict",
     "test:compliance": "node compliance/selftest.mjs",
-    "compliance:fix": "node compliance/audit.mjs --fix --report"
+    "compliance:fix": "node compliance/audit.mjs --fix --report",
+    "compliance:daily": "node compliance/selftest.mjs && node compliance/audit.mjs --strict --report --verbose"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.135.0"

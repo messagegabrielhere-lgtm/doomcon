@@ -604,7 +604,7 @@ Before the first live run, and again whenever the account's output changes:
 - [ ] X: Automated label on, managing account set to the human account.
 - [ ] X and Bluesky: bio says **Automated** and names the human who runs it (text above).
 - [ ] Bluesky: bot self-label on.
-- [ ] X developer app created under the DOOMCON account, with the use case above. Updated first if the account ever posts anything else.
+- [ ] X developer app created under the SIREN account (`@SIRENutf6`), with the use case above. Updated first if the account ever posts anything else.
 - [ ] No unsolicited mentions — enforced: any `@handle` in the text is refused.
 - [ ] No automated replies, likes, follows, reposts or quote posts — none is implemented, and self-serve apps lost like/follow/quote on 2026-04-20. Replying to people who reply stays a human's job (§3 rule 6); a reply to someone who mentioned the account is a "summoned" post, still by hand. Human likes/reposts that mirror the site go through `/engage-sheet.html` on the managing account only (`docs/X-OPERATOR.md` §5).
 - [ ] Opt-out requests honoured at once, by a human.

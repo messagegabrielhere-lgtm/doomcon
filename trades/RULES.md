@@ -30,7 +30,7 @@ Scan older than 60 min: say "scan stale", restart it once (github actions_run_tr
 5. Every entry gets "INVALID: <level/event>" in the summary; that is its stop or time stop.
 6. Time stops: crypto not +8% in 24 h -> stop to 6% under cost (never lower), or sell at market if already below. Regular options not +30% by half the planned hold -> sell. Flat 3 days (non-moonshot) -> sell.
 7. Liquidity hours: crypto entries 00:14-06:14 ET only if BTC >= +1% vs mark and the coin's 1h >= +0.5%. Option entries only at market-day fires. Share entries at market-day fires plus OVERNIGHT (sec 7).
-8. Checkpoints (never raise size to catch up): Wed 10/21 16:14 ET: if total_value < start, both moonshot slots need score >= 5, either direction (owner 2026-10-21: bearish-only dropped; the SM-BEAR block on coin/BTC-beta longs still applies). Fri 10/23 from 14:14: no entries that cannot exit same day without a broker stop (no OVERNIGHT). Report the gap to target from Wednesday.
+8. Checkpoints (never raise size to catch up): Wed 10/21 16:14 ET: if total_value < start, both moonshot slots need score >= 4, either direction; score 4 uses the base cap only, the week/earned cap still needs score >= 5 (owner 2026-10-21: bearish-only dropped, "allow score 4"; the SM-BEAR block on coin/BTC-beta longs still applies). Fri 10/23 from 14:14: no entries that cannot exit same day without a broker stop (no OVERNIGHT). Report the gap to target from Wednesday.
 9. Nothing scores: cash; say what would change it.
 
 ## 5. NEWS & EVENTS (owner 2026-10-19: "monitor news and other overnight factors")

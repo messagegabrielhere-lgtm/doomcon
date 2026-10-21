@@ -3,7 +3,12 @@
 // Everything is server-rendered: the level, the score and every count are text
 // or inline SVG in the HTML, so the build's self-check and every screenshot see
 // them without a script. Client scripts: UTC clock, room jump, war-room rail,
-// and the "since your last visit" strip.
+// the "since your last visit" strip, the evidence-board opener and the
+// browser-only pillar watchlist.
+//
+// Phones (PHONE_CSS): breaking, the reading, a spark + three movers card and
+// the email signup fill the first screen; the full board stays in the HTML
+// behind "See the evidence".
 //
 // The full instrument panel this replaced still builds, at /classic.html.
 import { highlightHtml as nationsHighlight } from './nationsPage.mjs';
@@ -158,6 +163,7 @@ export function roomGroups(ctx) {
       ['/race.html', 'radar', 'Who is winning the AI race?', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
       ['/news.html', 'news', 'Which AI stories has SIREN scored in this window?', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every story, scored and corroborated.'],
       ['/charts.html', 'px:trendchart', 'What AI charts does SIREN publish?', null, 'The dial, the week, and the odds, drawn from the reading.'],
+      ['/evidence.html', 'px:onair', 'What backs the SIREN number?', null, 'Stories, markets, leaders, compute and receipts, one page.'],
       ['/models.html', 'px:db', 'Which AI models has SIREN scored stories about?', null, 'Counts only, not a model doom score.'],
       ['/companies.html', 'px:companies', 'Which AI companies has SIREN scored stories about?', null, 'Story counts, not a company doom score.'],
       ['/people.html', 'mic', 'Which AI people has SIREN scored press about?', null, 'Headlines only, never invented quotations.'],
@@ -313,13 +319,14 @@ else if(e.key==='t'||e.key==='Home'&&!e.shiftKey){if(e.key==='t'){e.preventDefau
 var K='doomcon.visit.v1',LEGACY='siren:visit',P=null;
 try{P=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
 if(!P){try{var L=JSON.parse(localStorage.getItem(LEGACY)||'null');if(L){P={t:L.seen,score:L.score,level:L.level,leader:L.leader,lp:L.lp,at:L.at};}}catch(e){}}
-var cur={t:Date.now(),score:N.score,level:N.level,name:N.name||'',leader:N.leader,lp:N.lp,at:N.at||null};
+var cur={t:Date.now(),score:N.score,level:N.level,name:N.name||'',leader:N.leader,lp:N.lp,at:N.at||null,pillars:N.pillars||{}};
 try{localStorage.setItem(K,JSON.stringify(cur));localStorage.removeItem(LEGACY)}catch(e){}
 var seen=P&&(P.t||P.seen);if(!P||!seen||Date.now()-seen<20*60000)return;var out=[],h=(Date.now()-seen)/36e5;
 if(P.level!==N.level)out.push('<b>Level moved</b> SIREN '+P.level+' → <b>SIREN '+N.level+'</b>');
 if(P.score!=null&&N.score!=null){var d=Math.round((N.score-P.score)*10)/10;out.push('Score '+P.score.toFixed(1)+' → <b>'+N.score.toFixed(1)+'</b>'+(d?' ('+(d>0?'▲':'▼')+Math.abs(d).toFixed(1)+')':' (no change)'))}
 var nn=(N.news||[]).filter(function(t){return t>seen}).length;if(nn)out.push('<a href="news.html"><b>'+nn+'</b> new '+(nn===1?'story':'stories')+'</a>');
 if(N.leader&&P.leader&&N.leader!==P.leader)out.push('<a href="race.html"><b>'+N.leader+'</b> took the lead from '+P.leader+'</a>');else if(N.leader&&P.lp!=null&&N.lp!=null&&Math.abs(N.lp-P.lp)>=0.5)out.push('<a href="race.html">'+N.leader+' '+P.lp.toFixed(1)+'% → <b>'+N.lp.toFixed(1)+'%</b></a>');
+try{var W=JSON.parse(localStorage.getItem('siren.watch.v1')||'null'),pp=P.pillars||{},np=N.pillars||{};((W&&W.pillars)||[]).forEach(function(id){var a=pp[id],b=np[id];if(typeof a!=='number'||typeof b!=='number')return;var dd=Math.round((b-a)*10)/10;if(Math.abs(dd)>=3)out.push('<a href="#watch"><b>'+((N.pillarNames&&N.pillarNames[id])||id)+'</b> '+(dd>0?'▲':'▼')+Math.abs(dd).toFixed(1)+' on your watchlist</a>')})}catch(e){}
 if(!out.length)return;var ago=h<1?Math.round(h*60)+' MIN':h<48?Math.round(h)+' H':Math.round(h/24)+' DAYS';
 box.innerHTML='<span class="k">SINCE YOUR LAST VISIT · '+ago+' AGO</span><span class="v">'+out.join('<i>·</i>')+'</span><button type="button" aria-label="Dismiss">×</button>';box.hidden=false;box.querySelector('button').onclick=function(){box.hidden=true}})();
 var f=document.getElementById('v2-fresh');if(f){var at=Date.parse(f.getAttribute('data-at'));var h=(Date.now()-at)/36e5;var lb=f.querySelector('b');if(lb){var mm=Math.max(0,Math.round(h*60));lb.textContent=new Date(at).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · '+(mm<60?mm+' MIN AGO':Math.round(h)+' H AGO');}f.title='The SIREN score is recalculated once an hour from every source, usually 10–30 minutes past the hour. News and alerts are live.';if(h>2){f.classList.add('stale');f.title='The newest SIREN score is '+Math.round(h)+' hours old. It normally updates every hour. News and alerts are still live.';f.insertAdjacentHTML('beforeend',' · OVERDUE')}}
@@ -542,6 +549,88 @@ function spark(rows, pid) {
   pts.forEach((v, i) => { if (!Number.isFinite(v)) { pen = false; return; } d += `${pen ? 'L' : 'M'}${(i / (pts.length - 1) * 118 + 1).toFixed(1)},${(26 - v / 100 * 24).toFixed(1)}`; pen = true; });
   return `<svg class="v2-spark" viewBox="0 0 120 28" aria-hidden="true"><path d="${d}" fill="none" stroke="${PILLAR_HUE[pid] || '#AEB7C3'}" stroke-width="1.6"/></svg>`;
 }
+
+// PHONE FOLD (from cursor/mobile-optimize-8127 + site-retention-fold-8040):
+// under 721px the first screen is breaking, the reading, this card and the
+// signup. Spark of the composite, three pillar movers with short labels, and
+// one control into the evidence board. Hidden on wider screens, where the dial
+// and the loud panel carry the same facts.
+const SHORT_PILLAR = { capability: 'CAPABILITY', compute: 'COMPUTE', attention: 'ATTENTION', governance: 'GOVERNANCE', markets: 'MARKETS' };
+
+function scoreSpark(rows) {
+  const pts = (rows || []).slice(-72).map((r) => r.score).filter(Number.isFinite);
+  if (pts.length < 2) return '';
+  const W = 280, H = 40, pad = 3;
+  const lo = Math.min(...pts), hi = Math.max(...pts), span = Math.max(1, hi - lo);
+  const x = (i) => pad + (i / (pts.length - 1)) * (W - pad * 2);
+  const y = (v) => pad + (1 - (v - lo) / span) * (H - pad * 2);
+  const d = pts.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join('');
+  const last = pts[pts.length - 1];
+  return `<svg class="v2-phone__spark" viewBox="0 0 ${W} ${H}" role="img" aria-label="Composite score over the last ${pts.length} readings, now ${last.toFixed(1)} of 100"><path d="${d}"/><circle cx="${x(pts.length - 1).toFixed(1)}" cy="${y(last).toFixed(1)}" r="3.5"/></svg>`;
+}
+
+/** The pillars that moved this hour, topped up with the loudest live ones. */
+export function phoneMovers(wm, state) {
+  const fromHour = ((wm && wm.pillar_deltas) || []).slice(0, 3);
+  const have = new Set(fromHour.map((p) => p.id));
+  const fill = (state.pillars || [])
+    .filter((p) => Number.isFinite(p.score) && !p.dark && !have.has(p.id))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, Math.max(0, 3 - fromHour.length))
+    .map((p) => ({ id: p.id, name: p.name, kind: 'hold', delta: null, score: p.score }));
+  return fromHour.concat(fill).slice(0, 3);
+}
+
+function phoneFold(wm, state, rows, href) {
+  const movers = phoneMovers(wm, state).map((p) => {
+    const label = SHORT_PILLAR[p.id] || String(p.name || p.id).toUpperCase();
+    let val;
+    if (p.kind === 'live') val = '<b class="dn">BACK LIVE</b>';
+    else if (p.kind === 'dark') val = '<b class="mute">WENT DARK</b>';
+    else if (Number.isFinite(p.delta)) val = `<b class="${p.delta > 0 ? 'up' : p.delta < 0 ? 'dn' : ''}">${p.delta > 0 ? '▲' : p.delta < 0 ? '▼' : '='}${Math.abs(p.delta).toFixed(1)}</b>`;
+    else if (Number.isFinite(p.score)) val = `<b>${num(p.score, 1)}</b>`;
+    else val = '<b class="mute">—</b>';
+    return `<li><span>${esc(label)}</span>${val}</li>`;
+  }).join('');
+  return `<div class="v2-phone" aria-label="This hour at a glance">
+  ${scoreSpark(rows)}
+  <ul class="v2-phone__mv">${movers || '<li><span>NO PILLAR MOVED</span><b class="mute">—</b></li>'}</ul>
+  <p class="v2-phone__acts"><a class="v2-phone__ev" href="#v2-more" data-v2-more-open>See the evidence ↓</a><a href="${esc(href('/evidence.html'))}">What backs the number?</a></p>
+</div>`;
+}
+
+// YOUR WATCHLIST (from cursor/site-retention-fold-8040): star pillars in this
+// browser; the "since your last visit" strip names a watched pillar that moved
+// 3+ points. localStorage only, nothing leaves the device.
+function watchPanel(state) {
+  const lis = (state.pillars || []).map((p) => {
+    const live = Number.isFinite(p.score) && !p.dark;
+    return `<li><button type="button" class="v2-watch__star" data-watch-pillar="${esc(p.id)}" aria-pressed="false" aria-label="Watch ${esc(p.name)}">☆</button><a href="#loud"><b>${esc(SHORT_PILLAR[p.id] || String(p.name || p.id).toUpperCase())}</b><span class="${live ? '' : 'mute'}">${live ? num(p.score, 1) : (p.dark ? 'DARK' : 'CALIB')}</span></a></li>`;
+  }).join('');
+  return `<section class="v2-watch" id="watch" data-sec="Watch" aria-labelledby="v2-watch-h">
+  <div class="v2-sec"><h2 id="v2-watch-h" class="v2-sr">Which pillars am I watching?</h2><div aria-hidden="true">${pixelText('YOUR WATCHLIST', 4, '#FFFFFF', 'fit')}</div><span>THIS BROWSER ONLY · NO ACCOUNT</span></div>
+  <p class="v2-watch__note">Star a pillar. On your next visit, a watched pillar that moved 3 or more points shows up in the “since your last visit” line. Nothing leaves this device.</p>
+  <ul class="v2-watch__l">${lis}</ul>
+  <p class="v2-watch__out" id="v2-watch-out" hidden role="status"></p>
+</section>`;
+}
+
+const WATCH_JS = `(function(){var K='siren.watch.v1';
+function load(){try{return JSON.parse(localStorage.getItem(K)||'null')||{pillars:[]}}catch(e){return{pillars:[]}}}
+function paint(){var set={};(load().pillars||[]).forEach(function(id){set[id]=1});var names=[];
+[].slice.call(document.querySelectorAll('[data-watch-pillar]')).forEach(function(b){var on=!!set[b.getAttribute('data-watch-pillar')];b.setAttribute('aria-pressed',on?'true':'false');b.textContent=on?'★':'☆';if(on){var n=b.parentNode.querySelector('b');names.push(n?n.textContent:'')}});
+var out=document.getElementById('v2-watch-out');if(out){out.hidden=!names.length;out.textContent=names.length?'Watching '+names.join(', ')+' in this browser.':''}}
+document.addEventListener('click',function(e){var b=e.target&&e.target.closest&&e.target.closest('[data-watch-pillar]');if(!b)return;var w=load(),l=w.pillars||[],id=b.getAttribute('data-watch-pillar'),i=l.indexOf(id);if(i>=0)l.splice(i,1);else l.push(id);w.pillars=l;try{localStorage.setItem(K,JSON.stringify(w))}catch(x){}paint()});
+paint()})();`;
+
+// The evidence board is a <details>, closed on phones. Open it for the fold
+// button, and whenever a hash (rail, room finder, shared link) points inside it.
+const MORE_JS = `(function(){var d=document.getElementById('v2-more');if(!d)return;
+if(window.matchMedia&&matchMedia('(max-width:720px)').matches)d.open=false;
+function inside(){var h=location.hash;if(!h||h.length<2)return false;var t=null;try{t=document.getElementById(decodeURIComponent(h.slice(1)))}catch(e){}return !!(t&&t!==d&&d.contains(t))}
+function sync(){if(inside()&&!d.open){d.open=true;var t=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(t)t.scrollIntoView()}}
+sync();window.addEventListener('hashchange',sync);
+[].slice.call(document.querySelectorAll('[data-v2-more-open]')).forEach(function(a){a.addEventListener('click',function(){d.open=true})})})();`;
 
 function loudPanel(state, rows, wm) {
   const by = {}; for (const s of state.sources || []) (by[s.pillar] = by[s.pillar] || []).push(s);
@@ -846,6 +935,8 @@ export function render(ctx, { head }) {
     leader: lead0 ? lead0.name : null,
     lp: lead0 && lead0.market && Number.isFinite(lead0.market.probability) ? Math.round(lead0.market.probability * 1000) / 10 : null,
     news: items.map((i) => Date.parse(i.published_at)).filter((t) => Number.isFinite(t) && t > weekAgo),
+    pillars: Object.fromEntries((state.pillars || []).map((p) => [p.id, Number.isFinite(p.score) && !p.dark ? Math.round(p.score * 10) / 10 : null])),
+    pillarNames: Object.fromEntries((state.pillars || []).map((p) => [p.id, SHORT_PILLAR[p.id] || p.name || p.id])),
   };
   const maxRel = Math.max(1, ...players.map((p) => (p.shipping && p.shipping.github && p.shipping.github.releases_30d) || 0));
   const maxMs = Math.max(0.01, ...players.map((p) => (p.mindshare && p.mindshare.share) || 0));
@@ -910,8 +1001,10 @@ export function render(ctx, { head }) {
       <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><button type="button" class="v2-btn sm ghost" data-copy="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${score} of 100 as of ${String(state.generated_at).slice(0, 19)}Z. Tempo, not a probability.${state.receipt_id ? ` Receipt ${state.receipt_id}.` : ''} ${ctx.url('/')}`)}">Copy this reading</button><a class="v2-btn sm ghost" href="${href('/verify.html')}">How do you check a ${esc(brand.NAME)} reading yourself?</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/free-tools.html')}">What free tools does ${esc(brand.NAME)} publish?</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>    </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;
+  const hot = breakingBar(ctx, href, top, { href: breakHref, external: breakExternal, source: breakSource });
+  const hotBand = hot ? `<div class="v2-hotband${hot.includes('is-breaking') ? ' on' : ''}"><div class="v2-wrap">${hot}</div></div>` : '';
   const body = `
-<div class="v2" data-level="${esc(state.level)}" style="--lv:${L.color};--lvg:${L.ground};--lvink:#05070B">
+<div class="v2" data-level="${esc(state.level)}" style="--lv:${L.color};--lvg:${L.ground};--lvink:#05070B;--ui:#E8ECF2;--uig:#141B27;--uiink:#05070B;--link:#8EC5FF">
 <div class="v2-top"><div class="v2-wrap">
   <span class="v2-chip v2-top__x">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
   <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}">SIREN SCORE UPDATED <b>${esc(hhmm(state.generated_at))}</b> · HOURLY</span>
@@ -926,10 +1019,10 @@ export function render(ctx, { head }) {
     <span class="v2-top__x" title="A Terminator reference. Nothing here is self-aware. Probably.">SKYNET: <b class="${state.level <= 2 ? 'amber' : 'green'}">${({ 5: 'ASLEEP', 4: 'NOT SELF-AWARE (YET)', 3: 'LEARNING AT A GEOMETRIC RATE', 2: 'ASKING QUESTIONS', 1: 'JUDGMENT DAY WATCH' })[state.level] || 'NOT SELF-AWARE (YET)'}</b></span>
   </span>
 </div></div>
+${hotBand}
 ${ticker(items, href)}
 <p class="v2-new" id="v2-new" role="status" hidden><button type="button">New stories since you arrived — jump</button></p>
 <main class="v2-wrap v2-main" id="main">
-  ${breakingBar(ctx, href, top, { href: breakHref, external: breakExternal, source: breakSource })}
   <div class="v2-brand">
     <span class="v2-3d" data-siren3d data-level="${state.level}"><img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt="" fetchpriority="high" decoding="async"></span>
     <h1>${pixelText('AI SIREN INDEX', 8, '#FFFFFF', 'fit', {
@@ -954,10 +1047,13 @@ ${ticker(items, href)}
       </div>
     </div>
     <p class="v2-plain">${esc(plainRead(state))}</p>
+    ${phoneFold(wm, state, rows, href)}
+  </section>
+  <div class="v2-ctx">
     ${scaleRail(state, href)}
     ${raceLeaderLine(ctx, href)}
     ${midtermsHighlight({ href: (p) => href(p), url: (p) => ctx.url ? ctx.url(p) : p }, ctx.midterms)}
-  </section>
+  </div>
   ${signupPanel(ctx, href, { id: 'nl', heading: `GET THE ${brand.NAME} BRIEF BY EMAIL` })}
   ${stayStrip(href, img)}
   ${dash}
@@ -976,7 +1072,8 @@ ${movedPanel(wm, href)}
     href,
     titleHtml: `<span class="v2-sr">Where are SIREN readers?</span><span aria-hidden="true">${pixelText('WHERE THE READERS ARE', 4, '#FFFFFF', 'fit')}</span>`,
   })}
-  <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>  ${marketsPanel(ctx, href)}
+  <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>
+  ${watchPanel(state)}  ${marketsPanel(ctx, href)}
   ${moltPanel(ctx, href)}
 
 
@@ -1036,11 +1133,12 @@ ${LIVEFX_CSS}<script>${LIVEFX_JS}</script>
 <script>${WAR_JS}</script>
 <script>${DASH_JS}</script>
 <script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>
-<script>(function(){var d=document.getElementById('v2-more');if(!d||!window.matchMedia)return;if(matchMedia('(max-width:720px)').matches)d.open=false})();</script>`;
+<script>${MORE_JS}</script>
+<script>${WATCH_JS}</script>`;
 
   return `<!doctype html>
 <html lang="en">
-${head.replace('</head>', `<style>${CSS}${DASH_CSS}${VISITORS_MAP_CSS}</style><style>${verifyCss()}</style><style>${faqCss()}</style>${MZ_CSS}\n</head>`)}
+${head.replace('</head>', `<style>${CSS}${DASH_CSS}${PHONE_CSS}${VISITORS_MAP_CSS}</style><style>${verifyCss()}</style><style>${faqCss()}</style>${MZ_CSS}\n</head>`)}
 <body class="v2-body"><a class="v2-skip" href="#signal">Skip to the reading</a>${body}
 <script type="module" src="${href('/media/siren3d.js')}"></script>
 <script src="${href('/media/radio.js')}" defer></script>
@@ -1061,24 +1159,24 @@ const CSS = `
   .v2-rail__h{color:#AEB7C3;font-size:10px;letter-spacing:.16em}
   .v2-rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
   .v2-rail a{display:flex;align-items:center;gap:8px;padding:5px 8px;border-left:2px solid #2A3446;color:#AEB7C3!important}
-  .v2-rail a:hover{color:#fff!important;border-color:var(--lv)}
-  .v2-rail a.on{color:#fff!important;border-color:var(--lv);background:var(--lvg)}
+  .v2-rail a:hover{color:#fff!important;border-color:var(--ui)}
+  .v2-rail a.on{color:#fff!important;border-color:var(--ui);background:var(--uig)}
   .v2-rail kbd{font:inherit;min-width:18px;text-align:center;border:1px solid #2A3446;color:#86EFAC}
   .v2-rail__top{margin-top:6px}
 }
 
 .v2 .tag.green{border-color:#14532D;background:#03130A;color:#86EFAC}
-.v2 .tag.radio{border-color:color-mix(in srgb,var(--lv) 45%,#000);background:var(--lvg);color:var(--lv);cursor:pointer;font:inherit;font-weight:700}
-.v2 .tag.radio[aria-pressed=true]{background:var(--lv);color:#000;border-color:var(--lv);animation:v2-pulse 1.6s ease-in-out infinite}
-.v2 .tag.radio.armed{border-color:var(--lv)}
-@keyframes v2-pulse{50%{box-shadow:0 0 0 4px color-mix(in srgb,var(--lv) 28%,transparent)}}
+.v2 .tag.radio{border-color:color-mix(in srgb,var(--ui) 45%,#000);background:var(--uig);color:var(--ui);cursor:pointer;font:inherit;font-weight:700}
+.v2 .tag.radio[aria-pressed=true]{background:var(--ui);color:#000;border-color:var(--ui);animation:v2-pulse 1.6s ease-in-out infinite}
+.v2 .tag.radio.armed{border-color:var(--ui)}
+@keyframes v2-pulse{50%{box-shadow:0 0 0 4px color-mix(in srgb,var(--ui) 28%,transparent)}}
 @media (prefers-reduced-motion:reduce){.v2 .tag.radio[aria-pressed=true]{animation:none}}
 .v2-tab{display:none}
 @media (max-width:720px){
   .v2-tab{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:45;background:#0A0E16;border-top:2px solid #232C3B;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
   .v2-tab a,.v2-tab button{flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:3px;font:inherit;font-size:10px;font-weight:700;letter-spacing:.05em;color:#D7DCE3!important;background:none;border:0;padding:4px 0;min-height:48px;cursor:pointer}
   .v2-tab img{display:block}
-  .v2-tab__grid{font-size:20px;line-height:24px;color:var(--lv)}
+  .v2-tab__grid{font-size:20px;line-height:24px;color:var(--ui)}
   .v2-main{padding-bottom:110px}
   body.v2-body #sitebar{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 }
@@ -1086,21 +1184,21 @@ const CSS = `
 .v2-rooms{display:flex;flex-direction:column;gap:16px}
 .v2-rgroup{display:flex;flex-direction:column;gap:10px}
 .v2-rgh{font-size:12px;font-weight:700;letter-spacing:.16em;color:#AEB7C3;display:flex;align-items:center;gap:10px}
-.v2-rgh::before{content:"";width:10px;height:10px;background:var(--lv);box-shadow:0 0 10px color-mix(in srgb,var(--lv) 50%,transparent)}
+.v2-rgh::before{content:"";width:10px;height:10px;background:var(--ui);box-shadow:0 0 10px color-mix(in srgb,var(--ui) 50%,transparent)}
 .v2-rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
 .v2-room{display:flex;align-items:center;gap:14px;padding:12px 14px;border:2px solid #2A3446;background:#111827;color:#fff!important;min-height:84px}
-.v2-room:hover{border-color:var(--lv);background:var(--lvg)}
+.v2-room:hover{border-color:var(--ui);background:var(--uig)}
 .v2-room img{display:block;flex:none}
 .v2-room__t{display:flex;flex-direction:column;gap:2px;min-width:0}
 .v2-room__t b{font-size:13px;letter-spacing:0;font-weight:700;line-height:1.25;text-wrap:balance}
-.v2-room__t i{font-style:normal;font-size:12px;font-weight:700;color:var(--lv)}
+.v2-room__t i{font-style:normal;font-size:12px;font-weight:700;color:var(--ui)}
 .v2-room__t small{font-size:12px;color:#AEB7C3;line-height:1.35}
 
 body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2{font-family:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:500;font-size:16px;line-height:1.5;background:#000;color:#F3F4F6;min-height:100vh}
 .v2 *{box-sizing:border-box}
-.v2 a{color:var(--lv);text-decoration:none}.v2 a:hover{color:color-mix(in srgb,var(--lv) 55%,#fff)}
-.v2 a:focus-visible{outline:2px solid var(--lv);outline-offset:2px}
+.v2 a{color:var(--link);text-decoration:none}.v2 a:hover{color:#fff}
+.v2 a:focus-visible{outline:2px solid var(--ui);outline-offset:2px}
 .v2 h1,.v2 h2,.v2 h3{margin:0;font:inherit}
 .v2-px{display:block;flex:none}
 .v2-ptext{display:block;line-height:0;max-width:100%}
@@ -1115,11 +1213,11 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2 .v2-xp{all:unset;cursor:pointer;margin-left:10px;padding:3px 8px;border:1px solid currentColor;font:700 11px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;white-space:nowrap}.v2 .v2-xp:hover{background:#fff;color:#000}
 .v2 .v2-whatsnew{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:10px 0 0;padding:2px 0 4px;align-items:center}.v2 .v2-whatsnew::-webkit-scrollbar{display:none}.v2 .v2-whatsnew .lbl{flex:none;font:700 12px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#FACC15}.v2 .v2-whatsnew a{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:4px 12px 4px 6px;border:1px solid #3F3A12;background:#14120A;color:#FDE68A;text-decoration:none;font:600 13px/1.2 'IBM Plex Sans',system-ui,sans-serif;white-space:nowrap}.v2 .v2-whatsnew a:hover{border-color:#FACC15;color:#fff}.v2 .v2-whatsnew img{display:block}
 .v2 .v2-acro{margin:6px 0 2px;font:600 clamp(13px,1.6vw,16px)/1.35 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;color:#D7DCE3}.v2 .v2-acro b{color:#F87171;font-size:1.25em}.v2 .v2-acro span{text-transform:none;letter-spacing:0;color:#AEB7C3;font-weight:500;font-family:'IBM Plex Sans',system-ui,sans-serif}
-.v2 .v2-live{color:var(--lv);border-color:color-mix(in srgb,var(--lv) 45%,#000);text-decoration:none}.v2 .v2-live i{width:8px;height:8px;border-radius:50%;background:var(--lv);box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:v2live 2s infinite}@keyframes v2live{70%{box-shadow:0 0 0 7px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}@media (prefers-reduced-motion:reduce){.v2 .v2-live i{animation:none}}
+.v2 .v2-live{color:var(--ui);border-color:color-mix(in srgb,var(--ui) 45%,#000);text-decoration:none}.v2 .v2-live i{width:8px;height:8px;border-radius:50%;background:var(--ui);box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:v2live 2s infinite}@keyframes v2live{70%{box-shadow:0 0 0 7px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}@media (prefers-reduced-motion:reduce){.v2 .v2-live i{animation:none}}
 .v2 .tag{padding:5px 10px;border:1px solid;font-weight:700}
 .v2 .tag.red{border-color:#7F1D1D;background:#1A0707;color:#FCA5A5}.v2 .tag.red b{color:#fff}
-.v2 .tag.blue{border-color:#1E5A72;background:var(--lvg);color:color-mix(in srgb,var(--lv) 70%,#fff)}
-.v2 .tag.violet{border-color:color-mix(in srgb,var(--lv) 45%,#000);background:var(--lvg);color:color-mix(in srgb,var(--lv) 70%,#fff)}
+.v2 .tag.blue{border-color:#1E5A72;background:var(--uig);color:color-mix(in srgb,var(--ui) 70%,#fff)}
+.v2 .tag.violet{border-color:color-mix(in srgb,var(--ui) 45%,#000);background:var(--uig);color:color-mix(in srgb,var(--ui) 70%,#fff)}
 .v2-top .right{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .v2-main{padding-block:40px 72px;display:flex;flex-direction:column;gap:22px}
 /* Skip layout/paint for below-fold home blocks until near the viewport (CWV).
@@ -1144,24 +1242,24 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-more__sum::marker{content:''}
 @media (max-width:720px){
   .v2-more__sum{display:flex}
-  .v2-more[open] > .v2-more__sum{border-color:var(--lv);color:#fff}
+  .v2-more[open] > .v2-more__sum{border-color:var(--ui);color:#fff}
 }
 .v2-brand{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-brand h1{flex:1 1 300px;min-width:0}
 .v2-art{display:block;flex:none;max-width:none;object-fit:contain}
 .v2-sub{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-left:134px;color:#D7DCE3;font-size:17px;letter-spacing:.12em;margin-top:-6px}
 .v2-sub .sep{color:#4B5563}
-.v2-btn{display:inline-flex;align-items:center;gap:8px;background:var(--lv);color:#06070b!important;font-weight:700;letter-spacing:.05em;min-height:48px;padding:0 22px;border:0;cursor:pointer;font:inherit}
+.v2-btn{display:inline-flex;align-items:center;gap:8px;background:var(--ui);color:#06070b!important;font-weight:700;letter-spacing:.05em;min-height:48px;padding:0 22px;border:0;cursor:pointer;font:inherit}
 .v2-btn.sm{min-height:0;padding:7px 12px;font-size:13px}
-.v2-btn:hover{background:color-mix(in srgb,var(--lv) 80%,#fff)}
+.v2-btn:hover{background:color-mix(in srgb,var(--ui) 80%,#fff)}
 .v2 .hero{margin:0;padding:0;border:0;background:none;display:flex;flex-direction:column;gap:14px}
-.v2 .tag.cool{border-color:color-mix(in srgb,var(--lv) 45%,#000);background:var(--lvg);color:#A5F3FC}
+.v2 .tag.cool{border-color:color-mix(in srgb,var(--ui) 45%,#000);background:var(--uig);color:#A5F3FC}
 .v2-plain{margin:0;max-width:62ch;font-size:16px;line-height:1.45;color:#D7DCE3}
 .v2-stay{margin:14px 0 0}
-.v2-stay__k{margin:0 0 8px;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:var(--lv)}
+.v2-stay__k{margin:0 0 8px;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:var(--ui)}
 .v2-stay__row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
 .v2-stay a{display:flex;gap:8px;align-items:center;min-height:64px;padding:8px 10px;border:1px solid #14532D;background:#03130A;color:#fff;text-decoration:none}
-.v2-stay a:hover,.v2-stay a:focus-visible{border-color:var(--lv)}
+.v2-stay a:hover,.v2-stay a:focus-visible{border-color:var(--ui)}
 .v2-stay img{flex:none}
 .v2-stay b{display:block;font:700 12px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em}
 .v2-stay small{display:block;margin-top:3px;font:500 12px/1.3 'IBM Plex Sans',system-ui,sans-serif;color:#BBF7D0}
@@ -1177,7 +1275,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-next li{display:flex;gap:12px;align-items:baseline}
 .v2-next a{color:#fff;text-decoration:none}
 .v2-next a:hover,.v2-next a:focus-visible{text-decoration:underline}
-.v2-next li b{margin-left:auto;flex:none;font:700 12px 'IBM Plex Mono',ui-monospace,monospace;color:var(--lv)}
+.v2-next li b{margin-left:auto;flex:none;font:700 12px 'IBM Plex Mono',ui-monospace,monospace;color:var(--ui)}
 .v2-next__more{display:flex;flex-wrap:wrap;gap:8px 16px;margin:10px 0 0;font:600 12.5px/1.4 'IBM Plex Mono',ui-monospace,monospace}
 .v2-next__more a{color:#93C5FD}
 .v2-next__empty{margin:0;color:#AEB7C3;font-size:14px}
@@ -1195,36 +1293,36 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-scale__band{font-size:11px;color:#8A94A3;font-variant-numeric:tabular-nums}
 .v2-scale__note{margin:0;font-size:12px;color:#AEB7C3}
 .v2-racelead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;padding:12px 14px;border:2px solid #2A3446;background:#0A0E16;color:#fff!important}
-.v2-racelead:hover{border-color:var(--lv);color:#fff!important}
+.v2-racelead:hover{border-color:var(--ui);color:#fff!important}
 .v2-racelead .k{font-size:11px;font-weight:700;letter-spacing:.12em;color:#AEB7C3}
-.v2-racelead .v{font-size:15px;font-weight:700}.v2-racelead .v b{color:var(--lv)}
+.v2-racelead .v{font-size:15px;font-weight:700}.v2-racelead .v b{color:var(--ui)}
 .v2-racelead .q{flex:1 1 220px;min-width:0;font-size:13px;color:#AEB7C3}
 .v2-share{display:flex;flex-direction:column;gap:12px;margin-top:8px}
 .v2-share__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px}
 .v2-share__card{border:2px solid #232C3B;background:#0E131D;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
 .v2-share__card .cap{font-size:12px;font-weight:700;letter-spacing:.14em;color:#AEB7C3}
 .v2-share__card .small{margin:0;font-size:12px;color:#AEB7C3}
-.v2-share__code{margin:0;padding:10px 12px;border:1px solid #2A3446;background:#05070C;color:color-mix(in srgb,var(--lv) 70%,#fff);font:500 11px/1.45 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:9.5em;overflow:auto}
-.v2-hot{position:relative;margin:14px 0 6px;border:2px solid var(--lv);background:var(--lvg);padding:12px 16px;display:grid;gap:8px;box-shadow:0 0 0 1px color-mix(in srgb,var(--lv) 25%,transparent),0 0 28px color-mix(in srgb,var(--lv) 22%,transparent)}
-.v2-hot.is-breaking{background:var(--lv);color:var(--lvink);animation:v2hot 2.4s ease-in-out infinite}
-@keyframes v2hot{0%,100%{box-shadow:0 0 18px color-mix(in srgb,var(--lv) 35%,transparent)}50%{box-shadow:0 0 42px color-mix(in srgb,var(--lv) 70%,transparent)}}
-.v2-hot__row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-width:0}
-.v2-hot__badge{flex:none;display:inline-flex;align-items:center;gap:8px;padding:6px 10px;font:700 13px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;background:var(--lv);color:var(--lvink)}
-.v2-hot.is-breaking .v2-hot__badge{background:var(--lvink);color:var(--lv)}
+.v2-share__code{margin:0;padding:10px 12px;border:1px solid #2A3446;background:#05070C;color:color-mix(in srgb,var(--ui) 70%,#fff);font:500 11px/1.45 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:9.5em;overflow:auto}
+.v2-hotband{background:#0B0F17;border-bottom:1px solid #232C3B}
+.v2-hotband.on{background:#B4141E;border-bottom:0;box-shadow:inset 0 -3px 0 #7F0D14}
+.v2-hot{display:grid;gap:8px;padding:14px 0}
+.v2-hot__row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;min-width:0}
+.v2-hot__badge{flex:none;display:inline-flex;align-items:center;gap:8px;padding:7px 11px;font:700 13px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;background:#1F2937;color:#E6EAF0}
+.v2-hot.is-breaking .v2-hot__badge{background:#fff;color:#B4141E}
 .v2-hot__badge i{width:9px;height:9px;border-radius:50%;background:currentColor;animation:v2-blink 1s steps(2,start) infinite}
-.v2-hot__t{flex:1 1 320px;min-width:0;font:700 clamp(17px,2.4vw,24px)/1.25 'IBM Plex Sans',system-ui,sans-serif;color:#fff;text-decoration:none;overflow-wrap:anywhere}
-.v2-hot.is-breaking .v2-hot__t{color:var(--lvink)}
-.v2-hot__t:hover{text-decoration:underline}
-.v2-hot__meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font:500 13px/1.4 'IBM Plex Mono',monospace;color:#C5CDD8}
-.v2-hot.is-breaking .v2-hot__meta,.v2-hot.is-breaking .v2-hot__meta a,.v2-hot.is-breaking .v2-hot__more a,.v2-hot.is-breaking .v2-hot__more{color:var(--lvink)}
-.v2-hot__meta a{color:var(--lv)}
+.v2 .v2-hot__t{flex:1 1 320px;min-width:0;font:700 clamp(18px,2.6vw,28px)/1.2 'IBM Plex Sans',system-ui,sans-serif;color:#fff;text-decoration:none;overflow-wrap:anywhere;text-wrap:balance}
+.v2 .v2-hot__t:hover{text-decoration:underline;text-underline-offset:4px}
+.v2-hot__meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font:500 13px/1.4 'IBM Plex Mono',monospace;color:#AEB7C3}
+.v2-hot.is-breaking .v2-hot__meta,.v2-hot.is-breaking .v2-hot__meta a,.v2-hot.is-breaking .v2-hot__more,.v2-hot.is-breaking .v2-hot__more a{color:#FFE4E6}
+.v2-hot__meta a{color:var(--link)}
 .v2-hot__all{margin-left:auto;font-weight:700}
-.v2-hot .v2-xp{font:inherit;font-size:12px;padding:3px 8px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}
-.v2-hot__more{margin:0;padding:8px 0 0;list-style:none;display:grid;gap:4px;border-top:1px solid color-mix(in srgb,var(--lvink) 25%,transparent);font:600 14px/1.4 'IBM Plex Sans',sans-serif}
-.v2-hot__more .m{font:500 12px 'IBM Plex Mono',monospace;opacity:.75}
-@media (prefers-reduced-motion:reduce){.v2-hot.is-breaking,.v2-hot__badge i{animation:none}}
-.v2-signup{margin:16px 0;padding:18px 20px;border:2px solid var(--lv);background:linear-gradient(180deg,var(--lvg) 0%,#0A0E16 100%)}
-.v2 .tag.v2-getbrief{border-color:var(--lv);background:var(--lv);color:var(--lvink);font-weight:700;text-decoration:none}
+.v2-hot .v2-xp{font:inherit;font-size:12px;padding:4px 9px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}
+.v2-hot__more{margin:0;padding:8px 0 0;list-style:none;display:grid;gap:4px;border-top:1px solid rgba(255,255,255,.22);font:600 14px/1.4 'IBM Plex Sans',sans-serif}
+.v2-hot__more .m{font:500 12px 'IBM Plex Mono',monospace;opacity:.8}
+.v2 .v2-hot.is-breaking .v2-hot__more a,.v2 .v2-hot.is-breaking .v2-hot__meta a{color:#fff}.v2 .v2-hot__more a{color:#E6EAF0}
+@media (prefers-reduced-motion:reduce){.v2-hot__badge i{animation:none}}
+.v2-signup{margin:18px 0;padding:20px 22px;border:1px solid #2B3445;border-top:3px solid var(--lv);background:#0C111A}
+.v2 .tag.v2-getbrief{border-color:var(--ui);background:var(--ui);color:var(--uiink);font-weight:700;text-decoration:none}
 .v2-banner{border:2px solid var(--lv);background:var(--lvg);padding:26px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;animation:v2glow 3s ease-in-out infinite}
 .v2-banner .col{display:flex;flex-direction:column;gap:12px;flex:1 1 320px;min-width:0}
 .v2-banner .lbl{font-size:15px;font-weight:700;letter-spacing:.1em;color:var(--lv)}
@@ -1235,8 +1333,8 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-dock{border:1px solid #232C3B;background:#0A0E16;padding:12px;display:flex;flex-wrap:wrap;gap:10px}
 .v2-dock .tile{width:112px;height:112px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px solid #2A3446;background:#111827;color:#D7DCE3;font-size:11px;font-weight:700;letter-spacing:.05em;text-align:center}
 .v2-dock .tile img{display:block}
-.v2-dock .tile:hover{border-color:var(--lv);color:#fff}
-.v2-dock .tile.on{border-color:var(--lv);background:var(--lvg);color:#fff}
+.v2-dock .tile:hover{border-color:var(--ui);color:#fff}
+.v2-dock .tile.on{border-color:var(--ui);background:var(--uig);color:#fff}
 .v2-sec{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;margin-top:14px}
 .v2-sec h2{flex:1 1 300px;min-width:0}
 .v2-sec>span{font-size:13px;color:#AEB7C3}
@@ -1244,7 +1342,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-face.sq{border-radius:6px}
 .v2-bosses{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
 .v2-bosses .boss{border:2px solid #232C3B;background:#0E131D;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;color:#fff}
-.v2-bosses .boss:hover{border-color:var(--lv);color:#fff}
+.v2-bosses .boss:hover{border-color:var(--ui);color:#fff}
 .v2-bosses .nm{font-size:13px;font-weight:700}
 .v2-bosses .co{font-size:12px;color:#AEB7C3}
 .v2-bosses .st{font-size:11px;font-weight:700;padding:4px 8px;border:1px solid #3B4A63;color:#D7DCE3;letter-spacing:.06em}
@@ -1262,7 +1360,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-pill{padding:7px 12px;border:1px solid;font-size:13px;font-weight:700;letter-spacing:.05em}
 .v2-pill.red{border-color:#DC2626;background:#3A0D0D;color:#FECACA}
 .v2-pill.amber{border-color:#B45309;background:#241505;color:#FDE68A}
-.v2-pill.blue{border-color:var(--lv);background:var(--lvg);color:color-mix(in srgb,var(--lv) 70%,#fff)}
+.v2-pill.blue{border-color:var(--ui);background:var(--uig);color:color-mix(in srgb,var(--ui) 70%,#fff)}
 .v2-lab .sig{border-top:1px solid #232C3B;padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px}
 .v2 .cap{font-size:12px;font-weight:700;letter-spacing:.14em;color:#AEB7C3}
 .v2-bar{display:grid;grid-template-columns:120px minmax(0,1fr) 64px;gap:10px;align-items:center;font-size:13px;color:#D7DCE3}
@@ -1284,9 +1382,9 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-feeds__list li{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;padding:10px 0;border-top:1px solid #232C3B}
 .v2-feeds__list li:first-child{border-top:0;padding-top:0}
 .v2-feeds__list a{color:#E6EAF0;text-decoration:none;font:600 15px/1.3 'IBM Plex Sans',system-ui,sans-serif}
-.v2-feeds__list a:hover{color:var(--lv);text-decoration:underline;text-underline-offset:3px}
+.v2-feeds__list a:hover{color:var(--ui);text-decoration:underline;text-underline-offset:3px}
 .v2-feeds__list span{font:500 12px/1.4 'IBM Plex Mono',ui-monospace,monospace;color:#8A94A3}
-.v2-cta{border:2px solid var(--lv);background:var(--lvg);padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.v2-cta{border:2px solid var(--ui);background:var(--uig);padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-cta .col{display:flex;flex-direction:column;gap:10px;flex:1 1 300px;min-width:0;color:#C7D2FE}.v2-foot{margin:0;font-size:13px;color:#AEB7C3}
 .v2-track{margin:22px 0}.v2-week{width:100%;height:auto;display:block;margin:6px 0 10px}
 .v2-gauges{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:6px 0 12px}.v2-gauge{text-align:center}.v2-gauge svg{width:100%;max-width:120px;height:auto}.v2-gauge span{display:block;font:600 10px/1.3 'IBM Plex Mono',monospace;letter-spacing:.08em}
@@ -1297,27 +1395,27 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-ticker{display:flex;align-items:center;border-bottom:1px solid #232C3B;background:#05070B;overflow:hidden;font:500 12px/1 'IBM Plex Mono',monospace}
 .v2-ticker .lbl{flex:none;background:#DC2626;color:#fff;font-weight:700;letter-spacing:.12em;padding:8px 10px}
 .v2-ticker .trk{overflow:hidden;flex:1;white-space:nowrap}.v2-ticker .run{display:inline-block;padding-left:12px;animation:v2-tick 120s linear infinite}
-.v2-ticker:hover .run,.v2-ticker:focus-within .run{animation-play-state:paused}.v2-ticker a{color:#E6EAF0;text-decoration:none}.v2-ticker a:hover,.v2-ticker a:focus-visible{color:var(--lv)}.v2-ticker b{color:#FF3B3B;margin:0 14px}
+.v2-ticker:hover .run,.v2-ticker:focus-within .run{animation-play-state:paused}.v2-ticker a{color:#E6EAF0;text-decoration:none}.v2-ticker a:hover,.v2-ticker a:focus-visible{color:var(--ui)}.v2-ticker b{color:#FF3B3B;margin:0 14px}
 @keyframes v2-tick{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.v2-ticker .run{animation:none}.v2-src.src-live i{animation:none}}
 .v2-new{position:sticky;top:0;z-index:40;display:flex;justify-content:center;margin:0;padding:8px 12px;background:rgba(14,19,29,.94);border-bottom:1px solid #232C3B;backdrop-filter:blur(8px)}
 .v2-new[hidden]{display:none}
-.v2-new button{appearance:none;-webkit-appearance:none;cursor:pointer;border:1px solid var(--lv);border-radius:999px;background:#0E131D;color:var(--lv);font:700 12px/1.4 'IBM Plex Mono',monospace;letter-spacing:.04em;padding:6px 14px}
-.v2-new button:hover,.v2-new button:focus-visible{background:var(--lv);color:#05070B;outline:none}
+.v2-new button{appearance:none;-webkit-appearance:none;cursor:pointer;border:1px solid var(--ui);border-radius:999px;background:#0E131D;color:var(--ui);font:700 12px/1.4 'IBM Plex Mono',monospace;letter-spacing:.04em;padding:6px 14px}
+.v2-new button:hover,.v2-new button:focus-visible{background:var(--ui);color:#05070B;outline:none}
 .v2-new b{font-variant-numeric:tabular-nums}
 .v2-3d{display:inline-flex;width:140px;height:140px;align-items:center;justify-content:center;flex:none}.v2-3d canvas{width:140px!important;height:140px!important}
 .v2-video{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:24px;align-items:center;margin:28px 0;padding:18px;border:1px solid #232C3B;border-radius:4px;background:#0E131D}
 .v2-video h2{margin:0 0 10px}.v2-video p{margin:0;color:#AEB7C3;font-size:15px;line-height:1.5}
 .v2-video video{width:100%;height:auto;aspect-ratio:16/9;background:#000;border-radius:3px;display:block}
 @media (max-width:860px){.v2-video{grid-template-columns:1fr}}
-.v2-skip{position:absolute;left:-9999px;top:8px;z-index:10000;padding:8px 12px;background:var(--lv);color:#000;font:700 13px 'IBM Plex Mono',monospace}.v2-skip:focus{left:8px}
+.v2-skip{position:absolute;left:-9999px;top:8px;z-index:10000;padding:8px 12px;background:var(--ui);color:#000;font:700 13px 'IBM Plex Mono',monospace}.v2-skip:focus{left:8px}
 .v2-sponsor{margin:10px 0 0;text-align:right}.v2-nl{margin:18px 0 0;padding:16px;border:1px solid #232C3B;border-radius:4px;background:#0E131D}
-.v2-since{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:12px 0 0;padding:10px 14px;border:1px solid #232C3B;border-left:4px solid var(--lv);border-radius:4px;background:#0E131D;font:500 14px/1.4 'IBM Plex Sans',sans-serif;color:#E6EAF0}
+.v2-since{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:12px 0 0;padding:10px 14px;border:1px solid #232C3B;border-left:4px solid var(--ui);border-radius:4px;background:#0E131D;font:500 14px/1.4 'IBM Plex Sans',sans-serif;color:#E6EAF0}
 .v2-since[hidden]{display:none}
-.v2-since .k{font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:var(--lv)}
+.v2-since .k{font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:var(--ui)}
 .v2-since .v{flex:1;min-width:220px}.v2-since i{font-style:normal;color:#5B6676;margin:0 8px}
 .v2-since a{color:inherit;text-decoration:underline;text-underline-offset:2px}
-.v2-since button{all:unset;cursor:pointer;color:#AEB7C3;font-size:18px;line-height:1;padding:2px 6px}.v2-since button:focus-visible{outline:2px solid var(--lv)}
+.v2-since button{all:unset;cursor:pointer;color:#AEB7C3;font-size:18px;line-height:1;padding:2px 6px}.v2-since button:focus-visible{outline:2px solid var(--ui)}
 .v2 .bob{animation:v2bob 1.4s steps(2,start) infinite}
 @keyframes v2bob{50%{transform:translateY(-4px)}}
 @media (max-width:720px){
@@ -1331,12 +1429,12 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 `;
 
 const DASH_CSS = `
-.v2-mth{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}.v2-mth span{font-size:11px;font-weight:700;letter-spacing:.06em;border:1px solid #1E3A5F;background:var(--lvg);color:#BAE6FD;padding:4px 8px}.v2-mth b{color:#fff}
+.v2-mth{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}.v2-mth span{font-size:11px;font-weight:700;letter-spacing:.06em;border:1px solid #1E3A5F;background:var(--uig);color:#BAE6FD;padding:4px 8px}.v2-mth b{color:#fff}
 .v2-ml{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}.v2-ml li{display:flex;flex-direction:column;gap:2px;border-left:3px solid #38BDF8;padding-left:10px}.v2-ml li>a{color:#F3F4F6!important;font-size:14px;line-height:1.35}.v2-ml small{font-size:11.5px;color:#8A94A3}.v2-ml small a{color:#7DD3FC!important}
 .v2-mq{font-size:12px;letter-spacing:.1em;color:#AEB7C3;margin:12px 0 6px;font-weight:700}
 .v2-pmg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
 .v2-pm{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:2px solid #2A3446;background:#0A0E16;color:#F3F4F6!important}
-.v2-pm:hover{border-color:var(--lv)}
+.v2-pm:hover{border-color:var(--ui)}
 .v2-pm.wide{grid-column:span 2}@media (max-width:720px){.v2-pm.wide{grid-column:span 1}}
 .v2-pm span{font-size:13px;line-height:1.35}.v2-pm b{font-size:22px}.v2-pm i{font-style:normal;font-size:12px;font-weight:700}.v2-pm small{font-size:12px;color:#8A94A3}
 .v2-pm em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.1em;color:#7EC8E8;margin-top:auto}
@@ -1353,7 +1451,7 @@ const DASH_CSS = `
 .v2-dline{margin:0;font-size:15px;color:#D7DCE3}
 .v2-dbtns{display:flex;gap:8px;flex-wrap:wrap}
 .v2-btn.sm{min-height:44px;padding:0 14px;font-size:13px}
-.v2-btn.ghost{background:transparent;border:2px solid color-mix(in srgb,var(--lv) 60%,#000);color:#fff!important}.v2-btn.ghost:hover{background:var(--lvg);border-color:var(--lv)}.v2 b.up,.v2 .up{color:#FCA5A5}.v2 b.dn,.v2 .dn{color:#86EFAC}
+.v2-btn.ghost{background:transparent;border:2px solid color-mix(in srgb,var(--ui) 60%,#000);color:#fff!important}.v2-btn.ghost:hover{background:var(--uig);border-color:var(--ui)}.v2 b.up,.v2 .up{color:#FCA5A5}.v2 b.dn,.v2 .dn{color:#86EFAC}
 .v2-deg{display:flex;gap:14px;align-items:flex-start;border:2px solid #854D0E;background:#1A1205;padding:14px 16px;margin:4px 0}
 .v2-deg .k{margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:.14em;color:#FACC15}
 .v2-deg p{margin:0;font-size:14px;line-height:1.5;color:#FDE68A}
@@ -1369,7 +1467,7 @@ const DASH_CSS = `
 .v2-hchip.bad{border-color:#7F1D1D;color:#FCA5A5}.v2-hchip.bad i{background:#F87171}
 .v2-hstrip__links{margin:0;font-size:12.5px;color:#8A94A3}
 .v2-hstrip__links a{color:#A5B4FC!important}
-.v2-shadow{margin:0;font-size:13px;color:#AEB7C3;border-left:3px solid var(--lv);padding:8px 12px;background:var(--lvg)}
+.v2-shadow{margin:0;font-size:13px;color:#AEB7C3;border-left:3px solid var(--ui);padding:8px 12px;background:var(--uig)}
 .v2-shadow a{color:#A5B4FC!important}
 .v2-loudnews{margin:12px 0 0;font-size:12px;font-weight:700;letter-spacing:.1em;color:#AEB7C3}
 .v2-health td.mute{color:#8A94A3;font-size:11px}
@@ -1378,7 +1476,7 @@ const DASH_CSS = `
 .v2-hist .v2-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .v2-tabs input{position:absolute;opacity:0;pointer-events:none}
 .v2-tabs label{cursor:pointer;padding:8px 14px;border:2px solid #2A3446;font-weight:700;font-size:13px;min-height:40px;display:inline-flex;align-items:center}
-.v2-tabs input:checked+label{border-color:var(--lv);color:#000;background:var(--lv)}
+.v2-tabs input:checked+label{border-color:var(--ui);color:#000;background:var(--ui)}
 .v2-tabs input:focus-visible+label{outline:2px solid #fff}
 .v2-tabp{display:none;width:100%;order:9}
 #v2r0:checked~.v2-tabp[data-i="0"],#v2r1:checked~.v2-tabp[data-i="1"],#v2r2:checked~.v2-tabp[data-i="2"],#v2r3:checked~.v2-tabp[data-i="3"]{display:block}
@@ -1393,12 +1491,12 @@ const DASH_CSS = `
 .v2-loud .t{height:10px;background:#1E2633;position:relative}.v2-loud .t i{position:absolute;inset:0 auto 0 0}
 .v2-loud b{text-align:right;font-variant-numeric:tabular-nums;color:#E6EAF0}.v2-loud b.mute{color:#8A94A3;font-size:11px}
 .v2-spark{width:120px;height:28px;display:block}
-.v2-loud p{margin:8px 0 4px;font-size:13px;color:#AEB7C3;line-height:1.5}.v2-loud .sh{color:var(--lv);font-weight:700}
+.v2-loud p{margin:8px 0 4px;font-size:13px;color:#AEB7C3;line-height:1.5}.v2-loud .sh{color:var(--ui);font-weight:700}
 .v2-loud ul{margin:0;padding-left:16px;font-size:12.5px;line-height:1.6;color:#D7DCE3}
 .v2-loud li.cal{color:#AEB7C3}.v2-loud li.bad{color:#FCA5A5}
 .v2-formula{font-size:12.5px;color:#AEB7C3;margin:12px 0 0;line-height:1.5}
 .v2-health p{font-size:13.5px;line-height:1.55;color:#D7DCE3;margin:10px 0 0}.v2-health .v2-eta{color:#AEB7C3}
-.v2-health details{margin-top:10px}.v2-health summary{cursor:pointer;color:var(--lv);font-size:13px;min-height:36px;display:flex;align-items:center}
+.v2-health details{margin-top:10px}.v2-health summary{cursor:pointer;color:var(--ui);font-size:13px;min-height:36px;display:flex;align-items:center}
 .v2-tw{overflow-x:auto}.v2-health table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
 .v2-health th,.v2-health td{text-align:left;padding:6px 8px;border-bottom:1px solid #1E2633;white-space:nowrap}
 .v2-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;background:#6B7686}.v2-dot.ok{background:#4ADE80}.v2-dot.cal{background:#FACC15}.v2-dot.bad{background:#F87171}
@@ -1407,8 +1505,8 @@ const DASH_CSS = `
 .v2-alt p{font-size:13px;color:#AEB7C3}
 .v2-altg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
 .v2-altg div{border:1px solid #232C3B;padding:10px;display:flex;flex-direction:column;gap:4px}
-.v2-altg b{font-size:12px;letter-spacing:.06em;color:var(--lv)}.v2-altg .n{font-size:20px;font-weight:700}.v2-altg small{font-size:11.5px;color:#AEB7C3;line-height:1.4}
-.v2-vfywrap{--accent:var(--lv);--mono:'IBM Plex Mono',monospace;--t-sm:13px;--ink:#F3F4F6;--ink-dim:#AEB7C3;--rule:#232C3B;border:2px solid #232C3B;padding:4px 20px 16px;background:#060A10}
+.v2-altg b{font-size:12px;letter-spacing:.06em;color:var(--ui)}.v2-altg .n{font-size:20px;font-weight:700}.v2-altg small{font-size:11.5px;color:#AEB7C3;line-height:1.4}
+.v2-vfywrap{--accent:var(--ui);--mono:'IBM Plex Mono',monospace;--t-sm:13px;--ink:#F3F4F6;--ink-dim:#AEB7C3;--rule:#232C3B;border:2px solid #232C3B;padding:4px 20px 16px;background:#060A10}
 .v2-vfywrap h2{font-size:18px;font-weight:700;margin:12px 0 6px}.v2-vfywrap p{font-size:14px;color:#AEB7C3;line-height:1.55}
 @media (max-width:720px){
   /* Room for the sticky phone tab bar + sitebar so score and scale clear the fold. */
@@ -1446,3 +1544,81 @@ const DASH_CSS = `
   .v2-scale__name{font-size:7px;letter-spacing:0}
   .v2-plain{font-size:15px}
 }`;
+
+// PHONE FOLD. On a ~390x844 phone the first screen holds, in this order: the
+// breaking bar, the reading (level, score, plain read), the spark + movers
+// card, and the email signup. Everything else keeps its DOM order (desktop is
+// unchanged) and follows below. Accents use the level colour (--lv).
+// Tap targets 44px+ and chrome clearance from cursor/mobile-optimize-7ea6.
+const PHONE_CSS = `
+.v2-ctx{display:flex;flex-direction:column;gap:14px}
+.v2-phone{display:none}
+.v2-watch{display:flex;flex-direction:column;gap:10px}
+.v2-watch__note{margin:0;font-size:13px;color:#AEB7C3;max-width:62ch}
+.v2-watch__l{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.v2-watch__l li{display:flex;align-items:center;gap:8px;padding:6px 10px;border:2px solid #2A3446;background:#0E131D}
+.v2-watch__l a{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex:1;min-width:0;min-height:44px;align-items:center;color:#E6EAF0!important;font-size:13px}
+.v2-watch__l .mute{color:#8A94A3}
+.v2-watch__star{appearance:none;-webkit-appearance:none;flex:none;width:44px;height:44px;border:1px solid #2A3446;background:#05070C;color:#AEB7C3;font-size:18px;line-height:1;cursor:pointer;padding:0;touch-action:manipulation}
+.v2-watch__star[aria-pressed=true]{border-color:var(--ui);color:var(--ui);background:var(--uig)}
+.v2-watch__star:focus-visible{outline:2px solid var(--ui);outline-offset:2px}
+.v2-watch__out{margin:0;font-size:13px;color:#D7DCE3}.v2-watch__out[hidden]{display:none}
+@media (max-width:720px){
+  body.v2-body{overflow-x:hidden;-webkit-text-size-adjust:100%}
+  .v2-main{padding-bottom:calc(160px + env(safe-area-inset-bottom,0px));padding-top:10px;gap:12px}
+  .v2-wrap{padding-inline:14px}
+  .v2-dial{max-width:min(340px,100%)}
+  /* Top strip: freshness + the brief + radio on one row. The ticker and the
+     newsroom question link repeat the breaking bar and the NEWS tab. */
+  .v2-top .v2-live,.v2-ticker{display:none}
+  .v2-top .v2-wrap{padding-block:6px;gap:6px;flex-wrap:nowrap}
+  .v2-top .tag.red{font-size:10px;padding:3px 6px;flex:1 1 auto;min-width:0;min-height:36px}
+  .v2-top .right{margin-left:0;flex:0 0 auto}
+  .v2-top .tag.v2-getbrief{min-height:36px;font-size:11px;padding:3px 8px}
+  .v2-top .tag.radio{display:none}
+  /* First screen order; the rest keeps DOM order after it. */
+  .v2-main>.v2-hot{order:-4;margin:0}
+  .v2-main>.hero{order:-3}
+  .v2-main>.v2-signup{order:-2;margin:0}
+  .v2-hot{padding:10px 12px;gap:6px}
+  .v2-hot__badge{font-size:11px;padding:5px 8px}
+  .v2-hot__t{flex-basis:100%;font-size:17px}
+  .v2-hot__meta{font-size:12px;gap:4px 8px}
+  .v2-hot__more{display:none}
+  .v2 .hero{gap:8px}
+  .v2-banner{padding:10px 12px;gap:10px;flex-wrap:nowrap;align-items:center}
+  .v2-banner>:first-child{display:none}
+  .v2-banner .col{flex:1 1 auto;gap:6px}
+  .v2-banner .col .v2-ptext svg{max-height:26px;width:auto;max-width:100%}
+  .v2-banner .lbl{font-size:11px;letter-spacing:.06em}
+  .v2-banner .v2-score{margin-left:auto;width:auto;flex:0 0 auto;align-items:flex-end;gap:4px}
+  .v2-banner .v2-score .v2-ptext svg{max-height:38px;width:auto}
+  .v2-plain{font-size:13px;line-height:1.38;overflow-wrap:anywhere}
+  .v2-phone{display:flex;flex-direction:column;gap:6px;padding:8px 10px;border:2px solid color-mix(in srgb,var(--ui) 45%,#000);background:#0A0E16}
+  .v2-phone__spark{display:block;width:100%;height:32px}
+  .v2-phone__spark path{fill:none;stroke:var(--lv);stroke-width:2;stroke-linejoin:round}
+  .v2-phone__spark circle{fill:var(--lv)}
+  .v2-phone__mv{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .v2-phone__mv li{display:flex;flex-direction:column;gap:2px;min-width:0;padding:6px 6px 8px;border-top:3px solid var(--ui);background:#060A10}
+  .v2-phone__mv span{font-size:9.5px;font-weight:700;letter-spacing:.05em;color:#AEB7C3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .v2-phone__mv b{font-size:15px;font-variant-numeric:tabular-nums;color:#E6EAF0}
+  .v2-phone__mv b.up{color:#FCA5A5}.v2-phone__mv b.dn{color:#86EFAC}.v2-phone__mv b.mute{color:#8A94A3;font-size:12px}
+  .v2-phone__acts{margin:0;display:flex;flex-wrap:nowrap;align-items:center;gap:10px;font-size:11.5px}
+  .v2-phone__acts a{display:inline-flex;align-items:center;min-height:44px;touch-action:manipulation;white-space:nowrap}
+  .v2-phone__ev{flex:1 1 auto;justify-content:center;padding:0 10px;border:2px solid var(--ui);background:var(--uig);color:#fff!important;font-weight:700;letter-spacing:.04em}
+  /* Signup: heading + buttons + privacy note; the pitch line waits for wider screens. */
+  .v2-signup{padding:12px}
+  .v2-signup .mz-pitch{display:none}
+  .v2-signup .mz-note{font-size:11.5px}
+  .v2-signup .mz-row{gap:8px}
+  .v2-signup .mz-btn,.v2-signup button{flex:1 1 100%;justify-content:center;touch-action:manipulation}
+  /* Brand block follows the fold on phones (the shared header carries the mark). */
+  .v2-brand .v2-art{width:48px;height:48px}
+  .v2-brand .v2-3d,.v2-brand .v2-3d canvas{width:56px!important;height:56px!important}
+  .v2-btn,.v2-btn.sm,.v2-tab a,.v2-tab button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+  .v2-bosses{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .v2-labs{grid-template-columns:1fr}
+  .v2-cta{padding:16px;gap:14px}
+  .v2-foot{font-size:12px;line-height:1.45}
+}`;
+

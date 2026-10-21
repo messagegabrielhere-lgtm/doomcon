@@ -160,12 +160,11 @@ design).
 
 ---
 
-### 11. Low — Copy / brand hygiene
+### 11. Low — Copy / brand hygiene — **FIXED 2026-10-21**
 
-- Brand guide (`infoPages.brandPage`) still names **Anton** and **Stardos
-  Stencil**; live CSS uses Inter Tight / JetBrains Mono (`site/styles.mjs`).
-- `/elon.html` does not `<link>` `fonts/fonts.css` (system fallback only —
-  fine for GDPR, inconsistent with other static apps).
+Brand guide (`infoPages.brandPage`) now names the live faces (Inter Tight /
+JetBrains Mono, self-hosted OFL), and `/elon.html` links `fonts/fonts.css` like
+the other static apps.
 
 ---
 

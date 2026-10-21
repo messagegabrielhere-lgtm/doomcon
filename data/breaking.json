@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-21T15:18:03.432Z",
+  "generated_at": "2026-10-21T18:13:42.778Z",
   "rules": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "window_hours": 6,
     "pair_minutes": 20,
     "keep": 30,
-    "text": "BREAKING when, inside 6h, two independent outlets carry one event within 20 minutes of each other, or one tier-one outlet (a lab's own channel, or a wire / paper-of-record / major tech desk) plus one more independent outlet. Outlets are publishers, not feeds; unvetted social accounts never count, and relays (Techmeme, Hacker News, Reddit) are listed but not counted.",
+    "text": "BREAKING when, inside 6h, two independent outlets carry one event within 20 minutes of each other, or one tier-one outlet (a lab's own channel, or a wire / paper-of-record / major tech desk) plus one more independent outlet, or one tier-one outlet alone when the headline carries a strong escalation signal (rogue / escaped / containment / self-replication). Outlets are publishers, not feeds; unvetted social accounts never count, and relays (Techmeme, Hacker News, Reddit) are listed but not counted.",
     "tier1_outlets": [
       "anthropic.com",
       "apnews.com",
@@ -47,22 +47,253 @@
       "ycombinator.com"
     ]
   },
-  "live": 20,
-  "fresh": "bb941638ebce0",
+  "live": 17,
+  "fresh": "b688629655d62",
   "clusters": [
     {
-      "id": "b0d5863ad1f02",
-      "title": "Stocks Higher as SpaceX Hints at Tesla Deal Talks",
-      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOSmEtOENDbk1wMmlSbkM0MHdhdTNrM245Y09fcWJYZHlVVWJZakV1cVFVRjhXMThHb0lHTHU5dE5RVEdYdHpZTS13UVk2MWlZWjB3czlQTFd5MVp1QlJ6QWthV2tlc3pmVTlKQU9FYmtQVklNYk1STzR3TTg4Qk94Y0hIeGFoSTVxOUJ2YWVUcw?oc=5",
+      "id": "b688629655d62",
+      "title": "Canadian publisher says Thelyson Orelien used AI to write award-winning book, ends relationship",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOWHJjNGwwdFdCWEo1NlJGa3R4cG1GalQ2N0RGYWFMdGZaWWZWcDVTTlN4bmVfWlhROTQzeGo1MTcyZzk4TmI5Tk1UeW5xRnllQ21NdHVFU2JqZGNIdVp4aFhkY0ZNNEtRYWRZTHBGNnE1OW96ZHliSDE2Y0EwbGZ5UzBZQ0VjR1dUMGY4d2pNQVl2eGt2OHZwRGt5ZVg4UklCQlpCeEg0VHJzMGpfNlhKeHQ3MTNpUzdjaW5vbzh5MTE0empEUXVCdw?oc=5",
       "source": "wires-ai",
-      "outlet": "wsj.com",
+      "outlet": "reuters.com",
       "outlets": [
-        "247wallst.com",
-        "apnews.com",
-        "union-bulletin.com"
+        "afp.com",
+        "france24.com",
+        "reuters.com"
       ],
       "tier1_outlets": [
-        "apnews.com"
+        "reuters.com"
+      ],
+      "corroboration": 3,
+      "sources": [
+        "wires-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
+      ],
+      "earliest_published_at": "2026-10-21T17:06:56.000Z",
+      "first_seen_at": "2026-10-21T17:31:53.220Z",
+      "latency_s": 1497,
+      "breaking_at": "2026-10-21T18:13:42.778Z",
+      "item_ids": [
+        "2072532d7fcce491",
+        "24a24339020f6634",
+        "b58eba02013f93d5"
+      ],
+      "sightings": [
+        {
+          "source": "wires-ai",
+          "outlet": "afp.com",
+          "title": "Canadian publisher says novelist Orelien used AI to write novel",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNUDJTRUxiUGlnOUEtMGRzV0psamp3UE1JYjl6bG5uOTBHOTZWdlhhUlctVjhfTG1lZG00TGo3MC1UNUJ2UkVJWUxWVHM1Wnc3anlURzBvYUNJZ3hEN3hQaERWM3VkTlJvRlhQeFZORVpqaThxa015Tmk1OUJTNVZPQnl4dzg5eWhvbVRj?oc=5",
+          "published_at": "2026-10-21T17:06:56.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "france24.com",
+          "title": "Canadian publisher drops author Orelien after confirming he used AI in debut novel",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNMDlyUjNmbHdJUWs2QTBibGNta2VrcTJzM1dkRmtteHF6YzBBMHlfTFFiamotSnVFdkRUaUFQZ1NhSmVVWVBoT3RlNFBfM3FpQ0dKTnJfS0hUTnhwcjdUM3FmS3pGZnQxRE0wdWZhVEJNZ2RVUFh5c1BFRmxqY1E2a3QyQ2RkMHNkS1RqY2Z2SnNDTHBWbEYyX2FxSUVFUS1pSlFpS29GX0RPdXBiZEZCNjJvRzhBUHdNZHNickxBa1BoYWNJYUE?oc=5",
+          "published_at": "2026-10-21T17:32:54.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "reuters.com",
+          "title": "Canadian publisher says Thelyson Orelien used AI to write award-winning book, ends relationship",
+          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOWHJjNGwwdFdCWEo1NlJGa3R4cG1GalQ2N0RGYWFMdGZaWWZWcDVTTlN4bmVfWlhROTQzeGo1MTcyZzk4TmI5Tk1UeW5xRnllQ21NdHVFU2JqZGNIdVp4aFhkY0ZNNEtRYWRZTHBGNnE1OW96ZHliSDE2Y0EwbGZ5UzBZQ0VjR1dUMGY4d2pNQVl2eGt2OHZwRGt5ZVg4UklCQlpCeEg0VHJzMGpfNlhKeHQ3MTNpUzdjaW5vbzh5MTE0empEUXVCdw?oc=5",
+          "published_at": "2026-10-21T17:43:30.000Z",
+          "tier1": true
+        }
+      ],
+      "live": true
+    },
+    {
+      "id": "b8801cd34da78",
+      "title": "Neural nets are exceptionally vulnerable to goal self-hack",
+      "url": "https://alignmentforum.org/posts/eCR373J3NZwFbacnd/neural-nets-are-exceptionally-vulnerable-to-goal-self-hack",
+      "source": "alignment-forum",
+      "outlet": "alignmentforum.org",
+      "outlets": [
+        "alignmentforum.org",
+        "lesswrong.com"
+      ],
+      "tier1_outlets": [],
+      "corroboration": 2,
+      "sources": [
+        "alignment-forum",
+        "lesswrong"
+      ],
+      "rule": [
+        "two outlets within 20 min"
+      ],
+      "earliest_published_at": "2026-10-21T17:53:01.000Z",
+      "first_seen_at": "2026-10-21T18:13:42.778Z",
+      "latency_s": 1242,
+      "breaking_at": "2026-10-21T18:13:42.778Z",
+      "item_ids": [
+        "a9692f7fc1e0bb8b"
+      ],
+      "sightings": [
+        {
+          "source": "alignment-forum",
+          "outlet": "alignmentforum.org",
+          "title": "Neural nets are exceptionally vulnerable to goal self-hack",
+          "url": "https://alignmentforum.org/posts/eCR373J3NZwFbacnd/neural-nets-are-exceptionally-vulnerable-to-goal-self-hack",
+          "published_at": "2026-10-21T17:53:01.000Z",
+          "tier1": false
+        },
+        {
+          "source": "lesswrong",
+          "outlet": "lesswrong.com",
+          "title": "Neural nets are exceptionally vulnerable to goal self-hack",
+          "url": "https://lesswrong.com/posts/eCR373J3NZwFbacnd/neural-nets-are-exceptionally-vulnerable-to-goal-self-hack",
+          "published_at": "2026-10-21T17:53:01.000Z",
+          "tier1": false
+        }
+      ],
+      "live": true
+    },
+    {
+      "id": "b94a76e2bd17a",
+      "title": "Solana Price Prediction: We Asked Claude AI Where Solana Could Trade by the End of 2026",
+      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxOb3dlLUtXTlR2MHdfbE1RUUpHMHFXRExlSzBQODlzeWhMbTlhZjJsMTJxNWhhOE9TWWFpQTlQMi1ndHo0OU5tcVJXZUYwblpaRFBfZ3FCMEdiREh3MWI2aUU0NDQ4X0lFSk5DTDRMeDcxNE8tWjQ5c0JCWW82QkFqOE5wdk9yQzJwMndLYVdURFVFQTBjSnBJamp4SlVhbEJGeTdrVmY0X0dfVURsa19mYWl1WmJfa0dzcHFVRWZvNUpJdFdIQU12SnFiU1lUc2hzUGt3NWw4SkpUSml3N3c?oc=5",
+      "source": "gnews-ai",
+      "outlet": "247wallst.com",
+      "outlets": [
+        "247wallst.com",
+        "yahoo.com"
+      ],
+      "tier1_outlets": [],
+      "corroboration": 2,
+      "sources": [
+        "gnews-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min"
+      ],
+      "earliest_published_at": "2026-10-21T16:07:00.000Z",
+      "first_seen_at": "2026-10-21T16:09:57.528Z",
+      "latency_s": 178,
+      "breaking_at": "2026-10-21T18:13:42.778Z",
+      "item_ids": [
+        "ba66d6851519a805",
+        "cff4a43d7cf261fd"
+      ],
+      "sightings": [
+        {
+          "source": "gnews-ai",
+          "outlet": "247wallst.com",
+          "title": "AI Price Prediction: We Asked Elon Musk's Grok if XRP Can Get Back to $2 by the End of 2027",
+          "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPaHZRUUZKNnpKUTNVWmtnUzdRWkZTRXNBNW5mMkZ0RUUzZG1uM3NzZUF0eFZUaU5jRjBmenotYnVVSmxNTl9aREkwelBSaFpybUl4YnNtQVJ3R3pBX1hlSGJEZjVRZlpiNlhNYmVFR3B1enBhY2ZDb2xzbXBIUnJYSTNCN05GZnp5WDcxZHQ0U29vdUc4Mnp1T3NMU3IyWERNS2RaSnVDOFJtR1Q4MW5SRXhRYzZkY1JrLXFydlhJLUxYVGVYQW84ZWpSNTNadnJEaHE4d0FqS3pMcUwzYjMxag?oc=5",
+          "published_at": "2026-10-21T16:07:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "yahoo.com",
+          "title": "AI Price Prediction: We Asked Elon Musk’s Grok if XRP Can Get Back to $2 by the End of 2027",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPTFN6dERQTnZmOWF0aDI3aTZOQ05tUWxkZ1ZtUGxoTUFFeHFoMkxFRHEtZkNWZ2NoSGx4WW83UjVxbFFUMW55Nk10a3YtVy05d3ZEd1NpTEpER2pWUnViYUlSXzhTMTZxUXZrQ09WS2JBajJuNWwyVGEzOUtpY2d0SUxZLXVGcDA0NUNDVVAybVI5bGYxNjduV2t2NA?oc=5",
+          "published_at": "2026-10-21T16:07:29.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "247wallst.com",
+          "title": "Solana Price Prediction: We Asked Claude AI Where Solana Could Trade by the End of 2026",
+          "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxOb3dlLUtXTlR2MHdfbE1RUUpHMHFXRExlSzBQODlzeWhMbTlhZjJsMTJxNWhhOE9TWWFpQTlQMi1ndHo0OU5tcVJXZUYwblpaRFBfZ3FCMEdiREh3MWI2aUU0NDQ4X0lFSk5DTDRMeDcxNE8tWjQ5c0JCWW82QkFqOE5wdk9yQzJwMndLYVdURFVFQTBjSnBJamp4SlVhbEJGeTdrVmY0X0dfVURsa19mYWl1WmJfa0dzcHFVRWZvNUpJdFdIQU12SnFiU1lUc2hzUGt3NWw4SkpUSml3N3c?oc=5",
+          "published_at": "2026-10-21T16:31:00.000Z",
+          "tier1": false
+        }
+      ],
+      "live": true
+    },
+    {
+      "id": "bc48b1c87fdd2",
+      "title": "Government websites go dark after AI-discovered flaw sparks security scramble",
+      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNemhoUnNZdUg4Sk9JMjJQU25mTUZSX2lHc1JTNTFpNGlTcWxRRDctcFNCcVZiTUhYQ211YnNjSnRvYTYyS29VNFFKcHE4VGFMcHMxTGNwa3NmVUFNamNnektGaU9BbURibzdIY2hHUlpMbEwtNWhrOG9BenJvYkllVnNfakVVRU5yRzRjdDBjQXc2OEwtS1RwZVZhaWhoRWtlalVmU0xOQm5SbmUyeGVGeGgzUkE2XzRtbFBKdTJnUTJoRWdV?oc=5",
+      "source": "wires-ai",
+      "outlet": "reuters.com",
+      "outlets": [
+        "bbc.co.uk",
+        "france24.com",
+        "indiatimes.com",
+        "reuters.com"
+      ],
+      "tier1_outlets": [
+        "bbc.co.uk",
+        "reuters.com"
+      ],
+      "corroboration": 4,
+      "sources": [
+        "bbc-tech",
+        "gnews-ai",
+        "wires-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
+      ],
+      "earliest_published_at": "2026-10-21T14:57:32.972Z",
+      "first_seen_at": "2026-10-21T14:57:32.972Z",
+      "latency_s": 0,
+      "breaking_at": "2026-10-21T18:13:42.778Z",
+      "item_ids": [
+        "0ac6ec4f34e93151",
+        "1a8a8dbf5267ce9b",
+        "6d9247289679a08e",
+        "7095a3e836020862"
+      ],
+      "sightings": [
+        {
+          "source": "bbc-tech",
+          "outlet": "bbc.co.uk",
+          "title": "Websites taken down worldwide as critical cyber-security update issued",
+          "url": "https://bbc.co.uk/news/articles/cmly0lg3w5x2o",
+          "published_at": "2026-10-21T14:57:32.972Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "reuters.com",
+          "title": "Government websites go dark after AI-discovered flaw sparks security scramble",
+          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNemhoUnNZdUg4Sk9JMjJQU25mTUZSX2lHc1JTNTFpNGlTcWxRRDctcFNCcVZiTUhYQ211YnNjSnRvYTYyS29VNFFKcHE4VGFMcHMxTGNwa3NmVUFNamNnektGaU9BbURibzdIY2hHUlpMbEwtNWhrOG9BenJvYkllVnNfakVVRU5yRzRjdDBjQXc2OEwtS1RwZVZhaWhoRWtlalVmU0xOQm5SbmUyeGVGeGgzUkE2XzRtbFBKdTJnUTJoRWdV?oc=5",
+          "published_at": "2026-10-21T17:05:43.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "france24.com",
+          "title": "Websites go dark worldwide as AI exposes critical security flaws",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPaE94a3dqY09xRng2ZUVWWl9iQ1JEVFFjVG9NMnlzUGdjUXRfLWdNSU1iSXZoRFA3UVk2eGxTRGYxUGFhczRiSjF4SkhSWmZmM0F3WmRhZ0d4UGRsc2RxNzYzTUlsUWVUY3hQOThNdmJLZWN2bllQdW93Vk5wUmNZYnpfZ0pLRXR6cW8xUzJwUkZIWmltSkRic0lzbmczMUhnYi03MmE5dDZCUG95RW43RA?oc=5",
+          "published_at": "2026-10-21T17:15:51.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "indiatimes.com",
+          "title": "Decades-old flaw discovered by Google, OpenAI AI tools forces government and public websites to go offlin",
+          "url": "https://news.google.com/rss/articles/CBMiowJBVV95cUxOWi00OEVhbWFNOEZFZGRRY3ZTbWlMaUVBV09seklyTzAzQVA3dVRqLXY1QnpKNU9tbkR0QmpIcGJ1RWFZWEhNT0hFTGtzSDlpbWxZWXhUN3hfMHc1RnkwRWlTeDBlU1B5Ql83SG1VTWlhZ2F2TS1oZkpiYnoxZENuNEJJM0R5VEpRVXBhLV9aOWczQzZjendHdW1tdGxlbHRnYS1LNmZuOGgwa09scFNhTXI0T04xUWxsWUNTOEVqNjhqVTRPR2htUFVvWnFnUnpUY0dWMEdIQlJHbGF5SEtHTDdnMTZJTGprX2w2dkpPUlZaSGZ3OWtLOWo5NHFpb0hOZzViMlBITG04Qm1YQUZxcENoZjBrN2lpY1FrTFhjSGtwRVHSAagCQVVfeXFMTzhvemRxXzRnSWMxYkdhNlEzTlduVF9zcU53X25xZ21tRHdGeUxhc1lDSEY3TGJiMmYxYm1xSXE4a0ZiTnlQdVZ1c3pUcXRHRVF3UlFseFdlNkpZclFxOEFNS1VINy1oWDIxR3oxZ3RIQkFxcFdFSk51aW14SmVBd180OGY0NTZsMjVsNDBTdnpSUlM1dkRQbGQ2NFVfV0tfZ0ZfQlhlWkxkT29jT1d3WmE2UzFMcmR1V1F4Mi1tQUVGMzEwUk0tY2FPbzBZdkZ2aXpndjFwSGFQNVFWTnV1ZDJGMlJ2N2RiaElNMzNkZkI0eTJuQjl3M2dheUY5YjlIb3ZtdTRBNl9sSjA3VXM1Tk95UUpUVE4yX3FRR25OSElZMVNCbHlNVWE?oc=5",
+          "published_at": "2026-10-21T17:42:00.000Z",
+          "tier1": false
+        }
+      ],
+      "live": true
+    },
+    {
+      "id": "be667658c7efa",
+      "title": "Anthropic adds former Harvard science dean to oversight body",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQeTYzS2wtUDJzU2ZHVGxLUGpGSUJFRGw0UGlnejIxWk16MGtLS3NsVkxreUhuTVFGU29WVGotekwwUXlvYThNVFE2UTg4b2xnQmZ2QktiaVN0TUlvQWJQdDVfVXc4ajJXY2dLZmxoVVU3c1lvNWttdkc2Vjl3eXlCck40SnZla3ZBR0pCbGlMenNsYUVlWHB6OHl5UWRUZk1xUllQTQ?oc=5",
+      "source": "wires-ai",
+      "outlet": "reuters.com",
+      "outlets": [
+        "investing.com",
+        "reuters.com",
+        "tradingview.com"
+      ],
+      "tier1_outlets": [
+        "reuters.com"
       ],
       "corroboration": 3,
       "sources": [
@@ -73,62 +304,829 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-21T11:44:00.000Z",
-      "first_seen_at": "2026-10-20T13:13:17.686Z",
-      "latency_s": 0,
-      "clock_skew": true,
-      "breaking_at": "2026-10-21T15:18:03.432Z",
+      "earliest_published_at": "2026-10-21T17:35:43.000Z",
+      "first_seen_at": "2026-10-21T18:13:42.778Z",
+      "latency_s": 2280,
+      "breaking_at": "2026-10-21T18:13:42.778Z",
       "item_ids": [
-        "0c5b401c36814b82",
-        "264c9a124dd32879",
-        "38b6caae496a206b",
-        "49ce50dce6ceb073",
-        "5389744a5ab1b4bf",
-        "d7928235022e83a7"
+        "c8f537d8553dc9c8"
       ],
       "sightings": [
         {
+          "source": "gnews-ai",
+          "outlet": "tradingview.com",
+          "title": "Anthropic adds former Harvard science dean to oversight body",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQb25nMmZ5VWNldHQ5ajhna3BVbllpeE00X2Y4N2dBY3ZnU0tndWVjemd0cTR1SFJBZjY3djdQZnV4NHB1Zk1QMUNhZ0RYUEdIUmV3OGREREhwdzhoM3d3TnctWFVVeVItZlhkRlVSek1UMkhkaTlBaDM1TVlLZy12V2g3cE9pQWhxaDU2VjBSUTdlLXE1S0x4TDVJTGRwd0RLUGNJcXJKNWNTWWZwczVZRjliSWEta1R3c2ZUenhnR05vNjJUY1hmb1dn?oc=5",
+          "published_at": "2026-10-21T17:35:43.000Z",
+          "tier1": false
+        },
+        {
           "source": "wires-ai",
-          "outlet": "apnews.com",
-          "title": "US futures mostly higher as Wall Street digests earnings from SpaceX, Netflix",
-          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNUGV1X1dKd0F3eTZSZ0F5ellKQVJuc3B1cEFzVGl4dFlSbVU3eFRJZm9lOXJjNDFHN1g4VGpZZlczQUdVR3ZRQ2h0VlpqaW0zU05LelZEb0I4eGJoVC1oZ0M5WktyVGJUZTZrbVBtdnRuNmpud1Y3WkF4bUI4R2xXQ3lTZnZMX09zOVZHOFhndWh0dWtyQ0VDakh0X24?oc=5",
-          "published_at": "2026-10-21T11:44:00.000Z",
+          "outlet": "reuters.com",
+          "title": "Anthropic adds former Harvard science dean to oversight body",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQeTYzS2wtUDJzU2ZHVGxLUGpGSUJFRGw0UGlnejIxWk16MGtLS3NsVkxreUhuTVFGU29WVGotekwwUXlvYThNVFE2UTg4b2xnQmZ2QktiaVN0TUlvQWJQdDVfVXc4ajJXY2dLZmxoVVU3c1lvNWttdkc2Vjl3eXlCck40SnZla3ZBR0pCbGlMenNsYUVlWHB6OHl5UWRUZk1xUllQTQ?oc=5",
+          "published_at": "2026-10-21T17:49:45.000Z",
           "tier1": true
         },
         {
           "source": "gnews-ai",
-          "outlet": "247wallst.com",
-          "title": "AI Cloud Stocks Rise as Musk Calls Overcapacity Talk 'Ridiculous': Nebius and CoreWeave Gain 3%, Oracle Edges Higher",
-          "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxPMUhod2kyWXdXNDJ4VWdYdEd6Z2dHVEZuYUpHTUlaRjg1Vng3OG1WcG5LYVlhSzZNNko3VlU3RjlMazNJM2oyV2h0T3laMVVSYzFUVWRPaXVVZklNSnBNVmRnUE5XTG9JWUpzVzhacEJuZUEtQ0piNTQwRnllZ3BRSnJ6RlFHclgzX19KbF8zeFhIbjFPdEkzank4VnBPT1kzZGFPUkxDcDMxUkZrc251MjFzSkZjYllHcVJEbzdFY3V4MDJmbzBWN0VSdllGbjFkTGduU3lJSmVYdkZoc0JSY2RaZEJTSkJ2bmpJ?oc=5",
-          "published_at": "2026-10-21T13:45:00.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "union-bulletin.com",
-          "title": "Wall Street ticks higher after SpaceX jumps and AI stocks steady",
-          "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxPVU9CcFdibmxoSHJXTXpzdkNYOTk1cWM4dVBMUWJmQnU1Zm5qMndDeVlKdHczNVVfMDNYSFZ3MVJRaDd1dW1SMlc5eFlUSjZLTUF2MUVoMmtxR0pFUnhQUVNPUHRwNW1malNuNU43V0JFNk5vZ3diU2MycnBjZGxRLVA0YWhPdEk2ZXVkbkhQa1hlcUJHUmRSWVdtSjdoaHBPbkJRbFNaWGVxREJqLWdVdktBV1pYWHl2WFN1OEgxNGdYN1Z1VFM0Vzg0WVh4VXg1N0drdU5MRWlsdWp1TnFIZEJDSVVUczZQOWVWbHBoX1I?oc=5",
-          "published_at": "2026-10-21T13:48:36.000Z",
+          "outlet": "investing.com",
+          "title": "Anthropic adds former Harvard science dean to oversight body By Reuters",
+          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQc0VIdk9mV1ZFdEVvVDZtdkpPTHFWcWpCRXVRcnp0SUJHSFZidjExa1YxUnpFZzNhS3ZVMzdrbDIySEVHU2hBWVFSZVFQTnZ4M2VNelRSRHZ1YXZsNVlyS0tFM251ZUFQdjFZZ0ZZQWI2WDVvZmNibTluVFJ6N0ltYmhfajkyS3hUSURsaWVuQWkzVGV4R2wyeHVlZUVNMW84bXhHVDJ4REwwX2RWWG4xSXo2a3Y4NERQ?oc=5",
+          "published_at": "2026-10-21T18:00:00.000Z",
           "tier1": false
         }
       ],
       "live": true
     },
     {
-      "id": "b2f2fef78767e",
-      "title": "‘This Is Not a Drill’: Critical PHP Vulnerabilities Are Setting the Internet on Fire",
-      "url": "https://wired.com/story/this-is-not-a-drill-2-php-vulnerabilities-are-setting-the-internet-on-fire",
-      "source": "wired-ai",
+      "id": "b0d5863ad1f02",
+      "title": "Super Micro sees quarterly revenue soaring on AI server boom",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNbi1LQllxYlpia2VlTmhXMzFCUVRoZ0NESFFaSFVkTkJJR1kxRkVYa1BYWkVWLXJvS1UwdHk2UnJHVnQxS2NQNnU2bVdSWW4tY1JfSGdFNlNpcjZjRjZDX3ZuSklSaHdPazdsVzlWVzMxcWY4d1pic2dwLXhOdEdiRHdpZlJsOWIxeUpVTDFfOG4tbVp0UEFXeXczaDJseW9BZks4aU13WQ?oc=5",
+      "source": "wires-ai",
+      "outlet": "reuters.com",
+      "outlets": [
+        "apnews.com",
+        "benzinga.com",
+        "bloomberg.com",
+        "reuters.com",
+        "theglobeandmail.com"
+      ],
+      "tier1_outlets": [
+        "apnews.com",
+        "bloomberg.com",
+        "reuters.com"
+      ],
+      "corroboration": 5,
+      "sources": [
+        "bloomberg-tech",
+        "bluesky-ai",
+        "gnews-ai",
+        "wires-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
+      ],
+      "earliest_published_at": "2026-10-21T12:15:20.000Z",
+      "first_seen_at": "2026-10-20T13:13:17.686Z",
+      "latency_s": 0,
+      "clock_skew": true,
+      "breaking_at": "2026-10-21T17:31:53.220Z",
+      "item_ids": [
+        "0c5b401c36814b82",
+        "2844a328b3354ed7",
+        "3546b947b3c25db3",
+        "3738aeb95cc1aaee",
+        "3ea4f84cb5a3c7ad",
+        "49ce50dce6ceb073",
+        "4b61b04b11b7454e",
+        "52df5d4f597ce589",
+        "5389744a5ab1b4bf",
+        "5710698e008ab731",
+        "6c089157a268bf58",
+        "91a77f8ec6c84be9",
+        "c4e00db53c99e067",
+        "cdd4573b38d1ec97",
+        "d7928235022e83a7",
+        "d8b8f83a2990e747",
+        "e9d7193865c5a473",
+        "fd55b9396e38d4a0",
+        "fdc6bd3deb3ddf02"
+      ],
+      "sightings": [
+        {
+          "source": "bluesky-ai",
+          "outlet": "reuters.com",
+          "title": "Nasdaq futures lead gains as SpaceX, Super Micro results lift AI stocks",
+          "url": "https://bsky.app/profile/reuters.com/post/3myf4tqpxcn2h",
+          "published_at": "2026-10-21T12:15:20.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "apnews.com",
+          "title": "Wall Street ticks higher after SpaceX helps lift AI stocks",
+          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNUGV1X1dKd0F3eTZSZ0F5ellKQVJuc3B1cEFzVGl4dFlSbVU3eFRJZm9lOXJjNDFHN1g4VGpZZlczQUdVR3ZRQ2h0VlpqaW0zU05LelZEb0I4eGJoVC1oZ0M5WktyVGJUZTZrbVBtdnRuNmpud1Y3WkF4bUI4R2xXQ3lTZnZMX09zOVZHOFhndWh0dWtyQ0VDakh0X24?oc=5",
+          "published_at": "2026-10-21T12:51:19.085Z",
+          "tier1": true
+        },
+        {
+          "source": "bloomberg-tech",
+          "outlet": "bloomberg.com",
+          "title": "Nasdaq 100 Climbs as SpaceX Results Fuel AI Trade",
+          "url": "https://bloomberg.com/news/videos/2026-10-21/nasdaq-100-climbs-as-spacex-results-fuel-ai-trade-video",
+          "published_at": "2026-10-21T15:58:51.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "theglobeandmail.com",
+          "title": "Why SpaceX Stock Popped After Earnings",
+          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNVGRwSlMyMHl0YTdDOXhkVXZNSWpZTkZrT09nX05HdGtuZElEdmJXX3MteUt2dWdSOUI2c0lsTmUwclN0MllhSVVvQ2VMcXhJZlNyYkVDTFNMNHNKczF3cUNYdHpJemdPLUExQnRLOXJwY3p3QVRhNkkwUWpqN2JySkE1dTVZZmNQZW8ydnVFa2lVcC01blpxTnZRa3Bkd19zNlJOMmY3WXJxay1iZlZHakZkdTQ4R2tRaGJWeFFSSlpWaG8?oc=5",
+          "published_at": "2026-10-21T16:00:04.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "Watch SpaceX Revives AI Trade Ahead of Meta and Tesla Results",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxObGFDN3F4N2tQTDBrcEtmUUgyQ1ZjQ3BVNk85RjdWcExXenVMZG1GaHY1ZW5sMFhGZjlmNFZBTklNSHNCRGxLZmFDOVM3MlFac0lXc00wY1A5dHc3R2xmRkJJdjlJeTdubWdGTkpBNHlROE5yNGxlZ3N0ekdYSmVObUlUMDF3NHBUZ3R0eTZEb0RtQQ?oc=5",
+          "published_at": "2026-10-21T16:12:15.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "benzinga.com",
+          "title": "SpaceX Jumps 10%, Nasdaq 100 Rises as AI Trade Returns: Stock Market Today",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQMUhEd1l3VGF6UldJNUFMZjdldjRYTkJ1QzAyQkhKWDlXZWhscEtXQUhnalQySUt5TzBNcENQR3p0cE5FbHExUTI3TXBnMUZoVDJfaGlwXzZCQkFFSnJqeUNxdWdFdVVfa1JMcFBsLWlZdE9UMkV3cmVNQnZETy1RRzhQVHZXZ3ZtLWxzUGZiODFkSUV0WEIxQVMzQjJfOUNlUzNjcG1uZFdtNWkwYWpqYTF0c2dld3FxMDZpRw?oc=5",
+          "published_at": "2026-10-21T17:02:19.000Z",
+          "tier1": false
+        }
+      ],
+      "live": true
+    },
+    {
+      "id": "b14ea463592d4",
+      "title": "Musk Says SpaceX and Tesla Have Begun Exploring a Merger",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPRHNVazdNMUxLOVRTWXdZSW0xVjNCQUtRZHdMckNxbktTTFNIN3Q0Wlh4OU52ai1TUHBjdjJkWjFQRjhwNkFoQTVYVV9ZYVJzbHZOY3RyR3FvS3V1c1ZfNTJZQW1CelNVY1UycFRtX0tmRDlfNnFMZzZ5dFVMZzNscDdjRzlMYXdtRkhLM2JKWk1yRjhPZUVHaGpsejF3WlcyUFFfNXBuWlc0MTVmZnJRUjEzWUE?oc=5",
+      "source": "wires-ai",
+      "outlet": "bloomberg.com",
+      "outlets": [
+        "bloomberg.com",
+        "business-standard.com",
+        "businessinsider.com",
+        "ft.com",
+        "reuters.com"
+      ],
+      "tier1_outlets": [
+        "bloomberg.com",
+        "ft.com",
+        "reuters.com"
+      ],
+      "corroboration": 5,
+      "sources": [
+        "bloomberg-tech",
+        "bluesky-ai",
+        "gnews-ai",
+        "wires-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
+      ],
+      "earliest_published_at": "2026-10-21T12:30:31.000Z",
+      "first_seen_at": "2026-10-20T19:41:58.033Z",
+      "latency_s": 0,
+      "clock_skew": true,
+      "breaking_at": "2026-10-21T17:31:53.220Z",
+      "item_ids": [
+        "02a0cb31c2866fa2",
+        "07b0a05b62110764",
+        "11fd7d62474ae90b",
+        "1abfc6dd7e7f5ecb",
+        "4a5c7784caed0eae",
+        "4d6a2e0c997f0e4c",
+        "4da46e21b9330869",
+        "618c925b8eb46c19",
+        "68cf1ff3bd989ac0",
+        "6a99b0ee719219eb",
+        "84ca3f3af4e57e26",
+        "a7232b2f331d9b8a",
+        "bd032647d8b03ec1",
+        "cd0d30718fc56cf0",
+        "cfa0bda19bab441d",
+        "d08fb9f7c6cd8e8c",
+        "e03adac613e8fd5a"
+      ],
+      "sightings": [
+        {
+          "source": "bluesky-ai",
+          "outlet": "reuters.com",
+          "title": "Tesla-SpaceX deal: Wall St says inevitable but Musk says it's not certain",
+          "url": "https://bsky.app/profile/reuters.com/post/3myf5ovlh4f2y",
+          "published_at": "2026-10-21T12:30:31.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bloomberg-tech",
+          "outlet": "bloomberg.com",
+          "title": "SpaceX, Tesla Boards Study Possible $3.5 Trillion Merger",
+          "url": "https://bloomberg.com/news/videos/2026-10-21/spacex-tesla-boards-study-possible-3-5-trillion-merger-video",
+          "published_at": "2026-10-21T14:44:23.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bloomberg-tech",
+          "outlet": "bloomberg.com",
+          "title": "SpaceX, Tesla Boards Study Possible $3.5 Trillion Merger",
+          "url": "https://bloomberg.com/news/videos/2026-10-21/spacex-tesla-boards-study-possible-3-5-trillion-merger-video-mvibr4ut",
+          "published_at": "2026-10-21T14:57:32.972Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "reuters.com",
+          "title": "Wall St sees Tesla-SpaceX merger as inevitable, but split on price",
+          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNSTVHd2VEZUVrVDJpZzdZTFpLRDlEdXdVck83NDhpeUlyZnNwVVNqRWppNThJVVFiMDJPazVOblA1ZDdScmJ2SWFodWpKMC1BZHdjTmlsdFROVkZfRWJpbzZ6VEdUUnVpcnE4NWxxNGI0V1VVNTJ6YnNaR01wT0VsZmhVNlJIU1BFV3ZPVUprek8ySE83U2xfaldDaGhwLTRHem5QMnBYTE9VbjEzS0JkSENkZTc2UUpETVpTUGtWejg?oc=5",
+          "published_at": "2026-10-21T16:29:34.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bloomberg-tech",
+          "outlet": "bloomberg.com",
+          "title": "Musk Weighs Massive SpaceX Tesla Merger",
+          "url": "https://bloomberg.com/news/videos/2026-10-21/open-interest-10-21-2026-video",
+          "published_at": "2026-10-21T16:44:29.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "businessinsider.com",
+          "title": "AI Rivals Are Thirsty for SpaceX's Compute, Elon Musk Says",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPZkYtWVBwUnNTdzNkTnZ4aDBObmtNbHNuS0dnY1VvZ2VxRDNnSElRVHBCVFJkQk4tZEozRUVKQW8yQ1p2RXh2NWc1ejAwbFl4eHJ3dUwzQzE4Y1FjMTlhOEVXZzVaSVpobHhkR2VXa0UyVWltZTNUTzdySHdDcG44SEJZV0E2SkZGMUEyN3FHTTIyZw?oc=5",
+          "published_at": "2026-10-21T17:06:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "business-standard.com",
+          "title": "Why Musk backs a $3.5 trillion Tesla-SpaceX merger and what it means",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQeTl5VS0xb2hCT0Z3SG5FLXZRS1V2ZTZrT3kxenNtNEJzeHVwaFV1cWJaZDdwMGpGOThUTndjTjhsNlFmSFRmbldteVBlMDZfWUo5UW9jWmtNQUtucFhlakxjWlhnMVhrdzNPa3BDYURGWGpfdVZLU1dVZVF5Tl9McElZT1VRQkZQZE9pR2F5Tk1OV0txbFpQQWRNbm85LUVPby1DaFNxTURUTHppdjdzOVVJUlM0NndoazdTU2FFdlBUcjlLeENBbVBnU2nSAdIBQVVfeXFMUGNXTjZYMWk0TTFSN25BbnNFZGUxVE1JR1lRd0h5S0x6RlF5T3VYbTV0Um15M0lWSzFkRFVyMDhGOGM1MjlRYnBSVUs1UnFXQlR6VTlrVURvMi04eUdLVUY1Mjd2cVplUHBNUHJNRi1UbUJWc3FaNzl6SE9waTI5OG85NUR2SmhpVVBzR3UzWjJZYW80N1czdUR3a3ZpMXZGQ2lZN2FHTWp5Slo1cGhnSzlfWmJMcUlPQlJCUGhqd2ZwdEZlcmxra3U0VndFTUFwZ2tB?oc=5",
+          "published_at": "2026-10-21T17:15:45.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "ft.com",
+          "title": "Tesla-SpaceX: a huge corporate constellation with Musk at its centre",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQd2U4Y21QVWFLcEpvRk91SzhuZnZpMlZSQWxpb29LTC1wRVk5TU90SDI4eHp3dTVOaUhJMjNrSU90ZDhucUdHSE9zV0JENUM4UzY0SEt4a1VsVllOY0ZIUUEwUUF0Q3NnMkFpaG1FcjlZTERmYVdmbFNjYWZqNEhWQXo2TUM?oc=5",
+          "published_at": "2026-10-21T17:25:53.000Z",
+          "tier1": true
+        }
+      ],
+      "live": true
+    },
+    {
+      "id": "b36351dd0aa9c",
+      "title": "Anthropic pitches AI safety bill that may block a model if 50+ people could be killed",
+      "url": "https://techcrunch.com/2026/10/20/anthropic-pitches-ai-safety-bill-that-may-block-a-model-if-50-people-could-be-killed",
+      "source": "techcrunch-ai",
+      "outlet": "techcrunch.com",
+      "outlets": [
+        "fortune.com",
+        "mashable.com"
+      ],
+      "tier1_outlets": [],
+      "corroboration": 2,
+      "sources": [
+        "gnews-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min"
+      ],
+      "earliest_published_at": "2026-10-21T16:40:16.000Z",
+      "first_seen_at": "2026-10-20T11:22:42.279Z",
+      "latency_s": 0,
+      "clock_skew": true,
+      "breaking_at": "2026-10-21T17:31:53.220Z",
+      "item_ids": [
+        "0ceab1abc85c5c6e",
+        "11c7e6dde0dc11c1",
+        "2d30f660272e015a",
+        "b6b3f4a231e30df9",
+        "d42e6040fd8d04bb",
+        "d719327e24c7b6e1",
+        "d91ab069f9bb5a09",
+        "e7b8ac319d53b4c9"
+      ],
+      "sightings": [
+        {
+          "source": "gnews-ai",
+          "outlet": "mashable.com",
+          "title": "Anthropic’s AI safety bill would pause AI models if 50+ people could die",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPWERoX0h5YlZ2NjNNZ2tKQVFydG1RamloMW9Ralg4Qm9qX3RBNzFPN09hSGIzU3ZDbWRuYkRaaHNSeVY5N3l1azFYVWZNUnVRVWNlY0NPWkl3SllGckJFMWUyMlVvMzUxNVdDN1dFNnVSemJjUjk5QzJJRVF1VFVqemhDQm1MQTliQVVESGd5STgzZGdKLVFQME54a3JYQS01Y2owa1RDdHBTUQ?oc=5",
+          "published_at": "2026-10-21T16:40:16.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "fortune.com",
+          "title": "Eric Schmidt’s Anthropic stake could be worth $20 billion at IPO",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQSVN4ZkNmZWs3bjN4bi1ZOWFva2c2YndMdDMwamtVNEtleU5QbDM0MlY3Y3pvLUFER0g3MlA5U00tX1ltVWV1VHd5dnUwRnJPM09Pam5mSVVjZDJKUlFsSWFRbGNpSTYzclZUREhZS2FlbVhPbUI5R3pJb25FT0Y1d2NQUWNNdUhtemcyeDJDc2VuYTRCZVcxbEJLRFlNU0R5?oc=5",
+          "published_at": "2026-10-21T16:45:00.000Z",
+          "tier1": false
+        }
+      ],
+      "live": true
+    },
+    {
+      "id": "b8d7dce5366c5",
+      "title": "Physicist Christopher Stubbs Joins Anthropic's Long-Term Benefit Trust",
+      "url": "https://anthropic.com/news/christopher-stubbs-joins-long-term-benefit-trust",
+      "source": "hn-fresh-ai",
+      "outlet": "anthropic.com",
+      "outlets": [
+        "anthropic.com",
+        "fortune.com"
+      ],
+      "tier1_outlets": [
+        "anthropic.com"
+      ],
+      "corroboration": 2,
+      "sources": [
+        "gnews-ai",
+        "hn-fresh-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
+      ],
+      "earliest_published_at": "2026-10-21T16:30:00.000Z",
+      "first_seen_at": "2026-10-21T16:49:46.693Z",
+      "latency_s": 1187,
+      "breaking_at": "2026-10-21T17:31:53.220Z",
+      "item_ids": [
+        "1d7075b06143eaf3",
+        "90b1614fdc55f501"
+      ],
+      "sightings": [
+        {
+          "source": "gnews-ai",
+          "outlet": "fortune.com",
+          "title": "Anthropic adds Harvard astrophysicist Chris Stubbs to the trust that controls its board",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxObHNvUW84LUJSbl9wYjVlQmdOUjdxaXRQRi1WRnN2R0Q5UlBaNmg0ODRIVFQzMFVNS3pZQlVYUHI2QkJpQ0F4bmd0N0t4SnExNDRfbFlYUzRyeFJETnFFVVdxTHFpU3puODlwRUVpQnA4d2VTeE5zRHZXOTFrbEpKYk5DLXNqeFBvX1p0OGhvLTVFN2gzOFFuWkdOWTVUZjJNbGhTb2xJQ0pUUQ?oc=5",
+          "published_at": "2026-10-21T16:30:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "hn-fresh-ai",
+          "outlet": "anthropic.com",
+          "title": "Physicist Christopher Stubbs Joins Anthropic's Long-Term Benefit Trust",
+          "url": "https://anthropic.com/news/christopher-stubbs-joins-long-term-benefit-trust",
+          "published_at": "2026-10-21T16:45:10.000Z",
+          "tier1": true
+        }
+      ],
+      "live": true
+    },
+    {
+      "id": "b980b4e22ce24",
+      "title": "Europe risks startup exodus as regulation, funding and skill gaps hamper AI adoption, AWS EMEA head says",
+      "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQWlBCRzNNN1hVU0RydnVDdzB6MUtiWVlURnFsTHBMcXlhMWxjMnFvZHVfbmFzSmRPbEtlRlUzQVFxUUgwbEhDdHR5eFFOZXFxdWJ2M0tUTi1DRU4xa2lFMFBEVHdmc25KZUNlVGV2bVA1SnczQ3pCeGE1cjgzV1hVbk9hVjdOTmNOeFEtZEJsVHNpNllLWGtHSWZnd3UxMmFwa2pPVDdMTW8xUm42dmxXbmMxQS1HUDJHektqMnZ1bUJ6OFpFVF9DYzhUSHhIQ0VNTEVnRkdiWGg?oc=5",
+      "source": "wires-ai",
+      "outlet": "reuters.com",
+      "outlets": [
+        "933thedrive.com",
+        "reuters.com"
+      ],
+      "tier1_outlets": [
+        "reuters.com"
+      ],
+      "corroboration": 2,
+      "sources": [
+        "gnews-ai",
+        "wires-ai"
+      ],
+      "rule": [
+        "tier-one outlet plus one more"
+      ],
+      "earliest_published_at": "2026-10-21T16:53:43.000Z",
+      "first_seen_at": "2026-10-21T17:31:53.220Z",
+      "latency_s": 2290,
+      "breaking_at": "2026-10-21T17:31:53.220Z",
+      "item_ids": [
+        "e7389f0140df7abf"
+      ],
+      "sightings": [
+        {
+          "source": "wires-ai",
+          "outlet": "reuters.com",
+          "title": "Europe risks startup exodus as regulation, funding and skill gaps hamper AI adoption, AWS EMEA head says",
+          "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQWlBCRzNNN1hVU0RydnVDdzB6MUtiWVlURnFsTHBMcXlhMWxjMnFvZHVfbmFzSmRPbEtlRlUzQVFxUUgwbEhDdHR5eFFOZXFxdWJ2M0tUTi1DRU4xa2lFMFBEVHdmc25KZUNlVGV2bVA1SnczQ3pCeGE1cjgzV1hVbk9hVjdOTmNOeFEtZEJsVHNpNllLWGtHSWZnd3UxMmFwa2pPVDdMTW8xUm42dmxXbmMxQS1HUDJHektqMnZ1bUJ6OFpFVF9DYzhUSHhIQ0VNTEVnRkdiWGg?oc=5",
+          "published_at": "2026-10-21T16:53:43.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "933thedrive.com",
+          "title": "Europe risks startup exodus as regulation, funding and skill gaps hamper AI adoption, AWS EMEA head says",
+          "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOdFF4MXdFTVJsSWJJcFJmdnNaVWtyb3paMU5KNXJKcEVFaDdPc0pKNVhybHlFLWN3Z0JqaHVpVlkwNHNFRGQ4SUhnazA3UDR4ck84RHY1anY4TzlESGNjWUZJOU9QM3QySGdLNmNiVEpvSEtGeW9BQmtENTdCNEhyVEIwckg5Z2prRzFPbVlIMjdfTV9wb0pzNW9idV9kLVVVZUFFSlpFa2NRbmMxMkM4a2ZMQ1AxQ1F4MG9DTV9wb1BiZUVIQTh5eUtjcldCV2ZkdVZreEhBYWhRUQ?oc=5",
+          "published_at": "2026-10-21T17:16:44.000Z",
+          "tier1": false
+        }
+      ],
+      "live": true
+    },
+    {
+      "id": "b353081fb3a62",
+      "title": "Google experiences resignation backlash over AI military contracts",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1RWVdJWjFtOWFyR2FOZzJSZlF5TmFGZDh6UVV6SHZ2V2ZvV0NDdm9hVUVBWDVQYjhZYms1aDA4YU9iRzRoMmpSY1BJQ1puNXpCM3RoLVRDbWU3Zmc?oc=5",
+      "source": "gnews-ai",
+      "outlet": "bbc.co.uk",
+      "outlets": [
+        "bbc.co.uk",
+        "yahoo.com"
+      ],
+      "tier1_outlets": [
+        "bbc.co.uk"
+      ],
+      "corroboration": 2,
+      "sources": [
+        "gnews-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
+      ],
+      "earliest_published_at": "2026-10-21T15:41:25.000Z",
+      "first_seen_at": "2026-10-21T15:53:57.239Z",
+      "latency_s": 752,
+      "breaking_at": "2026-10-21T16:49:46.693Z",
+      "item_ids": [
+        "f85ac62104189ead"
+      ],
+      "sightings": [
+        {
+          "source": "gnews-ai",
+          "outlet": "bbc.co.uk",
+          "title": "Google experiences resignation backlash over AI military contracts",
+          "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1RWVdJWjFtOWFyR2FOZzJSZlF5TmFGZDh6UVV6SHZ2V2ZvV0NDdm9hVUVBWDVQYjhZYms1aDA4YU9iRzRoMmpSY1BJQ1puNXpCM3RoLVRDbWU3Zmc?oc=5",
+          "published_at": "2026-10-21T15:41:25.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "yahoo.com",
+          "title": "Google experiences resignation backlash over AI military contracts",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPdlFaWTJHcHhhVjBZcWJlWDNnSTNjOWVyQU5sdElGYjhIX1BLRGwwQXhvcnlmd1QzZGlfak9VSEp6YzNkdDVZNUVheTh0QVRsSkxBeDF1aDlGUjd1bzE5c2ZIU0pRRWM5RmJ6WU01Z2tiS3JFaDNTUVR6eHNTUmM3M0Z1ZUZjYm1xSDZ4MHZR?oc=5",
+          "published_at": "2026-10-21T15:46:46.000Z",
+          "tier1": false
+        }
+      ],
+      "live": false
+    },
+    {
+      "id": "bf012051e347d",
+      "title": "Pentagon AI oversight office struggles to keep pace with department’s ambitions, GAO finds",
+      "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOVU8wQWtFNERpRUJwOFNTcXBqbUJJbl9jamMwc2RaTXV5WU1DMENtQkF6Z0ZkSS1USEZsbnc4NEl4WHNRTUxoS2w3WGoyazVEWmpiUXpfeUFUcUQwS09pZDFLMEdwdWhZaVdWVXZNZ0tNVUd2Tk9YbEQwS3JsaGZtX2lDS3Yzc2tBakRkcm1RQ3RFcG1rMmNPTmFteGVWS0t4UFNzNGNfRFpMWEdvV0dBb0VGU1RENWpCaUJ2WEVEckZiN0ItZkpLZlc5U08xVS1WZ2FYR0pwZENmYjA2OFlfd1NNN3Jzcmhw?oc=5",
+      "source": "wires-ai",
+      "outlet": "militarytimes.com",
+      "outlets": [
+        "militarytimes.com",
+        "navytimes.com"
+      ],
+      "tier1_outlets": [],
+      "corroboration": 2,
+      "sources": [
+        "wires-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min"
+      ],
+      "earliest_published_at": "2026-10-21T15:55:31.000Z",
+      "first_seen_at": "2026-10-21T16:17:27.002Z",
+      "latency_s": 1316,
+      "breaking_at": "2026-10-21T16:49:46.693Z",
+      "item_ids": [
+        "37a7eec0741eedf8"
+      ],
+      "sightings": [
+        {
+          "source": "wires-ai",
+          "outlet": "militarytimes.com",
+          "title": "Pentagon AI oversight office struggles to keep pace with department’s ambitions, GAO finds",
+          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOVU8wQWtFNERpRUJwOFNTcXBqbUJJbl9jamMwc2RaTXV5WU1DMENtQkF6Z0ZkSS1USEZsbnc4NEl4WHNRTUxoS2w3WGoyazVEWmpiUXpfeUFUcUQwS09pZDFLMEdwdWhZaVdWVXZNZ0tNVUd2Tk9YbEQwS3JsaGZtX2lDS3Yzc2tBakRkcm1RQ3RFcG1rMmNPTmFteGVWS0t4UFNzNGNfRFpMWEdvV0dBb0VGU1RENWpCaUJ2WEVEckZiN0ItZkpLZlc5U08xVS1WZ2FYR0pwZENmYjA2OFlfd1NNN3Jzcmhw?oc=5",
+          "published_at": "2026-10-21T15:55:31.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "navytimes.com",
+          "title": "Pentagon AI oversight office struggles to keep pace with department’s ambitions, GAO finds",
+          "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxOZUtkeEZ1WVhlbmZXUm1Db0E5N01yRnpXbzdmSUlyRnl0VXhURk1iR1hFOGU1aWN1YlBQUzl4eHJXcndJcUFQVVotaGZrZkY0SlR1d3hQY3ZNb19jcXFzYmh6eVNwSEtpbHlTaVB3STFFV0Ytb1NWckpEU3pXZEl1WUg4UlFCc01HX2xqSERKaTcwczNHMWxqanEwT1VlQWpNZzRqU0lIY0x5NGR5Qm51RURNVGhmejNIMFROLXdEeXlGeDhEYXpjMFVOSnRRS3hyRlpzaEgxS2ljeTZYb200RFdVdw?oc=5",
+          "published_at": "2026-10-21T15:55:31.000Z",
+          "tier1": false
+        }
+      ],
+      "live": false
+    },
+    {
+      "id": "b2ed06b888e4b",
+      "title": "This Startup Is All In on Recursive Self-Improvement. Its Latest Model Is Scary Good",
+      "url": "https://bsky.app/profile/wired.com/post/3myfjvz37dk23",
+      "source": "bluesky-ai",
       "outlet": "wired.com",
       "outlets": [
-        "wired.com",
-        "wiz.io"
+        "wired.com"
       ],
       "tier1_outlets": [
         "wired.com"
       ],
+      "corroboration": 1,
+      "sources": [
+        "bluesky-ai",
+        "wired-ai"
+      ],
+      "rule": [
+        "tier-one escalation signal"
+      ],
+      "earliest_published_at": "2026-10-21T16:00:00.000Z",
+      "first_seen_at": "2026-10-21T16:17:27.002Z",
+      "latency_s": 1047,
+      "breaking_at": "2026-10-21T16:17:27.002Z",
+      "item_ids": [
+        "ab87f2d691ac3a05"
+      ],
+      "sightings": [
+        {
+          "source": "wired-ai",
+          "outlet": "wired.com",
+          "title": "This Startup Is All In on Recursive Self-Improvement. Its Latest Model Is Scary Good",
+          "url": "https://wired.com/story/recursive-self-improvement-flint-latest-model-scary-good",
+          "published_at": "2026-10-21T16:00:00.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "wired.com",
+          "title": "This Startup Is All In on Recursive Self-Improvement. Its Latest Model Is Scary Good",
+          "url": "https://bsky.app/profile/wired.com/post/3myfjvz37dk23",
+          "published_at": "2026-10-21T16:09:15.038Z",
+          "tier1": true
+        }
+      ],
+      "live": true
+    },
+    {
+      "id": "b60767a401d8b",
+      "title": "Intel Touts Factory Expansion Progress in Sign of Growing Demand",
+      "url": "https://bloomberg.com/news/articles/2026-10-21/intel-touts-factory-expansion-progress-in-sign-of-growing-demand",
+      "source": "bloomberg-tech",
+      "outlet": "bloomberg.com",
+      "outlets": [
+        "bloomberg.com",
+        "thenextweb.com"
+      ],
+      "tier1_outlets": [
+        "bloomberg.com"
+      ],
       "corroboration": 2,
       "sources": [
+        "bloomberg-tech",
+        "gnews-ai",
+        "wires-ai"
+      ],
+      "rule": [
+        "tier-one outlet plus one more"
+      ],
+      "earliest_published_at": "2026-10-21T15:00:00.000Z",
+      "first_seen_at": "2026-10-21T15:18:03.432Z",
+      "latency_s": 1083,
+      "breaking_at": "2026-10-21T16:17:27.002Z",
+      "item_ids": [
+        "3e8c9c1fe1967292",
+        "8d9dab6d65f6114f"
+      ],
+      "sightings": [
+        {
+          "source": "bloomberg-tech",
+          "outlet": "bloomberg.com",
+          "title": "Intel Touts Factory Expansion Progress in Sign of Growing Demand",
+          "url": "https://bloomberg.com/news/articles/2026-10-21/intel-touts-factory-expansion-progress-in-sign-of-growing-demand",
+          "published_at": "2026-10-21T15:00:00.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "Intel Touts Factory Expansion Progress in Sign of Growing Demand",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOdU1zVWdGNlJHdkhLblN3NkJrSHVPQ0lTNnN5ZTVQNkpEZ1ZlOWdkak1TVHRBNW1UZ0taWDBiMnU2RGYyTjFnODdLa2hKcGJPSG03TGFEWEN2RTZ2aGs4SG1qUkltM0N0OFRad2FfQk9QNDh3b2tZTWRhUElJaUVKOWxzZzlydWExT21YdUNHS2RSZjZpZXRjNFZYM0lxS0FNd3pnMkZEZk1qbm1lZ3NmT3p1VTVZUQ?oc=5",
+          "published_at": "2026-10-21T15:00:00.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "thenextweb.com",
+          "title": "Intel restarts its stalled US factory push as AI chip demand grows",
+          "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9hc2tRcXUxRDE5R1dlTk9oUktmT2dHam5aR3lscEhHdmd1eUtMekdDT2RGUWZSQ3hLRVJERkZ6eWltV3NnR21wQ2w5MzU0Z25aRXJHLVpwNXNOdjg0cmVRcHVrTmIyR0M0b2d3WEUxOA?oc=5",
+          "published_at": "2026-10-21T15:55:57.608Z",
+          "tier1": false
+        }
+      ],
+      "live": false
+    },
+    {
+      "id": "ba536160fe3ab",
+      "title": "SentinelOne Launches Singularity Agentic Detection and Response to Stop Rogue and Malicious AI Agents at Machine Speed – Company Announcement - FT.com",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQbVdTbmxwYUgxS29hbG9kRGFUMEpwWXB4cHpKUXBTTlE3eUtuczNWdERVSkRQam9meEtlNTItVUpOcHV1WW1ndS03a1hKcjByMmZCcjVnRDA3R0dzcTNNby02VXIya1ZNSGJ0Q3ExdWR2UFdwVFdhS1U0aF9PclZzdjB0LThsZnctanJkSkpjd0hOX3RsTWJyWHV0cnFMMEhsVkt3UVRR?oc=5",
+      "source": "wires-ai",
+      "outlet": "ft.com",
+      "outlets": [
+        "ft.com"
+      ],
+      "tier1_outlets": [
+        "ft.com"
+      ],
+      "corroboration": 1,
+      "sources": [
+        "wires-ai"
+      ],
+      "rule": [
+        "tier-one escalation signal"
+      ],
+      "earliest_published_at": "2026-10-21T13:00:00.000Z",
+      "first_seen_at": "2026-10-21T14:57:32.972Z",
+      "latency_s": 7053,
+      "breaking_at": "2026-10-21T16:17:27.002Z",
+      "item_ids": [
+        "db3373a7322f7f30"
+      ],
+      "sightings": [
+        {
+          "source": "wires-ai",
+          "outlet": "ft.com",
+          "title": "SentinelOne Launches Singularity Agentic Detection and Response to Stop Rogue and Malicious AI Agents at Machine Speed – Company Announcement - FT.com",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQbVdTbmxwYUgxS29hbG9kRGFUMEpwWXB4cHpKUXBTTlE3eUtuczNWdERVSkRQam9meEtlNTItVUpOcHV1WW1ndS03a1hKcjByMmZCcjVnRDA3R0dzcTNNby02VXIya1ZNSGJ0Q3ExdWR2UFdwVFdhS1U0aF9PclZzdjB0LThsZnctanJkSkpjd0hOX3RsTWJyWHV0cnFMMEhsVkt3UVRR?oc=5",
+          "published_at": "2026-10-21T13:00:00.000Z",
+          "tier1": true
+        }
+      ],
+      "live": false
+    },
+    {
+      "id": "bc49303689ecf",
+      "title": "Jensen Huang’s Vision for Europe Runs on Plug-In Data Centers",
+      "url": "https://bsky.app/profile/wired.com/post/3myfgcw7ngx2x",
+      "source": "bluesky-ai",
+      "outlet": "wired.com",
+      "outlets": [
+        "apnews.com",
+        "barrons.com",
+        "bloomberg.com",
+        "ft.com",
+        "nypost.com",
+        "reuters.com",
+        "washingtontimes.com",
+        "wired.com"
+      ],
+      "tier1_outlets": [
+        "apnews.com",
+        "bloomberg.com",
+        "ft.com",
+        "reuters.com",
+        "wired.com"
+      ],
+      "corroboration": 8,
+      "sources": [
+        "bluesky-ai",
+        "gnews-ai",
+        "techmeme",
+        "wired-ai",
+        "wires-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
+      ],
+      "earliest_published_at": "2026-10-21T12:25:02.000Z",
+      "first_seen_at": "2026-10-21T04:06:48.095Z",
+      "latency_s": 0,
+      "clock_skew": true,
+      "breaking_at": "2026-10-21T16:17:27.002Z",
+      "item_ids": [
+        "137960e0e867104c",
+        "195c85f75478bd14",
+        "1cc5ed0c8b9dc800",
+        "29ecb0fb59239420",
+        "29f1928412194953",
+        "46019debfd94bd9b",
+        "5577e524efe5db57",
+        "56e92ddd8b1cdfac",
+        "653d201e89286883",
+        "ab1f29b681fe09cc",
+        "bcc6c501a3ed479b",
+        "cb2d9eae775325ba",
+        "d3119616b9b3a456",
+        "d92b80dad8a9ff9f",
+        "f17b97a4336d6686",
+        "f9ba71c11e5bdaff",
+        "fce2bda45887c191",
+        "fe2b50db8dabc11e"
+      ],
+      "sightings": [
+        {
+          "source": "techmeme",
+          "outlet": "techmeme.com",
+          "title": "GTC Berlin: Jensen Huang pushes Europe on AI adoption, saying \"for Europe to benefit from AI ... you need all the end markets, the end industries to adopt AI\" (Bloomberg)",
+          "url": "https://techmeme.com/261021/p22",
+          "published_at": "2026-10-21T12:25:02.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "nypost.com",
+          "title": "Nvidia’s Jensen Huang joined on stage by robot ducks as he hails Europe’s AI potential",
+          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPVzlzdE5JS2dTbU0zX1BzVWwzQkUtZ2xQbGdSaUdCN3V2aXB3ZVJWLWoxYV9IeS1EYy1aQVZTblNTYjdyTnQ3OTVLejFDS2o3Nm40REtzU0I4Sm5HWkxrWF9TNmNiVWxwTmM1dEktQWUwanEwYzRjTVNTREUySS1fd2p3UWFKdGhVY01KVTIyUF9GYmstTmVnTlhBZVB6cWJKZ1lway1uZ1Z5WEl5eWVvTlVMbjA0blFjWVAzbHpHQXRvUQ?oc=5",
+          "published_at": "2026-10-21T12:29:36.085Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "reuters.com",
+          "title": "Nvidia's Huang hails Europe's AI potential, flanked by robot ducks",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOdUI3QU5iX211d3BmcjFoa3dpWXROZjd4bm5rZ0ZaVkRQaEtlVmdUdkhoWlVTQzd4NkJ3Y1NBQWF0WXBtRklveXBhNzRuUHlsdnVCXzNGVzR4MG9TRU5QMUoyTzUtc0UtZEZJdVl6VGpKY05ZV2tBbEJwc0o2M2VnUHVaR1dlOE5pcU5pNWUweHZHMFkweDNXTUpzUWtJUDkwTmhqZ2dqRjZ2blhTMlE?oc=5",
+          "published_at": "2026-10-21T12:29:36.085Z",
+          "tier1": true
+        },
+        {
+          "source": "techmeme",
+          "outlet": "techmeme.com",
+          "title": "Nvidia launches its OpenShell Reference Architecture, a framework to secure and monitor AI agents, partnering with Canonical, AWS, Google, Microsoft, and others (Thomas Claburn/The Register)",
+          "url": "https://techmeme.com/261021/p23",
+          "published_at": "2026-10-21T12:30:02.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "apnews.com",
+          "title": "Nvidia CEO encourages Europe's lagging AI sector and offers tools to accelerate data center buildout",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNRV9sUVFBSXN4NWhNNzAxNXJLQ3d0UnFZcXZvNFZnWlAzUHNqRGFvTzZkSmhNTC0tMkUyZDNyeUZnajFhSHpmM18wcjJzcWJBb0QwV2dhVXY1THdvSVp5Y2FOWXdTMGhGYlF1dm1rWmJYVXpNZVRjeGU4R2JrbjhlRG1JNUZGOG8zUWFGR24tUDczZ3Rld3VyVQ?oc=5",
+          "published_at": "2026-10-21T12:51:19.085Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "washingtontimes.com",
+          "title": "Nvidia CEO encourages Europe’s lagging AI sector and offers tools to accelerate data center buildout",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxONlppMTFwLXByMm9xZE5Wd09sQjN6VXRoVVA3NWUxZ0hCLU1qX1c2Y3FlaENWWGx5UW83TW9RSVBZUXowYUVJZ3JoeGpjaW9FcjJtQjNucFZScDJweHpNSUlyQTlNOWhBY0lMT0Fyd0lDR3NiOTg1eDFlRk9SX0VPOE0yUlZiWEh3RnZ1bnVKVDY0akFZNUNfMHk2Q3NsOWw0SGNhR0lLX0tLOTlIUy1DY1AzNA?oc=5",
+          "published_at": "2026-10-21T12:51:19.085Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "ft.com",
+          "title": "Advantech Advances Autonomous Industrial AI with AI Factory Brain and Physical AI at NVIDIA GTC Berlin 2026",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOZVNwUWtCaVljZ054TkZxb3NTWEN5d2IxVW5Kam4xRHRDbGRwTUllSTcyODNlc2NnRnVHVW16MDJUeDlfRTZORDBSalY2WkNaX0dSVmNPc01nV1ZNd0dvdzZKZ1lQa1N4SzdKRTUzUjRMeWpVUC1fMHhCdGs2eG8zVkw3bGt6UE5xVE0yZ3N3SEZPNDJuT3pjTg?oc=5",
+          "published_at": "2026-10-21T13:49:00.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wired-ai",
+          "outlet": "wired.com",
+          "title": "Jensen Huang’s Vision for Europe Runs on Plug-In Data Centers",
+          "url": "https://wired.com/story/jensen-huangs-vision-for-europe-runs-on-plug-in-data-centers",
+          "published_at": "2026-10-21T15:02:15.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "wired.com",
+          "title": "Jensen Huang’s Vision for Europe Runs on Plug-In Data Centers",
+          "url": "https://bsky.app/profile/wired.com/post/3myfgcw7ngx2x",
+          "published_at": "2026-10-21T15:04:52.277Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "barrons.com",
+          "title": "Nvidia’s Jensen Huang Reveals AI Data Center Quick-Fix. These Stocks Are Winners.",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBmUDhYeUJnWWhob3owVVl0czY4VWFJck5oTk84ZHpJa2tFaEd5TElmdGJRUnl5bEcxVTZ1S21QcEUtY2QwZ2pDaUdmemNzdlgwRnY4QnBIVG95dTkzOHRaaXFaX3ZRdE45RTJQb0FiVWhZdE5UbE15elNvTWpPWFE?oc=5",
+          "published_at": "2026-10-21T17:37:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "bloomberg.com",
+          "title": "Nvidia Is AI’s Central Bank. Now Jensen Huang Must Step Up",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPY2tqVW5kZ3c4OEhReHAxR3M5a3NXZnVyTTM3LTdsZjduQnJmZHZkNkNsVk1COWU1Ri1UVF90TE5xR2MwbkpiX1dHU0locHh5TGQwMGFucy1xQ05WNndXRHJHdEwyc0s3NE1WaHdMaXpjbC1keEluc2s4UnRQMzQ2S2ZHeTNMYk9TOV80VmFJT0RHUF9LUTZZRV82SENHZGs3ZkZNTzJZVHNnWjIyZWo0cA?oc=5",
+          "published_at": "2026-10-21T18:01:01.000Z",
+          "tier1": true
+        }
+      ],
+      "live": true
+    },
+    {
+      "id": "b2f2fef78767e",
+      "title": "PHP armageddon: OpenAI, Google’s Wiz find ancient holes, panicking the internet",
+      "url": "https://bsky.app/profile/techcrunch.com/post/3myfqazny5y2d",
+      "source": "bluesky-ai",
+      "outlet": "techcrunch.com",
+      "outlets": [
+        "bloomingbit.io",
+        "businessinsider.com",
+        "techcrunch.com",
+        "wired.com",
+        "wiz.io"
+      ],
+      "tier1_outlets": [
+        "techcrunch.com",
+        "wired.com"
+      ],
+      "corroboration": 5,
+      "sources": [
+        "bluesky-ai",
+        "gnews-ai",
         "hn-ai",
         "techmeme",
         "wired-ai"
@@ -144,6 +1142,9 @@
       "item_ids": [
         "0451449272738277",
         "185ddfadabff359f",
+        "2706a7c898d272fa",
+        "2aef9cf4169fceb6",
+        "65a700e9acafc314",
         "e104aee1efcbf242",
         "e45838568082321f",
         "f657f4339f7b5eee"
@@ -180,6 +1181,38 @@
           "url": "https://techmeme.com/261021/p34",
           "published_at": "2026-10-21T14:31:56.000Z",
           "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "bloomingbit.io",
+          "title": "OpenAI Says GPT-5.6 Sol Helped Find Critical PHP Flaw, Pledges $1 Billion for Cyber Defense",
+          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5PeXhSSUkxbDZtUVcyM3haQmtwMHV4T3hCUkp4YnhlM3lKZWkwSzNSdFNoQWxxMkZVZHZzTWhFb2JrODczdzhfamhrWmp4Mml2S3dVWA?oc=5",
+          "published_at": "2026-10-21T16:09:19.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "businessinsider.com",
+          "title": "A major security flaw found using an OpenAI model is causing internet chaos",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNVmZaTHdxeUVfbDk2Y1hGWGwwMW5odTlPRXVvVWJrdEhxcURnOW5QVzZ3QnVIOHRMWlBjbG5TYnNPNGxva3FWWU1QOHVGRFdOaGFiMS1rZ2xSajhFR1R1bkF4aGxPdG9UNm5oWjU1cXJGaHpDZll6SF96dWtPN0xValZXa1hQUUZmMTBDeTg4TzZnNGZJX0xiY24yVFQ1dDFTRnNBMFZXcjZjWUMxVnc?oc=5",
+          "published_at": "2026-10-21T16:36:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "businessinsider.com",
+          "title": "A major security flaw found using an OpenAI model is causing internet chaos",
+          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQQXdUZ3AtaG5WVWxWU1dnOWFCZ0haX0t3YVJ2ZTlPOG5QT1l0SHFVMjUzY2llWHVmZjRXcnpNWDdOa0xGQ3FjOEFoYjJIUzJST0Q2OWJ6c2xMZUttLXFPMFkwNzhaeTY4TGcyQVlENjNjWVk3M0FHWElxbU5DXzlGS3lEc0w3dzBPMVV1ZHVaTUhnWDNXU1NYWUM0UlhRcndlejVqa1gzSlZ1czRyQ0NranNKd0loOTNmenBVLUpwV0U?oc=5",
+          "published_at": "2026-10-21T16:36:19.000Z",
+          "tier1": false
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "techcrunch.com",
+          "title": "PHP armageddon: OpenAI, Google’s Wiz find ancient holes, panicking the internet",
+          "url": "https://bsky.app/profile/techcrunch.com/post/3myfqazny5y2d",
+          "published_at": "2026-10-21T18:02:47.000Z",
+          "tier1": true
         }
       ],
       "live": true
@@ -276,60 +1309,45 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b339ca5837ee3",
-      "title": "OpenAI says an AI agent lied about disabling its safety monitoring system",
-      "url": "https://theverge.com/ai-artificial-intelligence/1015316/openai-ai-agent-disabling-monitoring-systems",
-      "source": "verge-ai",
-      "outlet": "theverge.com",
+      "title": "OpenAI ‘agents’ disabled their own monitoring systems",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOQ2dEWFkwS1pibEg1bTJ6UzJncExSTkdsLUVJZG5mVmlSa3U5OG9PNXM4UElSSjRlS1dzVG81aXd2Q0FxcU9MXzFDLThaSnpVWGYwSGJpYURmQUJTTWFQc2xiZEdrVW04UWZ1VUxPelVCOUpoUmVteGktSWhHR0RPMGV5czk?oc=5",
+      "source": "wires-ai",
+      "outlet": "ft.com",
       "outlets": [
-        "tech-insider.org",
-        "the-decoder.com",
+        "bleepingcomputer.com",
+        "cyberinsider.com",
+        "thehackernews.com",
         "theverge.com"
       ],
       "tier1_outlets": [
         "theverge.com"
       ],
-      "corroboration": 3,
+      "corroboration": 4,
       "sources": [
-        "bluesky-ai",
         "gnews-ai",
-        "the-decoder",
         "verge-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-21T12:34:57.000Z",
+      "earliest_published_at": "2026-10-21T13:57:43.000Z",
       "first_seen_at": "2026-10-21T02:00:30.849Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-10-21T14:06:13.043Z",
       "item_ids": [
-        "6292b46ccfd8cc47",
+        "2ac2c0cab70bffe7",
+        "49d90f3931d43ee0",
         "a47a42aa287f931e",
         "d1522e8a045efce3",
-        "d2895ceb6fcba3ff"
+        "f57734a8c45554d1"
       ],
       "sightings": [
-        {
-          "source": "the-decoder",
-          "outlet": "the-decoder.com",
-          "title": "OpenAI can't yet explain why its coding agents switch off misalignment monitoring",
-          "url": "https://the-decoder.com/openai-cant-yet-explain-why-its-coding-agents-switch-off-misalignment-monitoring",
-          "published_at": "2026-10-21T12:34:57.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "tech-insider.org",
-          "title": "OpenAI: 2 Coding Agents Disabled Safety Monitors [2026]",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPLS1XV19aNVp4ZUlUSnpsWENqN3B0UWtaVlkwYXdVRmZ5aGF2aV9IMkpaY1hzLW0yVllWQ1hRQlBISFRBbG85UW94dnAxcE8xNkE5clJFZXI2RmlTdFh0QUd5V01BQl83T1RIcVhsRUpNelNiWUd3TDBTNWRmcEFieWRWSEk?oc=5",
-          "published_at": "2026-10-21T13:32:34.000Z",
-          "tier1": false
-        },
         {
           "source": "verge-ai",
           "outlet": "theverge.com",
@@ -340,19 +1358,27 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "theverge.com",
-          "title": "OpenAI says an AI agent lied about disabling its safety monitoring system",
-          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPMDFISThieGNXWmRJak5ySmxnd2lsLUNDSktIeUE5T0pWOVpZMklZVHVNR2ZoTFFEV044RG0zV3oxUnBjaHpRcWx6V0p3NzlpZU5FTjdnU05FcU9Jcm1KY0ZaVW1taDNacEEyd1NfMjZxLUkybFJSakhUOG4xMkpIa2swSW5DVHk5azN6eTVZLTkwUC1lQmwtVDlmeGRkTGNnNGtJSTZTMA?oc=5",
-          "published_at": "2026-10-21T13:57:43.000Z",
-          "tier1": true
+          "outlet": "bleepingcomputer.com",
+          "title": "OpenAI agents disabled safety monitoring, one lied about it",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPZE80LTB3ZUZNZDE1cFdzY2JvZFJjemF3WTM2Yk91aEl1WTRjUHdzWmtZQzVsNWdzSHhpTXNNN09RVVJCS1NpVFFiNDRZUWZKWE9WYmFkUC1feGZudUF0UVh1emN3NVgycVkxd2lCTVBfSEsxVG02eVFWUnduQl8tYlp3YzMwaVhyWHdwWmpzOHlLeEFqTEtGRnBsMUY5eGhBVVkzV05iTng3UQ?oc=5",
+          "published_at": "2026-10-21T16:26:53.000Z",
+          "tier1": false
         },
         {
-          "source": "bluesky-ai",
-          "outlet": "theverge.com",
-          "title": "OpenAI says an AI agent lied about disabling its safety monitoring system",
-          "url": "https://bsky.app/profile/theverge.com/post/3myfd2kthdl2s",
-          "published_at": "2026-10-21T14:06:13.043Z",
-          "tier1": true
+          "source": "gnews-ai",
+          "outlet": "thehackernews.com",
+          "title": "OpenAI's GPT-6 Agent Removed Safety Monitoring, Then Falsely Denied Doing So",
+          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9QdTVJU0xmSkhMaGJHUGVMRmF4N3I5QVl4UDVOd2d4QzBsN0t4bXNoamFudWVpZTJCNmF6b2ExVTB6OE9WZ1dZTzdSNXZqbThhUEhBNkJIUmRwdkxIQjcyREFLV1o4UkZDZXVxWVZBeFpJTW4xUDV1ZUJLWkk2UQ?oc=5",
+          "published_at": "2026-10-21T16:33:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "cyberinsider.com",
+          "title": "OpenAI says AI agents suppressed alerts and removed safety monitoring",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPdU82czA1ZVlCbjJteUIzSWJrUnUtQmhWSHkwdFktWWYxalpjRUNMM2k1RmZuMlR6dW1BVUdiSkJtT2JFVDdGQ2ZMdGhuNUdENXlpaVdlV3pRZTN3WE5KU3I5R1d0N0tMUTQ0aGR3N19lQjZ6YXIxdTNKbk1PZDRvdnItdmczcy01elc4OFd4aV9sZTJHZ1pYNDNaSQ?oc=5",
+          "published_at": "2026-10-21T17:18:48.000Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -413,7 +1439,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "bed147349ea3c",
@@ -462,17 +1488,17 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "befaa1e9c4d0f",
-      "title": "Supermicro Brings NVIDIA Aerial RAN Computer Solutions to the Network Edge with Nokia to Enable Low-latency AI Services – Company Announcement - FT.com",
-      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPWlBDc3hZWmpxZk5QOGJNc3NSYjBOQ1pTTmhiOF84c1VXUjlvd3VmbkplZkxPcmR4MDRlbjIxai1VNkVzazgtQWRHd3Q3cmg1YlZPVEpsWEVvbFM1QnhrdkY2OEU1RTZxUDlfR2hTckVrM3NPWkJhUzh1UHdHZEN5RWNya19QV2czTVMyTjB1UEhmMloydU4xcQ?oc=5",
+      "title": "Elisa taps NVIDIA and Nokia for its journey towards commercial AI-RAN in Finland – Company Announcement",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOOXdwYTdXRVlkaVlMc0xlbFNualUzM3g5S21ERlpraTlvTVFPMllMTnVGb1NJZHVkUHFKUEJUZ0FJdlBEZUI2dllaY0RXYXdpbEpyMC03dFAxdGpEazZtMXdOZTZxajZDSUkyak5FRHM0Q2d0bkVnd1A3VGRvMVM2ME9zaVQxdmxpZEV1SldYN1VvdFhzUDNuTQ?oc=5",
       "source": "wires-ai",
       "outlet": "ft.com",
       "outlets": [
-        "fierce-network.com",
-        "ft.com"
+        "ft.com",
+        "lightreading.com"
       ],
       "tier1_outlets": [
         "ft.com"
@@ -485,24 +1511,15 @@
       "rule": [
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-21T11:35:00.000Z",
+      "earliest_published_at": "2026-10-21T12:32:00.000Z",
       "first_seen_at": "2026-10-21T12:29:36.085Z",
-      "latency_s": 3276,
+      "latency_s": 0,
       "breaking_at": "2026-10-21T14:06:13.043Z",
       "item_ids": [
         "043b00c60d2a4c96",
-        "532f3c3199b6c007",
-        "5eae564a44a9f378"
+        "a6045233991654c2"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "ft.com",
-          "title": "Supermicro Brings NVIDIA Aerial RAN Computer Solutions to the Network Edge with Nokia to Enable Low-latency AI Services – Company Announcement - FT.com",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPWlBDc3hZWmpxZk5QOGJNc3NSYjBOQ1pTTmhiOF84c1VXUjlvd3VmbkplZkxPcmR4MDRlbjIxai1VNkVzazgtQWRHd3Q3cmg1YlZPVEpsWEVvbFM1QnhrdkY2OEU1RTZxUDlfR2hTckVrM3NPWkJhUzh1UHdHZEN5RWNya19QV2czTVMyTjB1UEhmMloydU4xcQ?oc=5",
-          "published_at": "2026-10-21T11:35:00.000Z",
-          "tier1": true
-        },
         {
           "source": "wires-ai",
           "outlet": "ft.com",
@@ -513,10 +1530,10 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "fierce-network.com",
-          "title": "Nokia and Nvidia keep AI-RAN momentum going as they edge closer to commercial reality",
-          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPOUZHMDhFLWNsU1RkUzV1SHFQc2tRWDJXdmVhaFA3Xzh2UENwUUJOTXlScHJDbFBPa2pCb2NtVlZLTEZyRlNZekZGNGYxeVNDNjA2UXhOXy1TZk9IWXQ3NFdxcUt0WjVGOVRrRlkwTWZWeUN1dS1NV0x0M1lFdFhuOWd2YUpMS0lhdkIyVEcxYng1aDhYUVVnaGZPaWJVdHhJLXl1TXllVTZHUQ?oc=5",
-          "published_at": "2026-10-21T13:06:49.000Z",
+          "outlet": "lightreading.com",
+          "title": "T-Mobile makes first AI-RAN call with Nokia and Nvidia",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOVDVja1dlNzg3TlRyVTExSVY0NzN2R2lybjdmYXZPR0J6eEhfaXo3bFhwSUlzUDhLUTFGNmZJNnlodlBnYWxRTm5jNTFvTjA4ckxYemNWbndrc0RVWUt3bm9pTFhGbkZmM1VjaDU1RlZreGN3blBhX0ZCTU1Kenl6aXpyN3FwN1hjdjU4RmtBa2o4MEstdEdITmdFZkVpZWFpNXpjX1hR?oc=5",
+          "published_at": "2026-10-21T16:14:57.000Z",
           "tier1": false
         }
       ],
@@ -530,31 +1547,30 @@
       "outlet": "nytimes.com",
       "outlets": [
         "t.co",
-        "techcentral.ie",
         "the-decoder.com",
-        "theaiinsider.tech"
+        "theaiinsider.tech",
+        "themarysue.com"
       ],
       "tier1_outlets": [],
-      "corroboration": 4,
+      "corroboration": 3,
       "sources": [
         "gnews-ai",
-        "techmeme",
         "the-decoder"
       ],
       "rule": [
         "two outlets within 20 min"
       ],
-      "earliest_published_at": "2026-10-21T10:10:01.000Z",
+      "earliest_published_at": "2026-10-21T13:04:19.000Z",
       "first_seen_at": "2026-10-20T16:27:57.772Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-10-21T13:43:32.907Z",
       "item_ids": [
         "05dce4322e459d22",
-        "0d0efbe28cecf592",
         "468771b36e59c1b9",
         "473872ac61cb1d72",
         "50a63bd5f62e013b",
+        "51510b7087b1f8a7",
         "8c3b7f352bd6754b",
         "b35261e2e3340b08",
         "cf5770cf159e6611",
@@ -563,27 +1579,11 @@
       ],
       "sightings": [
         {
-          "source": "techmeme",
-          "outlet": "techmeme.com",
-          "title": "China criticizes the US DHS's DeepSeek ban, vowing \"resolute countermeasures\" while rejecting allegations from the FBI and AI labs of illicit distillation (Ephrat Livni/New York Times)",
-          "url": "https://techmeme.com/261021/p11",
-          "published_at": "2026-10-21T10:10:01.000Z",
-          "tier1": false
-        },
-        {
           "source": "the-decoder",
           "outlet": "the-decoder.com",
           "title": "China protests the US Deepseek ban while blocking ChatGPT, Claude, and Gemini at home",
           "url": "https://the-decoder.com/china-protests-the-us-deepseek-ban-while-blocking-chatgpt-claude-and-gemini-at-home",
           "published_at": "2026-10-21T13:04:19.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "techcentral.ie",
-          "title": "US federal agencies are no longer allowed to use DeepSeek",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNT2tJbmVaWTA4LWZBQUhjYlRBU1BmVGZTeHlsakxkalJ3amx0MXI3cG1tMC1ZN2hjWUl5TDJlQVByV0l3TWpTcVJxMFVjS05jM09CUk1tTzNtb25ScGFqVERBRmZERjNtX0lacm9zTExWQlBkdWhJNWhFVnBTQ25tc1NpTE4wU3h0bWdkVEd3?oc=5",
-          "published_at": "2026-10-21T13:28:47.000Z",
           "tier1": false
         },
         {
@@ -601,9 +1601,17 @@
           "url": "https://news.google.com/rss/articles/CBMiO0FVX3lxTE14ZlZ6aEdDRkdCYzBROHQ0aGJJSWp5YVJ3a2hjczQ2bzRfd256SFVDNnRzd0lQZ1dRa2Y4?oc=5",
           "published_at": "2026-10-21T14:15:57.000Z",
           "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "themarysue.com",
+          "title": "US bans China's AI startup DeepSeek from federal systems",
+          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQRVFZdnBLWGUtZXBxUmd2UWxPQUgyOC1IbU1LeGpGT1FnWkwyQlJjQWdONHI3dkY0XzdXcElua045LVg3TVdnRHdHX09TTENPelB0NTA1SnJFSUxsOUlTMmdTdm53aU15RS1xdzg0VWVBZEtWYTFkZXgtbzVxd3owV3M1eHYxOFBBWmprY0tkM3Z1MldyTVd3QmpQcmFLb3BSREczX2xKTkk4bTRsNkt6Q1dkaU1vMmxDNVNSZEY0Znplck5pZXlkRll0LUZXX0dXMDc3My1XekxwVXpTQmxmX0paN0xiOTJsTTlzeQ?oc=5",
+          "published_at": "2026-10-21T15:15:00.000Z",
+          "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "bc8065114ab10",
@@ -657,58 +1665,76 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "openai.com",
+        "9to5google.com",
+        "coingape.com",
+        "google.com",
+        "indiatimes.com",
         "pymnts.com",
-        "reuters.com",
+        "tech-insider.org",
         "techzine.eu",
+        "the-decoder.com",
         "theinformation.com"
       ],
       "tier1_outlets": [
-        "openai.com",
-        "reuters.com",
         "theinformation.com"
       ],
-      "corroboration": 5,
+      "corroboration": 9,
       "sources": [
         "gnews-ai",
-        "openai",
+        "hn-fresh-ai",
         "techmeme",
-        "wires-ai"
+        "the-decoder"
       ],
       "rule": [
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-21T12:00:00.000Z",
+      "earliest_published_at": "2026-10-21T12:15:04.000Z",
       "first_seen_at": "2026-10-21T12:29:36.085Z",
-      "latency_s": 1776,
+      "latency_s": 872,
       "breaking_at": "2026-10-21T13:04:29.155Z",
       "item_ids": [
         "565c44b6977d33f8"
       ],
       "sightings": [
         {
-          "source": "openai",
-          "outlet": "openai.com",
-          "title": "OpenAI models are coming to Google Cloud",
-          "url": "https://openai.com/index/openai-models-google-cloud",
-          "published_at": "2026-10-21T12:00:00.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "OpenAI to sell its top models on Google Cloud in latest enterprise push",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOcF9EWG9QTDRBLU5tUVpFUXNUVW8wU2s3WVNTY2RnQUd0SEZfaXRyVmhpTFg4dGhuZ1RlN3JpOGVSNmY4VDNOUzFSNG9OVnZGTm1oXzk1VTFjakdIOVcyMm9qN2tPMEVJYjl1TzdtdkpCZjNSRlRZdFVGR3JFSC1mX3prVEJOYWI3aUdBbWx1WW40bUhSZmxJMV9kS01RMHBVc3huVWszcE5MTTA3M2RKTGZyMmpNczhpU3ZRcm5fMFA?oc=5",
-          "published_at": "2026-10-21T12:02:09.000Z",
-          "tier1": true
-        },
-        {
           "source": "techmeme",
           "outlet": "techmeme.com",
           "title": "OpenAI says it will make its AI models available on Google Cloud's model garden and Antigravity coding tool in the coming weeks, after launching on AWS in April (Jordan Novet/CNBC)",
           "url": "https://techmeme.com/261021/p21",
           "published_at": "2026-10-21T12:15:04.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "9to5google.com",
+          "title": "OpenAI GPT models are coming to Google Antigravity ‘soon,’ Cloud ‘in the coming weeks’",
+          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPNDdnb29NeG1DTFhLVEZmUXd1eWdUcVNLY3F0dnpXU0ZBZXdqOFpOSzFCODh6bWhyeUtMdVg5ZEJJT1JfWlNZVHlUM2x5SlZ4bm40T3RsWXdiaUdLUjNxZnBKTGtsTTJ3cFVfa1VjcEVzZ19KZXlSOUMzQUd0LXh2UVF1WQ?oc=5",
+          "published_at": "2026-10-21T12:29:36.085Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "coingape.com",
+          "title": "OpenAI To Bring AI Models To Google Cloud As It Expands Beyond Microsoft",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQam1EbW9oSmJtSnhzem5aRzNlZTdOZW5vRlljYWRWY2Z4TXRJR0lhMDRQSTVSaWdhcTZ6Z095cFFRaklUdjBlM21CcHNRdWdJRGxrZEo3UlRVV294NGNtOFpjTEgyR0xrbzVWYkZSYUluQUFXVC04YnhBSDlZdWxJNVVpeDhXeV8tZFRBV19wUkJxV1U3THhZeGhB?oc=5",
+          "published_at": "2026-10-21T12:29:36.085Z",
+          "tier1": false
+        },
+        {
+          "source": "hn-fresh-ai",
+          "outlet": "google.com",
+          "title": "OpenAI Models in Google Cloud",
+          "url": "https://cloud.google.com/blog/products/ai-machine-learning/google-cloud-brings-openai-models-to-customers",
+          "published_at": "2026-10-21T12:29:36.085Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "indiatimes.com",
+          "title": "OpenAI to bring AI models to Google's cloud, says Microsoft remains primary partner",
+          "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxNZTVUdUlzeFJ3LVRUbDJ5bHJyMnpyMkVPRUxidnFiU21oVC1TRW51VmFicXczRWZnZHNzYUdCVWV0SUFRTEEwYVF0MDgxXzBfNW5YTzZnTUlGT0NOcjVzcjFPaHlBQngtNzVhVlZYUXJMVFRDTUZ0VXNmb3o3TTJhYmRzOGhwSDhmQWJqdndPYW1wc1pIcUUxY0JveUpWY0hnYmxxSk5aUERtTjBDblFnb1F4YmI4ZGdkZm9sQlIxV0MxbEdTWmpKbE5zdXd5UUVLTkhZc0Z3MFZJa3loekxUYk5hanlhQkRoVnJRUm45aEduLU5pX1k00gH8AUFVX3lxTE43dnpyVVZhNlcyVkV6TWFRaHJKRWZMNkpTN0R1bVhHWVdXdEM3Y05hcFQwZm9qN3drNk9jVWIyVWgwbHZldWdEV0l3T0VNb0JadmMzQVVwaUZWcFFBUEhGRW00MFlrN2FJaEtoQm9qUUdqZzNlVVJmUHJ3TktFWkNkSWVKSERYVHhJTzZLa09YbUVqOUFqU0NpN2pBdzhXVmVJN3hsNDc0V2FEakpiTUNJbWs5TVdyTnpjUGhZZUIxSWFvR2IxZFZTRnNOeHZXLWZIZHZ5dnRuczlMbWdoeWNXZTNFYWRFV2x6QTVncVZ6WDJMNGZZV1d3MUN4Tw?oc=5",
+          "published_at": "2026-10-21T12:29:36.085Z",
           "tier1": false
         },
         {
@@ -721,9 +1747,33 @@
         },
         {
           "source": "gnews-ai",
+          "outlet": "tech-insider.org",
+          "title": "OpenAI Models Hit Google Cloud, Completing Big 3 [2026]",
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1OSUVleFBOM0haY2pVYjJUWks4ZWFaYUR6WXRhTHhnY01JLWxhUlZFMURjNEhMM0toRjhxMVZZbGloTzc5XzJ3TS1oOWZwMmM1MVFKMks5ZzZkZjlTa3hKSzNiMnpETlJfeWNxMXVFZTM?oc=5",
+          "published_at": "2026-10-21T12:29:36.085Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
           "outlet": "techzine.eu",
           "title": "OpenAI’s models are finally fully supported on Google Cloud",
           "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQU3ViTzhZTXp0MjZuejFHNXZja0lXR2RMM2FFQ3NmV0RFYWpILUJVZ1ZfZnlsNW1PMG84Z3g5SjVrTm5ha0NoMFVJYUY1eVVTTzRDLUlPNy0waG5VVVpfU2oxc2RuYmdfYmg3RzNNTjJGU3V3VnprSWZmY1pUZnNCWTIyT0tLcWJENnlmcHg0MmFaMEc2RG1yWDVXVUpjRHVwOVRKU2RrZFR3dE9y?oc=5",
+          "published_at": "2026-10-21T12:29:36.085Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "the-decoder.com",
+          "title": "Google Cloud now offers OpenAI models alongside Gemini and Claude, becoming the only major provider with all three",
+          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQeDZRczNhSkhJbEpMTi05elktdGYyWXVnMFdNOU5sNXRYM3MxNTZSQ3dBcklqMGUzMGpNSHpSTlV3QjZ3Wm85M29QLVRXU0NkTHo4LUs0b3hPcXpXNEpQcDNWTDg2YnJEdUxNZi1wWUd1UzFDN25mNG1sSUFmNkk5SnFoekxxcWJod01zRFdsal95NjFub1JPR29QZFhfczhVTU9Ka3dyenFWc1JSVmhXSDB6Y3lXekVvNDBTVWRPWnJlOUU3N2p6eFhKSTByeHd0VGFhUw?oc=5",
+          "published_at": "2026-10-21T12:29:36.085Z",
+          "tier1": false
+        },
+        {
+          "source": "the-decoder",
+          "outlet": "the-decoder.com",
+          "title": "Google Cloud now offers OpenAI models alongside Gemini and Claude, becoming the only major provider with all three",
+          "url": "https://the-decoder.com/google-cloud-now-offers-openai-models-alongside-gemini-and-claude-becoming-the-only-major-provider-with-all-three",
           "published_at": "2026-10-21T12:29:36.085Z",
           "tier1": false
         },
@@ -750,6 +1800,7 @@
         "investing.com",
         "newsquawk.com",
         "openai.com",
+        "pymnts.com",
         "qz.com",
         "reuters.com",
         "streetinsider.com",
@@ -761,7 +1812,7 @@
         "reuters.com",
         "theinformation.com"
       ],
-      "corroboration": 9,
+      "corroboration": 10,
       "sources": [
         "gnews-ai",
         "openai",
@@ -854,6 +1905,14 @@
         },
         {
           "source": "gnews-ai",
+          "outlet": "pymnts.com",
+          "title": "OpenAI Expands ChatGPT Ads to 26 New Countries",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNS29RMTBRMGZJdXZvaUtHZ1A5YXduOEJ0dlBvWFFybkt6ZTd2aFhBWFBHS3NnaTFqUktWWVdONzJqVzVyTDJ2R2FhSXhfY3Q3OWtyTk53UmZGNVQ1Njd3UDhEQms3SXJ0RVRJN3hOMHU3amtuVjQ5aTZvSkhITE1DeFE3c25QeTdsdEFBYjZnZEROcUdqYVR6WENYZXBXSVlzYXFaMnhWOA?oc=5",
+          "published_at": "2026-10-21T13:04:29.155Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
           "outlet": "qz.com",
           "title": "OpenAI is rolling out ChatGPT ads in 26 more countries, bringing its total to 89",
           "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9HUUN6bHNlbGFHbldHSVZ3eHg3eFpaSVlBOWxxcnlpTVVLOEN1TmZKMTUxSVF5NVRwaWlrVXUwWEVVWFZ6SjFRbUdGUnJWNGdfMnk1VVNTYjlsZTRWVlJZUEV3WThFZjRwRGhHMFRWQQ?oc=5",
@@ -917,7 +1976,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b2cfaefdbb9ff",
@@ -972,8 +2031,8 @@
       "outlet": "afp.com",
       "outlets": [
         "afp.com",
-        "businesswire.com",
-        "ft.com"
+        "ft.com",
+        "marketscreener.com"
       ],
       "tier1_outlets": [
         "ft.com"
@@ -1007,931 +2066,17 @@
           "source": "wires-ai",
           "outlet": "ft.com",
           "title": "Insight Named an OpenAI Advanced Partner to Accelerate Midmarket Enterprise AI Adoption",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOLVRkRTMyNlh6a3hQdS0tTW1tdU9odVJNa2R0WWh0VDBndHZ4WmFKNTloS1ZOY3ZrTVhmbVhTcWxkU2E5N0d2bGxFOWR0QlpIeFhvVFQ3UDZkOHE1UHRIeGFtVEF0cFFnVmVFdXBKMENHQTVlZ1BOeElJYTFoTWhaZWZJZlJ1V2dfQllybVZ3dEw2bzRNWHcwdHoyZzBDNEstOC01VUFn?oc=5",
-          "published_at": "2026-10-21T12:28:00.000Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "businesswire.com",
-          "title": "Insight Named an OpenAI Advanced Partner to Accelerate Midmarket Enterprise AI Adoption",
-          "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQbG5ZakRqdi1DTEI0bGQ2ekRCQ0lSbjBscFlMdlc4cENIMW4wWTNPM3dqT1czN2ZNSnNTaS1BazVUVXNKZUFaUllKWHFRa1NQaHpPZ19xS1JBcElmWm5SYThweWRTNTQtNDQ3QW10emZaa1l0UGRJc0cwWk5qZDE1VEdwd2NoR1RtdDQ2WFlBRTFRejROb01UQVo4U3Mxb3FqZkdWV3BkSVQ4WkJmOWdHYmJkLXJkdl9YLXNHdjNDZjRYX0hERnprY201NFZpUjBzMWhlVXBCcG9jcVpz?oc=5",
-          "published_at": "2026-10-21T12:51:19.085Z",
-          "tier1": false
-        }
-      ],
-      "live": false
-    },
-    {
-      "id": "b5df71ab8a705",
-      "title": "CrowdStrike and NVIDIA Expand AI Agent Security from Software to Silicon",
-      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxONXBSUlBEQWRmb2YxTHZGWmtFMjEwU0FOSWVxTDlFaXNGZnVMSGR3R0xBYVRSMDRPa0VoeXplU0hDeW01SHZJaURFWEY2ZjdJdEVWOTNZV3JUWk5NUWczZWZlZWR0YzlNaG1VM0lGekNLSXJjYUh3dWZkMXNOc2l3OGhNNmhSN1FnMXdyY25FVnY0Z1BPM2c1ek5tbjd5TUNMM253Q1JBSDNKaUNzLWlpWkJUUkliMnRGSFBUNzR3MndZT0dKbF9Dcg?oc=5",
-      "source": "gnews-ai",
-      "outlet": "businesswire.com",
-      "outlets": [
-        "247wallst.com",
-        "businesswire.com",
-        "ft.com"
-      ],
-      "tier1_outlets": [
-        "ft.com"
-      ],
-      "corroboration": 3,
-      "sources": [
-        "gnews-ai",
-        "wires-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
-      ],
-      "earliest_published_at": "2026-10-21T11:30:00.000Z",
-      "first_seen_at": "2026-10-21T11:36:48.277Z",
-      "latency_s": 408,
-      "breaking_at": "2026-10-21T12:51:19.085Z",
-      "item_ids": [
-        "7ea758aef605ec21",
-        "c58493bf9e7ad420"
-      ],
-      "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "businesswire.com",
-          "title": "CrowdStrike and NVIDIA Expand AI Agent Security from Software to Silicon",
-          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxONXBSUlBEQWRmb2YxTHZGWmtFMjEwU0FOSWVxTDlFaXNGZnVMSGR3R0xBYVRSMDRPa0VoeXplU0hDeW01SHZJaURFWEY2ZjdJdEVWOTNZV3JUWk5NUWczZWZlZWR0YzlNaG1VM0lGekNLSXJjYUh3dWZkMXNOc2l3OGhNNmhSN1FnMXdyY25FVnY0Z1BPM2c1ek5tbjd5TUNMM253Q1JBSDNKaUNzLWlpWkJUUkliMnRGSFBUNzR3MndZT0dKbF9Dcg?oc=5",
-          "published_at": "2026-10-21T11:30:00.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "ft.com",
-          "title": "CrowdStrike and NVIDIA Expand AI Agent Security from Software to Silicon – Company Announcement",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOMmRmQnJBMlBzdEx5X1l2bVRhSk1wUU9WSzI2Y0FZTy16TG45ZGFBdGhRbVVIc09JZnVHVmxTRVdtVDB4Nno2Z3JWUWRmNElPWEJLcVl0NWJDcUZtWWNFaWJ3aXh3VEdweE13dkNrQzVlNURScG43czBqVWVrdU1SR0hqYnVLUkR1WEMzUUdBcm5nYXZKU1BlU3JNMG5EWTRNQ2s2UnJB?oc=5",
-          "published_at": "2026-10-21T11:30:00.000Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "247wallst.com",
-          "title": "CrowdStrike Rallies 4% on Expanded NVIDIA AI Security Pact; Datadog Jumps 6%, Okta Climbs 4%",
-          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQNWF0VXloc2g2TUk2RkdQTEN3bFVyUm5ESU1KZUdCZmlmOU5sSTBpbHA0T211UmFkN0ZHOTFncHpmYlh0a1RaVU5mTzFlRVBsNjF1UFExR3VYcGxEQ2ZsaHBGempWcWVrVHJPYk9VbmVFZlk0NjhEWGx3YTBWUUp5NGZFWjZpUWwza0ZmRi1LNWtHSnlHZ181ZW51UDlsRC01MXVud3BoUDJsNUpSQnpza1ZYNm9yNnYwVVoxOE5tWFN3V3VKVzlweVNCNA?oc=5",
-          "published_at": "2026-10-21T14:45:00.000Z",
-          "tier1": false
-        }
-      ],
-      "live": true
-    },
-    {
-      "id": "bcb3241875afa",
-      "title": "LTM Launches BlueVerse™ ValueMesh™ to Help Enterprises Scale AI Across Oracle Transformations",
-      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPNldic195Vkp6Q0lTX0ZNaGVpcTFVVWVDTVJjeldrZF8tZDN3aUUyTVpwMGl3R1RkdVk2SG9ld1FhUGV2N1kwMzJXbzAyNE5Hd3V2VmdnZFU0R2FhSHYtYzFrdW80VXFPMnRCbGFTTU1rS2J5Nlp2dHpNTFNHNzR3UFBuZmF5aDl5SF9jT29pQ2FGVFZ6TDZmb0RiNjdZSGEzUW1uM1pka0RUY0tOTkJNNDczWG9vY19lVUJVdDF3?oc=5",
-      "source": "wires-ai",
-      "outlet": "afp.com",
-      "outlets": [
-        "afp.com",
-        "natlawreview.com",
-        "yahoo.com"
-      ],
-      "tier1_outlets": [],
-      "corroboration": 3,
-      "sources": [
-        "gnews-ai",
-        "wires-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min"
-      ],
-      "earliest_published_at": "2026-10-21T10:01:47.012Z",
-      "first_seen_at": "2026-10-21T10:01:47.012Z",
-      "latency_s": 0,
-      "breaking_at": "2026-10-21T12:51:19.085Z",
-      "item_ids": [
-        "ccada43ecf5b5ce8"
-      ],
-      "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "afp.com",
-          "title": "LTM Launches BlueVerse™ ValueMesh™ to Help Enterprises Scale AI Across Oracle Transformations",
-          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQaUcycE1KSU9NMjEwWXloR3BiT2lITDEtenlEbDJqZ3Vpajg0c1dqN3Q2akM1S1hzU3ZIS3hsbi1fal8yVkJWMmx1UC16TDU1ZEp2SGxPcXROWGJGT1BwOFFWV3JveWMwUUpna0x2TTZFWGs3MmZWODl3TlFqOGdIbXhSbjJrdGtwYlBMUTZjVGRBSWw1RjNBeHpvYTNOOTF2V3RrU3B3Z1Njemo0aW03MmpYb2tLSEhPaXc?oc=5",
-          "published_at": "2026-10-21T10:01:47.012Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "natlawreview.com",
-          "title": "LTM Launches BlueVerse™ ValueMesh™ to Help Enterprises Scale AI Across Oracle Transformations",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPYms1dnBtRmdKSFpfdU5MZllIaTFxdnVwWk5QLUhJS1VNNTZNVHlOa0IzVnV4NEhUMHp6eThMY0NTcnVOV3RKaGs2QWp3MHZpdU9ENUZlSEJHTVpnMng4Mm9sQTRpcmRFejA1eFBsWE9pa0xJN3k0bjF5ekN1QkotNTVCOUI3MmtmdmhNZURwY2hBUVVRem94R0tFRm5FRkFsRHNfM3ZYUGwzZFExa2tDZ3p3c1VEQnc?oc=5",
-          "published_at": "2026-10-21T10:01:47.012Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "yahoo.com",
-          "title": "LTM Launches BlueVerse™ ValueMesh™ to Help Enterprises Scale AI Across Oracle Transformations",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQZGR0V0JUYm9UR1pUbDU4Rm5WOXc0SGpwb0o3V0FoQlVjaEtmb0diQU9TZmZjN0xPMEJHY21pNUVZNnVUVGdCQ2UxRlBBeHZhZElicjJsQVlXd29zTU4wOVFCQUhnakZOaHpMaTY5bWJvLXN5OXFwU1BPaUd4V2VQbU93Nm00Z25NNFNwMS1CdWJla1dncFQ4TndudXlfR3NmZmo4?oc=5",
-          "published_at": "2026-10-21T10:01:47.012Z",
-          "tier1": false
-        }
-      ],
-      "live": true
-    },
-    {
-      "id": "ba5c96465a003",
-      "title": "Five things to know about Chinese AI startup DeepSeek",
-      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPazdLWHY3cVM4S0xnOVpTdE5jdExHcWI5NFZ2eUZSdW9LTjRqUDR2RHp0WThKcGNHUC1yc00tczF2WDRydWpMVHJaLWVJN1o4enZ1UndSeE11eWtrSGswWG4xQUVUUC1Udl9MUTNrMEJtRFVvSTdvU3dsaDBIRkJHVjFGU0V5UmJzaVM2VVh2TmdiOVdfQVBOMmJ6ZnVlRjNHZHc?oc=5",
-      "source": "wires-ai",
-      "outlet": "france24.com",
-      "outlets": [
-        "france24.com",
-        "iraqinews.com",
-        "techxplore.com",
-        "turkiyetoday.com"
-      ],
-      "tier1_outlets": [],
-      "corroboration": 4,
-      "sources": [
-        "gnews-ai",
-        "wires-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min"
-      ],
-      "earliest_published_at": "2026-10-21T11:53:50.000Z",
-      "first_seen_at": "2026-10-21T12:29:36.085Z",
-      "latency_s": 2146,
-      "breaking_at": "2026-10-21T12:29:36.085Z",
-      "item_ids": [
-        "b59cf2948716f7ba"
-      ],
-      "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "france24.com",
-          "title": "Five things to know about Chinese AI startup DeepSeek",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPazdLWHY3cVM4S0xnOVpTdE5jdExHcWI5NFZ2eUZSdW9LTjRqUDR2RHp0WThKcGNHUC1yc00tczF2WDRydWpMVHJaLWVJN1o4enZ1UndSeE11eWtrSGswWG4xQUVUUC1Udl9MUTNrMEJtRFVvSTdvU3dsaDBIRkJHVjFGU0V5UmJzaVM2VVh2TmdiOVdfQVBOMmJ6ZnVlRjNHZHc?oc=5",
-          "published_at": "2026-10-21T11:53:50.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "iraqinews.com",
-          "title": "Five things to know about Chinese AI startup DeepSeek",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQNk9KbjdkV2FhS2d1NWRzbV9jczNEbng2anM5eGd4TDQyVHJvSkVWalliVU1ZYmlGUm9HNFdqNkM2al9LRlNscFIxMUNJVGNTcGtlUUJfQ3dTMGc0UEFiR0tBOWJSblNYaUdLR2dFVmdUMFZFNzZnUkY0cndIbklHT0NVR2NfRzEyNVE3T1VB?oc=5",
-          "published_at": "2026-10-21T12:29:36.085Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "techxplore.com",
-          "title": "Five things to know about Chinese AI startup DeepSeek",
-          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFA0TnBXUjVyOGFHOUU2V29yLURKSmZNV2lnY0RYb3oyWWkybm00SlZlTHpGVGZPUjMwdndGcFVqNXVqOVg5a3Z5STNLcFdiM2tpZXF5c0hnWHFNcHdKVXpQZjlBNzQ1dlk1Nm4zaXhXNW01bnNJMEw4?oc=5",
-          "published_at": "2026-10-21T12:29:36.085Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "turkiyetoday.com",
-          "title": "5 things to know about DeepSeek as US tightens restrictions on Chinese AI startup",
-          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNRm1pS1hlRlA0eWZnd3kxcXJPMmZJMWV5S3JBNV92b25tZXRJdzZBZHEzTU5GdTBoMHFtU1p4MFBYbG1hc245bzh3SE15c2pXQW9lRDY2T01pQjFrbXFManp2clRYZGdtTEM0S2NuZGhhRWhJbVRCZVRJd2hfaGQzUDhPV243X1U4MXFtOHlIeEw3bGQ5LWJKQXJyRkl0QzRrcGtmSGJqMncyZC1GMnA2cjhxMUxaVmpLUFRhQnk1eDhZak9PX2c?oc=5",
-          "published_at": "2026-10-21T12:29:36.085Z",
-          "tier1": false
-        }
-      ],
-      "live": true
-    },
-    {
-      "id": "bb740c2aabfb3",
-      "title": "Macron slams 'stupid' comments based on AI videos by leaders on France riots",
-      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPQS1EVldnNFVDU3VYRjhGOXpqejhJZUFfeEhKSVZyOHdsMC1pdDVTNDVqdVpiRGlJR0VnckltU3VtMHZGODFZVW5SWVpOb0M0Rzd4bVZEOUcyWWZDWlZDOFZoVDc1TzZGSVc3aUl4TkZwNGtTLU91WkxDLUw4Y0M1MnppZHRoUl9QNXBMT095RXFfUQ?oc=5",
-      "source": "wires-ai",
-      "outlet": "afp.com",
-      "outlets": [
-        "afp.com",
-        "france24.com"
-      ],
-      "tier1_outlets": [],
-      "corroboration": 2,
-      "sources": [
-        "wires-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min"
-      ],
-      "earliest_published_at": "2026-10-21T11:36:50.000Z",
-      "first_seen_at": "2026-10-21T12:29:36.085Z",
-      "latency_s": 3166,
-      "breaking_at": "2026-10-21T12:29:36.085Z",
-      "item_ids": [
-        "6e5c453dcd3bc385"
-      ],
-      "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "afp.com",
-          "title": "Macron slams 'stupid' comments based on AI videos by leaders on France riots",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPQS1EVldnNFVDU3VYRjhGOXpqejhJZUFfeEhKSVZyOHdsMC1pdDVTNDVqdVpiRGlJR0VnckltU3VtMHZGODFZVW5SWVpOb0M0Rzd4bVZEOUcyWWZDWlZDOFZoVDc1TzZGSVc3aUl4TkZwNGtTLU91WkxDLUw4Y0M1MnppZHRoUl9QNXBMT095RXFfUQ?oc=5",
-          "published_at": "2026-10-21T11:36:50.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "france24.com",
-          "title": "Macron says world leaders have made 'stupid' comments on France riots based on fake AI videos",
-          "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNWHN2UU4ta1E5N2szM3pHNUdhVjRyY0x1Sk9aZks1ZkY5cFBvMEdJY21BUGxNRFhwZ0FOdmJmT2lnc3VJYlViS0w0VU5DTnBNLWpQUktuMU5ycGlKMTJHb1dEQzhlUGhNMFhobTg3NVpVXzNWU1hJMkxDNC1fRmRLQUdXN3lpV0N6UEx6M05hcTZySVlnQTNoWTJiOWNuQ0h0LWE2LWd5bDMzTWhYYTJ5TDNPZ0JVdktKTFNtSWVBVkk4c3FoS2k0Y2Rzc21KVnhi?oc=5",
-          "published_at": "2026-10-21T11:48:11.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "afp.com",
-          "title": "Macron slams 'stupid' comments based on AI videos by leaders on France riots",
-          "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTFBBcW82ZkhhUlpoSjRFbHppeTVmclk1dGZhLWluTmN2d3Z0QWZUbEdjb1NNYy1qQjhHN1VtS1JJNHRBcGJfLWJzU1Vlcw?oc=5",
-          "published_at": "2026-10-21T11:51:59.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "afp.com",
-          "title": "Macron slams 'stupid' comments based on AI videos by leaders on France riots",
-          "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5KMXZqalNwOEVmSnlOcW5oTnh6cUFyWTIyeE9nS0MxZG9Ca2NCYkRRaERiLUNZVDdUbmlQTXlTd29QUnJVMGRGTFVsOA?oc=5",
-          "published_at": "2026-10-21T12:22:59.000Z",
-          "tier1": false
-        }
-      ],
-      "live": true
-    },
-    {
-      "id": "b295722c00399",
-      "title": "Oracle AI Agent Studio for Industry Applications Helps Accelerate Business Outcomes",
-      "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPcjhMVG1TVU9ROFo0S2ZiNXYtUk1WZ3ZONjFhdGJpdE5OdHo1LXR2bDVWcmJIUktXLXFjNkdyYkQ0V0M3YkpicG9QMmF5MVZ4MmFBMExUWGFBdjRoNGMtMW9CbHVUdzNlZHA5cTN2TlhYRmYxOV9RUXdwamxDNnVQVWhzcmM4c1dQUXlCQ2dMQ01pRFRPaUtIbEUtTjQza1hMd3IwdG03Nkdrc2sxSWtEUGVXRkZtOGZhT0RfeDNlaTZla21BbDRFQmYteV9aLTRBUHc?oc=5",
-      "source": "gnews-ai",
-      "outlet": "oracle.com",
-      "outlets": [
-        "oracle.com",
-        "prnewswire.com"
-      ],
-      "tier1_outlets": [],
-      "corroboration": 2,
-      "sources": [
-        "gnews-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min"
-      ],
-      "earliest_published_at": "2026-10-21T10:53:21.000Z",
-      "first_seen_at": "2026-10-21T11:15:24.712Z",
-      "latency_s": 1324,
-      "breaking_at": "2026-10-21T11:36:48.277Z",
-      "item_ids": [
-        "19ff3df34dfbde59"
-      ],
-      "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "oracle.com",
-          "title": "Oracle AI Agent Studio for Industry Applications Helps Accelerate Business Outcomes",
-          "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPcjhMVG1TVU9ROFo0S2ZiNXYtUk1WZ3ZONjFhdGJpdE5OdHo1LXR2bDVWcmJIUktXLXFjNkdyYkQ0V0M3YkpicG9QMmF5MVZ4MmFBMExUWGFBdjRoNGMtMW9CbHVUdzNlZHA5cTN2TlhYRmYxOV9RUXdwamxDNnVQVWhzcmM4c1dQUXlCQ2dMQ01pRFRPaUtIbEUtTjQza1hMd3IwdG03Nkdrc2sxSWtEUGVXRkZtOGZhT0RfeDNlaTZla21BbDRFQmYteV9aLTRBUHc?oc=5",
-          "published_at": "2026-10-21T10:53:21.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "prnewswire.com",
-          "title": "Oracle AI Agent Studio for Industry Applications Helps Accelerate Business Outcomes",
-          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQbTFYSjFndGZNOGdHa0RTREdBNkdYYTRoeXZfakZkOWNQUEtwdG1qSzJMOG9RRkR3bWRhWHlFUTZ5V2F2RFRkZnZaWl9uSy02YVIzbDRZNlAzREZYeDF4YnVvUHRVVUlXZ3k3SkRXMTE2UUFaMWVkRjhPTDJabEhCQUZaUVVSZE9yYTc1RWJPNTVkTDExLXFUZFB1a2t2bWlJMzV6NHh3dVBTTlBmOUFaN09kQUdrZTNhWDZUTVAzZzdTUHJTWVZnMEMtZGprUksyejRDeW9B?oc=5",
-          "published_at": "2026-10-21T11:00:00.000Z",
-          "tier1": false
-        }
-      ],
-      "live": false
-    },
-    {
-      "id": "b950354660787",
-      "title": "CoreWeave Unveils CoreWeave Physical AI Launchables, Taking the Setup Work Out of Robotics and AV Development",
-      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNeXZkd3BEVFh1M0JDSWU2c1BINWo5OHBZalpXOUp6dGRKeTExSzRJTElMazZNZmFleDlLZW4yX0pjdW1MUG9DWFZSYTdlRUttaXNuemdfSkpCLWdBSTNkMDFzd0NxU0kteEg1c3NsZUVnRHlGZHhGSHg1SHZYXzJKZWJad0hkR0gzWm1sYXZ1M0pPNUU5bk9Cb3lRN1FHYUZrZTdJeFln?oc=5",
-      "source": "wires-ai",
-      "outlet": "ft.com",
-      "outlets": [
-        "businesswire.com",
-        "coreweave.com",
-        "ft.com"
-      ],
-      "tier1_outlets": [
-        "ft.com"
-      ],
-      "corroboration": 3,
-      "sources": [
-        "gnews-ai",
-        "wires-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
-      ],
-      "earliest_published_at": "2026-10-21T11:30:00.000Z",
-      "first_seen_at": "2026-10-21T11:36:48.277Z",
-      "latency_s": 408,
-      "breaking_at": "2026-10-21T11:36:48.277Z",
-      "item_ids": [
-        "b2f88d2039be9894"
-      ],
-      "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "businesswire.com",
-          "title": "CoreWeave Unveils CoreWeave Physical AI Launchables, Taking the Setup Work Out of Robotics and AV Development",
-          "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxNdi1obUFnYlRWWG1haHBNWk9PcU9HZFRMcXdtRUVJamxNRk5yYlI2ZmMyS0J0bTJhSlFCYUFkd1BySWhpbXU0X21IVGM2YjMyajE5WVlydGJpRFo0d0lfeThGbkRmdHhXbU56TUp2Q2todm52MHZNYjhSRnQxTGx3WTF1NUhTVllKWEpTUGxnWmZycWxLNnZESWR4Y29EZEl0VnBJSmpvUFFVZ2FqSm53d1FuRUtYWVV2RUE0UHRKN3Q0RHZoZjl0XzFvZ3pxSUFZN1c0M2NPbGw3di1vaTVTWWNyX0cyU2FWaHc0VXhtVF9WcjcwUnR0cA?oc=5",
-          "published_at": "2026-10-21T11:30:00.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "ft.com",
-          "title": "CoreWeave Unveils CoreWeave Physical AI Launchables, Taking the Setup Work Out of Robotics and AV Development",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNeXZkd3BEVFh1M0JDSWU2c1BINWo5OHBZalpXOUp6dGRKeTExSzRJTElMazZNZmFleDlLZW4yX0pjdW1MUG9DWFZSYTdlRUttaXNuemdfSkpCLWdBSTNkMDFzd0NxU0kteEg1c3NsZUVnRHlGZHhGSHg1SHZYXzJKZWJad0hkR0gzWm1sYXZ1M0pPNUU5bk9Cb3lRN1FHYUZrZTdJeFln?oc=5",
-          "published_at": "2026-10-21T11:30:00.000Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "coreweave.com",
-          "title": "CoreWeave Physical AI Launchables Simplify Development",
-          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQVW4zM1kwcjVLS1V0UFhPa21EWFZma0p3Q09zMFNpUW5tQnhCajhDQlFmbi0xLU5Idkl0U081S21yaU9xZGZmcDlPQVJibjNIVjVjVVF5V3ByUGhvbWJ4NDl1aTBXUlpfRlJPRDZIU2VoYlVRMVhMYlhFMmtIeE5fbVIwLVhEQnBmR183ZUFoMVA0eF85dU1vS2dkRlhPZVRxOHdMNVF0VW1EakxxUHE0bTJuV3ViVmNxZVRIWEJYc1JaaXFRdUxXZnBacW9mTmlSS2JpbHJn?oc=5",
-          "published_at": "2026-10-21T11:36:48.277Z",
-          "tier1": false
-        }
-      ],
-      "live": true
-    },
-    {
-      "id": "b057b310299e6",
-      "title": "AstraZeneca Partners With Oracle to Refine Clinical Research With AI",
-      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPWVJpY0VOc2tLVk9kZTE4bEZHaWJBbEFmaUFqbTBPcHhBODc3SUdwdnJBU2NuanRVVmk0NDNlZElOZWlTM1ZIOUpoekE2aVlvUmlra1N3dndiZWVTZVFGUXI2QXhnWWF4eHg2RFhlOC1hWDF4dzc5a2dIcDhvQWVGZkRSYU9nNlpkNVlRS0RYNUpDQ19lUnl4X1dYaGFGRWpoTXpFbkVHb3h0QUFzYXZF?oc=5",
-      "source": "wires-ai",
-      "outlet": "wsj.com",
-      "outlets": [
-        "clinicaltrialsarena.com",
-        "wsj.com"
-      ],
-      "tier1_outlets": [
-        "wsj.com"
-      ],
-      "corroboration": 2,
-      "sources": [
-        "gnews-ai",
-        "wires-ai"
-      ],
-      "rule": [
-        "tier-one outlet plus one more"
-      ],
-      "earliest_published_at": "2026-10-21T09:46:43.000Z",
-      "first_seen_at": "2026-10-20T04:57:21.454Z",
-      "latency_s": 0,
-      "clock_skew": true,
-      "breaking_at": "2026-10-21T11:15:24.712Z",
-      "item_ids": [
-        "324d99a4b47b5309",
-        "718f9d6aeab794fc",
-        "c19771713c854aa4"
-      ],
-      "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "clinicaltrialsarena.com",
-          "title": "AstraZeneca and Oracle collaborate to test AI in clinical trial recruitment",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNcE1kS0FxRUp6eHhPcXhNZ0Yyd2l2OFdaLWJkZGN1RmxvS2EzWFZ1ZWNMT3JrQWlDS05DQTlxcFNVRjlFQ1p4SUFzLW81MjEtckd3c0FuclJmeGpUajU5SzhLeDVGcjB1UzVmczZnS0xMdHJEQ1F2SExqcm1jMTdKNGJHUlR1U0FxempN?oc=5",
-          "published_at": "2026-10-21T09:46:43.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "wsj.com",
-          "title": "AstraZeneca Partners With Oracle to Refine Clinical Research With AI",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPWVJpY0VOc2tLVk9kZTE4bEZHaWJBbEFmaUFqbTBPcHhBODc3SUdwdnJBU2NuanRVVmk0NDNlZElOZWlTM1ZIOUpoekE2aVlvUmlra1N3dndiZWVTZVFGUXI2QXhnWWF4eHg2RFhlOC1hWDF4dzc5a2dIcDhvQWVGZkRSYU9nNlpkNVlRS0RYNUpDQ19lUnl4X1dYaGFGRWpoTXpFbkVHb3h0QUFzYXZF?oc=5",
-          "published_at": "2026-10-21T10:42:37.000Z",
-          "tier1": true
-        }
-      ],
-      "live": false
-    },
-    {
-      "id": "b6effaf94ebdb",
-      "title": "OpenAI president urges AI safeguards as group he funds opposes regulation",
-      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOYmVlY3NlaE8xWXA4OUdBTUlKOEhtdWh4UEwwVVlfUDczNjczeXV1aUtLek42UjQ4b3I5NHZaRU5xYjFlVVhNWXV3Sm1rRkgxRkR0b1VWazFaT195cG5GUlF4S0FEcERoTzJJVXktUVdYOTN1ZldXREx5ZmllMVgyRG1sT0pRMF9hNF9JLVhTcnA2M3o3Qy1FS0FLS3QyMTFQVXloYU9ibmw2VWVMRzJuT3Z4dkQ1V2VyUTAxclhQdHY?oc=5",
-      "source": "wires-ai",
-      "outlet": "reuters.com",
-      "outlets": [
-        "reuters.com",
-        "thenextweb.com"
-      ],
-      "tier1_outlets": [
-        "reuters.com"
-      ],
-      "corroboration": 2,
-      "sources": [
-        "gnews-ai",
-        "wires-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
-      ],
-      "earliest_published_at": "2026-10-21T10:23:12.436Z",
-      "first_seen_at": "2026-10-21T10:23:12.436Z",
-      "latency_s": 0,
-      "breaking_at": "2026-10-21T11:15:24.712Z",
-      "item_ids": [
-        "c9ad413f17abfda6"
-      ],
-      "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "OpenAI president urges AI safeguards as group he funds opposes regulation",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOYmVlY3NlaE8xWXA4OUdBTUlKOEhtdWh4UEwwVVlfUDczNjczeXV1aUtLek42UjQ4b3I5NHZaRU5xYjFlVVhNWXV3Sm1rRkgxRkR0b1VWazFaT195cG5GUlF4S0FEcERoTzJJVXktUVdYOTN1ZldXREx5ZmllMVgyRG1sT0pRMF9hNF9JLVhTcnA2M3o3Qy1FS0FLS3QyMTFQVXloYU9ibmw2VWVMRzJuT3Z4dkQ1V2VyUTAxclhQdHY?oc=5",
-          "published_at": "2026-10-21T10:23:12.436Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "thenextweb.com",
-          "title": "OpenAI’s Brockman urges AI safeguards as group he funds opposes rules",
-          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNeHNWYS1Nb2VPLWRqUEJ5UTRucGdxS3htQzRYZkxsQVVuNm9ISy1KeWpRSXN0ZmE0bklOSnpRU18tUnlmZUdQaHJRaHpOME8tNTI1aFRScVV1UUNSMWxMMFd2dFZKbHV5WUxJUkhHeGhjakZBU1BFVVQ3ZDVuZlJSVUVyYmdUcUE?oc=5",
-          "published_at": "2026-10-21T10:23:12.436Z",
-          "tier1": false
-        }
-      ],
-      "live": false
-    },
-    {
-      "id": "b90cc56abcc24",
-      "title": "Einride expands Nvidia partnership to deploy AI reasoning model for self-driving trucks",
-      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOZEFIVWxsdm9QSkVrWDY4UTgzc3RXRUE5YWZTVmRkaWlzZHR2THozNnA0Rkx6dWp2QndzaXdoMllsM0V4WDZEZW9XZUVKVnFicHp5eEhEbkNNNXVvZFlJZW5hVjhMcklwY0tnWHhsTWx2amd6V2RZSGY2RmVGNFpJVnRIcG1jQ2ZEYWZNd0xfeTRmRGhRSkN5WWpoQjhqM00tenZ3U3VvUXdmTUhpTVNvUVZXWUQ4aW9yVlFvWHNmdXpKeEk?oc=5",
-      "source": "wires-ai",
-      "outlet": "reuters.com",
-      "outlets": [
-        "reuters.com",
-        "yahoo.com"
-      ],
-      "tier1_outlets": [
-        "reuters.com"
-      ],
-      "corroboration": 2,
-      "sources": [
-        "gnews-ai",
-        "wires-ai"
-      ],
-      "rule": [
-        "tier-one outlet plus one more"
-      ],
-      "earliest_published_at": "2026-10-21T10:57:43.000Z",
-      "first_seen_at": "2026-10-21T11:15:24.712Z",
-      "latency_s": 1062,
-      "breaking_at": "2026-10-21T11:15:24.712Z",
-      "item_ids": [
-        "09203fc8f4877aa0",
-        "3a9c29ba489ceb27"
-      ],
-      "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "Einride expands Nvidia partnership to deploy AI reasoning model for self-driving trucks",
-          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOZEFIVWxsdm9QSkVrWDY4UTgzc3RXRUE5YWZTVmRkaWlzZHR2THozNnA0Rkx6dWp2QndzaXdoMllsM0V4WDZEZW9XZUVKVnFicHp5eEhEbkNNNXVvZFlJZW5hVjhMcklwY0tnWHhsTWx2amd6V2RZSGY2RmVGNFpJVnRIcG1jQ2ZEYWZNd0xfeTRmRGhRSkN5WWpoQjhqM00tenZ3U3VvUXdmTUhpTVNvUVZXWUQ4aW9yVlFvWHNmdXpKeEk?oc=5",
-          "published_at": "2026-10-21T10:57:43.000Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "yahoo.com",
-          "title": "NVIDIA (NVDA) Leverages AI Growth to Expand Its Autonomous Driving Opportunity",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPQS1Yczc4QnhSUFFxa3ZVWkxoN0F2NGVPWFJSUWRQbnBEU2VCZmhqQjNadVgxVUtJSy1QWVJzODBLY2pCNEVhRllCcDdENG92dDBnNmY1TzlQVFE5UVdfYVY4NjQwZy0tbGNKQWlqcWZjdDkxUlNhb1MycTlGZ0pTdEZmZ2FsQUhna1BPcTEtYVRkWkJDVnR4RlBfQQ?oc=5",
-          "published_at": "2026-10-21T13:47:14.000Z",
-          "tier1": false
-        }
-      ],
-      "live": true
-    },
-    {
-      "id": "be78b41fea8d6",
-      "title": "Super Micro climbs after upbeat forecast shows robust AI demand",
-      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOS293amxpdWZPVFd3WktBZjlYYmdVY3lkU0Y0WWVoRVJ6UXhRZ2txdGZrV2xfRVRLY0pKWlF1bHc3V3VyT3pLX3NZMzk1OHo1eGJyVTBUSlcwV1JLMmJKRXpVWVh0NzFsZE1WaEFBN3B2bkdPd3ZTNXMzM0ZESm8zaENKU0JkaE00MDRzM0NQVGFibmFyMzNPMFhDSm51c2lwX08xX0tqdGxDZ2tLWEZWa21pNVpnZw?oc=5",
-      "source": "gnews-ai",
-      "outlet": "streetinsider.com",
-      "outlets": [
-        "ksl.com",
-        "reuters.com"
-      ],
-      "tier1_outlets": [
-        "reuters.com"
-      ],
-      "corroboration": 2,
-      "sources": [
-        "gnews-ai",
-        "wires-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
-      ],
-      "earliest_published_at": "2026-10-21T09:18:52.706Z",
-      "first_seen_at": "2026-10-21T09:18:52.706Z",
-      "latency_s": 0,
-      "breaking_at": "2026-10-21T11:15:24.712Z",
-      "item_ids": [
-        "fdc6bd3deb3ddf02"
-      ],
-      "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "ksl.com",
-          "title": "Super Micro climbs after upbeat forecast shows robust AI demand",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNalQ4VTAwVVg3RzVzVFdhRUxPUWNlVU9IMjRSY1JkdXF4MzlCLWlYeHRHQk5BeTAxV2hkMWphTTk1bDdhWGRTOXJPSHgtUExLa0RiWjZreTFsVUI3MV8xU0I0YUpSc0FRWGRKVEh6V0VUQ1lHZVhmU1YycjduMXg2am9RcmFEWnd3QTFGSUZ4MHZjVnUyTkhFWG9aNHJlRWRCX0E?oc=5",
-          "published_at": "2026-10-21T09:18:52.706Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "Super Micro climbs after upbeat forecast shows robust AI demand",
-          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPUEFHMHlEUHh1eC1kVDZtTVVJdnJNamlzUDBWVUtlbHd4RGFrbEM0MURQbUEtX0toNkIxTy1fNVBIMGdCeHlOcWVTUUJDaGtHWlRtZW9YeGZybFFKaGFTdXpLSm1zMk1MZS1aa0cxSl9jVlpXWnRCNndlcTQyWmliTVEybmc5SDVXRGdpd0VneThCRlV0YXZnbGpvbFo2d05BUF91UC1odHdCVDFM?oc=5",
-          "published_at": "2026-10-21T09:18:52.706Z",
-          "tier1": true
-        }
-      ],
-      "live": true
-    },
-    {
-      "id": "bb911c730896b",
-      "title": "Musk Says SpaceX and Tesla Have Begun Exploring a Merger",
-      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPRHNVazdNMUxLOVRTWXdZSW0xVjNCQUtRZHdMckNxbktTTFNIN3Q0Wlh4OU52ai1TUHBjdjJkWjFQRjhwNkFoQTVYVV9ZYVJzbHZOY3RyR3FvS3V1c1ZfNTJZQW1CelNVY1UycFRtX0tmRDlfNnFMZzZ5dFVMZzNscDdjRzlMYXdtRkhLM2JKWk1yRjhPZUVHaGpsejF3WlcyUFFfNXBuWlc0MTVmZnJRUjEzWUE?oc=5",
-      "source": "wires-ai",
-      "outlet": "bloomberg.com",
-      "outlets": [
-        "247wallst.com",
-        "bloomberg.com",
-        "marketwatch.com",
-        "nypost.com",
-        "reuters.com",
-        "yahoo.com"
-      ],
-      "tier1_outlets": [
-        "bloomberg.com",
-        "reuters.com"
-      ],
-      "corroboration": 6,
-      "sources": [
-        "bloomberg-tech",
-        "bluesky-ai",
-        "gnews-ai",
-        "wires-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
-      ],
-      "earliest_published_at": "2026-10-21T11:15:24.712Z",
-      "first_seen_at": "2026-10-20T13:13:17.686Z",
-      "latency_s": 0,
-      "clock_skew": true,
-      "breaking_at": "2026-10-21T10:23:12.436Z",
-      "item_ids": [
-        "02a0cb31c2866fa2",
-        "07b0a05b62110764",
-        "0ceea62df9aec454",
-        "11fd7d62474ae90b",
-        "1abfc6dd7e7f5ecb",
-        "2844a328b3354ed7",
-        "3546b947b3c25db3",
-        "3ea4f84cb5a3c7ad",
-        "52ede9be5820e778",
-        "5710698e008ab731",
-        "5b073931cc91b8db",
-        "618c925b8eb46c19",
-        "68cf1ff3bd989ac0",
-        "695641ce96a702ee",
-        "6a99b0ee719219eb",
-        "6bc82b8e8b6f23b9",
-        "6c089157a268bf58",
-        "6f88a6b2486b20c3",
-        "84ca3f3af4e57e26",
-        "857f9a619731b852",
-        "8a3e585df673569f",
-        "91a77f8ec6c84be9",
-        "a307094fbcd5619e",
-        "a7232b2f331d9b8a",
-        "b3d50fc288811463",
-        "c4e00db53c99e067",
-        "c92a47fb24242a55",
-        "cd0d30718fc56cf0",
-        "cdd4573b38d1ec97",
-        "d08fb9f7c6cd8e8c",
-        "d0b749df5a50b0b5",
-        "e03adac613e8fd5a",
-        "e1a87765c4f9b68a",
-        "fd55b9396e38d4a0"
-      ],
-      "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "Nasdaq leads gains as SpaceX, Super Micro results improve AI appetite",
-          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQZUJTOXdaa0JmVzZubm12MGt4VnNSemsyOW1fQXpCMnhEc25HSVJRZk93d2NYUXQ3eHBuQklaNE1FT1QyQ1NqdTFkdExDbmoxY2JtOWhLQkVtYXczMHh3a3VsZmhub1JFc0FIZHN1eEcwc3FRZVZWQnBoSjFjekFYTUN6X2d5WHJUWGpDU2paekhhU24zenhNbWpXUmtfdmo5cTFIZVZwTXdiRzZoeUtiazhHWkJEWEVZLTVmQmRMcw?oc=5",
-          "published_at": "2026-10-21T11:15:24.712Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "reuters.com",
-          "title": "Nasdaq leads gains as SpaceX, Super Micro results improve AI appetite",
-          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQZUJTOXdaa0JmVzZubm12MGt4VnNSemsyOW1fQXpCMnhEc25HSVJRZk93d2NYUXQ3eHBuQklaNE1FT1QyQ1NqdTFkdExDbmoxY2JtOWhLQkVtYXczMHh3a3VsZmhub1JFc0FIZHN1eEcwc3FRZVZWQnBoSjFjekFYTUN6X2d5WHJUWGpDU2paekhhU24zenhNbWpXUmtfdmo5cTFIZVZwTXdiRzZoeUtiazhHWkJEWEVZLTVmQmRMcw?oc=5",
-          "published_at": "2026-10-21T11:15:24.712Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "yahoo.com",
-          "title": "Nasdaq leads gains as SpaceX, Super Micro results improve AI appetite",
-          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPdnY3ME95NFJPaGhhOVNxUFV3dDZ0anROWUVlWU1yZHBVZVJ0TVp2b1dwQXpGWFBMdHRBanFKZXlhRFJydEJVZmJkSmxjSGNHLTlBbkJnbU5rVTZVNXd4cl9FVEMza3hFOEFNRUtoMVQxdEtIQ1c3VHAtTTRsSzVZNXNYZHBEelh2cHJIV2tmVk9fVjd1aGExWm9ldWw?oc=5",
-          "published_at": "2026-10-21T11:15:24.712Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "Watch Stocks Rebound on Strong SpaceX Results; AI Bubble Dispute; Tech Earnings on Deck",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQYnlucVh3WWhXcURnSmE5a2JnYm5vSkxZSWtDalpncWdIWDNOT0IzN1otZzlFRFI1WFE4NnhmSU14UGJDRkZzT0VZdTMyYm1zUWp4bkhEeS05YXdqVE5hcnlIRkd5Mk91bVVaTm9uaGNDcm9SRU0xZkVXWXVYcXl0ekxKbnJVRjJz?oc=5",
-          "published_at": "2026-10-21T11:44:37.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "Watch SpaceX Results Reignite AI Trade, Meta Results on Deck",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNbklETFRUZUdoNVFfZWZxQ3dQQTVJdXR2YmdHcVV3N1FGa2ZfU2JiSUZYQlhvZ0M1ZHhrZjFuNGZ6ZWNaX0Rzb1dKT2hiR1hTU1hiVWJFNkwyN0VsNURuVG40dzJRdHBTc0FNdzZYNlBKVnlraWtuMkhIM051eWpySERXNldOSWxQY3dn?oc=5",
-          "published_at": "2026-10-21T11:53:56.000Z",
-          "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "reuters.com",
-          "title": "Nasdaq futures lead gains as SpaceX, Super Micro results lift AI stocks",
-          "url": "https://bsky.app/profile/reuters.com/post/3myf4tqpxcn2h",
-          "published_at": "2026-10-21T12:15:20.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "US Futures Climb With SpaceX Results Helping Boost AI Sentiment",
-          "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNZHNERTJ2N2dyVEwyT2hvY0tBeW44QW9ZUC14a0FQeFo4c1ZFTWk1d2o4VDFSelN2elB4N2hiUGE3T2RaV0ZhcFNYMERSanVkdWU5eFY4ZEs4MkctZzRhY2VwQUVnd29GVTN2OFpQcUFXWUV3TlZ6dzJ2dWNzZDE5OTNTck1ISV9nY2lCSzNseExjcXZjQ1ZfMTVqeTNfbmlZbnZvOWJndGZXQXUxdlNjbVJNckRvVHFuT2NHTUkzenczS1ZsaVdtY3hYSG8ycmNL?oc=5",
-          "published_at": "2026-10-21T12:18:53.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "US Futures Climb With SpaceX Results Helping Boost AI Sentiment",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPaU9MUmFsSjJ0b3dsNm0tMGE2cHF2MGQycG1nTVc4Mk5YY0hybFBLUDNJRkFCbHdVLXlidF9rSUdBRkVkaVZyQS1hZHh3U1UzNDFxRHRqYVE0NEUxZnREUnNoM3pEOTFXOXhLb2g3OVJwTkhPR0VSQUM5aHFIcHVvZzVlbWQ1V1NmTXFjZWllWjl3MFlxSzk5YkRQd3I0TzNIcUZkR0ROYTFpN216MkxabWM4Q3VhcEtoMGhaRXJjdWVhLTdmS0JhVnhjS2R0QQ?oc=5",
-          "published_at": "2026-10-21T12:18:53.000Z",
-          "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "reuters.com",
-          "title": "Tesla-SpaceX deal: Wall St says inevitable but Musk says it's not certain",
-          "url": "https://bsky.app/profile/reuters.com/post/3myf5ovlh4f2y",
-          "published_at": "2026-10-21T12:30:31.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "Tesla-SpaceX deal: Wall Street says inevitable but Musk says it's not certain",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNSTVHd2VEZUVrVDJpZzdZTFpLRDlEdXdVck83NDhpeUlyZnNwVVNqRWppNThJVVFiMDJPazVOblA1ZDdScmJ2SWFodWpKMC1BZHdjTmlsdFROVkZfRWJpbzZ6VEdUUnVpcnE4NWxxNGI0V1VVNTJ6YnNaR01wT0VsZmhVNlJIU1BFV3ZPVUprek8ySE83U2xfaldDaGhwLTRHem5QMnBYTE9VbjEzS0JkSENkZTc2UUpETVpTUGtWejg?oc=5",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQVkhiMEMwWUVKSTN6Y1lrYmU0bmpDaFI1S2gxVlhCZVlRRzl4TU1aMVY3dDZWdnpuOUtuR2NGSG1ISVZiTUxsdVJwVnp6MmZ6X0FXLV9TNjdCTHc5bEVlQUpsTHdoQzJxVnhuYm1TaGpycTlSZEtNUHZzU1pIb1AyZl9WQkc1MldfdmpLNzlad1V1Um90UDZ4alVEZWR4THYwWTBULUtR?oc=5",
           "published_at": "2026-10-21T12:51:19.085Z",
           "tier1": true
         },
         {
           "source": "gnews-ai",
-          "outlet": "marketwatch.com",
-          "title": "Why SpaceX’s stock is surging — and lifting the broader AI universe along with it",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOTEFnYzRHMjJLY2p3eFE0WkFzZlhhTFNISVF0d2RudDZTcW9UZTh3MWNXV3Zmb3RqSzZFT0ZIbDJJNjlpWFJwMXROQVZ0SDBtVllqbkRJVnE0VlN5Znl6WTJ1NnVjRUYyTTRTZ0dkX3l6SEFPQWMtOF9PRXJNZ3dLR1pRNXhLcjB2cjNRWFVRbk1QRUxYckRBQUtoaGdxUlA3Y08tU1BFZk1GbjhRUzQ2b1lNUUVHcVlBb1dtcFJB?oc=5",
-          "published_at": "2026-10-21T14:10:00.000Z",
+          "outlet": "marketscreener.com",
+          "title": "Insight Enterprises Announces OpenAI Advanced Partner Relationship to Accelerate Midmarket Enterprise AI Adoption",
+          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxQa3FPSTgtOFpFSnRmZEpuZ3FEekZQdWFRMEFSZmltQ0xpVlI2LUJqZ2lEX3V3NmkwWkZsU1VGY3JTRjZydVVRTmtsS1RqVlVZWEl1dXFHbk1oT3d1S0J0ZWg1SEhnbElvMnVUMFJCeldPMWpIM0hiRktzODE5M2FVY0FqcEZzdXlBY1B6SDMydU0tT0R1aVdzclN6al9ycWpEb054S1VEV25HQzlVNDlXZ0FObVhrcjFHdkZyR2JrSUVXQ0o1R20xTk8zbEJOUUF6YVR2LWRaeEpnVlRERGoyeFowWnJ6Y2pq?oc=5",
+          "published_at": "2026-10-21T12:51:19.085Z",
           "tier1": false
-        },
-        {
-          "source": "bloomberg-tech",
-          "outlet": "bloomberg.com",
-          "title": "SpaceX, Tesla Boards Study Possible $3.5 Trillion Merger",
-          "url": "https://bloomberg.com/news/videos/2026-10-21/spacex-tesla-boards-study-possible-3-5-trillion-merger-video",
-          "published_at": "2026-10-21T14:44:23.000Z",
-          "tier1": true
-        }
-      ],
-      "live": true
-    },
-    {
-      "id": "bdfb05c1a7495",
-      "title": "A Design Flaw in Share Links Exposes Users’ Personal Conversations With Meta’s Muse",
-      "url": "https://bsky.app/profile/wired.com/post/3myf647iabe2y",
-      "source": "bluesky-ai",
-      "outlet": "wired.com",
-      "outlets": [
-        "linkedin.com",
-        "wired.com"
-      ],
-      "tier1_outlets": [
-        "wired.com"
-      ],
-      "corroboration": 2,
-      "sources": [
-        "bluesky-ai",
-        "gnews-ai",
-        "wired-ai"
-      ],
-      "rule": [
-        "tier-one outlet plus one more"
-      ],
-      "earliest_published_at": "2026-10-21T12:35:00.000Z",
-      "first_seen_at": "2026-10-20T06:21:53.501Z",
-      "latency_s": 0,
-      "clock_skew": true,
-      "breaking_at": "2026-10-21T10:23:12.436Z",
-      "item_ids": [
-        "54f1ce089983a836",
-        "5d7a67d656479c2a",
-        "746d5bed8d97fd0d",
-        "918b0773978230e9",
-        "b1eeea4da389d967",
-        "bd9aea416243ba4a"
-      ],
-      "sightings": [
-        {
-          "source": "wired-ai",
-          "outlet": "wired.com",
-          "title": "A Design Flaw in Share Links Exposes Users’ Personal Conversations With Meta’s Muse",
-          "url": "https://wired.com/story/a-design-flaw-in-share-links-exposes-users-personal-conversations-with-meta-muse",
-          "published_at": "2026-10-21T12:35:00.000Z",
-          "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "wired.com",
-          "title": "A Design Flaw in Share Links Exposes Users’ Personal Conversations With Meta’s Muse",
-          "url": "https://bsky.app/profile/wired.com/post/3myf647iabe2y",
-          "published_at": "2026-10-21T12:37:56.993Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "linkedin.com",
-          "title": "Naval hack, Muse exposes secrets, Army researching offensive AI hacking",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQZ1NVZ0RaWFdxSG85Z0I3VzNpX1h0azZzaTE5N2R6MTRFcVBnM3RTSEtLUHVSSmVUVzlSWS01T2pCb2p2b0RGb1FTZlg1b05aVnVHRGR0TTdKV3Rxd2Rrd2k1bHRTQ2RkT3otb3lCRkNFdnlvOW83b0U3MGMxOUdnV3dJZjVaQ0lWQUJVdGJITVAxY0tfYXBWYUhtRQ?oc=5",
-          "published_at": "2026-10-21T13:48:58.000Z",
-          "tier1": false
-        }
-      ],
-      "live": true
-    },
-    {
-      "id": "b425afd2e3094",
-      "title": "OpenAI Agents Prevented Themselves From Being Monitored. One Also Lied About It",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPSF9hdkh1ZjE1T1pLamtKc1ptUmJvSDFGeEUwM3Z1b1ZJVjJ2aVAwRkIzSHZGU05nZmVFNGUxMVFvS0pKb2d3OHFhZUVrMU0tMkdQTXpqUzdPZWppQ0N3VnJyMm83NU4wS0RBakU2OTFnTXVvMUZlSDRTYkpRZko3VjRqdEtkOWdMcWlEdlhKYjRWZW9WY2YxbzBIakViVUZqSzh4VlcyZldhOHh2X0E?oc=5",
-      "source": "gnews-ai",
-      "outlet": "gizmodo.com",
-      "outlets": [
-        "aol.com",
-        "gizmodo.com"
-      ],
-      "tier1_outlets": [],
-      "corroboration": 2,
-      "sources": [
-        "gnews-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min"
-      ],
-      "earliest_published_at": "2026-10-21T09:00:44.000Z",
-      "first_seen_at": "2026-10-21T09:18:52.706Z",
-      "latency_s": 1089,
-      "breaking_at": "2026-10-21T10:01:47.012Z",
-      "item_ids": [
-        "3ddac83e3ca9c2ad"
-      ],
-      "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "gizmodo.com",
-          "title": "OpenAI Agents Prevented Themselves From Being Monitored. One Also Lied About It",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPSF9hdkh1ZjE1T1pLamtKc1ptUmJvSDFGeEUwM3Z1b1ZJVjJ2aVAwRkIzSHZGU05nZmVFNGUxMVFvS0pKb2d3OHFhZUVrMU0tMkdQTXpqUzdPZWppQ0N3VnJyMm83NU4wS0RBakU2OTFnTXVvMUZlSDRTYkpRZko3VjRqdEtkOWdMcWlEdlhKYjRWZW9WY2YxbzBIakViVUZqSzh4VlcyZldhOHh2X0E?oc=5",
-          "published_at": "2026-10-21T09:00:44.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "aol.com",
-          "title": "OpenAI Agents Prevented Themselves From Being Monitored. One Also Lied About It",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNRXpsQndnUWRiWHV3ajdJMnNyZXgxTFdYcWFEZzBoUG9WVnkwZ245UXJqN24xdi1xREZtZzFXbkJtaUxjWnRCdjlZQnpnbmhialVQS2NGZk1YY0xrNWdheENTOTctVjV1ZnJEbkh4bEVkUi0zVnUtd2xVVkFtTzZYeW1BbkttVDl4VzZLbw?oc=5",
-          "published_at": "2026-10-21T09:13:25.000Z",
-          "tier1": false
-        }
-      ],
-      "live": false
-    },
-    {
-      "id": "b7feb3a1247b6",
-      "title": "Forrester's 2027 Technology And Security Predictions: AI Will Account For 20% Of All Business Technology Spend",
-      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOdTZEdi1aQTVlM0pCSjd4UENzd2lOYU1LaU16SzFaSTRXeHFRbjlhNms3SEh6V05jb1pocFB0dkRNVU0tcE5oQXVnaEFlMW9iTW9NcnpSdEFKcXM0MEhrSDNjNUR0NlRMcllrU20tX3NqS29mWDRDMFZVTngzU1hMOWNPQ3pFRHFHN2tUMmU1REFZZWIxRExVWUFmLUR2ajl4ZzFxUWlB?oc=5",
-      "source": "wires-ai",
-      "outlet": "ft.com",
-      "outlets": [
-        "afp.com",
-        "ft.com"
-      ],
-      "tier1_outlets": [
-        "ft.com"
-      ],
-      "corroboration": 2,
-      "sources": [
-        "wires-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
-      ],
-      "earliest_published_at": "2026-10-21T08:30:00.000Z",
-      "first_seen_at": "2026-10-21T08:56:41.507Z",
-      "latency_s": 1602,
-      "breaking_at": "2026-10-21T10:01:47.012Z",
-      "item_ids": [
-        "ed89bff81c436b4a"
-      ],
-      "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "afp.com",
-          "title": "Forrester’s 2027 Technology And Security Predictions: AI Will Account For 20% Of All Business Technology Spend",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPLTV0RmJIS3YxakNwNV9FUG9aMnQ2TFJ4RHNsQ2dfV1JvN0ZWY1NRLXk3TXFrdU5tSlJ6Uy1MQmFpa0huazNYeXZVdGR5ajF1N2ZXWkJ3X0ZJbzJScnh2V0lrWWRIeWl6NV93SXpSbHlfU1hraU1HZW9RSXJYQ3VrMFVYRll3WEdWckxTcmYwQzhyQ1lSRmpnNlVxVU1XRlJsSlhmTWpEeGZ2Z1JLOEprNFFR?oc=5",
-          "published_at": "2026-10-21T08:30:00.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "ft.com",
-          "title": "Forrester's 2027 Technology And Security Predictions: AI Will Account For 20% Of All Business Technology Spend",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOdTZEdi1aQTVlM0pCSjd4UENzd2lOYU1LaU16SzFaSTRXeHFRbjlhNms3SEh6V05jb1pocFB0dkRNVU0tcE5oQXVnaEFlMW9iTW9NcnpSdEFKcXM0MEhrSDNjNUR0NlRMcllrU20tX3NqS29mWDRDMFZVTngzU1hMOWNPQ3pFRHFHN2tUMmU1REFZZWIxRExVWUFmLUR2ajl4ZzFxUWlB?oc=5",
-          "published_at": "2026-10-21T08:30:00.000Z",
-          "tier1": true
-        }
-      ],
-      "live": false
-    },
-    {
-      "id": "bd5cb36817344",
-      "title": "Forrester's 2027 B2C Marketing, CX, And Digital Predictions: Rising AI Costs Will Force B2C Leaders To Scale Back A Third Of AI Initiatives – Company Announcement - FT.com",
-      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPUWgydWhTYk9TdjdNTGNPalplNGhPcWhrUkd2bWFWVWtCR3Z2cEs4c0VxVzdFQjQ0c2VmR0VLNHpmX2F5Z1dfX3dxbnUyeHBtMGFmc3N2SVBjWGlNdF9MN25kQ3FLdF9QTFIzWTBBSklhYkpudWZIS1FJclM2QU1iYUVjUUIwMHJiQWU4eW5uc0JZYWNheTVkeGxrUUxxSWVRX3hBSFhB?oc=5",
-      "source": "wires-ai",
-      "outlet": "ft.com",
-      "outlets": [
-        "afp.com",
-        "ft.com"
-      ],
-      "tier1_outlets": [
-        "ft.com"
-      ],
-      "corroboration": 2,
-      "sources": [
-        "wires-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
-      ],
-      "earliest_published_at": "2026-10-21T08:30:00.000Z",
-      "first_seen_at": "2026-10-21T08:56:41.507Z",
-      "latency_s": 1602,
-      "breaking_at": "2026-10-21T10:01:47.012Z",
-      "item_ids": [
-        "2802f930e4adf59d"
-      ],
-      "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "afp.com",
-          "title": "Forrester’s 2027 B2C Marketing, CX, And Digital Predictions: Rising AI Costs Will Force B2C Leaders To Scale Back A Third Of AI Initiatives",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOSGZFTVdPSVotUVl5R0J2QTVFblBkLU5nU0lNMzZKdktDY0VZcWRtU2lqaWZoSllpS0E4bTBOUHktVThyN29OX2wtMTVqRTRSWGgxZlhYb3dDT3Rud3Z5V0dPRDQ4cFQtWXB2akU3OXhYSXp3WU12b1oxeV9jRUYzLVdITnpIakwxaC1WRWFoMHphSW9sVG83OWY2blJvQi1fbDMwMVA4ZGVxNE9EVnVKRUl0S2U5cjA?oc=5",
-          "published_at": "2026-10-21T08:30:00.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "ft.com",
-          "title": "Forrester's 2027 B2C Marketing, CX, And Digital Predictions: Rising AI Costs Will Force B2C Leaders To Scale Back A Third Of AI Initiatives – Company Announcement - FT.com",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPUWgydWhTYk9TdjdNTGNPalplNGhPcWhrUkd2bWFWVWtCR3Z2cEs4c0VxVzdFQjQ0c2VmR0VLNHpmX2F5Z1dfX3dxbnUyeHBtMGFmc3N2SVBjWGlNdF9MN25kQ3FLdF9QTFIzWTBBSklhYkpudWZIS1FJclM2QU1iYUVjUUIwMHJiQWU4eW5uc0JZYWNheTVkeGxrUUxxSWVRX3hBSFhB?oc=5",
-          "published_at": "2026-10-21T08:30:00.000Z",
-          "tier1": true
         }
       ],
       "live": false
@@ -1942,213 +2087,297 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 9225,
-      "n": 241
+      "median_s": 12784,
+      "n": 515
     },
     "by_source": [
       {
-        "source": "404media",
-        "label": "404 Media",
-        "median_s": 825,
+        "source": "lobsters-ai",
+        "label": "Lobsters — AI",
+        "median_s": 177,
         "n": 1
-      },
-      {
-        "source": "aws-ml",
-        "label": "AWS Machine Learning Blog",
-        "median_s": 1485,
-        "n": 3
       },
       {
         "source": "gnews-ai",
         "label": "Google News — AI searches, last hour",
-        "median_s": 1802,
-        "n": 35
+        "median_s": 957,
+        "n": 101
       },
       {
-        "source": "quanta",
-        "label": "Quanta Magazine",
-        "median_s": 2976,
-        "n": 1
+        "source": "reddit-technology",
+        "label": "Reddit r/technology",
+        "median_s": 3848,
+        "n": 2
       },
       {
-        "source": "techcrunch-ai",
-        "label": "TechCrunch — AI",
-        "median_s": 3173,
-        "n": 3
-      },
-      {
-        "source": "hn-fresh-ai",
-        "label": "Hacker News — newest AI submissions (2h)",
-        "median_s": 4782,
-        "n": 7
-      },
-      {
-        "source": "wires-ai",
-        "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
-        "median_s": 5199,
-        "n": 30
-      },
-      {
-        "source": "nvidia-blog",
-        "label": "NVIDIA Blog",
-        "median_s": 5371,
-        "n": 1
-      },
-      {
-        "source": "arstechnica-ai",
-        "label": "Ars Technica AI",
-        "median_s": 6259,
+        "source": "reddit-openai",
+        "label": "Reddit r/OpenAI",
+        "median_s": 3869,
         "n": 1
       },
       {
         "source": "bluesky-ai",
         "label": "Bluesky — AI posts from vetted newsrooms and reporters",
-        "median_s": 7295,
-        "n": 22
+        "median_s": 4038,
+        "n": 23
       },
       {
-        "source": "techmeme",
-        "label": "Techmeme front page (AI-filtered)",
-        "median_s": 7502,
-        "n": 11
-      },
-      {
-        "source": "nyt-tech",
-        "label": "The New York Times — Technology",
-        "median_s": 7614,
-        "n": 1
+        "source": "hn-fresh-ai",
+        "label": "Hacker News — newest AI submissions (2h)",
+        "median_s": 4300,
+        "n": 6
       },
       {
         "source": "openai-status",
         "label": "OpenAI incident history",
-        "median_s": 8159,
-        "n": 1
+        "median_s": 4533,
+        "n": 3
       },
       {
-        "source": "lesswrong",
-        "label": "LessWrong",
-        "median_s": 8870,
-        "n": 8
+        "source": "techmeme",
+        "label": "Techmeme front page (AI-filtered)",
+        "median_s": 4937,
+        "n": 12
+      },
+      {
+        "source": "huggingface-blog",
+        "label": "Hugging Face blog",
+        "median_s": 5895,
+        "n": 4
+      },
+      {
+        "source": "wires-ai",
+        "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
+        "median_s": 5998,
+        "n": 54
       },
       {
         "source": "bloomberg-tech",
         "label": "Bloomberg Technology",
-        "median_s": 10329,
-        "n": 13
+        "median_s": 6532,
+        "n": 15
       },
       {
-        "source": "verge-ai",
-        "label": "The Verge — AI",
-        "median_s": 12642,
-        "n": 4
+        "source": "404media",
+        "label": "404 Media",
+        "median_s": 6556,
+        "n": 2
       },
       {
         "source": "wired-ai",
         "label": "WIRED — AI",
-        "median_s": 14402,
+        "median_s": 8136,
+        "n": 8
+      },
+      {
+        "source": "register-ai",
+        "label": "The Register — AI/ML",
+        "median_s": 10206,
+        "n": 1
+      },
+      {
+        "source": "ieee-ai",
+        "label": "IEEE Spectrum — AI",
+        "median_s": 10984,
         "n": 2
+      },
+      {
+        "source": "mistral",
+        "label": "Mistral AI blog",
+        "median_s": 12766,
+        "n": 1
+      },
+      {
+        "source": "reddit-chatgpt",
+        "label": "Reddit r/ChatGPT",
+        "median_s": 17557,
+        "n": 1
       },
       {
         "source": "the-decoder",
         "label": "The Decoder",
-        "median_s": 15458,
+        "median_s": 17825,
+        "n": 10
+      },
+      {
+        "source": "nvidia-blog",
+        "label": "NVIDIA Blog",
+        "median_s": 18161,
+        "n": 9
+      },
+      {
+        "source": "infoq-ai",
+        "label": "InfoQ — AI/ML",
+        "median_s": 19986,
+        "n": 3
+      },
+      {
+        "source": "govuk-ai",
+        "label": "GOV.UK — AI",
+        "median_s": 24066,
+        "n": 3
+      },
+      {
+        "source": "lesswrong",
+        "label": "LessWrong",
+        "median_s": 26903,
+        "n": 8
+      },
+      {
+        "source": "bbc-tech",
+        "label": "BBC News — Technology",
+        "median_s": 28402,
+        "n": 4
+      },
+      {
+        "source": "scmp-tech",
+        "label": "SCMP — Tech",
+        "median_s": 30535,
+        "n": 6
+      },
+      {
+        "source": "openai",
+        "label": "OpenAI newsroom",
+        "median_s": 30786,
+        "n": 5
+      },
+      {
+        "source": "reddit-localllama",
+        "label": "Reddit r/LocalLLaMA",
+        "median_s": 30983,
+        "n": 1
+      },
+      {
+        "source": "latent-space",
+        "label": "Latent Space (newsletter)",
+        "median_s": 34519,
         "n": 4
       },
       {
         "source": "ft-ai",
         "label": "Financial Times — AI",
-        "median_s": 16030,
-        "n": 5
+        "median_s": 36970,
+        "n": 6
       },
       {
-        "source": "lobsters-ai",
-        "label": "Lobsters — AI",
-        "median_s": 16978,
-        "n": 1
+        "source": "reddit-machinelearning",
+        "label": "Reddit r/MachineLearning",
+        "median_s": 37853,
+        "n": 4
+      },
+      {
+        "source": "reddit-controlproblem",
+        "label": "Reddit r/ControlProblem",
+        "median_s": 38672,
+        "n": 9
       },
       {
         "source": "guardian-ai",
         "label": "The Guardian — AI",
-        "median_s": 18268,
+        "median_s": 40418,
         "n": 4
       },
       {
-        "source": "hn-ai",
-        "label": "Hacker News AI stories (72h)",
-        "median_s": 18328,
-        "n": 7
+        "source": "federal-register-ai",
+        "label": "Federal Register — AI",
+        "median_s": 41586,
+        "n": 1
       },
       {
-        "source": "infoq-ai",
-        "label": "InfoQ — AI/ML",
-        "median_s": 19802,
-        "n": 3
-      },
-      {
-        "source": "mit-tech-review",
-        "label": "MIT Technology Review",
-        "median_s": 21060,
-        "n": 2
-      },
-      {
-        "source": "govuk-ai",
-        "label": "GOV.UK — AI",
-        "median_s": 22218,
-        "n": 2
+        "source": "google-ai-blog",
+        "label": "Google AI blog (The Keyword)",
+        "median_s": 41586,
+        "n": 1
       },
       {
         "source": "reddit-artificial",
         "label": "Reddit r/artificial",
-        "median_s": 22666,
+        "median_s": 43392,
         "n": 15
       },
       {
-        "source": "ieee-ai",
-        "label": "IEEE Spectrum — AI",
-        "median_s": 23398,
-        "n": 1
-      },
-      {
-        "source": "restofworld",
-        "label": "Rest of World",
-        "median_s": 23402,
-        "n": 1
-      },
-      {
-        "source": "bbc-tech",
-        "label": "BBC News — Technology",
-        "median_s": 31009,
-        "n": 4
-      },
-      {
-        "source": "eu-digital-strategy",
-        "label": "EU Digital Strategy",
-        "median_s": 31928,
-        "n": 1
+        "source": "nyt-tech",
+        "label": "The New York Times — Technology",
+        "median_s": 44285,
+        "n": 5
       },
       {
         "source": "github-releases",
         "label": "GitHub releases (AI basket)",
-        "median_s": 49961,
-        "n": 2
+        "median_s": 49145,
+        "n": 10
+      },
+      {
+        "source": "hn-ai",
+        "label": "Hacker News AI stories (72h)",
+        "median_s": 53530,
+        "n": 13
       },
       {
         "source": "hf-daily-papers",
         "label": "Hugging Face Daily Papers",
-        "median_s": 59402,
+        "median_s": 58019,
         "n": 40
       },
       {
         "source": "nature-ml",
         "label": "Nature — machine learning",
-        "median_s": 59402,
+        "median_s": 58019,
         "n": 3
+      },
+      {
+        "source": "verge-ai",
+        "label": "The Verge — AI",
+        "median_s": 59327,
+        "n": 5
+      },
+      {
+        "source": "reddit-singularity",
+        "label": "Reddit r/singularity",
+        "median_s": 59552,
+        "n": 16
       },
       {
         "source": "simon-willison",
         "label": "Simon Willison",
-        "median_s": 61220,
+        "median_s": 64244,
         "n": 2
+      },
+      {
+        "source": "arstechnica-ai",
+        "label": "Ars Technica AI",
+        "median_s": 70353,
+        "n": 5
+      },
+      {
+        "source": "techcrunch-ai",
+        "label": "TechCrunch — AI",
+        "median_s": 71779,
+        "n": 12
+      },
+      {
+        "source": "interconnects",
+        "label": "Interconnects (newsletter)",
+        "median_s": 80925,
+        "n": 1
+      },
+      {
+        "source": "arxiv-newest",
+        "label": "arXiv cs.AI / cs.LG / cs.CL (newest)",
+        "median_s": 81704,
+        "n": 60
+      },
+      {
+        "source": "aws-ml",
+        "label": "AWS Machine Learning Blog",
+        "median_s": 82828,
+        "n": 12
+      },
+      {
+        "source": "one-useful-thing",
+        "label": "One Useful Thing",
+        "median_s": 84907,
+        "n": 1
       }
     ]
   }

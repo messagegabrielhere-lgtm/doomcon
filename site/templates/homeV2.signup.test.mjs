@@ -37,8 +37,13 @@ describe('home: level colour, breaking, signup', () => {
   it('offers the email signup near the top and again at the bottom', () => {
     const html = render(base(), { head: '<head></head>' });
     assert.match(html, /href="#nl">✉ GET THE DAILY BRIEF/);
-    assert.match(html, /id="nl"[\s\S]*EMAIL ME THE DAILY BRIEF[\s\S]*id="nl2"/);
-    assert.match(html, /blogtrottr\.com\/\?url=https%3A%2F%2Fsiren\.watch%2Ffeed-daily\.xml/);
+    assert.match(html, /id="nl"[\s\S]*DAILY BRIEF[\s\S]*id="nl2"/);
+    // Blogtrottr cannot be pre-filled by URL: the button copies the feed and opens it.
+    assert.match(html, /href="https:\/\/blogtrottr\.com\/"[^>]*data-copyfeed="https:\/\/siren\.watch\/feed-daily\.xml"/);
+    assert.match(html, /data-copyfeed="https:\/\/siren\.watch\/feed-level\.xml"/);
+    assert.match(html, /value="https:\/\/siren\.watch\/feed-daily\.xml"/);
+    assert.doesNotMatch(html, /blogtrottr\.com\/\?url=/);
+    assert.equal((html.match(/__mzCopyFeed=1/g) || []).length, 2); // one per box, guarded to bind once
     assert.ok(html.indexOf('id="nl"') < html.indexOf('id="v2-more"'));
   });
 });

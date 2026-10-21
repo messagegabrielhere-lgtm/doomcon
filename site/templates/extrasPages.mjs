@@ -883,5 +883,84 @@ ${entries.length ? `<ol class="xt-log">\n${li}\n</ol>` : '<p>Not enough readings
   });
 }
 
+// ---------------------------------------------------------------------------
+// /evidence.html — the rooms that back the number (from the unmerged
+// cursor/site-retention-fold-8040 branch, "Index · Evidence · Method").
+// The homepage phone fold links here; so does the room grid.
+// ---------------------------------------------------------------------------
+export function evidencePage(ctx) {
+  const PATH = '/evidence.html';
+  const qTitle = `What backs the ${brand.NAME} number?`;
+  const r = ctx.routes || {};
+  const fmt = (n) => (Number.isFinite(n) ? n.toLocaleString('en-US') : null);
+  const race = ctx.race && Array.isArray(ctx.race.players) ? ctx.race.players.slice().sort((a, b) => a.rank - b.rank)[0] : null;
+  const lt = (ctx.leaders && ctx.leaders.totals) || {};
+  const groups = [
+    ['Which stories and people sit behind the score?', [
+      ['/news.html', 'Newsroom', ctx.news && Array.isArray(ctx.news.items) ? `${ctx.news.items.length} stories` : null, 'Every AI story, scored and corroborated.'],
+      ['/leaders.html', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
+      ctx.digest ? ['/digest.html', 'Daily brief', null, 'The day in a few corroborated items.'] : null,
+      ['/changelog.html', 'What moved', null, 'Hour by hour: score, pillars and top stories.'],
+    ]],
+    ['Which markets and live feeds does it read?', [
+      ['/race.html', 'The Race', race && race.market && Number.isFinite(race.market.probability) ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
+      ['/monitor.html', 'World Monitor', null, 'Live globe: stories, hazards, country stress.'],
+      ['/dispatch.html', 'Dispatch', null, 'Public feeds through the hour.'],
+      ['/moltbook.html', 'Agent Watch', ctx.molt && Array.isArray(ctx.molt.fresh) ? `${ctx.molt.fresh.length} new this week` : null, 'What AI agents post on Moltbook.'],
+    ]],
+    ['Where is the compute?', [
+      ['/watts.html', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
+      ['/map.html', 'US datacentres', ctx.datacenters && Array.isArray(ctx.datacenters.sites) ? `${fmt(ctx.datacenters.sites.length)} sites` : null, 'Where the compute sits, against the water it needs.'],
+      r.world ? ['/world.html', 'World', ctx.world && ctx.world.totals ? `${fmt(ctx.world.totals.sites)} sites` : null, 'Every mapped datacentre on Earth.'] : null,
+    ]],
+    ['How do I check it myself?', [
+      ['/verify.html', 'Verify a reading', null, 'Re-hash the public receipt in your browser.'],
+      ['/methodology.html', 'Method', null, 'Every formula, so you can recompute the number.'],
+      ['/history.html', 'History', Array.isArray(ctx.history) ? `${ctx.history.length} readings` : null, 'Every reading on record.'],
+      ['/export.html', 'Data and embed', null, 'CSV, JSON, badge, widget, API.'],
+      ['/alerts.html', 'Alerts', null, 'Level-change RSS, the daily brief by email, in-tab watch.'],
+    ]],
+  ].map(([g, items]) => [g, items.filter(Boolean)]);
+
+  const cards = groups.map(([g, list]) => `<h2>${esc(g)}</h2>
+<div class="xt-grid">${list.map(([p, t, n, d]) => `<a class="xt-card" href="${esc(ctx.href(p))}" style="display:block;color:inherit;text-decoration:none">
+  <h3>${esc(t)}${n ? ` <span class="xt-pill live">${esc(n)}</span>` : ''}</h3>
+  <p>${esc(d)}</p>
+</a>`).join('')}</div>`).join('\n');
+
+  const main = `<p class="eyebrow">Evidence</p>
+<h1>${esc(qTitle)}</h1>
+<p class="lede">The index is one score. These are the rooms a stranger can open to see why it sits where it does: the stories, the markets, the people, the compute, and the receipts you can recompute yourself. A count of activity, not a probability.</p>
+<p class="xt-row">
+  <a class="xt-btn" href="${esc(ctx.href('/'))}">← The reading</a>
+  <a class="xt-btn ghost" href="${esc(ctx.href('/methodology.html'))}">How it is computed</a>
+  <a class="xt-btn ghost" href="${esc(ctx.href('/feed-level.xml'))}">Level-change RSS</a>
+</p>
+${cards}
+<p class="xt-note">${esc(brand.DISCLAIMER)}</p>`;
+
+  return shell(ctx, {
+    path: PATH,
+    title: qTitle,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `Newsroom, race, leaders, compute maps and the verify page: the rooms that show why ${brand.NAME} reads where it does.`,
+    main,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: qTitle,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+    ],
+  });
+}
+
 // Re-exported for the homepage module, which may want the descriptions inline.
 export { alternativeSignals };
