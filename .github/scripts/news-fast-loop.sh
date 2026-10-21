@@ -149,7 +149,9 @@ while [ "$(date +%s)" -lt "$END" ]; do
   # publish every minute regardless. Compare the ITEMS only.
   # The breaking strip counts as a change too: a second outlet joining
   # an existing item moves no item id but can make a story BREAKING.
-  NFP() { node -e "let k=[];try{k.push(require('./data/news.json').items.map(i=>i.id))}catch{k.push('none')}try{k.push(require('./data/breaking.json').clusters.map(c=>[c.id,c.live,c.corroboration]))}catch{}process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(k)).digest('hex'))"; }
+  # run.surface (news.mjs) adds title / corroboration / story-membership
+  # moves that leave the id set alone; score decay never moves it.
+  NFP() { node -e "let k=[];try{const n=require('./data/news.json');k.push(n.items.map(i=>i.id),n.run&&n.run.surface||'')}catch{k.push('none')}try{k.push(require('./data/breaking.json').clusters.map(c=>[c.id,c.live,c.corroboration]))}catch{}process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(k)).digest('hex'))"; }
   BEFORE=$(NFP)
 
   XAI_API_KEY="$NEWS_XAI_KEY" node collector/news.mjs || echo "::warning::news pass $TICK failed; continuing"
@@ -1371,9 +1373,19 @@ while [ "$(date +%s)" -lt "$END" ]; do
       if git -C .pages diff --cached --quiet; then
         echo "tick $TICK: overlay had nothing new to commit"
         PUB_OK=1
-      elif git -C .pages commit -q -m "newsroom refresh — $(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-        && git -C .pages push -q "$PAGES_REMOTE" HEAD:gh-pages; then
-        PUB_OK=1
+      elif git -C .pages commit -q -m "newsroom refresh — $(date -u +%Y-%m-%dT%H:%M:%SZ)"; then
+        # collect.yml force-pushes this same branch. A "cannot lock ref"
+        # rejection is momentary; retry before falling through to the full
+        # orphan replace below. A non-fast-forward (tip moved) still fails
+        # every attempt and falls through as before.
+        for attempt in 1 2 3; do
+          if git -C .pages push -q "$PAGES_REMOTE" HEAD:gh-pages; then
+            PUB_OK=1
+            break
+          fi
+          echo "tick $TICK: overlay gh-pages push rejected (attempt $attempt); retrying"
+          sleep $((attempt * 2))
+        done
       fi
     fi
     if [ "$PUB_OK" -ne 1 ]; then

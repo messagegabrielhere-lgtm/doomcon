@@ -229,6 +229,31 @@ export function itemId(canonical) {
   return createHash('sha256').update(canonical).digest('hex').slice(0, 16);
 }
 
+/**
+ * Reader-visible surface of the newsroom, excluding score decay.
+ *
+ * The workflows publish when this changes. Scores move every run because the
+ * recency term re-decays; that must not force a deploy. Titles, corroboration
+ * counts, and story membership do change what a reader sees on the reel, the
+ * digest, and the leader wire — so they belong in the fingerprint.
+ */
+export function surfaceSignature(items, stories) {
+  const itemLines = (Array.isArray(items) ? items : []).map((it) => {
+    const corr = Number(it?.meta?.corroboration?.count) || 1;
+    const storyId = it?.meta?.story?.id ?? '';
+    const title = typeof it?.title === 'string' ? it.title : '';
+    return `${it.id}\t${title}\t${corr}\t${storyId}`;
+  }).sort();
+  const storyLines = (Array.isArray(stories) ? stories : []).map((s) => {
+    const members = Array.isArray(s?.members) ? [...s.members].sort().join(',') : '';
+    const sources = Array.isArray(s?.sources) ? [...s.sources].sort().join(',') : '';
+    return `${s.id}\t${members}\t${sources}\t${Number(s?.severity) || 0}`;
+  }).sort();
+  return createHash('sha256')
+    .update(`${itemLines.join('\n')}\n--\n${storyLines.join('\n')}`)
+    .digest('hex');
+}
+
 // ---------------------------------------------------------------------------
 // Near-duplicate titles
 // ---------------------------------------------------------------------------
@@ -1206,6 +1231,11 @@ async function main() {
   const currentIds = new Set(items.map((i) => i.id));
   const arrived = items.filter((i) => !knownIds.has(i.id)).map((i) => i.id).sort();
   const departed = [...knownIds].filter((id) => !currentIds.has(id)).sort();
+  const itemsChanged = arrived.length > 0 || departed.length > 0;
+  // Reader-visible moves that leave the id set alone (title edits, a second
+  // outlet corroborating, story membership). Score decay never flips this.
+  const nextSurface = surfaceSignature(items, story.stories);
+  const surfaceChanged = itemsChanged || surfaceSignature(previous.items, previous.stories) !== nextSurface;
   const departedItems = (Array.isArray(previous.items) ? previous.items : [])
     .filter((it) => it && departed.includes(it.id));
 
@@ -1238,8 +1268,12 @@ async function main() {
       skipped: skipped.length,
       arrived: arrived.length,
       departed: departed.length,
-      // The single flag the workflow reads. See docs/AUTOUPDATE.md.
-      items_changed: arrived.length > 0 || departed.length > 0,
+      // Item-set change. Kept for callers that only care about arrivals.
+      items_changed: itemsChanged,
+      // What the workflows publish on: item set, titles, corroboration or
+      // story membership moved. See docs/NEWS.md "What counts as a change".
+      surface_changed: surfaceChanged,
+      surface: nextSurface,
     },
     items,
     // One entry per multi-item event, with the words that linked each pair.
@@ -1301,7 +1335,8 @@ async function main() {
   console.log(
     `run: ${output.run.mode}, ${due.length}/${adapters.length} sources fetched, ` +
     `${arrived.length} item${arrived.length === 1 ? '' : 's'} arrived, ${departed.length} left the window, ` +
-    `items_changed=${output.run.items_changed}, ${Date.now() - runStartedMs}ms`,
+    `items_changed=${output.run.items_changed}, surface_changed=${output.run.surface_changed}, ` +
+    `${Date.now() - runStartedMs}ms`,
   );
   if (skipped.length) {
     console.log(`not due this run (carried forward unchanged): ${skipped.map((a) => a.id).sort().join(', ')}`);
