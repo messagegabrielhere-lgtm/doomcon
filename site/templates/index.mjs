@@ -805,7 +805,9 @@ ${oven.render(ctx)}
     <li><code>${esc(ctx.url('/api/state.json'))}</code> <span>current level, score, pillars and per-source health</span></li>
     <li><code>${esc(ctx.url('/api/history.json'))}</code> <span>every scored observation</span></li>
     <li><code>${esc(ctx.url('/api/health.json'))}</code> <span>per-source success, honestly reported</span></li>
+    <li><code>${esc(ctx.url('/api/receipts/'))}</code> <span>index of every receipt, HTML and JSON</span></li>
     <li><code>${esc(ctx.url('/api/receipts/'))}&lt;id&gt;.json</code> <span>the hash-chained receipt behind one observation</span></li>
+    <li><code>${esc(ctx.url('/openapi.json'))}</code> <span>OpenAPI 3.1 description of every endpoint</span></li>
   </ul>
   <p class="fresh__key">Static files. No key, no rate limit, ${esc(brand.LICENSE)}. Attribution: ${esc(brand.DOMAIN)}.</p>
 </section>

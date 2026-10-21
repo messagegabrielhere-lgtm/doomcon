@@ -21,7 +21,7 @@ import { MONETIZE } from './monetize.mjs';
 import { createHash } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
 import { css as siteCss } from './styles.mjs';
-import { stableJson, num, secondsBetween, esc as escHtml } from './templates/_html.mjs';
+import { stableJson, num, secondsBetween, esc as escHtml, serpTitle, serpDescription } from './templates/_html.mjs';
 import * as indexPage from './templates/index.mjs';
 import * as homeV2 from './templates/homeV2.mjs';
 import { pixelText, roomArt } from './templates/_pixel.mjs';
@@ -136,19 +136,35 @@ function prerenderStatic(html, name, ctx) {
   // cannot outrank the apex.
   let src = String(html).split('https://siren.watch').join(originBase);
   src = src.replace(/<link\s+rel="canonical"[^>]*>\s*/gi, '');
-  src = src.replace(/<meta\s+property="og:(?:url|image|title|description|type|site_name)"[^>]*>\s*/gi, '');
-  src = src.replace(/<meta\s+name="twitter:card"[^>]*>\s*/gi, '');
-  const title = (src.match(/<title>([^<]*)<\/title>/) || [])[1] || brand.NAME;
-  const desc = (src.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+  src = src.replace(/<meta\s+property="og:(?:url|image(?::[a-z]+)?|title|description|type|site_name)"[^>]*>\s*/gi, '');
+  src = src.replace(/<meta\s+name="twitter:(?:card|image|site)"[^>]*>\s*/gi, '');
+  // A page that authored its own robots line (a noindex shell) keeps it.
+  const robotsMeta = /<meta\s+name="robots"/i.test(src) ? '' : '\n<meta name="robots" content="index,follow,max-image-preview:large">';
+  const unx = (v) => String(v).replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+  const title = unx((src.match(/<title>([^<]*)<\/title>/) || [])[1] || brand.NAME);
+  const desc = unx((src.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '');
+  // Same head contract as layout.mjs: SERP-safe <title>/description (the
+  // authored ones run past what a result page shows), full strings on og:*,
+  // robots, sized share card versioned by receipt, twitter:image / site.
+  src = src
+    .replace(/<title>[^<]*<\/title>/, `<title>${x(serpTitle(title))}</title>`)
+    .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${x(serpDescription(desc))}"`);
+  const ogImage = ctx.url('/cards/state.png') + (ctx.state && ctx.state.receipt_id
+    ? `?v=${encodeURIComponent(ctx.state.receipt_id)}` : '');
   let head = `<link rel="canonical" href="${x(loc)}">
-<link rel="icon" href="${x(ctx.href('/favicon.svg'))}" type="image/svg+xml">
+<link rel="icon" href="${x(ctx.href('/favicon.svg'))}" type="image/svg+xml">${robotsMeta}
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="${x(brand.NAME)}">
-<meta property="og:title" content="${title}">
-<meta property="og:description" content="${desc}">
+<meta property="og:site_name" content="${x(brand.PUBLICATION)}">
+<meta property="og:title" content="${x(title)}">
+<meta property="og:description" content="${x(desc)}">
 <meta property="og:url" content="${x(loc)}">
-<meta property="og:image" content="${x(ctx.url('/cards/state.png'))}">
+<meta property="og:image" content="${x(ogImage)}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta property="og:image:alt" content="${x(`${brand.NAME} share card`)}">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${x(ogImage)}">${brand.X_HANDLE ? `
+<meta name="twitter:site" content="${x(brand.X_HANDLE)}">` : ''}
 <link rel="alternate" type="text/markdown" href="${x(ctx.href('/now.md'))}" title="Current reading (markdown)">
 <link rel="alternate" type="text/plain" href="${x(ctx.href('/llms.txt'))}" title="llms.txt">
 <link rel="describedby" href="${x(ctx.href('/openapi.json'))}" type="application/json">`;
