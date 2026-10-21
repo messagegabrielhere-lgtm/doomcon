@@ -93,6 +93,8 @@ category is the most specific one among its headlines.
 RSS headlines arrive without a category. `categorize()` assigns the first
 category whose pattern matches. If nothing matches, it uses the feed's own
 default (cyber for BleepingComputer, shipping for gCaptain), else "World".
+The AI category is case-insensitive and also matches robot / robotics /
+humanoid (and `A.I.`); it sits above diplomacy so an "AI summit" stays AI.
 
 ## Stress index
 

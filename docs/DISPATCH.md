@@ -1,9 +1,11 @@
 # Dispatch (/dispatch.html)
 
-A US room for **911 CAD calls**, **multi-system emergency alerts**, and
-**police-call blather** (the nature-of-call chatter from open CAD feeds). High-
-severity triggers mark an emergency on the site and may post once to X. It never
-moves the SIREN score.
+A room for **911 CAD calls**, **multi-system emergency alerts**, and
+**police-call blather** (the nature-of-call chatter from open CAD feeds). The
+map defaults to an Equal Earth **world** view (US Albers still available for
+CAD close-up). **Show on map** centres any trigger with coordinates. Blather
+lines that name AI or robots are flagged. High-severity triggers mark an
+emergency on the site and may post once to X. It never moves the SIREN score.
 
 | File | Job |
 |---|---|

@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>What public feeds does SIREN Dispatch show? · SIREN</title>
-<meta name="description" content="What public feeds does SIREN Dispatch show? Live US 911 CAD calls, NWS/USGS/GDACS/NHC/EONET alerts, and police-call blather — delayed open data only. Not an emergency service. Never moves the SIREN score.">
+<meta name="description" content="What public feeds does SIREN Dispatch show? A world map of NWS/USGS/GDACS/NHC/EONET alerts plus live US 911 CAD calls and police-call blather — delayed open data only. Not an emergency service. Never moves the SIREN score.">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"What public feeds does SIREN Dispatch show?","description":"A US room for three public feeds: 911/CAD calls from city open data, emergency alerts (NWS, USGS, GDACS, NHC, EONET), and police blather. Delayed public signal, not an emergency service. Never moves the SIREN score.","url":"https://siren.watch/dispatch.html","isPartOf":{"@type":"WebSite","name":"SIREN","url":"https://siren.watch/"},"speakable":{"@type":"SpeakableSpecification","cssSelector":["h1","p.dp-lede"]}}
+{"@context":"https://schema.org","@type":"WebPage","name":"What public feeds does SIREN Dispatch show?","description":"A world map for three public feeds: 911/CAD calls from city open data, emergency alerts (NWS, USGS, GDACS, NHC, EONET), and police blather. Delayed public signal, not an emergency service. Never moves the SIREN score.","url":"https://siren.watch/dispatch.html","isPartOf":{"@type":"WebSite","name":"SIREN","url":"https://siren.watch/"},"speakable":{"@type":"SpeakableSpecification","cssSelector":["h1","p.dp-lede"]}}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SIREN","item":"https://siren.watch/"},{"@type":"ListItem","position":2,"name":"Dispatch","item":"https://siren.watch/dispatch.html"}]}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What public feeds does SIREN Dispatch show?","acceptedAnswer":{"@type":"Answer","text":"A US room for three public feeds the rest of the site does not carry: 911 / CAD calls from city open-data portals, emergency alerts from NWS, USGS quakes, GDACS, NHC storms, and NASA EONET, and police blather — the nature-of-call chatter from those CAD feeds."}},{"@type":"Question","name":"Is Dispatch an emergency service?","acceptedAnswer":{"@type":"Answer","text":"Not an emergency service. These are delayed public open-data feeds. Street addresses are stripped; call locations are rounded to about 1 km. Do not use this page to respond to anything."}},{"@type":"Question","name":"Does Dispatch move the SIREN score?","acceptedAnswer":{"@type":"Answer","text":"It never moves the SIREN score. A dark source is shown as dark. It is not for emergency response."}},{"@type":"Question","name":"Which cities have open CAD?","acceptedAnswer":{"@type":"Answer","text":"911 CAD: Seattle, SF, NYC, Austin, LA, Dallas, Kansas City, Montgomery County MD."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What public feeds does SIREN Dispatch show?","acceptedAnswer":{"@type":"Answer","text":"A world-map room for three public feeds the rest of the site does not carry: 911 / CAD calls from city open-data portals, emergency alerts from NWS, USGS quakes, GDACS, NHC storms, and NASA EONET, and police blather — the nature-of-call chatter from those CAD feeds."}},{"@type":"Question","name":"Is Dispatch an emergency service?","acceptedAnswer":{"@type":"Answer","text":"Not an emergency service. These are delayed public open-data feeds. Street addresses are stripped; call locations are rounded to about 1 km. Do not use this page to respond to anything."}},{"@type":"Question","name":"Does Dispatch move the SIREN score?","acceptedAnswer":{"@type":"Answer","text":"It never moves the SIREN score. A dark source is shown as dark. It is not for emergency response."}},{"@type":"Question","name":"Which cities have open CAD?","acceptedAnswer":{"@type":"Answer","text":"911 CAD: Seattle, SF, NYC, Austin, LA, Dallas, Kansas City, Montgomery County MD."}}]}
 </script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
@@ -133,6 +133,8 @@ a{color:inherit}
 .bline .when{font:400 11px var(--f-mono);color:var(--mute);padding-top:2px}
 .bline .txt b{color:var(--blather);font-weight:600;margin-right:6px}
 .bline .txt span{color:var(--mute);font-size:11.5px;margin-left:6px}
+.bline.ai{background:rgba(240,180,76,.07)}
+.bline .aitag{color:var(--accent);font:700 10.5px/1 var(--f-display);letter-spacing:.1em;margin-left:6px;vertical-align:middle}
 
 .ticker{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 10px;overflow:hidden}
 .ticker .lab{font:700 11px/1 var(--f-display);letter-spacing:.14em;color:var(--blather);flex:none}
@@ -198,8 +200,10 @@ footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
     </aside>
 
     <section class="panel stage" aria-label="Map">
-      <canvas id="map" aria-label="United States map of 911 calls and emergency alerts"></canvas>
+      <canvas id="map" aria-label="World map of 911 calls and emergency alerts"></canvas>
       <div class="hud">
+        <button class="btn" type="button" id="mapWorld" aria-pressed="true" title="Equal Earth world map">World</button>
+        <button class="btn" type="button" id="mapUs" aria-pressed="false" title="Albers USA with Alaska and Hawaii insets">US</button>
         <button class="btn" type="button" id="zin" title="Zoom in (+)" aria-label="Zoom in">+</button>
         <button class="btn" type="button" id="zout" title="Zoom out (-)" aria-label="Zoom out">−</button>
         <button class="btn" type="button" id="home" title="Reset view (0)">Reset</button>
@@ -220,7 +224,7 @@ footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
         <button role="tab" aria-selected="false" data-tab="calls">Calls<span class="ct" id="ctCalls"></span></button>
       </div>
       <div class="pane scroll" data-pane="blather"><div id="blather"></div></div>
-      <div class="pane scroll" data-pane="alerts" hidden><div class="scope" id="alertScope" role="group" aria-label="Alert area"><button type="button" class="btn" data-scope="us" aria-pressed="true">US map <span></span></button><button type="button" class="btn" data-scope="world" aria-pressed="false">World <span></span></button><button type="button" class="btn" data-scope="all" aria-pressed="false">All <span></span></button></div><ul class="feed" id="alerts"></ul></div>
+      <div class="pane scroll" data-pane="alerts" hidden><div class="scope" id="alertScope" role="group" aria-label="Alert area"><button type="button" class="btn" data-scope="all" aria-pressed="true">All <span></span></button><button type="button" class="btn" data-scope="us" aria-pressed="false">Near US <span></span></button><button type="button" class="btn" data-scope="world" aria-pressed="false">World <span></span></button></div><ul class="feed" id="alerts"></ul></div>
       <div class="pane scroll" data-pane="calls" hidden><ul class="feed" id="calls"></ul></div>
     </section>
   </main>
@@ -252,18 +256,18 @@ footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
       High-severity triggers mark this page emergency and may post to X.
       This is ambient public signal, not a warning system.
     </span>
-    <span>Keys: R refresh · 1–3 tabs · + − 0 zoom · ? help</span>
+    <span>Keys: R refresh · 1–3 tabs · + − 0 zoom · W world · U US · ? help</span>
   </footer>
 </div>
 
 <dialog id="help" style="max-width:520px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:18px 20px">
   <h2 style="margin:0 0 8px;font:700 22px/1 var(--f-display);letter-spacing:.06em;text-transform:uppercase">Dispatch</h2>
-  <p style="margin:0 0 10px;color:var(--mute);font-size:13.5px">A US room for three public feeds the rest of the site does not carry:</p>
+  <p style="margin:0 0 10px;color:var(--mute);font-size:13.5px">A room for three public feeds the rest of the site does not carry. The map defaults to the whole world; switch to US for the Albers CAD close-up.</p>
   <ul style="margin:0 0 10px 18px;padding:0;color:var(--mute);font-size:13.5px">
     <li><b style="color:var(--ink)">911 / CAD calls</b> from city open-data portals (Seattle Fire/EMS + Police, SF, NYC, Austin, LA, Dallas, Kansas City, Montgomery County MD).</li>
-    <li><b style="color:var(--ink)">Emergency alerts</b> from NWS, USGS quakes, GDACS, NHC storms, and NASA EONET.</li>
-    <li><b style="color:var(--ink)">Police blather</b> — the nature-of-call chatter from those CAD feeds, as a ticker and a list.</li>
-    <li><b style="color:var(--ink)">Emergency mark</b> — Extreme / land-severe / major-quake / hurricane triggers light a site banner and may post once to X.</li>
+    <li><b style="color:var(--ink)">Emergency alerts</b> from NWS, USGS quakes, GDACS, NHC storms, and NASA EONET — plotted worldwide.</li>
+    <li><b style="color:var(--ink)">Police blather</b> — the nature-of-call chatter from those CAD feeds, as a ticker and a list. Lines that name AI or robots are flagged.</li>
+    <li><b style="color:var(--ink)">Emergency mark</b> — Extreme / land-severe / major-quake / hurricane triggers light a site banner and may post once to X. <b style="color:var(--ink)">Show on map</b> centres any trigger with coordinates.</li>
   </ul>
   <p style="margin:0 0 14px;color:var(--mute);font-size:13.5px">It never moves the SIREN score. A dark source is shown as dark. It is not for emergency response.</p>
   <form method="dialog"><button class="btn" value="ok">Got it</button></form>
@@ -283,8 +287,9 @@ const S = {
   alerts: [], calls: [], blather: [], cities: [], sources: {}, generated: null,
   emergency: null,
   showAlerts: true, showCalls: true, cityOn: new Set(),
-  us: null, view: { z: 1, x: 0, y: 0 },
-  hits: [], needDraw: true, tab: "blather", alertScope: "us",
+  countries: null, us: null, mapMode: "world",
+  view: { z: 1, x: 0, y: 0 },
+  hits: [], needDraw: true, tab: "blather", alertScope: "all",
 };
 
 const canvas = $("#map");
@@ -292,8 +297,22 @@ const ctx = canvas.getContext("2d");
 const tip = $("#tip");
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* ---------- Albers USA with Alaska and Hawaii insets ---------- */
+/** CAD / blather lines that name AI or robots — flagged in the blather feed. */
+const AI_ROBOT_RE = /\b(?:artificial intelligence|AI|chatbots?|robots?|robotics|humanoids?)\b|A\.I\./i;
+
+/* ---------- Equal Earth (world) + Albers USA with Alaska / Hawaii insets ---------- */
 const D2R = Math.PI / 180;
+const EE = { A1: 1.340264, A2: -0.081106, A3: 0.000893, A4: 0.003796, K: Math.sqrt(3) / 2 };
+const WORLD_FRAME = { lon: [-180, 180], lat: [-57, 84] };
+function equalEarth(lon, lat) {
+  const lam = lon * D2R;
+  const theta = Math.asin(EE.K * Math.sin(lat * D2R));
+  const t2 = theta * theta, t6 = t2 * t2 * t2;
+  const x = (2 * Math.sqrt(3) * lam * Math.cos(theta))
+    / (3 * (EE.A1 + 3 * EE.A2 * t2 + t6 * (7 * EE.A3 + 9 * EE.A4 * t2)));
+  const y = theta * (EE.A1 + EE.A2 * t2 + t6 * (EE.A3 + EE.A4 * t2));
+  return [x, y];
+}
 function albers(lam0, p1, p2, p0) {
   const P1 = p1 * D2R, P2 = p2 * D2R;
   const n = 0.5 * (Math.sin(P1) + Math.sin(P2));
@@ -310,7 +329,7 @@ const PROJ = {
   ak: albers(-154, 55, 65, 50),
   hi: albers(-157, 8, 18, 3),
 };
-/** Which map region a point belongs to, or null if it is off the US map. */
+/** Which US inset a point belongs to, or null if it is off the US detail map. */
 function region(lon, lat) {
   if (!Number.isFinite(lon) || !Number.isFinite(lat)) return null;
   if (lon > 170) lon -= 360; // western Aleutians
@@ -319,19 +338,28 @@ function region(lon, lat) {
   if (lon >= -128 && lon <= -63 && lat >= 17 && lat <= 50.5) return "conus";
   return null;
 }
-// Inset placement, solved once the outline is in (or from fixed defaults).
 const INSET = { ak: { s: 0.36, dx: 0, dy: 0 }, hi: { s: 1, dx: 0, dy: 0 } };
-function base(lon, lat) {
-  const reg = region(lon, lat);
-  if (!reg) return null;
-  if (lon > 170) lon -= 360;
-  const p = PROJ[reg](lon, lat);
-  if (reg === "conus") return p;
-  const k = INSET[reg];
-  return [p[0] * k.s + k.dx, p[1] * k.s + k.dy];
+const US_BOUNDS = { x0: -0.3, x1: 0.32, y0: -0.25, y1: 0.18 };
+const WORLD_BOUNDS = { x0: 0, x1: 1, y0: 0, y1: 1 };
+function solveWorldBounds() {
+  const bb = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity };
+  const take = (lon, lat) => {
+    const p = equalEarth(lon, lat);
+    // Flip y so north is up on canvas (Equal Earth grows northward).
+    const x = p[0], y = -p[1];
+    bb.x0 = Math.min(bb.x0, x); bb.x1 = Math.max(bb.x1, x);
+    bb.y0 = Math.min(bb.y0, y); bb.y1 = Math.max(bb.y1, y);
+  };
+  for (let lat = WORLD_FRAME.lat[0]; lat <= WORLD_FRAME.lat[1]; lat += 1) {
+    take(WORLD_FRAME.lon[0], lat); take(WORLD_FRAME.lon[1], lat);
+  }
+  for (let lon = WORLD_FRAME.lon[0]; lon <= WORLD_FRAME.lon[1]; lon += 1) {
+    take(lon, WORLD_FRAME.lat[0]); take(lon, WORLD_FRAME.lat[1]);
+  }
+  Object.assign(WORLD_BOUNDS, bb);
 }
-const BOUNDS = { x0: -0.3, x1: 0.32, y0: -0.25, y1: 0.18 };
-function solveLayout(rings) {
+solveWorldBounds();
+function solveUsLayout(rings) {
   const bb = () => ({ x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity });
   const add = (b, p) => { b.x0 = Math.min(b.x0, p[0]); b.x1 = Math.max(b.x1, p[0]); b.y0 = Math.min(b.y0, p[1]); b.y1 = Math.max(b.y1, p[1]); };
   const by = { conus: bb(), ak: bb(), hi: bb() };
@@ -343,7 +371,6 @@ function solveLayout(rings) {
   }
   for (const k of ["conus", "ak", "hi"]) if (!Number.isFinite(by[k].x0)) for (const [lo, la] of fallback[k]) add(by[k], PROJ[k](lo, la));
   const c = by.conus, w = c.x1 - c.x0, h = c.y1 - c.y0;
-  // Alaska: bottom-left, under California / Arizona. Hawaii: to its right.
   const ak = INSET.ak, hi = INSET.hi;
   ak.s = Math.min(0.36, (w * 0.28) / Math.max(1e-6, by.ak.x1 - by.ak.x0));
   ak.dx = c.x0 - by.ak.x0 * ak.s;
@@ -354,9 +381,47 @@ function solveLayout(rings) {
   const all = bb(); add(all, [c.x0, c.y0]); add(all, [c.x1, c.y1]);
   add(all, [by.ak.x0 * ak.s + ak.dx, by.ak.y0 * ak.s + ak.dy]);
   add(all, [by.hi.x1 * hi.s + hi.dx, by.hi.y1 * hi.s + hi.dy]);
-  Object.assign(BOUNDS, all);
+  Object.assign(US_BOUNDS, all);
 }
-solveLayout(null);
+solveUsLayout(null);
+
+function bounds() { return S.mapMode === "us" ? US_BOUNDS : WORLD_BOUNDS; }
+function base(lon, lat) {
+  if (!Number.isFinite(lon) || !Number.isFinite(lat)) return null;
+  if (S.mapMode === "world") {
+    if (lat < WORLD_FRAME.lat[0] || lat > WORLD_FRAME.lat[1]) return null;
+    const p = equalEarth(lon, lat);
+    return [p[0], -p[1]];
+  }
+  const reg = region(lon, lat);
+  if (!reg) return null;
+  if (lon > 170) lon -= 360;
+  const p = PROJ[reg](lon, lat);
+  if (reg === "conus") return p;
+  const k = INSET[reg];
+  return [p[0] * k.s + k.dx, p[1] * k.s + k.dy];
+}
+function updateOffMapHint() {
+  const el = $("#offMap"); if (!el) return;
+  const offUs = liveAlerts().filter((a) => Number.isFinite(a.lon) && Number.isFinite(a.lat) && !region(a.lon, a.lat)).length;
+  el.textContent = S.mapMode === "us" && offUs
+    ? `${offUs} world alerts: switch to World or Alerts › World`
+    : (S.mapMode === "world" ? "Equal Earth · World / US to switch" : "");
+}
+function setMapMode(mode) {
+  if (mode !== "world" && mode !== "us") return;
+  if (S.mapMode === mode) return;
+  S.mapMode = mode;
+  S.view = { z: 1, x: 0, y: 0 };
+  $("#mapWorld").setAttribute("aria-pressed", mode === "world" ? "true" : "false");
+  $("#mapUs").setAttribute("aria-pressed", mode === "us" ? "true" : "false");
+  canvas.setAttribute("aria-label", mode === "world"
+    ? "World map of 911 calls and emergency alerts"
+    : "United States map of 911 calls and emergency alerts");
+  tip.hidden = true;
+  updateOffMapHint();
+  S.needDraw = true;
+}
 
 function resize() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -367,12 +432,13 @@ function resize() {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   S.needDraw = true;
 }
-/** Fit the whole US (with insets) into the canvas, then apply zoom and pan. */
+/** Fit the active map frame into the canvas, then apply zoom and pan. */
 function fit() {
   const w = canvas.clientWidth, h = canvas.clientHeight, pad = 18;
-  const bw = BOUNDS.x1 - BOUNDS.x0, bh = BOUNDS.y1 - BOUNDS.y0;
+  const B = bounds();
+  const bw = B.x1 - B.x0, bh = B.y1 - B.y0;
   const k = Math.min((w - pad * 2) / bw, (h - pad * 2 - 34) / bh); // 34 px keeps the legend clear
-  return { k, ox: (w - bw * k) / 2 - BOUNDS.x0 * k, oy: (h - 34 - bh * k) / 2 - BOUNDS.y0 * k };
+  return { k, ox: (w - bw * k) / 2 - B.x0 * k, oy: (h - 34 - bh * k) / 2 - B.y0 * k };
 }
 function toScreen(lon, lat) {
   const b = base(lon, lat);
@@ -394,9 +460,12 @@ function draw() {
   g.addColorStop(0, "#122038"); g.addColorStop(1, "#09111d");
   ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
 
-  if (S.us) {
-    ctx.fillStyle = "#233149"; ctx.strokeStyle = "#3a4c69"; ctx.lineWidth = 1;
-    for (const ring of S.us) {
+  const landRings = S.mapMode === "world"
+    ? (S.countries || []).flatMap((c) => c.rings || [])
+    : (S.us || []);
+  if (landRings.length) {
+    ctx.fillStyle = "#233149"; ctx.strokeStyle = "#3a4c69"; ctx.lineWidth = S.mapMode === "world" ? 0.6 : 1;
+    for (const ring of landRings) {
       ctx.beginPath(); let started = false;
       for (const [lo, la] of ring) {
         const p = toScreen(lo, la); if (!p) continue;
@@ -404,15 +473,17 @@ function draw() {
       }
       if (started) { ctx.closePath(); ctx.fill(); ctx.stroke(); }
     }
-    // Inset frames so Alaska and Hawaii read as insets, not neighbours.
-    ctx.strokeStyle = "rgba(122,140,170,.35)"; ctx.setLineDash([4, 4]);
-    for (const reg of ["ak", "hi"]) {
-      const pts = S.us.flat().filter(([lo, la]) => region(lo, la) === reg).map(([lo, la]) => toScreen(lo, la)).filter(Boolean);
-      if (!pts.length) continue;
-      const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
-      ctx.strokeRect(Math.min(...xs) - 6, Math.min(...ys) - 6, Math.max(...xs) - Math.min(...xs) + 12, Math.max(...ys) - Math.min(...ys) + 12);
+    if (S.mapMode === "us" && S.us) {
+      // Inset frames so Alaska and Hawaii read as insets, not neighbours.
+      ctx.strokeStyle = "rgba(122,140,170,.35)"; ctx.setLineDash([4, 4]);
+      for (const reg of ["ak", "hi"]) {
+        const pts = S.us.flat().filter(([lo, la]) => region(lo, la) === reg).map(([lo, la]) => toScreen(lo, la)).filter(Boolean);
+        if (!pts.length) continue;
+        const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+        ctx.strokeRect(Math.min(...xs) - 6, Math.min(...ys) - 6, Math.max(...xs) - Math.min(...xs) + 12, Math.max(...ys) - Math.min(...ys) + 12);
+      }
+      ctx.setLineDash([]);
     }
-    ctx.setLineDash([]);
   }
 
   S.hits = [];
@@ -538,12 +609,19 @@ function renderEmergency() {
 }
 $("#emFocus").addEventListener("click", () => {
   const p = S.emergency?.primary;
-  const ok = p && focusLonLat(p.lon, p.lat);
-  S.alertScope = ok ? "us" : "world"; renderFeeds();
+  if (!p || !Number.isFinite(+p.lon) || !Number.isFinite(+p.lat)) return;
+  const onUs = !!region(+p.lon, +p.lat);
+  // World alerts (and far-off storms) need the Equal Earth map; US CAD stays on Albers.
+  if (!onUs) setMapMode("world");
+  const ok = focusLonLat(+p.lon, +p.lat);
+  S.alertScope = ok ? (onUs ? "us" : "world") : "all";
+  renderFeeds();
   S.tab = "alerts";
   $$("#tabs [role=tab]").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === "alerts" ? "true" : "false"));
   $$(".pane").forEach((pane) => { pane.hidden = pane.dataset.pane !== "alerts"; });
 });
+$("#mapWorld").addEventListener("click", () => setMapMode("world"));
+$("#mapUs").addEventListener("click", () => setMapMode("us"));
 $("#layers").addEventListener("change", (e) => {
   const id = e.target.dataset.layer;
   if (id === "alerts") S.showAlerts = e.target.checked;
@@ -569,28 +647,35 @@ $("#cities").addEventListener("click", (e) => {
 });
 
 function renderFeeds() {
-  $("#ctBlather").textContent = S.blather.length || "";
+  const aiN = S.blather.filter((b) => AI_ROBOT_RE.test(b.text || "")).length;
+  $("#ctBlather").textContent = S.blather.length
+    ? (aiN ? `${S.blather.length} · ${aiN} AI/robot` : String(S.blather.length))
+    : "";
   $("#ctAlerts").textContent = liveAlerts().length || "";
   $("#ctCalls").textContent = S.calls.length || "";
 
-  $("#blather").innerHTML = S.blather.slice(0, 120).map((b) =>
-    `<div class="bline"><div class="when">${esc(ago(b.t))}</div><div class="txt"><b>${esc(b.city)}</b>${esc(b.text)}<span>${esc(b.agency)}</span></div></div>`
-  ).join("") || `<div class="note">No CAD chatter in this snapshot.</div>`;
+  $("#blather").innerHTML = S.blather.slice(0, 120).map((b) => {
+    const ai = AI_ROBOT_RE.test(b.text || "");
+    return `<div class="bline${ai ? " ai" : ""}"><div class="when">${esc(ago(b.t))}</div><div class="txt"><b>${esc(b.city)}</b>${esc(b.text)}${ai ? '<span class="aitag">AI/ROBOT</span>' : ""}<span>${esc(b.agency)}</span></div></div>`;
+  }).join("") || `<div class="note">No CAD chatter in this snapshot.</div>`;
 
   const live = liveAlerts();
-  const onMap = (a) => !!region(a.lon, a.lat);
-  const shown = live.filter((a) => S.alertScope === "all" || (S.alertScope === "us" ? onMap(a) : !onMap(a)))
+  const nearUs = (a) => !!region(a.lon, a.lat);
+  const hasPin = (a) => Number.isFinite(a.lon) && Number.isFinite(a.lat);
+  const shown = live.filter((a) => S.alertScope === "all" || (S.alertScope === "us" ? nearUs(a) : !nearUs(a)))
     .sort((x, y) => ((SEV_RANK[x.severity] ?? 9) - (SEV_RANK[y.severity] ?? 9)) || (y.t - x.t));
   $$("#alertScope [data-scope]").forEach((b) => {
-    const sc = b.dataset.scope, n = sc === "all" ? live.length : live.filter((a) => sc === "us" ? onMap(a) : !onMap(a)).length;
+    const sc = b.dataset.scope, n = sc === "all" ? live.length : live.filter((a) => sc === "us" ? nearUs(a) : !nearUs(a)).length;
     b.setAttribute("aria-pressed", sc === S.alertScope ? "true" : "false");
     b.querySelector("span").textContent = n;
   });
   $("#alerts").innerHTML = shown.slice(0, 150).map((a) => {
-    const pin = onMap(a);
+    const pin = hasPin(a);
+    const onUs = pin && nearUs(a);
     const sys = a.system ? String(a.system).toUpperCase() : "NWS";
-    return `<li ${pin ? `data-lon="${a.lon}" data-lat="${a.lat}"` : ""}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span>${a.live ? '<span class="livetag">LIVE</span>' : ""}<span>${esc(a.event)}</span><span>${/^in /.test(ago(a.t)) ? "starts " + esc(ago(a.t)) : esc(ago(a.t)) + " ago"}</span>${pin ? (a.approx ? "<span>~state</span>" : "") : "<span>outside US map</span>"}<button type="button" class="xbtn" data-xpost="alert" data-x-title="${esc(alertTitle(a))}" data-x-src="${esc(sys)}" data-x-url="https://siren.watch/dispatch.html" aria-label="Post this alert to X">𝕏 Post</button></div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
-  }).join("") || `<li class="note">${S.alertScope === "world" ? "Nothing outside the US map right now." : "No active alerts here in this snapshot."}</li>`;
+    const where = !pin ? "<span>no pin</span>" : onUs ? (a.approx ? "<span>~state</span>" : "") : "<span>world</span>";
+    return `<li ${pin ? `data-lon="${a.lon}" data-lat="${a.lat}"` : ""}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span>${a.live ? '<span class="livetag">LIVE</span>' : ""}<span>${esc(a.event)}</span><span>${/^in /.test(ago(a.t)) ? "starts " + esc(ago(a.t)) : esc(ago(a.t)) + " ago"}</span>${where}<button type="button" class="xbtn" data-xpost="alert" data-x-title="${esc(alertTitle(a))}" data-x-src="${esc(sys)}" data-x-url="https://siren.watch/dispatch.html" aria-label="Post this alert to X">𝕏 Post</button></div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
+  }).join("") || `<li class="note">${S.alertScope === "world" ? "Nothing outside the US right now." : "No active alerts here in this snapshot."}</li>`;
 
   $("#calls").innerHTML = S.calls.slice(0, 160).map((c) =>
     `<li data-lon="${c.lon}" data-lat="${c.lat}"><div class="meta"><span class="tag">${esc(c.city)}</span><span>${esc(c.agency)}</span><span>${esc(ago(c.t))} ago</span>${c.approx ? "<span>~division</span>" : ""}${c.district ? `<span>${esc(c.district)}</span>` : ""}</div><div class="title">${esc(c.type)}</div></li>`
@@ -608,12 +693,15 @@ $("#tabs").addEventListener("click", (e) => {
 });
 
 function focusLonLat(lon, lat) {
+  if (!Number.isFinite(lon) || !Number.isFinite(lat)) return false;
+  // A point off the US detail map still has a place on Equal Earth.
+  if (S.mapMode === "us" && !region(lon, lat)) setMapMode("world");
   const p = toScreen(lon, lat);
   if (!p) return false;
   S.view.x += canvas.clientWidth / 2 - p[0];
   S.view.y += canvas.clientHeight / 2 - p[1];
   S.needDraw = true;
-  zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 3 / S.view.z);
+  zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, Math.max(3, S.view.z) / S.view.z);
   return true;
 }
 /** Zoom by factor f keeping the screen point (sx, sy) fixed. */
@@ -738,11 +826,13 @@ async function loadOutline() {
   try {
     const j = await (await fetch(OUTLINE_URL)).json();
     // data/world-outline.json: { countries: [{ iso2, rings: [[[lon,lat],…],…] }] }
-    const us = (j.countries || []).find((c) => c.iso2 === "US");
+    S.countries = (j.countries || []).filter((c) => Array.isArray(c.rings) && c.rings.length);
+    const us = S.countries.find((c) => c.iso2 === "US");
     S.us = us?.rings || null;
-    solveLayout(S.us);
+    solveUsLayout(S.us);
   } catch (e) {
     console.warn("outline", e);
+    S.countries = null;
     S.us = null;
   }
 }
@@ -768,8 +858,7 @@ async function loadSnap() {
     if (S.emergency?.active) setSrc("emergency", "ok", S.emergency.label, S.emergency.primary?.headline || S.emergency.label);
     else setSrc("emergency", "ok", "CLEAR", "No emergency triggers");
     $("#loading").hidden = true;
-    const off = liveAlerts().filter((a) => !region(a.lon, a.lat)).length;
-    $("#offMap").textContent = off ? `${off} world alerts are off this map: see Alerts › World` : "";
+    updateOffMapHint();
     renderEmergency(); renderLayers(); renderCities(); renderFeeds(); S.needDraw = true;
   } catch (e) {
     setSrc("snap", "dark", "", e.message);
@@ -856,6 +945,8 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "+" || e.key === "=") $("#zin").click();
   if (e.key === "-" || e.key === "_") $("#zout").click();
   if (e.key === "0") $("#home").click();
+  if (e.key === "w" || e.key === "W") setMapMode("world");
+  if (e.key === "u" || e.key === "U") setMapMode("us");
 });
 
 addEventListener("resize", resize);

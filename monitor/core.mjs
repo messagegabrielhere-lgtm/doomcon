@@ -9,7 +9,7 @@
 //
 // So: no imports, no Node or browser APIs, plain functions over plain data.
 
-export const CORE_VERSION = 3; // bump when a change moves scores; the history restarts on a new version
+export const CORE_VERSION = 4; // bump when a change moves scores; the history restarts on a new version
 
 /* News categories. `re` classifies each headline (RSS feeds and GDELT both
  * arrive without one). `w` is the stress weight. */
@@ -36,14 +36,18 @@ export const CATS = [
     re: /\b(inflation|recession|central bank|tariffs?|interest rates?|default(s|ed)?|GDP|unemployment|stock markets?|bond yields?|currency|devaluation|trade war|economy|economic)\b/i },
   { id: 'migration', label: 'Humanitarian', color: '#8d6e63', w: 1.5,
     re: /\b(refugees?|migrants?|asylum|famine|starvation|humanitarian|displaced|aid convoy|food insecurity)\b/i },
+  // AI before diplomacy/climate/space so "AI summit" / "robot treaty" stay AI, not diplomacy.
+  { id: 'ai', label: 'AI', color: '#f0b44c', w: 0.3, siren: true,
+    // Case-insensitive: lowercase "ai" / "robot" in headlines must flag too.
+    // "A.I." sits outside the trailing \b — a period is not a word char, so \b
+    // after the final dot never fires when a space follows.
+    re: /\b(artificial intelligence|AI|OpenAI|Anthropic|chatbots?|LLMs?|GPT-\d|Gemini|deepfakes?|robots?|robotics|humanoids?)\b|A\.I\./i },
   { id: 'diplomacy', label: 'Diplomacy', color: '#5c6bc0', w: 0.5,
     re: /\b(sanctions?|summit|ceasefire|truce|treaty|foreign ministers?|embass(y|ies)|diplomat\w*|peace talks|negotiat\w*|envoy|bilateral)\b/i },
   { id: 'climate', label: 'Climate', color: '#7cb342', w: 0.5,
     re: /\b(heat ?waves?|droughts?|climate|emissions|extreme heat|glaciers?|record temperatures?)\b/i },
   { id: 'space', label: 'Space', color: '#90a4ae', w: 0.3,
     re: /\b(satellites?|rockets?|spacecraft|space station|orbit(al)?|NASA|SpaceX|lunar|moon landing)\b/i },
-  { id: 'ai', label: 'AI', color: '#f0b44c', w: 0.3, siren: true,
-    re: /\b(artificial intelligence|AI|OpenAI|Anthropic|chatbots?|LLMs?|GPT-\d|Gemini|deepfakes?)\b/ },
   { id: 'world', label: 'World', color: '#78909c', w: 0.4, re: null },
 ];
 export const CAT = Object.fromEntries(CATS.map((c) => [c.id, c]));

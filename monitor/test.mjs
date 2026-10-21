@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {
   adsbModality, adsbCells, adsbModeTotals, adsbModeLine, ADSB_CELL_DEG,
   assessAircraftHealth, AIRCRAFT_STALE_MIN, MIL_THIN_FLOOR, ADSB_THIN_FLOOR,
+  categorize, CORE_VERSION,
 } from './core.mjs';
 import { carryForward } from './collect.mjs';
 
@@ -174,4 +175,17 @@ test('assessAircraftHealth warns when mil answers empty', () => {
   }, now);
   assert.equal(health.ok, true);
   assert.ok(health.issues.some((i) => i.id === 'mil_empty' && i.severity === 'warn'));
+});
+
+test('categorize flags AI case-insensitively and robots', () => {
+  assert.ok(CORE_VERSION >= 4);
+  assert.equal(categorize('OpenAI releases a model'), 'ai');
+  assert.equal(categorize('local ai lab raises funds'), 'ai');
+  assert.equal(categorize('A.I. safety summit opens'), 'ai');
+  assert.equal(categorize('Warehouse robots double shifts'), 'ai');
+  assert.equal(categorize('Humanoid robot demo in Tokyo'), 'ai');
+  assert.equal(categorize('Robotics firm files papers'), 'ai');
+  // Must not swallow ordinary English ("aid", "air", "said").
+  assert.notEqual(categorize('Aid convoy reaches border'), 'ai');
+  assert.notEqual(categorize('Air strike reported overnight'), 'ai');
 });
