@@ -24,6 +24,7 @@ across collect wipes (#166/#167/#169–#171/#173–#184/#191/#193/#195/#220/#414
 **#254**/**#284** home exact-match FAQs (definitional + title-today) +
 **#296**/**#312** dual head-term `<title>` (trimmed so SERP keeps level today) + **#308** H1 `.v2-sr` head terms; head-term SERPs still need GSC crawl (issue #202).
 Companion to `docs/COMPETITIVE.md` and `docs/FINDABILITY.md`.
+Companion also: `docs/SEO-CHECKLIST.md` (Semrush 43-tip → SIREN status map, including AI Overviews / ChatGPT surfaces).
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
 `docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool
@@ -295,6 +296,7 @@ They win social memes, not Google. Do not imitate.
 2. Spot-check `/pillar/capability.html` and `/lab/openai.html` in Rich Results test.
 3. Re-fetch pizzint `news-sitemap.xml` monthly; if it starts rolling again, treat Google News as contested again.
 4. Weekly: indexed count vs sitemap count (vanity = sitemap-only growth).
+5. Tick open rows in `docs/SEO-CHECKLIST.md` (GSC, Bing, AI citation spot-check).
 
 ---
 

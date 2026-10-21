@@ -5,9 +5,10 @@ engineering checklist updates through **2026-10-11** (ChatGPT / Grok agent
 surfaces). Companion to `docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md`
 (URL-count war), `docs/COMPETITIVE-SEO.md` (live reverse-engineer of rival
 titles/sitemaps/schema), `docs/VIRAL.md` (distribution on X),
-`docs/MONETIZE.md` (earning without losing rank), and
+`docs/MONETIZE.md` (earning without losing rank),
 `docs/OUTRANK-PUBLISHER.md` (Outrank sell-side marketplace map — Operator /
-later; never buy links).
+later; never on the newsroom),
+and `docs/SEO-CHECKLIST.md` (Semrush 43-tip map → SIREN status).
 
 Two different surfaces, one shared substrate:
 
@@ -797,4 +798,5 @@ sitemap vanity (`COMPETITIVE.md` Phase 2).
 | Live robots, sitemap (~480 URLs), `llms.txt`, API index, homepage title/description, news-sitemap 404 | HTTP checks against the Pages site | 2026-10-08 |
 | Rival SEO re-measure: pizzint news-sitemap empty; DoomBench 2,081 URLs; Skynet 1,237; SIREN ~530 + news-sitemap 100 | `docs/COMPETITIVE-SEO.md` | 2026-10-10 |
 | Outrank publisher marketplace (sell placements; DR pay rate; eligibility) | [X post](https://x.com/tibo_maker/status/2110343675691548745) + [publishers page](https://www.outrank.so/marketplace/publishers) → `OUTRANK-PUBLISHER.md` | 2026-10-15 |
+| Semrush 43-tip SEO + AI Search (ASO) checklist → SIREN Done/Operator/N/A map | `docs/SEO-CHECKLIST.md` | 2026-10-15 |
 | URL-count strategy, news sitemap, Speakable, Search Console success metric | `docs/COMPETITIVE.md`, `docs/VIRAL.md` §7 | this repo |
