@@ -1487,7 +1487,7 @@ function answer(ctx, { answerTag = 'h1' } = {}) {
 // puts where the number comes from. Names only, taken from the sources the
 // current reading lists; a source the reading does not carry is not named.
 const SOURCE_NAMES = {
-  arxiv: 'arXiv', 'github-releases': 'GitHub', huggingface: 'Hugging Face', openrouter: 'OpenRouter',
+  arxiv: 'arXiv', 'github-releases': 'GitHub', huggingface: 'Hugging Face', 'hf-datasets': 'HF datasets', openrouter: 'OpenRouter',
   'sec-fts': 'SEC filings', stockanalysis: 'StockAnalysis', vastai: 'Vast.ai', hn: 'Hacker News',
   wikipedia: 'Wikipedia', 'intelligence-arena': 'IntelligenceArena', 'federal-register': 'Federal Register',
   govuk: 'GOV.UK', kalshi: 'Kalshi', manifold: 'Manifold', polymarket: 'Polymarket',

@@ -420,7 +420,7 @@ ${storyListLd(ctx, ranked)}`;
 
 
 // ---------- THE DASHBOARD (score first, then why) ----------
-const SRC_NAME = { arxiv: 'arXiv preprints', 'github-releases': 'GitHub releases', huggingface: 'Hugging Face uploads', openrouter: 'OpenRouter models', 'sec-fts': 'SEC filings', stockanalysis: 'AI chip stocks', vastai: 'GPU rental prices', hn: 'Hacker News', wikipedia: 'Wikipedia pageviews', 'intelligence-arena': 'IntelligenceArena mentions', 'federal-register': 'US Federal Register', govuk: 'GOV.UK', kalshi: 'Kalshi', manifold: 'Manifold', polymarket: 'Polymarket' };
+const SRC_NAME = { arxiv: 'arXiv preprints', 'github-releases': 'GitHub releases', huggingface: 'Hugging Face uploads', 'hf-datasets': 'Hugging Face datasets', openrouter: 'OpenRouter models', 'sec-fts': 'SEC filings', stockanalysis: 'AI chip stocks', vastai: 'GPU rental prices', hn: 'Hacker News', wikipedia: 'Wikipedia pageviews', 'intelligence-arena': 'IntelligenceArena mentions', 'federal-register': 'US Federal Register', govuk: 'GOV.UK', kalshi: 'Kalshi', manifold: 'Manifold', polymarket: 'Polymarket' };
 const RULE_TXT = {
   frozen_dark_pillar: 'The level is held while any pillar is dark, so a missing input can never move it.',
   deadband: 'The score is inside the dead band around the boundary, so the level holds.',

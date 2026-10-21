@@ -87,8 +87,10 @@ claim that anybody has been cured. See §7.
 
 ## 3. The sources
 
-Ten adapters, two per pillar, every one verified against the live endpoint on
-2026-09-24. Values below are the real readings from that run.
+Eleven adapters: two per pillar, plus a third on **access** that turns the Hub
+licence count into a share. The original ten were verified against the live
+endpoint on 2026-09-24; `hf-permissive-share` was added 2026-10-12. Values below
+are the real readings from the 2026-09-24 run unless noted.
 
 | pillar | id | measures | reading | unit |
 |---|---|---|---|---|
@@ -97,6 +99,7 @@ Ten adapters, two per pillar, every one verified against the live endpoint on
 | medicine | `clinicaltrials-ai` | AI trials with a start date in the window | 690 | trials/180d |
 | medicine | `pubmed-ai-clinical` | AI + clinical records entering PubMed | 1,990 | records/30d |
 | access | `hf-permissive-models` | new open weights under Apache-2.0 or MIT | 1,328 | models/24h |
+| access | `hf-permissive-share` | permissive share of all new Hub models | 0.319 | share/24h |
 | access | `openrouter-cost-floor` | tokens per dollar at the cheap frontier | 8.16 | Mtok/usd |
 | adoption | `hf-model-downloads` | downloads of a fixed basket of 8 deployed models | 278,916,768 | downloads/30d |
 | adoption | `npm-ai-installs` | installs of a fixed basket of 8 AI packages | 80,188,957 | installs/7d |
@@ -131,12 +134,18 @@ Details worth knowing:
   360 listed models at ≥128k context, not the minimum: the minimum is one listing
   and moves by a factor of two on one promotional price. Measured p10 was
   $0.1225 per million tokens; the floor was $0.0217 and the median $0.90.
-- **`epoch-open-weights`** is the only **ratio** in the index, and the only source
-  that can fall while every count rises. 44 open-weight releases out of 112
-  classified releases in the trailing year. Models Epoch have not classified, and
-  models marked `Unreleased`, are excluded from the denominator — counting an
-  unclassified model as closed would manufacture a downward bias out of somebody's
-  backlog.
+- **`epoch-open-weights`** is a **ratio**, and it can fall while every count rises.
+  44 open-weight releases out of 112 classified releases in the trailing year.
+  Models Epoch have not classified, and models marked `Unreleased`, are excluded
+  from the denominator — counting an unclassified model as closed would manufacture
+  a downward bias out of somebody's backlog.
+- **`hf-permissive-share`** is the access-pillar ratio: Apache-2.0 + MIT uploads
+  in the trailing 24h, divided by all Hub model uploads in the same window. Same
+  licence bar as `hf-permissive-models`; same total as SIREN's `huggingface`
+  capability source. Tags on the unfiltered listing are incomplete, so the
+  numerator uses the Hub's `filter=license:` pages rather than inferring licence
+  from tags. The adapter re-pages both listings — acceptable because BLISS does
+  not need to run hourly (§8).
 - **The two basket sources are all-or-nothing.** `hf-model-downloads` and
   `npm-ai-installs` sum over fixed sets, so a member that fails is not a smaller
   number — it is a *different* number, silently. Dropping `openai` alone would
@@ -160,8 +169,11 @@ A source enters BLISS only if all six hold:
    source wearing a plausible number — the exact failure this project exists to
    avoid. A thrown adapter goes dark, loudly, with the URL in the error.
 5. **The failure domain must be distinct from its pillar partner.** Each pillar has
-   two sources at two different operators, so one throttled API does not take a
-   pillar dark and freeze the whole index.
+   at least two sources at two different operators, so one throttled API does not
+   take a pillar dark and freeze the whole index. Access is the exception that
+   carries a third source (`hf-permissive-share`): it shares the Hub with
+   `hf-permissive-models` by design — same operator, same window, ratio rather
+   than count — and `openrouter-cost-floor` remains the independent partner.
 6. **Fixed baskets are frozen.** Adding a package or a model to a basket makes the
    number jump for a reason unrelated to adoption, and every percentile computed
    against the frozen reference afterwards measures the edit. **Changing a basket
@@ -290,12 +302,12 @@ Tempo indices share this weakness, but for an upside index it bites harder,
 because the whole point is the quality of an outcome and the only free proxy is
 the quantity of an artefact.
 
-**7. Nine of ten sources are counts; only one is a ratio.**
-Counts conflate "more open" with "more". `epoch-open-weights` is the only source
-that can fall while everything else rises, and it is the only one that answers
-"what *share* of this is good" rather than "how much happened". A future version
-should convert more pillars to ratios — that is the single largest improvement
-available to this index, and it is not done yet.
+**7. Nine of eleven sources are counts; two are ratios.**
+Counts conflate "more open" with "more". `epoch-open-weights` (frontier notable
+releases) and `hf-permissive-share` (Hub licence mix) are the sources that can
+fall while everything else rises, and the ones that answer "what *share* of this
+is open" rather than "how much happened". Medicine, science and adoption are
+still count-only — converting those is the next improvement.
 
 **8. The naming trap is worse here, not better.**
 `docs/VOICE.md` §1 tells the WHO Phase 6 story: the scale measured geographic

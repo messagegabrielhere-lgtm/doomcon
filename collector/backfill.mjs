@@ -421,6 +421,7 @@ const SOURCES = [
 const EXCLUDED = [
   { id: 'openrouter', reason: 'the /models catalogue is a survivor set - delisted models vanish, so a reconstructed 30d count is biased low the further back it reaches (only 9 of 454 listed models carry a 2023 created date). Calibrating live readings against a downward-biased history would bias the live score upward, which is a confident number over a compromised pipe.' },
   { id: 'huggingface', reason: 'no keyless historical endpoint; reconstructing createdAt counts would require paging the entire model index.' },
+  { id: 'hf-datasets', reason: 'no keyless historical endpoint; reconstructing createdAt counts would require paging the entire dataset index.' },
   { id: 'github-releases', reason: 'releases.atom returns only the most recent entries per repo, with no date-range parameter.' },
   { id: 'govuk', reason: 'the search API exposes no reliable publication-date range filter for historical counts.' },
   { id: 'polymarket', reason: 'no historical price series on the keyless gamma endpoint; current prices only.' },

@@ -447,6 +447,8 @@ const SOURCE_NAMES = Object.freeze({
   'hf-trending-models': 'Hugging Face trending',
   'huggingface-blog': 'Hugging Face blog',
   huggingface: 'Hugging Face',
+  'hf-datasets': 'Hugging Face datasets',
+  'hf-permissive-share': 'HF permissive share',
   'hn-ai': 'Hacker News',
   hn: 'Hacker News',
   kalshi: 'Kalshi',
