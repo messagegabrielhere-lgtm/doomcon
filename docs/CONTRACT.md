@@ -31,7 +31,9 @@ here without changing it everywhere. Agents building in parallel rely on it.
    User-Agent, per-source error capture). Never call `fetch()` directly.
    One exception, since 2026-09-28: the paid posting writes in
    `collector/post-x.mjs` and `collector/post-bluesky.mjs` use a single-attempt
-   `sendOnce()` that carries fetch.mjs's User-Agent and error type. fetch.mjs
+   `sendOnce()` that carries fetch.mjs's User-Agent and error type. Since
+   2026-10-21 `collector/newsletter.mjs` (the Buttondown send) uses the same
+   `sendOnce()` for the same reason: a retry could mail every subscriber twice. fetch.mjs
    cannot send a request body, and its retries could post the same paid write
    twice. Folding it back needs a `body` option and a no-retry switch in
    fetch.mjs.

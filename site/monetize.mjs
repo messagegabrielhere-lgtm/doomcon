@@ -14,7 +14,16 @@
 export const MONETIZE = {
   // Email newsletter. provider 'buttondown' + your Buttondown username, or
   // provider 'beehiiv' + your publication's subscribe URL.
-  newsletter: { provider: null, username: null, url: null, pitch: 'One email when the level moves, and a short weekly reading. No spam.' },
+  // Subscribers pick what they get with two Buttondown tags. The sender
+  // (collector/newsletter.mjs) mails the daily brief to `daily` and level /
+  // breaking alerts to `alerts`. Until a provider is set, the homepage box
+  // still works: it offers the same two emails through Blogtrottr, which
+  // mails the public RSS feeds (/feed-daily.xml, /feed-level.xml).
+  newsletter: {
+    provider: null, username: null, url: null,
+    pitch: 'The daily brief: one email a day with the closing reading and the stories that moved it. Alerts: one email the hour the level changes, and on the biggest breaking stories. Free.',
+    tags: { daily: 'daily', alerts: 'alerts' },
+  },
 
   // Visitor analytics.
   //   goatcounter: site code before .goatcounter.com. Cookieless; null = off.
@@ -68,6 +77,7 @@ export const on = {
   },
 };
 
+const SITE_NAME = 'SIREN';
 const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /** "Supported by X" — or, with no sponsor, a quiet house line that sells the slot. */
@@ -92,6 +102,38 @@ export function newsletterBox(privacyHref) {
 </form>`;
   }
   return `<div class="mz-nl"><label>Get the level by email</label><div><a class="mz-btn" href="${esc(n.url)}" rel="noopener">SUBSCRIBE FREE →</a></div>${note}</div>`;
+}
+
+/**
+ * The homepage signup box. With Buttondown set up it is a real form whose two
+ * checkboxes become subscriber tags. Without a provider it is still honest and
+ * still works: two buttons that open Blogtrottr with SIREN's public feeds
+ * pre-filled, so the address goes to Blogtrottr and never to SIREN.
+ */
+export function signupBox({ privacyHref, dailyFeedUrl, levelFeedUrl, alertsHref, id = 'nl', heading = 'GET THE SIREN BRIEF BY EMAIL' } = {}) {
+  const n = MONETIZE.newsletter;
+  const t = n.tags || { daily: 'daily', alerts: 'alerts' };
+  const head = `<p class="mz-k">${esc(heading)}</p><p class="mz-pitch">${esc(n.pitch)}</p>`;
+  if (on.newsletter() && n.provider === 'buttondown') {
+    return `<form class="mz-nl mz-nl--big" id="${esc(id)}" action="https://buttondown.com/api/emails/embed-subscribe/${esc(n.username)}" method="post" target="_blank">
+  ${head}
+  <label class="vh" for="${esc(id)}-email">Your email address</label>
+  <div class="mz-row"><input id="${esc(id)}-email" type="email" name="email" placeholder="you@example.com" required autocomplete="email"><button type="submit">SUBSCRIBE FREE →</button></div>
+  <fieldset class="mz-tags"><legend class="vh">What to send</legend>
+    <label><input type="checkbox" name="tag" value="${esc(t.daily)}" checked> Daily brief</label>
+    <label><input type="checkbox" name="tag" value="${esc(t.alerts)}" checked> Level &amp; breaking alerts</label>
+  </fieldset>
+  <p class="mz-note">Sent by Buttondown. Unsubscribe in one click from any email. <a href="${esc(privacyHref)}">Privacy</a>.</p>
+</form>`;
+  }
+  if (on.newsletter()) {
+    return `<div class="mz-nl mz-nl--big" id="${esc(id)}">${head}<div class="mz-row"><a class="mz-btn" href="${esc(n.url)}" rel="noopener">SUBSCRIBE FREE →</a></div><p class="mz-note">Unsubscribe in one click from any email. <a href="${esc(privacyHref)}">Privacy</a>.</p></div>`;
+  }
+  const bt = (u) => `https://blogtrottr.com/?url=${encodeURIComponent(u)}`;
+  return `<div class="mz-nl mz-nl--big" id="${esc(id)}">${head}
+  <div class="mz-row"><a class="mz-btn" href="${esc(bt(dailyFeedUrl))}" rel="noopener" target="_blank">EMAIL ME THE DAILY BRIEF →</a><a class="mz-btn mz-btn--ghost" href="${esc(bt(levelFeedUrl))}" rel="noopener" target="_blank">EMAIL ME LEVEL ALERTS</a></div>
+  <p class="mz-note">Delivered by Blogtrottr from ${esc(SITE_NAME)}'s public feeds: your address goes to them, not to ${esc(SITE_NAME)}. Unsubscribe from any email. <a href="${esc(alertsHref)}">Other ways: RSS, Slack, in-tab</a> · <a href="${esc(privacyHref)}">Privacy</a>.</p>
+</div>`;
 }
 
 export function tipLink() {
@@ -168,6 +210,14 @@ export const MZ_CSS = `<style>
 .mz-nl button,.mz-btn{padding:11px 16px;border:0;border-radius:4px;background:#4ADE80;color:#000;font:700 13px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:pointer;text-decoration:none;display:inline-block}
 .mz-note{margin:0;font-size:12.5px;color:#AEB7C3}.mz-note a{color:inherit}
 .mz-tip{color:#FFB020}
+.mz-nl--big{max-width:none;gap:10px}.mz-nl .mz-k{margin:0;font:700 13px/1.2 "IBM Plex Mono",monospace;letter-spacing:.14em;color:var(--lv,#4ADE80)}
+.mz-nl .mz-pitch{margin:0;font:400 15px/1.5 "IBM Plex Sans",system-ui,sans-serif;color:#D7DCE3;max-width:70ch}
+.mz-nl .mz-row{display:flex;gap:8px;flex-wrap:wrap}.mz-nl .mz-row input{flex:1 1 240px;min-height:48px}
+.mz-nl--big button,.mz-nl--big .mz-btn{min-height:48px;padding:0 18px;display:inline-flex;align-items:center;background:var(--lv,#4ADE80);color:#05070B}
+.mz-nl .mz-btn--ghost{background:transparent;color:#fff;border:2px solid var(--lv,#4ADE80)}
+.mz-tags{border:0;margin:0;padding:0;display:flex;gap:16px;flex-wrap:wrap}.mz-tags label{font:500 14px/1.4 "IBM Plex Sans",sans-serif;letter-spacing:0;text-transform:none;color:#D7DCE3;display:inline-flex;gap:6px;align-items:center}
+.mz-tags input{accent-color:var(--lv,#4ADE80);width:18px;height:18px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>`;
 
 /** Add the Polymarket referral (if set) and UTM tags to any polymarket.com URL. */

@@ -280,6 +280,18 @@ const RULE_WORD = {
   frontier_salience: 'frontier lab named',
 };
 
+function briefHead(badge) {
+  // Arrivals live BESIDE the H2, never inside it. The badge answers a different
+  // question over a different window ("how many items landed in the last hour");
+  // stuffing it into the heading polluted the On-this-page jump index with
+  // "39 arrived · 1h 39 first seen in the last 1h" and made the section title
+  // announce two facts as one. The H2 stays the question a reader bookmarks.
+  return `<div class="dg__briefhead">
+    <h2 class="sec__h" id="dg-brief-h">What is in today's brief?</h2>
+    ${badge || ''}
+  </div>`;
+}
+
 function briefSection(d, brief, arrivals) {
   // The heading counter. The brief is a rule-selected six; the badge beside it
   // is how many items landed on the desk in the last hour, which is a different
@@ -290,7 +302,7 @@ function briefSection(d, brief, arrivals) {
   const badge = newBadgeFor(arrivals, 3600, { noun: 'arrived' });
   if (!brief.items || !brief.items.length) {
     return `<section class="sec dg" aria-labelledby="dg-brief-h">
-      <h2 class="sec__h" id="dg-brief-h">What is in today's brief? ${badge}</h2>
+      ${briefHead(badge)}
       <p class="dg__empty"><b>NO ITEM CLEARED A RULE</b>
         Of ${esc(brief.candidates || 0)} items published in the last ${esc(brief.window_hours || 24)} hours,
         none satisfied any of the ${esc(Object.keys(RULE_WORD).length)} selection rules. The brief is short
@@ -305,7 +317,7 @@ function briefSection(d, brief, arrivals) {
       <span class="num">${esc(counts[id] ?? 0)}</span> in window</li>`).join('');
 
   return `<section class="sec dg" aria-labelledby="dg-brief-h">
-  <h2 class="sec__h" id="dg-brief-h">What is in today's brief? ${badge}</h2>
+  ${briefHead(badge)}
   <p class="dg__key">${esc(brief.shown)} shown of ${esc(brief.qualified)} that cleared a rule, from
      ${esc(brief.candidates)} candidates in the last ${esc(brief.window_hours)} hours. Capped at
      ${esc(brief.max_items)} items and ${esc(brief.max_per_source)} per source, so a single high-volume feed
@@ -326,22 +338,36 @@ function briefItem(it) {
 
   const why = (it.why_components || []).map((w) => `<li>${esc(w)}</li>`).join('');
   const sub = it.summary ? `<p class="dg__sub">${esc(clip(it.summary, 220))}</p>` : '';
-  const pillar = it.pillar ? pillarTag(it.pillar, { long: true }) : '';
+  // Short pillar code in the meta row — the full name is already in the
+  // screen-reader span inside pillarTag. Long names ("Attention") plus the
+  // uppercase source label made the meta line the loudest thing on the card
+  // and pushed the headline below the fold of every scan.
+  const pillar = it.pillar ? pillarTag(it.pillar) : '';
+  // Feed id on the chip, full house label on hover/title. A 90-character
+  // "Wires & business papers — Reuters, AP, …" uppercased and ellipsised at
+  // 22ch reads as noise; the id is what the rest of the site already uses.
+  const srcId = it.source || it.source_label || '';
+  const srcLabel = it.source_label || it.source || '';
+  const src = srcId
+    ? `<span class="dg__src" title="${esc(srcLabel)}">${esc(srcId)}<span class="vh"> — ${esc(srcLabel)}</span></span>`
+    : '';
 
+  // Title first. A morning brief is scanned for headlines; clock, age, pillar
+  // and feed are supporting facts and sit under the H3.
   return `<li class="dg__item" data-pillar="${esc(it.pillar || '')}">
     <div class="dg__itemhead">
       <span class="dg__rank num" aria-hidden="true">${esc(String(it.rank).padStart(2, '0'))}</span>
-      <p class="dg__meta">
-        <time class="num" datetime="${esc(it.published_at)}" title="${esc(utc(it.published_at))}">${esc(utcClock(it.published_at))}</time>
-        <span class="dg__age num">${esc(it.age_hours)}h</span>
-        ${pillar}
-        <span class="dg__src">${esc(it.source_label)}</span>
-      </p>
+      <h3 class="dg__title"><span class="vh">Item ${esc(it.rank)}. </span>${title}</h3>
       <p class="dg__weight num" title="Sum of the published weights of the rules this item fired">
         <b>${esc(it.rule_weight)}</b><span class="vh"> rule weight</span>
       </p>
     </div>
-    <h3 class="dg__title"><span class="vh">Item ${esc(it.rank)}. </span>${title}</h3>
+    <p class="dg__meta">
+      <time class="num" datetime="${esc(it.published_at)}" title="${esc(utc(it.published_at))}">${esc(utcClock(it.published_at))}</time>
+      <span class="dg__age num">${esc(it.age_hours)}h</span>
+      ${pillar}
+      ${src}
+    </p>
     ${sub}
     <p class="dg__rules">${rules}</p>
     <h4 class="dg__whyh">Why this matters</h4>
@@ -893,6 +919,9 @@ const dgCss = `
 .dg__empty b { font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.12em; color: var(--ink-faint); }
 
 /* --- the brief ---------------------------------------------------------- */
+.dg__briefhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin: 0 0 var(--s-3); }
+.dg__briefhead .sec__h { margin: 0; flex: 1 1 auto; min-width: min(100%, 28ch); }
+.dg__briefhead .newbadge { flex: 0 0 auto; }
 .dg__legend { list-style: none; margin: 0 0 var(--s-3); padding: 0; display: flex; flex-wrap: wrap; gap: 6px 12px; font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint); }
 .dg__legend li { display: inline-flex; align-items: baseline; gap: 4px; }
 
@@ -904,12 +933,12 @@ const dgCss = `
 .dg__item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--p, var(--rule)); opacity: 0.6; transform-origin: top; }
 .dg__itemhead { display: grid; grid-template-columns: 3ch minmax(0, 1fr) auto; gap: 8px; align-items: baseline; }
 .dg__rank { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-faint); }
-.dg__meta { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-dim); }
+.dg__meta { margin: 6px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-dim); }
 .dg__age { font-size: var(--t-2xs); color: var(--ink-faint); border: 1px solid var(--rule-soft); border-radius: 2px; padding: 0 4px; }
-.dg__src { font-size: var(--t-2xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; max-width: 22ch; white-space: nowrap; }
+.dg__src { font-size: var(--t-2xs); letter-spacing: 0.04em; color: var(--ink-faint); max-width: 18ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .dg__weight { margin: 0; font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-faint); }
 .dg__weight b { font-size: var(--t-base); color: var(--ink); }
-.dg__title { grid-column: 1 / -1; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.012em; margin: 6px 0 0; overflow-wrap: anywhere; }
+.dg__title { margin: 0; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.012em; overflow-wrap: anywhere; }
 .dg__title a { text-decoration: none; }
 .dg__title a:hover { text-decoration: underline; text-decoration-color: var(--p, var(--accent)); }
 .dg__sub { font-size: var(--t-sm); color: var(--ink-faint); margin: 5px 0 0; line-height: 1.5; }
@@ -1022,7 +1051,7 @@ const dgCss = `
   .dg__labstats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dg__itemhead { grid-template-columns: minmax(0, 1fr) auto; }
   .dg__rank { display: none; }
-  .dg__title, .dg__sub, .dg__rules, .dg__whyh, .dg__why { grid-column: 1 / -1; }
+  .dg__sub, .dg__rules, .dg__whyh, .dg__why, .dg__meta { grid-column: 1 / -1; }
 }
 
 /* Motion. The rail beside a brief item wipes in, because the item is a new

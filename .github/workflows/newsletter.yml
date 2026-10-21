@@ -1,0 +1,110 @@
+# The SIREN email: the daily brief and the alerts, sent through Buttondown.
+#
+# WHAT IT DOES. Checks out main and runs collector/newsletter.mjs, which builds
+# the email from the data/ files the pipeline already committed and POSTs it to
+# Buttondown for one subscriber tag (`daily` or `alerts`). One line per email
+# is appended to data/emailed.ndjson and committed back, so a late or repeated
+# run never mails anyone twice.
+#
+# WITHOUT THE SECRET IT DOES NOTHING, AND STAYS GREEN. Add BUTTONDOWN_API_KEY
+# under Settings > Secrets and variables > Actions (Buttondown > Settings > API).
+# docs/NEWSLETTER.md has the whole setup.
+#
+# IT CANNOT BREAK THE SITE. Its own workflow and concurrency group; it never
+# touches public/ or gh-pages, and a failed send turns only this run red.
+#
+# WHEN.
+#   12:37 UTC daily: the brief lands at 08:37 New York, after the :07 hourly
+#     reading has been committed. The sender refuses a reading over 6 h old.
+#   :13 and :43 every hour: the alert lane. A level change is mailed within the
+#     half hour; a breaking story only when four or more independent outlets
+#     carry it, at most one every 4 h and three a day. Otherwise it exits green.
+#
+# BY HAND. Actions > newsletter > Run workflow. `dry_run` defaults to TRUE: it
+# prints the exact email and sends nothing, with no secret in its environment.
+
+name: newsletter
+
+on:
+  schedule:
+    - cron: '37 12 * * *'
+    - cron: '13,43 * * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Which email'
+        type: choice
+        options: [daily, alert]
+        default: daily
+      dry_run:
+        description: 'Dry run: print the email, send nothing'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write   # to commit data/emailed.ndjson back to main
+
+concurrency:
+  group: newsletter
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      HAS_KEY: ${{ secrets.BUTTONDOWN_API_KEY != '' }}
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+      MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '37 12 * * *' && 'daily' || 'alert') }}
+
+    steps:
+      - name: Nothing to send with
+        if: env.HAS_KEY != 'true' && env.DRY_RUN != 'true'
+        run: echo "BUTTONDOWN_API_KEY is not configured (docs/NEWSLETTER.md). Nothing to do; exiting green."
+
+      - name: Checkout
+        if: env.HAS_KEY == 'true' || env.DRY_RUN == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node 20
+        if: env.HAS_KEY == 'true' || env.DRY_RUN == 'true'
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '20'
+
+      - name: Test the sender
+        if: env.HAS_KEY == 'true' || env.DRY_RUN == 'true'
+        run: node --test collector/newsletter.test.mjs
+
+      - name: Dry run
+        if: env.DRY_RUN == 'true'
+        run: node collector/newsletter.mjs --$MODE --dry-run
+
+      - name: Send
+        if: env.DRY_RUN != 'true' && env.HAS_KEY == 'true'
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+        run: node collector/newsletter.mjs --$MODE
+
+      - name: Commit the email ledger
+        # always(): if the send went out, its line must reach main even when a
+        # later step fails, or the next run could send it again.
+        if: always() && env.DRY_RUN != 'true' && env.HAS_KEY == 'true'
+        run: |
+          set -euo pipefail
+          if [ ! -f data/emailed.ndjson ]; then echo 'no ledger yet; nothing to commit'; exit 0; fi
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/emailed.ndjson
+          if git diff --cached --quiet; then echo 'ledger unchanged; nothing sent this run'; exit 0; fi
+          git commit -q -m "emailed: $(tail -n 1 data/emailed.ndjson | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const l=JSON.parse(s);process.stdout.write(l.kind+" "+l.sent_at)})')"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            echo "push rejected (attempt $attempt); rebasing onto the new tip"
+            git pull --rebase --quiet origin main || { echo '::error::rebase of data/emailed.ndjson failed. The email DID go out; add its line to main by hand.'; exit 1; }
+          done
+          echo '::error::could not push data/emailed.ndjson. The email DID go out. Append this line to data/emailed.ndjson on main by hand:'
+          tail -n 1 data/emailed.ndjson
+          exit 1
