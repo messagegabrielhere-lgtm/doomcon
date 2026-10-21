@@ -260,6 +260,32 @@ export function render(ctx) {
           },
         },
       },
+      '/api/labs-bench.json': {
+        get: {
+          tags: ['labs'],
+          summary: 'SIREN Labs live bench: recursion meter, METR horizons, Epoch compute jumps, lab silence',
+          operationId: 'getLabsBench',
+          responses: {
+            200: {
+              description: 'Unscored open-data instruments for /bench.html',
+              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
+      '/api/labs.json': {
+        get: {
+          tags: ['labs'],
+          summary: 'SIREN Labs weekly experiment plan and shipped instruments',
+          operationId: 'getLabsPlan',
+          responses: {
+            200: {
+              description: 'Plan published from site/templates/labsPage.mjs',
+              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
       '/now.md': {
         get: {
           tags: ['index'],

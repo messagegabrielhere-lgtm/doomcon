@@ -217,6 +217,7 @@ export function roomGroups(ctx) {
     ]],
     ['THE RECORD', [
       ['/labs.html', 'px:flask', 'What is SIREN Labs measuring this week?', 'NEW', 'Open-data instruments on the bench.'],
+      ['/bench.html', 'px:agentcode', 'Is AI building AI yet? (Labs bench)', 'LIVE', 'Recursion, horizons, jumps, compute, silence.'],
       ['/search.html', 'px:search', 'How do you search everything on SIREN?', 'NEW', 'One search box over the catalog.'],
       ['/catalog.html', 'px:catalog', 'Where is everything on SIREN listed?', 'NEW', 'Every room, one directory.'],
       ['/ai-doomsday-clock.html', 'clock', 'Is there an AI doomsday clock?', null, 'The Bulletin’s clock vs AI-specific countdowns vs an hourly activity count.'],
@@ -250,6 +251,7 @@ export function roomGroups(ctx) {
       ['/export.html', 'px:code', 'How do I export and embed SIREN data?', null, 'JSON, embeds, badges.'],
       ['/bias.html', 'px:scalebias', 'What can SIREN not see?', null, 'Known blind spots, stated plainly.'],
       ['/reference-plan.html', 'px:ruler', 'How does the SIREN baseline get updated?', null, 'The frozen-reference plan.'],
+
     ]],
   ];
   return groups.map(([g, items]) => [g, items.filter(Boolean)]).filter(([, l]) => l.length);

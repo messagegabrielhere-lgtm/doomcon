@@ -50,6 +50,7 @@ import * as threatsPage from './templates/threatsPage.mjs';
 import * as powerPage from './templates/powerPage.mjs';
 import * as gamesPage from './templates/gamesPage.mjs';
 import * as labsPage from './templates/labsPage.mjs';
+import * as benchPage from './templates/benchPage.mjs';
 import * as nationsPage from './templates/nationsPage.mjs';
 import { nationsRace } from './nations.mjs';
 import * as midtermsPage from './templates/midtermsPage.mjs';
@@ -1871,6 +1872,14 @@ async function main() {
     written.push(await write(args.out, 'power.html', powerPage.render(ctx, pw)));
     written.push(await write(args.out, 'games.html', gamesPage.render(ctx)));
     written.push(await write(args.out, 'labs.html', labsPage.render(ctx)));
+    {
+      // SIREN Labs live bench (collector/labs-bench.mjs). Presentation only.
+      let bench = null, benchHist = [], benchText = null;
+      try { benchText = await readFile(path.join(args.data, 'labs-bench.json'), 'utf8'); bench = JSON.parse(benchText); } catch { bench = null; benchText = null; }
+      try { benchHist = (await readFile(path.join(args.data, 'labs-bench-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { benchHist = []; }
+      written.push(await write(args.out, 'bench.html', benchPage.render(ctx, bench, benchHist)));
+      if (benchText !== null) written.push(await write(args.out, 'api/labs-bench.json', benchText));
+    }
     written.push(await write(args.out, 'nations.html', nationsPage.render(ctx, ctx.nations)));
     if (ctx.nations) written.push(await write(args.out, 'api/nations.json', JSON.stringify({ schema: 1, generated_at: new Date().toISOString(), ...ctx.nations }, null, 1) + '\n'));
     written.push(await write(args.out, 'midterms.html', midtermsPage.render(ctx)));

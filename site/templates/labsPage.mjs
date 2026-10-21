@@ -19,11 +19,11 @@ export const LABS = {
   started: '2026-10-12',
   weeks: [
     { start: '2026-10-12', theme: 'Is AI building AI yet?', items: [
-      { id: 'rsi', name: 'The Recursion Meter', q: 'How much of the code that builds AI is now written by AI?', build: 'Count agent-authored pull requests merged into the core AI stacks (PyTorch, Transformers, vLLM, JAX, llama.cpp) each day, as a share of all merged PRs.', data: 'GitHub public API; the agent-PR tracker behind Takeover Watch.', measure: 'A daily share with a 30-day trend line, recomputable from the PR list.', icon: 'px:agentcode', c: '#4ADE80' },
-      { id: 'horizon', name: 'The Task-Horizon Clock', q: 'How long a job can an AI agent finish on its own?', build: 'Chart the published length of tasks frontier agents complete half the time (METR’s time-horizon measure) and the doubling time it implies.', data: 'METR published results; model release dates.', measure: 'Hours of human work per task, per model, on a log scale.', icon: 'px:pclock', c: '#22D3EE' },
-      { id: 'jump', name: 'Capability Jump Alarm', q: 'When does a new model land far off the trend?', build: 'Fit the trend on public leaderboards and flag any release that beats it by more than two standard deviations.', data: 'LMArena, Epoch AI benchmarks hub, Artificial Analysis.', measure: 'A list of flagged jumps with the size of the gap, each linked to its source.', icon: 'px:trendchart', c: '#FACC15' },
-      { id: 'compute', name: 'The Compute Clock', q: 'How fast is frontier training compute growing?', build: 'A live clock of the largest disclosed training run, with the doubling time from Epoch’s notable-models data.', data: 'Epoch AI notable models dataset (CC BY).', measure: 'FLOP of the largest known run and months per doubling.', icon: 'px:db', c: '#A78BFA' },
-      { id: 'quiet', name: 'The Lab Silence Index', q: 'Do labs go quiet before a big release?', build: 'Track each lab’s posting cadence (blog, GitHub, X) and mark unusual silences, then check them against what shipped next.', data: 'The newsroom feeds and the Leaders tracker already on SIREN.', measure: 'Days of silence versus each lab’s normal rhythm, scored after the fact.', icon: 'px:shrug', c: '#94A3B8' },
+      { id: 'rsi', name: 'The Recursion Meter', q: 'How much of the code that builds AI is now written by AI?', build: 'Count agent-authored pull requests merged into the core AI stacks (PyTorch, Transformers, vLLM, JAX, llama.cpp) each day, as a share of all merged PRs.', data: 'GitHub public API; the agent-PR tracker behind Takeover Watch.', measure: 'A daily share with a 30-day trend line, recomputable from the PR list.', icon: 'px:agentcode', c: '#4ADE80', status: 'shipped', href: '/bench.html#rsi' },
+      { id: 'horizon', name: 'The Task-Horizon Clock', q: 'How long a job can an AI agent finish on its own?', build: 'Chart the published length of tasks frontier agents complete half the time (METR’s time-horizon measure) and the doubling time it implies.', data: 'METR published results; model release dates.', measure: 'Hours of human work per task, per model, on a log scale.', icon: 'px:pclock', c: '#22D3EE', status: 'shipped', href: '/bench.html#horizon' },
+      { id: 'jump', name: 'Capability Jump Alarm', q: 'When does a new model land far off the trend?', build: 'Fit the trend on public leaderboards and flag any release that beats it by more than two standard deviations.', data: 'LMArena, Epoch AI benchmarks hub, Artificial Analysis.', measure: 'A list of flagged jumps with the size of the gap, each linked to its source.', icon: 'px:trendchart', c: '#FACC15', status: 'shipped', href: '/bench.html#jump' },
+      { id: 'compute', name: 'The Compute Clock', q: 'How fast is frontier training compute growing?', build: 'A live clock of the largest disclosed training run, with the doubling time from Epoch’s notable-models data.', data: 'Epoch AI notable models dataset (CC BY).', measure: 'FLOP of the largest known run and months per doubling.', icon: 'px:db', c: '#A78BFA', status: 'shipped', href: '/bench.html#compute' },
+      { id: 'quiet', name: 'The Lab Silence Index', q: 'Do labs go quiet before a big release?', build: 'Track each lab’s posting cadence (blog, GitHub, X) and mark unusual silences, then check them against what shipped next.', data: 'The newsroom feeds and the Leaders tracker already on SIREN.', measure: 'Days of silence versus each lab’s normal rhythm, scored after the fact.', icon: 'px:shrug', c: '#94A3B8', status: 'shipped', href: '/bench.html#quiet' },
     ] },
     { start: '2026-10-19', theme: 'Who is watching the watchers?', items: [
       { id: 'exodus', name: 'Safety Team Exodus Tracker', q: 'Are safety researchers leaving the frontier labs?', build: 'A dated ledger of announced departures from safety and alignment teams, with where people went.', data: 'Public announcements on X, Bluesky and the newsroom.', measure: 'Departures per lab per quarter, every entry sourced.', icon: 'px:team', c: '#F87171' },
@@ -46,6 +46,7 @@ export const LABS = {
   ],
   // Earlier ideas that are already live on the site.
   shipped: [
+    ['/bench.html', 'Is AI building AI yet? (week of Oct 12)'],
     ['/si-watch.html#coding', 'What AI autonomy signals is SIREN watching?'],
     ['/self-aware.html', 'What if an AI wakes up at 2:14 a.m.?'],
     ['/charts.html', 'What AI charts does SIREN publish?'],
@@ -71,7 +72,7 @@ const CSS = `<style>
 .lb-c h3{margin:0;font:800 17px/1.2 var(--sans);color:#fff}.lb-c .n{font:700 11px var(--mono);color:var(--c);letter-spacing:.1em}
 .lb-c .q{margin:0;font:600 15px/1.4 var(--sans);color:#E6EAF0}
 .lb-c dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:13px;line-height:1.45}.lb-c dt{font:700 10.5px/1.7 var(--mono);color:var(--ink-faint,#6B7686);letter-spacing:.08em}.lb-c dd{margin:0;color:var(--ink-dim)}
-.lb-st{align-self:flex-start;font:700 10.5px var(--mono);letter-spacing:.1em;padding:3px 8px;border-radius:999px;border:1px solid var(--c);color:var(--c)}
+.lb-st{align-self:flex-start;font:700 10.5px var(--mono);letter-spacing:.1em;padding:3px 8px;border-radius:999px;border:1px solid var(--c);color:var(--c);text-decoration:none}
 .lb-c button{margin-top:auto;align-self:flex-start;appearance:none;border:1px solid #334155;background:transparent;color:#CBD5E1;padding:7px 10px;font:700 12px var(--mono);cursor:pointer}
 .lb-next{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
 .lb-next div{border:1px solid var(--rule);border-radius:8px;padding:12px 14px;background:var(--bg-raised,#0E131D)}
@@ -94,12 +95,22 @@ export function render(ctx, nowMs = Date.now()) {
   const wkNo = wi + 1;
   const fmtD = (s) => new Date(s + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
   // Tip #365: experiment-card H3s use the measurable question (mirrored in FAQ §3.3).
-  const card = (it, n) => `<article class="lb-c" id="${esc(it.id)}" style="--c:${it.c}">
+  // Shipped items link to the live /bench.html instrument.
+  const card = (it, n) => {
+    const live = it.status === 'shipped' && it.href;
+    const st = live
+      ? `<a class="lb-st" href="${esc(ctx.href(it.href))}">● LIVE →</a>`
+      : `<span class="lb-st">● ON THE BENCH</span>`;
+    const go = live
+      ? `<a href="${esc(ctx.href(it.href))}" style="margin-top:auto;align-self:flex-start;border:1px solid var(--c);color:var(--c);padding:7px 10px;font:700 12px var(--mono);text-decoration:none">Open the instrument</a>`
+      : `<button type="button" data-xpost="page" data-x-title="SIREN Labs, experiment ${wkNo}.${n}: ${esc(it.q)}" data-x-src="SIREN Labs" data-x-url="${share}#${esc(it.id)}">𝕏 Post this question</button>`;
+    return `<article class="lb-c" id="${esc(it.id)}" style="--c:${it.c}">
     <header><img src="${img(it.icon)}" width="40" height="40" alt=""><div><span class="n">EXPERIMENT ${wkNo}.${n} · ${esc(it.name)}</span><h3>${esc(it.q)}</h3></div></header>
     <dl><dt>BUILD</dt><dd>${esc(it.build)}</dd><dt>DATA</dt><dd>${esc(it.data)}</dd><dt>MEASURE</dt><dd>${esc(it.measure)}</dd></dl>
-    <span class="lb-st">● ON THE BENCH</span>
-    <button type="button" data-xpost="page" data-x-title="SIREN Labs, experiment ${wkNo}.${n}: ${esc(it.q)}" data-x-src="SIREN Labs" data-x-url="${share}#${esc(it.id)}">𝕏 Post this question</button>
+    ${st}
+    ${go}
   </article>`;
+  };
   const next = LABS.weeks.slice(wi + 1).map((w) => `<div><b>WEEK OF ${esc(fmtD(w.start).toUpperCase())}</b><i>${esc(w.theme)}</i><ul>${w.items.map((it) => `<li>${esc(it.name)}</li>`).join('')}</ul></div>`).join('');
   const past = LABS.weeks.slice(0, wi).map((w) => `<div><b>WEEK OF ${esc(fmtD(w.start).toUpperCase())}</b><i>${esc(w.theme)}</i><ul>${w.items.map((it) => `<li>${esc(it.name)}</li>`).join('')}</ul></div>`).join('');
   const shipped = LABS.shipped.map(([h, l]) => `<a href="${esc(ctx.href(h))}">${esc(l)}</a>`).join(' · ');

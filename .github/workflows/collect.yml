@@ -757,6 +757,16 @@ jobs:
         continue-on-error: true
         run: node collector/power.mjs
 
+      - name: SIREN Labs bench
+        # Week-of instruments for /bench.html (recursion, METR horizon,
+        # Epoch jumps/compute, lab silence). Unscored; a failure keeps the
+        # previous file.
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SI_SEARCH_TOKEN: ${{ secrets.SI_SEARCH_TOKEN }}
+        run: node collector/labs-bench.mjs
+
       - name: Waffle House Index
         # Storms from NHC, Waffle Houses in the path (OpenStreetMap, weekly),
         # open/closed from Google Places when GOOGLE_PLACES_API_KEY is set
