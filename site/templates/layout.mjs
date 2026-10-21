@@ -33,7 +33,7 @@
 
 import { seal } from './_seal.mjs';
 import { mascot } from './_mascot.mjs';
-import { esc, num, utc, utcClock, jsonScript } from './_html.mjs';
+import { esc, num, utc, utcClock, jsonScript, serpTitle, serpDescription } from './_html.mjs';
 import { degradedBanner, deltaChip } from './_parts.mjs';
 import { motionBlock } from './_motion.mjs';
 import { organization } from './_seo.mjs';
@@ -822,28 +822,6 @@ function v2StatusBar(ctx) {
   <span class="v2m-right">STATUS: <b class="${st.degraded ? 'v2m-amber' : 'v2m-green'}">${st.degraded ? 'DEGRADED' : 'OPERATIONAL'}</b></span>
 </div></div>`;
 }
-
-/* WHAT A SEARCH RESULT CAN SHOW. A result page cuts a title near 65 characters
-   and a description near 160, mid-word, wherever that falls. Eleven pages ran
-   past both, so the number that made the title worth reading was the part that
-   got cut. The full strings still go to og:title and og:description, which
-   social cards do not truncate the same way. */
-function serpTitle(title) {
-  const t = String(title || '');
-  if (t.length <= 65 || !t.includes(' — ')) return t;
-  const brandAt = t.lastIndexOf(' · ');
-  const suffix = brandAt > 0 ? t.slice(brandAt) : '';
-  return t.slice(0, t.indexOf(' — ')) + suffix;
-}
-function serpDescription(description) {
-  const d = String(description || '');
-  if (d.length <= 160) return d;
-  const head = d.slice(0, 160);
-  const stop = Math.max(head.lastIndexOf('. '), head.lastIndexOf('? '));
-  if (stop >= 80) return head.slice(0, stop + 1);
-  return head.slice(0, head.lastIndexOf(' ')).replace(/[,;:—-]+$/, '') + '…';
-}
-
 
 /* ---------------------------------------------------------------------------
    THE NAV KIT. Two ways to get anywhere, none of which the page needs in
