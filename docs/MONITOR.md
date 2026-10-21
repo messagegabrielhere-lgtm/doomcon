@@ -8,7 +8,7 @@ its 7-day history and a markets panel. No libraries and no keys.
 | File | Job |
 |---|---|
 | `monitor/core.mjs` | Categories, country matching, story grouping, the stress formula, aircraft health. No imports. |
-| `monitor/collect.mjs` | Server side: GDELT, 27 RSS feeds, hazards, KEV, aircraft layers → snapshot + hourly history |
+| `monitor/collect.mjs` | Server side: GDELT, 29 RSS feeds, hazards, KEV, aircraft layers → snapshot + hourly history |
 | `monitor/check.mjs` | Aircraft-feed health CLI for CI and the watchdog |
 | `.github/workflows/monitor-data.yml` | Runs the collector every 15 minutes, force-pushes to the `monitor-data` branch |
 | `.github/workflows/watchdog.yml` | Pages on pipeline failure and probes live index + aircraft feed health |
@@ -32,7 +32,7 @@ because GDELT asks for one request every five seconds.
 | Layer | Source | Where it is read |
 |---|---|---|
 | News | GDELT DOC 2.0, English, 24 h, one combined query sorted by `categorize()`. GitHub's runners get HTTP 429 from GDELT, so when the snapshot has no GDELT the page makes the call from the visitor's browser, cached 15 minutes | server, else browser |
-| World news | 27 RSS feeds: BBC, Al Jazeera, Guardian, NPR, DW, France 24, NYT, Washington Post, Euronews, RFI, ABC, Sky, UN, CNBC, Middle East Eye, Japan Times, SCMP, Africanews, Defense News, The War Zone, BleepingComputer, The Record, Krebs, gCaptain, Splash247, OilPrice, WHO | server only (no CORS) |
+| World news | 29 RSS feeds: BBC, Al Jazeera, Guardian, NPR, DW, France 24, NYT, Washington Post, Euronews, RFI, ABC, Sky, UN, CNBC, Middle East Eye, Japan Times, SCMP, Africanews, Defense News, The War Zone, BleepingComputer, The Record, Krebs, gCaptain, Splash247, OilPrice, WHO, Science Daily (top science + AI) | server only (no CORS) |
 | AI news | SIREN's newsroom, `/api/news.json` | browser |
 | Earthquakes | USGS M4.5+, 7 days | both |
 | Fires, storms, volcanoes, floods… | NASA EONET v3, open events | both |
@@ -40,7 +40,11 @@ because GDELT asks for one request every five seconds.
 | Military aircraft | adsb.lol `/v2/mil` (ODbL), published only as counts per 5° cell by country, with an ADS-B / MLAT / TIS-B / Mode S mix: no callsign, registration, hex, altitude, heading or exact position is kept | both |
 | Air traffic density | adsb.lol hub samples (`/v2/lat/.../lon/.../dist/250`, ODbL), deduped by hex then published as the same 5° cell counts + modality mix. Snapshot only (too many requests for every browser) | server |
 | Emergency squawks | adsb.lol `/v2/sqk/7700`, `/7600`, `/7500` (ODbL), regional counts only | both |
+| ISS | where-the-iss.at (HTTPS) with open-notify fallback; trail kept in-page | browser |
 | Shipping lanes, chokepoints | static, in the page | — |
+| Submarine cables | TeleGeography simplified extract in `data/monitor-cables.json` (rebuild with `collector/tools/monitor-cables.mjs`) | browser |
+| Space weather | NOAA SWPC planetary K-index | browser |
+| Wikipedia edit pulse | MediaWiki recentchanges (main namespace), edits/min | browser |
 | AI datacentres (off by default) | `/api/world.json` (OSM) | browser |
 | Exploited vulnerabilities | CISA KEV via `cisagov/kev-data` | both |
 | Stocks, country ETFs, commodities | scanner snapshot (Yahoo, delayed) | browser |
@@ -146,8 +150,10 @@ zero that hour.
 
 ## Not built
 
-The World Monitor in the tweet also ships native desktop apps, 25 languages
-and live AIS ship positions. AIS needs a key, so lanes here are static.
+Live AIS ship positions (MarineTraffic-style) still need a key, so sea lanes
+here stay static. Blitzortung lightning is entertainment-licence only, so it
+is not mirrored. Zoom Earth / Windy imagery tiles are left to those sites —
+storms and fires already arrive via EONET and GDACS.
 
 ## Aircraft tracking: what is and is not shown
 
