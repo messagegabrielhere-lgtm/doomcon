@@ -2258,6 +2258,8 @@ async function main() {
   written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
   // The quiet one: an entry only when the level itself changes.
   written.push(await write(args.out, 'feed-level.xml', feed.render(ctx, { levelOnly: true })));
+  // The daily brief: one entry per completed UTC day (email via Blogtrottr or a newsletter's RSS mode).
+  written.push(await write(args.out, 'feed-daily.xml', feed.renderDaily(ctx, { days: dayPages.indexableDays(ctx), itemsForDay: dayPages.itemsForDay, dayPath: dayPages.dayPath })));
   // Alerts feeds, CSV exports, and the alerts / export / bias / reference-plan /
   // changelog pages (site/extras.mjs).
   written.push(...await writeExtras(ctx, write, args.out, { dataDir: args.data }));

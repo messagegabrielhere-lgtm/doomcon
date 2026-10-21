@@ -43,9 +43,11 @@ function outletCount(c) {
 export function clusterLink(ctx, href, c) {
   const items = (ctx && ctx.news && ctx.news.items) || [];
   const ids = new Set((c && c.item_ids) || []);
-  const hit = items.find((i) => i && i.id && (
-    ids.has(i.id) || (c.url && i.url === c.url) || (c.title && i.title === c.title)
-  ));
+  // An exact headline or URL match first: a cluster's item_ids can include a
+  // neighbouring sighting with a different headline, and linking the lead to
+  // that page sends readers to the wrong story.
+  const hit = items.find((i) => i && i.id && ((c.url && i.url === c.url) || (c.title && i.title === c.title)))
+    || items.find((i) => i && i.id && ids.has(i.id));
   if (hit) return { href: href(`/item/${slugFor(hit)}.html`), external: false, source: (c && c.url) || '' };
   return { href: (c && c.url) || '', external: true, source: '' };
 }

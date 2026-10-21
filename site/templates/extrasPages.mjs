@@ -98,6 +98,7 @@ const levelName = (L) => { try { return brand.levelMeta(L).name; } catch { retur
 // ---------------------------------------------------------------------------
 export function feedCatalogue() {
   return [
+    { key: 'daily', path: '/feed-daily.xml', title: 'Daily brief', blurb: 'One item per completed UTC day: the closing reading and that day’s highest-scoring stories. Paste it into Blogtrottr for a daily email.', checked: true },
     { key: 'level', path: '/feed-level.xml', title: 'Level changes', blurb: 'Only when the SIREN level itself changes (for example 4 → 3). The quietest feed: weeks can pass without an item.', checked: true },
     { key: 'delta', path: '/feed-delta.xml', title: `Big score moves (±${DELTA_THRESHOLD} or more)`, blurb: `Any reading where the composite score moved ${DELTA_THRESHOLD} points or more since the previous reading.`, checked: true },
     { key: 'pillar', path: '/feed-pillar.xml', title: `Any pillar spike (±${PILLAR_THRESHOLD} or more)`, blurb: `Any pillar moving ${PILLAR_THRESHOLD}+ points between readings, or a pillar going dark or coming back live.`, checked: false },

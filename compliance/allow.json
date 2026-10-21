@@ -18,6 +18,12 @@
     "until": "2027-10-08"
   },
   {
+    "rule": "email-capture",
+    "file": "collector/newsletter.mjs",
+    "reason": "False positive: this is the server-side Buttondown send API, not a form. The only email field is the homepage signup box (site/monetize.mjs signupBox), which links /privacy.html beside the field and says what is sent and how often.",
+    "until": "2027-10-21"
+  },
+  {
     "rule": "privacy-claims",
     "file": "site/sitebar.mjs",
     "reason": "GoatCounter and Google Analytics loaders are gated on MONETIZE.analytics (null = off) and the privacy page swaps its 'No analytics' / 'No cookies' lines for disclosures in the same build that turns them on. While off, no page loads them.",
