@@ -36,6 +36,7 @@ test('agents.txt announces Skills only (no fake HTTP MCP or A2A)', () => {
   assert.match(txt, /Where is the full SIREN instrument panel\?/);
   // FINDABILITY #439 — dual middot head terms beside the live reading URL.
   assert.match(txt, /AI activity index today · AI activity level today/);
+  assert.ok(txt.includes('Skills: https://siren.watch/promote.md'));
   assert.doesNotMatch(txt, /^MCP:/m);
   assert.doesNotMatch(txt, /^A2A:/m);
   assert.doesNotMatch(txt, /^Protocols:/m);
@@ -46,8 +47,9 @@ test('agents.json matches the Skills announcement and carries the schema', () =>
   assert.equal(j.$schema, 'https://agents-txt.com/schema/agents-json/v1.0.json');
   assert.equal(j.version, '1.0');
   assert.equal(j.site.url, 'https://siren.watch/');
-  assert.equal(j.skills.length, 2);
+  assert.equal(j.skills.length, 3);
   assert.ok(j.skills.every((s) => s.url.startsWith('https://siren.watch/')));
+  assert.ok(j.skills.some((s) => s.url.endsWith('/promote.md')));
   assert.equal(j.mcp, undefined);
   assert.equal(j.a2a, undefined);
   assert.match(j.site.description, /not how bad it is/);
@@ -68,7 +70,7 @@ test('api-catalog is an RFC 9727 linkset pointing at the live surfaces', () => {
     '/api/search-trends.json', '/search-trends.html', '/ai-prediction-markets.html',
     '/free-tools.html', '/verify.html', '/classic.html',
     '/agents.md', '/AGENTS.md', '/agents.txt',
-    '/skill.md', '/llms.txt', '/.well-known/mcp/server-card.json', '/.well-known/agent-skills/index.json',
+    '/skill.md', '/llms.txt', '/.well-known/mcp/server-card.json', '/.well-known/agent-skills/index.json', '/promote.md', '/api/promote.json',
   ]) {
     assert.ok(items.includes(`https://siren.watch${p}`), p);
   }
@@ -103,6 +105,8 @@ test('MCP server card documents stdio transport and the tool names', () => {
   assert.deepEqual(card.transport.args, ['agent-kit/mcp.mjs']);
   assert.ok(card.tools.some((t) => t.name === 'siren_now'));
   assert.ok(card.tools.some((t) => t.name === 'siren_cite'));
+  assert.ok(card.tools.some((t) => t.name === 'siren_promote'));
+  assert.equal(card.related.promote, 'https://siren.watch/promote.md');
   assert.doesNotMatch(JSON.stringify(card), /streamable-http/);
   assert.match(card.description, /not a probability of harm/);
   assert.equal(card.related.news_sitemap, 'https://siren.watch/news-sitemap.xml');
@@ -128,7 +132,7 @@ test('ai.txt points agents at the discovery stack', () => {
     '/api/search-trends.json', '/search-trends.html', '/ai-prediction-markets.html',
     '/free-tools.html', '/verify.html', '/classic.html',
   ]) {
-    assert.ok(txt.includes(`https://siren.watch${p}`), p);
+  for (const p of ['/agents.md', '/agents.txt', '/skill.md', '/promote.md', '/llms.txt', '/api/now.txt', '/.well-known/api-catalog']) {    assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.match(txt, /Google News rolling sitemap/);
   assert.match(txt, /Which AI stories has SIREN scored in this window\?/);

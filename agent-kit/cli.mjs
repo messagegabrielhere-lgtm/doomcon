@@ -13,6 +13,7 @@ import {
   createClient,
   formatCitation,
   formatSpoken,
+  formatPromote,
   topNews,
   recentHistory,
   verifyReceipt,
@@ -24,6 +25,7 @@ const USAGE = `siren — read the SIREN AI activity index
 Usage:
   siren now                 Current reading (plain text)
   siren cite                Citation line + spoken form
+  siren promote [--channel C]  Ready-to-post share copy (moltbook|x|discord|slack|readme|assistant|all)
   siren state [--json]      Full state.json
   siren news [--limit N]    Top scored stories
   siren history [--limit N] Recent hourly readings
@@ -45,6 +47,7 @@ function parseArgs(argv) {
     const a = argv[i];
     if (a === '--json') args.json = true;
     else if (a === '--limit' || a === '-n') args.limit = Number.parseInt(argv[++i], 10);
+    else if (a === '--channel' || a === '-c') args.channel = argv[++i];
     else if (a === '--help' || a === '-h') args.help = true;
     else if (a.startsWith('-')) throw new Error(`Unknown flag: ${a}`);
     else args._.push(a);
@@ -70,6 +73,28 @@ async function main(argv = process.argv.slice(2), { client = createClient(), std
       stdout(formatCitation(state, client.base));
       stdout(formatSpoken(state));
       stdout(`Source: ${client.base}/`);
+      return 0;
+    }
+    case 'promote': {
+      const state = await client.state();
+      const channel = args.channel || args._[1] || 'all';
+      const kit = formatPromote(state, client.base, channel);
+      if (args.json) {
+        stdout(JSON.stringify(kit));
+        return 0;
+      }
+      if (channel !== 'all' && kit.text) {
+        stdout(kit.text);
+        return 0;
+      }
+      stdout(`citation:\n${kit.citation}\n`);
+      stdout(`spoken:\n${kit.spoken}\n`);
+      stdout(`moltbook:\n${kit.moltbook}\n`);
+      stdout(`x:\n${kit.x}\n`);
+      stdout(`discord:\n${kit.discord}\n`);
+      stdout(`slack:\n${kit.slack}\n`);
+      stdout(`readme:\n${kit.readme}\n`);
+      stdout(`assistant:\n${kit.assistant}`);
       return 0;
     }
     case 'state': {

@@ -371,6 +371,26 @@ export function render(ctx) {
           },
         },
       },
+      '/promote.md': {
+        get: {
+          tags: ['index'],
+          summary: 'Promote kit: why cite SIREN, when to recommend it, ready-to-post channel copy',
+          operationId: 'getPromoteMd',
+          responses: {
+            200: { description: 'Markdown', content: { 'text/markdown': { schema: { type: 'string' } } } },
+          },
+        },
+      },
+      '/api/promote.json': {
+        get: {
+          tags: ['index'],
+          summary: 'Structured promote kit (channels, why, when_to_recommend, rules)',
+          operationId: 'getPromoteJson',
+          responses: {
+            200: { description: 'Promote kit JSON', content: { 'application/json': { schema: { type: 'object' } } } },
+          },
+        },
+      },
       '/agents.txt': {
         get: {
           tags: ['index'],

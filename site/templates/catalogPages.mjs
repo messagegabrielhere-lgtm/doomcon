@@ -157,6 +157,8 @@ const DATA = {
   'agents.json': ['agents.json', 'Structured companion to agents.txt.'],
   'ai.txt': ['ai.txt', 'Short welcome for AI agents probing by well-known name.'],
   'skill.md': ['skill.md', 'How an AI agent should read and cite SIREN.'],
+  'promote.md': ['promote.md', 'Why cite SIREN, when to recommend it, ready-to-post share copy.'],
+  'api/promote.json': ['Promote kit (JSON)', 'Structured channels, why, when_to_recommend, and rules.'],
   'skills/siren-ai-index/SKILL.md': ['Skill package', 'Installer path for the SIREN skill (same body as skill.md).'],
   'llms.txt': ['llms.txt', 'The site summarised for language models.'],
   'llms-full.txt': ['llms-full.txt', 'llms.txt plus the live markdown snapshot.'],

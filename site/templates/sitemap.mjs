@@ -64,6 +64,8 @@ export function render(ctx) {
     { loc: '/agents.json', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/ai.txt', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/skill.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/promote.md', changefreq: 'hourly', priority: '0.5', lastmod: ctx.state.generated_at },
+    { loc: '/api/promote.json', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/skills/siren-ai-index/SKILL.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/.well-known/api-catalog', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/.well-known/agent-skills/index.json', changefreq: 'weekly', priority: '0.3', lastmod: ctx.state.generated_at },

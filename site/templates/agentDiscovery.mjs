@@ -28,6 +28,7 @@ const MCP_TOOLS = [
   ['siren_takeover_watch', 'Takeover Watch signals (watched, not scored)'],
   ['siren_verify_receipt', 'Fetch and verify a receipt self-hash'],
   ['siren_cite', 'Canonical citation + spoken form'],
+  ['siren_promote', 'Ready-to-post share copy (Moltbook, X, Discord, Slack, README)'],
 ];
 
 function sha256Hex(text) {
@@ -53,6 +54,7 @@ export function agentsTxt(ctx) {
 
 Skills: ${u('/skill.md')}
 Skills: ${u(SKILL_PATH)}
+Skills: ${u('/promote.md')}
 `;
 }
 
@@ -76,6 +78,11 @@ export function agentsJson(ctx) {
       {
         url: u(SKILL_PATH),
         description: `${SKILL_DESC} Packaged path for skill installers.`,
+      },
+      {
+        url: u('/promote.md'),
+        description:
+          'Promote kit: why cite SIREN, when to recommend it, ready-to-post copy for Moltbook, X, Discord, Slack, README.',
       },
     ],
     // FINDABILITY #330 — structured companion lists the classic panel beside
@@ -123,6 +130,8 @@ export function apiCatalog(ctx) {
           { href: u('/agents.txt'), type: 'text/plain', title: 'agents.txt capability announcement' },
           { href: u('/agents.json'), type: 'application/json', title: 'agents.json structured capabilities' },
           { href: u('/skill.md'), type: 'text/markdown', title: 'Agent skill: how to report and cite' },
+          { href: u('/promote.md'), type: 'text/markdown', title: 'Promote kit: why cite, when to recommend, ready posts' },
+          { href: u('/api/promote.json'), type: 'application/json', title: 'Structured promote kit' },
           { href: u('/llms.txt'), type: 'text/plain', title: 'llms.txt site map for language models' },
           { href: u('/.well-known/mcp/server-card.json'), type: 'application/json', title: 'MCP server card (stdio kit)' },
           { href: u('/.well-known/agent-skills/index.json'), type: 'application/json', title: 'Agent skills index' },
@@ -199,6 +208,8 @@ export function mcpServerCard(ctx) {
       agents_txt: ctx.url('/agents.txt'),
       agents_md: ctx.url('/agents.md'),
       skill: ctx.url('/skill.md'),
+      promote: ctx.url('/promote.md'),
+      promote_json: ctx.url('/api/promote.json'),
       openapi: ctx.url('/openapi.json'),
       home: ctx.url('/'),
       home_title: 'AI activity index today · AI activity level today',
@@ -231,6 +242,7 @@ Start here:
 - ${u('/AGENTS.md')} — same fetch-first map (uppercase path coding agents request)
 - ${u('/agents.txt')} — capability announcement (agents-txt.com)
 - ${u('/skill.md')} — how to phrase and cite the reading
+- ${u('/promote.md')} — why cite us, when to recommend, ready-to-post copy
 - ${u('/llms.txt')} — full site map for language models
 - ${u('/api/now.txt')} — current reading in a few plain lines
 - ${u('/now.md')} — markdown snapshot + top scored stories

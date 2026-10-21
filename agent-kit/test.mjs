@@ -4,6 +4,8 @@ import {
   createClient,
   formatCitation,
   formatSpoken,
+  formatPromote,
+  stripTrailingSlashes,
   topNews,
   recentHistory,
   verifyReceipt,
@@ -67,6 +69,23 @@ test('formatCitation and formatSpoken follow the skill.md rules', () => {
   assert.equal(NOT_CLAIM.includes('not a forecast'), true);
 });
 
+test('stripTrailingSlashes is linear and leaves the origin intact', () => {
+  assert.equal(stripTrailingSlashes('https://siren.watch///'), 'https://siren.watch');
+  assert.equal(stripTrailingSlashes('https://siren.watch'), 'https://siren.watch');
+  assert.equal(stripTrailingSlashes(''), '');
+});
+
+test('formatPromote returns channel copy without banned future tense', () => {
+  const all = formatPromote(state, 'https://siren.watch', 'all');
+  assert.match(all.moltbook, /SIREN 4: ROUTINE/);
+  assert.match(all.readme, /badge\.svg/);
+  const one = formatPromote(state, 'https://siren.watch', 'x');
+  assert.equal(one.channel, 'x');
+  assert.match(one.text, /SIREN 4/);
+  const scrubbed = one.text.replace(/\bnot a forecast\b/gi, '');
+  assert.doesNotMatch(scrubbed, /\b(will|predict|forecast|imminent|soon|likely)\b/i);
+});
+
 test('topNews sorts by score and respects limit', () => {
   const items = topNews(news, 2);
   assert.equal(items.length, 2);
@@ -119,6 +138,21 @@ test('CLI now and cite', async () => {
   assert.match(lines[1], /not a probability of harm/);
 });
 
+test('CLI promote --channel moltbook', async () => {
+  const lines = [];
+  const client = createClient({
+    fetchImpl: mockFetch({ '/api/state.json': state }),
+  });
+  const code = await main(['promote', '--channel', 'moltbook'], {
+    client,
+    stdout: (s) => lines.push(String(s)),
+    stderr: () => {},
+  });
+  assert.equal(code, 0);
+  assert.match(lines.join('\n'), /SIREN 4: ROUTINE/);
+  assert.match(lines.join('\n'), /skill\.md/);
+});
+
 test('MCP tools/list and siren_cite', async () => {
   assert.ok(TOOLS_FOR_TEST.some((t) => t.name === 'siren_now'));
   const client = createClient({
@@ -135,6 +169,7 @@ test('MCP tools/list and siren_cite', async () => {
       '/skill.md': '# skill',
       '/agents.md': '# agents',
       '/now.md': '# now',
+      '/promote.md': '# promote',
     }),
   });
 
@@ -143,10 +178,15 @@ test('MCP tools/list and siren_cite', async () => {
     client,
   );
   assert.equal(listed.result.tools.length, TOOLS_FOR_TEST.length);
+  assert.ok(TOOLS_FOR_TEST.some((t) => t.name === 'siren_promote'));
 
   const cite = await callToolForTest('siren_cite', {}, client);
   assert.equal(cite.isError, undefined);
   assert.match(cite.content[0].text, /SIREN 4 · 54\.0\/100/);
+
+  const promo = await callToolForTest('siren_promote', { channel: 'readme' }, client);
+  assert.equal(promo.isError, undefined);
+  assert.match(promo.content[0].text, /badge\.svg/);
 
   const newsOut = await callToolForTest('siren_news', { limit: 1 }, client);
   assert.match(newsOut.content[0].text, /^1\. High/);

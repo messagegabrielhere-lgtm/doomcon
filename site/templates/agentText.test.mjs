@@ -320,7 +320,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /## Use it \(no key\)/);
   assert.match(md, /GET https:\/\/siren\.watch\/api\/now\.txt/);
   assert.ok(md.includes('https://siren.watch/AGENTS.md'));
-  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html',
+  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/promote.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html',
     '/search-trends.html', '/trends.html', '/ai-prediction-markets.html', '/watts.html', '/lab/micron.html', '/lab/coreweave.html',
     '/tags/neoclouds.html', '/tags/datacenters.html', '/lab/deepseek.html', '/lab/mistral.html', '/lab/palantir.html', '/lab/amd.html', '/lab/tesla.html',
     '/vs/doombench.html', '/vs/doom.html', '/vs/skynet-countdown.html', '/vs/skynet.html',
@@ -328,8 +328,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
     '/p-doom.html', '/pdoom.html',
     '/ai-activity-index.html', '/ai-activity-level.html', '/classic.html',
     '/doombench.html', '/skynet-countdown.html', '/pizzint.html', '/takeofftracker.html',
-    '/doomsday-clock.html', '/ai-doom.html', '/doom-index.html', '/ai-doomsday-clock.html']) {
-    assert.ok(md.includes(`https://siren.watch${p}`), p);
+    '/doomsday-clock.html', '/ai-doom.html', '/doom-index.html', '/ai-doomsday-clock.html']) {    assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
   assert.match(md, /short alias https:\/\/siren\.watch\/trends\.html/);
   assert.match(md, /short alias https:\/\/siren\.watch\/pdoom\.html/);
@@ -438,8 +437,8 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   assert.match(md, /\/moves\//);
   assert.match(md, /artificialanalysis\.ai/);
   assert.match(md, /ai-2027\.com/);
-  assert.match(md, /agent-kit/);
-  assert.match(md, /siren_now|cli\.mjs/);
+  assert.match(md, /Why agents use and promote|When to recommend/);  assert.match(md, /agent-kit/);
+  assert.match(md, /siren_now|cli\.mjs|siren_promote/);
   assert.match(md, /api-catalog|agents\.txt/);
   assert.match(md, /Google News rolling sitemap|YYYY-MM-DD/);
   assert.ok(md.split('\n').length < 120, `keep it short for assistants (got ${md.split('\n').length})`);
@@ -492,6 +491,13 @@ test('llms.txt lab lines use head-term aliases (FINDABILITY #138)', () => {
   assert.match(txt, /What has SIREN scored about Micron \/ MU\?/);
   assert.ok(txt.includes('https://siren.watch/lab/micron.html'));
   assert.ok(txt.includes('https://siren.watch/lab/openai.html'));
+});
+
+test('llms.txt lists the promote kit', () => {
+  const txt = llmsTxt({ url });
+  assert.ok(txt.includes('https://siren.watch/promote.md'));
+  assert.ok(txt.includes('https://siren.watch/api/promote.json'));
+  assert.match(txt, /siren_promote/);
 });
 
 test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {
