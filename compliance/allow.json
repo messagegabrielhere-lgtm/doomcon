@@ -46,5 +46,11 @@
     "file": "site/sitebar.mjs",
     "reason": "Google Analytics gtag (G-93SEVYQXY3) is gated on MONETIZE.analytics.gtag and disclosed on /privacy.html. Operator requested install 2026-10-10.",
     "until": "2027-10-10"
+  },
+  {
+    "rule": "auto-renewal",
+    "file": "agent-tools/license-server/test/server.test.mjs",
+    "reason": "False positive: a unit-test fixture that simulates a Stripe webhook payload. It is never shipped or shown to customers. The real subscribe button is in site/static/agent-tools.html, which states price, monthly auto-renewal and online cancellation next to the button and requires an unticked checkbox.",
+    "until": "2027-10-09"
   }
 ]
