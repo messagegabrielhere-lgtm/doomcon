@@ -307,7 +307,15 @@ function build(){
   q.addEventListener('keydown',function(ev){var v=vis(),n=Math.max(1,v.length);if(ev.key==='ArrowDown'){ev.preventDefault();sel=(sel+1)%n;mark()}else if(ev.key==='ArrowUp'){ev.preventDefault();sel=(sel-1+n)%n;mark()}else if(ev.key==='Enter'&&v[sel]){ev.preventDefault();dlg.close();if(v[sel].target==='_blank')window.open(v[sel].href,'_blank','noopener');else location.href=v[sel].href}});
   dlg.querySelector('.sh-rooms__x').addEventListener('click',function(){dlg.close()});
   dlg.querySelector('.sh-rooms__chips').addEventListener('click',function(ev){var b=ev.target.closest('[data-shg]');if(!b)return;if(q.value){q.value='';filt()}var hd=dlg.querySelector('#shg-'+b.getAttribute('data-shg'));if(hd){var ul=dlg.querySelector('.sh-rooms__l');ul.scrollTop=hd.offsetTop-ul.offsetTop-4;var nx=hd.nextElementSibling&&hd.nextElementSibling.querySelector('.sh-rooms__i');sel=Math.max(0,vis().indexOf(nx));mark()}});
-  dlg.addEventListener('click',function(ev){if(ev.target===dlg||(ev.target.closest&&ev.target.closest('a[href^="#"]')))dlg.close()});
+  // Close on backdrop, in-page hashes (#foo), and same-path hashes (/#readers
+  // while already on /). Other-page links unload the document anyway.
+  dlg.addEventListener('click',function(ev){
+    if(ev.target===dlg){dlg.close();return}
+    var a=ev.target.closest&&ev.target.closest('a[href]');if(!a)return;
+    var href=a.getAttribute('href')||'';
+    if(href.charAt(0)==='#'){dlg.close();return}
+    try{var u=new URL(a.href,location.href);var here=location.pathname.replace(/\\/index\\.html$/,'/');var path=u.pathname.replace(/\\/index\\.html$/,'/');if(path===here&&u.hash)dlg.close()}catch(x){}
+  });
 }
 function vis(){return items.filter(function(a){return a.parentNode.style.display!=='none'})}
 // SEARCH EVERYTHING. Past the rooms, the same index /search.html uses
