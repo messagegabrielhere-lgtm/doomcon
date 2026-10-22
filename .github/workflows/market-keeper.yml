@@ -2,7 +2,7 @@ name: market-keeper
 
 # GitHub's cron skips many runs, which left scan.md and status.txt over an hour old.
 # This keeps ONE long-running job alive through market hours that refreshes the scan
-# every 10 min and the stop watcher every 3 min. Extra cron lines are redundant starts:
+# every 10 min and the stop watcher every 1 min (owner 10/22: "check every minute" while holding). Extra cron lines are redundant starts:
 # if one is skipped, the next one picks up. A start after the end time exits at once.
 
 on:
@@ -48,18 +48,18 @@ jobs:
     timeout-minutes: 355
     steps:
       - uses: actions/checkout@v7
-      - name: Check stops every 3 min until 21:10 UTC (or ~5h50m)
+      - name: Check stops every 1 min until 21:10 UTC (or ~5h50m)
         run: |
           git config user.name 'trade-watch'
           git config user.email 'trade-watch@users.noreply.github.com'
           start=$(date +%s); stop_utc=$(date -u -d '21:10' +%s)
           while [ "$(date +%s)" -lt "$stop_utc" ] && [ $(( $(date +%s) - start )) -lt 20700 ]; do
             git pull -q --rebase origin main || true
-            timeout 150 python3 trades/check.py || echo "check failed"
+            timeout 50 python3 trades/check.py || echo "check failed"
             git add trades/status.txt trades/watch.json
             if ! git diff --cached --quiet; then
               git commit -qm "trade-watch: $(head -1 trades/status.txt) [skip ci]"
               for i in 1 2 3; do git push -q origin HEAD:main && break || { git pull -q --rebase origin main; sleep 3; }; done
             fi
-            sleep 180
+            sleep 60
           done
