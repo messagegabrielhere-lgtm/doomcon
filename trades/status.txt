@@ -1,5 +1,5 @@
-OK 2026-10-22T15:39Z n=4
-MARA_PUT1030 px=0.12 stop=0.06 target=0.32 high=0.16 -> HOLD | SELL TO CLOSE 1 MARA 2026-10-30 6.50 put (instrument 30dbbde6-871b-449a-b998-65075731b4af) at limit = live bid; at TARGET sell unless MARA is making a new low, then trail 50% of peak gain; at STOP sell at market
+OK 2026-10-22T15:40Z n=4
+MARA_PUT1030 px=0.11 stop=0.06 target=0.32 high=0.16 -> HOLD | SELL TO CLOSE 1 MARA 2026-10-30 6.50 put (instrument 30dbbde6-871b-449a-b998-65075731b4af) at limit = live bid; at TARGET sell unless MARA is making a new low, then trail 50% of peak gain; at STOP sell at market
 ON_SQQQ px=38.9697 stop=35.84 target=42.71 high=39.185 -> HOLD | Broker GTC OCO 6ada1200 (stop 35.84 / target 42.71) is live in regular hours; on a confirmed BREACH check get_equity_orders first, sell only if the OCO did not fill
-W:W_NOK_LOW px=8.28 below 8.15 score=4 -> WAIT | NOK new low (<8.15) after -10.7% own-news drop: buy 1 NOK 2026-10-30 $8 put (instrument 6f96a024-21d9-4029-a15c-2bb6a05a4aba) limit at mid if <= $0.25 and spread <= 3 ticks; non-index driver; -50% stop / +100% target; DEBATE + STRESS first
+W:W_NOK_LOW px=8.285 below 8.15 score=4 -> WAIT | NOK new low (<8.15) after -10.7% own-news drop: buy 1 NOK 2026-10-30 $8 put (instrument 6f96a024-21d9-4029-a15c-2bb6a05a4aba) limit at mid if <= $0.25 and spread <= 3 ticks; non-index driver; -50% stop / +100% target; DEBATE + STRESS first
 W:W_RIOT_LOW px=13.0099 below 12.7 score=3 -> WAIT | RIOT new low (<12.70) with BTC still under its midnight mark and SM-BEAR: buy 1 RIOT 2026-10-30 $12 put (instrument 6225f361-ef1d-40ee-a40a-09350ea62fa2) limit <= $0.35 at mid; BTC-beta driver (MARA put = 1 of 2); -50% stop / +100% target; DEBATE + STRESS first
