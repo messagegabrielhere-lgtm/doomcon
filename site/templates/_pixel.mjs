@@ -68,7 +68,8 @@ export const ICON = {
 };
 export const icon = (name, k, tint) => {
   const [pal, rows] = ICON[name];
-  return blocks(rows, tint ? { ...pal, a: tint } : pal, k);
+  // tint: one colour for the outline, or { a, b, c } to recolour the whole icon.
+  return blocks(rows, tint ? { ...pal, ...(typeof tint === 'object' ? tint : { a: tint }) } : pal, k);
 };
 
 

@@ -16,7 +16,6 @@ import { highlightHtml as midtermsHighlight } from './midtermsPage.mjs';
 import { esc, num } from './_html.mjs';
 import { baselinePhrase, baselineCompact } from '../../collector/forward-coverage.mjs';
 import * as brand from '../brand.mjs';
-import { BOUNDARY, DEADBAND } from '../../collector/engine.mjs';
 
 import { blocks, pixelText, icon } from './_pixel.mjs';
 import { sponsorLine, signupBox, tipLink, MZ_CSS, MONETIZE, polymarketUrl } from '../monetize.mjs';
@@ -83,7 +82,7 @@ function scaleRail(state, href) {
     const mark = live && here
       ? `<b class="v2-scale__now">${esc(score)}</b><span class="v2-scale__k">NOW</span>`
       : here ? `<b class="v2-scale__now">${esc(score)}</b><span class="v2-scale__k">SCORE</span>`
-        : live ? `<span class="v2-scale__k">LEVEL HELD</span>`
+        : live ? `<span class="v2-scale__k">LEVEL</span>`
           : (was ? `<span class="v2-scale__k was">WAS</span>` : '');
     return `<li class="v2-scale__st${live ? ' on' : ''}${here && !live ? ' score' : ''}${was ? ' was' : ''}"${live ? ' aria-current="true"' : ''} style="--sc:${color}">
       <span class="v2-scale__slot">${mark}</span>
@@ -506,20 +505,6 @@ ${BAND.map(([a, b, c]) => arc(a, b, c)).join('')}${ticks}${progress}${needle}
 
 function levelFromScore(v) { if (!Number.isFinite(v)) return null; const i = BAND.findIndex(([a, b]) => v >= a && v < b); return i < 0 ? 1 : 5 - i; }
 function bandColorOf(v) { const l = levelFromScore(v); return (LEVEL[l] || LEVEL[4]).color; }
-/** When the score sits in another band than the held level: what it takes to move. */
-function heldInfo(state) {
-  const band = levelFromScore(state.score);
-  if (band === null || band === state.level) return null;
-  const up = band < state.level; // 1 is loudest
-  const t = up ? BOUNDARY[state.level] + DEADBAND : BOUNDARY[state.level + 1] - DEADBAND;
-  const name = (brand.LEVELS.find((x) => x.level === band) || {}).name || '';
-  return { band, name, up, threshold: t, color: (LEVEL[band] || LEVEL[4]).color };
-}
-function heldStrip(state, href) {
-  const h = heldInfo(state);
-  if (!h) return '';
-  return `<p class="v2-held" style="--hc:${h.color}"><b>SCORE IN THE ${esc(brand.NAME)} ${h.band} BAND · ${esc(h.name)}</b> <span>The level stays at ${esc(brand.NAME)} ${esc(state.level)} until the score holds ${h.up ? 'above' : 'below'} ${h.threshold.toFixed(1)}, so it does not flicker at the line. <a href="${esc(href('/methodology.html'))}">Why levels hold</a></span></p>`;
-}
 function deltaAt(rows, nowMs, hours) {
   const cur = rows[rows.length - 1]; if (!cur) return null;
   const target = nowMs - hours * 3600e3;
@@ -885,7 +870,10 @@ export function render(ctx, { head }) {
   const { state } = ctx;
   const href = ctx.href;
   const img = (n) => (String(n).startsWith('px:') ? href(`/img/px-${n.slice(3)}.svg`) : href(`/img/art-${n}.webp`));
-  const L = LEVEL[state.level] || LEVEL[4];
+  // Colour follows the score's band, so a score in the yellow range shows yellow
+  // even while the published level number is still held one step below.
+  const scoreBand = levelFromScore(state.score);
+  const L = LEVEL[scoreBand ?? state.level] || LEVEL[state.level] || LEVEL[4];
   const score = num(state.score, 1);
   const vs = ctx.vsYesterday;
   const delta = vs && Number.isFinite(vs.delta) ? vs.delta : state.delta_from_previous;
@@ -1017,7 +1005,7 @@ export function render(ctx, { head }) {
     ${dial(state, L)}
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
-      <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${pillarStatusLine(state)}</p>
+      <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${pillarStatusLine(state)}</p>
       <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><button type="button" class="v2-btn sm ghost" data-copy="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${score} of 100 as of ${String(state.generated_at).slice(0, 19)}Z. Tempo, not a probability.${state.receipt_id ? ` Receipt ${state.receipt_id}.` : ''} ${ctx.url('/')}`)}">Copy this reading</button><a class="v2-btn sm ghost" href="${href('/verify.html')}">How do you check a ${esc(brand.NAME)} reading yourself?</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/free-tools.html')}">What free tools does ${esc(brand.NAME)} publish?</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>    </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;
@@ -1056,17 +1044,16 @@ ${ticker(items, href)}
 
   <section class="hero">
     <div class="v2-banner" id="signal" data-sec="Signal" data-level="${esc(state.level)}" style="--lv:${L.color};--lvg:${L.ground}">
-      ${icon('shield', 5, L.color)}
+      ${icon('shield', 5, { a: L.color, b: L.ground, c: L.color })}
       <div class="col">
         ${pixelText(`SIREN ${state.level}`, 8, L.color, 'fit')}
-        <span class="lbl">${esc(state.level_name)} · ${esc(L.line)}</span>
+        <span class="lbl">${scoreBand !== null && scoreBand !== state.level ? `${esc(state.level_name)} · SCORE IN THE ${esc((brand.LEVELS.find((x) => x.level === scoreBand) || {}).name || "")} RANGE` : `${esc(state.level_name)} · ${esc(L.line)}`}</span>
       </div>
       <div class="v2-score">
         ${pixelText(score, 6, '#FFFFFF')}
         <span class="lbl">OF 100${deltaTxt ? ` · ${deltaTxt}` : ''}</span>
       </div>
     </div>
-    ${heldStrip(state, href)}
     <p class="v2-plain">${esc(plainRead(state))}</p>
     ${phoneFold(wm, state, rows, href)}
   </section>
@@ -1346,9 +1333,6 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 @media (prefers-reduced-motion:reduce){.v2-hot__badge i{animation:none}}
 .v2-signup{margin:18px 0;padding:20px 22px;border:1px solid #2B3445;border-top:3px solid var(--lv);background:#0C111A}
 .v2 .tag.v2-getbrief{border-color:var(--ui);background:var(--ui);color:var(--uiink);font-weight:700;text-decoration:none}
-.v2-held{margin:0;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding:10px 14px;border:2px solid var(--hc);border-left-width:8px;background:color-mix(in srgb,var(--hc) 12%,#05070B);font:500 14px/1.45 'IBM Plex Sans',system-ui,sans-serif;color:#E6EAF0}
-.v2-held b{font:700 13px/1.3 'IBM Plex Mono',monospace;letter-spacing:.08em;color:var(--hc)}
-.v2-held a{color:var(--hc);text-decoration:underline;text-underline-offset:3px}
 .v2-scale__st.score{border-color:var(--sc)!important;background:color-mix(in srgb,var(--sc) 14%,#0A0E16)!important}
 .v2-scale__st.score .v2-scale__now,.v2-scale__st.score .v2-scale__k{color:var(--sc)}
 .v2-banner{border:2px solid var(--lv);background:var(--lvg);padding:26px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;animation:v2glow 3s ease-in-out infinite}
