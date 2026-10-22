@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "index": "BLISS",
-  "generated_at": "2026-10-22T16:27:41.821Z",
+  "generated_at": "2026-10-22T16:57:30.262Z",
   "score": null,
   "level": null,
   "level_name": null,
@@ -9,17 +9,16 @@
   "level_since": "2026-09-24T03:08:24.487Z",
   "delta_from_previous": null,
   "posture": "awaiting-baseline",
-  "degraded": true,
+  "degraded": false,
   "awaiting_baseline": true,
   "reference_present": false,
-  "dark_pillars": [
-    "openness"
-  ],
+  "dark_pillars": [],
   "uncalibrated_pillars": [
     "science",
     "medicine",
     "access",
-    "adoption"
+    "adoption",
+    "openness"
   ],
   "uncalibrated_sources": [
     "arxiv-science-ai",
@@ -31,12 +30,11 @@
     "openrouter-cost-floor",
     "hf-model-downloads",
     "npm-ai-installs",
-    "epoch-open-weights"
-  ],
-  "failed_sources": [
+    "epoch-open-weights",
     "github-permissive-ai"
   ],
-  "sources_reporting": 10,
+  "failed_sources": [],
+  "sources_reporting": 11,
   "sources_total": 11,
   "rule_fired": "no_live_pillars",
   "decision": null,
@@ -153,8 +151,8 @@
       "percentile": null,
       "sources_ok": 0,
       "sources_total": 2,
-      "dark": true,
-      "uncalibrated": false,
+      "dark": false,
+      "uncalibrated": true,
       "blurb": "How much of it anybody is allowed to hold.",
       "description": "The open-weight share of notable model releases over a year, and the count of new permissively licensed ML repositories over a month. One measures the frontier, the other the floor. A share can fall while every count rises, and this pillar can say so."
     }
@@ -167,18 +165,18 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"arxiv-science-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 71,
+      "value": 70,
       "unit": "papers/7d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-22T16:27:41.832Z",
+      "observed_at": "2026-10-22T16:57:30.280Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-22T16:27:41.832Z",
+      "last_ok": "2026-10-22T16:57:30.280Z",
       "meta": {
         "window_days": 7,
-        "window_from": "202610151627",
-        "window_to": "202610221627",
+        "window_from": "202610151657",
+        "window_to": "202610221657",
         "categories": [
           "q-bio.BM",
           "q-bio.QM",
@@ -210,9 +208,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-22T16:27:41.835Z",
+      "observed_at": "2026-10-22T16:57:30.284Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-22T16:27:41.835Z",
+      "last_ok": "2026-10-22T16:57:30.284Z",
       "meta": {
         "window_days": 30,
         "window_from": "2026-09-22",
@@ -233,9 +231,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-22T16:27:41.836Z",
+      "observed_at": "2026-10-22T16:57:30.286Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-22T16:27:41.836Z",
+      "last_ok": "2026-10-22T16:57:30.286Z",
       "meta": {
         "window_days": 180,
         "start_date_from": "2026-04-25",
@@ -259,9 +257,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-22T16:27:41.836Z",
+      "observed_at": "2026-10-22T16:57:30.286Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-22T16:27:41.836Z",
+      "last_ok": "2026-10-22T16:57:30.286Z",
       "meta": {
         "window_days": 30,
         "edat_from": "2026/09/22",
@@ -287,14 +285,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 1263,
+      "value": 1264,
       "unit": "models/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-22T16:27:41.836Z",
+      "observed_at": "2026-10-22T16:57:30.286Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-22T16:27:41.836Z",
+      "last_ok": "2026-10-22T16:57:30.286Z",
       "meta": {
         "window_hours": 24,
         "licences": [
@@ -302,8 +300,8 @@
           "mit"
         ],
         "per_licence": {
-          "apache-2.0": 865,
-          "mit": 398
+          "apache-2.0": 867,
+          "mit": 397
         },
         "pages_fetched": 2,
         "page_size": 1000
@@ -316,25 +314,25 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-share\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 0.295577,
+      "value": 0.295673,
       "unit": "share/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-22T16:27:41.836Z",
+      "observed_at": "2026-10-22T16:57:30.286Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-22T16:27:41.836Z",
+      "last_ok": "2026-10-22T16:57:30.286Z",
       "meta": {
         "window_hours": 24,
         "licences": [
           "apache-2.0",
           "mit"
         ],
-        "permissive_models": 1263,
-        "total_models": 4273,
+        "permissive_models": 1264,
+        "total_models": 4275,
         "per_licence": {
-          "apache-2.0": 865,
-          "mit": 398
+          "apache-2.0": 867,
+          "mit": 397
         },
         "pages_licence": 2,
         "pages_total": 5,
@@ -354,9 +352,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-22T16:27:41.836Z",
+      "observed_at": "2026-10-22T16:57:30.287Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-22T16:27:41.836Z",
+      "last_ok": "2026-10-22T16:57:30.287Z",
       "meta": {
         "percentile": 0.1,
         "usd_per_million_tokens": 0.11875,
@@ -385,9 +383,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-22T16:27:41.836Z",
+      "observed_at": "2026-10-22T16:57:30.287Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-22T16:27:41.836Z",
+      "last_ok": "2026-10-22T16:57:30.287Z",
       "meta": {
         "basket": [
           "sentence-transformers/all-MiniLM-L6-v2",
@@ -425,9 +423,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-22T16:27:41.836Z",
+      "observed_at": "2026-10-22T16:57:30.287Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-22T16:27:41.836Z",
+      "last_ok": "2026-10-22T16:57:30.287Z",
       "meta": {
         "basket": [
           "openai",
@@ -467,9 +465,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-22T16:27:41.836Z",
+      "observed_at": "2026-10-22T16:57:30.287Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-22T16:27:41.836Z",
+      "last_ok": "2026-10-22T16:57:30.287Z",
       "meta": {
         "window_days": 365,
         "open_weight_models": 43,
@@ -496,17 +494,24 @@
       "pillar": "openness",
       "label": "New permissively licensed ML repositories",
       "ok": false,
-      "uncalibrated": false,
-      "error": "github-permissive-ai: GitHub returned incomplete_results=true for https://api.github.com/search/repositories?q=topic%3Amachine-learning%20license%3Aapache-2.0%20created%3A%3E%3D2026-09-22&per_page=1 (partial total 0) — the search timed out server-side and the count is a floor",
-      "value": null,
-      "unit": null,
+      "uncalibrated": true,
+      "error": "awaiting_baseline: \"github-permissive-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "value": 292,
+      "unit": "repos/30d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": null,
-      "age_seconds": null,
-      "last_ok": "2026-10-22T14:22:32.883Z",
-      "meta": {}
+      "observed_at": "2026-10-22T16:57:30.287Z",
+      "age_seconds": 0,
+      "last_ok": "2026-10-22T16:57:30.287Z",
+      "meta": {
+        "window_days": 30,
+        "created_from": "2026-09-22",
+        "topic": "machine-learning",
+        "licence": "apache-2.0",
+        "query": "topic:machine-learning license:apache-2.0 created:>=2026-09-22",
+        "scope_note": "single topic and single licence; a floor, not a total"
+      }
     }
   ],
   "comparison": {
@@ -517,10 +522,10 @@
       "level_name": null
     },
     "doomcon": {
-      "score": 55.2615,
+      "score": 55.0141,
       "level": 4,
       "level_name": "ROUTINE",
-      "generated_at": "2026-10-22T16:16:58.761Z"
+      "generated_at": "2026-10-22T16:46:52.896Z"
     },
     "divergence": null,
     "divergence_band": 3,
