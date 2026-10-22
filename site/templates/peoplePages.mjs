@@ -12,6 +12,7 @@ import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor, storyItemListEntity } from './itemPage.mjs';
 import { avatarPortrait, avatarSprite, personIdFor, faceHref } from './_avatars.mjs';
 import * as brand from '../brand.mjs';
+import { allLabs } from './facetPages.mjs';
 
 /** Minimum press headlines (or on-record lines) before a person page is written. */
 export const PEOPLE_INDEX_MIN = 3;
@@ -218,7 +219,9 @@ export function renderPerson(ctx, id) {
     const player = players.find((p) => p && p.id === leader.org_id);
     return (player && player.name) || leader.org || leader.org_id;
   })();
-  const labLink = leader.org_id
+  // Only link a lab page the build writes (allLabs); academia, SSI, Thinking
+  // Machines and others had links to /lab/<id>.html pages that never existed.
+  const labLink = leader.org_id && allLabs(ctx).some((p) => p.id === leader.org_id)
     ? ` Lab page: <a href="${esc(ctx.href(`/lab/${leader.org_id}.html`))}">What has ${esc(brand.NAME)} scored about ${esc(labName)}?</a>.`
     : '';
   const others = indexablePeople(ctx).filter((p) => p.id !== leader.id).slice(0, 12);

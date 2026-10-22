@@ -11,6 +11,7 @@ import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
+import { MONETIZE } from '../monetize.mjs';
 import { mascot } from './_mascot.mjs';
 
 export const amazon = (asin) => (/^https:\/\//.test(asin) ? asin : `https://www.amazon.com/dp/${asin}?tag=${brand.AMAZON_TAG}`);
@@ -124,7 +125,7 @@ ${books.map(([asin, title, by, blurb]) => `    <li class="shp__b"><a href="${esc
 ${GEAR.map(([q, title, blurb]) => `    <li class="shp__b"><a href="${esc(amazonSearch(q))}" rel="sponsored noopener" target="_blank">${esc(title)}</a><span class="shp__by">Paid link · Amazon search</span>${esc(blurb)}</li>`).join('\n')}
   </ul>
   <h2>${esc(moreQ)}</h2>
-  <p><a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a> (paid links too) · <a href="${esc(ctx.href('/sponsor.html'))}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a> · <a href="${esc(ctx.href('/#support'))}">Donate</a></p>
+  <p><a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a> (paid links too) · <a href="${esc(ctx.href('/sponsor.html'))}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a> · <a href="${esc(MONETIZE.tips.url || ctx.href('/sponsor.html'))}" rel="noopener">Donate</a></p>
   <section class="shp-faq" aria-labelledby="faq">
     <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
