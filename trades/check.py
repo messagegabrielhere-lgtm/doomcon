@@ -92,7 +92,7 @@ def main():
     if old:
         try:
             ts = datetime.datetime.strptime(old[0].split()[1], "%Y-%m-%dT%H:%MZ").replace(tzinfo=datetime.timezone.utc)
-            stale = (datetime.datetime.now(datetime.timezone.utc) - ts).total_seconds() > 20 * 60
+            stale = (datetime.datetime.now(datetime.timezone.utc) - ts).total_seconds() > 4 * 60
         except Exception:
             pass
     changed = (old_body != lines) or stale or breach or alert
