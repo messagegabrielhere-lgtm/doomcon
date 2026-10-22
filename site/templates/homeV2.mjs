@@ -1096,6 +1096,8 @@ ${movedPanel(wm, href)}
   <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>
   ${watchPanel(state)}  ${marketsPanel(ctx, href)}
   ${moltPanel(ctx, href)}
+  ${altPanel(alts)}
+  <div class="v2-vfywrap">${verifyBox(ctx)}</div>
 
 
   <div class="v2-sec" id="bosses" data-sec="Bosses"><h2 id="v2-bosses-h" class="v2-sr">Which AI bosses are on watch?</h2><div aria-hidden="true">${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</div><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>  <div class="v2-bosses">

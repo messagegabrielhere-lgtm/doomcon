@@ -880,8 +880,21 @@ async function writeDirectoryAliases(outDir, names, write, written) {
   for (const name of names) {
     const src = path.join(outDir, `${name}.html`);
     if (!existsSync(src)) continue;
-    written.push(await write(outDir, `${name}/index.html`, await readFile(src, 'utf8')));
+    written.push(await write(outDir, `${name}/index.html`, rootRelative(await readFile(src, 'utf8'))));
   }
+}
+
+/**
+ * /name/index.html is a copy of /name.html one folder down, so every
+ * relative link in it ("live.html", "fonts/fonts.css") would resolve under
+ * /name/ and 404 (found on /elon/, /arena/, /game/, /monitor/, /scanner/,
+ * /bunker-kit/ and the /ai-activity-* aliases, 2026-10-22). Point relative
+ * href/src/action at the site root instead; absolute, hash, scheme and
+ * protocol-relative URLs are left alone.
+ */
+function rootRelative(html) {
+  return html.replace(/(\s(?:href|src|action)\s*=\s*)(["'])(?![a-z][a-z0-9+.-]*:|\/|#|\?|\$\{|\{\{)([^"']*)\2/gi,
+    (m, pre, q, url) => (url ? `${pre}${q}${brand.BASE_PATH}/${url.replace(/^\.\//, '')}${q}` : m));
 }
 
 /**
@@ -957,6 +970,38 @@ function cardResolver(dataDir, outDir) {
     }
     return null;
   };
+}
+
+/**
+ * Story pages for items that have left both the live window and the archive
+ * stay published (gh-pages is seeded, not wiped), but nothing rewrites them.
+ * Their topic / publisher / people / lab links can then point at hub pages
+ * that no longer clear their gates: 12 such dead links found on 2026-10-22.
+ * For item pages this build did not write, unwrap any link to a hub page
+ * that does not exist, keeping its text. Pages written this run are already
+ * consistent with the hubs written this run.
+ */
+async function healOrphanItemLinks(outDir, written) {
+  const dir = path.join(outDir, 'item');
+  if (!existsSync(dir)) return;
+  const fresh = new Set(written.map((f) => path.resolve(f)));
+  const hub = /<a href="(\/(?:outlet|tags|lab|people|model|country|source|kind|pillar)\/[^"#?]+\.html)"[^>]*>([\s\S]*?)<\/a>/g;
+  let pages = 0, links = 0;
+  for (const name of await readdir(dir)) {
+    if (!name.endsWith('.html')) continue;
+    const file = path.join(dir, name);
+    if (fresh.has(path.resolve(file))) continue;
+    const html = await readFile(file, 'utf8');
+    let n = 0;
+    const out = html.replace(hub, (m, href, text) => {
+      const target = path.join(outDir, href.slice(brand.BASE_PATH.length || 0).replace(/^\//, ''));
+      if (existsSync(target)) return m;
+      n += 1;
+      return text;
+    });
+    if (n) { await writeFile(file, out); pages += 1; links += n; }
+  }
+  if (links) console.log(`[build] orphan item pages: ${links} dead hub links unwrapped on ${pages} pages`);
 }
 
 async function write(outDir, rel, body) {
@@ -2582,6 +2627,7 @@ async function main() {
     console.log(`[build] room share cards: ${n} pages repointed`);
   }
 
+  await healOrphanItemLinks(args.out, written);
   await selfCheck(args.out, state, ctx);
   // Last: the refresh bar and disclosure on every page, dated by the data.
   const stamped = await stampAll(args.out, state.generated_at, {

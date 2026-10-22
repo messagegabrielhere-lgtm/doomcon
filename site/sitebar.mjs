@@ -157,7 +157,10 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     });
     // The owner's call: the page's intro plays by itself, silently, once per
     // visit (the chip above stays as the fallback if the browser blocks it).
-    var pb = box.querySelector('[data-a="play"]'); if (pb) pb.click();
+    // Phones keep it as a small chip: an autoplaying picture there covered the
+    // page under the bar and the Talk to Tally button (2026-10-22).
+    var phone = window.matchMedia && matchMedia("(max-width:560px)").matches;
+    var pb = box.querySelector('[data-a="play"]'); if (pb && !phone) pb.click();
   })();
   // OUTSIDE LINKS OPEN IN A NEW TAB, so a visitor who follows a story, a clip
   // or a market comes back to SIREN instead of losing it. Same-site links

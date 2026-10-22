@@ -19,17 +19,16 @@ export const NAV_JS_PATH = 'nav/site-nav.js';
 const LEVEL_COLOR = { 5: '#4FB3FF', 4: '#4ADE80', 3: '#FACC15', 2: '#FB923C', 1: '#F87171' };
 
 export const PRIMARY = [
+  // Eight fit a 1280px bar beside the brand, the level chip and All rooms
+  // (eleven clipped). Dispatch, Agent Watch, Videos and Radio live in All rooms.
   ['/', 'Index'],
-  ['/race.html', 'Race'],
   ['/news.html', 'News'],
-  ['/games.html', 'Games'],
-  ['/labs.html', 'Labs'],
+  ['/race.html', 'Race'],
+  ['/midterms.html', 'Midterms'],
   ['/leaders.html', 'Leaders'],
+  ['/labs.html', 'Labs'],
   ['/monitor.html', 'Monitor'],
-  ['/dispatch.html', 'Dispatch'],
-  ['/moltbook.html', 'Agent Watch'],
-  ['/videos.html', 'Videos'],
-  ['/radio.html', 'Radio'],
+  ['/games.html', 'Games'],
 ];
 
 // WHAT'S NEW: the newest rooms and features, surfaced in the header (✦ New),
@@ -41,7 +40,6 @@ export const WHATS_NEW = [
   // /#readers stays off this reel (map lives on the homepage; see #121).
   ['/midterms.html', 'px:midterm', 'Who is pro-AI, against, or neutral in the 2026 midterms?', 'Cited AI stance tags for midterm candidates, with Post to X.'],
   ['/nations.html', 'px:tugofwar', 'USA vs China: who is winning the race to superintelligence?', 'The nations race to superintelligence, scored live.'],
-  ['/charts.html', 'px:trendchart', 'What AI charts does SIREN publish?', 'Live AI odds, the SIREN trend and the power race, each with an X post.'],
   ['/power.html', 'px:pylon', 'Who makes the most electricity (China vs US)?', 'Who makes the most electricity: China vs the US, per person, fastest growing.'],
   ['/threats.html', 'px:threatshield', 'What could take the machines offline tonight?', 'Exploited software, botnets, solar storms and disasters, live.'],
   ['/status.html', 'px:statuspulse', 'Is ChatGPT down? Is Claude down?', 'Live status of ChatGPT, Claude, Copilot, Cursor and more, every minute.'],
@@ -111,7 +109,7 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh__all svg{display:block}
 .sh__all kbd{font:inherit;font-size:10px;border:1px solid rgba(255,255,255,.55);padding:1px 5px}
 .sh a:focus-visible,.sh button:focus-visible,.sh-rooms a:focus-visible,.sh-rel a:focus-visible,.sh-rel button:focus-visible,.sh-top:focus-visible,video:focus-visible{outline:2px solid #E2A03B;outline-offset:2px}
-@media (max-width:1360px){.sh__lv b{display:none}.sh__all kbd{display:none}.sh__nav a{padding:0 7px}}
+@media (max-width:4000px){.sh__lv b{display:none}.sh__all kbd{display:none}.sh__nav a{padding:0 7px}}
 @media (max-width:1180px){.sh__nav{mask-image:linear-gradient(90deg,#000 90%,transparent)}}
 @media (max-width:900px){.sh__nav{display:none}.sh__lv{margin-left:auto}}
 @media (max-width:560px){.sh__in{gap:6px;padding:0 10px;min-height:56px}.sh__brand svg{width:96px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px;min-height:40px}.sh__all{padding:0 12px;min-width:48px;justify-content:center}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px}.sh__all,.sh__brand,.sh__lv,.sh__srch,.sh__new{touch-action:manipulation}.sh-top{bottom:calc(12px + env(safe-area-inset-bottom,0px))}}
