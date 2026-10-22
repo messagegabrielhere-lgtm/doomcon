@@ -31,16 +31,24 @@
  ],
  "watches": [
   {
-   "id": "W_QQQ_LOW",
+   "id": "W_NOK_LOW",
    "type": "stock",
-   "symbol": "QQQ",
+   "symbol": "NOK",
    "side": "below",
-   "trigger": 710.5,
+   "trigger": 8.15,
+   "score": 4,
+   "setup": "NOK new low (<8.15) after -10.7% own-news drop: buy 1 NOK 2026-10-30 $8 put (instrument 6f96a024-21d9-4029-a15c-2bb6a05a4aba) limit at mid if <= $0.25 and spread <= 3 ticks; non-index driver; -50% stop / +100% target; DEBATE + STRESS first",
+   "expires": "2026-10-23"
+  },
+  {
+   "id": "W_RIOT_LOW",
+   "type": "stock",
+   "symbol": "RIOT",
+   "side": "below",
+   "trigger": 12.7,
    "score": 3,
-   "setup": "QQQ new low of day (<710.5) = breakdown extending; re-price SQQQ 10/30 calls, enter only if one fits the cap (1 index-beta AGGR slot) | 10:44 ALERT handled: cheapest 10/30 SQQQ call with delta>=.25 = $84 (43C), over $35 cap -> no entry",
-   "expires": "2026-10-22",
-   "fired": "2026-10-22T14:44Z",
-   "ack": true
+   "setup": "RIOT new low (<12.70) with BTC still under its midnight mark and SM-BEAR: buy 1 RIOT 2026-10-30 $12 put (instrument 6225f361-ef1d-40ee-a40a-09350ea62fa2) limit <= $0.35 at mid; BTC-beta driver (MARA put = 1 of 2); -50% stop / +100% target; DEBATE + STRESS first",
+   "expires": "2026-10-23"
   }
  ]
 }
