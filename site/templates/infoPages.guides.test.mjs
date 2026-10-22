@@ -202,3 +202,16 @@ describe('guides hub', () => {
     assert.doesNotMatch(html, /probability of doom is \d/i);
   });
 });
+
+describe('AI doomsday clock: which clocks exist today', () => {
+  it('names the clocks people search for, in a table and in FAQ schema', () => {
+    const html = aiClock(ctx);
+    assert.match(html, /<h2 id="today">Is there an AI doomsday clock today\?<\/h2>/);
+    for (const name of ['Bulletin Doomsday Clock', 'IMD AI Safety Clock', 'aidoomsday.live', 'AI Fear &amp; Trust Index']) {
+      assert.ok(html.includes(name), name);
+    }
+    assert.match(html, /href="\/vs\/imd-ai-safety-clock\.html"/);
+    assert.match(html, /SIREN 4, 55\.5 of 100/);
+    assert.match(html, /"name":\s*"Is there an AI doomsday clock today\?"/);
+  });
+});

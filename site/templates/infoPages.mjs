@@ -13,6 +13,7 @@ import { voicesSection, voicesFaq, VOICES, SURVEY } from './_pdoomVoices.mjs';
 
 const CSS = `<style>
 .inf { max-width: 74ch; }
+.inf__tw { overflow-x: auto; }
 .inf__top { display: flex; align-items: center; gap: var(--s-4); margin: var(--s-4) 0 var(--s-3); }
 .inf__top h1 { margin: 0; }
 .inf h2 { margin: var(--s-6, 40px) 0 var(--s-2); font: 400 clamp(20px, 2.4vw, 26px)/1.15 var(--poster); letter-spacing: .02em; text-transform: uppercase; color: var(--ink); }
@@ -951,6 +952,7 @@ export function aiClock(ctx) {
   const specificQ = 'What are AI-specific clocks and scores?';
   const insteadQ = `What does ${brand.NAME} do instead of a doomsday clock?`;
   const whichQ = 'Which clock should you use?';
+  const todayQ = 'Is there an AI doomsday clock today?';
   // FAQ answers restate lede / Bulletin / experts / SIREN-instead copy only (§3.3).
   // Refuse: SIREN-as-doomsday-clock, SIREN-as-doom-probability, forecast.
   // Visible FAQ + FAQPage from the SAME array (schema without HTML was a gap).
@@ -962,7 +964,9 @@ export function aiClock(ctx) {
     [expertsQ,
       `Ask the people building AI how likely it is to end in catastrophe and you get a cloud, not a number. The loudest cluster sits around 10–20%. The largest survey of AI researchers gives a median of ${SURVEY.median}%. On a clock where 100% is midnight, 15% is about 51 minutes to go.`],
     [specificQ,
-      'A number of sites publish an AI risk clock, countdown or score. What they share is the method: a person, a panel or a language model decides the setting. That makes them statements of opinion, not something a reader can recompute.'],
+      'The best-known are the IMD AI Safety Clock, a business school setting for uncontrolled AGI, and The AI Doomsday Clock at aidoomsday.live, which reads where expert p(doom) estimates cluster. Both are set by judgement. The AI Fear & Trust Index computes a doom score, but it measures talk about AI risk, not the risk itself.'],
+    [todayQ,
+      `Yes, several, and they measure different things. The Bulletin’s Doomsday Clock read 85 seconds to midnight in January 2026 and covers nuclear, climate and AI together. The IMD AI Safety Clock reads 15 minutes to midnight for uncontrolled AGI. aidoomsday.live sets its dial at the 10–20% expert cluster. ${brand.NAME} updates hourly with a count of AI activity, not a risk setting.`],
     [insteadQ,
       `${brand.NAME} counts releases, compute and capital, attention, governance and markets from public sources every hour. It reports tempo, not danger; each reading has a receipt; and it moves hourly, not yearly.`],
     [whichQ,
@@ -994,7 +998,19 @@ export function aiClock(ctx) {
   <p>Ask the people building AI how likely it is to end in catastrophe and you get a cloud, not a number. The loudest cluster sits around <b>10–20%</b> (Geoffrey Hinton; Elon Musk says 10–30%; Dario Amodei 10–25%). The largest survey of AI researchers gives a median of <b>${SURVEY.median}%</b>. The tails run from Yann LeCun’s <b>under 0.01%</b> to Eliezer Yudkowsky’s <b>over 95%</b>.
     On a clock where 100% is midnight, 15% is about 51 minutes to go. <a href="${esc(ctx.href('/p-doom.html#voices'))}">See all ${VOICES.length} voices on one chart and set the clock to your own number →</a></p>
   <h2>${esc(specificQ)}</h2>
-  <p>A number of sites publish an AI risk clock, countdown or score. What they share is the method: a person, a panel or a language model decides the setting. That makes them statements of opinion. Useful ones, sometimes, but not something a reader can recompute.</p>
+  <p>A number of sites publish an AI risk clock, countdown or score. Most share a method: a person, a panel or a language model decides the setting. That makes them statements of opinion. Useful ones, sometimes, but not something a reader can recompute.</p>
+  <h2 id="today">${esc(todayQ)}</h2>
+  <p>Yes, several. They answer different questions, so the numbers do not compare.</p>
+  <div class="inf__tw"><table class="inf__t">
+    <thead><tr><th>Clock</th><th>Measures</th><th>Who sets it</th><th>Updates</th><th>Recent setting</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://thebulletin.org/doomsday-clock/" rel="noopener">Bulletin Doomsday Clock</a></td><td>Nuclear, climate and disruptive tech, AI included</td><td>Expert board</td><td>Yearly</td><td>85 seconds (Jan 2026)</td></tr>
+      <tr><td><a href="${esc(ctx.href('/vs/imd-ai-safety-clock.html'))}">IMD AI Safety Clock</a></td><td>Risk from uncontrolled AGI</td><td>IMD researchers, dashboard plus judgement</td><td>Periodic</td><td>15 minutes (launched at 29)</td></tr>
+      <tr><td><a href="${esc(ctx.href('/vs/aidoomsday.html'))}">The AI Doomsday Clock (aidoomsday.live)</a></td><td>Where expert p(doom) clusters</td><td>The site, from named experts’ estimates</td><td>When opinions shift</td><td>10–20% cluster</td></tr>
+      <tr><td><a href="${esc(ctx.href('/vs/aifeartrustindex.html'))}">AI Fear &amp; Trust Index</a></td><td>Existential-risk talk about named models</td><td>Published formula over their classifier’s labels</td><td>Rolling 72 hours</td><td>A score out of 100</td></tr>
+      <tr><td><a href="${esc(ctx.href('/'))}">${esc(brand.NAME)}</a></td><td>AI activity tempo, not danger</td><td>Published formula over public data</td><td>Hourly</td><td>${esc(ctx.state && Number.isFinite(ctx.state.score) ? `${brand.NAME} ${ctx.state.level}, ${Number(ctx.state.score).toFixed(1)} of 100` : 'Live on the homepage')}</td></tr>
+    </tbody>
+  </table></div>
   <h2>${esc(insteadQ)}</h2>
   <ul>
     <li><b>It counts.</b> Releases, compute and capital, attention, governance and markets, from public sources, every hour.</li>
