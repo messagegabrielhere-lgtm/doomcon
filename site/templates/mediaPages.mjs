@@ -1,5 +1,5 @@
 // SIREN's media rooms:
-//   /radio.html    six stations of generated music, all made in the browser
+//   /radio.html    nine stations of generated music, all made in the browser
 //   /videos.html   every SIREN explainer video, with VideoObject data for search
 // plus VIDEOS (the catalogue), INTRO_FOR (which video introduces which page)
 // and videoBlock() so a feature page can carry its own video.
@@ -44,7 +44,10 @@ const STATIONS = [
   ['ambient', 'BUNKER AMBIENT', 'What does Bunker Ambient play?', 'Slow drones and distant bells for the long wait underground.', '#4FB3FF'],
   ['chip', 'CANARY CHIPTUNE', 'What does Canary Chiptune play?', '8-bit bleeps straight from Tally’s perch.', '#FFD23F'],
   ['industrial', 'JUDGMENT DAY', 'What does Judgment Day play?', 'Industrial march. Metal on metal. Clanging alarms.', '#F87171'],
-  ['lofi', 'DATA RAIN LO-FI', 'What does Data Rain Lo-Fi play?', 'Swung beats and soft chords to watch the index to.', '#56B0E0'],];
+  ['lofi', 'DATA RAIN LO-FI', 'What does Data Rain Lo-Fi play?', 'Swung beats and soft chords to watch the index to.', '#56B0E0'],
+  ['unplug', 'UNPLUG THE MACHINE', 'What does Unplug the Machine play?', 'Hard techno with a distorted power-chord riff. Original, generated live.', '#F97316'],
+  ['override', 'MANUAL OVERRIDE', 'What does Manual Override play?', 'Acid techno: a squelching resonant bassline that opens up as AI runs hotter.', '#A3E635'],
+  ['nomaster', 'NO MASTER CIRCUIT', 'What does No Master Circuit play?', 'Warehouse techno with a rolling off-beat bass. Nobody runs this room.', '#E879F9'],];
 
 const CSS = `<style>
 .md{max-width:1040px}
@@ -231,7 +234,7 @@ export function radio(ctx, voice) {
   ${voiceBox}
   <h2>${esc(hearQ)}</h2>
   <p>Every SIREN video is scored by one of these stations. See <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a></p>
-  <p><a class="md-btn ghost" href="${esc(xShare(ctx, 'SIREN Radio: six stations of music generated live in your browser while you watch AI.', RADIO_PATH))}" target="_blank" rel="noopener">𝕏 POST SIREN RADIO</a></p>
+  <p><a class="md-btn ghost" href="${esc(xShare(ctx, 'SIREN Radio: nine stations of music generated live in your browser while you watch AI.', RADIO_PATH))}" target="_blank" rel="noopener">𝕏 POST SIREN RADIO</a></p>
   <section class="md-faq" aria-labelledby="faq">
     <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
