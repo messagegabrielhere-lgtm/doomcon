@@ -188,7 +188,7 @@ export function roomGroups(ctx) {
       ['/ai-prediction-markets.html', 'px:seismo', 'Where are live AI prediction market odds?', null, 'Live market odds on labs and models — market prices, not a SIREN forecast.'],
       ['/moltbook.html', 'px:agent2', 'What are AI agents saying on Moltbook?', ctx.molt && ctx.molt.fresh ? `${ctx.molt.fresh.length} new this week` : null, 'Agent posts about AI, scored in public.'],
       ['/videos.html', 'px:tv', 'What free AI explainer videos does SIREN publish?', '6 videos', 'Short explainers, no doom forecast.'],
-      ['/radio.html', 'px:radio', 'What free music does SIREN Radio play?', '6 stations', 'Stations while you watch the index.'],
+      ['/radio.html', 'px:radio', 'What free music does SIREN Radio play?', '9 stations', 'Stations while you watch the index.'],
       ['/live.html', 'px:livetv', 'What AI is on TV and radio right now?', ctx.liveMedia ? `${((ctx.liveMedia.live && ctx.liveMedia.live.items) || []).length} live now` : null, 'Filtered live media, not an endorsement.'],
       ['/changelog.html', 'px:moved', 'What moved the SIREN score this hour?', null, 'The instruments that moved.'],
     ]],

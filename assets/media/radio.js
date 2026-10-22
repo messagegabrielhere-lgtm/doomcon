@@ -42,6 +42,11 @@
     { id: 'chip', name: 'CANARY CHIPTUNE', tag: '8-bit bleeps from Tally\u2019s perch' },
     { id: 'industrial', name: 'JUDGMENT DAY', tag: 'Industrial march. Metal on metal.' },
     { id: 'lofi', name: 'DATA RAIN LO-FI', tag: 'Beats to watch the index to' },
+    // Three original techno stations for the resistance. Every riff, bassline
+    // and drum pattern below is written here; none is taken from any song.
+    { id: 'unplug', name: 'UNPLUG THE MACHINE', tag: 'Hard techno with a distorted riff. Pull the plug.' },
+    { id: 'override', name: 'MANUAL OVERRIDE', tag: 'Acid techno. Squelching bass, hands back on the controls.' },
+    { id: 'nomaster', name: 'NO MASTER CIRCUIT', tag: 'Warehouse techno, rolling bass. Nobody runs this room.' },
   ];
   var station = 0;
   try { var sv = localStorage.getItem(SKEY); STATIONS.forEach(function (x, i) { if (x.id === sv) station = i; }); } catch (e) {}
@@ -138,6 +143,40 @@
     [1, 1.47, 2.09, 2.83].forEach(function (r) { voice('square', 220 * r, t, 0.25, vol / 4, 5000, true); });
     hat(t, vol * 0.8);
   }
+  // Distortion and a resonant filter voice for the techno stations.
+  var curves = {};
+  function crunch(amount) {
+    if (curves[amount]) return curves[amount];
+    var n = 1024, c = new Float32Array(n), k = amount;
+    for (var i = 0; i < n; i++) { var x = i * 2 / n - 1; c[i] = (1 + k) * x / (1 + k * Math.abs(x)); }
+    return (curves[amount] = c);
+  }
+  // A power-chord stab (root, fifth, octave) through a waveshaper.
+  function riff(root, t, dur, vol, drive) {
+    var ws = ctx.createWaveShaper(), g = ctx.createGain(), f = ctx.createBiquadFilter();
+    ws.curve = crunch(drive || 18); f.type = 'lowpass'; f.frequency.value = 3200;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    // Distortion leaves a DC offset that the limiter then pumps; block it.
+    var dc = ctx.createBiquadFilter(); dc.type = 'highpass'; dc.frequency.value = 25;
+    ws.connect(dc); dc.connect(f); f.connect(g); g.connect(master);
+    [0, 7, 12].forEach(function (iv, i) {
+      var o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.value = hz(root + iv); o.detune.value = i ? 4 : -4;
+      o.connect(ws); o.start(t); o.stop(t + dur + 0.05);
+    });
+  }
+  // A 303-style note: saw into a resonant low-pass that snaps shut.
+  function acid(freq, t, dur, vol, peak, slide) {
+    var o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain(), ws = ctx.createWaveShaper();
+    o.type = 'sawtooth'; o.frequency.setValueAtTime(slide || freq, t); if (slide) o.frequency.exponentialRampToValueAtTime(freq, t + 0.06);
+    f.type = 'lowpass'; f.Q.value = 14; f.frequency.setValueAtTime(peak, t); f.frequency.exponentialRampToValueAtTime(220, t + dur);
+    ws.curve = crunch(4);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.005); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    var dc = ctx.createBiquadFilter(); dc.type = 'highpass'; dc.frequency.value = 25;
+    o.connect(f); f.connect(ws); ws.connect(dc); dc.connect(g); g.connect(master); g.connect(wet);
+    o.start(t); o.stop(t + dur + 0.05);
+  }
+  function clap(t, vol) { snare(t, vol, 1100); snare(t + 0.012, vol * 0.7, 1400); snare(t + 0.024, vol * 0.5, 1700); }
+
   function rnd(n) { return (Math.sin(n * 12.9898) * 43758.5453) % 1 + 1 > 1.5; }
 
   // One 16th-note step. 16 steps a bar, one chord a bar.
@@ -221,6 +260,56 @@
       if (pos === 0 || pos === 6) chord.concat([chord[0] + 10]).forEach(function (n, i) { voice('sine', hz(n), tt + i * 0.012, s16 * 5, 0.05, 1600, true); voice('triangle', hz(n + 12), tt + i * 0.012, s16 * 2, 0.012, 2000, false); });
       if (pos % 4 === 0) voice('sine', hz(chord[0] - 24), tt, s16 * 3, 0.15, 400, false);
       if (pos % 3 === 0) hat(t + s16 * 0.5, 0.006);
+      step++; return s16;
+    },
+    // Hard techno, 130-142 bpm. A distorted power-chord riff on a syncopated
+    // grid, with a two-bar call and a breakdown every eight bars.
+    unplug: function (t) {
+      var heat = 5 - level, s16 = 60 / (130 + heat * 3 + BPM_SHIFT) / 4;
+      var bar = Math.floor(step / 16), pos = step % 16, chord = PROG[bar % 4], root = chord[0] - 24;
+      var drop = bar % 8 === 7; // one bar of space before the next phrase
+      if (pos % 4 === 0 && !drop) kick(t, 0.6);
+      if (pos % 4 === 2) hat(t, 0.07);
+      if (pos === 4 || pos === 12) clap(t, 0.16);
+      var hits = bar % 2 === 0 ? [0, 3, 6, 10, 11] : [0, 3, 6, 8, 14];
+      if (hits.indexOf(pos) >= 0) riff(root + (pos === 14 ? 3 : pos === 8 ? -2 : 0), t, s16 * (pos === 6 ? 2.6 : 1.4), drop ? 0.05 : 0.11, 22);
+      if (pos % 2 === 1 && !drop) voice('sawtooth', hz(root - 12), t, s16 * 0.8, 0.07, 260, false);
+      if (drop && pos === 0) siren(t, s16 * 16);
+      step++; return s16;
+    },
+    // Acid techno, ~128 bpm. A sixteen-step resonant bassline with slides and
+    // accents; the filter opens as the index runs hotter.
+    override: function (t) {
+      var heat = 5 - level, s16 = 60 / (126 + heat * 2 + BPM_SHIFT) / 4;
+      var bar = Math.floor(step / 16), pos = step % 16, chord = PROG[bar % 4], root = chord[0] - 12;
+      var LINE = [0, 0, 12, 0, 3, 0, 7, 10, 0, 12, 0, 5, 3, 0, 15, 7];
+      var REST = [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0];
+      var ACC = [1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0];
+      var SLIDE = [0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0];
+      if (pos % 4 === 0) kick(t, 0.55);
+      if (pos % 4 === 2) hat(t, 0.08);
+      if (pos % 2 === 1) hat(t, 0.025);
+      if (pos === 4 || pos === 12) clap(t, 0.12);
+      if (!REST[pos]) {
+        var n = root + LINE[(pos + (bar % 4 === 3 ? 4 : 0)) % 16];
+        var prev = root + LINE[(pos + 15) % 16];
+        acid(hz(n), t, s16 * (ACC[pos] ? 1.1 : 0.8), ACC[pos] ? 0.12 : 0.08, 900 + heat * 500 + (ACC[pos] ? 1800 : 0) + ((bar % 8) * 180), SLIDE[pos] ? hz(prev) : 0);
+      }
+      if (pos === 0 && bar % 4 === 0) pad([chord[0] + 12, chord[2] + 12], t, s16 * 32);
+      step++; return s16;
+    },
+    // Warehouse techno, ~132 bpm. Off-beat rumble bass, a ride, and a short
+    // metallic stab that answers itself across two bars.
+    nomaster: function (t) {
+      var heat = 5 - level, s16 = 60 / (132 + heat * 2 + BPM_SHIFT) / 4;
+      var bar = Math.floor(step / 16), pos = step % 16, chord = PROG[bar % 4], root = chord[0] - 24;
+      if (pos % 4 === 0) kick(t, 0.62);
+      if (pos % 4 === 2) { voice('sawtooth', hz(root), t, s16 * 1.6, 0.11, 180 + heat * 40, false); voice('square', hz(root + 12), t, s16 * 0.6, 0.03, 700, false); }
+      if (pos % 2 === 0) hat(t, pos % 4 === 2 ? 0.07 : 0.03);
+      if (pos === 8) snare(t, 0.08, 2400);
+      var stab = bar % 2 === 0 ? [3, 11] : [6, 14];
+      if (stab.indexOf(pos) >= 0) [0, 3, 7].forEach(function (iv) { voice('square', hz(chord[0] + iv), t, s16 * 0.7, 0.03, 2600 + heat * 300, true); });
+      if (pos === 0 && bar % 8 === 0) clang(t, 0.09);
       step++; return s16;
     },
   };
