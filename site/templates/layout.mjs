@@ -1271,6 +1271,7 @@ ${freshnessMeta(o, ctx)}
 <meta name="twitter:card" content="summary_large_image">
 ${twitterSite}
 ${ogImage}
+<link rel="alternate" type="application/rss+xml" title="${esc(brand.NAME)} daily brief" href="${esc(ctx.href('/feed-daily.xml'))}">
 <link rel="alternate" type="application/rss+xml" title="${esc(brand.NAME)} index moves" href="${esc(ctx.href('/feed.xml'))}">
 <link rel="alternate" type="application/rss+xml" title="${esc(brand.NAME)} level changes only" href="${esc(ctx.href('/feed-level.xml'))}">
 <link rel="alternate" type="text/markdown" href="${esc(ctx.href('/now.md'))}" title="Current reading (markdown)">
