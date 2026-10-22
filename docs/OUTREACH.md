@@ -1,6 +1,6 @@
 # Outreach drafts
 
-Updated 2026-10-14. Nothing here has been sent. Each draft is for the operator
+Updated 2026-10-22. Nothing here has been sent. Each draft is for the operator
 to send from their own account, after refreshing every number from the live
 site. The pitch is the same: an activity number you can check.
 
@@ -47,6 +47,61 @@ Do not buy links (including Outrank’s backlinks-only product). Do not open
 synonym pages. Do not drop the same pitch into a pile of subreddits. Selling
 placements later, if ever, is gated in `OUTRANK-PUBLISHER.md` — not this
 outreach queue.
+
+## 0a. AI search audit, 2026-10-22
+
+Checked with live Google results and a backlink index:
+
+- **AI Overview citations: 0.** "Is there an AI doomsday clock" is answered
+  from thebulletin.org, the IMD AI Safety Clock and aidoomsday.live. The
+  sources cited most across AI-clock answers are thebulletin.org, YouTube,
+  Wikipedia and Reddit.
+- **Indexed:** about 3,200 pages, mostly tag and outlet hubs. No ranking
+  keywords yet.
+- **Backlinks:** 28 referring domains, all spam directories and URL
+  shorteners (domain rank 0). They carry no weight. Do not buy or swap links.
+- **Brand collision:** "Siren AI" returns a BNB crypto token and the Siren
+  investigation platform. Say `siren.watch` or "SIREN AI activity index",
+  never bare "SIREN", in bios, posts and replies.
+
+Shipped in the repo: the clock explainer names every clock in a table
+(#608), vs pages for aidoomsday.live, IMD and the AI Fear & Trust Index,
+IndexNow pings for them, and an Organization `disambiguatingDescription`.
+Steps 0.1 and 0.3 above (the two consoles) are still the biggest gap.
+
+## 5. Reddit (one post, one sub, read its rules first)
+
+Best fit: r/slatestarcodex (allows occasional self-posts with substance) or a
+reply in an existing r/ControlProblem thread that asks for an AI clock. Do
+not cross-post the same text.
+
+> **I built an AI "doomsday clock" that counts instead of guessing**
+>
+> Every AI clock I found is set by judgement: the Bulletin once a year, IMD
+> periodically, aidoomsday.live from the p(doom) cluster. I wanted the
+> opposite: a number a stranger can recompute.
+>
+> siren.watch scores AI activity every hour from public feeds: model
+> releases, compute and capital, governance, markets, attention. It measures
+> tempo, not danger. Each reading has a receipt and the browser can re-verify
+> it. The level today: [refresh from the homepage].
+>
+> Comparison table of the clocks: https://siren.watch/ai-doomsday-clock.html#today
+>
+> Happy to be told which input is wrong.
+
+## 6. YouTube Short (30 seconds, screen recording)
+
+The AI Overviews cite YouTube heavily. One Short with the URL in the first
+line of the description.
+
+- 0–5 s: the dial on siren.watch. On screen: "An AI clock that counts."
+- 5–15 s: scroll the table at /ai-doomsday-clock.html#today. "The other
+  clocks are opinions. This one is arithmetic over public data."
+- 15–25 s: open /verify.html and run it. "Check it yourself."
+- 25–30 s: "siren.watch. Hourly. Tempo, not danger."
+
+Title: `Is there an AI doomsday clock? This one updates every hour`
 
 ## 1. Hacker News
 

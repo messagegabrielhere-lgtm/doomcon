@@ -30,7 +30,10 @@ export function organization(ctx) {
     // (live bug was https://siren.watch//#org).
     '@id': `${ctx.url('/')}#org`,
     name: brand.PUBLICATION,
-    alternateName: [brand.NAME, brand.FORMERLY, 'AI SIREN Index', 'AI Siren Index'].filter(Boolean),
+    alternateName: [brand.NAME, brand.FORMERLY, 'AI SIREN Index', 'AI Siren Index', 'SIREN AI activity index', 'siren.watch'].filter(Boolean),
+    // "Siren AI" also names a BNB crypto token and a police-investigation
+    // platform; say plainly which one this is so search and AI answers can tell.
+    disambiguatingDescription: 'siren.watch: an hourly, recomputable index of AI industry activity. Not the SIREN crypto token and not the Siren investigation platform.',
     url: ctx.url('/'),
     description: brand.DESCRIPTION,
     logo: ctx.url('/favicon.svg'),

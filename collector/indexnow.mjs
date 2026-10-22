@@ -52,6 +52,13 @@ const ALWAYS = Object.freeze([
   '/pizzint.html',
   '/takeofftracker.html',
   '/takeoff.html',
+  // AI-clock rivals named in AI Overviews (aidoomsday.live, IMD, AI Fear & Trust).
+  '/vs/aidoomsday.html',
+  '/vs/imd-ai-safety-clock.html',
+  '/vs/aifeartrustindex.html',
+  '/aidoomsday.html',
+  '/ai-safety-clock.html',
+  '/aifeartrustindex.html',
   '/companies.html',
   '/models.html',
   '/countries.html',
