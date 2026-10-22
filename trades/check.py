@@ -48,6 +48,18 @@ def verdict(p, px):
         return "TRAIL"
     return "HOLD"
 
+def watch_verdict(c, px, now):
+    # Hot watch (score-3 setup): ALERT once price crosses its trigger; stays ALERT until Claude sets "ack".
+    if c.get("expires") and now[:10] > c["expires"]:
+        return "EXPIRED"
+    if c.get("ack"):
+        return "ACK"
+    trig = float(c["trigger"])
+    hit = px >= trig if c.get("side", "above") == "above" else px <= trig
+    if hit and not c.get("fired"):
+        c["fired"] = now
+    return "ALERT" if c.get("fired") else "WAIT"
+
 def main():
     w = json.loads(WATCH.read_text()) if WATCH.exists() else {"positions": []}
     now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
@@ -61,7 +73,17 @@ def main():
         if v in ("STOP", "TARGET", "TRAIL"):
             breach = True
         lines.append(f"{p['id']} px={px} stop={p.get('stop')} target={p.get('target')} high={p.get('high')} -> {v} | {p.get('action','')}")
-    head = ("BREACH" if breach else "OK") + f" {now} n={len(lines)}"
+    alert = False
+    for c in w.get("watches", []):
+        try:
+            px = price(c)
+            v = watch_verdict(c, px, now)
+        except Exception as e:
+            px, v = None, f"ERR {type(e).__name__}: {str(e)[:120]}"
+        if v == "ALERT":
+            alert = True
+        lines.append(f"W:{c['id']} px={px} {c.get('side','above')} {c.get('trigger')} score={c.get('score')} -> {v} | {c.get('setup','')}")
+    head = ("BREACH" if breach else "ALERT" if alert else "OK") + f" {now} n={len(lines)}"
     old = STATUS.read_text().splitlines() if STATUS.exists() else []
     old_body = old[1:] if old else None
     stale = True
@@ -71,7 +93,7 @@ def main():
             stale = (datetime.datetime.now(datetime.timezone.utc) - ts).total_seconds() > 20 * 60
         except Exception:
             pass
-    changed = (old_body != lines) or stale or breach
+    changed = (old_body != lines) or stale or breach or alert
     if changed:
         STATUS.write_text("\n".join([head] + lines) + "\n")
         WATCH.write_text(json.dumps(w, indent=1) + "\n")
