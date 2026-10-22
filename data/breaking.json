@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-22T05:02:35.239Z",
+  "generated_at": "2026-10-22T05:39:16.743Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 11,
+  "live": 10,
   "fresh": "b783566255791",
   "clusters": [
     {
@@ -61,23 +61,27 @@
         "biggo.com",
         "reuters.com",
         "seekingalpha.com",
-        "tokenpost.com"
+        "wired.com"
       ],
       "tier1_outlets": [
         "bbc.co.uk",
-        "reuters.com"
+        "reuters.com",
+        "wired.com"
       ],
       "corroboration": 5,
       "sources": [
         "bbc-tech",
+        "bluesky-ai",
         "gnews-ai",
+        "reddit-singularity",
+        "wired-ai",
         "wires-ai"
       ],
       "rule": [
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-22T03:04:00.000Z",
+      "earliest_published_at": "2026-10-22T02:24:17.000Z",
       "first_seen_at": "2026-10-21T14:06:13.043Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -88,25 +92,42 @@
         "11e12e2dc8c90916",
         "185ddfadabff359f",
         "1a8a8dbf5267ce9b",
+        "1f3d092547629670",
         "2706a7c898d272fa",
         "2dcc472f5626c4e4",
         "7095a3e836020862",
+        "798e3ddd6d2937ee",
         "9990a1b4910f6728",
         "a5865e3856287f2c",
         "cfd665ac75e7db6d",
         "d33145e4b0cfb916",
         "e104aee1efcbf242",
         "f657f4339f7b5eee",
-        "f8707acd824bf701",
         "fc338e40474450ac"
       ],
       "sightings": [
         {
-          "source": "gnews-ai",
-          "outlet": "tokenpost.com",
-          "title": "OpenAI’s GPT-5.6 Sol Helps Find Two Critical Flaws in PHP",
-          "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1LM1g3RzhYeGZ1QXFZenhkMEwxZktBX3lHV3U4Q2NsajdjZVA2ZmVrVjJvM0h3MTFHSVdfTEg3QXI1bVZmaTVEYUhHUlRRV3RQSU5vZm1SdVNPVTg?oc=5",
-          "published_at": "2026-10-22T03:04:00.000Z",
+          "source": "wired-ai",
+          "outlet": "wired.com",
+          "title": "Hackers Exploited the PHP Vulnerabilities Days Before They Were Patched",
+          "url": "https://wired.com/story/hackers-exploited-the-php-vulnerabilities-days-before-they-were-patched",
+          "published_at": "2026-10-22T02:24:17.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "wired.com",
+          "title": "Hackers Exploited the PHP Vulnerabilities Days Before They Were Patched",
+          "url": "https://bsky.app/profile/wired.com/post/3mygmis3vmc2t",
+          "published_at": "2026-10-22T02:28:11.168Z",
+          "tier1": true
+        },
+        {
+          "source": "reddit-singularity",
+          "outlet": "reddit.com",
+          "title": "PHP vulnerabilities CVE-2026-109618 and CVE-2026-109619 (yes, those ones) were independently discovered by a frontier model using the prompt \"find bad vulnerabilities in PHP\".",
+          "url": "https://reddit.com/r/singularity/comments/1xc74ng/php_vulnerabilities_cve2026109618_and",
+          "published_at": "2026-10-22T02:53:00.000Z",
           "tier1": false
         },
         {
@@ -249,14 +270,16 @@
       "source": "gnews-ai",
       "outlet": "tradingview.com",
       "outlets": [
+        "kslm.news",
         "reuters.com",
+        "stratnewsglobal.com",
         "streetinsider.com",
         "tradingview.com"
       ],
       "tier1_outlets": [
         "reuters.com"
       ],
-      "corroboration": 3,
+      "corroboration": 5,
       "sources": [
         "gnews-ai",
         "wires-ai"
@@ -270,6 +293,7 @@
       "latency_s": 5726,
       "breaking_at": "2026-10-22T05:02:35.239Z",
       "item_ids": [
+        "0ff62af58464d758",
         "de8439ae6370a14b"
       ],
       "sightings": [
@@ -295,6 +319,22 @@
           "title": "DeepSeek wrapping up $15 billion fundraising to fuel AI race",
           "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOenpDWE5aQzZKQm1LOGM5a1U4Snd6ei1KNlRpbjNDODJUSmJqTjNLei1zNFR6MldPQnVsTk1FelFNNjYyWW9pWlZsV05sMjQxMThJd3JpblhmTjNPb2IxeEJ2RXp6QzRJeEFzTVhuX2sxQ2lvekxvdUIzMzdKbGdpbklGbkR2WTNWWXF4c0ZxNjBqM2xHdF9TS2pBY040QkRyc08yV3k2RGJhUDVoSXdsY1AzVlk?oc=5",
           "published_at": "2026-10-22T04:07:30.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "kslm.news",
+          "title": "DeepSeek wrapping up $15 billion fundraising to fuel AI race",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOOUVMR0llaE9BVVNsNHJvOXRiSk9sZ0pqQ3EzbGZCQkNxQTZDdS1LQTJhYzZNdWxNc3JhZmNobTZpcXZGTEJoQ05pZHpBMWU3R19admxZS29jVTFkSHFuV0lGOWlsM3ZWVVM5cFc4eW1INWNaWE94M2hyYnpyRXRvdWE0VUV4d0RGSlhNQ21ldUstOTZTQ05WQ0RfOA?oc=5",
+          "published_at": "2026-10-22T04:21:25.719Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "stratnewsglobal.com",
+          "title": "DeepSeek Nears $15 Billion Fundraise to Fuel AI Race",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQRU9Bb0JwS1FWVEJubXVfSURmSGhfNEZsVThQeldtOWxuOUp5di1OcTNOaDlBb01JX0Ryc014dmYtQmFaYUxfc3lDTFFzZ2I4ZUVrbUFvM2lyR2pBOVlNRVJWV2RTMk9kRWdnYW9WR3ljMUdWVnFsWFRrNXJqUUZ5dE5BSUtFMV9ub18zU0dPaGUyZDc0Rmc?oc=5",
+          "published_at": "2026-10-22T05:28:00.000Z",
           "tier1": false
         }
       ],
@@ -344,7 +384,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "bc49303689ecf",
@@ -356,18 +396,24 @@
         "businesskorea.co.kr",
         "chosun.com",
         "cxotoday.com",
-        "dealroom.co",
         "macaubusiness.com",
+        "nvidia.com",
         "prnewswire.com",
-        "techtimes.com"
+        "techtimes.com",
+        "telecompaper.com",
+        "tradersunion.com"
       ],
-      "tier1_outlets": [],
-      "corroboration": 7,
+      "tier1_outlets": [
+        "nvidia.com"
+      ],
+      "corroboration": 9,
       "sources": [
-        "gnews-ai"
+        "gnews-ai",
+        "nvidia-blog"
       ],
       "rule": [
-        "two outlets within 20 min"
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-22T02:20:12.903Z",
       "first_seen_at": "2026-10-21T04:06:48.095Z",
@@ -376,18 +422,23 @@
       "breaking_at": "2026-10-22T05:02:35.239Z",
       "item_ids": [
         "137960e0e867104c",
-        "1812979f49eda0a0",
         "1cc5ed0c8b9dc800",
         "29ecb0fb59239420",
         "29f1928412194953",
+        "2a0d90936efe7819",
+        "36ee8fe7cab29f5d",
         "46019debfd94bd9b",
         "581499782230fa1b",
         "5f393c2e278b82e3",
         "6051ec23c3ede730",
         "653d201e89286883",
         "677903dad976551f",
+        "89a4e6d4e0e5bb84",
         "8b909f28a15dc178",
+        "938dba7b2a1bb5f7",
         "ab1f29b681fe09cc",
+        "bb88599a32518da9",
+        "bc7e4740517cd6fe",
         "bcc6c501a3ed479b",
         "cb2d9eae775325ba",
         "d3119616b9b3a456",
@@ -403,14 +454,6 @@
           "title": "NVIDIA Expands AI Supply Chain with Component Supplier Investments",
           "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPSkhxcTJxVGZiSG5SOEpseWJlWlpRbHlkdmR4NEU4QkhVa2doQ0Jpb2pBUGdVVzFVRm5mY2YtUF85NngzUjhEWVpTMUU4NnhmQUdsS0hnbTFDM0FMbVRfdWkzLV9McWJhRzVkVVNyQ2ZFc2pHNll1UDhpQzNiZk04aFJiZ192blJ5?oc=5",
           "published_at": "2026-10-22T02:20:12.903Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "dealroom.co",
-          "title": "NVIDIA backs six chip suppliers in $279B push to break AI capacity bottleneck",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOQjQ3RXRqRjhhYVhRTDA3WU91YWRGY3JST2tCYzAydjVqdklPR05aS2tiWGs4YV9Cel9iTXFJOGVibHZqdHBqOElPWGlSY2JDRXpzRFJaN0JscUlnNnlkYXhjcWR5Rmo1VjFrdnN1TFlUQVl4bVVnMFJkRnp6YmNnVFd4Mkt0dGZ3RzhmUXJuY1FYVFRfb0FQdl9JZmd5YWk4SktrY0p5RjI4Qmpld2ZB?oc=5",
-          "published_at": "2026-10-22T02:46:12.000Z",
           "tier1": false
         },
         {
@@ -452,14 +495,62 @@
           "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOSlRYOF82WFo4MERZTkcweWVsMzJNMUc4V2owNXJhZ3prLWhiOG5OeEg3WWFPWmpaYjZmNzVFVGVBMzA1RENXbV94UlZVdW9LcldJeEg4aWJpLVJhVnRPQWNVS1BtU0c5WkFsT3dNV1FDcUstZHRyUEVoQnM0WHRMU1A4bmg5V2pudnJIOWpqd3pIX3lqMmlST0ZIbVRIUU4xbmJYSmRaTE5jelpQSk1JV0Y5Y1JQMXV5VWVhSDRYU1RPV21FdFE?oc=5",
           "published_at": "2026-10-22T04:48:35.000Z",
           "tier1": false
+        },
+        {
+          "source": "nvidia-blog",
+          "outlet": "nvidia.com",
+          "title": "NVIDIA Open Models Power a New Wave of European Public Sector Projects",
+          "url": "https://blogs.nvidia.com/blog/european-public-sector-open-models",
+          "published_at": "2026-10-22T05:00:02.000Z",
+          "tier1": true
+        },
+        {
+          "source": "nvidia-blog",
+          "outlet": "nvidia.com",
+          "title": "Pioneers Across Europe Deploy NVIDIA Earth-2 Open Models to Power Real-World Weather and Climate Prediction",
+          "url": "https://blogs.nvidia.com/blog/europe-earth-2-open-models-weather-climate-prediction",
+          "published_at": "2026-10-22T05:00:19.000Z",
+          "tier1": true
+        },
+        {
+          "source": "nvidia-blog",
+          "outlet": "nvidia.com",
+          "title": "NVIDIA Cosmos Opens New Tools to Train, Evaluate and Deploy World Models",
+          "url": "https://blogs.nvidia.com/blog/cosmos-open-train-evaluate-deploy-world-models",
+          "published_at": "2026-10-22T05:00:27.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "chosun.com",
+          "title": "NVIDIA Unveils 14-Day Modular Data Center for AI Standards",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPYWpJRG0tUGNIR2NrTkVJSjQ1a3RJdF9JcTU2M3NnUk8yUl9BQnQ2VFBwUmR2bGJZQXhIUWpfLTFWenRkaHJObTVDeEhqQWw0eXpsUmFOdE5sb2NpdHBOS0dVYVZ2TVI5ZVpNeFFHbW5FQzJKWnRCSlpfQWo5azBiNVNhN2VCMHh0?oc=5",
+          "published_at": "2026-10-22T05:04:14.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "telecompaper.com",
+          "title": "Nvidia expands supply chain capacity to support AI growth",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQMGRNQU1Ca0dydG5NYVVsWWMxaWtVQ3UxeTNtTHB5NGVrNmhnOEhSS0twc2Ezc1daaU1Rc3ZndnVGM2NGRE9mM091VUVCeFBxenBMb3FYSUR2X05Va0F4TWpjVzdvZDQyWVRFOEFVUzMxMkdvQjVqdVJIRjYtNGZFUmhoOXZ0VXM4QTZZOGdNUTR1MC1ZMk4wU0ZkUTVSMWxpM3c?oc=5",
+          "published_at": "2026-10-22T05:10:35.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "tradersunion.com",
+          "title": "NVIDIA expands Cosmos tools for world model training and deployment",
+          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPQ0N5MGl6VHBxa0VQVVk3eE5oRElUVjBkdVlma2wyTFF2UTVpeXdRN0JYRXVyU08yNWxGcWhTNE0ya1JqQ1RjNGh3Mll6bC1fM05GU1VhTmNHeGYzWXhGQlJzNFQwajQxY3I4X25GZDM0RV9qLWNFX3kxZWN5cGpYNXYwYURiZ0RBc2c?oc=5",
+          "published_at": "2026-10-22T05:11:26.000Z",
+          "tier1": false
         }
       ],
       "live": true
     },
     {
       "id": "b0cef709516ee",
-      "title": "SpaceX and Tesla's Terafab targets 2028 for volume chip production, Musk says",
-      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPSFI5aHJPRHY4ZTFFZmNHT0d5bEQtSy1EUjBYaVNQOUxTbXdtOExjSEhoampjekEwQ3F5blUzN1F0QzdVc2xkNDZTZHlqYllaUlA2UDlyT1NGX2t1UDl1bDlUX2pVcVBhOWMyeGx3VE8tTlhsbHROTjhPNXpKbWcwdDREdnBfMHpEUk5tSnNzSW9OblZ0Z3NLcDJpSlhFSUxCQXRuNk9KQmRjLWhBR2NXOWl0a3AxR254Vm1TY1ltM09jWDZu?oc=5",
+      "title": "EXCLUSIVE: Musk’s public endorsement of SpaceX-Tesla deal may throw a wrench in talks",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNMElybkJjbnJVcng0S3ZMdGFraU9qazdTRS1sU05ScEU3YWpHTlJYRS1TTVVRa0FvR3Q5aFNjeG1TRWJPQU00clFvbmtSYlVMMEhrcE1MRUxXcG5Uamo4emRadjI5LTU1eENCX1Z4MnRPd2ZJYlJPVzZNSnNzQ1lLRGJiaUxxbVRucWNjdXUxWTlmcDEtM0VMazROblJvLXJGTXZmcG01RkxRaXRuUEVHdlBVOEJMMndJYVE?oc=5",
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
@@ -475,9 +566,11 @@
       "corroboration": 3,
       "sources": [
         "bluesky-ai",
+        "techmeme",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-22T00:30:21.000Z",
@@ -486,20 +579,25 @@
       "clock_skew": true,
       "breaking_at": "2026-10-22T04:21:25.719Z",
       "item_ids": [
+        "026feac20afd78e9",
+        "0300479fa7810751",
         "1abfc6dd7e7f5ecb",
+        "3c5fb287e4a1f038",
         "471c1206ac85257e",
         "4a5c7784caed0eae",
         "618c925b8eb46c19",
         "6a99b0ee719219eb",
         "7528f505525ac589",
         "75f8b7d99cb0053c",
+        "772ddd02ad0e9930",
         "8527ce22fb6d72bb",
+        "982fd54b6ccbfa71",
         "a4a8d931b8db3909",
         "a7232b2f331d9b8a",
         "b5e288a446dcef60",
+        "c7a9ab7fed3544a5",
         "ccc277f1ddacd05b",
-        "cd0d30718fc56cf0",
-        "d08fb9f7c6cd8e8c"
+        "ec025c0b6a582e09"
       ],
       "sightings": [
         {
@@ -519,11 +617,35 @@
           "tier1": true
         },
         {
+          "source": "techmeme",
+          "outlet": "techmeme.com",
+          "title": "Sources: advisers within Elon Musk's empire are pushing to announce a SpaceX-Tesla merger by H1 2027 so it can close while President Trump remains in power (Bloomberg)",
+          "url": "https://techmeme.com/261021/p58",
+          "published_at": "2026-10-22T01:05:01.000Z",
+          "tier1": false
+        },
+        {
           "source": "wires-ai",
           "outlet": "reuters.com",
           "title": "EXCLUSIVE: Musk’s public endorsement of SpaceX-Tesla deal may throw a wrench in talks",
           "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNMElybkJjbnJVcng0S3ZMdGFraU9qazdTRS1sU05ScEU3YWpHTlJYRS1TTVVRa0FvR3Q5aFNjeG1TRWJPQU00clFvbmtSYlVMMEhrcE1MRUxXcG5Uamo4emRadjI5LTU1eENCX1Z4MnRPd2ZJYlJPVzZNSnNzQ1lLRGJiaUxxbVRucWNjdXUxWTlmcDEtM0VMazROblJvLXJGTXZmcG01RkxRaXRuUEVHdlBVOEJMMndJYVE?oc=5",
           "published_at": "2026-10-22T04:24:00.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "Elon Musk Thinks $3.5 Trillion Tesla-SpaceX Mashup Is a Good Idea",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQQ0M2MzA3LVVDM01zMC1MeUJKZ2JadWw0dlRyRHMtMGJwLXNCRjBkOW85Tmd6YU14eUIwWGtaR0JuR0hWcXd4VG5ZRTJXR3hpcks1c1I0QmF3My1XMTFWaWdGUXN0QXp6NWloYzV3LUNuSk1fY2R4endRWlhZQUt3WVhabkpkWWM1UW4ya3Z2Si1qY2R0cG9fZ25pN1VpSXBjUXlTb2dyWDBLYy1CYXJJdmEtNVQ0ckp2Mmc?oc=5",
+          "published_at": "2026-10-22T04:27:50.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "reuters.com",
+          "title": "EXCLUSIVE: Musk’s public endorsement of SpaceX-Tesla deal may throw a wrench in talks",
+          "url": "https://bsky.app/profile/reuters.com/post/3mygwf5p6xf2o",
+          "published_at": "2026-10-22T05:02:35.239Z",
           "tier1": true
         }
       ],
@@ -643,7 +765,7 @@
       "rule": [
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-21T23:20:55.000Z",
+      "earliest_published_at": "2026-10-22T01:45:02.000Z",
       "first_seen_at": "2026-10-21T11:15:24.712Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -651,42 +773,20 @@
       "item_ids": [
         "01b77b59cce19b02",
         "098504af7209afad",
-        "1ca56179fb106cd2",
         "29fcb3fbbef0a449",
-        "3457d3aacc2cd555",
         "3738aeb95cc1aaee",
         "39afb4188763ae50",
         "514ca3d47ce9ac5c",
-        "52344bebadf42626",
         "60670e713138097c",
         "695bc5ffc6b22be3",
-        "70c42ff0736cd7b7",
         "9476d52a3849a279",
         "a09541d36b41390b",
         "a57edfb4a1407c64",
         "ab2d6cc67da1d489",
         "ba651608fa4852b4",
-        "dd1e6a933ff28932",
-        "e0217b566148675e",
         "f8a96a3fbe14a0c5"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "Meta Boosts AI Bets, Tesla Cuts Spending Target, More",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNZ1BfcUhEbnV5WWJTTlpuMUFiWTB1VGQtb09GbWU4VFR1TDliZ0dOa3JPeWRTXzFDcGdYajZQcEZSQmo1dHBlZTQwemtZVUh1Z2dxN0Q2ZjBhTS1Vb2tyS1MxUGRBZGdnZkV3MVFPbGgwYW1GeEhNWGN6Z2VRRzJIaHdqeFhwYmZ0ZjBuLVZJejZCRjRBOXZHcmJoTFN5RGlH?oc=5",
-          "published_at": "2026-10-21T23:20:55.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "Bloomberg Daybreak Asia: Meta-Tesla Earnings, Barclays Asia Forum",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNeTZRZWVOVlZ3ZnVRMjlKYzVtSTl4MkpDWS1ManpVUzUwVWM3Uk54cko4MHZkR0N4WHRReHh1X0hLWXZUS01POWFQTUVZTzJMOU5Pbl9oVnJ6YW5GaHZGX2U5MV9fSHJJcnI0UDc5X0JfTGJVdDc1OUdxeHpvemtHUndJRmRua1huMWhreDB6WXZmdmVROWhxSHhCNnlOZF9q?oc=5",
-          "published_at": "2026-10-22T01:23:04.000Z",
-          "tier1": true
-        },
         {
           "source": "wires-ai",
           "outlet": "bloomberg.com",
