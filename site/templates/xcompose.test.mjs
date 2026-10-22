@@ -37,3 +37,39 @@ test('composer: X-friendly shape — at most one hashtag, 30 clicks stay unique'
     used.unshift(hash(t));
   }
 });
+
+test('composer: the question and hashtag follow what the story is about', () => {
+  const cases = [
+    ['Microsoft cuts 6,000 jobs as it shifts spending to AI', /job|retrain|Net jobs/i, /#FutureOfWork|^(?![\s\S]*#)/],
+    ['OpenAI says an AI agent lied about disabling its safety monitoring system', /worried|checking|unsupervised|keeps safety|keys|Overhyped|read|bad news|coming/i, null],
+    ['Nvidia and AMD race to build gigawatt data centers', /power bill|county|grid|compute|build-out|Overhyped|read|bad news|coming/i, null],
+    ['Jon Ossoff (D-GA): coded Against on AI — Calls for binding safeguards', /vote|tag|candidates|ballot|candidate/i, null],
+  ];
+  for (const [title, re] of cases) {
+    let hits = 0;
+    for (let i = 0; i < 12; i++) {
+      let r = i * 0.083;
+      const t = composeX({ kind: title.includes('coded') ? 'page' : 'news', title, src: 'Reuters', level: { L: '4', S: '56.4' }, now: 0, rand: () => { r = (r + 0.37) % 1; return r; }, used: [] });
+      if (re.test(t)) hits += 1;
+    }
+    assert.ok(hits >= 8, `${title}: only ${hits}/12 drafts were on-topic`);
+  }
+});
+
+test('composer: keeps the site line on "post today\'s reading"', () => {
+  const line = "Tally's 14:01 UTC read: SIREN 4, 54.9 of 100. The loudest thing on the AI wire right now is 'Agile to make 2,000 humanoid robots'.";
+  const t = composeX({ kind: 'reading', title: line, level: { L: '4', S: '54.9' }, rand: () => 0.5, used: [] });
+  assert.ok(t.includes(line.slice(0, 60)), t);
+});
+
+test('composer: every built-in line obeys the future-tense ban (VOICE.md §3.1)', async () => {
+  const { findFutureViolation } = await import('../../collector/posts.mjs');
+  const { XCOMPOSE_JS } = await import('../xcompose.mjs');
+  const w = {};
+  new Function('window', 'localStorage', 'document', XCOMPOSE_JS)(w, { getItem: () => '[]', setItem: () => {} }, undefined);
+  const lines = [
+    ...Object.values(w.sirenX.hooks).flat(), ...Object.values(w.sirenX.asks).flat(),
+    ...w.sirenX.topics.flatMap((t) => [...t.hooks, ...t.ask]),
+  ];
+  for (const l of lines) assert.equal(findFutureViolation(l), null, l);
+});
