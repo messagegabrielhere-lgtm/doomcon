@@ -71,15 +71,16 @@ describe('dial and held level', () => {
     assert.equal(arc[1], '0');
     assert.equal(arc[2], '#FACC15');
   });
-  it('says when the score sits in a hotter band than the held level', () => {
+  it('colours the page by the score band, in plain words, with no rule talk', () => {
     const html = render(held(), { head: '<head></head>' });
-    assert.match(html, /SCORE IN THE SIREN 3 BAND/);
-    assert.match(html, /stays at SIREN 4 until the score holds above 58\.0/);
+    assert.match(html, /<div class="v2" data-level="4" style="--lv:#FACC15;/);
+    assert.match(html, /SCORE IN THE ELEVATED RANGE/);
     assert.match(html, /class="v2-scale__st score"[\s\S]*?56\.5[\s\S]*?SCORE/);
-    assert.match(html, /LEVEL HELD/);
+    const top = html.slice(0, html.indexOf('id="v2-more"'));
+    assert.doesNotMatch(top, /dead band|deadband|level is held|does not flicker|LEVEL HELD/i);
   });
   it('shows nothing extra when score and level agree', () => {
     const html = render(base(), { head: '<head></head>' });
-    assert.doesNotMatch(html, /class="v2-held"/);
+    assert.doesNotMatch(html, /SCORE IN THE .* RANGE/);
   });
 });

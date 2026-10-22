@@ -222,7 +222,10 @@ export function headerHtml(o = {}) {
   const base = o.base || '';
   const cur = currentPath(o.rel);
   const lv = Number.isFinite(+o.level) ? +o.level : null;
-  const color = LEVEL_COLOR[lv] || '#4ADE80';
+  // Same rule as the homepage: the chip takes the colour of the score's band.
+  const sc = Number(o.score);
+  const band = Number.isFinite(sc) && o.score !== null && o.score !== '' ? (sc >= 85 ? 1 : sc >= 70 ? 2 : sc >= 55 ? 3 : sc >= 35 ? 4 : 5) : lv;
+  const color = LEVEL_COLOR[band] || LEVEL_COLOR[lv] || '#4ADE80';
   const score = Number.isFinite(+o.score) && o.score !== null && o.score !== '' ? Number(o.score).toFixed(1) : '';
   const nav = PRIMARY.map(([h, l]) => `<a href="${esc(base + h)}"${h === cur ? ' aria-current="page"' : ''}>${esc(l)}</a>`).join('');
   return `${HEADER_CSS}
