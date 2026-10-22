@@ -136,11 +136,11 @@ export function signupBox({ privacyHref, dailyFeedUrl, levelFeedUrl, alertsHref,
   // it into "Feed URL", adds their email and picks a schedule.
   const pick = (key, label, url, hint, ghost) => `<div class="mz-pick">
     <a class="mz-btn${ghost ? ' mz-btn--ghost' : ''}" href="https://blogtrottr.com/" rel="noopener" target="_blank" data-copyfeed="${esc(url)}">${esc(label)}</a>
-    <label class="mz-feed"><span>Copied for you; paste on Blogtrottr, then ${esc(hint)}</span><input id="${esc(id)}-${key}" type="text" readonly value="${esc(url)}" onfocus="this.select()"></label>
+    <label class="mz-feed"><span>Paste this whole address, starting with https://, then ${esc(hint)}</span><input id="${esc(id)}-${key}" type="text" readonly value="${esc(url)}" onfocus="this.select()"></label>
   </div>`;
   return `<div class="mz-nl mz-nl--big" id="${esc(id)}">${head}
   <div class="mz-picks">${pick('daily', 'EMAIL ME THE DAILY BRIEF →', dailyFeedUrl, 'choose "Daily digest"', false)}${pick('alerts', 'EMAIL ME LEVEL ALERTS →', levelFeedUrl, 'choose "As soon as possible"', true)}</div>
-  <p class="mz-note mz-steps" role="status">The button copies the feed address and opens Blogtrottr. There, paste it into <b>Feed URL</b>, add your email, pick the schedule, and press <b>Feed Me</b>. Blogtrottr emails you to confirm.</p>
+  <p class="mz-note mz-steps" role="status">The button copies the feed address and opens Blogtrottr. There, paste it into <b>Feed URL</b> (the full address with <b>https://</b>; plain “siren.watch” is rejected as not a valid URL), add your email, pick the schedule, and press <b>Feed Me</b>. Blogtrottr emails you to confirm.</p>
   <p class="mz-note">Delivered by Blogtrottr from ${esc(SITE_NAME)}'s public feeds: your address goes to them, not to ${esc(SITE_NAME)}. Unsubscribe from any email. <a href="${esc(alertsHref)}">Other ways: RSS, Slack, in-tab</a> · <a href="${esc(privacyHref)}">Privacy</a>.</p>
   ${COPYFEED_JS}
 </div>`;
@@ -151,7 +151,7 @@ export function signupBox({ privacyHref, dailyFeedUrl, levelFeedUrl, alertsHref,
 const COPYFEED_JS = `<script>(function(){if(window.__mzCopyFeed)return;window.__mzCopyFeed=1;
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-copyfeed]');if(!a)return;
 var t=a.getAttribute('data-copyfeed'),box=a.closest('.mz-nl'),note=box&&box.querySelector('.mz-steps');
-function done(ok){if(note)note.innerHTML=ok?'<b>Copied.</b> In the Blogtrottr tab, paste into <b>Feed URL</b>, add your email, pick the schedule, press <b>Feed Me</b>, then confirm from your inbox.':'Copy the feed address shown under the button, then paste it into <b>Feed URL</b> on Blogtrottr.'}
+function done(ok){if(note)note.innerHTML=ok?'<b>Copied '+t+'</b>. In the Blogtrottr tab, paste it into <b>Feed URL</b> (keep the https://), add your email, pick the schedule, press <b>Feed Me</b>, then confirm from your inbox.':'Copy the full address shown under the button, starting with https://, and paste it into <b>Feed URL</b> on Blogtrottr.'}
 function legacy(){var x=document.createElement('textarea');x.value=t;x.style.position='fixed';x.style.opacity='0';document.body.appendChild(x);x.select();var r=false;try{r=document.execCommand('copy')}catch(_){}document.body.removeChild(x);done(r)}
 try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done(true)},legacy)}else legacy()}catch(_){legacy()}
 });})();</script>`;
