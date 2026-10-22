@@ -16,6 +16,7 @@ import { highlightHtml as midtermsHighlight } from './midtermsPage.mjs';
 import { esc, num } from './_html.mjs';
 import { baselinePhrase, baselineCompact } from '../../collector/forward-coverage.mjs';
 import * as brand from '../brand.mjs';
+import { BOUNDARY, DEADBAND } from '../../collector/engine.mjs';
 
 import { blocks, pixelText, icon } from './_pixel.mjs';
 import { sponsorLine, signupBox, tipLink, MZ_CSS, MONETIZE, polymarketUrl } from '../monetize.mjs';
@@ -73,19 +74,23 @@ function scaleRail(state, href) {
     ? state.previous_level : null;
   const score = Number.isFinite(state.score) ? num(state.score, 1) : '—';
   const stages = [...brand.LEVELS].sort((a, b) => b.level - a.level);
+  const band = levelFromScore(state.score);
   const cells = stages.map((s) => {
     const live = s.level === level;
+    const here = band !== null && s.level === band;
     const was = prev === s.level;
     const color = (LEVEL[s.level] || LEVEL[4]).color;
-    const mark = live
+    const mark = live && here
       ? `<b class="v2-scale__now">${esc(score)}</b><span class="v2-scale__k">NOW</span>`
-      : (was ? `<span class="v2-scale__k was">WAS</span>` : '');
-    return `<li class="v2-scale__st${live ? ' on' : ''}${was ? ' was' : ''}"${live ? ' aria-current="true"' : ''} style="--sc:${color}">
+      : here ? `<b class="v2-scale__now">${esc(score)}</b><span class="v2-scale__k">SCORE</span>`
+        : live ? `<span class="v2-scale__k">LEVEL HELD</span>`
+          : (was ? `<span class="v2-scale__k was">WAS</span>` : '');
+    return `<li class="v2-scale__st${live ? ' on' : ''}${here && !live ? ' score' : ''}${was ? ' was' : ''}"${live ? ' aria-current="true"' : ''} style="--sc:${color}">
       <span class="v2-scale__slot">${mark}</span>
       <span class="v2-scale__n">${esc(s.level)}</span>
       <span class="v2-scale__name">${esc(s.name)}</span>
       <span class="v2-scale__band">${esc(s.band[0])}–${esc(s.band[1])}</span>
-      <span class="v2-sr">${esc(brand.NAME)} ${esc(s.level)}, ${esc(s.name)}, band ${esc(s.band[0])} to ${esc(s.band[1])}.${live ? ` Current stage at ${score} of 100.` : (was ? ' Previous stage.' : '')}</span>
+      <span class="v2-sr">${esc(brand.NAME)} ${esc(s.level)}, ${esc(s.name)}, band ${esc(s.band[0])} to ${esc(s.band[1])}.${live ? ' Current level.' : ''}${here ? ` The score, ${score} of 100, is in this band.` : ''}${was ? ' Previous stage.' : ''}</span>
     </li>`;
   }).join('');
   return `<ol class="v2-scale" aria-label="${esc(brand.NAME)} scale, coolest first. ${esc(brand.NAME)} ${esc(level)} is current.">${cells}</ol>
@@ -482,7 +487,7 @@ function dial(state, L) {
   // Progress track: thin inner arc showing 0→score fill so the reading is obvious at a glance.
   const [px0, py0] = pt(0, R - 34), [px1, py1] = pt(Math.max(0.5, v), R - 34);
   const progress = has
-    ? `<path d="M${px0.toFixed(1)} ${py0.toFixed(1)}A${R - 34} ${R - 34} 0 ${v > 50 ? 1 : 0} 1 ${px1.toFixed(1)} ${py1.toFixed(1)}" stroke="${L.color}" stroke-width="6" fill="none" opacity=".9" stroke-linecap="round"/>`
+    ? `<path d="M${px0.toFixed(1)} ${py0.toFixed(1)}A${R - 34} ${R - 34} 0 0 1 ${px1.toFixed(1)} ${py1.toFixed(1)}" stroke="${bandColorOf(v)}" stroke-width="6" fill="none" opacity=".9" stroke-linecap="round"/>`
     : '';
   const ang = 180 * (v / 100) - 90;
   const needle = has
@@ -496,10 +501,25 @@ function dial(state, L) {
   return `<svg class="v2-dial" viewBox="0 0 320 222" role="img" aria-label="${has ? `Score ${v.toFixed(1)} of 100, SIREN ${state.level}${deg ? ', degraded' : ''}` : 'No score'}">
 ${BAND.map(([a, b, c]) => arc(a, b, c)).join('')}${ticks}${progress}${needle}
 <text x="${cx}" y="${cy + 50}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="700" font-size="40" fill="#fff"${has ? ` data-count="${v.toFixed(1)}"` : ''}>${label}</text>
-<text x="${cx}" y="${cy + 68}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="${deg ? '#FACC15' : L.color}" letter-spacing="1.5">${sub}</text></svg>`;
+<text x="${cx}" y="${cy + 68}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="${deg ? '#FACC15' : bandColorOf(v)}" letter-spacing="1.5">${sub}</text></svg>`;
 }
 
 function levelFromScore(v) { if (!Number.isFinite(v)) return null; const i = BAND.findIndex(([a, b]) => v >= a && v < b); return i < 0 ? 1 : 5 - i; }
+function bandColorOf(v) { const l = levelFromScore(v); return (LEVEL[l] || LEVEL[4]).color; }
+/** When the score sits in another band than the held level: what it takes to move. */
+function heldInfo(state) {
+  const band = levelFromScore(state.score);
+  if (band === null || band === state.level) return null;
+  const up = band < state.level; // 1 is loudest
+  const t = up ? BOUNDARY[state.level] + DEADBAND : BOUNDARY[state.level + 1] - DEADBAND;
+  const name = (brand.LEVELS.find((x) => x.level === band) || {}).name || '';
+  return { band, name, up, threshold: t, color: (LEVEL[band] || LEVEL[4]).color };
+}
+function heldStrip(state, href) {
+  const h = heldInfo(state);
+  if (!h) return '';
+  return `<p class="v2-held" style="--hc:${h.color}"><b>SCORE IN THE ${esc(brand.NAME)} ${h.band} BAND · ${esc(h.name)}</b> <span>The level stays at ${esc(brand.NAME)} ${esc(state.level)} until the score holds ${h.up ? 'above' : 'below'} ${h.threshold.toFixed(1)}, so it does not flicker at the line. <a href="${esc(href('/methodology.html'))}">Why levels hold</a></span></p>`;
+}
 function deltaAt(rows, nowMs, hours) {
   const cur = rows[rows.length - 1]; if (!cur) return null;
   const target = nowMs - hours * 3600e3;
@@ -1004,7 +1024,7 @@ export function render(ctx, { head }) {
   const hot = breakingBar(ctx, href, top, { href: breakHref, external: breakExternal, source: breakSource });
   const hotBand = hot ? `<div class="v2-hotband${hot.includes('is-breaking') ? ' on' : ''}"><div class="v2-wrap">${hot}</div></div>` : '';
   const body = `
-<div class="v2" data-level="${esc(state.level)}" style="--lv:${L.color};--lvg:${L.ground};--lvink:#05070B;--ui:#E8ECF2;--uig:#141B27;--uiink:#05070B;--link:#8EC5FF">
+<div class="v2" data-level="${esc(state.level)}" style="--lv:${L.color};--lvg:${L.ground};--sb:${Number.isFinite(state.score) ? bandColorOf(state.score) : L.color};--lvink:#05070B;--ui:#E8ECF2;--uig:#141B27;--uiink:#05070B;--link:#8EC5FF">
 <div class="v2-top"><div class="v2-wrap">
   <span class="v2-chip v2-top__x">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
   <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}">SIREN SCORE UPDATED <b>${esc(hhmm(state.generated_at))}</b> · HOURLY</span>
@@ -1046,6 +1066,7 @@ ${ticker(items, href)}
         <span class="lbl">OF 100${deltaTxt ? ` · ${deltaTxt}` : ''}</span>
       </div>
     </div>
+    ${heldStrip(state, href)}
     <p class="v2-plain">${esc(plainRead(state))}</p>
     ${phoneFold(wm, state, rows, href)}
   </section>
@@ -1323,6 +1344,11 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 @media (prefers-reduced-motion:reduce){.v2-hot__badge i{animation:none}}
 .v2-signup{margin:18px 0;padding:20px 22px;border:1px solid #2B3445;border-top:3px solid var(--lv);background:#0C111A}
 .v2 .tag.v2-getbrief{border-color:var(--ui);background:var(--ui);color:var(--uiink);font-weight:700;text-decoration:none}
+.v2-held{margin:0;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding:10px 14px;border:2px solid var(--hc);border-left-width:8px;background:color-mix(in srgb,var(--hc) 12%,#05070B);font:500 14px/1.45 'IBM Plex Sans',system-ui,sans-serif;color:#E6EAF0}
+.v2-held b{font:700 13px/1.3 'IBM Plex Mono',monospace;letter-spacing:.08em;color:var(--hc)}
+.v2-held a{color:var(--hc);text-decoration:underline;text-underline-offset:3px}
+.v2-scale__st.score{border-color:var(--sc)!important;background:color-mix(in srgb,var(--sc) 14%,#0A0E16)!important}
+.v2-scale__st.score .v2-scale__now,.v2-scale__st.score .v2-scale__k{color:var(--sc)}
 .v2-banner{border:2px solid var(--lv);background:var(--lvg);padding:26px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;animation:v2glow 3s ease-in-out infinite}
 .v2-banner .col{display:flex;flex-direction:column;gap:12px;flex:1 1 320px;min-width:0}
 .v2-banner .lbl{font-size:15px;font-weight:700;letter-spacing:.1em;color:var(--lv)}
@@ -1596,8 +1622,8 @@ const PHONE_CSS = `
   .v2-plain{font-size:13px;line-height:1.38;overflow-wrap:anywhere}
   .v2-phone{display:flex;flex-direction:column;gap:6px;padding:8px 10px;border:2px solid color-mix(in srgb,var(--ui) 45%,#000);background:#0A0E16}
   .v2-phone__spark{display:block;width:100%;height:32px}
-  .v2-phone__spark path{fill:none;stroke:var(--lv);stroke-width:2;stroke-linejoin:round}
-  .v2-phone__spark circle{fill:var(--lv)}
+  .v2-phone__spark path{fill:none;stroke:var(--sb,var(--lv));stroke-width:2;stroke-linejoin:round}
+  .v2-phone__spark circle{fill:var(--sb,var(--lv))}
   .v2-phone__mv{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
   .v2-phone__mv li{display:flex;flex-direction:column;gap:2px;min-width:0;padding:6px 6px 8px;border-top:3px solid var(--ui);background:#060A10}
   .v2-phone__mv span{font-size:9.5px;font-weight:700;letter-spacing:.05em;color:#AEB7C3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

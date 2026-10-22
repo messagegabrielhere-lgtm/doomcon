@@ -61,3 +61,25 @@ describe('daily brief feed', () => {
     assert.match(xml, /https:\/\/siren\.watch\/news\/2026-10-20\.html/);
   });
 });
+
+describe('dial and held level', () => {
+  const held = () => base({ state: { generated_at: '2026-10-22T11:00:00Z', score: 56.5, level: 4, level_name: 'ROUTINE', rule_fired: 'deadband', pillars: [] } });
+  it('draws the progress arc the short way round, in the score band colour', () => {
+    const html = render(held(), { head: '<head></head>' });
+    const arc = html.match(/<path d="M[^"]*A86 86 0 (\d) 1 [^"]*" stroke="([^"]+)" stroke-width="6"/);
+    assert.ok(arc, 'progress arc present');
+    assert.equal(arc[1], '0');
+    assert.equal(arc[2], '#FACC15');
+  });
+  it('says when the score sits in a hotter band than the held level', () => {
+    const html = render(held(), { head: '<head></head>' });
+    assert.match(html, /SCORE IN THE SIREN 3 BAND/);
+    assert.match(html, /stays at SIREN 4 until the score holds above 58\.0/);
+    assert.match(html, /class="v2-scale__st score"[\s\S]*?56\.5[\s\S]*?SCORE/);
+    assert.match(html, /LEVEL HELD/);
+  });
+  it('shows nothing extra when score and level agree', () => {
+    const html = render(base(), { head: '<head></head>' });
+    assert.doesNotMatch(html, /class="v2-held"/);
+  });
+});

@@ -41,7 +41,7 @@ describe('home: phone fold', () => {
   it('orders breaking, reading, signup first on phones and accents with the level colour', () => {
     const css = html.match(/\.v2-main>\.v2-hot\{order:-4[\s\S]*?\.v2-main>\.v2-signup\{order:-2/);
     assert.ok(css, 'phone order rules present');
-    assert.match(html, /\.v2-phone__spark path\{fill:none;stroke:var\(--lv\)/);
+    assert.match(html, /\.v2-phone__spark path\{fill:none;stroke:var\(--sb,var\(--lv\)\)/); // the score sparkline takes the score band colour
     assert.doesNotMatch(html.match(/class="v2-phone"[\s\S]*?<\/div>/)[0], /#[0-9A-F]{6}/i);
   });
 
