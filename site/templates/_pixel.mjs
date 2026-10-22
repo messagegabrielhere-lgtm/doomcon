@@ -7,17 +7,21 @@ import { esc } from './_html.mjs';
 // ---------- pixel helpers (crisp vector blocks, merged per row) ----------
 export function blocks(rows, pal, k, extra = '') {
   let w = 0; for (const r of rows) if (r.length > w) w = r.length;
-  let out = '';
+  // One <path> per colour instead of one <rect> per run: the homepage drew
+  // ~3,000 rect nodes for its pixel type, which dominated parse and layout.
+  const runs = new Map();
   rows.forEach((r, y) => {
     let x = 0;
     while (x < r.length) {
       const ch = r[x]; const c = pal[ch];
       if (!c) { x++; continue; }
       let x2 = x; while (x2 < r.length && r[x2] === ch) x2++;
-      out += `<rect x="${x}" y="${y}" width="${x2 - x}" height="1" fill="${c}"/>`;
+      runs.set(c, (runs.get(c) || '') + `M${x} ${y}h${x2 - x}v1h${x - x2}z`);
       x = x2;
     }
   });
+  let out = '';
+  for (const [c, d] of runs) out += `<path d="${d}" fill="${c}"/>`;
   return `<svg class="v2-px"${extra} width="${w * k}" height="${rows.length * k}" viewBox="0 0 ${w} ${rows.length}" shape-rendering="crispEdges" aria-hidden="true">${out}</svg>`;
 }
 
