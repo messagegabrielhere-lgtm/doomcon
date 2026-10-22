@@ -70,6 +70,8 @@ def main():
             v = verdict(p, px)
         except Exception as e:
             px, v = None, f"ERR {type(e).__name__}: {str(e)[:120]}"
+        if v in ("STOP", "TARGET", "TRAIL") and p.get("snooze_until") and now < p["snooze_until"]:
+            v += "(snoozed: live quote checked OK)"
         if v in ("STOP", "TARGET", "TRAIL"):
             breach = True
         lines.append(f"{p['id']} px={px} stop={p.get('stop')} target={p.get('target')} high={p.get('high')} -> {v} | {p.get('action','')}")
