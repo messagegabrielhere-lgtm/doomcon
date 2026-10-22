@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-22T14:55:20.883Z",
+  "generated_at": "2026-10-22T15:38:06.495Z",
   "affects_index": false,
   "week": {
     "start": "2026-10-12",
@@ -13,37 +13,37 @@
     "repos": [
       {
         "repo": "pytorch/pytorch",
-        "merged": 12,
+        "merged": 0,
+        "agent_merged": 0,
+        "share": null,
+        "by_agent": [],
+        "approximate": true
+      },
+      {
+        "repo": "huggingface/transformers",
+        "merged": 150,
         "agent_merged": 0,
         "share": 0,
         "by_agent": [
           {
-            "key": "app:devin-ai-integration",
-            "name": "Devin",
+            "key": "app:copilot-swe-agent",
+            "name": "GitHub Copilot agent",
             "prs": null,
-            "error": "HTTP 403 Forbidden from https://api.github.com/search/issues?q=is%3Apr%20is%3Ame"
+            "error": "HTTP 403 rate limit exceeded from https://api.github.com/search/issues?q=is%3Apr"
           }
         ],
         "approximate": true
       },
       {
-        "repo": "huggingface/transformers",
-        "merged": 149,
-        "agent_merged": 0,
-        "share": 0,
-        "by_agent": [],
-        "approximate": true
-      },
-      {
         "repo": "vllm-project/vllm",
-        "merged": 503,
-        "agent_merged": 17,
-        "share": 0.0338,
+        "merged": 507,
+        "agent_merged": 11,
+        "share": 0.0217,
         "by_agent": [
           {
-            "key": "head:codex/",
-            "name": "OpenAI Codex",
-            "prs": 17
+            "key": "head:claude/",
+            "name": "Claude Code",
+            "prs": 11
           }
         ],
         "approximate": true
@@ -53,20 +53,25 @@
         "merged": 193,
         "agent_merged": 0,
         "share": 0,
-        "by_agent": [],
-        "approximate": true
+        "by_agent": []
       },
       {
         "repo": "ggml-org/llama.cpp",
         "merged": 184,
-        "agent_merged": 0,
-        "share": 0,
-        "by_agent": []
+        "agent_merged": 3,
+        "share": 0.0163,
+        "by_agent": [
+          {
+            "key": "head:codex/",
+            "name": "OpenAI Codex",
+            "prs": 3
+          }
+        ]
       }
     ],
-    "total_merged": 1041,
-    "total_agent": 17,
-    "share": 0.0163,
+    "total_merged": 1034,
+    "total_agent": 14,
+    "share": 0.0135,
     "note": "Agent PRs = merged pulls from a coding agent’s GitHub app account or from a branch named with an agent’s default prefix (codex/, claude/, …), same roster as Takeover Watch. Counts are summed across separate searches, so the share is an upper-bound proxy."
   },
   "horizon": {
@@ -624,15 +629,15 @@
       {
         "id": "openai",
         "name": "OpenAI",
-        "days_silent": 0,
-        "news_7d": 41,
+        "days_silent": 1,
+        "news_7d": 42,
         "flag": "normal",
         "median_gap_days": null,
         "principals": [
           {
             "id": "altman",
             "name": "Sam Altman",
-            "days_silent": 0,
+            "days_silent": 1,
             "state": "on_record",
             "reason": null,
             "last_statement_at": "2026-10-21T14:32:34.000Z"
@@ -651,7 +656,7 @@
         "id": "anthropic",
         "name": "Anthropic",
         "days_silent": 1,
-        "news_7d": 34,
+        "news_7d": 36,
         "flag": "normal",
         "median_gap_days": null,
         "principals": [
@@ -669,7 +674,7 @@
         "id": "google-deepmind",
         "name": "Google DeepMind",
         "days_silent": 0,
-        "news_7d": 3,
+        "news_7d": 4,
         "flag": "normal",
         "median_gap_days": null,
         "principals": [
@@ -713,7 +718,7 @@
         "id": "meta",
         "name": "Meta",
         "days_silent": 0,
-        "news_7d": 36,
+        "news_7d": 35,
         "flag": "normal",
         "median_gap_days": null,
         "principals": [
@@ -731,7 +736,7 @@
         "id": "deepseek",
         "name": "DeepSeek",
         "days_silent": null,
-        "news_7d": 22,
+        "news_7d": 27,
         "flag": "unread",
         "median_gap_days": null,
         "principals": [
