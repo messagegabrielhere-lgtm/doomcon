@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-22T14:13:46.024Z",
+  "generated_at": "2026-10-22T14:55:20.883Z",
   "affects_index": false,
   "week": {
     "start": "2026-10-12",
@@ -16,109 +16,57 @@
         "merged": 12,
         "agent_merged": 0,
         "share": 0,
-        "by_agent": []
-      },
-      {
-        "repo": "huggingface/transformers",
-        "merged": 147,
-        "agent_merged": 0,
-        "share": 0,
         "by_agent": [
-          {
-            "key": "app:copilot-swe-agent",
-            "name": "GitHub Copilot agent",
-            "prs": null,
-            "error": "HTTP 403 Forbidden from https://api.github.com/search/issues?q=is%3Apr%20is%3Ame"
-          },
           {
             "key": "app:devin-ai-integration",
             "name": "Devin",
             "prs": null,
             "error": "HTTP 403 Forbidden from https://api.github.com/search/issues?q=is%3Apr%20is%3Ame"
-          },
-          {
-            "key": "head:jules/",
-            "name": "Google Jules",
-            "prs": null,
-            "error": "HTTP 403 Forbidden from https://api.github.com/search/issues?q=is%3Apr%20is%3Ame"
           }
         ],
         "approximate": true
       },
       {
+        "repo": "huggingface/transformers",
+        "merged": 149,
+        "agent_merged": 0,
+        "share": 0,
+        "by_agent": [],
+        "approximate": true
+      },
+      {
         "repo": "vllm-project/vllm",
-        "merged": 499,
-        "agent_merged": 27,
-        "share": 0.0541,
+        "merged": 503,
+        "agent_merged": 17,
+        "share": 0.0338,
         "by_agent": [
           {
             "key": "head:codex/",
             "name": "OpenAI Codex",
-            "prs": 16
-          },
-          {
-            "key": "head:claude/",
-            "name": "Claude Code",
-            "prs": 11
+            "prs": 17
           }
-        ]
+        ],
+        "approximate": true
       },
       {
         "repo": "jax-ml/jax",
-        "merged": 192,
-        "agent_merged": 1,
-        "share": 0.0052,
-        "by_agent": [
-          {
-            "key": "app:chatgpt-codex-connector",
-            "name": "OpenAI Codex",
-            "prs": null,
-            "error": "HTTP 403 Forbidden from https://api.github.com/search/issues?q=is%3Apr%20is%3Ame"
-          },
-          {
-            "key": "head:codex/",
-            "name": "OpenAI Codex",
-            "prs": 1
-          },
-          {
-            "key": "head:jules/",
-            "name": "Google Jules",
-            "prs": null,
-            "error": "HTTP 403 Forbidden from https://api.github.com/search/issues?q=is%3Apr%20is%3Ame"
-          },
-          {
-            "key": "head:devin/",
-            "name": "Devin",
-            "prs": null,
-            "error": "HTTP 403 Forbidden from https://api.github.com/search/issues?q=is%3Apr%20is%3Ame"
-          }
-        ],
+        "merged": 193,
+        "agent_merged": 0,
+        "share": 0,
+        "by_agent": [],
         "approximate": true
       },
       {
         "repo": "ggml-org/llama.cpp",
         "merged": 184,
-        "agent_merged": 3,
-        "share": 0.0163,
-        "by_agent": [
-          {
-            "key": "head:codex/",
-            "name": "OpenAI Codex",
-            "prs": 3
-          },
-          {
-            "key": "head:claude/",
-            "name": "Claude Code",
-            "prs": null,
-            "error": "HTTP 403 Forbidden from https://api.github.com/search/issues?q=is%3Apr%20is%3Ame"
-          }
-        ],
-        "approximate": true
+        "agent_merged": 0,
+        "share": 0,
+        "by_agent": []
       }
     ],
-    "total_merged": 1034,
-    "total_agent": 31,
-    "share": 0.03,
+    "total_merged": 1041,
+    "total_agent": 17,
+    "share": 0.0163,
     "note": "Agent PRs = merged pulls from a coding agent’s GitHub app account or from a branch named with an agent’s default prefix (codex/, claude/, …), same roster as Takeover Watch. Counts are summed across separate searches, so the share is an upper-bound proxy."
   },
   "horizon": {
@@ -677,7 +625,7 @@
         "id": "openai",
         "name": "OpenAI",
         "days_silent": 0,
-        "news_7d": 53,
+        "news_7d": 41,
         "flag": "normal",
         "median_gap_days": null,
         "principals": [
@@ -703,7 +651,7 @@
         "id": "anthropic",
         "name": "Anthropic",
         "days_silent": 1,
-        "news_7d": 40,
+        "news_7d": 34,
         "flag": "normal",
         "median_gap_days": null,
         "principals": [
@@ -765,7 +713,7 @@
         "id": "meta",
         "name": "Meta",
         "days_silent": 0,
-        "news_7d": 38,
+        "news_7d": 36,
         "flag": "normal",
         "median_gap_days": null,
         "principals": [
@@ -783,7 +731,7 @@
         "id": "deepseek",
         "name": "DeepSeek",
         "days_silent": null,
-        "news_7d": 25,
+        "news_7d": 22,
         "flag": "unread",
         "median_gap_days": null,
         "principals": [
@@ -801,7 +749,7 @@
         "id": "mistral",
         "name": "Mistral",
         "days_silent": null,
-        "news_7d": 5,
+        "news_7d": 4,
         "flag": "quiet",
         "median_gap_days": null,
         "principals": [
@@ -819,7 +767,7 @@
         "id": "qwen",
         "name": "Qwen",
         "days_silent": null,
-        "news_7d": 10,
+        "news_7d": 7,
         "flag": "unread",
         "median_gap_days": null,
         "principals": []
