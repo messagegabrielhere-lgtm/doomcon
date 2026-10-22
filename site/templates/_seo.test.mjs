@@ -848,6 +848,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Takeoff Tracker alternative'));
     assert.ok(org.knowsAbout.includes('Pentagon Pizza Index alternative'));
     assert.ok(org.alternateName.includes('AI Siren Index'));
+    assert.ok(org.alternateName.includes('siren.watch'));
+    assert.match(org.disambiguatingDescription, /Not the SIREN crypto token/);
   });
 
   it('webPage carries dateModified when the reading stamp is known', () => {
