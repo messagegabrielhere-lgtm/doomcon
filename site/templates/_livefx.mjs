@@ -99,7 +99,9 @@ root.classList.add("lf-armed");
 var targets = [].slice.call(document.querySelectorAll(".v2 .v2-card, .v2 .v2-rgroup"));
 // Sparklines: measure each path once so it can draw itself on view.
 [].forEach.call(document.querySelectorAll(".v2 .v2-spark path, .v2 .v2-hchart path"), function(p){
-  try { var L = Math.ceil(p.getTotalLength()); if (L > 0) { p.style.setProperty("--len", L); p.classList.add("lf-draw"); } } catch (e) {}
+  // pathLength=1 normalises the dash maths, so no getTotalLength(): that call
+  // forced a synchronous layout per path and cost ~250 ms on a phone.
+  if (p.getAttribute("d")) { p.setAttribute("pathLength", "1"); p.style.setProperty("--len", 1); p.classList.add("lf-draw"); }
 });
 function reveal(el){ el.classList.add("lf-in"); [].forEach.call(el.querySelectorAll(".lf-draw"), function(p){ p.classList.add("lf-done"); }); }
 if ("IntersectionObserver" in window) {
