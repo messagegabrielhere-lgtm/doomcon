@@ -48,7 +48,7 @@
    "occ": "NOK261030P00008000",
    "qty": 1,
    "cost": 0.24,
-   "stop": 0.24,
+   "stop": 0.3,
    "target": 0.48,
    "trail_pct": 50,
    "trail_from": 0.48,
@@ -56,29 +56,5 @@
    "high": 0.42
   }
  ],
- "watches": [
-  {
-   "id": "W_NOK_LOW",
-   "type": "stock",
-   "symbol": "NOK",
-   "side": "below",
-   "trigger": 8.15,
-   "score": 4,
-   "setup": "NOK new low (<8.15) after -10.7% own-news drop: buy 1 NOK 2026-10-30 $8 put (instrument 6f96a024-21d9-4029-a15c-2bb6a05a4aba) limit at mid if <= $0.25 and spread <= 3 ticks; non-index driver; -50% stop / +100% target; DEBATE + STRESS first",
-   "expires": "2026-10-23",
-   "fired": "2026-10-22T16:34Z",
-   "ack": true
-  },
-  {
-   "id": "W_RIOT_LOW",
-   "type": "stock",
-   "symbol": "RIOT",
-   "side": "below",
-   "trigger": 12.7,
-   "score": 3,
-   "setup": "RIOT new low (<12.70) with BTC still under its midnight mark and SM-BEAR: buy 1 RIOT 2026-10-30 $12 put (instrument 6225f361-ef1d-40ee-a40a-09350ea62fa2) limit <= $0.35 at mid; BTC-beta driver (MARA put = 1 of 2); -50% stop / +100% target; DEBATE + STRESS first | 14:15 broke (12.685) but $12 put $0.46 mid ($46 > $35 cap, spread 17%) -> SKIP",
-   "expires": "2026-10-23",
-   "ack": true
-  }
- ]
+ "watches": []
 }
