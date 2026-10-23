@@ -42,5 +42,26 @@
    "high": 39.7874
   }
  ],
- "watches": []
+ "watches": [
+  {
+   "id": "MG_SQQQ41",
+   "type": "stock",
+   "symbol": "SQQQ",
+   "side": "above",
+   "trigger": 41.0,
+   "score": "mgmt",
+   "expires": "2026-10-23",
+   "setup": "MANAGEMENT (no entry): SQQQ >= $41 -> cancel+replace both OCOs (6ada1200, 6ada27f2) with stops at break-even or better (>= 38.13 / 38.87), same targets; then ack"
+  },
+  {
+   "id": "MG_QQQ725",
+   "type": "stock",
+   "symbol": "QQQ",
+   "side": "above",
+   "trigger": 725.2,
+   "score": "mgmt",
+   "expires": "2026-10-23",
+   "setup": "MANAGEMENT (no entry): QQQ back above 10/21 close 725.20 = SQQQ INVALID -> cancel both OCOs and sell both SQQQ shares; then ack"
+  }
+ ]
 }
