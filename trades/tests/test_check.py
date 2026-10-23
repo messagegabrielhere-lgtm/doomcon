@@ -24,3 +24,18 @@ def test_watch():
 if __name__ == "__main__":
     for n, f in list(globals().items()):
         if n.startswith("test_"): f(); print("ok", n)
+
+def test_option_debounce(tmp=None):
+    import json, tempfile, pathlib as pl
+    d = pl.Path(tempfile.mkdtemp())
+    check.WATCH, check.STATUS = d / "watch.json", d / "status.txt"
+    row = {"id": "X", "type": "option", "symbol": "MARA", "occ": "O", "cost": 0.16, "stop": 0.06, "target": 0.32}
+    check.WATCH.write_text(json.dumps({"positions": [row], "watches": []}))
+    check.price = lambda p: 0.05                      # below stop
+    check.main(); assert check.STATUS.read_text().startswith("OK"), "first reading must not BREACH"
+    check.main(); assert check.STATUS.read_text().startswith("BREACH"), "second reading must BREACH"
+    check.price = lambda p: 0.15
+    check.main(); assert "breach_n" not in json.loads(check.WATCH.read_text())["positions"][0]
+
+if __name__ == "__main__":
+    test_option_debounce(); print("ok test_option_debounce")

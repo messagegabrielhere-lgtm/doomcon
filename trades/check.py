@@ -70,6 +70,13 @@ def main():
             v = verdict(p, px)
         except Exception as e:
             px, v = None, f"ERR {type(e).__name__}: {str(e)[:120]}"
+        # Option quotes are ~15 min delayed and jumpy: need 2 consecutive breach readings before waking anyone.
+        if p.get("type") == "option":
+            if v in ("STOP", "TARGET", "TRAIL"):
+                p["breach_n"] = int(p.get("breach_n") or 0) + 1
+                if p["breach_n"] < 2: v += "(1st reading, confirming next check)"
+            else:
+                p.pop("breach_n", None)
         if v in ("STOP", "TARGET", "TRAIL") and p.get("snooze_until") and now < p["snooze_until"]:
             v += "(snoozed: live quote checked OK)"
         if v in ("STOP", "TARGET", "TRAIL"):
