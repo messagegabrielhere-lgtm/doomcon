@@ -148,3 +148,10 @@ describe('newsroom list weight', () => {
     assert.match(row, /Story number 129/);
   });
 });
+
+describe('newsroom first screen', () => {
+  it('folds the hub directories so stories come first', () => {
+    const html = render(ctx);
+    assert.match(html, /<details class="narch__dirs">\s*<summary>Browse by day, topic, outlet and more<\/summary>/);
+  });
+});
