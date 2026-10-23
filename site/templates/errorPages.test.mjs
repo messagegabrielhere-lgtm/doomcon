@@ -32,3 +32,12 @@ describe('error pages SEO body links', () => {
     assert.match(html, /noindex/);
   });
 });
+
+describe('404 search', () => {
+  it('offers a search box prefilled from the missing path, in present tense', () => {
+    const h = notFound({ url: (p) => `https://siren.watch${p}`, href: (p) => p, cardFor: () => null, state: { level: 4, level_name: 'ROUTINE', score: 53, generated_at: '2026-10-23T00:00:00Z', pillars: [] } });
+    assert.match(h, /<form class="nf__q" action="\/search\.html" method="get" role="search">/);
+    assert.match(h, /id="nf-q" name="q"/);
+    assert.doesNotMatch(h, /won't be back|will not impute/);
+  });
+});

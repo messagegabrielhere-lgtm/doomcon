@@ -40,14 +40,26 @@ export function render(ctx) {
 .nf__go { display: inline-block; margin-top: var(--s-2); padding: 9px var(--s-4); border: 1px solid var(--rule);
   border-radius: var(--radius); background: var(--bg-raised); color: var(--ink); text-decoration: none;
   font: 600 var(--t-sm)/1.2 var(--sans); }
+.nf__q { margin: var(--s-4) 0 var(--s-2); }
+.nf__q label { display: block; font: 600 var(--t-sm)/1.3 var(--sans); color: var(--ink-dim); margin-bottom: 6px; }
+.nf__q div { display: flex; gap: 8px; }
+.nf__q input { flex: 1 1 auto; min-width: 0; min-height: 44px; padding: 0 12px; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--bg-sunken); color: var(--ink); font: 400 16px/1.2 var(--sans); }
+.nf__q button { min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--radius); background: var(--ink); color: var(--bg-sunken); font: 700 var(--t-sm)/1 var(--sans); cursor: pointer; }
+.nf__links { font: 400 var(--t-sm)/1.6 var(--sans); }
 .nf__go:hover { border-color: var(--accent-2); color: var(--accent-2); }
 </style>
 <section class="nf">
   <p class="eyebrow">Page status · dark</p>
   <div class="nf__top"><p class="nf__code num">404</p>${seal(ctx, { size: 150, id: 'seal-nf' })}${mascot({ size: 96, level: 5 })}</div>
   <h1 class="nf__h">Nothing detected at this address.</h1>
-  <p class="lede"><b>This page won't be back.</b> The rest of the site will.</p>
-  <p class="lede">This site never imputes a missing value, and it will not impute a missing page.
+  <p class="lede"><b>This page is not here.</b> The rest of the site is.</p>
+  <form class="nf__q" action="${esc(ctx.href('/search.html'))}" method="get" role="search">
+    <label for="nf-q">Search the site for what you were after</label>
+    <div><input id="nf-q" name="q" type="search" autocomplete="off"><button type="submit">Search</button></div>
+  </form>
+  <script>(function(){try{var w=decodeURIComponent(location.pathname).replace(/\.html?$/,'').split(/[\/_.-]+/).filter(function(x){return x&&!/^\d+$/.test(x)&&x.length>2}).slice(-4).join(' ');var i=document.getElementById('nf-q');if(i&&w)i.value=w}catch(e){}})();</script>
+  <p class="nf__links"><a href="${esc(ctx.href('/news.html'))}">News</a> · <a href="${esc(ctx.href('/race.html'))}">AI race</a> · <a href="${esc(ctx.href('/midterms.html'))}">Midterms</a> · <a href="${esc(ctx.href('/search.html'))}">Every page</a></p>
+  <p class="lede">This site never imputes a missing value, and it does not impute a missing page.
     There is no reading here, so none is printed. ${reading}</p>
   <ul class="nf__rows">
     <li><span>Sources reporting this page exists</span><b>0</b></li>
