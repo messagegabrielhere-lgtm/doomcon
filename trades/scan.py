@@ -253,17 +253,35 @@ def market_link(cl, bench):
     resid = (ra[-1] - b * rb[-1]) * 100 if b is not None and ra and rb else None
     return {"beta": b, "corr": c, "z": zscore(cl), "resid": resid}
 
+def unusual(sym, data, today, min_vol=1000, ratio=3.0, max_dte=14):
+    """Unusual options activity: contracts trading far more than their open interest today
+    (fresh positioning, the kind seen before big news moves). Context only, never a trade signal alone."""
+    spot = float(data.get("current_price") or 0); out = []
+    for o in data.get("options") or []:
+        k = occ_parse(o.get("option"))
+        if not k or not spot: continue
+        dte = (k["exp"] - today).days
+        if not 0 <= dte <= max_dte: continue
+        vol = int(float(o.get("volume") or 0)); oi = int(float(o.get("open_interest") or 0))
+        if vol < min_vol or vol < ratio * max(oi, 1): continue
+        mid = (float(o.get("bid") or 0) + float(o.get("ask") or 0)) / 2 or float(o.get("last_trade_price") or 0)
+        otm = (k["strike"] / spot - 1) * 100
+        out.append({"sym": sym, "exp": k["exp"].strftime("%m/%d"), "strike": k["strike"], "side": k["side"], "vol": vol, "oi": oi,
+                    "x": round(vol / max(oi, 1), 1), "prem": round(vol * mid * 100), "otm": round(otm, 1)})
+    return sorted(out, key=lambda r: -r["prem"])[:3]
+
 def opt_screen(syms, trends, earn=(), budget=150, workers=6):
     B = Budget(budget); today = NOW.astimezone(NY).date()
     try: bench, _ = hist("QQQ")
     except Exception: bench = None
     def one(s):
         """Returns (status, rows, rejects) for one symbol; runs in a worker thread."""
-        if not B.ok(): return "skip", [], {}
+        if not B.ok(): return "skip", [], {}, []
         try:
             d = get(f"https://cdn.cboe.com/api/global/delayed_quotes/options/{s}.json", headers=CBOE_UA, timeout=15)["data"]
         except Exception:
-            return "err", [], {}
+            return "err", [], {}, []
+        uoa = unusual(s, d, today)
         tr, ml, why = trends.get(s), {}, {}
         if B.ok():
             try:
@@ -278,16 +296,18 @@ def opt_screen(syms, trends, earn=(), budget=150, workers=6):
             r.update({k: (round(v, 2) if v is not None else None) for k, v in ml.items()})
             r["idx"] = bool(ml.get("corr") is not None and ml["corr"] >= 0.6) or s in INDEX_BETA
             out.append(r)
-        return "ok", out, why
-    rows, scanned, errs, why = [], 0, 0, {}
+        return "ok", out, why, uoa
+    rows, scanned, errs, why, flow = [], 0, 0, {}, []
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        for st, rs, w in ex.map(one, syms):
+        for st, rs, w, u in ex.map(one, syms):
+            flow += u
             if st == "ok": scanned += 1
             elif st == "err": errs += 1
             rows += rs
             for k, v in w.items(): why[k] = why.get(k, 0) + v
     rows.sort(key=lambda r: (r["earn"], r["trend_ok"] is False, r["fit"] if r["fit"] is not None else 9, -r["oi"]))
-    return {"rows": rows[:12], "scanned": scanned, "errs": errs, "n": len(syms), "rejects": why}
+    flow.sort(key=lambda r: -r["prem"])
+    return {"rows": rows[:12], "scanned": scanned, "errs": errs, "n": len(syms), "rejects": why, "flow": flow[:6]}
 
 def stocks():
     out = {}
@@ -769,6 +789,7 @@ def main():
         t += " [trend]" if r["trend_ok"] else (" [counter]" if r["trend_ok"] is False else "")
         return t + (f" EARN {EARN_ALL.get(r['sym'], '')}-skip" if r["earn"] else "")
     L.append(f"OPTIONS AGGR-FIT ({op.get('scanned', 0)}/{op.get('n', 0)} chains; {OPT_RULES['dte'][0]}-{OPT_RULES['dte'][1]}DTE, |d|.25-.45, OI>=300, spr<=12%, ask<=$0.35; 2x@=underlying move that ~doubles it, EM=ATM straddle; b/r=60d beta/corr vs QQQ, z=20d z-score, resid=today's move net of beta, IDX=index-beta driver (one slot) else OWN; best fit first; ~15m delayed, re-quote live): " + ("; ".join(om(r) for r in op.get("rows", [])[:8]) or "none"))
+    L.append("UNUSUAL FLOW (option volume >= 3x open interest, >= 1000 contracts, <= 14 DTE, on the chains above; context only, never trade it alone): " + ("; ".join(f"{r['sym']} {r['exp']} {r['strike']:g}{r['side']} vol {r['vol']} vs OI {r['oi']} ({r['x']}x) ~${r['prem']:,} {r['otm']:+.0f}% from spot" for r in op.get("flow", [])) or "none"))
     cr = res.get("crowd", {})
     def cm(x):
         t = x["sym"] + ("*" if x["hit"] else "")

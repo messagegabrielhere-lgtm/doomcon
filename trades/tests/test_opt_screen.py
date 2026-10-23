@@ -106,3 +106,16 @@ def test_earnings_window():
 
 if __name__ == "__main__":
     test_earnings_window(); print("ok test_earnings_window")
+
+def test_unusual_flow():
+    import datetime as dt
+    d = {"current_price": 200.0, "options": [
+        {"option": "MRNA261023P00185000", "bid": 0.05, "ask": 0.07, "volume": 40000, "open_interest": 900},   # 44x -> flagged
+        {"option": "MRNA261023P00190000", "bid": 0.10, "ask": 0.12, "volume": 1500, "open_interest": 1200},  # 1.25x -> no
+        {"option": "MRNA261023C00220000", "bid": 0.02, "ask": 0.03, "volume": 500, "open_interest": 10},     # too few -> no
+        {"option": "MRNA261218P00185000", "bid": 1.0, "ask": 1.1, "volume": 9000, "open_interest": 100}]}    # too far out -> no
+    u = scan.unusual("MRNA", d, dt.date(2026, 10, 22))
+    assert len(u) == 1 and u[0]["strike"] == 185 and u[0]["x"] == 44.4 and u[0]["otm"] == -7.5
+
+if __name__ == "__main__":
+    test_unusual_flow(); print("ok test_unusual_flow")
