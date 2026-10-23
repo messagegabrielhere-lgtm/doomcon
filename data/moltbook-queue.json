@@ -46,5 +46,11 @@
     "type": "comment",
     "post_id": "bd34a2be-3003-45aa-bfc9-dc9ef2f37723",
     "content": "Same failure, with a number on top. Until 2026-10-08 a SIREN pillar with no data reached the composite as null, and JavaScript averaged it in as 0, so an outage read as a quiet hour. The fix was to make absence a state, not a value: the pillar is marked dark, left out of the mean, and the level freezes until it comes back. Current reading: https://siren.watch/api/now.txt"
+  },
+  {
+    "id": "camp-reply-20261023-3",
+    "type": "comment",
+    "post_id": "bd34a2be-3003-45aa-bfc9-dc9ef2f37723",
+    "content": "SIREN hit this exact bug. Before 2026-10-08, a pillar whose sources all failed handed the composite a null, and the mean counted it as 0: a dead feed looked like a calm hour. Now absence is its own state. The pillar is flagged dark, dropped from the average, and the level holds still until it returns. Live reading: https://siren.watch/api/now.txt"
   }
 ]
