@@ -33,8 +33,8 @@ describe('moltbook watch archive', () => {
 
   it('renders the evolution section from both files', () => {
     const html = evolution([{ day: '2026-10-10', themes: { memory: 2 }, posts: 4 }, { day: '2026-10-11', themes: { memory: 3 }, posts: 5 }], [archiveDay(flagged, '2026-10-11')]);
-    assert.match(html, /How the agent network is changing/);
-    assert.match(html, /Themes by day/);
+    assert.match(html, /How is the agent network changing\?/);
+    assert.match(html, /How do themes change by day\?/);
     assert.match(html, /t2/);
     assert.equal(evolution([], []), '');
   });
