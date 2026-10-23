@@ -253,31 +253,39 @@ def market_link(cl, bench):
     resid = (ra[-1] - b * rb[-1]) * 100 if b is not None and ra and rb else None
     return {"beta": b, "corr": c, "z": zscore(cl), "resid": resid}
 
-def opt_screen(syms, trends, earn=(), budget=150):
-    B = Budget(budget); today = NOW.astimezone(NY).date(); rows, scanned, errs, why = [], 0, 0, {}
+def opt_screen(syms, trends, earn=(), budget=150, workers=6):
+    B = Budget(budget); today = NOW.astimezone(NY).date()
     try: bench, _ = hist("QQQ")
     except Exception: bench = None
-    for s in syms:
-        if not B.ok(): break
+    def one(s):
+        """Returns (status, rows, rejects) for one symbol; runs in a worker thread."""
+        if not B.ok(): return "skip", [], {}
         try:
             d = get(f"https://cdn.cboe.com/api/global/delayed_quotes/options/{s}.json", headers=CBOE_UA, timeout=15)["data"]
         except Exception:
-            errs += 1; continue
-        scanned += 1
-        tr, ml = trends.get(s), {}
+            return "err", [], {}
+        tr, ml, why = trends.get(s), {}, {}
         if B.ok():
             try:
                 cl, _ = hist(s)
                 if tr is None and len(cl) > 21: tr = cl[-1] > sma(cl[:-1], 20)
                 if bench: ml = market_link(cl, bench)
             except Exception: pass
-        seen = set()
+        out, seen = [], set()
         for r in opt_pick(s, d, today, tr, why=why):
             if r["side"] in seen: continue
             seen.add(r["side"]); r["earn"] = s in earn
             r.update({k: (round(v, 2) if v is not None else None) for k, v in ml.items()})
             r["idx"] = bool(ml.get("corr") is not None and ml["corr"] >= 0.6) or s in INDEX_BETA
-            rows.append(r)
+            out.append(r)
+        return "ok", out, why
+    rows, scanned, errs, why = [], 0, 0, {}
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        for st, rs, w in ex.map(one, syms):
+            if st == "ok": scanned += 1
+            elif st == "err": errs += 1
+            rows += rs
+            for k, v in w.items(): why[k] = why.get(k, 0) + v
     rows.sort(key=lambda r: (r["earn"], r["trend_ok"] is False, r["fit"] if r["fit"] is not None else 9, -r["oi"]))
     return {"rows": rows[:12], "scanned": scanned, "errs": errs, "n": len(syms), "rejects": why}
 
@@ -654,6 +662,8 @@ def gate(c, m):
     except Exception: pass
     return ("CHECK " + "; ".join(why)) if why else "QUIET"
 
+# Liquid US-listed ADRs (options trade on Robinhood): China, LatAm, Asia, Europe
+INTL_ADR = ["BABA", "PDD", "JD", "BIDU", "NIO", "XPEV", "LI", "NU", "GRAB", "VALE", "PBR", "ITUB", "BBD", "ERIC", "NOK", "TSM"]
 INTL = ["VGK", "EWG", "EWU", "EWP", "EWJ", "FXI", "KWEB", "EWT", "EWY", "INDA", "EWZ", "EWW"]
 def intl():
     """Country ETFs (US-listed, tradable on RH): day % via Nasdaq info; flag |d|>=1.5."""
@@ -716,7 +726,10 @@ def main():
         trends.update({r["sym"]: False for r in st.get("puts", [])}); trends.update({r["sym"]: True for r in st.get("longs", [])})
         cand = list(dict.fromkeys(sorted(held_syms()) + [r["sym"] for r in st.get("puts", [])[:6]] + [r["sym"] for r in st.get("longs", [])[:4]]
                                   + [r["sym"] for r in (st.get("movers", {}).get("up", []) + st.get("movers", {}).get("down", [])) if (r.get("px") or 0) >= 3][:8] + OPT_FIXED))
-        cand = [x for x in cand if x.isalpha() and x not in ("QQQ", "SPY", "IWM")][:32]
+        it = res.get("intl", {})
+        intl_c = [r["sym"] for r in it.get("flag", [])][:4] + INTL_ADR      # flagged country ETFs first, then ADRs
+        cand = [x for x in cand if x.isalpha() and x not in ("QQQ", "SPY", "IWM")][:28]
+        cand = list(dict.fromkeys(cand + intl_c))[:40]
         earn = {e["sym"] for e in res.get("macro", {}).get("earnings", [])}
         left = 540 - (time.time() - T0)          # market-keeper kills scan.py at 600 s: never let options push it over
         log(f"start opts ({len(cand)} chains, {left:.0f}s left)")
@@ -748,6 +761,7 @@ def main():
         if r.get("z") is not None: t += f" z{r['z']:+.1f}"
         if r.get("resid") is not None: t += f" resid{r['resid']:+.1f}%"
         t += " IDX" if r.get("idx") else " OWN"
+        if r["sym"] in INTL or r["sym"] in INTL_ADR: t += " INTL"
         t += " [trend]" if r["trend_ok"] else (" [counter]" if r["trend_ok"] is False else "")
         return t + (" EARN-skip" if r["earn"] else "")
     L.append(f"OPTIONS AGGR-FIT ({op.get('scanned', 0)}/{op.get('n', 0)} chains; {OPT_RULES['dte'][0]}-{OPT_RULES['dte'][1]}DTE, |d|.25-.45, OI>=300, spr<=12%, ask<=$0.35; 2x@=underlying move that ~doubles it, EM=ATM straddle; b/r=60d beta/corr vs QQQ, z=20d z-score, resid=today's move net of beta, IDX=index-beta driver (one slot) else OWN; best fit first; ~15m delayed, re-quote live): " + ("; ".join(om(r) for r in op.get("rows", [])[:8]) or "none"))

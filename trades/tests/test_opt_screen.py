@@ -73,3 +73,22 @@ def test_market_link():
 
 if __name__ == "__main__":
     test_market_link(); print("ok test_market_link")
+
+def test_opt_screen_parallel():
+    import time
+    chain = dict(CHAIN)
+    def fake_get(url, **k):
+        time.sleep(0.05)
+        if "XERR" in url: raise RuntimeError("x")
+        return {"data": chain}
+    scan.get = fake_get
+    scan.hist = lambda s: ([10 + i * 0.01 for i in range(80)], [1] * 80)
+    scan.NOW = scan.datetime.datetime(2026, 10, 23, 14, tzinfo=scan.datetime.timezone.utc)
+    t0 = time.time()
+    o = scan.opt_screen(["MARA", "MARB", "XERR", "MARC"], {"MARA": False}, earn={"MARB"})
+    assert o["scanned"] == 3 and o["errs"] == 1 and time.time() - t0 < 1.0
+    assert o["rows"] and o["rows"][-1]["sym"] == "MARB"          # earnings names sort last
+    assert o["rejects"].get("oi") == 3
+
+if __name__ == "__main__":
+    test_opt_screen_parallel(); print("ok test_opt_screen_parallel")
