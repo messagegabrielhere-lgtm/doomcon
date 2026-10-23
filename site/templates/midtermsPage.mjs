@@ -96,7 +96,7 @@ const CSS = `<style>
 .mt-note{font-size:13px;color:#CBD5E1;margin:0 0 20px}
 .mt-race{border:1px solid #2A3446;background:#0A0E16;margin:0 0 14px;padding:14px 16px}
 .mt-race h3{margin:0 0 4px;font:700 15px/1.3 var(--sans);color:#fff}
-.mt-race .meta{font:600 11.5px/1.4 var(--mono);color:#6B7686;margin:0 0 10px}
+.mt-race .meta{font:600 11.5px/1.4 var(--mono);color:#8A94A3;margin:0 0 10px}
 .mt-cands{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .mt-cand{border:1px solid #232C3B;background:#0E131D;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
 .mt-cand .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
@@ -105,7 +105,7 @@ const CSS = `<style>
 .mt-cand .sum{font:400 13.5px/1.45 var(--sans);color:#AEB7C3;margin:0}
 .mt-cand .ev{font:400 12.5px/1.4 var(--sans);color:#94A3B8;margin:0;border-left:2px solid #334155;padding-left:10px}
 .mt-cand .ev a{color:#A5B4FC}
-.mt-cand .ev-k{font:600 11px/1.3 var(--mono);letter-spacing:.04em;color:#6B7686;display:block;margin-bottom:2px}
+.mt-cand .ev-k{font:600 11px/1.3 var(--mono);letter-spacing:.04em;color:#8A94A3;display:block;margin-bottom:2px}
 .mt-chip{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;font:800 10px/1 var(--mono);letter-spacing:.08em;background:var(--sc);color:var(--si)}
 .mt-x{appearance:none;border:1px solid #A5B4FC;background:#0B1020;color:#C7D2FE;padding:10px 14px;font:700 13px var(--mono);cursor:pointer;margin:8px 8px 8px 0}
 .mt-x:hover{background:#161D33}
@@ -116,13 +116,13 @@ const CSS = `<style>
 .mt-how ul{margin:0 0 10px;padding-left:1.2em}
 .mt-key{margin-top:14px!important}
 .mt-jump{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 14px;padding:8px 0;background:var(--bg,#05070B)}
-.mt-jump span{font:700 11px/1 var(--mono);letter-spacing:.14em;color:#6B7686;margin-right:4px}
+.mt-jump span{font:700 11px/1 var(--mono);letter-spacing:.14em;color:#8A94A3;margin-right:4px}
 .mt-jump a{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid #2A3446;background:#0E131D;color:#E6EAF0;font:700 12px/1 var(--mono);letter-spacing:.06em;text-decoration:none}
 .mt-jump a:hover,.mt-jump a:focus-visible{border-color:#A5B4FC;color:#fff}
 .mt-jump .grp{display:flex;flex-wrap:wrap;align-items:center;gap:6px;width:100%}
 .mt-jump .grp b{font:700 11px/1 var(--mono);letter-spacing:.12em;color:#A5B4FC;min-width:78px}
 .mt-ch{margin:22px 0 10px;font:700 1.125rem/1.2 var(--sans);color:#E6EAF0;scroll-margin-top:64px}
-.mt-ch small{display:block;font:600 11.5px/1.4 var(--mono);color:#6B7686;margin-top:4px}
+.mt-ch small{display:block;font:600 11.5px/1.4 var(--mono);color:#8A94A3;margin-top:4px}
 .mt-race{scroll-margin-top:64px}.mt-how h2,.mt-faq h2{scroll-margin-top:64px}
 @media (max-width:640px){.mt-cands{grid-template-columns:1fr}}
 </style>`;
@@ -230,7 +230,7 @@ export function render(ctx) {
     <p>${esc(method.sources_note || '')}</p>
   </section>
   <p>Related: <a href="${esc(ctx.href('/leaders.html'))}">Which AI leaders are on the record this week?</a> · <a href="${esc(ctx.href('/nations.html'))}">USA vs China: who is winning the race to superintelligence?</a> · <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>
-  <p style="font-size:12.5px;color:#6B7686">Not an endorsement. Not a forecast of any race. Stance tags are SIREN’s reading of cited public lines and can be wrong; send corrections via <a href="${esc(ctx.href('/feedback.html'))}">feedback</a>. Compiled ${esc(utc(data.generated_at))}.</p>
+  <p style="font-size:12.5px;color:#8A94A3">Not an endorsement. Not a forecast of any race. Stance tags are SIREN’s reading of cited public lines and can be wrong; send corrections via <a href="${esc(ctx.href('/feedback.html'))}">feedback</a>. Compiled ${esc(utc(data.generated_at))}.</p>
   <section class="mt-faq" aria-labelledby="faq">
     <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
