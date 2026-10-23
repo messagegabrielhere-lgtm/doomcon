@@ -39,7 +39,7 @@ function faqs(brandName) {
     },
     {
       q: 'Why might a brand search for an AI prediction product return nothing?',
-      a: 'Search needs crawlable pages. A name with no indexed site, no sitemap entry and no coverage under that string will not surface — even if similar products exist. Publish the answer, then submit the URL.',
+      a: 'Search needs crawlable pages. A name with no indexed site, no sitemap entry and no coverage under that string does not surface — even if similar products exist. Publish the answer, then submit the URL.',
     },
   ];
 }
