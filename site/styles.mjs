@@ -966,6 +966,8 @@ a.rail__c:hover .rail__v, a.rail__c:hover .rail__k { color: var(--accent-2); }
 }
 .foot__fine code { font-size: var(--t-xs); color: var(--ink-dim); }
 .foot__fine b { color: var(--ink-dim); font-weight: 600; }
+/* Links inside fine print need more than colour to stand out (WCAG 1.4.1). */
+.foot__fine a { text-decoration: underline; text-underline-offset: 2px; }
 .foot a { color: var(--ink-dim); }
 `;
 
