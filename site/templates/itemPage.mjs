@@ -305,6 +305,7 @@ export function render(ctx, item, related = []) {
   <p class="it__k"><a href="${esc(ctx.href('/news.html'))}">${esc(newsroomQ)}</a> · ${pillarHref ? `<a href="${esc(pillarHref)}">${esc(pillarQ)}</a>` : esc(pillarName)}${kindLabel ? ` · ${kindHref ? `<a href="${esc(kindHref)}">${esc(kindQ)}</a>` : esc(kindLabel)}` : ''} · <time datetime="${esc(item.published_at)}">${esc(utc(item.published_at))}</time></p>
 
   <h1 class="it__h">${esc(item.title)}</h1>
+  <p class="it__act">${hasScore(item) ? `<a class="it__score" href="#it-score"><b>${esc(num(item.score, 1))}</b><span>/100 ${esc(brand.NAME)} score</span></a>` : ''}<a class="it__read" href="${esc(item.url)}" rel="nofollow noopener">Read the full story →</a></p>
   <nav class="it__next" aria-label="Keep reading">
     <a href="${esc(ctx.href('/charts.html'))}">What AI charts does ${esc(brand.NAME)} publish?</a>
     <a href="${esc(ctx.href('/news.html'))}">${esc(newsroomQ)}</a>
@@ -585,6 +586,11 @@ export function styleTag() {
   return `<style>
 .it__k{font-family:var(--mono);font-size: var(--t-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
 .it__h{margin:var(--s-2) 0;max-width:24ch;font-size:clamp(22px,4vw,34px);line-height:1.15}
+.it__act{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:var(--s-2) 0 var(--s-3)}
+.it__score{display:inline-flex;align-items:baseline;gap:4px;min-height:44px;padding:8px 12px;box-sizing:border-box;border:2px solid var(--rule);color:var(--ink);text-decoration:none}
+.it__score b{font-size:20px;font-variant-numeric:tabular-nums}.it__score span{font-size:12px;color:var(--ink-dim)}
+.it__read{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;background:var(--ink);color:var(--bg-sunken)!important;font-weight:700;text-decoration:none;border-radius:3px}
+.it__read:hover{opacity:.9}
 .it__next{display:flex;flex-wrap:wrap;gap:8px 14px;margin:0 0 var(--s-3);font-family:var(--mono);font-size:var(--t-xs)}
 .it__next a{color:var(--accent,#93C5FD)}
 .it__src{font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-dim)}

@@ -122,3 +122,11 @@ describe('item archive hubs', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 });
+
+describe('item page header', () => {
+  it('puts the score and a read-the-story button right under the headline', () => {
+    const html = render(ctx, ctx.news.items[0]);
+    const head = html.slice(html.indexOf('<h1 class="it__h">'));
+    assert.match(head, /^<h1 class="it__h">Live one<\/h1>\s*<p class="it__act"><a class="it__score" href="#it-score"><b>40\.0<\/b><span>\/100 SIREN score<\/span><\/a><a class="it__read" href="https:\/\/example\.test\/live1" rel="nofollow noopener">Read the full story →<\/a>/);
+  });
+});
