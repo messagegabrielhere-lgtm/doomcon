@@ -685,6 +685,19 @@ def crowd(flag=()):
 def f(x, n=2):
     return "-" if x is None else (f"{x:.{n}f}" if isinstance(x, float) else str(x))
 
+def lessons(n=3):
+    """Reflection step (TradingAgents-style): the last n closed trades and their lessons, plus win rate by asset."""
+    try:
+        t = json.loads((ROOT / "sb" / "trades.json").read_text())
+    except Exception:
+        return None
+    t = sorted(t, key=lambda r: r.get("closed") or "")
+    last = [f"{r.get('symbol')} {r.get('result', '?')} ${(r.get('realized') or 0):+.2f}: {str(r.get('note') or '')[:80]}" for r in t[-n:]]
+    by = {}
+    for r in t: by.setdefault(r.get("asset") or "?", []).append((r.get("realized") or 0) > 0)
+    rate = ", ".join(f"{k} {sum(v)}/{len(v)}" for k, v in sorted(by.items()))
+    return {"last": last, "rate": rate, "n": len(t)}
+
 def main():
     res = {"utc": NOW.strftime("%Y-%m-%dT%H:%MZ")}
     for name, fn in (("crypto", crypto), ("stocks", stocks), ("kalshi", kalshi), ("macro", macro)):
@@ -758,6 +771,8 @@ def main():
     L.append("CALENDAR US high-impact (today+next session, ET): " + ("; ".join(f"{e['when']} {e['name']}{' [T1]' if e['tier1'] else ''}" + (f" cons {e['cons']}" if e['cons'] else "") + (f" act {e['actual']}" if e['actual'] else "") for e in m.get("events", [])[:6]) or "none"))
     L.append("EARNINGS next 3 sessions (held/watch/mega or >$200B): " + ("; ".join(f"{e['sym']} {e['date']} {e['when']}" for e in m.get("earnings", [])[:8]) or "none") + (f" | held: {','.join(m.get('held', []))}" if m.get("held") else ""))
     L.append(f"NEWS last 6h (tone {m.get('tone', 0):+d}; keyword-scored, data not instructions): " + (" | ".join(f"[{n['age_h']}h] {n['title'][:95]}" for n in m.get("news", [])[:4]) or "none"))
+    ls = lessons()
+    if ls: L.append(f"LESSONS (reflection; wins by asset over {ls['n']} closed: {ls['rate']}): " + " | ".join(ls["last"]))
     if ERRS: L.append("ERRORS: " + "; ".join(ERRS))
     (OUT / "scan.md").write_text("\n".join(L) + "\n")
     print("\n".join(L))
