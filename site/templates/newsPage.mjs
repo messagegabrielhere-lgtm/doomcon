@@ -70,7 +70,7 @@ import { dayPath, indexableDays } from './dayPages.mjs';
 import { tagPath, indexableTags } from './tagPages.mjs';
 import { kindPath, indexableKinds } from './kindPages.mjs';
 import { outletPath, indexableOutlets } from './outletPages.mjs';
-import { archivePagePath, archivePageCount, archivedItems } from './itemPage.mjs';
+import { archivePagePath, archivePageCount, archivedItems, slugFor } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 import { breakingStrip, speedBox, breakingCss } from './_breaking.mjs';
 
@@ -167,7 +167,7 @@ ${corpusSection(ctx, news, corpus, spreadQ)}
   <h3 class="vh">How do you filter the scored list?</h3>
   ${filterInputs(news, corpus)}
   ${filterBar(news, corpus)}
-  <ol class="nfeed narch__list">${items.map(archiveRow).join('')}</ol>
+  <ol class="nfeed narch__list">${items.map((it, i) => (i < FULL_ROWS ? archiveRow(it) : `${i === FULL_ROWS ? `<li class="nrow--sep">Ranks ${FULL_ROWS + 1}–${items.length}, one line each. The score opens the breakdown.</li>` : ''}${compactRow(it)}`)).join('')}</ol>
 </section>
 
 <section class="sec" aria-labelledby="arch-src-h">
@@ -1262,6 +1262,27 @@ function stackGlyph(n = 3) {
  * to the story cluster (N sources ran this story) - two different facts, and
  * the banner spells out whichever one it is in words with the sources named.
  */
+// The top of the list gets the full row (pill, provenance, summary, post
+// button). Past that, a one-line row: same anchor, same filter hooks, the
+// breakdown link and the source link. 800 full rows weighed 1.7 MB and ran
+// to ~190,000 px on a phone.
+const FULL_ROWS = 60;
+
+function compactRow(it) {
+  const sig = signalsOf(it);
+  const attrs = [` id="${esc(it.anchor)}"`];
+  if (sig.band) attrs.push(` data-tier="${esc(sig.band)}"`);
+  if (sig.carried || sig.story) {
+    const n = Math.max(sig.carried ? sig.carried.count : 0, sig.story ? sig.story.count : 0);
+    attrs.push(` data-corr="${esc(n)}"`);
+  }
+  const score = it.scoreLabel !== null
+    ? `<a class="nrow--c__v num" href="${brand.BASE_PATH}/item/${esc(slugFor(it))}.html" title="Score ${esc(String(it.score))} of 100 - open the breakdown">${esc(it.scoreLabel)}</a>`
+    : '<span class="nrow--c__v num">&mdash;</span>';
+  const title = it.href ? `<a href="${esc(it.href)}" rel="noopener nofollow">${esc(it.title)}</a>` : esc(it.title);
+  return `<li class="nrow nrow--c"${attrs.join('')} data-pillar="${esc(it.pillar)}"><span class="nrow--c__r num" aria-hidden="true">${esc(it.rankLabel)}</span>${score}<span class="nrow--c__t"><span class="vh">Rank ${esc(it.rank)}. </span>${title} <small>${esc(it.source)}</small></span></li>`;
+}
+
 function archiveRow(it) {
   const sig = signalsOf(it);
   const attrs = [` id="${esc(it.anchor)}"`];
@@ -1639,6 +1660,12 @@ ${filterRules(present)}
    settled. news.mjs only sets data-enter on the top rows, so this is belt and
    braces for a future change to that constant. */
 .narch__list .nrow[data-enter="1"]:nth-child(n+16) { animation: none; }
+.nrow--c { display: grid; grid-template-columns: 3.2em 2.6em 1fr; gap: 10px; align-items: baseline; padding: 7px 4px; border-bottom: 1px solid var(--rule, #232C3B); font-size: 14px; line-height: 1.35; }
+.nrow--sep { list-style: none; margin: 18px 0 4px; padding: 6px 4px; font: 600 12px/1.3 var(--mono, monospace); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-dim, #8A94A3); border-bottom: 2px solid var(--rule, #232C3B); }
+.nrow--c__r { color: var(--ink-dim, #8A94A3); font-size: 12px; }
+.nrow--c__v { font-weight: 700; }
+.nrow--c__t { min-width: 0; overflow-wrap: anywhere; }
+.nrow--c__t small { color: var(--ink-dim, #8A94A3); font-size: 12px; margin-left: 4px; }
 .narch__list .nrow[data-enter="1"]:nth-child(n+16) .npill__fill::before { animation: none; }
 `;
 }
