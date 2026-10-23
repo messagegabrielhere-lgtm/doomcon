@@ -149,12 +149,15 @@ ${breakingStrip(ctx, { href: ctx.href })}
      links to the source that carried it.</p>
   ${liveHead(news, 'Collection window', 'arch-live')}
   ${legend(news)}
+  <details class="narch__dirs">
+  <summary>Browse by day, topic, outlet and more</summary>
   ${entityDirNav(ctx)}
   ${dayHubNav(ctx, items)}
   ${tagHubNav(ctx)}
   ${kindHubNav(ctx)}
   ${outletHubNav(ctx)}
   ${archiveHubNav(ctx)}
+  </details>
 </section>
 
 ${reel(items, { id: 'areel', limit: REEL_CARDS, heading: topQ })}
@@ -1661,6 +1664,9 @@ ${filterRules(present)}
    braces for a future change to that constant. */
 .narch__list .nrow[data-enter="1"]:nth-child(n+16) { animation: none; }
 .nrow--c { display: grid; grid-template-columns: 3.2em 2.6em 1fr; gap: 10px; align-items: baseline; padding: 7px 4px; border-bottom: 1px solid var(--rule, #232C3B); font-size: 14px; line-height: 1.35; }
+.narch__dirs { margin: 14px 0 0; border: 1px solid var(--rule, #232C3B); padding: 0 12px; }
+.narch__dirs > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font: 600 13px/1.3 var(--mono, monospace); letter-spacing: .04em; color: var(--ink, #E6EAF0); }
+.narch__dirs[open] { padding-bottom: 12px; }
 .nrow--sep { list-style: none; margin: 18px 0 4px; padding: 6px 4px; font: 600 12px/1.3 var(--mono, monospace); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-dim, #8A94A3); border-bottom: 2px solid var(--rule, #232C3B); }
 .nrow--c__r { color: var(--ink-dim, #8A94A3); font-size: 12px; }
 .nrow--c__v { font-weight: 700; }
