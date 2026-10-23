@@ -522,7 +522,11 @@ function chart(rows, hours, id) {
   const t0 = Date.parse(pts[0].t), span = Math.max(1, end - t0);
   const x = (t) => PL + ((Date.parse(t) - t0) / span) * (W - PL - PR);
   const y = (v) => T + (1 - v / 100) * (H - PB - T);
-  const path = (get) => { let d = '', pen = false; for (const p of pts) { const v = get(p); if (!Number.isFinite(v)) { pen = false; continue; } d += `${pen ? 'L' : 'M'}${x(p.t).toFixed(1)},${y(v).toFixed(1)}`; pen = true; } return d; };
+  // Lines need no more points than the chart has pixels: ~240 across 714 px.
+  // Every reading still drives the level marks and degraded ticks below.
+  const step = Math.ceil(pts.length / 240);
+  const drawn = step > 1 ? pts.filter((_, i) => i % step === 0 || i === pts.length - 1) : pts;
+  const path = (get) => { let d = '', pen = false; for (const p of drawn) { const v = get(p); if (!Number.isFinite(v)) { pen = false; continue; } d += `${pen ? 'L' : 'M'}${x(p.t).toFixed(1)},${y(v).toFixed(1)}`; pen = true; } return d; };
   const bands = BAND.map(([a, b, c]) => `<rect x="${PL}" y="${y(b).toFixed(1)}" width="${W - PL - PR}" height="${(y(a) - y(b)).toFixed(1)}" fill="${c}" opacity=".06"/>`).join('');
   const grid = [0, 35, 55, 70, 85, 100].map((g) => `<text x="${PL - 6}" y="${(y(g) + 4).toFixed(1)}" text-anchor="end" font-size="10" fill="#8A94A3" font-family="IBM Plex Mono,monospace">${g}</text>`).join('');
   const lines = Object.entries(PILLAR_HUE).map(([pid, c]) => `<path d="${path((p) => p.pillars && p.pillars[pid])}" fill="none" stroke="${c}" stroke-width="1.2" opacity=".55" class="pl pl-${pid}"/>`).join('');
@@ -1102,7 +1106,7 @@ ${movedPanel(wm, href)}
     </video>
   </section>
   <!-- Organization JSON-LD comes from layout.page() — do not duplicate here. -->
-  <script type="application/ld+json">${JSON.stringify(faqJsonLd(ctx)).replace(/</g, '\\u003c')}</script>
+  ${/"FAQPage"/.test(head || '') ? '' : `<script type="application/ld+json">${JSON.stringify(faqJsonLd(ctx)).replace(/</g, '\\u003c')}</script>`}
   <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: 'AI SIREN Index', url: ctx.url('/'), potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: `${ctx.url('/search.html')}?q={search_term_string}` }, 'query-input': 'required name=search_term_string' } }).replace(/</g, '\\u003c')}</script>
   <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'VideoObject', name: 'What is SIREN? A 42-second tour of the AI Siren Index', description: 'How SIREN counts how loud AI is every hour, what its five levels mean, and the rooms on the site: the race, the newsroom, the AI bosses, real clips, the world monitor, the AI battle and the prepper kit.', thumbnailUrl: [ctx.url('/media/siren-explainer-poster.jpg')], uploadDate: '2026-10-07', duration: 'PT42S', contentUrl: ctx.url('/media/siren-explainer.mp4'), embedUrl: ctx.url('/') }).replace(/</g, '\\u003c')}</script>
 
