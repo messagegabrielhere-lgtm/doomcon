@@ -6,6 +6,7 @@ stooq/Yahoo daily history, CBOE delayed quotes, Kalshi public markets,
 Yahoo chart quotes (futures/global), Nasdaq economic + earnings calendars, public news RSS."""
 import json, time, csv, io, datetime, pathlib, urllib.request, urllib.parse, sys, re, email.utils
 import xml.etree.ElementTree as ET
+from concurrent.futures import ThreadPoolExecutor
 try:
     from zoneinfo import ZoneInfo
     NY = ZoneInfo("America/New_York")
@@ -354,31 +355,35 @@ def stocks():
                 if abs(d - r["d"]) > 1.0: stale[0] += 1
                 r["px"], r["d"] = px, d
         except Exception: pass
-    for r in longc:
-        if not bud.ok(): break
+    def ev_long(r):
+        if not bud.ok(): return None
         try:
             fresh(r)
-            if not 1 <= r["d"] <= 8 or (r["px"] or 0) < 5: continue
+            if not 1 <= r["d"] <= 8 or (r["px"] or 0) < 5: return None
             t = tech(r["sym"], px=r["px"], vol=r["vol"]); r.update(t)
-            if t["above20"] and t["rsi"] and 55 <= t["rsi"] <= 75 and (t["volx"] or 0) >= 1.0: longs.append(r)
+            return r if (t["above20"] and t["rsi"] and 55 <= t["rsi"] <= 75 and (t["volx"] or 0) >= 1.0) else None
         except Exception as e:
             if len(ERRS) < 6: ERRS.append(f"hist {r['sym']} {type(e).__name__}")
-        time.sleep(0.15)
-    for r in putc:
-        if not bud.ok(): break
+            return None
+    def ev_put(r):
+        if not bud.ok(): return None
         try:
             fresh(r)
-            if r["d"] > -2 or (r["px"] or 0) < 5: continue
+            if r["d"] > -2 or (r["px"] or 0) < 5: return None
             t = tech(r["sym"], px=r["px"], vol=r["vol"]); r.update(t)
-            if not t["above20"] and t["rsi"] and 25 <= t["rsi"] <= 45: puts.append(r)
-        except Exception: pass
-        time.sleep(0.15)
-    watch = {}
-    for s in ("MARA", "RIOT", "COIN", "MSTR", "IBIT", "SQQQ", "TZA", "SPXU", "SOXS", "QQQ", "RGTI"):
+            return r if (not t["above20"] and t["rsi"] and 25 <= t["rsi"] <= 45) else None
+        except Exception: return None
+    def ev_watch(s):
         try:
-            px = cboe_px(s); t = tech(s, px=px); watch[s] = {"px": px, "rsi": t["rsi"], "above20": t["above20"], "above50": t["above50"]}
-        except Exception as e: watch[s] = {"err": type(e).__name__}
-        time.sleep(0.1)
+            px = cboe_px(s); t = tech(s, px=px)
+            return s, {"px": px, "rsi": t["rsi"], "above20": t["above20"], "above50": t["above50"]}
+        except Exception as e: return s, {"err": type(e).__name__}
+    # Parallel (was sequential and hit the 240 s budget before finishing the put list); map() keeps candidate order.
+    with ThreadPoolExecutor(max_workers=6) as ex:
+        longs = [r for r in ex.map(ev_long, longc) if r]
+        puts = [r for r in ex.map(ev_put, putc) if r]
+        watch = dict(ex.map(ev_watch, ("MARA", "RIOT", "COIN", "MSTR", "IBIT", "SQQQ", "TZA", "SPXU", "SOXS", "QQQ", "RGTI")))
+    log(f"stocks checked: longs {len(longs)}/{len(longc)}, puts {len(puts)}/{len(putc)}, budget left {bud.end - time.time():.0f}s")
     def mvr(side):
         pool = [r for r in (longc if side == "up" else putc) if r["sym"] in movers[side] and (r.get("px") or 0) >= 5 and abs(r.get("d") or 0) >= 1 and ((r["d"] > 0) == (side == "up"))]
         pool.sort(key=lambda r: -abs(r["d"]))
