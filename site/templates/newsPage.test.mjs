@@ -119,3 +119,32 @@ describe('newsroom page', () => {
     assert.match(html, /OpenAI ships a model/);
   });
 });
+
+describe('newsroom list weight', () => {
+  const many = {
+    ...ctx,
+    news: {
+      ...ctx.news,
+      total: 130,
+      items: Array.from({ length: 130 }, (_, i) => ({
+        id: `b${i}`, anchor: `b${i}`, rank: i + 1, title: `Story number ${i + 1}`, summary: 'A summary line.',
+        source: i % 2 ? 'hn' : 'reuters', pillar: i % 3 ? 'attention' : 'capability',
+        url: `https://example.test/b${i}`, published_at: '2026-10-12T12:00:00Z', score: 90 - i * 0.5,
+      })),
+    },
+  };
+  const html = render(many);
+  const list = html.slice(html.indexOf('<ol class="nfeed narch__list">'), html.indexOf('</ol>', html.indexOf('<ol class="nfeed narch__list">')));
+  it('keeps full rows for the top 60 and compact rows after', () => {
+    assert.equal((list.match(/class="nrow"/g) || []).length, 60);
+    assert.equal((list.match(/class="nrow nrow--c"/g) || []).length, 70);
+    assert.match(list, /<li class="nrow--sep">Ranks 61–130, one line each/);
+  });
+  it('compact rows keep the anchor, filter hooks, the breakdown link and the source link', () => {
+    const row = list.slice(list.indexOf('id="i-b128"'));
+    assert.match(row, /data-pillar="attention"/);
+    assert.match(row, /href="\/item\/[^"]+\.html"/);
+    assert.match(row, /href="https:\/\/example\.test\/b128"/);
+    assert.match(row, /Story number 129/);
+  });
+});
