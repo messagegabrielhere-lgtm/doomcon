@@ -55,6 +55,7 @@ AGGRESSIVE MODE (owner 2026-10-22: goal $400 by Sat, chose "2 but be smart"; exp
 Base: 1 contract, cost <= $15. Earned cap when score >= 5 AND target >= 2x the stop distance: $40/contract, $60 for a SPY/QQQ regime-flip call; prefer |delta| 0.30-0.40 and an expiry with >= 5 trading days after the expected move. Always: options <= 60% of total_value, moonshots <= 50%, open risk <= 20%, option cost <= 50% of buying_power (halved in MIXED for non-moonshots). Say "earned cap" + score when used. Only the owner changes this.
 
 ## 7. OVERNIGHT (owner 2026-10-19: Robinhood 24 Hour Market, Sun 20:00 - Fri 20:00 ET)
+- EXTENDED HOURS (owner 2026-10-23 10:30 ET: "enabled extended hours trading"): pre-market 7:00-9:30 and after-hours 16:00-20:00 ET stock orders are allowed, limit only, same rules and caps as regular hours; use them for exits (a stop that would gap against us at the open) before new entries; spreads are wider, so limit at mid and never market. Options stay regular hours only.
 Tradable overnight: SQQQ, SPXU (bearish), TQQQ (bullish), SPY, QQQ, MARA. NOT TZA/SOXS. Options never overnight.
 - Trigger (overnight full passes, subject to sec 5): bearish when live QQQ or SPY <= -1.0% vs the regular close AND BTC <= -1.0% vs mark, or <= -1.5% alone, or the sec 5 futures confirmation; bullish TQQQ only outside RISK-OFF, mirror thresholds. The move must still be extending. Score >= 4.
 - SQQQ when QQQ leads, SPXU when SPY leads, TQQQ bullish. One overnight position at a time (index beta).
