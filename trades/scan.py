@@ -700,7 +700,10 @@ def main():
                                   + [r["sym"] for r in (st.get("movers", {}).get("up", []) + st.get("movers", {}).get("down", [])) if (r.get("px") or 0) >= 3][:8] + OPT_FIXED))
         cand = [x for x in cand if x.isalpha() and x not in ("QQQ", "SPY", "IWM")][:32]
         earn = {e["sym"] for e in res.get("macro", {}).get("earnings", [])}
-        res["opts"] = opt_screen(cand, trends, earn)
+        left = 540 - (time.time() - T0)          # market-keeper kills scan.py at 600 s: never let options push it over
+        log(f"start opts ({len(cand)} chains, {left:.0f}s left)")
+        res["opts"] = opt_screen(cand, trends, earn, budget=max(15, min(150, left - 30))) if left > 45 else {"rows": [], "scanned": 0, "errs": 0, "n": len(cand), "skipped": "time"}
+        log("end opts")
     except Exception as e: ERRS.append(f"opts {type(e).__name__}: {str(e)[:60]}"); res["opts"] = {}
     res["errors"] = ERRS
     (OUT / "scan.json").write_text(json.dumps(res, indent=1, default=str))
