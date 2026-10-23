@@ -162,6 +162,8 @@ def cboe_px(sym):
 OPT_FIXED = ["SOFI", "NIO", "F", "RIVN", "LCID", "PLUG", "AAL", "SNAP", "NOK", "T", "RIOT", "MARA", "CLSK",
              "RGTI", "SQQQ", "SOXS", "SPXU", "TZA", "SOXL", "TQQQ"]
 OPT_RULES = {"dte": (1, 7), "delta": (0.25, 0.45), "oi": 300, "spr": 0.12, "ask_max": 0.35}
+INDEX_BETA = {"SQQQ", "SPXU", "TZA", "SOXS", "TQQQ", "SOXL", "SPY", "QQQ", "SMH", "NVDA", "AMD", "MU", "AVGO", "ARM", "SMCI",
+              "TSM", "META", "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA"}   # RULES sec 6 index-beta driver list
 OCC_RE = re.compile(r"^([A-Z.]+?)(\d{6})([CP])(\d{8})$")
 
 def occ_parse(o):
@@ -223,8 +225,37 @@ def opt_pick(sym, data, today, trend=None, rules=OPT_RULES, why=None):
     out.sort(key=lambda r: (r["trend_ok"] is False, r["fit"] if r["fit"] is not None else 9, abs(r["delta"] - 0.35), -r["oi"]))
     return out
 
-def opt_screen(syms, trends, earn=(), budget=90):
+def rets(cl):
+    return [cl[i] / cl[i - 1] - 1 for i in range(1, len(cl)) if cl[i - 1]]
+
+def beta_corr(a, b, n=60):
+    """Beta and correlation of daily returns a vs b over the last n days (stdlib)."""
+    a, b = a[-n:], b[-n:]; m = min(len(a), len(b)); a, b = a[-m:], b[-m:]
+    if m < 20: return None, None
+    ma, mb = sum(a) / m, sum(b) / m
+    cov = sum((x - ma) * (y - mb) for x, y in zip(a, b)) / (m - 1)
+    va = sum((x - ma) ** 2 for x in a) / (m - 1); vb = sum((y - mb) ** 2 for y in b) / (m - 1)
+    if not va or not vb: return None, None
+    return cov / vb, cov / (va * vb) ** 0.5
+
+def zscore(cl, n=20):
+    """Price vs its n-day mean in standard deviations (Bollinger-style)."""
+    w = cl[-n:]
+    if len(w) < n: return None
+    mu = sum(w) / n; sd = (sum((x - mu) ** 2 for x in w) / (n - 1)) ** 0.5
+    return (w[-1] - mu) / sd if sd else None
+
+def market_link(cl, bench):
+    """beta, corr vs benchmark closes, 20d z-score, and today's residual (move not explained by beta*bench)."""
+    ra, rb = rets(cl), rets(bench)
+    b, c = beta_corr(ra, rb)
+    resid = (ra[-1] - b * rb[-1]) * 100 if b is not None and ra and rb else None
+    return {"beta": b, "corr": c, "z": zscore(cl), "resid": resid}
+
+def opt_screen(syms, trends, earn=(), budget=150):
     B = Budget(budget); today = NOW.astimezone(NY).date(); rows, scanned, errs, why = [], 0, 0, {}
+    try: bench, _ = hist("QQQ")
+    except Exception: bench = None
     for s in syms:
         if not B.ok(): break
         try:
@@ -232,14 +263,20 @@ def opt_screen(syms, trends, earn=(), budget=90):
         except Exception:
             errs += 1; continue
         scanned += 1
-        tr = trends.get(s)
-        if tr is None and B.ok():
-            try: tr = tech(s)["above20"]
-            except Exception: tr = None
+        tr, ml = trends.get(s), {}
+        if B.ok():
+            try:
+                cl, _ = hist(s)
+                if tr is None and len(cl) > 21: tr = cl[-1] > sma(cl[:-1], 20)
+                if bench: ml = market_link(cl, bench)
+            except Exception: pass
         seen = set()
         for r in opt_pick(s, d, today, tr, why=why):
             if r["side"] in seen: continue
-            seen.add(r["side"]); r["earn"] = s in earn; rows.append(r)
+            seen.add(r["side"]); r["earn"] = s in earn
+            r.update({k: (round(v, 2) if v is not None else None) for k, v in ml.items()})
+            r["idx"] = bool(ml.get("corr") is not None and ml["corr"] >= 0.6) or s in INDEX_BETA
+            rows.append(r)
     rows.sort(key=lambda r: (r["earn"], r["trend_ok"] is False, r["fit"] if r["fit"] is not None else 9, -r["oi"]))
     return {"rows": rows[:12], "scanned": scanned, "errs": errs, "n": len(syms), "rejects": why}
 
@@ -686,9 +723,13 @@ def main():
     op = res.get("opts", {})
     def om(r):
         t = f"{r['sym']} {r['exp']} {r['strike']:g}{r['side']} ask {r['ask']:.2f} d{r['delta']:.2f} OI {r['oi']} spr {r['spr']}% be {r['be']:+.1f}% 2x@{r['m2x']}%" + (f" EM {r['em']}%" if r.get("em") else "")
+        if r.get("beta") is not None: t += f" b{r['beta']:.1f} r{r['corr']:.2f}"
+        if r.get("z") is not None: t += f" z{r['z']:+.1f}"
+        if r.get("resid") is not None: t += f" resid{r['resid']:+.1f}%"
+        t += " IDX" if r.get("idx") else " OWN"
         t += " [trend]" if r["trend_ok"] else (" [counter]" if r["trend_ok"] is False else "")
         return t + (" EARN-skip" if r["earn"] else "")
-    L.append(f"OPTIONS AGGR-FIT ({op.get('scanned', 0)}/{op.get('n', 0)} chains; {OPT_RULES['dte'][0]}-{OPT_RULES['dte'][1]}DTE, |d|.25-.45, OI>=300, spr<=12%, ask<=$0.35; 2x@=underlying move that ~doubles it, EM=ATM straddle; best fit first; ~15m delayed, re-quote live): " + ("; ".join(om(r) for r in op.get("rows", [])[:8]) or "none"))
+    L.append(f"OPTIONS AGGR-FIT ({op.get('scanned', 0)}/{op.get('n', 0)} chains; {OPT_RULES['dte'][0]}-{OPT_RULES['dte'][1]}DTE, |d|.25-.45, OI>=300, spr<=12%, ask<=$0.35; 2x@=underlying move that ~doubles it, EM=ATM straddle; b/r=60d beta/corr vs QQQ, z=20d z-score, resid=today's move net of beta, IDX=index-beta driver (one slot) else OWN; best fit first; ~15m delayed, re-quote live): " + ("; ".join(om(r) for r in op.get("rows", [])[:8]) or "none"))
     cr = res.get("crowd", {})
     def cm(x):
         t = x["sym"] + ("*" if x["hit"] else "")

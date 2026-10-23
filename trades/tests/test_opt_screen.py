@@ -57,3 +57,19 @@ def test_expected_move_and_double():
 
 if __name__ == "__main__":
     test_expected_move_and_double(); print("ok test_expected_move_and_double")
+
+def test_market_link():
+    import random
+    random.seed(1)
+    q = [100.0]
+    for _ in range(80): q.append(q[-1] * (1 + random.gauss(0, 0.01)))
+    rq = scan.rets(q)
+    s = [50.0]
+    for r in rq: s.append(s[-1] * (1 + 2 * r))          # exact 2x beta, corr 1
+    m = scan.market_link(s, q)
+    assert abs(m["beta"] - 2) < 1e-6 and abs(m["corr"] - 1) < 1e-6 and abs(m["resid"]) < 1e-6
+    assert scan.beta_corr([0.01] * 10, [0.01] * 10) == (None, None)
+    assert scan.zscore([1.0] * 20) is None and scan.zscore([1.0] * 19 + [2.0]) > 4
+
+if __name__ == "__main__":
+    test_market_link(); print("ok test_market_link")
