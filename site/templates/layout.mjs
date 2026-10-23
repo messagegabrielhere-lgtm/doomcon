@@ -798,12 +798,22 @@ const PAGE_BANNERS = {
   '/exploits.html': 'page-exploits.jpg', '/balance.html': 'page-balance.jpg',
 };
 
+// Rooms that get the pixel banner without joining the footer list or the
+// palette (they are already in the header nav). Same look as Race and News.
+const BANNER_ONLY = {
+  '/midterms.html': { short: 'Midterms', blurb: 'Who is pro-AI, against or neutral, from cited public lines.' },
+  '/labs.html': { short: 'Labs', blurb: 'Four small experiments a week on what nobody else counts.' },
+  '/games.html': { short: 'Games', blurb: 'Free browser games about AI. No sign-up.' },
+  '/alerts.html': { short: 'Alerts', blurb: 'Pick a trigger. Get it by email, RSS, Slack or in the tab.' },
+  '/radio.html': { short: 'Radio', blurb: 'Original music, generated live in your browser.' },
+};
+
 function pageBanner(ctx, path) {
   // The PizzINT-style room header: the room's generated icon and its name in
   // the pixel face. Decorative (aria-hidden): every page still carries its own
   // real <h1> below, so nothing is said twice to a screen reader.
   const art = roomArt(path);
-  const sec = SECTIONS.find((x) => x.href === path) || PAL_EXTRA.find((x) => x.href === path);
+  const sec = SECTIONS.find((x) => x.href === path) || PAL_EXTRA.find((x) => x.href === path) || BANNER_ONLY[path];
   if (!art || !sec || path === '/') return '';
   // Pixel banner uses short chrome; footer / next/prev keep the question label.
   const banner = String(sec.short || sec.label).replace(/[‘’]/g, "'").replace(/[()?]/g, ' ').replace(/\s+/g, ' ').trim();

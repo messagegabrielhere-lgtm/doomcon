@@ -88,6 +88,7 @@ export const ROOM_ART = {
   '/library.html': 'books', '/bunker-kit.html': 'bunker', '/history.html': 'archive', '/moves/': 'archive',
   '/about.html': 'canary', '/guide.html': 'siren', '/p-doom.html': 'clock', '/sponsor.html': 'case',
   '/privacy.html': 'camera', '/disclosures.html': 'camera', '/press.html': 'news', '/brand.html': 'siren',
+  '/midterms.html': 'scales', '/labs.html': 'magnifier', '/games.html': 'joystick', '/alerts.html': 'siren', '/radio.html': 'mic',
 };
 export function roomArt(path) {
   if (ROOM_ART[path]) return ROOM_ART[path];

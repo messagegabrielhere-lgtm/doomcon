@@ -118,3 +118,13 @@ describe('home weight', () => {
     assert.equal((html.match(/"FAQPage"/g) || []).length, 1);
   });
 });
+
+import { page as layoutPage } from './layout.mjs';
+describe('room banners', () => {
+  for (const [path, word] of [['/midterms.html', 'Midterms'], ['/labs.html', 'Labs'], ['/games.html', 'Games'], ['/alerts.html', 'Alerts'], ['/radio.html', 'Radio']]) {
+    it(`${path} carries the pixel room banner`, () => {
+      const html = layoutPage({ ctx: base(), path, title: 't', description: 'd', main: '<h1>x</h1>' });
+      assert.match(html, new RegExp(`<div class="v2pt" aria-hidden="true"><img src="/img/art-[a-z]+\\.webp"[^>]*><div class="v2pt__t"><span class="v2-ptext v2pt__h"><span class="v2-sr">${word}</span>`));
+    });
+  }
+});
