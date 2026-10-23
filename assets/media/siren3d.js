@@ -56,6 +56,8 @@ export async function mount(host) {
   io.observe(host);
   function frame(now) {
     raf = 0;
+    // ~30 fps is plenty for a slow sweep and halves the main-thread cost.
+    if (now - last < 32) { if (visible && !document.hidden) raf = requestAnimationFrame(frame); return; }
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
     rotor.rotation.y += dt * speed;
     const pulse = Math.max(0, Math.cos(rotor.rotation.y * 2));
@@ -63,14 +65,24 @@ export async function mount(host) {
     halo.material.opacity = 0.35 + 0.45 * pulse;
     scene.rotation.y = Math.sin(now / 2600) * 0.25;
     renderer.render(scene, cam);
-    if (visible) raf = requestAnimationFrame(frame);
+    if (visible && !document.hidden) raf = requestAnimationFrame(frame);
   }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && visible && !raf) raf = requestAnimationFrame(frame); });
   raf = requestAnimationFrame(frame);
 }
-// Auto-mount every [data-siren3d] once it scrolls near view.
-const ok = () => !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) && !!window.WebGLRenderingContext;
-if (ok()) {
+// Auto-mount every [data-siren3d] once it scrolls near view. Phones keep the
+// flat illustration: at 56 px the 3D lamp is not worth 690 KB of three.js and
+// the main-thread time. Wider screens mount after the page has loaded and gone
+// idle, so the lamp never competes with the reading for the first paint.
+const ok = () => !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)
+  && !(window.matchMedia && matchMedia('(max-width:720px)').matches)
+  && !!window.WebGLRenderingContext;
+function start() {
   const hosts = document.querySelectorAll('[data-siren3d]');
   const io = new IntersectionObserver((es, o) => es.forEach((e) => { if (e.isIntersecting) { o.unobserve(e.target); mount(e.target).catch(() => {}); } }), { rootMargin: '200px' });
   hosts.forEach((h) => io.observe(h));
+}
+if (ok()) {
+  const idle = () => (window.requestIdleCallback ? requestIdleCallback(start, { timeout: 3000 }) : setTimeout(start, 1200));
+  if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });
 }
