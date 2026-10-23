@@ -54,3 +54,23 @@ we do not run a separate paid bug bounty.
 - User authentication / session theft (there are no users).
 - Row-level database ACLs (published data is public CC-BY 4.0).
 - Payment-card handling (tips go to Ko-fi; Amazon Associates is click-out).
+
+## Incident note: PHP2Shell (2026-10-21)
+
+**CVE-2026-109618 / CVE-2026-109619** ("php2shell") are critical unauthenticated
+RCE flaws in the PHP runtime. They do **not** apply to siren.watch.
+
+| Check | Result |
+|---|---|
+| Live origin | GitHub Pages (`server: GitHub.com`, Fastly edge) |
+| Application runtime | Static HTML/JSON built by Node 20 — no PHP SAPI |
+| Repo surface | No `.php` files; compliance rule `no-php-surface` fails CI if any appear |
+| Nameservers | Hostinger DNS parking only — DNS ≠ origin |
+
+Patched PHP releases (when a Hostinger / WordPress / other PHP host *is* in
+scope): **8.5.12, 8.4.27, 8.3.36, 8.2.35**. WAF rules (e.g. Cloudflare) are
+temporary defence-in-depth, not a substitute for the vendor patch.
+
+Operator follow-up for any *other* property that still runs PHP: inventory it,
+upgrade to a patched release, and tick `php-host-inventory` in
+`compliance/manual.json`. Do not take siren.watch offline for this advisory.
