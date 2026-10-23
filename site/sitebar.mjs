@@ -233,7 +233,9 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
   setInterval(watch, 60000); setTimeout(watch, 4000);
   document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
   paint(); setInterval(paint, 60000);
-  lift(); addEventListener("resize", lift); addEventListener("load", lift); setTimeout(lift, 1500);
+  // First measure after load, in a frame: lift() reads layout, and running it
+  // mid-parse forced a full style and layout pass (~200 ms on a big page, phone).
+  addEventListener("resize", lift); addEventListener("load", function(){ requestAnimationFrame(lift); }); setTimeout(lift, 1500);
   // Phones start with it tucked: the first screen is the reading and the
   // signup, and the tab bar already sits at the bottom. A scroll up brings it.
   var lastY = scrollY, tucked = !!(window.matchMedia && matchMedia("(max-width:560px)").matches) && !btn.classList.contains("due");
