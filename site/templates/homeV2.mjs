@@ -1006,7 +1006,7 @@ export function render(ctx, { head }) {
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
       <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${pillarStatusLine(state)}</p>
-      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><button type="button" class="v2-btn sm ghost" data-copy="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${score} of 100 as of ${String(state.generated_at).slice(0, 19)}Z. Tempo, not a probability.${state.receipt_id ? ` Receipt ${state.receipt_id}.` : ''} ${ctx.url('/')}`)}">Copy this reading</button><a class="v2-btn sm ghost" href="${href('/verify.html')}">How do you check a ${esc(brand.NAME)} reading yourself?</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/free-tools.html')}">What free tools does ${esc(brand.NAME)} publish?</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>    </div>
+      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><button type="button" class="v2-btn sm ghost" data-copy="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${score} of 100 as of ${String(state.generated_at).slice(0, 19)}Z. Tempo, not a probability.${state.receipt_id ? ` Receipt ${state.receipt_id}.` : ''} ${ctx.url('/')}`)}">Copy this reading</button><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><details class="v2-dmore"><summary>More ways to use this reading</summary><div class="v2-dmore__l"><a class="v2-btn sm ghost" href="${href('/verify.html')}">How do you check a ${esc(brand.NAME)} reading yourself?</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/free-tools.html')}">What free tools does ${esc(brand.NAME)} publish?</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div></details></div>    </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;
   const hot = breakingBar(ctx, href, top, { href: breakHref, external: breakExternal, source: breakSource });
@@ -1015,7 +1015,7 @@ export function render(ctx, { head }) {
 <div class="v2" data-level="${esc(state.level)}" style="--lv:${L.color};--lvg:${L.ground};--sb:${Number.isFinite(state.score) ? bandColorOf(state.score) : L.color};--lvink:#05070B;--ui:#E8ECF2;--uig:#141B27;--uiink:#05070B;--link:#8EC5FF">
 <div class="v2-top"><div class="v2-wrap">
   <span class="v2-chip v2-top__x">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
-  <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}">SIREN SCORE UPDATED <b>${esc(hhmm(state.generated_at))}</b> · HOURLY</span>
+  <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}"><span class="v2-fresh__k">SIREN SCORE </span>UPDATED <b>${esc(hhmm(state.generated_at))}</b><span class="v2-fresh__k"> · HOURLY</span></span>
   <a class="v2-chip v2-live" href="${href('/news.html')}" title="The newsroom checks its sources every minute and Dispatch alerts refresh through the hour. Only the SIREN score is hourly."><i aria-hidden="true"></i>Which AI stories has ${esc(brand.NAME)} scored in this window?</a>
   <span class="v2-chip v2-top__x" title="${dark ? `${dark} source${dark === 1 ? '' : 's'} failed this pass` : 'Every source answered'}">${icon('eye', 2)}${reporting}/${sources.length} REPORTING${dark ? ` · ${dark} DARK` : ''} · ${scored} SCORED</span>  <span class="right">
     <a class="tag v2-getbrief" href="#nl">✉ GET THE DAILY BRIEF</a>
@@ -1133,7 +1133,7 @@ ${roomsGrid(ctx, href, img)}
   </details>
 
   <p class="v2-foot">${esc(brand.CREED)} ${esc(brand.NAME)} counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
-  <a href="${href('/methodology.html')}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> · <a href="${href('/classic.html#vfy')}">Where is the full ${esc(brand.NAME)} instrument panel?</a> · <a href="${href('/classic.html')}">Where is the full ${esc(brand.NAME)} instrument panel?</a> · <a href="${href('/about.html')}">What is ${esc(brand.NAME)}?</a> · <a href="${href('/alerts.html')}">How do I get alerts when ${esc(brand.NAME)} moves?</a> · <a href="${href('/sponsor.html')}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
+  <a href="${href('/methodology.html')}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> · <a href="${href('/classic.html#vfy')}">How do you verify a ${esc(brand.NAME)} reading?</a> · <a href="${href('/classic.html')}">Where is the full ${esc(brand.NAME)} instrument panel?</a> · <a href="${href('/about.html')}">What is ${esc(brand.NAME)}?</a> · <a href="${href('/alerts.html')}">How do I get alerts when ${esc(brand.NAME)} moves?</a> · <a href="${href('/sponsor.html')}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
   <p class="v2-foot"><b>Not advice.</b> ${esc(brand.LEGAL_NOT_ADVICE)} Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. ${esc(brand.LEGAL_AFFILIATE)} Use of this site means you accept the <a href="${href('/terms.html')}">What are the ${esc(brand.NAME)} terms of use?</a> <a href="${href('/privacy.html')}">What does ${esc(brand.NAME)} know about you?</a> <a href="${href('/disclosures.html')}">What does ${esc(brand.NAME)} disclose?</a> <a href="${href('/feedback.html')}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a></p>
 </main>
 ${nav.tabbar}
@@ -1230,6 +1230,11 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2 .tag.violet{border-color:color-mix(in srgb,var(--ui) 45%,#000);background:var(--uig);color:color-mix(in srgb,var(--ui) 70%,#fff)}
 .v2-top .right{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .v2-main{padding-block:40px 72px;display:flex;flex-direction:column;gap:22px}
+/* The reading leads at every width; the big brand block follows it. */
+.v2-main>.v2-hot{order:-4}.v2-main>.hero{order:-3}
+.v2-dmore{flex:1 1 100%}.v2-dmore>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:center;font:600 12px/1.3 'IBM Plex Mono',monospace;letter-spacing:.06em;color:#AEB7C3;list-style:none}.v2-dmore>summary::-webkit-details-marker{display:none}.v2-dmore>summary::before{content:'+ ';}.v2-dmore[open]>summary::before{content:'− '}.v2-dmore>summary:hover{color:#fff}
+.v2-dmore__l{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+#v2-fresh b{white-space:nowrap}
 /* Skip layout/paint for below-fold home blocks until near the viewport (CWV).
    Markup and text stay in the HTML for crawlers — this is not display:none. */
 .v2-main [data-sec]:not(#signal),
@@ -1588,6 +1593,7 @@ const PHONE_CSS = `
   .v2-top .right{margin-left:0;flex:0 0 auto}
   .v2-top .tag.v2-getbrief{min-height:36px;font-size:11px;padding:3px 8px}
   .v2-top .tag.radio{display:none}
+  .v2-top .v2-fresh__k{display:none}
   /* First screen order; the rest keeps DOM order after it. */
   .v2-main>.v2-hot{order:-4;margin:0}
   .v2-main>.hero{order:-3}
