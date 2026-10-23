@@ -92,3 +92,17 @@ def test_opt_screen_parallel():
 
 if __name__ == "__main__":
     test_opt_screen_parallel(); print("ok test_opt_screen_parallel")
+
+def test_earnings_window():
+    import datetime as dt
+    days = [dt.date(2026, 10, 23), dt.date(2026, 10, 26), dt.date(2026, 10, 27), dt.date(2026, 10, 28)]
+    rows = {"2026-10-23": [{"symbol": "AXP", "marketCap": "250,000,000,000", "time": "time-pre-market"}],
+            "2026-10-28": [{"symbol": "SOFI", "marketCap": "20,000,000,000", "time": "time-after-hours"}]}
+    scan.get = lambda url, **k: {"data": {"rows": rows.get(url.split("date=")[1], [])}}
+    scan.EARN_ALL.clear()
+    out = scan.earnings(days, set(), show_days=3)
+    assert [e["sym"] for e in out] == ["AXP"]                 # display line: big cap, first 3 days only
+    assert scan.EARN_ALL == {"AXP": "10/23", "SOFI": "10/28"}  # skip set: every size, whole window
+
+if __name__ == "__main__":
+    test_earnings_window(); print("ok test_earnings_window")

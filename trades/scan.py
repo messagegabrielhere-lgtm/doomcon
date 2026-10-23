@@ -540,7 +540,9 @@ def econ_calendar(days):
     ev.sort(key=lambda x: x["et"] or "")
     return ev
 
-def earnings(days, names):
+EARN_ALL = {}   # every symbol reporting in the option window (any size) -> first date; used to skip options
+
+def earnings(days, names, show_days=3):
     h = dict(UA); h["Origin"] = "https://www.nasdaq.com"; h["Referer"] = "https://www.nasdaq.com/"
     out = []
     for d in days:
@@ -548,6 +550,8 @@ def earnings(days, names):
         except Exception as e: ERRS.append(f"earncal {d} {type(e).__name__}"); continue
         for r in ((j.get("data") or {}).get("rows") or []):
             sym = (r.get("symbol") or "").upper()
+            if sym: EARN_ALL.setdefault(sym, d.strftime("%m/%d"))
+            if d not in days[:show_days]: continue
             cap = num(r.get("marketCap")) or 0
             if sym in names or cap >= 2e11:
                 t = (r.get("time") or "").replace("time-", "")
@@ -616,8 +620,8 @@ def macro():
         except Exception as e: res.setdefault("q_miss", []).append(k)
     if res.get("q_miss") and len(res["q_miss"]) > 3: ERRS.append("macro missing " + ",".join(res["q_miss"]))
     today = NOW.astimezone(NY).date()
-    days = [today + datetime.timedelta(days=i) for i in range(4)]
-    days = [d for d in days if d.weekday() < 5][:3]
+    days = [today + datetime.timedelta(days=i) for i in range(10)]
+    days = [d for d in days if d.weekday() < 5][:6]      # 6 sessions covers a 7-DTE option; the line still shows 3
     try: res["events"] = econ_calendar(days[:2])
     except Exception as e: ERRS.append(f"econcal {type(e).__name__}"); res["events"] = []
     held = held_syms()
@@ -730,7 +734,7 @@ def main():
         intl_c = [r["sym"] for r in it.get("flag", [])][:4] + INTL_ADR      # flagged country ETFs first, then ADRs
         cand = [x for x in cand if x.isalpha() and x not in ("QQQ", "SPY", "IWM")][:28]
         cand = list(dict.fromkeys(cand + intl_c))[:40]
-        earn = {e["sym"] for e in res.get("macro", {}).get("earnings", [])}
+        earn = {e["sym"] for e in res.get("macro", {}).get("earnings", [])} | set(EARN_ALL)
         left = 540 - (time.time() - T0)          # market-keeper kills scan.py at 600 s: never let options push it over
         log(f"start opts ({len(cand)} chains, {left:.0f}s left)")
         res["opts"] = opt_screen(cand, trends, earn, budget=max(15, min(150, left - 30))) if left > 45 else {"rows": [], "scanned": 0, "errs": 0, "n": len(cand), "skipped": "time"}
@@ -763,7 +767,7 @@ def main():
         t += " IDX" if r.get("idx") else " OWN"
         if r["sym"] in INTL or r["sym"] in INTL_ADR: t += " INTL"
         t += " [trend]" if r["trend_ok"] else (" [counter]" if r["trend_ok"] is False else "")
-        return t + (" EARN-skip" if r["earn"] else "")
+        return t + (f" EARN {EARN_ALL.get(r['sym'], '')}-skip" if r["earn"] else "")
     L.append(f"OPTIONS AGGR-FIT ({op.get('scanned', 0)}/{op.get('n', 0)} chains; {OPT_RULES['dte'][0]}-{OPT_RULES['dte'][1]}DTE, |d|.25-.45, OI>=300, spr<=12%, ask<=$0.35; 2x@=underlying move that ~doubles it, EM=ATM straddle; b/r=60d beta/corr vs QQQ, z=20d z-score, resid=today's move net of beta, IDX=index-beta driver (one slot) else OWN; best fit first; ~15m delayed, re-quote live): " + ("; ".join(om(r) for r in op.get("rows", [])[:8]) or "none"))
     cr = res.get("crowd", {})
     def cm(x):
