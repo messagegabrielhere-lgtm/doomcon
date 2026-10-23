@@ -43,13 +43,13 @@ export function render(ctx) {
   <div class="nf__top"><p class="nf__code num">500</p>${seal(ctx, { size: 150, id: 'seal-5xx' })}${mascot({ size: 96, level: 5 })}</div>
   <h1 class="nf__h">The desk did not answer.</h1>
   <p class="lede"><b>Something on our side failed.</b> Not you. Not your phone.</p>
-  <p class="lede">This site never invents a reading when a source is dark, and it will not invent
+  <p class="lede">This site never invents a reading when a source is dark, and it does not invent
     a page when the server is. ${reading} Try the index in a minute; if it is still down,
     the <a href="${esc(brand.REPO_URL)}/actions">Actions log</a> is where the operator looks first.</p>
   <ul class="nf__rows">
     <li><span>Fault</span><b>ours</b></li>
     <li><span>Stack trace shown to you</span><b>none — on purpose</b></li>
-    <li><span>What to do</span><b>reload, or come back shortly</b></li>
+    <li><span>What to do</span><b>reload in a minute</b></li>
     <li><span>How to tell us</span><b><a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a></b></li>
   </ul>
   <p><a class="nf__go" href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)} →</a></p>
