@@ -99,21 +99,12 @@ export function hasVisitors(visitors) {
 }
 
 /**
- * Honest empty state so /#readers is never a dead hash. No invented counts.
- * @param {{ titleHtml?: string }} [opts]
+ * No snapshot yet: an empty anchor so /#readers still resolves, and no panel
+ * explaining plumbing to readers. The map appears once country counts exist.
+ * @param {{ titleHtml?: string }} [_opts]
  */
-export function visitorsAwaitingPanel({ titleHtml } = {}) {
-  const heading = titleHtml || `<span class="v2-sr">Where the readers are</span>`;
-  return `<section class="v2-vmap v2-vmap--await" id="readers" data-sec="Readers" aria-labelledby="v2-vmap-h">
-  <div class="v2-sec"><h2 id="v2-vmap-h">${heading}</h2>
-    <span>DAILY · COUNTRY COUNTS · NO SNAPSHOT YET</span></div>
-  <div class="v2-vmap__box v2-vmap__box--await">
-    <p class="v2-vmap__await">No country counts on this build. The daily GoatCounter refresh fills
-      this section with an equal-area map of where SIREN readers are —
-      aggregate country totals only, from a truncated IP that is not stored.
-      Until that file is here, the page shows no invented numbers.</p>
-  </div>
-</section>`;
+export function visitorsAwaitingPanel(_opts = {}) {
+  return '<div id="readers" class="v2-vmap--await" aria-hidden="true"></div>';
 }
 
 /**
