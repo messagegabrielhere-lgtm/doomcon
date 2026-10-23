@@ -46,3 +46,14 @@ def test_empty_and_missing():
 if __name__ == "__main__":
     for n, f in list(globals().items()):
         if n.startswith("test_"): f(); print("ok", n)
+
+def test_expected_move_and_double():
+    why = {}
+    rows = scan.opt_pick("MARA", CHAIN, TODAY, trend=False, why=why)
+    r = [x for x in rows if x["occ"] == "MARA261030P00006500"][0]
+    assert r["em"] == round((0.25 + 0.51) / 7.25 * 100, 1), r["em"]     # 7.50 straddle is the only C+P pair
+    assert r["m2x"] == round(0.16 / 0.30 / 7.25 * 100, 1)
+    assert r["fit"] is not None and why.get("ask") == 1 and why.get("oi") == 1 and why.get("spread") == 2   # 5.00P (67%) and 7.50C (40%)
+
+if __name__ == "__main__":
+    test_expected_move_and_double(); print("ok test_expected_move_and_double")

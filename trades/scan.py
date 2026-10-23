@@ -170,36 +170,61 @@ def occ_parse(o):
     exp = datetime.datetime.strptime(m.group(2), "%y%m%d").date()
     return {"root": m.group(1), "exp": exp, "side": m.group(3), "strike": int(m.group(4)) / 1000}
 
-def opt_pick(sym, data, today, trend=None, rules=OPT_RULES):
-    """Contracts on one chain that pass the sec 6 filters. Pure function (testable offline)."""
+def straddles(data, spot):
+    """Expected move per expiry: mid of the ATM call + put (strike nearest spot)."""
+    by = {}
+    for o in data.get("options") or []:
+        k = occ_parse(o.get("option"))
+        if not k: continue
+        bid, ask = float(o.get("bid") or 0), float(o.get("ask") or 0)
+        if bid <= 0 or ask <= 0: continue
+        by.setdefault(k["exp"], {}).setdefault(k["strike"], {})[k["side"]] = (bid + ask) / 2
+    em = {}
+    for exp, strikes in by.items():
+        both = [(abs(st - spot), v["C"] + v["P"]) for st, v in strikes.items() if "C" in v and "P" in v]
+        if both: em[exp] = min(both)[1]
+    return em
+
+def opt_pick(sym, data, today, trend=None, rules=OPT_RULES, why=None):
+    """Contracts on one chain that pass the sec 6 filters. Pure function (testable offline).
+    why: optional dict, counts rejection reasons (diagnostics)."""
+    why = why if why is not None else {}
+    def rej(r): why[r] = why.get(r, 0) + 1
     spot = float(data.get("current_price") or 0)
+    if not spot: return []
+    em = straddles(data, spot)
     out = []
     for o in data.get("options") or []:
         k = occ_parse(o.get("option"))
-        if not k or not spot: continue
+        if not k: continue
         dte = (k["exp"] - today).days
         if not rules["dte"][0] <= dte <= rules["dte"][1]: continue
         bid, ask = float(o.get("bid") or 0), float(o.get("ask") or 0)
-        if bid <= 0 or ask <= 0 or ask > rules["ask_max"]: continue
+        if bid <= 0 or ask <= 0: rej("no_quote"); continue
+        if ask > rules["ask_max"]: rej("ask"); continue
         mid = (bid + ask) / 2; spr = (ask - bid) / mid
-        if spr > rules["spr"]: continue
+        if spr > rules["spr"]: rej("spread"); continue
         oi = int(float(o.get("open_interest") or 0))
-        if oi < rules["oi"]: continue
+        if oi < rules["oi"]: rej("oi"); continue
         d = o.get("delta")
-        if d is None: continue
+        if d is None: rej("no_delta"); continue
         d = abs(float(d))
-        if not rules["delta"][0] <= d <= rules["delta"][1]: continue
+        if not rules["delta"][0] <= d <= rules["delta"][1]: rej("delta"); continue
         be = ((k["strike"] - ask) / spot - 1) if k["side"] == "P" else ((k["strike"] + ask) / spot - 1)
         al = None if trend is None else ((k["side"] == "P") != bool(trend))
+        m2x = ask / d / spot * 100                      # underlying % move that ~doubles the premium (delta only)
+        emp = em.get(k["exp"]); emp = emp / spot * 100 if emp else None
         out.append({"sym": sym, "occ": o["option"], "exp": k["exp"].strftime("%m/%d"), "dte": dte, "strike": k["strike"],
                     "side": k["side"], "bid": bid, "ask": ask, "delta": round(d, 2), "oi": oi, "vol": int(float(o.get("volume") or 0)),
-                    "spr": round(spr * 100), "be": round(be * 100, 1), "spot": spot, "trend_ok": al})
-    # best per symbol+side: aligned first, then delta nearest 0.35, then OI
-    out.sort(key=lambda r: (r["trend_ok"] is False, abs(r["delta"] - 0.35), -r["oi"]))
+                    "spr": round(spr * 100), "be": round(be * 100, 1), "spot": spot, "trend_ok": al,
+                    "m2x": round(m2x, 1), "em": round(emp, 1) if emp else None,
+                    "fit": round(m2x / emp, 2) if emp else None})
+    # aligned first, then the cheapest double relative to the expected move, then delta near 0.35, then OI
+    out.sort(key=lambda r: (r["trend_ok"] is False, r["fit"] if r["fit"] is not None else 9, abs(r["delta"] - 0.35), -r["oi"]))
     return out
 
 def opt_screen(syms, trends, earn=(), budget=90):
-    B = Budget(budget); today = NOW.astimezone(NY).date(); rows, scanned, errs = [], 0, 0
+    B = Budget(budget); today = NOW.astimezone(NY).date(); rows, scanned, errs, why = [], 0, 0, {}
     for s in syms:
         if not B.ok(): break
         try:
@@ -212,11 +237,11 @@ def opt_screen(syms, trends, earn=(), budget=90):
             try: tr = tech(s)["above20"]
             except Exception: tr = None
         seen = set()
-        for r in opt_pick(s, d, today, tr):
+        for r in opt_pick(s, d, today, tr, why=why):
             if r["side"] in seen: continue
             seen.add(r["side"]); r["earn"] = s in earn; rows.append(r)
-    rows.sort(key=lambda r: (r["earn"], r["trend_ok"] is False, -r["oi"]))
-    return {"rows": rows[:12], "scanned": scanned, "errs": errs, "n": len(syms)}
+    rows.sort(key=lambda r: (r["earn"], r["trend_ok"] is False, r["fit"] if r["fit"] is not None else 9, -r["oi"]))
+    return {"rows": rows[:12], "scanned": scanned, "errs": errs, "n": len(syms), "rejects": why}
 
 def stocks():
     out = {}
@@ -634,8 +659,9 @@ def main():
         w = st.get("watch", {})
         trends = {k2: v.get("above20") for k2, v in w.items() if "px" in v}
         trends.update({r["sym"]: False for r in st.get("puts", [])}); trends.update({r["sym"]: True for r in st.get("longs", [])})
-        cand = list(dict.fromkeys(sorted(held_syms()) + [r["sym"] for r in st.get("puts", [])[:6]] + [r["sym"] for r in st.get("longs", [])[:4]] + OPT_FIXED))
-        cand = [x for x in cand if x.isalpha() and x not in ("QQQ", "SPY", "IWM")][:28]
+        cand = list(dict.fromkeys(sorted(held_syms()) + [r["sym"] for r in st.get("puts", [])[:6]] + [r["sym"] for r in st.get("longs", [])[:4]]
+                                  + [r["sym"] for r in (st.get("movers", {}).get("up", []) + st.get("movers", {}).get("down", [])) if (r.get("px") or 0) >= 3][:8] + OPT_FIXED))
+        cand = [x for x in cand if x.isalpha() and x not in ("QQQ", "SPY", "IWM")][:32]
         earn = {e["sym"] for e in res.get("macro", {}).get("earnings", [])}
         res["opts"] = opt_screen(cand, trends, earn)
     except Exception as e: ERRS.append(f"opts {type(e).__name__}: {str(e)[:60]}"); res["opts"] = {}
@@ -659,10 +685,10 @@ def main():
     L.append("WATCH: " + "; ".join(f"{k2} {f(v.get('px'))} rsi {f(v.get('rsi'),0)} {'>' if v.get('above20') else '<'}20d {'>' if v.get('above50') else '<'}50d" if 'px' in v else f"{k2} err" for k2, v in s.get("watch", {}).items()))
     op = res.get("opts", {})
     def om(r):
-        t = f"{r['sym']} {r['exp']} {r['strike']:g}{r['side']} ask {r['ask']:.2f} d{r['delta']:.2f} OI {r['oi']} spr {r['spr']}% be {r['be']:+.1f}%"
+        t = f"{r['sym']} {r['exp']} {r['strike']:g}{r['side']} ask {r['ask']:.2f} d{r['delta']:.2f} OI {r['oi']} spr {r['spr']}% be {r['be']:+.1f}% 2x@{r['m2x']}%" + (f" EM {r['em']}%" if r.get("em") else "")
         t += " [trend]" if r["trend_ok"] else (" [counter]" if r["trend_ok"] is False else "")
         return t + (" EARN-skip" if r["earn"] else "")
-    L.append(f"OPTIONS AGGR-FIT ({op.get('scanned', 0)}/{op.get('n', 0)} chains; {OPT_RULES['dte'][0]}-{OPT_RULES['dte'][1]}DTE, |d|.25-.45, OI>=300, spr<=12%, ask<=$0.35; ~15m delayed, re-quote live before any order): " + ("; ".join(om(r) for r in op.get("rows", [])[:8]) or "none"))
+    L.append(f"OPTIONS AGGR-FIT ({op.get('scanned', 0)}/{op.get('n', 0)} chains; {OPT_RULES['dte'][0]}-{OPT_RULES['dte'][1]}DTE, |d|.25-.45, OI>=300, spr<=12%, ask<=$0.35; 2x@=underlying move that ~doubles it, EM=ATM straddle; best fit first; ~15m delayed, re-quote live): " + ("; ".join(om(r) for r in op.get("rows", [])[:8]) or "none"))
     cr = res.get("crowd", {})
     def cm(x):
         t = x["sym"] + ("*" if x["hit"] else "")

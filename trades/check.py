@@ -74,7 +74,8 @@ def main():
             v += "(snoozed: live quote checked OK)"
         if v in ("STOP", "TARGET", "TRAIL"):
             breach = True
-        lines.append(f"{p['id']} px={px} stop={p.get('stop')} target={p.get('target')} high={p.get('high')} -> {v} | {p.get('action','')}")
+        pnl = f" pnl={(px / float(p['cost']) - 1) * 100:+.1f}%" if px and p.get("cost") else ""
+        lines.append(f"{p['id']} px={px}{pnl} stop={p.get('stop')} target={p.get('target')} high={p.get('high')} -> {v} | {p.get('action','')}")
     alert = False
     for c in w.get("watches", []):
         try:
