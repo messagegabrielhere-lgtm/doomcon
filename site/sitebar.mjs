@@ -66,6 +66,10 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 @media (max-width:560px){#sitebar{left:8px;right:auto;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:44px;box-sizing:border-box;touch-action:manipulation}#sitebar .fb{display:inline-flex;align-items:center;min-height:44px;touch-action:manipulation}}
 @media (max-width:360px){#sitebar #sitebar-x{display:none}}
 @media (max-width:440px){#sitebar{gap:6px;padding:3px 3px 3px 10px;max-width:calc(100vw - 68px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:8px 10px}}
+#sitebar{transition:transform .25s ease,opacity .25s ease}
+/* Tucked while the reader scrolls down so the pill never sits on the text; back on scroll-up, at the end, or when there is news. */
+#sitebar.tuck{transform:translateY(calc(100% + 24px));opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){#sitebar{transition:none}}
 @media print{#sitebar{display:none}}
 .site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
 .site-disclosure b{font-weight:600}
@@ -207,7 +211,7 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     var lbl = document.getElementById("sitebar-lbl");
     if (!lbl || btn.classList.contains("due")) return;
     lbl.textContent = label;
-    btn.classList.add("due");
+    btn.classList.add("due"); bar.classList.remove("tuck");
     btn.setAttribute("aria-label", label + ". Refresh this page.");
   }
   function watch(){
@@ -225,6 +229,18 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
   document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
   paint(); setInterval(paint, 60000);
   lift(); addEventListener("resize", lift); addEventListener("load", lift); setTimeout(lift, 1500);
+  // Phones start with it tucked: the first screen is the reading and the
+  // signup, and the tab bar already sits at the bottom. A scroll up brings it.
+  var lastY = scrollY, tucked = !!(window.matchMedia && matchMedia("(max-width:560px)").matches) && !btn.classList.contains("due");
+  if (tucked) bar.classList.add("tuck");
+  addEventListener("scroll", function(){
+    var y = scrollY, d = y - lastY;
+    if (Math.abs(d) < 8) return;
+    var atEnd = innerHeight + y >= document.documentElement.scrollHeight - 48;
+    var t = d > 0 && y > 160 && !atEnd && !btn.classList.contains("due");
+    if (t !== tucked) { tucked = t; bar.classList.toggle("tuck", t); }
+    lastY = y;
+  }, { passive: true });
 
   // Dispatch emergency mark: poll the orphan dispatch-data branch. Quiet when
   // CLEAR. Dismiss lasts one session so a visitor can keep reading.

@@ -84,3 +84,22 @@ describe('dial and held level', () => {
     assert.doesNotMatch(html, /SCORE IN THE .* RANGE/);
   });
 });
+
+describe('home UX: less on the first screen', () => {
+  const html = render(base(), { head: '<head></head>' });
+  it('keeps the signup to a heading and two buttons; how-to is folded', () => {
+    const box = html.slice(html.indexOf('id="nl"'), html.indexOf('id="nl"') + 4000);
+    assert.match(box, /<details class="mz-how">\s*<summary>How email signup works<\/summary>[\s\S]*feed-daily\.xml[\s\S]*Feed Me[\s\S]*<\/details>/);
+    assert.ok(box.indexOf('EMAIL ME THE DAILY BRIEF') < box.indexOf('<details class="mz-how">'));
+  });
+  it('shows three reading actions and folds the rest', () => {
+    assert.match(html, /<div class="v2-dbtns">[\s\S]*VERIFY THIS READING[\s\S]*Copy this reading[\s\S]*POST TODAY'S READING[\s\S]*<details class="v2-dmore"><summary>More ways to use this reading<\/summary>[\s\S]*CITE \/ EMBED/);
+  });
+  it('labels the footer links once each', () => {
+    const foot = html.slice(html.indexOf('<p class="v2-foot">'));
+    assert.equal((foot.match(/Where is the full SIREN instrument panel\?/g) || []).length, 1);
+  });
+  it('puts the reading before the brand block at every width', () => {
+    assert.match(html, /\.v2-main>\.v2-hot\{order:-4[^}]*\}\.v2-main>\.hero\{order:-3/);
+  });
+});

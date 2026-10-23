@@ -134,14 +134,19 @@ export function signupBox({ privacyHref, dailyFeedUrl, levelFeedUrl, alertsHref,
   // needs a CAPTCHA, so a page cannot submit for the reader. The honest flow:
   // one tap copies the feed address and opens Blogtrottr; the reader pastes
   // it into "Feed URL", adds their email and picks a schedule.
-  const pick = (key, label, url, hint, ghost) => `<div class="mz-pick">
-    <a class="mz-btn${ghost ? ' mz-btn--ghost' : ''}" href="https://blogtrottr.com/" rel="noopener" target="_blank" data-copyfeed="${esc(url)}">${esc(label)}</a>
-    <label class="mz-feed"><span>Paste this whole address, starting with https://, then ${esc(hint)}</span><input id="${esc(id)}-${key}" type="text" readonly value="${esc(url)}" onfocus="this.select()"></label>
-  </div>`;
+  // The buttons carry the flow; the feed addresses and the step-by-step sit in
+  // a fold that opens itself after a tap (see COPYFEED_JS).
+  const btn = (label, url, ghost) => `<a class="mz-btn${ghost ? ' mz-btn--ghost' : ''}" href="https://blogtrottr.com/" rel="noopener" target="_blank" data-copyfeed="${esc(url)}">${esc(label)}</a>`;
+  const feed = (key, url, hint) => `<label class="mz-feed"><span>Paste this whole address, starting with https://, then ${esc(hint)}</span><input id="${esc(id)}-${key}" type="text" readonly value="${esc(url)}" onfocus="this.select()"></label>`;
   return `<div class="mz-nl mz-nl--big" id="${esc(id)}">${head}
-  <div class="mz-picks">${pick('daily', 'EMAIL ME THE DAILY BRIEF →', dailyFeedUrl, 'choose "Daily digest"', false)}${pick('alerts', 'EMAIL ME LEVEL ALERTS →', levelFeedUrl, 'choose "As soon as possible"', true)}</div>
+  <div class="mz-picks">${btn('EMAIL ME THE DAILY BRIEF →', dailyFeedUrl, false)}${btn('EMAIL ME LEVEL ALERTS →', levelFeedUrl, true)}</div>
+  <details class="mz-how">
+  <summary>How email signup works</summary>
+  ${feed('daily', dailyFeedUrl, 'choose "Daily digest"')}${feed('alerts', levelFeedUrl, 'choose "As soon as possible"')}
   <p class="mz-note mz-steps" role="status">The button copies the feed address and opens Blogtrottr. There, paste it into <b>Feed URL</b> (the full address with <b>https://</b>; plain “siren.watch” is rejected as not a valid URL), add your email, pick the schedule, and press <b>Feed Me</b>. Blogtrottr emails you to confirm.</p>
-  <p class="mz-note">Delivered by Blogtrottr from ${esc(SITE_NAME)}'s public feeds: your address goes to them, not to ${esc(SITE_NAME)}. Unsubscribe from any email. <a href="${esc(alertsHref)}">Other ways: RSS, Slack, in-tab</a> · <a href="${esc(privacyHref)}">Privacy</a>.</p>
+  <p class="mz-note">Delivered by Blogtrottr from ${esc(SITE_NAME)}'s public feeds: your address goes to them, not to ${esc(SITE_NAME)}. Unsubscribe from any email.</p>
+  </details>
+  <p class="mz-note">Free. Your address goes to Blogtrottr, not ${esc(SITE_NAME)}. <a href="${esc(alertsHref)}">Other ways: RSS, Slack, in-tab</a> · <a href="${esc(privacyHref)}">Privacy</a>.</p>
   ${COPYFEED_JS}
 </div>`;
 }
@@ -150,7 +155,8 @@ export function signupBox({ privacyHref, dailyFeedUrl, levelFeedUrl, alertsHref,
 // from adding a second one). Copy happens inside the click, then the link opens.
 const COPYFEED_JS = `<script>(function(){if(window.__mzCopyFeed)return;window.__mzCopyFeed=1;
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-copyfeed]');if(!a)return;
-var t=a.getAttribute('data-copyfeed'),box=a.closest('.mz-nl'),note=box&&box.querySelector('.mz-steps');
+var t=a.getAttribute('data-copyfeed'),box=a.closest('.mz-nl'),note=box&&box.querySelector('.mz-steps'),how=box&&box.querySelector('details.mz-how');if(how)how.open=true;
+try{if(window.gtag)gtag('event','sign_up',{method:'blogtrottr',feed:/level/.test(t)?'alerts':'daily'})}catch(_){}
 function done(ok){if(note)note.innerHTML=ok?'<b>Copied '+t+'</b>. In the Blogtrottr tab, paste it into <b>Feed URL</b> (keep the https://), add your email, pick the schedule, press <b>Feed Me</b>, then confirm from your inbox.':'Copy the full address shown under the button, starting with https://, and paste it into <b>Feed URL</b> on Blogtrottr.'}
 function legacy(){var x=document.createElement('textarea');x.value=t;x.style.position='fixed';x.style.opacity='0';document.body.appendChild(x);x.select();var r=false;try{r=document.execCommand('copy')}catch(_){}document.body.removeChild(x);done(r)}
 try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done(true)},legacy)}else legacy()}catch(_){legacy()}
@@ -237,7 +243,8 @@ export const MZ_CSS = `<style>
 .mz-nl .mz-btn--ghost{background:transparent;color:#fff;border:2px solid #3A4558}
 .mz-tags{border:0;margin:0;padding:0;display:flex;gap:16px;flex-wrap:wrap}.mz-tags label{font:500 14px/1.4 "IBM Plex Sans",sans-serif;letter-spacing:0;text-transform:none;color:#D7DCE3;display:inline-flex;gap:6px;align-items:center}
 .mz-tags input{accent-color:var(--ui,#E8ECF2);width:18px;height:18px}
-.mz-picks{display:grid;gap:12px}.mz-pick{display:grid;gap:6px}
+.mz-picks{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.mz-picks .mz-btn{justify-content:center}
+.mz-how{display:grid;gap:10px}.mz-how>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font:600 13px/1.3 "IBM Plex Mono",monospace;color:#AEB7C3}.mz-how>summary:hover{color:#fff}.mz-how[open]{padding:4px 0 2px}.mz-how[open]>summary{color:#fff}
 .mz-nl label.mz-feed{display:grid;gap:4px;font:500 12px/1.3 "IBM Plex Mono",monospace;letter-spacing:0;text-transform:none;color:#AEB7C3}
 .mz-nl .mz-feed input{width:100%;box-sizing:border-box;padding:9px 10px;background:#05070B;color:#E6EAF0;border:1px solid #2B3445;border-radius:4px;font:500 13px/1.2 "IBM Plex Mono",monospace}
 .mz-steps b{color:#fff}
