@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-23T07:56:11.223Z",
-  "news_generated_at": "2026-10-23T07:56:11.223Z",
+  "generated_at": "2026-10-23T08:37:33.257Z",
+  "news_generated_at": "2026-10-23T08:37:33.257Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,21 +18,21 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 195,
+    "headlines_naming_a_company": 194,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.116
+    "negative_pair_share": 0.111
   },
   "glance": {
     "leading": {
       "id": "deepseek",
       "name": "DeepSeek",
-      "index": 14.1
+      "index": 12.2
     },
     "trailing": {
       "id": "amazon",
       "name": "Amazon",
-      "index": -4
+      "index": -4.2
     },
     "most_discussed": {
       "id": "openai",
@@ -100,9 +100,33 @@
       "id": "openai",
       "name": "OpenAI",
       "headlines": 48,
-      "index": -3.5,
+      "index": -3,
       "mean_headline": -0.4,
       "sample": [
+        {
+          "id": "69c843e6ebda325b",
+          "title": "Sam Altman: OpenAI’s Internal Capabilities Unattainable for Current Public AI Models – Programmers Won’t Be Eliminated by AI and May Even Earn More Than Before",
+          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE82eXk2Y1ZnV1FVY0tUS1FSU2txcndYRTZSa3lFd3R0UWRsU2xJM2htWE5CbGl0ZUk2QktscUt0bVpQWkRBS0RNOVpVZDV4bFZ2eGFj?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:14:13.000Z",
+          "score": 3,
+          "positive": [
+            "won"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b6b6620802ef99e0",
+          "title": "METR’s Red Team Broke OpenAI’s Agent Monitoring Three Ways. Each One Attacks a Different Assumption.",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNYVVqOXF2aVpOQnVIS1RlQnkzV3A3YzFZU0VqdGMtd3MyVkY0MXEyaXZreU1Nb0dPLW81TGFUUGlQMnBFMDJQTzE5bmJOeFdjckZpM0FGS09nOHNzYXBkZXhJWk9qT2JQd25hTHZpSWRBRTVJamt2VUFkZ1dXWnFPNndOTld4M0haVmNxVGlUTERIYkpwejRuNjV6OXRfdGg4VDU2Q25DTU4zcTRBNzJ6NzlLY2tTZmdxa2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T07:53:17.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "5da7d7f4cedc446a",
           "title": "AI doubts hit SoftBank Group stock as OpenAI stake reaches USD 64.60 billion",
@@ -174,40 +198,51 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "1a7787caf13f8803",
-          "title": "OpenAI Buys Orchestra Bio: 5 Things It Changes [2026]",
-          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQa01OVXFLWVQteHNaV21qdUpNeGJyTzhhT3RTREVST09hYm42Z2ktQ0Y1Y21zV3BqMDJRdDVzMERYTEMzSjRCTTlJM1hxU2tENkFjTV9VREt0Z1ZvRkxaNTBGMVhJVzN5M1EyNzk3LXdOSEtaekRwR3d0RmRlZUZqbQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T06:07:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5a7b8f7cb8f4ecd6",
-          "title": "OpenAI status: Delays in customer support responses",
-          "url": "https://status.openai.com//incidents/01M5KDJ4079XQTZDSRX40NMN6H",
-          "source": "openai-status",
-          "published_at": "2026-10-23T05:58:06.293Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "delays"
-          ],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 31,
-      "index": 2.1,
+      "headlines": 33,
+      "index": 2.7,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "f25f2f1aebe76ae0",
+          "title": "NVIDIA's AI hardware market faces the threat of massive oversupply.",
+          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQZ0VsWFQ0NUd4LXNWcVk5RDRSbVM0UzVoVUlIcjBBVHA3MlVNWmlqd3lVSVFyaEI2UGU5TENOWnVPNmk5dXhNV0lyT0c0UGl1UnZLa1JXNTdwaUdKOXV0VHc4QVhqTUREVkpNVkJxSjZNYnMwZlpwRFJpY1FPZzE3cEdvbzhBRXVGbDdUOVlQZjhtWnVqc2luTEh2SmVCY1U4MkRzMG5EcWRHZlNzMHBLclpfMlNXem56?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:35:08.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "42cfaf5c1eadfea2",
+          "title": "Schneider Electric, NVIDIA, and HPE announce collaboration to accelerate Physical AI",
+          "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPbTNocmJYS20zenZzYTR3WU4tUWFkTWdYN3ZlU1hYRWcyU2phYWZVUnh0c0I2V1R1eUhUM2pJb3JSZnZ3RDUyc0drTFRhVEFsTV9Gb3NfS2pXblpKN2wxZ0pLd1ZETmVRckxUY0tuU0VyaVJBbWkwRGxsdVdUcExDYVFPVHBtdVhWb25teXVSSG9ZN2xIb1lVeUhuQzRpQ2JjUTVDR1pvRm5Gb1pxcEd1cHd6aVN2c2M4Vy0teURGYnlBOGZSMHQ5dThZTVlFZGh5alItclB4cw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:03:22.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ac3d81bd1b98e324",
+          "title": "GTC Berlin: NVIDIA Expands AI Partnerships Across Healthcare",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPSGdfeWZaWkkzOW1sajdrWGtucUVJWjRmQURLbzBTUHJMVnY1TjZjcW5ReWpkZk15ZDhfd1JCTnp3cHo4cWhDTFRPLVNBMDVxNC0tZk1kT2hsck5EdkJ3VW5XRVlvRDFSaU16ZnBvUGNydnVsVWVYMlJjZUs0QTF6VS1iWFo1bS1FazBkWU05dmpmcHp3NE9Cclgxaw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:02:20.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "002240bedf34ba4a",
           "title": "GTC: How Vertiv and NVIDIA Halve AI Factory Deployment Time",
@@ -242,57 +277,22 @@
           "clickbait": []
         },
         {
+          "id": "db3b9cca08105113",
+          "title": "AI Video Startup Higgsfield Draws Investment From Nvidia",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQMHhEb3JuUm1ma05hdTNPb0hBc2lQbTFnNTF0ZThWZFBzUXpxSTM3Nmw2d05LRDVSRllZd1FJUHd3ekFPZmhCdjlQWWVvbnI1UklWeThscm9nTXZLSkVPTUxtS1VEYi1YSlJMZHlYdXJnbE9CRXdmYlNSc3dZdkhWZnl5QmhtMkZiMHFtdW14Yjh5bGRvaTBwRHN6bUt6MzNFTkVKMi1SbUZrVlBUbUpYUHo4SVA4YmVqT2RpZU5n?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T07:17:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "c922d323afe34cc4",
           "title": "E.ON unit PreussenElektra taps Nvidia to assess nuclear sites for AI data centers",
           "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNUkFaQ0h6Q3RLTU5DZEgzNUdFcGF3azU5Q1ZBZ0c5Rl8wa3k3bkN1OVdtZUVtMF91VHBVYURpQTdXTkVWaGZWM2JBV3c5cDh3VnNvZjdvSzhfdk15SkI1OGtpcUdBSlk5cERQN2M2ZVE0aGdWYlRrTlhEc1lqaHdWeS15RVhCU0MxYVNNakxRYU9WVExoSlVkcldjeG5pcllzeVFubnBQa3JZRVJGalktaGRFd2NhQ0JJYWc?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-23T06:43:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4a7c77b80013b892",
-          "title": "inDrive, Pony.ai and NVIDIA team up to assess robotaxi prospects in Kazakhstan",
-          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQTVRfbHhjRzF2d2lNV01VVUJmeE43Mm5pdXhlS1l5My1mbzlOSHZMcVIxeHZxN1pGMl9oYnVobWMtdURBVGpNbDY3WVVsQXEzRjc2RDZNRGVhQllDY3NXUHV1UE5hdnA1VGpRTkwxNVZwTHhWSXpEV0poVzV6MW51S1cxT29oaTllWFpMMkxRWWRnazZXdjkwWVN0SldadkNVbkZlWURqYWpVWmdGUTZsa1pENDVudkJfMVUyMEEwaUN4dTFi?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T06:27:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c1ac407ce762d944",
-          "title": "Nvidia launches Minerva AIOps platform for AI factory observability",
-          "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFB2eElxUkQyeTJSMzhvV3l1cU91RExfNXJBSTlBWmpWZEhLaGd3SXFaeXRoYUR5TFBQY2F5Q3ZSNnVnclpuQms5dWxzdG02clpDQ1JsUng2cHB6Y2xPZ0s0d3BxX2s5OFU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T06:19:35.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2da651ff37a465a9",
-          "title": "Nvidia invests in AI video startup Higgsfield- Bloomberg By Investing.com",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQektvdHhncXpQT2Zrd2xzV3VUSXdXTG45c05ma2RNdjllZHFPY3FHUEZkaHB6U0NBcjBYSWF1aHU5WXRHMENXU0dEeTZLbkU4dXJQTktQb1NRS2hwbVF0bnFHSGhtclA3eUdLTllaZXpYR2tFWGpUWjZuQ2UxTzBadnhFcldFVzlIbENBaUlQRVFNc3lXNU9jTFdHRVY3RGVodkZXbXJVeWpKa1JqVkIwVmlB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T05:48:28.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8beb50046e163013",
-          "title": "Nvidia, TCV Invest in AI Video Startup Higgsfield in Series B Extension",
-          "url": "https://bloomberg.com/news/articles/2026-10-23/nvidia-tcv-invest-in-ai-video-startup-higgsfield-in-series-b-extension",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-23T05:00:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -303,10 +303,34 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 30,
+      "headlines": 27,
       "index": -2.4,
       "mean_headline": -0.3,
       "sample": [
+        {
+          "id": "7aee57bdedda9dca",
+          "title": "Global Market: Anthropic presses ahead with November IPO as AI listings face delays",
+          "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxORzkzSzM1RXA1TDVuSXpRVm54VENlY2NWOVRsX2YwcmZJQlhWRm9lem9MVWtaS1FQeHlIVVN6dGNrMXpkck9PQUU1TXk2cjNhREF4ZkhtaTZrRHhBaHVpVFhUeXBLWjk5ZEZJbFVxTEI3VmVJdUs4d0FLbWYzemcyTVdWY1dXTTVCSmFrdENjcVFQbWJpTkhoZ2ZiS3hicV9NZjAyWmNxRmtjTWhyUk1JUXlWaUNjR2Qzd19ZYUI3N1pTUDFZZHFXdm94UlBUMnY2VEZ3UW5feHc0U2QwMEVERGhwams5aHFodmZCTlVaYzZmNElLVW9xQXlVak9xeC1sX2fSAYcCQVVfeXFMTUlZN1hKMlNIQk9QVjlTYk5HQ1NONC1UUzl5LU15YWNNY3hWMHgwNFhwZHN5OFV6c1ZZMEFmOV9Db0R0SmpGT2NLR3BMZk01d24xNlVjV0J0XzRUSnIyWVFpekl3a2VFdVpBek9TNnlvUVY5TTlSVTUzbzk5bTJYSzlmQjVvX0haTzBuZWtSU1cxWXpRMDNEQ1NHa2p4TEVXS2ktNkYyY3A3c0Ytb1VRR3h6NWRLVEg3elB6d0NaLTBxclhYZ0NBenJtb0RDOEpHaVJNVFBvMlU3YUxZN1lUNi1JelBCanlDa1pscGF5dWduUmQteEdSdm5fYU5WWHhJTzVtYko4dVE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:09:22.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "delays"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "55667ed6865f9f12",
+          "title": "Anthropic’s Pitch to Investors Starts With Taking Their Jobs",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQN1ZHY0Z3dkdON2dSODRJUFZHMHVNcHFZVjgtRUZ3YldQemdvSmcxMHpfVWhWUFNIamZhd1JySF9WYVIzZFJOVjJuZTY4dGFaNUZLVTVkdEdFSnk4NmFiQTUzY3JiQ2Q5SWxnbEdIenBwa2ZrRHU0RVhESFh0OG10dkthaExqZ0p0QmFkWVhmQ1pFdjBKYzg0cXhWQ1A4b090UHJwd2pJLVdRWGpCSEE?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T08:00:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "a4ba11af5b2175c1",
           "title": "From Eyeballs To Annual Run Rates: Buzzy Pricing Metrics And The Anthropic Trade",
@@ -377,42 +401,38 @@
             "delay"
           ],
           "clickbait": []
-        },
-        {
-          "id": "8b465940b1f94c99",
-          "title": "'Vulnerability tsunami' is coming, Anthropic security chief warns",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPcVN2ZjVjb1p6cWFHX0hwWXdhR0ZCN3o3dXJuQ3cwZDUybllSdTNSQS1oM3I3YWNrRVVSeVZidEktUnM5SGJnU0ZtOXJxMk9DVkVyR01oQlB5aWNtWWdoREJwWEszUGtKalpxMUFMUjJESVNHY25iWXhkM3VpY25UTkY1UUFsbTBoS0FiV1o2aXRtT2tYWFlibk95N2otYU1oUVRrclN0dlZSNEZiam5F?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T05:48:08.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "1393d4989470a6b0",
-          "title": "Things will 'get a lot worse': Anthropic security chief issues stark warning on digital security",
-          "url": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxQQUhWV2NSWDI2NngyckQ4YUFFclB0QklEOHNZZHBnckNvU3VZUDRvMl9xVUdHbUJqdmR2eEtNM3Y0LVVMTVRGcnZRNHRSV0N2a1R0SmprSnJkb3NNUzVPc1FSal9xdjJ5SDE5V1R5QUs4M0VBUHBOUzBOZHl6dUJzM01VNnlSc3VreWhyWEJWb3NEV21ST1MwdU9BWDEwa0hqV0JhV001bVJkUEFIRlExWm5iVThDc2FmT2hONE0xd0xkNFNXWDZXU2VRd2RQSWtHS0xBeDc5dmZmOUxENjY0Z1ZKd21JZzU1WU5hN01UYWxFSWlt0gH6AUFVX3lxTE15Z3dheVYxSEFPTER3N3R1ZGJtYXV4ZUhya1RQWEV2ZWcyRlhkMG9PVGRTaTVoZG1qeTZZTGtyOEhoamxiMDgzRGM5Q3Fqa200dTV3N195ckhaQUgwY2tfRXNDZXcxYzVYbUN4TldtUEp6OW5LbFFOWlFlYUViT3NldGQxYmpUSVNKM0JtNFB1U0tNemZpZnhYSHlBVWFFbVdEZW1MTWpaWUlRSWwzLWZST2RsXzJPYXJ1N3dPVUVRNkc1OUxkTW1qUHBsWDVLZW1KUnAtTXpOcXNXWkI0Umtkd1ZnYjFXa1lWdHJ3OXowejJQcW9FY1owc1E?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T05:47:04.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warning"
-          ],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 34,
+      "headlines": 36,
       "index": 1.6,
       "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "abc0af0cf4a8f4d7",
+          "title": "Redington Gulf Signs Agreement With AWS To Accelerate AI Adoption Across META",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQSDBBTWlWUDFzVlJjWmZsYzR0M3dnOU52WFZ2akplWGxOUGUtWG83MHh1Q08tMExBY2k0ak1NSGZMOFJmcEpDVFFpNTFsbjJqdVdzS093YnBCSjRrWHRONzc4MVJDYVRtQ2x0ZzZuLU04MlU2YUVsMDZydjZ3bFlVRkw5LU4wem54OUF4NUJTREhIbVltNGFpdGVCRGtXZVh3VnVieW5wOXFEZEhHeXVpVg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:25:14.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2b55e8f3e6ffc7d3",
+          "title": "Meta’s Hunt for AI Capital Strikes a Raw Nerve on Wall Street",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1HNFhFTFhpTzRXbFdHSzNMY3RaWHFIVllmc0VsdGdrUEYxTzdwNGRqb2Y4b3ZhUUt1RUJnZTN2QlpKdW8xQVRjYTIwQktIOGVyaHhINjJPVjFVTFN1NFEwYUd3?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T08:04:38.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "4d5ac2a22f1aad23",
           "title": "Meta, Nvidia Lead Tech Sell-Off as AI Spending Fears Rattle Wall Street, But Gene Munster Sides With Musk",
@@ -482,28 +502,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "c2d830bedfdc45bf",
-          "title": "Meta turns Muse sharing back on",
-          "url": "https://theverge.com/tech/1017066/meta-muse-sharing-back-on-artifiacts",
-          "source": "verge-ai",
-          "published_at": "2026-10-22T20:24:04.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7cca4db9aedbfd97",
-          "title": "Meta Slides 7% as AI Spending Fuels Credit Fears | Closing Bell",
-          "url": "https://bloomberg.com/news/videos/2026-10-22/meta-slides-on-ai-spending-fears-closing-bell-video",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-22T20:20:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -518,9 +516,9 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 10,
-      "index": 1.6,
-      "mean_headline": 0.2,
+      "headlines": 9,
+      "index": 5.3,
+      "mean_headline": 0.7,
       "sample": [
         {
           "id": "9ce04121808d0fb7",
@@ -619,10 +617,34 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 13,
-      "index": -0.6,
-      "mean_headline": -0.1,
+      "headlines": 14,
+      "index": 1.1,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "6739b3adf3cba7e2",
+          "title": "Microsoft AI tool beat generalist doctors at step-by-step diagnosis",
+          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE92ekNwYThSXzFDaTJ4aElJeU1YMHNyMmNRSmFuYTJJMGowZXk2aGZncTdGSVBhT3hJYWR4RkJLYS16STNqRzRFU2Y2d0NMVE1Ua3g2c1NhQ1FBajk3a2tUSnVnZHR3X1YwbUJnQWNIdmxTMTB2VlEtbUJncTM?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:05:59.000Z",
+          "score": 3,
+          "positive": [
+            "beat"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "69cc1bb588ebbd81",
+          "title": "Microsoft’s MAI-DxO Diagnoses 83% of Complex Cases in Science Study",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOYlExVEJBeEdzZlZfc0FzT281X0Q3REtXTTgwTmxFbGRwVS0zQk9BXzdDNDZWSHVQU3U2MnBuTTZRQkI2QkgwR1M4Sk8tLWFkQUNwLUFoajMxT2pBd29ZU25Dc05XQWNWZG9YVzZEQXVNVDlVaEFFRUExSkNZQUhKUXZsYkVLem9nNjB2TW9BdmNyemhsOExFV1NjWm1qZUNw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T07:50:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "490236a7fd4bdc0f",
           "title": "Reco joins Microsoft Pegasus programme for AI agent security",
@@ -690,38 +712,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "8d59093f7cb9840f",
-          "title": "Microsoft says its AI tool is better than doctors at diagnosing diseases",
-          "url": "https://bsky.app/profile/theverge.com/post/3myib2w2mbh2s",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-22T18:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "044c1e9e7b097978",
-          "title": "Microsoft says it is closing The Garage, which for 17 years gave employees worldwide space and tools for side projects and ran the company's Global Hackathon (Todd Bishop/GeekWire)",
-          "url": "https://techmeme.com/261022/p41",
-          "source": "techmeme",
-          "published_at": "2026-10-22T17:02:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 20,
-      "index": -4,
+      "headlines": 19,
+      "index": -4.2,
       "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "abc0af0cf4a8f4d7",
+          "title": "Redington Gulf Signs Agreement With AWS To Accelerate AI Adoption Across META",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQSDBBTWlWUDFzVlJjWmZsYzR0M3dnOU52WFZ2akplWGxOUGUtWG83MHh1Q08tMExBY2k0ak1NSGZMOFJmcEpDVFFpNTFsbjJqdVdzS093YnBCSjRrWHRONzc4MVJDYVRtQ2x0ZzZuLU04MlU2YUVsMDZydjZ3bFlVRkw5LU4wem54OUF4NUJTREhIbVltNGFpdGVCRGtXZVh3VnVieW5wOXFEZEhHeXVpVg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:25:14.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "4b50db164b335cbc",
           "title": "Over 30 firms have now tied job cuts to AI, with HSBC and Amazon leading",
@@ -802,19 +813,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "a7c2f60b65d87a23",
-          "title": "Amazon renames Kindle Unlimited to Kindle Plus and expands access to audiobooks",
-          "url": "https://bsky.app/profile/theverge.com/post/3myi7vdqyya2q",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-22T17:47:52.989Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -822,9 +820,22 @@
       "id": "deepseek",
       "name": "DeepSeek",
       "headlines": 17,
-      "index": 14.1,
-      "mean_headline": 1.8,
+      "index": 12.2,
+      "mean_headline": 1.5,
       "sample": [
+        {
+          "id": "139c5a38a28fd2a5",
+          "title": "Down with Deepseek? - Asian Tech Roundup",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQcDlBQ1daOXVMT0xYR3FzbER4WGVJWEFBeGxLc0hzdVRRTk04RUFoeENBQTJ6YmtYOTBLVWpiNEFFbmhCUDhvTGFkNGxGQjdoSEM2VHJwd0ZiRF9mMkRTYnllaGhOZERjRWsySGhSN0twMTBsTmxyZGFuaGlGWHBzZA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:28:09.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "down"
+          ],
+          "clickbait": []
+        },
         {
           "id": "645ebc0ee3c53751",
           "title": "Jailbroken DeepSeek V4 Helped Hacker Steal 5,200+ Indian University Records in AI-Powered Cyberattack",
@@ -892,17 +903,6 @@
           "url": "https://scmp.com/tech/policy/article/3371880/deepseek-minimax-secure-open-source-licenses-days-after-new-china-export-rules-state-media",
           "source": "scmp-tech",
           "published_at": "2026-10-23T06:00:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6cf7aaad92d42f9d",
-          "title": "MiniMax M3.1 Flash vs DeepSeek V4.1 Flash: Both Open, Only One Is MIT",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1hXzRkYV95cGlSbW1xVTJQdjZYd2Q4YkFyUWxyLTdvdDUxMk5IOHdGSGNGZXVWYnQ2V2M5cG1JdFhuN0Z2NTZLb3hKRUUwSEI5dnBYdW5MZE10VXVtX1ZaYktaUTFBM2FoWGt4RXVvLTRGRFdPNFRfbU5kVG0?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T05:39:13.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -930,9 +930,22 @@
       "id": "deepseek",
       "name": "DeepSeek",
       "headlines": 17,
-      "index": 14.1,
-      "mean_headline": 1.8,
+      "index": 12.2,
+      "mean_headline": 1.5,
       "sample": [
+        {
+          "id": "139c5a38a28fd2a5",
+          "title": "Down with Deepseek? - Asian Tech Roundup",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQcDlBQ1daOXVMT0xYR3FzbER4WGVJWEFBeGxLc0hzdVRRTk04RUFoeENBQTJ6YmtYOTBLVWpiNEFFbmhCUDhvTGFkNGxGQjdoSEM2VHJwd0ZiRF9mMkRTYnllaGhOZERjRWsySGhSN0twMTBsTmxyZGFuaGlGWHBzZA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:28:09.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "down"
+          ],
+          "clickbait": []
+        },
         {
           "id": "645ebc0ee3c53751",
           "title": "Jailbroken DeepSeek V4 Helped Hacker Steal 5,200+ Indian University Records in AI-Powered Cyberattack",
@@ -1000,17 +1013,6 @@
           "url": "https://scmp.com/tech/policy/article/3371880/deepseek-minimax-secure-open-source-licenses-days-after-new-china-export-rules-state-media",
           "source": "scmp-tech",
           "published_at": "2026-10-23T06:00:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6cf7aaad92d42f9d",
-          "title": "MiniMax M3.1 Flash vs DeepSeek V4.1 Flash: Both Open, Only One Is MIT",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1hXzRkYV95cGlSbW1xVTJQdjZYd2Q4YkFyUWxyLTdvdDUxMk5IOHdGSGNGZXVWYnQ2V2M5cG1JdFhuN0Z2NTZLb3hKRUUwSEI5dnBYdW5MZE10VXVtX1ZaYktaUTFBM2FoWGt4RXVvLTRGRFdPNFRfbU5kVG0?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T05:39:13.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1088,110 +1090,11 @@
       ]
     },
     {
-      "id": "nvidia",
-      "name": "NVIDIA",
-      "headlines": 31,
-      "index": 2.1,
-      "mean_headline": 0.3,
-      "sample": [
-        {
-          "id": "002240bedf34ba4a",
-          "title": "GTC: How Vertiv and NVIDIA Halve AI Factory Deployment Time",
-          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNYWhZLU4wakJEdVZ4UWJxSW9Vekp4QWVZMGlaeE5nYnhzZlUwaHA2SmsyZW0xZE9UazU4VzhXeVFVc3VwV2phdGREeWk5b2JLX1I0b3FvX1FhV1FuYlZpWlR4TXpHeU9qbFpUR1pIRlpSTEJjbzhzSWZkQ3lZZ3NvV2V0algxS2kxay1tUGgzRC03cnlxVTViUDJER2I?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T07:35:12.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "333f932a5e53aa8d",
-          "title": "Amadeus, Nvidia to partner on AI-assisted flight search technology",
-          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPSE1pMWFmbHFPUzkyLUstWnE4RnB2MmlYNUJqTkFPWkdxU3VNXzU5V1FjSEc4THliR1h6RC1xWDFURnhpRGhOLXowc1RTRFdiTlMxWjZ2ekk0RGlSX1gtQm9xbS1XS2F6bUNTT0JaVC1pZ3l6NjExeEJLTEt3WDhRd2JOU1IzOTNJRjdkeHNfTUp0TWl2QmIyRTlkTWVTVnY2aXg4UXZwSHBnNWhE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T07:31:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4d5ac2a22f1aad23",
-          "title": "Meta, Nvidia Lead Tech Sell-Off as AI Spending Fears Rattle Wall Street, But Gene Munster Sides With Musk",
-          "url": "https://news.google.com/rss/articles/CBMinwJBVV95cUxOLTFpbTdYcUNUeFh4bXRVTlRNeC13ai1LQmg1ZlA1U0lVSkJISXYxNE5ZNXBuWFAwRzNUT0tHMi1jSlR2dy1hU3pzVms2Ync1NTlzb1Q3ZDJ4dlZJSmZyODZLNjNwdU8xVC1nazhUTTM4WVM0UXBPMVd0Mk9KVlNieXVocVVYdDNtT3p0UzFQZUpkWkNuSzFPeEF3aV9DdUpjNHFVQk1KNmZuR3VGRnZ5QTdJcmNUVy12MnRPXzZOR3JVMzFwYzFGemtraW1yMnJJcjFXSXAySW5hampONEp2eVQ5ZnVDQWxzbGxwR2xXTlpqeEtkOEVONVlaYjhCTm5GZ2tPLS12YXZmSmM3MHl1ZXQ0X1VjemF0NElaWm1lQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T07:19:22.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c922d323afe34cc4",
-          "title": "E.ON unit PreussenElektra taps Nvidia to assess nuclear sites for AI data centers",
-          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNUkFaQ0h6Q3RLTU5DZEgzNUdFcGF3azU5Q1ZBZ0c5Rl8wa3k3bkN1OVdtZUVtMF91VHBVYURpQTdXTkVWaGZWM2JBV3c5cDh3VnNvZjdvSzhfdk15SkI1OGtpcUdBSlk5cERQN2M2ZVE0aGdWYlRrTlhEc1lqaHdWeS15RVhCU0MxYVNNakxRYU9WVExoSlVkcldjeG5pcllzeVFubnBQa3JZRVJGalktaGRFd2NhQ0JJYWc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T06:43:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4a7c77b80013b892",
-          "title": "inDrive, Pony.ai and NVIDIA team up to assess robotaxi prospects in Kazakhstan",
-          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQTVRfbHhjRzF2d2lNV01VVUJmeE43Mm5pdXhlS1l5My1mbzlOSHZMcVIxeHZxN1pGMl9oYnVobWMtdURBVGpNbDY3WVVsQXEzRjc2RDZNRGVhQllDY3NXUHV1UE5hdnA1VGpRTkwxNVZwTHhWSXpEV0poVzV6MW51S1cxT29oaTllWFpMMkxRWWRnazZXdjkwWVN0SldadkNVbkZlWURqYWpVWmdGUTZsa1pENDVudkJfMVUyMEEwaUN4dTFi?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T06:27:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c1ac407ce762d944",
-          "title": "Nvidia launches Minerva AIOps platform for AI factory observability",
-          "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFB2eElxUkQyeTJSMzhvV3l1cU91RExfNXJBSTlBWmpWZEhLaGd3SXFaeXRoYUR5TFBQY2F5Q3ZSNnVnclpuQms5dWxzdG02clpDQ1JsUng2cHB6Y2xPZ0s0d3BxX2s5OFU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T06:19:35.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2da651ff37a465a9",
-          "title": "Nvidia invests in AI video startup Higgsfield- Bloomberg By Investing.com",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQektvdHhncXpQT2Zrd2xzV3VUSXdXTG45c05ma2RNdjllZHFPY3FHUEZkaHB6U0NBcjBYSWF1aHU5WXRHMENXU0dEeTZLbkU4dXJQTktQb1NRS2hwbVF0bnFHSGhtclA3eUdLTllaZXpYR2tFWGpUWjZuQ2UxTzBadnhFcldFVzlIbENBaUlQRVFNc3lXNU9jTFdHRVY3RGVodkZXbXJVeWpKa1JqVkIwVmlB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T05:48:28.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8beb50046e163013",
-          "title": "Nvidia, TCV Invest in AI Video Startup Higgsfield in Series B Extension",
-          "url": "https://bloomberg.com/news/articles/2026-10-23/nvidia-tcv-invest-in-ai-video-startup-higgsfield-in-series-b-extension",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-23T05:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
       "id": "google",
       "name": "Google",
-      "headlines": 10,
-      "index": 1.6,
-      "mean_headline": 0.2,
+      "headlines": 9,
+      "index": 5.3,
+      "mean_headline": 0.7,
       "sample": [
         {
           "id": "9ce04121808d0fb7",
@@ -1288,12 +1191,133 @@
       ]
     },
     {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "headlines": 33,
+      "index": 2.7,
+      "mean_headline": 0.3,
+      "sample": [
+        {
+          "id": "f25f2f1aebe76ae0",
+          "title": "NVIDIA's AI hardware market faces the threat of massive oversupply.",
+          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQZ0VsWFQ0NUd4LXNWcVk5RDRSbVM0UzVoVUlIcjBBVHA3MlVNWmlqd3lVSVFyaEI2UGU5TENOWnVPNmk5dXhNV0lyT0c0UGl1UnZLa1JXNTdwaUdKOXV0VHc4QVhqTUREVkpNVkJxSjZNYnMwZlpwRFJpY1FPZzE3cEdvbzhBRXVGbDdUOVlQZjhtWnVqc2luTEh2SmVCY1U4MkRzMG5EcWRHZlNzMHBLclpfMlNXem56?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:35:08.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "42cfaf5c1eadfea2",
+          "title": "Schneider Electric, NVIDIA, and HPE announce collaboration to accelerate Physical AI",
+          "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPbTNocmJYS20zenZzYTR3WU4tUWFkTWdYN3ZlU1hYRWcyU2phYWZVUnh0c0I2V1R1eUhUM2pJb3JSZnZ3RDUyc0drTFRhVEFsTV9Gb3NfS2pXblpKN2wxZ0pLd1ZETmVRckxUY0tuU0VyaVJBbWkwRGxsdVdUcExDYVFPVHBtdVhWb25teXVSSG9ZN2xIb1lVeUhuQzRpQ2JjUTVDR1pvRm5Gb1pxcEd1cHd6aVN2c2M4Vy0teURGYnlBOGZSMHQ5dThZTVlFZGh5alItclB4cw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:03:22.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ac3d81bd1b98e324",
+          "title": "GTC Berlin: NVIDIA Expands AI Partnerships Across Healthcare",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPSGdfeWZaWkkzOW1sajdrWGtucUVJWjRmQURLbzBTUHJMVnY1TjZjcW5ReWpkZk15ZDhfd1JCTnp3cHo4cWhDTFRPLVNBMDVxNC0tZk1kT2hsck5EdkJ3VW5XRVlvRDFSaU16ZnBvUGNydnVsVWVYMlJjZUs0QTF6VS1iWFo1bS1FazBkWU05dmpmcHp3NE9Cclgxaw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:02:20.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "002240bedf34ba4a",
+          "title": "GTC: How Vertiv and NVIDIA Halve AI Factory Deployment Time",
+          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNYWhZLU4wakJEdVZ4UWJxSW9Vekp4QWVZMGlaeE5nYnhzZlUwaHA2SmsyZW0xZE9UazU4VzhXeVFVc3VwV2phdGREeWk5b2JLX1I0b3FvX1FhV1FuYlZpWlR4TXpHeU9qbFpUR1pIRlpSTEJjbzhzSWZkQ3lZZ3NvV2V0algxS2kxay1tUGgzRC03cnlxVTViUDJER2I?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T07:35:12.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "333f932a5e53aa8d",
+          "title": "Amadeus, Nvidia to partner on AI-assisted flight search technology",
+          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPSE1pMWFmbHFPUzkyLUstWnE4RnB2MmlYNUJqTkFPWkdxU3VNXzU5V1FjSEc4THliR1h6RC1xWDFURnhpRGhOLXowc1RTRFdiTlMxWjZ2ekk0RGlSX1gtQm9xbS1XS2F6bUNTT0JaVC1pZ3l6NjExeEJLTEt3WDhRd2JOU1IzOTNJRjdkeHNfTUp0TWl2QmIyRTlkTWVTVnY2aXg4UXZwSHBnNWhE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T07:31:26.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4d5ac2a22f1aad23",
+          "title": "Meta, Nvidia Lead Tech Sell-Off as AI Spending Fears Rattle Wall Street, But Gene Munster Sides With Musk",
+          "url": "https://news.google.com/rss/articles/CBMinwJBVV95cUxOLTFpbTdYcUNUeFh4bXRVTlRNeC13ai1LQmg1ZlA1U0lVSkJISXYxNE5ZNXBuWFAwRzNUT0tHMi1jSlR2dy1hU3pzVms2Ync1NTlzb1Q3ZDJ4dlZJSmZyODZLNjNwdU8xVC1nazhUTTM4WVM0UXBPMVd0Mk9KVlNieXVocVVYdDNtT3p0UzFQZUpkWkNuSzFPeEF3aV9DdUpjNHFVQk1KNmZuR3VGRnZ5QTdJcmNUVy12MnRPXzZOR3JVMzFwYzFGemtraW1yMnJJcjFXSXAySW5hampONEp2eVQ5ZnVDQWxzbGxwR2xXTlpqeEtkOEVONVlaYjhCTm5GZ2tPLS12YXZmSmM3MHl1ZXQ0X1VjemF0NElaWm1lQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T07:19:22.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "db3b9cca08105113",
+          "title": "AI Video Startup Higgsfield Draws Investment From Nvidia",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQMHhEb3JuUm1ma05hdTNPb0hBc2lQbTFnNTF0ZThWZFBzUXpxSTM3Nmw2d05LRDVSRllZd1FJUHd3ekFPZmhCdjlQWWVvbnI1UklWeThscm9nTXZLSkVPTUxtS1VEYi1YSlJMZHlYdXJnbE9CRXdmYlNSc3dZdkhWZnl5QmhtMkZiMHFtdW14Yjh5bGRvaTBwRHN6bUt6MzNFTkVKMi1SbUZrVlBUbUpYUHo4SVA4YmVqT2RpZU5n?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T07:17:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "c922d323afe34cc4",
+          "title": "E.ON unit PreussenElektra taps Nvidia to assess nuclear sites for AI data centers",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNUkFaQ0h6Q3RLTU5DZEgzNUdFcGF3azU5Q1ZBZ0c5Rl8wa3k3bkN1OVdtZUVtMF91VHBVYURpQTdXTkVWaGZWM2JBV3c5cDh3VnNvZjdvSzhfdk15SkI1OGtpcUdBSlk5cERQN2M2ZVE0aGdWYlRrTlhEc1lqaHdWeS15RVhCU0MxYVNNakxRYU9WVExoSlVkcldjeG5pcllzeVFubnBQa3JZRVJGalktaGRFd2NhQ0JJYWc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T06:43:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "meta",
       "name": "Meta",
-      "headlines": 34,
+      "headlines": 36,
       "index": 1.6,
       "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "abc0af0cf4a8f4d7",
+          "title": "Redington Gulf Signs Agreement With AWS To Accelerate AI Adoption Across META",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQSDBBTWlWUDFzVlJjWmZsYzR0M3dnOU52WFZ2akplWGxOUGUtWG83MHh1Q08tMExBY2k0ak1NSGZMOFJmcEpDVFFpNTFsbjJqdVdzS093YnBCSjRrWHRONzc4MVJDYVRtQ2x0ZzZuLU04MlU2YUVsMDZydjZ3bFlVRkw5LU4wem54OUF4NUJTREhIbVltNGFpdGVCRGtXZVh3VnVieW5wOXFEZEhHeXVpVg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:25:14.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2b55e8f3e6ffc7d3",
+          "title": "Meta’s Hunt for AI Capital Strikes a Raw Nerve on Wall Street",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1HNFhFTFhpTzRXbFdHSzNMY3RaWHFIVllmc0VsdGdrUEYxTzdwNGRqb2Y4b3ZhUUt1RUJnZTN2QlpKdW8xQVRjYTIwQktIOGVyaHhINjJPVjFVTFN1NFEwYUd3?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T08:04:38.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "4d5ac2a22f1aad23",
           "title": "Meta, Nvidia Lead Tech Sell-Off as AI Spending Fears Rattle Wall Street, But Gene Munster Sides With Musk",
@@ -1363,38 +1387,40 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "c2d830bedfdc45bf",
-          "title": "Meta turns Muse sharing back on",
-          "url": "https://theverge.com/tech/1017066/meta-muse-sharing-back-on-artifiacts",
-          "source": "verge-ai",
-          "published_at": "2026-10-22T20:24:04.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7cca4db9aedbfd97",
-          "title": "Meta Slides 7% as AI Spending Fuels Credit Fears | Closing Bell",
-          "url": "https://bloomberg.com/news/videos/2026-10-22/meta-slides-on-ai-spending-fears-closing-bell-video",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-22T20:20:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 13,
-      "index": -0.6,
-      "mean_headline": -0.1,
+      "headlines": 14,
+      "index": 1.1,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "6739b3adf3cba7e2",
+          "title": "Microsoft AI tool beat generalist doctors at step-by-step diagnosis",
+          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE92ekNwYThSXzFDaTJ4aElJeU1YMHNyMmNRSmFuYTJJMGowZXk2aGZncTdGSVBhT3hJYWR4RkJLYS16STNqRzRFU2Y2d0NMVE1Ua3g2c1NhQ1FBajk3a2tUSnVnZHR3X1YwbUJnQWNIdmxTMTB2VlEtbUJncTM?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:05:59.000Z",
+          "score": 3,
+          "positive": [
+            "beat"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "69cc1bb588ebbd81",
+          "title": "Microsoft’s MAI-DxO Diagnoses 83% of Complex Cases in Science Study",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOYlExVEJBeEdzZlZfc0FzT281X0Q3REtXTTgwTmxFbGRwVS0zQk9BXzdDNDZWSHVQU3U2MnBuTTZRQkI2QkgwR1M4Sk8tLWFkQUNwLUFoajMxT2pBd29ZU25Dc05XQWNWZG9YVzZEQXVNVDlVaEFFRUExSkNZQUhKUXZsYkVLem9nNjB2TW9BdmNyemhsOExFV1NjWm1qZUNw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T07:50:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "490236a7fd4bdc0f",
           "title": "Reco joins Microsoft Pegasus programme for AI agent security",
@@ -1462,38 +1488,40 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "8d59093f7cb9840f",
-          "title": "Microsoft says its AI tool is better than doctors at diagnosing diseases",
-          "url": "https://bsky.app/profile/theverge.com/post/3myib2w2mbh2s",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-22T18:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "044c1e9e7b097978",
-          "title": "Microsoft says it is closing The Garage, which for 17 years gave employees worldwide space and tools for side projects and ran the company's Global Hackathon (Todd Bishop/GeekWire)",
-          "url": "https://techmeme.com/261022/p41",
-          "source": "techmeme",
-          "published_at": "2026-10-22T17:02:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 30,
+      "headlines": 27,
       "index": -2.4,
       "mean_headline": -0.3,
       "sample": [
+        {
+          "id": "7aee57bdedda9dca",
+          "title": "Global Market: Anthropic presses ahead with November IPO as AI listings face delays",
+          "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxORzkzSzM1RXA1TDVuSXpRVm54VENlY2NWOVRsX2YwcmZJQlhWRm9lem9MVWtaS1FQeHlIVVN6dGNrMXpkck9PQUU1TXk2cjNhREF4ZkhtaTZrRHhBaHVpVFhUeXBLWjk5ZEZJbFVxTEI3VmVJdUs4d0FLbWYzemcyTVdWY1dXTTVCSmFrdENjcVFQbWJpTkhoZ2ZiS3hicV9NZjAyWmNxRmtjTWhyUk1JUXlWaUNjR2Qzd19ZYUI3N1pTUDFZZHFXdm94UlBUMnY2VEZ3UW5feHc0U2QwMEVERGhwams5aHFodmZCTlVaYzZmNElLVW9xQXlVak9xeC1sX2fSAYcCQVVfeXFMTUlZN1hKMlNIQk9QVjlTYk5HQ1NONC1UUzl5LU15YWNNY3hWMHgwNFhwZHN5OFV6c1ZZMEFmOV9Db0R0SmpGT2NLR3BMZk01d24xNlVjV0J0XzRUSnIyWVFpekl3a2VFdVpBek9TNnlvUVY5TTlSVTUzbzk5bTJYSzlmQjVvX0haTzBuZWtSU1cxWXpRMDNEQ1NHa2p4TEVXS2ktNkYyY3A3c0Ytb1VRR3h6NWRLVEg3elB6d0NaLTBxclhYZ0NBenJtb0RDOEpHaVJNVFBvMlU3YUxZN1lUNi1JelBCanlDa1pscGF5dWduUmQteEdSdm5fYU5WWHhJTzVtYko4dVE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:09:22.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "delays"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "55667ed6865f9f12",
+          "title": "Anthropic’s Pitch to Investors Starts With Taking Their Jobs",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQN1ZHY0Z3dkdON2dSODRJUFZHMHVNcHFZVjgtRUZ3YldQemdvSmcxMHpfVWhWUFNIamZhd1JySF9WYVIzZFJOVjJuZTY4dGFaNUZLVTVkdEdFSnk4NmFiQTUzY3JiQ2Q5SWxnbEdIenBwa2ZrRHU0RVhESFh0OG10dkthaExqZ0p0QmFkWVhmQ1pFdjBKYzg0cXhWQ1A4b090UHJwd2pJLVdRWGpCSEE?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T08:00:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "a4ba11af5b2175c1",
           "title": "From Eyeballs To Annual Run Rates: Buzzy Pricing Metrics And The Anthropic Trade",
@@ -1564,32 +1592,6 @@
             "delay"
           ],
           "clickbait": []
-        },
-        {
-          "id": "8b465940b1f94c99",
-          "title": "'Vulnerability tsunami' is coming, Anthropic security chief warns",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPcVN2ZjVjb1p6cWFHX0hwWXdhR0ZCN3o3dXJuQ3cwZDUybllSdTNSQS1oM3I3YWNrRVVSeVZidEktUnM5SGJnU0ZtOXJxMk9DVkVyR01oQlB5aWNtWWdoREJwWEszUGtKalpxMUFMUjJESVNHY25iWXhkM3VpY25UTkY1UUFsbTBoS0FiV1o2aXRtT2tYWFlibk95N2otYU1oUVRrclN0dlZSNEZiam5F?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T05:48:08.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "1393d4989470a6b0",
-          "title": "Things will 'get a lot worse': Anthropic security chief issues stark warning on digital security",
-          "url": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxQQUhWV2NSWDI2NngyckQ4YUFFclB0QklEOHNZZHBnckNvU3VZUDRvMl9xVUdHbUJqdmR2eEtNM3Y0LVVMTVRGcnZRNHRSV0N2a1R0SmprSnJkb3NNUzVPc1FSal9xdjJ5SDE5V1R5QUs4M0VBUHBOUzBOZHl6dUJzM01VNnlSc3VreWhyWEJWb3NEV21ST1MwdU9BWDEwa0hqV0JhV001bVJkUEFIRlExWm5iVThDc2FmT2hONE0xd0xkNFNXWDZXU2VRd2RQSWtHS0xBeDc5dmZmOUxENjY0Z1ZKd21JZzU1WU5hN01UYWxFSWlt0gH6AUFVX3lxTE15Z3dheVYxSEFPTER3N3R1ZGJtYXV4ZUhya1RQWEV2ZWcyRlhkMG9PVGRTaTVoZG1qeTZZTGtyOEhoamxiMDgzRGM5Q3Fqa200dTV3N195ckhaQUgwY2tfRXNDZXcxYzVYbUN4TldtUEp6OW5LbFFOWlFlYUViT3NldGQxYmpUSVNKM0JtNFB1U0tNemZpZnhYSHlBVWFFbVdEZW1MTWpaWUlRSWwzLWZST2RsXzJPYXJ1N3dPVUVRNkc1OUxkTW1qUHBsWDVLZW1KUnAtTXpOcXNXWkI0Umtkd1ZnYjFXa1lWdHJ3OXowejJQcW9FY1owc1E?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T05:47:04.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warning"
-          ],
-          "clickbait": []
         }
       ]
     },
@@ -1597,9 +1599,33 @@
       "id": "openai",
       "name": "OpenAI",
       "headlines": 48,
-      "index": -3.5,
+      "index": -3,
       "mean_headline": -0.4,
       "sample": [
+        {
+          "id": "69c843e6ebda325b",
+          "title": "Sam Altman: OpenAI’s Internal Capabilities Unattainable for Current Public AI Models – Programmers Won’t Be Eliminated by AI and May Even Earn More Than Before",
+          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE82eXk2Y1ZnV1FVY0tUS1FSU2txcndYRTZSa3lFd3R0UWRsU2xJM2htWE5CbGl0ZUk2QktscUt0bVpQWkRBS0RNOVpVZDV4bFZ2eGFj?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:14:13.000Z",
+          "score": 3,
+          "positive": [
+            "won"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b6b6620802ef99e0",
+          "title": "METR’s Red Team Broke OpenAI’s Agent Monitoring Three Ways. Each One Attacks a Different Assumption.",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNYVVqOXF2aVpOQnVIS1RlQnkzV3A3YzFZU0VqdGMtd3MyVkY0MXEyaXZreU1Nb0dPLW81TGFUUGlQMnBFMDJQTzE5bmJOeFdjckZpM0FGS09nOHNzYXBkZXhJWk9qT2JQd25hTHZpSWRBRTVJamt2VUFkZ1dXWnFPNndOTld4M0haVmNxVGlUTERIYkpwejRuNjV6OXRfdGg4VDU2Q25DTU4zcTRBNzJ6NzlLY2tTZmdxa2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T07:53:17.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "5da7d7f4cedc446a",
           "title": "AI doubts hit SoftBank Group stock as OpenAI stake reaches USD 64.60 billion",
@@ -1671,40 +1697,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "1a7787caf13f8803",
-          "title": "OpenAI Buys Orchestra Bio: 5 Things It Changes [2026]",
-          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQa01OVXFLWVQteHNaV21qdUpNeGJyTzhhT3RTREVST09hYm42Z2ktQ0Y1Y21zV3BqMDJRdDVzMERYTEMzSjRCTTlJM1hxU2tENkFjTV9VREt0Z1ZvRkxaNTBGMVhJVzN5M1EyNzk3LXdOSEtaekRwR3d0RmRlZUZqbQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T06:07:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5a7b8f7cb8f4ecd6",
-          "title": "OpenAI status: Delays in customer support responses",
-          "url": "https://status.openai.com//incidents/01M5KDJ4079XQTZDSRX40NMN6H",
-          "source": "openai-status",
-          "published_at": "2026-10-23T05:58:06.293Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "delays"
-          ],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 20,
-      "index": -4,
+      "headlines": 19,
+      "index": -4.2,
       "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "abc0af0cf4a8f4d7",
+          "title": "Redington Gulf Signs Agreement With AWS To Accelerate AI Adoption Across META",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQSDBBTWlWUDFzVlJjWmZsYzR0M3dnOU52WFZ2akplWGxOUGUtWG83MHh1Q08tMExBY2k0ak1NSGZMOFJmcEpDVFFpNTFsbjJqdVdzS093YnBCSjRrWHRONzc4MVJDYVRtQ2x0ZzZuLU04MlU2YUVsMDZydjZ3bFlVRkw5LU4wem54OUF4NUJTREhIbVltNGFpdGVCRGtXZVh3VnVieW5wOXFEZEhHeXVpVg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T08:25:14.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "4b50db164b335cbc",
           "title": "Over 30 firms have now tied job cuts to AI, with HSBC and Amazon leading",
@@ -1783,19 +1796,6 @@
           "published_at": "2026-10-22T17:48:22.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a7c2f60b65d87a23",
-          "title": "Amazon renames Kindle Unlimited to Kindle Plus and expands access to audiobooks",
-          "url": "https://bsky.app/profile/theverge.com/post/3myi7vdqyya2q",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-22T17:47:52.989Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
           "negative": [],
           "clickbait": []
         }
