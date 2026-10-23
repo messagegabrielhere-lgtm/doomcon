@@ -3,6 +3,8 @@
 // .github/workflows/moltbook-post.yml. Each post has an id and goes out once:
 // ids already posted are kept in data/moltbook-queue-posted.json.
 // Same agent and key as post-moltbook.mjs; the key only goes to www.moltbook.com.
+// A queue item with type "comment" and post_id (optional parent_id) is posted as
+// a reply on that thread instead of a new post.
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const KEY = process.env.MOLTBOOK_API_KEY;
@@ -26,6 +28,16 @@ async function verify(answer) {
   console.log(`moltbook-once: verify answer ${answer} for post ${pend.post}: ${JSON.stringify(res).slice(0, 300)}`);
 }
 
+// The API path and body for one queue item: a new post, or a reply on a thread.
+export function requestFor(p) {
+  if (p.type === 'comment') {
+    if (!p.post_id || !p.content) throw new Error(`${p.id}: a comment needs post_id and content`);
+    return { path: `/posts/${encodeURIComponent(p.post_id)}/comments`,
+      body: { content: p.content, ...(p.parent_id ? { parent_id: p.parent_id } : {}) } };
+  }
+  return { path: '/posts', body: { submolt_name: p.submolt || 'general', title: p.title, content: p.content } };
+}
+
 async function main() {
   const st = process.argv.indexOf('--status');
   if (st > 0) { const r = await call(`/posts/${process.argv[st + 1]}`); const post = r.post || r;
@@ -39,12 +51,12 @@ async function main() {
   const next = queue.filter((p) => !posted[p.id]);
   if (!next.length) return console.log('moltbook-once: nothing new to post');
   const p = next[0]; // one per run: Moltbook limits how often an agent posts
-  const body = { submolt_name: p.submolt || 'general', title: p.title, content: p.content };
-  if (dry) return console.log(`moltbook-once: would post ${p.id}:\n${JSON.stringify(body, null, 2)}`);
+  const { path, body } = requestFor(p);
+  if (dry) return console.log(`moltbook-once: would POST ${path} for ${p.id}:\n${JSON.stringify(body, null, 2)}`);
   if (!KEY) throw new Error('no MOLTBOOK_API_KEY');
-  const res = await call('/posts', body);
-  const v = res.verification || (res.post && res.post.verification);
-  const id = res.post?.id || res.id || null;
+  const res = await call(path, body);
+  const v = res.verification || (res.post && res.post.verification) || (res.comment && res.comment.verification);
+  const id = res.post?.id || res.comment?.id || res.id || null;
   if (v && (v.verification_code || v.code)) {
     // Moltbook counts wrong answers against the agent, so nothing is guessed here.
     // The challenge is saved and printed; a person (or Claude) solves it and runs
@@ -55,8 +67,8 @@ async function main() {
     console.log(`moltbook-once: verification needed. Challenge: ${challenge}`);
     if (v.instructions) console.log(`moltbook-once: instructions: ${v.instructions}`);
   }
-  posted[p.id] = { at: new Date().toISOString(), post: id };
+  posted[p.id] = { at: new Date().toISOString(), post: id, ...(p.type === 'comment' ? { type: 'comment', thread: p.post_id } : {}) };
   writeFileSync(POSTED, JSON.stringify(posted, null, 2) + '\n');
   console.log(`moltbook-once: posted ${p.id}${id ? ` as ${id}` : ''}; ${next.length - 1} left in the queue`);
 }
-main().catch((e) => { console.error('moltbook-once:', e.message); process.exitCode = 1; });
+if (import.meta.url === `file://${process.argv[1]}`) main().catch((e) => { console.error('moltbook-once:', e.message); process.exitCode = 1; });
