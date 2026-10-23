@@ -75,7 +75,8 @@ test('visitorsHomePanel keeps /#readers alive when there is no snapshot', () => 
     titleHtml: '<span>WHERE THE READERS ARE</span>',
   });
   assert.match(html, /id="readers"/);
-  assert.match(html, /No country counts on this build/);
+  assert.doesNotMatch(html, /No country counts on this build/);
+  assert.doesNotMatch(html, /data-sec=/);
   assert.doesNotMatch(html, /GOATCOUNTER_API_KEY/);
   assert.doesNotMatch(html, /<svg /);
   assert.equal(visitorsAwaitingPanel({ titleHtml: 'x' }).includes('id="readers"'), true);

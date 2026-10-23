@@ -824,8 +824,9 @@ function pillarStatusLine(state) {
     const days = baselinePhrase(p.baseline_days, p.baseline_required);
     return `${esc(p.name)}${days ? ` (${esc(days)})` : ''}`;
   }).join(', ');
-  const verb = waiting.length === 1 ? 'is' : 'are';
-  return `<span class="green">${scored} pillars in the score.</span> <span>${bits} ${verb} awaiting baseline.</span>`;
+  // Plain words: a pillar joins once it has enough history to compare against.
+  const verb = waiting.length === 1 ? 'joins' : 'join';
+  return `<span class="green">${scored} pillars in the score.</span> <span>${bits} ${verb} once there is enough history to compare against.</span>`;
 }
 
 /**
