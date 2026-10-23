@@ -158,6 +158,66 @@ def cboe_px(sym):
     except Exception:
         return nq_px(sym.lstrip("_"))
 
+# ---- Option screen for AGGRESSIVE MODE (RULES sec 6). Advisory: Robinhood live quotes decide.
+OPT_FIXED = ["SOFI", "NIO", "F", "RIVN", "LCID", "PLUG", "AAL", "SNAP", "NOK", "T", "RIOT", "MARA", "CLSK",
+             "RGTI", "SQQQ", "SOXS", "SPXU", "TZA", "SOXL", "TQQQ"]
+OPT_RULES = {"dte": (1, 7), "delta": (0.25, 0.45), "oi": 300, "spr": 0.12, "ask_max": 0.35}
+OCC_RE = re.compile(r"^([A-Z.]+?)(\d{6})([CP])(\d{8})$")
+
+def occ_parse(o):
+    m = OCC_RE.match(o or "")
+    if not m: return None
+    exp = datetime.datetime.strptime(m.group(2), "%y%m%d").date()
+    return {"root": m.group(1), "exp": exp, "side": m.group(3), "strike": int(m.group(4)) / 1000}
+
+def opt_pick(sym, data, today, trend=None, rules=OPT_RULES):
+    """Contracts on one chain that pass the sec 6 filters. Pure function (testable offline)."""
+    spot = float(data.get("current_price") or 0)
+    out = []
+    for o in data.get("options") or []:
+        k = occ_parse(o.get("option"))
+        if not k or not spot: continue
+        dte = (k["exp"] - today).days
+        if not rules["dte"][0] <= dte <= rules["dte"][1]: continue
+        bid, ask = float(o.get("bid") or 0), float(o.get("ask") or 0)
+        if bid <= 0 or ask <= 0 or ask > rules["ask_max"]: continue
+        mid = (bid + ask) / 2; spr = (ask - bid) / mid
+        if spr > rules["spr"]: continue
+        oi = int(float(o.get("open_interest") or 0))
+        if oi < rules["oi"]: continue
+        d = o.get("delta")
+        if d is None: continue
+        d = abs(float(d))
+        if not rules["delta"][0] <= d <= rules["delta"][1]: continue
+        be = ((k["strike"] - ask) / spot - 1) if k["side"] == "P" else ((k["strike"] + ask) / spot - 1)
+        al = None if trend is None else ((k["side"] == "P") != bool(trend))
+        out.append({"sym": sym, "occ": o["option"], "exp": k["exp"].strftime("%m/%d"), "dte": dte, "strike": k["strike"],
+                    "side": k["side"], "bid": bid, "ask": ask, "delta": round(d, 2), "oi": oi, "vol": int(float(o.get("volume") or 0)),
+                    "spr": round(spr * 100), "be": round(be * 100, 1), "spot": spot, "trend_ok": al})
+    # best per symbol+side: aligned first, then delta nearest 0.35, then OI
+    out.sort(key=lambda r: (r["trend_ok"] is False, abs(r["delta"] - 0.35), -r["oi"]))
+    return out
+
+def opt_screen(syms, trends, earn=(), budget=90):
+    B = Budget(budget); today = NOW.astimezone(NY).date(); rows, scanned, errs = [], 0, 0
+    for s in syms:
+        if not B.ok(): break
+        try:
+            d = get(f"https://cdn.cboe.com/api/global/delayed_quotes/options/{s}.json", headers=CBOE_UA, timeout=15)["data"]
+        except Exception:
+            errs += 1; continue
+        scanned += 1
+        tr = trends.get(s)
+        if tr is None and B.ok():
+            try: tr = tech(s)["above20"]
+            except Exception: tr = None
+        seen = set()
+        for r in opt_pick(s, d, today, tr):
+            if r["side"] in seen: continue
+            seen.add(r["side"]); r["earn"] = s in earn; rows.append(r)
+    rows.sort(key=lambda r: (r["earn"], r["trend_ok"] is False, -r["oi"]))
+    return {"rows": rows[:12], "scanned": scanned, "errs": errs, "n": len(syms)}
+
 def stocks():
     out = {}
     # regime
@@ -570,6 +630,15 @@ def main():
     except Exception as e: ERRS.append(f"crowd {type(e).__name__}"); res["crowd"] = {}
     try: res["intl"] = intl()
     except Exception as e: ERRS.append(f"intl {type(e).__name__}"); res["intl"] = {}
+    try:
+        w = st.get("watch", {})
+        trends = {k2: v.get("above20") for k2, v in w.items() if "px" in v}
+        trends.update({r["sym"]: False for r in st.get("puts", [])}); trends.update({r["sym"]: True for r in st.get("longs", [])})
+        cand = list(dict.fromkeys(sorted(held_syms()) + [r["sym"] for r in st.get("puts", [])[:6]] + [r["sym"] for r in st.get("longs", [])[:4]] + OPT_FIXED))
+        cand = [x for x in cand if x.isalpha() and x not in ("QQQ", "SPY", "IWM")][:28]
+        earn = {e["sym"] for e in res.get("macro", {}).get("earnings", [])}
+        res["opts"] = opt_screen(cand, trends, earn)
+    except Exception as e: ERRS.append(f"opts {type(e).__name__}: {str(e)[:60]}"); res["opts"] = {}
     res["errors"] = ERRS
     (OUT / "scan.json").write_text(json.dumps(res, indent=1, default=str))
     c, s, k = res.get("crypto", {}), res.get("stocks", {}), res.get("kalshi", {})
@@ -588,6 +657,12 @@ def main():
     L.append("INTL country ETFs (flag |day|>=1.5%; context, rules still gate): " + (("FLAG " + ", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in it.get("flag", [])) + " | ") if it.get("flag") else "") + (", ".join(f"{r['sym']} {f(r['d'],1)}%" for r in it.get("rows", [])[:8]) or "-"))
     L.append("PUT LIST (<SMA20, RSI25-45, vol>1M): " + ("; ".join(f"{r['sym']} {f(r['px'])} {f(r['d'],1)}% rsi {f(r['rsi'],0)}" for r in s.get("puts", [])[:6]) or "none"))
     L.append("WATCH: " + "; ".join(f"{k2} {f(v.get('px'))} rsi {f(v.get('rsi'),0)} {'>' if v.get('above20') else '<'}20d {'>' if v.get('above50') else '<'}50d" if 'px' in v else f"{k2} err" for k2, v in s.get("watch", {}).items()))
+    op = res.get("opts", {})
+    def om(r):
+        t = f"{r['sym']} {r['exp']} {r['strike']:g}{r['side']} ask {r['ask']:.2f} d{r['delta']:.2f} OI {r['oi']} spr {r['spr']}% be {r['be']:+.1f}%"
+        t += " [trend]" if r["trend_ok"] else (" [counter]" if r["trend_ok"] is False else "")
+        return t + (" EARN-skip" if r["earn"] else "")
+    L.append(f"OPTIONS AGGR-FIT ({op.get('scanned', 0)}/{op.get('n', 0)} chains; {OPT_RULES['dte'][0]}-{OPT_RULES['dte'][1]}DTE, |d|.25-.45, OI>=300, spr<=12%, ask<=$0.35; ~15m delayed, re-quote live before any order): " + ("; ".join(om(r) for r in op.get("rows", [])[:8]) or "none"))
     cr = res.get("crowd", {})
     def cm(x):
         t = x["sym"] + ("*" if x["hit"] else "")
