@@ -1,0 +1,23 @@
+name: research
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  zscore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - name: Z-score backtest (free Nasdaq history)
+        run: python3 -u trades/research/zscore_bt.py
+      - name: Commit result
+        run: |
+          git config user.name 'research'
+          git config user.email 'research@users.noreply.github.com'
+          git add trades/research/zscore.md
+          git commit -qm "research: z-score backtest [skip ci]" || exit 0
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
