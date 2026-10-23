@@ -103,3 +103,18 @@ describe('home UX: less on the first screen', () => {
     assert.match(html, /\.v2-main>\.v2-hot\{order:-4[^}]*\}\.v2-main>\.hero\{order:-3/);
   });
 });
+
+describe('home weight', () => {
+  it('draws long history with at most ~240 points per line', () => {
+    const t0 = Date.parse('2026-09-20T00:00:00Z');
+    const history = Array.from({ length: 900 }, (_, i) => ({ t: new Date(t0 + i * 3600e3).toISOString(), score: 50 + (i % 7), level: 4, pillars: { capability: 40 + (i % 5) } }));
+    const html = render(base({ history }), { head: '<head></head>' });
+    const svg = html.match(/<svg class="v2-hchart"[\s\S]*?<\/svg>/g).pop();
+    const longest = Math.max(...[...svg.matchAll(/<path d="([^"]*)"/g)].map((m) => (m[1].match(/[ML]/g) || []).length));
+    assert.ok(longest <= 245, `longest path has ${longest} points`);
+  });
+  it('emits the FAQ schema once when the head already carries it', () => {
+    const html = render(base(), { head: '<head><script type="application/ld+json">{"@type":"FAQPage"}</script></head>' });
+    assert.equal((html.match(/"FAQPage"/g) || []).length, 1);
+  });
+});
