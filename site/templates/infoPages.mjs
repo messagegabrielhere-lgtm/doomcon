@@ -10,6 +10,7 @@ import * as brand from '../brand.mjs';
 import { MONETIZE, on as mzOn } from '../monetize.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
 import { voicesSection, voicesFaq, VOICES, SURVEY } from './_pdoomVoices.mjs';
+import { HEAT } from '../brandmarks.mjs';
 
 const CSS = `<style>
 .inf { max-width: 74ch; }
@@ -1129,7 +1130,7 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
   <h2>${esc(colourQ)}</h2>
   <p>The five level colours carry meaning and are never used as decoration for something else. Amber is the brand accent.</p>
   <ul class="br__row">
-    ${sw('Level 5', '#56b0e0', 'quietest')}${sw('Level 4', '#5fd08a', '')}${sw('Level 3 · accent', '#ffb020', 'also the brand amber')}${sw('Level 2', '#ff8b3d', '')}${sw('Level 1', '#ff5f56', 'loudest')}${sw('Ground', '#0b0c0e', 'page background')}${sw('Ink', '#e8eaee', 'text')}
+    ${sw('Level 5', HEAT[5], 'quietest')}${sw('Level 4', HEAT[4], '')}${sw('Level 3', HEAT[3], '')}${sw('Level 2', HEAT[2], '')}${sw('Level 1', HEAT[1], 'loudest')}${sw('Accent', '#ffb020', 'brand amber, for live values')}${sw('Ground', '#0b0c0e', 'page background')}${sw('Ink', '#e8eaee', 'text')}
   </ul>
 
   <h2>${esc(typeQ)}</h2>

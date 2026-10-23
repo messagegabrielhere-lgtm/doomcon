@@ -12,11 +12,12 @@
 import { pixelText } from './templates/_pixel.mjs';
 import { SEARCH_CORE_JS } from './searchcore.mjs';
 import { homeCrumbName } from './templates/_seo.mjs';
+import { HEAT } from './brandmarks.mjs';
 
 export const HEADER_MARK = 'data-siteheader';
 export const NAV_JS_PATH = 'nav/site-nav.js';
 
-const LEVEL_COLOR = { 5: '#4FB3FF', 4: '#4ADE80', 3: '#FACC15', 2: '#FB923C', 1: '#F87171' };
+const LEVEL_COLOR = HEAT;
 
 export const PRIMARY = [
   // Eight fit a 1280px bar beside the brand, the level chip and All rooms

@@ -126,11 +126,11 @@ const DARK = {
   // literal definition of the index (docs/VOICE.md 1). It is still never the
   // only signal: every surface that uses these also prints the level's name and
   // its band, so the ramp is confirmation and the words are the reading.
-  'heat-5':      '#56b0e0',
-  'heat-4':      '#5fd08a',
-  'heat-3':      '#ffb020',
-  'heat-2':      '#ff8b3d',
-  'heat-1':      '#ff5f56',
+  'heat-5':      '#4FB3FF',
+  'heat-4':      '#4ADE80',
+  'heat-3':      '#FACC15',
+  'heat-2':      '#FB923C',
+  'heat-1':      '#F87171',
   scan:          'rgba(255,255,255,0.016)',
   // Chart washes. Literal rgba rather than color-mix, so a chart never depends
   // on a colour function for its LEGIBILITY - only for its polish.
