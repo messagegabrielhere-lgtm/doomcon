@@ -18,6 +18,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import { parseStatusUrl } from './news-sources/_xai.mjs';
+import { itemPath } from './newsletter.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SCHEMA = 1;
@@ -110,7 +111,8 @@ function fromNews(news, nowMs) {
       why: `Newsroom ${it.pillar || 'item'} · score ${Number(it.score || 0).toFixed(1)}`,
       cited_by: [],
       news_score: Number(it.score) || 0,
-      site_path: it.id ? `/item/${it.id}.html` : '/news.html',
+      // Item pages live at /item/<slug>-<id>.html; /item/<id>.html is a 404.
+      site_path: it.id ? itemPath(it) : '/news.html',
     };
     row.rank = rankScore(row, nowMs);
     row.like_url = likeIntentUrl(row.status_id);
