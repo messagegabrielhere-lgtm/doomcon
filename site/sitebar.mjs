@@ -69,6 +69,7 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 #sitebar{transition:transform .25s ease,opacity .25s ease}
 /* Tucked while the reader scrolls down so the pill never sits on the text; back on scroll-up, at the end, or when there is news. */
 #sitebar.tuck{transform:translateY(calc(100% + 24px));opacity:0;pointer-events:none}
+html.sb-tuck #siren-intro.chip{opacity:0;pointer-events:none}#siren-intro.chip{transition:opacity .25s ease}
 @media (prefers-reduced-motion:reduce){#sitebar{transition:none}}
 @media print{#sitebar{display:none}}
 .site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
@@ -123,6 +124,10 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
       if (document.getElementById("v2-video") || document.querySelector("section.v2-video")) return;
       if (path === "${BASE}" || /\\/(index\\.html)?$/.test(path)) return;
       if (/(elon|videos|radio)\\.html$/.test(path) || sessionStorage.getItem(ik)) return;
+      // Offer the intro once a week, not on every page of every visit.
+      var seen = +localStorage.getItem("siren:intro:seen") || 0;
+      if (Date.now() - seen < 7 * 864e5) return;
+      localStorage.setItem("siren:intro:seen", String(Date.now()));
     } catch (e) { return; }
     if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     var m = "${BASE}/media/${introFile}";
@@ -211,7 +216,7 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     var lbl = document.getElementById("sitebar-lbl");
     if (!lbl || btn.classList.contains("due")) return;
     lbl.textContent = label;
-    btn.classList.add("due"); bar.classList.remove("tuck");
+    btn.classList.add("due"); bar.classList.remove("tuck"); document.documentElement.classList.remove("sb-tuck");
     btn.setAttribute("aria-label", label + ". Refresh this page.");
   }
   function watch(){
@@ -232,13 +237,13 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
   // Phones start with it tucked: the first screen is the reading and the
   // signup, and the tab bar already sits at the bottom. A scroll up brings it.
   var lastY = scrollY, tucked = !!(window.matchMedia && matchMedia("(max-width:560px)").matches) && !btn.classList.contains("due");
-  if (tucked) bar.classList.add("tuck");
+  if (tucked) { bar.classList.add("tuck"); document.documentElement.classList.add("sb-tuck"); }
   addEventListener("scroll", function(){
     var y = scrollY, d = y - lastY;
     if (Math.abs(d) < 8) return;
     var atEnd = innerHeight + y >= document.documentElement.scrollHeight - 48;
     var t = d > 0 && y > 160 && !atEnd && !btn.classList.contains("due");
-    if (t !== tucked) { tucked = t; bar.classList.toggle("tuck", t); }
+    if (t !== tucked) { tucked = t; bar.classList.toggle("tuck", t); document.documentElement.classList.toggle("sb-tuck", t); }
     lastY = y;
   }, { passive: true });
 
