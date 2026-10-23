@@ -33,15 +33,16 @@ import {
   visitorsHomePanel,
   VISITORS_MAP_CSS,
 } from './_visitorsMap.mjs';
+import { HEAT } from '../brandmarks.mjs';
 const PILLAR_META = Object.fromEntries(brand.PILLARS.map((p) => [p.id, p]));
 
 // ---------- copy ----------
 const LEVEL = {
-  5: { color: '#4FB3FF', ground: '#03101C', line: 'QUIET. TOO QUIET.' },
-  4: { color: '#4ADE80', ground: '#03130A', line: 'THE MACHINES ARE WORKING LATE' },
-  3: { color: '#FACC15', ground: '#151103', line: 'SOMETHING IS BEING TRAINED' },
-  2: { color: '#FB923C', ground: '#170B03', line: 'CLEAR YOUR CALENDAR' },
-  1: { color: '#F87171', ground: '#1A0505', line: 'NOBODY HAS SEEN THIS BEFORE' },
+  5: { color: HEAT[5], ground: '#03101C', line: 'QUIET. TOO QUIET.' },
+  4: { color: HEAT[4], ground: '#03130A', line: 'THE MACHINES ARE WORKING LATE' },
+  3: { color: HEAT[3], ground: '#151103', line: 'SOMETHING IS BEING TRAINED' },
+  2: { color: HEAT[2], ground: '#170B03', line: 'CLEAR YOUR CALENDAR' },
+  1: { color: HEAT[1], ground: '#1A0505', line: 'NOBODY HAS SEEN THIS BEFORE' },
 };
 const FACE_BY_LEADER = { altman: 'altman', amodei: 'amodei', hassabis: 'hassabis', musk: 'musk', zuckerberg: 'zuck', huang: 'huang' };
 const FACE_BY_LAB = { anthropic: 'amodei', 'google-deepmind': 'hassabis', openai: 'altman', meta: 'zuck', xai: 'musk' };

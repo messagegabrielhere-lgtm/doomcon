@@ -167,12 +167,15 @@ export const INK_FAINT = '#7a828c';
  * line and this ramp stays on the correct side of it, because every surface
  * that spends it also prints the level's name.
  */
+// One ramp for the whole site (2026-10-22): the homepage, the header chip, the
+// inner pages, the favicon and the cards all print a level in these colours.
+// On #0b0c0e: 8.6, 11.2, 12.8, 8.7 and 7.1 : 1.
 export const HEAT = Object.freeze({
-  5: '#56b0e0',
-  4: '#5fd08a',
-  3: '#ffb020',
-  2: '#ff8b3d',
-  1: '#ff5f56',
+  5: '#4FB3FF',
+  4: '#4ADE80',
+  3: '#FACC15',
+  2: '#FB923C',
+  1: '#F87171',
 });
 
 /**

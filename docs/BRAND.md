@@ -394,13 +394,16 @@ arcade HUD and ours read as a terminal printout.
 **The five levels** — the heat ramp, cool to hot, numbered with the levels so
 `--heat-5` is DORMANT and `--heat-1` is UNPRECEDENTED.
 
+One ramp, site-wide (2026-10-22): `brandmarks.HEAT` is the source; the homepage,
+the header chip, `--heat-*` in `styles.mjs`, the favicon and the cards all read it.
+
 | level | name | dark | on #0b0c0e | light | on #faf9f6 |
 |---|---|---|---|---|---|
-| 5 | DORMANT | `#56b0e0` | 8.09:1 | `#0f6183` | 6.52:1 |
-| 4 | ROUTINE | `#5fd08a` | 10.13:1 | `#17714a` | 5.70:1 |
-| 3 | ELEVATED | `#ffb020` | 10.70:1 | `#9a5a00` | 5.20:1 |
-| 2 | ACCELERATED | `#ff8b3d` | 8.40:1 | `#a8450d` | 5.66:1 |
-| 1 | UNPRECEDENTED | `#ff5f56` | 6.54:1 | `#b3261e` | 6.21:1 |
+| 5 | DORMANT | `#4fb3ff` | 8.60:1 | `#0f6183` | 6.52:1 |
+| 4 | ROUTINE | `#4ade80` | 11.23:1 | `#17714a` | 5.70:1 |
+| 3 | ELEVATED | `#facc15` | 12.78:1 | `#9a5a00` | 5.20:1 |
+| 2 | ACCELERATED | `#fb923c` | 8.65:1 | `#a8450d` | 5.66:1 |
+| 1 | UNPRECEDENTED | `#f87171` | 7.07:1 | `#b3261e` | 6.21:1 |
 
 A temperature ramp is the right metaphor and not a smuggled risk claim, because
 the thing being measured **is** how much is happening — that is the literal
