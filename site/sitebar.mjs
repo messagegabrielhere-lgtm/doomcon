@@ -61,6 +61,8 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 @media (max-width:560px){#siren-intro.playing{width:140px;left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro.chip{left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro .bar{padding:2px 4px}#siren-intro.playing .bar>span:first-child{display:none}#siren-intro.playing .bar>span:last-child{display:flex;width:100%;justify-content:space-between}#siren-intro button{min-height:44px;display:inline-flex;align-items:center;touch-action:manipulation}}
 @keyframes sitebar-spin{to{transform:rotate(360deg)}}
 @media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}#sitebar .kofi{color:#93b8f5}}
+/* The site is dark by design (html[data-theme=dark]); the bar matches it whatever the OS scheme, so a light-mode phone no longer gets a white pill on a black page. */
+html[data-theme="dark"] #sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}html[data-theme="dark"] #sitebar button{background:#e6e9ef;color:#141820}html[data-theme="dark"] #sitebar .kofi{color:#93b8f5}
 /* Phones: the bar sits left and the round Talk to Tally button (media/guide.mjs) takes the same row on
    the right, so the two never stack on each other or on the reading. */
 @media (max-width:560px){#sitebar{left:8px;right:auto;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:44px;box-sizing:border-box;touch-action:manipulation}#sitebar .fb{display:inline-flex;align-items:center;min-height:44px;touch-action:manipulation}}
