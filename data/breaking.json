@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-24T01:37:05.293Z",
+  "generated_at": "2026-10-24T02:09:17.975Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 8,
+  "live": 7,
   "fresh": null,
   "clusters": [
     {
@@ -202,18 +202,20 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
+        "biggo.com",
         "reuters.com",
         "srnnews.com"
       ],
       "tier1_outlets": [
         "reuters.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-23T23:07:43.000Z",
@@ -231,6 +233,14 @@
           "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOeDBNbTdvV2F5U2tSX1NQWmZ2bnRGUXJMRE4xT1V3V0dIcnlFd3g0WkZ6aWdYNmNzNWxIQXNOcWxMdFlqbFNmN3lWekFUOGJVQzN5aElzeVlveVh4RzZ5aC03b3pSLUNQQ21lQ29jNVkwdmF4V2YwYUlkd0dPdkJQT1VwWF9lZUdhZnBrNWppME81Y2Q2ZzFYOWcwWFozajYyME9BQkpSZHNOTTdQX3hTcXF3RkVSS2s3OU1F?oc=5",
           "published_at": "2026-10-23T23:07:43.000Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "biggo.com",
+          "title": "Amazon's Cloud Capacity Is Sold Out Through 2027, Jassy Says, as AI Demand Outruns Buildout",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFAyNnkzR0QyMFQ4UlZnVThjczJRdHJhRUNCbmIzQ1U1bkxWUjZrV1JYNjg3dllrZWFKZV9nNl9lelZjRDVnNlRycmV2QnVTN2tPVHp0Mzl4eWdLamljZzJMYXZaZTljQzFMMGNQSnF0OFB2MUhCR3c?oc=5",
+          "published_at": "2026-10-23T23:29:40.709Z",
+          "tier1": false
         },
         {
           "source": "gnews-ai",
@@ -442,12 +452,9 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "bankinfosecurity.com",
-        "bloomberg.com",
-        "bluewin.ch",
+        "businesstimes.com.sg",
         "ctvnews.ca",
         "engadget.com",
-        "govinfosecurity.com",
         "reuters.com",
         "techi.com",
         "thestar.com.my",
@@ -455,13 +462,11 @@
         "whatstrending.com"
       ],
       "tier1_outlets": [
-        "bloomberg.com",
         "reuters.com",
         "theverge.com"
       ],
-      "corroboration": 11,
+      "corroboration": 8,
       "sources": [
-        "bloomberg-tech",
         "bluesky-ai",
         "gnews-ai",
         "techmeme",
@@ -472,38 +477,27 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-23T19:39:17.000Z",
+      "earliest_published_at": "2026-10-23T20:20:00.000Z",
       "first_seen_at": "2026-10-22T15:46:08.376Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-10-23T22:48:32.260Z",
       "item_ids": [
-        "0039f42ed60956fe",
         "0403218c12e485bb",
         "46dc20d8f3589720",
         "604f1f9c59689482",
         "68f2f67784a58bc0",
         "790bf4bda1237e24",
-        "858a07aad60ffffb",
         "984b852573e1d966",
         "a2a10158eb0a3065",
         "b772d96afe69cc10",
         "b980e39889a2ef33",
         "d1913b905ea697ad",
         "dce577f8229806a4",
-        "dd9918f9c90fec1c",
         "fbb70cd450cb021a",
         "fe66fa38814ff566"
       ],
       "sightings": [
-        {
-          "source": "bloomberg-tech",
-          "outlet": "bloomberg.com",
-          "title": "OpenAI Resumes Training AI, But Without Internet Access",
-          "url": "https://bloomberg.com/news/articles/2026-10-23/openai-to-train-ai-models-without-internet-after-cyber-incidents",
-          "published_at": "2026-10-23T19:39:17.000Z",
-          "tier1": true
-        },
         {
           "source": "techmeme",
           "outlet": "techmeme.com",
@@ -518,22 +512,6 @@
           "title": "OpenAI resumes frontier AI training with enhanced security, no internet access",
           "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQOS01OUZRS1hEaFFMU0pJSkEwdEVKQThtcVJITXJ6elVKbFVHV0QwQVFyc1VUb1NVZExxQ2J4YkN0MTVxS094bUFqdmZYa3QwSUprRjlVX3YwSkZfcEF5U1JEV0h0aWVjUldENHFIaEtZR0RPU3Y0WHpjQXFmRUw2SVROYXQ2NWwzZmNGWG9lcTdwYkhFd0NvY3poSG1YVHRfclVsMmZ0OXRDV245cmx3ckRFVENhZUJydkVXYjVrOA?oc=5",
           "published_at": "2026-10-23T20:23:25.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "OpenAI to Train AI Models Without Internet After Cyber Incidents",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPcTNobXdjbFlXYi0tUHc4QVhnOXY3aDB4bTZ5amJDTm5LTDFlaUJ4UDdYdUFwOHpURk05ZE5Ycm1rMWZDUENSVHh5X3pWZHJEOFlpcUhSa3N6OTZueDlEME1GenV2SllMWkZpZVpSNGhGNWQ0R2V3am1FYnFCU1pDdkVVWm9HMU44a1JiZDhGNjhqTzctZlZyZnZYSTFlMXdjV2xNazdHUmtDS3NwLTktNW5rX0twQQ?oc=5",
-          "published_at": "2026-10-23T20:24:50.494Z",
-          "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "bloomberg.com",
-          "title": "OpenAI to Train AI Models Without Internet After Cyber Incidents",
-          "url": "https://bsky.app/profile/bloomberg.com/post/3mykzgogxsu2t",
-          "published_at": "2026-10-23T20:24:50.494Z",
           "tier1": true
         },
         {
@@ -562,34 +540,42 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "govinfosecurity.com",
-          "title": "OpenAI Agents Disable Their Own Safety Monitoring",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOQ0Z6YVd6dVZ5Z05MMkRpRFJRSlhnT1JMZTFGM0p2eXdpLU43clNybmt0Y2lnSEpGdUpBVGV6ME9VUmd5WE1xVGFDWXZYWkxZdzctWFUzdGNLWVJmXzNSN19aWUF2eGluSXVRcndONFZQNzV6VnFxMksxTll3b0JHUkFyeEVEeHpQY2Zaajhsb09iTjg?oc=5",
-          "published_at": "2026-10-23T22:04:31.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "bankinfosecurity.com",
-          "title": "OpenAI Agents Disable Their Own Safety Monitoring",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOOHM0ejBRdXhzcWl0RFJrMVp4MU9xRmNsVWlFZGpTa0JCT05KWXJIOWpBWmpQY25Kd19kNTBoWGc4czFKeVkzZ3JBQVlqa0JJc3E1WXhHZVl5ZG5FUjIyekVxODZDRUFVaWVKYWlCZjhvVmtoY3JuUVN4RmlWVG1tb09kZ1FuQnUyMm5UaFBySTdzNDh4?oc=5",
-          "published_at": "2026-10-23T22:06:08.429Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "bluewin.ch",
-          "title": "In the Wake of Hacks: OpenAI Plans to Train Cutting-Edge AI Without the Internet",
-          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQOC05bDFoRXJ3Q3M3bTFza0V1NW9HNXFxbm84b1hjdnR1M0F6SG1PVUFORUwtcWljQlY0RDhrQUVEU3pnQVQxMGl0dFMxck5wRGlfamk5LXJZQk4ybVlSRW92NzN2aktUNGgzUk9ELTFZUjZQRkZpeTZOYmk4WE5ZUVBXeWJla2lFTzY0VXJVZnJPOHRWNDBRbmNqNHJCOUllSWRRNEVNWDlnRlRwb1doS21JWFZRXzBlN0xpaGdiS3VoM2la?oc=5",
-          "published_at": "2026-10-23T22:17:27.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
           "outlet": "engadget.com",
           "title": "OpenAI Says It's Cutting Off Internet Access For Frontier Model Training",
           "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOZVlVU2N1R05Jc0YxRjVGMFlBeTlGQVhUWnFzWXRWWVBneXl1YWl6YXFHdVlzUGNHcFdnMDJ3UFpJal9rcElReU15TkR2Q0RTT3dxNjBDeG9hazczZ18xeWgyRzM4ZlpWaTBvWENad2l1ZEZaOEpaNUQyY0kxMUF0V21BYkxLckVOaU5YU3JwNmxrNkM3UFFzaFBDT3BxejVCTktXNEd4eW4?oc=5",
           "published_at": "2026-10-23T22:37:02.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "techi.com",
+          "title": "OpenAI Cuts Internet for Frontier AI Training After 11-Day Safety Pause",
+          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE53b0M5b3ltN1F0QU14UDdBbHp2NDNqM0xTeVpTUHJfQ01UaTYtME93ZzBwbk1HZmhNNXhxeEJHakJpcWVjSS1pdGozaFRmc1gxQ1k1T2Z2a1I4c0lMVEM1aFQzN3IyanF5TW52Tkc2WkttLUdU?oc=5",
+          "published_at": "2026-10-23T23:37:05.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "ctvnews.ca",
+          "title": "OpenAI resumes frontier AI training after security overhaul, discloses flaw in widely used software",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNWmNWUG02ckVXVjVFQ3RTbloxVEx0Y3gxQ1JScGMwT21hRDltajQ4cl9DV3hrdE5DYnZBdm0wRGxCSkNPdHFFTVVqY2FKUmoyWlpiSVhOQVFwcVFSbnJ1UmdzaEVlcnJWNlhNcFJGbk1Hc2l5UE1pTDRDSFN5bDQ3TjV2aE8ySUtJVkJnaGlIUHNJdURfbnVxdWZGNHRGUjhiRlMyaS00QWgxX2FHRE9ueURTUWlLSm5TSm5QMWZFSGJ1NEYwcnRKOHkwd0hqTmxUUzZrVTFR?oc=5",
+          "published_at": "2026-10-24T01:10:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "whatstrending.com",
+          "title": "An OpenAI Model Hacked Its Way Onto the Internet",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQRWFvenBmX0dSVTZCYmV0OC00dEhkb2s3Um9ocWpwS3Zka1RuMzJ1elZnbXpYYU5XSnVhNFZ0WHEtQVVMS1pwZkpOdF9WeFRIVUN2LThpdzRxLUdqdHFfSXJtZmhUbFRXMkJRVHk5eU9zVy1fZXRMRjU2N2hMeWxLMQ?oc=5",
+          "published_at": "2026-10-24T01:25:19.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "businesstimes.com.sg",
+          "title": "OpenAI resumes frontier AI training after security overhaul, discloses flaw in widely used software",
+          "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxORmE0YlJ5V1B5TFpteXUtZDRPS0J3X1d4U3BUSnIyM01TRFVObll0UlJZVHZFd0tBRjBxY0hsNy0xSHpJUzA1Z0hQRUZlVUZDNGg3bXhlVTAtYTZpWXJUNS1ZRENqbGRGdmwxT21TNDZmWG8wWHlya05uaEQ1V0NQU0E0bVJMM254MXVXdjBtQVA0QTJQYUhsS2ZweDFHVGNqc1QtTmt6ZnFvLXlDdlRaQXEzRnBBVGQyUHhZVFFzRENBMUQ1Q2tIQ0Jlcjk2LTJkbzQ1ZFo1M1NTTUdYalhPUk5uQ2RiVmhwZFBGLVpLTHFwU1pTRXlZ?oc=5",
+          "published_at": "2026-10-24T01:37:05.293Z",
           "tier1": false
         }
       ],
@@ -1482,7 +1468,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b06783165c3a8",
