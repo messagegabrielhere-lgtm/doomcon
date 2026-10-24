@@ -4,11 +4,18 @@ name: market-keeper
 # This keeps ONE long-running job alive through market hours that refreshes the scan
 # every 10 min and the stop watcher every 1 min (owner 10/22: "check every minute" while holding). Extra cron lines are redundant starts:
 # if one is skipped, the next one picks up. A start after the end time exits at once.
+# Off-hours / weekends (crypto trades 24/7): a Claude scheduled task dispatches this with until=max
+# at 00:20, 06:20, 18:20 ET daily and 12:20 ET Sat/Sun, so scan.md and status.txt stay fresh around the clock.
 
 on:
   schedule:
     - cron: '3,23,43 13-20 * * 1-5'  # backup only; a Claude scheduled task dispatches this at 9:20 and 13:20 ET (GitHub skips crons)
   workflow_dispatch:
+    inputs:
+      until:
+        description: "market = stop at 16:10 ET (default); max = run the full ~5h50m (off-hours / weekend crypto keeper)"
+        default: market
+        required: false
 
 permissions:
   contents: write
@@ -23,11 +30,13 @@ jobs:
     timeout-minutes: 355
     steps:
       - uses: actions/checkout@v7
-      - name: Refresh scan every 10 min until 16:10 ET (or ~5h50m)
+      - name: "Refresh scan every 10 min until 16:10 ET (until=max: ~5h50m)"
         run: |
           git config user.name 'trade-scan'
           git config user.email 'trade-scan@users.noreply.github.com'
           start=$(date +%s); stop_utc=$(TZ=America/New_York date -d '16:10' +%s)
+          [ "${{ inputs.until }}" = "max" ] && stop_utc=$(( start + 20700 ))
+          echo "mode=${{ inputs.until }} stop_utc=$stop_utc"
           while [ "$(date +%s)" -lt "$stop_utc" ] && [ $(( $(date +%s) - start )) -lt 20700 ]; do
             t0=$(date +%s)
             if timeout 600 python3 -u trades/scan.py; then
@@ -48,11 +57,12 @@ jobs:
     timeout-minutes: 355
     steps:
       - uses: actions/checkout@v7
-      - name: Check stops every 1 min until 16:10 ET (or ~5h50m)
+      - name: "Check stops every 1 min until 16:10 ET (until=max: ~5h50m)"
         run: |
           git config user.name 'trade-watch'
           git config user.email 'trade-watch@users.noreply.github.com'
           start=$(date +%s); stop_utc=$(TZ=America/New_York date -d '16:10' +%s)
+          [ "${{ inputs.until }}" = "max" ] && stop_utc=$(( start + 20700 ))
           while [ "$(date +%s)" -lt "$stop_utc" ] && [ $(( $(date +%s) - start )) -lt 20700 ]; do
             git pull -q --rebase origin main || true
             timeout 50 python3 trades/check.py || echo "check failed"
