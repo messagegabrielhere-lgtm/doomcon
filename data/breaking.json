@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-24T19:51:59.494Z",
+  "generated_at": "2026-10-24T20:37:41.816Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 6,
+  "live": 5,
   "fresh": "bf43b9420c661",
   "clusters": [
     {
@@ -57,18 +57,20 @@
       "source": "wires-ai",
       "outlet": "wsj.com",
       "outlets": [
+        "demokratis.co.id",
         "suaragarut.id",
         "wsj.com"
       ],
       "tier1_outlets": [
         "wsj.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-24T17:07:00.000Z",
@@ -94,6 +96,14 @@
           "title": "Judge Detains Former OpenAI Engineer Without Bail in Espionage Case",
           "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFB6Xzl4ZFlNdTF4X2hjbnA4eF9QeHpSaG1Gc3hCMDZEQnYwTk5TNHFNdGtvWW95QUJrRXkwQTgtTHNDWmF4a01jTG5QRFFxU3lxbl9hRHJyR1VoQTliemc2OGZ2dUJxQVdMT3NsX3lZemN3M21IbFE?oc=5",
           "published_at": "2026-10-24T19:33:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "demokratis.co.id",
+          "title": "Judge Detains Former OpenAI Engineer Without Bail in Espionage Case",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5wSzJpc1FQWTRpdEZyZ0pBU3B4WVFsVU5yNjJDckpOUWRUNHI4TnZJU3k0dGo4dXlkWERmSWxMbElTdkd3blZsYTRFXzhwLWRPQUJUc1gyam9lcXo4UjdCRTZDYmdyaVB3SEU5ZzcyRmQ2MmFzVmZkY3Fn?oc=5",
+          "published_at": "2026-10-24T19:39:00.000Z",
           "tier1": false
         }
       ],
@@ -755,7 +765,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "bac4b09f93d8e",

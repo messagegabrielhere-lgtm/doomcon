@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-24T19:51:59.494Z",
-  "news_generated_at": "2026-10-24T19:51:59.494Z",
+  "generated_at": "2026-10-24T20:37:41.816Z",
+  "news_generated_at": "2026-10-24T20:37:41.816Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,36 +18,47 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 190,
+    "headlines_naming_a_company": 188,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.102
+    "negative_pair_share": 0.103
   },
   "glance": {
     "leading": {
       "id": "deepseek",
       "name": "DeepSeek",
-      "index": 21
+      "index": 20.6
     },
     "trailing": {
       "id": "openai",
       "name": "OpenAI",
-      "index": -5.7
+      "index": -5.8
     },
     "most_discussed": {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 64
+      "headlines": 63
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 1,
+      "headlines": 2,
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "238aac40e20acefc",
+          "title": "Gemini arrives on Apple CarPlay in Google Maps, US first",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQRzFIWnpSYzlGR2JTMFdCU0p2RFA4OENVTTAzQjZjRFYwQm9ya1lpVy1uU3hjVHdRbHcwYU5VTW9XY2RXVGdFR1ZKRENVTXNwbjFlcXBhVTlhLV95VnlGWDlYd3lCTm1GSS1yS253MklobTAyZF94a2ZfNWJ1Sjg2cGlXcXNnUVQ3SVBZRkhn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T19:55:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "f551a181188bac11",
           "title": "Evaluating the Applicability of LLM Inference Optimizations on Apple Silicon",
@@ -64,10 +75,21 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 64,
-      "index": -5.7,
+      "headlines": 63,
+      "index": -5.8,
       "mean_headline": -0.7,
       "sample": [
+        {
+          "id": "e498e18022335643",
+          "title": "Britain is building the world’s first AI biosecurity lab, with OpenAI and Anthropic inside",
+          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE45NHR4NDR1MTJDRnI4ZWhrUXZiM2Znakk3WnVPUWpRYk5BVUZhdFpHVkxKNU44dVVCNVJRanI4NHBDWEFYSllkZjhHemYzQmpWNm9B?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T20:14:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "0af51f06af88bdd8",
           "title": "Source: Replit recently moved most AI spend from Anthropic to OpenAI, which gave 30%+ off in a deal worth $100M+/year, after Anthropic discontinued its discount (The Information)",
@@ -152,27 +174,14 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "39197a9d9193c8cf",
-          "title": "Paxton sues OpenAI as Senate campaign nears end",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQQkhWYmZZWmpLSmdnN0cyTnk5TmVjczY0Y0pOVTVtdGJwRk5ObXY5LXRPTGh3VjFVX3dfRU53cF9wS2FJWWNNQ2hjQl8yQWgtN2piVnliYjVib1hKeDlnY21Qa2xPNjdFcUNrMG1aSUQwakFIRjI3MkxYclN1aGRLZHZMemtTZkdLaXF6VkxpZVBQRldVbGJ4OHFFNC1uVFY0MjFFUk1YMW43YVoxN3YyZXRFc0E?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T18:18:36.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "sues"
-          ],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 21,
-      "index": 4.6,
+      "headlines": 20,
+      "index": 4.8,
       "mean_headline": 0.6,
       "sample": [
         {
@@ -220,17 +229,6 @@
           "clickbait": []
         },
         {
-          "id": "42b2a00d3f754c6f",
-          "title": "Is Navitas Semiconductor (NVTS) Cheap Following Its NVIDIA Linked AI Power Push?",
-          "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxQRGJQdFUyYWc3cmR6X2dEa1VIbEU4eTBCTXpDUVBYMUJOOF9XNWF2eTBudkR3UUNscHRMNGtKNlU3TlJCMEd6eUY5LUNraW5qc1JCc01RNVdKZmtwZGV4bkdlNFdrYm9BUURfMUJoUFVLUmZzcE9hb3Z6dE9XUlJSOFBxQkNGVlJXTm5jbFNRVXBDcmcxakJualZucHpmcm5tWXZNdTZSWkNnLW5YY0FhMUVDc2Y2cjJKbWE4UkhsU0dveTlnTXJCUElVZWlScVQ3VHE4Z3lhbEhwbkxLWE530gHkAUFVX3lxTE1Sb1ZTYnNGSGFVbGdaa0hjeU54M25BOTAtREtHOU5QNmZVWXJSdk1Nc2N2S0V2S1R1cUFDNTNpZWduQzFrMm9TbUstWGxyS1VuQW1TYndvR2xZLWhLRFYtWmc1OVdFU29sQXROM3RCeF9yTGczTmw2Mjl4UWlaUGhzazAwOHJTUjB3SU1wR1NpWS1aWjlnbWtnSzZCOHRkU1dHUFRLZ2Z6cTZLTnRBV3JMTjREZ3U2aXhidkdvVDVuUHJ4Wi0xQUNsZi05UGtaZFdWV0dTV3lSSWFHWGl3R0NNZk9lUw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T16:23:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "d046f5df35ef93d1",
           "title": "Nvidia B300 GPUs on Chinese Networks: 12,000 GPU Study",
           "url": "https://lava.security/blog/nvidia-b300-gpus-china",
@@ -262,6 +260,17 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "1e55c29e6e1a3d35",
+          "title": "Hottest toy for Christmas? Nvidia CEO plays with adorable Microduck robots, 20,000 sell",
+          "url": "https://techcrunch.com/2026/10/23/hottest-toy-for-christmas-nvidia-ceo-plays-with-adorable-microduck-robots-20000-sell",
+          "source": "techcrunch-ai",
+          "published_at": "2026-10-23T21:59:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
@@ -272,6 +281,28 @@
       "index": 1.3,
       "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "0a1b8a80604f49fd",
+          "title": "Who Is Dario Amodei? The Anthropic CEO Behind Claude",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1nNVRycmlWXzJTdWtVSVZMbkN2SlVsVEhpUTktdFVuX1g0RmNGNjV4WUhaTjlCMTZmVEg1dWVlSkRWUjJuWGd4bXNvU2dqOXFScG9QMnNrUmJNMmZKNXJtMmp3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T20:35:29.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e498e18022335643",
+          "title": "Britain is building the world’s first AI biosecurity lab, with OpenAI and Anthropic inside",
+          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE45NHR4NDR1MTJDRnI4ZWhrUXZiM2Znakk3WnVPUWpRYk5BVUZhdFpHVkxKNU44dVVCNVJRanI4NHBDWEFYSllkZjhHemYzQmpWNm9B?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T20:14:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "0af51f06af88bdd8",
           "title": "Source: Replit recently moved most AI spend from Anthropic to OpenAI, which gave 30%+ off in a deal worth $100M+/year, after Anthropic discontinued its discount (The Information)",
@@ -337,28 +368,6 @@
           "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE15NjVPYUtCV2RwQTJVZ0MtcDFJdV9INE9mOUpFdmUxQXg0bXI3WkJhVHNyN2ExOGFJRXAyZmpwWjY5SnMxYW05R2UtVVJzRHJGdldDcEdaU3RlcE1DdGFqT19CXzgwZnNUdk4zNEY1cUJXSWpsVVFn?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-24T18:32:16.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b1dcc65205b2f697",
-          "title": "Nik Bhatia: Anthropic and OpenAI urged to pursue IPOs before funding conditions worsen",
-          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOUkI2blZQMEZxUC02aV95TDllbU9xYkFPeTVrM2JiSVByd2RJUUVCYWJjQ0ZlTVRsX3lHdnZNVTU3eXlfNFJvdjV1c3hRNElSem1aOElrX2huZnBXUkxvanRBZjJLNFM4eGE4cE9OM2V2MGxxZmx2dGdKYVJkekdSMEVsUnhVVlg3Q3hCazRFaw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T18:30:47.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "658f28469988438e",
-          "title": "Elvis Presley Rightsholders Sue Anthropic for Training on 274 Songs Without Permission",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNWTh5TVotQUREU29MT1BHc3JwV0p6X2FiUjlIbllhX3hkaWpxZnNMUzkyMHU0elBhRFBlUmJKWTE1X1k3VmhFQ056RFZ2cHV3ZS1jcW1hQXN6djRLcFNjNmdIeEFpY3FZU1RFVkZPM296WDNwOEM1S3R3WU9kSGhJeVFqRUhpVG1NWWZlczdYWW5veElSaG9SM1JGeGpRUUZ5bUNQMHpKOU9udVpISzdCUjFPNkRIWFk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T18:28:26.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -474,10 +483,21 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 16,
-      "index": -3,
+      "headlines": 17,
+      "index": -2.8,
       "mean_headline": -0.4,
       "sample": [
+        {
+          "id": "238aac40e20acefc",
+          "title": "Gemini arrives on Apple CarPlay in Google Maps, US first",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQRzFIWnpSYzlGR2JTMFdCU0p2RFA4OENVTTAzQjZjRFYwQm9ya1lpVy1uU3hjVHdRbHcwYU5VTW9XY2RXVGdFR1ZKRENVTXNwbjFlcXBhVTlhLV95VnlGWDlYd3lCTm1GSS1yS253MklobTAyZF94a2ZfNWJ1Sjg2cGlXcXNnUVQ3SVBZRkhn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T19:55:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "97f9231aeb816910",
           "title": "Google DeepMind Pentagon AI contract resignations: Researchers exit over classified military deals; all you need to know",
@@ -554,17 +574,6 @@
           "url": "https://arstechnica.com/gadgets/2026/10/updated-google-privacy-policy-says-your-gmail-might-be-used-for-advertising",
           "source": "arstechnica-ai",
           "published_at": "2026-10-23T20:19:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e01b37ee24db415d",
-          "title": "Now Google says it might use your Gmail and Google Photos data to target ads",
-          "url": "https://bsky.app/profile/theverge.com/post/3myknh2rqce2y",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-23T16:52:55.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -680,9 +689,9 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 25,
-      "index": 1.9,
-      "mean_headline": 0.2,
+      "headlines": 24,
+      "index": 1,
+      "mean_headline": 0.1,
       "sample": [
         {
           "id": "231cc9a3a096270d",
@@ -703,19 +712,6 @@
           "published_at": "2026-10-24T18:11:00.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "89c7ef06eca1fa83",
-          "title": "Amazon launches TorchNeuron to let AI developers run PyTorch code on Trainium chips",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1FWGRIZmh1dlFNRXhVdHYtejRfMEliT3FoeDMtZ1RjYTJuQW5kUy15ajdvTmp3OVhYU0l2VVFpcWVfUGVWWC1ybGtLUkFGU0pwb3d5THdneDExMnBfdzFvQ3dkNU5sTUx1bUFwd1M0Y0x1RV9uWkhod053?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T16:21:11.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
           "negative": [],
           "clickbait": []
         },
@@ -773,29 +769,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "51f0818ffe16d3b2",
+          "title": "Andy Jassy says AWS capacity for 2027 is \"largely sold out\" and a \"good chunk\" of 2028 capacity is also sold, though AWS reserves some capacity for on-demand (Catherine Perloff/The Information)",
+          "url": "https://techmeme.com/261023/p27",
+          "source": "techmeme",
+          "published_at": "2026-10-24T02:55:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 8,
-      "index": 21,
+      "headlines": 7,
+      "index": 20.6,
       "mean_headline": 2.6,
       "sample": [
-        {
-          "id": "203e270ae537dc04",
-          "title": "Chinese AI startup DeepSeek raises $15 billion ahead of potential IPO",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPZXZzblRac211RElKalkxTVo3bDNHMGFtMU5Hc3BXVmRzN3k5NjBkbXpua3B4ZFN6bFVnRHJHakxKRnZSTWF5VTJHS2s3MV8yZXlGRkh2LXk4aDZXWTlkWUI1SDZrOW9oMEpoaFZqNklVaWp4U3JDblJTaDJUNG1hLXVPMkNjbWY1WkRoUTRBeTJJN3RFVXRJemtyd1hvZVdmcExHeHNtbksxNzZ5OG9JdE5scWtHVjZEN0h4M1dFTUs?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T16:28:39.000Z",
-          "score": 3,
-          "positive": [
-            "raises"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "873ca5a374ac4e71",
           "title": "Moonshot Debuts First AI Upgrade Since Its Own DeepSeek Moment",
@@ -890,23 +884,10 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 8,
-      "index": 21,
+      "headlines": 7,
+      "index": 20.6,
       "mean_headline": 2.6,
       "sample": [
-        {
-          "id": "203e270ae537dc04",
-          "title": "Chinese AI startup DeepSeek raises $15 billion ahead of potential IPO",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPZXZzblRac211RElKalkxTVo3bDNHMGFtMU5Hc3BXVmRzN3k5NjBkbXpua3B4ZFN6bFVnRHJHakxKRnZSTWF5VTJHS2s3MV8yZXlGRkh2LXk4aDZXWTlkWUI1SDZrOW9oMEpoaFZqNklVaWp4U3JDblJTaDJUNG1hLXVPMkNjbWY1WkRoUTRBeTJJN3RFVXRJemtyd1hvZVdmcExHeHNtbksxNzZ5OG9JdE5scWtHVjZEN0h4M1dFTUs?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T16:28:39.000Z",
-          "score": 3,
-          "positive": [
-            "raises"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "873ca5a374ac4e71",
           "title": "Moonshot Debuts First AI Upgrade Since Its Own DeepSeek Moment",
@@ -999,8 +980,8 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 21,
-      "index": 4.6,
+      "headlines": 20,
+      "index": 4.8,
       "mean_headline": 0.6,
       "sample": [
         {
@@ -1048,17 +1029,6 @@
           "clickbait": []
         },
         {
-          "id": "42b2a00d3f754c6f",
-          "title": "Is Navitas Semiconductor (NVTS) Cheap Following Its NVIDIA Linked AI Power Push?",
-          "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxQRGJQdFUyYWc3cmR6X2dEa1VIbEU4eTBCTXpDUVBYMUJOOF9XNWF2eTBudkR3UUNscHRMNGtKNlU3TlJCMEd6eUY5LUNraW5qc1JCc01RNVdKZmtwZGV4bkdlNFdrYm9BUURfMUJoUFVLUmZzcE9hb3Z6dE9XUlJSOFBxQkNGVlJXTm5jbFNRVXBDcmcxakJualZucHpmcm5tWXZNdTZSWkNnLW5YY0FhMUVDc2Y2cjJKbWE4UkhsU0dveTlnTXJCUElVZWlScVQ3VHE4Z3lhbEhwbkxLWE530gHkAUFVX3lxTE1Sb1ZTYnNGSGFVbGdaa0hjeU54M25BOTAtREtHOU5QNmZVWXJSdk1Nc2N2S0V2S1R1cUFDNTNpZWduQzFrMm9TbUstWGxyS1VuQW1TYndvR2xZLWhLRFYtWmc1OVdFU29sQXROM3RCeF9yTGczTmw2Mjl4UWlaUGhzazAwOHJTUjB3SU1wR1NpWS1aWjlnbWtnSzZCOHRkU1dHUFRLZ2Z6cTZLTnRBV3JMTjREZ3U2aXhidkdvVDVuUHJ4Wi0xQUNsZi05UGtaZFdWV0dTV3lSSWFHWGl3R0NNZk9lUw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T16:23:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "d046f5df35ef93d1",
           "title": "Nvidia B300 GPUs on Chinese Networks: 12,000 GPU Study",
           "url": "https://lava.security/blog/nvidia-b300-gpus-china",
@@ -1086,6 +1056,17 @@
           "url": "https://github.com/Zagitta/gpu-unlock",
           "source": "hn-fresh-ai",
           "published_at": "2026-10-24T09:58:27.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1e55c29e6e1a3d35",
+          "title": "Hottest toy for Christmas? Nvidia CEO plays with adorable Microduck robots, 20,000 sell",
+          "url": "https://techcrunch.com/2026/10/23/hottest-toy-for-christmas-nvidia-ceo-plays-with-adorable-microduck-robots-20000-sell",
+          "source": "techcrunch-ai",
+          "published_at": "2026-10-23T21:59:19.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1199,111 +1180,34 @@
       ]
     },
     {
-      "id": "amazon",
-      "name": "Amazon",
-      "headlines": 25,
-      "index": 1.9,
-      "mean_headline": 0.2,
-      "sample": [
-        {
-          "id": "231cc9a3a096270d",
-          "title": "One of the best gaming TVs is $1,000 off: LG C6 OLED hits Amazon low ahead of GTA VI and Zelda release",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE01RFZtVVFXb1AzYWF1cGY2WUVOT2VnUHktcVFIcjR4Y0wtbUhFYXR2M284cmx3Vlo0eGJ5ajJSYTZOZUMzX1pTclM2RjFraXNKVlFodWRKdWF2bDhtT3J2eWRPcGpLQzZWcTZ2YW5oWDJCeS1fT1lhN2Vxaw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:15:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "666ea1774087da99",
-          "title": "Aaditya Thackeray Seeks Pause on Amazon Thane Data Centre Pending Expert Review",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPTnB4WjhoVDdEWXlBczREZDRibWZhQ0Z1dUVfQU5vNGltUi1lUXNQd1NsRHFrTWZJdGZGU1FpRTRReDdxdVRWUmVHdjdoRTZSb3VkLTZjUXVFTk1aSWg5ZkRTWFhPT2ZROWJQVmRqdEtqTU5lckdaOTRwdGw2TXIta08xMUE3UQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T18:11:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "89c7ef06eca1fa83",
-          "title": "Amazon launches TorchNeuron to let AI developers run PyTorch code on Trainium chips",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1FWGRIZmh1dlFNRXhVdHYtejRfMEliT3FoeDMtZ1RjYTJuQW5kUy15ajdvTmp3OVhYU0l2VVFpcWVfUGVWWC1ybGtLUkFGU0pwb3d5THdneDExMnBfdzFvQ3dkNU5sTUx1bUFwd1M0Y0x1RV9uWkhod053?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T16:21:11.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f433d76628f861cc",
-          "title": "Meta's Muse Solves CAPTCHAs on Google, Amazon and Cloudflare",
-          "url": "https://github.com/sneakers-the-rat/muse-skills/tree/main/topics/bot_challenge",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T13:09:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d747000cc33376c2",
-          "title": "How an Amazon Frontier Town Became a Bolsonaro Stronghold",
-          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOSnU0dVFSaUgtWW41Vm1FMC1udWFJeVJpWDBKZ0dkc1ZaZFNCM1ZLSGFtOWtVRmpqcGZOaHllQTNaR0tpYkpkOGhySDBPcENuYWN4X0JPR3lPczFTU0hDQzZGZVl3Mnhlejg5ckNwS29BbUhSS25zMUp4bjJwODlNTm5HTUZfMlZYek1Eb3F3ZlZOb3JTNDFsTXhyQnpHdW5iRlNTMlhBZ3J3SlI1U2JKM29NR2VpQmoxRHVCaV9CRU9Jd0ZH?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-24T12:00:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "061da33d4fee97af",
-          "title": "Amazon's Trainium Takes a Strike at the Training King",
-          "url": "https://newsletter.semianalysis.com/p/amazons-trainium-takes-a-strike-at",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T11:45:06.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3f7233fc14423272",
-          "title": "AWS AI cloud capacity sold out through 2027, 2028 bookings filling fast",
-          "url": "https://reddit.com/r/artificial/comments/1xe1mos/aws_ai_cloud_capacity_sold_out_through_2027_2028",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-24T06:47:51.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "77282c79df25665f",
-          "title": "AWS Continuum for code vulnerabilities is now generally available",
-          "url": "https://aws.amazon.com/blogs/aws/aws-continuum-for-code-vulnerabilities-is-now-generally-available",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T05:05:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
       "id": "anthropic",
       "name": "Anthropic",
       "headlines": 37,
       "index": 1.3,
       "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "0a1b8a80604f49fd",
+          "title": "Who Is Dario Amodei? The Anthropic CEO Behind Claude",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1nNVRycmlWXzJTdWtVSVZMbkN2SlVsVEhpUTktdFVuX1g0RmNGNjV4WUhaTjlCMTZmVEg1dWVlSkRWUjJuWGd4bXNvU2dqOXFScG9QMnNrUmJNMmZKNXJtMmp3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T20:35:29.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e498e18022335643",
+          "title": "Britain is building the world’s first AI biosecurity lab, with OpenAI and Anthropic inside",
+          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE45NHR4NDR1MTJDRnI4ZWhrUXZiM2Znakk3WnVPUWpRYk5BVUZhdFpHVkxKNU44dVVCNVJRanI4NHBDWEFYSllkZjhHemYzQmpWNm9B?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T20:14:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "0af51f06af88bdd8",
           "title": "Source: Replit recently moved most AI spend from Anthropic to OpenAI, which gave 30%+ off in a deal worth $100M+/year, after Anthropic discontinued its discount (The Information)",
@@ -1373,24 +1277,99 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "headlines": 24,
+      "index": 1,
+      "mean_headline": 0.1,
+      "sample": [
         {
-          "id": "b1dcc65205b2f697",
-          "title": "Nik Bhatia: Anthropic and OpenAI urged to pursue IPOs before funding conditions worsen",
-          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOUkI2blZQMEZxUC02aV95TDllbU9xYkFPeTVrM2JiSVByd2RJUUVCYWJjQ0ZlTVRsX3lHdnZNVTU3eXlfNFJvdjV1c3hRNElSem1aOElrX2huZnBXUkxvanRBZjJLNFM4eGE4cE9OM2V2MGxxZmx2dGdKYVJkekdSMEVsUnhVVlg3Q3hCazRFaw?oc=5",
+          "id": "231cc9a3a096270d",
+          "title": "One of the best gaming TVs is $1,000 off: LG C6 OLED hits Amazon low ahead of GTA VI and Zelda release",
+          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE01RFZtVVFXb1AzYWF1cGY2WUVOT2VnUHktcVFIcjR4Y0wtbUhFYXR2M284cmx3Vlo0eGJ5ajJSYTZOZUMzX1pTclM2RjFraXNKVlFodWRKdWF2bDhtT3J2eWRPcGpLQzZWcTZ2YW5oWDJCeS1fT1lhN2Vxaw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-24T18:30:47.000Z",
+          "published_at": "2026-10-24T19:15:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "658f28469988438e",
-          "title": "Elvis Presley Rightsholders Sue Anthropic for Training on 274 Songs Without Permission",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNWTh5TVotQUREU29MT1BHc3JwV0p6X2FiUjlIbllhX3hkaWpxZnNMUzkyMHU0elBhRFBlUmJKWTE1X1k3VmhFQ056RFZ2cHV3ZS1jcW1hQXN6djRLcFNjNmdIeEFpY3FZU1RFVkZPM296WDNwOEM1S3R3WU9kSGhJeVFqRUhpVG1NWWZlczdYWW5veElSaG9SM1JGeGpRUUZ5bUNQMHpKOU9udVpISzdCUjFPNkRIWFk?oc=5",
+          "id": "666ea1774087da99",
+          "title": "Aaditya Thackeray Seeks Pause on Amazon Thane Data Centre Pending Expert Review",
+          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPTnB4WjhoVDdEWXlBczREZDRibWZhQ0Z1dUVfQU5vNGltUi1lUXNQd1NsRHFrTWZJdGZGU1FpRTRReDdxdVRWUmVHdjdoRTZSb3VkLTZjUXVFTk1aSWg5ZkRTWFhPT2ZROWJQVmRqdEtqTU5lckdaOTRwdGw2TXIta08xMUE3UQ?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-24T18:28:26.000Z",
+          "published_at": "2026-10-24T18:11:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f433d76628f861cc",
+          "title": "Meta's Muse Solves CAPTCHAs on Google, Amazon and Cloudflare",
+          "url": "https://github.com/sneakers-the-rat/muse-skills/tree/main/topics/bot_challenge",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T13:09:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d747000cc33376c2",
+          "title": "How an Amazon Frontier Town Became a Bolsonaro Stronghold",
+          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOSnU0dVFSaUgtWW41Vm1FMC1udWFJeVJpWDBKZ0dkc1ZaZFNCM1ZLSGFtOWtVRmpqcGZOaHllQTNaR0tpYkpkOGhySDBPcENuYWN4X0JPR3lPczFTU0hDQzZGZVl3Mnhlejg5ckNwS29BbUhSS25zMUp4bjJwODlNTm5HTUZfMlZYek1Eb3F3ZlZOb3JTNDFsTXhyQnpHdW5iRlNTMlhBZ3J3SlI1U2JKM29NR2VpQmoxRHVCaV9CRU9Jd0ZH?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-24T12:00:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "061da33d4fee97af",
+          "title": "Amazon's Trainium Takes a Strike at the Training King",
+          "url": "https://newsletter.semianalysis.com/p/amazons-trainium-takes-a-strike-at",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T11:45:06.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3f7233fc14423272",
+          "title": "AWS AI cloud capacity sold out through 2027, 2028 bookings filling fast",
+          "url": "https://reddit.com/r/artificial/comments/1xe1mos/aws_ai_cloud_capacity_sold_out_through_2027_2028",
+          "source": "reddit-artificial",
+          "published_at": "2026-10-24T06:47:51.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "77282c79df25665f",
+          "title": "AWS Continuum for code vulnerabilities is now generally available",
+          "url": "https://aws.amazon.com/blogs/aws/aws-continuum-for-code-vulnerabilities-is-now-generally-available",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T05:05:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "51f0818ffe16d3b2",
+          "title": "Andy Jassy says AWS capacity for 2027 is \"largely sold out\" and a \"good chunk\" of 2028 capacity is also sold, though AWS reserves some capacity for on-demand (Catherine Perloff/The Information)",
+          "url": "https://techmeme.com/261023/p27",
+          "source": "techmeme",
+          "published_at": "2026-10-24T02:55:01.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1401,10 +1380,21 @@
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 1,
+      "headlines": 2,
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "238aac40e20acefc",
+          "title": "Gemini arrives on Apple CarPlay in Google Maps, US first",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQRzFIWnpSYzlGR2JTMFdCU0p2RFA4OENVTTAzQjZjRFYwQm9ya1lpVy1uU3hjVHdRbHcwYU5VTW9XY2RXVGdFR1ZKRENVTXNwbjFlcXBhVTlhLV95VnlGWDlYd3lCTm1GSS1yS253MklobTAyZF94a2ZfNWJ1Sjg2cGlXcXNnUVQ3SVBZRkhn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T19:55:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "f551a181188bac11",
           "title": "Evaluating the Applicability of LLM Inference Optimizations on Apple Silicon",
@@ -1518,10 +1508,21 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 16,
-      "index": -3,
+      "headlines": 17,
+      "index": -2.8,
       "mean_headline": -0.4,
       "sample": [
+        {
+          "id": "238aac40e20acefc",
+          "title": "Gemini arrives on Apple CarPlay in Google Maps, US first",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQRzFIWnpSYzlGR2JTMFdCU0p2RFA4OENVTTAzQjZjRFYwQm9ya1lpVy1uU3hjVHdRbHcwYU5VTW9XY2RXVGdFR1ZKRENVTXNwbjFlcXBhVTlhLV95VnlGWDlYd3lCTm1GSS1yS253MklobTAyZF94a2ZfNWJ1Sjg2cGlXcXNnUVQ3SVBZRkhn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T19:55:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "97f9231aeb816910",
           "title": "Google DeepMind Pentagon AI contract resignations: Researchers exit over classified military deals; all you need to know",
@@ -1602,27 +1603,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "e01b37ee24db415d",
-          "title": "Now Google says it might use your Gmail and Google Photos data to target ads",
-          "url": "https://bsky.app/profile/theverge.com/post/3myknh2rqce2y",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-23T16:52:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 64,
-      "index": -5.7,
+      "headlines": 63,
+      "index": -5.8,
       "mean_headline": -0.7,
       "sample": [
+        {
+          "id": "e498e18022335643",
+          "title": "Britain is building the world’s first AI biosecurity lab, with OpenAI and Anthropic inside",
+          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE45NHR4NDR1MTJDRnI4ZWhrUXZiM2Znakk3WnVPUWpRYk5BVUZhdFpHVkxKNU44dVVCNVJRanI4NHBDWEFYSllkZjhHemYzQmpWNm9B?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T20:14:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "0af51f06af88bdd8",
           "title": "Source: Replit recently moved most AI spend from Anthropic to OpenAI, which gave 30%+ off in a deal worth $100M+/year, after Anthropic discontinued its discount (The Information)",
@@ -1706,19 +1707,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "39197a9d9193c8cf",
-          "title": "Paxton sues OpenAI as Senate campaign nears end",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQQkhWYmZZWmpLSmdnN0cyTnk5TmVjczY0Y0pOVTVtdGJwRk5ObXY5LXRPTGh3VjFVX3dfRU53cF9wS2FJWWNNQ2hjQl8yQWgtN2piVnliYjVib1hKeDlnY21Qa2xPNjdFcUNrMG1aSUQwakFIRjI3MkxYclN1aGRLZHZMemtTZkdLaXF6VkxpZVBQRldVbGJ4OHFFNC1uVFY0MjFFUk1YMW43YVoxN3YyZXRFc0E?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T18:18:36.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "sues"
-          ],
           "clickbait": []
         }
       ]
