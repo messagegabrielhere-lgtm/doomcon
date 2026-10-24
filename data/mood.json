@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-24T02:09:17.975Z",
-  "news_generated_at": "2026-10-24T02:09:17.975Z",
+  "generated_at": "2026-10-24T02:51:10.297Z",
+  "news_generated_at": "2026-10-24T02:51:10.297Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -21,23 +21,23 @@
     "headlines_naming_a_company": 192,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.103
+    "negative_pair_share": 0.095
   },
   "glance": {
     "leading": {
       "id": "deepseek",
       "name": "DeepSeek",
-      "index": 16
+      "index": 14.8
     },
     "trailing": {
       "id": "google",
       "name": "Google",
-      "index": -8
+      "index": -6.9
     },
     "most_discussed": {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 63
+      "headlines": 62
     }
   },
   "companies": [
@@ -110,10 +110,23 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 63,
-      "index": -5.6,
-      "mean_headline": -0.7,
+      "headlines": 62,
+      "index": -5.2,
+      "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "1b82618494ab2c13",
+          "title": "Technology 24h: OpenAI cuts off the Internet while training AI, PC market plummets",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQX1pMM1RCdVRKUFVKS1F5dVFxYTRHeUhlZzdQbXhDWm5pT1FoQ19tUkdBcERYVDVlbU5pUnJDMXJYdkswRmFXSkhtTDk4Z3dJMWtWUmtWalRoc2c0aVVBTEIwY3JsMXJXS0hVWUNScmpHZlhJWFFsbXNULXBqYXl4d1JtYUxTQ0tUSlNpbDU2SGZUTVdPLTFnQUlYVm11cHB5N2k4QS1IQjBtOV81ZUJNN3NkWHl5UQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T02:30:51.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
+        },
         {
           "id": "aab1632dbf4163be",
           "title": "OpenAI and Anthropic Disclose AI Model Boundary Breaches on Same Day; Altman Says Flaws Can No Longer Be Fully Patched",
@@ -194,17 +207,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "df48752722039c80",
-          "title": "OpenAI says it built an \"offline world\" from cached web content to train isolated frontier models to browse, search for information, and use web apps (OpenAI)",
-          "url": "https://techmeme.com/261023/p25",
-          "source": "techmeme",
-          "published_at": "2026-10-24T00:30:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -212,9 +214,22 @@
       "id": "nvidia",
       "name": "NVIDIA",
       "headlines": 24,
-      "index": 3.7,
-      "mean_headline": 0.5,
+      "index": 4.7,
+      "mean_headline": 0.6,
       "sample": [
+        {
+          "id": "c600ca5863e8551d",
+          "title": "NVIDIA Expands Isaac Tools for Robot Training, Simulation and Deployment",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPMXQyTjZ5Z1VBZVByXzlpdE9JTWQ0M0FRd1RXNTZrZ1BkbGNYNk1RdkF3QjVBRVRfVmRRbnFZaVNUTzBBOTBIY3pfdGllQzBrR0k1bXVjdks0VG5Ka1FPMGdjVlFUeWd3Ukx3WFlxZmR2X2dpanlmVWdocmpiN2xfRHlMWElpMGk0Vm1hUEZRNTlTaURDMTdFcW5LYW9BUWFPMS1BT1ROb2V0d0h1V0lhTHJobks?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:59:05.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "ec62634123c6afa7",
           "title": "Huang Backs Kazakhstan’s AI Plans as NVIDIA Expands Partnerships",
@@ -245,17 +260,6 @@
           "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPaFQ4MjBYQzVoLXV1V1NCMFBfUVJuS21UUVoxUk50UDc0LWRNMV95QktKNi1NOWdxOEdoZVUyTnJyY2ZQVDAwRy16SzF4bVlTWkJ1OEMtZmxkRENEYVVJQU9qUGxGU2pneW5HU2xpeWFGUFpvNktGc2RkX19DcElRMGlsdURfSW80dVcxaGtPNEV4Y0FfNkV6Y1l0d0YxZk9uTmJzTmhiSERoMVR3UmV4VFVEaURLTmw2MG5wc0JIWHQySGhaMHJVd2txZEQtWWlYZDVqVGg0c1Y?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-23T23:30:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6505c5452c8fabe9",
-          "title": "Chinese startup claims its $2,000 mini PC can outperform Nvidia's DGX Spark",
-          "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxQNDFZQV9uak12T2p6WHhjX1ppTFBGM18wR0Nqc3FEQUVVbTdQQjZpVjdJM1FNMTNLWTFjOF9mSDlmd2d6bEpmQ3ZIdFQxX0FzY21rYkVzUUVXcWs3UHZtR2l1V2x1OUQzSGpmYnlKM2lSRTltX3UtWlZPQ2JhaTZPeDhydkhVUHRBSEt0QWo0TmlhSElRaXM4TVlRN2Y0YVp5RDBidHI0TXJ2RGwteVBCVkhSV09sOHlvUThkNXdQTzZrNGVWbF9UWUNDSlBSbDBIdTVubVllZ2piVVZfX0VhX05ZREtjaGV4QmJOZHlvcVhYb21IR05mMDBfcko0dVhHTW1WSUd0RlNSX1pmbXdRY1hB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:25:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -316,6 +320,17 @@
       "index": 1.6,
       "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "31e369a941ade71a",
+          "title": "Anthropic employee tells students their careers may not exist by graduation",
+          "url": "https://twitter.com/cheaf25master/status/2113261574194659368",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T02:27:47.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "aab1632dbf4163be",
           "title": "OpenAI and Anthropic Disclose AI Model Boundary Breaches on Same Day; Altman Says Flaws Can No Longer Be Fully Patched",
@@ -394,25 +409,14 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "f44984f0ef999801",
-          "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
-          "url": "https://status.claude.com/incidents/h101vcmhnfky",
-          "source": "anthropic-status",
-          "published_at": "2026-10-24T00:11:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 22,
-      "index": 0.7,
+      "headlines": 21,
+      "index": 0.8,
       "mean_headline": 0.1,
       "sample": [
         {
@@ -520,9 +524,9 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 16,
-      "index": -8,
-      "mean_headline": -1,
+      "headlines": 14,
+      "index": -6.9,
+      "mean_headline": -0.9,
       "sample": [
         {
           "id": "d7952ecf942fe088",
@@ -533,30 +537,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e2b39233452b773e",
-          "title": "Ex-Google Researcher Claims AI Could 'Kill Mankind' in the Next Decade — as Trump Continues to Praise 'Super Intelligence'",
-          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1fcUNBRWlPcnRqNVF5YTRycmp6WXZTRFBOYjJEU0UxcWtwS25ITnREelZpSENGX2hGb1ZyZkJOdldzZHZwWEtGeF9QSVpDZDdRTkEzZ18tTGtNN1EtaHVDOW5xMnBIVW9yTVFvSG95X1lWTFBDU1FUR3k0ZDgwdXc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:43:47.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3efeca8e4351c966",
-          "title": "Ex-Google Researcher Warns AI Could 'Kill Mankind' Within 10 Years",
-          "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOVmJKUERDMUNjWENOdmk2SnFTVjZGeHNka2wtcWgxelhrai02OTRHTUVrM2stMnNFMEc2Y2hEdzgxSUdvS1FVTnRLZmpUczJyQzRkZDl1cm1BTTEyVmoyWGxVNHpXUWpqbC0xOUNYeFVkR0daeFZYXy1rd0g5YnpDTE82ZS1aeUZ5WGNkeXp5Tkw2T1BmZl80ZWtkblhoTTBrcC0tb0JjMHBYQl94Qk1WbWJUVE5MUHpMQUNPMWVwcjg5NVlFbGJ2a29SX0IwTlhpMU1WV1FNNkJBZ1E?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:32:40.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
           "clickbait": []
         },
         {
@@ -613,16 +593,51 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "7939b94af744e938",
+          "title": "Wolves roam into Finnish villages after Google destroys 1,300 acres of forest for AI data centers",
+          "url": "https://reddit.com/r/technology/comments/1xdawdy/wolves_roam_into_finnish_villages_after_google",
+          "source": "reddit-technology",
+          "published_at": "2026-10-23T11:00:24.000Z",
+          "score": -12,
+          "positive": [],
+          "negative": [],
+          "clickbait": [
+            "destroys"
+          ]
+        },
+        {
+          "id": "3419c5303f439626",
+          "title": "Google DeepMind Engineer Resigns in Protest of Pentagon Contract",
+          "url": "https://theintercept.com/2026/10/21/google-deepmind-resign-ai-military-gaza",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-23T09:22:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 12,
-      "index": 2,
-      "mean_headline": 0.3,
+      "headlines": 13,
+      "index": 1.8,
+      "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "7674678085881551",
+          "title": "Microsoft Teams Adds AI Phishing Detection for External Chats Starting in Early November",
+          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOR1o3SHByRzZEYzctTHRQekVRRzNDNmlRZXJoNV9NbGdzTHU5T3gxWUJPZEpZV3RNTlcyVUNIUHpLUVFac1VGWkQ1cFVVTU5PcXBJR29ZblAwV2cwVHA0UnlYdzlYYkxOdEZuaDN1SWp5VHV6Y1pHdTRWWnFyTWs2YUJLNDI5cUdLejFBeF8yTEhsd2loN3AzaklKZnV0SjBPTjNiUElPSl85SjBjR1FodmUzZFMtbzJrTGxfZkVCSkQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T02:13:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "79ae66be7c0bb71e",
           "title": "Microsoft Develops Advanced Medical AI That Outperformed Doctors in Diagnosis",
@@ -697,17 +712,6 @@
           "url": "https://techmeme.com/261022/p50",
           "source": "techmeme",
           "published_at": "2026-10-22T19:05:22.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "dedf2896ecdb4ab5",
-          "title": "Microsoft’s Mustafa Suleyman says its AI outperforms doctors on hard cases as he chases ‘medical superintelligence’",
-          "url": "https://techcrunch.com/2026/10/22/microsofts-mustafa-suleyman-says-its-ai-outperforms-doctors-on-hard-cases-as-he-chases-medical-superintelligence",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-22T18:43:53.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -817,10 +821,21 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 12,
-      "index": 16,
-      "mean_headline": 2,
+      "headlines": 13,
+      "index": 14.8,
+      "mean_headline": 1.8,
       "sample": [
+        {
+          "id": "1666360cbffc5cc4",
+          "title": "How DeepSeek Functions as a 'Trojan Horse' Against US",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOR2JHM0V2TWU4dTVzN29iMmM4dHluYnJtRWxhTFNma0lFWTVsVlRLOUJPNHNUc09jVW56TUZuQ3JKOUxoUkZicmVoV0ZQOUMwZVliZWlRVXR0RjRYRUhYTDJJVkFqMkhGaDZvdFVqaHBzMDZDTXVvSVRjemN0VW9lQ2hyWUcyRzgxVko1c2Zyb051STFzR0Nz?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T02:40:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "6c618f6492a53bea",
           "title": "DeepSeek API Search Agent: 13 Steps, 90 Min [2026]",
@@ -902,19 +917,6 @@
           "positive": [
             "approval",
             "won"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "923d2412a10c1213",
-          "title": "DeepSeek, MiniMax Win Approval for Global Use, State Media Says",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbjhEQkNIQVp4Zi1Xc0g5RG53cGVsSzRWdE16QTNvN2llT1k1cEpiSklQZHhXM25HWDJNcnhLVlpJTFlvMDV3TVl1SlM3cnhLTy1KYW40aDFvOXR2NzlZQnl3RnNWODV5NmV0WkR5bzkwSGxnZ28zMUNjbFZpalU1X2FXekE1STJ0ajZmc1hfV0lmcFFXdjBVZURmVGl5WXY1YXl2SkFZWldHZ1Z6SFdvNWJn?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T02:58:00.000Z",
-          "score": 3,
-          "positive": [
-            "approval"
           ],
           "negative": [],
           "clickbait": []
@@ -926,10 +928,21 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 12,
-      "index": 16,
-      "mean_headline": 2,
+      "headlines": 13,
+      "index": 14.8,
+      "mean_headline": 1.8,
       "sample": [
+        {
+          "id": "1666360cbffc5cc4",
+          "title": "How DeepSeek Functions as a 'Trojan Horse' Against US",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOR2JHM0V2TWU4dTVzN29iMmM4dHluYnJtRWxhTFNma0lFWTVsVlRLOUJPNHNUc09jVW56TUZuQ3JKOUxoUkZicmVoV0ZQOUMwZVliZWlRVXR0RjRYRUhYTDJJVkFqMkhGaDZvdFVqaHBzMDZDTXVvSVRjemN0VW9lQ2hyWUcyRzgxVko1c2Zyb051STFzR0Nz?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T02:40:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "6c618f6492a53bea",
           "title": "DeepSeek API Search Agent: 13 Steps, 90 Min [2026]",
@@ -1011,19 +1024,6 @@
           "positive": [
             "approval",
             "won"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "923d2412a10c1213",
-          "title": "DeepSeek, MiniMax Win Approval for Global Use, State Media Says",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbjhEQkNIQVp4Zi1Xc0g5RG53cGVsSzRWdE16QTNvN2llT1k1cEpiSklQZHhXM25HWDJNcnhLVlpJTFlvMDV3TVl1SlM3cnhLTy1KYW40aDFvOXR2NzlZQnl3RnNWODV5NmV0WkR5bzkwSGxnZ28zMUNjbFZpalU1X2FXekE1STJ0ajZmc1hfV0lmcFFXdjBVZURmVGl5WXY1YXl2SkFZWldHZ1Z6SFdvNWJn?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T02:58:00.000Z",
-          "score": 3,
-          "positive": [
-            "approval"
           ],
           "negative": [],
           "clickbait": []
@@ -1100,9 +1100,22 @@
       "id": "nvidia",
       "name": "NVIDIA",
       "headlines": 24,
-      "index": 3.7,
-      "mean_headline": 0.5,
+      "index": 4.7,
+      "mean_headline": 0.6,
       "sample": [
+        {
+          "id": "c600ca5863e8551d",
+          "title": "NVIDIA Expands Isaac Tools for Robot Training, Simulation and Deployment",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPMXQyTjZ5Z1VBZVByXzlpdE9JTWQ0M0FRd1RXNTZrZ1BkbGNYNk1RdkF3QjVBRVRfVmRRbnFZaVNUTzBBOTBIY3pfdGllQzBrR0k1bXVjdks0VG5Ka1FPMGdjVlFUeWd3Ukx3WFlxZmR2X2dpanlmVWdocmpiN2xfRHlMWElpMGk0Vm1hUEZRNTlTaURDMTdFcW5LYW9BUWFPMS1BT1ROb2V0d0h1V0lhTHJobks?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:59:05.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "ec62634123c6afa7",
           "title": "Huang Backs Kazakhstan’s AI Plans as NVIDIA Expands Partnerships",
@@ -1133,17 +1146,6 @@
           "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPaFQ4MjBYQzVoLXV1V1NCMFBfUVJuS21UUVoxUk50UDc0LWRNMV95QktKNi1NOWdxOEdoZVUyTnJyY2ZQVDAwRy16SzF4bVlTWkJ1OEMtZmxkRENEYVVJQU9qUGxGU2pneW5HU2xpeWFGUFpvNktGc2RkX19DcElRMGlsdURfSW80dVcxaGtPNEV4Y0FfNkV6Y1l0d0YxZk9uTmJzTmhiSERoMVR3UmV4VFVEaURLTmw2MG5wc0JIWHQySGhaMHJVd2txZEQtWWlYZDVqVGg0c1Y?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-23T23:30:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6505c5452c8fabe9",
-          "title": "Chinese startup claims its $2,000 mini PC can outperform Nvidia's DGX Spark",
-          "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxQNDFZQV9uak12T2p6WHhjX1ppTFBGM18wR0Nqc3FEQUVVbTdQQjZpVjdJM1FNMTNLWTFjOF9mSDlmd2d6bEpmQ3ZIdFQxX0FzY21rYkVzUUVXcWs3UHZtR2l1V2x1OUQzSGpmYnlKM2lSRTltX3UtWlZPQ2JhaTZPeDhydkhVUHRBSEt0QWo0TmlhSElRaXM4TVlRN2Y0YVp5RDBidHI0TXJ2RGwteVBCVkhSV09sOHlvUThkNXdQTzZrNGVWbF9UWUNDSlBSbDBIdTVubVllZ2piVVZfX0VhX05ZREtjaGV4QmJOZHlvcVhYb21IR05mMDBfcko0dVhHTW1WSUd0RlNSX1pmbXdRY1hB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:25:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1200,10 +1202,21 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 12,
-      "index": 2,
-      "mean_headline": 0.3,
+      "headlines": 13,
+      "index": 1.8,
+      "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "7674678085881551",
+          "title": "Microsoft Teams Adds AI Phishing Detection for External Chats Starting in Early November",
+          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOR1o3SHByRzZEYzctTHRQekVRRzNDNmlRZXJoNV9NbGdzTHU5T3gxWUJPZEpZV3RNTlcyVUNIUHpLUVFac1VGWkQ1cFVVTU5PcXBJR29ZblAwV2cwVHA0UnlYdzlYYkxOdEZuaDN1SWp5VHV6Y1pHdTRWWnFyTWs2YUJLNDI5cUdLejFBeF8yTEhsd2loN3AzaklKZnV0SjBPTjNiUElPSl85SjBjR1FodmUzZFMtbzJrTGxfZkVCSkQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T02:13:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "79ae66be7c0bb71e",
           "title": "Microsoft Develops Advanced Medical AI That Outperformed Doctors in Diagnosis",
@@ -1282,17 +1295,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "dedf2896ecdb4ab5",
-          "title": "Microsoft’s Mustafa Suleyman says its AI outperforms doctors on hard cases as he chases ‘medical superintelligence’",
-          "url": "https://techcrunch.com/2026/10/22/microsofts-mustafa-suleyman-says-its-ai-outperforms-doctors-on-hard-cases-as-he-chases-medical-superintelligence",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-22T18:43:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -1303,6 +1305,17 @@
       "index": 1.6,
       "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "31e369a941ade71a",
+          "title": "Anthropic employee tells students their careers may not exist by graduation",
+          "url": "https://twitter.com/cheaf25master/status/2113261574194659368",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T02:27:47.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "aab1632dbf4163be",
           "title": "OpenAI and Anthropic Disclose AI Model Boundary Breaches on Same Day; Altman Says Flaws Can No Longer Be Fully Patched",
@@ -1381,25 +1394,14 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "f44984f0ef999801",
-          "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
-          "url": "https://status.claude.com/incidents/h101vcmhnfky",
-          "source": "anthropic-status",
-          "published_at": "2026-10-24T00:11:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 22,
-      "index": 0.7,
+      "headlines": 21,
+      "index": 0.8,
       "mean_headline": 0.1,
       "sample": [
         {
@@ -1598,10 +1600,23 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 63,
-      "index": -5.6,
-      "mean_headline": -0.7,
+      "headlines": 62,
+      "index": -5.2,
+      "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "1b82618494ab2c13",
+          "title": "Technology 24h: OpenAI cuts off the Internet while training AI, PC market plummets",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQX1pMM1RCdVRKUFVKS1F5dVFxYTRHeUhlZzdQbXhDWm5pT1FoQ19tUkdBcERYVDVlbU5pUnJDMXJYdkswRmFXSkhtTDk4Z3dJMWtWUmtWalRoc2c0aVVBTEIwY3JsMXJXS0hVWUNScmpHZlhJWFFsbXNULXBqYXl4d1JtYUxTQ0tUSlNpbDU2SGZUTVdPLTFnQUlYVm11cHB5N2k4QS1IQjBtOV81ZUJNN3NkWHl5UQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T02:30:51.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
+        },
         {
           "id": "aab1632dbf4163be",
           "title": "OpenAI and Anthropic Disclose AI Model Boundary Breaches on Same Day; Altman Says Flaws Can No Longer Be Fully Patched",
@@ -1682,26 +1697,15 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "df48752722039c80",
-          "title": "OpenAI says it built an \"offline world\" from cached web content to train isolated frontier models to browse, search for information, and use web apps (OpenAI)",
-          "url": "https://techmeme.com/261023/p25",
-          "source": "techmeme",
-          "published_at": "2026-10-24T00:30:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "google",
       "name": "Google",
-      "headlines": 16,
-      "index": -8,
-      "mean_headline": -1,
+      "headlines": 14,
+      "index": -6.9,
+      "mean_headline": -0.9,
       "sample": [
         {
           "id": "d7952ecf942fe088",
@@ -1712,30 +1716,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e2b39233452b773e",
-          "title": "Ex-Google Researcher Claims AI Could 'Kill Mankind' in the Next Decade — as Trump Continues to Praise 'Super Intelligence'",
-          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1fcUNBRWlPcnRqNVF5YTRycmp6WXZTRFBOYjJEU0UxcWtwS25ITnREelZpSENGX2hGb1ZyZkJOdldzZHZwWEtGeF9QSVpDZDdRTkEzZ18tTGtNN1EtaHVDOW5xMnBIVW9yTVFvSG95X1lWTFBDU1FUR3k0ZDgwdXc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:43:47.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3efeca8e4351c966",
-          "title": "Ex-Google Researcher Warns AI Could 'Kill Mankind' Within 10 Years",
-          "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOVmJKUERDMUNjWENOdmk2SnFTVjZGeHNka2wtcWgxelhrai02OTRHTUVrM2stMnNFMEc2Y2hEdzgxSUdvS1FVTnRLZmpUczJyQzRkZDl1cm1BTTEyVmoyWGxVNHpXUWpqbC0xOUNYeFVkR0daeFZYXy1rd0g5YnpDTE82ZS1aeUZ5WGNkeXp5Tkw2T1BmZl80ZWtkblhoTTBrcC0tb0JjMHBYQl94Qk1WbWJUVE5MUHpMQUNPMWVwcjg5NVlFbGJ2a29SX0IwTlhpMU1WV1FNNkJBZ1E?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:32:40.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
           "clickbait": []
         },
         {
@@ -1788,6 +1768,30 @@
           "url": "https://tomshardware.com/tech-industry/data-centers/wolves-roam-into-finnish-villages-after-google-destroys-1-300-acres-of-forest-for-ai-data-centers-forest-where-wolf-packs-used-to-live-are-now-an-expanse-of-mud",
           "source": "hn-ai",
           "published_at": "2026-10-23T11:56:22.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7939b94af744e938",
+          "title": "Wolves roam into Finnish villages after Google destroys 1,300 acres of forest for AI data centers",
+          "url": "https://reddit.com/r/technology/comments/1xdawdy/wolves_roam_into_finnish_villages_after_google",
+          "source": "reddit-technology",
+          "published_at": "2026-10-23T11:00:24.000Z",
+          "score": -12,
+          "positive": [],
+          "negative": [],
+          "clickbait": [
+            "destroys"
+          ]
+        },
+        {
+          "id": "3419c5303f439626",
+          "title": "Google DeepMind Engineer Resigns in Protest of Pentagon Contract",
+          "url": "https://theintercept.com/2026/10/21/google-deepmind-resign-ai-military-gaza",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-23T09:22:18.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
