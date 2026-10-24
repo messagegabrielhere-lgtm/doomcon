@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-24T00:00:57.876Z",
+  "generated_at": "2026-10-24T00:51:00.881Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,9 +47,47 @@
       "ycombinator.com"
     ]
   },
-  "live": 8,
+  "live": 9,
   "fresh": "b43833947e0d9",
   "clusters": [
+    {
+      "id": "bb8a7f404b8ce",
+      "title": "Vol. 39: No. 8: Rogue AI",
+      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFAtX2tBSnRwVE4yaDU5ZW1YaEZER3k2UWZIT0JoM0R2ZVBCbUdtMXU1aXBzcFlpYWFkT2I5MjJmRFY2dkNFOWdkZkhFQ0JrbFhrekprNGdzbkdyWkIxcWo5VlFkU2FkYUowUmZMeXF5bkdFT1FBZTh3?oc=5",
+      "source": "wires-ai",
+      "outlet": "wsj.com",
+      "outlets": [
+        "wsj.com"
+      ],
+      "tier1_outlets": [
+        "wsj.com"
+      ],
+      "corroboration": 1,
+      "sources": [
+        "wires-ai"
+      ],
+      "rule": [
+        "tier-one escalation signal"
+      ],
+      "earliest_published_at": "2026-10-23T18:35:04.000Z",
+      "first_seen_at": "2026-10-23T19:29:07.661Z",
+      "latency_s": 3244,
+      "breaking_at": "2026-10-24T00:51:00.881Z",
+      "item_ids": [
+        "6831aaf6dd0e9283"
+      ],
+      "sightings": [
+        {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
+          "title": "Vol. 39: No. 8: Rogue AI",
+          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFAtX2tBSnRwVE4yaDU5ZW1YaEZER3k2UWZIT0JoM0R2ZVBCbUdtMXU1aXBzcFlpYWFkT2I5MjJmRFY2dkNFOWdkZkhFQ0JrbFhrekprNGdzbkdyWkIxcWo5VlFkU2FkYUowUmZMeXF5bkdFT1FBZTh3?oc=5",
+          "published_at": "2026-10-23T18:35:04.000Z",
+          "tier1": true
+        }
+      ],
+      "live": true
+    },
     {
       "id": "b066ecc416448",
       "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
@@ -58,18 +96,21 @@
       "outlet": "anthropic.com",
       "outlets": [
         "anthropic.com",
-        "openai.com"
+        "openai.com",
+        "technobezz.com"
       ],
       "tier1_outlets": [
         "anthropic.com",
         "openai.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "anthropic-status",
+        "gnews-ai",
         "openai-status"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-23T22:02:57.157Z",
@@ -99,8 +140,24 @@
           "outlet": "anthropic.com",
           "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
           "url": "https://status.claude.com/incidents/h101vcmhnfky",
-          "published_at": "2026-10-23T23:54:14.000Z",
+          "published_at": "2026-10-24T00:00:57.876Z",
           "tier1": true
+        },
+        {
+          "source": "anthropic-status",
+          "outlet": "anthropic.com",
+          "title": "Anthropic status: Elevated errors for Claude Opus 5.5",
+          "url": "https://status.claude.com/incidents/3cqf3pmlnr96",
+          "published_at": "2026-10-24T00:00:57.876Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "technobezz.com",
+          "title": "Claude Reports Elevated Errors for Opus 5.5",
+          "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9HcGM3UnR6ZVBJS0N2WDhwc2dBZF9nZ2VXWlhyOGxvdkZRbjFBdWkzZWVmUm1BNURJWXd5NmlQcmJWQkhLLXRtU1hPVTZROVBJcVpuVTF6Zi0xWDhSVi1CbnhTeWlVcU4wU0FMRXZnT1ZQZw?oc=5",
+          "published_at": "2026-10-24T00:00:57.876Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -157,7 +214,7 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "myrtlebeachonline.com",
+        "kslm.news",
         "reuters.com"
       ],
       "tier1_outlets": [
@@ -169,7 +226,6 @@
         "wires-ai"
       ],
       "rule": [
-        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-23T23:07:43.000Z",
@@ -190,14 +246,14 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "myrtlebeachonline.com",
+          "outlet": "kslm.news",
           "title": "Amazon cloud capacity sold out through 2027, CEO Jassy says",
-          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9FeVZ3WWxXUXd3NV9ycG9JemxlUUtoZDZuUHRUcWFXeVh4RzF5YnhCRHlzd0NBektHeEhRTDMwQVpLRHZvZmUyRXk1bWhrZE52X1RhUTJrQmFadWlyMTF5LTk4OUZwTEx1Y3VLMFZBbUZGRTY1a25lWA?oc=5",
-          "published_at": "2026-10-23T23:27:06.000Z",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQSzhZRlNjSU56SjdYQ3ZYNV9tZktZQTZucEZ0YzlLS3FpTGVKYTN1bjdERnM1YmhkamNqb1U0OTNJRWZEM1FJQkpvREZIYW40d0N3UjhfTkt5THE2TEJJTXlUUUFwT0NVeTJEN2dQa0hOclNyalBqb1B3MEVZdHVnRjQ4c280Y1Z3VklBeXZLbUM1NVF1RGZHWlV3?oc=5",
+          "published_at": "2026-10-23T23:29:40.709Z",
           "tier1": false
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "b41c29b9b53e8",
@@ -206,7 +262,7 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "kfgo.com",
+        "kslm.news",
         "reuters.com"
       ],
       "tier1_outlets": [
@@ -238,9 +294,9 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "kfgo.com",
+          "outlet": "kslm.news",
           "title": "UK government sets out $800 million of AI security funding",
-          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQMS1NX3JoLTdyMHBpNDNUdWRrOEZPWTBsbUllaWs5dzdjR3FtcjJoU3BQMEo1LXhoSjF5c3lRNGkxNC1rMGNKYlRuMzh4dE9LT1ZvZUp6cHdZcnNiYk8yUHV0dldNc3ZtS25MOHRwZnl1RDY0WERMQXgzLUVna196cG9Cbl9CYW1WbzhKNFBjbw?oc=5",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxObjNiOUhBY0JHTS0yMjlUd0RTUjN4RUd6V1JDcmlqdUtLMTBUOVV0NjhmM1VmdHMyRjAzVTJFdzNCNUs2TW95a05GaEpXNUk2U3ZMZEFHU21YWHJRU3FCeThVRkJsaHlGTkNCaG4tRmZHRmh4aGJHSEhRUWNHcWtlM0NtbjRZQVpiZ0tGM2tyVGZJaHZTMlNxRw?oc=5",
           "published_at": "2026-10-23T23:29:40.709Z",
           "tier1": false
         }
@@ -403,7 +459,6 @@
         "bluewin.ch",
         "engadget.com",
         "govinfosecurity.com",
-        "npr.org",
         "reuters.com",
         "techi.com",
         "thestar.com.my",
@@ -414,7 +469,7 @@
         "reuters.com",
         "theverge.com"
       ],
-      "corroboration": 10,
+      "corroboration": 9,
       "sources": [
         "bloomberg-tech",
         "bluesky-ai",
@@ -434,7 +489,6 @@
       "breaking_at": "2026-10-23T22:48:32.260Z",
       "item_ids": [
         "0039f42ed60956fe",
-        "0264b5c3c53992bb",
         "0403218c12e485bb",
         "46dc20d8f3589720",
         "604f1f9c59689482",
@@ -516,14 +570,6 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "npr.org",
-          "title": "Fired OpenAI researchers say independent safety audits aren't going well",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOblRmeEVocVBaWWMxQWp0Vm9LbnV6eHhTY3hrWFBHaFMtTGhjekZBVk9jaGg2ZWxqa09kU3dBek0xODdMZzYwbVc2eWU1SVFYQ29pR2ZZZTRLNndHb1piaS02UXROc0dzczdJODlYaVdLaGFjbV9ZSEdrUHpibEcwUTVsSHV3Rmp4WmwtQXBFX3R0NVlpZkRsWXIxeEJiQW9nSmhSRUtwTW5zUEM0ZlVxVUgtZXRFX1k?oc=5",
-          "published_at": "2026-10-23T21:33:31.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
           "outlet": "govinfosecurity.com",
           "title": "OpenAI Agents Disable Their Own Safety Monitoring",
           "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOQ0Z6YVd6dVZ5Z05MMkRpRFJRSlhnT1JMZTFGM0p2eXdpLU43clNybmt0Y2lnSEpGdUpBVGV6ME9VUmd5WE1xVGFDWXZYWkxZdzctWFUzdGNLWVJmXzNSN19aWUF2eGluSXVRcndONFZQNzV6VnFxMksxTll3b0JHUkFyeEVEeHpQY2Zaajhsb09iTjg?oc=5",
@@ -544,6 +590,14 @@
           "title": "In the Wake of Hacks: OpenAI Plans to Train Cutting-Edge AI Without the Internet",
           "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQOC05bDFoRXJ3Q3M3bTFza0V1NW9HNXFxbm84b1hjdnR1M0F6SG1PVUFORUwtcWljQlY0RDhrQUVEU3pnQVQxMGl0dFMxck5wRGlfamk5LXJZQk4ybVlSRW92NzN2aktUNGgzUk9ELTFZUjZQRkZpeTZOYmk4WE5ZUVBXeWJla2lFTzY0VXJVZnJPOHRWNDBRbmNqNHJCOUllSWRRNEVNWDlnRlRwb1doS21JWFZRXzBlN0xpaGdiS3VoM2la?oc=5",
           "published_at": "2026-10-23T22:17:27.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "engadget.com",
+          "title": "OpenAI Says It's Cutting Off Internet Access For Frontier Model Training",
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOZVlVU2N1R05Jc0YxRjVGMFlBeTlGQVhUWnFzWXRWWVBneXl1YWl6YXFHdVlzUGNHcFdnMDJ3UFpJal9rcElReU15TkR2Q0RTT3dxNjBDeG9hazczZ18xeWgyRzM4ZlpWaTBvWENad2l1ZEZaOEpaNUQyY0kxMUF0V21BYkxLckVOaU5YU3JwNmxrNkM3UFFzaFBDT3BxejVCTktXNEd4eW4?oc=5",
+          "published_at": "2026-10-23T22:37:02.000Z",
           "tier1": false
         }
       ],
@@ -863,7 +917,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b97422d89f581",
@@ -1806,61 +1860,6 @@
           "title": "Art: Claude Monet's 'Iris' fetches 50M euros at Paris auction",
           "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQS09STmFKcVlRa0NBME1zNFZLcUF3TjZSVW1TOEwzeGtXUDJGaHhid0dUMndNUWh0SldUZTV3TFU1TEZZNEpaeW0yUVItdlhLVUdBUVo0VWQ1QV93Q2syVFUtTHliV2NLb2VHX2JhWG9ZejRiTExaeTVFaU0wbHZJMVdYckFrUm9paVp2QUVwcw?oc=5",
           "published_at": "2026-10-23T08:55:01.000Z",
-          "tier1": false
-        }
-      ],
-      "live": false
-    },
-    {
-      "id": "b9d26f89a5d65",
-      "title": "LTM Unveils BlueVerse Lab for Robotics and Industrial AI",
-      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQWUpNajQ1TnAxQ2V6TmtDb1M5bVRrTGwwelVUZmZRQnZZMlZhTmVldVJUblduUHBRbFRUSDFwX2UxYUVyczAxUVBaaE1Id3E0ZWZsaDZLWmo3YjJkNXRIWDJHNklmbXlwck5UVVFVeUxYbklPN0ZoZVJCb0p1YS1DcU9DVzRrZWF4Vm9odWdvN3ZKb1ViZDRlcNIBmAFBVV95cUxQWUpNajQ1TnAxQ2V6TmtDb1M5bVRrTGwwelVUZmZRQnZZMlZhTmVldVJUblduUHBRbFRUSDFwX2UxYUVyczAxUVBaaE1Id3E0ZWZsaDZLWmo3YjJkNXRIWDJHNklmbXlwck5UVVFVeUxYbklPN0ZoZVJCb0p1YS1DcU9DVzRrZWF4Vm9odWdvN3ZKb1ViZDRlcA?oc=5",
-      "source": "gnews-ai",
-      "outlet": "smestreet.in",
-      "outlets": [
-        "analyticsindiamag.com",
-        "cxotoday.com",
-        "smestreet.in"
-      ],
-      "tier1_outlets": [],
-      "corroboration": 3,
-      "sources": [
-        "gnews-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min"
-      ],
-      "earliest_published_at": "2026-10-23T09:41:26.000Z",
-      "first_seen_at": "2026-10-23T09:52:27.533Z",
-      "latency_s": 662,
-      "breaking_at": "2026-10-23T11:14:19.260Z",
-      "item_ids": [
-        "37854b6c539fbc15",
-        "39e1aa9bf20b8831"
-      ],
-      "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "cxotoday.com",
-          "title": "LTM Launches BlueVerse Industrial AI Lab in Chennai",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNRGc0YWJZa3hDZF9nMXVGNi1nOVJ1ekNGajNMb20zUG92YWdqcGI4RE9Fc3FwcmRCR29YbWRybl9kbWlFbzhyY0tVYklFT2xPVUVyWmtjQXJuT1dJWjVVZjRKRWNiMjQxTlFFeEQ1cVdDN0l3NVZyWW1Tc3hOUGprNWJBNmNJaGQ0WlJfN2s2TzN0Zw?oc=5",
-          "published_at": "2026-10-23T09:41:26.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "analyticsindiamag.com",
-          "title": "LTM Launches BlueVerse Industrial AI Lab in Chennai",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOWHRGUncyVGlZMHYtd3RRZy1EQU1wanNEc3YtTXJITTJabmhWQTRwY2sxX1FsNEgyU29CWGlhY3p1QWd2Q2tiNmtZS05PcHptMXpnYTk3a19ndHNtbnZMRlBTZnBjVDl4b0dkbG9yT0J2SEd1SEFiWElHbTdSbHE5Q1A1V2RzRGgxWEhQdnBlS3RDTTg?oc=5",
-          "published_at": "2026-10-23T09:52:27.533Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "smestreet.in",
-          "title": "LTM Unveils BlueVerse Lab for Robotics and Industrial AI",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQWUpNajQ1TnAxQ2V6TmtDb1M5bVRrTGwwelVUZmZRQnZZMlZhTmVldVJUblduUHBRbFRUSDFwX2UxYUVyczAxUVBaaE1Id3E0ZWZsaDZLWmo3YjJkNXRIWDJHNklmbXlwck5UVVFVeUxYbklPN0ZoZVJCb0p1YS1DcU9DVzRrZWF4Vm9odWdvN3ZKb1ViZDRlcNIBmAFBVV95cUxQWUpNajQ1TnAxQ2V6TmtDb1M5bVRrTGwwelVUZmZRQnZZMlZhTmVldVJUblduUHBRbFRUSDFwX2UxYUVyczAxUVBaaE1Id3E0ZWZsaDZLWmo3YjJkNXRIWDJHNklmbXlwck5UVVFVeUxYbklPN0ZoZVJCb0p1YS1DcU9DVzRrZWF4Vm9odWdvN3ZKb1ViZDRlcA?oc=5",
-          "published_at": "2026-10-23T10:42:17.000Z",
           "tier1": false
         }
       ],

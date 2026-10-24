@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-24T00:00:57.876Z",
-  "news_generated_at": "2026-10-24T00:00:57.876Z",
+  "generated_at": "2026-10-24T00:51:00.881Z",
+  "news_generated_at": "2026-10-24T00:51:00.881Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,10 +18,10 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 200,
+    "headlines_naming_a_company": 196,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.101
+    "negative_pair_share": 0.098
   },
   "glance": {
     "leading": {
@@ -37,7 +37,7 @@
     "most_discussed": {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 64
+      "headlines": 61
     }
   },
   "companies": [
@@ -121,10 +121,32 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 64,
-      "index": -6,
+      "headlines": 61,
+      "index": -5.8,
       "mean_headline": -0.7,
       "sample": [
+        {
+          "id": "df48752722039c80",
+          "title": "OpenAI says it built an \"offline world\" from cached web content to train isolated frontier models to browse, search for information, and use web apps (OpenAI)",
+          "url": "https://techmeme.com/261023/p25",
+          "source": "techmeme",
+          "published_at": "2026-10-24T00:30:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2a060fd96f03cd51",
+          "title": "OpenAI’s own agents found escapes from its training sandbox",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE1mSmgtcm5iT2I4Y2dCalBnQ2E0eDlmQVU5UG1uXzJ2dU5XN3pCNzAzX2tZOURXWkJnR0Z2S25JeU5wQ0s0WFlDZGtLNmxCZWV1QWpFT0pDQzhSVm5keEN1Qm1QbnpMaUdpUy1iTUNEQmRHT1VmcVdNRw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T00:09:43.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "dba8abab0ba554ab",
           "title": "OpenAI stops training AI models on live interne...",
@@ -196,40 +218,14 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "0d1d2213e4daf8a1",
-          "title": "AG Paxton sues OpenAI and its CEO for allegedly deceiving and harming Texans",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNemZuZjRaby1uemF0ajc3U3VhbGlaajBaZUZ3YU5tRWpWSmRrMU1yU3NiSTZPbVlsTmVJYllyRS1IRlhVVFFvYXpDYl9QdVJjam12TElUYWF5OGtXMFFTdXQwZVcyU1RRZWJNS0xDckZJSVNmSjMzV2JLY0xmbkc1VmNrYmx1ZFpzYmQwMzlBWVpZWERlR012UDRiMHpiNjNFenJBbQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:39:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "sues"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "0403218c12e485bb",
-          "title": "OpenAI Says It's Cutting Off Internet Access For Frontier Model Training",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOZVlVU2N1R05Jc0YxRjVGMFlBeTlGQVhUWnFzWXRWWVBneXl1YWl6YXFHdVlzUGNHcFdnMDJ3UFpJal9rcElReU15TkR2Q0RTT3dxNjBDeG9hazczZ18xeWgyRzM4ZlpWaTBvWENad2l1ZEZaOEpaNUQyY0kxMUF0V21BYkxLckVOaU5YU3JwNmxrNkM3UFFzaFBDT3BxejVCTktXNEd4eW4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:37:02.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cutting"
-          ],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 29,
-      "index": 3,
+      "headlines": 27,
+      "index": 3.3,
       "mean_headline": 0.4,
       "sample": [
         {
@@ -312,11 +308,11 @@
           "clickbait": []
         },
         {
-          "id": "4b2be18b9af9edd0",
-          "title": "Prediction: Nvidia Will Outperform Broadcom Over the Next 5 Years",
-          "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQREx5XzA2LXpTUFFCSmcwQ0tGVE41Wk9CVHdnd256RFZFOV9EU1FaZV9KWkxqaElwZ0xvMjZzUjFzX2k0QTh6b1F1UG5tTWtXLTlWNURJenVlazNMUkNIOURRam1Ra2prM1AyWHBFbWhpWTNJTjNKWnRtcnRjdDZwR1pLb2RQNnVKQW9BbncwYmNSal9ETk5VaWhjVm1FMERrNHYtZ0RKN1pJTkdUVE5RTUY0X21RVWRSQy1lU3JSM3ZmMFNqdFh5d0ZQUC00bF82ekZRekFsMW9STEFFQm9kekJETQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:07:09.000Z",
+          "id": "b27bf37efb784a80",
+          "title": "Nvidia’s Jensen Huang brings ‘sovereign AI’ push to Kazakhstan, shrugs off bubble fears",
+          "url": "https://scmp.com/tech/big-tech/article/3371946/nvidias-jensen-huang-brings-sovereign-ai-push-kazakhstan-shrugs-bubble-fears",
+          "source": "scmp-tech",
+          "published_at": "2026-10-23T13:00:14.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -332,11 +328,22 @@
       "mean_headline": 0.5,
       "sample": [
         {
+          "id": "df4fc65282c4d060",
+          "title": "TeraWulf’s 20-year lease agreement with Anthropic expected to generate $19B in revenue",
+          "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5jMXNpV19MTWRVNy1Sc2ptbkJ5bUpjZ0ZQT1c3dGhKcUtBa2N3aWJEUy1NRjd1d0xHUEdNTm1Ua0RDVUE4c3RlMVBMVVJUMjRRcUZzWGtFRXhFeTg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T00:13:42.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "f44984f0ef999801",
           "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
           "url": "https://status.claude.com/incidents/h101vcmhnfky",
           "source": "anthropic-status",
-          "published_at": "2026-10-23T23:54:14.000Z",
+          "published_at": "2026-10-24T00:11:20.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -409,29 +416,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "51a05108c78b00d6",
-          "title": "HHS sole-source award to Anthropic continues to raise questions",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPNlNIVnRhdTczX3NrLTU1SjdMRl9wbGRjYWpyZUN5SW5MeU9aRGYydDZCdE05RUpBTjE1M3lQSDFSM2J6SnpFWXFpdmptUzR0N3lXdEM0MTBQLWNqaExGVEMxWnVPTFJ3Z3B3cHFyTnVMZU5PRk5INVhQNGFBS1RvRnVvY2JQQUUwdzI5dW5B?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:42:44.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
-          ],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 24,
-      "index": 2.7,
-      "mean_headline": 0.3,
+      "headlines": 23,
+      "index": 1.7,
+      "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "de9b3141ee4689dc",
+          "title": "French Protests: Out Goes the Art Fair, in Come the Riot Police",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPMW1GbWczRjBHNnMtNzA3QjV2V0dRMnRmMERSdFlvYmk2N294a1VLb1I4VWktdnd1eEx0N20yQ2UyWWdEeVhTdlFZOTEtMlBnNFFremxWZkIzLVV2WUd1ZUQ4WjV0bFFTZ081MEh3R2lpVnA0ejRYSjhHaGtDY093Zy1MeUp1OEJaTjZLZ05lTURMTE1jRm4wdHBlM3J5bkFlaVo4QTdRLS02SjVxdFBPX2lPeklEUQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-24T00:05:47.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "2b55e8f3e6ffc7d3",
           "title": "Meta’s Hunt for AI Capital Strikes a Raw Nerve on Wall Street",
@@ -452,30 +457,6 @@
           "score": 3,
           "positive": [
             "raise"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "de9b3141ee4689dc",
-          "title": "French Protests: Out Goes the Art Fair, in Come the Riot Police",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPMW1GbWczRjBHNnMtNzA3QjV2V0dRMnRmMERSdFlvYmk2N294a1VLb1I4VWktdnd1eEx0N20yQ2UyWWdEeVhTdlFZOTEtMlBnNFFremxWZkIzLVV2WUd1ZUQ4WjV0bFFTZ081MEh3R2lpVnA0ejRYSjhHaGtDY093Zy1MeUp1OEJaTjZLZ05lTURMTE1jRm4wdHBlM3J5bkFlaVo4QTdRLS02SjVxdFBPX2lPeklEUQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T21:05:46.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "28260d561c5ffe91",
-          "title": "Infinity Hires Meta Superintelligence Labs Chip Veteran and the CUDA Educator Who's Taught Two Million Engineers",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOc3QzdEhFcWZkLXB5SllBX3dMbDMzQ1ZqME44bW5uTE95QVpEX181czY3V0QyaDcyVUVKaTlOV1AyR0JfTzd0OEM0LUszQnhMYlB2bU5pM3Jwd0U3MjFULTdjWlEtU2xsaXkxbUF3bGxzYUZkNnZkTnFLMzdiZnZRNzlYZ1BXR0NBUUhJV1ZCU29qZkRrQ053WllGUEdrTDZkQXBNX1lkTnpONVo0aHA0NVY2MFlpbmRFTUxzaEtyZktyQnZ0MWZhcGZkWXVydw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T20:52:00.000Z",
-          "score": 3,
-          "positive": [
-            "hires"
           ],
           "negative": [],
           "clickbait": []
@@ -523,6 +504,17 @@
           "url": "https://huggingface.co/papers/2610.27598",
           "source": "hf-daily-papers",
           "published_at": "2026-10-23T00:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7fb4a7547d88bc66",
+          "title": "Steep bill for AI buildout punishes Meta, other tech favorites",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOaG4yYUM1ZzJnZmtpWnhIUVEzU01PRmxZM1BDRDJLazA1dkdaX3k0Z2pPMHJJUi1HUEM2OF9oV1JzSFh3d1dEU0dzc3JMQWRCeDhRa2JvNGVBbVluUlY4UGY3REoyWVZkTFBZT3BGa0swX2s1RzY3MDM5ZWlBTm1wYVBYNEt5M2VlTFoyRVNTTXJUaUVVYzVNcUtQQ2hfUW9nalZGbQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-22T20:35:11.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -741,10 +733,32 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 22,
-      "index": -0.4,
+      "headlines": 24,
+      "index": -0.3,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "dff9b11945ffafbc",
+          "title": "Amazon Stock And Other Mega Cap Tech Names For The AI Infrastructure Reset",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOaEhjVXJENnpnTTZfVHB1djE1alJfcElWMFZ1RE56UzFBVE50bVduclh5cnpTaEMwTWszajI5enF0dXBjYnlNWG5TakNIZTdNcGdLbWpMV0hjVXF6MUJHTk5iMkhkNGhyWXIyYmIzYmVhV19BTUhXR21JYnR2Tl9veVlwX3VsSW5kRl9KaVZwSEFTbUtEY2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T00:19:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8f963689969d7b07",
+          "title": "Amazon's Bee AI mines daily chatter for reminders and turns it into shopping intel",
+          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPQXFKSk4tREg4VXdIRVlwTWVsSkFDbjEtQlhfRWtiSVF0Qmc0S005aEZ3eUZwbjFRVUxiTGwtdF9rS2FFNjhFc0ZZQmxIMk52Z2dwRE92OWVybTRaNFBBTzI0clc4WFNpQkR4TWtNUmFoWU05c1Y1cTZ0cmJzOWU0ZEVURFZFVjFNV2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T00:01:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "45bbc056317a6cee",
           "title": "Amazon’s $5 billion Nvidia AI servers sit idle in warehouses amid data center power shortages",
@@ -808,28 +822,6 @@
           "url": "https://bsky.app/profile/bloomberg.com/post/3mykr326org2y",
           "source": "bluesky-ai",
           "published_at": "2026-10-23T18:00:38.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8a41e1e41cbecfde",
-          "title": "Multi-Turn Reinforcement Learning on Amazon SageMaker AI: A hands-on guide",
-          "url": "https://aws.amazon.com/blogs/machine-learning/multi-turn-reinforcement-learning-on-amazon-sagemaker-ai-a-hands-on-guide",
-          "source": "aws-ml",
-          "published_at": "2026-10-23T17:48:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "75d4a9cbafb13c9a",
-          "title": "Orchestrating SageMaker AI endpoint auto scaling with AWS CDK",
-          "url": "https://aws.amazon.com/blogs/machine-learning/orchestrating-sagemaker-ai-endpoint-auto-scaling-with-aws-cdk",
-          "source": "aws-ml",
-          "published_at": "2026-10-23T16:30:10.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1065,11 +1057,22 @@
       "mean_headline": 0.5,
       "sample": [
         {
+          "id": "df4fc65282c4d060",
+          "title": "TeraWulf’s 20-year lease agreement with Anthropic expected to generate $19B in revenue",
+          "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5jMXNpV19MTWRVNy1Sc2ptbkJ5bUpjZ0ZQT1c3dGhKcUtBa2N3aWJEUy1NRjd1d0xHUEdNTm1Ua0RDVUE4c3RlMVBMVVJUMjRRcUZzWGtFRXhFeTg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T00:13:42.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "f44984f0ef999801",
           "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
           "url": "https://status.claude.com/incidents/h101vcmhnfky",
           "source": "anthropic-status",
-          "published_at": "2026-10-23T23:54:14.000Z",
+          "published_at": "2026-10-24T00:11:20.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1140,19 +1143,6 @@
           "published_at": "2026-10-23T21:46:33.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "51a05108c78b00d6",
-          "title": "HHS sole-source award to Anthropic continues to raise questions",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPNlNIVnRhdTczX3NrLTU1SjdMRl9wbGRjYWpyZUN5SW5MeU9aRGYydDZCdE05RUpBTjE1M3lQSDFSM2J6SnpFWXFpdmptUzR0N3lXdEM0MTBQLWNqaExGVEMxWnVPTFJ3Z3B3cHFyTnVMZU5PRk5INVhQNGFBS1RvRnVvY2JQQUUwdzI5dW5B?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:42:44.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
-          ],
           "negative": [],
           "clickbait": []
         }
@@ -1238,8 +1228,8 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 29,
-      "index": 3,
+      "headlines": 27,
+      "index": 3.3,
       "mean_headline": 0.4,
       "sample": [
         {
@@ -1322,116 +1312,11 @@
           "clickbait": []
         },
         {
-          "id": "4b2be18b9af9edd0",
-          "title": "Prediction: Nvidia Will Outperform Broadcom Over the Next 5 Years",
-          "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQREx5XzA2LXpTUFFCSmcwQ0tGVE41Wk9CVHdnd256RFZFOV9EU1FaZV9KWkxqaElwZ0xvMjZzUjFzX2k0QTh6b1F1UG5tTWtXLTlWNURJenVlazNMUkNIOURRam1Ra2prM1AyWHBFbWhpWTNJTjNKWnRtcnRjdDZwR1pLb2RQNnVKQW9BbncwYmNSal9ETk5VaWhjVm1FMERrNHYtZ0RKN1pJTkdUVE5RTUY0X21RVWRSQy1lU3JSM3ZmMFNqdFh5d0ZQUC00bF82ekZRekFsMW9STEFFQm9kekJETQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:07:09.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "meta",
-      "name": "Meta",
-      "headlines": 24,
-      "index": 2.7,
-      "mean_headline": 0.3,
-      "sample": [
-        {
-          "id": "2b55e8f3e6ffc7d3",
-          "title": "Meta’s Hunt for AI Capital Strikes a Raw Nerve on Wall Street",
-          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1HNFhFTFhpTzRXbFdHSzNMY3RaWHFIVllmc0VsdGdrUEYxTzdwNGRqb2Y4b3ZhUUt1RUJnZTN2QlpKdW8xQVRjYTIwQktIOGVyaHhINjJPVjFVTFN1NFEwYUd3?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T23:07:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "24dc46a6ec38387f",
-          "title": "Treasuries Jump on AI Investment Jitters as Meta Eyes $40 Billion Raise, SpaceX Telecom Push Draws Focus",
-          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFAxREJFNkJ3NjJlUGJyaHRrM1gyM0Racm00ZXN1QTBtWjF2UTNqZkFyemVTZmV2bWUtOEpSY1VyUU5kQzB0MElyeDhUZXdZN0VtRVJXRQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:49:37.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "de9b3141ee4689dc",
-          "title": "French Protests: Out Goes the Art Fair, in Come the Riot Police",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPMW1GbWczRjBHNnMtNzA3QjV2V0dRMnRmMERSdFlvYmk2N294a1VLb1I4VWktdnd1eEx0N20yQ2UyWWdEeVhTdlFZOTEtMlBnNFFremxWZkIzLVV2WUd1ZUQ4WjV0bFFTZ081MEh3R2lpVnA0ejRYSjhHaGtDY093Zy1MeUp1OEJaTjZLZ05lTURMTE1jRm4wdHBlM3J5bkFlaVo4QTdRLS02SjVxdFBPX2lPeklEUQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T21:05:46.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "28260d561c5ffe91",
-          "title": "Infinity Hires Meta Superintelligence Labs Chip Veteran and the CUDA Educator Who's Taught Two Million Engineers",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOc3QzdEhFcWZkLXB5SllBX3dMbDMzQ1ZqME44bW5uTE95QVpEX181czY3V0QyaDcyVUVKaTlOV1AyR0JfTzd0OEM0LUszQnhMYlB2bU5pM3Jwd0U3MjFULTdjWlEtU2xsaXkxbUF3bGxzYUZkNnZkTnFLMzdiZnZRNzlYZ1BXR0NBUUhJV1ZCU29qZkRrQ053WllGUEdrTDZkQXBNX1lkTnpONVo0aHA0NVY2MFlpbmRFTUxzaEtyZktyQnZ0MWZhcGZkWXVydw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T20:52:00.000Z",
-          "score": 3,
-          "positive": [
-            "hires"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4178fa1895773520",
-          "title": "WIRED World Fair: A Festival of the Future",
-          "url": "https://bsky.app/profile/wired.com/post/3mykkoly62g2j",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-23T16:06:17.807Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "215dfe4bc854f8c8",
-          "title": "Meta delays new business terms after publisher pushback on AI scraping",
-          "url": "https://bsky.app/profile/theverge.com/post/3mykgs4tpid2t",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-23T14:47:41.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "delays"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "ebab85ae973396c3",
-          "title": "Tom Skerritt, the Emmy-winning actor who embodied a solid, wry authority figure, whether as a flight instructor in “Top Gun,” a tough-but-fair sheriff on TV’s “Picket Fences” or the doomed captain of",
-          "url": "https://bsky.app/profile/apnews.com/post/3myiy2h26lv2t",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-23T01:00:15.000Z",
-          "score": 3,
-          "positive": [
-            "winning"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8d15341568ded10f",
-          "title": "Meta Expert: Cross-Layer Expert Sharing for Storage- and Retrieval-Efficient MoE",
-          "url": "https://huggingface.co/papers/2610.27598",
-          "source": "hf-daily-papers",
-          "published_at": "2026-10-23T00:00:00.000Z",
+          "id": "b27bf37efb784a80",
+          "title": "Nvidia’s Jensen Huang brings ‘sovereign AI’ push to Kazakhstan, shrugs off bubble fears",
+          "url": "https://scmp.com/tech/big-tech/article/3371946/nvidias-jensen-huang-brings-sovereign-ai-push-kazakhstan-shrugs-bubble-fears",
+          "source": "scmp-tech",
+          "published_at": "2026-10-23T13:00:14.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1539,12 +1424,137 @@
       ]
     },
     {
+      "id": "meta",
+      "name": "Meta",
+      "headlines": 23,
+      "index": 1.7,
+      "mean_headline": 0.2,
+      "sample": [
+        {
+          "id": "de9b3141ee4689dc",
+          "title": "French Protests: Out Goes the Art Fair, in Come the Riot Police",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPMW1GbWczRjBHNnMtNzA3QjV2V0dRMnRmMERSdFlvYmk2N294a1VLb1I4VWktdnd1eEx0N20yQ2UyWWdEeVhTdlFZOTEtMlBnNFFremxWZkIzLVV2WUd1ZUQ4WjV0bFFTZ081MEh3R2lpVnA0ejRYSjhHaGtDY093Zy1MeUp1OEJaTjZLZ05lTURMTE1jRm4wdHBlM3J5bkFlaVo4QTdRLS02SjVxdFBPX2lPeklEUQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-24T00:05:47.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2b55e8f3e6ffc7d3",
+          "title": "Meta’s Hunt for AI Capital Strikes a Raw Nerve on Wall Street",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1HNFhFTFhpTzRXbFdHSzNMY3RaWHFIVllmc0VsdGdrUEYxTzdwNGRqb2Y4b3ZhUUt1RUJnZTN2QlpKdW8xQVRjYTIwQktIOGVyaHhINjJPVjFVTFN1NFEwYUd3?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T23:07:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "24dc46a6ec38387f",
+          "title": "Treasuries Jump on AI Investment Jitters as Meta Eyes $40 Billion Raise, SpaceX Telecom Push Draws Focus",
+          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFAxREJFNkJ3NjJlUGJyaHRrM1gyM0Racm00ZXN1QTBtWjF2UTNqZkFyemVTZmV2bWUtOEpSY1VyUU5kQzB0MElyeDhUZXdZN0VtRVJXRQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T21:49:37.000Z",
+          "score": 3,
+          "positive": [
+            "raise"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4178fa1895773520",
+          "title": "WIRED World Fair: A Festival of the Future",
+          "url": "https://bsky.app/profile/wired.com/post/3mykkoly62g2j",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-23T16:06:17.807Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "215dfe4bc854f8c8",
+          "title": "Meta delays new business terms after publisher pushback on AI scraping",
+          "url": "https://bsky.app/profile/theverge.com/post/3mykgs4tpid2t",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-23T14:47:41.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "delays"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "ebab85ae973396c3",
+          "title": "Tom Skerritt, the Emmy-winning actor who embodied a solid, wry authority figure, whether as a flight instructor in “Top Gun,” a tough-but-fair sheriff on TV’s “Picket Fences” or the doomed captain of",
+          "url": "https://bsky.app/profile/apnews.com/post/3myiy2h26lv2t",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-23T01:00:15.000Z",
+          "score": 3,
+          "positive": [
+            "winning"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8d15341568ded10f",
+          "title": "Meta Expert: Cross-Layer Expert Sharing for Storage- and Retrieval-Efficient MoE",
+          "url": "https://huggingface.co/papers/2610.27598",
+          "source": "hf-daily-papers",
+          "published_at": "2026-10-23T00:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7fb4a7547d88bc66",
+          "title": "Steep bill for AI buildout punishes Meta, other tech favorites",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOaG4yYUM1ZzJnZmtpWnhIUVEzU01PRmxZM1BDRDJLazA1dkdaX3k0Z2pPMHJJUi1HUEM2OF9oV1JzSFh3d1dEU0dzc3JMQWRCeDhRa2JvNGVBbVluUlY4UGY3REoyWVZkTFBZT3BGa0swX2s1RzY3MDM5ZWlBTm1wYVBYNEt5M2VlTFoyRVNTTXJUaUVVYzVNcUtQQ2hfUW9nalZGbQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-22T20:35:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 22,
-      "index": -0.4,
+      "headlines": 24,
+      "index": -0.3,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "dff9b11945ffafbc",
+          "title": "Amazon Stock And Other Mega Cap Tech Names For The AI Infrastructure Reset",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOaEhjVXJENnpnTTZfVHB1djE1alJfcElWMFZ1RE56UzFBVE50bVduclh5cnpTaEMwTWszajI5enF0dXBjYnlNWG5TakNIZTdNcGdLbWpMV0hjVXF6MUJHTk5iMkhkNGhyWXIyYmIzYmVhV19BTUhXR21JYnR2Tl9veVlwX3VsSW5kRl9KaVZwSEFTbUtEY2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T00:19:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8f963689969d7b07",
+          "title": "Amazon's Bee AI mines daily chatter for reminders and turns it into shopping intel",
+          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPQXFKSk4tREg4VXdIRVlwTWVsSkFDbjEtQlhfRWtiSVF0Qmc0S005aEZ3eUZwbjFRVUxiTGwtdF9rS2FFNjhFc0ZZQmxIMk52Z2dwRE92OWVybTRaNFBBTzI0clc4WFNpQkR4TWtNUmFoWU05c1Y1cTZ0cmJzOWU0ZEVURFZFVjFNV2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T00:01:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "45bbc056317a6cee",
           "title": "Amazon’s $5 billion Nvidia AI servers sit idle in warehouses amid data center power shortages",
@@ -1612,38 +1622,38 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "8a41e1e41cbecfde",
-          "title": "Multi-Turn Reinforcement Learning on Amazon SageMaker AI: A hands-on guide",
-          "url": "https://aws.amazon.com/blogs/machine-learning/multi-turn-reinforcement-learning-on-amazon-sagemaker-ai-a-hands-on-guide",
-          "source": "aws-ml",
-          "published_at": "2026-10-23T17:48:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "75d4a9cbafb13c9a",
-          "title": "Orchestrating SageMaker AI endpoint auto scaling with AWS CDK",
-          "url": "https://aws.amazon.com/blogs/machine-learning/orchestrating-sagemaker-ai-endpoint-auto-scaling-with-aws-cdk",
-          "source": "aws-ml",
-          "published_at": "2026-10-23T16:30:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 64,
-      "index": -6,
+      "headlines": 61,
+      "index": -5.8,
       "mean_headline": -0.7,
       "sample": [
+        {
+          "id": "df48752722039c80",
+          "title": "OpenAI says it built an \"offline world\" from cached web content to train isolated frontier models to browse, search for information, and use web apps (OpenAI)",
+          "url": "https://techmeme.com/261023/p25",
+          "source": "techmeme",
+          "published_at": "2026-10-24T00:30:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2a060fd96f03cd51",
+          "title": "OpenAI’s own agents found escapes from its training sandbox",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE1mSmgtcm5iT2I4Y2dCalBnQ2E0eDlmQVU5UG1uXzJ2dU5XN3pCNzAzX2tZOURXWkJnR0Z2S25JeU5wQ0s0WFlDZGtLNmxCZWV1QWpFT0pDQzhSVm5keEN1Qm1QbnpMaUdpUy1iTUNEQmRHT1VmcVdNRw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T00:09:43.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "dba8abab0ba554ab",
           "title": "OpenAI stops training AI models on live interne...",
@@ -1714,32 +1724,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0d1d2213e4daf8a1",
-          "title": "AG Paxton sues OpenAI and its CEO for allegedly deceiving and harming Texans",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNemZuZjRaby1uemF0ajc3U3VhbGlaajBaZUZ3YU5tRWpWSmRrMU1yU3NiSTZPbVlsTmVJYllyRS1IRlhVVFFvYXpDYl9QdVJjam12TElUYWF5OGtXMFFTdXQwZVcyU1RRZWJNS0xDckZJSVNmSjMzV2JLY0xmbkc1VmNrYmx1ZFpzYmQwMzlBWVpZWERlR012UDRiMHpiNjNFenJBbQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:39:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "sues"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "0403218c12e485bb",
-          "title": "OpenAI Says It's Cutting Off Internet Access For Frontier Model Training",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOZVlVU2N1R05Jc0YxRjVGMFlBeTlGQVhUWnFzWXRWWVBneXl1YWl6YXFHdVlzUGNHcFdnMDJ3UFpJal9rcElReU15TkR2Q0RTT3dxNjBDeG9hazczZ18xeWgyRzM4ZlpWaTBvWENad2l1ZEZaOEpaNUQyY0kxMUF0V21BYkxLckVOaU5YU3JwNmxrNkM3UFFzaFBDT3BxejVCTktXNEd4eW4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:37:02.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cutting"
-          ],
           "clickbait": []
         }
       ]
