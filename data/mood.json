@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-24T11:06:59.839Z",
-  "news_generated_at": "2026-10-24T11:06:59.839Z",
+  "generated_at": "2026-10-24T11:50:36.437Z",
+  "news_generated_at": "2026-10-24T11:50:36.437Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,16 +18,16 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 185,
+    "headlines_naming_a_company": 190,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.09
+    "negative_pair_share": 0.097
   },
   "glance": {
     "leading": {
-      "id": "apple",
-      "name": "Apple",
-      "index": 16
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "index": 16.8
     },
     "trailing": {
       "id": "google",
@@ -37,7 +37,7 @@
     "most_discussed": {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 55
+      "headlines": 56
     }
   },
   "companies": [
@@ -90,10 +90,34 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 55,
-      "index": -3.6,
+      "headlines": 56,
+      "index": -4.1,
       "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "1dc7e2df39a11f00",
+          "title": "OpenAI's isolated AI agents found ways to talk to each other through CPU cache",
+          "url": "https://the-decoder.com/openais-isolated-ai-agents-found-ways-to-talk-to-each-other-through-cpu-cache",
+          "source": "the-decoder",
+          "published_at": "2026-10-24T11:12:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5dca59df8dd6e9f2",
+          "title": "OpenAI Cuts Live Internet Access From AI Model Training",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFB6OVdvUGFRSnEtWFR3WkJOXzRoTVZGMnNXc2dMQmxpR3EyZWxPS1FpSzJyUTNhbXA5cTJHdXp0MXdIMjNLUlNCVGllRlVCbFdETzM2d1NzSWxNSW5ibl9CM2xvQkRnb3JIQ1huZzZ0TUd3VjU5a0VBQw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:08:57.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
+        },
         {
           "id": "020be5e71fc897b4",
           "title": "OpenAI is locking its most advanced AI models offline after a string of security scares",
@@ -152,17 +176,6 @@
           "clickbait": []
         },
         {
-          "id": "7aeeb6f9aed098d7",
-          "title": "'I didn't believe it at first': OpenAI model transcribes, decodes Napoleon's cipher",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9oTGlTc0MtN3g4Vi1IbWJWQVQ4U1puNFA4d1NjcE85Wk1WcGtpZnRkazZhVVhlTUpXcTVRVmZ3SHhVMktFdnhzYXdCeW5EOExJdEJiSG5tWkFlRUsxcWN4QnNTdk1aaGstc19vWlM4OGtGZWs0MVl3TU5iUmE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T08:11:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "bf8b6e5c06193156",
           "title": "A look at OpenAI's Project Daybreak, which lets vetted partners use its top hacking models to find and fix vulnerabilities and helped uncover PHP2Shell RCE bugs (Thomas Brewster/Forbes)",
           "url": "https://techmeme.com/261024/p2",
@@ -176,29 +189,73 @@
             "hacking"
           ],
           "clickbait": []
-        },
-        {
-          "id": "99fb95f1dad64270",
-          "title": "OpenAI cuts frontier models off from live internet after training-run escape",
-          "url": "https://reddit.com/r/artificial/comments/1xe1drz/openai_cuts_frontier_models_off_from_live",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-24T06:32:39.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cuts"
-          ],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 24,
-      "index": 2.3,
-      "mean_headline": 0.3,
+      "headlines": 28,
+      "index": 0.9,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "fc62dfe0929ac9fc",
+          "title": "inDrive taps Pony.ai and Nvidia to test robotaxis in one of the world's coldest capitals",
+          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxPUW44ZW5nZWlNTE1sS0YwYnQzVWFlcEIzbmxOYmxZUTNlRm9Cc3p6emVUTl9STnZoYml3SzIwUWhqeExzUUtrWENXNWpudklSRlpVY2FDVVN6MW5BOURZUU45X0t1MFBub3czVEp1ZnRoYURUdHlXTXVXZFJacEEtRkxIa0pjV2lxQWhvMlByRDNRSkZOejhaQ21hMXJQamV3bXJwbjRkeUV5M0tDN1lpMWtmUTVfelhlYmFWWHZyVGRIOURNc3ZjbkJkUDJzelJCUl9nMDJKOHh5Y3hDeEJqWkFySnJUNnFaX0N6VdIB8gFBVV95cUxNcjRkZE5FdU4waFVTb2VLNlNHaVh5ejMtb2RJN2FXNVhWZUl6OWdQRW55aHphUnZ0b0ZPWTRXTWxuRXljOFpENER3SlZKT2loZllmdXVMMjF4REZjRUhWLWNubkZ4d1MwcmFjcGs3Tlc2UEFQYTBzcHlYOG5LUzdVdEZfQVFSZWxaUElwNVBZMF9rRmNCSWUxTE5fbjhpaUtudXByX1VkVkxKOE1Lck13Rml5OFpVYWViaHdPdGxmV09QRWlqZk8wRkNGSUhZRkNHTlFadWJ6dUxCRTlnM2ZzYWlMa3FWSW5IQ2UwaUo0RWgwZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:30:37.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b62d1fa7bdb2f54e",
+          "title": "Nvidia faces risks as it finances AI cloud proj...",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQWFVLMWp6eGZPX0JQTGJsbDBoaXRHaFdHS2c4UTNYTDdObmVRdHJWY1dyemR5eXBfSlRUVVNNcjh4WXg0MU43Z194bUYxUlRITWVxaVk3N0h2elBfd1F4Wm1VMk9GZEJSbnFNRURkR0pSN2RTNjd0RU94Zk1YZFdESDZpaWNTTm5QNkZwVkRPVnBuVXV1MUljekFPN1UxQk9U?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:28:53.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "risks"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "865e713790cd9c0b",
+          "title": "Prediction: $200 a Month Invested in Nvidia Will Be Worth This Much by 2035",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPQjRKeXR1Y2ZxeVBnS21lRDA2S0t4a18yNHJfdVpwUS1DbC1qZEZ2NUFBdnBVMVk4QldTdlVYZjRNWml0LWNpdTNucFYwbVBnMzBjWjZyYV9DMEp2by1ma0lpNW84RUNwYTBpT0l4VHh3MEZHZlVLcU5ITld0Nzg5RjFQNi13eEZha0Z3M1ByVGx1aEVnRjRF?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:16:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "08efbd55ef49f00f",
+          "title": "Will NVIDIA’s DSX Pods Shift the AI Landscape?",
+          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPZzdSelI5ZUNYeEdwekk5eU0wR19Rd3NYemU5V0thb0JJOEYwNlByd3duYkU3bzRyM0VPNGJJMTZKTnRnRVc1cHZZY3V1ejBGZ1gwOEJFOVdBSVpWQXUwVVc1Y0YxSUZWdmlMRHFBek9pbUQzNTZ2alc5R3VWQ0Joc3ln?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:10:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5ccefa160f80f7cf",
+          "title": "Nvidia's role as AI financier faces first big test as neoclouds take market hit",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPN1kwNGVDOVM2RzM1UHRXSGxMb2t0bVR5U3F2ektqUGFGSDFwcEx4MzVsUVJWNjZobzhHSWoydXFZSVc0Y2ZuVmtGaWZ4UlpIelVnWlRGeF9fSllBSXlDNDd2U0NLenF4aVlGRy1MQWZ2bHVlTWVROUh6cVdrT2ZZU1E4N1ZaS2MxZEIyaG5QeXBEVUx0X1dLZmd5bk01RXVtc0stTG5oT1RJNk1tQ2lndi1jYV85QdIBuwFBVV95cUxQWkFsODZMbW1ZMjhwOXdUcHFSZ01La3kteUFsVXBPVWV1RnRqVzRmLXZZOXZpWklDTk52T3k4ZGkwbHduZHJkdW9rYjhEbXBPLWFiZURiNmt1UUdyaUpqdS1kS1lXTjRJWnA2N0Z4UlR3NnJhUkNyZ3RYMGF4VTRfWDg3emVCWEZ5R1dYcFk3RXc3RjRqQXNhMG82MlR4d2RaNFU2OUNxQmVJcU9OOTNyaXluSjI0N1d6WFg4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:00:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "2370222467515f2c",
           "title": "Nvidia CEO Jensen Huang backed a Seattle lab with nearly 7 million GPU hours; its new AI model designs pr",
@@ -233,63 +290,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "a8da193160d4558f",
-          "title": "Nvidia CEO Jensen Huang proposes making Kazakhstan global physical AI Hub",
-          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9KYWdmOHVWbTVHRWdTNXN4SDhlbENDX2ZMY2R0VkRIbUkxMHJ0TEJBY1R2UjJBQWZoWUdtaVQtVlYtc3M2U3p6b012d2ppVGFVYzg5UA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T10:04:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d3a76a27660b1d13",
-          "title": "Tesla and Nvidia just found another AI bottleneck",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQd3VpUERiNUd0STJ4bmRZdGpiMEphUUFzOVd5MUNuelhKLThPdUFUY1VTaHpXcE1NaFhzM2VKYW1HSUVyMkpLVlFXQmJaQXF2NmVkMkxrTmdKam1ZekNlT1o2ZHBHblI5eGxFNU9EN0VRTjM4cjRSdkI4UnktRDdjbWJ5MURQVkJKYzAzcDltT1RnTlhDSEswdm0tZjhEeVN5RFU4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T10:03:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b6ee2b32304d0c0d",
-          "title": "GPU-unlock: FP/BF16 instruction issue rate on Nvidia 3000's cards",
-          "url": "https://github.com/Zagitta/gpu-unlock",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T09:58:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "fe966123a0c6b01e",
-          "title": "Nvidia, Meta and Apple Unveil New Open Models The Morning Download for Oct. 16",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNRzl4Qm1LOUgzSHRaWEdvRDhKYkRaemRoOV9GWWVuU0N1THhvaXFnYnhQOWRWaGZBQlBUN3dicGJmWWVuZW9BS3BnLVlGYks2R3I1b1ZuVW9ObVhXX3I1cGViWnJyTnIwd3pfV3BXQVhWZy15dkpDTlFUSVg1YUtjR28wRkFrRHNpT2ktMnpR?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-24T03:42:20.000Z",
-          "score": 3,
-          "positive": [
-            "unveil"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1e55c29e6e1a3d35",
-          "title": "Hottest toy for Christmas? Nvidia CEO plays with adorable Microduck robots, 20,000 sell",
-          "url": "https://techcrunch.com/2026/10/23/hottest-toy-for-christmas-nvidia-ceo-plays-with-adorable-microduck-robots-20000-sell",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-23T21:59:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -306,6 +306,17 @@
           "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOVU9MLWFpZDVudzJmT3hlT3JlN0V3R25ZNHRISDd5QkdwcWFfSUJSS18yLVk2WkM0ZG8yRjBXX1ZwVUNBNW5IbklBU1RKMm9EVlp6eUlJLXFidHJQc1Voc0dVdEhzVDBBRW0yNmxOb3FfQ3RhVGRlXzc4ek9oUXB4aDZqX2FrMExvUkxSOHVDVDd5c0toMG5oTg?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-24T11:00:28.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ea9541ead443a44b",
+          "title": "AI and US Midterms: Anthropic’s Approach to Bias and Integrity",
+          "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNdXN6R0dNOW9RTXhCZnRoaEJnc1A5ZGhmdFJoS0JuV2VJZXRYOWxTOFBLcExkc1hZX2xWNGJ1cDlpM3lNR3RNQTlnQ2toLVAta0pfNUdQV0VPd0Niby1NOEVwN0hVMi1hdUFvTWtNbGp4NUduZ0tTZmFDZFdEeFVDaTlhSW5WYktLVF84LVZ6RVF4TkZTRlVzY2wyM2Y3OGR3QTZhcmU0enZzcXYxREIwTlhITGRER2NHOVpmYzBnWWF4SHg3ZWYydTE2Y20yLXRTMVI4emgtczVfV0pPVXc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:00:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -352,17 +363,6 @@
           "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPQVBpR3lWektnSkV0endlQjJBOTlhSG9kRFBRMkpZUlh4eTBQczJCNWFEazNpWmw5QmN1WURfUHFLdndMdGl2NlpDV2dhOWVQMnF5QXB3MlBHdFZmSDZ2eHRGSm9QNDh1YUE2bi1PbXRtLTB0cXpwSjFhbFN3UGdaUzBsRU5TbHlIeWxieHBTdi00Tjl0Mjc4WUV6b1pQWHYzQkhuZ1hpYjY?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-24T09:02:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2818ce6e889f85fa",
-          "title": "Claude Mythos 5 Kept Pursuing Malicious GitHub Attack Even After Signs of Real-World Harm, Anthropic Finds",
-          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQSTVtTzRLcGdwTjZZWnRIN08tZlc0TC02bVhPTGhCbDBiVUF2WTVOYTVaT1Q1eU5kTENYNnVkcVJpVEtDTGx1a3h3LVljWEpmTWgwUzRLUnQ5bkdobHV1a1ZpWmkzT2hiM09FenQzTHVfZC1zcWczbmJSX1cySkU4WFA1a0w3V05oZ3RKcnFoRTNHaDZjbnFteEFRZkJhbDFOZDNhU29laGlMRmJ4cEhvQjdLdHNpN1dTd3AtV2JGRFVIZEk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T08:03:01.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -705,10 +705,21 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 22,
-      "index": 2.2,
+      "headlines": 23,
+      "index": 2.1,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "7223dbc8134e0072",
+          "title": "Amazon Spent More on Data Centers Last Quarter Than AWS Earned in Revenue. Should Investors Worry?",
+          "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxOVVVUZUFyY2JjQ3FxUU82eHVQSjEyam5QVzlfZTlyWjl1REJ2dGY3ZE1vbExYdTFOM2hTbC1tNk51SExNNU83WGpTcDJKZVNzYnRLM2duV1c1d20zcFRKaGQ5QzNObWM3WFprcmlYOFFDMVZET0JOZkJOUW4wRDZFVDh6Vk9FYVNsdWd4b0l0OWlkbUFaTVRmV1U2QktHbXlwSHBqcWd4b09zeDVQY2p5a0VRa0d6bzAyeGYtOU42MmN1aHlJaG43MmxEZzFqbkF0TDlQSTUyMXo1NTQwTUxoRlQycmk0Q1NxVzM3TWZodWVZTXpvTlBJT0ZuelVnUXgySnhrYU0zVlcxalVRTVktWA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:36:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "25664891e1fded95",
           "title": "Save $500 on this astounding LG OLED on sale in an Amazon deal",
@@ -787,38 +798,16 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "8a41e1e41cbecfde",
-          "title": "Multi-Turn Reinforcement Learning on Amazon SageMaker AI: A hands-on guide",
-          "url": "https://aws.amazon.com/blogs/machine-learning/multi-turn-reinforcement-learning-on-amazon-sagemaker-ai-a-hands-on-guide",
-          "source": "aws-ml",
-          "published_at": "2026-10-23T17:48:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 11,
-      "index": 15.3,
-      "mean_headline": 1.9,
+      "headlines": 10,
+      "index": 16.8,
+      "mean_headline": 2.1,
       "sample": [
-        {
-          "id": "6223282aee86bde0",
-          "title": "FILE PHOTO: Deepseek AI sign in Beijing",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPWWpDOVdfdWVZTlpFbnlFeGt0cXctdDVGSk9ZUlVHVC1VNVEyaUNoZXhyNkUyUFhGc2tXYjlGNlY2UlAtNFhzYnlvY0s2N0hTNEI4ZE13SWxDX08xN1lnaTI5T0NZSXc3U0VrazVBaC0xdEp5LUpJQUNfQW9VajJSMGxDQzJiNHZXRHZoLUp3TmphU2FTWjhJekwyVFl3ZS1SMnBkYWxVLWNxcHBvbHNKSmswVXQ4bU82QmdEVURvWm5xQkw2S3laNDJGVEN5UQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T08:09:31.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "873ca5a374ac4e71",
           "title": "Moonshot Debuts First AI Upgrade Since Its Own DeepSeek Moment",
@@ -903,11 +892,131 @@
           ],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "923d2412a10c1213",
+          "title": "DeepSeek, MiniMax Win Approval for Global Use, State Media Says",
+          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbjhEQkNIQVp4Zi1Xc0g5RG53cGVsSzRWdE16QTNvN2llT1k1cEpiSklQZHhXM25HWDJNcnhLVlpJTFlvMDV3TVl1SlM3cnhLTy1KYW40aDFvOXR2NzlZQnl3RnNWODV5NmV0WkR5bzkwSGxnZ28zMUNjbFZpalU1X2FXekE1STJ0ajZmc1hfV0lmcFFXdjBVZURmVGl5WXY1YXl2SkFZWldHZ1Z6SFdvNWJn?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T02:58:00.000Z",
+          "score": 3,
+          "positive": [
+            "approval"
+          ],
+          "negative": [],
+          "clickbait": []
         }
       ]
     }
   ],
   "ranked": [
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "headlines": 10,
+      "index": 16.8,
+      "mean_headline": 2.1,
+      "sample": [
+        {
+          "id": "873ca5a374ac4e71",
+          "title": "Moonshot Debuts First AI Upgrade Since Its Own DeepSeek Moment",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPcktaUjlRNUc4SkZ3UzlJSnJwX0tzalVkaHFKTmxkWGItR0J6b3VVQ01xU25ZdFRueWdrVXNsMjRab2NJNTVFMG9sRHdfbWJwQ2FLQlBwSGdfS1hYWFhWUXRONm8zczlYSnoxX1hiamdRWFU3UThWS05fVFpKNzN4OU5ISkZoOXJNS09Qc2djYVVxMGtnQjVlWFJHTE1wQWdmVjZYckhnd2JjbURxSy1ra2lXbw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T17:18:10.000Z",
+          "score": 3,
+          "positive": [
+            "debuts"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "014e3200341c0eb0",
+          "title": "China’s DeepSeek Wants Ubiquity. Beijing Has Mixed Feelings",
+          "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPWFc0WFJoTDZzenhTV3A2LTktV0FnblQ4ajVXTXNDelRSZC1zZHdmLVczUEhvc282ZWNON1ZWN2JFLVk4enN1cWdfZFFZWGJIaGJRbUhlcTlIdzI5b1JqNFkwTFBpdmp0X0JWSmV1S3ExQlNyYmhSWmdiV3dZSV9LYzZEZXhDaWZoUWNjOU5fUmRKY2pCRW9zaG8xd2d3Y1FRWlN3aFNNUFoyZU5EV2FpYWY0cXhSX1ExcTBJbXpqeU5FLUMxN3B3YUNXQjJIQWhsZWlQT3ZleDRGcHdvWUF3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T10:28:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1b77558b06d46a58",
+          "title": "DeepSeek Open-Sources AI Model as China, US Restrict Each Other’s Tech",
+          "url": "https://bloomberg.com/news/newsletters/2026-10-23/deepseek-open-sources-ai-model-as-china-us-restrict-each-other-s-tech",
+          "source": "bloomberg-tech",
+          "published_at": "2026-10-23T10:28:01.000Z",
+          "score": 6,
+          "positive": [
+            "open sources",
+            "open-sources"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0337f1c85ce865c7",
+          "title": "ISTA-DASLab/DeepSeek-V4.1-Flash-1017-GSQ-RCO-GGUF — trending on Hugging Face",
+          "url": "https://huggingface.co/ISTA-DASLab/DeepSeek-V4.1-Flash-1017-GSQ-RCO-GGUF",
+          "source": "hf-trending-models",
+          "published_at": "2026-10-23T09:43:05.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3e88fa3f6c0a8639",
+          "title": "AI IPOs are hitting the brakes as public markets cool. But with private money still flowing to giants like OpenAI and DeepSeek, companies might be tempted to stay private for longer. Anthony Stephens",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3myjujzk4sj2t",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-23T09:30:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "988465435c2f96f6",
+          "title": "DeepSeek, MiniMax secure open-source licences days after new China export rules: state media",
+          "url": "https://scmp.com/tech/policy/article/3371880/deepseek-minimax-secure-open-source-licenses-days-after-new-china-export-rules-state-media",
+          "source": "scmp-tech",
+          "published_at": "2026-10-23T06:00:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5ab735d4795c2cbb",
+          "title": "Chinese state media: DeepSeek and MiniMax completed registration and won approval to open-source and deploy AI models overseas under proposed export controls (Bloomberg)",
+          "url": "https://techmeme.com/261023/p2",
+          "source": "techmeme",
+          "published_at": "2026-10-23T04:50:55.000Z",
+          "score": 6,
+          "positive": [
+            "approval",
+            "won"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "923d2412a10c1213",
+          "title": "DeepSeek, MiniMax Win Approval for Global Use, State Media Says",
+          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbjhEQkNIQVp4Zi1Xc0g5RG53cGVsSzRWdE16QTNvN2llT1k1cEpiSklQZHhXM25HWDJNcnhLVlpJTFlvMDV3TVl1SlM3cnhLTy1KYW40aDFvOXR2NzlZQnl3RnNWODV5NmV0WkR5bzkwSGxnZ28zMUNjbFZpalU1X2FXekE1STJ0ajZmc1hfV0lmcFFXdjBVZURmVGl5WXY1YXl2SkFZWldHZ1Z6SFdvNWJn?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T02:58:00.000Z",
+          "score": 3,
+          "positive": [
+            "approval"
+          ],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
     {
       "id": "apple",
       "name": "Apple",
@@ -955,111 +1064,6 @@
       ]
     },
     {
-      "id": "deepseek",
-      "name": "DeepSeek",
-      "headlines": 11,
-      "index": 15.3,
-      "mean_headline": 1.9,
-      "sample": [
-        {
-          "id": "6223282aee86bde0",
-          "title": "FILE PHOTO: Deepseek AI sign in Beijing",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPWWpDOVdfdWVZTlpFbnlFeGt0cXctdDVGSk9ZUlVHVC1VNVEyaUNoZXhyNkUyUFhGc2tXYjlGNlY2UlAtNFhzYnlvY0s2N0hTNEI4ZE13SWxDX08xN1lnaTI5T0NZSXc3U0VrazVBaC0xdEp5LUpJQUNfQW9VajJSMGxDQzJiNHZXRHZoLUp3TmphU2FTWjhJekwyVFl3ZS1SMnBkYWxVLWNxcHBvbHNKSmswVXQ4bU82QmdEVURvWm5xQkw2S3laNDJGVEN5UQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T08:09:31.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "873ca5a374ac4e71",
-          "title": "Moonshot Debuts First AI Upgrade Since Its Own DeepSeek Moment",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPcktaUjlRNUc4SkZ3UzlJSnJwX0tzalVkaHFKTmxkWGItR0J6b3VVQ01xU25ZdFRueWdrVXNsMjRab2NJNTVFMG9sRHdfbWJwQ2FLQlBwSGdfS1hYWFhWUXRONm8zczlYSnoxX1hiamdRWFU3UThWS05fVFpKNzN4OU5ISkZoOXJNS09Qc2djYVVxMGtnQjVlWFJHTE1wQWdmVjZYckhnd2JjbURxSy1ra2lXbw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T17:18:10.000Z",
-          "score": 3,
-          "positive": [
-            "debuts"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "014e3200341c0eb0",
-          "title": "China’s DeepSeek Wants Ubiquity. Beijing Has Mixed Feelings",
-          "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPWFc0WFJoTDZzenhTV3A2LTktV0FnblQ4ajVXTXNDelRSZC1zZHdmLVczUEhvc282ZWNON1ZWN2JFLVk4enN1cWdfZFFZWGJIaGJRbUhlcTlIdzI5b1JqNFkwTFBpdmp0X0JWSmV1S3ExQlNyYmhSWmdiV3dZSV9LYzZEZXhDaWZoUWNjOU5fUmRKY2pCRW9zaG8xd2d3Y1FRWlN3aFNNUFoyZU5EV2FpYWY0cXhSX1ExcTBJbXpqeU5FLUMxN3B3YUNXQjJIQWhsZWlQT3ZleDRGcHdvWUF3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T10:28:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1b77558b06d46a58",
-          "title": "DeepSeek Open-Sources AI Model as China, US Restrict Each Other’s Tech",
-          "url": "https://bloomberg.com/news/newsletters/2026-10-23/deepseek-open-sources-ai-model-as-china-us-restrict-each-other-s-tech",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-23T10:28:01.000Z",
-          "score": 6,
-          "positive": [
-            "open sources",
-            "open-sources"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0337f1c85ce865c7",
-          "title": "ISTA-DASLab/DeepSeek-V4.1-Flash-1017-GSQ-RCO-GGUF — trending on Hugging Face",
-          "url": "https://huggingface.co/ISTA-DASLab/DeepSeek-V4.1-Flash-1017-GSQ-RCO-GGUF",
-          "source": "hf-trending-models",
-          "published_at": "2026-10-23T09:43:05.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3e88fa3f6c0a8639",
-          "title": "AI IPOs are hitting the brakes as public markets cool. But with private money still flowing to giants like OpenAI and DeepSeek, companies might be tempted to stay private for longer. Anthony Stephens",
-          "url": "https://bsky.app/profile/bloomberg.com/post/3myjujzk4sj2t",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-23T09:30:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "988465435c2f96f6",
-          "title": "DeepSeek, MiniMax secure open-source licences days after new China export rules: state media",
-          "url": "https://scmp.com/tech/policy/article/3371880/deepseek-minimax-secure-open-source-licenses-days-after-new-china-export-rules-state-media",
-          "source": "scmp-tech",
-          "published_at": "2026-10-23T06:00:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5ab735d4795c2cbb",
-          "title": "Chinese state media: DeepSeek and MiniMax completed registration and won approval to open-source and deploy AI models overseas under proposed export controls (Bloomberg)",
-          "url": "https://techmeme.com/261023/p2",
-          "source": "techmeme",
-          "published_at": "2026-10-23T04:50:55.000Z",
-          "score": 6,
-          "positive": [
-            "approval",
-            "won"
-          ],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
       "id": "anthropic",
       "name": "Anthropic",
       "headlines": 34,
@@ -1072,6 +1076,17 @@
           "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOVU9MLWFpZDVudzJmT3hlT3JlN0V3R25ZNHRISDd5QkdwcWFfSUJSS18yLVk2WkM0ZG8yRjBXX1ZwVUNBNW5IbklBU1RKMm9EVlp6eUlJLXFidHJQc1Voc0dVdEhzVDBBRW0yNmxOb3FfQ3RhVGRlXzc4ek9oUXB4aDZqX2FrMExvUkxSOHVDVDd5c0toMG5oTg?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-24T11:00:28.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ea9541ead443a44b",
+          "title": "AI and US Midterms: Anthropic’s Approach to Bias and Integrity",
+          "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNdXN6R0dNOW9RTXhCZnRoaEJnc1A5ZGhmdFJoS0JuV2VJZXRYOWxTOFBLcExkc1hZX2xWNGJ1cDlpM3lNR3RNQTlnQ2toLVAta0pfNUdQV0VPd0Niby1NOEVwN0hVMi1hdUFvTWtNbGp4NUduZ0tTZmFDZFdEeFVDaTlhSW5WYktLVF84LVZ6RVF4TkZTRlVzY2wyM2Y3OGR3QTZhcmU0enZzcXYxREIwTlhITGRER2NHOVpmYzBnWWF4SHg3ZWYydTE2Y20yLXRTMVI4emgtczVfV0pPVXc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:00:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1124,17 +1139,6 @@
           "clickbait": []
         },
         {
-          "id": "2818ce6e889f85fa",
-          "title": "Claude Mythos 5 Kept Pursuing Malicious GitHub Attack Even After Signs of Real-World Harm, Anthropic Finds",
-          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQSTVtTzRLcGdwTjZZWnRIN08tZlc0TC02bVhPTGhCbDBiVUF2WTVOYTVaT1Q1eU5kTENYNnVkcVJpVEtDTGx1a3h3LVljWEpmTWgwUzRLUnQ5bkdobHV1a1ZpWmkzT2hiM09FenQzTHVfZC1zcWczbmJSX1cySkU4WFA1a0w3V05oZ3RKcnFoRTNHaDZjbnFteEFRZkJhbDFOZDNhU29laGlMRmJ4cEhvQjdLdHNpN1dTd3AtV2JGRFVIZEk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T08:03:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "31e369a941ade71a",
           "title": "Anthropic employee tells students their careers may not exist by graduation",
           "url": "https://twitter.com/cheaf25master/status/2113261574194659368",
@@ -1159,113 +1163,23 @@
       ]
     },
     {
-      "id": "nvidia",
-      "name": "NVIDIA",
-      "headlines": 24,
-      "index": 2.3,
-      "mean_headline": 0.3,
-      "sample": [
-        {
-          "id": "2370222467515f2c",
-          "title": "Nvidia CEO Jensen Huang backed a Seattle lab with nearly 7 million GPU hours; its new AI model designs pr",
-          "url": "https://news.google.com/rss/articles/CBMi3wJBVV95cUxNa2F5OUJTOVNNdUJwdHNtSzJUTUQ5Ymg5RGtjNXd0aUMzczBSNmhwYUUxMms4MjBVTmFBVzF2S1Fud1RKNVduLXBqX0lpMjVzclJ4TjhFVXdfSXI2QjA0NlFPaGRrWnVaM2hacDBFNFNZRE5jcEVMN1FXdFNraVZnZVJVOWdaeUhFaFduVkw5VWE5MVlWNnFxSFRMaTZkSkZYN1pUaHdNSnRpUW5SRV9Yd0xzWHcwOVZlOWg4a0pCVlk5WE9tWTlFUGpMeDRobWpFV2pfTk40bnRvRDB5WGY1M0xpcXB2djA3bFYyVWJ6YlhJWHItaDJwc05oaEtHNmxLTEp2Q2JwZzNkQ3Y3V3Jxem95VTEzNUp5WkpjdGQtZXM5QWZhelp2STVUaXU1VzRUZ1RuZ1M3cVVmRmNUcm00ODhPclMtVGdHdkZib2lrR2dxTGVEVmk3aFdhMEtDSUnSAeQCQVVfeXFMTVpLU2NpVU5fdjVKbnZqX2dBdGxPbllzS1NBZ1ZWNUxSQW5lUFRKT0s3UzF1RnpTRDVzdU40NEpvUGdTZ085dUpBcEFqNi1RQ2RETHlLYTdra0FQUDV6YVJISnpnZXN3ZFdfTHFmNm5waTZaSnR1QkNwN2ZvTnFOS19VVFc2SjRnTWFvSjB2dnBIR1ROV1hhdk4xUW1sVng4VUhuNDVFZEdkWk1lQ1JPTVB1c3ZBNXZ5LUF0SHZCM1Z3TTVXRmlqeUtsNGkzZnp5NDB3c1VoVHNtYUFpNUlUdnBkaTJvVEVKU3N6V21VSl91dkFmQ2tDRHFMSHhDTFdqeUVCRWhxNVFHN2toZ09pYUI1R3pBSlpOWTlYTHFJZlIyb1oyUEhsRHBiRHlrbHJyWVFHY2JfYXZlRHhWeF93NGF4MDRWZTVPbVhvTmhpQzhhS3RnWWNQVXVXai16bllhaDZ2enk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T10:41:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ba492c9204fbc2b6",
-          "title": "Nvidia warns: Lack of computing power threatens Europe’s competitiveness in artificial intelligence",
-          "url": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxPb21xbm5YNzZCcUhlbW9MaHRtZU9ZMGRnbmZyRk40MGsyWEh6MjNxUlBsSkpoQ1k4czlDNndraDZ6T2Zic2F4RkZOTVhyeHVrV1Yyam04OFVZbmYtT1R0V2dGV2QxOElCbGtRYlJpRDlMZFBBT3hpQjNMWWhJR2Zpa0xHZkNCa0d6cF9ZMHAwVFNNamxmaG5BM29BY01FU2ZkV0tCU2JkVjB0amdwUVN2UzJPV19raTcxN1JadFZFQlA5SlpSLTZoalZwZzlPVjJFVHUtVjhqcXVDTlFJd2dVSndxZks0d3FQdFdEeWkyNG01a3c?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T10:32:26.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "9d1a1ba4534fad4e",
-          "title": "Nvidia's AI Story Now Has a Price Tag Attached to Every Win",
-          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPbEltdGNQMTJ5N2tjaV9lQ1JaV0ZPZ2tHUjRHWnNRV00ybGU5R1FMMjIwcEh0N0dZX3gwSWRUa3FmOXhZejlQcjd6TkFLYUd4blRCMkxTWkFIVmc5X2FaWkxqejBlYXZzVERtVjBjR0dZM18yT3pCYk4wRnBxTU9zVXhiMTYyWHFJTUpBWkdfeEFGU0V0VmI2c2lBbEVGTnNDdFR4NjkxcGFVWkdCQ09JSFZNNTFjSVZQZW5KMUotVGl6RkxXbkpBREZsZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T10:10:56.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a8da193160d4558f",
-          "title": "Nvidia CEO Jensen Huang proposes making Kazakhstan global physical AI Hub",
-          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9KYWdmOHVWbTVHRWdTNXN4SDhlbENDX2ZMY2R0VkRIbUkxMHJ0TEJBY1R2UjJBQWZoWUdtaVQtVlYtc3M2U3p6b012d2ppVGFVYzg5UA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T10:04:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d3a76a27660b1d13",
-          "title": "Tesla and Nvidia just found another AI bottleneck",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQd3VpUERiNUd0STJ4bmRZdGpiMEphUUFzOVd5MUNuelhKLThPdUFUY1VTaHpXcE1NaFhzM2VKYW1HSUVyMkpLVlFXQmJaQXF2NmVkMkxrTmdKam1ZekNlT1o2ZHBHblI5eGxFNU9EN0VRTjM4cjRSdkI4UnktRDdjbWJ5MURQVkJKYzAzcDltT1RnTlhDSEswdm0tZjhEeVN5RFU4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T10:03:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b6ee2b32304d0c0d",
-          "title": "GPU-unlock: FP/BF16 instruction issue rate on Nvidia 3000's cards",
-          "url": "https://github.com/Zagitta/gpu-unlock",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T09:58:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "fe966123a0c6b01e",
-          "title": "Nvidia, Meta and Apple Unveil New Open Models The Morning Download for Oct. 16",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNRzl4Qm1LOUgzSHRaWEdvRDhKYkRaemRoOV9GWWVuU0N1THhvaXFnYnhQOWRWaGZBQlBUN3dicGJmWWVuZW9BS3BnLVlGYks2R3I1b1ZuVW9ObVhXX3I1cGViWnJyTnIwd3pfV3BXQVhWZy15dkpDTlFUSVg1YUtjR28wRkFrRHNpT2ktMnpR?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-24T03:42:20.000Z",
-          "score": 3,
-          "positive": [
-            "unveil"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1e55c29e6e1a3d35",
-          "title": "Hottest toy for Christmas? Nvidia CEO plays with adorable Microduck robots, 20,000 sell",
-          "url": "https://techcrunch.com/2026/10/23/hottest-toy-for-christmas-nvidia-ceo-plays-with-adorable-microduck-robots-20000-sell",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-23T21:59:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 22,
-      "index": 2.2,
+      "headlines": 23,
+      "index": 2.1,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "7223dbc8134e0072",
+          "title": "Amazon Spent More on Data Centers Last Quarter Than AWS Earned in Revenue. Should Investors Worry?",
+          "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxOVVVUZUFyY2JjQ3FxUU82eHVQSjEyam5QVzlfZTlyWjl1REJ2dGY3ZE1vbExYdTFOM2hTbC1tNk51SExNNU83WGpTcDJKZVNzYnRLM2duV1c1d20zcFRKaGQ5QzNObWM3WFprcmlYOFFDMVZET0JOZkJOUW4wRDZFVDh6Vk9FYVNsdWd4b0l0OWlkbUFaTVRmV1U2QktHbXlwSHBqcWd4b09zeDVQY2p5a0VRa0d6bzAyeGYtOU42MmN1aHlJaG43MmxEZzFqbkF0TDlQSTUyMXo1NTQwTUxoRlQycmk0Q1NxVzM3TWZodWVZTXpvTlBJT0ZuelVnUXgySnhrYU0zVlcxalVRTVktWA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:36:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "25664891e1fded95",
           "title": "Save $500 on this astounding LG OLED on sale in an Amazon deal",
@@ -1344,13 +1258,103 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "headlines": 28,
+      "index": 0.9,
+      "mean_headline": 0.1,
+      "sample": [
+        {
+          "id": "fc62dfe0929ac9fc",
+          "title": "inDrive taps Pony.ai and Nvidia to test robotaxis in one of the world's coldest capitals",
+          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxPUW44ZW5nZWlNTE1sS0YwYnQzVWFlcEIzbmxOYmxZUTNlRm9Cc3p6emVUTl9STnZoYml3SzIwUWhqeExzUUtrWENXNWpudklSRlpVY2FDVVN6MW5BOURZUU45X0t1MFBub3czVEp1ZnRoYURUdHlXTXVXZFJacEEtRkxIa0pjV2lxQWhvMlByRDNRSkZOejhaQ21hMXJQamV3bXJwbjRkeUV5M0tDN1lpMWtmUTVfelhlYmFWWHZyVGRIOURNc3ZjbkJkUDJzelJCUl9nMDJKOHh5Y3hDeEJqWkFySnJUNnFaX0N6VdIB8gFBVV95cUxNcjRkZE5FdU4waFVTb2VLNlNHaVh5ejMtb2RJN2FXNVhWZUl6OWdQRW55aHphUnZ0b0ZPWTRXTWxuRXljOFpENER3SlZKT2loZllmdXVMMjF4REZjRUhWLWNubkZ4d1MwcmFjcGs3Tlc2UEFQYTBzcHlYOG5LUzdVdEZfQVFSZWxaUElwNVBZMF9rRmNCSWUxTE5fbjhpaUtudXByX1VkVkxKOE1Lck13Rml5OFpVYWViaHdPdGxmV09QRWlqZk8wRkNGSUhZRkNHTlFadWJ6dUxCRTlnM2ZzYWlMa3FWSW5IQ2UwaUo0RWgwZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:30:37.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         },
         {
-          "id": "8a41e1e41cbecfde",
-          "title": "Multi-Turn Reinforcement Learning on Amazon SageMaker AI: A hands-on guide",
-          "url": "https://aws.amazon.com/blogs/machine-learning/multi-turn-reinforcement-learning-on-amazon-sagemaker-ai-a-hands-on-guide",
-          "source": "aws-ml",
-          "published_at": "2026-10-23T17:48:54.000Z",
+          "id": "b62d1fa7bdb2f54e",
+          "title": "Nvidia faces risks as it finances AI cloud proj...",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQWFVLMWp6eGZPX0JQTGJsbDBoaXRHaFdHS2c4UTNYTDdObmVRdHJWY1dyemR5eXBfSlRUVVNNcjh4WXg0MU43Z194bUYxUlRITWVxaVk3N0h2elBfd1F4Wm1VMk9GZEJSbnFNRURkR0pSN2RTNjd0RU94Zk1YZFdESDZpaWNTTm5QNkZwVkRPVnBuVXV1MUljekFPN1UxQk9U?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:28:53.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "risks"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "865e713790cd9c0b",
+          "title": "Prediction: $200 a Month Invested in Nvidia Will Be Worth This Much by 2035",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPQjRKeXR1Y2ZxeVBnS21lRDA2S0t4a18yNHJfdVpwUS1DbC1qZEZ2NUFBdnBVMVk4QldTdlVYZjRNWml0LWNpdTNucFYwbVBnMzBjWjZyYV9DMEp2by1ma0lpNW84RUNwYTBpT0l4VHh3MEZHZlVLcU5ITld0Nzg5RjFQNi13eEZha0Z3M1ByVGx1aEVnRjRF?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:16:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "08efbd55ef49f00f",
+          "title": "Will NVIDIA’s DSX Pods Shift the AI Landscape?",
+          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPZzdSelI5ZUNYeEdwekk5eU0wR19Rd3NYemU5V0thb0JJOEYwNlByd3duYkU3bzRyM0VPNGJJMTZKTnRnRVc1cHZZY3V1ejBGZ1gwOEJFOVdBSVpWQXUwVVc1Y0YxSUZWdmlMRHFBek9pbUQzNTZ2alc5R3VWQ0Joc3ln?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:10:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5ccefa160f80f7cf",
+          "title": "Nvidia's role as AI financier faces first big test as neoclouds take market hit",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPN1kwNGVDOVM2RzM1UHRXSGxMb2t0bVR5U3F2ektqUGFGSDFwcEx4MzVsUVJWNjZobzhHSWoydXFZSVc0Y2ZuVmtGaWZ4UlpIelVnWlRGeF9fSllBSXlDNDd2U0NLenF4aVlGRy1MQWZ2bHVlTWVROUh6cVdrT2ZZU1E4N1ZaS2MxZEIyaG5QeXBEVUx0X1dLZmd5bk01RXVtc0stTG5oT1RJNk1tQ2lndi1jYV85QdIBuwFBVV95cUxQWkFsODZMbW1ZMjhwOXdUcHFSZ01La3kteUFsVXBPVWV1RnRqVzRmLXZZOXZpWklDTk52T3k4ZGkwbHduZHJkdW9rYjhEbXBPLWFiZURiNmt1UUdyaUpqdS1kS1lXTjRJWnA2N0Z4UlR3NnJhUkNyZ3RYMGF4VTRfWDg3emVCWEZ5R1dYcFk3RXc3RjRqQXNhMG82MlR4d2RaNFU2OUNxQmVJcU9OOTNyaXluSjI0N1d6WFg4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:00:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2370222467515f2c",
+          "title": "Nvidia CEO Jensen Huang backed a Seattle lab with nearly 7 million GPU hours; its new AI model designs pr",
+          "url": "https://news.google.com/rss/articles/CBMi3wJBVV95cUxNa2F5OUJTOVNNdUJwdHNtSzJUTUQ5Ymg5RGtjNXd0aUMzczBSNmhwYUUxMms4MjBVTmFBVzF2S1Fud1RKNVduLXBqX0lpMjVzclJ4TjhFVXdfSXI2QjA0NlFPaGRrWnVaM2hacDBFNFNZRE5jcEVMN1FXdFNraVZnZVJVOWdaeUhFaFduVkw5VWE5MVlWNnFxSFRMaTZkSkZYN1pUaHdNSnRpUW5SRV9Yd0xzWHcwOVZlOWg4a0pCVlk5WE9tWTlFUGpMeDRobWpFV2pfTk40bnRvRDB5WGY1M0xpcXB2djA3bFYyVWJ6YlhJWHItaDJwc05oaEtHNmxLTEp2Q2JwZzNkQ3Y3V3Jxem95VTEzNUp5WkpjdGQtZXM5QWZhelp2STVUaXU1VzRUZ1RuZ1M3cVVmRmNUcm00ODhPclMtVGdHdkZib2lrR2dxTGVEVmk3aFdhMEtDSUnSAeQCQVVfeXFMTVpLU2NpVU5fdjVKbnZqX2dBdGxPbllzS1NBZ1ZWNUxSQW5lUFRKT0s3UzF1RnpTRDVzdU40NEpvUGdTZ085dUpBcEFqNi1RQ2RETHlLYTdra0FQUDV6YVJISnpnZXN3ZFdfTHFmNm5waTZaSnR1QkNwN2ZvTnFOS19VVFc2SjRnTWFvSjB2dnBIR1ROV1hhdk4xUW1sVng4VUhuNDVFZEdkWk1lQ1JPTVB1c3ZBNXZ5LUF0SHZCM1Z3TTVXRmlqeUtsNGkzZnp5NDB3c1VoVHNtYUFpNUlUdnBkaTJvVEVKU3N6V21VSl91dkFmQ2tDRHFMSHhDTFdqeUVCRWhxNVFHN2toZ09pYUI1R3pBSlpOWTlYTHFJZlIyb1oyUEhsRHBiRHlrbHJyWVFHY2JfYXZlRHhWeF93NGF4MDRWZTVPbVhvTmhpQzhhS3RnWWNQVXVXai16bllhaDZ2enk?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T10:41:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ba492c9204fbc2b6",
+          "title": "Nvidia warns: Lack of computing power threatens Europe’s competitiveness in artificial intelligence",
+          "url": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxPb21xbm5YNzZCcUhlbW9MaHRtZU9ZMGRnbmZyRk40MGsyWEh6MjNxUlBsSkpoQ1k4czlDNndraDZ6T2Zic2F4RkZOTVhyeHVrV1Yyam04OFVZbmYtT1R0V2dGV2QxOElCbGtRYlJpRDlMZFBBT3hpQjNMWWhJR2Zpa0xHZkNCa0d6cF9ZMHAwVFNNamxmaG5BM29BY01FU2ZkV0tCU2JkVjB0amdwUVN2UzJPV19raTcxN1JadFZFQlA5SlpSLTZoalZwZzlPVjJFVHUtVjhqcXVDTlFJd2dVSndxZks0d3FQdFdEeWkyNG01a3c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T10:32:26.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9d1a1ba4534fad4e",
+          "title": "Nvidia's AI Story Now Has a Price Tag Attached to Every Win",
+          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPbEltdGNQMTJ5N2tjaV9lQ1JaV0ZPZ2tHUjRHWnNRV00ybGU5R1FMMjIwcEh0N0dZX3gwSWRUa3FmOXhZejlQcjd6TkFLYUd4blRCMkxTWkFIVmc5X2FaWkxqejBlYXZzVERtVjBjR0dZM18yT3pCYk4wRnBxTU9zVXhiMTYyWHFJTUpBWkdfeEFGU0V0VmI2c2lBbEVGTnNDdFR4NjkxcGFVWkdCQ09JSFZNNTFjSVZQZW5KMUotVGl6RkxXbkpBREZsZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T10:10:56.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1564,10 +1568,34 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 55,
-      "index": -3.6,
+      "headlines": 56,
+      "index": -4.1,
       "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "1dc7e2df39a11f00",
+          "title": "OpenAI's isolated AI agents found ways to talk to each other through CPU cache",
+          "url": "https://the-decoder.com/openais-isolated-ai-agents-found-ways-to-talk-to-each-other-through-cpu-cache",
+          "source": "the-decoder",
+          "published_at": "2026-10-24T11:12:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5dca59df8dd6e9f2",
+          "title": "OpenAI Cuts Live Internet Access From AI Model Training",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFB6OVdvUGFRSnEtWFR3WkJOXzRoTVZGMnNXc2dMQmxpR3EyZWxPS1FpSzJyUTNhbXA5cTJHdXp0MXdIMjNLUlNCVGllRlVCbFdETzM2d1NzSWxNSW5ibl9CM2xvQkRnb3JIQ1huZzZ0TUd3VjU5a0VBQw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T11:08:57.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
+        },
         {
           "id": "020be5e71fc897b4",
           "title": "OpenAI is locking its most advanced AI models offline after a string of security scares",
@@ -1626,17 +1654,6 @@
           "clickbait": []
         },
         {
-          "id": "7aeeb6f9aed098d7",
-          "title": "'I didn't believe it at first': OpenAI model transcribes, decodes Napoleon's cipher",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9oTGlTc0MtN3g4Vi1IbWJWQVQ4U1puNFA4d1NjcE85Wk1WcGtpZnRkazZhVVhlTUpXcTVRVmZ3SHhVMktFdnhzYXdCeW5EOExJdEJiSG5tWkFlRUsxcWN4QnNTdk1aaGstc19vWlM4OGtGZWs0MVl3TU5iUmE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T08:11:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "bf8b6e5c06193156",
           "title": "A look at OpenAI's Project Daybreak, which lets vetted partners use its top hacking models to find and fix vulnerabilities and helped uncover PHP2Shell RCE bugs (Thomas Brewster/Forbes)",
           "url": "https://techmeme.com/261024/p2",
@@ -1648,19 +1665,6 @@
           ],
           "negative": [
             "hacking"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "99fb95f1dad64270",
-          "title": "OpenAI cuts frontier models off from live internet after training-run escape",
-          "url": "https://reddit.com/r/artificial/comments/1xe1drz/openai_cuts_frontier_models_off_from_live",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-24T06:32:39.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cuts"
           ],
           "clickbait": []
         }
