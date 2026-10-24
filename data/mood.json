@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-24T09:10:35.219Z",
-  "news_generated_at": "2026-10-24T09:10:35.219Z",
+  "generated_at": "2026-10-24T09:52:19.684Z",
+  "news_generated_at": "2026-10-24T09:52:19.684Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,10 +18,10 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 185,
+    "headlines_naming_a_company": 179,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.08
+    "negative_pair_share": 0.077
   },
   "glance": {
     "leading": {
@@ -37,7 +37,7 @@
     "most_discussed": {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 60
+      "headlines": 58
     }
   },
   "companies": [
@@ -90,10 +90,21 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 60,
-      "index": -3.5,
+      "headlines": 58,
+      "index": -3,
       "mean_headline": -0.4,
       "sample": [
+        {
+          "id": "04db2d0fc7ae03ac",
+          "title": "UK to Establish World's First AI Biosecurity Lab With £300 Million Backing From Government, OpenAI and Anthropic",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQU1JmOElvYUJ6cE9yV0Y1dUVUYXRqZVlDUkoyalVJajlMM2xVSm5UVVVNS2dlRG5WRFAydDNPRnFGOEI4NFFwVnBsclBrNVVOeFNseTJlTWEzUWNOaU1fWEhGalZhX01aTjlJWHNaUTlxel9FdEdjZGRNYmRkaE14cEp4WXVHcndjcDF6V2tzN0FFT29QLXpSOUJlNEtJTGdoVVZfTHRJdVQ2Szk1YlRPZHFsNFBNSlltLVMxdGdB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T09:11:44.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "8b79ec3dc5d34e00",
           "title": "Independent Auditors Find Gaps in OpenAI Agent Monitoring",
@@ -172,21 +183,6 @@
           "positive": [],
           "negative": [
             "cut"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "bf8b6e5c06193156",
-          "title": "A look at OpenAI's Project Daybreak, which lets vetted partners use its top hacking models to find and fix vulnerabilities and helped uncover PHP2Shell RCE bugs (Thomas Brewster/Forbes)",
-          "url": "https://techmeme.com/261024/p2",
-          "source": "techmeme",
-          "published_at": "2026-10-24T06:35:01.000Z",
-          "score": -1,
-          "positive": [
-            "partners"
-          ],
-          "negative": [
-            "hacking"
           ],
           "clickbait": []
         }
@@ -297,9 +293,33 @@
       "id": "anthropic",
       "name": "Anthropic",
       "headlines": 35,
-      "index": 2.5,
-      "mean_headline": 0.3,
+      "index": 3.2,
+      "mean_headline": 0.4,
       "sample": [
+        {
+          "id": "5c1054dbe46b5aae",
+          "title": "Anthropic logs $80.7 billion loss as AI computing costs surge",
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPa3dfeGhJU2liYjQ4c3BKR1NvclZxc2hQckpzenlfU0k4QUpaMGd3dC1jUGpGZjAzWldPOElEUG1fM0FBdjJMZWtzZmgwcTBGT2IyYkN3MFo0NTVhekFLTjlXY1prTVp2YjUzREUyeHdkVUIyeURUb0lBc2U3MzF5ZTBoUHFDSkFldU9pOTBhVUJjWmZrUjBabnpzUHhsYWJCdmRqcnhyNl8?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T09:24:45.000Z",
+          "score": 3,
+          "positive": [
+            "surge"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "04db2d0fc7ae03ac",
+          "title": "UK to Establish World's First AI Biosecurity Lab With £300 Million Backing From Government, OpenAI and Anthropic",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQU1JmOElvYUJ6cE9yV0Y1dUVUYXRqZVlDUkoyalVJajlMM2xVSm5UVVVNS2dlRG5WRFAydDNPRnFGOEI4NFFwVnBsclBrNVVOeFNseTJlTWEzUWNOaU1fWEhGalZhX01aTjlJWHNaUTlxel9FdEdjZGRNYmRkaE14cEp4WXVHcndjcDF6V2tzN0FFT29QLXpSOUJlNEtJTGdoVVZfTHRJdVQ2Szk1YlRPZHFsNFBNSlltLVMxdGdB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T09:11:44.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "383ef60257f7b891",
           "title": "Anthropic posts $80.7 billion first-half loss ahead of IPO",
@@ -350,28 +370,6 @@
           "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOdzk4NTd1ZGZiWHdxRUJnYmVXd3ByTUhGNFIwMGtqTHBfbWRUVTZpRWlaaHBZeEpBRXNRVE9mblRBX3AzSm1JeHpxaFpJbE8zYXE4Smg2RTlCOVRsSkNBVk0xNmNYWVlCM3lGOHNVbWNpWDNLY0Q2Wktna3JOQnNXdFFoYmJSQ3djWndmaTBSY2tsNGgxTVRQRlZsOFdORmx0Yms0dWlwT3BHOUJMa05ORjBWOVF5OXZXTmN5cmRWek15a3NWMHplWjgtV3d1SEZiQ0lYejgtcWpKUQ?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-24T07:04:51.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "35a548bb3e0eeaa2",
-          "title": "Anthropic's revenue jumps to $16.3B in H1 2026 from $1.1B a year ago, showing rapid growth.",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOcC1KTVRiTmZDWU1CMkp5blV3dFpIQjRoc2llbVJrU1dYWFhfLXNJdGRXNUVvWDdwejZsamdWNkRwVk1vVDNmMFM2NXdxOHkxd3l5Z2NBNkxGVnVrUTNRdHpwQnN5R2NaX3p6dmpid3ROek9qWW1ubzZrVE8ydE8tYUQ1ZlFrbjVmVWU1ZFAzVG5TLVozV0phaWdmMnluMnRSbkktZGNGemVuZ0hFald3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T06:05:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "46b56e5b34045129",
-          "title": "AI stocks ease selling pressure, investors await signals from Anthropic.",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNekJtNWl0RnJReG1rV3lFbEpLSzhhOEc2bmNKVzZyVmFocDNISkd2QTBORS1JUEFjeGRwbjZyM2d1enJ4Zl9jX19KM1U3LVY1LWcwRkVseTV5NjBYaEJVWEpWRGJnWmgyeGRUaE11WEk4T0NiMG44YTVvbC05bG95RU1IOEtYQWliYm42a203cng0M09z?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T05:55:28.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -603,32 +601,10 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 13,
-      "index": 1.8,
-      "mean_headline": 0.2,
+      "headlines": 11,
+      "index": 2.2,
+      "mean_headline": 0.3,
       "sample": [
-        {
-          "id": "b014e3132658df7a",
-          "title": "Microsoft Teams to Use AI to Detect Phishing and Impersonation",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQYXFyNWc0LVRsd3pFeldsNzhsY3VQZW12VWRjaEFPVXpubGNLbzVWRk9VV2Y4aXRiRnZxRkllTG5ZQzhfZzhZMHN5TC16OU1TUlYyZV9qZ3lPaWd3ZHBFSlhJTWVWOGtsWkVKd2Qzems3ZDdzMmtRXzRDRC1vQnJCNjh5MWZFOUJjZmVCUHJwMjJxM0U?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T06:04:41.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "569b8737c99ed1c5",
-          "title": "Microsoft CEO wants you to treat your new AI like an insider threat",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQSTVGNjlVakplaExEMDJ6dFBRT3ZVOThNeVcyUElWNnoySjR0Y0Q0SUlFLWdqYVJ1Y0dSU2tJMENsMk8xcDdqQWJjeVVkVUJ6aEtRMkUwVFE2WnZrcEVZdkpwXzhRZC1sZVZ6d29MelJCTHhRUWlwazg0RDVmOVhJMUM5YkVvYXZUcEEzcWxpbHZIY1V1YVJpc1l0c2pUUGU3anRZ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T06:01:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "ef9d495d51d4fe38",
           "title": "Portfolio manager prefers Microsoft, Amazon, Google in AI trade",
@@ -692,6 +668,28 @@
           "url": "https://techmeme.com/261022/p50",
           "source": "techmeme",
           "published_at": "2026-10-22T19:05:22.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "dedf2896ecdb4ab5",
+          "title": "Microsoft’s Mustafa Suleyman says its AI outperforms doctors on hard cases as he chases ‘medical superintelligence’",
+          "url": "https://techcrunch.com/2026/10/22/microsofts-mustafa-suleyman-says-its-ai-outperforms-doctors-on-hard-cases-as-he-chases-medical-superintelligence",
+          "source": "techcrunch-ai",
+          "published_at": "2026-10-22T18:43:53.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "75f63dbceaefb915",
+          "title": "Microsoft says its GPT-5-powered Diagnostic Orchestrator uses agents that mimic panels of experts to diagnose conditions up to 4x more accurately than doctors (Robert Hart/The Verge)",
+          "url": "https://techmeme.com/261022/p48",
+          "source": "techmeme",
+          "published_at": "2026-10-22T18:35:21.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -799,9 +797,9 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 12,
-      "index": 16,
-      "mean_headline": 2,
+      "headlines": 11,
+      "index": 15.3,
+      "mean_headline": 1.9,
       "sample": [
         {
           "id": "6223282aee86bde0",
@@ -809,17 +807,6 @@
           "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPWWpDOVdfdWVZTlpFbnlFeGt0cXctdDVGSk9ZUlVHVC1VNVEyaUNoZXhyNkUyUFhGc2tXYjlGNlY2UlAtNFhzYnlvY0s2N0hTNEI4ZE13SWxDX08xN1lnaTI5T0NZSXc3U0VrazVBaC0xdEp5LUpJQUNfQW9VajJSMGxDQzJiNHZXRHZoLUp3TmphU2FTWjhJekwyVFl3ZS1SMnBkYWxVLWNxcHBvbHNKSmswVXQ4bU82QmdEVURvWm5xQkw2S3laNDJGVEN5UQ?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-24T08:09:31.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "949c0c39f410cdbc",
-          "title": "GLM vs Claude, GPT, Gemini, Grok & DeepSeek (2026)",
-          "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTFBiYXd1aUcxZzNvWkN5cTVRa1pUOVQ5SFUyRDdVQkNWSy01SWNFeHkwT1Z2Sl9iSnROZFRLMTE0aTBkWlg0MWxkTnFNbEk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T05:51:16.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -860,6 +847,17 @@
             "open sources",
             "open-sources"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0337f1c85ce865c7",
+          "title": "ISTA-DASLab/DeepSeek-V4.1-Flash-1017-GSQ-RCO-GGUF — trending on Hugging Face",
+          "url": "https://huggingface.co/ISTA-DASLab/DeepSeek-V4.1-Flash-1017-GSQ-RCO-GGUF",
+          "source": "hf-trending-models",
+          "published_at": "2026-10-23T09:43:05.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -952,9 +950,9 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 12,
-      "index": 16,
-      "mean_headline": 2,
+      "headlines": 11,
+      "index": 15.3,
+      "mean_headline": 1.9,
       "sample": [
         {
           "id": "6223282aee86bde0",
@@ -962,17 +960,6 @@
           "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPWWpDOVdfdWVZTlpFbnlFeGt0cXctdDVGSk9ZUlVHVC1VNVEyaUNoZXhyNkUyUFhGc2tXYjlGNlY2UlAtNFhzYnlvY0s2N0hTNEI4ZE13SWxDX08xN1lnaTI5T0NZSXc3U0VrazVBaC0xdEp5LUpJQUNfQW9VajJSMGxDQzJiNHZXRHZoLUp3TmphU2FTWjhJekwyVFl3ZS1SMnBkYWxVLWNxcHBvbHNKSmswVXQ4bU82QmdEVURvWm5xQkw2S3laNDJGVEN5UQ?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-24T08:09:31.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "949c0c39f410cdbc",
-          "title": "GLM vs Claude, GPT, Gemini, Grok & DeepSeek (2026)",
-          "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTFBiYXd1aUcxZzNvWkN5cTVRa1pUOVQ5SFUyRDdVQkNWSy01SWNFeHkwT1Z2Sl9iSnROZFRLMTE0aTBkWlg0MWxkTnFNbEk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T05:51:16.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1013,6 +1000,17 @@
             "open sources",
             "open-sources"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0337f1c85ce865c7",
+          "title": "ISTA-DASLab/DeepSeek-V4.1-Flash-1017-GSQ-RCO-GGUF — trending on Hugging Face",
+          "url": "https://huggingface.co/ISTA-DASLab/DeepSeek-V4.1-Flash-1017-GSQ-RCO-GGUF",
+          "source": "hf-trending-models",
+          "published_at": "2026-10-23T09:43:05.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -1159,9 +1157,33 @@
       "id": "anthropic",
       "name": "Anthropic",
       "headlines": 35,
-      "index": 2.5,
-      "mean_headline": 0.3,
+      "index": 3.2,
+      "mean_headline": 0.4,
       "sample": [
+        {
+          "id": "5c1054dbe46b5aae",
+          "title": "Anthropic logs $80.7 billion loss as AI computing costs surge",
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPa3dfeGhJU2liYjQ4c3BKR1NvclZxc2hQckpzenlfU0k4QUpaMGd3dC1jUGpGZjAzWldPOElEUG1fM0FBdjJMZWtzZmgwcTBGT2IyYkN3MFo0NTVhekFLTjlXY1prTVp2YjUzREUyeHdkVUIyeURUb0lBc2U3MzF5ZTBoUHFDSkFldU9pOTBhVUJjWmZrUjBabnpzUHhsYWJCdmRqcnhyNl8?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T09:24:45.000Z",
+          "score": 3,
+          "positive": [
+            "surge"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "04db2d0fc7ae03ac",
+          "title": "UK to Establish World's First AI Biosecurity Lab With £300 Million Backing From Government, OpenAI and Anthropic",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQU1JmOElvYUJ6cE9yV0Y1dUVUYXRqZVlDUkoyalVJajlMM2xVSm5UVVVNS2dlRG5WRFAydDNPRnFGOEI4NFFwVnBsclBrNVVOeFNseTJlTWEzUWNOaU1fWEhGalZhX01aTjlJWHNaUTlxel9FdEdjZGRNYmRkaE14cEp4WXVHcndjcDF6V2tzN0FFT29QLXpSOUJlNEtJTGdoVVZfTHRJdVQ2Szk1YlRPZHFsNFBNSlltLVMxdGdB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T09:11:44.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "383ef60257f7b891",
           "title": "Anthropic posts $80.7 billion first-half loss ahead of IPO",
@@ -1218,28 +1240,6 @@
           "clickbait": []
         },
         {
-          "id": "35a548bb3e0eeaa2",
-          "title": "Anthropic's revenue jumps to $16.3B in H1 2026 from $1.1B a year ago, showing rapid growth.",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOcC1KTVRiTmZDWU1CMkp5blV3dFpIQjRoc2llbVJrU1dYWFhfLXNJdGRXNUVvWDdwejZsamdWNkRwVk1vVDNmMFM2NXdxOHkxd3l5Z2NBNkxGVnVrUTNRdHpwQnN5R2NaX3p6dmpid3ROek9qWW1ubzZrVE8ydE8tYUQ1ZlFrbjVmVWU1ZFAzVG5TLVozV0phaWdmMnluMnRSbkktZGNGemVuZ0hFald3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T06:05:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "46b56e5b34045129",
-          "title": "AI stocks ease selling pressure, investors await signals from Anthropic.",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNekJtNWl0RnJReG1rV3lFbEpLSzhhOEc2bmNKVzZyVmFocDNISkd2QTBORS1JUEFjeGRwbjZyM2d1enJ4Zl9jX19KM1U3LVY1LWcwRkVseTV5NjBYaEJVWEpWRGJnWmgyeGRUaE11WEk4T0NiMG44YTVvbC05bG95RU1IOEtYQWliYm42a203cng0M09z?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T05:55:28.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "31e369a941ade71a",
           "title": "Anthropic employee tells students their careers may not exist by graduation",
           "url": "https://twitter.com/cheaf25master/status/2113261574194659368",
@@ -1255,32 +1255,10 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 13,
-      "index": 1.8,
-      "mean_headline": 0.2,
+      "headlines": 11,
+      "index": 2.2,
+      "mean_headline": 0.3,
       "sample": [
-        {
-          "id": "b014e3132658df7a",
-          "title": "Microsoft Teams to Use AI to Detect Phishing and Impersonation",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQYXFyNWc0LVRsd3pFeldsNzhsY3VQZW12VWRjaEFPVXpubGNLbzVWRk9VV2Y4aXRiRnZxRkllTG5ZQzhfZzhZMHN5TC16OU1TUlYyZV9qZ3lPaWd3ZHBFSlhJTWVWOGtsWkVKd2Qzems3ZDdzMmtRXzRDRC1vQnJCNjh5MWZFOUJjZmVCUHJwMjJxM0U?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T06:04:41.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "569b8737c99ed1c5",
-          "title": "Microsoft CEO wants you to treat your new AI like an insider threat",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQSTVGNjlVakplaExEMDJ6dFBRT3ZVOThNeVcyUElWNnoySjR0Y0Q0SUlFLWdqYVJ1Y0dSU2tJMENsMk8xcDdqQWJjeVVkVUJ6aEtRMkUwVFE2WnZrcEVZdkpwXzhRZC1sZVZ6d29MelJCTHhRUWlwazg0RDVmOVhJMUM5YkVvYXZUcEEzcWxpbHZIY1V1YVJpc1l0c2pUUGU3anRZ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T06:01:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "ef9d495d51d4fe38",
           "title": "Portfolio manager prefers Microsoft, Amazon, Google in AI trade",
@@ -1344,6 +1322,28 @@
           "url": "https://techmeme.com/261022/p50",
           "source": "techmeme",
           "published_at": "2026-10-22T19:05:22.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "dedf2896ecdb4ab5",
+          "title": "Microsoft’s Mustafa Suleyman says its AI outperforms doctors on hard cases as he chases ‘medical superintelligence’",
+          "url": "https://techcrunch.com/2026/10/22/microsofts-mustafa-suleyman-says-its-ai-outperforms-doctors-on-hard-cases-as-he-chases-medical-superintelligence",
+          "source": "techcrunch-ai",
+          "published_at": "2026-10-22T18:43:53.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "75f63dbceaefb915",
+          "title": "Microsoft says its GPT-5-powered Diagnostic Orchestrator uses agents that mimic panels of experts to diagnose conditions up to 4x more accurately than doctors (Robert Hart/The Verge)",
+          "url": "https://techmeme.com/261022/p48",
+          "source": "techmeme",
+          "published_at": "2026-10-22T18:35:21.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1554,10 +1554,21 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 60,
-      "index": -3.5,
+      "headlines": 58,
+      "index": -3,
       "mean_headline": -0.4,
       "sample": [
+        {
+          "id": "04db2d0fc7ae03ac",
+          "title": "UK to Establish World's First AI Biosecurity Lab With £300 Million Backing From Government, OpenAI and Anthropic",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQU1JmOElvYUJ6cE9yV0Y1dUVUYXRqZVlDUkoyalVJajlMM2xVSm5UVVVNS2dlRG5WRFAydDNPRnFGOEI4NFFwVnBsclBrNVVOeFNseTJlTWEzUWNOaU1fWEhGalZhX01aTjlJWHNaUTlxel9FdEdjZGRNYmRkaE14cEp4WXVHcndjcDF6V2tzN0FFT29QLXpSOUJlNEtJTGdoVVZfTHRJdVQ2Szk1YlRPZHFsNFBNSlltLVMxdGdB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T09:11:44.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "8b79ec3dc5d34e00",
           "title": "Independent Auditors Find Gaps in OpenAI Agent Monitoring",
@@ -1636,21 +1647,6 @@
           "positive": [],
           "negative": [
             "cut"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "bf8b6e5c06193156",
-          "title": "A look at OpenAI's Project Daybreak, which lets vetted partners use its top hacking models to find and fix vulnerabilities and helped uncover PHP2Shell RCE bugs (Thomas Brewster/Forbes)",
-          "url": "https://techmeme.com/261024/p2",
-          "source": "techmeme",
-          "published_at": "2026-10-24T06:35:01.000Z",
-          "score": -1,
-          "positive": [
-            "partners"
-          ],
-          "negative": [
-            "hacking"
           ],
           "clickbait": []
         }
