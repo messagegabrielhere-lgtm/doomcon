@@ -2,35 +2,26 @@
   "clusters": [
     {
       "breaking_at": "2026-10-24T19:51:59.494Z",
-      "corroboration": 3,
-      "earliest_published_at": "2026-10-24T17:07:00.000Z",
+      "clock_skew": true,
+      "corroboration": 2,
+      "earliest_published_at": "2026-10-24T19:33:00.000Z",
       "first_seen_at": "2026-10-24T17:24:15.868Z",
       "id": "b99f4d1a41bb0",
       "item_ids": [
         "2b97d18dd8a470fc",
         "9359799bd006f5c9"
       ],
-      "latency_s": 1036,
+      "latency_s": 0,
       "live": true,
       "outlet": "wsj.com",
       "outlets": [
         "demokratis.co.id",
-        "suaragarut.id",
-        "wsj.com"
+        "suaragarut.id"
       ],
       "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
+        "two outlets within 20 min"
       ],
       "sightings": [
-        {
-          "outlet": "wsj.com",
-          "published_at": "2026-10-24T17:07:00.000Z",
-          "source": "wires-ai",
-          "tier1": true,
-          "title": "Exclusive | FBI Explores Espionage Case Against Saudi OpenAI Suspect",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQRTA2OWU1VV9mbXhWWWMxTVZ4QVA2UXEtamNNOFN0NmZpQXZSVUk1OHBGSXpBbkE2Vmo3Q1RDS3hMUWpFbm13VmF3SkplYWxqcnVrU3ZmV2xONWs4OGdKVjZSMnJUTjBfeWxmOUJkZDkzZ2NxQmZEZFpDZktuZEFxdEkzODFfdmlPaldWYzZXenFqTFhsUUw3OXBVTzNHZw?oc=5"
-        },
         {
           "outlet": "suaragarut.id",
           "published_at": "2026-10-24T19:33:00.000Z",
@@ -50,12 +41,9 @@
       ],
       "source": "wires-ai",
       "sources": [
-        "gnews-ai",
-        "wires-ai"
+        "gnews-ai"
       ],
-      "tier1_outlets": [
-        "wsj.com"
-      ],
+      "tier1_outlets": [],
       "title": "Exclusive | FBI Explores Espionage Case Against Saudi OpenAI Suspect",
       "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQRTA2OWU1VV9mbXhWWWMxTVZ4QVA2UXEtamNNOFN0NmZpQXZSVUk1OHBGSXpBbkE2Vmo3Q1RDS3hMUWpFbm13VmF3SkplYWxqcnVrU3ZmV2xONWs4OGdKVjZSMnJUTjBfeWxmOUJkZDkzZ2NxQmZEZFpDZktuZEFxdEkzODFfdmlPaldWYzZXenFqTFhsUUw3OXBVTzNHZw?oc=5"
     },
@@ -72,7 +60,7 @@
       ],
       "latency_s": 1267,
       "live": true,
-      "outlet": "vice.com",
+      "outlet": "ua.news",
       "outlets": [
         "rollingstone.com",
         "ua.news",
@@ -112,8 +100,8 @@
         "gnews-ai"
       ],
       "tier1_outlets": [],
-      "title": "Elvis Presley Estate Sues Anthropic for Stealing His Music ‘At a Scale Never Seen Before’ To Train AI",
-      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNYkpHcG95OGt1cGU3Z3VWSmJHZkVzUVRlUko5S0xpLVM5REs2RUxkeHlENUQ3SzhYV3psUllVUE02YXM4bFVMbHlMbEgyaHIyM0ltNm9pdmJLTFY3aFpyNS1KTDFjRFo2enVVeVpjMUJXektqU21hbmRDZHVfQk81WlVVLWpmZEQ2dzRWcUI4TTd5M0dRbjFjM2RNWkc2eHQ2NEZOdTFETTVHdHV1OE9TOXVOSGdvYWNMQlJ4azFGYU1pUmFTUExoeTB0bFY?oc=5"
+      "title": "Elvis Presley music rights holders sue Anthropic for $41 million — Rolling Stone",
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQYUlPdmRfOFJpbklxTlRWMURpOGZib1c5QWZfajFFZVFjSEt0bExVOEMxOTIwZDkyZl9zRUFFZlYzZjhSRFhDT0hnMXdBRzljdjZ3b3VzUWxPX2JoUDMxN2tJOHV6ZkpCR2V2eUlCd0loT2xfVXBFWG5MbWFfbkRYNzVvejRKTXI4N3dIb0hpRTZNTDFJbHBWblNYXzFJb1ZMVGJUOUNsTkRxTHVNbVViR0JjcVZ4Rk0?oc=5"
     },
     {
       "breaking_at": "2026-10-24T18:49:32.726Z",
@@ -1674,7 +1662,7 @@
     }
   ],
   "fresh": null,
-  "generated_at": "2026-10-24T22:32:32.367Z",
+  "generated_at": "2026-10-24T23:15:38.192Z",
   "live": 3,
   "rules": {
     "keep": 30,
@@ -1728,32 +1716,38 @@
       {
         "label": "Google News — AI searches, last hour",
         "median_s": 1739,
-        "n": 39,
+        "n": 45,
         "source": "gnews-ai"
       },
       {
         "label": "Hacker News — newest AI submissions (2h)",
-        "median_s": 4536,
-        "n": 1,
+        "median_s": 3306,
+        "n": 2,
         "source": "hn-fresh-ai"
       },
       {
         "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
-        "median_s": 5454,
-        "n": 16,
+        "median_s": 5226,
+        "n": 19,
         "source": "wires-ai"
       },
       {
         "label": "Bluesky — AI posts from vetted newsrooms and reporters",
-        "median_s": 11705,
-        "n": 6,
+        "median_s": 9032,
+        "n": 13,
         "source": "bluesky-ai"
       },
       {
         "label": "Anthropic / Claude incident history",
-        "median_s": 11945,
-        "n": 2,
+        "median_s": 12723,
+        "n": 3,
         "source": "anthropic-status"
+      },
+      {
+        "label": "GitHub releases (AI basket)",
+        "median_s": 19188,
+        "n": 7,
+        "source": "github-releases"
       },
       {
         "label": "OpenAI incident history",
@@ -1762,46 +1756,40 @@
         "source": "openai-status"
       },
       {
-        "label": "LessWrong",
-        "median_s": 22028,
-        "n": 6,
-        "source": "lesswrong"
-      },
-      {
-        "label": "Bloomberg Technology",
-        "median_s": 24233,
-        "n": 8,
-        "source": "bloomberg-tech"
-      },
-      {
         "label": "Techmeme front page (AI-filtered)",
-        "median_s": 24952,
-        "n": 12,
+        "median_s": 26821,
+        "n": 20,
         "source": "techmeme"
       },
       {
-        "label": "Simon Willison",
-        "median_s": 25520,
-        "n": 2,
-        "source": "simon-willison"
-      },
-      {
         "label": "TechCrunch — AI",
-        "median_s": 25832,
-        "n": 4,
+        "median_s": 27639,
+        "n": 8,
         "source": "techcrunch-ai"
       },
       {
-        "label": "GitHub releases (AI basket)",
-        "median_s": 26733,
-        "n": 6,
-        "source": "github-releases"
+        "label": "Bloomberg Technology",
+        "median_s": 28659,
+        "n": 12,
+        "source": "bloomberg-tech"
+      },
+      {
+        "label": "Simon Willison",
+        "median_s": 28949,
+        "n": 3,
+        "source": "simon-willison"
       },
       {
         "label": "MIT News — AI",
         "median_s": 29303,
         "n": 3,
         "source": "mit-news-ai"
+      },
+      {
+        "label": "LessWrong",
+        "median_s": 29523,
+        "n": 8,
+        "source": "lesswrong"
       },
       {
         "label": "Google Research Blog",
@@ -1816,28 +1804,46 @@
         "source": "arstechnica-ai"
       },
       {
-        "label": "Hacker News AI stories (72h)",
-        "median_s": 36393,
-        "n": 12,
-        "source": "hn-ai"
+        "label": "The Verge — AI",
+        "median_s": 34015,
+        "n": 8,
+        "source": "verge-ai"
+      },
+      {
+        "label": "Reddit r/artificial",
+        "median_s": 35250,
+        "n": 30,
+        "source": "reddit-artificial"
       },
       {
         "label": "Reddit r/singularity",
-        "median_s": 37738,
-        "n": 15,
+        "median_s": 36386,
+        "n": 28,
         "source": "reddit-singularity"
       },
       {
-        "label": "The Verge — AI",
-        "median_s": 38807,
-        "n": 6,
-        "source": "verge-ai"
+        "label": "Hacker News AI stories (72h)",
+        "median_s": 38512,
+        "n": 22,
+        "source": "hn-ai"
       },
       {
         "label": "404 Media",
         "median_s": 40003,
         "n": 1,
         "source": "404media"
+      },
+      {
+        "label": "WIRED — AI",
+        "median_s": 40239,
+        "n": 1,
+        "source": "wired-ai"
+      },
+      {
+        "label": "The Decoder",
+        "median_s": 40249,
+        "n": 12,
+        "source": "the-decoder"
       },
       {
         "label": "AWS Machine Learning Blog",
@@ -1858,10 +1864,16 @@
         "source": "bbc-tech"
       },
       {
-        "label": "The Decoder",
-        "median_s": 43265,
-        "n": 7,
-        "source": "the-decoder"
+        "label": "Reddit r/ControlProblem",
+        "median_s": 42392,
+        "n": 23,
+        "source": "reddit-controlproblem"
+      },
+      {
+        "label": "Ahead of AI",
+        "median_s": 42967,
+        "n": 1,
+        "source": "ahead-of-ai"
       },
       {
         "label": "Lobsters — AI",
@@ -1876,27 +1888,15 @@
         "source": "govuk-ai"
       },
       {
-        "label": "Reddit r/artificial",
-        "median_s": 47873,
-        "n": 16,
-        "source": "reddit-artificial"
-      },
-      {
-        "label": "Reddit r/ControlProblem",
-        "median_s": 48246,
-        "n": 11,
-        "source": "reddit-controlproblem"
-      },
-      {
         "label": "The Guardian — AI",
-        "median_s": 49373,
-        "n": 7,
+        "median_s": 47410,
+        "n": 11,
         "source": "guardian-ai"
       },
       {
         "label": "Reddit r/MachineLearning",
-        "median_s": 50047,
-        "n": 9,
+        "median_s": 48149,
+        "n": 11,
         "source": "reddit-machinelearning"
       },
       {
@@ -1906,10 +1906,22 @@
         "source": "openai"
       },
       {
+        "label": "InfoQ — AI/ML",
+        "median_s": 52599,
+        "n": 3,
+        "source": "infoq-ai"
+      },
+      {
         "label": "SCMP — Tech",
         "median_s": 56413,
         "n": 5,
         "source": "scmp-tech"
+      },
+      {
+        "label": "Latent Space (newsletter)",
+        "median_s": 57130,
+        "n": 1,
+        "source": "latent-space"
       },
       {
         "label": "Financial Times — AI",
@@ -1918,23 +1930,17 @@
         "source": "ft-ai"
       },
       {
-        "label": "InfoQ — AI/ML",
-        "median_s": 67403,
-        "n": 1,
-        "source": "infoq-ai"
-      },
-      {
         "label": "Federal Register — AI",
         "median_s": 85403,
-        "n": 3,
+        "n": 5,
         "source": "federal-register-ai"
       }
     ],
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 28271,
-      "n": 225
+      "median_s": 28801,
+      "n": 332
     },
     "window_hours": 24
   }
