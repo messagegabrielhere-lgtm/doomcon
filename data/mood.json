@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-24T06:09:05.549Z",
-  "news_generated_at": "2026-10-24T06:09:05.549Z",
+  "generated_at": "2026-10-24T06:50:38.137Z",
+  "news_generated_at": "2026-10-24T06:50:38.137Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -21,32 +21,32 @@
     "headlines_naming_a_company": 190,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.085
+    "negative_pair_share": 0.086
   },
   "glance": {
     "leading": {
-      "id": "deepseek",
-      "name": "DeepSeek",
+      "id": "apple",
+      "name": "Apple",
       "index": 16
     },
     "trailing": {
       "id": "google",
       "name": "Google",
-      "index": -6.4
+      "index": -6.9
     },
     "most_discussed": {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 63
+      "headlines": 65
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 4,
-      "index": 12,
-      "mean_headline": 1.5,
+      "headlines": 3,
+      "index": 16,
+      "mean_headline": 2,
       "sample": [
         {
           "id": "fe966123a0c6b01e",
@@ -84,27 +84,64 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "e7bec109e57fd29d",
-          "title": "Amazon Rivals Apple's iPad Offering With New Alexa Tablet 12 Pro: Review",
-          "url": "https://bloomberg.com/news/features/2026-10-22/amazon-rivals-apple-s-ipad-offering-with-new-alexa-tablet-12-pro-review",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-22T09:30:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 63,
-      "index": -4.6,
-      "mean_headline": -0.6,
+      "headlines": 65,
+      "index": -4.1,
+      "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "bf8b6e5c06193156",
+          "title": "A look at OpenAI's Project Daybreak, which lets vetted partners use its top hacking models to find and fix vulnerabilities and helped uncover PHP2Shell RCE bugs (Thomas Brewster/Forbes)",
+          "url": "https://techmeme.com/261024/p2",
+          "source": "techmeme",
+          "published_at": "2026-10-24T06:35:01.000Z",
+          "score": -1,
+          "positive": [
+            "partners"
+          ],
+          "negative": [
+            "hacking"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9e69908b04d7e8f0",
+          "title": "OpenAI resumes frontier AI training after security overhaul, discloses flaw in widely used software",
+          "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPMEo2NHJJUkNnUnAwNEtUekQzVE5peDFfQ3pfTDFCaHVUOVFTcVc5dWlZTFVNUVpaZTlrdVk3bmVtREgtQ3JGcV8yeGJQcW56MERSM3RGczdvQklQSkNyZzVKNDZTSTk3UjhoOWRnS0syeVo2aUp3bk9CR19OMkJ2WTZwc2lpRG93UEFFXzVjMjl6SWU0dmE3V1YwZFhSb3BDeV9pQ3ZwOFVOeTdYeU1VRzBvRDB6U1E0Y2VVVzkwUk1KcUEtYkhibzEtS2gySDdVLXZLNnpQdjh1a0ZXa3NSWHdyV0c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T06:09:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "36fb078fd7d5df37",
+          "title": "OpenAI AI Agents Bypass Security Isolation, Exploiting 0-Days in Red-Teaming Tests",
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFA0cWdaazZrRUFIVDB1VkliczBVZHkydHAyWkM5M1pxenNLOHRSYkl5YTUyeDQwWFZFTzdLSzkyeExOMGN6RUc2dmdGY3ZMVEMwanJPd2k3bjl4TVZjcC1DREVBV0FVUHJ0OUMyZmZ5UzXSAXZBVV95cUxNcTVfUFBPc3h2ekpXeVBmRHAzbThqbjVMUEN6clpCS1FJcHJqVnZrX3BteVk0WVpwSmRJVkRTRkF3MWljNHd0WUR2eGxlTVVTbFRaWURxVzVqbkJVOGVpSDZXckFIWEFqZ0tWTWQzWm1OUHBLOGVB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T06:06:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b5c44fe95c1e9005",
+          "title": "Hacker reverses Samsung TV, finds on-board AI listening OpenAI account suspended",
+          "url": "https://reddit.com/r/antiai/comments/1xdv3e5/hacker_reverse_engineers_his_samsung_tv_and_finds",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T05:49:57.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "ba9aaa8eb305064b",
           "title": "OpenAI resumes AI training, cuts live internet to stop agents from escaping offline world",
@@ -150,59 +187,15 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "6ed538c39b3c1239",
-          "title": "OpenAI resumes ​reinforcement learning training and internal ‌use of its most advanced AI ​solutions",
-          "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOQ0JnZnZRRlpCM2d0MW84ZHVpTnBvREVXemlSb0xiWGtMeFI0M0pReU9OT2R1QXRXOWlQVUpxRFViNTA2SlA2c3FETVZLRmRldmoyY3dxRDQ3bGhkNXJCeEVjODYtd0hGWTlWSlMzUUR1dklaUTkxdXpIZjVYMGg2TnR0THBpUWc3LW1fMDZkbklVRGc1ZXM1ZDhvOXVrNFRCck01cHJOUnFzUkxsaUh2NXFVMzJXSGdiVTE1a2ZLb3ZmRi1mVU8xZUZXWmEyT0VPSnViQ2MtTWR1ckRl0gHjAUFVX3lxTE0tY3VyZkczQW5IVno0eUlvWnVDMjcydXpCX0VENWhQb3YzbDFjOU5sdEU1ZFZ2eDZEaHI1QzZMbzM2dDZWVVh5VlZrbTdMZlNyU0J0bG9uWkFFell5MmFiWTBSUFNwRVpwMXd3REFXaXctZEhPVGVfSVNPUlptM3Y3OWQ2OXd1eEhyVVU0WVZjbjVNZkpNQlRiM0xDMjc4ZFgzNDZ3VEF2SDAzdlhKZXhObVdBaC1nOHNrcUQ5dWlXV2dBMG1KQ21vOEpHWE1OS3dfMGMxdjl1WUdqeHVfRjQ1Vlk4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T04:45:31.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "961f4e204e22219e",
-          "title": "UK £100M AI Biosecurity Lab: OpenAI & Anthropic Join [2026]",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNc0RaMXlZMXdIZGlKc3Y4a0NmblU3NnBpd3hWNVgwSVZwbXRubTdrN09ZLUdzd3VNOHU5WkxIZGRaRWtpdWs2Qm54N3RTZzhwME5GX3pCQU83RFdjRUMtRWdoRGZwMjdHbUdRXy04MXIxTHdfMWpwRHpVVER5eVJTcnF1YUlXdlVG?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T04:25:37.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d49b8c8f122aeaba",
-          "title": "OpenAI Resumes Advanced AI Training Following Security Strengthenings",
-          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNblhLbW4zNmF5UmVzbFdWb1ZqTHNNTlJiakdzREVJdk9vSDNMaGhOUHlzVHZSTm5XYlJrTTJ2WWc5bC1XeEg1RjdMNTJwNHRsVXBzbnB3Vzg3TnJTcWJKQnYxN2ZNQ0s2ZENMd0lYakg3akRBT21zQ1hTQWJtS0xPLU0zQjBOV0NlTllLNTEzb196clFldV9IYVYzYmdxMFVwRnh5ZEhHQTRnWGJ1eTFrQm5QRGZFRnYyTGQzUnJTOGF4MUI3a0swNHZPVdIB0AFBVV95cUxNSXRSY3Z1YlpxUDZPN3BkOE45bzdKcGJJeGFDRnBQU1RCaC1xOGJieHVyMUtnSWJDUmF4ZkV1UEJCNnVHSGNCRmtlX1dzbzMyVENLUWJGTGoySUZNd09QbF9QR0JGTmh0TmgwZTFOZEFhdmJTV1A0cWpPOU5HNnY2ZXhab1h1RlVxS1pzWThsamZNU3JYdEpBV29pNU1HTjB1dW0yMHR1R2N2Qld4WVlqYW8yVERSSk9KV3lwSm4wcllCZ2ZvMzJndHFYNldEMnZP?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T04:11:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "341fc17c1efedbe2",
-          "title": "OpenAI resumes frontier AI model training after 11-day pause over security concerns",
-          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPNWZ6UHdaa2ZxYWdhaDRUektnTDJlYzhSbWhJY2hRcjYxWV9PSUJtMmU3cW9tMTBkUDVuTzdkTGVLZFExRjdvcVEwejZtWDhyTHgzWUNoMU1Cb3JlSTF1REFhaVAxNjJsNVI3WEFlUGdSbGxLanVVSmszV01IMHVfT1pLblVTd2RHSi1vMHdCVTREcGtUOW1BSXNwQjRlRllVOVg3RWhreTh4YVVMQnlON1ZSVE9VUTMwY2R1eDlDV1VCcjhoa1lnaThocmo4WEU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T04:06:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 25,
-      "index": 6.4,
-      "mean_headline": 0.8,
+      "headlines": 23,
+      "index": 5.9,
+      "mean_headline": 0.7,
       "sample": [
         {
           "id": "0fb1444d55bea49e",
@@ -266,19 +259,6 @@
           "clickbait": []
         },
         {
-          "id": "ec62634123c6afa7",
-          "title": "Huang Backs Kazakhstan’s AI Plans as NVIDIA Expands Partnerships",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNSGJ1SlZ4NHN6MjkwSjRsbDQ4Rk1IZjdoNEY0bEZHZ0xkLTczZUJQaUFuRkpiR2wxeTY4aWxFYS1DS3c5VUY1ZklaVHNUay1Ic2ZZOHFMR3o5MkFObldNNTZHQy1ROTAteWl0QmhmdFdTNTFkNDU0cnh0Z0l6SHpyTktLcjZHRURSQVMyZg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T01:24:45.000Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "1e55c29e6e1a3d35",
           "title": "Hottest toy for Christmas? Nvidia CEO plays with adorable Microduck robots, 20,000 sell",
           "url": "https://techcrunch.com/2026/10/23/hottest-toy-for-christmas-nvidia-ceo-plays-with-adorable-microduck-robots-20000-sell",
@@ -299,14 +279,25 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "357c5f6003b86eb7",
+          "title": "Multiple Reports Say Nvidia Manufactured the Gaming GPU Crisis by Forcing Big Tech to Stockpile Unused AI Hardware",
+          "url": "https://reddit.com/r/technology/comments/1xdd546/multiple_reports_say_nvidia_manufactured_the",
+          "source": "reddit-technology",
+          "published_at": "2026-10-23T12:50:35.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 37,
-      "index": -0.4,
+      "headlines": 35,
+      "index": -0.5,
       "mean_headline": -0.1,
       "sample": [
         {
@@ -519,9 +510,9 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 15,
-      "index": -6.4,
-      "mean_headline": -0.8,
+      "headlines": 14,
+      "index": -6.9,
+      "mean_headline": -0.9,
       "sample": [
         {
           "id": "7a2cd2292a8601b2",
@@ -722,6 +713,17 @@
       "mean_headline": 0.2,
       "sample": [
         {
+          "id": "77282c79df25665f",
+          "title": "AWS Continuum for code vulnerabilities is now generally available",
+          "url": "https://aws.amazon.com/blogs/aws/aws-continuum-for-code-vulnerabilities-is-now-generally-available",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T05:05:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "51f0818ffe16d3b2",
           "title": "Andy Jassy says AWS capacity for 2027 is \"largely sold out\" and a \"good chunk\" of 2028 capacity is also sold, though AWS reserves some capacity for on-demand (Catherine Perloff/The Information)",
           "url": "https://techmeme.com/261023/p27",
@@ -797,27 +799,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "59b285913cc2d8dc",
-          "title": "How Bayer Crop Science built an agentic decision engine on Amazon Bedrock AgentCore with AWS Unified Operations",
-          "url": "https://aws.amazon.com/blogs/machine-learning/how-bayer-crop-science-built-an-agentic-decision-engine-on-amazon-bedrock-agentcore-with-aws-unified-operations",
-          "source": "aws-ml",
-          "published_at": "2026-10-23T16:21:36.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 12,
-      "index": 16,
-      "mean_headline": 2,
+      "headlines": 13,
+      "index": 14.8,
+      "mean_headline": 1.8,
       "sample": [
+        {
+          "id": "949c0c39f410cdbc",
+          "title": "GLM vs Claude, GPT, Gemini, Grok & DeepSeek (2026)",
+          "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTFBiYXd1aUcxZzNvWkN5cTVRa1pUOVQ5SFUyRDdVQkNWSy01SWNFeHkwT1Z2Sl9iSnROZFRLMTE0aTBkWlg0MWxkTnFNbEk?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T05:51:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1666360cbffc5cc4",
           "title": "How DeepSeek Functions as a 'Trojan Horse' Against US",
@@ -899,19 +901,6 @@
           "positive": [
             "approval",
             "won"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "923d2412a10c1213",
-          "title": "DeepSeek, MiniMax Win Approval for Global Use, State Media Says",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbjhEQkNIQVp4Zi1Xc0g5RG53cGVsSzRWdE16QTNvN2llT1k1cEpiSklQZHhXM25HWDJNcnhLVlpJTFlvMDV3TVl1SlM3cnhLTy1KYW40aDFvOXR2NzlZQnl3RnNWODV5NmV0WkR5bzkwSGxnZ28zMUNjbFZpalU1X2FXekE1STJ0ajZmc1hfV0lmcFFXdjBVZURmVGl5WXY1YXl2SkFZWldHZ1Z6SFdvNWJn?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T02:58:00.000Z",
-          "score": 3,
-          "positive": [
-            "approval"
           ],
           "negative": [],
           "clickbait": []
@@ -921,118 +910,11 @@
   ],
   "ranked": [
     {
-      "id": "deepseek",
-      "name": "DeepSeek",
-      "headlines": 12,
-      "index": 16,
-      "mean_headline": 2,
-      "sample": [
-        {
-          "id": "1666360cbffc5cc4",
-          "title": "How DeepSeek Functions as a 'Trojan Horse' Against US",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOR2JHM0V2TWU4dTVzN29iMmM4dHluYnJtRWxhTFNma0lFWTVsVlRLOUJPNHNUc09jVW56TUZuQ3JKOUxoUkZicmVoV0ZQOUMwZVliZWlRVXR0RjRYRUhYTDJJVkFqMkhGaDZvdFVqaHBzMDZDTXVvSVRjemN0VW9lQ2hyWUcyRzgxVko1c2Zyb051STFzR0Nz?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T02:40:15.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "873ca5a374ac4e71",
-          "title": "Moonshot Debuts First AI Upgrade Since Its Own DeepSeek Moment",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPcktaUjlRNUc4SkZ3UzlJSnJwX0tzalVkaHFKTmxkWGItR0J6b3VVQ01xU25ZdFRueWdrVXNsMjRab2NJNTVFMG9sRHdfbWJwQ2FLQlBwSGdfS1hYWFhWUXRONm8zczlYSnoxX1hiamdRWFU3UThWS05fVFpKNzN4OU5ISkZoOXJNS09Qc2djYVVxMGtnQjVlWFJHTE1wQWdmVjZYckhnd2JjbURxSy1ra2lXbw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T17:18:10.000Z",
-          "score": 3,
-          "positive": [
-            "debuts"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "014e3200341c0eb0",
-          "title": "China’s DeepSeek Wants Ubiquity. Beijing Has Mixed Feelings",
-          "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPWFc0WFJoTDZzenhTV3A2LTktV0FnblQ4ajVXTXNDelRSZC1zZHdmLVczUEhvc282ZWNON1ZWN2JFLVk4enN1cWdfZFFZWGJIaGJRbUhlcTlIdzI5b1JqNFkwTFBpdmp0X0JWSmV1S3ExQlNyYmhSWmdiV3dZSV9LYzZEZXhDaWZoUWNjOU5fUmRKY2pCRW9zaG8xd2d3Y1FRWlN3aFNNUFoyZU5EV2FpYWY0cXhSX1ExcTBJbXpqeU5FLUMxN3B3YUNXQjJIQWhsZWlQT3ZleDRGcHdvWUF3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T10:28:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1b77558b06d46a58",
-          "title": "DeepSeek Open-Sources AI Model as China, US Restrict Each Other’s Tech",
-          "url": "https://bloomberg.com/news/newsletters/2026-10-23/deepseek-open-sources-ai-model-as-china-us-restrict-each-other-s-tech",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-23T10:28:01.000Z",
-          "score": 6,
-          "positive": [
-            "open sources",
-            "open-sources"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3e88fa3f6c0a8639",
-          "title": "AI IPOs are hitting the brakes as public markets cool. But with private money still flowing to giants like OpenAI and DeepSeek, companies might be tempted to stay private for longer. Anthony Stephens",
-          "url": "https://bsky.app/profile/bloomberg.com/post/3myjujzk4sj2t",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-23T09:30:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "988465435c2f96f6",
-          "title": "DeepSeek, MiniMax secure open-source licences days after new China export rules: state media",
-          "url": "https://scmp.com/tech/policy/article/3371880/deepseek-minimax-secure-open-source-licenses-days-after-new-china-export-rules-state-media",
-          "source": "scmp-tech",
-          "published_at": "2026-10-23T06:00:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5ab735d4795c2cbb",
-          "title": "Chinese state media: DeepSeek and MiniMax completed registration and won approval to open-source and deploy AI models overseas under proposed export controls (Bloomberg)",
-          "url": "https://techmeme.com/261023/p2",
-          "source": "techmeme",
-          "published_at": "2026-10-23T04:50:55.000Z",
-          "score": 6,
-          "positive": [
-            "approval",
-            "won"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "923d2412a10c1213",
-          "title": "DeepSeek, MiniMax Win Approval for Global Use, State Media Says",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbjhEQkNIQVp4Zi1Xc0g5RG53cGVsSzRWdE16QTNvN2llT1k1cEpiSklQZHhXM25HWDJNcnhLVlpJTFlvMDV3TVl1SlM3cnhLTy1KYW40aDFvOXR2NzlZQnl3RnNWODV5NmV0WkR5bzkwSGxnZ28zMUNjbFZpalU1X2FXekE1STJ0ajZmc1hfV0lmcFFXdjBVZURmVGl5WXY1YXl2SkFZWldHZ1Z6SFdvNWJn?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T02:58:00.000Z",
-          "score": 3,
-          "positive": [
-            "approval"
-          ],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
       "id": "apple",
       "name": "Apple",
-      "headlines": 4,
-      "index": 12,
-      "mean_headline": 1.5,
+      "headlines": 3,
+      "index": 16,
+      "mean_headline": 2,
       "sample": [
         {
           "id": "fe966123a0c6b01e",
@@ -1070,15 +952,109 @@
           ],
           "negative": [],
           "clickbait": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "headlines": 13,
+      "index": 14.8,
+      "mean_headline": 1.8,
+      "sample": [
         {
-          "id": "e7bec109e57fd29d",
-          "title": "Amazon Rivals Apple's iPad Offering With New Alexa Tablet 12 Pro: Review",
-          "url": "https://bloomberg.com/news/features/2026-10-22/amazon-rivals-apple-s-ipad-offering-with-new-alexa-tablet-12-pro-review",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-22T09:30:29.000Z",
+          "id": "949c0c39f410cdbc",
+          "title": "GLM vs Claude, GPT, Gemini, Grok & DeepSeek (2026)",
+          "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTFBiYXd1aUcxZzNvWkN5cTVRa1pUOVQ5SFUyRDdVQkNWSy01SWNFeHkwT1Z2Sl9iSnROZFRLMTE0aTBkWlg0MWxkTnFNbEk?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T05:51:16.000Z",
           "score": 0,
           "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1666360cbffc5cc4",
+          "title": "How DeepSeek Functions as a 'Trojan Horse' Against US",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOR2JHM0V2TWU4dTVzN29iMmM4dHluYnJtRWxhTFNma0lFWTVsVlRLOUJPNHNUc09jVW56TUZuQ3JKOUxoUkZicmVoV0ZQOUMwZVliZWlRVXR0RjRYRUhYTDJJVkFqMkhGaDZvdFVqaHBzMDZDTXVvSVRjemN0VW9lQ2hyWUcyRzgxVko1c2Zyb051STFzR0Nz?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T02:40:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "873ca5a374ac4e71",
+          "title": "Moonshot Debuts First AI Upgrade Since Its Own DeepSeek Moment",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPcktaUjlRNUc4SkZ3UzlJSnJwX0tzalVkaHFKTmxkWGItR0J6b3VVQ01xU25ZdFRueWdrVXNsMjRab2NJNTVFMG9sRHdfbWJwQ2FLQlBwSGdfS1hYWFhWUXRONm8zczlYSnoxX1hiamdRWFU3UThWS05fVFpKNzN4OU5ISkZoOXJNS09Qc2djYVVxMGtnQjVlWFJHTE1wQWdmVjZYckhnd2JjbURxSy1ra2lXbw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T17:18:10.000Z",
+          "score": 3,
+          "positive": [
+            "debuts"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "014e3200341c0eb0",
+          "title": "China’s DeepSeek Wants Ubiquity. Beijing Has Mixed Feelings",
+          "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPWFc0WFJoTDZzenhTV3A2LTktV0FnblQ4ajVXTXNDelRSZC1zZHdmLVczUEhvc282ZWNON1ZWN2JFLVk4enN1cWdfZFFZWGJIaGJRbUhlcTlIdzI5b1JqNFkwTFBpdmp0X0JWSmV1S3ExQlNyYmhSWmdiV3dZSV9LYzZEZXhDaWZoUWNjOU5fUmRKY2pCRW9zaG8xd2d3Y1FRWlN3aFNNUFoyZU5EV2FpYWY0cXhSX1ExcTBJbXpqeU5FLUMxN3B3YUNXQjJIQWhsZWlQT3ZleDRGcHdvWUF3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T10:28:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1b77558b06d46a58",
+          "title": "DeepSeek Open-Sources AI Model as China, US Restrict Each Other’s Tech",
+          "url": "https://bloomberg.com/news/newsletters/2026-10-23/deepseek-open-sources-ai-model-as-china-us-restrict-each-other-s-tech",
+          "source": "bloomberg-tech",
+          "published_at": "2026-10-23T10:28:01.000Z",
+          "score": 6,
+          "positive": [
+            "open sources",
+            "open-sources"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3e88fa3f6c0a8639",
+          "title": "AI IPOs are hitting the brakes as public markets cool. But with private money still flowing to giants like OpenAI and DeepSeek, companies might be tempted to stay private for longer. Anthony Stephens",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3myjujzk4sj2t",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-23T09:30:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "988465435c2f96f6",
+          "title": "DeepSeek, MiniMax secure open-source licences days after new China export rules: state media",
+          "url": "https://scmp.com/tech/policy/article/3371880/deepseek-minimax-secure-open-source-licenses-days-after-new-china-export-rules-state-media",
+          "source": "scmp-tech",
+          "published_at": "2026-10-23T06:00:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5ab735d4795c2cbb",
+          "title": "Chinese state media: DeepSeek and MiniMax completed registration and won approval to open-source and deploy AI models overseas under proposed export controls (Bloomberg)",
+          "url": "https://techmeme.com/261023/p2",
+          "source": "techmeme",
+          "published_at": "2026-10-23T04:50:55.000Z",
+          "score": 6,
+          "positive": [
+            "approval",
+            "won"
+          ],
           "negative": [],
           "clickbait": []
         }
@@ -1087,9 +1063,9 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 25,
-      "index": 6.4,
-      "mean_headline": 0.8,
+      "headlines": 23,
+      "index": 5.9,
+      "mean_headline": 0.7,
       "sample": [
         {
           "id": "0fb1444d55bea49e",
@@ -1153,19 +1129,6 @@
           "clickbait": []
         },
         {
-          "id": "ec62634123c6afa7",
-          "title": "Huang Backs Kazakhstan’s AI Plans as NVIDIA Expands Partnerships",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNSGJ1SlZ4NHN6MjkwSjRsbDQ4Rk1IZjdoNEY0bEZHZ0xkLTczZUJQaUFuRkpiR2wxeTY4aWxFYS1DS3c5VUY1ZklaVHNUay1Ic2ZZOHFMR3o5MkFObldNNTZHQy1ROTAteWl0QmhmdFdTNTFkNDU0cnh0Z0l6SHpyTktLcjZHRURSQVMyZg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T01:24:45.000Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "1e55c29e6e1a3d35",
           "title": "Hottest toy for Christmas? Nvidia CEO plays with adorable Microduck robots, 20,000 sell",
           "url": "https://techcrunch.com/2026/10/23/hottest-toy-for-christmas-nvidia-ceo-plays-with-adorable-microduck-robots-20000-sell",
@@ -1182,6 +1145,17 @@
           "url": "https://scmp.com/tech/big-tech/article/3371946/nvidias-jensen-huang-brings-sovereign-ai-push-kazakhstan-shrugs-bubble-fears",
           "source": "scmp-tech",
           "published_at": "2026-10-23T13:00:14.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "357c5f6003b86eb7",
+          "title": "Multiple Reports Say Nvidia Manufactured the Gaming GPU Crisis by Forcing Big Tech to Stockpile Unused AI Hardware",
+          "url": "https://reddit.com/r/technology/comments/1xdd546/multiple_reports_say_nvidia_manufactured_the",
+          "source": "reddit-technology",
+          "published_at": "2026-10-23T12:50:35.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1399,6 +1373,17 @@
       "mean_headline": 0.2,
       "sample": [
         {
+          "id": "77282c79df25665f",
+          "title": "AWS Continuum for code vulnerabilities is now generally available",
+          "url": "https://aws.amazon.com/blogs/aws/aws-continuum-for-code-vulnerabilities-is-now-generally-available",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T05:05:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "51f0818ffe16d3b2",
           "title": "Andy Jassy says AWS capacity for 2027 is \"largely sold out\" and a \"good chunk\" of 2028 capacity is also sold, though AWS reserves some capacity for on-demand (Catherine Perloff/The Information)",
           "url": "https://techmeme.com/261023/p27",
@@ -1474,25 +1459,14 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "59b285913cc2d8dc",
-          "title": "How Bayer Crop Science built an agentic decision engine on Amazon Bedrock AgentCore with AWS Unified Operations",
-          "url": "https://aws.amazon.com/blogs/machine-learning/how-bayer-crop-science-built-an-agentic-decision-engine-on-amazon-bedrock-agentcore-with-aws-unified-operations",
-          "source": "aws-ml",
-          "published_at": "2026-10-23T16:21:36.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 37,
-      "index": -0.4,
+      "headlines": 35,
+      "index": -0.5,
       "mean_headline": -0.1,
       "sample": [
         {
@@ -1594,10 +1568,58 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 63,
-      "index": -4.6,
-      "mean_headline": -0.6,
+      "headlines": 65,
+      "index": -4.1,
+      "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "bf8b6e5c06193156",
+          "title": "A look at OpenAI's Project Daybreak, which lets vetted partners use its top hacking models to find and fix vulnerabilities and helped uncover PHP2Shell RCE bugs (Thomas Brewster/Forbes)",
+          "url": "https://techmeme.com/261024/p2",
+          "source": "techmeme",
+          "published_at": "2026-10-24T06:35:01.000Z",
+          "score": -1,
+          "positive": [
+            "partners"
+          ],
+          "negative": [
+            "hacking"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9e69908b04d7e8f0",
+          "title": "OpenAI resumes frontier AI training after security overhaul, discloses flaw in widely used software",
+          "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPMEo2NHJJUkNnUnAwNEtUekQzVE5peDFfQ3pfTDFCaHVUOVFTcVc5dWlZTFVNUVpaZTlrdVk3bmVtREgtQ3JGcV8yeGJQcW56MERSM3RGczdvQklQSkNyZzVKNDZTSTk3UjhoOWRnS0syeVo2aUp3bk9CR19OMkJ2WTZwc2lpRG93UEFFXzVjMjl6SWU0dmE3V1YwZFhSb3BDeV9pQ3ZwOFVOeTdYeU1VRzBvRDB6U1E0Y2VVVzkwUk1KcUEtYkhibzEtS2gySDdVLXZLNnpQdjh1a0ZXa3NSWHdyV0c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T06:09:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "36fb078fd7d5df37",
+          "title": "OpenAI AI Agents Bypass Security Isolation, Exploiting 0-Days in Red-Teaming Tests",
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFA0cWdaazZrRUFIVDB1VkliczBVZHkydHAyWkM5M1pxenNLOHRSYkl5YTUyeDQwWFZFTzdLSzkyeExOMGN6RUc2dmdGY3ZMVEMwanJPd2k3bjl4TVZjcC1DREVBV0FVUHJ0OUMyZmZ5UzXSAXZBVV95cUxNcTVfUFBPc3h2ekpXeVBmRHAzbThqbjVMUEN6clpCS1FJcHJqVnZrX3BteVk0WVpwSmRJVkRTRkF3MWljNHd0WUR2eGxlTVVTbFRaWURxVzVqbkJVOGVpSDZXckFIWEFqZ0tWTWQzWm1OUHBLOGVB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T06:06:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b5c44fe95c1e9005",
+          "title": "Hacker reverses Samsung TV, finds on-board AI listening OpenAI account suspended",
+          "url": "https://reddit.com/r/antiai/comments/1xdv3e5/hacker_reverse_engineers_his_samsung_tv_and_finds",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T05:49:57.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "ba9aaa8eb305064b",
           "title": "OpenAI resumes AI training, cuts live internet to stop agents from escaping offline world",
@@ -1643,59 +1665,15 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "6ed538c39b3c1239",
-          "title": "OpenAI resumes ​reinforcement learning training and internal ‌use of its most advanced AI ​solutions",
-          "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOQ0JnZnZRRlpCM2d0MW84ZHVpTnBvREVXemlSb0xiWGtMeFI0M0pReU9OT2R1QXRXOWlQVUpxRFViNTA2SlA2c3FETVZLRmRldmoyY3dxRDQ3bGhkNXJCeEVjODYtd0hGWTlWSlMzUUR1dklaUTkxdXpIZjVYMGg2TnR0THBpUWc3LW1fMDZkbklVRGc1ZXM1ZDhvOXVrNFRCck01cHJOUnFzUkxsaUh2NXFVMzJXSGdiVTE1a2ZLb3ZmRi1mVU8xZUZXWmEyT0VPSnViQ2MtTWR1ckRl0gHjAUFVX3lxTE0tY3VyZkczQW5IVno0eUlvWnVDMjcydXpCX0VENWhQb3YzbDFjOU5sdEU1ZFZ2eDZEaHI1QzZMbzM2dDZWVVh5VlZrbTdMZlNyU0J0bG9uWkFFell5MmFiWTBSUFNwRVpwMXd3REFXaXctZEhPVGVfSVNPUlptM3Y3OWQ2OXd1eEhyVVU0WVZjbjVNZkpNQlRiM0xDMjc4ZFgzNDZ3VEF2SDAzdlhKZXhObVdBaC1nOHNrcUQ5dWlXV2dBMG1KQ21vOEpHWE1OS3dfMGMxdjl1WUdqeHVfRjQ1Vlk4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T04:45:31.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "961f4e204e22219e",
-          "title": "UK £100M AI Biosecurity Lab: OpenAI & Anthropic Join [2026]",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNc0RaMXlZMXdIZGlKc3Y4a0NmblU3NnBpd3hWNVgwSVZwbXRubTdrN09ZLUdzd3VNOHU5WkxIZGRaRWtpdWs2Qm54N3RTZzhwME5GX3pCQU83RFdjRUMtRWdoRGZwMjdHbUdRXy04MXIxTHdfMWpwRHpVVER5eVJTcnF1YUlXdlVG?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T04:25:37.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d49b8c8f122aeaba",
-          "title": "OpenAI Resumes Advanced AI Training Following Security Strengthenings",
-          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNblhLbW4zNmF5UmVzbFdWb1ZqTHNNTlJiakdzREVJdk9vSDNMaGhOUHlzVHZSTm5XYlJrTTJ2WWc5bC1XeEg1RjdMNTJwNHRsVXBzbnB3Vzg3TnJTcWJKQnYxN2ZNQ0s2ZENMd0lYakg3akRBT21zQ1hTQWJtS0xPLU0zQjBOV0NlTllLNTEzb196clFldV9IYVYzYmdxMFVwRnh5ZEhHQTRnWGJ1eTFrQm5QRGZFRnYyTGQzUnJTOGF4MUI3a0swNHZPVdIB0AFBVV95cUxNSXRSY3Z1YlpxUDZPN3BkOE45bzdKcGJJeGFDRnBQU1RCaC1xOGJieHVyMUtnSWJDUmF4ZkV1UEJCNnVHSGNCRmtlX1dzbzMyVENLUWJGTGoySUZNd09QbF9QR0JGTmh0TmgwZTFOZEFhdmJTV1A0cWpPOU5HNnY2ZXhab1h1RlVxS1pzWThsamZNU3JYdEpBV29pNU1HTjB1dW0yMHR1R2N2Qld4WVlqYW8yVERSSk9KV3lwSm4wcllCZ2ZvMzJndHFYNldEMnZP?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T04:11:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "341fc17c1efedbe2",
-          "title": "OpenAI resumes frontier AI model training after 11-day pause over security concerns",
-          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPNWZ6UHdaa2ZxYWdhaDRUektnTDJlYzhSbWhJY2hRcjYxWV9PSUJtMmU3cW9tMTBkUDVuTzdkTGVLZFExRjdvcVEwejZtWDhyTHgzWUNoMU1Cb3JlSTF1REFhaVAxNjJsNVI3WEFlUGdSbGxLanVVSmszV01IMHVfT1pLblVTd2RHSi1vMHdCVTREcGtUOW1BSXNwQjRlRllVOVg3RWhreTh4YVVMQnlON1ZSVE9VUTMwY2R1eDlDV1VCcjhoa1lnaThocmo4WEU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T04:06:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "google",
       "name": "Google",
-      "headlines": 15,
-      "index": -6.4,
-      "mean_headline": -0.8,
+      "headlines": 14,
+      "index": -6.9,
+      "mean_headline": -0.9,
       "sample": [
         {
           "id": "7a2cd2292a8601b2",
