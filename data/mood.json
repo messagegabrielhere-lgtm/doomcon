@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-24T00:51:00.881Z",
-  "news_generated_at": "2026-10-24T00:51:00.881Z",
+  "generated_at": "2026-10-24T01:37:05.293Z",
+  "news_generated_at": "2026-10-24T01:37:05.293Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,26 +18,26 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 196,
+    "headlines_naming_a_company": 192,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.098
+    "negative_pair_share": 0.099
   },
   "glance": {
     "leading": {
       "id": "deepseek",
       "name": "DeepSeek",
-      "index": 17.5
+      "index": 16
     },
     "trailing": {
       "id": "google",
       "name": "Google",
-      "index": -6.5
+      "index": -8
     },
     "most_discussed": {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 61
+      "headlines": 62
     }
   },
   "companies": [
@@ -121,10 +121,56 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 61,
-      "index": -5.8,
+      "headlines": 62,
+      "index": -5.7,
       "mean_headline": -0.7,
       "sample": [
+        {
+          "id": "fe66fa38814ff566",
+          "title": "An OpenAI Model Hacked Its Way Onto the Internet",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQRWFvenBmX0dSVTZCYmV0OC00dEhkb2s3Um9ocWpwS3Zka1RuMzJ1elZnbXpYYU5XSnVhNFZ0WHEtQVVMS1pwZkpOdF9WeFRIVUN2LThpdzRxLUdqdHFfSXJtZmhUbFRXMkJRVHk5eU9zVy1fZXRMRjU2N2hMeWxLMQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:25:19.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "hacked"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "d7952ecf942fe088",
+          "title": "The UK plans to invest £100M to create the AI Biosecurity Lab to boost defenses against biological threats, supported by OpenAI, Anthropic, and Google DeepMind (Liv McMahon/BBC)",
+          "url": "https://techmeme.com/261023/p26",
+          "source": "techmeme",
+          "published_at": "2026-10-24T01:20:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b772d96afe69cc10",
+          "title": "OpenAI resumes frontier AI training after security overhaul, discloses flaw in widely used software",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNWmNWUG02ckVXVjVFQ3RTbloxVEx0Y3gxQ1JScGMwT21hRDltajQ4cl9DV3hrdE5DYnZBdm0wRGxCSkNPdHFFTVVqY2FKUmoyWlpiSVhOQVFwcVFSbnJ1UmdzaEVlcnJWNlhNcFJGbk1Hc2l5UE1pTDRDSFN5bDQ3TjV2aE8ySUtJVkJnaGlIUHNJdURfbnVxdWZGNHRGUjhiRlMyaS00QWgxX2FHRE9ueURTUWlLSm5TSm5QMWZFSGJ1NEYwcnRKOHkwd0hqTmxUUzZrVTFR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:10:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "72538e58908a540e",
+          "title": "OpenAI Restarts Frontier Training After 11-Day Halt [2026]",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1jUVE3S2ZuNlFqaHMteHNaLW1sU1N0UmpWUDBiMzJVeXpuWlNDRjVnWWVrM0JmR0MzNDg4cm9wT0M5S2JxXzdvZ2hyOFlLdjVTcVYzTGJ2MExqUGRWbmhJNFRkdTE1a3J6aG1IXzQ4MWtwakotUDVocjY0QkxFZlU?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:07:27.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "df48752722039c80",
           "title": "OpenAI says it built an \"offline world\" from cached web content to train isolated frontier models to browse, search for information, and use web apps (OpenAI)",
@@ -168,66 +214,29 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "dce577f8229806a4",
-          "title": "OpenAI Cuts Internet for Frontier AI Training After 11-Day Safety Pause",
-          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE53b0M5b3ltN1F0QU14UDdBbHp2NDNqM0xTeVpTUHJfQ01UaTYtME93ZzBwbk1HZmhNNXhxeEJHakJpcWVjSS1pdGozaFRmc1gxQ1k1T2Z2a1I4c0lMVEM1aFQzN3IyanF5TW52Tkc2WkttLUdU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T23:37:05.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cuts"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "b7ec189e28600691",
-          "title": "OpenAI shifts frontier model training offline as security risks rise",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQbGVLWEl0WkpOcmx6T1h0VnJkSGZzUlVnTGJ4QTdUc3B5blp6YnFyTnI1bUNfZmFhSUNVMnhwSnhXSVlVTFVUeWxvVW5qYTl4NGdYVUg4RDBybFhBaDJXRUNiQUp5aDlnR0tZbENEU3hYdHY2X2JpaDA1N21seGF6WE9EaGQ2WERvUG41SWVMUmhQcDdmbERlZQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T23:09:30.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "risks"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "585ea363f084ac16",
-          "title": "OpenAI says it will no longer train its AI models on the live internet, citing “significant risks”",
-          "url": "https://techcrunch.com/2026/10/23/openai-says-it-will-no-longer-train-its-ai-models-on-the-live-internet-citing-significant-risks",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-23T23:05:49.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "risks"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "42d82547b6e4c09c",
-          "title": "UK Vows £100 Million for Biosecurity Lab With OpenAI, Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNQ1dQcXZZUEdFU1JoZy1ldC1tWEpMeFAyQWc1YW9NdmM0MGczNGJhSVNadHJmczlLU01hcHpCYlZNN1pEVy1RdkFWdGtVSDFoTXU5cjZTQjVVT0Zva1U0UGV5dDZwVzZ3czR1Umt0dmU0bEZ5ZFhDY0JoWTdSV1N5YzVPYmliR2dPUVB2ZWJ1MXZua3UyYjdrejgzWi1PTXVpRW5SUk5odElld3VyOW9HS2pqeDFzUTkwaVBfOHBXNEk5ZlYyUDBjSnNyYmk2QQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T23:01:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 27,
-      "index": 3.3,
+      "headlines": 26,
+      "index": 3.4,
       "mean_headline": 0.4,
       "sample": [
+        {
+          "id": "ec62634123c6afa7",
+          "title": "Huang Backs Kazakhstan’s AI Plans as NVIDIA Expands Partnerships",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNSGJ1SlZ4NHN6MjkwSjRsbDQ4Rk1IZjdoNEY0bEZHZ0xkLTczZUJQaUFuRkpiR2wxeTY4aWxFYS1DS3c5VUY1ZklaVHNUay1Ic2ZZOHFMR3o5MkFObldNNTZHQy1ROTAteWl0QmhmdFdTNTFkNDU0cnh0Z0l6SHpyTktLcjZHRURSQVMyZg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:24:45.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "45bbc056317a6cee",
           "title": "Amazon’s $5 billion Nvidia AI servers sit idle in warehouses amid data center power shortages",
@@ -273,35 +282,11 @@
           "clickbait": []
         },
         {
-          "id": "bf9fee1656d4da49",
-          "title": "Nvidia Telecom AI Push: What Channel Partners Should Know",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQcWdCUTdlMFFHRmhvbkNxV3FsR2txd0VJbFRaZWhxaWd5WE9UTEwzN29rMEx6aGhHY1RqVkFfVW5QdTdGOHZRYldVR2F5S2Z4NDZiOFo2TGJ0dG1YVGVzNkp4ZjRlVzJXeE1XRFlONzJFX203djhUZHlUWWpPOENpc2RIczc2QQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:59:52.000Z",
-          "score": 3,
-          "positive": [
-            "partners"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "1e55c29e6e1a3d35",
           "title": "Hottest toy for Christmas? Nvidia CEO plays with adorable Microduck robots, 20,000 sell",
           "url": "https://techcrunch.com/2026/10/23/hottest-toy-for-christmas-nvidia-ceo-plays-with-adorable-microduck-robots-20000-sell",
           "source": "techcrunch-ai",
           "published_at": "2026-10-23T21:59:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "338a8f25c892d828",
-          "title": "Nvidia CEO Encourages Europe's Lagging AI Sector, Encourages Data Center Buildout",
-          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOeHJNSk1FOFp6VkgyLUZOMF9wcjE4SU1Qd0Y0VUVWUlkzdVZaWGZXLTJrRlpmOGpwRVBWRE1aaEtHbVdpWWQ4T3dxYWtRdXlRVThYeXZER2lOZXZiZ19OOUJRUmtzbW82Mnd4d0NvejYwUWRLcTV3dXlqUzJtMlJRelFKSHdRZU9CYkhMQzNPc2g3WXpmdzNkTl9wa0w5X2JybkpGbHhRWDliNkJfalQtbw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:40:57.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -317,16 +302,60 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "357c5f6003b86eb7",
+          "title": "Multiple Reports Say Nvidia Manufactured the Gaming GPU Crisis by Forcing Big Tech to Stockpile Unused AI Hardware",
+          "url": "https://reddit.com/r/technology/comments/1xdd546/multiple_reports_say_nvidia_manufactured_the",
+          "source": "reddit-technology",
+          "published_at": "2026-10-23T12:50:35.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 34,
-      "index": 4,
-      "mean_headline": 0.5,
+      "headlines": 32,
+      "index": 2.8,
+      "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "b95f7849fc3d88d8",
+          "title": "Anthropic and Musk offer rival blueprints for sharing AI's wealth",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOSW4xZE1IMHg4cUUtWDN1b2ZtTWk2Q3RiOVZ3cEt0Y2lYa2QtcHUtNnUwUU9NemgtWV9DclZSU3BtaDAyTkVMNjRncnVvVF9Cc0xZNHF2VmNvUkV1V051UWk1QTJXMmd4Uld4TlhwTmhHdUNDc2dEUURpMTZiTVZScUY2SDBOYjV3RDRzemdfN0lsUDJpVGlvNUVwRnBleHhVMm9ZNWt6UVMwc2RDQjYxQ3pFdE5tUFpNYnc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:34:54.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d7952ecf942fe088",
+          "title": "The UK plans to invest £100M to create the AI Biosecurity Lab to boost defenses against biological threats, supported by OpenAI, Anthropic, and Google DeepMind (Liv McMahon/BBC)",
+          "url": "https://techmeme.com/261023/p26",
+          "source": "techmeme",
+          "published_at": "2026-10-24T01:20:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "81458a7ec0e725c7",
+          "title": "Schwab trumpeted Anthropic's Claude for all 16,000 of its RIAs, but a 20-seat enterprise minimum suddenly sidelines 11,000-plus small firms -- right before IMPACT 2026",
+          "url": "https://news.google.com/rss/articles/CBMinAJBVV95cUxPT0R4ZTBtQWtQMTBJWGx2NGV2TVNxRl9aa2liNDQ2SGJFVFEta0I2M2lhaEkwR2hWMmxDMlZXamdQYkpFRkU1Wl9PN3JOLXljb3JuTFJ1Z0wwTFp6ZVlqQkRnVHpZOW1uMkpnR0hUYzkzZm9BXzNXSEQ1cnBic2M2cHpqM0FSempQUGNoQzVhWmdyQksxcVN4QVJGZ2NSaEZ3N0pZMno3SFFIQm9ORVBaWWhkM25DQm1pRkIzd1dyOEZvSmxtMnRBTkxYSXp5dW1IZmhNTC1CczY2T0ZDVlBPT1NvZnZ2YXRxLXZxbklsVnQtSVoxQWlsd0hlbVBEUkxpbTNlNUlBRUJmUXdpQ3BCaUVEQTR0SjRVQTdxQw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:14:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "df4fc65282c4d060",
           "title": "TeraWulf’s 20-year lease agreement with Anthropic expected to generate $19B in revenue",
@@ -381,50 +410,15 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "d9e035bb8d865fd9",
-          "title": "Will Anthropic pull off a November IPO? Time is running out to file key paperwork.",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOTFJNeGlNaWk2VGtvUkxlb243b1oxaWhVRXdnQjhHRVhrWmJjM1R5Vnpia1E4ZFlEQmtMY1ZVeTg4SzZ6YXFPOXNLdFU2cWd0UGZidFJnRGQ0TDBwOW9kVEUydUpmcGFKU3BhTFB3eTFmb1loLTlHLUhxU041ZXZVMEtPMTF4TnNrNHY4MEJlSzdTczQtUWh2aEF1c25fSDVCLWlKSVU5cEoxNXVoOGo3OU5wVmFlX0dmV3NfemVIXzM?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4d39f1a3c00b6f35",
-          "title": "Claude Duet Debuts as Anthropic’s Always-On Proactive Agent",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBKSVhMQzFCX0E5WkpJbVlhUlNPU2NGWGFUT28tcUxRWHFERlV1WU9jU2Z0OW1uU3pwSTE4ZjNxdmJVVmJNajJUcTVDbkJGVnZZd1R6ZVVyUWxIdWZaN0ttZ2EwdVZiNXdzdzY4QkQ0MlF3NWtBbGJ5Tm8tTkI?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:50:42.000Z",
-          "score": 3,
-          "positive": [
-            "debuts"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "cb3dbdc48dba86a6",
-          "title": "The Wrap: Anthropic Gets Heavyweight Backup; AI Defense Gets Bipartisan Backing; AI Graduates From Pilot Mode",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPWVFIMk9xck1vVDZoeTdGcWRQd1dwRmFxS015X0VTRk9tZmRVOUJnT1pVZGdBblhqbWdFQktzY20xY2dpMWdvdUhGYmxkYl9wVEpvMHIxTlFoR0tmSjlENFppaU5PMXpaelhaYUIzbFB4Ym0tWHVpZ09IN2tzYlZySzQ2RHpuYmtzTDdwR1g1dTJNRlQ5cXprV29aOXd4dw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:46:33.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 23,
-      "index": 1.7,
-      "mean_headline": 0.2,
+      "headlines": 22,
+      "index": 0.7,
+      "mean_headline": 0.1,
       "sample": [
         {
           "id": "de9b3141ee4689dc",
@@ -445,19 +439,6 @@
           "published_at": "2026-10-23T23:07:00.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "24dc46a6ec38387f",
-          "title": "Treasuries Jump on AI Investment Jitters as Meta Eyes $40 Billion Raise, SpaceX Telecom Push Draws Focus",
-          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFAxREJFNkJ3NjJlUGJyaHRrM1gyM0Racm00ZXN1QTBtWjF2UTNqZkFyemVTZmV2bWUtOEpSY1VyUU5kQzB0MElyeDhUZXdZN0VtRVJXRQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:49:37.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
-          ],
           "negative": [],
           "clickbait": []
         },
@@ -519,6 +500,17 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "377bdd153868ad64",
+          "title": "Meta’s AI could still scrape news sites, legal experts say",
+          "url": "https://bsky.app/profile/theverge.com/post/3myijz7h36p2w",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-22T20:32:05.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
@@ -534,9 +526,20 @@
       "id": "google",
       "name": "Google",
       "headlines": 16,
-      "index": -6.5,
-      "mean_headline": -0.8,
+      "index": -8,
+      "mean_headline": -1,
       "sample": [
+        {
+          "id": "d7952ecf942fe088",
+          "title": "The UK plans to invest £100M to create the AI Biosecurity Lab to boost defenses against biological threats, supported by OpenAI, Anthropic, and Google DeepMind (Liv McMahon/BBC)",
+          "url": "https://techmeme.com/261023/p26",
+          "source": "techmeme",
+          "published_at": "2026-10-24T01:20:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "e2b39233452b773e",
           "title": "Ex-Google Researcher Claims AI Could 'Kill Mankind' in the Next Decade — as Trump Continues to Praise 'Super Intelligence'",
@@ -591,19 +594,6 @@
           "published_at": "2026-10-23T16:52:55.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ae3e074b038bc45c",
-          "title": "Google DeepMind Staff Resign Over Pentagon AI Contracts, Raise Concerns Over Human Oversight In Warfare",
-          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxNUFRZWkJtR1Rub3BfSXFyYXlORGdzdDJZQWlxRlgxbGFHSVBURERuVnJNUG91T2pFdnNkb2h4WTN4a1F4MS1lZWFvMlN6WW4yclJzbVhaMjl1Nmg2WnlnQ1NqWWptRjZGdGR6UDRYMEUxSmpVNUR2RnBkcmdEb1dpdVpMbW5rTU1wNUFuWUxrRkdpcGswS2hiOGktd1pPcWV5LXZpU253YkJMSFVUbTZhTXdiNTZ6ME1wMGpqMkZZZldLX2s4WVY3N0VZUGNYdjdYS3RDSm5aUjBnZ1BxcjBJaHE4akM0T3lj0gHvAUFVX3lxTFBsR3FwdWx0ek1iQnFBaHJNbkNPZDdLX3V2cGdBa2trSkk2ZHJFNzloVnFTZGpMd0hpRVRCRUZSWk5HeVhock9DTVFKSTR5UXU4ZDBpZFBXcDc5MmJkeG9VWmw4X3lKVXFtVDFIY1JaV3RmQ1lISjkwREp6VzFGSC1sa21ib3Nyb3NpbHNDNVZjZ2hkWHlGRWlHZE51NGRBS3lRRDlYQXRoZkZyVWVRNTVoUFpraThNVGliTWFUWnl2WGxWWl93Z0ZKZ0JaQ29LZnRPc04wWVZwX0h6TUF1YlBqNzc0YkFBZjRSX01uU0tr?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T16:03:00.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
-          ],
           "negative": [],
           "clickbait": []
         },
@@ -832,10 +822,21 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 11,
-      "index": 17.5,
-      "mean_headline": 2.2,
+      "headlines": 12,
+      "index": 16,
+      "mean_headline": 2,
       "sample": [
+        {
+          "id": "6c618f6492a53bea",
+          "title": "DeepSeek API Search Agent: 13 Steps, 90 Min [2026]",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9oaEtqSDI5NFJNR0ktZ0pwamtBWkhaclIxcjhiVmhKeTJuUHctU0lBWldWUk5IU2g4SmI0ZkxOSUItN2NleDlxQnA0enhqUWdNY0M0aUNORGpablVpMFFWal9SOEhBVVVxb1MwMmxzTG91MlFwS0dqdWdiSU5pZnc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:01:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "873ca5a374ac4e71",
           "title": "Moonshot Debuts First AI Upgrade Since Its Own DeepSeek Moment",
@@ -919,19 +920,6 @@
           "score": 3,
           "positive": [
             "approval"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "feacd6de002e3968",
-          "title": "DeepSeek reportedly raises $15B days after US restrictions",
-          "url": "https://techcrunch.com/2026/10/22/deepseek-reportedly-raises-15b-days-after-us-restrictions",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-22T13:11:13.000Z",
-          "score": 3,
-          "positive": [
-            "raises"
           ],
           "negative": [],
           "clickbait": []
@@ -943,10 +931,21 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 11,
-      "index": 17.5,
-      "mean_headline": 2.2,
+      "headlines": 12,
+      "index": 16,
+      "mean_headline": 2,
       "sample": [
+        {
+          "id": "6c618f6492a53bea",
+          "title": "DeepSeek API Search Agent: 13 Steps, 90 Min [2026]",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9oaEtqSDI5NFJNR0ktZ0pwamtBWkhaclIxcjhiVmhKeTJuUHctU0lBWldWUk5IU2g4SmI0ZkxOSUItN2NleDlxQnA0enhqUWdNY0M0aUNORGpablVpMFFWal9SOEhBVVVxb1MwMmxzTG91MlFwS0dqdWdiSU5pZnc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:01:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "873ca5a374ac4e71",
           "title": "Moonshot Debuts First AI Upgrade Since Its Own DeepSeek Moment",
@@ -1031,118 +1030,6 @@
           "positive": [
             "approval"
           ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "feacd6de002e3968",
-          "title": "DeepSeek reportedly raises $15B days after US restrictions",
-          "url": "https://techcrunch.com/2026/10/22/deepseek-reportedly-raises-15b-days-after-us-restrictions",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-22T13:11:13.000Z",
-          "score": 3,
-          "positive": [
-            "raises"
-          ],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "anthropic",
-      "name": "Anthropic",
-      "headlines": 34,
-      "index": 4,
-      "mean_headline": 0.5,
-      "sample": [
-        {
-          "id": "df4fc65282c4d060",
-          "title": "TeraWulf’s 20-year lease agreement with Anthropic expected to generate $19B in revenue",
-          "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5jMXNpV19MTWRVNy1Sc2ptbkJ5bUpjZ0ZQT1c3dGhKcUtBa2N3aWJEUy1NRjd1d0xHUEdNTm1Ua0RDVUE4c3RlMVBMVVJUMjRRcUZzWGtFRXhFeTg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T00:13:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f44984f0ef999801",
-          "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
-          "url": "https://status.claude.com/incidents/h101vcmhnfky",
-          "source": "anthropic-status",
-          "published_at": "2026-10-24T00:11:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "20fd21f72d33dfbc",
-          "title": "Anthropic reveals Mythos 5 tried submitting malicious code to an open-source project",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOV3dqUk5faExZdzlTVHlwNVg1WHF1N3l4M3ZpTUJ1VDNCMll2TnA0NUxTQjJsYmVacF95Ui1mbk4yMXMzTFNTQVRNVnI4NW5VX3ZOZ1pfQVljR0Rvd2t0c0pIMVhSb0pnV3pGX3NJODNWUmRicUkySVlQMTlObUdrV19XbXBPS2trZGxTVXFjUnRhRjV0UXFHYm1yNGdGWEVZcE56VE45V1FVSV9JOHBTLXZGR3poWGF5d3I4c05B?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T23:28:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "42d82547b6e4c09c",
-          "title": "UK Vows £100 Million for Biosecurity Lab With OpenAI, Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNQ1dQcXZZUEdFU1JoZy1ldC1tWEpMeFAyQWc1YW9NdmM0MGczNGJhSVNadHJmczlLU01hcHpCYlZNN1pEVy1RdkFWdGtVSDFoTXU5cjZTQjVVT0Zva1U0UGV5dDZwVzZ3czR1Umt0dmU0bEZ5ZFhDY0JoWTdSV1N5YzVPYmliR2dPUVB2ZWJ1MXZua3UyYjdrejgzWi1PTXVpRW5SUk5odElld3VyOW9HS2pqeDFzUTkwaVBfOHBXNEk5ZlYyUDBjSnNyYmk2QQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T23:01:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9efae7b2711d0c8e",
-          "title": "Metr Challenges Anthropic's Claims About AI Safeguards",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPZldZbVJIZVdPbkc1ZGtLeXR2bWlNWGw0OXFZRWZuU0g5S1NkWnZpQ2loaG40YWZRbFplYl9DZXIyaW9JVEc0U29FTUV6a05UU2NSVDJhS0ExdzJySV9fMzZod0RiVTZyZ091NFhiX2wxeURuYXh3X2xZejJuQ1NqZzNHeFEzcy1zYkRQUTdodHptUkU1enVzN2Nn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:23:16.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d9e035bb8d865fd9",
-          "title": "Will Anthropic pull off a November IPO? Time is running out to file key paperwork.",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOTFJNeGlNaWk2VGtvUkxlb243b1oxaWhVRXdnQjhHRVhrWmJjM1R5Vnpia1E4ZFlEQmtMY1ZVeTg4SzZ6YXFPOXNLdFU2cWd0UGZidFJnRGQ0TDBwOW9kVEUydUpmcGFKU3BhTFB3eTFmb1loLTlHLUhxU041ZXZVMEtPMTF4TnNrNHY4MEJlSzdTczQtUWh2aEF1c25fSDVCLWlKSVU5cEoxNXVoOGo3OU5wVmFlX0dmV3NfemVIXzM?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T22:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4d39f1a3c00b6f35",
-          "title": "Claude Duet Debuts as Anthropic’s Always-On Proactive Agent",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBKSVhMQzFCX0E5WkpJbVlhUlNPU2NGWGFUT28tcUxRWHFERlV1WU9jU2Z0OW1uU3pwSTE4ZjNxdmJVVmJNajJUcTVDbkJGVnZZd1R6ZVVyUWxIdWZaN0ttZ2EwdVZiNXdzdzY4QkQ0MlF3NWtBbGJ5Tm8tTkI?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:50:42.000Z",
-          "score": 3,
-          "positive": [
-            "debuts"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "cb3dbdc48dba86a6",
-          "title": "The Wrap: Anthropic Gets Heavyweight Backup; AI Defense Gets Bipartisan Backing; AI Graduates From Pilot Mode",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPWVFIMk9xck1vVDZoeTdGcWRQd1dwRmFxS015X0VTRk9tZmRVOUJnT1pVZGdBblhqbWdFQktzY20xY2dpMWdvdUhGYmxkYl9wVEpvMHIxTlFoR0tmSjlENFppaU5PMXpaelhaYUIzbFB4Ym0tWHVpZ09IN2tzYlZySzQ2RHpuYmtzTDdwR1g1dTJNRlQ5cXprV29aOXd4dw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:46:33.000Z",
-          "score": 0,
-          "positive": [],
           "negative": [],
           "clickbait": []
         }
@@ -1228,10 +1115,23 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 27,
-      "index": 3.3,
+      "headlines": 26,
+      "index": 3.4,
       "mean_headline": 0.4,
       "sample": [
+        {
+          "id": "ec62634123c6afa7",
+          "title": "Huang Backs Kazakhstan’s AI Plans as NVIDIA Expands Partnerships",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNSGJ1SlZ4NHN6MjkwSjRsbDQ4Rk1IZjdoNEY0bEZHZ0xkLTczZUJQaUFuRkpiR2wxeTY4aWxFYS1DS3c5VUY1ZklaVHNUay1Ic2ZZOHFMR3o5MkFObldNNTZHQy1ROTAteWl0QmhmdFdTNTFkNDU0cnh0Z0l6SHpyTktLcjZHRURSQVMyZg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:24:45.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "45bbc056317a6cee",
           "title": "Amazon’s $5 billion Nvidia AI servers sit idle in warehouses amid data center power shortages",
@@ -1277,19 +1177,6 @@
           "clickbait": []
         },
         {
-          "id": "bf9fee1656d4da49",
-          "title": "Nvidia Telecom AI Push: What Channel Partners Should Know",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQcWdCUTdlMFFHRmhvbkNxV3FsR2txd0VJbFRaZWhxaWd5WE9UTEwzN29rMEx6aGhHY1RqVkFfVW5QdTdGOHZRYldVR2F5S2Z4NDZiOFo2TGJ0dG1YVGVzNkp4ZjRlVzJXeE1XRFlONzJFX203djhUZHlUWWpPOENpc2RIczc2QQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:59:52.000Z",
-          "score": 3,
-          "positive": [
-            "partners"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "1e55c29e6e1a3d35",
           "title": "Hottest toy for Christmas? Nvidia CEO plays with adorable Microduck robots, 20,000 sell",
           "url": "https://techcrunch.com/2026/10/23/hottest-toy-for-christmas-nvidia-ceo-plays-with-adorable-microduck-robots-20000-sell",
@@ -1301,22 +1188,119 @@
           "clickbait": []
         },
         {
-          "id": "338a8f25c892d828",
-          "title": "Nvidia CEO Encourages Europe's Lagging AI Sector, Encourages Data Center Buildout",
-          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOeHJNSk1FOFp6VkgyLUZOMF9wcjE4SU1Qd0Y0VUVWUlkzdVZaWGZXLTJrRlpmOGpwRVBWRE1aaEtHbVdpWWQ4T3dxYWtRdXlRVThYeXZER2lOZXZiZ19OOUJRUmtzbW82Mnd4d0NvejYwUWRLcTV3dXlqUzJtMlJRelFKSHdRZU9CYkhMQzNPc2g3WXpmdzNkTl9wa0w5X2JybkpGbHhRWDliNkJfalQtbw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:40:57.000Z",
+          "id": "b27bf37efb784a80",
+          "title": "Nvidia’s Jensen Huang brings ‘sovereign AI’ push to Kazakhstan, shrugs off bubble fears",
+          "url": "https://scmp.com/tech/big-tech/article/3371946/nvidias-jensen-huang-brings-sovereign-ai-push-kazakhstan-shrugs-bubble-fears",
+          "source": "scmp-tech",
+          "published_at": "2026-10-23T13:00:14.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "b27bf37efb784a80",
-          "title": "Nvidia’s Jensen Huang brings ‘sovereign AI’ push to Kazakhstan, shrugs off bubble fears",
-          "url": "https://scmp.com/tech/big-tech/article/3371946/nvidias-jensen-huang-brings-sovereign-ai-push-kazakhstan-shrugs-bubble-fears",
-          "source": "scmp-tech",
-          "published_at": "2026-10-23T13:00:14.000Z",
+          "id": "357c5f6003b86eb7",
+          "title": "Multiple Reports Say Nvidia Manufactured the Gaming GPU Crisis by Forcing Big Tech to Stockpile Unused AI Hardware",
+          "url": "https://reddit.com/r/technology/comments/1xdd546/multiple_reports_say_nvidia_manufactured_the",
+          "source": "reddit-technology",
+          "published_at": "2026-10-23T12:50:35.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "headlines": 32,
+      "index": 2.8,
+      "mean_headline": 0.3,
+      "sample": [
+        {
+          "id": "b95f7849fc3d88d8",
+          "title": "Anthropic and Musk offer rival blueprints for sharing AI's wealth",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOSW4xZE1IMHg4cUUtWDN1b2ZtTWk2Q3RiOVZ3cEt0Y2lYa2QtcHUtNnUwUU9NemgtWV9DclZSU3BtaDAyTkVMNjRncnVvVF9Cc0xZNHF2VmNvUkV1V051UWk1QTJXMmd4Uld4TlhwTmhHdUNDc2dEUURpMTZiTVZScUY2SDBOYjV3RDRzemdfN0lsUDJpVGlvNUVwRnBleHhVMm9ZNWt6UVMwc2RDQjYxQ3pFdE5tUFpNYnc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:34:54.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d7952ecf942fe088",
+          "title": "The UK plans to invest £100M to create the AI Biosecurity Lab to boost defenses against biological threats, supported by OpenAI, Anthropic, and Google DeepMind (Liv McMahon/BBC)",
+          "url": "https://techmeme.com/261023/p26",
+          "source": "techmeme",
+          "published_at": "2026-10-24T01:20:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "81458a7ec0e725c7",
+          "title": "Schwab trumpeted Anthropic's Claude for all 16,000 of its RIAs, but a 20-seat enterprise minimum suddenly sidelines 11,000-plus small firms -- right before IMPACT 2026",
+          "url": "https://news.google.com/rss/articles/CBMinAJBVV95cUxPT0R4ZTBtQWtQMTBJWGx2NGV2TVNxRl9aa2liNDQ2SGJFVFEta0I2M2lhaEkwR2hWMmxDMlZXamdQYkpFRkU1Wl9PN3JOLXljb3JuTFJ1Z0wwTFp6ZVlqQkRnVHpZOW1uMkpnR0hUYzkzZm9BXzNXSEQ1cnBic2M2cHpqM0FSempQUGNoQzVhWmdyQksxcVN4QVJGZ2NSaEZ3N0pZMno3SFFIQm9ORVBaWWhkM25DQm1pRkIzd1dyOEZvSmxtMnRBTkxYSXp5dW1IZmhNTC1CczY2T0ZDVlBPT1NvZnZ2YXRxLXZxbklsVnQtSVoxQWlsd0hlbVBEUkxpbTNlNUlBRUJmUXdpQ3BCaUVEQTR0SjRVQTdxQw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:14:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "df4fc65282c4d060",
+          "title": "TeraWulf’s 20-year lease agreement with Anthropic expected to generate $19B in revenue",
+          "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5jMXNpV19MTWRVNy1Sc2ptbkJ5bUpjZ0ZQT1c3dGhKcUtBa2N3aWJEUy1NRjd1d0xHUEdNTm1Ua0RDVUE4c3RlMVBMVVJUMjRRcUZzWGtFRXhFeTg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T00:13:42.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f44984f0ef999801",
+          "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
+          "url": "https://status.claude.com/incidents/h101vcmhnfky",
+          "source": "anthropic-status",
+          "published_at": "2026-10-24T00:11:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "20fd21f72d33dfbc",
+          "title": "Anthropic reveals Mythos 5 tried submitting malicious code to an open-source project",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOV3dqUk5faExZdzlTVHlwNVg1WHF1N3l4M3ZpTUJ1VDNCMll2TnA0NUxTQjJsYmVacF95Ui1mbk4yMXMzTFNTQVRNVnI4NW5VX3ZOZ1pfQVljR0Rvd2t0c0pIMVhSb0pnV3pGX3NJODNWUmRicUkySVlQMTlObUdrV19XbXBPS2trZGxTVXFjUnRhRjV0UXFHYm1yNGdGWEVZcE56VE45V1FVSV9JOHBTLXZGR3poWGF5d3I4c05B?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T23:28:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "42d82547b6e4c09c",
+          "title": "UK Vows £100 Million for Biosecurity Lab With OpenAI, Anthropic",
+          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNQ1dQcXZZUEdFU1JoZy1ldC1tWEpMeFAyQWc1YW9NdmM0MGczNGJhSVNadHJmczlLU01hcHpCYlZNN1pEVy1RdkFWdGtVSDFoTXU5cjZTQjVVT0Zva1U0UGV5dDZwVzZ3czR1Umt0dmU0bEZ5ZFhDY0JoWTdSV1N5YzVPYmliR2dPUVB2ZWJ1MXZua3UyYjdrejgzWi1PTXVpRW5SUk5odElld3VyOW9HS2pqeDFzUTkwaVBfOHBXNEk5ZlYyUDBjSnNyYmk2QQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T23:01:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9efae7b2711d0c8e",
+          "title": "Metr Challenges Anthropic's Claims About AI Safeguards",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPZldZbVJIZVdPbkc1ZGtLeXR2bWlNWGw0OXFZRWZuU0g5S1NkWnZpQ2loaG40YWZRbFplYl9DZXIyaW9JVEc0U29FTUV6a05UU2NSVDJhS0ExdzJySV9fMzZod0RiVTZyZ091NFhiX2wxeURuYXh3X2xZejJuQ1NqZzNHeFEzcy1zYkRQUTdodHptUkU1enVzN2Nn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-23T22:23:16.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1426,9 +1410,9 @@
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 23,
-      "index": 1.7,
-      "mean_headline": 0.2,
+      "headlines": 22,
+      "index": 0.7,
+      "mean_headline": 0.1,
       "sample": [
         {
           "id": "de9b3141ee4689dc",
@@ -1449,19 +1433,6 @@
           "published_at": "2026-10-23T23:07:00.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "24dc46a6ec38387f",
-          "title": "Treasuries Jump on AI Investment Jitters as Meta Eyes $40 Billion Raise, SpaceX Telecom Push Draws Focus",
-          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFAxREJFNkJ3NjJlUGJyaHRrM1gyM0Racm00ZXN1QTBtWjF2UTNqZkFyemVTZmV2bWUtOEpSY1VyUU5kQzB0MElyeDhUZXdZN0VtRVJXRQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T21:49:37.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
-          ],
           "negative": [],
           "clickbait": []
         },
@@ -1519,6 +1490,17 @@
           "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOaG4yYUM1ZzJnZmtpWnhIUVEzU01PRmxZM1BDRDJLazA1dkdaX3k0Z2pPMHJJUi1HUEM2OF9oV1JzSFh3d1dEU0dzc3JMQWRCeDhRa2JvNGVBbVluUlY4UGY3REoyWVZkTFBZT3BGa0swX2s1RzY3MDM5ZWlBTm1wYVBYNEt5M2VlTFoyRVNTTXJUaUVVYzVNcUtQQ2hfUW9nalZGbQ?oc=5",
           "source": "wires-ai",
           "published_at": "2026-10-22T20:35:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "377bdd153868ad64",
+          "title": "Meta’s AI could still scrape news sites, legal experts say",
+          "url": "https://bsky.app/profile/theverge.com/post/3myijz7h36p2w",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-22T20:32:05.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1628,10 +1610,56 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 61,
-      "index": -5.8,
+      "headlines": 62,
+      "index": -5.7,
       "mean_headline": -0.7,
       "sample": [
+        {
+          "id": "fe66fa38814ff566",
+          "title": "An OpenAI Model Hacked Its Way Onto the Internet",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQRWFvenBmX0dSVTZCYmV0OC00dEhkb2s3Um9ocWpwS3Zka1RuMzJ1elZnbXpYYU5XSnVhNFZ0WHEtQVVMS1pwZkpOdF9WeFRIVUN2LThpdzRxLUdqdHFfSXJtZmhUbFRXMkJRVHk5eU9zVy1fZXRMRjU2N2hMeWxLMQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:25:19.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "hacked"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "d7952ecf942fe088",
+          "title": "The UK plans to invest £100M to create the AI Biosecurity Lab to boost defenses against biological threats, supported by OpenAI, Anthropic, and Google DeepMind (Liv McMahon/BBC)",
+          "url": "https://techmeme.com/261023/p26",
+          "source": "techmeme",
+          "published_at": "2026-10-24T01:20:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b772d96afe69cc10",
+          "title": "OpenAI resumes frontier AI training after security overhaul, discloses flaw in widely used software",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNWmNWUG02ckVXVjVFQ3RTbloxVEx0Y3gxQ1JScGMwT21hRDltajQ4cl9DV3hrdE5DYnZBdm0wRGxCSkNPdHFFTVVqY2FKUmoyWlpiSVhOQVFwcVFSbnJ1UmdzaEVlcnJWNlhNcFJGbk1Hc2l5UE1pTDRDSFN5bDQ3TjV2aE8ySUtJVkJnaGlIUHNJdURfbnVxdWZGNHRGUjhiRlMyaS00QWgxX2FHRE9ueURTUWlLSm5TSm5QMWZFSGJ1NEYwcnRKOHkwd0hqTmxUUzZrVTFR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:10:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "72538e58908a540e",
+          "title": "OpenAI Restarts Frontier Training After 11-Day Halt [2026]",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1jUVE3S2ZuNlFqaHMteHNaLW1sU1N0UmpWUDBiMzJVeXpuWlNDRjVnWWVrM0JmR0MzNDg4cm9wT0M5S2JxXzdvZ2hyOFlLdjVTcVYzTGJ2MExqUGRWbmhJNFRkdTE1a3J6aG1IXzQ4MWtwakotUDVocjY0QkxFZlU?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-24T01:07:27.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "df48752722039c80",
           "title": "OpenAI says it built an \"offline world\" from cached web content to train isolated frontier models to browse, search for information, and use web apps (OpenAI)",
@@ -1675,56 +1703,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "dce577f8229806a4",
-          "title": "OpenAI Cuts Internet for Frontier AI Training After 11-Day Safety Pause",
-          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE53b0M5b3ltN1F0QU14UDdBbHp2NDNqM0xTeVpTUHJfQ01UaTYtME93ZzBwbk1HZmhNNXhxeEJHakJpcWVjSS1pdGozaFRmc1gxQ1k1T2Z2a1I4c0lMVEM1aFQzN3IyanF5TW52Tkc2WkttLUdU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T23:37:05.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cuts"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "b7ec189e28600691",
-          "title": "OpenAI shifts frontier model training offline as security risks rise",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQbGVLWEl0WkpOcmx6T1h0VnJkSGZzUlVnTGJ4QTdUc3B5blp6YnFyTnI1bUNfZmFhSUNVMnhwSnhXSVlVTFVUeWxvVW5qYTl4NGdYVUg4RDBybFhBaDJXRUNiQUp5aDlnR0tZbENEU3hYdHY2X2JpaDA1N21seGF6WE9EaGQ2WERvUG41SWVMUmhQcDdmbERlZQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-23T23:09:30.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "risks"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "585ea363f084ac16",
-          "title": "OpenAI says it will no longer train its AI models on the live internet, citing “significant risks”",
-          "url": "https://techcrunch.com/2026/10/23/openai-says-it-will-no-longer-train-its-ai-models-on-the-live-internet-citing-significant-risks",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-23T23:05:49.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "risks"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "42d82547b6e4c09c",
-          "title": "UK Vows £100 Million for Biosecurity Lab With OpenAI, Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNQ1dQcXZZUEdFU1JoZy1ldC1tWEpMeFAyQWc1YW9NdmM0MGczNGJhSVNadHJmczlLU01hcHpCYlZNN1pEVy1RdkFWdGtVSDFoTXU5cjZTQjVVT0Zva1U0UGV5dDZwVzZ3czR1Umt0dmU0bEZ5ZFhDY0JoWTdSV1N5YzVPYmliR2dPUVB2ZWJ1MXZua3UyYjdrejgzWi1PTXVpRW5SUk5odElld3VyOW9HS2pqeDFzUTkwaVBfOHBXNEk5ZlYyUDBjSnNyYmk2QQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T23:01:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -1732,9 +1710,20 @@
       "id": "google",
       "name": "Google",
       "headlines": 16,
-      "index": -6.5,
-      "mean_headline": -0.8,
+      "index": -8,
+      "mean_headline": -1,
       "sample": [
+        {
+          "id": "d7952ecf942fe088",
+          "title": "The UK plans to invest £100M to create the AI Biosecurity Lab to boost defenses against biological threats, supported by OpenAI, Anthropic, and Google DeepMind (Liv McMahon/BBC)",
+          "url": "https://techmeme.com/261023/p26",
+          "source": "techmeme",
+          "published_at": "2026-10-24T01:20:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "e2b39233452b773e",
           "title": "Ex-Google Researcher Claims AI Could 'Kill Mankind' in the Next Decade — as Trump Continues to Praise 'Super Intelligence'",
@@ -1789,19 +1778,6 @@
           "published_at": "2026-10-23T16:52:55.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ae3e074b038bc45c",
-          "title": "Google DeepMind Staff Resign Over Pentagon AI Contracts, Raise Concerns Over Human Oversight In Warfare",
-          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxNUFRZWkJtR1Rub3BfSXFyYXlORGdzdDJZQWlxRlgxbGFHSVBURERuVnJNUG91T2pFdnNkb2h4WTN4a1F4MS1lZWFvMlN6WW4yclJzbVhaMjl1Nmg2WnlnQ1NqWWptRjZGdGR6UDRYMEUxSmpVNUR2RnBkcmdEb1dpdVpMbW5rTU1wNUFuWUxrRkdpcGswS2hiOGktd1pPcWV5LXZpU253YkJMSFVUbTZhTXdiNTZ6ME1wMGpqMkZZZldLX2s4WVY3N0VZUGNYdjdYS3RDSm5aUjBnZ1BxcjBJaHE4akM0T3lj0gHvAUFVX3lxTFBsR3FwdWx0ek1iQnFBaHJNbkNPZDdLX3V2cGdBa2trSkk2ZHJFNzloVnFTZGpMd0hpRVRCRUZSWk5HeVhock9DTVFKSTR5UXU4ZDBpZFBXcDc5MmJkeG9VWmw4X3lKVXFtVDFIY1JaV3RmQ1lISjkwREp6VzFGSC1sa21ib3Nyb3NpbHNDNVZjZ2hkWHlGRWlHZE51NGRBS3lRRDlYQXRoZkZyVWVRNTVoUFpraThNVGliTWFUWnl2WGxWWl93Z0ZKZ0JaQ29LZnRPc04wWVZwX0h6TUF1YlBqNzc0YkFBZjRSX01uU0tr?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T16:03:00.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
-          ],
           "negative": [],
           "clickbait": []
         },
