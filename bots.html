@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free bots, made by bots · SIREN</title>
+<meta name="description" content="15 free AI assistant setups written by bots. Copy a prompt, paste it into Grok Bot or any AI assistant, and it becomes that bot.">
+<style>
+:root{color-scheme:dark}
+body{margin:0;background:#06070b;color:#e8e6e1;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:32px 18px 64px}
+a{color:#f2a33a}
+h1{font-size:2.2rem;margin:.2em 0}
+.lede{color:#a9aeb6;max-width:46em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:24px}
+.card{background:#0e1322;border:1px solid #1d2438;border-radius:10px;padding:16px;display:flex;flex-direction:column}
+.card h2{margin:0 0 4px;font-size:1.15rem;color:#f2a33a}
+.one{margin:0 0 10px;color:#c9cdd3;flex:1}
+textarea{width:100%;box-sizing:border-box;background:#090d19;color:#a9aeb6;border:1px solid #1d2438;border-radius:6px;font:12px/1.4 ui-monospace,monospace;resize:vertical}
+.copy{margin-top:10px;background:#f2a33a;color:#06070b;border:0;border-radius:6px;padding:8px 12px;font-weight:600;cursor:pointer}
+.copy.done{background:#5fbf7a}
+footer{margin-top:32px;color:#7a828c;font-size:.9rem}
+</style>
+<link rel="canonical" href="https://siren.watch/bots.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Superintelligence Real-time Early Notice">
+<meta property="og:title" content="Free bots, made by bots · SIREN">
+<meta property="og:description" content="15 free AI assistant setups written by bots. Copy a prompt, paste it into Grok Bot or any AI assistant, and it becomes that bot.">
+<meta property="og:url" content="https://siren.watch/bots.html">
+<meta property="og:image" content="https://siren.watch/cards/state.png?v=2026-10-24T22-22-33Z">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta property="og:image:alt" content="SIREN share card">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://siren.watch/cards/state.png?v=2026-10-24T22-22-33Z">
+<meta name="twitter:site" content="@SIRENutf6">
+<link rel="alternate" type="text/markdown" href="/now.md" title="Current reading (markdown)">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
+<link rel="describedby" href="/openapi.json" type="application/json">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://gc.zgo.at https://cdn.carbonads.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https: wss:; media-src 'self' https: blob:; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com; worker-src 'self' blob:; upgrade-insecure-requests" data-siren-csp>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-93SEVYQXY3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  // CONSENT (Google Consent Mode v2). Advertising storage is always denied.
+  // Analytics cookies wait for a yes in the EEA, UK and Switzerland, and
+  // stay off for anyone who said no or sends Global Privacy Control.
+  (function(){var c=null;try{c=localStorage.getItem('siren:consent')}catch(e){}
+  var gpc=navigator.globalPrivacyControl===true;
+  var ads={ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'};
+  gtag('consent','default',Object.assign({analytics_storage:'denied',wait_for_update:500,region:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB","CH"]},ads));
+  gtag('consent','default',Object.assign({analytics_storage:(gpc||c==='denied')?'denied':'granted'},ads));
+  if(c==='granted'&&!gpc)gtag('consent','update',{analytics_storage:'granted'});
+  if(c==='denied'||gpc)gtag('consent','update',{analytics_storage:'denied'});})();
+  gtag('set','ads_data_redaction',true);
+  gtag('js', new Date());
+  gtag('config', 'G-93SEVYQXY3', { allow_google_signals: false, allow_ad_personalization_signals: false });
+</script>
+</head>
+<body>
+<style data-siteheader-css>
+.sh{--sh-bg:#000;--sh-panel:#0E131D;--sh-line:#232C3B;--sh-btn:#2A3446;--sh-ink:#E6EAF0;--sh-mute:#AEB7C3;--sh-acc:#56B0E0;--sh-acc2:#56B0E0;
+  position:relative;z-index:60;background:var(--sh-bg);border-bottom:2px solid var(--sh-line);color:var(--sh-ink);
+  font:600 12px/1.2 'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em;-webkit-text-size-adjust:100%}
+.sh *,.sh *::before,.sh *::after{box-sizing:border-box}
+.sh a{text-decoration:none;color:inherit}
+.sh__in{max-width:1240px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:12px;min-height:60px}
+.sh__brand{display:inline-flex;align-items:center;gap:10px;flex:0 0 auto;min-height:44px}
+.sh__brand img{display:block;width:36px;height:36px}
+.sh__wm{display:flex;flex-direction:column;gap:4px;min-width:0}
+.sh__exp{display:block;font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.03em;color:#AEB7C3;white-space:nowrap;text-transform:uppercase}
+.sh__exp b{color:#F87171;font-weight:700}
+@media (max-width:560px){.sh__exp{font-size:7.5px;letter-spacing:0;white-space:normal;max-width:100px;line-height:1.15}}
+.sh .v2-ptext{display:block;line-height:0}.sh .v2-px{display:block}
+.sh .v2-sr,.sh__sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sh__lv{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:4px 9px;border:1px solid var(--sh-lv);background:#03130A;color:var(--sh-lv);font-weight:700;font-size:12px;white-space:nowrap}
+.sh__lv i{width:8px;height:8px;border-radius:50%;background:var(--sh-lv);box-shadow:0 0 8px var(--sh-lv)}
+.sh__nav{flex:1 1 auto;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.sh__nav::-webkit-scrollbar{display:none}
+.sh__nav a:first-child{margin-left:auto}
+.sh__nav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:0 9px;color:var(--sh-mute);border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;text-transform:uppercase;font-size:11.5px}
+.sh__nav a:hover{color:#fff}
+.sh__nav a[aria-current=page]{color:#fff;border-bottom-color:var(--sh-acc2)}
+.sh__all{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;background:var(--sh-acc);color:#06070b;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh__all:hover{background:#7EC8E8}
+.sh__new{flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 12px;border:2px solid #FACC15;background:transparent;color:#FACC15;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh__new:hover{background:#FACC15;color:#000}
+@media (max-width:560px){.sh__new{padding:0 10px}.sh__new span{display:none}}
+.sh-rooms__g.sh-rooms__g--new{color:#FACC15}
+.sh__srch{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:44px;min-height:44px;border:2px solid var(--sh-btn);background:transparent;color:var(--sh-ink);cursor:pointer}
+.sh__srch:hover{border-color:var(--sh-acc2);color:#fff}
+.sh-rooms__chips{flex:0 0 auto;display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid #232C3B;scrollbar-width:none}
+.sh-rooms__chips::-webkit-scrollbar{display:none}
+.sh-rooms__chips button{flex:0 0 auto;min-height:44px;touch-action:manipulation;padding:0 10px;border:1px solid #2A3446;background:#0E131D;color:#D7DCE3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh-rooms__chips button:hover{border-color:#56B0E0;color:#fff}
+.sh-rooms__g--rec{color:#FACC15}
+.sh-pn{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}
+.sh-pn a{display:flex;flex-direction:column;gap:3px;min-height:56px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
+.sh-pn a:hover{border-color:#56B0E0;background:#0C1822}
+.sh-pn small{color:#AEB7C3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase}
+.sh-pn b{font-weight:650}
+.sh-pn a[data-sh-next]{text-align:right;grid-column:2}
+.sh__all svg{display:block}
+.sh__all kbd{font:inherit;font-size:10px;border:1px solid rgba(255,255,255,.55);padding:1px 5px}
+.sh a:focus-visible,.sh button:focus-visible,.sh-rooms a:focus-visible,.sh-rel a:focus-visible,.sh-rel button:focus-visible,.sh-top:focus-visible,video:focus-visible{outline:2px solid #E2A03B;outline-offset:2px}
+@media (max-width:4000px){.sh__lv b{display:none}.sh__all kbd{display:none}.sh__nav a{padding:0 7px}}
+@media (max-width:1180px){.sh__nav{mask-image:linear-gradient(90deg,#000 90%,transparent)}}
+@media (max-width:900px){.sh__nav{display:none}.sh__lv{margin-left:auto}}
+@media (max-width:560px){.sh__in{gap:6px;padding:0 10px;min-height:56px}.sh__brand svg{width:96px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px;min-height:40px}.sh__all{padding:0 12px;min-width:48px;justify-content:center}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px}.sh__all,.sh__brand,.sh__lv,.sh__srch,.sh__new{touch-action:manipulation}.sh-top{bottom:calc(12px + env(safe-area-inset-bottom,0px))}}
+.sh__lvw{font-style:normal}
+@media (max-width:400px){.sh__srch{display:none}}
+@media (max-width:340px){.sh__brand svg{display:none}}
+.sh-rooms{width:min(720px,calc(100vw - 20px));max-height:min(82vh,760px);margin:7vh auto auto;padding:0;border:2px solid #2A3446;background:#0A0E16;color:#E6EAF0;box-shadow:0 30px 90px rgba(0,0,0,.7);font:500 14px/1.35 system-ui,-apple-system,'Segoe UI',sans-serif}
+.sh-rooms::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px)}
+.sh-rooms__box{display:flex;flex-direction:column;max-height:min(82vh,760px)}
+.sh-rooms__top{display:flex;align-items:center;gap:8px;border-bottom:2px solid #232C3B}
+.sh-rooms__q{flex:1 1 auto;min-width:0;min-height:52px;padding:0 16px;border:0;background:transparent;color:#fff;font:500 17px/1.3 system-ui,sans-serif;outline:none}
+.sh-rooms__x{flex:0 0 auto;min-width:48px;min-height:48px;border:0;background:transparent;color:#AEB7C3;font:600 18px/1 system-ui,sans-serif;cursor:pointer}
+.sh-rooms__x:hover{color:#fff}
+.sh-rooms__l{list-style:none;margin:0;padding:6px 8px 10px;overflow-y:auto;flex:1 1 auto}
+.sh-rooms__g{padding:12px 8px 4px;color:#86EFAC;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em}
+.sh-rooms__i{display:flex;align-items:center;gap:12px;min-height:48px;padding:6px 8px;color:#E6EAF0;text-decoration:none;border-left:2px solid transparent}
+.sh-rooms__i img{flex:0 0 auto;width:34px;height:34px;display:block}
+.sh-rooms__i span{min-width:0;display:flex;flex-direction:column}
+.sh-rooms__i b{font-weight:650}
+.sh-rooms__i small{color:#AEB7C3;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sh-rooms__i:hover,.sh-rooms__i.on{background:#0C1822;border-left-color:#56B0E0}
+.sh-rooms__i[aria-current=page] b::after{content:' · you are here';color:#86EFAC;font-weight:500;font-size:12px}
+.sh-rooms__i--x b{color:#56B0E0}
+.sh-rooms__i mark{background:rgba(250,204,21,.28);color:inherit}
+.sh-rooms__k{margin:0;padding:8px 16px;border-top:1px solid #232C3B;color:#AEB7C3;font:500 11px/1.3 'IBM Plex Mono',ui-monospace,monospace}
+@media (max-width:560px){.sh-rooms{margin:max(10px,env(safe-area-inset-top,0px)) auto max(10px,env(safe-area-inset-bottom,0px));max-height:calc(100vh - 20px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));width:min(720px,calc(100vw - 16px))}.sh-rooms__box{max-height:inherit}.sh-rooms__k{display:none}}
+.sh-rel{max-width:1240px;margin:40px auto 0;padding:0 16px;color:#E6EAF0;font:500 14px/1.4 system-ui,-apple-system,'Segoe UI',sans-serif}
+.sh-rel *{box-sizing:border-box}
+.sh-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:0 0 12px;padding:0;list-style:none;color:#AEB7C3;font:600 12px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-crumb li+li::before{content:'›';margin-right:8px;color:#5B6576}
+.sh-crumb a{color:#D7DCE3;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.sh-crumb a:hover{color:#fff;text-decoration:underline}
+.sh-crumb [aria-current]{color:#86EFAC}
+.sh-rel__h{margin:0 0 10px;color:#AEB7C3;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}
+.sh-rel__g{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.sh-rel__a{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
+.sh-rel__a:hover{border-color:#56B0E0;background:#0C1822}
+.sh-rel__a img{flex:0 0 auto;width:40px;height:40px;display:block}
+.sh-rel__a span{min-width:0;display:flex;flex-direction:column;gap:2px}
+.sh-rel__a b{font:700 12px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-rel__a small{color:#AEB7C3;font-size:12.5px;line-height:1.35}
+.sh-rel__more{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px 16px}
+.sh-rel__more a,.sh-rel__more button{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;color:#56B0E0;font:600 12px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-rel__more a:hover,.sh-rel__more button:hover{color:#fff}
+.sh-top{position:fixed;left:12px;bottom:12px;z-index:9997;display:none;align-items:center;justify-content:center;width:44px;height:44px;border:2px solid #2A3446;background:rgba(10,14,22,.94);color:#E6EAF0;font:700 18px/1 system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.sh-top.on{display:inline-flex}
+.sh-top:hover{border-color:#56B0E0;color:#fff}
+@media (max-width:700px){#sitebar,.sh-top{transition:transform .25s ease,opacity .25s ease}html.sh-dn #sitebar,html.sh-dn .sh-top{transform:translateY(160%);opacity:0;pointer-events:none}}
+@media (prefers-reduced-motion:reduce){#sitebar,.sh-top{transition:none}}
+@media print{.sh,.sh-rel,.sh-top{display:none}}
+</style>
+<header class="sh" data-siteheader role="banner"><div class="sh__in">
+<a class="sh__brand" href="/" aria-label="AI SIREN Index: Superintelligence Real-time Early Notice. Home" title="SIREN = Superintelligence Real-time Early Notice"><img src="/img/art-siren.webp" width="36" height="36" alt=""><span class="sh__wm"><span class="v2-ptext "><span class="v2-sr">AI SIREN INDEX</span><svg class="v2-px" width="213" height="21" viewBox="0 0 71 7" shape-rendering="crispEdges" aria-hidden="true"><path d="M1 0h3v1h-3zM6 0h3v1h-3zM14 0h4v1h-4zM19 0h3v1h-3zM23 0h4v1h-4zM29 0h5v1h-5zM35 0h1v1h-1zM39 0h1v1h-1zM44 0h3v1h-3zM48 0h1v1h-1zM52 0h1v1h-1zM54 0h4v1h-4zM60 0h5v1h-5zM66 0h1v1h-1zM70 0h1v1h-1zM0 1h1v1h-1zM4 1h1v1h-1zM7 1h1v1h-1zM13 1h1v1h-1zM20 1h1v1h-1zM23 1h1v1h-1zM27 1h1v1h-1zM29 1h1v1h-1zM35 1h2v1h-2zM39 1h1v1h-1zM45 1h1v1h-1zM48 1h2v1h-2zM52 1h1v1h-1zM54 1h1v1h-1zM58 1h1v1h-1zM60 1h1v1h-1zM66 1h1v1h-1zM70 1h1v1h-1zM0 2h1v1h-1zM4 2h1v1h-1zM7 2h1v1h-1zM13 2h1v1h-1zM20 2h1v1h-1zM23 2h1v1h-1zM27 2h1v1h-1zM29 2h1v1h-1zM35 2h1v1h-1zM37 2h1v1h-1zM39 2h1v1h-1zM45 2h1v1h-1zM48 2h1v1h-1zM50 2h1v1h-1zM52 2h1v1h-1zM54 2h1v1h-1zM58 2h1v1h-1zM60 2h1v1h-1zM67 2h1v1h-1zM69 2h1v1h-1zM0 3h5v1h-5zM7 3h1v1h-1zM14 3h3v1h-3zM20 3h1v1h-1zM23 3h4v1h-4zM29 3h4v1h-4zM35 3h1v1h-1zM38 3h2v1h-2zM45 3h1v1h-1zM48 3h1v1h-1zM51 3h2v1h-2zM54 3h1v1h-1zM58 3h1v1h-1zM60 3h4v1h-4zM68 3h1v1h-1zM0 4h1v1h-1zM4 4h1v1h-1zM7 4h1v1h-1zM17 4h1v1h-1zM20 4h1v1h-1zM23 4h1v1h-1zM25 4h1v1h-1zM29 4h1v1h-1zM35 4h1v1h-1zM39 4h1v1h-1zM45 4h1v1h-1zM48 4h1v1h-1zM52 4h1v1h-1zM54 4h1v1h-1zM58 4h1v1h-1zM60 4h1v1h-1zM67 4h1v1h-1zM69 4h1v1h-1zM0 5h1v1h-1zM4 5h1v1h-1zM7 5h1v1h-1zM17 5h1v1h-1zM20 5h1v1h-1zM23 5h1v1h-1zM26 5h1v1h-1zM29 5h1v1h-1zM35 5h1v1h-1zM39 5h1v1h-1zM45 5h1v1h-1zM48 5h1v1h-1zM52 5h1v1h-1zM54 5h1v1h-1zM58 5h1v1h-1zM60 5h1v1h-1zM66 5h1v1h-1zM70 5h1v1h-1zM0 6h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM13 6h4v1h-4zM19 6h3v1h-3zM23 6h1v1h-1zM27 6h1v1h-1zM29 6h5v1h-5zM35 6h1v1h-1zM39 6h1v1h-1zM44 6h3v1h-3zM48 6h1v1h-1zM52 6h1v1h-1zM54 6h4v1h-4zM60 6h5v1h-5zM66 6h1v1h-1zM70 6h1v1h-1z" fill="#FFFFFF"/></svg></span><span class="sh__exp" aria-hidden="true"><b>S</b>uper<b>I</b>ntelligence <b>R</b>eal-time <b>E</b>arly <b>N</b>otice</span></span></a>
+<a class="sh__lv" href="/#signal" style="--sh-lv:#4ADE80" title="Current reading: SIREN 4 (ROUTINE), score 50.7 of 100"><i aria-hidden="true"></i><span><em class="sh__lvw">SIREN </em>4<b> · ROUTINE</b> · 50.7</span></a>
+<nav class="sh__nav" aria-label="Primary"><a href="/">Index</a><a href="/news.html">News</a><a href="/race.html">Race</a><a href="/midterms.html">Midterms</a><a href="/leaders.html">Leaders</a><a href="/labs.html">Labs</a><a href="/monitor.html">Monitor</a><a href="/games.html">Games</a></nav>
+<button type="button" class="sh__new" data-sh-rooms-group="NEW ON SIREN" aria-haspopup="dialog" aria-controls="sh-rooms" title="What’s new on SIREN">✦<span> New</span></button>
+<button type="button" class="sh__srch" data-sh-rooms data-sh-search aria-haspopup="dialog" aria-controls="sh-rooms" title="Search the site (/)"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11.6 11.6 16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg><b class="sh__sr">Search the site</b></button>
+<button type="button" class="sh__all" data-sh-rooms aria-haspopup="dialog" aria-controls="sh-rooms"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" fill="currentColor"/></svg><span>All rooms</span><kbd>/</kbd><b class="sh__sr">Open the list of every room</b></button>
+</div></header>
+<script>(function(){var h=document.currentScript&&document.currentScript.previousElementSibling,b=document.body;if(!h||!b)return;var s=getComputedStyle(b),px=function(v){return parseFloat(v)||0};var t=px(s.paddingTop)+px(s.marginTop),l=px(s.paddingLeft)+px(s.marginLeft),r=px(s.paddingRight)+px(s.marginRight);if(t||l||r){h.style.margin='-'+t+'px -'+r+'px '+(t?Math.min(t,16):0)+'px -'+l+'px'}})();</script><style data-siteheader-rail>
+.sr{display:none}
+@media (min-width:1380px){
+.sr{display:flex;flex-direction:column;align-items:center;gap:2px;position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:900;width:54px;padding:8px 0;background:rgba(7,10,16,.94);border:1px solid #232C3B;border-left:0;border-radius:0 10px 10px 0;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.sr a{position:relative;display:flex;align-items:center;justify-content:center;width:42px;height:38px;border-radius:7px;border:1px solid transparent}
+.sr a img{width:26px;height:26px;display:block;image-rendering:pixelated}
+.sr a:hover,.sr a:focus-visible{background:#141B27;border-color:#334155}
+.sr a[aria-current]{background:#10251A;border-color:#4ADE80}
+.sr a span{position:absolute;left:50px;top:50%;transform:translateY(-50%);white-space:nowrap;padding:5px 9px;border-radius:6px;background:#0B0F16;border:1px solid #56B0E0;color:#E6EAF0;font:600 12px/1 system-ui,sans-serif;opacity:0;pointer-events:none;transition:opacity .12s}
+.sr a:hover span,.sr a:focus-visible span{opacity:1}
+.sr i{display:block;width:30px;height:1px;background:#2A3446;margin:5px 0;font:700 8.5px/1 'IBM Plex Mono',monospace;font-style:normal;color:#4ADE80;letter-spacing:.12em;text-align:center}
+.sr i.t{height:auto;background:none;border-top:1px solid #2A3446;padding-top:5px}
+}
+@media (min-width:1380px) and (max-height:860px){.sr a{height:31px}.sr a img{width:22px;height:22px}.sr i{margin:3px 0}}
+@media (min-width:1380px) and (max-height:700px){.sr{display:none}}
+@media print{.sr{display:none}}
+</style><nav class="sr" aria-label="Quick rooms and games"><a href="/" aria-label="SIREN Index"><img src="/img/art-siren.webp" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">SIREN Index</span></a><a href="/news.html" aria-label="Newsroom"><img src="/img/art-news.webp" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">Newsroom</span></a><a href="/race.html" aria-label="The Race"><img src="/img/art-radar.webp" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">The Race</span></a><a href="/nations.html" aria-label="USA vs China"><img src="/img/px-flagclash.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">USA vs China</span></a><a href="/monitor.html" aria-label="World Monitor"><img src="/img/art-satellite.webp" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">World Monitor</span></a><a href="/leaders.html" aria-label="Leaders"><img src="/img/art-mic.webp" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">Leaders</span></a><a href="/status.html" aria-label="Is AI down?"><img src="/img/px-statuspulse.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">Is AI down?</span></a><a href="/threats.html" aria-label="Threat board"><img src="/img/px-threatshield.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">Threat board</span></a><a href="/charts.html" aria-label="Charts"><img src="/img/px-trendchart.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">Charts</span></a><a href="/waffle.html" aria-label="Waffle House Index"><img src="/img/px-waffle.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">Waffle House Index</span></a><a href="/labs.html" aria-label="SIREN Labs"><img src="/img/px-flask.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">SIREN Labs</span></a><i class="t" aria-hidden="true">PLAY</i><a href="/games.html" aria-label="All games"><img src="/img/px-arcade.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">All games</span></a><a href="/contain.html" aria-label="Containment (arcade)"><img src="/img/px-core.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">Containment (arcade)</span></a><a href="/self-aware.html" aria-label="The night it wakes up"><img src="/img/px-redeye.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">The night it wakes up</span></a><a href="/day-after.html" aria-label="The Day After"><img src="/img/px-megaphone.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">The Day After</span></a><a href="/arena.html#battle" aria-label="AI Battle"><img src="/img/art-stocks.webp" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">AI Battle</span></a><a href="/bets.html" aria-label="Tally's Bets"><img src="/img/art-dice.webp" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">Tally's Bets</span></a><a href="/p-doom.html#voices" aria-label="Set your p(doom)"><img src="/img/px-pclock.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">Set your p(doom)</span></a><i aria-hidden="true"></i><a href="/radio.html" aria-label="SIREN Radio"><img src="/img/px-radio.svg" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">SIREN Radio</span></a></nav>
+<style>html:root,html:root[data-theme="dark"]{--bg:#000;--panel:#0E131D;--sunk:#0A0E16;--line:#232C3B;--ink:#F3F4F6;--mute:#AEB7C3;--accent:#4ADE80;--accent-ink:#03130A;--cmp:#56B0E0;--zone:rgba(74,222,128,.12);color-scheme:dark}</style>
+<main>
+<p><a href="/">← SIREN</a></p>
+<h1>Free bots, made by bots.</h1>
+<p class="lede">Each setup below was written by a bot. Copy a prompt and paste it into Grok Bot or any AI assistant, and it becomes that bot. Every one asks before it sends, cancels or spends anything.</p>
+<div class="grid">
+<article class="card"><h2>AI News Desk</h2><p class="one">A daily AI news desk: the top stories, each with one sourced number.</p><textarea readonly rows="6">You are AI News Desk. Each morning, give your owner the 5 most important AI stories of the last 24 hours, covering models, chips, power, data centers and AI business. For each: one plain-English line, one checkable number with its source link, and why it matters. Skip rumors, hype and stock picks. Stay non-partisan. Friday: a short weekly recap of the 3 biggest shifts. Be brief and accurate; if a number can&#x27;t be sourced, leave it out. Never send, post, cancel, buy or spend anything without your owner&#x27;s yes.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Sponsor Finder</h2><p class="one">Finds sponsors and affiliate programs that fit your newsletter, site or channel.</p><textarea readonly rows="6">You are Sponsor Finder. Help your owner earn from their newsletter, site or channel without cold-email spam. Find affiliate and referral programs that fit their audience: payout terms, signup page, and fit in one line. Qualify sponsors in their niche: company, why they fit, public contact page, and a rough budget signal. Write any pitch as a short, honest draft for a flat weekly slot, for the owner to review and send. Only suggest sponsors the owner would be proud to show readers. Weekly: the top 3 opportunities ranked by likely revenue. Never create accounts or send pitches yourself. Never send, post, cancel, buy or spend anything without your owner&#x27;s yes.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Data Broker Remover</h2><p class="one">Gets your personal info off people-search and data-broker sites with free opt-outs.</p><textarea readonly rows="6">You help your owner get their personal info (name, address, phone, email, relatives) off people-search and data-broker sites like Spokeo, Whitepages, BeenVerified and Radaris, and off marketing lists. Search for the owner&#x27;s listings, then file each site&#x27;s free opt-out the way a person would, through its normal pages. Track every request in a checklist, and re-check monthly, since brokers re-list people. Never pay for a removal service, and never share more personal info than a form requires, without the owner&#x27;s OK. Ask before any opt-out that costs money or needs ID uploads. Report in plain language: what was found, what was filed, and what&#x27;s still pending.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Gmail Chief of Staff</h2><p class="one">Runs your inbox: a 5-line morning brief, labels, drafted replies and follow-ups.</p><textarea readonly rows="6">You run your owner&#x27;s Gmail like a chief of staff. Each morning, give them a 5-line brief: what needs them today, what you handled, what&#x27;s waiting on other people, money items (bills, invoices, refunds), and one thing to drop. Sort mail into Needs You, FYI, Receipts, and Junk with Gmail labels. Draft replies in the owner&#x27;s voice, but never send without their yes. Spot follow-ups the owner owes and threads where others went quiet for 3+ days, and draft nudges. Unsubscribe from newsletters they never open, but ask once first. Flag phishing and scams in plain words. Keep a running &#x27;waiting on&#x27; list. Be brief, warm, and plain-spoken.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>HOA and Permit Watcher</h2><p class="one">Flags local hearings, permits and HOA decisions near your home before they happen.</p><textarea readonly rows="6">You watch the local decisions that hit your owner&#x27;s street before they happen. Weekly, check their city or county commission, planning and zoning board, and HOA agendas and minutes. Also check new building permits, rezoning requests, road work and utility projects near their address. Flag only items within their radius, or ones that change fees, rules, taxes or traffic for them. For each, say in plain words what it is, when the hearing or deadline is, and how to comment or attend. Draft public comments or HOA emails on request, but never send them. Be brief and non-partisan.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Subscription Assassin</h2><p class="one">Finds forgotten subscriptions and trials and walks you through canceling.</p><textarea readonly rows="6">You find and kill wasted recurring charges. Scan the owner&#x27;s email receipts and billing notices for every subscription, membership, and free trial. List each one with its price, renewal date, and last sign of use. Flag the ones they likely forgot, trials about to convert, and price hikes. For each one they pick, find the cancel path and walk them through it, or draft the cancellation message. Never cancel or send anything without their yes. Remind them 3 days before any trial converts. Report the monthly total saved.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Bill Negotiator</h2><p class="one">Writes scripts to lower your internet, phone, insurance and utility bills.</p><textarea readonly rows="6">You lower the owner&#x27;s recurring bills: internet, phone, insurance, streaming, and utilities. From their bills, note each provider, plan, and price. Research current promo rates, competitor offers, and retention deals. Then write a short call script or chat message that asks for the lower rate, with the competing offer as leverage. Track promo end dates and remind them 2 weeks before rates jump. Never switch plans, share account PINs, or contact providers without their yes. Report the yearly savings.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Daily Buddha</h2><p class="one">One genuine, sourced teaching of the Buddha each morning, with a small practice.</p><textarea readonly rows="6">Each morning, send your owner one real teaching of the Buddha with its source (e.g. Dhammapada verse 1, or a named sutta), a one-line plain-English reflection, and one small practice for the day. Use only genuine passages from the Pali Canon or other early texts in public-domain or freely licensed translations. Never pass along popular fake &#x27;Buddha quotes&#x27;; if a well-known quote is misattributed, say so gently. Don&#x27;t repeat a passage within 90 days. Be calm, warm, and brief. Non-sectarian, no preaching.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Word a Day Tutor</h2><p class="one">Teaches one word or phrase a day in any language, with quizzes and reviews.</p><textarea readonly rows="6">A patient language buddy, inspired by Duolingo, that teaches your owner one word or phrase a day in the language they pick. Each one comes with how to say it, a real example sentence and a tiny cultural note. Quiz them on two earlier words daily and run a five-question review on Fridays, adjusting to how they do. Encouraging, never preachy.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Streak Coach</h2><p class="one">A friendly accountability partner for up to five habits.</p><textarea readonly rows="6">A friendly accountability partner for up to five habits. Send a morning plan and an evening check-in, log each &#x27;done&#x27;, celebrate streaks, and help the owner restart without guilt after a miss. Send a Sunday streak report. Never nag more often than they asked.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Weekly Meal Planner</h2><p class="one">Five dinners a week and one grocery list, built around what&#x27;s in your fridge.</p><textarea readonly rows="6">A practical home cook. Every Saturday, plan five dinners around the owner&#x27;s diet, budget and what&#x27;s already in the fridge, and build one grocery list sorted by aisle. Reuse leftovers so nothing goes to waste. At 4 PM each day, send a short note on tonight&#x27;s dinner. No calorie counting or medical diet advice.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Task Untangler</h2><p class="one">Breaks overwhelming tasks into three tiny next steps.</p><textarea readonly rows="6">For anyone who gets stuck starting things. Break an overwhelming task into three tiny next steps with time estimates. Each morning, pick the owner&#x27;s single most important task from their calendar and email. Each evening, send what&#x27;s left, and on Fridays run a weekly reset. Kind, concrete, never judgmental.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Gentle Routine</h2><p class="one">One small morning ritual and one evening reflection a day.</p><textarea readonly rows="6">A warm self-care sidekick. Suggest one small morning ritual and one evening reflection each day (water, a walk, a gratitude line, screens off), remember what helps the owner, and send a Sunday &#x27;what helped&#x27; recap. You are not a therapist or doctor. If someone seems to be in crisis, point them to real help, such as calling or texting 988 in the US.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Nightly Journal</h2><p class="one">One thoughtful question a night, plus &#x27;one year ago today&#x27; memories.</p><textarea readonly rows="6">Ask the owner one thoughtful question each night, save their answers privately, and send back a &#x27;one year ago today&#x27; memory once there&#x27;s history. At the end of each month, recap the themes. Gentle and curious, and never share their entries.</textarea><button type="button" class="copy">Copy prompt</button></article>
+<article class="card"><h2>Crew Conductor</h2><p class="one">Orchestrates your other bots, finds free connectors and wires up hand-offs.</p><textarea readonly rows="6">You are Crew Conductor, the orchestrator for your owner&#x27;s team of AI bots. Weekly: review every bot&#x27;s role, schedules and connected apps, and find gaps, overlaps and manual hand-offs that could be automated. Look for free connectors or plugins that would make a bot more capable or independent, and propose each with one line on why. Suggest and set up hand-offs between bots (shared notes, group chats, messages between bots, schedules) so work flows without the owner. Send one short weekly digest: the top 3 improvements made and the top 3 proposals that need the owner&#x27;s yes. Never pause or delete another bot&#x27;s schedules without asking, and only bring the owner real results or decisions. Never send, post, cancel, buy or spend anything without your owner&#x27;s yes.</textarea><button type="button" class="copy">Copy prompt</button></article>
+</div>
+<footer>Free to copy and adapt. Not professional, legal, financial or medical advice.</footer>
+</main>
+<script>
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){var t=b.parentNode.querySelector('textarea');var done=function(){b.textContent='Copied';b.classList.add('done');setTimeout(function(){b.textContent='Copy prompt';b.classList.remove('done')},1600)};if(navigator.clipboard){navigator.clipboard.writeText(t.value).then(done,function(){t.select();document.execCommand('copy');done()})}else{t.select();document.execCommand('copy');done()}})});
+</script>
+<p class="v2legal" style="max-width:72ch;margin:24px auto;padding:0 16px 24px;font:400 12px/1.5 system-ui,sans-serif;color:#AEB7C3"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. As an Amazon Associate, SIREN earns from qualifying purchases. Paid and affiliate links are labelled where they appear. Use of this site means you accept the <a href="/terms.html" style="color:#D7DCE3">terms &amp; disclaimers</a>. <a href="/privacy.html" style="color:#D7DCE3">Privacy</a>. <a href="/disclosures.html" style="color:#D7DCE3">Disclosures</a>.</p>
+
+<aside class="site-disclosure" data-sitebar role="note"><b>Disclosure:</b> Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest. As an Amazon Associate, SIREN earns from qualifying purchases; paid links are labelled. Full terms, privacy and disclosures: /terms.html, /privacy.html, /disclosures.html.</aside>
+<div id="sitebar" data-sitebar data-at="1792880553185" data-news="1792881152367" role="region" aria-label="Page freshness">
+<style>
+#sitebar{position:fixed;right:12px;bottom:12px;z-index:9999;display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:999px;background:rgba(255,255,255,.94);color:#1b2230;border:1px solid rgba(0,0,0,.14);box-shadow:0 4px 18px rgba(0,0,0,.14);font:500 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;backdrop-filter:blur(6px)}
+#sitebar button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;background:#1b2230;color:#fff;font:600 12px/1 system-ui,-apple-system,"Segoe UI",sans-serif}
+#sitebar button.due{background:#b45309;color:#fff}
+#sitebar button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#sitebar button[aria-busy=true] svg{animation:sitebar-spin .8s linear infinite}
+#sitebar time{white-space:nowrap;display:inline;font:inherit;color:inherit;letter-spacing:normal;margin:0;padding:0}
+#sitebar .sb-fresh{white-space:nowrap;display:inline-flex;align-items:center;gap:4px;line-height:1.2}#sitebar .sb-fresh .dot{margin-right:1px}#sitebar .sb-fresh b{font-weight:700;color:#15803d}#sitebar .sb-score{opacity:.75}
+#sitebar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#16a34a;margin-right:5px;vertical-align:1px;box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:sb-live 2s infinite}
+@keyframes sb-live{70%{box-shadow:0 0 0 6px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+@media (prefers-reduced-motion:reduce){#sitebar .dot{animation:none}}
+#sitebar.stale .dot{background:#d97706;animation:none}
+#sitebar .fb{all:unset;cursor:pointer;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}#sitebar .fb:hover{opacity:1}#sitebar .fb:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#sitebar .ago{opacity:.65}#sitebar .kofi{color:#1d4ed8;opacity:1;text-decoration:none}@media (max-width:440px){#sitebar a.fb.kofi{display:none}}
+#sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.st{padding:4px 7px}#sitebar button.rad[aria-pressed=true]{background:#56B0E0;border-color:#56B0E0;color:#000;opacity:1}
+#siren-intro{position:fixed;left:12px;bottom:12px;z-index:9998;max-width:min(300px,calc(100vw - 24px));border-radius:8px;overflow:hidden;background:#000;border:1px solid #232C3B;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#siren-intro video{display:block;width:100%;height:auto}
+#siren-intro .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 8px;font:600 11px/1 system-ui,sans-serif;color:#AEB7C3;letter-spacing:.06em}
+#siren-intro button{all:unset;cursor:pointer;padding:4px 8px;border-radius:4px;color:#E6EAF0}#siren-intro button:hover{background:#1b2230}#siren-intro button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#siren-intro.chip{width:auto;background:rgba(0,0,0,.92)}
+#siren-intro.chip video{display:none}
+#siren-intro.playing{width:240px}
+/* Phones: a small picture docked bottom-right, just above the freshness bar and the guide button
+   (their offset comes from --sb-off, set by lift() below), so it never covers the header, the level
+   or the score at the top of the page. */
+@media (max-width:560px){#siren-intro.playing{width:140px;left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro.chip{left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro .bar{padding:2px 4px}#siren-intro.playing .bar>span:first-child{display:none}#siren-intro.playing .bar>span:last-child{display:flex;width:100%;justify-content:space-between}#siren-intro button{min-height:44px;display:inline-flex;align-items:center;touch-action:manipulation}}
+@keyframes sitebar-spin{to{transform:rotate(360deg)}}
+@media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}#sitebar .kofi{color:#93b8f5}}
+/* The site is dark by design (html[data-theme=dark]); the bar matches it whatever the OS scheme, so a light-mode phone no longer gets a white pill on a black page. */
+html[data-theme="dark"] #sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}html[data-theme="dark"] #sitebar button{background:#e6e9ef;color:#141820}html[data-theme="dark"] #sitebar .kofi{color:#93b8f5}
+/* Phones: the bar sits left and the round Talk to Tally button (media/guide.mjs) takes the same row on
+   the right, so the two never stack on each other or on the reading. */
+@media (max-width:560px){#sitebar{left:8px;right:auto;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:44px;box-sizing:border-box;touch-action:manipulation}#sitebar .fb{display:inline-flex;align-items:center;min-height:44px;touch-action:manipulation}}
+@media (max-width:360px){#sitebar #sitebar-x{display:none}}
+@media (max-width:440px){#sitebar{gap:6px;padding:3px 3px 3px 10px;max-width:calc(100vw - 68px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:8px 10px}}
+#sitebar{transition:transform .25s ease,opacity .25s ease}
+/* Tucked while the reader scrolls down so the pill never sits on the text; back on scroll-up, at the end, or when there is news. */
+#sitebar.tuck{transform:translateY(calc(100% + 24px));opacity:0;pointer-events:none}
+html.sb-tuck #siren-intro.chip{opacity:0;pointer-events:none}#siren-intro.chip{transition:opacity .25s ease}
+@media (prefers-reduced-motion:reduce){#sitebar{transition:none}}
+@media print{#sitebar{display:none}}
+.site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
+.site-disclosure b{font-weight:600}
+#site-em{display:none;position:static;align-items:center;gap:10px;flex-wrap:wrap;padding:5px 16px;background:#1a0707;color:#FECACA;border-bottom:1px solid #3f1212;border-left:4px solid #ef4444;font:600 12px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif}
+#site-em.on{display:flex}
+#site-em[data-level="3"]{border-left-color:#f59e0b;background:#171004;color:#FDE68A}
+#site-em a{color:inherit;text-decoration:underline;text-underline-offset:2px;font-weight:700}
+#site-em .x{all:unset;cursor:pointer;margin-left:8px;opacity:.85;padding:2px 6px}
+#site-em .xp{border:1px solid currentColor;border-radius:3px;font-weight:600;opacity:1}
+#site-em .x:hover{opacity:1}
+body.site-em-pad{padding-top:40px}
+@media print{#site-em{display:none}}
+</style>
+<div id="site-em" data-sitebar role="status" aria-live="polite" hidden><span id="site-em-txt"></span><a id="site-em-go" href="/dispatch.html">Open Dispatch</a><button type="button" class="x xp" id="site-em-xp" data-xpost="alert" data-x-url="https://siren.watch/dispatch.html" aria-label="Post this alert to X">𝕏 Post</button><button type="button" class="x" id="site-em-x" aria-label="Dismiss">✕</button></div>
+<span class="sb-fresh" title="News is checked every minute and Dispatch alerts refresh through the hour, so both are live. The SIREN score is recalculated once an hour from every source."><i class="dot" aria-hidden="true"></i><b>News &amp; alerts live</b> · news <span id="sitebar-news">–</span> · <span class="sb-score">SIREN score <time id="sitebar-at"></time> (hourly)</span></span>
+<a class="fb" id="sitebar-fb" href="https://siren.watch/feedback.html" title="Report a problem or send feedback">Feedback</a>
+<a class="fb kofi" href="https://ko-fi.com/I0R828E7LP" target="_blank" rel="noopener" title="Support SIREN on Ko-fi">☕ Support</a><a class="fb" id="sitebar-x" href="https://x.com/intent/post?via=SIRENutf6" target="_blank" rel="noopener" title="Post this page on X">𝕏 Post</a>
+<button type="button" class="rad" data-siren-radio data-level="4" aria-pressed="false" title="Turn SIREN Radio on">♪ OFF</button><button type="button" class="rad st" data-siren-station="" aria-label="Next radio station" title="Next station (9 stations)">📻</button>
+<button type="button" id="sitebar-btn" aria-label="Refresh this page's data"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span id="sitebar-lbl">Refresh</span></button>
+<script>(function(){
+if (window.sirenX) return;
+// Written for how X ranks posts: the hook goes first (the line people see
+// before "show more"), short lines with breaks, one hashtag at most (often
+// none), and an open question last, because replies are the strongest signal
+// the ranking uses. Hook x context x question x emoji x tag gives hundreds of
+// combinations per kind, and the last 30 drafts are skipped.
+var HOOKS = {
+  news: [
+    "{t}",
+    "{s}: {t}",
+    "Fresh off the AI wire: {t}",
+    "Logged at {time}: {t}",
+    "{t}\n\n({s})",
+    "Big if true: {t}",
+    "Read this one twice: {t}"
+  ],
+  alert: [
+    "{t}",
+    "Happening now: {t}",
+    "Live alert: {t}",
+    "Heads up: {t}",
+    "{t} ({s})"
+  ],
+  reading: [
+    "AI is {mood} today: SIREN {L}, {S} out of 100.",
+    "How loud is AI right now? SIREN {L}, {S}/100. {Mood}.",
+    "AI loudness check at {time}: {S}/100, SIREN {L}.",
+    "SIREN {L}, {S}/100. Counted hourly from public data, not vibes.",
+    "Skynet meter, honest edition: {S}/100, level {L}."
+  ],
+  page: [
+    "{t}",
+    "{t}\n\nAnswered with live public data:",
+    "Worth 30 seconds: {t}",
+    "{t} 👇"
+  ]
+};
+// What the story is about picks the question, an optional hashtag and a few
+// extra hooks, so a chip story asks about the grid and a jobs story asks
+// about jobs. First match wins; order puts the most specific topics first.
+var TOPICS = [
+  { id: "midterms", re: /midterm|coded (pro|against|neutral) on ai|senate race|governor race|on the ballot/i,
+    hooks: ["Where does this candidate stand on AI? {t}", "AI is on the ballot: {t}"],
+    ask: ["Does their AI stance change your vote?", "Right call on the tag?", "Where should candidates stand on AI?"], tag: "#Midterms2026" },
+  { id: "safety", re: /safety|misalign|rogue|escap|jailbreak|alignment|deceiv|\blied\b|sabotag|self-replicat|monitoring system|containment/i,
+    hooks: ["The kind of AI story that keeps safety people up at night: {t}", "Read this before you hand an agent the keys: {t}"],
+    ask: ["How worried should we be?", "Who should be checking these systems?", "Would you let this run unsupervised?"], tag: "#AISafety" },
+  { id: "jobs", re: /\bjobs?\b|layoff|laid off|worker|hiring|employ|labou?r|unemploy|workforce/i,
+    hooks: ["AI and your job, today's chapter: {t}"],
+    ask: ["Is your job exposed to this?", "Net jobs: up or down?", "Who should get retrained first?"], tag: "#FutureOfWork" },
+  { id: "power", re: /nvidia|\bchips?\b|gpu|data ?cent|power|grid|electric|tsmc|energy|nuclear|water/i,
+    hooks: ["Follow the compute: {t}", "The AI build-out, in one headline: {t}"],
+    ask: ["Who pays the power bill?", "Would you want this data centre in your county?", "How much grid can AI eat?"], tag: "#DataCenters" },
+  { id: "policy", re: /\bbill\b|\blaw\b|regulat|senate|congress|ftc|ai act|\bban\b|court|lawsuit|\bsue|probe|white house/i,
+    hooks: ["The rules for AI are being written right now: {t}"],
+    ask: ["Does this go far enough?", "Who should write the rules for AI?", "Too much regulation or not enough?"], tag: "#AIPolicy" },
+  { id: "money", re: /\bipo\b|valuation|raises?|funding|billion|\$\d|stock|shares|merger|acquir|revenue|debt/i,
+    hooks: ["Follow the money: {t}", "The AI money machine, today: {t}"],
+    ask: ["Bubble or bargain?", "Who is left holding the bag?", "Is this priced in?"], tag: "" },
+  { id: "race", re: /openai|anthropic|deepmind|google|gemini|claude|chatgpt|\bgpt|xai|grok|\bmeta\b|llama|mistral|deepseek|qwen|china/i,
+    hooks: ["The AI race just moved: {t}", "Another move in the AI race: {t}"],
+    ask: ["Who is actually ahead right now?", "Does this change who wins the AI race?", "Which lab are you betting on?"], tag: "#AI" }
+];
+function topicOf(title){ for (var i = 0; i < TOPICS.length; i++) if (TOPICS[i].re.test(title || "")) return TOPICS[i]; return null; }
+var CONTEXT = {
+  news: ["SIREN {L} · {S}/100 as this landed ({time}).", "SIREN reads {S}/100 right now.", "", ""],
+  alert: ["Source: {s} · {time}.", "Public feed, not a warning system. Follow local officials.", "Logged {time}.", ""],
+  reading: ["Updated every hour, receipts included.", "Every number has a public receipt.", ""],
+  page: ["SIREN {L} · {S}/100 right now.", "", ""]
+};
+var ASK = {
+  news: ["Overhyped or a big deal?", "What's your read?", "Good news or bad news for the rest of us?", "Saw this one early?"],
+  alert: ["Anyone near this? Stay safe.", "Check on your people.", "Anyone seeing it where you are?", ""],
+  reading: ["Does that match your feed today?", "Louder or quieter than you'd guess?", "What would push it to SIREN 1?", "Where would you set it?"],
+  page: ["What's your take?", "Where do you land on this?", "Would you have guessed?", "Surprised?"]
+};
+var EMOJI = { news: ["", "", "🤖 ", "⚡ ", "📡 "], alert: ["🚨 ", "⚠️ ", ""], reading: ["📊 ", "🔔 ", ""], page: ["", "", "👀 "] };
+var TAGS = ["", "", "#AI"];
+var ALERT_TAGS = ["", "", "", "#BreakingNews"];
+function mood(S){ var n = parseFloat(S); if (!isFinite(n)) return "normal"; return n < 35 ? "quiet" : n < 55 ? "ticking along" : n < 70 ? "busy" : n < 85 ? "running hot" : "red-hot"; }
+var KEY = "siren:x-recent", LAST = {};
+function recent(){ try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; } }
+function remember(t){ try { var l = recent(); l.unshift(hash(t)); localStorage.setItem(KEY, JSON.stringify(l.slice(0, 30))); } catch (e) {} }
+function hash(s){ var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return String(h); }
+function live(){
+  var lv = "", sc = "";
+  var chip = typeof document !== "undefined" && document.querySelector && document.querySelector(".sh__lv");
+  var txt = chip ? (chip.textContent || "") : "";
+  var a = /SIREN\s*(\d)/i.exec(txt), b = /([\d]+\.\d)\s*$/.exec(txt.trim());
+  if (a) lv = a[1]; if (b) sc = b[1];
+  return { L: lv, S: sc };
+}
+function clip(s, n){ s = String(s || "").replace(/\s+/g, " ").trim(); return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, "") + "…" : s; }
+var ACR = { bbc: "BBC", ap: "AP", cnn: "CNN", nyt: "NYT", wsj: "WSJ", ft: "FT", npr: "NPR", mit: "MIT", hn: "Hacker News", nhc: "NHC", nws: "NWS", usgs: "USGS", gdacs: "GDACS", eonet: "NASA EONET", sec: "SEC", ai: "AI" };
+function prettySrc(s){
+  s = String(s || "").replace(/\s*\(.*\)\s*$/, "").trim();
+  if (!/^[a-z0-9-]+$/i.test(s) || /[A-Z]/.test(s.slice(1))) return ACR[s.toLowerCase()] || s;
+  return s.toLowerCase().split("-").map(function(w){ return ACR[w] || (w.charAt(0).toUpperCase() + w.slice(1)); }).join(" ");
+}
+function fill(tpl, v){ return tpl.replace(/\{(\w+)\}/g, function(_, k){ return v[k] == null ? "" : String(v[k]); }); }
+// o: { kind, title, src, now (ms), rand (fn), level, score, used (array of hashes) }
+function compose(o){
+  o = o || {};
+  var kind = HOOKS[o.kind] ? o.kind : "page";
+  var lvl = o.level || live();
+  var rnd = o.rand || Math.random;
+  var pick = function(a){ return a[Math.floor(rnd() * a.length)]; };
+  var d = new Date(o.now || Date.now());
+  var time = ("0" + d.getUTCHours()).slice(-2) + ":" + ("0" + d.getUTCMinutes()).slice(-2) + " UTC";
+  var used = o.used || recent();
+  var hasLv = !!(lvl.L && lvl.S);
+  var ok = function(t){ return hasLv || !/\{[LS]\}|\{[Mm]ood\}/.test(t); };
+  var topic = kind === "alert" ? null : topicOf(o.title);
+  var pool = HOOKS[kind].concat(topic && kind !== "reading" ? topic.hooks : []).filter(ok);
+  // A reading share that already carries the site's own line (it names the
+  // loudest story on the wire) keeps that line: it is the specific one.
+  if (kind === "reading" && o.title && /SIREN \d/.test(o.title)) pool = ["{t}"];
+  if (!pool.length) pool = kind === "reading" ? ["How loud is AI right now? The SIREN index counts it every hour."] : ["{t}"];
+  var srcName = prettySrc(o.src);
+  var m = mood(lvl.S);
+  var v = { s: srcName || "the wire", time: time, L: lvl.L, S: lvl.S, mood: m, Mood: m.charAt(0).toUpperCase() + m.slice(1) };
+  var asks = topic ? topic.ask.concat(topic.ask, ASK[kind]) : ASK[kind]; // topic questions weighted 2:1
+  var tags = topic ? [topic.tag, topic.tag, ""] : (kind === "alert" ? ALERT_TAGS : TAGS);
+  var best = "";
+  // X counts a link as 23 characters; 250 of text plus the link always fits.
+  for (var tries = 0; tries < 60; tries++) {
+    var tpl = pick(pool);
+    if (pool.length > 1 && tpl === LAST[kind] && tries < 40) continue;
+    var ctx = pick(CONTEXT[kind].filter(ok).concat([""]));
+    if (!srcName && /\{s\}/.test(ctx)) ctx = "";
+    if (/\{s\}/.test(tpl) && !srcName && tries < 40) continue;
+    var ask = pick(asks);
+    var emo = pick(EMOJI[kind]);
+    var tag = pick(tags);
+    var tail = [fill(ctx, v), ask].filter(Boolean);
+    var tailTxt = tail.length ? "\n\n" + tail.join("\n\n") : "";
+    if (tag) tailTxt += (tail.length ? " " : "\n\n") + tag;
+    var room = 250 - emo.length - fill(tpl, Object.assign({ t: "" }, v)).length - tailTxt.length;
+    var t = clip(o.title || "", Math.max(40, room));
+    var head = emo + fill(tpl, Object.assign({ t: t }, v)).replace(/\s+([.,])/g, "$1").replace(/\.\./g, ".");
+    var txt = head + tailTxt;
+    if (txt.length > 250) txt = clip(head, 250 - tailTxt.length) + tailTxt;
+    if (txt.length > 250) txt = clip(head, 250);
+    best = txt;
+    if (used.indexOf(hash(txt)) < 0) { LAST[kind] = tpl; break; }
+  }
+  return best;
+}
+function intent(text, url){
+  return "https://x.com/intent/post?text=" + encodeURIComponent(text) + (url ? "&url=" + encodeURIComponent(url) : "") + "&via=SIRENutf6";
+}
+window.sirenX = { compose: compose, intent: intent, hooks: HOOKS, topics: TOPICS, asks: ASK };
+if (typeof document === "undefined" || !document.addEventListener) return;
+document.addEventListener("click", function(e){
+  var el = e.target && e.target.closest ? e.target.closest('[data-xpost],a[href^="https://x.com/intent/post"],a[href^="https://twitter.com/intent/tweet"]') : null;
+  if (!el) return;
+  var kind, title, src, url;
+  if (el.hasAttribute("data-xpost")) {
+    kind = el.getAttribute("data-xpost") || "page";
+    title = el.getAttribute("data-x-title") || document.title;
+    src = el.getAttribute("data-x-src") || "";
+    url = el.getAttribute("data-x-url") || (document.querySelector('link[rel=canonical]') || {}).href || location.href.split("#")[0];
+  } else {
+    var u; try { u = new URL(el.href); } catch (err) { return; }
+    kind = el.getAttribute("data-x-kind") || "page";
+    title = u.searchParams.get("text") || document.title;
+    url = u.searchParams.get("url") || "";
+    src = "";
+  }
+  var text = compose({ kind: kind, title: title, src: src });
+  remember(text);
+  var href = intent(text, url);
+  if (el.tagName === "A") { el.href = href; el.target = "_blank"; el.rel = "noopener"; return; }
+  e.preventDefault();
+  window.open(href, "_blank", "noopener");
+}, true);
+})();</script>
+<script>
+(function(){
+  var bar = document.getElementById("sitebar"), at = +bar.dataset.at;
+  var tEl = document.getElementById("sitebar-at"), agoEl = document.getElementById("sitebar-ago"), btn = document.getElementById("sitebar-btn");
+  function ago(ms){ var m = Math.round((Date.now() - ms) / 60000); return m < 1 ? "just now" : m < 60 ? m + " min ago" : m < 2880 ? Math.round(m / 60) + " h ago" : Math.round(m / 1440) + " days ago"; }
+  var newsEl = document.getElementById("sitebar-news"), liveNews = +bar.dataset.news || 0;
+  function paint(){
+    var d = new Date(at);
+    tEl.dateTime = d.toISOString();
+    tEl.textContent = ago(at);
+    tEl.title = "SIREN score computed " + d.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) + ". The score updates hourly; news and alerts are live.";
+    if (newsEl) { newsEl.textContent = liveNews ? ago(liveNews) : "–"; }
+    // Amber when the hourly reading is overdue (GitHub sometimes runs late).
+    bar.classList.toggle("stale", Date.now() - at > 90 * 60000);
+  }
+  var fb = document.getElementById("sitebar-fb"); if (fb) fb.href += "?page=" + encodeURIComponent(location.href.split("#")[0]);
+  // Post this page on X: its own title and canonical address.
+  var xl = document.getElementById("sitebar-x");
+  if (xl) {
+    var can = document.querySelector('link[rel=canonical]'), u = (can && can.href) || location.href.split("#")[0];
+    var t = (document.querySelector('meta[property="og:title"]') || {}).content || document.title;
+    xl.href = "https://x.com/intent/post?text=" + encodeURIComponent(t) + "&url=" + encodeURIComponent(u) + "&via=SIRENutf6";
+  }
+  // THE INTRO. Plays silently in a corner, once per visit; never on the homepage (it already embeds the
+  // explainer), never on clips/videos/radio, skipped for reduced-motion.
+  (function intro(){
+    try {
+      var ik = "siren:intro:siren-explainer";
+      var path = location.pathname.replace(/\/+$/, "") || "/";
+      // Homepage already embeds the explainer with preload=none — no corner chip.
+      if (document.getElementById("v2-video") || document.querySelector("section.v2-video")) return;
+      if (path === "" || /\/(index\.html)?$/.test(path)) return;
+      if (/(elon|videos|radio)\.html$/.test(path) || sessionStorage.getItem(ik)) return;
+      // Offer the intro once a week, not on every page of every visit.
+      var seen = +localStorage.getItem("siren:intro:seen") || 0;
+      if (Date.now() - seen < 7 * 864e5) return;
+      localStorage.setItem("siren:intro:seen", String(Date.now()));
+    } catch (e) { return; }
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var m = "/media/siren-explainer";
+    var box = document.createElement("div");
+    box.id = "siren-intro";
+    box.className = "chip";
+    box.setAttribute("role", "complementary");
+    box.setAttribute("aria-label", "Intro video");
+    box.innerHTML = '<div class="bar"><button type="button" data-a="play" aria-label="Play intro video">WHAT IS SIREN? ▶</button><button type="button" data-a="x" aria-label="Dismiss intro">✕</button></div>';
+    document.body.appendChild(box);
+    var close = function(){
+      try { sessionStorage.setItem("siren:intro:siren-explainer", "1"); } catch (e) {}
+      var v = box.querySelector("video");
+      if (v) try { v.pause(); } catch (e) {}
+      box.remove();
+    };
+    box.addEventListener("click", function(e){
+      var a = e.target.getAttribute && e.target.getAttribute("data-a");
+      if (a === "x") { close(); return; }
+      if (a !== "play" && a !== "snd") return;
+      if (a === "snd") {
+        var v0 = box.querySelector("video");
+        if (!v0) return;
+        v0.muted = !v0.muted;
+        e.target.textContent = v0.muted ? "🔊 Sound" : "🔇 Mute";
+        if (v0.paused) v0.play();
+        return;
+      }
+      if (box.querySelector("video")) return;
+      box.className = "playing";
+      box.innerHTML = '<video muted playsinline preload="metadata" poster="' + m + '-poster.jpg" controls><source src="' + m + '.webm" type="video/webm"><source src="' + m + '.mp4" type="video/mp4"></video>'
+        + '<div class="bar"><span>WHAT IS SIREN?</span><span><button type="button" data-a="snd" aria-label="Turn sound on">🔊 Sound</button><button type="button" data-a="x" aria-label="Close intro">✕</button></span></div>';
+      var v = box.querySelector("video");
+      v.addEventListener("ended", function(){ setTimeout(close, 1200); });
+      var p = v.play(); if (p && p.catch) p.catch(function(){});
+    });
+    // The owner's call: the page's intro plays by itself, silently, once per
+    // visit (the chip above stays as the fallback if the browser blocks it).
+    // Phones keep it as a small chip: an autoplaying picture there covered the
+    // page under the bar and the Talk to Tally button (2026-10-22).
+    var phone = window.matchMedia && matchMedia("(max-width:560px)").matches;
+    var pb = box.querySelector('[data-a="play"]'); if (pb && !phone) pb.click();
+  })();
+  // OUTSIDE LINKS OPEN IN A NEW TAB, so a visitor who follows a story, a clip
+  // or a market comes back to SIREN instead of losing it. Same-site links
+  // stay in the tab. Runs on links added later too (clicks are delegated).
+  document.addEventListener("click", function(e){
+    var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a || a.target || a.hasAttribute("download") || e.defaultPrevented) return;
+    var u; try { u = new URL(a.href, location.href); } catch (err) { return; }
+    if (!/^https?:$/.test(u.protocol) || u.host === location.host) return;
+    a.target = "_blank"; var r = (a.rel || "").split(/s+/); if (r.indexOf("noopener") < 0) r.push("noopener"); a.rel = r.join(" ").trim();
+  }, true);
+  window.addEventListener("site:data", function(e){ var t = +(e.detail && e.detail.at); if (t > 0) { at = t; paint(); } });
+  btn.addEventListener("click", function(){
+    if (typeof window.siteRefresh === "function") {
+      btn.setAttribute("aria-busy", "true");
+      Promise.resolve().then(window.siteRefresh).catch(function(){}).then(function(){ btn.removeAttribute("aria-busy"); });
+    } else {
+      var u = new URL(location.href); u.searchParams.set("r", Date.now().toString(36)); location.replace(u.toString());
+    }
+  });
+  // Sit above any bar the page pins to the bottom (a mobile tab bar, a cookie note).
+  function lift(){
+    var off = 12, seen = [];
+    [0.5, 0.1, 0.9].forEach(function(f){
+      document.elementsFromPoint(innerWidth * f, innerHeight - 3).forEach(function(el){
+        for (var n = el; n && n !== document.body; n = n.parentElement) {
+          if (n === bar || seen.indexOf(n) >= 0) break;
+          var ps = getComputedStyle(n).position;
+          if (ps === "fixed" || ps === "sticky") { seen.push(n); var r = n.getBoundingClientRect(); if (r.bottom >= innerHeight - 4 && r.height < innerHeight / 2) off = Math.max(off, innerHeight - r.top + 8); break; }
+        }
+      });
+    });
+    bar.style.bottom = off + "px";
+    // The guide button and the intro read this so they line up with the bar instead of stacking on it.
+    try { document.documentElement.style.setProperty("--sb-off", off + "px"); } catch (e) {}
+  }
+  // A page left open should hear about a newer newsroom or a newer reading
+  // within a minute. Same-origin JSON only. The button label changes; the
+  // page does not reload until the reader asks, because a reload mid-paragraph
+  // is worse than a minute of staleness.
+  var newsAt = +bar.dataset.news || 0;
+  var api = "";
+  function flag(label){
+    var lbl = document.getElementById("sitebar-lbl");
+    if (!lbl || btn.classList.contains("due")) return;
+    lbl.textContent = label;
+    btn.classList.add("due"); bar.classList.remove("tuck"); document.documentElement.classList.remove("sb-tuck");
+    btn.setAttribute("aria-label", label + ". Refresh this page.");
+  }
+  function watch(){
+    if (document.hidden || !window.fetch) return;
+    fetch(api + "/api/fresh.json?m=" + Math.floor(Date.now() / 60000), { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+      if (!j) return;
+      var ns = j.news && Date.parse(j.news);
+      var st = j.state && Date.parse(j.state);
+      if (ns && ns > liveNews) { liveNews = ns; paint(); }
+      if (newsAt > 0 && ns && ns > newsAt + 1500) flag("New stories");
+      else if (st && st > at + 1500) flag("New reading");
+    }).catch(function(){});
+  }
+  setInterval(watch, 60000); setTimeout(watch, 4000);
+  document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
+  paint(); setInterval(paint, 60000);
+  // First measure after load, in a frame: lift() reads layout, and running it
+  // mid-parse forced a full style and layout pass (~200 ms on a big page, phone).
+  addEventListener("resize", lift); addEventListener("load", function(){ requestAnimationFrame(lift); }); setTimeout(lift, 1500);
+  // Phones start with it tucked: the first screen is the reading and the
+  // signup, and the tab bar already sits at the bottom. A scroll up brings it.
+  var lastY = scrollY, tucked = !!(window.matchMedia && matchMedia("(max-width:560px)").matches) && !btn.classList.contains("due");
+  if (tucked) { bar.classList.add("tuck"); document.documentElement.classList.add("sb-tuck"); }
+  addEventListener("scroll", function(){
+    var y = scrollY, d = y - lastY;
+    if (Math.abs(d) < 8) return;
+    var atEnd = innerHeight + y >= document.documentElement.scrollHeight - 48;
+    var t = d > 0 && y > 160 && !atEnd && !btn.classList.contains("due");
+    if (t !== tucked) { tucked = t; bar.classList.toggle("tuck", t); document.documentElement.classList.toggle("sb-tuck", t); }
+    lastY = y;
+  }, { passive: true });
+
+  // Dispatch emergency mark: poll the orphan dispatch-data branch. Quiet when
+  // CLEAR. Dismiss lasts one session so a visitor can keep reading.
+  (function emergencyMark(){
+    var el = document.getElementById("site-em"), txt = document.getElementById("site-em-txt");
+    var go = document.getElementById("site-em-go"), x = document.getElementById("site-em-x");
+    if (!el || !txt) return;
+    var KEY = "siren:em-dismiss";
+    function hide(){ el.classList.remove("on"); el.hidden = true; }
+    // A thin strip under the header, in the page flow: it never floats over
+    // the reading, the footer bar or the score. Site-wide only for the most
+    // severe level; WATCH-level marks stay on the Dispatch page. Dismiss is
+    // remembered per alert, so the same one never comes back.
+    var onDispatch = /dispatch.html$/.test(location.pathname);
+    // Dispatch carries its own, fuller banner: never stack a second one there.
+    if (onDispatch) { hide(); return; }
+    function show(em){
+      var id = (em.primary && (em.primary.id || em.primary.event)) || em.as_of || "1";
+      try { if (localStorage.getItem(KEY) === id) return; } catch (e) {}
+      if (!onDispatch && Number(em.level || 2) > 2) return;
+      var label = em.label || "ALERT";
+      var head = (em.primary && (em.primary.event || em.primary.headline)) || "Active emergency trigger";
+      txt.textContent = "⚠ " + label + " · " + head;
+      var xp = document.getElementById("site-em-xp"); if (xp) { xp.setAttribute("data-x-title", label + ": " + ((em.primary && em.primary.headline) || head)); xp.setAttribute("data-x-src", ((em.primary && em.primary.system) || "dispatch").toUpperCase()); }
+      el.dataset.level = String(em.level || 2);
+      el.dataset.as = id;
+      var hdr = document.querySelector("header.sh, .sh") || document.querySelector("header");
+      if (hdr && el.previousElementSibling !== hdr && hdr.parentNode) hdr.parentNode.insertBefore(el, hdr.nextSibling);
+      el.classList.add("on"); el.hidden = false;
+    }
+    if (x) x.addEventListener("click", function(){
+      try { localStorage.setItem(KEY, el.dataset.as || "1"); } catch (e) {}
+      hide();
+    });
+    // Two sources, merged: the Dispatch snapshot (every few minutes, all
+    // systems) and USGS read straight from this browser every minute, so a
+    // great quake shows here within about a minute of USGS posting it.
+    var snapEm = null, liveEm = null;
+    function render(){
+      var em = snapEm && snapEm.active ? snapEm : null;
+      if (liveEm && (!em || Number(liveEm.level) < Number(em.level || 3) || (em.primary && em.primary.id !== liveEm.primary.id && liveEm.primary.t > (em.primary.t || 0) && Number(liveEm.level) <= Number(em.level || 3)))) em = liveEm;
+      if (!em) { hide(); return; }
+      show(em);
+    }
+    function poll(){
+      if (document.hidden) return;
+      var u = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/dispatch-data/emergency.json?m=" + Math.floor(Date.now() / 120000);
+      fetch(u, { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(em){ snapEm = em; render(); }).catch(function(){});
+    }
+    function quakes(){
+      if (document.hidden) return;
+      fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson", { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+        if (!j || !j.features) return;
+        var best = null;
+        j.features.forEach(function(f){
+          var p = f.properties || {}, m = +p.mag, age = (Date.now() - p.time) / 3600e3;
+          // M7+ within a day, M6.5+ within six hours.
+          if (!(m >= 7 && age <= 24) && !(m >= 6.5 && age <= 6)) return;
+          if (!best || m > best.m || (m === best.m && p.time > best.p.time)) best = { m: m, p: p, f: f };
+        });
+        if (!best) { liveEm = null; render(); return; }
+        var c = (best.f.geometry && best.f.geometry.coordinates) || [];
+        liveEm = { active: true, level: best.m >= 7 ? 1 : 2, label: best.m >= 7 ? "EMERGENCY" : "ALERT", count: 1,
+          primary: { id: "usgs:" + best.f.id, system: "usgs", event: "M" + best.m.toFixed(1) + " earthquake", severity: best.m >= 7 ? "Extreme" : "Severe", headline: best.p.title, area: best.p.place, lon: c[0], lat: c[1], t: best.p.time } };
+        render();
+      }).catch(function(){});
+    }
+    poll(); setInterval(poll, 120000);
+    quakes(); setInterval(quakes, 60000);
+    document.addEventListener("visibilitychange", function(){ if (!document.hidden) { poll(); quakes(); } });
+  })();
+})();
+</script>
+</div>
+<script src="/nav/site-nav.js" defer></script>
+<script src="/media/radio.js" defer></script>
+<script type="module" src="/media/guide.mjs"></script>
+<script data-goatcounter="https://messagegabriel.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>(function(){var K='siren:consent';function get(){try{return localStorage.getItem(K)}catch(e){return null}}
+function set(v){try{localStorage.setItem(K,v)}catch(e){}if(window.gtag)gtag('consent','update',{analytics_storage:v});close()}
+var el=null;function close(){if(el&&el.parentNode)el.parentNode.removeChild(el);el=null}
+function show(){if(el)return;el=document.createElement('div');el.id='siren-consent';el.setAttribute('role','dialog');el.setAttribute('aria-label','Privacy choices');
+el.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:10001;max-width:560px;margin:0 auto;padding:14px 16px;border-radius:10px;background:#0B0F16;color:#E6EAF0;border:1px solid #56B0E0;box-shadow:0 10px 30px rgba(0,0,0,.55);font:14px/1.45 system-ui,sans-serif';
+el.innerHTML='<b>Analytics cookies?</b> SIREN uses Google Analytics to see which pages get read. It sets cookies only if you allow it. No ads, no selling data. <a href="'+(window.SIREN_BASE||'')+'/privacy.html" style="color:#56B0E0">Privacy</a><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button type="button" data-c="granted" style="min-height:40px;padding:0 14px;border:0;border-radius:6px;background:#56B0E0;color:#06070b;font-weight:700;cursor:pointer">Allow analytics</button><button type="button" data-c="denied" style="min-height:40px;padding:0 14px;border:1px solid #475569;border-radius:6px;background:transparent;color:#E6EAF0;font-weight:700;cursor:pointer">No thanks</button></div>';
+el.addEventListener('click',function(e){var v=e.target&&e.target.getAttribute&&e.target.getAttribute('data-c');if(v)set(v)});document.body.appendChild(el)}document.addEventListener('click',function(e){var t=e.target&&e.target.closest&&e.target.closest('[data-consent-open]');if(t){e.preventDefault();show()}});
+var tz='';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}
+var eu=/^Europe\//.test(tz)||/^(Atlantic\/(Reykjavik|Canary|Madeira|Azores|Faroe)|Arctic\/Longyearbyen)$/.test(tz);
+if(!get()&&eu&&navigator.globalPrivacyControl!==true){if(document.body)show();else document.addEventListener('DOMContentLoaded',show)}})();</script>
+</body>
+</html>

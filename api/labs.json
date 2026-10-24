@@ -1,0 +1,246 @@
+{
+ "schema": 1,
+ "generated_at": "2026-10-24T22:34:26.751Z",
+ "current_week": 2,
+ "started": "2026-10-12",
+ "weeks": [
+  {
+   "start": "2026-10-12",
+   "theme": "Is AI building AI yet?",
+   "items": [
+    {
+     "id": "rsi",
+     "name": "The Recursion Meter",
+     "q": "How much of the code that builds AI is now written by AI?",
+     "build": "Count agent-authored pull requests merged into the core AI stacks (PyTorch, Transformers, vLLM, JAX, llama.cpp) each day, as a share of all merged PRs.",
+     "data": "GitHub public API; the agent-PR tracker behind Takeover Watch.",
+     "measure": "A daily share with a 30-day trend line, recomputable from the PR list.",
+     "icon": "px:agentcode",
+     "c": "#4ADE80",
+     "status": "shipped",
+     "href": "/bench.html#rsi"
+    },
+    {
+     "id": "horizon",
+     "name": "The Task-Horizon Clock",
+     "q": "How long a job can an AI agent finish on its own?",
+     "build": "Chart the published length of tasks frontier agents complete half the time (METR’s time-horizon measure) and the doubling time it implies.",
+     "data": "METR published results; model release dates.",
+     "measure": "Hours of human work per task, per model, on a log scale.",
+     "icon": "px:pclock",
+     "c": "#22D3EE",
+     "status": "shipped",
+     "href": "/bench.html#horizon"
+    },
+    {
+     "id": "jump",
+     "name": "Capability Jump Alarm",
+     "q": "When does a new model land far off the trend?",
+     "build": "Fit the trend on public leaderboards and flag any release that beats it by more than two standard deviations.",
+     "data": "LMArena, Epoch AI benchmarks hub, Artificial Analysis.",
+     "measure": "A list of flagged jumps with the size of the gap, each linked to its source.",
+     "icon": "px:trendchart",
+     "c": "#FACC15",
+     "status": "shipped",
+     "href": "/bench.html#jump"
+    },
+    {
+     "id": "compute",
+     "name": "The Compute Clock",
+     "q": "How fast is frontier training compute growing?",
+     "build": "A live clock of the largest disclosed training run, with the doubling time from Epoch’s notable-models data.",
+     "data": "Epoch AI notable models dataset (CC BY).",
+     "measure": "FLOP of the largest known run and months per doubling.",
+     "icon": "px:db",
+     "c": "#A78BFA",
+     "status": "shipped",
+     "href": "/compute.html"
+    },
+    {
+     "id": "quiet",
+     "name": "The Lab Silence Index",
+     "q": "Do labs go quiet before a big release?",
+     "build": "Track each lab’s posting cadence (blog, GitHub, X) and mark unusual silences, then check them against what shipped next.",
+     "data": "The newsroom feeds and the Leaders tracker already on SIREN.",
+     "measure": "Days of silence versus each lab’s normal rhythm, scored after the fact.",
+     "icon": "px:shrug",
+     "c": "#94A3B8",
+     "status": "shipped",
+     "href": "/bench.html#quiet"
+    }
+   ]
+  },
+  {
+   "start": "2026-10-19",
+   "theme": "Who is watching the watchers?",
+   "items": [
+    {
+     "id": "exodus",
+     "name": "Safety Team Exodus Tracker",
+     "q": "Are safety researchers leaving the frontier labs?",
+     "build": "A dated ledger of announced departures from safety and alignment teams, with where people went.",
+     "data": "Public announcements on X, Bluesky and the newsroom.",
+     "measure": "Departures per lab per quarter, every entry sourced.",
+     "icon": "px:team",
+     "c": "#F87171"
+    },
+    {
+     "id": "cards",
+     "name": "System Card Diff",
+     "q": "What new dangers do labs test for with each model?",
+     "build": "Diff each new system card against the last one from the same lab and highlight new dangerous-capability evaluations.",
+     "data": "Published system and model cards.",
+     "measure": "New eval categories per release, quoted line by line.",
+     "icon": "px:doc",
+     "c": "#60A5FA"
+    },
+    {
+     "id": "timelines",
+     "name": "AGI Timeline Ledger",
+     "q": "How have AI leaders’ stated AGI dates moved?",
+     "build": "Every dated public statement of an AGI or superintelligence year from the people SIREN tracks, plotted over time.",
+     "data": "Leaders tracker, interviews, posts, each linked.",
+     "measure": "Stated year by speaker and date said; shifts shown as arrows.",
+     "icon": "px:headline",
+     "c": "#FB923C"
+    },
+    {
+     "id": "chips",
+     "name": "Chip Export Watch",
+     "q": "Where are the controls on AI chips tightening?",
+     "build": "Parse Federal Register and Commerce notices for AI-chip export rules and entity-list additions.",
+     "data": "Federal Register API (already a SIREN source).",
+     "measure": "Rules and listings per month, by country named.",
+     "icon": "px:threatshield",
+     "c": "#EF4444"
+    }
+   ]
+  },
+  {
+   "start": "2026-10-26",
+   "theme": "The physical footprint",
+   "items": [
+    {
+     "id": "queue",
+     "name": "Gigawatt Queue",
+     "q": "How much new power are AI data centres asking the grid for?",
+     "build": "Add up large-load interconnection requests (100 MW and up) by state and grid operator.",
+     "data": "Grid operator queue reports; the SIREN data-centre map.",
+     "measure": "Gigawatts requested per month, per state.",
+     "icon": "px:pylon",
+     "c": "#FACC15"
+    },
+    {
+     "id": "opengap",
+     "name": "The Open-Weights Gap",
+     "q": "How many months do open models trail the best closed ones?",
+     "build": "For each capability level, the date a closed model first reached it versus the first open-weights model.",
+     "data": "Public leaderboards and release dates.",
+     "measure": "The gap in months, over time.",
+     "icon": "px:agent2",
+     "c": "#34D399"
+    },
+    {
+     "id": "turing",
+     "name": "Daily Turing Test",
+     "q": "Can visitors still tell AI writing from human writing?",
+     "build": "A daily five-question game: pick the human. Results published in aggregate.",
+     "data": "Public-domain human text; outputs from open models.",
+     "measure": "The share of correct guesses each day.",
+     "icon": "px:joystick",
+     "c": "#56B0E0"
+    },
+    {
+     "id": "govready",
+     "name": "Government SI Readiness Map",
+     "q": "Which governments have an AI safety body and binding rules?",
+     "build": "A world map of AI safety institutes, AI laws in force and frontier-model reporting rules.",
+     "data": "Official government sources, each linked.",
+     "measure": "A checklist score per country, with every item sourced.",
+     "icon": "globe",
+     "c": "#22D3EE"
+    }
+   ]
+  },
+  {
+   "start": "2026-11-02",
+   "theme": "Brakes and dials",
+   "items": [
+    {
+     "id": "alignratio",
+     "name": "Alignment-to-Capabilities Ratio",
+     "q": "Is safety research keeping pace with capabilities research?",
+     "build": "Weekly arXiv counts of alignment and interpretability papers against capabilities papers.",
+     "data": "arXiv listings (already a SIREN source).",
+     "measure": "The ratio each week, with the keyword rules published.",
+     "icon": "px:scalebias",
+     "c": "#4ADE80"
+    },
+    {
+     "id": "incidents",
+     "name": "AI Incident Clock",
+     "q": "How often are new AI incidents being recorded?",
+     "build": "New entries in the public AI incident databases, per week, by harm type.",
+     "data": "AI Incident Database, OECD AI incidents monitor.",
+     "measure": "Incidents per week, each linked to its report.",
+     "icon": "px:beacon",
+     "c": "#F87171"
+    },
+    {
+     "id": "tripwires",
+     "name": "Tripwire Registry",
+     "q": "What thresholds have labs promised to stop at?",
+     "build": "Every published frontier safety framework, its capability thresholds, and any public statement that a threshold was reached.",
+     "data": "Lab safety frameworks and system cards.",
+     "measure": "Thresholds per lab and the date each was last tested.",
+     "icon": "px:crosshair2",
+     "c": "#FB923C"
+    },
+    {
+     "id": "agi-odds",
+     "name": "All the AGI Odds",
+     "q": "What do the forecasting markets say, side by side?",
+     "build": "One chart of AGI-date questions across Metaculus, Polymarket, Kalshi and Manifold, with each question’s own definition.",
+     "data": "Public market and forecast APIs.",
+     "measure": "Median dates and prices, each linked to its question.",
+     "icon": "px:candles",
+     "c": "#A78BFA"
+    }
+   ]
+  }
+ ],
+ "shipped": [
+  [
+   "/bench.html",
+   "Is AI building AI yet? (week of Oct 12)"
+  ],
+  [
+   "/compute.html",
+   "How fast is frontier training compute growing?"
+  ],
+  [
+   "/si-watch.html#coding",
+   "What AI autonomy signals is SIREN watching?"
+  ],
+  [
+   "/self-aware.html",
+   "What if an AI wakes up at 2:14 a.m.?"
+  ],
+  [
+   "/charts.html",
+   "What AI charts does SIREN publish?"
+  ],
+  [
+   "/status.html",
+   "Is ChatGPT down? Is Claude down?"
+  ],
+  [
+   "/power.html",
+   "Who makes the most electricity (China vs US)?"
+  ],
+  [
+   "/p-doom.html#voices",
+   "What is p(doom)?"
+  ]
+ ]
+}

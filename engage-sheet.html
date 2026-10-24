@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- INTERNAL CONSOLE. Do NOT add to sitemap.xml, nav, or robots Disallow. -->
+<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Engage console — SIREN</title>
+<style>
+:root{--bg:#07080a;--panel:#0d1117;--panel2:#11161d;--rule:#21262d;--ink:#e6edf3;--dim:#8b949e;--faint:#6e7681;--ok:#2ea043;--warn:#d29922;--bad:#f85149;--accent:#2f81f7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.wrap{max-width:920px;margin:0 auto;padding:24px 16px 96px}
+header.top{display:flex;flex-wrap:wrap;gap:16px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:16px;margin-bottom:8px}
+h1{font-size:22px;letter-spacing:3px;margin:0;font-weight:800}
+.sub{color:var(--dim);font-size:13px}
+.banner{border:1px solid var(--warn);background:rgba(210,153,34,.10);color:var(--warn);border-radius:8px;padding:10px 14px;margin:16px 0;font-size:13px;line-height:1.55}
+.banner.bad{border-color:var(--bad);background:rgba(248,81,73,.10);color:var(--bad)}
+.progress{display:flex;align-items:center;gap:12px;margin:18px 0 26px;font-size:13px;color:var(--dim)}
+.bar{flex:1;height:6px;background:var(--panel2);border-radius:3px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--ok);width:0;transition:width .2s}
+.card{border:1px solid var(--rule);border-radius:12px;background:var(--panel);margin:0 0 14px;overflow:hidden}
+.card.done{opacity:.55}
+.card.done .chead{background:rgba(46,160,67,.10)}
+.chead{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--rule);background:var(--panel2)}
+.rank{font-weight:800;font-size:13px;color:var(--faint);min-width:22px}
+.handle{font-weight:700}
+.pill{font-size:11px;letter-spacing:1px;font-weight:700;border-radius:999px;padding:3px 9px;background:var(--rule);color:var(--dim)}
+.pill.off{color:#79c0ff;background:rgba(47,129,247,.15)}
+.spacer{flex:1}
+label.tick{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);cursor:pointer;user-select:none}
+label.tick input{width:18px;height:18px;accent-color:var(--ok);cursor:pointer}
+.body{padding:14px 16px 16px}
+.text{margin:0 0 10px;white-space:pre-wrap;color:var(--ink);font-size:14px;line-height:1.55}
+.why{margin:0 0 12px;font-size:12px;color:var(--faint)}
+.meta{margin:0 0 12px;font-size:12px;color:var(--dim)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+a.btn,button{font:600 13px/1 inherit;padding:10px 14px;border-radius:8px;border:1px solid var(--rule);background:var(--panel2);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+a.btn:hover,button:hover{border-color:var(--faint)}
+a.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+a.btn.ghost,button.ghost{background:transparent;color:var(--dim)}
+footer{margin-top:40px;border-top:1px solid var(--rule);padding-top:16px;color:var(--faint);font-size:12px;line-height:1.8}
+.empty{border:1px dashed var(--rule);border-radius:12px;padding:40px;text-align:center;color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div>
+    <h1>SIREN ENGAGE CONSOLE</h1>
+    <div class="sub mono">SIREN 4 · 50.7 of 100 · 22:22 UTC | SAT 24 OCT 2026</div>
+  </div>
+  <div class="sub">Internal. Not linked, not indexed.<br>Use from your <b>human</b> X account — never @SIRENutf6.</div>
+</header>
+
+<div class="banner bad">
+  <b>Policy hard stop.</b> Automated likes and reposts are prohibited for @SIRENutf6
+  (X Developer Policy + the binding use-case text in POSTING.md §6). This sheet
+  only opens X <code>intent</code> URLs so <b>you</b> confirm each action while
+  signed in as the managing human account. Stay in sync with what siren.watch
+  already published — do not invent engagement outside this list.
+</div>
+
+<div class="banner">
+  Source mix: 14 from the X wire,
+  6 newsroom status URLs,
+  showing 18. Tick liked / reposted after you confirm in X.
+</div>
+
+<div class="progress">
+  <span id="pcount" class="mono">0 of 0 fully synced</span>
+  <span class="bar"><span id="pbar"></span></span>
+  <button class="ghost" id="reset" type="button">Reset</button>
+</div>
+
+
+<article class="card" data-id="6526e30172ca483d">
+  <div class="chead">
+    <span class="rank">1</span>
+    <span class="handle mono">@OpenAI</span>
+    <span class="pill off">official</span>
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">During this red-teaming exercise, we also found a vulnerability that allows for unauthenticated remote code execution in Brotli, a widely-deployed compression library included in many pieces of software such as Node.js, Bun, and Envoy. The…</p>
+    <p class="why">Cited by Hacker News (1 point) and Techmeme</p>
+    <p class="meta mono">rank 69.4 · 22:55 UTC | FRI 23 OCT 2026 · <a href="https://x.com/OpenAI/status/2113766354386084338" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113766354386084338" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113766354386084338" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/OpenAI/status/2113766354386084338" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="361e7bd98f6bbf7f">
+  <div class="chead">
+    <span class="rank">2</span>
+    <span class="handle mono">@GoogleAI</span>
+    <span class="pill off">official</span>
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">https://t.co/5bF2YWmO7g</p>
+    <p class="why">Cited by Hacker News (1 point)</p>
+    <p class="meta mono">rank 58.9 · 16:28 UTC | THU 22 OCT 2026 · <a href="https://x.com/GoogleAI/status/2113306513217573249" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113306513217573249" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113306513217573249" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/GoogleAI/status/2113306513217573249" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="e28f81cc31f5a1ff">
+  <div class="chead">
+    <span class="rank">3</span>
+    <span class="handle mono">@bradrcarson</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Short, sharp analysis of generative AI’s impact from Apollo. H/t @GaryMarcus https://t.co/1KHSN3KUmn</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 33.1 · 19:46 UTC | SAT 24 OCT 2026 · <a href="https://x.com/bradrcarson/status/2114081083390403046" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2114081083390403046" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2114081083390403046" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/bradrcarson/status/2114081083390403046" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="52a6e40d8ae5b77f">
+  <div class="chead">
+    <span class="rank">4</span>
+    <span class="handle mono">@spnichol</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Link https://t.co/UEByYx9bD7 not a very extensive or thorough report, although seems obvious enough. models are super rl-fried for coding/engineering. using them in other domains is trickier.</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 32.7 · 18:12 UTC | SAT 24 OCT 2026 · <a href="https://x.com/spnichol/status/2114057503524917290" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2114057503524917290" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2114057503524917290" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/spnichol/status/2114057503524917290" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="29e83edc460e7f14">
+  <div class="chead">
+    <span class="rank">5</span>
+    <span class="handle mono">@davidsirota</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">One of the world’s largest private equity firms just issued a report concluding: “Despite massive investments and widespread hype around artificial intelligence, the technology has delivered zero financial payoff to corporate America outsi…</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 31.2 · 12:43 UTC | SAT 24 OCT 2026 · <a href="https://x.com/davidsirota/status/2113974550178431418" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113974550178431418" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113974550178431418" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/davidsirota/status/2113974550178431418" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="6dd2f39f6eca2264">
+  <div class="chead">
+    <span class="rank">6</span>
+    <span class="handle mono">@kimmonismus</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Seriously mindblowing: This voice model runs locally on an M4 Max Mac or better. Feels like magic. https://t.co/JKoGgu12Dl pic.twitter.com/FbamIPKZKG</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 30.6 · 10:43 UTC | SAT 24 OCT 2026 · <a href="https://x.com/kimmonismus/status/2113944569117044835" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113944569117044835" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113944569117044835" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/kimmonismus/status/2113944569117044835" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="da2afa5efb1c8bea">
+  <div class="chead">
+    <span class="rank">7</span>
+    <span class="handle mono">@ShivAroor</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Scam calls about to attain pandemic level. https://t.co/PyUPlazWhs</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 30.5 · 10:18 UTC | SAT 24 OCT 2026 · <a href="https://x.com/ShivAroor/status/2113938289023742462" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113938289023742462" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113938289023742462" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/ShivAroor/status/2113938289023742462" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="df40a01393e5927e">
+  <div class="chead">
+    <span class="rank">8</span>
+    <span class="handle mono">@Hesamation</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">OpenAI says it will no longer train or evaluate its models on the live internet due to “significant risks”. from their blog: “agents can have access to browsers, code execution environments, computer-use tools, and other services they migh…</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 30.3 · 09:27 UTC | SAT 24 OCT 2026 · <a href="https://x.com/Hesamation/status/2113925232067055821" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113925232067055821" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113925232067055821" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/Hesamation/status/2113925232067055821" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="8dfef39961719407">
+  <div class="chead">
+    <span class="rank">9</span>
+    <span class="handle mono">@intcyberdigest</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">‼️ Sweden&#39;s Government Offices will block ChatGPT and Claude on staff computers from Monday, Sveriges Radio reports. Officials are to use approved tools like Microsoft Copilot. pic.twitter.com/Z98NORARnC</p>
+    <p class="why">Cited by Hacker News (4 points)</p>
+    <p class="meta mono">rank 30.1 · 08:51 UTC | SAT 24 OCT 2026 · <a href="https://x.com/intcyberdigest/status/2113815992984080865" target="_blank" rel="noopener">open post</a> · <a href="/item/sweden-s-government-offices-will-block-chatgpt-and-claude-on-sta-67ce888320cb029f.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113815992984080865" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113815992984080865" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/intcyberdigest/status/2113815992984080865" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="a7c63971de1aad49">
+  <div class="chead">
+    <span class="rank">10</span>
+    <span class="handle mono">@timcolbourn</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">This is a good move by the UK Gov, though better still would be to stop the threat in the first place by stopping frontier AI where we are now. @OpenAI @AnthropicAI funding an initiative to prevent a problem they are creating! Just stop.ht…</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 29.8 · 07:35 UTC | SAT 24 OCT 2026 · <a href="https://x.com/timcolbourn/status/2113897211385778440" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113897211385778440" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113897211385778440" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/timcolbourn/status/2113897211385778440" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="5be05210da4c4fa7">
+  <div class="chead">
+    <span class="rank">11</span>
+    <span class="handle mono">@matanSF</span>
+    
+    <span class="pill">news</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">We are terminating Chris Degnan for unethical conduct involving Cognition</p>
+    <p class="why">Newsroom attention · score 36.7</p>
+    <p class="meta mono">rank 29.7 · 14:40 UTC | SAT 24 OCT 2026 · <a href="https://x.com/matanSF/status/2105335179502064038" target="_blank" rel="noopener">open post</a> · <a href="/item/we-are-terminating-chris-degnan-for-unethical-conduct-involving-129c5620807360b2.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2105335179502064038" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2105335179502064038" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/matanSF/status/2105335179502064038" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="f5018433845ded89">
+  <div class="chead">
+    <span class="rank">12</span>
+    <span class="handle mono">@simplykashif</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Jack Dorsey’s Block has just unveiled Dessa, an AI speech model that sounds so human that you might not even realize you’re talking to a machine. Imagine scammers using voices like these. How will we know who to trust anymore?👀 pic.twitte…</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 28.8 · 03:57 UTC | SAT 24 OCT 2026 · <a href="https://x.com/simplykashif/status/2113842334605668547" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113842334605668547" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113842334605668547" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/simplykashif/status/2113842334605668547" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="afd5167e7be4cf1e">
+  <div class="chead">
+    <span class="rank">13</span>
+    <span class="handle mono">@chrislakin</span>
+    
+    <span class="pill">news</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Claude Code slyly adding users&#39; emails to outbound HTTP</p>
+    <p class="why">Newsroom attention · score 34.1</p>
+    <p class="meta mono">rank 28.6 · 10:26 UTC | SAT 24 OCT 2026 · <a href="https://x.com/chrislakin/status/2113358733548081528" target="_blank" rel="noopener">open post</a> · <a href="/item/claude-code-slyly-adding-users-emails-to-outbound-http-c0384d9186ed975b.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113358733548081528" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113358733548081528" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/chrislakin/status/2113358733548081528" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="51c7b1a43b3182d5">
+  <div class="chead">
+    <span class="rank">14</span>
+    <span class="handle mono">@JustineBateman</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Lol, why? If your AI agents can do everything advertised, why not keep the voice fairly robotic? What is the reason to trying so hard to make these “voices” sound as human as possible? Deception. Any why would you want that? So you can tri…</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 28.5 · 03:13 UTC | SAT 24 OCT 2026 · <a href="https://x.com/JustineBateman/status/2113831214805360827" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113831214805360827" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113831214805360827" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/JustineBateman/status/2113831214805360827" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="bfc00b6c2897a115">
+  <div class="chead">
+    <span class="rank">15</span>
+    <span class="handle mono">@trackingcosts</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Scam calls about to get to next level. Never pick up your phone again. https://t.co/mJcW0tl8eH</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 28.4 · 02:36 UTC | SAT 24 OCT 2026 · <a href="https://x.com/trackingcosts/status/2113821782037631050" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113821782037631050" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113821782037631050" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/trackingcosts/status/2113821782037631050" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="5083b0ded2714e9e">
+  <div class="chead">
+    <span class="rank">16</span>
+    <span class="handle mono">@cheaf25master</span>
+    
+    <span class="pill">news</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Anthropic employee tells students their careers may not exist by graduation</p>
+    <p class="why">Newsroom attention · score 33.1</p>
+    <p class="meta mono">rank 26.3 · 02:27 UTC | SAT 24 OCT 2026 · <a href="https://x.com/cheaf25master/status/2113261574194659368" target="_blank" rel="noopener">open post</a> · <a href="/item/anthropic-employee-tells-students-their-careers-may-not-exist-by-31e369a941ade71a.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113261574194659368" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113261574194659368" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/cheaf25master/status/2113261574194659368" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="51ade7de1356e46e">
+  <div class="chead">
+    <span class="rank">17</span>
+    <span class="handle mono">@frascafrasca</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">La IA no es una herramienta. Es un error grave y frecuente juzgar a la IA como si fuera una herramienta más. &quot;Como todas las herramientas, tiene sus aspectos positivos y negativos. Introduce cambios radicales pero nos acomodaremos&quot;. Este l…</p>
+    <p class="why">Cited by Hacker News (20 points)</p>
+    <p class="meta mono">rank 25.7 · 16:59 UTC | FRI 23 OCT 2026 · <a href="https://x.com/frascafrasca/status/2113637581426671850" target="_blank" rel="noopener">open post</a> · <a href="/item/ai-is-not-a-tool-4ac045923e1bb53c.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113637581426671850" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113637581426671850" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/frascafrasca/status/2113637581426671850" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="715069d33e2a7ace">
+  <div class="chead">
+    <span class="rank">18</span>
+    <span class="handle mono">@Kimi_Moonshot</span>
+    
+    <span class="pill">news</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Kimi K3.1 Is Comming</p>
+    <p class="why">Newsroom attention · score 27.5</p>
+    <p class="meta mono">rank 19.7 · 06:08 UTC | FRI 23 OCT 2026 · <a href="https://x.com/Kimi_Moonshot/status/2113445757185606062" target="_blank" rel="noopener">open post</a> · <a href="/item/kimi-k3-1-is-comming-71901b1b3dff3c1b.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2113445757185606062" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2113445757185606062" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/Kimi_Moonshot/status/2113445757185606062" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<footer>
+  Built from <code>data/x-surface.json</code> and newsroom items whose canonical URL
+  is an x.com status. Progress is local to this browser (localStorage), same shape
+  as the posting console. Generated 22:51 UTC | SAT 24 OCT 2026.
+</footer>
+</div>
+<script>
+const ITEMS=[{"id":"6526e30172ca483d","status_id":"2113766354386084338"},{"id":"361e7bd98f6bbf7f","status_id":"2113306513217573249"},{"id":"e28f81cc31f5a1ff","status_id":"2114081083390403046"},{"id":"52a6e40d8ae5b77f","status_id":"2114057503524917290"},{"id":"29e83edc460e7f14","status_id":"2113974550178431418"},{"id":"6dd2f39f6eca2264","status_id":"2113944569117044835"},{"id":"da2afa5efb1c8bea","status_id":"2113938289023742462"},{"id":"df40a01393e5927e","status_id":"2113925232067055821"},{"id":"8dfef39961719407","status_id":"2113815992984080865"},{"id":"a7c63971de1aad49","status_id":"2113897211385778440"},{"id":"5be05210da4c4fa7","status_id":"2105335179502064038"},{"id":"f5018433845ded89","status_id":"2113842334605668547"},{"id":"afd5167e7be4cf1e","status_id":"2113358733548081528"},{"id":"51c7b1a43b3182d5","status_id":"2113831214805360827"},{"id":"bfc00b6c2897a115","status_id":"2113821782037631050"},{"id":"5083b0ded2714e9e","status_id":"2113261574194659368"},{"id":"51ade7de1356e46e","status_id":"2113637581426671850"},{"id":"715069d33e2a7ace","status_id":"2113445757185606062"}];
+const SLATE_ID="2026-10-24T22-51-12Z";
+
+const KEY='siren.engagesheet.'+SLATE_ID;
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}
+function save(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
+let ticked=load();
+
+function refreshProgress(){
+  const total=ITEMS.length;
+  const liked=ITEMS.filter(p=>ticked[p.id]&&ticked[p.id].liked).length;
+  const reposted=ITEMS.filter(p=>ticked[p.id]&&ticked[p.id].reposted).length;
+  const done=ITEMS.filter(p=>ticked[p.id]&&ticked[p.id].liked&&ticked[p.id].reposted).length;
+  document.getElementById('pcount').textContent=done+' of '+total+' fully synced · '+liked+' liked · '+reposted+' reposted';
+  document.getElementById('pbar').style.width=(total?100*done/total:0)+'%';
+}
+
+function mark(id, field){
+  const row=ticked[id]||{};
+  row[field]=new Date().toISOString();
+  ticked[id]=row;
+  save(ticked);
+  const card=document.querySelector('.card[data-id="'+id+'"]');
+  if(card){
+    const box=card.querySelector('input[data-field="'+field+'"]');
+    if(box) box.checked=true;
+    const both=ticked[id].liked&&ticked[id].reposted;
+    card.classList.toggle('done',Boolean(both));
+  }
+  refreshProgress();
+}
+
+document.querySelectorAll('.card').forEach(function(card){
+  const id=card.dataset.id;
+  const row=ticked[id]||{};
+  card.querySelectorAll('input[type=checkbox]').forEach(function(box){
+    const field=box.dataset.field;
+    box.checked=Boolean(row[field]);
+    box.addEventListener('change',function(){
+      if(box.checked){
+        mark(id, field);
+      } else {
+        if(ticked[id]) { delete ticked[id][field]; if(!ticked[id].liked && !ticked[id].reposted) delete ticked[id]; }
+        save(ticked);
+        card.classList.toggle('done',Boolean(ticked[id]&&ticked[id].liked&&ticked[id].reposted));
+        refreshProgress();
+      }
+    });
+  });
+  card.classList.toggle('done',Boolean(row.liked&&row.reposted));
+  card.querySelectorAll('a[data-mark]').forEach(function(a){
+    a.addEventListener('click',function(){ mark(id, a.dataset.mark); });
+  });
+});
+
+document.getElementById('reset').addEventListener('click',function(){
+  ticked={}; save(ticked);
+  document.querySelectorAll('.card').forEach(c=>{
+    c.querySelectorAll('input[type=checkbox]').forEach(b=>b.checked=false);
+    c.classList.remove('done');
+  });
+  refreshProgress();
+});
+refreshProgress();
+
+</script>
+</body>
+</html>

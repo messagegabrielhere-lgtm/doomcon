@@ -1,0 +1,81 @@
+{
+  "capabilities": {
+    "prompts": false,
+    "resources": true,
+    "tools": true
+  },
+  "description": "Read and cite the SIREN AI activity index. Scale runs 5 (quietest) to 1 (loudest). Counts activity tempo; not a probability of harm and not a forecast. No API key.",
+  "name": "siren",
+  "related": {
+    "agents_md": "https://siren.watch/agents.md",
+    "agents_txt": "https://siren.watch/agents.txt",
+    "ai_prediction_markets": "https://siren.watch/ai-prediction-markets.html",
+    "classic": "https://siren.watch/classic.html",
+    "free_tools": "https://siren.watch/free-tools.html",
+    "home": "https://siren.watch/",
+    "home_title": "AI activity index today · AI activity level today",
+    "news": "https://siren.watch/api/news.json",
+    "news_sitemap": "https://siren.watch/news-sitemap.xml",
+    "newsroom": "https://siren.watch/news.html",
+    "now": "https://siren.watch/api/now.txt",
+    "openapi": "https://siren.watch/openapi.json",
+    "promote": "https://siren.watch/promote.md",
+    "promote_json": "https://siren.watch/api/promote.json",
+    "search_trends": "https://siren.watch/api/search-trends.json",
+    "search_trends_html": "https://siren.watch/search-trends.html",
+    "skill": "https://siren.watch/skill.md",
+    "verify": "https://siren.watch/verify.html"
+  },
+  "serverInfo": {
+    "description": "SIREN MCP — stdio tools over the public siren.watch API.",
+    "name": "siren",
+    "version": "1.0.0"
+  },
+  "tools": [
+    {
+      "description": "Current reading (plain text + structured fields)",
+      "name": "siren_now"
+    },
+    {
+      "description": "Full /api/state.json",
+      "name": "siren_state"
+    },
+    {
+      "description": "Top scored newsroom stories",
+      "name": "siren_news"
+    },
+    {
+      "description": "Recent hourly readings",
+      "name": "siren_history"
+    },
+    {
+      "description": "Takeover Watch signals (watched, not scored)",
+      "name": "siren_takeover_watch"
+    },
+    {
+      "description": "Fetch and verify a receipt self-hash",
+      "name": "siren_verify_receipt"
+    },
+    {
+      "description": "Canonical citation + spoken form",
+      "name": "siren_cite"
+    },
+    {
+      "description": "Ready-to-post share copy (Moltbook, X, Discord, Slack, README)",
+      "name": "siren_promote"
+    }
+  ],
+  "transport": {
+    "args": [
+      "agent-kit/mcp.mjs"
+    ],
+    "command": "node",
+    "docs": "https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit",
+    "env": {
+      "SIREN_BASE_URL": "https://siren.watch"
+    },
+    "repository": "https://github.com/messagegabrielhere-lgtm/doomcon",
+    "type": "stdio"
+  },
+  "version": "1.0.0"
+}
