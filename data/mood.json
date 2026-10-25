@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-25T17:11:17.813Z",
-  "news_generated_at": "2026-10-25T17:11:17.813Z",
+  "generated_at": "2026-10-25T17:57:00.914Z",
+  "news_generated_at": "2026-10-25T17:57:00.914Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,10 +18,10 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 180,
+    "headlines_naming_a_company": 182,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.09
+    "negative_pair_share": 0.085
   },
   "glance": {
     "leading": {
@@ -32,12 +32,12 @@
     "trailing": {
       "id": "openai",
       "name": "OpenAI",
-      "index": -4.8
+      "index": -4.7
     },
     "most_discussed": {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 65
+      "headlines": 66
     }
   },
   "companies": [
@@ -89,10 +89,34 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 65,
-      "index": -4.8,
+      "headlines": 66,
+      "index": -4.7,
       "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "d41ad2501284a7ef",
+          "title": "OpenAI’s agents switched off their own safety monitoring, and one lied about it",
+          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBGaWFmRTRSYllFaTlVV2QtVzJMZTh0UHZhamROcmJKMDdYT0xtclE4STJjZ2FqeXlLbjJpWTNnTHlqdHhGQWVXMGN4bWlhSHBQbWZj?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T17:52:57.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "161690a26e3ca57d",
+          "title": "OpenAI CEO warns AI could find hardware bugs that patching cannot Fix",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPWDQ2bDFoQ0tPT0prYnNnbTNlb0tfS0tWZVFKMHY1UmxPazlSX0hyUU80eEljMmQzVlBvbC1SZ3BjM2QzbU43clRoZko5azV2WnNGaUs1bzQzSHg4LWJ1ZVpzekdCVnF1MkFVVldheWg4OGc0aVhtM1lFeHNEd19jUHdJUlZQOFdEWGN4UklmaGdacTdRVEVGLTBmOFVhWVZmLXVtdkwweFNZdWZPc0hROQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T17:16:45.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
         {
           "id": "006ecce3f40b2639",
           "title": "Outside Testers Found 6 Ways Around OpenAI's AI Watchdog in 3 Weeks. The Fine Print Matters Just as Much",
@@ -160,40 +184,38 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "8b79ec3dc5d34e00",
-          "title": "Independent Auditors Find Gaps in OpenAI Agent Monitoring",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNHlkbzRiVno5bG16bDVOaWw5QnVScVBfck5fSmFRY2tFZlBnTUtDSW9YMklOdXZ0SHFDU2RvTU80RHFBU2JKRmdVbFVyOTVnVFhWdVRlSEVBU1dYeGdteUU0M0JDaDAwRFE3dnJGSXpLUlprbFh5T3daZEs5NUp3dEx2RmVHUlpoOW1VV3d5N295Z3dyWFpFZ1dRNzRwTkU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T14:50:36.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7136bd8075918590",
-          "title": "Consumer Tech (Oct 19-23): OpenAI Reportedly Seeks $30 Billion, Tesla Cuts 2026 Capex Forecast, Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxNcmM5ekk4MUJnZ01qd1ljU3QxcnRCR3ItRXpHUUE0UEFaM21ZaXBVSTdQOWpEdlRhVXVNd19EUW9veDJLcjhJREtpcmMxX0l1ZTRJa3VTb0s0Tl93ZUxZdHdjcThTUEpJVWc1ZXY4ODJfdHlRU3Q4NEV0UHI5S3l2NExTTW1OLVVsVHk4bUtJTDhhaE9GN3E2cm10a0RkOEJZVXZhUDZaUHlmalY5Z041WVhmMzhxRHgtREZUbk1DNkF3d0dGaXZYejc2cUhzT3h4TnpVMU41bmExYjlLSmZsdUJYZFN4c1BkOXRZUDZNOXhkSHJVWVFjZVd2OUZKWnkxbkpSYi1DZGZjOHllXzR2cnluaw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T13:47:05.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cuts"
-          ],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 18,
-      "index": 5.3,
-      "mean_headline": 0.7,
+      "headlines": 20,
+      "index": 4.8,
+      "mean_headline": 0.6,
       "sample": [
+        {
+          "id": "40264d9afd980df8",
+          "title": "Nvidia CEO Jensen Huang Reaffirms His $4 Trillion Projection for AI Spending. Here's Why That Makes Nvidia a Screaming Buy Now.",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOc21RM056MHhoNnhjM1ZlSHh5OXU1TEd1SEFMSlMxdzQtdVFWc0dTQ19KRHdfQk9Ra2syTDJtOVlYNFVWRTZ2cHNnaUtRbU5wcFJTQ0F6MmFMRWR4TkVDOWloOW5vSThrMXFFOWlnQS1tRVN6X3BDNkNKdUlhdnUxa1NESVZCUElHdWpkVF9zbWJHWV82LWhieQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T17:29:57.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a2032d25852d8f2b",
+          "title": "Betting On AI Chips: Is NXP Or NVIDIA The Better Way In?",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNYmx2RUtzZjdjdUhjYWlObmVha2VPalZoM0lEazdHMGZhcmFGendoMEt4WWcxQXpBSHNzVWViTk9qbTFlR3dxZlNESmJyYlREY19MQjBya19LQVIyQ0QzWktLVGFVM05uNldTekJOMUx1RVNudGpYS2lsRVU1aWpIN2t4QzRzSUtyZ1pxVGZOeGgzYmNmTURkMHFOMThPem55QUNMUWgyQkdrbGhiWlBkRjBOZEpvUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T17:00:28.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "02de0279b622c2ae",
           "title": "NVIDIA's $1999 RTX 5090 is becoming a memory donor for AI.",
@@ -264,37 +286,15 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "516679a1e62bfe4d",
-          "title": "Omarchy 4.0.5 Released with Better Nvidia Laptop Support",
-          "url": "https://linuxjournal.com/content/omarchy-405-released-better-nvidia-laptop-support",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T19:26:48.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d046f5df35ef93d1",
-          "title": "Nvidia B300 GPUs on Chinese Networks: 12,000 GPU Study",
-          "url": "https://lava.security/blog/nvidia-b300-gpus-china",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T13:09:07.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 35,
-      "index": -0.5,
-      "mean_headline": -0.1,
+      "headlines": 33,
+      "index": 0.5,
+      "mean_headline": 0.1,
       "sample": [
         {
           "id": "b28d3466e8a625b2",
@@ -367,19 +367,6 @@
           "clickbait": []
         },
         {
-          "id": "7136bd8075918590",
-          "title": "Consumer Tech (Oct 19-23): OpenAI Reportedly Seeks $30 Billion, Tesla Cuts 2026 Capex Forecast, Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxNcmM5ekk4MUJnZ01qd1ljU3QxcnRCR3ItRXpHUUE0UEFaM21ZaXBVSTdQOWpEdlRhVXVNd19EUW9veDJLcjhJREtpcmMxX0l1ZTRJa3VTb0s0Tl93ZUxZdHdjcThTUEpJVWc1ZXY4ODJfdHlRU3Q4NEV0UHI5S3l2NExTTW1OLVVsVHk4bUtJTDhhaE9GN3E2cm10a0RkOEJZVXZhUDZaUHlmalY5Z041WVhmMzhxRHgtREZUbk1DNkF3d0dGaXZYejc2cUhzT3h4TnpVMU41bmExYjlLSmZsdUJYZFN4c1BkOXRZUDZNOXhkSHJVWVFjZVd2OUZKWnkxbkpSYi1DZGZjOHllXzR2cnluaw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T13:47:05.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cuts"
-          ],
-          "clickbait": []
-        },
-        {
           "id": "1b561faaee9a1ef3",
           "title": "Anthropic co-founder Jack Clark moves his prediction for self-improving AI forward to 2027",
           "url": "https://the-decoder.com/anthropic-co-founder-jack-clark-moves-his-prediction-for-self-improving-ai-forward-to-2027",
@@ -388,6 +375,19 @@
           "score": 0,
           "positive": [],
           "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "49b9b797a613b99b",
+          "title": "Anthropic Sued for Using Elvis Presley Music to Train AI Models",
+          "url": "https://hollywoodreporter.com/music/music-industry-news/anthropic-elvis-presley-lawsuit-ai-1236739617",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-25T09:15:56.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "sued"
+          ],
           "clickbait": []
         }
       ]
@@ -702,10 +702,21 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 18,
-      "index": 2.7,
+      "headlines": 19,
+      "index": 2.5,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "f98253db70b53bcf",
+          "title": "Amazon’s $75 AI wearable hides a bigger $144-a-year bet",
+          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQNG9NZG9aMmZNbnhsbnlHXzlST0RSTzlndEM1WmZhdlpMR0ZKWWhKTXlWa2RuSzFXaWVpSkRtdjBzaHB3X3JEUnF3dGxodEtFQnZGTHpXamlWRHdyWHNEUFNpblpFLXhBMDk0NVdRVVc3WTRtNDJXdU5XeGlnLXpUQ3NJUlRsOEpUQWlhTkJIZndPUWM?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T17:23:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1d4995dfc5d945d9",
           "title": "How a Fake Amazon Phone Call Cost a Retired Nurse $400K, and What You Can Do to Protect Your Parents",
@@ -785,38 +796,16 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "3f7233fc14423272",
-          "title": "AWS AI cloud capacity sold out through 2027, 2028 bookings filling fast",
-          "url": "https://reddit.com/r/artificial/comments/1xe1mos/aws_ai_cloud_capacity_sold_out_through_2027_2028",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-24T06:47:51.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 10,
-      "index": 14.4,
-      "mean_headline": 1.8,
+      "headlines": 9,
+      "index": 16,
+      "mean_headline": 2,
       "sample": [
-        {
-          "id": "86420b9a5c64fd45",
-          "title": "Claude Opus 5.5 vs DeepSeek V4.1 Pro: One Model, One Name",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE83bEFBTFNmbmZldFRKQzl2RTg2dGowemxhdGl2dldia1haTVZETFVZTFgyWVR3cWtDb2hyMjFTQnE2VTVnTzVjbk1jVEw2YjNyLXk2ZTM3UTUtZ2VPR3JSNl9wZVpEdkhSLVdtSlJ3OVJ5bEdoNWc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T13:37:24.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "04bcb1dd5776b623",
           "title": "Too good to be true? ISTA's GSQ-RCO 2-bit DeepSeek-V4.1-Flash scoring the same as the base model",
@@ -896,6 +885,20 @@
           "published_at": "2026-10-23T06:00:25.000Z",
           "score": 0,
           "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5ab735d4795c2cbb",
+          "title": "Chinese state media: DeepSeek and MiniMax completed registration and won approval to open-source and deploy AI models overseas under proposed export controls (Bloomberg)",
+          "url": "https://techmeme.com/261023/p2",
+          "source": "techmeme",
+          "published_at": "2026-10-23T04:50:55.000Z",
+          "score": 6,
+          "positive": [
+            "approval",
+            "won"
+          ],
           "negative": [],
           "clickbait": []
         }
@@ -951,21 +954,10 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 10,
-      "index": 14.4,
-      "mean_headline": 1.8,
+      "headlines": 9,
+      "index": 16,
+      "mean_headline": 2,
       "sample": [
-        {
-          "id": "86420b9a5c64fd45",
-          "title": "Claude Opus 5.5 vs DeepSeek V4.1 Pro: One Model, One Name",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE83bEFBTFNmbmZldFRKQzl2RTg2dGowemxhdGl2dldia1haTVZETFVZTFgyWVR3cWtDb2hyMjFTQnE2VTVnTzVjbk1jVEw2YjNyLXk2ZTM3UTUtZ2VPR3JSNl9wZVpEdkhSLVdtSlJ3OVJ5bEdoNWc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T13:37:24.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "04bcb1dd5776b623",
           "title": "Too good to be true? ISTA's GSQ-RCO 2-bit DeepSeek-V4.1-Flash scoring the same as the base model",
@@ -1047,106 +1039,18 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "nvidia",
-      "name": "NVIDIA",
-      "headlines": 18,
-      "index": 5.3,
-      "mean_headline": 0.7,
-      "sample": [
-        {
-          "id": "02de0279b622c2ae",
-          "title": "NVIDIA's $1999 RTX 5090 is becoming a memory donor for AI.",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOVUl4VU9xZ0ZuNjhUQ1lxc0xDTGc2RW1GSjhTY1duUXpzcEpUVURiRElaZ2pRUmdEYXFSS25qUlNuS3hEVDJWcWZIT01BaVVMVHJ4eG9qcHM0NlBGZDBzN0YxWlROdEtVT2hjZm8wUDBXOXZIQ0xpZmZkd2RWM1ZkTklSVmQ0QjQzT05nd1RNSk92MzJlNDdHSkVQd1kwMzQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T16:11:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         },
         {
-          "id": "38a614ae3ae4c215",
-          "title": "Nvidia weighs $2,000 annual software fee per GPU for AI agents",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPQTVhd1p2dU5lMjdnVE00aktFSy1fcV9wNHlReEFIeHFvZTRrWHRlZ3VtWkp5ZENUV2xfZzd3Vk16SVhyWjNrX203aE9laEJyUzlzRDU3d1hwcUR4UEhnWnczMlU2SjB4R0hKY3B2ZWUtU3FSVWgyd1dIcmVHbTZ2UWpVWXhOZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T13:08:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "801b5ea4e9beae3e",
-          "title": "OpenAI killed Sora. now Nvidia is backing a company built mostly on other people’s video models",
-          "url": "https://reddit.com/r/OpenAI/comments/1xf1lby/openai_killed_sora_now_nvidia_is_backing_a",
-          "source": "reddit-openai",
-          "published_at": "2026-10-25T12:52:30.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "af9112a54e84d14e",
-          "title": "Nvidia open-sources Flora to make robot video labeling 125x cheaper than GPT-6 Astra",
-          "url": "https://the-decoder.com/nvidia-open-sources-flora-to-make-robot-video-labeling-125x-cheaper-than-gpt-6-astra",
-          "source": "the-decoder",
-          "published_at": "2026-10-25T10:08:49.000Z",
+          "id": "5ab735d4795c2cbb",
+          "title": "Chinese state media: DeepSeek and MiniMax completed registration and won approval to open-source and deploy AI models overseas under proposed export controls (Bloomberg)",
+          "url": "https://techmeme.com/261023/p2",
+          "source": "techmeme",
+          "published_at": "2026-10-23T04:50:55.000Z",
           "score": 6,
           "positive": [
-            "open sources",
-            "open-sources"
+            "approval",
+            "won"
           ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "46616b411003fd64",
-          "title": "Nvidia CEO Jensen Huang says a forgotten 1950s European alliance secretly secured Taiwan’s chip empire — decades later, an island hardly bigger than Maryland dominates 90% of the advanced chip market",
-          "url": "https://reddit.com/r/technology/comments/1xerp9g/nvidia_ceo_jensen_huang_says_a_forgotten_1950s",
-          "source": "reddit-technology",
-          "published_at": "2026-10-25T03:23:22.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9ac305ab64545281",
-          "title": "CMP170HX inspiration unlocks 30x/40x also, up to 2X Prefill speedup --> NVIDIA RTX 30 & RTX 40 GPUs Get Impressively Fast In AI LLMs As Compute Doubles With New Unlock Tool But Prices Surge Too",
-          "url": "https://reddit.com/r/LocalLLaMA/comments/1xelhpj/cmp170hx_inspiration_unlocks_30x40x_also_up_to_2x",
-          "source": "reddit-localllama",
-          "published_at": "2026-10-24T22:16:55.000Z",
-          "score": 3,
-          "positive": [
-            "surge"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "516679a1e62bfe4d",
-          "title": "Omarchy 4.0.5 Released with Better Nvidia Laptop Support",
-          "url": "https://linuxjournal.com/content/omarchy-405-released-better-nvidia-laptop-support",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T19:26:48.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d046f5df35ef93d1",
-          "title": "Nvidia B300 GPUs on Chinese Networks: 12,000 GPU Study",
-          "url": "https://lava.security/blog/nvidia-b300-gpus-china",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T13:09:07.000Z",
-          "score": 0,
-          "positive": [],
           "negative": [],
           "clickbait": []
         }
@@ -1254,12 +1158,125 @@
       ]
     },
     {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "headlines": 20,
+      "index": 4.8,
+      "mean_headline": 0.6,
+      "sample": [
+        {
+          "id": "40264d9afd980df8",
+          "title": "Nvidia CEO Jensen Huang Reaffirms His $4 Trillion Projection for AI Spending. Here's Why That Makes Nvidia a Screaming Buy Now.",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOc21RM056MHhoNnhjM1ZlSHh5OXU1TEd1SEFMSlMxdzQtdVFWc0dTQ19KRHdfQk9Ra2syTDJtOVlYNFVWRTZ2cHNnaUtRbU5wcFJTQ0F6MmFMRWR4TkVDOWloOW5vSThrMXFFOWlnQS1tRVN6X3BDNkNKdUlhdnUxa1NESVZCUElHdWpkVF9zbWJHWV82LWhieQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T17:29:57.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a2032d25852d8f2b",
+          "title": "Betting On AI Chips: Is NXP Or NVIDIA The Better Way In?",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNYmx2RUtzZjdjdUhjYWlObmVha2VPalZoM0lEazdHMGZhcmFGendoMEt4WWcxQXpBSHNzVWViTk9qbTFlR3dxZlNESmJyYlREY19MQjBya19LQVIyQ0QzWktLVGFVM05uNldTekJOMUx1RVNudGpYS2lsRVU1aWpIN2t4QzRzSUtyZ1pxVGZOeGgzYmNmTURkMHFOMThPem55QUNMUWgyQkdrbGhiWlBkRjBOZEpvUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T17:00:28.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "02de0279b622c2ae",
+          "title": "NVIDIA's $1999 RTX 5090 is becoming a memory donor for AI.",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOVUl4VU9xZ0ZuNjhUQ1lxc0xDTGc2RW1GSjhTY1duUXpzcEpUVURiRElaZ2pRUmdEYXFSS25qUlNuS3hEVDJWcWZIT01BaVVMVHJ4eG9qcHM0NlBGZDBzN0YxWlROdEtVT2hjZm8wUDBXOXZIQ0xpZmZkd2RWM1ZkTklSVmQ0QjQzT05nd1RNSk92MzJlNDdHSkVQd1kwMzQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T16:11:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "38a614ae3ae4c215",
+          "title": "Nvidia weighs $2,000 annual software fee per GPU for AI agents",
+          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPQTVhd1p2dU5lMjdnVE00aktFSy1fcV9wNHlReEFIeHFvZTRrWHRlZ3VtWkp5ZENUV2xfZzd3Vk16SVhyWjNrX203aE9laEJyUzlzRDU3d1hwcUR4UEhnWnczMlU2SjB4R0hKY3B2ZWUtU3FSVWgyd1dIcmVHbTZ2UWpVWXhOZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T13:08:54.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "801b5ea4e9beae3e",
+          "title": "OpenAI killed Sora. now Nvidia is backing a company built mostly on other people’s video models",
+          "url": "https://reddit.com/r/OpenAI/comments/1xf1lby/openai_killed_sora_now_nvidia_is_backing_a",
+          "source": "reddit-openai",
+          "published_at": "2026-10-25T12:52:30.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "af9112a54e84d14e",
+          "title": "Nvidia open-sources Flora to make robot video labeling 125x cheaper than GPT-6 Astra",
+          "url": "https://the-decoder.com/nvidia-open-sources-flora-to-make-robot-video-labeling-125x-cheaper-than-gpt-6-astra",
+          "source": "the-decoder",
+          "published_at": "2026-10-25T10:08:49.000Z",
+          "score": 6,
+          "positive": [
+            "open sources",
+            "open-sources"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "46616b411003fd64",
+          "title": "Nvidia CEO Jensen Huang says a forgotten 1950s European alliance secretly secured Taiwan’s chip empire — decades later, an island hardly bigger than Maryland dominates 90% of the advanced chip market",
+          "url": "https://reddit.com/r/technology/comments/1xerp9g/nvidia_ceo_jensen_huang_says_a_forgotten_1950s",
+          "source": "reddit-technology",
+          "published_at": "2026-10-25T03:23:22.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9ac305ab64545281",
+          "title": "CMP170HX inspiration unlocks 30x/40x also, up to 2X Prefill speedup --> NVIDIA RTX 30 & RTX 40 GPUs Get Impressively Fast In AI LLMs As Compute Doubles With New Unlock Tool But Prices Surge Too",
+          "url": "https://reddit.com/r/LocalLLaMA/comments/1xelhpj/cmp170hx_inspiration_unlocks_30x40x_also_up_to_2x",
+          "source": "reddit-localllama",
+          "published_at": "2026-10-24T22:16:55.000Z",
+          "score": 3,
+          "positive": [
+            "surge"
+          ],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 18,
-      "index": 2.7,
+      "headlines": 19,
+      "index": 2.5,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "f98253db70b53bcf",
+          "title": "Amazon’s $75 AI wearable hides a bigger $144-a-year bet",
+          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQNG9NZG9aMmZNbnhsbnlHXzlST0RSTzlndEM1WmZhdlpMR0ZKWWhKTXlWa2RuSzFXaWVpSkRtdjBzaHB3X3JEUnF3dGxodEtFQnZGTHpXamlWRHdyWHNEUFNpblpFLXhBMDk0NVdRVVc3WTRtNDJXdU5XeGlnLXpUQ3NJUlRsOEpUQWlhTkJIZndPUWM?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T17:23:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1d4995dfc5d945d9",
           "title": "How a Fake Amazon Phone Call Cost a Retired Nurse $400K, and What You Can Do to Protect Your Parents",
@@ -1335,17 +1352,6 @@
           "url": "https://newsletter.semianalysis.com/p/amazons-trainium-takes-a-strike-at",
           "source": "hn-fresh-ai",
           "published_at": "2026-10-24T11:45:06.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3f7233fc14423272",
-          "title": "AWS AI cloud capacity sold out through 2027, 2028 bookings filling fast",
-          "url": "https://reddit.com/r/artificial/comments/1xe1mos/aws_ai_cloud_capacity_sold_out_through_2027_2028",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-24T06:47:51.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1455,9 +1461,9 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 35,
-      "index": -0.5,
-      "mean_headline": -0.1,
+      "headlines": 33,
+      "index": 0.5,
+      "mean_headline": 0.1,
       "sample": [
         {
           "id": "b28d3466e8a625b2",
@@ -1530,19 +1536,6 @@
           "clickbait": []
         },
         {
-          "id": "7136bd8075918590",
-          "title": "Consumer Tech (Oct 19-23): OpenAI Reportedly Seeks $30 Billion, Tesla Cuts 2026 Capex Forecast, Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxNcmM5ekk4MUJnZ01qd1ljU3QxcnRCR3ItRXpHUUE0UEFaM21ZaXBVSTdQOWpEdlRhVXVNd19EUW9veDJLcjhJREtpcmMxX0l1ZTRJa3VTb0s0Tl93ZUxZdHdjcThTUEpJVWc1ZXY4ODJfdHlRU3Q4NEV0UHI5S3l2NExTTW1OLVVsVHk4bUtJTDhhaE9GN3E2cm10a0RkOEJZVXZhUDZaUHlmalY5Z041WVhmMzhxRHgtREZUbk1DNkF3d0dGaXZYejc2cUhzT3h4TnpVMU41bmExYjlLSmZsdUJYZFN4c1BkOXRZUDZNOXhkSHJVWVFjZVd2OUZKWnkxbkpSYi1DZGZjOHllXzR2cnluaw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T13:47:05.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cuts"
-          ],
-          "clickbait": []
-        },
-        {
           "id": "1b561faaee9a1ef3",
           "title": "Anthropic co-founder Jack Clark moves his prediction for self-improving AI forward to 2027",
           "url": "https://the-decoder.com/anthropic-co-founder-jack-clark-moves-his-prediction-for-self-improving-ai-forward-to-2027",
@@ -1551,6 +1544,19 @@
           "score": 0,
           "positive": [],
           "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "49b9b797a613b99b",
+          "title": "Anthropic Sued for Using Elvis Presley Music to Train AI Models",
+          "url": "https://hollywoodreporter.com/music/music-industry-news/anthropic-elvis-presley-lawsuit-ai-1236739617",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-25T09:15:56.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "sued"
+          ],
           "clickbait": []
         }
       ]
@@ -1657,10 +1663,34 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 65,
-      "index": -4.8,
+      "headlines": 66,
+      "index": -4.7,
       "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "d41ad2501284a7ef",
+          "title": "OpenAI’s agents switched off their own safety monitoring, and one lied about it",
+          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBGaWFmRTRSYllFaTlVV2QtVzJMZTh0UHZhamROcmJKMDdYT0xtclE4STJjZ2FqeXlLbjJpWTNnTHlqdHhGQWVXMGN4bWlhSHBQbWZj?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T17:52:57.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "161690a26e3ca57d",
+          "title": "OpenAI CEO warns AI could find hardware bugs that patching cannot Fix",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPWDQ2bDFoQ0tPT0prYnNnbTNlb0tfS0tWZVFKMHY1UmxPazlSX0hyUU80eEljMmQzVlBvbC1SZ3BjM2QzbU43clRoZko5azV2WnNGaUs1bzQzSHg4LWJ1ZVpzekdCVnF1MkFVVldheWg4OGc0aVhtM1lFeHNEd19jUHdJUlZQOFdEWGN4UklmaGdacTdRVEVGLTBmOFVhWVZmLXVtdkwweFNZdWZPc0hROQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T17:16:45.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
         {
           "id": "006ecce3f40b2639",
           "title": "Outside Testers Found 6 Ways Around OpenAI's AI Watchdog in 3 Weeks. The Fine Print Matters Just as Much",
@@ -1727,30 +1757,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8b79ec3dc5d34e00",
-          "title": "Independent Auditors Find Gaps in OpenAI Agent Monitoring",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNHlkbzRiVno5bG16bDVOaWw5QnVScVBfck5fSmFRY2tFZlBnTUtDSW9YMklOdXZ0SHFDU2RvTU80RHFBU2JKRmdVbFVyOTVnVFhWdVRlSEVBU1dYeGdteUU0M0JDaDAwRFE3dnJGSXpLUlprbFh5T3daZEs5NUp3dEx2RmVHUlpoOW1VV3d5N295Z3dyWFpFZ1dRNzRwTkU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T14:50:36.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7136bd8075918590",
-          "title": "Consumer Tech (Oct 19-23): OpenAI Reportedly Seeks $30 Billion, Tesla Cuts 2026 Capex Forecast, Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxNcmM5ekk4MUJnZ01qd1ljU3QxcnRCR3ItRXpHUUE0UEFaM21ZaXBVSTdQOWpEdlRhVXVNd19EUW9veDJLcjhJREtpcmMxX0l1ZTRJa3VTb0s0Tl93ZUxZdHdjcThTUEpJVWc1ZXY4ODJfdHlRU3Q4NEV0UHI5S3l2NExTTW1OLVVsVHk4bUtJTDhhaE9GN3E2cm10a0RkOEJZVXZhUDZaUHlmalY5Z041WVhmMzhxRHgtREZUbk1DNkF3d0dGaXZYejc2cUhzT3h4TnpVMU41bmExYjlLSmZsdUJYZFN4c1BkOXRZUDZNOXhkSHJVWVFjZVd2OUZKWnkxbkpSYi1DZGZjOHllXzR2cnluaw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T13:47:05.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cuts"
-          ],
           "clickbait": []
         }
       ]
