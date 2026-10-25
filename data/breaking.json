@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-25T13:49:39.966Z",
+  "generated_at": "2026-10-25T14:34:14.109Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 4,
+  "live": 2,
   "fresh": null,
   "clusters": [
     {
@@ -150,7 +150,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "baa4a661b5b31",
@@ -160,18 +160,20 @@
       "outlet": "apnews.com",
       "outlets": [
         "apnews.com",
-        "koreatimes.co.kr"
+        "koreatimes.co.kr",
+        "wdio.com"
       ],
       "tier1_outlets": [
         "apnews.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "bluesky-ai",
         "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-25T10:57:00.000Z",
@@ -198,6 +200,14 @@
           "url": "https://bsky.app/profile/apnews.com/post/3myp5ura76m2u",
           "published_at": "2026-10-25T11:06:37.041Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "wdio.com",
+          "title": "To make AI morally good, tech companies are turning to religion. But some say it isn't that simple",
+          "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPdUhabXBvakg3M0hPN3NiNDRnQ2o1RFd2X3ptLUt3T1E2dy05Qk0temtrMTEzZjBxelV4ZDZud0hCRjV0X1J3Q0oyQU8yQUl5S0ZUbUZuaVFjSnpidWVnTXI4bVZ6Wk84ckNZVXMzRHNhZ1NQVlBoenhqWlkzeUtqdHlSSzNfOE1LdHdQYVFKTl9Ld3l3a185SmdqS1ZmNktJNzF3TGV6YnRnNWVNeGhDUWFjaUJUUmY2cjQzNi1EWC16akJLamY4alpZajZUZ2VZUFFKQUgtRmdRZzlseGJRMHRfbXlWNTlFOTRrNjhIQnI3M0NEYXpLUjN3?oc=5",
+          "published_at": "2026-10-25T11:06:37.041Z",
+          "tier1": false
         },
         {
           "source": "gnews-ai",
@@ -573,7 +583,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b56fa627fb00c",
