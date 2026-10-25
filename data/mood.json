@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-25T06:51:05.601Z",
-  "news_generated_at": "2026-10-25T06:51:05.601Z",
+  "generated_at": "2026-10-25T07:25:37.231Z",
+  "news_generated_at": "2026-10-25T07:25:37.231Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,35 +18,35 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 172,
+    "headlines_naming_a_company": 175,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.076
+    "negative_pair_share": 0.086
   },
   "glance": {
     "leading": {
       "id": "apple",
       "name": "Apple",
-      "index": 24
+      "index": 48
     },
     "trailing": {
       "id": "openai",
       "name": "OpenAI",
-      "index": -4.7
+      "index": -5
     },
     "most_discussed": {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 53
+      "headlines": 56
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 2,
-      "index": 24,
-      "mean_headline": 3,
+      "headlines": 1,
+      "index": 48,
+      "mean_headline": 6,
       "sample": [
         {
           "id": "cac14ff2ddd836ff",
@@ -61,27 +61,51 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "f551a181188bac11",
-          "title": "Evaluating the Applicability of LLM Inference Optimizations on Apple Silicon",
-          "url": "https://arxiv.org/abs/2610.31479",
-          "source": "arxiv-newest",
-          "published_at": "2026-10-22T16:04:40.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 53,
-      "index": -4.7,
+      "headlines": 56,
+      "index": -5,
       "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "378ebcab68ecde3a",
+          "title": "What Newsrooms Should Know Before They Take Money From OpenAI",
+          "url": "https://bsky.app/profile/theatlantic.com/post/3myonwi5gcq26",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-25T07:15:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f364473684eccbf1",
+          "title": "The Leak Suspicions That Got Three OpenAI Staffers Fired",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNVnI0d2YzTXVkOVR3VEJUOV83R3FveURQU2pqeWNVS0xQdG83X3B3WUZmQ0swN0R3bXA4cXNKeGJ3cHFfZkVvMm9fZUMzX2RxVEdRaGVQWUd5SlF4QzdTNTZ6b2hnU1poSmY5V0Z1NVlFeUQ3aXhYQlE1ZXNTMkZ6QURHVDhNMXVidjRDRk5Sd29tMWdf?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-25T07:04:43.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "leak"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "cf496e896f60221a",
+          "title": "OpenAI AI Agents Demonstrate VM Escapes and Secret Cross-Sandbox Communication",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNQVhZc0dfZzVfQ0VSWDM4QTFLLUFkYUZVRWtBMmlUSVUtaDZqQXdJNVZFWnhqVW1lWTc5UHZSNHFER3U2QlFaSGVNUHhnZy1KSFE3cTFwcGJSSDNYMnI4WHg2STNwSDIyUXBOTVZ0N0FscjFKNGhDZWdjaHZyaDkzVDhLT24?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T06:54:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "3a14c26b6a65b10b",
           "title": "Aleksander Madry's OpenAI return and AI safety",
@@ -138,50 +162,15 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "6b73d5ecd19401bd",
-          "title": "OpenAI put its internal models into a red-teaming exercise where they had to coordinate despite being totally isolated from each other. They hacked the server hardware to do it.",
-          "url": "https://reddit.com/r/singularity/comments/1xeevz3/openai_put_its_internal_models_into_a_redteaming",
-          "source": "reddit-singularity",
-          "published_at": "2026-10-24T17:42:47.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "hacked"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "2b97d18dd8a470fc",
-          "title": "Exclusive | FBI Explores Espionage Case Against Saudi OpenAI Suspect",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQRTA2OWU1VV9mbXhWWWMxTVZ4QVA2UXEtamNNOFN0NmZpQXZSVUk1OHBGSXpBbkE2Vmo3Q1RDS3hMUWpFbm13VmF3SkplYWxqcnVrU3ZmV2xONWs4OGdKVjZSMnJUTjBfeWxmOUJkZDkzZ2NxQmZEZFpDZktuZEFxdEkzODFfdmlPaldWYzZXenFqTFhsUUw3OXBVTzNHZw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-24T17:07:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b5d56d5ca530cabc",
-          "title": "Oai-math-revised: a community hub for revising OpenAI's math write-ups",
-          "url": "https://terrytao.wordpress.com/2026/10/24/oai-math-revised-a-community-hub-for-revising-openais-math-write-ups",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T15:35:17.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 20,
-      "index": 2.4,
-      "mean_headline": 0.3,
+      "headlines": 19,
+      "index": 1.3,
+      "mean_headline": 0.2,
       "sample": [
         {
           "id": "c3962a8e850bb0ff",
@@ -239,19 +228,6 @@
           "clickbait": []
         },
         {
-          "id": "61aa5c65e9fd5849",
-          "title": "Nvidia unveils OOI CPO prototype for post-2028 AI needs",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQcDZ4LVhJRGluTDV5SXJ4WWVoanZwdFJGLVVHVHlENElabUNZWDhxbTkxMGZHc1ZfLTVkZzhNVnBpR0NPVVNsYWlGQm01NGJ1REpmVEZyaHloR29zUHpuMXBIbEZpbURTR0pYUFl0VURTRXhRVGU1UG9GaGhLYWRSMlFFSUpNalpEZDV5TjJJQmk0QQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T00:45:44.000Z",
-          "score": 3,
-          "positive": [
-            "unveils"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "516679a1e62bfe4d",
           "title": "Omarchy 4.0.5 Released with Better Nvidia Laptop Support",
           "url": "https://linuxjournal.com/content/omarchy-405-released-better-nvidia-laptop-support",
@@ -272,16 +248,40 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "cc7785e04df37df7",
+          "title": "Why Nvidia Needs CoreWeave",
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFA3SFFrQkZQazVtd2tRMURid2JEVVNGTHltNEFjZThqcHFCWHZtczZ1eG9nbVRsMVJhaE9haWlxSXJQUmFndXpXb3gySWMyeWpxcHZ6RHM5X0RBQWhhaFdpUkFHbWxhSmtabzNsc2tHeGY?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-24T12:08:09.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 27,
-      "index": 2.1,
-      "mean_headline": 0.3,
+      "headlines": 28,
+      "index": 0.9,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "4d0d65c3d9cb8220",
+          "title": "Anthropic Investigates Elevated Errors Across Five Claude Models",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNV0VWT1ZhaXhkVkdab21aZUZvbTF3eFN6RUxKdFhTYkc1ZU9xX21BVkNhamNYamtfV1VTR1pEQnpxZlhZT054SEtfdDRKWFB3T3NXYWpVS0d2TWo4TGJHM1F1VjUtUzJUbmV6NU9VX2JjbGp1Sk5OOGFFcDlWSUdpNlpaUk45dzJyZUxGQlRfUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T06:30:11.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "investigates"
+          ],
+          "clickbait": []
+        },
         {
           "id": "97c3ebb0ae62d4d8",
           "title": "Anthropic Held Back Mythos: 10,000+ Flaws Found [2026]",
@@ -362,27 +362,29 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "f44984f0ef999801",
-          "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
-          "url": "https://status.claude.com/incidents/h101vcmhnfky",
-          "source": "anthropic-status",
-          "published_at": "2026-10-24T00:11:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 22,
-      "index": -1.1,
-      "mean_headline": -0.1,
+      "headlines": 23,
+      "index": 0,
+      "mean_headline": 0,
       "sample": [
+        {
+          "id": "b7fa4962e0f0381f",
+          "title": "Rising Star, Major Launch: MEDIA META's New Self-Developed AEO Platform Reshapes Global Brand AI Growth Logic",
+          "url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxPWW1WNzBTb0NHY0tLUGJOUDIzT2JpWTlBeVNnYzRNQ09vVWpDQUFTNU9peVVBSV9fbGV2bU1WT0NITUNvNkZkZFBWeHVqTXZ0dHE5R2xvTjNwM0d4Mk5zR0RPS2FLTWVCLXU5RHBnck9aZXlwbGVldGNFRENLTWxTcU5UNGZlNmw2aGZ5QnJ5ZWdlS2VQcjhXR0VYcm41bU9tTUhFcy1meS1WUXhPM1ZNQnlyOWtnektmczJQc29OWEVqeFBmS050QnFsbW5SZnBDaWVHal9POUQ1Z0FiUjVNcXduOENrcDVLTDhjU1dON0gzZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T07:02:45.000Z",
+          "score": 3,
+          "positive": [
+            "launch"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "fc9fb0213c9f0719",
           "title": "WhatsApp users hide Meta AI on Android and iOS to guard data",
@@ -455,17 +457,6 @@
           "url": "https://cio.com/article/4237395/metas-new-enterprise-contract-says-if-its-ai-makes-a-mistake-it-will-legally-be-the-customers-fault.html",
           "source": "hn-ai",
           "published_at": "2026-10-24T03:00:43.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4178fa1895773520",
-          "title": "WIRED World Fair: A Festival of the Future",
-          "url": "https://bsky.app/profile/wired.com/post/3mykkoly62g2j",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-23T16:06:17.807Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -489,6 +480,17 @@
       "mean_headline": 0.3,
       "sample": [
         {
+          "id": "5689b48681ed6da8",
+          "title": "Google Gemini 4 Argon Costs 33% Less to Run vs ChatGPT 6.1",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9XOHBsNTNZQTNWREJWOEhlcDBTT1BDWTdLSzlyZEJPVDZfQVMwUWhuSGdpUk1aTHJ5RjBtV2RCVUNvNmxRalhicndVVjdGS3YyeDlDSHotT09KdFBjcnF4bThB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T07:04:24.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "cac14ff2ddd836ff",
           "title": "Instagram launches an Apple TV app for watching Reels, longer videos, and live shows; the app previously launched on Fire TV, Google TV, and Samsung smart TVs (Hartley Charlton/MacRumors)",
           "url": "https://techmeme.com/261025/p3",
@@ -513,17 +515,6 @@
             "deals",
             "raise"
           ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "330ef59a5711e5ed",
-          "title": "Google Opens Global Public Access to Gemini 4 Argon App",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOM1ZveTNDUndRT0VJZ0JtZ1g2Vnh4bTd0eEpwRnkyX0hROHRvM1dfcXNFalpBVW1aMmpLMnFSeGRPcHhHeE10TEYyclhST0NFNUlwclRMMFVDQTRMVC03V2t1ZGk3Vmo5eDhJeV9waE15WWkwUDV2bGF4UnpxMV9adE0wbGZMV1BLX2JKQ1pKZGJGeVhiZ0Q1UjhpVQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T01:07:22.000Z",
-          "score": 0,
-          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -591,10 +582,21 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 10,
-      "index": 2.4,
+      "headlines": 11,
+      "index": 2.2,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "a928db774903d71d",
+          "title": "Denmark abandons plans to ditch Microsoft Office after technical problems",
+          "url": "https://neowin.net/news/denmark-has-abandoned-plans-to-ditch-microsoft-office-after-technical-problems",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-25T05:37:52.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "ef8d2bdee3871539",
           "title": "Microsoft AI Tool More Than Doubles Doctors’ Accuracy in Complex Diagnoses, Study Finds",
@@ -669,17 +671,6 @@
           "url": "https://techcrunch.com/2026/10/22/microsofts-mustafa-suleyman-says-its-ai-outperforms-doctors-on-hard-cases-as-he-chases-medical-superintelligence",
           "source": "techcrunch-ai",
           "published_at": "2026-10-22T18:43:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "75f63dbceaefb915",
-          "title": "Microsoft says its GPT-5-powered Diagnostic Orchestrator uses agents that mimic panels of experts to diagnose conditions up to 4x more accurately than doctors (Robert Hart/The Verge)",
-          "url": "https://techmeme.com/261022/p48",
-          "source": "techmeme",
-          "published_at": "2026-10-22T18:35:21.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -787,9 +778,9 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 10,
-      "index": 16.8,
-      "mean_headline": 2.1,
+      "headlines": 9,
+      "index": 18.7,
+      "mean_headline": 2.3,
       "sample": [
         {
           "id": "d63d33d4d7a06436",
@@ -810,17 +801,6 @@
           "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOZUpIRi1oRmV0Q2lLRUZGdU9ab2ZyUGhZVTVDVDh2VnVSOG5nZVFBQ3gxd3VUeUs5QUw0emMtRVJpWHVtV2MxNzUwc0dVSF8tRWluWTFqcjhiY2J5RzNCMHdwV3A3R0JtVlNsVmtvRUtUX29SZ29CQTU1dV9ZYWVmT1AtdnpYOFZSSHc?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-25T05:15:17.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c2af5dff7cd503c0",
-          "title": "China clears DeepSeek, MiniMax for overseas AI deployment",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPdDh5VWJWOEg3WTVranpFRmZkTElMd0k4MW1CNTV4LWRZZlVwQUhWbGlmSE1TUkMyV0RQRGhEV3lPVjNWajBNWlRYSFFRYTFTcWUzanczSzFuUHNnSHlUMmhKWU9zMDZVQXYyYzRGd2hxYzFGaDg3REVreHYwQzVaTVNyMG1CdUlf?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T00:45:17.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -885,6 +865,20 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "5ab735d4795c2cbb",
+          "title": "Chinese state media: DeepSeek and MiniMax completed registration and won approval to open-source and deploy AI models overseas under proposed export controls (Bloomberg)",
+          "url": "https://techmeme.com/261023/p2",
+          "source": "techmeme",
+          "published_at": "2026-10-23T04:50:55.000Z",
+          "score": 6,
+          "positive": [
+            "approval",
+            "won"
+          ],
+          "negative": [],
+          "clickbait": []
         }
       ]
     }
@@ -893,9 +887,9 @@
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 2,
-      "index": 24,
-      "mean_headline": 3,
+      "headlines": 1,
+      "index": 48,
+      "mean_headline": 6,
       "sample": [
         {
           "id": "cac14ff2ddd836ff",
@@ -910,26 +904,15 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "f551a181188bac11",
-          "title": "Evaluating the Applicability of LLM Inference Optimizations on Apple Silicon",
-          "url": "https://arxiv.org/abs/2610.31479",
-          "source": "arxiv-newest",
-          "published_at": "2026-10-22T16:04:40.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 10,
-      "index": 16.8,
-      "mean_headline": 2.1,
+      "headlines": 9,
+      "index": 18.7,
+      "mean_headline": 2.3,
       "sample": [
         {
           "id": "d63d33d4d7a06436",
@@ -950,17 +933,6 @@
           "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOZUpIRi1oRmV0Q2lLRUZGdU9ab2ZyUGhZVTVDVDh2VnVSOG5nZVFBQ3gxd3VUeUs5QUw0emMtRVJpWHVtV2MxNzUwc0dVSF8tRWluWTFqcjhiY2J5RzNCMHdwV3A3R0JtVlNsVmtvRUtUX29SZ29CQTU1dV9ZYWVmT1AtdnpYOFZSSHc?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-25T05:15:17.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c2af5dff7cd503c0",
-          "title": "China clears DeepSeek, MiniMax for overseas AI deployment",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPdDh5VWJWOEg3WTVranpFRmZkTElMd0k4MW1CNTV4LWRZZlVwQUhWbGlmSE1TUkMyV0RQRGhEV3lPVjNWajBNWlRYSFFRYTFTcWUzanczSzFuUHNnSHlUMmhKWU9zMDZVQXYyYzRGd2hxYzFGaDg3REVreHYwQzVaTVNyMG1CdUlf?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T00:45:17.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1025,6 +997,20 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "5ab735d4795c2cbb",
+          "title": "Chinese state media: DeepSeek and MiniMax completed registration and won approval to open-source and deploy AI models overseas under proposed export controls (Bloomberg)",
+          "url": "https://techmeme.com/261023/p2",
+          "source": "techmeme",
+          "published_at": "2026-10-23T04:50:55.000Z",
+          "score": 6,
+          "positive": [
+            "approval",
+            "won"
+          ],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
@@ -1035,6 +1021,17 @@
       "index": 2.5,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "5689b48681ed6da8",
+          "title": "Google Gemini 4 Argon Costs 33% Less to Run vs ChatGPT 6.1",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9XOHBsNTNZQTNWREJWOEhlcDBTT1BDWTdLSzlyZEJPVDZfQVMwUWhuSGdpUk1aTHJ5RjBtV2RCVUNvNmxRalhicndVVjdGS3YyeDlDSHotT09KdFBjcnF4bThB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T07:04:24.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "cac14ff2ddd836ff",
           "title": "Instagram launches an Apple TV app for watching Reels, longer videos, and live shows; the app previously launched on Fire TV, Google TV, and Samsung smart TVs (Hartley Charlton/MacRumors)",
@@ -1060,17 +1057,6 @@
             "deals",
             "raise"
           ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "330ef59a5711e5ed",
-          "title": "Google Opens Global Public Access to Gemini 4 Argon App",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOM1ZveTNDUndRT0VJZ0JtZ1g2Vnh4bTd0eEpwRnkyX0hROHRvM1dfcXNFalpBVW1aMmpLMnFSeGRPcHhHeE10TEYyclhST0NFNUlwclRMMFVDQTRMVC03V2t1ZGk3Vmo5eDhJeV9waE15WWkwUDV2bGF4UnpxMV9adE0wbGZMV1BLX2JKQ1pKZGJGeVhiZ0Q1UjhpVQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T01:07:22.000Z",
-          "score": 0,
-          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -1138,10 +1124,21 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 10,
-      "index": 2.4,
+      "headlines": 11,
+      "index": 2.2,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "a928db774903d71d",
+          "title": "Denmark abandons plans to ditch Microsoft Office after technical problems",
+          "url": "https://neowin.net/news/denmark-has-abandoned-plans-to-ditch-microsoft-office-after-technical-problems",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-25T05:37:52.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "ef8d2bdee3871539",
           "title": "Microsoft AI Tool More Than Doubles Doctors’ Accuracy in Complex Diagnoses, Study Finds",
@@ -1220,26 +1217,15 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "75f63dbceaefb915",
-          "title": "Microsoft says its GPT-5-powered Diagnostic Orchestrator uses agents that mimic panels of experts to diagnose conditions up to 4x more accurately than doctors (Robert Hart/The Verge)",
-          "url": "https://techmeme.com/261022/p48",
-          "source": "techmeme",
-          "published_at": "2026-10-22T18:35:21.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 20,
-      "index": 2.4,
-      "mean_headline": 0.3,
+      "headlines": 19,
+      "index": 1.3,
+      "mean_headline": 0.2,
       "sample": [
         {
           "id": "c3962a8e850bb0ff",
@@ -1297,19 +1283,6 @@
           "clickbait": []
         },
         {
-          "id": "61aa5c65e9fd5849",
-          "title": "Nvidia unveils OOI CPO prototype for post-2028 AI needs",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQcDZ4LVhJRGluTDV5SXJ4WWVoanZwdFJGLVVHVHlENElabUNZWDhxbTkxMGZHc1ZfLTVkZzhNVnBpR0NPVVNsYWlGQm01NGJ1REpmVEZyaHloR29zUHpuMXBIbEZpbURTR0pYUFl0VURTRXhRVGU1UG9GaGhLYWRSMlFFSUpNalpEZDV5TjJJQmk0QQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T00:45:44.000Z",
-          "score": 3,
-          "positive": [
-            "unveils"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "516679a1e62bfe4d",
           "title": "Omarchy 4.0.5 Released with Better Nvidia Laptop Support",
           "url": "https://linuxjournal.com/content/omarchy-405-released-better-nvidia-laptop-support",
@@ -1330,16 +1303,137 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "cc7785e04df37df7",
+          "title": "Why Nvidia Needs CoreWeave",
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFA3SFFrQkZQazVtd2tRMURid2JEVVNGTHltNEFjZThqcHFCWHZtczZ1eG9nbVRsMVJhaE9haWlxSXJQUmFndXpXb3gySWMyeWpxcHZ6RHM5X0RBQWhhaFdpUkFHbWxhSmtabzNsc2tHeGY?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-24T12:08:09.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "headlines": 21,
+      "index": 1.1,
+      "mean_headline": 0.1,
+      "sample": [
+        {
+          "id": "d747000cc33376c2",
+          "title": "How an Amazon Frontier Town Became a Bolsonaro Stronghold",
+          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOSnU0dVFSaUgtWW41Vm1FMC1udWFJeVJpWDBKZ0dkc1ZaZFNCM1ZLSGFtOWtVRmpqcGZOaHllQTNaR0tpYkpkOGhySDBPcENuYWN4X0JPR3lPczFTU0hDQzZGZVl3Mnhlejg5ckNwS29BbUhSS25zMUp4bjJwODlNTm5HTUZfMlZYek1Eb3F3ZlZOb3JTNDFsTXhyQnpHdW5iRlNTMlhBZ3J3SlI1U2JKM29NR2VpQmoxRHVCaV9CRU9Jd0ZH?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-25T06:02:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "32f177b9c2ede833",
+          "title": "Amazon's 2028 Computing Capacity Sold Out Despite Wall Street's Worries",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNWlVUNi1ZRnE0UWhtOFdPYmZ6Vk0wVXdIZk8xcDY1UWN2Z1E0ZDlZRHU5aS1ESVBHTWxJenBlLVVlY2VYVzJJeEJzVF9JUE1MSEl0aDBJc19pRlRCYkxwWjU3OXBEanNRZEVkX3c1dk5kSlJ0Z1BRTHZPZlFzeTAzMTE4ZktUcEFh?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T05:12:50.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f433d76628f861cc",
+          "title": "Meta's Muse Solves CAPTCHAs on Google, Amazon and Cloudflare",
+          "url": "https://github.com/sneakers-the-rat/muse-skills/tree/main/topics/bot_challenge",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T13:09:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "061da33d4fee97af",
+          "title": "Amazon's Trainium Takes a Strike at the Training King",
+          "url": "https://newsletter.semianalysis.com/p/amazons-trainium-takes-a-strike-at",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T11:45:06.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3f7233fc14423272",
+          "title": "AWS AI cloud capacity sold out through 2027, 2028 bookings filling fast",
+          "url": "https://reddit.com/r/artificial/comments/1xe1mos/aws_ai_cloud_capacity_sold_out_through_2027_2028",
+          "source": "reddit-artificial",
+          "published_at": "2026-10-24T06:47:51.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "77282c79df25665f",
+          "title": "AWS Continuum for code vulnerabilities is now generally available",
+          "url": "https://aws.amazon.com/blogs/aws/aws-continuum-for-code-vulnerabilities-is-now-generally-available",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T05:05:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3dbecb663017dddc",
+          "title": "Amazon cloud capacity sold out through 2027, CEO Jassy says",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOeDBNbTdvV2F5U2tSX1NQWmZ2bnRGUXJMRE4xT1V3V0dIcnlFd3g0WkZ6aWdYNmNzNWxIQXNOcWxMdFlqbFNmN3lWekFUOGJVQzN5aElzeVlveVh4RzZ5aC03b3pSLUNQQ21lQ29jNVkwdmF4V2YwYUlkd0dPdkJQT1VwWF9lZUdhZnBrNWppME81Y2Q2ZzFYOWcwWFozajYyME9BQkpSZHNOTTdQX3hTcXF3RkVSS2s3OU1F?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T23:07:43.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8708cf6c64b57f6c",
+          "title": "Bolsonaro Embraced by Amazon Town Rebelling Against Green Policies",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3mykr326org2y",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-23T18:00:38.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 27,
-      "index": 2.1,
-      "mean_headline": 0.3,
+      "headlines": 28,
+      "index": 0.9,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "4d0d65c3d9cb8220",
+          "title": "Anthropic Investigates Elevated Errors Across Five Claude Models",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNV0VWT1ZhaXhkVkdab21aZUZvbTF3eFN6RUxKdFhTYkc1ZU9xX21BVkNhamNYamtfV1VTR1pEQnpxZlhZT054SEtfdDRKWFB3T3NXYWpVS0d2TWo4TGJHM1F1VjUtUzJUbmV6NU9VX2JjbGp1Sk5OOGFFcDlWSUdpNlpaUk45dzJyZUxGQlRfUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T06:30:11.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "investigates"
+          ],
+          "clickbait": []
+        },
         {
           "id": "97c3ebb0ae62d4d8",
           "title": "Anthropic Held Back Mythos: 10,000+ Flaws Found [2026]",
@@ -1420,124 +1514,29 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "f44984f0ef999801",
-          "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
-          "url": "https://status.claude.com/incidents/h101vcmhnfky",
-          "source": "anthropic-status",
-          "published_at": "2026-10-24T00:11:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "amazon",
-      "name": "Amazon",
-      "headlines": 21,
-      "index": 1.1,
-      "mean_headline": 0.1,
-      "sample": [
-        {
-          "id": "d747000cc33376c2",
-          "title": "How an Amazon Frontier Town Became a Bolsonaro Stronghold",
-          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOSnU0dVFSaUgtWW41Vm1FMC1udWFJeVJpWDBKZ0dkc1ZaZFNCM1ZLSGFtOWtVRmpqcGZOaHllQTNaR0tpYkpkOGhySDBPcENuYWN4X0JPR3lPczFTU0hDQzZGZVl3Mnhlejg5ckNwS29BbUhSS25zMUp4bjJwODlNTm5HTUZfMlZYek1Eb3F3ZlZOb3JTNDFsTXhyQnpHdW5iRlNTMlhBZ3J3SlI1U2JKM29NR2VpQmoxRHVCaV9CRU9Jd0ZH?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-25T06:02:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "32f177b9c2ede833",
-          "title": "Amazon's 2028 Computing Capacity Sold Out Despite Wall Street's Worries",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNWlVUNi1ZRnE0UWhtOFdPYmZ6Vk0wVXdIZk8xcDY1UWN2Z1E0ZDlZRHU5aS1ESVBHTWxJenBlLVVlY2VYVzJJeEJzVF9JUE1MSEl0aDBJc19pRlRCYkxwWjU3OXBEanNRZEVkX3c1dk5kSlJ0Z1BRTHZPZlFzeTAzMTE4ZktUcEFh?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-25T05:12:50.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f433d76628f861cc",
-          "title": "Meta's Muse Solves CAPTCHAs on Google, Amazon and Cloudflare",
-          "url": "https://github.com/sneakers-the-rat/muse-skills/tree/main/topics/bot_challenge",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T13:09:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "061da33d4fee97af",
-          "title": "Amazon's Trainium Takes a Strike at the Training King",
-          "url": "https://newsletter.semianalysis.com/p/amazons-trainium-takes-a-strike-at",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T11:45:06.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3f7233fc14423272",
-          "title": "AWS AI cloud capacity sold out through 2027, 2028 bookings filling fast",
-          "url": "https://reddit.com/r/artificial/comments/1xe1mos/aws_ai_cloud_capacity_sold_out_through_2027_2028",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-24T06:47:51.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "77282c79df25665f",
-          "title": "AWS Continuum for code vulnerabilities is now generally available",
-          "url": "https://aws.amazon.com/blogs/aws/aws-continuum-for-code-vulnerabilities-is-now-generally-available",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T05:05:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3dbecb663017dddc",
-          "title": "Amazon cloud capacity sold out through 2027, CEO Jassy says",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOeDBNbTdvV2F5U2tSX1NQWmZ2bnRGUXJMRE4xT1V3V0dIcnlFd3g0WkZ6aWdYNmNzNWxIQXNOcWxMdFlqbFNmN3lWekFUOGJVQzN5aElzeVlveVh4RzZ5aC03b3pSLUNQQ21lQ29jNVkwdmF4V2YwYUlkd0dPdkJQT1VwWF9lZUdhZnBrNWppME81Y2Q2ZzFYOWcwWFozajYyME9BQkpSZHNOTTdQX3hTcXF3RkVSS2s3OU1F?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-23T23:07:43.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8708cf6c64b57f6c",
-          "title": "Bolsonaro Embraced by Amazon Town Rebelling Against Green Policies",
-          "url": "https://bsky.app/profile/bloomberg.com/post/3mykr326org2y",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-23T18:00:38.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 22,
-      "index": -1.1,
-      "mean_headline": -0.1,
+      "headlines": 23,
+      "index": 0,
+      "mean_headline": 0,
       "sample": [
+        {
+          "id": "b7fa4962e0f0381f",
+          "title": "Rising Star, Major Launch: MEDIA META's New Self-Developed AEO Platform Reshapes Global Brand AI Growth Logic",
+          "url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxPWW1WNzBTb0NHY0tLUGJOUDIzT2JpWTlBeVNnYzRNQ09vVWpDQUFTNU9peVVBSV9fbGV2bU1WT0NITUNvNkZkZFBWeHVqTXZ0dHE5R2xvTjNwM0d4Mk5zR0RPS2FLTWVCLXU5RHBnck9aZXlwbGVldGNFRENLTWxTcU5UNGZlNmw2aGZ5QnJ5ZWdlS2VQcjhXR0VYcm41bU9tTUhFcy1meS1WUXhPM1ZNQnlyOWtnektmczJQc29OWEVqeFBmS050QnFsbW5SZnBDaWVHal9POUQ1Z0FiUjVNcXduOENrcDVLTDhjU1dON0gzZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T07:02:45.000Z",
+          "score": 3,
+          "positive": [
+            "launch"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "fc9fb0213c9f0719",
           "title": "WhatsApp users hide Meta AI on Android and iOS to guard data",
@@ -1614,27 +1613,51 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "4178fa1895773520",
-          "title": "WIRED World Fair: A Festival of the Future",
-          "url": "https://bsky.app/profile/wired.com/post/3mykkoly62g2j",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-23T16:06:17.807Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 53,
-      "index": -4.7,
+      "headlines": 56,
+      "index": -5,
       "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "378ebcab68ecde3a",
+          "title": "What Newsrooms Should Know Before They Take Money From OpenAI",
+          "url": "https://bsky.app/profile/theatlantic.com/post/3myonwi5gcq26",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-25T07:15:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f364473684eccbf1",
+          "title": "The Leak Suspicions That Got Three OpenAI Staffers Fired",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNVnI0d2YzTXVkOVR3VEJUOV83R3FveURQU2pqeWNVS0xQdG83X3B3WUZmQ0swN0R3bXA4cXNKeGJ3cHFfZkVvMm9fZUMzX2RxVEdRaGVQWUd5SlF4QzdTNTZ6b2hnU1poSmY5V0Z1NVlFeUQ3aXhYQlE1ZXNTMkZ6QURHVDhNMXVidjRDRk5Sd29tMWdf?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-25T07:04:43.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "leak"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "cf496e896f60221a",
+          "title": "OpenAI AI Agents Demonstrate VM Escapes and Secret Cross-Sandbox Communication",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNQVhZc0dfZzVfQ0VSWDM4QTFLLUFkYUZVRWtBMmlUSVUtaDZqQXdJNVZFWnhqVW1lWTc5UHZSNHFER3U2QlFaSGVNUHhnZy1KSFE3cTFwcGJSSDNYMnI4WHg2STNwSDIyUXBOTVZ0N0FscjFKNGhDZWdjaHZyaDkzVDhLT24?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T06:54:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "3a14c26b6a65b10b",
           "title": "Aleksander Madry's OpenAI return and AI safety",
@@ -1689,41 +1712,6 @@
           "positive": [
             "deal"
           ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6b73d5ecd19401bd",
-          "title": "OpenAI put its internal models into a red-teaming exercise where they had to coordinate despite being totally isolated from each other. They hacked the server hardware to do it.",
-          "url": "https://reddit.com/r/singularity/comments/1xeevz3/openai_put_its_internal_models_into_a_redteaming",
-          "source": "reddit-singularity",
-          "published_at": "2026-10-24T17:42:47.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "hacked"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "2b97d18dd8a470fc",
-          "title": "Exclusive | FBI Explores Espionage Case Against Saudi OpenAI Suspect",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQRTA2OWU1VV9mbXhWWWMxTVZ4QVA2UXEtamNNOFN0NmZpQXZSVUk1OHBGSXpBbkE2Vmo3Q1RDS3hMUWpFbm13VmF3SkplYWxqcnVrU3ZmV2xONWs4OGdKVjZSMnJUTjBfeWxmOUJkZDkzZ2NxQmZEZFpDZktuZEFxdEkzODFfdmlPaldWYzZXenFqTFhsUUw3OXBVTzNHZw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-24T17:07:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b5d56d5ca530cabc",
-          "title": "Oai-math-revised: a community hub for revising OpenAI's math write-ups",
-          "url": "https://terrytao.wordpress.com/2026/10/24/oai-math-revised-a-community-hub-for-revising-openais-math-write-ups",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T15:35:17.000Z",
-          "score": 0,
-          "positive": [],
           "negative": [],
           "clickbait": []
         }
