@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-25T00:47:14.053Z",
-  "news_generated_at": "2026-10-25T00:47:14.053Z",
+  "generated_at": "2026-10-25T01:48:02.530Z",
+  "news_generated_at": "2026-10-25T01:48:02.530Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,26 +18,26 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 179,
+    "headlines_naming_a_company": 172,
     "companies_on_roster": 10,
     "companies_with_headlines": 10,
-    "negative_pair_share": 0.077
+    "negative_pair_share": 0.075
   },
   "glance": {
     "leading": {
       "id": "deepseek",
       "name": "DeepSeek",
-      "index": 20.6
+      "index": 18
     },
     "trailing": {
       "id": "openai",
       "name": "OpenAI",
-      "index": -4.4
+      "index": -5.2
     },
     "most_discussed": {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 60
+      "headlines": 55
     }
   },
   "companies": [
@@ -75,9 +75,9 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 60,
-      "index": -4.4,
-      "mean_headline": -0.5,
+      "headlines": 55,
+      "index": -5.2,
+      "mean_headline": -0.7,
       "sample": [
         {
           "id": "ce24b18b4be11b1c",
@@ -140,33 +140,35 @@
           "clickbait": []
         },
         {
-          "id": "9359799bd006f5c9",
-          "title": "Judge Detains Former OpenAI Engineer Without Bail in Espionage Case",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFB6Xzl4ZFlNdTF4X2hjbnA4eF9QeHpSaG1Gc3hCMDZEQnYwTk5TNHFNdGtvWW95QUJrRXkwQTgtTHNDWmF4a01jTG5QRFFxU3lxbl9hRHJyR1VoQTliemc2OGZ2dUJxQVdMT3NsX3lZemN3M21IbFE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:33:00.000Z",
+          "id": "6b73d5ecd19401bd",
+          "title": "OpenAI put its internal models into a red-teaming exercise where they had to coordinate despite being totally isolated from each other. They hacked the server hardware to do it.",
+          "url": "https://reddit.com/r/singularity/comments/1xeevz3/openai_put_its_internal_models_into_a_redteaming",
+          "source": "reddit-singularity",
+          "published_at": "2026-10-24T17:42:47.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "hacked"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "2b97d18dd8a470fc",
+          "title": "Exclusive | FBI Explores Espionage Case Against Saudi OpenAI Suspect",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQRTA2OWU1VV9mbXhWWWMxTVZ4QVA2UXEtamNNOFN0NmZpQXZSVUk1OHBGSXpBbkE2Vmo3Q1RDS3hMUWpFbm13VmF3SkplYWxqcnVrU3ZmV2xONWs4OGdKVjZSMnJUTjBfeWxmOUJkZDkzZ2NxQmZEZFpDZktuZEFxdEkzODFfdmlPaldWYzZXenFqTFhsUUw3OXBVTzNHZw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-24T17:07:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "e2e386ed98bfb9d9",
-          "title": "OpenAI’s Decision API Leaves Beta With Voice Integration",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQYWpQZndwLVgzWlNSdlpnRUZsel9ZbGg1MWJSSXpFYm9xT2paTGpvZmRWQ1lBWkZHRW1XVEJIa0FBaVVTUHI3Y3NVUVVlZnY5aVFrUEI2VnlnajdDamlKTHZDUG02cmxiT3FaZHlEa0VCbkRrcGZLZnBseS00RjJVZTFLLURFX3l0QlZzNVp3YlREOENiLVN0RTVtZ1hOVjNVVlFySA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:07:44.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3ff9d2d923e8e458",
-          "title": "OpenAI Resumes AI Training, Keeps Frontier Models Offline",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOTVhuMkptamIyZU9DNjFJcjFDb3FnWE15ZURuSVl6d2o3QmZmV3RNdTh4R2I3VzYtUG9lLXUzaGp1dV9uaG9YTGhGeGViV0txMlhuZVdobThqZEFOTGl3SjZQblk5VzdVMWc1OW5CZmxvSTU4bkw2Y2gtaHZ0YVd2bnV2R0t5X2dseEUweElJSm8yYml2NjJEU0xWRHBQUVJ0dVE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T18:55:38.000Z",
+          "id": "b5d56d5ca530cabc",
+          "title": "Oai-math-revised: a community hub for revising OpenAI's math write-ups",
+          "url": "https://terrytao.wordpress.com/2026/10/24/oai-math-revised-a-community-hub-for-revising-openais-math-write-ups",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T15:35:17.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -177,10 +179,23 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 20,
-      "index": 4.8,
-      "mean_headline": 0.6,
+      "headlines": 21,
+      "index": 5.7,
+      "mean_headline": 0.7,
       "sample": [
+        {
+          "id": "61aa5c65e9fd5849",
+          "title": "Nvidia unveils OOI CPO prototype for post-2028 AI needs",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQcDZ4LVhJRGluTDV5SXJ4WWVoanZwdFJGLVVHVHlENElabUNZWDhxbTkxMGZHc1ZfLTVkZzhNVnBpR0NPVVNsYWlGQm01NGJ1REpmVEZyaHloR29zUHpuMXBIbEZpbURTR0pYUFl0VURTRXhRVGU1UG9GaGhLYWRSMlFFSUpNalpEZDV5TjJJQmk0QQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T00:45:44.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "e00081bb4d2b31c9",
           "title": "HCLTech launches NVIDIA tool: LKP sets INR 1,360 target for HCL Tech stock",
@@ -259,27 +274,29 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "b6ee2b32304d0c0d",
-          "title": "GPU-unlock: FP/BF16 instruction issue rate on Nvidia 3000's cards",
-          "url": "https://github.com/Zagitta/gpu-unlock",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T09:58:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 31,
-      "index": 2.6,
-      "mean_headline": 0.3,
+      "headlines": 28,
+      "index": 4.9,
+      "mean_headline": 0.6,
       "sample": [
+        {
+          "id": "7ef6a0a013f4170b",
+          "title": "Anthropic unveils Claude Duet, its answer to AI agents like Dots",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOaURKclZiTXFBamI0c05icXZaamhMeFRBRjNBMjNDX3FHMnVoRFl1YzNhOWF6ekVGdGJnWGx5LWZZcGhYTFJmb0pSYVk0MU5aSzlhVWdMcEhqZlRBYldVN3hPS1pxb1RWT1ZEdjBfb3UtbnNjS19ud25SMTV6ZnNKUDhFMDZHLU1tRFcxQlJqUWFkZ0RicEhLdA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T00:25:00.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "7ab71c58d897cd4c",
           "title": "Dario Amodei, CEO of Anthropic, speaking out against the war in Iraq as a college student in 2003",
@@ -327,46 +344,33 @@
           "clickbait": []
         },
         {
-          "id": "ceaa2b27545990a3",
-          "title": "Anthropic Integrates Agent Capabilities into Enterprise Claude, Offering Four Controls to Prevent Billing Bloat",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBZNW1RSlhSZmd0SXBWZW9PdF9DcUl6OHg3YkptY3Bzci15ZnJhV1ZOVTNhcEhKeW5SRENvdktjb0tQNzhIV3h3cS1aZzhGcWhROXByd204SklqREZXT1NlQkxGYnA3OE81Zi1McU05Q2tuTjlMNEE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:35:00.000Z",
+          "id": "31e369a941ade71a",
+          "title": "Anthropic employee tells students their careers may not exist by graduation",
+          "url": "https://twitter.com/cheaf25master/status/2113261574194659368",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T02:27:47.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "ff5e90c08453c845",
-          "title": "Elvis Presley music rights holders sue Anthropic for $41 million — Rolling Stone",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQYUlPdmRfOFJpbklxTlRWMURpOGZib1c5QWZfajFFZVFjSEt0bExVOEMxOTIwZDkyZl9zRUFFZlYzZjhSRFhDT0hnMXdBRzljdjZ3b3VzUWxPX2JoUDMxN2tJOHV6ZkpCR2V2eUlCd0loT2xfVXBFWG5MbWFfbkRYNzVvejRKTXI4N3dIb0hpRTZNTDFJbHBWblNYXzFJb1ZMVGJUOUNsTkRxTHVNbVViR0JjcVZ4Rk0?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:05:01.000Z",
+          "id": "d7952ecf942fe088",
+          "title": "The UK plans to invest £100M to create the AI Biosecurity Lab to boost defenses against biological threats, supported by OpenAI, Anthropic, and Google DeepMind (Liv McMahon/BBC)",
+          "url": "https://techmeme.com/261023/p26",
+          "source": "techmeme",
+          "published_at": "2026-10-24T01:20:01.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "9f4857b606941144",
-          "title": "Elvis Presley Estate Sues Anthropic for Stealing His Music ‘At a Scale Never Seen Before’ To Train AI",
-          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNYkpHcG95OGt1cGU3Z3VWSmJHZkVzUVRlUko5S0xpLVM5REs2RUxkeHlENUQ3SzhYV3psUllVUE02YXM4bFVMbHlMbEgyaHIyM0ltNm9pdmJLTFY3aFpyNS1KTDFjRFo2enVVeVpjMUJXektqU21hbmRDZHVfQk81WlVVLWpmZEQ2dzRWcUI4TTd5M0dRbjFjM2RNWkc2eHQ2NEZOdTFETTVHdHV1OE9TOXVOSGdvYWNMQlJ4azFGYU1pUmFTUExoeTB0bFY?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T18:58:31.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "sues"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "1d3704dcc967cee9",
-          "title": "Forget Anthropic: Biotech Is Quietly Dominating the IPO Sphere",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1yVi1sdEgxYmx2THJJODdIVTVFLUVTbXN0ZGFKQzB5TW5BZHFRb29JTTJNZUtjR25Palc4Ymo3SnVSeWhvU0xHb0hyMllRNUQ0NFU0RlhfZ1BKODBvRXhWdzdZY3Q2UUU3bHFlQnRyamtnR19xR01mZTBR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T18:57:00.000Z",
+          "id": "f44984f0ef999801",
+          "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
+          "url": "https://status.claude.com/incidents/h101vcmhnfky",
+          "source": "anthropic-status",
+          "published_at": "2026-10-24T00:11:20.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -494,10 +498,21 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 17,
-      "index": -2.8,
-      "mean_headline": -0.4,
+      "headlines": 18,
+      "index": -2.7,
+      "mean_headline": -0.3,
       "sample": [
+        {
+          "id": "330ef59a5711e5ed",
+          "title": "Google Opens Global Public Access to Gemini 4 Argon App",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOM1ZveTNDUndRT0VJZ0JtZ1g2Vnh4bTd0eEpwRnkyX0hROHRvM1dfcXNFalpBVW1aMmpLMnFSeGRPcHhHeE10TEYyclhST0NFNUlwclRMMFVDQTRMVC03V2t1ZGk3Vmo5eDhJeV9waE15WWkwUDV2bGF4UnpxMV9adE0wbGZMV1BLX2JKQ1pKZGJGeVhiZ0Q1UjhpVQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T01:07:22.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "238aac40e20acefc",
           "title": "Gemini arrives on Apple CarPlay in Google Maps, US first",
@@ -578,38 +593,16 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "1224eab7439ee9c5",
-          "title": "Updated Google privacy policy says your Gmail might be used for advertising",
-          "url": "https://arstechnica.com/gadgets/2026/10/updated-google-privacy-policy-says-your-gmail-might-be-used-for-advertising",
-          "source": "arstechnica-ai",
-          "published_at": "2026-10-23T20:19:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 10,
-      "index": 2.4,
+      "headlines": 9,
+      "index": 2.7,
       "mean_headline": 0.3,
       "sample": [
-        {
-          "id": "45a4ffe5a237b32f",
-          "title": "Microsoft's upcoming earnings face scrutiny ove...",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNcE9rT1ZfQlZza1V4dUZxcVZZMXRxNGdkc2JFRDlSZjlLQ1hxR2ZYR3Vwa3RCVVVCdlZRdHlndTBDWnFkdFBrV1pQTE1iWXh6OHBYOVMwaE9JWm80RHVDOHFjeGczVWtzZld2SXBXOVQ3Q1N0S3NvVE9GaVY5T09NbHdWbHR0S0R2eWJKLTg0c0k?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:28:48.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "5b14fd7828e6f540",
           "title": "Memo: Helen Chiang, Xbox's first COO, is leaving Microsoft on October 23, just months after the role was created; she spent 21 years at the company (Tom Warren/The Verge)",
@@ -688,13 +681,24 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "8d59093f7cb9840f",
+          "title": "Microsoft says its AI tool is better than doctors at diagnosing diseases",
+          "url": "https://bsky.app/profile/theverge.com/post/3myib2w2mbh2s",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-22T18:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 24,
+      "headlines": 23,
       "index": 1,
       "mean_headline": 0.1,
       "sample": [
@@ -703,7 +707,7 @@
           "title": "How an Amazon Frontier Town Became a Bolsonaro Stronghold",
           "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOSnU0dVFSaUgtWW41Vm1FMC1udWFJeVJpWDBKZ0dkc1ZaZFNCM1ZLSGFtOWtVRmpqcGZOaHllQTNaR0tpYkpkOGhySDBPcENuYWN4X0JPR3lPczFTU0hDQzZGZVl3Mnhlejg5ckNwS29BbUhSS25zMUp4bjJwODlNTm5HTUZfMlZYek1Eb3F3ZlZOb3JTNDFsTXhyQnpHdW5iRlNTMlhBZ3J3SlI1U2JKM29NR2VpQmoxRHVCaV9CRU9Jd0ZH?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-10-25T00:02:25.000Z",
+          "published_at": "2026-10-25T01:32:25.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -715,17 +719,6 @@
           "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9Ca0pFSGFGd3B4eGdKTmtkd3I1RV94WFVwNzVadGxSSUljWGMxN25WUU8zTFpjTVZieW1va1dHV25pWXpoTkxqNjZNZTNIWVRGa19Yby1iYVQ3N1JkUWdQaExXQThRWXozQWRwM2wwcw?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-24T22:20:17.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "231cc9a3a096270d",
-          "title": "One of the best gaming TVs is $1,000 off: LG C6 OLED hits Amazon low ahead of GTA VI and Zelda release",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE01RFZtVVFXb1AzYWF1cGY2WUVOT2VnUHktcVFIcjR4Y0wtbUhFYXR2M284cmx3Vlo0eGJ5ajJSYTZOZUMzX1pTclM2RjFraXNKVlFodWRKdWF2bDhtT3J2eWRPcGpLQzZWcTZ2YW5oWDJCeS1fT1lhN2Vxaw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:15:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -785,16 +778,38 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "3dbecb663017dddc",
+          "title": "Amazon cloud capacity sold out through 2027, CEO Jassy says",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOeDBNbTdvV2F5U2tSX1NQWmZ2bnRGUXJMRE4xT1V3V0dIcnlFd3g0WkZ6aWdYNmNzNWxIQXNOcWxMdFlqbFNmN3lWekFUOGJVQzN5aElzeVlveVh4RzZ5aC03b3pSLUNQQ21lQ29jNVkwdmF4V2YwYUlkd0dPdkJQT1VwWF9lZUdhZnBrNWppME81Y2Q2ZzFYOWcwWFozajYyME9BQkpSZHNOTTdQX3hTcXF3RkVSS2s3OU1F?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T23:07:43.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 7,
-      "index": 20.6,
-      "mean_headline": 2.6,
+      "headlines": 8,
+      "index": 18,
+      "mean_headline": 2.3,
       "sample": [
+        {
+          "id": "c2af5dff7cd503c0",
+          "title": "China clears DeepSeek, MiniMax for overseas AI deployment",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPdDh5VWJWOEg3WTVranpFRmZkTElMd0k4MW1CNTV4LWRZZlVwQUhWbGlmSE1TUkMyV0RQRGhEV3lPVjNWajBNWlRYSFFRYTFTcWUzanczSzFuUHNnSHlUMmhKWU9zMDZVQXYyYzRGd2hxYzFGaDg3REVreHYwQzVaTVNyMG1CdUlf?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T00:45:17.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "873ca5a374ac4e71",
           "title": "Moonshot Debuts First AI Upgrade Since Its Own DeepSeek Moment",
@@ -889,10 +904,21 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 7,
-      "index": 20.6,
-      "mean_headline": 2.6,
+      "headlines": 8,
+      "index": 18,
+      "mean_headline": 2.3,
       "sample": [
+        {
+          "id": "c2af5dff7cd503c0",
+          "title": "China clears DeepSeek, MiniMax for overseas AI deployment",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPdDh5VWJWOEg3WTVranpFRmZkTElMd0k4MW1CNTV4LWRZZlVwQUhWbGlmSE1TUkMyV0RQRGhEV3lPVjNWajBNWlRYSFFRYTFTcWUzanczSzFuUHNnSHlUMmhKWU9zMDZVQXYyYzRGd2hxYzFGaDg3REVreHYwQzVaTVNyMG1CdUlf?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T00:45:17.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "873ca5a374ac4e71",
           "title": "Moonshot Debuts First AI Upgrade Since Its Own DeepSeek Moment",
@@ -985,10 +1011,23 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 20,
-      "index": 4.8,
-      "mean_headline": 0.6,
+      "headlines": 21,
+      "index": 5.7,
+      "mean_headline": 0.7,
       "sample": [
+        {
+          "id": "61aa5c65e9fd5849",
+          "title": "Nvidia unveils OOI CPO prototype for post-2028 AI needs",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQcDZ4LVhJRGluTDV5SXJ4WWVoanZwdFJGLVVHVHlENElabUNZWDhxbTkxMGZHc1ZfLTVkZzhNVnBpR0NPVVNsYWlGQm01NGJ1REpmVEZyaHloR29zUHpuMXBIbEZpbURTR0pYUFl0VURTRXhRVGU1UG9GaGhLYWRSMlFFSUpNalpEZDV5TjJJQmk0QQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T00:45:44.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "e00081bb4d2b31c9",
           "title": "HCLTech launches NVIDIA tool: LKP sets INR 1,360 target for HCL Tech stock",
@@ -1067,27 +1106,29 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "b6ee2b32304d0c0d",
-          "title": "GPU-unlock: FP/BF16 instruction issue rate on Nvidia 3000's cards",
-          "url": "https://github.com/Zagitta/gpu-unlock",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-24T09:58:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 31,
-      "index": 2.6,
-      "mean_headline": 0.3,
+      "headlines": 28,
+      "index": 4.9,
+      "mean_headline": 0.6,
       "sample": [
+        {
+          "id": "7ef6a0a013f4170b",
+          "title": "Anthropic unveils Claude Duet, its answer to AI agents like Dots",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOaURKclZiTXFBamI0c05icXZaamhMeFRBRjNBMjNDX3FHMnVoRFl1YzNhOWF6ekVGdGJnWGx5LWZZcGhYTFJmb0pSYVk0MU5aSzlhVWdMcEhqZlRBYldVN3hPS1pxb1RWT1ZEdjBfb3UtbnNjS19ud25SMTV6ZnNKUDhFMDZHLU1tRFcxQlJqUWFkZ0RicEhLdA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T00:25:00.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "7ab71c58d897cd4c",
           "title": "Dario Amodei, CEO of Anthropic, speaking out against the war in Iraq as a college student in 2003",
@@ -1135,46 +1176,33 @@
           "clickbait": []
         },
         {
-          "id": "ceaa2b27545990a3",
-          "title": "Anthropic Integrates Agent Capabilities into Enterprise Claude, Offering Four Controls to Prevent Billing Bloat",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBZNW1RSlhSZmd0SXBWZW9PdF9DcUl6OHg3YkptY3Bzci15ZnJhV1ZOVTNhcEhKeW5SRENvdktjb0tQNzhIV3h3cS1aZzhGcWhROXByd204SklqREZXT1NlQkxGYnA3OE81Zi1McU05Q2tuTjlMNEE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:35:00.000Z",
+          "id": "31e369a941ade71a",
+          "title": "Anthropic employee tells students their careers may not exist by graduation",
+          "url": "https://twitter.com/cheaf25master/status/2113261574194659368",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T02:27:47.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "ff5e90c08453c845",
-          "title": "Elvis Presley music rights holders sue Anthropic for $41 million — Rolling Stone",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQYUlPdmRfOFJpbklxTlRWMURpOGZib1c5QWZfajFFZVFjSEt0bExVOEMxOTIwZDkyZl9zRUFFZlYzZjhSRFhDT0hnMXdBRzljdjZ3b3VzUWxPX2JoUDMxN2tJOHV6ZkpCR2V2eUlCd0loT2xfVXBFWG5MbWFfbkRYNzVvejRKTXI4N3dIb0hpRTZNTDFJbHBWblNYXzFJb1ZMVGJUOUNsTkRxTHVNbVViR0JjcVZ4Rk0?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:05:01.000Z",
+          "id": "d7952ecf942fe088",
+          "title": "The UK plans to invest £100M to create the AI Biosecurity Lab to boost defenses against biological threats, supported by OpenAI, Anthropic, and Google DeepMind (Liv McMahon/BBC)",
+          "url": "https://techmeme.com/261023/p26",
+          "source": "techmeme",
+          "published_at": "2026-10-24T01:20:01.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "9f4857b606941144",
-          "title": "Elvis Presley Estate Sues Anthropic for Stealing His Music ‘At a Scale Never Seen Before’ To Train AI",
-          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNYkpHcG95OGt1cGU3Z3VWSmJHZkVzUVRlUko5S0xpLVM5REs2RUxkeHlENUQ3SzhYV3psUllVUE02YXM4bFVMbHlMbEgyaHIyM0ltNm9pdmJLTFY3aFpyNS1KTDFjRFo2enVVeVpjMUJXektqU21hbmRDZHVfQk81WlVVLWpmZEQ2dzRWcUI4TTd5M0dRbjFjM2RNWkc2eHQ2NEZOdTFETTVHdHV1OE9TOXVOSGdvYWNMQlJ4azFGYU1pUmFTUExoeTB0bFY?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T18:58:31.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "sues"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "1d3704dcc967cee9",
-          "title": "Forget Anthropic: Biotech Is Quietly Dominating the IPO Sphere",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1yVi1sdEgxYmx2THJJODdIVTVFLUVTbXN0ZGFKQzB5TW5BZHFRb29JTTJNZUtjR25Palc4Ymo3SnVSeWhvU0xHb0hyMllRNUQ0NFU0RlhfZ1BKODBvRXhWdzdZY3Q2UUU3bHFlQnRyamtnR19xR01mZTBR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T18:57:00.000Z",
+          "id": "f44984f0ef999801",
+          "title": "Anthropic status: Elevated errors for Claude Fable 5.1, Sonnet 5.5, and Haiku 5.5",
+          "url": "https://status.claude.com/incidents/h101vcmhnfky",
+          "source": "anthropic-status",
+          "published_at": "2026-10-24T00:11:20.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1185,21 +1213,10 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 10,
-      "index": 2.4,
+      "headlines": 9,
+      "index": 2.7,
       "mean_headline": 0.3,
       "sample": [
-        {
-          "id": "45a4ffe5a237b32f",
-          "title": "Microsoft's upcoming earnings face scrutiny ove...",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNcE9rT1ZfQlZza1V4dUZxcVZZMXRxNGdkc2JFRDlSZjlLQ1hxR2ZYR3Vwa3RCVVVCdlZRdHlndTBDWnFkdFBrV1pQTE1iWXh6OHBYOVMwaE9JWm80RHVDOHFjeGczVWtzZld2SXBXOVQ3Q1N0S3NvVE9GaVY5T09NbHdWbHR0S0R2eWJKLTg0c0k?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:28:48.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "5b14fd7828e6f540",
           "title": "Memo: Helen Chiang, Xbox's first COO, is leaving Microsoft on October 23, just months after the role was created; she spent 21 years at the company (Tom Warren/The Verge)",
@@ -1278,13 +1295,24 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "8d59093f7cb9840f",
+          "title": "Microsoft says its AI tool is better than doctors at diagnosing diseases",
+          "url": "https://bsky.app/profile/theverge.com/post/3myib2w2mbh2s",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-22T18:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 24,
+      "headlines": 23,
       "index": 1,
       "mean_headline": 0.1,
       "sample": [
@@ -1293,7 +1321,7 @@
           "title": "How an Amazon Frontier Town Became a Bolsonaro Stronghold",
           "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOSnU0dVFSaUgtWW41Vm1FMC1udWFJeVJpWDBKZ0dkc1ZaZFNCM1ZLSGFtOWtVRmpqcGZOaHllQTNaR0tpYkpkOGhySDBPcENuYWN4X0JPR3lPczFTU0hDQzZGZVl3Mnhlejg5ckNwS29BbUhSS25zMUp4bjJwODlNTm5HTUZfMlZYek1Eb3F3ZlZOb3JTNDFsTXhyQnpHdW5iRlNTMlhBZ3J3SlI1U2JKM29NR2VpQmoxRHVCaV9CRU9Jd0ZH?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-10-25T00:02:25.000Z",
+          "published_at": "2026-10-25T01:32:25.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1305,17 +1333,6 @@
           "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9Ca0pFSGFGd3B4eGdKTmtkd3I1RV94WFVwNzVadGxSSUljWGMxN25WUU8zTFpjTVZieW1va1dHV25pWXpoTkxqNjZNZTNIWVRGa19Yby1iYVQ3N1JkUWdQaExXQThRWXozQWRwM2wwcw?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-24T22:20:17.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "231cc9a3a096270d",
-          "title": "One of the best gaming TVs is $1,000 off: LG C6 OLED hits Amazon low ahead of GTA VI and Zelda release",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE01RFZtVVFXb1AzYWF1cGY2WUVOT2VnUHktcVFIcjR4Y0wtbUhFYXR2M284cmx3Vlo0eGJ5ajJSYTZOZUMzX1pTclM2RjFraXNKVlFodWRKdWF2bDhtT3J2eWRPcGpLQzZWcTZ2YW5oWDJCeS1fT1lhN2Vxaw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:15:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1371,6 +1388,17 @@
           "url": "https://techmeme.com/261023/p27",
           "source": "techmeme",
           "published_at": "2026-10-24T02:55:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3dbecb663017dddc",
+          "title": "Amazon cloud capacity sold out through 2027, CEO Jassy says",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOeDBNbTdvV2F5U2tSX1NQWmZ2bnRGUXJMRE4xT1V3V0dIcnlFd3g0WkZ6aWdYNmNzNWxIQXNOcWxMdFlqbFNmN3lWekFUOGJVQzN5aElzeVlveVh4RzZ5aC03b3pSLUNQQ21lQ29jNVkwdmF4V2YwYUlkd0dPdkJQT1VwWF9lZUdhZnBrNWppME81Y2Q2ZzFYOWcwWFozajYyME9BQkpSZHNOTTdQX3hTcXF3RkVSS2s3OU1F?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-23T23:07:43.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1529,10 +1557,21 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 17,
-      "index": -2.8,
-      "mean_headline": -0.4,
+      "headlines": 18,
+      "index": -2.7,
+      "mean_headline": -0.3,
       "sample": [
+        {
+          "id": "330ef59a5711e5ed",
+          "title": "Google Opens Global Public Access to Gemini 4 Argon App",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOM1ZveTNDUndRT0VJZ0JtZ1g2Vnh4bTd0eEpwRnkyX0hROHRvM1dfcXNFalpBVW1aMmpLMnFSeGRPcHhHeE10TEYyclhST0NFNUlwclRMMFVDQTRMVC03V2t1ZGk3Vmo5eDhJeV9waE15WWkwUDV2bGF4UnpxMV9adE0wbGZMV1BLX2JKQ1pKZGJGeVhiZ0Q1UjhpVQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T01:07:22.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "238aac40e20acefc",
           "title": "Gemini arrives on Apple CarPlay in Google Maps, US first",
@@ -1613,26 +1652,15 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "1224eab7439ee9c5",
-          "title": "Updated Google privacy policy says your Gmail might be used for advertising",
-          "url": "https://arstechnica.com/gadgets/2026/10/updated-google-privacy-policy-says-your-gmail-might-be-used-for-advertising",
-          "source": "arstechnica-ai",
-          "published_at": "2026-10-23T20:19:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 60,
-      "index": -4.4,
-      "mean_headline": -0.5,
+      "headlines": 55,
+      "index": -5.2,
+      "mean_headline": -0.7,
       "sample": [
         {
           "id": "ce24b18b4be11b1c",
@@ -1695,33 +1723,35 @@
           "clickbait": []
         },
         {
-          "id": "9359799bd006f5c9",
-          "title": "Judge Detains Former OpenAI Engineer Without Bail in Espionage Case",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFB6Xzl4ZFlNdTF4X2hjbnA4eF9QeHpSaG1Gc3hCMDZEQnYwTk5TNHFNdGtvWW95QUJrRXkwQTgtTHNDWmF4a01jTG5QRFFxU3lxbl9hRHJyR1VoQTliemc2OGZ2dUJxQVdMT3NsX3lZemN3M21IbFE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:33:00.000Z",
+          "id": "6b73d5ecd19401bd",
+          "title": "OpenAI put its internal models into a red-teaming exercise where they had to coordinate despite being totally isolated from each other. They hacked the server hardware to do it.",
+          "url": "https://reddit.com/r/singularity/comments/1xeevz3/openai_put_its_internal_models_into_a_redteaming",
+          "source": "reddit-singularity",
+          "published_at": "2026-10-24T17:42:47.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "hacked"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "2b97d18dd8a470fc",
+          "title": "Exclusive | FBI Explores Espionage Case Against Saudi OpenAI Suspect",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQRTA2OWU1VV9mbXhWWWMxTVZ4QVA2UXEtamNNOFN0NmZpQXZSVUk1OHBGSXpBbkE2Vmo3Q1RDS3hMUWpFbm13VmF3SkplYWxqcnVrU3ZmV2xONWs4OGdKVjZSMnJUTjBfeWxmOUJkZDkzZ2NxQmZEZFpDZktuZEFxdEkzODFfdmlPaldWYzZXenFqTFhsUUw3OXBVTzNHZw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-24T17:07:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "e2e386ed98bfb9d9",
-          "title": "OpenAI’s Decision API Leaves Beta With Voice Integration",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQYWpQZndwLVgzWlNSdlpnRUZsel9ZbGg1MWJSSXpFYm9xT2paTGpvZmRWQ1lBWkZHRW1XVEJIa0FBaVVTUHI3Y3NVUVVlZnY5aVFrUEI2VnlnajdDamlKTHZDUG02cmxiT3FaZHlEa0VCbkRrcGZLZnBseS00RjJVZTFLLURFX3l0QlZzNVp3YlREOENiLVN0RTVtZ1hOVjNVVlFySA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T19:07:44.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3ff9d2d923e8e458",
-          "title": "OpenAI Resumes AI Training, Keeps Frontier Models Offline",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOTVhuMkptamIyZU9DNjFJcjFDb3FnWE15ZURuSVl6d2o3QmZmV3RNdTh4R2I3VzYtUG9lLXUzaGp1dV9uaG9YTGhGeGViV0txMlhuZVdobThqZEFOTGl3SjZQblk5VzdVMWc1OW5CZmxvSTU4bkw2Y2gtaHZ0YVd2bnV2R0t5X2dseEUweElJSm8yYml2NjJEU0xWRHBQUVJ0dVE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-24T18:55:38.000Z",
+          "id": "b5d56d5ca530cabc",
+          "title": "Oai-math-revised: a community hub for revising OpenAI's math write-ups",
+          "url": "https://terrytao.wordpress.com/2026/10/24/oai-math-revised-a-community-hub-for-revising-openais-math-write-ups",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-24T15:35:17.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
