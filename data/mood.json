@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-26T13:05:56.549Z",
-  "news_generated_at": "2026-10-26T13:05:56.549Z",
+  "generated_at": "2026-10-26T13:51:15.025Z",
+  "news_generated_at": "2026-10-26T13:51:15.025Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,10 +18,10 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 159,
+    "headlines_naming_a_company": 185,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.11
+    "negative_pair_share": 0.1
   },
   "glance": {
     "leading": {
@@ -37,7 +37,7 @@
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 49
+      "headlines": 81
     }
   },
   "companies": [
@@ -78,16 +78,51 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 48,
+      "headlines": 42,
       "index": -5,
       "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "f364473684eccbf1",
+          "title": "The Leak Suspicions That Got Three OpenAI Staffers Fired",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNVnI0d2YzTXVkOVR3VEJUOV83R3FveURQU2pqeWNVS0xQdG83X3B3WUZmQ0swN0R3bXA4cXNKeGJ3cHFfZkVvMm9fZUMzX2RxVEdRaGVQWUd5SlF4QzdTNTZ6b2hnU1poSmY5V0Z1NVlFeUQ3aXhYQlE1ZXNTMkZ6QURHVDhNMXVidjRDRk5Sd29tMWdf?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T13:04:47.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "leak"
+          ],
+          "clickbait": []
+        },
         {
           "id": "0953ea126141c309",
           "title": "AI Safety Researchers Find Flaws in OpenAI’s Internal Monitoring System",
           "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOeUgzREFmYl9CUlFGdW56Mnl0RzRSYTFkN2FsZUFuUk9GdktKTmg2MzUyZFRVbjJiY3k3NmxRdG5MYnBwUE5wUXVfeWtpTDZXeE5qcHY4dVd0UzhxRnNKUnFhRUNaaHZ5MzA3QU02bUoxLUtrTGpPVmJ0Zks0UjF4dkpEQVVKV1JqcXRhNm5BQ09aZ2hCT19FOXRBTDVBTWxOSDZDalVnYw?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-26T13:04:04.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a214af92b952ac0a",
+          "title": "Fanatics teams up with OpenAI for new AI-powered shopping suggestion feature",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPNHJaQ1NDV05GMUZYdFVWdUhBTlZEN0l1Q3l5VWVMRVNzVWUtZEd4M0VXYlV3dnkwOWtEQ1hkS1M3QWQzMUZpemZ6RFVZbEtBcmE2QXBueHJlZ05mNmVXMGZYVVU0SGdWZ2dlUF80c2FkQ3dkaTF3cnpETUM3ZGk2eHVUanJfYjMwQ1UxUWgza9IBlAFBVV95cUxPbEZHSVc4Z2QwOG15V2F6MFAzcU9udXNWSUhqWTZxaG15TjVvRzlmdkphRnJyS2JJd3JjcmRIR3YzQjlZN3p2djhLeDlkZzhLNWp0RmlBOUtKeUVtX3pVZGg5Zk8yLXpaV05MVUc0UDg0Y3ZHbEtveHFlQXhwZTh0Qmg2MlZtYWN1VHEzVGJhendLMDRT?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T13:02:37.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "bef61f1bdb14885b",
+          "title": "OpenAI and Anthropic Slashed AI Model Prices by Up to 80%",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPZzJ0WEJSZ3dvRExBR2lvdTI0bFhKYXVxZXZRUUNzUm5jX1lIMFlfUjZRX0RQb29vTlVJVl9ZWVNtLWRZclBJRVV2MlFUa3U0cXZVMk85M0w3MWsyWDN4SVRQZXlZRmFqU3VtanNhZEozQVJRaWt0QUNNaEtFQk9UQUNIVmZQWVA5MVd0aDFpb0phV1BQM1pN0gGcAUFVX3lxTE9PeVB6RmNicFZVSjRQUEd1TXFfRzB3WUEzdkFzN2VfNkg0aG1qX0dGRHF6SlhlWFg0S0ZONXRpa0Q0UEF5MG0wMkpMN1lMNG5fUzg5c1ZmN21UMGFfeHN5ZVdzN2gyUC04S2diM2o0alRNOE1YTmRTR0hwM3lGc3FCTXR0WmJ6WXBpMkE2RXUzS1RCZjBrM1FmOWVEdQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T12:53:03.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -116,52 +151,6 @@
           "clickbait": []
         },
         {
-          "id": "94337156345a1e9b",
-          "title": "OpenAI shelved GPT-6.1 Astra; AISI tested another model",
-          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBKZnJzTG55dTQ3bEdnMGhjMUppakJkVF9NZWpOMmpacVNCYmxrVm9NT01oZ19SUldKejE5bDdsSF9zRTdVMDRpdk9wUUI2ZjV4eFEyMnBSbkpPR21ONHVnMFczWUFhNGJJSGJjWVVhQTltdXdCbG5N?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T11:33:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "bf86067d0fb6718b",
-          "title": "OnClarity Named an OpenAI Select Partner, Expanding AI Agents for Large Support Organizations",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQR3o1VkpQTkV6dFVMWk9fWndwaWpFYlgyQlUwT2hlajJzWlR4OE1mbTA1LUJxdmdHakRhVzdHM1pGUVA1Ui13Q3o0QlV4cUs0U2dZNk5tZUptVUpFUEpVeFhLZC1KQ2FvMTc5NVVNVnI0NlE4YWlMZzBYYVNoQ3ZsbU9RNGJtaFJRSEpzdTY5U0FPRHhBUkp3WGo0Y182a1VRRmFGMVBIeG9wU0V5emdrVWpnN2xIZVFo?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T11:18:57.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6274e1230b73a866",
-          "title": "OpenAI Restarts Model Training after AI Agents Expose Security Weaknesses",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOMnp3MDNiUWR1d2RneUZSdndqNVZWMUVVM0xpd2tVOXJWQi1vSFhyUWdPS0RZZG42eWNaNDEzZDYyVTJ0aVFsZUFYM0JUd1hWWEVLQUkwZWRUTzI2dFZDbVB5RkdldHVxTWdPXzBlTEN2aTJvRFF2Q09fVF9hVEh5ZzZKX2tuOVlMcHVRS2E0bWVWNFQ3bHRueHp2ZU5zWDhzdGxwb2ZMY0VYZVhNWUhmV0RB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T11:05:37.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4534535acc385534",
-          "title": "Texas AG sues OpenAI and founder Sam Altman, claiming not enough regulation",
-          "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPbWVqLWFySXdXQ0ZGRDN3LXVIdVNVMFdrLUtWd3l2SnNmQ3Iwd0p5clNzRGFuN3gxdXJ2a3BVcXl0N3ViakJ1VFp4VW9LcGhtZkwyUUZBZFAtSjdYblZ5ZEFxNHVJcUNFY3BXQ0tuTklQdkpzaVJ5dWFZUmJBWTl3cmRXTGFuMUxPclNpbmVleUhpaW4yOEp0VUgxVlh1OEljZ3ZDcmFuWXJBWGdSeEZkdWYzNWQzZkFXdmZCQmlCeDJpMmFsMUtqc0NQTGdNUDVYekRXRDBtalBnTU5HLWp6YXRGZzhSWEtOSHNTS01xbk50cHI0cXAyZmp3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T10:58:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "sues"
-          ],
-          "clickbait": []
-        },
-        {
           "id": "77fbb6fd39cba0e8",
           "title": "The Morning Risk Report: The Signal Chats That Cost OpenAI Researchers Their Jobs",
           "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNdG1zWHJHcHdMY1NrMDFadURzb0tpeUsxa3hGeEpnXzYtaGhKa3p6N05hSmtmRE9Oc01RUlVXbGpPeXFsaHdJaTh0THhJcEtvQ1dFMHh5S2lhaWxST3ZmdEhzZF9PdVFuS19ud05pcm9nVzJvOUZQRmd4TFhwWVl3LUdEVEtRR1pNVFJxMEFmS2kweUM1U0hNNjVGVlpCYy1uMGtvUGgya3ZsRFlja1c3VHlIbWFfMUdhdlUtYUFFZ1VQQnFNRVpGTnVpa1RmZw?oc=5",
@@ -173,6 +162,19 @@
             "risk"
           ],
           "clickbait": []
+        },
+        {
+          "id": "10a5adeb47fe5ef9",
+          "title": "A look at OpenAI's and Anthropic's aggressive price cuts from June through September, driven by low switching costs and pricing pressure from open-weight models (Max Woolf's Blog)",
+          "url": "https://techmeme.com/261026/p10",
+          "source": "techmeme",
+          "published_at": "2026-10-26T10:15:02.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
         }
       ]
     },
@@ -180,15 +182,26 @@
       "id": "nvidia",
       "name": "NVIDIA",
       "headlines": 17,
-      "index": 11.3,
-      "mean_headline": 1.4,
+      "index": 9.9,
+      "mean_headline": 1.2,
       "sample": [
+        {
+          "id": "a2566ada8f6979c8",
+          "title": "SpaceX agrees to a ~$40B equipment finance lease with Apollo to fund purchases of Nvidia GPUs for its AI initiatives, set to close before the end of 2026 (Carmen Arroyo/Bloomberg)",
+          "url": "https://techmeme.com/261026/p25",
+          "source": "techmeme",
+          "published_at": "2026-10-26T13:45:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "25f9d0451bc72a72",
           "title": "Cadence unveils Nvidia-backed AI models that chipmakers can run in-house",
           "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQT3p0UnhsLVp4Zm1XRWV3dVpQdUVqVUhfZXVBc2VKdEJoWkM0TVVpVUlvUk12dTdkblFpdWd2cUFNSFkwczVSRFVuR1Q2YWc2cWxjVnFXem5vZEJ6UnpnOFZSUzJ6dkx6UUJCTy1vSHRvNEZrX3Q2a1R1elBkRVpYcGVXQWcySnZLX2Nad0YyUlF6T0l2bUhoRTVGbDFfZVB6QWQwcGthR29tTkd4X0FDZXJvU2lHVHEwZzRLZ2M2UzkwQQ?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T13:04:57.000Z",
+          "published_at": "2026-10-26T13:03:43.000Z",
           "score": 3,
           "positive": [
             "unveils"
@@ -247,19 +260,6 @@
           "clickbait": []
         },
         {
-          "id": "ee3a5fd26cbaceba",
-          "title": "Honeywell Technologies Launches Forge Plant Cognition with Dangote, Built with NVIDIA AI and Dell Technologies Capabilities – Company Announcement - FT.com",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPNXNCZEFPV2N4NWx5cG82bGI2MHRacW5vYTVuXzhEZkJKbHpVd1lKTzRUWXNLbGY5NHJ2SjhseVUxYVI5RmJOT1I0MDFjeW1vLXZmTmtSV3V3Vk82LUg3QVZqbjUzM1ExOUhYNFhWMmhiWEhtQ2JyQkNpd0xzaVFBaFkyZWFJVF9WMWJGY1lhYTFYa3hrRUJQT0l0RnJscFB4emxxNVhn?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T08:00:00.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "1125da302ec80ba4",
           "title": "SMH, seriously? -->> NVIDIA Eyes Software Revenue With a $2,000 per GPU Yearly Figure From Huang",
           "url": "https://reddit.com/r/LocalLLaMA/comments/1xfhhm4/smh_seriously_nvidia_eyes_software_revenue_with_a",
@@ -286,100 +286,102 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 49,
-      "index": -3.3,
-      "mean_headline": -0.4,
+      "headlines": 81,
+      "index": -1.9,
+      "mean_headline": -0.2,
       "sample": [
         {
-          "id": "aaef23617908e375",
-          "title": "Anthropic S-1",
-          "url": "https://sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-26T13:04:50.000Z",
+          "id": "5958e9f6ca248b1e",
+          "title": "From Amazon to Google, the deep-pocketed investors in Anthropic",
+          "url": "https://bsky.app/profile/reuters.com/post/3myrui5lxg22i",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T13:50:17.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "019c05b84dff9e09",
-          "title": "Anthropic publishes long-awaited IPO prospectus",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNN1ZwVC1NWWxLRjZWU2dLUDF4S3hCQk1rSHdQaHZDQkxBNlBGR3hGbk04TEpVeG1nUVlpWER2QlZJdmtoeFJfUnpMOGN2SWRMUDI2LWFZZUluY29lZjg2bnhHS0gxdU9nNHF6RV9XamFxdUdTZFJMTWFPWFpuMERqR0ZIbmM?oc=5",
+          "id": "74bb97f1b08c9e7c",
+          "title": "Anthropic S-1 Reveals Rapid Growth Ahead of Blockbuster IPO",
+          "url": "https://nytimes.com/2026/10/26/technology/anthropic-ipo-finances.html",
+          "source": "nyt-tech",
+          "published_at": "2026-10-26T13:49:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5ea6c66085dfc72e",
+          "title": "Anthropic’s S-1 shows $16.3 billion in revenue and an $80.7 billion net loss",
+          "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE83a1BzeUdlQVM4X1VkUUFBWnBYWEtTeUpXaF9WUHRqbTg2bC15XzZmUGE1YVZsMmdLWWJUbmp5d09EYWtmQ29DRXllQzhSOGpoR0pTM2p4b0Qwdw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T13:03:49.000Z",
+          "published_at": "2026-10-26T13:47:47.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "be2a44a5c63c179e",
-          "title": "Anthropic to Commit 5% of Its Shares to New ‘Public Benefit’ Fund",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNNXpEalNTRTc3MS04dnVkR0VjRHBocDJVbVlKQlIyaUJ4aHRHSVUwLTMtelNvRXUxWmNULU9iUnhPMmdWS1V5dUVQaUZRaXZMYnRMeGpzbWZFb2FKd3ZqcElOa0FRVlM4TXJoc2w2eG51eFVQZ2hTNENFY1phSzg5RjFNbXFEMDNNel96T2hCVFJlaXN6dnpmeVozTHdpMzkz?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T12:50:11.000Z",
-          "score": 0,
-          "positive": [],
+          "id": "e71a464781f8404f",
+          "title": "Anthropic files for stock market IPO; Meta announces $95bn fundraising drive to pay for AI expansion – business live",
+          "url": "https://theguardian.com/business/live/2026/oct/26/ai-cloud-computing-companies-guppy-level-death-elon-musk-stock-markets-dollar-oil-bond-yieds-latest-news-updates",
+          "source": "guardian-ai",
+          "published_at": "2026-10-26T13:46:25.000Z",
+          "score": 3,
+          "positive": [
+            "expansion"
+          ],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "3bcf8aeea34dd42e",
-          "title": "Anthropic AI bot accessed public Georgia voter data through state data hub",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPU2JobDBWMlVKZU5pWGJjS2tiX01rY2RFUzMzM2FOd0RPTUNEU3R3XzJHakxMVlUxTFF1bk5SYUZnVjZ4bUtEUnI4NW8xRUdtX1NySzNUMklDQWw2NFBqOTY2SFFBNlBuQ29sdU1Dbzg2WnNtcXRxdjd4UVM3bmk3dFpMcktlc0RKWlRyV2NYUmhYSWhrNXZZcGFNSXFRZ2htSFlYeTFfQjllY254Zk5xT2hBYmJuRWR5NC1N?oc=5",
+          "id": "d40e8c6d59fd5165",
+          "title": "AI giant Anthropic unveils plans for blockbuster share listing",
+          "url": "https://bbc.co.uk/news/articles/cq398p1wd1evo",
+          "source": "bbc-tech",
+          "published_at": "2026-10-26T13:46:14.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6cb0aeb9e2a14528",
+          "title": "Anthropic's IPO filing reveals $430 billion in locked-in AI computing: Chart of the Day",
+          "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPbE51NDUwd0ppb0ctckJ1TEkzV0Z4aUJXcEQ5Rk9MQlJiZVY0M1RYTTZSOWhUb0dGQzV3NHVwY0pXaDNkWnhzVzdLNTF1elZuUHVXMDNNaW0wUE1FVHJFZG9pVEowaUNpMWpVQS15VDROQ0RzWUFnOFc0VnB1eXJLeFNBeWdLeHprZUJnZjFnMUlVT0gtUDlWam8tMkVSZXZiYWplWUlWaWhxQ2MxWVhYNjVjVzVlY2lKU1cxZ1R0Nm9GM2hJc3ZxR213b0NoQ1BwTjlrV29Ba0c?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T12:50:00.000Z",
+          "published_at": "2026-10-26T13:44:57.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "56def944cd90e3cf",
-          "title": "Owners of Elvis Presley’s music sue Anthropic over un-permissioned AI use",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOMlhCTEhjVy15V3liSk9SS2JmRS16QUlCOHFQT0o0M3otTnZ4TUk0T0ZzbVpUcWZ1ZWJOYVc4Qkd0S2luUmV5b3hhcl9xdFNrWmlSbG5PTWdlRjdIeUZ0Q3l1enFlTlVZUDEzZU1pd2RDTnpwT3RuQnJYM044N1lDRzFwd1MzR1llSDlVdHpNU3E4dGNvVVVsWHV5QlRNMVhK0gGmAUFVX3lxTFBNdENKTGtOak1MWm1NQWpjcTRqZC1SYVdUejJMTEkyT3h0eXFFTzI0OVRBVEgxTnV3eWVvRk51a2ViRHduTXh6dllicFA0WG9neU93SVJGYjEtUjZpN0xxSzlESEhaa1pCbVFBZjJSQmpob1Z1TXNOUVdhaW9QLUpvejBRSE92ZEZmYUlKQU16VnZWMTA0TlJzRUxYUkdjSVUtbklwekE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T12:48:26.000Z",
+          "id": "d0cd28ff03970acb",
+          "title": "Anthropic discloses $80 billion loss as company prepares to go public",
+          "url": "https://bsky.app/profile/washingtonpost.com/post/3myrtxlcs7g2n",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T13:41:01.979Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "a2f8ba275bb957fa",
-          "title": "Anthropic faces $41 million lawsuit over Elvis Presley songs",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPQy1qVlZTN0RhaTEzMUFlb1lyYkhaWXdIX3p2VjNNNG16WWQyMkRRd2J6cUNIQlBqVUNteXZ2cEc2T3BJcjl4VFVLd2RlU1ZhemNvSnViS0NHR0JmdEdvN2h1bGh3VGZmcnJKMThBczJsNEkzOFU3SlV3OFhldWg4cVhUNE1mWWhWeG5IYzRzSFlhRkdnWks3UnhBODl4UEIycEoydHJpZTloTzM2Y2JSSTFPLThLZEE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T12:33:26.000Z",
+          "id": "5dcc71bcccc11a9a",
+          "title": "S-1: Anthropic outlines its mission to revolutionize sectors like medicine and warns its corporate behavior may diverge from traditional profit-maximization (Robert Hart/The Verge)",
+          "url": "https://techmeme.com/261026/p24",
+          "source": "techmeme",
+          "published_at": "2026-10-26T13:40:01.000Z",
           "score": -4,
           "positive": [],
           "negative": [
-            "lawsuit"
+            "warns"
           ],
-          "clickbait": []
-        },
-        {
-          "id": "989c87133a0fe27a",
-          "title": "Elvis Presley Rights Holders Seek $41M From Anthropic in AI Copyright Lawsuit Over 274 Songs",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQNFVtNGNXTENmb0dHNDh3NjdjN3l1VS1haF9XdTF2cldJU19jamRnY0tyX0V0X0J4cEtHajRnbjROTVYtVnhfMGhpckZmbkNwXzFVYjJOTVdJMEtnU3pvZ2M1WWxQYXVvSlJQTWpCU1NFT1gtSDRENlFMZTl1MkJNY2dkMThoc1hGa2J3ZllR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T12:14:36.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "lawsuit"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "1544721bee4735d7",
-          "title": "Anthropic Plans to Publicly File for IPO on Monday, Bloomberg Reports",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOMFBNUFVWWkM0YVN0YU9yX0d0ckhBLVNtWE5ZalZrOUFFbno5SnVFVFJSSFMwQXFjY2xEUGZacEZ3ZnlHbGhOekRoV0JHN0FvV2psZmZjRUN0ZzJNLTIwdzhwdFUyVng3VkVPbVJfMlVRSUZBclYxRk1OeW52MkN4VW1tWlJKS1BhT29YbHo2X1dibWNjcnF5VWg5YU1pdHREckFlWU9mczlWdUd3N2ZFSDhQYjNGTUtxTnA0WTZB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T12:09:18.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
           "clickbait": []
         }
       ]
@@ -387,10 +389,51 @@
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 21,
-      "index": 5.7,
-      "mean_headline": 0.7,
+      "headlines": 22,
+      "index": 7.6,
+      "mean_headline": 1,
       "sample": [
+        {
+          "id": "e71a464781f8404f",
+          "title": "Anthropic files for stock market IPO; Meta announces $95bn fundraising drive to pay for AI expansion – business live",
+          "url": "https://theguardian.com/business/live/2026/oct/26/ai-cloud-computing-companies-guppy-level-death-elon-musk-stock-markets-dollar-oil-bond-yieds-latest-news-updates",
+          "source": "guardian-ai",
+          "published_at": "2026-10-26T13:46:25.000Z",
+          "score": 3,
+          "positive": [
+            "expansion"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0a160cf716840cf0",
+          "title": "Meta and SpaceX to Raise Billions More to Fund A.I. Ambitions",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNYkg2dkN4RXhnUnhBdkIzWENQYWJaVWNlb2M0dXVCMFptYVN6TEl3UGFRekt0TGYwRjQwc2V3RVlyaE0ya2xraGFOM1FHMG5EdGdFUmJ6UUJWRHhhaHZydXppeUtNN0swZE1rVFg0bEcyOXhlRWNQbnhQWTFpVDFhTlB4MWRYblZWZGZLNQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T13:21:05.000Z",
+          "score": 3,
+          "positive": [
+            "raise"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3e93ffb53a5de55a",
+          "title": "Meta raising $95bn to fund AI push as Musk warns of industry cash crunch",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOa1lBTXFkLTZPalZzQ1BUVEVTR1dONWNFTGRQajVqYnZ6UzEwejdPQVRLR3NLbGxaaXhrUFRUWE03WHNfVE9xRXp3eE1ib1VQU19LN0VjWmp0Z1lhdVpWZ01FeGtnc1djemhCQVJJUmpwa2JrckJZRnVNd0tpRU5oWC1tREY1YXdzZ0V0dnZhSkdPM1RjRUZhN0RzeWM5WExTbkViUkl5a1RCQQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T13:13:00.000Z",
+          "score": -1,
+          "positive": [
+            "raising"
+          ],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
         {
           "id": "a479e8d1ae551b8c",
           "title": "Meta is raising about $35 billion in stock for AI, with Nvidia and AMD as potential buyers",
@@ -405,14 +448,15 @@
           "clickbait": []
         },
         {
-          "id": "e71a464781f8404f",
-          "title": "Meta announces $95bn fundraising drive to pay for AI expansion – business live",
-          "url": "https://theguardian.com/business/live/2026/oct/26/ai-cloud-computing-companies-guppy-level-death-elon-musk-stock-markets-dollar-oil-bond-yieds-latest-news-updates",
-          "source": "guardian-ai",
-          "published_at": "2026-10-26T12:35:29.000Z",
-          "score": 3,
+          "id": "fcc65121219cb8b5",
+          "title": "Meta to raise up to $95 billion in equity to fund costly AI expansion",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPclhjOFJvYkM0S0hLUmxaY0l2X3hCdWI0N1prZlo2QXhXdmt5T0pNQVpFODVpYzgycWdZcHM2NkZ2LTdaMEVUVlpTXzVFUzc2ZEdVdlpTeThUVkZtc3V4cEFTelk5bDd2Z0dfRDFsb0dGQ0MxRXhYMExFZTlXVkNjRXF6TDBLalZ5ZTFBbFMyX24wMVBTQW1GQkJNRjNYWTRiVGJJWWdialBfV1oyQUZNN3I4RQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T12:33:25.000Z",
+          "score": 6,
           "positive": [
-            "expansion"
+            "expansion",
+            "raise"
           ],
           "negative": [],
           "clickbait": []
@@ -431,6 +475,17 @@
           "clickbait": []
         },
         {
+          "id": "dcd1f7592453c738",
+          "title": "Meta Plans up to $95 Billion in Financing to Power Its AI Growth",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOWWVJZlJtQjJkZTMyWV9zMXNqV3RxZERPOE1CZlliQTVqR3VaTFk5anp5bHViM0pVTlVlc3lmMTU2YzVkb01hRXVsYU9yWUVFWjJxVHlrbW5TRVZoMWw3SzM1VUZ3UmpZN1NRODBhZmpHQXI4OXFCZDI5dWpMOGlTcGlWblREUUhmWHRCLWtZeW9zcnNUMVlRa2JTN0pwZ2dkSXBKQS14emotVmM1LWMtb2RxMEF5Y3RqNHBFZndn?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T12:17:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "7ec70e870d3bf5e7",
           "title": "Meta Launches $95B Stock Sale to Bankroll AI Supercomputer Race",
           "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQSDJmblpSWDE1dHlSM1YyUG1jV3k2eGZSUEtMVExqVGxKV1dLcG01aF9MWDdCRjhsM2hpRUN3cllvQU1KVk1DaTdVSkZPNjg4Qm5FTTBJelY4bk5oRlJHcUp1MlF6bnZ3Q05Ud2xfbWQ4N0dMZ3ZjdDl4aTRIb25oRFcxOTYyOEtnNWJJMktJa2Mzdm9lWjdHVzVpZw?oc=5",
@@ -439,57 +494,6 @@
           "score": 3,
           "positive": [
             "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "fcc65121219cb8b5",
-          "title": "Meta to raise up to $95 billion in equity to fund costly AI expansion",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPclhjOFJvYkM0S0hLUmxaY0l2X3hCdWI0N1prZlo2QXhXdmt5T0pNQVpFODVpYzgycWdZcHM2NkZ2LTdaMEVUVlpTXzVFUzc2ZEdVdlpTeThUVkZtc3V4cEFTelk5bDd2Z0dfRDFsb0dGQ0MxRXhYMExFZTlXVkNjRXF6TDBLalZ5ZTFBbFMyX24wMVBTQW1GQkJNRjNYWTRiVGJJWWdialBfV1oyQUZNN3I4RQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T12:03:08.000Z",
-          "score": 6,
-          "positive": [
-            "expansion",
-            "raise"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6a4089b715f5a818",
-          "title": "Meta looks to raise up to $95 billion from stock sales to fund its huge AI build-out",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE52YjZCcHA3ck43QkQtbzJCUW1KOXBDemRQYTJWd3dVTVBqYkM3Y2hlYkF3ZWpqTHo1NndlVWwzM2dSc1RJY3F0NWNLWHMxSENtYkY2akRYQ0piTmpmMVI2SHdvbmd1RmN1T0RUbGFrRDBKSDJzakFMdDNNcWlNZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T11:55:15.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "dcd1f7592453c738",
-          "title": "Meta Plans Up to $95 Billion in Financing to Power its AI Growth",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOWWVJZlJtQjJkZTMyWV9zMXNqV3RxZERPOE1CZlliQTVqR3VaTFk5anp5bHViM0pVTlVlc3lmMTU2YzVkb01hRXVsYU9yWUVFWjJxVHlrbW5TRVZoMWw3SzM1VUZ3UmpZN1NRODBhZmpHQXI4OXFCZDI5dWpMOGlTcGlWblREUUhmWHRCLWtZeW9zcnNUMVlRa2JTN0pwZ2dkSXBKQS14emotVmM1LWMtb2RxMEF5Y3RqNHBFZndn?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T11:45:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7bde63242d4db1b3",
-          "title": "Meta plans to raise $95B to finance its AI infrastructure, including $35B in public equity offerings, backed by cornerstone investors Nvidia, AMD, and Broadcom (Tim Bradshaw/Financial Times)",
-          "url": "https://techmeme.com/261026/p15",
-          "source": "techmeme",
-          "published_at": "2026-10-26T11:25:13.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
           ],
           "negative": [],
           "clickbait": []
@@ -507,10 +511,21 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 17,
-      "index": 2.8,
-      "mean_headline": 0.4,
+      "headlines": 18,
+      "index": 2.7,
+      "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "5958e9f6ca248b1e",
+          "title": "From Amazon to Google, the deep-pocketed investors in Anthropic",
+          "url": "https://bsky.app/profile/reuters.com/post/3myrui5lxg22i",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T13:50:17.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1a55f546021eb337",
           "title": "Google DeepMind staff resign over military AI contracts",
@@ -583,17 +598,6 @@
           "url": "https://infoq.com/news/2026/10/google-ml-drift",
           "source": "infoq-ai",
           "published_at": "2026-10-25T17:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "53f5351d8d4ce64a",
-          "title": "Google’s AI search changes upended online publishing",
-          "url": "https://bsky.app/profile/theverge.com/post/3myp63ju25c2m",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-25T12:00:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -694,10 +698,21 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 15,
-      "index": 6.4,
+      "headlines": 16,
+      "index": 6,
       "mean_headline": 0.8,
       "sample": [
+        {
+          "id": "5958e9f6ca248b1e",
+          "title": "From Amazon to Google, the deep-pocketed investors in Anthropic",
+          "url": "https://bsky.app/profile/reuters.com/post/3myrui5lxg22i",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T13:50:17.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "c759c51ad64e2298",
           "title": "Verizon raised outlook, signed $2B+ Amazon AI deal in Q3 2026 earnings",
@@ -781,27 +796,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "3f7233fc14423272",
-          "title": "AWS AI cloud capacity sold out through 2027, 2028 bookings filling fast",
-          "url": "https://reddit.com/r/artificial/comments/1xe1mos/aws_ai_cloud_capacity_sold_out_through_2027_2028",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-24T06:47:51.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 5,
-      "index": 4.8,
-      "mean_headline": 0.6,
+      "headlines": 6,
+      "index": 4,
+      "mean_headline": 0.5,
       "sample": [
+        {
+          "id": "04856996ecb650fd",
+          "title": "DHS Orders Federal Agencies to Remove DeepSeek AI Products",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9TUnBPRTdOemk1Y2FlR2ZZRGI3VkdnTGRfSjRSbjdvRXJrYTF1SkxuX1FUR29sWkJRN1BjMGkwZmNGRFY2b0VUZFBJTGxzTjlPczV4RHlvX3o4SkcwNDQydFpPUkVreHdqRXZxRVkzVmZNUE5SOHRWQWxB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T13:23:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "fdcaf82b76f44444",
           "title": "DeepSeek V4.1 Flash vs Kimi K3.1 vs MiniMax: 13x Gap [2026]",
@@ -901,15 +916,26 @@
       "id": "nvidia",
       "name": "NVIDIA",
       "headlines": 17,
-      "index": 11.3,
-      "mean_headline": 1.4,
+      "index": 9.9,
+      "mean_headline": 1.2,
       "sample": [
+        {
+          "id": "a2566ada8f6979c8",
+          "title": "SpaceX agrees to a ~$40B equipment finance lease with Apollo to fund purchases of Nvidia GPUs for its AI initiatives, set to close before the end of 2026 (Carmen Arroyo/Bloomberg)",
+          "url": "https://techmeme.com/261026/p25",
+          "source": "techmeme",
+          "published_at": "2026-10-26T13:45:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "25f9d0451bc72a72",
           "title": "Cadence unveils Nvidia-backed AI models that chipmakers can run in-house",
           "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQT3p0UnhsLVp4Zm1XRWV3dVpQdUVqVUhfZXVBc2VKdEJoWkM0TVVpVUlvUk12dTdkblFpdWd2cUFNSFkwczVSRFVuR1Q2YWc2cWxjVnFXem5vZEJ6UnpnOFZSUzJ6dkx6UUJCTy1vSHRvNEZrX3Q2a1R1elBkRVpYcGVXQWcySnZLX2Nad0YyUlF6T0l2bUhoRTVGbDFfZVB6QWQwcGthR29tTkd4X0FDZXJvU2lHVHEwZzRLZ2M2UzkwQQ?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T13:04:57.000Z",
+          "published_at": "2026-10-26T13:03:43.000Z",
           "score": 3,
           "positive": [
             "unveils"
@@ -968,19 +994,6 @@
           "clickbait": []
         },
         {
-          "id": "ee3a5fd26cbaceba",
-          "title": "Honeywell Technologies Launches Forge Plant Cognition with Dangote, Built with NVIDIA AI and Dell Technologies Capabilities – Company Announcement - FT.com",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPNXNCZEFPV2N4NWx5cG82bGI2MHRacW5vYTVuXzhEZkJKbHpVd1lKTzRUWXNLbGY5NHJ2SjhseVUxYVI5RmJOT1I0MDFjeW1vLXZmTmtSV3V3Vk82LUg3QVZqbjUzM1ExOUhYNFhWMmhiWEhtQ2JyQkNpd0xzaVFBaFkyZWFJVF9WMWJGY1lhYTFYa3hrRUJQT0l0RnJscFB4emxxNVhn?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T08:00:00.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "1125da302ec80ba4",
           "title": "SMH, seriously? -->> NVIDIA Eyes Software Revenue With a $2,000 per GPU Yearly Figure From Huang",
           "url": "https://reddit.com/r/LocalLLaMA/comments/1xfhhm4/smh_seriously_nvidia_eyes_software_revenue_with_a",
@@ -999,6 +1012,120 @@
           "published_at": "2026-10-25T22:11:27.000Z",
           "score": 0,
           "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "headlines": 22,
+      "index": 7.6,
+      "mean_headline": 1,
+      "sample": [
+        {
+          "id": "e71a464781f8404f",
+          "title": "Anthropic files for stock market IPO; Meta announces $95bn fundraising drive to pay for AI expansion – business live",
+          "url": "https://theguardian.com/business/live/2026/oct/26/ai-cloud-computing-companies-guppy-level-death-elon-musk-stock-markets-dollar-oil-bond-yieds-latest-news-updates",
+          "source": "guardian-ai",
+          "published_at": "2026-10-26T13:46:25.000Z",
+          "score": 3,
+          "positive": [
+            "expansion"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0a160cf716840cf0",
+          "title": "Meta and SpaceX to Raise Billions More to Fund A.I. Ambitions",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNYkg2dkN4RXhnUnhBdkIzWENQYWJaVWNlb2M0dXVCMFptYVN6TEl3UGFRekt0TGYwRjQwc2V3RVlyaE0ya2xraGFOM1FHMG5EdGdFUmJ6UUJWRHhhaHZydXppeUtNN0swZE1rVFg0bEcyOXhlRWNQbnhQWTFpVDFhTlB4MWRYblZWZGZLNQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T13:21:05.000Z",
+          "score": 3,
+          "positive": [
+            "raise"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3e93ffb53a5de55a",
+          "title": "Meta raising $95bn to fund AI push as Musk warns of industry cash crunch",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOa1lBTXFkLTZPalZzQ1BUVEVTR1dONWNFTGRQajVqYnZ6UzEwejdPQVRLR3NLbGxaaXhrUFRUWE03WHNfVE9xRXp3eE1ib1VQU19LN0VjWmp0Z1lhdVpWZ01FeGtnc1djemhCQVJJUmpwa2JrckJZRnVNd0tpRU5oWC1tREY1YXdzZ0V0dnZhSkdPM1RjRUZhN0RzeWM5WExTbkViUkl5a1RCQQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T13:13:00.000Z",
+          "score": -1,
+          "positive": [
+            "raising"
+          ],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "a479e8d1ae551b8c",
+          "title": "Meta is raising about $35 billion in stock for AI, with Nvidia and AMD as potential buyers",
+          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE45TUVNZzdNSTRQMVhfZEQyb2l0YXl0bm5KdE5oeTZHbWZxcmg0Qm55NDZ5bVMyYWVQLXRqSFk3S2FJdm9KZmVmZWtBN1NQWlBUejFsVUJnLUpLQkJmeVNnSE9WdnR4MERXak9TSEpCaUhMdE9p?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T12:35:41.000Z",
+          "score": 3,
+          "positive": [
+            "raising"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "fcc65121219cb8b5",
+          "title": "Meta to raise up to $95 billion in equity to fund costly AI expansion",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPclhjOFJvYkM0S0hLUmxaY0l2X3hCdWI0N1prZlo2QXhXdmt5T0pNQVpFODVpYzgycWdZcHM2NkZ2LTdaMEVUVlpTXzVFUzc2ZEdVdlpTeThUVkZtc3V4cEFTelk5bDd2Z0dfRDFsb0dGQ0MxRXhYMExFZTlXVkNjRXF6TDBLalZ5ZTFBbFMyX24wMVBTQW1GQkJNRjNYWTRiVGJJWWdialBfV1oyQUZNN3I4RQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T12:33:25.000Z",
+          "score": 6,
+          "positive": [
+            "expansion",
+            "raise"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1a352cb22a0cbcd4",
+          "title": "Meta Launches $35B Stock Offering, Plans Another $60B Program In 2027: Nvidia, AMD, Broadcom Eye Up To $5B Investment",
+          "url": "https://news.google.com/rss/articles/CBMigAJBVV95cUxOTHFfUVN4WDlGdEhma01TTE9Gb2o1ZmVzTXlFOTNJWmQtR3Exc3k1NkIzc3gyYTRFZkRBTmVHdUVndmVLbFRMLUpxV215MmN5Zm1pbngwYU1TeUhPb2o3X09wdzdTQjVwUkRZUFdnRkM1VmpuV24zRXlIeTU1U2M0akpZd05rcnEtZEhhUW5tdEtzMTVwWk45Z0NuZnJ5UjlnWElRYzVnTUt1SlA4ZjhwbVB6NFBpeFJJeGVRTFNJa3c3Q0ZZb1V3dVJNX0pRS2hJNmZLMFozek4wU3hyTGhQRlJTdUxDQzF6V2FRSjVQdnVrbjZiMW9pRXpFQ2ZkQUVW?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T12:17:38.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "dcd1f7592453c738",
+          "title": "Meta Plans up to $95 Billion in Financing to Power Its AI Growth",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOWWVJZlJtQjJkZTMyWV9zMXNqV3RxZERPOE1CZlliQTVqR3VaTFk5anp5bHViM0pVTlVlc3lmMTU2YzVkb01hRXVsYU9yWUVFWjJxVHlrbW5TRVZoMWw3SzM1VUZ3UmpZN1NRODBhZmpHQXI4OXFCZDI5dWpMOGlTcGlWblREUUhmWHRCLWtZeW9zcnNUMVlRa2JTN0pwZ2dkSXBKQS14emotVmM1LWMtb2RxMEF5Y3RqNHBFZndn?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T12:17:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7ec70e870d3bf5e7",
+          "title": "Meta Launches $95B Stock Sale to Bankroll AI Supercomputer Race",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQSDJmblpSWDE1dHlSM1YyUG1jV3k2eGZSUEtMVExqVGxKV1dLcG01aF9MWDdCRjhsM2hpRUN3cllvQU1KVk1DaTdVSkZPNjg4Qm5FTTBJelY4bk5oRlJHcUp1MlF6bnZ3Q05Ud2xfbWQ4N0dMZ3ZjdDl4aTRIb25oRFcxOTYyOEtnNWJJMktJa2Mzdm9lWjdHVzVpZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T12:05:00.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
           "negative": [],
           "clickbait": []
         }
@@ -1097,10 +1224,21 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 15,
-      "index": 6.4,
+      "headlines": 16,
+      "index": 6,
       "mean_headline": 0.8,
       "sample": [
+        {
+          "id": "5958e9f6ca248b1e",
+          "title": "From Amazon to Google, the deep-pocketed investors in Anthropic",
+          "url": "https://bsky.app/profile/reuters.com/post/3myrui5lxg22i",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T13:50:17.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "c759c51ad64e2298",
           "title": "Verizon raised outlook, signed $2B+ Amazon AI deal in Q3 2026 earnings",
@@ -1184,139 +1322,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "3f7233fc14423272",
-          "title": "AWS AI cloud capacity sold out through 2027, 2028 bookings filling fast",
-          "url": "https://reddit.com/r/artificial/comments/1xe1mos/aws_ai_cloud_capacity_sold_out_through_2027_2028",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-24T06:47:51.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "meta",
-      "name": "Meta",
-      "headlines": 21,
-      "index": 5.7,
-      "mean_headline": 0.7,
-      "sample": [
-        {
-          "id": "a479e8d1ae551b8c",
-          "title": "Meta is raising about $35 billion in stock for AI, with Nvidia and AMD as potential buyers",
-          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE45TUVNZzdNSTRQMVhfZEQyb2l0YXl0bm5KdE5oeTZHbWZxcmg0Qm55NDZ5bVMyYWVQLXRqSFk3S2FJdm9KZmVmZWtBN1NQWlBUejFsVUJnLUpLQkJmeVNnSE9WdnR4MERXak9TSEpCaUhMdE9p?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T12:35:41.000Z",
-          "score": 3,
-          "positive": [
-            "raising"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e71a464781f8404f",
-          "title": "Meta announces $95bn fundraising drive to pay for AI expansion – business live",
-          "url": "https://theguardian.com/business/live/2026/oct/26/ai-cloud-computing-companies-guppy-level-death-elon-musk-stock-markets-dollar-oil-bond-yieds-latest-news-updates",
-          "source": "guardian-ai",
-          "published_at": "2026-10-26T12:35:29.000Z",
-          "score": 3,
-          "positive": [
-            "expansion"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1a352cb22a0cbcd4",
-          "title": "Meta Launches $35B Stock Offering, Plans Another $60B Program In 2027: Nvidia, AMD, Broadcom Eye Up To $5B Investment",
-          "url": "https://news.google.com/rss/articles/CBMigAJBVV95cUxOTHFfUVN4WDlGdEhma01TTE9Gb2o1ZmVzTXlFOTNJWmQtR3Exc3k1NkIzc3gyYTRFZkRBTmVHdUVndmVLbFRMLUpxV215MmN5Zm1pbngwYU1TeUhPb2o3X09wdzdTQjVwUkRZUFdnRkM1VmpuV24zRXlIeTU1U2M0akpZd05rcnEtZEhhUW5tdEtzMTVwWk45Z0NuZnJ5UjlnWElRYzVnTUt1SlA4ZjhwbVB6NFBpeFJJeGVRTFNJa3c3Q0ZZb1V3dVJNX0pRS2hJNmZLMFozek4wU3hyTGhQRlJTdUxDQzF6V2FRSjVQdnVrbjZiMW9pRXpFQ2ZkQUVW?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T12:17:38.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7ec70e870d3bf5e7",
-          "title": "Meta Launches $95B Stock Sale to Bankroll AI Supercomputer Race",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQSDJmblpSWDE1dHlSM1YyUG1jV3k2eGZSUEtMVExqVGxKV1dLcG01aF9MWDdCRjhsM2hpRUN3cllvQU1KVk1DaTdVSkZPNjg4Qm5FTTBJelY4bk5oRlJHcUp1MlF6bnZ3Q05Ud2xfbWQ4N0dMZ3ZjdDl4aTRIb25oRFcxOTYyOEtnNWJJMktJa2Mzdm9lWjdHVzVpZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T12:05:00.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "fcc65121219cb8b5",
-          "title": "Meta to raise up to $95 billion in equity to fund costly AI expansion",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPclhjOFJvYkM0S0hLUmxaY0l2X3hCdWI0N1prZlo2QXhXdmt5T0pNQVpFODVpYzgycWdZcHM2NkZ2LTdaMEVUVlpTXzVFUzc2ZEdVdlpTeThUVkZtc3V4cEFTelk5bDd2Z0dfRDFsb0dGQ0MxRXhYMExFZTlXVkNjRXF6TDBLalZ5ZTFBbFMyX24wMVBTQW1GQkJNRjNYWTRiVGJJWWdialBfV1oyQUZNN3I4RQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T12:03:08.000Z",
-          "score": 6,
-          "positive": [
-            "expansion",
-            "raise"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6a4089b715f5a818",
-          "title": "Meta looks to raise up to $95 billion from stock sales to fund its huge AI build-out",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE52YjZCcHA3ck43QkQtbzJCUW1KOXBDemRQYTJWd3dVTVBqYkM3Y2hlYkF3ZWpqTHo1NndlVWwzM2dSc1RJY3F0NWNLWHMxSENtYkY2akRYQ0piTmpmMVI2SHdvbmd1RmN1T0RUbGFrRDBKSDJzakFMdDNNcWlNZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T11:55:15.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "dcd1f7592453c738",
-          "title": "Meta Plans Up to $95 Billion in Financing to Power its AI Growth",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOWWVJZlJtQjJkZTMyWV9zMXNqV3RxZERPOE1CZlliQTVqR3VaTFk5anp5bHViM0pVTlVlc3lmMTU2YzVkb01hRXVsYU9yWUVFWjJxVHlrbW5TRVZoMWw3SzM1VUZ3UmpZN1NRODBhZmpHQXI4OXFCZDI5dWpMOGlTcGlWblREUUhmWHRCLWtZeW9zcnNUMVlRa2JTN0pwZ2dkSXBKQS14emotVmM1LWMtb2RxMEF5Y3RqNHBFZndn?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T11:45:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7bde63242d4db1b3",
-          "title": "Meta plans to raise $95B to finance its AI infrastructure, including $35B in public equity offerings, backed by cornerstone investors Nvidia, AMD, and Broadcom (Tim Bradshaw/Financial Times)",
-          "url": "https://techmeme.com/261026/p15",
-          "source": "techmeme",
-          "published_at": "2026-10-26T11:25:13.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
-          ],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 5,
-      "index": 4.8,
-      "mean_headline": 0.6,
+      "headlines": 6,
+      "index": 4,
+      "mean_headline": 0.5,
       "sample": [
+        {
+          "id": "04856996ecb650fd",
+          "title": "DHS Orders Federal Agencies to Remove DeepSeek AI Products",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9TUnBPRTdOemk1Y2FlR2ZZRGI3VkdnTGRfSjRSbjdvRXJrYTF1SkxuX1FUR29sWkJRN1BjMGkwZmNGRFY2b0VUZFBJTGxzTjlPczV4RHlvX3o4SkcwNDQydFpPUkVreHdqRXZxRVkzVmZNUE5SOHRWQWxB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T13:23:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "fdcaf82b76f44444",
           "title": "DeepSeek V4.1 Flash vs Kimi K3.1 vs MiniMax: 13x Gap [2026]",
@@ -1379,10 +1405,21 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 17,
-      "index": 2.8,
-      "mean_headline": 0.4,
+      "headlines": 18,
+      "index": 2.7,
+      "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "5958e9f6ca248b1e",
+          "title": "From Amazon to Google, the deep-pocketed investors in Anthropic",
+          "url": "https://bsky.app/profile/reuters.com/post/3myrui5lxg22i",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T13:50:17.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1a55f546021eb337",
           "title": "Google DeepMind staff resign over military AI contracts",
@@ -1459,117 +1496,108 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "53f5351d8d4ce64a",
-          "title": "Google’s AI search changes upended online publishing",
-          "url": "https://bsky.app/profile/theverge.com/post/3myp63ju25c2m",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-25T12:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 49,
-      "index": -3.3,
-      "mean_headline": -0.4,
+      "headlines": 81,
+      "index": -1.9,
+      "mean_headline": -0.2,
       "sample": [
         {
-          "id": "aaef23617908e375",
-          "title": "Anthropic S-1",
-          "url": "https://sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-26T13:04:50.000Z",
+          "id": "5958e9f6ca248b1e",
+          "title": "From Amazon to Google, the deep-pocketed investors in Anthropic",
+          "url": "https://bsky.app/profile/reuters.com/post/3myrui5lxg22i",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T13:50:17.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "019c05b84dff9e09",
-          "title": "Anthropic publishes long-awaited IPO prospectus",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNN1ZwVC1NWWxLRjZWU2dLUDF4S3hCQk1rSHdQaHZDQkxBNlBGR3hGbk04TEpVeG1nUVlpWER2QlZJdmtoeFJfUnpMOGN2SWRMUDI2LWFZZUluY29lZjg2bnhHS0gxdU9nNHF6RV9XamFxdUdTZFJMTWFPWFpuMERqR0ZIbmM?oc=5",
+          "id": "74bb97f1b08c9e7c",
+          "title": "Anthropic S-1 Reveals Rapid Growth Ahead of Blockbuster IPO",
+          "url": "https://nytimes.com/2026/10/26/technology/anthropic-ipo-finances.html",
+          "source": "nyt-tech",
+          "published_at": "2026-10-26T13:49:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5ea6c66085dfc72e",
+          "title": "Anthropic’s S-1 shows $16.3 billion in revenue and an $80.7 billion net loss",
+          "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE83a1BzeUdlQVM4X1VkUUFBWnBYWEtTeUpXaF9WUHRqbTg2bC15XzZmUGE1YVZsMmdLWWJUbmp5d09EYWtmQ29DRXllQzhSOGpoR0pTM2p4b0Qwdw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T13:03:49.000Z",
+          "published_at": "2026-10-26T13:47:47.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "be2a44a5c63c179e",
-          "title": "Anthropic to Commit 5% of Its Shares to New ‘Public Benefit’ Fund",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNNXpEalNTRTc3MS04dnVkR0VjRHBocDJVbVlKQlIyaUJ4aHRHSVUwLTMtelNvRXUxWmNULU9iUnhPMmdWS1V5dUVQaUZRaXZMYnRMeGpzbWZFb2FKd3ZqcElOa0FRVlM4TXJoc2w2eG51eFVQZ2hTNENFY1phSzg5RjFNbXFEMDNNel96T2hCVFJlaXN6dnpmeVozTHdpMzkz?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T12:50:11.000Z",
-          "score": 0,
-          "positive": [],
+          "id": "e71a464781f8404f",
+          "title": "Anthropic files for stock market IPO; Meta announces $95bn fundraising drive to pay for AI expansion – business live",
+          "url": "https://theguardian.com/business/live/2026/oct/26/ai-cloud-computing-companies-guppy-level-death-elon-musk-stock-markets-dollar-oil-bond-yieds-latest-news-updates",
+          "source": "guardian-ai",
+          "published_at": "2026-10-26T13:46:25.000Z",
+          "score": 3,
+          "positive": [
+            "expansion"
+          ],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "3bcf8aeea34dd42e",
-          "title": "Anthropic AI bot accessed public Georgia voter data through state data hub",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPU2JobDBWMlVKZU5pWGJjS2tiX01rY2RFUzMzM2FOd0RPTUNEU3R3XzJHakxMVlUxTFF1bk5SYUZnVjZ4bUtEUnI4NW8xRUdtX1NySzNUMklDQWw2NFBqOTY2SFFBNlBuQ29sdU1Dbzg2WnNtcXRxdjd4UVM3bmk3dFpMcktlc0RKWlRyV2NYUmhYSWhrNXZZcGFNSXFRZ2htSFlYeTFfQjllY254Zk5xT2hBYmJuRWR5NC1N?oc=5",
+          "id": "d40e8c6d59fd5165",
+          "title": "AI giant Anthropic unveils plans for blockbuster share listing",
+          "url": "https://bbc.co.uk/news/articles/cq398p1wd1evo",
+          "source": "bbc-tech",
+          "published_at": "2026-10-26T13:46:14.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6cb0aeb9e2a14528",
+          "title": "Anthropic's IPO filing reveals $430 billion in locked-in AI computing: Chart of the Day",
+          "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPbE51NDUwd0ppb0ctckJ1TEkzV0Z4aUJXcEQ5Rk9MQlJiZVY0M1RYTTZSOWhUb0dGQzV3NHVwY0pXaDNkWnhzVzdLNTF1elZuUHVXMDNNaW0wUE1FVHJFZG9pVEowaUNpMWpVQS15VDROQ0RzWUFnOFc0VnB1eXJLeFNBeWdLeHprZUJnZjFnMUlVT0gtUDlWam8tMkVSZXZiYWplWUlWaWhxQ2MxWVhYNjVjVzVlY2lKU1cxZ1R0Nm9GM2hJc3ZxR213b0NoQ1BwTjlrV29Ba0c?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T12:50:00.000Z",
+          "published_at": "2026-10-26T13:44:57.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "56def944cd90e3cf",
-          "title": "Owners of Elvis Presley’s music sue Anthropic over un-permissioned AI use",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOMlhCTEhjVy15V3liSk9SS2JmRS16QUlCOHFQT0o0M3otTnZ4TUk0T0ZzbVpUcWZ1ZWJOYVc4Qkd0S2luUmV5b3hhcl9xdFNrWmlSbG5PTWdlRjdIeUZ0Q3l1enFlTlVZUDEzZU1pd2RDTnpwT3RuQnJYM044N1lDRzFwd1MzR1llSDlVdHpNU3E4dGNvVVVsWHV5QlRNMVhK0gGmAUFVX3lxTFBNdENKTGtOak1MWm1NQWpjcTRqZC1SYVdUejJMTEkyT3h0eXFFTzI0OVRBVEgxTnV3eWVvRk51a2ViRHduTXh6dllicFA0WG9neU93SVJGYjEtUjZpN0xxSzlESEhaa1pCbVFBZjJSQmpob1Z1TXNOUVdhaW9QLUpvejBRSE92ZEZmYUlKQU16VnZWMTA0TlJzRUxYUkdjSVUtbklwekE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T12:48:26.000Z",
+          "id": "d0cd28ff03970acb",
+          "title": "Anthropic discloses $80 billion loss as company prepares to go public",
+          "url": "https://bsky.app/profile/washingtonpost.com/post/3myrtxlcs7g2n",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T13:41:01.979Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "a2f8ba275bb957fa",
-          "title": "Anthropic faces $41 million lawsuit over Elvis Presley songs",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPQy1qVlZTN0RhaTEzMUFlb1lyYkhaWXdIX3p2VjNNNG16WWQyMkRRd2J6cUNIQlBqVUNteXZ2cEc2T3BJcjl4VFVLd2RlU1ZhemNvSnViS0NHR0JmdEdvN2h1bGh3VGZmcnJKMThBczJsNEkzOFU3SlV3OFhldWg4cVhUNE1mWWhWeG5IYzRzSFlhRkdnWks3UnhBODl4UEIycEoydHJpZTloTzM2Y2JSSTFPLThLZEE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T12:33:26.000Z",
+          "id": "5dcc71bcccc11a9a",
+          "title": "S-1: Anthropic outlines its mission to revolutionize sectors like medicine and warns its corporate behavior may diverge from traditional profit-maximization (Robert Hart/The Verge)",
+          "url": "https://techmeme.com/261026/p24",
+          "source": "techmeme",
+          "published_at": "2026-10-26T13:40:01.000Z",
           "score": -4,
           "positive": [],
           "negative": [
-            "lawsuit"
+            "warns"
           ],
-          "clickbait": []
-        },
-        {
-          "id": "989c87133a0fe27a",
-          "title": "Elvis Presley Rights Holders Seek $41M From Anthropic in AI Copyright Lawsuit Over 274 Songs",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQNFVtNGNXTENmb0dHNDh3NjdjN3l1VS1haF9XdTF2cldJU19jamRnY0tyX0V0X0J4cEtHajRnbjROTVYtVnhfMGhpckZmbkNwXzFVYjJOTVdJMEtnU3pvZ2M1WWxQYXVvSlJQTWpCU1NFT1gtSDRENlFMZTl1MkJNY2dkMThoc1hGa2J3ZllR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T12:14:36.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "lawsuit"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "1544721bee4735d7",
-          "title": "Anthropic Plans to Publicly File for IPO on Monday, Bloomberg Reports",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOMFBNUFVWWkM0YVN0YU9yX0d0ckhBLVNtWE5ZalZrOUFFbno5SnVFVFJSSFMwQXFjY2xEUGZacEZ3ZnlHbGhOekRoV0JHN0FvV2psZmZjRUN0ZzJNLTIwdzhwdFUyVng3VkVPbVJfMlVRSUZBclYxRk1OeW52MkN4VW1tWlJKS1BhT29YbHo2X1dibWNjcnF5VWg5YU1pdHREckFlWU9mczlWdUd3N2ZFSDhQYjNGTUtxTnA0WTZB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T12:09:18.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
           "clickbait": []
         }
       ]
@@ -1577,16 +1605,51 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 48,
+      "headlines": 42,
       "index": -5,
       "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "f364473684eccbf1",
+          "title": "The Leak Suspicions That Got Three OpenAI Staffers Fired",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNVnI0d2YzTXVkOVR3VEJUOV83R3FveURQU2pqeWNVS0xQdG83X3B3WUZmQ0swN0R3bXA4cXNKeGJ3cHFfZkVvMm9fZUMzX2RxVEdRaGVQWUd5SlF4QzdTNTZ6b2hnU1poSmY5V0Z1NVlFeUQ3aXhYQlE1ZXNTMkZ6QURHVDhNMXVidjRDRk5Sd29tMWdf?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T13:04:47.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "leak"
+          ],
+          "clickbait": []
+        },
         {
           "id": "0953ea126141c309",
           "title": "AI Safety Researchers Find Flaws in OpenAI’s Internal Monitoring System",
           "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOeUgzREFmYl9CUlFGdW56Mnl0RzRSYTFkN2FsZUFuUk9GdktKTmg2MzUyZFRVbjJiY3k3NmxRdG5MYnBwUE5wUXVfeWtpTDZXeE5qcHY4dVd0UzhxRnNKUnFhRUNaaHZ5MzA3QU02bUoxLUtrTGpPVmJ0Zks0UjF4dkpEQVVKV1JqcXRhNm5BQ09aZ2hCT19FOXRBTDVBTWxOSDZDalVnYw?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-26T13:04:04.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a214af92b952ac0a",
+          "title": "Fanatics teams up with OpenAI for new AI-powered shopping suggestion feature",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPNHJaQ1NDV05GMUZYdFVWdUhBTlZEN0l1Q3l5VWVMRVNzVWUtZEd4M0VXYlV3dnkwOWtEQ1hkS1M3QWQzMUZpemZ6RFVZbEtBcmE2QXBueHJlZ05mNmVXMGZYVVU0SGdWZ2dlUF80c2FkQ3dkaTF3cnpETUM3ZGk2eHVUanJfYjMwQ1UxUWgza9IBlAFBVV95cUxPbEZHSVc4Z2QwOG15V2F6MFAzcU9udXNWSUhqWTZxaG15TjVvRzlmdkphRnJyS2JJd3JjcmRIR3YzQjlZN3p2djhLeDlkZzhLNWp0RmlBOUtKeUVtX3pVZGg5Zk8yLXpaV05MVUc0UDg0Y3ZHbEtveHFlQXhwZTh0Qmg2MlZtYWN1VHEzVGJhendLMDRT?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T13:02:37.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "bef61f1bdb14885b",
+          "title": "OpenAI and Anthropic Slashed AI Model Prices by Up to 80%",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPZzJ0WEJSZ3dvRExBR2lvdTI0bFhKYXVxZXZRUUNzUm5jX1lIMFlfUjZRX0RQb29vTlVJVl9ZWVNtLWRZclBJRVV2MlFUa3U0cXZVMk85M0w3MWsyWDN4SVRQZXlZRmFqU3VtanNhZEozQVJRaWt0QUNNaEtFQk9UQUNIVmZQWVA5MVd0aDFpb0phV1BQM1pN0gGcAUFVX3lxTE9PeVB6RmNicFZVSjRQUEd1TXFfRzB3WUEzdkFzN2VfNkg0aG1qX0dGRHF6SlhlWFg0S0ZONXRpa0Q0UEF5MG0wMkpMN1lMNG5fUzg5c1ZmN21UMGFfeHN5ZVdzN2gyUC04S2diM2o0alRNOE1YTmRTR0hwM3lGc3FCTXR0WmJ6WXBpMkE2RXUzS1RCZjBrM1FmOWVEdQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T12:53:03.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1615,52 +1678,6 @@
           "clickbait": []
         },
         {
-          "id": "94337156345a1e9b",
-          "title": "OpenAI shelved GPT-6.1 Astra; AISI tested another model",
-          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBKZnJzTG55dTQ3bEdnMGhjMUppakJkVF9NZWpOMmpacVNCYmxrVm9NT01oZ19SUldKejE5bDdsSF9zRTdVMDRpdk9wUUI2ZjV4eFEyMnBSbkpPR21ONHVnMFczWUFhNGJJSGJjWVVhQTltdXdCbG5N?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T11:33:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "bf86067d0fb6718b",
-          "title": "OnClarity Named an OpenAI Select Partner, Expanding AI Agents for Large Support Organizations",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQR3o1VkpQTkV6dFVMWk9fWndwaWpFYlgyQlUwT2hlajJzWlR4OE1mbTA1LUJxdmdHakRhVzdHM1pGUVA1Ui13Q3o0QlV4cUs0U2dZNk5tZUptVUpFUEpVeFhLZC1KQ2FvMTc5NVVNVnI0NlE4YWlMZzBYYVNoQ3ZsbU9RNGJtaFJRSEpzdTY5U0FPRHhBUkp3WGo0Y182a1VRRmFGMVBIeG9wU0V5emdrVWpnN2xIZVFo?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T11:18:57.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6274e1230b73a866",
-          "title": "OpenAI Restarts Model Training after AI Agents Expose Security Weaknesses",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOMnp3MDNiUWR1d2RneUZSdndqNVZWMUVVM0xpd2tVOXJWQi1vSFhyUWdPS0RZZG42eWNaNDEzZDYyVTJ0aVFsZUFYM0JUd1hWWEVLQUkwZWRUTzI2dFZDbVB5RkdldHVxTWdPXzBlTEN2aTJvRFF2Q09fVF9hVEh5ZzZKX2tuOVlMcHVRS2E0bWVWNFQ3bHRueHp2ZU5zWDhzdGxwb2ZMY0VYZVhNWUhmV0RB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T11:05:37.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4534535acc385534",
-          "title": "Texas AG sues OpenAI and founder Sam Altman, claiming not enough regulation",
-          "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPbWVqLWFySXdXQ0ZGRDN3LXVIdVNVMFdrLUtWd3l2SnNmQ3Iwd0p5clNzRGFuN3gxdXJ2a3BVcXl0N3ViakJ1VFp4VW9LcGhtZkwyUUZBZFAtSjdYblZ5ZEFxNHVJcUNFY3BXQ0tuTklQdkpzaVJ5dWFZUmJBWTl3cmRXTGFuMUxPclNpbmVleUhpaW4yOEp0VUgxVlh1OEljZ3ZDcmFuWXJBWGdSeEZkdWYzNWQzZkFXdmZCQmlCeDJpMmFsMUtqc0NQTGdNUDVYekRXRDBtalBnTU5HLWp6YXRGZzhSWEtOSHNTS01xbk50cHI0cXAyZmp3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T10:58:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "sues"
-          ],
-          "clickbait": []
-        },
-        {
           "id": "77fbb6fd39cba0e8",
           "title": "The Morning Risk Report: The Signal Chats That Cost OpenAI Researchers Their Jobs",
           "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNdG1zWHJHcHdMY1NrMDFadURzb0tpeUsxa3hGeEpnXzYtaGhKa3p6N05hSmtmRE9Oc01RUlVXbGpPeXFsaHdJaTh0THhJcEtvQ1dFMHh5S2lhaWxST3ZmdEhzZF9PdVFuS19ud05pcm9nVzJvOUZQRmd4TFhwWVl3LUdEVEtRR1pNVFJxMEFmS2kweUM1U0hNNjVGVlpCYy1uMGtvUGgya3ZsRFlja1c3VHlIbWFfMUdhdlUtYUFFZ1VQQnFNRVpGTnVpa1RmZw?oc=5",
@@ -1670,6 +1687,19 @@
           "positive": [],
           "negative": [
             "risk"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "10a5adeb47fe5ef9",
+          "title": "A look at OpenAI's and Anthropic's aggressive price cuts from June through September, driven by low switching costs and pricing pressure from open-weight models (Max Woolf's Blog)",
+          "url": "https://techmeme.com/261026/p10",
+          "source": "techmeme",
+          "published_at": "2026-10-26T10:15:02.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cuts"
           ],
           "clickbait": []
         }
