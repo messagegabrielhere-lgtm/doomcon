@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-26T22:03:36.398Z",
-  "news_generated_at": "2026-10-26T22:03:36.398Z",
+  "generated_at": "2026-10-26T23:26:53.498Z",
+  "news_generated_at": "2026-10-26T23:26:53.498Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,10 +18,10 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 252,
+    "headlines_naming_a_company": 253,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.142
+    "negative_pair_share": 0.143
   },
   "glance": {
     "leading": {
@@ -32,12 +32,12 @@
     "trailing": {
       "id": "openai",
       "name": "OpenAI",
-      "index": -5.3
+      "index": -4.9
     },
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 160
+      "headlines": 163
     }
   },
   "companies": [
@@ -116,9 +116,35 @@
       "id": "openai",
       "name": "OpenAI",
       "headlines": 41,
-      "index": -5.3,
-      "mean_headline": -0.7,
+      "index": -4.9,
+      "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "03cd47b8848d81ba",
+          "title": "OpenAI Unveils Half-Price AI Model to Target Enterprise Automation",
+          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQdmN5THZQLTZnZjdTSDZmRlo2ZldLSFA4M3I3NnNPaDBQMWp2RUtjTjhpN1hWU01qbGk2UllUcG5vMk5uOEpxTHpxcUpiUXNoNUxqdXVFLVQ5Q2NhRmhwWkUtb0tDUEs3VVFiWXNtTFJQcGh1RjFYWVFWajB5T0d1bXhrUnlZOXh4YS1Hb3hDOTdTZFFndjlmVEItRXRmc3oyZ1ZBeVJvRjZkeGhXcnBkcDBMY0ZwVzdRdWkzcVRvOHhBZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:15:00.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "82fee1bb9e224b16",
+          "title": "OpenAI's GPT-6.1 Terra Is Fast and Cheap but Trails Leading AI Mo",
+          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQMTh5WVVWWXVsLTgycWRYMmloVXh0WVZXNEJaM2Y0QWRSeTVMNEs4T2l2eGRCbmxpR3Q4ZVFCcTRobkJhc0tMbDNwTTR2SUNiT18xZkwxOERJNzVtbTJ4cVNKYno3Y2haWXo3OXB5RXBwbklIc25Cei1kVUNaSjFiMEdUcWh6ak1qV08tWFp6Qmp6VjRCUWF6TDc2cTFyVjM3eXRMNUpSRVFtVlFQa0pkVDRlVERRVWs?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T22:44:37.000Z",
+          "score": 3,
+          "positive": [
+            "leading"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "ac5176d4b2a02553",
           "title": "OpenAI announces three breakthroughs in computer science, math, and physics, including that the Exponential Time Hypothesis, a longstanding conjecture, is false (OpenAI)",
@@ -128,6 +154,19 @@
           "score": 0,
           "positive": [],
           "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "77fbb6fd39cba0e8",
+          "title": "The Morning Risk Report: The Signal Chats That Cost OpenAI Researchers Their Jobs",
+          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNdG1zWHJHcHdMY1NrMDFadURzb0tpeUsxa3hGeEpnXzYtaGhKa3p6N05hSmtmRE9Oc01RUlVXbGpPeXFsaHdJaTh0THhJcEtvQ1dFMHh5S2lhaWxST3ZmdEhzZF9PdVFuS19ud05pcm9nVzJvOUZQRmd4TFhwWVl3LUdEVEtRR1pNVFJxMEFmS2kweUM1U0hNNjVGVlpCYy1uMGtvUGgya3ZsRFlja1c3VHlIbWFfMUdhdlUtYUFFZ1VQQnFNRVpGTnVpa1RmZw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T21:27:31.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "risk"
+          ],
           "clickbait": []
         },
         {
@@ -169,41 +208,6 @@
           "url": "https://github.com/openai/openai-python/releases/tag/v3.39.0",
           "source": "github-releases",
           "published_at": "2026-10-26T19:14:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f364473684eccbf1",
-          "title": "The Leak Suspicions That Got Three OpenAI Staffers Fired",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNVnI0d2YzTXVkOVR3VEJUOV83R3FveURQU2pqeWNVS0xQdG83X3B3WUZmQ0swN0R3bXA4cXNKeGJ3cHFfZkVvMm9fZUMzX2RxVEdRaGVQWUd5SlF4QzdTNTZ6b2hnU1poSmY5V0Z1NVlFeUQ3aXhYQlE1ZXNTMkZ6QURHVDhNMXVidjRDRk5Sd29tMWdf?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T19:04:51.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "leak"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "257c3ea6eb021aef",
-          "title": "Thoughts on privacy issues with the likes of Meta Muse, Grok Bot, OpenAI Dots, etc.?",
-          "url": "https://reddit.com/r/artificial/comments/1xg5ibn/thoughts_on_privacy_issues_with_the_likes_of_meta",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-26T18:47:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2b97d18dd8a470fc",
-          "title": "Exclusive | FBI Explores Espionage Case Against Saudi OpenAI Suspect",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQRTA2OWU1VV9mbXhWWWMxTVZ4QVA2UXEtamNNOFN0NmZpQXZSVUk1OHBGSXpBbkE2Vmo3Q1RDS3hMUWpFbm13VmF3SkplYWxqcnVrU3ZmV2xONWs4OGdKVjZSMnJUTjBfeWxmOUJkZDkzZ2NxQmZEZFpDZktuZEFxdEkzODFfdmlPaldWYzZXenFqTFhsUUw3OXBVTzNHZw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T18:36:39.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -319,106 +323,97 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 160,
-      "index": -4,
-      "mean_headline": -0.5,
+      "headlines": 163,
+      "index": -3.3,
+      "mean_headline": -0.4,
       "sample": [
         {
-          "id": "d808789c6837d2d5",
-          "title": "Record Anthropic IPO a Likely Boon to Sports-Connected Backers",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNVHNyOTFzQThkNDY0czQ3cFR5Wkkzd1pCcGZTdFFORTZfOElUR3hBWUdTaHZtS2oyQVl0ZHhqWE1qWThMQXhFa1lJVDRFTGl1TWthdEZVeVptX3lFaVItYnlNSk1mU21qZWhESl9YcDBVMUVNcVFkMndRMldOb0JObUc5bVgxZDV5X0paWDhoOWRkSmx1eU9PVmZ1VENCTk10WlN2dFN2WkVLMEk3MmlNV19R?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T21:53:56.000Z",
-          "score": 3,
-          "positive": [
-            "record"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "00537d37385dac09",
-          "title": "Coveted Roles in Anthropic’s Upcoming IPO Lift Goldman Sachs, Morgan Stanley",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNS1BiQ0h5WDc5WDk5dTdRSDViM001c0hCZEpiOHBNYW1ySkotRm51RjQtN0FrT3ppYmFmRDhYZGlNVHRLdlRsVFFwYkpwLWNiUmNmZmp2em9WdmpGazJtOTg2bGJUb1pvTjkwRjlZSm5wQl9rSVhHcVVibmNEN2hINGRZbU1EMmltMDdGNg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T21:52:00.000Z",
+          "id": "9a6664df35748f1c",
+          "title": "Anthropic’s IPO Sets Up Defining Moment for Wall Street and AI Boom",
+          "url": "https://bloomberg.com/news/articles/2026-10-26/anthropic-s-ipo-sets-up-defining-moment-for-wall-street-and-ai-boom",
+          "source": "bloomberg-tech",
+          "published_at": "2026-10-26T23:23:19.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "c3b0f26371753067",
-          "title": "Anthropic’s IPO had over 90 pages of risk factors. Should you worry?",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQcTVWNXdtMzJISmQ4R2xsMThMN2FQM3hseVdfMnFYMmZWbnVYME12M0diSVFfOFdlSnN4UVg0eXpabDBCZmt6TW9NTllnd0F3VmE5VnNGZkFNUlMxU2stYVVDMkN3ZzRyMlVud3c5SGI1VWRCbFpLTkRxTEVvV243ZmNScUpSV2xMTjVKNG9rUUpUQmlGMVI0WA?oc=5",
+          "id": "1d7d230181cd3518",
+          "title": "Venture Capitalists Read Anthropic’s S-1, and Exhale",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOeU5WMlNZekg4ay1ldnpyNkVyelF1bmFULXJpblhMOE9SQ0F3eWFyYk0tcy0wU0wtc3dDd1JITExxMndMTkdpVmFoaFB2TWlYdkQ4WF9tVVh4ZDlJR3dXT04yaWRvc19JZkRfTGdQRGZFcU5Mb3lsY0FRdVNadUF5eEx1UzdXdmlvNGVNbkxLUEhGNklWZHhnMHZ6d2hvdWdy?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:51:38.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "risk"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "46ccdfe998c553e8",
-          "title": "Anthropic is burning gas to feed the AI boom",
-          "url": "https://bsky.app/profile/theverge.com/post/3myspdu6cva23",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-26T21:45:31.000Z",
+          "published_at": "2026-10-26T23:14:10.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "945f844e51076fdd",
-          "title": "Opinion | Anthropic’s Big IPO Gamble",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNWGszRG5neTUwb3VNRF91eE1ZM1JONl9hcDI4cjI5RjRBYnREem8xYTNqQ1k0OG9fejFaWmV4a3BGbnduNmdFY3pxUTVxRmZFeXpVZGFpREhMcW43M1kxVlVGbGJtX0NGRzFsVkk1alpnc2RLaFVmMlAwazVUTEV1MzRXcDJYd0J6WGJKVA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T21:41:00.000Z",
+          "id": "7007e9047839721b",
+          "title": "Anthropic's S-1, $518B in cloud commitments, and circular AI capex",
+          "url": "https://codingcat.dev/post/anthropic-s1-ipo-circular-ai-economy-etf-risk",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-26T23:08:10.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "17b274a0e9162c9f",
-          "title": "Anthropic’s 7 cofounders are splitting $200 billion almost evenly, down to the last stock option",
-          "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE4zbTFtSXJaOEpCWmZCZS0xczJQMWtEYTZRTDBFNXRtb3VIUTNVa1U0azk4VzZVME5pQ0VBQUdQNi1qdlNjd3JVck5oUXdJeVBGc2Fsa2NROVowckZtTlBGaEVMLW12ZnR6LWJXaVBwSFNSdEk?oc=5",
+          "id": "21f2789f5401c057",
+          "title": "AI stocks on Wall Street lifted by Anthropic filing",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNbl9WbHNHa2pXaldvSWl3dnB5aEZQZzNEUWpfV0I2dXdnRndzRVd5VVBuRVdNYWxpOXV3dnBsdlJ4OVZtYkR3NlNSNHJCd2dMWUJrNE9IWlBPOVI2NjB4d2ExMG9NVE9JMmRZOWF1dGZQYlBzckhnSGo0Wkd3R2dqdXBxZW1VTjNhZllEak95ZFdUcjdhRGliYVk1WDFfUnR2Rkln?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:40:10.000Z",
-          "score": -4,
+          "published_at": "2026-10-26T23:02:00.000Z",
+          "score": 0,
           "positive": [],
-          "negative": [
-            "down"
-          ],
+          "negative": [],
           "clickbait": []
         },
         {
-          "id": "aed7a9fb50098822",
-          "title": "Anthropic Files for IPO While Warning of ‘Catastrophic’ AI Risks",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxONEpObDZYbmpkdXp2NVptZHptdHpGTFN0ckkzTzRSVkV1dFpuOHdBNmgtTWJEdXVkWE1xRVZPZEhZclRxTWZHcXo1SVB3VEJpaVNSdlFHSzlIZk5ETHJsN1J0S2ZKNFlYMXl2UXdsXzVMZ2UzRWxmQzJvUkczSGRNVVlUYVlGWlJpakZUaEQ1ZkdGeGlrQW5MSFhxRFJsaVkzUFFHbVN4cW9tU0lKWkJWamJXa0lCem8?oc=5",
+          "id": "8d72db74f0229cb1",
+          "title": "Inside Anthropic's massive — and wild — IPO prospectus",
+          "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBkd2lYc2dEOHpFeDZWV1k3OE5NbERLN0M1X0lHWWpuQlp3WGZ1VWQ2TFlVMFJWay0wQ1FqenhGUmZod2VzWk9qdjZJWmlERlZRQVVVOTI1MDl5WW4waHoxN1N5bEdDUkMtNzRZSklkUmRzdw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:39:15.000Z",
-          "score": -8,
+          "published_at": "2026-10-26T23:01:20.000Z",
+          "score": 0,
           "positive": [],
-          "negative": [
-            "risks",
-            "warning"
-          ],
+          "negative": [],
           "clickbait": []
         },
         {
-          "id": "2bcf24cc2fa4ed45",
-          "title": "Anthropic files for IPO that could raise record $100 billion",
-          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9wLXJPNW1rN0NabnNQQUl1b2xEeTUwdHBlbVpuWWlZclBNa2t6TXlyek81Nlc1Ri12WEpLMjVSeWwwdklQVTdUNWV6alk4bXM1X2R5UmdEanhsTTBERzhQRmI3MWFqTFJVSFAweVdycU1zWTNDcEN4SXBUTEFJekk?oc=5",
+          "id": "30a35bf32488bed8",
+          "title": "AI & Tech Brief: Anthropic’s S-1",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQZzAzVy1QQWt2WDZveFQ4MG5fSUhCNlIyQW9xeDhNcy03WE1sb0R3Q3FrdGVyaUtiQzhHRl9GZ1QycTQ0Q1ZVRlphYXQycFh4VkRKNnJNaWNlV3ZCVll2SDVQdDFxeUd6OUlWb1NBb1ZHRzYwdGdHVDM0RWhSQXlUdHFhejhYeUdIbVlodmxmWTRDZEZ0UXp1RzNDYWtEQUVpLVlV?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:36:21.000Z",
+          "published_at": "2026-10-26T22:55:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "43e5867280813608",
+          "title": "Anthropic Just Filed to Go Public. Should You Buy the Stock?",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOVWJOa0lidTZ5Ui0weUJrYVJpYTFITWZjNThFdnF5cDA4dGRzS3hmbmRWamFvekVGVnN3V0lnS21Na01aTGk5dU51V3hHME9aMnpKUlVCOHluMU1ZQzJ5UjV6QmtfVDhNQUQ5cWhWaWpqLVNMY2dDX21XSkNoR2R3R0pqUFBsdlFrTHlPc18tenBjREktZjlNblFhUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T22:55:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "dc62496c861a3223",
+          "title": "Broadcom Partners With Wall Street Bigwigs To Forge $63B Deal To Power Anthropic’s AI Hardware",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxONHEwVER4QWp2OF9zMExQczNkS210UmUyNXhMZnRlMDdLRnNRN1pQY2tWZUpBWDhNVFFsZTdkRHhYSno0cUx4SW9tWnFNOUxESWFNejJpWnFaWDdzY1lkT2ZMdmJ3TEFCcDhjWDEtVkMwQy0tR0lfei1aQ0RveXVOSFpVX3pMZE52M01fVHF1Q0JLYldXejdTcVBCdUpwaFlITXE4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T22:50:16.000Z",
           "score": 6,
           "positive": [
-            "raise",
-            "record"
+            "deal",
+            "partners"
           ],
           "negative": [],
           "clickbait": []
@@ -428,9 +423,9 @@
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 21,
-      "index": 7.2,
-      "mean_headline": 0.9,
+      "headlines": 19,
+      "index": 8,
+      "mean_headline": 1,
       "sample": [
         {
           "id": "f9a920e6d40bba0d",
@@ -519,13 +514,15 @@
           "clickbait": []
         },
         {
-          "id": "86c3d02574150b91",
-          "title": "Why Walmart Is Embracing Meta's AI Shopping Agent While Amazon Blocks It",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNaVkyWkxFTFhkOVg0SkJhU0wyczg3cGFQQ05XSUJnY3dwZU9CMDVkU2lMcGpTWGhFQ3FMXzhmWjZGUkJqV2FYQVpsWF9RcXFSS1BTNzV6emF0djhXQjJJRkxsN1dBUmlsTWo2dUVUc2p1X2NqeWRzR3FROG1BUzZVeTRDZXBybWhPeGM4WVBnbW8xRk0yZmhYZGpYUXFON2cwSm9tTFVIQ2cxTkFPUlJpR3d1MDFlSFlXUHZjbVRR?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T16:48:59.000Z",
-          "score": 0,
-          "positive": [],
+          "id": "e71a464781f8404f",
+          "title": "Anthropic files for stock market IPO; Meta announces $95bn fundraising drive to pay for AI expansion – as it happened",
+          "url": "https://theguardian.com/business/live/2026/oct/26/ai-cloud-computing-companies-guppy-level-death-elon-musk-stock-markets-dollar-oil-bond-yieds-latest-news-updates",
+          "source": "guardian-ai",
+          "published_at": "2026-10-26T15:33:24.000Z",
+          "score": 3,
+          "positive": [
+            "expansion"
+          ],
           "negative": [],
           "clickbait": []
         }
@@ -542,8 +539,8 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 17,
-      "index": 2.8,
+      "headlines": 16,
+      "index": 3,
       "mean_headline": 0.4,
       "sample": [
         {
@@ -639,8 +636,8 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 17,
-      "index": 2.4,
+      "headlines": 16,
+      "index": 2.5,
       "mean_headline": 0.3,
       "sample": [
         {
@@ -671,17 +668,6 @@
           "url": "https://bloomberg.com/news/videos/2026-10-26/microsoft-retools-for-ai-closing-bell-video",
           "source": "bloomberg-tech",
           "published_at": "2026-10-26T20:24:38.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6d1cb62e4d411028",
-          "title": "Microsoft offers a quarter of its global workforce voluntary buyouts as AI spending accelerates",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPTldBUWstVmdxYTcxUVFWbWVEazFJU01MLUZJQzdKNkhDeWxnM01KVmVGQzZ0MnhCZFZUeURFR3c3NHJiU19CUGJFSXlWcUlhRkphS0hENkRRT2d4aUVaVTFCTDBXYmpHd3A3MEJMeC1ucl93MlEyTldwNzRENjZLVUI1MmwyRkxKMHpWTE5rNFZHRGd6NlE?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T19:44:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -730,14 +716,25 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "2a00b20ec30abb8b",
+          "title": "Microsoft and others push out emergency patches for a critical flaw in Brotli, the C decoder library built into Node.js, that could allow remote code execution (Bill Toulas/BleepingComputer)",
+          "url": "https://techmeme.com/261026/p35",
+          "source": "techmeme",
+          "published_at": "2026-10-26T16:45:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 12,
-      "index": 2,
+      "headlines": 11,
+      "index": 2.2,
       "mean_headline": 0.3,
       "sample": [
         {
@@ -807,17 +804,6 @@
           "clickbait": []
         },
         {
-          "id": "86c3d02574150b91",
-          "title": "Why Walmart Is Embracing Meta's AI Shopping Agent While Amazon Blocks It",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNaVkyWkxFTFhkOVg0SkJhU0wyczg3cGFQQ05XSUJnY3dwZU9CMDVkU2lMcGpTWGhFQ3FMXzhmWjZGUkJqV2FYQVpsWF9RcXFSS1BTNzV6emF0djhXQjJJRkxsN1dBUmlsTWo2dUVUc2p1X2NqeWRzR3FROG1BUzZVeTRDZXBybWhPeGM4WVBnbW8xRk0yZmhYZGpYUXFON2cwSm9tTFVIQ2cxTkFPUlJpR3d1MDFlSFlXUHZjbVRR?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T16:48:59.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "a1d540fac0f079c8",
           "title": "Brazil sees record fall in Amazon deforestation",
           "url": "https://bbc.com/news/articles/cqe8rzg6zl00o",
@@ -827,6 +813,17 @@
           "positive": [
             "record"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5958e9f6ca248b1e",
+          "title": "From Amazon to Google, the deep-pocketed investors in Anthropic",
+          "url": "https://bsky.app/profile/reuters.com/post/3myrui5lxg22i",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T13:50:17.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
           "clickbait": []
         }
@@ -1055,9 +1052,9 @@
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 21,
-      "index": 7.2,
-      "mean_headline": 0.9,
+      "headlines": 19,
+      "index": 8,
+      "mean_headline": 1,
       "sample": [
         {
           "id": "f9a920e6d40bba0d",
@@ -1146,13 +1143,15 @@
           "clickbait": []
         },
         {
-          "id": "86c3d02574150b91",
-          "title": "Why Walmart Is Embracing Meta's AI Shopping Agent While Amazon Blocks It",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNaVkyWkxFTFhkOVg0SkJhU0wyczg3cGFQQ05XSUJnY3dwZU9CMDVkU2lMcGpTWGhFQ3FMXzhmWjZGUkJqV2FYQVpsWF9RcXFSS1BTNzV6emF0djhXQjJJRkxsN1dBUmlsTWo2dUVUc2p1X2NqeWRzR3FROG1BUzZVeTRDZXBybWhPeGM4WVBnbW8xRk0yZmhYZGpYUXFON2cwSm9tTFVIQ2cxTkFPUlJpR3d1MDFlSFlXUHZjbVRR?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T16:48:59.000Z",
-          "score": 0,
-          "positive": [],
+          "id": "e71a464781f8404f",
+          "title": "Anthropic files for stock market IPO; Meta announces $95bn fundraising drive to pay for AI expansion – as it happened",
+          "url": "https://theguardian.com/business/live/2026/oct/26/ai-cloud-computing-companies-guppy-level-death-elon-musk-stock-markets-dollar-oil-bond-yieds-latest-news-updates",
+          "source": "guardian-ai",
+          "published_at": "2026-10-26T15:33:24.000Z",
+          "score": 3,
+          "positive": [
+            "expansion"
+          ],
           "negative": [],
           "clickbait": []
         }
@@ -1161,8 +1160,8 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 17,
-      "index": 2.8,
+      "headlines": 16,
+      "index": 3,
       "mean_headline": 0.4,
       "sample": [
         {
@@ -1258,8 +1257,8 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 17,
-      "index": 2.4,
+      "headlines": 16,
+      "index": 2.5,
       "mean_headline": 0.3,
       "sample": [
         {
@@ -1290,17 +1289,6 @@
           "url": "https://bloomberg.com/news/videos/2026-10-26/microsoft-retools-for-ai-closing-bell-video",
           "source": "bloomberg-tech",
           "published_at": "2026-10-26T20:24:38.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6d1cb62e4d411028",
-          "title": "Microsoft offers a quarter of its global workforce voluntary buyouts as AI spending accelerates",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPTldBUWstVmdxYTcxUVFWbWVEazFJU01MLUZJQzdKNkhDeWxnM01KVmVGQzZ0MnhCZFZUeURFR3c3NHJiU19CUGJFSXlWcUlhRkphS0hENkRRT2d4aUVaVTFCTDBXYmpHd3A3MEJMeC1ucl93MlEyTldwNzRENjZLVUI1MmwyRkxKMHpWTE5rNFZHRGd6NlE?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T19:44:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1349,14 +1337,25 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "2a00b20ec30abb8b",
+          "title": "Microsoft and others push out emergency patches for a critical flaw in Brotli, the C decoder library built into Node.js, that could allow remote code execution (Bill Toulas/BleepingComputer)",
+          "url": "https://techmeme.com/261026/p35",
+          "source": "techmeme",
+          "published_at": "2026-10-26T16:45:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 12,
-      "index": 2,
+      "headlines": 11,
+      "index": 2.2,
       "mean_headline": 0.3,
       "sample": [
         {
@@ -1426,17 +1425,6 @@
           "clickbait": []
         },
         {
-          "id": "86c3d02574150b91",
-          "title": "Why Walmart Is Embracing Meta's AI Shopping Agent While Amazon Blocks It",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNaVkyWkxFTFhkOVg0SkJhU0wyczg3cGFQQ05XSUJnY3dwZU9CMDVkU2lMcGpTWGhFQ3FMXzhmWjZGUkJqV2FYQVpsWF9RcXFSS1BTNzV6emF0djhXQjJJRkxsN1dBUmlsTWo2dUVUc2p1X2NqeWRzR3FROG1BUzZVeTRDZXBybWhPeGM4WVBnbW8xRk0yZmhYZGpYUXFON2cwSm9tTFVIQ2cxTkFPUlJpR3d1MDFlSFlXUHZjbVRR?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T16:48:59.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "a1d540fac0f079c8",
           "title": "Brazil sees record fall in Amazon deforestation",
           "url": "https://bbc.com/news/articles/cqe8rzg6zl00o",
@@ -1446,6 +1434,17 @@
           "positive": [
             "record"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5958e9f6ca248b1e",
+          "title": "From Amazon to Google, the deep-pocketed investors in Anthropic",
+          "url": "https://bsky.app/profile/reuters.com/post/3myrui5lxg22i",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T13:50:17.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
           "clickbait": []
         }
@@ -1496,106 +1495,97 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 160,
-      "index": -4,
-      "mean_headline": -0.5,
+      "headlines": 163,
+      "index": -3.3,
+      "mean_headline": -0.4,
       "sample": [
         {
-          "id": "d808789c6837d2d5",
-          "title": "Record Anthropic IPO a Likely Boon to Sports-Connected Backers",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNVHNyOTFzQThkNDY0czQ3cFR5Wkkzd1pCcGZTdFFORTZfOElUR3hBWUdTaHZtS2oyQVl0ZHhqWE1qWThMQXhFa1lJVDRFTGl1TWthdEZVeVptX3lFaVItYnlNSk1mU21qZWhESl9YcDBVMUVNcVFkMndRMldOb0JObUc5bVgxZDV5X0paWDhoOWRkSmx1eU9PVmZ1VENCTk10WlN2dFN2WkVLMEk3MmlNV19R?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T21:53:56.000Z",
-          "score": 3,
-          "positive": [
-            "record"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "00537d37385dac09",
-          "title": "Coveted Roles in Anthropic’s Upcoming IPO Lift Goldman Sachs, Morgan Stanley",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNS1BiQ0h5WDc5WDk5dTdRSDViM001c0hCZEpiOHBNYW1ySkotRm51RjQtN0FrT3ppYmFmRDhYZGlNVHRLdlRsVFFwYkpwLWNiUmNmZmp2em9WdmpGazJtOTg2bGJUb1pvTjkwRjlZSm5wQl9rSVhHcVVibmNEN2hINGRZbU1EMmltMDdGNg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T21:52:00.000Z",
+          "id": "9a6664df35748f1c",
+          "title": "Anthropic’s IPO Sets Up Defining Moment for Wall Street and AI Boom",
+          "url": "https://bloomberg.com/news/articles/2026-10-26/anthropic-s-ipo-sets-up-defining-moment-for-wall-street-and-ai-boom",
+          "source": "bloomberg-tech",
+          "published_at": "2026-10-26T23:23:19.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "c3b0f26371753067",
-          "title": "Anthropic’s IPO had over 90 pages of risk factors. Should you worry?",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQcTVWNXdtMzJISmQ4R2xsMThMN2FQM3hseVdfMnFYMmZWbnVYME12M0diSVFfOFdlSnN4UVg0eXpabDBCZmt6TW9NTllnd0F3VmE5VnNGZkFNUlMxU2stYVVDMkN3ZzRyMlVud3c5SGI1VWRCbFpLTkRxTEVvV243ZmNScUpSV2xMTjVKNG9rUUpUQmlGMVI0WA?oc=5",
+          "id": "1d7d230181cd3518",
+          "title": "Venture Capitalists Read Anthropic’s S-1, and Exhale",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOeU5WMlNZekg4ay1ldnpyNkVyelF1bmFULXJpblhMOE9SQ0F3eWFyYk0tcy0wU0wtc3dDd1JITExxMndMTkdpVmFoaFB2TWlYdkQ4WF9tVVh4ZDlJR3dXT04yaWRvc19JZkRfTGdQRGZFcU5Mb3lsY0FRdVNadUF5eEx1UzdXdmlvNGVNbkxLUEhGNklWZHhnMHZ6d2hvdWdy?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:51:38.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "risk"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "46ccdfe998c553e8",
-          "title": "Anthropic is burning gas to feed the AI boom",
-          "url": "https://bsky.app/profile/theverge.com/post/3myspdu6cva23",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-26T21:45:31.000Z",
+          "published_at": "2026-10-26T23:14:10.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "945f844e51076fdd",
-          "title": "Opinion | Anthropic’s Big IPO Gamble",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNWGszRG5neTUwb3VNRF91eE1ZM1JONl9hcDI4cjI5RjRBYnREem8xYTNqQ1k0OG9fejFaWmV4a3BGbnduNmdFY3pxUTVxRmZFeXpVZGFpREhMcW43M1kxVlVGbGJtX0NGRzFsVkk1alpnc2RLaFVmMlAwazVUTEV1MzRXcDJYd0J6WGJKVA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T21:41:00.000Z",
+          "id": "7007e9047839721b",
+          "title": "Anthropic's S-1, $518B in cloud commitments, and circular AI capex",
+          "url": "https://codingcat.dev/post/anthropic-s1-ipo-circular-ai-economy-etf-risk",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-26T23:08:10.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "17b274a0e9162c9f",
-          "title": "Anthropic’s 7 cofounders are splitting $200 billion almost evenly, down to the last stock option",
-          "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE4zbTFtSXJaOEpCWmZCZS0xczJQMWtEYTZRTDBFNXRtb3VIUTNVa1U0azk4VzZVME5pQ0VBQUdQNi1qdlNjd3JVck5oUXdJeVBGc2Fsa2NROVowckZtTlBGaEVMLW12ZnR6LWJXaVBwSFNSdEk?oc=5",
+          "id": "21f2789f5401c057",
+          "title": "AI stocks on Wall Street lifted by Anthropic filing",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNbl9WbHNHa2pXaldvSWl3dnB5aEZQZzNEUWpfV0I2dXdnRndzRVd5VVBuRVdNYWxpOXV3dnBsdlJ4OVZtYkR3NlNSNHJCd2dMWUJrNE9IWlBPOVI2NjB4d2ExMG9NVE9JMmRZOWF1dGZQYlBzckhnSGo0Wkd3R2dqdXBxZW1VTjNhZllEak95ZFdUcjdhRGliYVk1WDFfUnR2Rkln?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:40:10.000Z",
-          "score": -4,
+          "published_at": "2026-10-26T23:02:00.000Z",
+          "score": 0,
           "positive": [],
-          "negative": [
-            "down"
-          ],
+          "negative": [],
           "clickbait": []
         },
         {
-          "id": "aed7a9fb50098822",
-          "title": "Anthropic Files for IPO While Warning of ‘Catastrophic’ AI Risks",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxONEpObDZYbmpkdXp2NVptZHptdHpGTFN0ckkzTzRSVkV1dFpuOHdBNmgtTWJEdXVkWE1xRVZPZEhZclRxTWZHcXo1SVB3VEJpaVNSdlFHSzlIZk5ETHJsN1J0S2ZKNFlYMXl2UXdsXzVMZ2UzRWxmQzJvUkczSGRNVVlUYVlGWlJpakZUaEQ1ZkdGeGlrQW5MSFhxRFJsaVkzUFFHbVN4cW9tU0lKWkJWamJXa0lCem8?oc=5",
+          "id": "8d72db74f0229cb1",
+          "title": "Inside Anthropic's massive — and wild — IPO prospectus",
+          "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBkd2lYc2dEOHpFeDZWV1k3OE5NbERLN0M1X0lHWWpuQlp3WGZ1VWQ2TFlVMFJWay0wQ1FqenhGUmZod2VzWk9qdjZJWmlERlZRQVVVOTI1MDl5WW4waHoxN1N5bEdDUkMtNzRZSklkUmRzdw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:39:15.000Z",
-          "score": -8,
+          "published_at": "2026-10-26T23:01:20.000Z",
+          "score": 0,
           "positive": [],
-          "negative": [
-            "risks",
-            "warning"
-          ],
+          "negative": [],
           "clickbait": []
         },
         {
-          "id": "2bcf24cc2fa4ed45",
-          "title": "Anthropic files for IPO that could raise record $100 billion",
-          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9wLXJPNW1rN0NabnNQQUl1b2xEeTUwdHBlbVpuWWlZclBNa2t6TXlyek81Nlc1Ri12WEpLMjVSeWwwdklQVTdUNWV6alk4bXM1X2R5UmdEanhsTTBERzhQRmI3MWFqTFJVSFAweVdycU1zWTNDcEN4SXBUTEFJekk?oc=5",
+          "id": "30a35bf32488bed8",
+          "title": "AI & Tech Brief: Anthropic’s S-1",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQZzAzVy1QQWt2WDZveFQ4MG5fSUhCNlIyQW9xeDhNcy03WE1sb0R3Q3FrdGVyaUtiQzhHRl9GZ1QycTQ0Q1ZVRlphYXQycFh4VkRKNnJNaWNlV3ZCVll2SDVQdDFxeUd6OUlWb1NBb1ZHRzYwdGdHVDM0RWhSQXlUdHFhejhYeUdIbVlodmxmWTRDZEZ0UXp1RzNDYWtEQUVpLVlV?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:36:21.000Z",
+          "published_at": "2026-10-26T22:55:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "43e5867280813608",
+          "title": "Anthropic Just Filed to Go Public. Should You Buy the Stock?",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOVWJOa0lidTZ5Ui0weUJrYVJpYTFITWZjNThFdnF5cDA4dGRzS3hmbmRWamFvekVGVnN3V0lnS21Na01aTGk5dU51V3hHME9aMnpKUlVCOHluMU1ZQzJ5UjV6QmtfVDhNQUQ5cWhWaWpqLVNMY2dDX21XSkNoR2R3R0pqUFBsdlFrTHlPc18tenBjREktZjlNblFhUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T22:55:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "dc62496c861a3223",
+          "title": "Broadcom Partners With Wall Street Bigwigs To Forge $63B Deal To Power Anthropic’s AI Hardware",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxONHEwVER4QWp2OF9zMExQczNkS210UmUyNXhMZnRlMDdLRnNRN1pQY2tWZUpBWDhNVFFsZTdkRHhYSno0cUx4SW9tWnFNOUxESWFNejJpWnFaWDdzY1lkT2ZMdmJ3TEFCcDhjWDEtVkMwQy0tR0lfei1aQ0RveXVOSFpVX3pMZE52M01fVHF1Q0JLYldXejdTcVBCdUpwaFlITXE4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T22:50:16.000Z",
           "score": 6,
           "positive": [
-            "raise",
-            "record"
+            "deal",
+            "partners"
           ],
           "negative": [],
           "clickbait": []
@@ -1606,9 +1596,35 @@
       "id": "openai",
       "name": "OpenAI",
       "headlines": 41,
-      "index": -5.3,
-      "mean_headline": -0.7,
+      "index": -4.9,
+      "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "03cd47b8848d81ba",
+          "title": "OpenAI Unveils Half-Price AI Model to Target Enterprise Automation",
+          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQdmN5THZQLTZnZjdTSDZmRlo2ZldLSFA4M3I3NnNPaDBQMWp2RUtjTjhpN1hWU01qbGk2UllUcG5vMk5uOEpxTHpxcUpiUXNoNUxqdXVFLVQ5Q2NhRmhwWkUtb0tDUEs3VVFiWXNtTFJQcGh1RjFYWVFWajB5T0d1bXhrUnlZOXh4YS1Hb3hDOTdTZFFndjlmVEItRXRmc3oyZ1ZBeVJvRjZkeGhXcnBkcDBMY0ZwVzdRdWkzcVRvOHhBZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:15:00.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "82fee1bb9e224b16",
+          "title": "OpenAI's GPT-6.1 Terra Is Fast and Cheap but Trails Leading AI Mo",
+          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQMTh5WVVWWXVsLTgycWRYMmloVXh0WVZXNEJaM2Y0QWRSeTVMNEs4T2l2eGRCbmxpR3Q4ZVFCcTRobkJhc0tMbDNwTTR2SUNiT18xZkwxOERJNzVtbTJ4cVNKYno3Y2haWXo3OXB5RXBwbklIc25Cei1kVUNaSjFiMEdUcWh6ak1qV08tWFp6Qmp6VjRCUWF6TDc2cTFyVjM3eXRMNUpSRVFtVlFQa0pkVDRlVERRVWs?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T22:44:37.000Z",
+          "score": 3,
+          "positive": [
+            "leading"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "ac5176d4b2a02553",
           "title": "OpenAI announces three breakthroughs in computer science, math, and physics, including that the Exponential Time Hypothesis, a longstanding conjecture, is false (OpenAI)",
@@ -1618,6 +1634,19 @@
           "score": 0,
           "positive": [],
           "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "77fbb6fd39cba0e8",
+          "title": "The Morning Risk Report: The Signal Chats That Cost OpenAI Researchers Their Jobs",
+          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNdG1zWHJHcHdMY1NrMDFadURzb0tpeUsxa3hGeEpnXzYtaGhKa3p6N05hSmtmRE9Oc01RUlVXbGpPeXFsaHdJaTh0THhJcEtvQ1dFMHh5S2lhaWxST3ZmdEhzZF9PdVFuS19ud05pcm9nVzJvOUZQRmd4TFhwWVl3LUdEVEtRR1pNVFJxMEFmS2kweUM1U0hNNjVGVlpCYy1uMGtvUGgya3ZsRFlja1c3VHlIbWFfMUdhdlUtYUFFZ1VQQnFNRVpGTnVpa1RmZw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T21:27:31.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "risk"
+          ],
           "clickbait": []
         },
         {
@@ -1659,41 +1688,6 @@
           "url": "https://github.com/openai/openai-python/releases/tag/v3.39.0",
           "source": "github-releases",
           "published_at": "2026-10-26T19:14:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f364473684eccbf1",
-          "title": "The Leak Suspicions That Got Three OpenAI Staffers Fired",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNVnI0d2YzTXVkOVR3VEJUOV83R3FveURQU2pqeWNVS0xQdG83X3B3WUZmQ0swN0R3bXA4cXNKeGJ3cHFfZkVvMm9fZUMzX2RxVEdRaGVQWUd5SlF4QzdTNTZ6b2hnU1poSmY5V0Z1NVlFeUQ3aXhYQlE1ZXNTMkZ6QURHVDhNMXVidjRDRk5Sd29tMWdf?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T19:04:51.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "leak"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "257c3ea6eb021aef",
-          "title": "Thoughts on privacy issues with the likes of Meta Muse, Grok Bot, OpenAI Dots, etc.?",
-          "url": "https://reddit.com/r/artificial/comments/1xg5ibn/thoughts_on_privacy_issues_with_the_likes_of_meta",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-26T18:47:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2b97d18dd8a470fc",
-          "title": "Exclusive | FBI Explores Espionage Case Against Saudi OpenAI Suspect",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQRTA2OWU1VV9mbXhWWWMxTVZ4QVA2UXEtamNNOFN0NmZpQXZSVUk1OHBGSXpBbkE2Vmo3Q1RDS3hMUWpFbm13VmF3SkplYWxqcnVrU3ZmV2xONWs4OGdKVjZSMnJUTjBfeWxmOUJkZDkzZ2NxQmZEZFpDZktuZEFxdEkzODFfdmlPaldWYzZXenFqTFhsUUw3OXBVTzNHZw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T18:36:39.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
