@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-26T23:26:53.498Z",
-  "news_generated_at": "2026-10-26T23:26:53.498Z",
+  "generated_at": "2026-10-27T00:05:14.693Z",
+  "news_generated_at": "2026-10-27T00:05:14.693Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -21,7 +21,7 @@
     "headlines_naming_a_company": 253,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.143
+    "negative_pair_share": 0.134
   },
   "glance": {
     "leading": {
@@ -30,14 +30,14 @@
       "index": 19.2
     },
     "trailing": {
-      "id": "openai",
-      "name": "OpenAI",
-      "index": -4.9
+      "id": "anthropic",
+      "name": "Anthropic",
+      "index": -3.4
     },
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 163
+      "headlines": 158
     }
   },
   "companies": [
@@ -115,10 +115,21 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 41,
-      "index": -4.9,
-      "mean_headline": -0.6,
+      "headlines": 46,
+      "index": -3.3,
+      "mean_headline": -0.4,
       "sample": [
+        {
+          "id": "bfc2ddc7f99248d7",
+          "title": "OpenAI announces three big science discoveries and a new way to work with academics",
+          "url": "https://bsky.app/profile/theverge.com/post/3mysvfqiwy22o",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T23:34:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "03cd47b8848d81ba",
           "title": "OpenAI Unveils Half-Price AI Model to Target Enterprise Automation",
@@ -129,6 +140,28 @@
           "positive": [
             "unveils"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e8f7588f4874017d",
+          "title": "OpenAI rolls out budget-priced mid-tier GPT-6.1 Terra",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOZFlaQlJZSTRmSnp5WkJ3ZmprNUU4VnZkNjRCdTFYOEN1QVBSRXlTVnRmVmdWckFMMWc2N2V1OEJhN1VqMVZ3TFhNX0xuUlZsRk10aW9iUTJRNVp3eC1VbzVmOWJtN2ZBS05TUEtyNmkwekpjdU8yVlFuS3R5ejRySlBobEpWam9DS1BJNXBfd21lQlpjTkpSSGVtS3ZXaU0tVHJxN0JiZVlWeUlmZ2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:08:59.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4386d846c9deba81",
+          "title": "OpenAi claims to have proved that the Exponential Time Hypothesis is false, invalidating many past results that relied on it being true.",
+          "url": "https://reddit.com/r/artificial/comments/1xgbnyg/openai_claims_to_have_proved_that_the_exponential",
+          "source": "reddit-artificial",
+          "published_at": "2026-10-26T22:44:48.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -146,70 +179,39 @@
           "clickbait": []
         },
         {
-          "id": "ac5176d4b2a02553",
-          "title": "OpenAI announces three breakthroughs in computer science, math, and physics, including that the Exponential Time Hypothesis, a longstanding conjecture, is false (OpenAI)",
-          "url": "https://techmeme.com/261026/p48",
-          "source": "techmeme",
-          "published_at": "2026-10-26T21:55:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "77fbb6fd39cba0e8",
-          "title": "The Morning Risk Report: The Signal Chats That Cost OpenAI Researchers Their Jobs",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNdG1zWHJHcHdMY1NrMDFadURzb0tpeUsxa3hGeEpnXzYtaGhKa3p6N05hSmtmRE9Oc01RUlVXbGpPeXFsaHdJaTh0THhJcEtvQ1dFMHh5S2lhaWxST3ZmdEhzZF9PdVFuS19ud05pcm9nVzJvOUZQRmd4TFhwWVl3LUdEVEtRR1pNVFJxMEFmS2kweUM1U0hNNjVGVlpCYy1uMGtvUGgya3ZsRFlja1c3VHlIbWFfMUdhdlUtYUFFZ1VQQnFNRVpGTnVpa1RmZw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-26T21:27:31.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "risk"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "1dc7e2df39a11f00",
-          "title": "OpenAI's agents talked to each other through the CPU Cache",
-          "url": "https://the-decoder.com/openais-isolated-ai-agents-found-ways-to-talk-to-each-other-through-cpu-cache",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-26T21:24:18.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b37b00d8bed10fb7",
-          "title": "OpenAI and Anthropic Want the Junior Banker’s 2 a.m. Shift",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxON1l5R0t4ZTBCaEJMMFVMbHFDamRsQkNSRjR2SUI5MmstSnpmOTlUdHByYTc1czJ1STYyTGZlNkliTWduWlY4MjNtZmNBb3ZnSlZaMnJSeUREVG5uSS1HZ2toSHJycDdFWU02eFZQNlE3bENoaFpPVTM3RnRCaUk5YzRqN3dVS3NidXlZZGJ6dEs5b0M5U2JwWFB6aHVBZFhkRWc?oc=5",
+          "id": "f840cfcff3fb8d08",
+          "title": "OpenAI launches GPT-6.1 Terra with faster performance, 50% lower pricing",
+          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOY25JZEozY1M1WDhuUDVxdjIzUFdMZkRtUVNMSFNsU25MZmNlVzNBamk4MnVHcUUyWWlRWDdsTWVuOHlycHAzS0l1Zms0Zng3dUFyamZQdlY3dlA2QzNBZlhDMzJMMlFuZjBrbDdJM3ZnNmdzelczakdncUxmU1JBR292c2lJOHNuMWN4aEtCNDloejRZaVFFTkJKYnliSUxUTGpzQ0M1RXNnWGlvb282ajVKclJLT0h1QTc0eDRmMnNMZw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:09:24.000Z",
+          "published_at": "2026-10-26T22:17:55.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "636398ed3cfcfefd",
+          "title": "OpenAI Says Its Models Produced Three Proofs in Math, CS, and Physics",
+          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxONW1JX0dNNHJ5ZUxiZ2dhZFAtakZ4MTJhcktGd0J2cmxndkt1Z19TdUUxbXg5LVdHTmZLbUJVSW5TTExBWHFQYjRIU3BXZzUtTU1HWlhMTzhNSjdhdFRPU0hmQU5ZTm1TU1NrTjNVdzJmOTdvQVVZd3IwX3QwZGphT3pRVGhrUlB0Z0RsU1UzTFk3RzQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T22:17:01.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "0c4a5b3d38ca79d5",
-          "title": "GPT-6.1 Terra halves OpenAI's API prices and still gains ground on its larger models",
-          "url": "https://the-decoder.com/gpt-6-1-terra-halves-openais-api-prices-and-still-gains-ground-on-its-larger-models",
-          "source": "the-decoder",
-          "published_at": "2026-10-26T20:30:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a5c54e147599c0ed",
-          "title": "openai/openai-python v3.39.0",
-          "url": "https://github.com/openai/openai-python/releases/tag/v3.39.0",
-          "source": "github-releases",
-          "published_at": "2026-10-26T19:14:00.000Z",
-          "score": 0,
-          "positive": [],
+          "id": "caf68418dbb46aa2",
+          "title": "OpenAI says its AI invented a new mathematical technique to solve a 35-year-old mystery about how waves focus, then used the breakthrough to crack several other decades-old problems involving how…",
+          "url": "https://reddit.com/r/singularity/comments/1xgaw9b/openai_says_its_ai_invented_a_new_mathematical",
+          "source": "reddit-singularity",
+          "published_at": "2026-10-26T22:12:44.000Z",
+          "score": 3,
+          "positive": [
+            "breakthrough"
+          ],
           "negative": [],
           "clickbait": []
         }
@@ -218,47 +220,10 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 13,
-      "index": 12.9,
-      "mean_headline": 1.6,
+      "headlines": 10,
+      "index": 12,
+      "mean_headline": 1.5,
       "sample": [
-        {
-          "id": "2e233042fc04fb0e",
-          "title": "Stocks rise as Nvidia gains and AI shares fluctuate",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE85enhhSno0MDItUmNLSWdENWVfWS1xalR1X2paTU01OGJSTWZSUXVDX3B0aXVTcS1uR3RoUzRjOUZfbk5raTRHZks4Z0l6enlIRVpnX2gxVVgtTTRWUEFBSFdQQ1QxVVFYMWNiU3lvZFZPdC1wamZtZlJTZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T21:35:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "cc1dea5f80058c27",
-          "title": "Cadence unveils 'Maestro' AI models for chip design using Nvidia Nemotron",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQS0V2Y29HTmJxRlcxclhQb2RuR2EzQnFoSWdPUmxRWkM3bXZRd1dGbGVfZWp1c01XalRIV09wSWlpRkE5UXBkTloyTm5id3N3NTdOclp1bjdxcXBSRnA0M0h5OFhLNXRfNmlkQU81VFllVlBicWFQeG1UZEhzaEVjelhZbk55YWlmNjlCNU96MjN1VEpKaG1nbFhwN1F6QmlTbnZoUkpxWU9seDlZVDh3Y0g1bUN0d2hq?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T21:08:24.000Z",
-          "score": 3,
-          "positive": [
-            "unveils"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "57b80a1b09b84c52",
-          "title": "Nvidia, Intel, Other Major Tech Stocks Surge After Anthropic’s IPO Filing",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPQy13QVhWcnlNN0VOMGc2UmRUWDJBbVFiaFFmalhpYWNCZ1JiVGVOSGpPejBXemladmNjYUxhU1c3MXJJeGZLS1RqcVlmN19lZi05c0xOM3RVdU96M2JKUC10clBoNklXUnZaNzdBd1VRSzB4emZsVkVsamJxQmROcnl6Qnh3QzdLXzVJZ2hLbHpWeERjV2lKZm5ycVdlbTB6YjRScTFyeWY2NEZJc1VkcXQtSUlyQU5nLU5ERENpSm8?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T20:28:21.000Z",
-          "score": 3,
-          "positive": [
-            "surge"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "a2566ada8f6979c8",
           "title": "SpaceX agrees to a ~$40B equipment finance lease with Apollo to fund purchases of Nvidia GPUs for its AI initiatives, set to close before the end of 2026 (Carmen Arroyo/Bloomberg)",
@@ -317,104 +282,143 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "38a614ae3ae4c215",
+          "title": "Nvidia weighs $2,000 annual software fee per GPU for AI agents",
+          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPQTVhd1p2dU5lMjdnVE00aktFSy1fcV9wNHlReEFIeHFvZTRrWHRlZ3VtWkp5ZENUV2xfZzd3Vk16SVhyWjNrX203aE9laEJyUzlzRDU3d1hwcUR4UEhnWnczMlU2SjB4R0hKY3B2ZWUtU3FSVWgyd1dIcmVHbTZ2UWpVWXhOZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T13:08:54.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "801b5ea4e9beae3e",
+          "title": "OpenAI killed Sora. now Nvidia is backing a company built mostly on other people’s video models",
+          "url": "https://reddit.com/r/OpenAI/comments/1xf1lby/openai_killed_sora_now_nvidia_is_backing_a",
+          "source": "reddit-openai",
+          "published_at": "2026-10-25T12:52:30.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "af9112a54e84d14e",
+          "title": "Nvidia open-sources Flora to make robot video labeling 125x cheaper than GPT-6 Astra",
+          "url": "https://the-decoder.com/nvidia-open-sources-flora-to-make-robot-video-labeling-125x-cheaper-than-gpt-6-astra",
+          "source": "the-decoder",
+          "published_at": "2026-10-25T10:08:49.000Z",
+          "score": 6,
+          "positive": [
+            "open sources",
+            "open-sources"
+          ],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 163,
-      "index": -3.3,
+      "headlines": 158,
+      "index": -3.4,
       "mean_headline": -0.4,
       "sample": [
         {
-          "id": "9a6664df35748f1c",
-          "title": "Anthropic’s IPO Sets Up Defining Moment for Wall Street and AI Boom",
-          "url": "https://bloomberg.com/news/articles/2026-10-26/anthropic-s-ipo-sets-up-defining-moment-for-wall-street-and-ai-boom",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-26T23:23:19.000Z",
+          "id": "ca44c98e5dc3a95e",
+          "title": "The Anthropic IPO by the numbers, from a possible valuation in the trillions to surging revenue",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOcDRJRVVNZ1VRRENaRXhEa082OGJYREE1ZmxlWHhLZ3FxYmpqQVQwZ3ZyNG4wNngwMjVFb1R1WTVZOFliSWU3N01ObFduZ2lCUWs0VFZiczkwVFBrR09jaml4N29ESndYUF9FeHZtRHpqeGE0QjZ5ZldVT3FuemFCVGJqSzBYQjA0c2tXblVHQ3NTaWNS?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T23:53:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "1d7d230181cd3518",
-          "title": "Venture Capitalists Read Anthropic’s S-1, and Exhale",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOeU5WMlNZekg4ay1ldnpyNkVyelF1bmFULXJpblhMOE9SQ0F3eWFyYk0tcy0wU0wtc3dDd1JITExxMndMTkdpVmFoaFB2TWlYdkQ4WF9tVVh4ZDlJR3dXT04yaWRvc19JZkRfTGdQRGZFcU5Mb3lsY0FRdVNadUF5eEx1UzdXdmlvNGVNbkxLUEhGNklWZHhnMHZ6d2hvdWdy?oc=5",
+          "id": "37369a7154479e50",
+          "title": "Anthropic gets ready to make its stock market debut",
+          "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQLTB2dWU5VWlKazk2SzBpM3hOdVFtblZsVHlwQWtUNTFvdVV3ZFpSdVFrUzU5NTZCSDB1Mmx5US1USEN3QUUzN0tXbGdZY1dJMHdjNmhUUzJOTUR6bmIxZnJ6Um9rd1NJVEpoLW5XUzYybms4czEyU0NIVzRQRXhHTEREZkh0aHUySnkzYl9McHdxejB2VWMwLWhPYkNCcDNVSmlHSlFUSkJwRjBsRHhZQ3pHVU5XWlJ0Sk03TUlkcVRlXzFNeU9scVRMQmhOYVhEeEVB?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T23:14:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7007e9047839721b",
-          "title": "Anthropic's S-1, $518B in cloud commitments, and circular AI capex",
-          "url": "https://codingcat.dev/post/anthropic-s1-ipo-circular-ai-economy-etf-risk",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-26T23:08:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "21f2789f5401c057",
-          "title": "AI stocks on Wall Street lifted by Anthropic filing",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNbl9WbHNHa2pXaldvSWl3dnB5aEZQZzNEUWpfV0I2dXdnRndzRVd5VVBuRVdNYWxpOXV3dnBsdlJ4OVZtYkR3NlNSNHJCd2dMWUJrNE9IWlBPOVI2NjB4d2ExMG9NVE9JMmRZOWF1dGZQYlBzckhnSGo0Wkd3R2dqdXBxZW1VTjNhZllEak95ZFdUcjdhRGliYVk1WDFfUnR2Rkln?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T23:02:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8d72db74f0229cb1",
-          "title": "Inside Anthropic's massive — and wild — IPO prospectus",
-          "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBkd2lYc2dEOHpFeDZWV1k3OE5NbERLN0M1X0lHWWpuQlp3WGZ1VWQ2TFlVMFJWay0wQ1FqenhGUmZod2VzWk9qdjZJWmlERlZRQVVVOTI1MDl5WW4waHoxN1N5bEdDUkMtNzRZSklkUmRzdw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T23:01:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "30a35bf32488bed8",
-          "title": "AI & Tech Brief: Anthropic’s S-1",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQZzAzVy1QQWt2WDZveFQ4MG5fSUhCNlIyQW9xeDhNcy03WE1sb0R3Q3FrdGVyaUtiQzhHRl9GZ1QycTQ0Q1ZVRlphYXQycFh4VkRKNnJNaWNlV3ZCVll2SDVQdDFxeUd6OUlWb1NBb1ZHRzYwdGdHVDM0RWhSQXlUdHFhejhYeUdIbVlodmxmWTRDZEZ0UXp1RzNDYWtEQUVpLVlV?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T22:55:15.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "43e5867280813608",
-          "title": "Anthropic Just Filed to Go Public. Should You Buy the Stock?",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOVWJOa0lidTZ5Ui0weUJrYVJpYTFITWZjNThFdnF5cDA4dGRzS3hmbmRWamFvekVGVnN3V0lnS21Na01aTGk5dU51V3hHME9aMnpKUlVCOHluMU1ZQzJ5UjV6QmtfVDhNQUQ5cWhWaWpqLVNMY2dDX21XSkNoR2R3R0pqUFBsdlFrTHlPc18tenBjREktZjlNblFhUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T22:55:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "dc62496c861a3223",
-          "title": "Broadcom Partners With Wall Street Bigwigs To Forge $63B Deal To Power Anthropic’s AI Hardware",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxONHEwVER4QWp2OF9zMExQczNkS210UmUyNXhMZnRlMDdLRnNRN1pQY2tWZUpBWDhNVFFsZTdkRHhYSno0cUx4SW9tWnFNOUxESWFNejJpWnFaWDdzY1lkT2ZMdmJ3TEFCcDhjWDEtVkMwQy0tR0lfei1aQ0RveXVOSFpVX3pMZE52M01fVHF1Q0JLYldXejdTcVBCdUpwaFlITXE4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T22:50:16.000Z",
-          "score": 6,
+          "published_at": "2026-10-26T23:52:00.000Z",
+          "score": 3,
           "positive": [
-            "deal",
-            "partners"
+            "debut"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a9c0c4682866f9e2",
+          "title": "Anthropic’s IPO Filing Day Comes With Warning",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQc3VOdVQwTU5wT3FYcWZKTGlJS2FTQUVSOTh0VVd0Z0tzR09yTnFOb0hsNmxuaW8zdHdCcS1vLW91cmNqNUU1ZGZTbjNvd0FvN0VEbExuc21SVThoeVZWOFBvTDg0UWc4bHItUGdWaGJMMndMU1ZJZ1dJUjZhdFpKU09KS0lvaXg0TnIweGdhMW8ySkFhNkhteXQxZ1hXZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:51:19.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warning"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "544493514f7a6985",
+          "title": "Owners of Elvis Presley’s Catalog Sue Anthropic for $41.1 Million, Claiming AI Company Pirated Star’s Music to Train Claude",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOMUU3c1J4d3dSdEpIT1lXNnFpUmhOeHBzSmszd2RkZzh6dklXYWNGZzNfU0NJdHhBdjBQX3lnZjVnSXJwMjhOVUdJNUIzSjZpVUozZGRfNWhvNmVzR1dZWHc3ZDhwRnFqU3hJN2ZKZmdxR2U3a2dOVWpXTHFRcVpsV1hNZG5CNHc0UU9wcGJDbWJEd0o5MG1qM2xFUjlQV00?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:42:45.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d3b40d3b5b4fb6ba",
+          "title": "Anthropic's IPO filing answers one of the biggest questions about the AI boom: Can AI labs actually make money?",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNNUsxdE0tNGRWcHJEeVFUQmwwblcwa0xvdE80ZXdqS2MzN2ItR0s3d3ctWGI0NzR4RzhfeVkwOVdXeVgxeDhHNnRUajZHamFGYm5lQjJrandzRFlqNTdyeXU0UTR5RWpuN2hzMHVMNmdaLVhVV1gxUDFGV0hRb2VfMjVRR2ZNZ2pOb0E5U2s3QjVaN2ZrZ1llclBITQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:42:41.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "db0e1827bd9d9695",
+          "title": "Asian Stocks to Gain as Anthropic Files for IPO: Markets Wrap",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPYTFLZTJNckNaRFN0TG9fLXJTY3h3VkVRSnZfMDJfLVkxOTNsU01IbWtXbDZQUTFIOXJXWENhY2NIX0ZuLUdLSHJMemcyUkNEZklQdUQxZlpHUWNwaVE3WFp1dk1meVZwejRrSUF1dEhFdDBjNUp3WVdqVnNBamJfQjFrN2g5b3QwZFBUMHZjYVU2aGhK?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T23:40:33.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d62b099b7cb6ffa0",
+          "title": "Anthropic S-1 Registration Dominates, Leads Nasdaq Higher",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOVklLNF9obVU5eGNkZFMtdjNBTFZJRWd5em5iS3RhQklSbkltcXVOZTNBSU1BMm1hUkZEVHBhVVFub3JBMWxrd3dMendvVWs0YXp0U2t4Qkd5RE12dW5KWmdTcUtIby1MS0QwZXhzR0dBRlNYVnBKN0N0c2xWamJRTm9uNi1renE5dDU2ZXEzSDUxQ3JXUEtTdFF6OF9EZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:40:00.000Z",
+          "score": 3,
+          "positive": [
+            "leads"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f096646250edbd75",
+          "title": "Humanity can't afford not to spend $800B on AI, Anthropic insists",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNTWEyblFmNlBBZ1lrVkpBbEs3cG9OWmRuclg5bXFNNDllbURZQktmSWsweHFkMjE2bVYzNGpjb2RidHJiWDhBN2tUSUZMTmRsN01PTmJhclBwazNhdU5NZVRNcUhtUGw0cnV6WkZESWRkRHJTUnhPSEo1a2dZNUVyZWJqN0tzbzg4eHEtZTVpeFk4TUJBaC0za2FKZ1Jva1RmUkFVSVByZXprbFFGUnlEaUNMS1RYb3ZPa1pr?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:39:49.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
           "clickbait": []
         }
@@ -423,10 +427,23 @@
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 19,
-      "index": 8,
-      "mean_headline": 1,
+      "headlines": 18,
+      "index": 9.8,
+      "mean_headline": 1.2,
       "sample": [
+        {
+          "id": "e0de3007a4ebffcb",
+          "title": "Meta ($META) Launches $35 Billion Equity Offerings, Plans $60 Billion More for AI Investments",
+          "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxQZXNTVUs0cDJEUWtpOTVHQzNMc3I3ZGZQSVNlc3VfLUhKSGxkX0hRVkRDOVIzX2hXTHdSS0xRSEZwalBLbzFwMUxBbm1wX1JVN3dVbWJHLVJPVDZWRUh2SjdTMHZ0Vm9mbnJCVm1jVWtBRW5BOHdfY204b0tjUnBUNkRtNFBuSlFqdTV0T1k3eWdfWFhrYXFLX0ExcVNTYmlSM0VVS214Qnl4eUt1RFV3alJlM21mUTNXNFlNblFkZWNJYlBpS04yLVRsZGVua3A0b2V6eDZtSC1FMDVFci1zcDhwRTE4RERxZ0FraXlUSFhuNTdiV3MxcEdqaU1Ed2dsUXc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:15:33.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "f9a920e6d40bba0d",
           "title": "Meta plans record $95 billion fundraising effort to fuel AI expansion",
@@ -447,17 +464,6 @@
           "url": "https://bsky.app/profile/wired.com/post/3mysmjarvyh2d",
           "source": "bluesky-ai",
           "published_at": "2026-10-26T21:00:24.540Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "fe3b5bc23c67baae",
-          "title": "Meta, SpaceX, Anthropic stoke the AI funding frenzy. What it means for our stocks",
-          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNd25SWkRCVFRJbE5HZ2hPcUlhc3A2cU40ekVnR3BpRU54RDhCekpGUXV4bWdMemFEeXhzTHJza2F3Z1NicXZIV1dnSXk5N0xobDZPTElHM1pSb09oeE1LeHNHRHh0WnlJbzlXZnhnMXRuOTlNNFVZNEZiME5VeGJRcDV1M0lxR3Jpd3Nwb1JQcG1FaXpQNlhpMWVEQnoyNjJ5LWNtU3BoUzZhN0dhMkJfTEJENlIxUDVBNmFaZGRnclNSRld3eExzMg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T20:26:26.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -636,16 +642,27 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 16,
-      "index": 2.5,
+      "headlines": 17,
+      "index": 2.4,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "6b5d8128561c50b4",
+          "title": "S&P 500, Nasdaq, Dow Begin Week Higher As Anthropic IPO Filing Rekindles AI Enthusiasm — MSFT, AAPL, CART, VZ In Focus",
+          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPTDBfa3ZUVkwyVE04SFUzYlJDLTJ6VFM0MzlVOTllTXBSWk5hTlVpbU4wazQ1U1ktSC1PNGU5UFVISUEzdmdJcmpTYVNiMEVfMVRKS2ZjSjE1aFN2bDkwMDVCWEotd1psN0pIQjJQNzJ1VVFFVks1Tk1zTEYwN3Y4bGpaaGpFR2xJT2w1Z0s4VWE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T22:35:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "8176f458862496ce",
           "title": "Microsoft offers buyouts to nearly 30% of workforce in ongoing AI shift",
           "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNTHJEQWJUU0U1cVB1b1oweVpDbkxrVXU3WXFPM3ZvSmlIQUJYcDM1OW1YX1hiZU02SUd5dEc2TTNvU0c5anA1U1JWN3N2QUdRUUpKSi1FN29YaEN6TDNxMmZhV1h6MldQWnJTV3l3VFZLQ1VDUVVtUHpDVWhROTdqSV90ZHpBUkk2S2lEcW5mYVlCbVZkUGd2RzVvOWp3QS1tN3NZRA?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:29:55.000Z",
+          "published_at": "2026-10-26T22:22:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -712,17 +729,6 @@
           "url": "https://tomshardware.com/software/microsoft-office/denmarks-bid-to-ditch-microsoft-office-for-open-source-alternative-collabora-collapses-in-under-six-months-employees-cite-issues-with-style-formatting-and-tracking-changes",
           "source": "hn-fresh-ai",
           "published_at": "2026-10-26T16:49:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2a00b20ec30abb8b",
-          "title": "Microsoft and others push out emergency patches for a critical flaw in Brotli, the C decoder library built into Node.js, that could allow remote code execution (Bill Toulas/BleepingComputer)",
-          "url": "https://techmeme.com/261026/p35",
-          "source": "techmeme",
-          "published_at": "2026-10-26T16:45:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -947,47 +953,10 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 13,
-      "index": 12.9,
-      "mean_headline": 1.6,
+      "headlines": 10,
+      "index": 12,
+      "mean_headline": 1.5,
       "sample": [
-        {
-          "id": "2e233042fc04fb0e",
-          "title": "Stocks rise as Nvidia gains and AI shares fluctuate",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE85enhhSno0MDItUmNLSWdENWVfWS1xalR1X2paTU01OGJSTWZSUXVDX3B0aXVTcS1uR3RoUzRjOUZfbk5raTRHZks4Z0l6enlIRVpnX2gxVVgtTTRWUEFBSFdQQ1QxVVFYMWNiU3lvZFZPdC1wamZtZlJTZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T21:35:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "cc1dea5f80058c27",
-          "title": "Cadence unveils 'Maestro' AI models for chip design using Nvidia Nemotron",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQS0V2Y29HTmJxRlcxclhQb2RuR2EzQnFoSWdPUmxRWkM3bXZRd1dGbGVfZWp1c01XalRIV09wSWlpRkE5UXBkTloyTm5id3N3NTdOclp1bjdxcXBSRnA0M0h5OFhLNXRfNmlkQU81VFllVlBicWFQeG1UZEhzaEVjelhZbk55YWlmNjlCNU96MjN1VEpKaG1nbFhwN1F6QmlTbnZoUkpxWU9seDlZVDh3Y0g1bUN0d2hq?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T21:08:24.000Z",
-          "score": 3,
-          "positive": [
-            "unveils"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "57b80a1b09b84c52",
-          "title": "Nvidia, Intel, Other Major Tech Stocks Surge After Anthropic’s IPO Filing",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPQy13QVhWcnlNN0VOMGc2UmRUWDJBbVFiaFFmalhpYWNCZ1JiVGVOSGpPejBXemladmNjYUxhU1c3MXJJeGZLS1RqcVlmN19lZi05c0xOM3RVdU96M2JKUC10clBoNklXUnZaNzdBd1VRSzB4emZsVkVsamJxQmROcnl6Qnh3QzdLXzVJZ2hLbHpWeERjV2lKZm5ycVdlbTB6YjRScTFyeWY2NEZJc1VkcXQtSUlyQU5nLU5ERENpSm8?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T20:28:21.000Z",
-          "score": 3,
-          "positive": [
-            "surge"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "a2566ada8f6979c8",
           "title": "SpaceX agrees to a ~$40B equipment finance lease with Apollo to fund purchases of Nvidia GPUs for its AI initiatives, set to close before the end of 2026 (Carmen Arroyo/Bloomberg)",
@@ -1046,16 +1015,65 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "38a614ae3ae4c215",
+          "title": "Nvidia weighs $2,000 annual software fee per GPU for AI agents",
+          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPQTVhd1p2dU5lMjdnVE00aktFSy1fcV9wNHlReEFIeHFvZTRrWHRlZ3VtWkp5ZENUV2xfZzd3Vk16SVhyWjNrX203aE9laEJyUzlzRDU3d1hwcUR4UEhnWnczMlU2SjB4R0hKY3B2ZWUtU3FSVWgyd1dIcmVHbTZ2UWpVWXhOZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-25T13:08:54.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "801b5ea4e9beae3e",
+          "title": "OpenAI killed Sora. now Nvidia is backing a company built mostly on other people’s video models",
+          "url": "https://reddit.com/r/OpenAI/comments/1xf1lby/openai_killed_sora_now_nvidia_is_backing_a",
+          "source": "reddit-openai",
+          "published_at": "2026-10-25T12:52:30.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "af9112a54e84d14e",
+          "title": "Nvidia open-sources Flora to make robot video labeling 125x cheaper than GPT-6 Astra",
+          "url": "https://the-decoder.com/nvidia-open-sources-flora-to-make-robot-video-labeling-125x-cheaper-than-gpt-6-astra",
+          "source": "the-decoder",
+          "published_at": "2026-10-25T10:08:49.000Z",
+          "score": 6,
+          "positive": [
+            "open sources",
+            "open-sources"
+          ],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 19,
-      "index": 8,
-      "mean_headline": 1,
+      "headlines": 18,
+      "index": 9.8,
+      "mean_headline": 1.2,
       "sample": [
+        {
+          "id": "e0de3007a4ebffcb",
+          "title": "Meta ($META) Launches $35 Billion Equity Offerings, Plans $60 Billion More for AI Investments",
+          "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxQZXNTVUs0cDJEUWtpOTVHQzNMc3I3ZGZQSVNlc3VfLUhKSGxkX0hRVkRDOVIzX2hXTHdSS0xRSEZwalBLbzFwMUxBbm1wX1JVN3dVbWJHLVJPVDZWRUh2SjdTMHZ0Vm9mbnJCVm1jVWtBRW5BOHdfY204b0tjUnBUNkRtNFBuSlFqdTV0T1k3eWdfWFhrYXFLX0ExcVNTYmlSM0VVS214Qnl4eUt1RFV3alJlM21mUTNXNFlNblFkZWNJYlBpS04yLVRsZGVua3A0b2V6eDZtSC1FMDVFci1zcDhwRTE4RERxZ0FraXlUSFhuNTdiV3MxcEdqaU1Ed2dsUXc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:15:33.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "f9a920e6d40bba0d",
           "title": "Meta plans record $95 billion fundraising effort to fuel AI expansion",
@@ -1076,17 +1094,6 @@
           "url": "https://bsky.app/profile/wired.com/post/3mysmjarvyh2d",
           "source": "bluesky-ai",
           "published_at": "2026-10-26T21:00:24.540Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "fe3b5bc23c67baae",
-          "title": "Meta, SpaceX, Anthropic stoke the AI funding frenzy. What it means for our stocks",
-          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNd25SWkRCVFRJbE5HZ2hPcUlhc3A2cU40ekVnR3BpRU54RDhCekpGUXV4bWdMemFEeXhzTHJza2F3Z1NicXZIV1dnSXk5N0xobDZPTElHM1pSb09oeE1LeHNHRHh0WnlJbzlXZnhnMXRuOTlNNFVZNEZiME5VeGJRcDV1M0lxR3Jpd3Nwb1JQcG1FaXpQNlhpMWVEQnoyNjJ5LWNtU3BoUzZhN0dhMkJfTEJENlIxUDVBNmFaZGRnclNSRld3eExzMg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T20:26:26.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1257,16 +1264,27 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 16,
-      "index": 2.5,
+      "headlines": 17,
+      "index": 2.4,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "6b5d8128561c50b4",
+          "title": "S&P 500, Nasdaq, Dow Begin Week Higher As Anthropic IPO Filing Rekindles AI Enthusiasm — MSFT, AAPL, CART, VZ In Focus",
+          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPTDBfa3ZUVkwyVE04SFUzYlJDLTJ6VFM0MzlVOTllTXBSWk5hTlVpbU4wazQ1U1ktSC1PNGU5UFVISUEzdmdJcmpTYVNiMEVfMVRKS2ZjSjE1aFN2bDkwMDVCWEotd1psN0pIQjJQNzJ1VVFFVks1Tk1zTEYwN3Y4bGpaaGpFR2xJT2w1Z0s4VWE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T22:35:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "8176f458862496ce",
           "title": "Microsoft offers buyouts to nearly 30% of workforce in ongoing AI shift",
           "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNTHJEQWJUU0U1cVB1b1oweVpDbkxrVXU3WXFPM3ZvSmlIQUJYcDM1OW1YX1hiZU02SUd5dEc2TTNvU0c5anA1U1JWN3N2QUdRUUpKSi1FN29YaEN6TDNxMmZhV1h6MldQWnJTV3l3VFZLQ1VDUVVtUHpDVWhROTdqSV90ZHpBUkk2S2lEcW5mYVlCbVZkUGd2RzVvOWp3QS1tN3NZRA?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:29:55.000Z",
+          "published_at": "2026-10-26T22:22:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1333,17 +1351,6 @@
           "url": "https://tomshardware.com/software/microsoft-office/denmarks-bid-to-ditch-microsoft-office-for-open-source-alternative-collabora-collapses-in-under-six-months-employees-cite-issues-with-style-formatting-and-tracking-changes",
           "source": "hn-fresh-ai",
           "published_at": "2026-10-26T16:49:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2a00b20ec30abb8b",
-          "title": "Microsoft and others push out emergency patches for a critical flaw in Brotli, the C decoder library built into Node.js, that could allow remote code execution (Bill Toulas/BleepingComputer)",
-          "url": "https://techmeme.com/261026/p35",
-          "source": "techmeme",
-          "published_at": "2026-10-26T16:45:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1493,112 +1500,23 @@
       ]
     },
     {
-      "id": "anthropic",
-      "name": "Anthropic",
-      "headlines": 163,
+      "id": "openai",
+      "name": "OpenAI",
+      "headlines": 46,
       "index": -3.3,
       "mean_headline": -0.4,
       "sample": [
         {
-          "id": "9a6664df35748f1c",
-          "title": "Anthropic’s IPO Sets Up Defining Moment for Wall Street and AI Boom",
-          "url": "https://bloomberg.com/news/articles/2026-10-26/anthropic-s-ipo-sets-up-defining-moment-for-wall-street-and-ai-boom",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-26T23:23:19.000Z",
+          "id": "bfc2ddc7f99248d7",
+          "title": "OpenAI announces three big science discoveries and a new way to work with academics",
+          "url": "https://bsky.app/profile/theverge.com/post/3mysvfqiwy22o",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-26T23:34:58.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
-        {
-          "id": "1d7d230181cd3518",
-          "title": "Venture Capitalists Read Anthropic’s S-1, and Exhale",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOeU5WMlNZekg4ay1ldnpyNkVyelF1bmFULXJpblhMOE9SQ0F3eWFyYk0tcy0wU0wtc3dDd1JITExxMndMTkdpVmFoaFB2TWlYdkQ4WF9tVVh4ZDlJR3dXT04yaWRvc19JZkRfTGdQRGZFcU5Mb3lsY0FRdVNadUF5eEx1UzdXdmlvNGVNbkxLUEhGNklWZHhnMHZ6d2hvdWdy?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T23:14:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7007e9047839721b",
-          "title": "Anthropic's S-1, $518B in cloud commitments, and circular AI capex",
-          "url": "https://codingcat.dev/post/anthropic-s1-ipo-circular-ai-economy-etf-risk",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-26T23:08:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "21f2789f5401c057",
-          "title": "AI stocks on Wall Street lifted by Anthropic filing",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNbl9WbHNHa2pXaldvSWl3dnB5aEZQZzNEUWpfV0I2dXdnRndzRVd5VVBuRVdNYWxpOXV3dnBsdlJ4OVZtYkR3NlNSNHJCd2dMWUJrNE9IWlBPOVI2NjB4d2ExMG9NVE9JMmRZOWF1dGZQYlBzckhnSGo0Wkd3R2dqdXBxZW1VTjNhZllEak95ZFdUcjdhRGliYVk1WDFfUnR2Rkln?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T23:02:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8d72db74f0229cb1",
-          "title": "Inside Anthropic's massive — and wild — IPO prospectus",
-          "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBkd2lYc2dEOHpFeDZWV1k3OE5NbERLN0M1X0lHWWpuQlp3WGZ1VWQ2TFlVMFJWay0wQ1FqenhGUmZod2VzWk9qdjZJWmlERlZRQVVVOTI1MDl5WW4waHoxN1N5bEdDUkMtNzRZSklkUmRzdw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T23:01:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "30a35bf32488bed8",
-          "title": "AI & Tech Brief: Anthropic’s S-1",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQZzAzVy1QQWt2WDZveFQ4MG5fSUhCNlIyQW9xeDhNcy03WE1sb0R3Q3FrdGVyaUtiQzhHRl9GZ1QycTQ0Q1ZVRlphYXQycFh4VkRKNnJNaWNlV3ZCVll2SDVQdDFxeUd6OUlWb1NBb1ZHRzYwdGdHVDM0RWhSQXlUdHFhejhYeUdIbVlodmxmWTRDZEZ0UXp1RzNDYWtEQUVpLVlV?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T22:55:15.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "43e5867280813608",
-          "title": "Anthropic Just Filed to Go Public. Should You Buy the Stock?",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOVWJOa0lidTZ5Ui0weUJrYVJpYTFITWZjNThFdnF5cDA4dGRzS3hmbmRWamFvekVGVnN3V0lnS21Na01aTGk5dU51V3hHME9aMnpKUlVCOHluMU1ZQzJ5UjV6QmtfVDhNQUQ5cWhWaWpqLVNMY2dDX21XSkNoR2R3R0pqUFBsdlFrTHlPc18tenBjREktZjlNblFhUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T22:55:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "dc62496c861a3223",
-          "title": "Broadcom Partners With Wall Street Bigwigs To Forge $63B Deal To Power Anthropic’s AI Hardware",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxONHEwVER4QWp2OF9zMExQczNkS210UmUyNXhMZnRlMDdLRnNRN1pQY2tWZUpBWDhNVFFsZTdkRHhYSno0cUx4SW9tWnFNOUxESWFNejJpWnFaWDdzY1lkT2ZMdmJ3TEFCcDhjWDEtVkMwQy0tR0lfei1aQ0RveXVOSFpVX3pMZE52M01fVHF1Q0JLYldXejdTcVBCdUpwaFlITXE4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-26T22:50:16.000Z",
-          "score": 6,
-          "positive": [
-            "deal",
-            "partners"
-          ],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "openai",
-      "name": "OpenAI",
-      "headlines": 41,
-      "index": -4.9,
-      "mean_headline": -0.6,
-      "sample": [
         {
           "id": "03cd47b8848d81ba",
           "title": "OpenAI Unveils Half-Price AI Model to Target Enterprise Automation",
@@ -1609,6 +1527,28 @@
           "positive": [
             "unveils"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e8f7588f4874017d",
+          "title": "OpenAI rolls out budget-priced mid-tier GPT-6.1 Terra",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOZFlaQlJZSTRmSnp5WkJ3ZmprNUU4VnZkNjRCdTFYOEN1QVBSRXlTVnRmVmdWckFMMWc2N2V1OEJhN1VqMVZ3TFhNX0xuUlZsRk10aW9iUTJRNVp3eC1VbzVmOWJtN2ZBS05TUEtyNmkwekpjdU8yVlFuS3R5ejRySlBobEpWam9DS1BJNXBfd21lQlpjTkpSSGVtS3ZXaU0tVHJxN0JiZVlWeUlmZ2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:08:59.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4386d846c9deba81",
+          "title": "OpenAi claims to have proved that the Exponential Time Hypothesis is false, invalidating many past results that relied on it being true.",
+          "url": "https://reddit.com/r/artificial/comments/1xgbnyg/openai_claims_to_have_proved_that_the_exponential",
+          "source": "reddit-artificial",
+          "published_at": "2026-10-26T22:44:48.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -1626,68 +1566,140 @@
           "clickbait": []
         },
         {
-          "id": "ac5176d4b2a02553",
-          "title": "OpenAI announces three breakthroughs in computer science, math, and physics, including that the Exponential Time Hypothesis, a longstanding conjecture, is false (OpenAI)",
-          "url": "https://techmeme.com/261026/p48",
-          "source": "techmeme",
-          "published_at": "2026-10-26T21:55:02.000Z",
+          "id": "f840cfcff3fb8d08",
+          "title": "OpenAI launches GPT-6.1 Terra with faster performance, 50% lower pricing",
+          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOY25JZEozY1M1WDhuUDVxdjIzUFdMZkRtUVNMSFNsU25MZmNlVzNBamk4MnVHcUUyWWlRWDdsTWVuOHlycHAzS0l1Zms0Zng3dUFyamZQdlY3dlA2QzNBZlhDMzJMMlFuZjBrbDdJM3ZnNmdzelczakdncUxmU1JBR292c2lJOHNuMWN4aEtCNDloejRZaVFFTkJKYnliSUxUTGpzQ0M1RXNnWGlvb282ajVKclJLT0h1QTc0eDRmMnNMZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T22:17:55.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "636398ed3cfcfefd",
+          "title": "OpenAI Says Its Models Produced Three Proofs in Math, CS, and Physics",
+          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxONW1JX0dNNHJ5ZUxiZ2dhZFAtakZ4MTJhcktGd0J2cmxndkt1Z19TdUUxbXg5LVdHTmZLbUJVSW5TTExBWHFQYjRIU3BXZzUtTU1HWlhMTzhNSjdhdFRPU0hmQU5ZTm1TU1NrTjNVdzJmOTdvQVVZd3IwX3QwZGphT3pRVGhrUlB0Z0RsU1UzTFk3RzQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T22:17:01.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "77fbb6fd39cba0e8",
-          "title": "The Morning Risk Report: The Signal Chats That Cost OpenAI Researchers Their Jobs",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNdG1zWHJHcHdMY1NrMDFadURzb0tpeUsxa3hGeEpnXzYtaGhKa3p6N05hSmtmRE9Oc01RUlVXbGpPeXFsaHdJaTh0THhJcEtvQ1dFMHh5S2lhaWxST3ZmdEhzZF9PdVFuS19ud05pcm9nVzJvOUZQRmd4TFhwWVl3LUdEVEtRR1pNVFJxMEFmS2kweUM1U0hNNjVGVlpCYy1uMGtvUGgya3ZsRFlja1c3VHlIbWFfMUdhdlUtYUFFZ1VQQnFNRVpGTnVpa1RmZw?oc=5",
+          "id": "caf68418dbb46aa2",
+          "title": "OpenAI says its AI invented a new mathematical technique to solve a 35-year-old mystery about how waves focus, then used the breakthrough to crack several other decades-old problems involving how…",
+          "url": "https://reddit.com/r/singularity/comments/1xgaw9b/openai_says_its_ai_invented_a_new_mathematical",
+          "source": "reddit-singularity",
+          "published_at": "2026-10-26T22:12:44.000Z",
+          "score": 3,
+          "positive": [
+            "breakthrough"
+          ],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "headlines": 158,
+      "index": -3.4,
+      "mean_headline": -0.4,
+      "sample": [
+        {
+          "id": "ca44c98e5dc3a95e",
+          "title": "The Anthropic IPO by the numbers, from a possible valuation in the trillions to surging revenue",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOcDRJRVVNZ1VRRENaRXhEa082OGJYREE1ZmxlWHhLZ3FxYmpqQVQwZ3ZyNG4wNngwMjVFb1R1WTVZOFliSWU3N01ObFduZ2lCUWs0VFZiczkwVFBrR09jaml4N29ESndYUF9FeHZtRHpqeGE0QjZ5ZldVT3FuemFCVGJqSzBYQjA0c2tXblVHQ3NTaWNS?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-10-26T21:27:31.000Z",
+          "published_at": "2026-10-26T23:53:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "37369a7154479e50",
+          "title": "Anthropic gets ready to make its stock market debut",
+          "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQLTB2dWU5VWlKazk2SzBpM3hOdVFtblZsVHlwQWtUNTFvdVV3ZFpSdVFrUzU5NTZCSDB1Mmx5US1USEN3QUUzN0tXbGdZY1dJMHdjNmhUUzJOTUR6bmIxZnJ6Um9rd1NJVEpoLW5XUzYybms4czEyU0NIVzRQRXhHTEREZkh0aHUySnkzYl9McHdxejB2VWMwLWhPYkNCcDNVSmlHSlFUSkJwRjBsRHhZQ3pHVU5XWlJ0Sk03TUlkcVRlXzFNeU9scVRMQmhOYVhEeEVB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:52:00.000Z",
+          "score": 3,
+          "positive": [
+            "debut"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a9c0c4682866f9e2",
+          "title": "Anthropic’s IPO Filing Day Comes With Warning",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQc3VOdVQwTU5wT3FYcWZKTGlJS2FTQUVSOTh0VVd0Z0tzR09yTnFOb0hsNmxuaW8zdHdCcS1vLW91cmNqNUU1ZGZTbjNvd0FvN0VEbExuc21SVThoeVZWOFBvTDg0UWc4bHItUGdWaGJMMndMU1ZJZ1dJUjZhdFpKU09KS0lvaXg0TnIweGdhMW8ySkFhNkhteXQxZ1hXZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:51:19.000Z",
           "score": -4,
           "positive": [],
           "negative": [
-            "risk"
+            "warning"
           ],
           "clickbait": []
         },
         {
-          "id": "1dc7e2df39a11f00",
-          "title": "OpenAI's agents talked to each other through the CPU Cache",
-          "url": "https://the-decoder.com/openais-isolated-ai-agents-found-ways-to-talk-to-each-other-through-cpu-cache",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-26T21:24:18.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b37b00d8bed10fb7",
-          "title": "OpenAI and Anthropic Want the Junior Banker’s 2 a.m. Shift",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxON1l5R0t4ZTBCaEJMMFVMbHFDamRsQkNSRjR2SUI5MmstSnpmOTlUdHByYTc1czJ1STYyTGZlNkliTWduWlY4MjNtZmNBb3ZnSlZaMnJSeUREVG5uSS1HZ2toSHJycDdFWU02eFZQNlE3bENoaFpPVTM3RnRCaUk5YzRqN3dVS3NidXlZZGJ6dEs5b0M5U2JwWFB6aHVBZFhkRWc?oc=5",
+          "id": "544493514f7a6985",
+          "title": "Owners of Elvis Presley’s Catalog Sue Anthropic for $41.1 Million, Claiming AI Company Pirated Star’s Music to Train Claude",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOMUU3c1J4d3dSdEpIT1lXNnFpUmhOeHBzSmszd2RkZzh6dklXYWNGZzNfU0NJdHhBdjBQX3lnZjVnSXJwMjhOVUdJNUIzSjZpVUozZGRfNWhvNmVzR1dZWHc3ZDhwRnFqU3hJN2ZKZmdxR2U3a2dOVWpXTHFRcVpsV1hNZG5CNHc0UU9wcGJDbWJEd0o5MG1qM2xFUjlQV00?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-26T21:09:24.000Z",
+          "published_at": "2026-10-26T23:42:45.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "0c4a5b3d38ca79d5",
-          "title": "GPT-6.1 Terra halves OpenAI's API prices and still gains ground on its larger models",
-          "url": "https://the-decoder.com/gpt-6-1-terra-halves-openais-api-prices-and-still-gains-ground-on-its-larger-models",
-          "source": "the-decoder",
-          "published_at": "2026-10-26T20:30:55.000Z",
+          "id": "d3b40d3b5b4fb6ba",
+          "title": "Anthropic's IPO filing answers one of the biggest questions about the AI boom: Can AI labs actually make money?",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNNUsxdE0tNGRWcHJEeVFUQmwwblcwa0xvdE80ZXdqS2MzN2ItR0s3d3ctWGI0NzR4RzhfeVkwOVdXeVgxeDhHNnRUajZHamFGYm5lQjJrandzRFlqNTdyeXU0UTR5RWpuN2hzMHVMNmdaLVhVV1gxUDFGV0hRb2VfMjVRR2ZNZ2pOb0E5U2s3QjVaN2ZrZ1llclBITQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:42:41.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "a5c54e147599c0ed",
-          "title": "openai/openai-python v3.39.0",
-          "url": "https://github.com/openai/openai-python/releases/tag/v3.39.0",
-          "source": "github-releases",
-          "published_at": "2026-10-26T19:14:00.000Z",
+          "id": "db0e1827bd9d9695",
+          "title": "Asian Stocks to Gain as Anthropic Files for IPO: Markets Wrap",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPYTFLZTJNckNaRFN0TG9fLXJTY3h3VkVRSnZfMDJfLVkxOTNsU01IbWtXbDZQUTFIOXJXWENhY2NIX0ZuLUdLSHJMemcyUkNEZklQdUQxZlpHUWNwaVE3WFp1dk1meVZwejRrSUF1dEhFdDBjNUp3WVdqVnNBamJfQjFrN2g5b3QwZFBUMHZjYVU2aGhK?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-26T23:40:33.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d62b099b7cb6ffa0",
+          "title": "Anthropic S-1 Registration Dominates, Leads Nasdaq Higher",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOVklLNF9obVU5eGNkZFMtdjNBTFZJRWd5em5iS3RhQklSbkltcXVOZTNBSU1BMm1hUkZEVHBhVVFub3JBMWxrd3dMendvVWs0YXp0U2t4Qkd5RE12dW5KWmdTcUtIby1MS0QwZXhzR0dBRlNYVnBKN0N0c2xWamJRTm9uNi1renE5dDU2ZXEzSDUxQ3JXUEtTdFF6OF9EZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:40:00.000Z",
+          "score": 3,
+          "positive": [
+            "leads"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f096646250edbd75",
+          "title": "Humanity can't afford not to spend $800B on AI, Anthropic insists",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNTWEyblFmNlBBZ1lrVkpBbEs3cG9OWmRuclg5bXFNNDllbURZQktmSWsweHFkMjE2bVYzNGpjb2RidHJiWDhBN2tUSUZMTmRsN01PTmJhclBwazNhdU5NZVRNcUhtUGw0cnV6WkZESWRkRHJTUnhPSEo1a2dZNUVyZWJqN0tzbzg4eHEtZTVpeFk4TUJBaC0za2FKZ1Jva1RmUkFVSVByZXprbFFGUnlEaUNMS1RYb3ZPa1pr?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-26T23:39:49.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
