@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-28T02:54:25.852Z",
-  "news_generated_at": "2026-10-28T02:54:25.852Z",
+  "generated_at": "2026-10-28T03:49:40.574Z",
+  "news_generated_at": "2026-10-28T03:49:40.574Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -21,13 +21,13 @@
     "headlines_naming_a_company": 218,
     "companies_on_roster": 10,
     "companies_with_headlines": 10,
-    "negative_pair_share": 0.094
+    "negative_pair_share": 0.102
   },
   "glance": {
     "leading": {
       "id": "apple",
       "name": "Apple",
-      "index": 8.8
+      "index": 9.8
     },
     "trailing": {
       "id": "microsoft",
@@ -37,16 +37,16 @@
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 110
+      "headlines": 105
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 10,
-      "index": 8.8,
-      "mean_headline": 1.1,
+      "headlines": 9,
+      "index": 9.8,
+      "mean_headline": 1.2,
       "sample": [
         {
           "id": "1b22a51fb8d12866",
@@ -62,17 +62,6 @@
           "negative": [
             "lawsuit"
           ],
-          "clickbait": []
-        },
-        {
-          "id": "cf7357f4b8ea3d14",
-          "title": "Anthropic Held More Cash Than Nvidia and Apple Combined Ahead of IPO",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPdDl0eEthZUx1X1lzenVjNXV5Z243Y2l1ZF9CRWpaODBVbEx4MExmNVZ3UGRBQVRJTGt6SEhOS2NTWVM3eTBFTGpmUHAwbk9JWnlzS2NhbkxGc20yb3l3RnlncDA1SlhmZDNFNVJoY0hDMzlpTnE1Ml8ybVM1SkVNMzRUWDBsR2RSSEx4amNKd3pSTFdkVHdNUHJzUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T00:39:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
           "clickbait": []
         },
         {
@@ -144,16 +133,75 @@
           ],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "a4a0751bea9ff7bd",
+          "title": "Apple releases iOS and macOS 27.2 with new Siri AI features, new Music logo",
+          "url": "https://arstechnica.com/apple/2026/10/apple-releases-ios-and-macos-27-2-with-new-siri-ai-features-new-music-logo",
+          "source": "arstechnica-ai",
+          "published_at": "2026-10-26T20:04:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 41,
-      "index": 2.1,
-      "mean_headline": 0.3,
+      "headlines": 46,
+      "index": 0.5,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "3f49ed12d73c2af1",
+          "title": "OpenAI status: Degraded Performace on ChatGPT Work",
+          "url": "https://status.openai.com//incidents/01M609FPNJF29J5GDH979ZDYYK",
+          "source": "openai-status",
+          "published_at": "2026-10-28T03:39:58.002Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "aaaa0d2e9d7ba412",
+          "title": "British Columbia privacy watchdog investigates OpenAI use of Tumbler Ridge shooter’s personal information",
+          "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQVGV4QUF6OUNnUHpvdVo5RHdoNmY1aWRXOXNQZk13UGpJa0V4dE9LQTFPbVRrYWFTdC1MRnQxcUZ0Tzk2WVc1ck9vYXMtb25ja1BZVFRaTlJjQnVlaUx5aVpwelA5c2pQU3AzZHJJRXJBOFZfYkVGNkJtaFE0blVjcHR0Ym41Z3N6Ri16MjRWZXBlU0o2WDBXaGtreUpyWE80RS1OalpEUXAtZllqY0FnU3pLWmxtdEFtOExvNVRHekwwRFRqb2lvNHlLcEdpRzZkcWc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:20:06.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "investigates"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "d8b0238a92f868ef",
+          "title": "OpenAI, a Big Nvidia Buyer, Plans to Buy Google’s AI Chips",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNY0NrYXhsZm5QUG5zNDFnYjQxeU1rTkxSS0hSWmw2LXlVVWpZRVcxQm1YaTFUMEppblJ4dmVIM1dZb012cV9HT2xRZXViVnAxdEw0bHMwRTlJWnpSanRpVnA1YjZNTFc3RnRpNmJ6V2ZhazJYTGFaYVNDOFB2aDdoTG5iTzh2R0NpNFFR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:00:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7e6345005bd41ba6",
+          "title": "OpenAI Sued Over Epilepsy Death Allegedly Tied To ChatGPT",
+          "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOLTEzZTE4WDhsU0h5QmxoOTNrNEZHMU1uYlhWT0c3NHlqLVRmZ0tMbTY2d2h4QzM2YzhvWEU3WDc1clZER2dDM3pTbUVpNzhkUEtjY0lJUzI5NHItRE1YWDVhMWI3QTZWRXF0aElWTzQwakNnbWFJM28tSHB6YUVkSnpnMk9GMTh0dmNWTTBuQVJkUk44aVJ4SjNNVVFQdlVOLVBsbkd5Q1dPOHA5MkVzM0F0Q3c5ZWpJaUhwMjB0clUxZVBXcU1wU3BZLW9naTFRdi12TERsRzBBTGs20gFyQVVfeXFMTjY4ZkFXMk54TnBrcHlRd3dCX1drYjRmZGdwYXJiMXlVYVBnSmRxc0xNdVI3QTF3MW1IOUk1dHNmQnJaTXNGbjFjWlc2WmN1LV9MZ1dpZHFyWWRNRW9vVmhmSTBXekU2NUxhdmFuMVl6T1Z3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T02:57:23.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "sued"
+          ],
+          "clickbait": []
+        },
         {
           "id": "b6aab8f8d9daa09f",
           "title": "ORCL Stock Rebounds but Faces $136 Resistance as Oracle Expands OpenAI, Nvidia and Google Partnerships but Infrastructure Risks Mount",
@@ -206,52 +254,6 @@
             "lawsuit"
           ],
           "clickbait": []
-        },
-        {
-          "id": "9d28f77b11e680ca",
-          "title": "OpenAI plans to buy Google's AI chips, The Information reports",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNElvX2Y3Ym5FZFdxRGVFMHpwNTRIc3lQUXRzNFNST0xVY2FjR2xoMmFCaDNMWFhtQnZuSXlSSF9zamY1aUY1a2JIX3hBWUFhQ19hb2w4a0JIQmtKRmJoNjRadWJnWmprNE50V2ZQSFRQWTI5aUhXRzkwMlhRNktVOWJwbjJnUk9EVVpiVEo1UjhwMWpvek9EYWpFNkRMTzA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T01:19:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c4ed1f03f1505607",
-          "title": "UK announces £100m AI Biosecurity Lab with OpenAI backing | ETIH EdTech News",
-          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOZHFIY1ZLT0MwamZ5TjBUUzZYVG15blZvek16VncwMVpxZWxTeHdMSWdXQjZFVkoxR1pETi13UHoySHpTemRlWEEybkRSb2l2Z182V2xSUkZnYmFreXZ0MzlMRzlzNlQ1dVpuY2d4UmZHSmNZREVlS25aWjFQbjRkZWxEdkZEUWwzaElfV2dOTzBZZ2V6N1ZlTkNrNmRHTWRfT2l4WlpPWFpsUlNKVWV6Qw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:15:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3b1c9670042920b4",
-          "title": "OpenAI’s 88-Hour AI-Generated Millennium Prize Problem Proof: Mathematicians Spend 7 Weeks Decoding the Complex Breakthrough",
-          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBkZl81eHpFUVRncE5hQmJZWXhsWHJpSHRURVpMX0dkWHZnbzhkaU1sbTNJSEMwYjY4RTRjTzJlNlQwcThtQ2V1WFA1TWgzVEc5Vzgw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:08:47.000Z",
-          "score": 3,
-          "positive": [
-            "breakthrough"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "45aeb46f562bf932",
-          "title": "OpenAI Looks To Buy Google’s TPUs For AI Workloads",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcGEtNjVZUDBWR2V6clRwX0ptY3JoYW9ORWZKWlJ5RmhDa1BTNXNqVnp6cFZsS2owdFU1QXlhd3RsanpzU00xSURHVXM0RVM1WnlONHdhUHJqZl9BVjJIaXowejNMS1hNYmp4Uzg0eExRLUJtZGpTOXZFZzY5QlFveEdzUnI?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:04:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -262,6 +264,41 @@
       "index": 4,
       "mean_headline": 0.5,
       "sample": [
+        {
+          "id": "2768a1fdb8465aa4",
+          "title": "Nvidia, AMD To Invest $4 Billion In Meta As It Raises $95 Billion For AI Infrastructure",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNZnJSa0R1d0tXOHVzbGZTQXQ2SUFOci1RVmNGdGlZekJqRGNoUWV0NTlZdF9zV3hEX0VnSUgwdFBZeE5HellFVjhTVlBhY1V6VWJKZUFJNWpENXVkVDNHR2VXSUZvcmF2cVhXQ1RHeHptLTloeHI4bTl4bWxXZHJOUW5vU3pZMmZCblliSWxaN0pVSGtCaERKTlNvMDhzSEVuOGpzY1Q1OFNvdGktWEpOOU5OcGVNd0FHcXVQaE530gHDAUFVX3lxTFBjdjlMMTR2M25EdFZ5Y05oNkpUWXJfa2FPeWFYLTBzWkpHT3VBQnZLSHhNWm1TLWtDRFBsaUJvNFhzNUdmeml1bU1tdzV4QUVIbFQzdTV6dUlOOHZqWm9QWnNSeklPc2RhLVJBTEpEZHJ3M1VXaDdhbnNORXA5cW96UWpHMDlfS2NLczFNcTNWS2hPcG93c0VGM0hMNVhxR2QwZkg1dTVlcE5BU3hLbm5wZG82U3VOQVFCa1d3b0NfeDJiZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:33:51.000Z",
+          "score": 3,
+          "positive": [
+            "raises"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d8b0238a92f868ef",
+          "title": "OpenAI, a Big Nvidia Buyer, Plans to Buy Google’s AI Chips",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNY0NrYXhsZm5QUG5zNDFnYjQxeU1rTkxSS0hSWmw2LXlVVWpZRVcxQm1YaTFUMEppblJ4dmVIM1dZb012cV9HT2xRZXViVnAxdEw0bHMwRTlJWnpSanRpVnA1YjZNTFc3RnRpNmJ6V2ZhazJYTGFaYVNDOFB2aDdoTG5iTzh2R0NpNFFR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:00:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1a4ffe0efb15386e",
+          "title": "Blockmate Enters AI Neocloud Market with Acquisition of NVIDIA B200 Compute Node",
+          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNVEg5VGVqN2JtMkFUamxjRElvVWRLVk1uUXRlWkVSMVU1OFFLV1NIMW5KTXV0bEFDeUw3SDlmbDBvSDRNZjd4WVpaVDljRjNFYVJ6cU1Zd1pYUXlLTzZlUHJxUGhGcUlLMHByZ1hjSFpfV0RvT1FyVHhqTnROcUFSZEpIZ1NELXlsNDFSb3JkVnFGTHhCTWVXZ3NtVnptVVNFc1R0OExpaDJ3a2M?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T02:50:48.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "cd15c1beae93d7cb",
           "title": "AMD vs Nvidia AI Chips: 432 GB vs 288 GB [2026]",
@@ -320,51 +357,84 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "cdb80f0a2e1201cf",
-          "title": "Nvidia invests in India's SimplySmart valued at $100 million",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPOUZpbVB6UzJDdHFvV0c3azR4Nm8zb0FRd2N5V01HVU5NZUI5a0dnUDNHNkRzQVBMTWM2MXE4bFJlUEZTUVZtSnl0dmtJQjNWM1hNcFlEamdaSmo3Q2U4aE04SlotV2x0T1puZzdXZzd3cXgxX0NYNzhhQUZIMEh4akh3Q1NYMGw0UElaTTRmOWQyVWczV3lVWVJSaXFZXzJ3T21ERmVqWVQ5V0N0Tno5LXdB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:59:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1e2cefbc0956ff9e",
-          "title": "Nvidia-Backed Firm Launches $3.1 Billion GPU Loan into Market",
-          "url": "https://bloomberg.com/news/articles/2026-10-28/nvidia-backed-firm-launches-3-1-billion-gpu-loan-into-market",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-28T01:14:00.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "27de058d510056ee",
-          "title": "Nvidia DSX POD targets AI factories as Microsoft and AWS push modular data centers to the edge",
-          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPb3Rib3dIQmZRTWpOUWM0a3JvT0RnTTFRNHY0SGVYN1V3SXNTYUNfS3M5b2dVYjY0RWFSTHJhR3cyV1BQSzA1ZzhsWER2aHVTMWVjLUJCaHhQTG1IdVJaWmFhc3RIRmRPM0ljT3NXQ0p1YU5zeF81Y3RfalpnZzJwVUpTY3Z2ZDRGSnRGeEpBN3dteU5aZVJ1YVZxX0JNS0ROQWlKcUE4MVQ5QQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T00:42:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 110,
-      "index": -0.3,
-      "mean_headline": 0,
+      "headlines": 105,
+      "index": -0.5,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "6b884eb2cba59554",
+          "title": "Is Anthropic a SaaS Stock? Here's How It Stacks Up With the Other Top Software Players",
+          "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNTVN1VFpXSVg3NDVGTXJNaHdnZkdzX0UxZURJMFM0N2xvWVEzU0RwN3RjUGJoWDRDRzBmQzRvYVppcmVMRTVHaFBGZnlCcWZPZHRYeVAtZUl4azM4QVlPLUJTcFFCcTJ6S05KZzFVZFlrTWJHNXVpQkE5dUEyMG5IeFVxNVdOdzlqOXExaWtucDhJQV9vTWRFeEFtVXp3c3FjbGxOLW9kaTNJSkxYallUMUY4VEpjWEFzZ0ZnYnQtOHV5YWluQTFn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:37:44.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "59eed5f651ba0b1a",
+          "title": "Anthropic’s IPO Filing Cites Risks From Hackers Misusing Its AI Models (Oct 27, 2026)",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQemxmbi1vWUV2TXRmMGdLWUR4WXBta3pHb2tBNHJWMW1WYUtGdkZOY1RwbDA2Qkd0M0dyTEpRQzR4aHlXYnZUMUR6aHV3bTR4b01jb1JOVWZDek5lMWVSSWNfdFZfUDZEYTRqT0JnbmxjTXFsTGRSTkFLREpjMnRCZUt2UnFKZFlFTnY2MWFPaHdmTktDcEdNUXd2Mm5fVjRuY2c2T3FIeGdOSUxYSkFmRzNpVUF2U0gxYUlxX2ZzV1RDZElrNFg5d1dxTEI1em5TdzllSFR3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:32:07.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "risks"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "f26ff15e621a2693",
+          "title": "Breakingviews - COMMENTARY: Anthropic offers glimmer of hope for China AI labs",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNRlYtVEVtWEVQbkRhMmk2RWluNUdpTHl3Wnp1MlhNV2ctQzVSTEdJbHJrQjNnRnBmc0czRWR4RjNLelhuOVhvcUpuRVNmcVd0Q2hFSkJNZnpKdEtDTzVvdzIwT0h6V3NvYzM1Vl90dVd0cHd0T2paZEpxOGpnNmx4WDEwVm8zS3FkX3ZYZWJCUGNMWWhrVlRvTVNoV0VvUjFtZXgwNkpqbw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-28T03:28:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2be9d3032fe3ff5d",
+          "title": "Anthropic Gives Traders a Pure-Play Bet on Frontier AI",
+          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQZzBOZ2N3Q1d4VlduRVZra1JVM3EwVHJPVmlCbGlSNjhlelB2LTZ1V3lmSHpWM0RLb0FZMlhlMFlrMGJnS2tpS1N1TVEyNHRlVHdXZF9tM1hvYnI3ZlcwRk1NS041d3dNNHpadUF1Umt5OV9HbnpwX183bEJObnhmRHRSSzJvYTliazJ2a2hiaXlJdVlkSXJhdlNvcFBxbk1hc0pwSmRfSFJiRzJk?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-28T03:05:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1b517a0c3dd57dab",
+          "title": "Video What investors should consider before buying into Anthropic’s eventual IPO",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPQ0p6U3BGX0Y1Y09fOE0yaTFQNTh0Nm85MkVmdFNDMmExTGZZUElXWVI0cThTOC1lZFduOFFYZUlva3pOa0ZnTmhrY3FLbGZqeWNITXdhdGs1OUxURkJkRU54RWRVMjBJaTNEOHE2c1lTSHQ4QlZYUzIxZ3dYRmYxd0hMTDVrSWppaXR4ZDR3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T02:55:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "26bd90e3963a5880",
+          "title": "Anthropic | History, Controversies, & Claude AI",
+          "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE41Q1h2QkF0SGRpMFZSMVN5al9RNkhQLTR4MDc0cHJNbndmdndTbHE5cGswRFk4SS1JbVhmXzdWNm5KRDlJa3FiUkt6T01MZUNiTjhON2R6cFJtQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T02:51:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "5e656f925b808259",
           "title": "Anthropic's Claude Enterprise 40% off through OneGov may save $1B",
@@ -386,77 +456,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "25005492bedb9b77",
-          "title": "Anthropic expands US government AI deal with 40% discount despite Pentagon dispute",
-          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNZ2ZVOHlybkQ3YkRVTGtfTEVMTVB2YVRyTWUzeXZfd2lGbE1TZ0EtMzZndnVUclhoT0NGMHJXNndSWWJtUkprdHdjV3N5Wi1UYzFnUnJvWnN3aGpPYXcxYko1a1p4VkUwMlFfakRaR1ZPSFY1Q2hQYVNaX0JSd0h1cEVDTktNd3QwX2V2cnp3NHdybnVTaXA5XzNWUWMzaFJuUlY5Z3pITUZRMzlCQnJyWEs0VGJqc3V4U3V0TGx0ZWNVM2pF0gHKAUFVX3lxTE5WMVk0THVNdk85OUt3WVJnaUpqRERZS1JpY2JUdC1UcjRwdXVwQ3MzZllOeGI5XzdLMDVXSnh5ak1XQzBvQjJheUh0MXdRdUZYb0NUcjhONDFBdDBfUmI4dHBOeXp6a2paaDZ0OHFpdDBJQWNMN3RyNkhlSGFRdHZnVHRINDBYM19JTVdTVU9vMWxyeXJzMDNTOXFvbDRmamdhbGk2aXgxUHk2SWstclV1TGtVRmZqS3RlZDVocVU2TEtJVUxYU1VzVEE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T02:14:04.000Z",
-          "score": 6,
-          "positive": [
-            "deal",
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f54c87e51a2dd612",
-          "title": "Anthropic’s ‘Adjusted’ Profit Exposes Wall Street’s Earnings Game",
-          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQSWx5Q3UtbEx6dUhyUV9zMm5WUWhDUGI3ZWpIdnlzbklmVXVzWnV5SFAyTEo1MTRSUUhrSWhleHZMYUpvTTdNOEwxMnlMRTBLRHB1ZXVMMGdpd1FKZnY1eHNIdkRSUHdEdWFUWkJqbFAxd2VYWXJ1NjlKQzYzQ3I2Q3R6eldQS2duckRoV2hyOE5PSTFCYTk0MENRTGVnejdmVWpqNDJrbXdWVWRV?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T02:00:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "feef6af1f7a48b59",
-          "title": "Day Around the Bay: Owners of Elvis Presley’s Music Sue Anthropic Over AI Training",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxObnVzUlRsdDhkZjRCSVdvR2YtaEo1UkRCYmo1VEp5MEYwQWFSZ2dmQzNLaGwzS01PT2pTcEVvYlFDU1FOeUxUVXdIN01qcWc2Q0VReEFROEFxUnBJZGcxejZybXhmeWx0dkpLRkxKbExqY2NLTDZlOGd5ZEc1cDZUWFZwVXQ2cHdETWVnakhkNldWYnRBYW5ickRuYm10aTZaR1M3bm45NU40bjlncmFV?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:50:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "59bd8e9a8b3ca75f",
-          "title": "Anthropic's record IPO faces some big questions",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQYTd5akdVbzEwTTVZQTQyemtVWXEwWTMtdl9VRXcyUDlKTFpRQ0hOS2M0SGJmNHFBRF9jUzR5aTE0cmZnb21tVExCeDFhWHctN0JuY3M2V1pyYUlrTmc3R1BRYXkxMGl2Ulc0RnVFNFo5UVV2eFRJeFFuVy1vbHNDeGs0OTZkZGFMWkEwY0ZqLXNtc0FxRkQ0dGtR?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T01:38:00.000Z",
-          "score": 3,
-          "positive": [
-            "record"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2be9d3032fe3ff5d",
-          "title": "Anthropic Gives Traders a Pure-Play Bet on Frontier AI",
-          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQZzBOZ2N3Q1d4VlduRVZra1JVM3EwVHJPVmlCbGlSNjhlelB2LTZ1V3lmSHpWM0RLb0FZMlhlMFlrMGJnS2tpS1N1TVEyNHRlVHdXZF9tM1hvYnI3ZlcwRk1NS041d3dNNHpadUF1Umt5OV9HbnpwX183bEJObnhmRHRSSzJvYTliazJ2a2hiaXlJdVlkSXJhdlNvcFBxbk1hc0pwSmRfSFJiRzJk?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T01:35:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "408bbb9e32a1b76e",
-          "title": "Anthropic taps JPMorgan to lead IPO’s U.S. retail sales, Bloomberg reports",
-          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPZjI1VnRaM2NYVEJKYVJwU192dG4yOTFjRmVDQkVXVlVGYi1oUGpvMkJjdFpvMTN5RGE3eGFCbUlheTU3RlVxZ3hKbk5xSHBwTXB2cjNBbTVLZG9aMDIwX2lmYmRPMUNaeUYtTjlRU2JqLUo3dWYxSUlxQ2g2WXUtS1BtbXd4LUpwa0ZTcFlDUk9ObDhCVmhaNlYtYXlWMWh6U1JLSDhOSDNreFN2anYzRnpoNGZBMVFNM0k2ZEpoV0VHTTQwb3c?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:18:05.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -464,9 +463,22 @@
       "id": "meta",
       "name": "Meta",
       "headlines": 21,
-      "index": 4.6,
-      "mean_headline": 0.6,
+      "index": 5.7,
+      "mean_headline": 0.7,
       "sample": [
+        {
+          "id": "2768a1fdb8465aa4",
+          "title": "Nvidia, AMD To Invest $4 Billion In Meta As It Raises $95 Billion For AI Infrastructure",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNZnJSa0R1d0tXOHVzbGZTQXQ2SUFOci1RVmNGdGlZekJqRGNoUWV0NTlZdF9zV3hEX0VnSUgwdFBZeE5HellFVjhTVlBhY1V6VWJKZUFJNWpENXVkVDNHR2VXSUZvcmF2cVhXQ1RHeHptLTloeHI4bTl4bWxXZHJOUW5vU3pZMmZCblliSWxaN0pVSGtCaERKTlNvMDhzSEVuOGpzY1Q1OFNvdGktWEpOOU5OcGVNd0FHcXVQaE530gHDAUFVX3lxTFBjdjlMMTR2M25EdFZ5Y05oNkpUWXJfa2FPeWFYLTBzWkpHT3VBQnZLSHhNWm1TLWtDRFBsaUJvNFhzNUdmeml1bU1tdzV4QUVIbFQzdTV6dUlOOHZqWm9QWnNSeklPc2RhLVJBTEpEZHJ3M1VXaDdhbnNORXA5cW96UWpHMDlfS2NLczFNcTNWS2hPcG93c0VGM0hMNVhxR2QwZkg1dTVlcE5BU3hLbm5wZG82U3VOQVFCa1d3b0NfeDJiZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:33:51.000Z",
+          "score": 3,
+          "positive": [
+            "raises"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "abca45415eaa7d62",
           "title": "AMD says it will invest $1B in Meta's equity offering, its first Helios rackscale systems are installed at Meta, and its EPYC CPUs power Meta's Muse AI agent (Kai Nicol-Schwarz/CNBC)",
@@ -484,17 +496,6 @@
           "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOZUp2cTlOQUFidXI3UC1FY25CR294R2Q2ZE8yOGNWVDJDQ1czSEhCLWhELU4tdTdtYnBYU3Q5UHdCOWdnSUZRazhQMDBBMzZvYUVyMFd5WVdHck9mUkdCYVdISjJYeWZFaHpEMGh3RW1NdmRJMDJnZU9ia25uWkNfanZMX1ZkVUZGem9oYnJzSVN2ZmM5NGw0?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-28T01:37:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0813a284f9e48bff",
-          "title": "NVDAB Rises As Investors React To Nvidia's Meta AI Investment",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOYU5pSm5CRjFWenhwa3pDcDNqNGhzVlBQVkMtWUdsbTNaX2E2c096OFVRTjdSQnI3YUNKQnpwekpIWG44NldhWU1JRWprQW9tR1pnT3p0cEkwWDBPZjczRG5iSFdZTGc3Nmk3WDdDb0ItYzFVRFo4cGRsMEd5b2FwdjZ3cFJRU0t0RWZxZVp2aks?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-27T23:47:33.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -582,10 +583,34 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 20,
-      "index": 6.8,
-      "mean_headline": 0.9,
+      "headlines": 22,
+      "index": 6.2,
+      "mean_headline": 0.8,
       "sample": [
+        {
+          "id": "7399e8d310016830",
+          "title": "Google Unveils Genie 4: AI Model That Creates Realistic Worlds With Sound And Music",
+          "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxPZ3pXVjZKa3VmcXYxTUoxVm5YUGhKazV1VkQ5UnVJTTZWWDNQd3dlZ1A1QktvUlc0bElhWEVkUzNYNThnNzh1ZHhNRWpPSWJKYUs3RE5ybkNOSEtyY0s5Zks3Z2Mxbm5Td3k4Mm5lY25RaUdGVXZHTGFKcXlOVlZ6cWE4cUo3dWpoU21EUll1N0ZCbWNnajJBWGtZNWFVcGo5MXplNXNsbUU2UFpuODNGTjdWQVRtYVhTU3RfWElzNTBPTHJ2SXdyajJRVkdseTJDV0pUTGJTVDJUc3dweWZWa2hn0gHnAUFVX3lxTE5fLWlNSXZKSDNRU2RDQ2lESWlMczZTRzNYclBzaFhva2Jla1R5RkVCU19zbmNQSVIyc1FMM0hnQWxTd0lXdVl2cGZTWllaZlFIbk8zcVI3UGNfWHN0Yk50TFdOMngtS3c4bzdkOHlqbWNlQTF4OWZ2YTBpREFCcmp1N1pJS0RwNERHWFNSd2F0RGFiVlBIVVFYdjM5d3l5THhSNmVsT1Z6ZGF0Sk9Sa3hxM3JWaDYyZDhfc3o0RHBXaHVOb1l3dlRIZHZ5Y1BSUTJZZWowQW0zZjNrd3h2c0hqWlhJWnFNMA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:20:46.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d8b0238a92f868ef",
+          "title": "OpenAI, a Big Nvidia Buyer, Plans to Buy Google’s AI Chips",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNY0NrYXhsZm5QUG5zNDFnYjQxeU1rTkxSS0hSWmw2LXlVVWpZRVcxQm1YaTFUMEppblJ4dmVIM1dZb012cV9HT2xRZXViVnAxdEw0bHMwRTlJWnpSanRpVnA1YjZNTFc3RnRpNmJ6V2ZhazJYTGFaYVNDOFB2aDdoTG5iTzh2R0NpNFFR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:00:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "b6aab8f8d9daa09f",
           "title": "ORCL Stock Rebounds but Faces $136 Resistance as Oracle Expands OpenAI, Nvidia and Google Partnerships but Infrastructure Risks Mount",
@@ -624,6 +649,17 @@
           "clickbait": []
         },
         {
+          "id": "9d28f77b11e680ca",
+          "title": "OpenAI plans to buy Google's AI chips, The Information reports",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNElvX2Y3Ym5FZFdxRGVFMHpwNTRIc3lQUXRzNFNST0xVY2FjR2xoMmFCaDNMWFhtQnZuSXlSSF9zamY1aUY1a2JIX3hBWUFhQ19hb2w4a0JIQmtKRmJoNjRadWJnWmprNE50V2ZQSFRQWTI5aUhXRzkwMlhRNktVOWJwbjJnUk9EVVpiVEo1UjhwMWpvek9EYWpFNkRMTzA?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-28T01:23:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "b3e2888c281ce136",
           "title": "Google DeepMind's Genie 4 Alters Virtual Worlds in Real Time via Commands",
           "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOWGxmc0d4R0RQdUptdmtfTHRobEdjcGVnTWRuSWxMWktDQUZGbnZVVFVibXpwamd3NEFBbTlQSTRxQmJrUjJnRzhwNTFwVTY4a0hxU3BObGFBZWJZWUs0Zy1xLVh3eEJsR05Xa19od1ZLVmhlQ003U0Judm9BSHoyZndWanc3aTBY?oc=5",
@@ -635,46 +671,11 @@
           "clickbait": []
         },
         {
-          "id": "9d28f77b11e680ca",
-          "title": "OpenAI plans to buy Google's AI chips, The Information reports",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNElvX2Y3Ym5FZFdxRGVFMHpwNTRIc3lQUXRzNFNST0xVY2FjR2xoMmFCaDNMWFhtQnZuSXlSSF9zamY1aUY1a2JIX3hBWUFhQ19hb2w4a0JIQmtKRmJoNjRadWJnWmprNE50V2ZQSFRQWTI5aUhXRzkwMlhRNktVOWJwbjJnUk9EVVpiVEo1UjhwMWpvek9EYWpFNkRMTzA?oc=5",
+          "id": "a9f9543e0be3e169",
+          "title": "OpenAI Plans to Buy Google’s Chips as Part of Its AI Build-Out",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPNEpmdVROdmhkd0RpU0tZbEF2bkstVmxlcjRTZUJYNWV4VlFNU21tcmRaNW1ZUjdkT0N1b1JlMzA1NF9WUHR6WGpvS3BObGRQUm5Rc3Q1NjNpMkNpZzNoWWJGczJlWGVOQWpsZ0MwcEJrWHBBV3JrZHY0ZWREZngtRklId3lXbV9jLUM0a3JvRy1yUFV4SlpSOGo2VUlxWW04cTJIZlhuaWdnWDd1dExxSkJKVQ?oc=5",
           "source": "wires-ai",
           "published_at": "2026-10-28T01:19:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "45aeb46f562bf932",
-          "title": "OpenAI Looks To Buy Google’s TPUs For AI Workloads",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcGEtNjVZUDBWR2V6clRwX0ptY3JoYW9ORWZKWlJ5RmhDa1BTNXNqVnp6cFZsS2owdFU1QXlhd3RsanpzU00xSURHVXM0RVM1WnlONHdhUHJqZl9BVjJIaXowejNMS1hNYmp4Uzg0eExRLUJtZGpTOXZFZzY5QlFveEdzUnI?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:04:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "045ddcbbdd305edd",
-          "title": "Google Cloud and NVIDIA unveil Vera Rubin AI systems and new sovereign cloud tools",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPUkxHUjZ2YVpiSUFiQktPemJQdG1SOTBFNEpEWUtZM1JMcXdmQmkzNXJJbjZnM0RBNmQ3TnVlZms3SE5KWDlsenlnZFpSTEZnN1djRnRLLUFqbjAzeEZwTjdPcjlTNk9rRzR4Uy12RjdkdlV1RUV5amJ3SllqUm1fc1pOcmFhUnc1TVJBa1cyUXAzR2lnUExIbmVGdlNzX1duUFczTVQwYWVNalI5RlR2dVhkMGJVSS1wbnJSbVV4Rk8?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T00:30:53.000Z",
-          "score": 3,
-          "positive": [
-            "unveil"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f34f222df2528e13",
-          "title": "Source: OpenAI, a major Nvidia customer, plans to buy Google's TPUs; a job listing shows it seeks an engineer to \"lead the optimization\" of its models on TPUs (Ryan Barwick/The Information)",
-          "url": "https://techmeme.com/261027/p39",
-          "source": "techmeme",
-          "published_at": "2026-10-28T00:15:41.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -782,8 +783,8 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 11,
-      "index": 1.5,
+      "headlines": 10,
+      "index": 1.6,
       "mean_headline": 0.2,
       "sample": [
         {
@@ -814,17 +815,6 @@
           "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPb3Rib3dIQmZRTWpOUWM0a3JvT0RnTTFRNHY0SGVYN1V3SXNTYUNfS3M5b2dVYjY0RWFSTHJhR3cyV1BQSzA1ZzhsWER2aHVTMWVjLUJCaHhQTG1IdVJaWmFhc3RIRmRPM0ljT3NXQ0p1YU5zeF81Y3RfalpnZzJwVUpTY3Z2ZDRGSnRGeEpBN3dteU5aZVJ1YVZxX0JNS0ROQWlKcUE4MVQ5QQ?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-28T00:42:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9815989cec51b1c3",
-          "title": "Amazon Tells Engineers Outcomes, Not Tokenmaxxing, Define AI Success",
-          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNcHE5MXcxblhNai1wR3F1cWpkSmR0N0paNGlTeG1NVHVwMWRiMVF4LTZKeG92cW1sbTUyZVhVRVh1b21zMHhRWXRoMHlEdmFPQkxQQ3N3N1I0VGdtVXA3Nks3NHhPa0lwbHFEUkZ2U1RLQU1mSU1uVzFBSUo3ZUJoenR5MGhRRlpOc1J6THNORmptSzRpSHBJcHpyTjN4U3Uxck8tTTNyNGE3LXNmTlR3V1dWbUtPX29BNUNEbmlMYmpNQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-27T23:54:28.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -876,6 +866,19 @@
           "score": 0,
           "positive": [],
           "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a17083d6bd141e2d",
+          "title": "Amazon Is Gutting Its AI Division After Sustained Failure",
+          "url": "https://futurism.com/artificial-intelligence/amazon-ai-division-failure-nova",
+          "source": "hn-ai",
+          "published_at": "2026-10-27T16:25:30.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "failure"
+          ],
           "clickbait": []
         }
       ]
@@ -951,9 +954,9 @@
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 10,
-      "index": 8.8,
-      "mean_headline": 1.1,
+      "headlines": 9,
+      "index": 9.8,
+      "mean_headline": 1.2,
       "sample": [
         {
           "id": "1b22a51fb8d12866",
@@ -969,17 +972,6 @@
           "negative": [
             "lawsuit"
           ],
-          "clickbait": []
-        },
-        {
-          "id": "cf7357f4b8ea3d14",
-          "title": "Anthropic Held More Cash Than Nvidia and Apple Combined Ahead of IPO",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPdDl0eEthZUx1X1lzenVjNXV5Z243Y2l1ZF9CRWpaODBVbEx4MExmNVZ3UGRBQVRJTGt6SEhOS2NTWVM3eTBFTGpmUHAwbk9JWnlzS2NhbkxGc20yb3l3RnlncDA1SlhmZDNFNVJoY0hDMzlpTnE1Ml8ybVM1SkVNMzRUWDBsR2RSSEx4amNKd3pSTFdkVHdNUHJzUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T00:39:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
           "clickbait": []
         },
         {
@@ -1051,16 +1043,51 @@
           ],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "a4a0751bea9ff7bd",
+          "title": "Apple releases iOS and macOS 27.2 with new Siri AI features, new Music logo",
+          "url": "https://arstechnica.com/apple/2026/10/apple-releases-ios-and-macos-27-2-with-new-siri-ai-features-new-music-logo",
+          "source": "arstechnica-ai",
+          "published_at": "2026-10-26T20:04:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "google",
       "name": "Google",
-      "headlines": 20,
-      "index": 6.8,
-      "mean_headline": 0.9,
+      "headlines": 22,
+      "index": 6.2,
+      "mean_headline": 0.8,
       "sample": [
+        {
+          "id": "7399e8d310016830",
+          "title": "Google Unveils Genie 4: AI Model That Creates Realistic Worlds With Sound And Music",
+          "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxPZ3pXVjZKa3VmcXYxTUoxVm5YUGhKazV1VkQ5UnVJTTZWWDNQd3dlZ1A1QktvUlc0bElhWEVkUzNYNThnNzh1ZHhNRWpPSWJKYUs3RE5ybkNOSEtyY0s5Zks3Z2Mxbm5Td3k4Mm5lY25RaUdGVXZHTGFKcXlOVlZ6cWE4cUo3dWpoU21EUll1N0ZCbWNnajJBWGtZNWFVcGo5MXplNXNsbUU2UFpuODNGTjdWQVRtYVhTU3RfWElzNTBPTHJ2SXdyajJRVkdseTJDV0pUTGJTVDJUc3dweWZWa2hn0gHnAUFVX3lxTE5fLWlNSXZKSDNRU2RDQ2lESWlMczZTRzNYclBzaFhva2Jla1R5RkVCU19zbmNQSVIyc1FMM0hnQWxTd0lXdVl2cGZTWllaZlFIbk8zcVI3UGNfWHN0Yk50TFdOMngtS3c4bzdkOHlqbWNlQTF4OWZ2YTBpREFCcmp1N1pJS0RwNERHWFNSd2F0RGFiVlBIVVFYdjM5d3l5THhSNmVsT1Z6ZGF0Sk9Sa3hxM3JWaDYyZDhfc3o0RHBXaHVOb1l3dlRIZHZ5Y1BSUTJZZWowQW0zZjNrd3h2c0hqWlhJWnFNMA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:20:46.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d8b0238a92f868ef",
+          "title": "OpenAI, a Big Nvidia Buyer, Plans to Buy Google’s AI Chips",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNY0NrYXhsZm5QUG5zNDFnYjQxeU1rTkxSS0hSWmw2LXlVVWpZRVcxQm1YaTFUMEppblJ4dmVIM1dZb012cV9HT2xRZXViVnAxdEw0bHMwRTlJWnpSanRpVnA1YjZNTFc3RnRpNmJ6V2ZhazJYTGFaYVNDOFB2aDdoTG5iTzh2R0NpNFFR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:00:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "b6aab8f8d9daa09f",
           "title": "ORCL Stock Rebounds but Faces $136 Resistance as Oracle Expands OpenAI, Nvidia and Google Partnerships but Infrastructure Risks Mount",
@@ -1099,6 +1126,17 @@
           "clickbait": []
         },
         {
+          "id": "9d28f77b11e680ca",
+          "title": "OpenAI plans to buy Google's AI chips, The Information reports",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNElvX2Y3Ym5FZFdxRGVFMHpwNTRIc3lQUXRzNFNST0xVY2FjR2xoMmFCaDNMWFhtQnZuSXlSSF9zamY1aUY1a2JIX3hBWUFhQ19hb2w4a0JIQmtKRmJoNjRadWJnWmprNE50V2ZQSFRQWTI5aUhXRzkwMlhRNktVOWJwbjJnUk9EVVpiVEo1UjhwMWpvek9EYWpFNkRMTzA?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-28T01:23:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "b3e2888c281ce136",
           "title": "Google DeepMind's Genie 4 Alters Virtual Worlds in Real Time via Commands",
           "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOWGxmc0d4R0RQdUptdmtfTHRobEdjcGVnTWRuSWxMWktDQUZGbnZVVFVibXpwamd3NEFBbTlQSTRxQmJrUjJnRzhwNTFwVTY4a0hxU3BObGFBZWJZWUs0Zy1xLVh3eEJsR05Xa19od1ZLVmhlQ003U0Judm9BSHoyZndWanc3aTBY?oc=5",
@@ -1110,46 +1148,112 @@
           "clickbait": []
         },
         {
-          "id": "9d28f77b11e680ca",
-          "title": "OpenAI plans to buy Google's AI chips, The Information reports",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNElvX2Y3Ym5FZFdxRGVFMHpwNTRIc3lQUXRzNFNST0xVY2FjR2xoMmFCaDNMWFhtQnZuSXlSSF9zamY1aUY1a2JIX3hBWUFhQ19hb2w4a0JIQmtKRmJoNjRadWJnWmprNE50V2ZQSFRQWTI5aUhXRzkwMlhRNktVOWJwbjJnUk9EVVpiVEo1UjhwMWpvek9EYWpFNkRMTzA?oc=5",
+          "id": "a9f9543e0be3e169",
+          "title": "OpenAI Plans to Buy Google’s Chips as Part of Its AI Build-Out",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPNEpmdVROdmhkd0RpU0tZbEF2bkstVmxlcjRTZUJYNWV4VlFNU21tcmRaNW1ZUjdkT0N1b1JlMzA1NF9WUHR6WGpvS3BObGRQUm5Rc3Q1NjNpMkNpZzNoWWJGczJlWGVOQWpsZ0MwcEJrWHBBV3JrZHY0ZWREZngtRklId3lXbV9jLUM0a3JvRy1yUFV4SlpSOGo2VUlxWW04cTJIZlhuaWdnWDd1dExxSkJKVQ?oc=5",
           "source": "wires-ai",
           "published_at": "2026-10-28T01:19:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "headlines": 21,
+      "index": 5.7,
+      "mean_headline": 0.7,
+      "sample": [
+        {
+          "id": "2768a1fdb8465aa4",
+          "title": "Nvidia, AMD To Invest $4 Billion In Meta As It Raises $95 Billion For AI Infrastructure",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNZnJSa0R1d0tXOHVzbGZTQXQ2SUFOci1RVmNGdGlZekJqRGNoUWV0NTlZdF9zV3hEX0VnSUgwdFBZeE5HellFVjhTVlBhY1V6VWJKZUFJNWpENXVkVDNHR2VXSUZvcmF2cVhXQ1RHeHptLTloeHI4bTl4bWxXZHJOUW5vU3pZMmZCblliSWxaN0pVSGtCaERKTlNvMDhzSEVuOGpzY1Q1OFNvdGktWEpOOU5OcGVNd0FHcXVQaE530gHDAUFVX3lxTFBjdjlMMTR2M25EdFZ5Y05oNkpUWXJfa2FPeWFYLTBzWkpHT3VBQnZLSHhNWm1TLWtDRFBsaUJvNFhzNUdmeml1bU1tdzV4QUVIbFQzdTV6dUlOOHZqWm9QWnNSeklPc2RhLVJBTEpEZHJ3M1VXaDdhbnNORXA5cW96UWpHMDlfS2NLczFNcTNWS2hPcG93c0VGM0hMNVhxR2QwZkg1dTVlcE5BU3hLbm5wZG82U3VOQVFCa1d3b0NfeDJiZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:33:51.000Z",
+          "score": 3,
+          "positive": [
+            "raises"
+          ],
+          "negative": [],
+          "clickbait": []
         },
         {
-          "id": "45aeb46f562bf932",
-          "title": "OpenAI Looks To Buy Google’s TPUs For AI Workloads",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcGEtNjVZUDBWR2V6clRwX0ptY3JoYW9ORWZKWlJ5RmhDa1BTNXNqVnp6cFZsS2owdFU1QXlhd3RsanpzU00xSURHVXM0RVM1WnlONHdhUHJqZl9BVjJIaXowejNMS1hNYmp4Uzg0eExRLUJtZGpTOXZFZzY5QlFveEdzUnI?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:04:42.000Z",
+          "id": "abca45415eaa7d62",
+          "title": "AMD says it will invest $1B in Meta's equity offering, its first Helios rackscale systems are installed at Meta, and its EPYC CPUs power Meta's Muse AI agent (Kai Nicol-Schwarz/CNBC)",
+          "url": "https://techmeme.com/261027/p41",
+          "source": "techmeme",
+          "published_at": "2026-10-28T01:45:42.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "045ddcbbdd305edd",
-          "title": "Google Cloud and NVIDIA unveil Vera Rubin AI systems and new sovereign cloud tools",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPUkxHUjZ2YVpiSUFiQktPemJQdG1SOTBFNEpEWUtZM1JMcXdmQmkzNXJJbjZnM0RBNmQ3TnVlZms3SE5KWDlsenlnZFpSTEZnN1djRnRLLUFqbjAzeEZwTjdPcjlTNk9rRzR4Uy12RjdkdlV1RUV5amJ3SllqUm1fc1pOcmFhUnc1TVJBa1cyUXAzR2lnUExIbmVGdlNzX1duUFczTVQwYWVNalI5RlR2dVhkMGJVSS1wbnJSbVV4Rk8?oc=5",
+          "id": "c000344c60eef72d",
+          "title": "Ex Meta AI Director Leaves Big Tech to Build a Microsoft Office Killer",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOZUp2cTlOQUFidXI3UC1FY25CR294R2Q2ZE8yOGNWVDJDQ1czSEhCLWhELU4tdTdtYnBYU3Q5UHdCOWdnSUZRazhQMDBBMzZvYUVyMFd5WVdHck9mUkdCYVdISjJYeWZFaHpEMGh3RW1NdmRJMDJnZU9ia25uWkNfanZMX1ZkVUZGem9oYnJzSVN2ZmM5NGw0?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-28T00:30:53.000Z",
+          "published_at": "2026-10-28T01:37:39.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e463483febd8cf18",
+          "title": "Sources: Meta's $25B share sale was oversubscribed 5x as it seeks $98B for AI spending; the 15 largest investors in the sale accounted for ~70% of shares (Anthony Hughes/Bloomberg)",
+          "url": "https://techmeme.com/261027/p28",
+          "source": "techmeme",
+          "published_at": "2026-10-27T20:02:31.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e02401b14a221fab",
+          "title": "Bloomberg Tech: Meta Bolsters AI Bets",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNbm1DTk1SV2V6UXFYMlUzckxzb0hmZlI5eVVsbEc3RWpJMEQ1SE5Jay1KY1lwbHpYQi1fQTV3U0lTc3VLUG5oTW1JblFzbXlrcUdWdFR5Z2hwVUQzdmRjY0JGSkRWdjdjclRObHdJd1A3Uno1RHMxWFo5TFpaQ3BRR1QxWlNEd0JDSmxqMFJHbGtHdVJzMVZ3?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-27T19:59:37.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4e205e22a403ef82",
+          "title": "Did you know what you were agreeing to when you gave your AI agent permission? Banks, Meta and OpenAI all hit the same problem.",
+          "url": "https://reddit.com/r/ControlProblem/comments/1xh1fz1/did_you_know_what_you_were_agreeing_to_when_you",
+          "source": "reddit-controlproblem",
+          "published_at": "2026-10-27T19:00:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7c164ee98d0ff019",
+          "title": "Meta Boosts Equity Offering to $98 Billion, Raising Its AI Bet",
+          "url": "https://bloomberg.com/news/videos/2026-10-27/bloomberg-tech-10-27-2026-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-10-27T18:24:15.000Z",
           "score": 3,
           "positive": [
-            "unveil"
+            "raising"
           ],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "f34f222df2528e13",
-          "title": "Source: OpenAI, a major Nvidia customer, plans to buy Google's TPUs; a job listing shows it seeks an engineer to \"lead the optimization\" of its models on TPUs (Ryan Barwick/The Information)",
-          "url": "https://techmeme.com/261027/p39",
-          "source": "techmeme",
-          "published_at": "2026-10-28T00:15:41.000Z",
+          "id": "cde42af7a2c85050",
+          "title": "Meta’s $25 Billion Stock Sale Ended Five Times Oversubscribed",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3myusw5a3ye2i",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-27T18:00:19.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1224,111 +1328,47 @@
       ]
     },
     {
-      "id": "meta",
-      "name": "Meta",
-      "headlines": 21,
-      "index": 4.6,
-      "mean_headline": 0.6,
-      "sample": [
-        {
-          "id": "abca45415eaa7d62",
-          "title": "AMD says it will invest $1B in Meta's equity offering, its first Helios rackscale systems are installed at Meta, and its EPYC CPUs power Meta's Muse AI agent (Kai Nicol-Schwarz/CNBC)",
-          "url": "https://techmeme.com/261027/p41",
-          "source": "techmeme",
-          "published_at": "2026-10-28T01:45:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c000344c60eef72d",
-          "title": "Ex Meta AI Director Leaves Big Tech to Build a Microsoft Office Killer",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOZUp2cTlOQUFidXI3UC1FY25CR294R2Q2ZE8yOGNWVDJDQ1czSEhCLWhELU4tdTdtYnBYU3Q5UHdCOWdnSUZRazhQMDBBMzZvYUVyMFd5WVdHck9mUkdCYVdISjJYeWZFaHpEMGh3RW1NdmRJMDJnZU9ia25uWkNfanZMX1ZkVUZGem9oYnJzSVN2ZmM5NGw0?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:37:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0813a284f9e48bff",
-          "title": "NVDAB Rises As Investors React To Nvidia's Meta AI Investment",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOYU5pSm5CRjFWenhwa3pDcDNqNGhzVlBQVkMtWUdsbTNaX2E2c096OFVRTjdSQnI3YUNKQnpwekpIWG44NldhWU1JRWprQW9tR1pnT3p0cEkwWDBPZjczRG5iSFdZTGc3Nmk3WDdDb0ItYzFVRFo4cGRsMEd5b2FwdjZ3cFJRU0t0RWZxZVp2aks?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-27T23:47:33.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e463483febd8cf18",
-          "title": "Sources: Meta's $25B share sale was oversubscribed 5x as it seeks $98B for AI spending; the 15 largest investors in the sale accounted for ~70% of shares (Anthony Hughes/Bloomberg)",
-          "url": "https://techmeme.com/261027/p28",
-          "source": "techmeme",
-          "published_at": "2026-10-27T20:02:31.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e02401b14a221fab",
-          "title": "Bloomberg Tech: Meta Bolsters AI Bets",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNbm1DTk1SV2V6UXFYMlUzckxzb0hmZlI5eVVsbEc3RWpJMEQ1SE5Jay1KY1lwbHpYQi1fQTV3U0lTc3VLUG5oTW1JblFzbXlrcUdWdFR5Z2hwVUQzdmRjY0JGSkRWdjdjclRObHdJd1A3Uno1RHMxWFo5TFpaQ3BRR1QxWlNEd0JDSmxqMFJHbGtHdVJzMVZ3?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-27T19:59:37.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4e205e22a403ef82",
-          "title": "Did you know what you were agreeing to when you gave your AI agent permission? Banks, Meta and OpenAI all hit the same problem.",
-          "url": "https://reddit.com/r/ControlProblem/comments/1xh1fz1/did_you_know_what_you_were_agreeing_to_when_you",
-          "source": "reddit-controlproblem",
-          "published_at": "2026-10-27T19:00:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7c164ee98d0ff019",
-          "title": "Meta Boosts Equity Offering to $98 Billion, Raising Its AI Bet",
-          "url": "https://bloomberg.com/news/videos/2026-10-27/bloomberg-tech-10-27-2026-video",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-27T18:24:15.000Z",
-          "score": 3,
-          "positive": [
-            "raising"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "cde42af7a2c85050",
-          "title": "Meta’s $25 Billion Stock Sale Ended Five Times Oversubscribed",
-          "url": "https://bsky.app/profile/bloomberg.com/post/3myusw5a3ye2i",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-27T18:00:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
       "id": "nvidia",
       "name": "NVIDIA",
       "headlines": 18,
       "index": 4,
       "mean_headline": 0.5,
       "sample": [
+        {
+          "id": "2768a1fdb8465aa4",
+          "title": "Nvidia, AMD To Invest $4 Billion In Meta As It Raises $95 Billion For AI Infrastructure",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNZnJSa0R1d0tXOHVzbGZTQXQ2SUFOci1RVmNGdGlZekJqRGNoUWV0NTlZdF9zV3hEX0VnSUgwdFBZeE5HellFVjhTVlBhY1V6VWJKZUFJNWpENXVkVDNHR2VXSUZvcmF2cVhXQ1RHeHptLTloeHI4bTl4bWxXZHJOUW5vU3pZMmZCblliSWxaN0pVSGtCaERKTlNvMDhzSEVuOGpzY1Q1OFNvdGktWEpOOU5OcGVNd0FHcXVQaE530gHDAUFVX3lxTFBjdjlMMTR2M25EdFZ5Y05oNkpUWXJfa2FPeWFYLTBzWkpHT3VBQnZLSHhNWm1TLWtDRFBsaUJvNFhzNUdmeml1bU1tdzV4QUVIbFQzdTV6dUlOOHZqWm9QWnNSeklPc2RhLVJBTEpEZHJ3M1VXaDdhbnNORXA5cW96UWpHMDlfS2NLczFNcTNWS2hPcG93c0VGM0hMNVhxR2QwZkg1dTVlcE5BU3hLbm5wZG82U3VOQVFCa1d3b0NfeDJiZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:33:51.000Z",
+          "score": 3,
+          "positive": [
+            "raises"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d8b0238a92f868ef",
+          "title": "OpenAI, a Big Nvidia Buyer, Plans to Buy Google’s AI Chips",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNY0NrYXhsZm5QUG5zNDFnYjQxeU1rTkxSS0hSWmw2LXlVVWpZRVcxQm1YaTFUMEppblJ4dmVIM1dZb012cV9HT2xRZXViVnAxdEw0bHMwRTlJWnpSanRpVnA1YjZNTFc3RnRpNmJ6V2ZhazJYTGFaYVNDOFB2aDdoTG5iTzh2R0NpNFFR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:00:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1a4ffe0efb15386e",
+          "title": "Blockmate Enters AI Neocloud Market with Acquisition of NVIDIA B200 Compute Node",
+          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNVEg5VGVqN2JtMkFUamxjRElvVWRLVk1uUXRlWkVSMVU1OFFLV1NIMW5KTXV0bEFDeUw3SDlmbDBvSDRNZjd4WVpaVDljRjNFYVJ6cU1Zd1pYUXlLTzZlUHJxUGhGcUlLMHByZ1hjSFpfV0RvT1FyVHhqTnROcUFSZEpIZ1NELXlsNDFSb3JkVnFGTHhCTWVXZ3NtVnptVVNFc1R0OExpaDJ3a2M?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T02:50:48.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "cd15c1beae93d7cb",
           "title": "AMD vs Nvidia AI Chips: 432 GB vs 288 GB [2026]",
@@ -1387,157 +1427,14 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "cdb80f0a2e1201cf",
-          "title": "Nvidia invests in India's SimplySmart valued at $100 million",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPOUZpbVB6UzJDdHFvV0c3azR4Nm8zb0FRd2N5V01HVU5NZUI5a0dnUDNHNkRzQVBMTWM2MXE4bFJlUEZTUVZtSnl0dmtJQjNWM1hNcFlEamdaSmo3Q2U4aE04SlotV2x0T1puZzdXZzd3cXgxX0NYNzhhQUZIMEh4akh3Q1NYMGw0UElaTTRmOWQyVWczV3lVWVJSaXFZXzJ3T21ERmVqWVQ5V0N0Tno5LXdB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:59:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1e2cefbc0956ff9e",
-          "title": "Nvidia-Backed Firm Launches $3.1 Billion GPU Loan into Market",
-          "url": "https://bloomberg.com/news/articles/2026-10-28/nvidia-backed-firm-launches-3-1-billion-gpu-loan-into-market",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-28T01:14:00.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "27de058d510056ee",
-          "title": "Nvidia DSX POD targets AI factories as Microsoft and AWS push modular data centers to the edge",
-          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPb3Rib3dIQmZRTWpOUWM0a3JvT0RnTTFRNHY0SGVYN1V3SXNTYUNfS3M5b2dVYjY0RWFSTHJhR3cyV1BQSzA1ZzhsWER2aHVTMWVjLUJCaHhQTG1IdVJaWmFhc3RIRmRPM0ljT3NXQ0p1YU5zeF81Y3RfalpnZzJwVUpTY3Z2ZDRGSnRGeEpBN3dteU5aZVJ1YVZxX0JNS0ROQWlKcUE4MVQ5QQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T00:42:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "openai",
-      "name": "OpenAI",
-      "headlines": 41,
-      "index": 2.1,
-      "mean_headline": 0.3,
-      "sample": [
-        {
-          "id": "b6aab8f8d9daa09f",
-          "title": "ORCL Stock Rebounds but Faces $136 Resistance as Oracle Expands OpenAI, Nvidia and Google Partnerships but Infrastructure Risks Mount",
-          "url": "https://news.google.com/rss/articles/CBMihAJBVV95cUxOeG9aYTU2UmUyYW9PSWtVcVBZSzY3OUgtWEhaZG9CNUFIQm1ENzdJUVNxd25LSGFCQXZzb3oxSnVuTk9rcFZyaVJUWjVqRzdoQjZFSE1nSlRsRFVlOFl6NkloVklLdlJ6OGYzYnBRNlRSZ29TbU0yNkEyT3Qtd1k2VDlaYVphSkhPMEVQdXlLLUFsaGZkMy1YZkFZNE9aNlpFcVhBRVBBZ0M2dXFMa1pKRVY5aDZUS3hvRjRQVWFPclRhLXJ0MEp1UVB4OUttS21Qb0hMYW1ZdU83ZlVtVkVyQTJhLURScWdPeWhZSUdxR3k1TGowOUNlbnZuZ2x2NnM3RVA3ag?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T02:42:46.000Z",
-          "score": -1,
-          "positive": [
-            "expands"
-          ],
-          "negative": [
-            "risks"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "aac615e342f590eb",
-          "title": "Anthropic diversifies AI chips, OpenAI turns to Google: Can Nvidia lose its dominance? What investors need to know",
-          "url": "https://news.google.com/rss/articles/CBMigAJBVV95cUxOTkxZeHFaUXBCYkNzSUI1N1pmN2RhQWZnaDRXa2hfczNacE9DRkwybjlSeUZXb3Z1dWR1dTVGMTNPRzVEOTBSd1g0NHZvd0N6QVN1NVJBQXRQd09uSW8xaWxiVnJIY2M4c3NLa3U0VHZrb2hmWHItVUhuTEtvTWg0ekZGS09xZUJqYzNka1FLTGJCb09MRHI0dHBVNUo1UTRpNndsR3RScjlpMVdjU21UOTlhb2gwVXZlODg5WGNiQ2ZESW9CcUUyTmtGUEpjNDBhZHFYY0hfT0o0THI2SG1OX21uVEhtMHQ0a0lFVlJ1RzNHX3QtRVpQWkUwUG9vYkl40gGGAkFVX3lxTE1vS1lrZXhmRjN5NHVmUjJPR29nLTNzYlpLRVRnTi1QNE5NQUtSZ0VnekhTYWRWakxCUHh1T01fcjluWHJqV2JDZ2U0TEhTejhQRmFiRXBJZVZvaVlYWXp3dlkxdTgtTTVtWUZCNjNDTWVIcHB5ZlRjbzEwTXhPN01PZXNBU1VzUnNmRk1hblR6RjhKOXhoSEVnc2NMSGl0RVk3aWpRWXNNWkxRN01McXQ4b2VjWGVRemt5UWhqc3ZVRDVsQzMyNVNLbnlTbll0Q3E2MHEtRklCbzBJQlVMdmw3b3U3cGNlVlllcjN2TjJYSkQxdUhOUDJrcGpNMzdmVUM2b0xzTGc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T02:30:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a41b6f917baf62ab",
-          "title": "OpenAI Weighs Buying Google AI Chips to Reduce Nvidia Dependence",
-          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5haXVJZl92dVZxdHlGMEkxNnBwZ0lVa2tIYVlpekdLTjNOay1vNUdDVmp3dE5HSkhCUm5lRWYxSzYySVA1NjBqczBTSlZLQXc5em5zaw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T02:14:59.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1b22a51fb8d12866",
-          "title": "Apple wins expanded access to evidence in OpenAI trade secrets lawsuit",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOQW1wVGUxRUxEUUxQZ1JDRmVBTDJBRktWTWo5enhLbHNjRXN2Um90QTV3cFJZcG95dWZ5RFliaG4zcjRNdUtHRDRvUFVFZ2M1U1VETnllLWhsMWd1NXBKUjhyM1NQcVNneXQ1WVUyYVNWYm85ejVaR1ZHcFBFVDZ1SDRtS1RUMXhTZDdMN2RLMnA5Q2dXY1luanF0SDQwMTNPcmw1Rw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:37:54.000Z",
-          "score": 2,
-          "positive": [
-            "expanded",
-            "wins"
-          ],
-          "negative": [
-            "lawsuit"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "9d28f77b11e680ca",
-          "title": "OpenAI plans to buy Google's AI chips, The Information reports",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNElvX2Y3Ym5FZFdxRGVFMHpwNTRIc3lQUXRzNFNST0xVY2FjR2xoMmFCaDNMWFhtQnZuSXlSSF9zamY1aUY1a2JIX3hBWUFhQ19hb2w4a0JIQmtKRmJoNjRadWJnWmprNE50V2ZQSFRQWTI5aUhXRzkwMlhRNktVOWJwbjJnUk9EVVpiVEo1UjhwMWpvek9EYWpFNkRMTzA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T01:19:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c4ed1f03f1505607",
-          "title": "UK announces £100m AI Biosecurity Lab with OpenAI backing | ETIH EdTech News",
-          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOZHFIY1ZLT0MwamZ5TjBUUzZYVG15blZvek16VncwMVpxZWxTeHdMSWdXQjZFVkoxR1pETi13UHoySHpTemRlWEEybkRSb2l2Z182V2xSUkZnYmFreXZ0MzlMRzlzNlQ1dVpuY2d4UmZHSmNZREVlS25aWjFQbjRkZWxEdkZEUWwzaElfV2dOTzBZZ2V6N1ZlTkNrNmRHTWRfT2l4WlpPWFpsUlNKVWV6Qw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:15:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3b1c9670042920b4",
-          "title": "OpenAI’s 88-Hour AI-Generated Millennium Prize Problem Proof: Mathematicians Spend 7 Weeks Decoding the Complex Breakthrough",
-          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBkZl81eHpFUVRncE5hQmJZWXhsWHJpSHRURVpMX0dkWHZnbzhkaU1sbTNJSEMwYjY4RTRjTzJlNlQwcThtQ2V1WFA1TWgzVEc5Vzgw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:08:47.000Z",
-          "score": 3,
-          "positive": [
-            "breakthrough"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "45aeb46f562bf932",
-          "title": "OpenAI Looks To Buy Google’s TPUs For AI Workloads",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcGEtNjVZUDBWR2V6clRwX0ptY3JoYW9ORWZKWlJ5RmhDa1BTNXNqVnp6cFZsS2owdFU1QXlhd3RsanpzU00xSURHVXM0RVM1WnlONHdhUHJqZl9BVjJIaXowejNMS1hNYmp4Uzg0eExRLUJtZGpTOXZFZzY5QlFveEdzUnI?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:04:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 11,
-      "index": 1.5,
+      "headlines": 10,
+      "index": 1.6,
       "mean_headline": 0.2,
       "sample": [
         {
@@ -1568,17 +1465,6 @@
           "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPb3Rib3dIQmZRTWpOUWM0a3JvT0RnTTFRNHY0SGVYN1V3SXNTYUNfS3M5b2dVYjY0RWFSTHJhR3cyV1BQSzA1ZzhsWER2aHVTMWVjLUJCaHhQTG1IdVJaWmFhc3RIRmRPM0ljT3NXQ0p1YU5zeF81Y3RfalpnZzJwVUpTY3Z2ZDRGSnRGeEpBN3dteU5aZVJ1YVZxX0JNS0ROQWlKcUE4MVQ5QQ?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-28T00:42:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9815989cec51b1c3",
-          "title": "Amazon Tells Engineers Outcomes, Not Tokenmaxxing, Define AI Success",
-          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNcHE5MXcxblhNai1wR3F1cWpkSmR0N0paNGlTeG1NVHVwMWRiMVF4LTZKeG92cW1sbTUyZVhVRVh1b21zMHhRWXRoMHlEdmFPQkxQQ3N3N1I0VGdtVXA3Nks3NHhPa0lwbHFEUkZ2U1RLQU1mSU1uVzFBSUo3ZUJoenR5MGhRRlpOc1J6THNORmptSzRpSHBJcHpyTjN4U3Uxck8tTTNyNGE3LXNmTlR3V1dWbUtPX29BNUNEbmlMYmpNQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-27T23:54:28.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1631,6 +1517,129 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "a17083d6bd141e2d",
+          "title": "Amazon Is Gutting Its AI Division After Sustained Failure",
+          "url": "https://futurism.com/artificial-intelligence/amazon-ai-division-failure-nova",
+          "source": "hn-ai",
+          "published_at": "2026-10-27T16:25:30.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "failure"
+          ],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "headlines": 46,
+      "index": 0.5,
+      "mean_headline": 0.1,
+      "sample": [
+        {
+          "id": "3f49ed12d73c2af1",
+          "title": "OpenAI status: Degraded Performace on ChatGPT Work",
+          "url": "https://status.openai.com//incidents/01M609FPNJF29J5GDH979ZDYYK",
+          "source": "openai-status",
+          "published_at": "2026-10-28T03:39:58.002Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "aaaa0d2e9d7ba412",
+          "title": "British Columbia privacy watchdog investigates OpenAI use of Tumbler Ridge shooter’s personal information",
+          "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQVGV4QUF6OUNnUHpvdVo5RHdoNmY1aWRXOXNQZk13UGpJa0V4dE9LQTFPbVRrYWFTdC1MRnQxcUZ0Tzk2WVc1ck9vYXMtb25ja1BZVFRaTlJjQnVlaUx5aVpwelA5c2pQU3AzZHJJRXJBOFZfYkVGNkJtaFE0blVjcHR0Ym41Z3N6Ri16MjRWZXBlU0o2WDBXaGtreUpyWE80RS1OalpEUXAtZllqY0FnU3pLWmxtdEFtOExvNVRHekwwRFRqb2lvNHlLcEdpRzZkcWc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:20:06.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "investigates"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "d8b0238a92f868ef",
+          "title": "OpenAI, a Big Nvidia Buyer, Plans to Buy Google’s AI Chips",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNY0NrYXhsZm5QUG5zNDFnYjQxeU1rTkxSS0hSWmw2LXlVVWpZRVcxQm1YaTFUMEppblJ4dmVIM1dZb012cV9HT2xRZXViVnAxdEw0bHMwRTlJWnpSanRpVnA1YjZNTFc3RnRpNmJ6V2ZhazJYTGFaYVNDOFB2aDdoTG5iTzh2R0NpNFFR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:00:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7e6345005bd41ba6",
+          "title": "OpenAI Sued Over Epilepsy Death Allegedly Tied To ChatGPT",
+          "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOLTEzZTE4WDhsU0h5QmxoOTNrNEZHMU1uYlhWT0c3NHlqLVRmZ0tMbTY2d2h4QzM2YzhvWEU3WDc1clZER2dDM3pTbUVpNzhkUEtjY0lJUzI5NHItRE1YWDVhMWI3QTZWRXF0aElWTzQwakNnbWFJM28tSHB6YUVkSnpnMk9GMTh0dmNWTTBuQVJkUk44aVJ4SjNNVVFQdlVOLVBsbkd5Q1dPOHA5MkVzM0F0Q3c5ZWpJaUhwMjB0clUxZVBXcU1wU3BZLW9naTFRdi12TERsRzBBTGs20gFyQVVfeXFMTjY4ZkFXMk54TnBrcHlRd3dCX1drYjRmZGdwYXJiMXlVYVBnSmRxc0xNdVI3QTF3MW1IOUk1dHNmQnJaTXNGbjFjWlc2WmN1LV9MZ1dpZHFyWWRNRW9vVmhmSTBXekU2NUxhdmFuMVl6T1Z3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T02:57:23.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "sued"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "b6aab8f8d9daa09f",
+          "title": "ORCL Stock Rebounds but Faces $136 Resistance as Oracle Expands OpenAI, Nvidia and Google Partnerships but Infrastructure Risks Mount",
+          "url": "https://news.google.com/rss/articles/CBMihAJBVV95cUxOeG9aYTU2UmUyYW9PSWtVcVBZSzY3OUgtWEhaZG9CNUFIQm1ENzdJUVNxd25LSGFCQXZzb3oxSnVuTk9rcFZyaVJUWjVqRzdoQjZFSE1nSlRsRFVlOFl6NkloVklLdlJ6OGYzYnBRNlRSZ29TbU0yNkEyT3Qtd1k2VDlaYVphSkhPMEVQdXlLLUFsaGZkMy1YZkFZNE9aNlpFcVhBRVBBZ0M2dXFMa1pKRVY5aDZUS3hvRjRQVWFPclRhLXJ0MEp1UVB4OUttS21Qb0hMYW1ZdU83ZlVtVkVyQTJhLURScWdPeWhZSUdxR3k1TGowOUNlbnZuZ2x2NnM3RVA3ag?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T02:42:46.000Z",
+          "score": -1,
+          "positive": [
+            "expands"
+          ],
+          "negative": [
+            "risks"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "aac615e342f590eb",
+          "title": "Anthropic diversifies AI chips, OpenAI turns to Google: Can Nvidia lose its dominance? What investors need to know",
+          "url": "https://news.google.com/rss/articles/CBMigAJBVV95cUxOTkxZeHFaUXBCYkNzSUI1N1pmN2RhQWZnaDRXa2hfczNacE9DRkwybjlSeUZXb3Z1dWR1dTVGMTNPRzVEOTBSd1g0NHZvd0N6QVN1NVJBQXRQd09uSW8xaWxiVnJIY2M4c3NLa3U0VHZrb2hmWHItVUhuTEtvTWg0ekZGS09xZUJqYzNka1FLTGJCb09MRHI0dHBVNUo1UTRpNndsR3RScjlpMVdjU21UOTlhb2gwVXZlODg5WGNiQ2ZESW9CcUUyTmtGUEpjNDBhZHFYY0hfT0o0THI2SG1OX21uVEhtMHQ0a0lFVlJ1RzNHX3QtRVpQWkUwUG9vYkl40gGGAkFVX3lxTE1vS1lrZXhmRjN5NHVmUjJPR29nLTNzYlpLRVRnTi1QNE5NQUtSZ0VnekhTYWRWakxCUHh1T01fcjluWHJqV2JDZ2U0TEhTejhQRmFiRXBJZVZvaVlYWXp3dlkxdTgtTTVtWUZCNjNDTWVIcHB5ZlRjbzEwTXhPN01PZXNBU1VzUnNmRk1hblR6RjhKOXhoSEVnc2NMSGl0RVk3aWpRWXNNWkxRN01McXQ4b2VjWGVRemt5UWhqc3ZVRDVsQzMyNVNLbnlTbll0Q3E2MHEtRklCbzBJQlVMdmw3b3U3cGNlVlllcjN2TjJYSkQxdUhOUDJrcGpNMzdmVUM2b0xzTGc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T02:30:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a41b6f917baf62ab",
+          "title": "OpenAI Weighs Buying Google AI Chips to Reduce Nvidia Dependence",
+          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5haXVJZl92dVZxdHlGMEkxNnBwZ0lVa2tIYVlpekdLTjNOay1vNUdDVmp3dE5HSkhCUm5lRWYxSzYySVA1NjBqczBTSlZLQXc5em5zaw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T02:14:59.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1b22a51fb8d12866",
+          "title": "Apple wins expanded access to evidence in OpenAI trade secrets lawsuit",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOQW1wVGUxRUxEUUxQZ1JDRmVBTDJBRktWTWo5enhLbHNjRXN2Um90QTV3cFJZcG95dWZ5RFliaG4zcjRNdUtHRDRvUFVFZ2M1U1VETnllLWhsMWd1NXBKUjhyM1NQcVNneXQ1WVUyYVNWYm85ejVaR1ZHcFBFVDZ1SDRtS1RUMXhTZDdMN2RLMnA5Q2dXY1luanF0SDQwMTNPcmw1Rw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T01:37:54.000Z",
+          "score": 2,
+          "positive": [
+            "expanded",
+            "wins"
+          ],
+          "negative": [
+            "lawsuit"
+          ],
+          "clickbait": []
         }
       ]
     },
@@ -1657,10 +1666,78 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 110,
-      "index": -0.3,
-      "mean_headline": 0,
+      "headlines": 105,
+      "index": -0.5,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "6b884eb2cba59554",
+          "title": "Is Anthropic a SaaS Stock? Here's How It Stacks Up With the Other Top Software Players",
+          "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNTVN1VFpXSVg3NDVGTXJNaHdnZkdzX0UxZURJMFM0N2xvWVEzU0RwN3RjUGJoWDRDRzBmQzRvYVppcmVMRTVHaFBGZnlCcWZPZHRYeVAtZUl4azM4QVlPLUJTcFFCcTJ6S05KZzFVZFlrTWJHNXVpQkE5dUEyMG5IeFVxNVdOdzlqOXExaWtucDhJQV9vTWRFeEFtVXp3c3FjbGxOLW9kaTNJSkxYallUMUY4VEpjWEFzZ0ZnYnQtOHV5YWluQTFn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:37:44.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "59eed5f651ba0b1a",
+          "title": "Anthropic’s IPO Filing Cites Risks From Hackers Misusing Its AI Models (Oct 27, 2026)",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQemxmbi1vWUV2TXRmMGdLWUR4WXBta3pHb2tBNHJWMW1WYUtGdkZOY1RwbDA2Qkd0M0dyTEpRQzR4aHlXYnZUMUR6aHV3bTR4b01jb1JOVWZDek5lMWVSSWNfdFZfUDZEYTRqT0JnbmxjTXFsTGRSTkFLREpjMnRCZUt2UnFKZFlFTnY2MWFPaHdmTktDcEdNUXd2Mm5fVjRuY2c2T3FIeGdOSUxYSkFmRzNpVUF2U0gxYUlxX2ZzV1RDZElrNFg5d1dxTEI1em5TdzllSFR3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T03:32:07.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "risks"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "f26ff15e621a2693",
+          "title": "Breakingviews - COMMENTARY: Anthropic offers glimmer of hope for China AI labs",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNRlYtVEVtWEVQbkRhMmk2RWluNUdpTHl3Wnp1MlhNV2ctQzVSTEdJbHJrQjNnRnBmc0czRWR4RjNLelhuOVhvcUpuRVNmcVd0Q2hFSkJNZnpKdEtDTzVvdzIwT0h6V3NvYzM1Vl90dVd0cHd0T2paZEpxOGpnNmx4WDEwVm8zS3FkX3ZYZWJCUGNMWWhrVlRvTVNoV0VvUjFtZXgwNkpqbw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-28T03:28:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2be9d3032fe3ff5d",
+          "title": "Anthropic Gives Traders a Pure-Play Bet on Frontier AI",
+          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQZzBOZ2N3Q1d4VlduRVZra1JVM3EwVHJPVmlCbGlSNjhlelB2LTZ1V3lmSHpWM0RLb0FZMlhlMFlrMGJnS2tpS1N1TVEyNHRlVHdXZF9tM1hvYnI3ZlcwRk1NS041d3dNNHpadUF1Umt5OV9HbnpwX183bEJObnhmRHRSSzJvYTliazJ2a2hiaXlJdVlkSXJhdlNvcFBxbk1hc0pwSmRfSFJiRzJk?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-28T03:05:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1b517a0c3dd57dab",
+          "title": "Video What investors should consider before buying into Anthropic’s eventual IPO",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPQ0p6U3BGX0Y1Y09fOE0yaTFQNTh0Nm85MkVmdFNDMmExTGZZUElXWVI0cThTOC1lZFduOFFYZUlva3pOa0ZnTmhrY3FLbGZqeWNITXdhdGs1OUxURkJkRU54RWRVMjBJaTNEOHE2c1lTSHQ4QlZYUzIxZ3dYRmYxd0hMTDVrSWppaXR4ZDR3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T02:55:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "26bd90e3963a5880",
+          "title": "Anthropic | History, Controversies, & Claude AI",
+          "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE41Q1h2QkF0SGRpMFZSMVN5al9RNkhQLTR4MDc0cHJNbndmdndTbHE5cGswRFk4SS1JbVhmXzdWNm5KRDlJa3FiUkt6T01MZUNiTjhON2R6cFJtQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-28T02:51:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "5e656f925b808259",
           "title": "Anthropic's Claude Enterprise 40% off through OneGov may save $1B",
@@ -1678,77 +1755,6 @@
           "url": "https://news.google.com/rss/articles/CBMigAJBVV95cUxOTkxZeHFaUXBCYkNzSUI1N1pmN2RhQWZnaDRXa2hfczNacE9DRkwybjlSeUZXb3Z1dWR1dTVGMTNPRzVEOTBSd1g0NHZvd0N6QVN1NVJBQXRQd09uSW8xaWxiVnJIY2M4c3NLa3U0VHZrb2hmWHItVUhuTEtvTWg0ekZGS09xZUJqYzNka1FLTGJCb09MRHI0dHBVNUo1UTRpNndsR3RScjlpMVdjU21UOTlhb2gwVXZlODg5WGNiQ2ZESW9CcUUyTmtGUEpjNDBhZHFYY0hfT0o0THI2SG1OX21uVEhtMHQ0a0lFVlJ1RzNHX3QtRVpQWkUwUG9vYkl40gGGAkFVX3lxTE1vS1lrZXhmRjN5NHVmUjJPR29nLTNzYlpLRVRnTi1QNE5NQUtSZ0VnekhTYWRWakxCUHh1T01fcjluWHJqV2JDZ2U0TEhTejhQRmFiRXBJZVZvaVlYWXp3dlkxdTgtTTVtWUZCNjNDTWVIcHB5ZlRjbzEwTXhPN01PZXNBU1VzUnNmRk1hblR6RjhKOXhoSEVnc2NMSGl0RVk3aWpRWXNNWkxRN01McXQ4b2VjWGVRemt5UWhqc3ZVRDVsQzMyNVNLbnlTbll0Q3E2MHEtRklCbzBJQlVMdmw3b3U3cGNlVlllcjN2TjJYSkQxdUhOUDJrcGpNMzdmVUM2b0xzTGc?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-28T02:30:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "25005492bedb9b77",
-          "title": "Anthropic expands US government AI deal with 40% discount despite Pentagon dispute",
-          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNZ2ZVOHlybkQ3YkRVTGtfTEVMTVB2YVRyTWUzeXZfd2lGbE1TZ0EtMzZndnVUclhoT0NGMHJXNndSWWJtUkprdHdjV3N5Wi1UYzFnUnJvWnN3aGpPYXcxYko1a1p4VkUwMlFfakRaR1ZPSFY1Q2hQYVNaX0JSd0h1cEVDTktNd3QwX2V2cnp3NHdybnVTaXA5XzNWUWMzaFJuUlY5Z3pITUZRMzlCQnJyWEs0VGJqc3V4U3V0TGx0ZWNVM2pF0gHKAUFVX3lxTE5WMVk0THVNdk85OUt3WVJnaUpqRERZS1JpY2JUdC1UcjRwdXVwQ3MzZllOeGI5XzdLMDVXSnh5ak1XQzBvQjJheUh0MXdRdUZYb0NUcjhONDFBdDBfUmI4dHBOeXp6a2paaDZ0OHFpdDBJQWNMN3RyNkhlSGFRdHZnVHRINDBYM19JTVdTVU9vMWxyeXJzMDNTOXFvbDRmamdhbGk2aXgxUHk2SWstclV1TGtVRmZqS3RlZDVocVU2TEtJVUxYU1VzVEE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T02:14:04.000Z",
-          "score": 6,
-          "positive": [
-            "deal",
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f54c87e51a2dd612",
-          "title": "Anthropic’s ‘Adjusted’ Profit Exposes Wall Street’s Earnings Game",
-          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQSWx5Q3UtbEx6dUhyUV9zMm5WUWhDUGI3ZWpIdnlzbklmVXVzWnV5SFAyTEo1MTRSUUhrSWhleHZMYUpvTTdNOEwxMnlMRTBLRHB1ZXVMMGdpd1FKZnY1eHNIdkRSUHdEdWFUWkJqbFAxd2VYWXJ1NjlKQzYzQ3I2Q3R6eldQS2duckRoV2hyOE5PSTFCYTk0MENRTGVnejdmVWpqNDJrbXdWVWRV?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T02:00:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "feef6af1f7a48b59",
-          "title": "Day Around the Bay: Owners of Elvis Presley’s Music Sue Anthropic Over AI Training",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxObnVzUlRsdDhkZjRCSVdvR2YtaEo1UkRCYmo1VEp5MEYwQWFSZ2dmQzNLaGwzS01PT2pTcEVvYlFDU1FOeUxUVXdIN01qcWc2Q0VReEFROEFxUnBJZGcxejZybXhmeWx0dkpLRkxKbExqY2NLTDZlOGd5ZEc1cDZUWFZwVXQ2cHdETWVnakhkNldWYnRBYW5ickRuYm10aTZaR1M3bm45NU40bjlncmFV?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:50:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "59bd8e9a8b3ca75f",
-          "title": "Anthropic's record IPO faces some big questions",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQYTd5akdVbzEwTTVZQTQyemtVWXEwWTMtdl9VRXcyUDlKTFpRQ0hOS2M0SGJmNHFBRF9jUzR5aTE0cmZnb21tVExCeDFhWHctN0JuY3M2V1pyYUlrTmc3R1BRYXkxMGl2Ulc0RnVFNFo5UVV2eFRJeFFuVy1vbHNDeGs0OTZkZGFMWkEwY0ZqLXNtc0FxRkQ0dGtR?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T01:38:00.000Z",
-          "score": 3,
-          "positive": [
-            "record"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2be9d3032fe3ff5d",
-          "title": "Anthropic Gives Traders a Pure-Play Bet on Frontier AI",
-          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQZzBOZ2N3Q1d4VlduRVZra1JVM3EwVHJPVmlCbGlSNjhlelB2LTZ1V3lmSHpWM0RLb0FZMlhlMFlrMGJnS2tpS1N1TVEyNHRlVHdXZF9tM1hvYnI3ZlcwRk1NS041d3dNNHpadUF1Umt5OV9HbnpwX183bEJObnhmRHRSSzJvYTliazJ2a2hiaXlJdVlkSXJhdlNvcFBxbk1hc0pwSmRfSFJiRzJk?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T01:35:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "408bbb9e32a1b76e",
-          "title": "Anthropic taps JPMorgan to lead IPO’s U.S. retail sales, Bloomberg reports",
-          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPZjI1VnRaM2NYVEJKYVJwU192dG4yOTFjRmVDQkVXVlVGYi1oUGpvMkJjdFpvMTN5RGE3eGFCbUlheTU3RlVxZ3hKbk5xSHBwTXB2cjNBbTVLZG9aMDIwX2lmYmRPMUNaeUYtTjlRU2JqLUo3dWYxSUlxQ2g2WXUtS1BtbXd4LUpwa0ZTcFlDUk9ObDhCVmhaNlYtYXlWMWh6U1JLSDhOSDNreFN2anYzRnpoNGZBMVFNM0k2ZEpoV0VHTTQwb3c?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-28T01:18:05.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
