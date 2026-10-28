@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-28T05:14:44.039Z",
-  "news_generated_at": "2026-10-28T05:14:44.039Z",
+  "generated_at": "2026-10-28T06:04:44.423Z",
+  "news_generated_at": "2026-10-28T06:04:44.423Z",
   "matcher_version": "1.2.0",
   "window_days": 7,
-  "window_start": "2026-10-21T05:14:44.039Z",
+  "window_start": "2026-10-21T06:04:44.423Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -141,14 +141,14 @@
     "scanned": 800,
     "max_items": 800,
     "window_binds": true,
-    "oldest_item_at": "2026-10-26T18:51:26.000Z",
-    "newest_item_at": "2026-10-28T05:09:51.000Z",
-    "named_without_cue": 5
+    "oldest_item_at": "2026-10-26T19:25:01.000Z",
+    "newest_item_at": "2026-10-28T06:03:46.000Z",
+    "named_without_cue": 4
   },
   "cross_check": {
     "source": "data/race.json",
     "present": true,
-    "race_generated_at": "2026-10-28T05:15:09.745Z",
+    "race_generated_at": "2026-10-28T06:05:00.350Z",
     "players_matched": 8,
     "wire_fills_gap": [
       "musk"
@@ -160,18 +160,18 @@
     "no_line": 21,
     "lines": 4,
     "distinct_items": 3,
-    "quiet": 19,
-    "unreachable": 2,
+    "quiet": 18,
+    "unreachable": 3,
     "no_sources": 3,
-    "press_lines": 3,
-    "direct_lines": 1
+    "press_lines": 4,
+    "direct_lines": 0
   },
   "direct": {
     "source": "collector/leader-sources.mjs",
     "ran": true,
     "feeds_configured": 32,
     "feeds_checked": 32,
-    "feeds_ok": 24,
+    "feeds_ok": 18,
     "reasons": [
       "quiet",
       "sources_unreachable",
@@ -188,15 +188,15 @@
     "source": "Google News search RSS (news.google.com/rss/search), one exact-phrase query per person",
     "is_statement": false,
     "means": "Stories in the press that mention the person, counted as distinct (title, outlet) pairs ever observed. Coverage is not a statement: it never puts anyone on the record, and only the outlet's own headline is shown.",
-    "generated_at": "2026-10-28T05:15:43.898Z",
+    "generated_at": "2026-10-28T06:05:59.348Z",
     "min_interval_minutes": 15,
     "days": 14,
     "ran": true,
     "polled": 23,
     "leaders_with_data": 23,
     "leaders_dark": 0,
-    "total_24h": 197,
-    "total_7d": 2374,
+    "total_24h": 192,
+    "total_7d": 2366,
     "trend_means": "Week over week: this 7 days against the 7 before. Shown only once a full previous week has been observed; flat inside ±10% or ±2 stories.",
     "profile_source": "Wikipedia REST summary (en.wikipedia.org/api/rest_v1/page/summary), CC BY-SA 4.0, refreshed at most daily",
     "profile_min_interval_hours": 24,
@@ -246,7 +246,7 @@
       },
       "days_silent": 2,
       "sources_checked": 4,
-      "sources_ok": 4,
+      "sources_ok": 3,
       "direct_sources": [
         {
           "id": "samaltman-blog",
@@ -259,7 +259,7 @@
           "ok": true,
           "error": null,
           "entries": 30,
-          "fetched_at": "2026-10-28T05:15:43.898Z",
+          "fetched_at": "2026-10-28T06:05:59.348Z",
           "attributed": 20,
           "newest_attributed_at": "2026-04-10T22:55:13.000Z"
         },
@@ -274,7 +274,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-28T05:15:44.333Z",
+          "fetched_at": "2026-10-28T06:05:59.720Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -286,11 +286,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-28T05:15:44.798Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-28T06:06:00.276Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -311,11 +311,17 @@
         "source": "Google News search (RSS)",
         "query": "\"Sam Altman\"",
         "url": "https://news.google.com/rss/search?q=%22Sam%20Altman%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:43.904Z",
-        "fetched_at": "2026-10-28T05:15:43.904Z",
+        "attempted_at": "2026-10-28T06:05:59.352Z",
+        "fetched_at": "2026-10-28T06:05:59.352Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Paxton sues OpenAI, Altman alleging ChatGPT unsafe",
+            "outlet": "The Black Chronicle",
+            "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxORVNEXy1qbTZLUkw2aHhNREw1MVlTanA5V0FLekJpNjUxSWVrdnJtTUZWODZBVHpTSzlNQXFUQXN2c2wzRjlSdF80QUs4clhHd1praUdMUzN5cjFoNUk4T1ZPelV6WW1NX1hrWmE5aS14Q0xaZzJkOG10VW1TN3p3bzhIdHNpdzFfUlFOamNqT3RVWWJXRjJQUg?oc=5",
+            "published_at": "2026-10-28T05:45:06.000Z"
+          },
           {
             "title": "Texas Wants to Ban Children From Using ChatGPT as Sam Altman Faces a Major Legal Showdown",
             "outlet": "www.techtimes.co.uk",
@@ -357,17 +363,11 @@
             "outlet": "Business Insider",
             "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQYzd4LUcwQ1hhckJwck8wYVhfUlhIZ3c4MzVCZDB5cGt4aGs1VWJJem52am9oRjRtMGdVNHJaQmdGTW41bE1ma1A3UWNabjJGblVLcWtqazR2QWNBSS1jb0p2VHE2U2VITGpVZk5UNzBWVXo1LUpfdnRmbkk5RzNScWM5eVdFeXRyemVlXzJaNjA?oc=5",
             "published_at": "2026-10-27T20:32:23.000Z"
-          },
-          {
-            "title": "Texas Attorney General Ken Paxton Sued OpenAI and Sam Altman on Oct. 23, a Week After at Least Eight States Filed Lawsuits Claiming ChatGPT Is Hurting Children",
-            "outlet": "AOL.com",
-            "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQZDNoYkFIVVZpQzRZdE9XejROLWJPRXRMX28wZXRqWlBTWGg0bUNRNTNCbkt3UVZMRnBvVVJjU2tUN1g5WnV2RUZPRVplRU1KdGVGRDlPaklETnZzR3FmTGpLNFdTa09id3FYTVYyc3hzQmtpQ01lSnhheVk3SU1Edm04Zw?oc=5",
-            "published_at": "2026-10-27T20:30:00.000Z"
           }
         ],
         "count_24h": 22,
-        "count_7d": 212,
-        "count_prev_7d": 262,
+        "count_7d": 211,
+        "count_prev_7d": 264,
         "daily": [
           {
             "day": "2026-10-15",
@@ -423,16 +423,16 @@
           },
           {
             "day": "2026-10-28",
-            "n": 3
+            "n": 4
           }
         ],
         "trend": {
           "dir": "down",
-          "delta": -50,
-          "pct": -19,
+          "delta": -53,
+          "pct": -20,
           "baseline_complete": true
         },
-        "saturated": true,
+        "saturated": false,
         "tracking_since": "2026-10-02T19:17:50.992Z"
       }
     },
@@ -463,8 +463,8 @@
         "verdict": "both_quiet",
         "note": "The watch floor reads no feed and no headline in this window named Dario Amodei beside a speech cue. Two separate silences, neither imputed from the other."
       },
-      "group": "quiet",
-      "reason": "quiet",
+      "group": "unreachable",
+      "reason": "sources_unreachable",
       "press_count": 0,
       "direct_count": 0,
       "press_sources": [],
@@ -479,7 +479,7 @@
       },
       "days_silent": 2,
       "sources_checked": 2,
-      "sources_ok": 2,
+      "sources_ok": 1,
       "direct_sources": [
         {
           "id": "yt-anthropic",
@@ -489,11 +489,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCrDwWp7EBBv4NwvScIpBDOA",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-28T05:15:44.807Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCrDwWp7EBBv4NwvScIpBDOA — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-28T06:06:00.280Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -514,22 +514,28 @@
         "source": "Google News search (RSS)",
         "query": "\"Dario Amodei\"",
         "url": "https://news.google.com/rss/search?q=%22Dario%20Amodei%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:43.905Z",
-        "fetched_at": "2026-10-28T05:15:43.905Z",
+        "attempted_at": "2026-10-28T06:05:59.352Z",
+        "fetched_at": "2026-10-28T06:05:59.352Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Anthropic | History, Controversies, & Claude AI",
+            "outlet": "Britannica",
+            "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE41Q1h2QkF0SGRpMFZSMVN5al9RNkhQLTR4MDc0cHJNbndmdndTbHE5cGswRFk4SS1JbVhmXzdWNm5KRDlJa3FiUkt6T01MZUNiTjhON2R6cFJtQQ?oc=5",
+            "published_at": "2026-10-28T04:51:42.000Z"
+          },
+          {
+            "title": "Anthropic Seeks $2 Trillion Valuation in Upcoming IPO",
+            "outlet": "조선일보",
+            "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQOXRPX3VpR3dwNDhBOXVxRTRnUVluZHNTblZabGFWOTJWeUQ5QWlyVlZQM2xidnZtdWg2bV8xcnVIeWFwZEdBNzB1N1VoR1VBaGJYbjJIRXZYd0NaT3IzamZFcUFFNkRIbDJfTGtmektuOHBxdTJmUkV1SzRNY21UTG81V1BFMkFv?oc=5",
+            "published_at": "2026-10-28T04:08:22.000Z"
+          },
           {
             "title": "Anthropic Targets $2T Valuation via Nasdaq IPO",
             "outlet": "조선일보",
             "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQOXRPX3VpR3dwNDhBOXVxRTRnUVluZHNTblZabGFWOTJWeUQ5QWlyVlZQM2xidnZtdWg2bV8xcnVIeWFwZEdBNzB1N1VoR1VBaGJYbjJIRXZYd0NaT3IzamZFcUFFNkRIbDJfTGtmektuOHBxdTJmUkV1SzRNY21UTG81V1BFMkFv?oc=5",
             "published_at": "2026-10-28T03:45:00.000Z"
-          },
-          {
-            "title": "Anthropic | History, Controversies, & Claude AI",
-            "outlet": "Britannica",
-            "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE41Q1h2QkF0SGRpMFZSMVN5al9RNkhQLTR4MDc0cHJNbndmdndTbHE5cGswRFk4SS1JbVhmXzdWNm5KRDlJa3FiUkt6T01MZUNiTjhON2R6cFJtQQ?oc=5",
-            "published_at": "2026-10-28T02:51:19.000Z"
           },
           {
             "title": "Anthropic maintains its focus on safety in IPO filing",
@@ -560,17 +566,11 @@
             "outlet": "Fortune",
             "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOZUxQQy02UlBYYkdzalBreFhBVGlCNVBiaG11ZWZyVUV4UjRtMWF0cnMzNzJ5d2xOdFRSb213aXkxeDJRTURMQ1pqTm95Vy1KY2g5YTNEZDZzR0EyVnVrWlFKQ2dVMDIxampwZVRZLVhVdnkyLVlhelRCaTJiWFVpeDh2OFcyZEtjbUZ3dVhPa1I?oc=5",
             "published_at": "2026-10-27T20:38:00.000Z"
-          },
-          {
-            "title": "Anthropic Targets $2 Trillion Valuation in Nasdaq IPO",
-            "outlet": "조선일보",
-            "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQOXRPX3VpR3dwNDhBOXVxRTRnUVluZHNTblZabGFWOTJWeUQ5QWlyVlZQM2xidnZtdWg2bV8xcnVIeWFwZEdBNzB1N1VoR1VBaGJYbjJIRXZYd0NaT3IzamZFcUFFNkRIbDJfTGtmektuOHBxdTJmUkV1SzRNY21UTG81V1BFMkFv?oc=5",
-            "published_at": "2026-10-27T20:30:13.000Z"
           }
         ],
-        "count_24h": 31,
-        "count_7d": 219,
-        "count_prev_7d": 297,
+        "count_24h": 30,
+        "count_7d": 216,
+        "count_prev_7d": 300,
         "daily": [
           {
             "day": "2026-10-15",
@@ -626,13 +626,13 @@
           },
           {
             "day": "2026-10-28",
-            "n": 2
+            "n": 3
           }
         ],
         "trend": {
           "dir": "down",
-          "delta": -78,
-          "pct": -26,
+          "delta": -84,
+          "pct": -28,
           "baseline_complete": true
         },
         "saturated": false,
@@ -682,7 +682,7 @@
       },
       "days_silent": 2,
       "sources_checked": 5,
-      "sources_ok": 5,
+      "sources_ok": 4,
       "direct_sources": [
         {
           "id": "deepmind-blog",
@@ -695,7 +695,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-28T05:15:44.440Z",
+          "fetched_at": "2026-10-28T06:05:59.849Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -710,7 +710,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-28T05:15:44.475Z",
+          "fetched_at": "2026-10-28T06:05:59.913Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -725,7 +725,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-28T05:15:44.668Z",
+          "fetched_at": "2026-10-28T06:06:00.094Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -737,11 +737,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-28T05:15:44.816Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-28T06:06:00.320Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -762,8 +762,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Demis Hassabis\"",
         "url": "https://news.google.com/rss/search?q=%22Demis%20Hassabis%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:43.905Z",
-        "fetched_at": "2026-10-28T05:15:43.905Z",
+        "attempted_at": "2026-10-28T06:05:59.352Z",
+        "fetched_at": "2026-10-28T06:05:59.352Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -899,27 +899,28 @@
         "Musk"
       ],
       "state": "on_record",
-      "count": 2,
+      "count": 3,
       "sources": [
         "gnews-ai",
         "guardian-ai"
       ],
       "latest": {
-        "item_id": "a1141b5678fd7c02",
-        "headline": "Anthropic: The \"King of AI\" Powering Innovations for Elon Musk, Jensen Huang and Top Tech Leaders",
+        "item_id": "1e97045c44fc1132",
+        "headline": "Elon Musk Says SpaceX Is Now a \"Super Intelligence\" Company",
         "source": "gnews-ai",
         "kind": "press",
-        "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5fUDBaVkR2czNhWDdpLTJrT09BM2dfRnBPZFYyR3NZV3pKb1RmYktOc1FLcGNFbFBBdjNUQXV6dHpBVll0QkU4TXljSlpuMEZadjkw?oc=5",
-        "published_at": "2026-10-28T04:14:22.000Z",
-        "score": 36.4,
+        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOU29sRkpKM3NUQ1hWcWgtanZYTE8xdXBDZ2R1THJlZEZ3ZnNDU0lfaHlZaUpMZjRHUXJKZ2M5aGQwc3lOQnNFLWlCcFY4T1dtMFBxbVhMUmVMdnA5RzVFV1dJVjRISUJqVnpSOHhvbWg2UWZpUDRMei1rV2tBMWppa0NSTkk1LWR3ZUJvWm5obUVKazBhak9r?oc=5",
+        "published_at": "2026-10-28T05:56:18.000Z",
+        "score": 36.7,
         "pillar": "attention",
         "matched_alias": "Elon Musk",
-        "cue": "quoted text",
+        "cue": "says",
         "cue_group": "core",
-        "cue_class": "quote",
-        "cue_text": "\"King of AI\"",
+        "cue_class": "verb",
+        "cue_text": "Says",
         "cues": [
-          "quoted text"
+          "quoted text",
+          "says"
         ],
         "corroboration": 1,
         "also_sources": [
@@ -929,13 +930,37 @@
       },
       "lines": [
         {
+          "item_id": "1e97045c44fc1132",
+          "headline": "Elon Musk Says SpaceX Is Now a \"Super Intelligence\" Company",
+          "source": "gnews-ai",
+          "kind": "press",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOU29sRkpKM3NUQ1hWcWgtanZYTE8xdXBDZ2R1THJlZEZ3ZnNDU0lfaHlZaUpMZjRHUXJKZ2M5aGQwc3lOQnNFLWlCcFY4T1dtMFBxbVhMUmVMdnA5RzVFV1dJVjRISUJqVnpSOHhvbWg2UWZpUDRMei1rV2tBMWppa0NSTkk1LWR3ZUJvWm5obUVKazBhak9r?oc=5",
+          "published_at": "2026-10-28T05:56:18.000Z",
+          "score": 36.7,
+          "pillar": "attention",
+          "matched_alias": "Elon Musk",
+          "cue": "says",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "Says",
+          "cues": [
+            "quoted text",
+            "says"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "gnews-ai"
+          ],
+          "via": "press"
+        },
+        {
           "item_id": "a1141b5678fd7c02",
           "headline": "Anthropic: The \"King of AI\" Powering Innovations for Elon Musk, Jensen Huang and Top Tech Leaders",
           "source": "gnews-ai",
           "kind": "press",
           "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5fUDBaVkR2czNhWDdpLTJrT09BM2dfRnBPZFYyR3NZV3pKb1RmYktOc1FLcGNFbFBBdjNUQXV6dHpBVll0QkU4TXljSlpuMEZadjkw?oc=5",
           "published_at": "2026-10-28T04:14:22.000Z",
-          "score": 36.4,
+          "score": 36.1,
           "pillar": "attention",
           "matched_alias": "Elon Musk",
           "cue": "quoted text",
@@ -958,7 +983,7 @@
           "kind": "press",
           "url": "https://theguardian.com/commentisfree/2026/oct/27/elon-musk-cyber-psychosis-ai-tech",
           "published_at": "2026-10-27T15:01:14.000Z",
-          "score": 30.2,
+          "score": 30,
           "pillar": "attention",
           "matched_alias": "Elon Musk",
           "cue": "says",
@@ -984,22 +1009,22 @@
         "feed": null,
         "posts_30d": null,
         "verdict": "wire_fills_gap",
-        "note": "The watch floor reads no feed for Elon Musk and that reading stands: it is about feeds we can fetch. All 2 lines on the wire came from the press instead — gnews-ai, guardian-ai — each linked to the publication that printed it."
+        "note": "The watch floor reads no feed for Elon Musk and that reading stands: it is about feeds we can fetch. All 3 lines on the wire came from the press instead — gnews-ai, guardian-ai — each linked to the publication that printed it."
       },
       "group": "on_record",
       "reason": null,
-      "press_count": 2,
+      "press_count": 3,
       "direct_count": 0,
       "press_sources": [
         "gnews-ai",
         "guardian-ai"
       ],
-      "last_statement_at": "2026-10-28T04:14:22.000Z",
+      "last_statement_at": "2026-10-28T05:56:18.000Z",
       "last_statement": {
-        "headline": "Anthropic: The \"King of AI\" Powering Innovations for Elon Musk, Jensen Huang and Top Tech Leaders",
-        "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5fUDBaVkR2czNhWDdpLTJrT09BM2dfRnBPZFYyR3NZV3pKb1RmYktOc1FLcGNFbFBBdjNUQXV6dHpBVll0QkU4TXljSlpuMEZadjkw?oc=5",
+        "headline": "Elon Musk Says SpaceX Is Now a \"Super Intelligence\" Company",
+        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOU29sRkpKM3NUQ1hWcWgtanZYTE8xdXBDZ2R1THJlZEZ3ZnNDU0lfaHlZaUpMZjRHUXJKZ2M5aGQwc3lOQnNFLWlCcFY4T1dtMFBxbVhMUmVMdnA5RzVFV1dJVjRISUJqVnpSOHhvbWg2UWZpUDRMei1rV2tBMWppa0NSTkk1LWR3ZUJvWm5obUVKazBhak9r?oc=5",
         "source": "gnews-ai",
-        "published_at": "2026-10-28T04:14:22.000Z",
+        "published_at": "2026-10-28T05:56:18.000Z",
         "via": "press",
         "remembered": false
       },
@@ -1018,7 +1043,7 @@
           "ok": false,
           "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCo2ri0cvAs8Lxbp18UHZsgg — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
           "entries": null,
-          "fetched_at": "2026-10-28T05:15:44.851Z",
+          "fetched_at": "2026-10-28T06:06:00.524Z",
           "attributed": null,
           "newest_attributed_at": null
         },
@@ -1033,7 +1058,7 @@
           "ok": false,
           "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UC5WjFrtBdufl6CZojX3D8dQ — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
           "entries": null,
-          "fetched_at": "2026-10-28T05:15:44.917Z",
+          "fetched_at": "2026-10-28T06:06:00.554Z",
           "attributed": null,
           "newest_attributed_at": null
         }
@@ -1055,8 +1080,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Elon Musk\"",
         "url": "https://news.google.com/rss/search?q=%22Elon%20Musk%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:43.905Z",
-        "fetched_at": "2026-10-28T05:15:43.905Z",
+        "attempted_at": "2026-10-28T06:05:59.352Z",
+        "fetched_at": "2026-10-28T06:05:59.352Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -1109,9 +1134,9 @@
             "published_at": "2026-10-27T20:03:00.000Z"
           }
         ],
-        "count_24h": 30,
-        "count_7d": 348,
-        "count_prev_7d": 340,
+        "count_24h": 28,
+        "count_7d": 345,
+        "count_prev_7d": 343,
         "daily": [
           {
             "day": "2026-10-15",
@@ -1172,8 +1197,8 @@
         ],
         "trend": {
           "dir": "flat",
-          "delta": 8,
-          "pct": 2,
+          "delta": 2,
+          "pct": 1,
           "baseline_complete": true
         },
         "saturated": true,
@@ -1237,7 +1262,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-28T05:15:44.684Z",
+          "fetched_at": "2026-10-28T06:06:00.221Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1252,7 +1277,7 @@
           "ok": false,
           "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UC5qxlwEKM7-5YZudb24l0bg — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
           "entries": null,
-          "fetched_at": "2026-10-28T05:15:44.845Z",
+          "fetched_at": "2026-10-28T06:06:00.463Z",
           "attributed": null,
           "newest_attributed_at": null
         }
@@ -1274,8 +1299,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Mark Zuckerberg\"",
         "url": "https://news.google.com/rss/search?q=%22Mark%20Zuckerberg%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:44.398Z",
-        "fetched_at": "2026-10-28T05:15:44.398Z",
+        "attempted_at": "2026-10-28T06:05:59.701Z",
+        "fetched_at": "2026-10-28T06:05:59.701Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -1305,6 +1330,12 @@
           },
           {
             "title": "Jensen Huang Invested 20 Billion Yuan in Mark Zuckerberg",
+            "outlet": "eu.36kr.com",
+            "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5wXzlrZDFySzBXcGdOWGtUTF9NWVU1RE1raFJHdXNuNjlOcVI0c1dWQlhTTVBVcVdGZllTaWRWbXhrc1JsWnRKMlpjdWJSb0x6TzE0?oc=5",
+            "published_at": "2026-10-27T23:33:41.000Z"
+          },
+          {
+            "title": "Jensen Huang Invested 20 Billion Yuan in Mark Zuckerberg",
             "outlet": "36Kr",
             "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5wXzlrZDFySzBXcGdOWGtUTF9NWVU1RE1raFJHdXNuNjlOcVI0c1dWQlhTTVBVcVdGZllTaWRWbXhrc1JsWnRKMlpjdWJSb0x6TzE0?oc=5",
             "published_at": "2026-10-27T23:33:41.000Z"
@@ -1320,17 +1351,11 @@
             "outlet": "WinBuzzer",
             "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOU0FTXzdFdHk1N1RlcTRwOVBnVmJFelk1aWRIZ0lKZ3VFTFFpZnhHRW00NTNtNmdvY0xjbTRVdVY0MHNDOEthUG5wWHcxQzRCSm5oOEZybXNWWVhNT0d4eTMwMnBVVGZWSm1ZWlNXblBkVmN0bVRnWHhrZm96ZnYxbmFpZDVHZEdvUS1zTjFLLU5sRE9jY1lCdzdHUkthTFJfXzdoTkx6UWY?oc=5",
             "published_at": "2026-10-27T16:30:33.000Z"
-          },
-          {
-            "title": "Don't hold your breath for a sequel to the Meta Quest 3 and 3S anytime soon, as Zuckerberg reiterates \"we are changing our approach to VR\"",
-            "outlet": "GamesRadar+",
-            "url": "https://news.google.com/rss/articles/CBMihAJBVV95cUxOM1drbTkyZlhJS2xsWlNaOE4tNmlEYkMxekRmTGxqVGJXNl82Nll2Z1BmQ2xua2FVLWQ0UE5Ya0ZQZG10dTJNZC0wXy1pWTVtS3pHUURpVUJFUEx4bFp3RTJCMkQ1YTQzcGVoZzBFMktJVW1FZmZDUThId29rdjdvNmRBcVB0OEVFVjJfTmVyM2ZZYm9XQks0cF9maVUweS1ybVV3VEQ2bkEzLWFYcGwyRzZSU3JSUnNLQU5xR2I0STU1SUozYXl5SzJxbDVNRHd2V2ZsZkxRR2F1TnJPRHhsUjJuTGs4dHlfQldaZTUtY0xoRXpvTGhSRFpFeVpCaHJ2Q1dwbg?oc=5",
-            "published_at": "2026-10-27T16:17:43.000Z"
           }
         ],
         "count_24h": 29,
-        "count_7d": 483,
-        "count_prev_7d": 213,
+        "count_7d": 482,
+        "count_prev_7d": 215,
         "daily": [
           {
             "day": "2026-10-15",
@@ -1382,7 +1407,7 @@
           },
           {
             "day": "2026-10-27",
-            "n": 28
+            "n": 29
           },
           {
             "day": "2026-10-28",
@@ -1391,8 +1416,8 @@
         ],
         "trend": {
           "dir": "up",
-          "delta": 270,
-          "pct": 127,
+          "delta": 267,
+          "pct": 124,
           "baseline_complete": true
         },
         "saturated": false,
@@ -1411,9 +1436,8 @@
         "Jensen"
       ],
       "state": "on_record",
-      "count": 2,
+      "count": 1,
       "sources": [
-        "YouTube · NVIDIA",
         "gnews-ai"
       ],
       "latest": {
@@ -1423,7 +1447,7 @@
         "kind": "press",
         "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5fUDBaVkR2czNhWDdpLTJrT09BM2dfRnBPZFYyR3NZV3pKb1RmYktOc1FLcGNFbFBBdjNUQXV6dHpBVll0QkU4TXljSlpuMEZadjkw?oc=5",
         "published_at": "2026-10-28T04:14:22.000Z",
-        "score": 36.4,
+        "score": 36.1,
         "pillar": "attention",
         "matched_alias": "Jensen Huang",
         "cue": "quoted text",
@@ -1447,7 +1471,7 @@
           "kind": "press",
           "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5fUDBaVkR2czNhWDdpLTJrT09BM2dfRnBPZFYyR3NZV3pKb1RmYktOc1FLcGNFbFBBdjNUQXV6dHpBVll0QkU4TXljSlpuMEZadjkw?oc=5",
           "published_at": "2026-10-28T04:14:22.000Z",
-          "score": 36.4,
+          "score": 36.1,
           "pillar": "attention",
           "matched_alias": "Jensen Huang",
           "cue": "quoted text",
@@ -1462,28 +1486,6 @@
             "gnews-ai"
           ],
           "via": "press"
-        },
-        {
-          "item_id": "feed-yt-nvidia-5e8bf34ce5a6",
-          "headline": "Jensen Huang’s Keynote Highlights at NVIDIA GTC Berlin 2026",
-          "source": "YouTube · NVIDIA",
-          "kind": "official_feed",
-          "url": "https://www.youtube.com/watch?v=rF1EsryCAwc",
-          "published_at": "2026-10-25T17:10:16.000Z",
-          "score": null,
-          "pillar": null,
-          "matched_alias": "Jensen Huang",
-          "cue": "official video",
-          "cue_group": "direct",
-          "cue_class": "official",
-          "cue_text": "YouTube · NVIDIA",
-          "cues": [
-            "official video"
-          ],
-          "corroboration": 1,
-          "also_sources": [],
-          "via": "feed",
-          "source_id": "yt-nvidia"
         }
       ],
       "watch_floor": {
@@ -1499,7 +1501,7 @@
       "group": "on_record",
       "reason": null,
       "press_count": 1,
-      "direct_count": 1,
+      "direct_count": 0,
       "press_sources": [
         "gnews-ai"
       ],
@@ -1514,7 +1516,7 @@
       },
       "days_silent": 0,
       "sources_checked": 3,
-      "sources_ok": 3,
+      "sources_ok": 2,
       "direct_sources": [
         {
           "id": "nvidia-blog",
@@ -1527,7 +1529,7 @@
           "ok": true,
           "error": null,
           "entries": 18,
-          "fetched_at": "2026-10-28T05:15:44.680Z",
+          "fetched_at": "2026-10-28T06:06:00.145Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1539,12 +1541,12 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCHuiy8bXnmK5nisYHUd1J5g",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-28T05:15:44.843Z",
-          "attributed": 1,
-          "newest_attributed_at": "2026-10-25T17:10:16.000Z"
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCHuiy8bXnmK5nisYHUd1J5g — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-28T06:06:00.424Z",
+          "attributed": null,
+          "newest_attributed_at": null
         }
       ],
       "no_source_reason": null,
@@ -1564,8 +1566,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Jensen Huang\"",
         "url": "https://news.google.com/rss/search?q=%22Jensen%20Huang%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:44.559Z",
-        "fetched_at": "2026-10-28T05:15:44.559Z",
+        "attempted_at": "2026-10-28T06:05:59.797Z",
+        "fetched_at": "2026-10-28T06:05:59.797Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -1729,9 +1731,9 @@
         "via": "press",
         "remembered": true
       },
-      "days_silent": 0,
+      "days_silent": 1,
       "sources_checked": 4,
-      "sources_ok": 4,
+      "sources_ok": 3,
       "direct_sources": [
         {
           "id": "microsoft-blog",
@@ -1744,7 +1746,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-28T05:15:44.519Z",
+          "fetched_at": "2026-10-28T06:06:00.074Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1759,7 +1761,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-28T05:15:44.609Z",
+          "fetched_at": "2026-10-28T06:06:00.084Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1771,11 +1773,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-28T05:15:44.834Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-28T06:06:00.417Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -1796,8 +1798,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Satya Nadella\"",
         "url": "https://news.google.com/rss/search?q=%22Satya%20Nadella%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:44.591Z",
-        "fetched_at": "2026-10-28T05:15:44.591Z",
+        "attempted_at": "2026-10-28T06:05:59.892Z",
+        "fetched_at": "2026-10-28T06:05:59.892Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -1805,7 +1807,7 @@
             "title": "Microsoft CEO Reveals Microsoft’s Low-Cost AI Model Mix Strategy: Computing Power Price War Is Inevitable, Proprietary Evaluation Benchmarks Will Become Core Enterprise Assets in 5 Years",
             "outlet": "eu.36kr.com",
             "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9xRERpQ0d2dm84T0R1d2QzYzgxcmZ3NVpoRjgzcjBmaF9zQmhNRFB3a0VmRE1qSnA4OXhQZjl0aXhEV3lyWDZyU2ZuZ1ZBZ3hhc3Vj?oc=5",
-            "published_at": "2026-10-28T05:04:31.000Z"
+            "published_at": "2026-10-28T05:04:05.000Z"
           },
           {
             "title": "The Impact of AI: Microsoft Slashes 27% of Workforce with Voluntary Buyout Offer",
@@ -1850,7 +1852,7 @@
             "published_at": "2026-10-27T16:26:42.000Z"
           }
         ],
-        "count_24h": 15,
+        "count_24h": 14,
         "count_7d": 109,
         "count_prev_7d": 83,
         "daily": [
@@ -1963,7 +1965,7 @@
       },
       "days_silent": 6,
       "sources_checked": 5,
-      "sources_ok": 5,
+      "sources_ok": 4,
       "direct_sources": [
         {
           "id": "google-ai-blog",
@@ -1976,7 +1978,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-28T05:15:44.475Z",
+          "fetched_at": "2026-10-28T06:05:59.913Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -1991,7 +1993,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-28T05:15:44.503Z",
+          "fetched_at": "2026-10-28T06:05:59.950Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2006,7 +2008,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-28T05:15:44.668Z",
+          "fetched_at": "2026-10-28T06:06:00.094Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2018,11 +2020,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCK8sQmJBp8GCxrOtXWBpyEA",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-28T05:15:44.818Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCK8sQmJBp8GCxrOtXWBpyEA — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-28T06:06:00.358Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -2043,11 +2045,17 @@
         "source": "Google News search (RSS)",
         "query": "\"Sundar Pichai\"",
         "url": "https://news.google.com/rss/search?q=%22Sundar%20Pichai%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:44.626Z",
-        "fetched_at": "2026-10-28T05:15:44.626Z",
+        "attempted_at": "2026-10-28T06:05:59.935Z",
+        "fetched_at": "2026-10-28T06:05:59.935Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Form 4 Alphabet Inc Class A: Sundar Pichai (Director, CEO) For: 25 October",
+            "outlet": "Investing.com Australia",
+            "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPWXo0a1NhazlRMWRMVUNxVGZNeFNvekVHalBQU3BkdzJYQmxkbEpsX2NfeW5OcDNwN3A0M1l2UWl2ZHhBOFNWZWZLdHBxX3Q4Z3hfUHlMeVQxTEUtS0xsRzMzb3ZOdHFvdzBqWGJNdjZobEpPTnhXd1NtNUZZUEFDUUhqV0xKeDhfX1lDRFh4WGRENTVhcU5VTDRZNkZWTTFJX1dmTHVzdmh3YXJibF9UOXVkRVRwWUNSdlNVdVZUUy1DdmZwa0J2RmdB?oc=5",
+            "published_at": "2026-10-28T03:47:48.000Z"
+          },
           {
             "title": "Form 4 Alphabet Inc Class A: Sundar Pichai (Director, CEO) For: 25 October",
             "outlet": "Investing.com Canada",
@@ -2089,16 +2097,10 @@
             "outlet": "The Times of India",
             "url": "https://news.google.com/rss/articles/CBMimAJBVV95cUxQcXE3UGtNZkdvQ1lrVXFILUFJOUhoaE13cllTb0JiYUlYbXJqeFdkNllfMG1tOGhuZTZpV25RZlN0QnZZRDYxR2o1dVAwazRrWlA4dE1vUHBSZUVYc2lrZVhWOHRkc21lU2ZIVnRFOEtlbUppMU9VM0hfcUlWZ0ZmNmpaTjVxaUFZYWpTSElDbkJOZTZVazRJTDNsN2tfZmxmV2pNM3pNZGltNWlRWVJZMmFsQ1g1QndsT3pnVEVhcEVoM1g0NmFuYXR4UlU5d2xKSkhHUUNDTWdXV0ktT2RuV0taR0wtMHYxMWVtOXVmUS1fcGdDdUFUdUxsTVdSYmNrTXdJU29xdTRkenh3ZkVGTGJMUzI0U2l20gGeAkFVX3lxTE1QVkMzUnRjSnNjejYwb3FwRF9qdmw2Vjd1ZHV1Z1diQXdPcjR6MVFmbUM1UUR3ZjlZcDZ2SHUzZFpXVkhNc2dEOFNod3kwcUxpdWE2UjNJeG5PZFhWNjdiRXl3Y29wX1EtMUlSUU1HZHlEZ0hHbHVMS2laakpENWc4T1oydjRaMFNYWTJlNXhmUlN5Zm0zTkNrMVFNY056bWxjd2V2aTFMZEpZeldMVmlLTDhDUGxGZW9EcTZHb2N0YXpLOEIyWC1neEVFdFJaZGpWcWVLYTl0VE5wb0J2MVZhbjZoWko5OGtmRUJfa2Y5RUNRbkhVVkwyNnk4SVIwTmpQdkR0emJhYVBpVldITDZkYTdHUW5Jd3cteTJKWWc?oc=5",
             "published_at": "2026-10-27T18:13:00.000Z"
-          },
-          {
-            "title": "Trump doubles down on desire to rename Atlantic 'American Ocean' US President Donald Trump on Monday (October 26) repeated his desire to rename the Atlantic Ocean the “American Ocean” but promised he would not rename the Mississippi River. Trump",
-            "outlet": "LinkedIn",
-            "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQcGlTNTJqTUR1YjhpZU5oLUEzSlIwQTZLZFNrQW8tVGJyODkxMmo3TnpVVVlEanEzX25HQ0NTYnJ1aF9lSmRsVXRVeF83SFcxRURvWjdDRUhHdmFXSkNTS1VIYllhTWp5eVpsTi05c3c1NU01TElXdXJGZ3UtX2pEbFVFeUVwaFRsZmRJMEtWdWhEUWV1R01xQmhWX0tIZkM2Ym5sQUN6cEJuMDZxcFphZHVkTFJrWHdPMXgyOXd5cEo3Zk1XcEdGSw?oc=5",
-            "published_at": "2026-10-27T18:08:47.000Z"
           }
         ],
         "count_24h": 10,
-        "count_7d": 348,
+        "count_7d": 349,
         "count_prev_7d": 76,
         "daily": [
           {
@@ -2155,13 +2157,13 @@
           },
           {
             "day": "2026-10-28",
-            "n": 4
+            "n": 5
           }
         ],
         "trend": {
           "dir": "up",
-          "delta": 272,
-          "pct": 358,
+          "delta": 273,
+          "pct": 359,
           "baseline_complete": true
         },
         "saturated": false,
@@ -2210,7 +2212,7 @@
       },
       "days_silent": 5,
       "sources_checked": 4,
-      "sources_ok": 4,
+      "sources_ok": 3,
       "direct_sources": [
         {
           "id": "microsoft-blog",
@@ -2223,7 +2225,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-28T05:15:44.519Z",
+          "fetched_at": "2026-10-28T06:06:00.074Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2238,7 +2240,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-28T05:15:44.609Z",
+          "fetched_at": "2026-10-28T06:06:00.084Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2250,11 +2252,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-28T05:15:44.834Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-28T06:06:00.417Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -2275,8 +2277,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Mustafa Suleyman\" AI",
         "url": "https://news.google.com/rss/search?q=%22Mustafa%20Suleyman%22%20AI%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:44.863Z",
-        "fetched_at": "2026-10-28T05:15:44.863Z",
+        "attempted_at": "2026-10-28T06:06:00.098Z",
+        "fetched_at": "2026-10-28T06:06:00.098Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -2443,7 +2445,7 @@
       },
       "days_silent": 14,
       "sources_checked": 5,
-      "sources_ok": 5,
+      "sources_ok": 4,
       "direct_sources": [
         {
           "id": "deepmind-blog",
@@ -2456,7 +2458,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-28T05:15:44.440Z",
+          "fetched_at": "2026-10-28T06:05:59.849Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2471,7 +2473,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-28T05:15:44.475Z",
+          "fetched_at": "2026-10-28T06:05:59.913Z",
           "attributed": 1,
           "newest_attributed_at": "2026-10-13T16:00:00.000Z"
         },
@@ -2486,7 +2488,7 @@
           "ok": true,
           "error": null,
           "entries": 20,
-          "fetched_at": "2026-10-28T05:15:44.668Z",
+          "fetched_at": "2026-10-28T06:06:00.094Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -2498,11 +2500,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-28T05:15:44.816Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-28T06:06:00.320Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -2513,8 +2515,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Koray Kavukcuoglu\"",
         "url": "https://news.google.com/rss/search?q=%22Koray%20Kavukcuoglu%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:44.980Z",
-        "fetched_at": "2026-10-28T05:15:44.980Z",
+        "attempted_at": "2026-10-28T06:06:00.142Z",
+        "fetched_at": "2026-10-28T06:06:00.142Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -2694,8 +2696,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Yann LeCun\"",
         "url": "https://news.google.com/rss/search?q=%22Yann%20LeCun%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:44.994Z",
-        "fetched_at": "2026-10-28T05:15:44.994Z",
+        "attempted_at": "2026-10-28T06:06:00.196Z",
+        "fetched_at": "2026-10-28T06:06:00.196Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -2750,7 +2752,7 @@
         ],
         "count_24h": 1,
         "count_7d": 18,
-        "count_prev_7d": 40,
+        "count_prev_7d": 38,
         "daily": [
           {
             "day": "2026-10-15",
@@ -2811,8 +2813,8 @@
         ],
         "trend": {
           "dir": "down",
-          "delta": -22,
-          "pct": -55,
+          "delta": -20,
+          "pct": -53,
           "baseline_complete": true
         },
         "saturated": false,
@@ -2875,7 +2877,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-28T05:15:45.071Z",
+          "fetched_at": "2026-10-28T06:06:00.712Z",
           "attributed": 0,
           "newest_attributed_at": null
         }
@@ -2897,8 +2899,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Geoffrey Hinton\"",
         "url": "https://news.google.com/rss/search?q=%22Geoffrey%20Hinton%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.081Z",
-        "fetched_at": "2026-10-28T05:15:45.081Z",
+        "attempted_at": "2026-10-28T06:06:00.220Z",
+        "fetched_at": "2026-10-28T06:06:00.220Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -2953,7 +2955,7 @@
         ],
         "count_24h": 2,
         "count_7d": 36,
-        "count_prev_7d": 84,
+        "count_prev_7d": 83,
         "daily": [
           {
             "day": "2026-10-15",
@@ -3014,7 +3016,7 @@
         ],
         "trend": {
           "dir": "down",
-          "delta": -48,
+          "delta": -47,
           "pct": -57,
           "baseline_complete": true
         },
@@ -3077,7 +3079,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-28T05:15:43.903Z",
+          "fetched_at": "2026-10-28T06:05:59.351Z",
           "attributed": 10,
           "newest_attributed_at": "2026-10-08T15:02:06.000Z"
         },
@@ -3092,7 +3094,7 @@
           "ok": false,
           "error": "https://mila.quebec/en/feed/: served content-type \"text/html; charset=utf-8\" — this is an HTML page, not a feed (first 120 chars: <!DOCTYPE html> <html lang=\"en\" dir=\"ltr\" prefix=\"og: https://ogp.me/n",
           "entries": null,
-          "fetched_at": "2026-10-28T05:15:45.084Z",
+          "fetched_at": "2026-10-28T06:06:00.727Z",
           "attributed": null,
           "newest_attributed_at": null
         }
@@ -3114,11 +3116,17 @@
         "source": "Google News search (RSS)",
         "query": "\"Yoshua Bengio\"",
         "url": "https://news.google.com/rss/search?q=%22Yoshua%20Bengio%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.116Z",
-        "fetched_at": "2026-10-28T05:15:45.116Z",
+        "attempted_at": "2026-10-28T06:06:00.277Z",
+        "fetched_at": "2026-10-28T06:06:00.277Z",
         "error": null,
         "state": "ok",
         "headlines": [
+          {
+            "title": "Donald Trump congratulates Quebec's new premier, 22 days after election",
+            "outlet": "thecanadianpressnews.ca",
+            "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxPTTd4OE40eURfdzNSaHp2SlJwTGFYeThpYlIyYmtOMFR6b0syMWlmaEFZT3VoZWdhMkRfaG5QRFBrUjFZYUNBTkNZaUhQRFpUQlhWMDg1MTh2ZGVEOTQxeWdMZkNIN2dVMzk4VVVub1ZNNU9rTUo4YkduZVRSNkJaV0IyMTgweHo1bHpYVHh6SG5yXy1CVENZZmxBU3Jra3Z2cjZ3eTZsTHA1X2xHSzVOR2JCMzlBb1pFWG8wYjlNenhBbE1nYndPNWpISGthN09xenB6WjNnVE80dXZDM2lmcmdmQWt4VTNaTE5DOGVfdXNLbjZoYy1R?oc=5",
+            "published_at": "2026-10-27T17:30:33.000Z"
+          },
           {
             "title": "Yoshua Bengio to Join Berlin Science Week: Leading AI Pioneer to Address Trust and Responsibility",
             "outlet": "idw – Informationsdienst Wissenschaft",
@@ -3160,17 +3168,11 @@
             "outlet": "LEADERSHIP Newspapers",
             "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQM1V4YWExX25LWTJMLThFallGcGVzRWlfZEdpekgyUFlDVEpLUTRha29fZ290aW42bnRHb0txVDUtY29lTEp0RTZyOENGRWk1R3dnM1RjMWVVV1NkOFNNSThJODdyRTVHeGlhazJlQ1RoTERaTUljbnR3bWRZNWx3OTdqZ201bldCVXpHZV9heDNjbEpRN29jLS1n?oc=5",
             "published_at": "2026-10-25T15:08:14.000Z"
-          },
-          {
-            "title": "AI and the Red Lines of a Planet under Stress",
-            "outlet": "Asia Sentinel",
-            "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNelY0bEpEZ21ZWmx1SU1tX0doUEd1RmFRRVprVFVhNGJsQk5lUEYwOUVUWDRMVGFpU0FwQzB2WXR4X2hzMTdaaUExTE40MnJQRXZKb1EzcGVzYUpsbloxYUMxQVg4Mjd0TzJYZGVMZ0xpWU5HaldzQ2pFcUpCSlh5QmMzX0t4VHVFTjVQbw?oc=5",
-            "published_at": "2026-10-25T02:41:49.000Z"
           }
         ],
-        "count_24h": 2,
-        "count_7d": 12,
-        "count_prev_7d": 44,
+        "count_24h": 3,
+        "count_7d": 13,
+        "count_prev_7d": 43,
         "daily": [
           {
             "day": "2026-10-15",
@@ -3222,7 +3224,7 @@
           },
           {
             "day": "2026-10-27",
-            "n": 2
+            "n": 3
           },
           {
             "day": "2026-10-28",
@@ -3231,8 +3233,8 @@
         ],
         "trend": {
           "dir": "down",
-          "delta": -32,
-          "pct": -73,
+          "delta": -30,
+          "pct": -70,
           "baseline_complete": true
         },
         "saturated": false,
@@ -3288,7 +3290,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-28T05:15:44.701Z",
+          "fetched_at": "2026-10-28T06:06:00.259Z",
           "attributed": 0,
           "newest_attributed_at": null
         }
@@ -3310,8 +3312,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Arthur Mensch\" Mistral",
         "url": "https://news.google.com/rss/search?q=%22Arthur%20Mensch%22%20Mistral%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.209Z",
-        "fetched_at": "2026-10-28T05:15:45.209Z",
+        "attempted_at": "2026-10-28T06:06:00.291Z",
+        "fetched_at": "2026-10-28T06:06:00.291Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -3490,8 +3492,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Liang Wenfeng\"",
         "url": "https://news.google.com/rss/search?q=%22Liang%20Wenfeng%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.277Z",
-        "fetched_at": "2026-10-28T05:15:45.277Z",
+        "attempted_at": "2026-10-28T06:06:00.375Z",
+        "fetched_at": "2026-10-28T06:06:00.375Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -3506,6 +3508,12 @@
             "outlet": "36Kr",
             "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1TNWc0cmE4SjVIY0t2MHFxYThBcTVaWUNLU2Zzb3pqZGlTdVBwcnJOSGRFT2tHSHFrUDRFRFQtOWJwY2ltTmFIRl9XdENSa2pLX01B?oc=5",
             "published_at": "2026-10-28T03:43:59.000Z"
+          },
+          {
+            "title": "Zhang Yiming Reclaims Richest Man Title: Liang Wenfeng Surges to 7th Place with 280 Billion Yuan Fortune",
+            "outlet": "eu.36kr.com",
+            "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE50SWdhQThSZm5aRktlUllhSTBEbExZYWNIT0Rid0NaNkVIVzI5aFBBZHFSbG1RS1ZWOWVvVHhlMWNrMS1HeV9pZkFoVGpEa2FZS040?oc=5",
+            "published_at": "2026-10-28T00:03:43.000Z"
           },
           {
             "title": "Zhang Yiming Reclaims Richest Man Title: Liang Wenfeng Surges to 7th Place with 280 Billion Yuan Fortune",
@@ -3536,15 +3544,9 @@
             "outlet": "BigGo Finance",
             "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1xb3hGZTVEb2VrbnAxUTBCQzcxZGw3aGw1VldzTG9iWTZtVkpoRmx0ZXBjMUFDT0l5NXZ5Q2p2aDU4enpvazdnd1RyQ1JjR2ZDaUZyLXBhVXJZdTc5M1ZvNktJb3Yzd0t5cklBOTJjcFJQa1FrOUE?oc=5",
             "published_at": "2026-10-27T13:35:00.000Z"
-          },
-          {
-            "title": "ByteDance founder Zhang Yiming reclaims top spot in China’s rich list, thanks to his firm’s AI push",
-            "outlet": "myMotherLode.com",
-            "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOeDVjRzMta1BmZmkwSmMwNDBRUlFuSTB2bXJrOHk4eWFTRmxvNGlpckNCNmgwWjFtQmp0OVdhQVZwNFNGNGdwcTVlczhUOEc5dDhYNHhzTXVyNjZHVUMzcHZOc2xnXzYtRkMzOHp4UXpNdHBMU2tSaml4MjFSVnk5c3VTTTFrQS10UmNGMmU4TkRTQWJnRU1BRmk5NktkMFU3dHd0aWVSVWlIOHJTY0RnZGk2Ry1ndk9Ia1A5NkFITWVjUzcxbExtbTBRakdfeXQwTkhqMk1qZE4wN3JCa2xDVjh0ajdNYm5Y0gHoAUFVX3lxTE54NWNHMy1rUGZmaTBKYzA0MFFSUW5JMHZtcms4eTh5YVNGbG80aWlyQ0I2aDBaMW1CanQ5V2FBVnA0U0Y0Z3BxNWVzOFQ4Rzl0OFg0eHNNdXI2NkdVQzNwdk5zbGdfNi1GQzM4enhRek10cExTa1JqaXgyMVJWeTlzdVNNMWtBLXRSY0YyZThORFNBYmdFTUFGaTk2S2QwVTd0d3RpZVJVaUg4clNjRGdkaTZHLWd2T0hrUDk2QUhNZWNTNzFsTG1tMFFqR195dDBOSGoyTWpkTjA3ckJrbENWOHRqN01iblg?oc=5",
-            "published_at": "2026-10-27T11:34:38.000Z"
           }
         ],
-        "count_24h": 17,
+        "count_24h": 16,
         "count_7d": 46,
         "count_prev_7d": 15,
         "daily": [
@@ -3602,7 +3604,7 @@
           },
           {
             "day": "2026-10-28",
-            "n": 3
+            "n": 4
           }
         ],
         "trend": {
@@ -3669,8 +3671,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Ilya Sutskever\"",
         "url": "https://news.google.com/rss/search?q=%22Ilya%20Sutskever%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.376Z",
-        "fetched_at": "2026-10-28T05:15:45.376Z",
+        "attempted_at": "2026-10-28T06:06:00.452Z",
+        "fetched_at": "2026-10-28T06:06:00.452Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -3842,7 +3844,7 @@
           "ok": true,
           "error": null,
           "entries": 7,
-          "fetched_at": "2026-10-28T05:15:44.740Z",
+          "fetched_at": "2026-10-28T06:06:00.266Z",
           "attributed": 0,
           "newest_attributed_at": null
         }
@@ -3864,8 +3866,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Mira Murati\"",
         "url": "https://news.google.com/rss/search?q=%22Mira%20Murati%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.406Z",
-        "fetched_at": "2026-10-28T05:15:45.406Z",
+        "attempted_at": "2026-10-28T06:06:00.493Z",
+        "fetched_at": "2026-10-28T06:06:00.493Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -3919,8 +3921,8 @@
           }
         ],
         "count_24h": 2,
-        "count_7d": 13,
-        "count_prev_7d": 19,
+        "count_7d": 12,
+        "count_prev_7d": 20,
         "daily": [
           {
             "day": "2026-10-15",
@@ -3981,8 +3983,8 @@
         ],
         "trend": {
           "dir": "down",
-          "delta": -6,
-          "pct": -32,
+          "delta": -8,
+          "pct": -40,
           "baseline_complete": true
         },
         "saturated": false,
@@ -4044,7 +4046,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-28T05:15:43.904Z",
+          "fetched_at": "2026-10-28T06:05:59.352Z",
           "attributed": 10,
           "newest_attributed_at": "2026-04-30T16:00:00.000Z"
         },
@@ -4059,7 +4061,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-28T05:15:43.904Z",
+          "fetched_at": "2026-10-28T06:05:59.352Z",
           "attributed": 10,
           "newest_attributed_at": "2026-02-12T07:00:00.000Z"
         },
@@ -4074,7 +4076,7 @@
           "ok": false,
           "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCXUPKJO5MZQN11PqgIvyuvQ — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
           "entries": null,
-          "fetched_at": "2026-10-28T05:15:44.116Z",
+          "fetched_at": "2026-10-28T06:05:59.521Z",
           "attributed": null,
           "newest_attributed_at": null
         }
@@ -4096,8 +4098,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Andrej Karpathy\"",
         "url": "https://news.google.com/rss/search?q=%22Andrej%20Karpathy%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.439Z",
-        "fetched_at": "2026-10-28T05:15:45.439Z",
+        "attempted_at": "2026-10-28T06:06:00.526Z",
+        "fetched_at": "2026-10-28T06:06:00.526Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4257,7 +4259,7 @@
       "last_statement": null,
       "days_silent": null,
       "sources_checked": 4,
-      "sources_ok": 3,
+      "sources_ok": 2,
       "direct_sources": [
         {
           "id": "brockman-blog",
@@ -4270,7 +4272,7 @@
           "ok": false,
           "error": "HTTP 404 Not Found from https://blog.gregbrockman.com/posts.atom — <!doctype html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <title>404 - Not found</title> <script>(function(d) {var config = {kit",
           "entries": null,
-          "fetched_at": "2026-10-28T05:15:44.178Z",
+          "fetched_at": "2026-10-28T06:05:59.564Z",
           "attributed": null,
           "newest_attributed_at": null
         },
@@ -4285,7 +4287,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-28T05:15:44.333Z",
+          "fetched_at": "2026-10-28T06:05:59.720Z",
           "attributed": 0,
           "newest_attributed_at": null
         },
@@ -4297,11 +4299,11 @@
           "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A",
           "verified": true,
           "checked": true,
-          "ok": true,
-          "error": null,
-          "entries": 15,
-          "fetched_at": "2026-10-28T05:15:44.798Z",
-          "attributed": 0,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "fetched_at": "2026-10-28T06:06:00.276Z",
+          "attributed": null,
           "newest_attributed_at": null
         }
       ],
@@ -4322,8 +4324,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Greg Brockman\"",
         "url": "https://news.google.com/rss/search?q=%22Greg%20Brockman%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.554Z",
-        "fetched_at": "2026-10-28T05:15:45.554Z",
+        "attempted_at": "2026-10-28T06:06:00.615Z",
+        "fetched_at": "2026-10-28T06:06:00.615Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4503,7 +4505,7 @@
           "ok": true,
           "error": null,
           "entries": 10,
-          "fetched_at": "2026-10-28T05:15:44.268Z",
+          "fetched_at": "2026-10-28T06:05:59.693Z",
           "attributed": 0,
           "newest_attributed_at": null
         }
@@ -4525,8 +4527,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Alex Karp\"",
         "url": "https://news.google.com/rss/search?q=%22Alex%20Karp%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.616Z",
-        "fetched_at": "2026-10-28T05:15:45.616Z",
+        "attempted_at": "2026-10-28T06:06:00.625Z",
+        "fetched_at": "2026-10-28T06:06:00.625Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4557,8 +4559,8 @@
           {
             "title": "Will Palantir Technologies Stock Hit $300 Before the End of 2026?",
             "outlet": "The Globe and Mail",
-            "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQOVRzRnBndEhpVTIxTVluVVNpREtldHM4cmtpVGJ6R21XSGNxdzlfZ1lud1BjLUFWVmpTUzV1dHhRXzVGWlpwTWkxYUVELWQ5SEtGb2lLQzF1eTh3QVZlQ3M3QVl3RFRFSlFPZ2tlYmdfYXptSTI0V1Y4RTZUTVZJTlcxYld3ZlZ2NVVzclRCTWRaVERrakVOMXdwcmhPbU56T0xpSGdNOUxtTlJDTmVPWEpqVmtqbW9iU2ZmTWhDVV9ZZ3pTenVtWEJuWjIyRUUydUxSNnhQT3pmZHRjZHdFQW1R?oc=5",
-            "published_at": "2026-10-26T21:38:36.000Z"
+            "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxOOHYyb2lfWEVaeXRvZVgxZHVxTHdwMXBBdTlGRVMtUmlBem5SR1E4cHo5WktDbE54XzE5Nm01cnlRVlNneFR1RU0yN0NLRXZJc0REa21ISHZ0ZDRvY3BhZ1lCNzNRTTg0UkVGeFdsdjR2WHJpY0p0VG9RVmF4OUFzb2R5S3lKeTBUYkxvX2p5a20xRi1YbDJIRDRjSmZyNzg1clNUcGJLNmxyajNRLVZZTlNPQTdOQWd5Sml2NE9vbU5GZ2tDNnVtdjIxTmdqWG9VOHB3b1h2Y2hWV09udlFCam0xRQ?oc=5",
+            "published_at": "2026-10-26T21:59:22.000Z"
           },
           {
             "title": "🇮🇱🇺🇸🇨🇳 Netanyahu BRAGS that the Palantir CEO called Israel the third AI power after the U.S. and China He quoted Alex Karp saying Europe is worth nothing, then added that the man still put Israel on the list. A ranking is one thing; lasting strength is harder",
@@ -4580,8 +4582,8 @@
           }
         ],
         "count_24h": 1,
-        "count_7d": 71,
-        "count_prev_7d": 48,
+        "count_7d": 70,
+        "count_prev_7d": 49,
         "daily": [
           {
             "day": "2026-10-15",
@@ -4642,8 +4644,8 @@
         ],
         "trend": {
           "dir": "up",
-          "delta": 23,
-          "pct": 48,
+          "delta": 21,
+          "pct": 43,
           "baseline_complete": true
         },
         "saturated": false,
@@ -4699,7 +4701,7 @@
           "ok": false,
           "error": "https://hai.stanford.edu/news/rss.xml: served content-type \"text/html; charset=utf-8\" — this is an HTML page, not a feed (first 120 chars: <!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><",
           "entries": null,
-          "fetched_at": "2026-10-28T05:15:44.936Z",
+          "fetched_at": "2026-10-28T06:06:00.575Z",
           "attributed": null,
           "newest_attributed_at": null
         }
@@ -4721,8 +4723,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Fei-Fei Li\" AI",
         "url": "https://news.google.com/rss/search?q=%22Fei-Fei%20Li%22%20AI%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.642Z",
-        "fetched_at": "2026-10-28T05:15:45.642Z",
+        "attempted_at": "2026-10-28T06:06:00.660Z",
+        "fetched_at": "2026-10-28T06:06:00.660Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4893,7 +4895,7 @@
           "ok": false,
           "error": "https://cohere.com/blog/rss.xml: served content-type \"text/html; charset=utf-8\" — this is an HTML page, not a feed (first 120 chars: <!DOCTYPE html><html lang=\"en-US\" dir=\"ltr\"><head><meta charSet=\"ut",
           "entries": null,
-          "fetched_at": "2026-10-28T05:15:45.064Z",
+          "fetched_at": "2026-10-28T06:06:00.584Z",
           "attributed": null,
           "newest_attributed_at": null
         }
@@ -4915,8 +4917,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Aidan Gomez\" Cohere",
         "url": "https://news.google.com/rss/search?q=%22Aidan%20Gomez%22%20Cohere%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.682Z",
-        "fetched_at": "2026-10-28T05:15:45.682Z",
+        "attempted_at": "2026-10-28T06:06:00.675Z",
+        "fetched_at": "2026-10-28T06:06:00.675Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -4969,7 +4971,7 @@
             "published_at": "2026-10-26T19:35:09.000Z"
           }
         ],
-        "count_24h": 3,
+        "count_24h": 2,
         "count_7d": 12,
         "count_prev_7d": null,
         "daily": [
@@ -5089,7 +5091,7 @@
           "ok": true,
           "error": null,
           "entries": 60,
-          "fetched_at": "2026-10-28T05:15:45.068Z",
+          "fetched_at": "2026-10-28T06:06:00.649Z",
           "attributed": 0,
           "newest_attributed_at": null
         }
@@ -5111,8 +5113,8 @@
         "source": "Google News search (RSS)",
         "query": "\"Clem Delangue\"",
         "url": "https://news.google.com/rss/search?q=%22Clem%20Delangue%22%20when%3A7d&hl=en-US&gl=US&ceid=US:en",
-        "attempted_at": "2026-10-28T05:15:45.867Z",
-        "fetched_at": "2026-10-28T05:15:45.867Z",
+        "attempted_at": "2026-10-28T06:06:00.798Z",
+        "fetched_at": "2026-10-28T06:06:00.798Z",
         "error": null,
         "state": "ok",
         "headlines": [
@@ -5237,5 +5239,5 @@
       }
     }
   ],
-  "fingerprint": "76165d9b04be3a2b"
+  "fingerprint": "8a290d9c8d1a79fe"
 }
