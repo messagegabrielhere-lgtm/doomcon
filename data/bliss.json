@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "index": "BLISS",
-  "generated_at": "2026-10-29T03:40:40.194Z",
+  "generated_at": "2026-10-29T04:39:23.069Z",
   "score": null,
   "level": null,
   "level_name": null,
@@ -13,13 +13,13 @@
   "awaiting_baseline": true,
   "reference_present": false,
   "dark_pillars": [
-    "science",
-    "openness"
+    "science"
   ],
   "uncalibrated_pillars": [
     "medicine",
     "access",
-    "adoption"
+    "adoption",
+    "openness"
   ],
   "uncalibrated_sources": [
     "openalex-ai-science",
@@ -30,13 +30,13 @@
     "openrouter-cost-floor",
     "hf-model-downloads",
     "npm-ai-installs",
-    "epoch-open-weights"
-  ],
-  "failed_sources": [
-    "arxiv-science-ai",
+    "epoch-open-weights",
     "github-permissive-ai"
   ],
-  "sources_reporting": 9,
+  "failed_sources": [
+    "arxiv-science-ai"
+  ],
+  "sources_reporting": 10,
   "sources_total": 11,
   "rule_fired": "no_live_pillars",
   "decision": null,
@@ -153,8 +153,8 @@
       "percentile": null,
       "sources_ok": 0,
       "sources_total": 2,
-      "dark": true,
-      "uncalibrated": false,
+      "dark": false,
+      "uncalibrated": true,
       "blurb": "How much of it anybody is allowed to hold.",
       "description": "The open-weight share of notable model releases over a year, and the count of new permissively licensed ML repositories over a month. One measures the frontier, the other the floor. A share can fall while every count rises, and this pillar can say so."
     }
@@ -189,9 +189,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-29T03:40:40.209Z",
+      "observed_at": "2026-10-29T04:39:23.086Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-29T03:40:40.209Z",
+      "last_ok": "2026-10-29T04:39:23.086Z",
       "meta": {
         "window_days": 30,
         "window_from": "2026-09-29",
@@ -212,9 +212,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-29T03:40:40.210Z",
+      "observed_at": "2026-10-29T04:39:23.087Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-29T03:40:40.210Z",
+      "last_ok": "2026-10-29T04:39:23.087Z",
       "meta": {
         "window_days": 180,
         "start_date_from": "2026-05-02",
@@ -238,9 +238,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-29T03:40:40.210Z",
+      "observed_at": "2026-10-29T04:39:23.087Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-29T03:40:40.210Z",
+      "last_ok": "2026-10-29T04:39:23.087Z",
       "meta": {
         "window_days": 30,
         "edat_from": "2026/09/29",
@@ -266,14 +266,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 1243,
+      "value": 1230,
       "unit": "models/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-29T03:40:40.210Z",
+      "observed_at": "2026-10-29T04:39:23.088Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-29T03:40:40.210Z",
+      "last_ok": "2026-10-29T04:39:23.088Z",
       "meta": {
         "window_hours": 24,
         "licences": [
@@ -281,8 +281,8 @@
           "mit"
         ],
         "per_licence": {
-          "apache-2.0": 889,
-          "mit": 354
+          "apache-2.0": 880,
+          "mit": 350
         },
         "pages_fetched": 2,
         "page_size": 1000
@@ -295,25 +295,25 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-share\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 0.306082,
+      "value": 0.305211,
       "unit": "share/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-29T03:40:40.210Z",
+      "observed_at": "2026-10-29T04:39:23.088Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-29T03:40:40.210Z",
+      "last_ok": "2026-10-29T04:39:23.088Z",
       "meta": {
         "window_hours": 24,
         "licences": [
           "apache-2.0",
           "mit"
         ],
-        "permissive_models": 1243,
-        "total_models": 4061,
+        "permissive_models": 1230,
+        "total_models": 4030,
         "per_licence": {
-          "apache-2.0": 889,
-          "mit": 354
+          "apache-2.0": 880,
+          "mit": 350
         },
         "pages_licence": 2,
         "pages_total": 5,
@@ -333,9 +333,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-29T03:40:40.210Z",
+      "observed_at": "2026-10-29T04:39:23.088Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-29T03:40:40.210Z",
+      "last_ok": "2026-10-29T04:39:23.088Z",
       "meta": {
         "percentile": 0.1,
         "usd_per_million_tokens": 0.12,
@@ -349,7 +349,7 @@
         "priced_models": 429,
         "free_models": 19,
         "cheapest_usd_per_million": 0.02925,
-        "median_usd_per_million": 1
+        "median_usd_per_million": 0.99
       }
     },
     {
@@ -364,9 +364,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-29T03:40:40.210Z",
+      "observed_at": "2026-10-29T04:39:23.088Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-29T03:40:40.210Z",
+      "last_ok": "2026-10-29T04:39:23.088Z",
       "meta": {
         "basket": [
           "sentence-transformers/all-MiniLM-L6-v2",
@@ -404,9 +404,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-29T03:40:40.210Z",
+      "observed_at": "2026-10-29T04:39:23.088Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-29T03:40:40.210Z",
+      "last_ok": "2026-10-29T04:39:23.088Z",
       "meta": {
         "basket": [
           "openai",
@@ -446,9 +446,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-29T03:40:40.210Z",
+      "observed_at": "2026-10-29T04:39:23.088Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-29T03:40:40.210Z",
+      "last_ok": "2026-10-29T04:39:23.088Z",
       "meta": {
         "window_days": 365,
         "open_weight_models": 41,
@@ -475,17 +475,24 @@
       "pillar": "openness",
       "label": "New permissively licensed ML repositories",
       "ok": false,
-      "uncalibrated": false,
-      "error": "HTTP 403 rate limit exceeded from https://api.github.com/search/repositories?q=topic%3Amachine-learning%20license%3Aapache-2.0%20created%3A%3E%3D2026-09-29&per_page=1 — {\"message\":\"API rate limit exceeded for 20.64.107.17. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)\",\"documentation_url\":\"https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting\"}",
-      "value": null,
-      "unit": null,
+      "uncalibrated": true,
+      "error": "awaiting_baseline: \"github-permissive-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "value": 258,
+      "unit": "repos/30d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": null,
-      "age_seconds": null,
-      "last_ok": "2026-10-29T02:47:56.994Z",
-      "meta": {}
+      "observed_at": "2026-10-29T04:39:23.088Z",
+      "age_seconds": 0,
+      "last_ok": "2026-10-29T04:39:23.088Z",
+      "meta": {
+        "window_days": 30,
+        "created_from": "2026-09-29",
+        "topic": "machine-learning",
+        "licence": "apache-2.0",
+        "query": "topic:machine-learning license:apache-2.0 created:>=2026-09-29",
+        "scope_note": "single topic and single licence; a floor, not a total"
+      }
     }
   ],
   "comparison": {
@@ -496,10 +503,10 @@
       "level_name": null
     },
     "doomcon": {
-      "score": 55.9621,
+      "score": 56.9327,
       "level": 3,
       "level_name": "ELEVATED",
-      "generated_at": "2026-10-29T03:28:12.852Z"
+      "generated_at": "2026-10-29T04:32:47.963Z"
     },
     "divergence": null,
     "divergence_band": 3,
