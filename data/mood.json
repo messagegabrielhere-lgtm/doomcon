@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-29T07:05:05.321Z",
-  "news_generated_at": "2026-10-29T07:05:05.321Z",
+  "generated_at": "2026-10-29T07:59:11.537Z",
+  "news_generated_at": "2026-10-29T07:59:11.537Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,36 +18,47 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 225,
+    "headlines_naming_a_company": 216,
     "companies_on_roster": 10,
     "companies_with_headlines": 10,
-    "negative_pair_share": 0.083
+    "negative_pair_share": 0.078
   },
   "glance": {
     "leading": {
       "id": "nvidia",
       "name": "NVIDIA",
-      "index": 10.5
+      "index": 11.2
     },
     "trailing": {
       "id": "anthropic",
       "name": "Anthropic",
-      "index": -0.2
+      "index": -0.1
     },
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 64
+      "headlines": 63
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 4,
+      "headlines": 3,
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "1b49392c98ae2509",
+          "title": "Judge Grants Apple Wider Discovery In OpenAI Trade Secrets Case",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQTFZIQzA0Zi1BUUNrQTdJTDVXR2h5OWFOVGtia3VITGFnVmdOeU9yck4xc25FeXFpbFpTTklGdU0xcGx3d3FQaXp4LTZfdHBzekRmMkxOb09FVmpxbnlhQlRlN1h6UWpVb1hQLVkxeDdiLTZydk9laWpWejNoNmNaUU15QmVoS0xZMnhFQkhzUmdoV0VodEd5VjlYeXJhdw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:40:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "9c162e7755e1e5a3",
           "title": "How surging demand from AI hyperscalers has quintupled flash memory prices and shifted market and negotiating power from Apple to suppliers like Kioxia (Rolfe Winkler/Wall Street Journal)",
@@ -69,28 +80,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "396c3250a78263b2",
-          "title": "Apple adds a beta AI assistant built on Apple's and OpenAI's models to Keynote, Pages, Numbers, and Logic Pro, plus MCP support to Keynote, Pages, and Numbers (Emma Roth/The Verge)",
-          "url": "https://techmeme.com/261027/p20",
-          "source": "techmeme",
-          "published_at": "2026-10-27T14:10:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7746904fd0bec8db",
-          "title": "Apple is adding an AI chatbot to Pages, Keynote, and Numbers",
-          "url": "https://bsky.app/profile/theverge.com/post/3myufhgrsmc2u",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-27T13:50:51.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -98,9 +87,68 @@
       "id": "openai",
       "name": "OpenAI",
       "headlines": 31,
-      "index": 0.8,
+      "index": 0.5,
       "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "1b49392c98ae2509",
+          "title": "Judge Grants Apple Wider Discovery In OpenAI Trade Secrets Case",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQTFZIQzA0Zi1BUUNrQTdJTDVXR2h5OWFOVGtia3VITGFnVmdOeU9yck4xc25FeXFpbFpTTklGdU0xcGx3d3FQaXp4LTZfdHBzekRmMkxOb09FVmpxbnlhQlRlN1h6UWpVb1hQLVkxeDdiLTZydk9laWpWejNoNmNaUU15QmVoS0xZMnhFQkhzUmdoV0VodEd5VjlYeXJhdw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:40:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1ebccc42bedb67dd",
+          "title": "Family sues OpenAI over ChatGPT advice on epilepsy drug dose",
+          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPTGd5MmxsTFZieFZwaDNHaFNhckYyY0EyVVhLLUoyQlUtTmRLVTFwSlgta1dEWmFST2tsZTJndFJiRlllOF9wcFc3Z0pCZ2J6bURHUmc4QWVoOHl4WWVKY2wyRG9lcW03cTRJeURheUVDRVNJWEpRZjAtUUVpN29nN3hkalJrWTNodVZKcFZtcHhQWllma3B0V01HcXlkN3pVSDN4UnBwMmZkLXc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:29:15.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "sues"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "3ec30035855a2364",
+          "title": "Microsoft’s AI Agent Gatekeeper Draws OpenAI, Anthropic and Meta - Microsoft (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOY0t1WGo1ZEJfVnRkMUUzbzJUdVdJRG5BYVVRdDRBa2xNbFpIand2MGt1Qng1VHBLbGlfMEVxLXhlN2F5dG5FVWpfdFRvVFh2NE0wLThDQVFtV3ZyODJ6Ui00end4TWVTdmdJcFNKYUJWbGlEZ2dVMGdPanotM2lwUU1XamsteTdLbFFObFlrZHRqaTA1a1lVSVM1Vy1SZ3o0eHZOYUxLQVp2RTNZU3hrbGJCYw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:13:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "bac3551137e0a454",
+          "title": "OpenAI Eyes Google TPUs Amid AI Hardware Diversification",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOVVQ5eDlBTnU2OTlXd0ZWZzZ5UEhDRGktUjg1ak9jYk9ocldjNzY2UTQ5ZlFJT19XSkZrWXBrZ3NkaEVCNG02dl8zY3dEZUt3RmFRNG1kRTBBMDlIZFBUT3hGek1VMF8weWtGM2ZoMzBOU1R6c0ZqR1BldERxQjNld2NqMVd3RVhRZTJKazZ5a1ppUFhX?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:06:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "930cc97f55a267c3",
+          "title": "Key facts: MSFT guides $96–97B; trims capex; updates OpenAI deal",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQRG9UNDZtbnp0clpEWU5JbFI2ZGV1TzFPY3g4aU00RGRXNFlWQlpHNjRvVWpDNk40Si1qUFVaYm1HTUFfeXNxVHVRRzl2WUZZUWhvdVlEV1A4YkdVVW8xdDE4cEJZS19Uc09zSzZ2WjUzdGJOZ0M3bi1DaXh3MzhZcm1jMmRsTHlYUVZzbS15X2ZrQThnUmFlRWk1YnV4alF3ZGNkRDNkZ1R5ZTlxWWxyM1kydGNGdDhiVE84NzE5TQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:00:00.000Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "f45591d25b05485d",
           "title": "OpenAI's Sam Altman is disappointed with MBA students; AI will reshape jobs but also create big openings for founders, he says",
@@ -135,70 +183,15 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "a863bac4fa6f95b7",
-          "title": "OpenAI announces three major scientific discoveries in Mathematics, Computer Science and Physics: What students should know",
-          "url": "https://news.google.com/rss/articles/CBMilgJBVV95cUxNNjU5a1F2bVoxNExLUk9JVTJqU1Z6WmRlTF9kaF9fQU0tZDRfY1A0WVlvSWRfY3VWV0FUejkzUjRfVVNUaFphbDFRZTR0RXVKUGkwRzBnVEJfQ3ZJOUl4UnJwY0VibTY4bTdmam5KcGF0QzBKZzRselcxNEpwUE91bVVUQ0txVjBkVmxhQm1FLVlWYjZpZXZ2c1lwYzZKMmNqeHpsaHZHOXVXWFd6TE9DUlZ2cl82WU0zTDI1OTlNTEtkaFM1aWFaMFpfSElNY2EzYVo2MzRnTWFOaXZNUVIzaDBsbF9ibnh6SjhiSzR3eFRiMXBvbkFqeFoxVVFJODI2Ykh3aFBhTTZnMThwSUE1SGVYc09mZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:44:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "046d3e0817c9c537",
-          "title": "Fact Check: FAKE Photos Show Sasha Obama With Baby Bump -- Images Are OpenAI-Generated",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQRkw3NFdhdnlUcGl6aUxCQUF4a1NfSGJDUU5YMFczWmFBdi1xQVBzcXdDS0dOMjZicGhuV1B4dC1tZV95N1F3cFdHR2xCT205NzkwUnFpeXVDY0cxS19xd3JKODlKc0swYUdac3pSVVA2U3JmTnhwdjZyaGhnak4xTDFYbTQzelhQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:32:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "089adc4064c84e4f",
-          "title": "ChatGPT guided woman to taper epilepsy medication; she died, parents sue OpenAI",
-          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQdnNxbUk1aFB2ODRsdzJaSkJNcTFuT0VickJmb0JxeUpnYU1KTS12c0tNTHBaZ2UtX3NhdWU1WmVLRTJTNGxZeXBjd0NkX2dNSUFxdlNZcFFKZU5CME9faHhFOVJZbTZWSm01WXoxc0pid3NhSXJaV0diWkwwS1IxRTZhaGhDcURzeUNyMDA0SnRyOG10RE5ZYmtUMUtGSnV1OVRWcEdWbXZjSWpROTRRakNkVUdlVWZWcVo0YkduWVJXQdIBxwFBVV95cUxQbFpwVHdfWXM1SXdQRHk2V25BSGpEanpzeDBoX01tN0IwcEViWWxENzE4WTdDYl9PU1M4N05sNFN0b0ZVSWRMX2k4UkQ0UVRPcnRpdUlYbEkwZExNR2dMdzE5N0lod2FMVjVscWstaU5SY1pKYTYzam1nbGpNdUVEVDl4N081SlFsM2JlQ3FaZFlHOVdIb2tTNWFpMEprZHFWWF96T0hvanFIc1FKMFY2OXNCbjZCaEI0U3o1T0d5TlVBUldxWjZV?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:27:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "66f077f61a9afe27",
-          "title": "Last Day Alert: OpenAI Codex $200 Free Quota Halved, ChatGPT Interface Gets Major Update – Don’t Miss the Deadline",
-          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE03NTdETjlBSVZWb3Fxbl9pcy1obUVjZHpFVlQ1RDBqUGthOE40ZTBnZFZmUXdhcE9FV1dXdWthdE1lMG9USEhyQ0NXd2xEY2Z3aUEw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:21:03.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "21b6c86c4c8bc88b",
-          "title": "AI: Google’s TPU Moment, with OpenAI, Oracle & Anthropic. AI-RTZ #1254",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1zaXBFNm5pR0dpc0tIQWdXbHlwYldqUlkxWE1vSjVOTGZtdkhIYUpJQldSTHFFUjVhbkpUWnV5eHpxZkdka3hlRlk4NG9wMDF3MXZQbTVOUUhuaEIyZUNyNUdkZk41c1lCWnhsUWt6NjZRNDhzalFmVWV3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:02:31.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 16,
-      "index": 10.5,
-      "mean_headline": 1.3,
+      "headlines": 15,
+      "index": 11.2,
+      "mean_headline": 1.4,
       "sample": [
         {
           "id": "2a3ca8ed08b537e4",
@@ -258,19 +251,8 @@
           "clickbait": []
         },
         {
-          "id": "14dc9d8e0d33818a",
-          "title": "Nvidia Shareholders Have a Major Reason to Be Bullish After Jensen Huang's Latest Announcement",
-          "url": "https://news.google.com/rss/articles/CBMiigJBVV95cUxNdWU2SjJXcWlSY1ZnZUl4eVRhZW12SVJlS1lyU1FubmI2S1ZfdDZLSDVoSlA0alJfOEJleFducW5zNmJfZ0JNX2g2ZzBVUFpoYWVaLUZQYzNDWlR6M09Na2RCZ0gyUmZkYWIzak8wZzZmMXkwMnI1bkZrMkxpT0tid18ya3JTTVpNcHlXa0VjVWNKR3plQklNWUlQMWw3WTQ5R3dXVGxsR2ZRUTQ3VU5vWXB0NVRiOGYyMjhiMWFRSnB0d21ZYXNDZ21yR0hSeXE1eGh6TlZLZW02cXZMQnlmQkZwQjV6dmJlQXpucVk2NlBGTWUySDBZQTBnUmlZR1R6TnJOR3FLVEJEQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T04:48:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "14224fb7b8c9107f",
-          "title": "FuriosaAI Quadruples Valuation to $2.9 Billion in Nvidia Chase",
+          "title": "FuriosaAI Quadruples Value to $2.9 Billion in Nvidia Chase",
           "url": "https://bloomberg.com/news/articles/2026-10-28/furiosaai-quadruples-valuation-to-2-9-billion-in-nvidia-chase",
           "source": "bloomberg-tech",
           "published_at": "2026-10-28T23:00:00.000Z",
@@ -291,16 +273,110 @@
           ],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "941c97590dfe7e3c",
+          "title": "Exclusive: The DOJ made inquiries about how Nvidia’s $12.93 billion deal to buy open-source platform Hugging Face would affect competition in AI, as antitrust enforcers pursue their years-long investi",
+          "url": "https://bsky.app/profile/reuters.com/post/3myxfur4f5c2v",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-28T18:44:53.457Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 64,
-      "index": -0.2,
+      "headlines": 63,
+      "index": -0.1,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "4f253b5f73797428",
+          "title": "Anthropic Unveils Paperwork for Blockbuster IPO",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQbmI5VHgtQjFuck9nQkJ5Q0hCekJJT1YxVVR4MlFwcUNodk9hYzJPYWlaQ2JhYjVRcC1JYUFpZlRNNE5iZWJFMFZUQ0tyQ3VnempEZFJNcnhmalhDQWlpWjN5MkllV0p6cWtzd1lHWGZXZVdjcDVlREplX1JReV9fUUdSWjRqQUNr?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-29T07:53:44.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1d7d230181cd3518",
+          "title": "Venture Capitalists Read Anthropic’s S-1, and Exhale",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOeU5WMlNZekg4ay1ldnpyNkVyelF1bmFULXJpblhMOE9SQ0F3eWFyYk0tcy0wU0wtc3dDd1JITExxMndMTkdpVmFoaFB2TWlYdkQ4WF9tVVh4ZDlJR3dXT04yaWRvc19JZkRfTGdQRGZFcU5Mb3lsY0FRdVNadUF5eEx1UzdXdmlvNGVNbkxLUEhGNklWZHhnMHZ6d2hvdWdy?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-29T07:46:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e3ac8ea2352be0f1",
+          "title": "Michael Burry calls AI boom 'catastrophically vulnerable' after Anthropic filing (ANT:Pending)",
+          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOQi1ZTUVkcG5xSjR4TFdTLVlIdVFrZmRmM1FwT19IYU9kV0pjZllIVS0zbFQxVDhWVXA1NzdBTWM5ajF2b2ZHZUVCUzVVRU5lUUpibmxHV25NTlMtc2hLQkI3emk4SG1MVFVUalA5U3RvMmhTZzRFTGRiM1gyVGhXbHhMNy1FYndIbEdZSXNjYmpnbmpwVjJHSzNjeDVCV1RjSHlCTEt0YWIzR08xMFZPSXFVdTgzUmc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:19:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3ec30035855a2364",
+          "title": "Microsoft’s AI Agent Gatekeeper Draws OpenAI, Anthropic and Meta - Microsoft (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOY0t1WGo1ZEJfVnRkMUUzbzJUdVdJRG5BYVVRdDRBa2xNbFpIand2MGt1Qng1VHBLbGlfMEVxLXhlN2F5dG5FVWpfdFRvVFh2NE0wLThDQVFtV3ZyODJ6Ui00end4TWVTdmdJcFNKYUJWbGlEZ2dVMGdPanotM2lwUU1XamsteTdLbFFObFlrZHRqaTA1a1lVSVM1Vy1SZ3o0eHZOYUxLQVp2RTNZU3hrbGJCYw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:13:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ec5708b0571f277e",
+          "title": "Anthropic spent $2.75 million guarding Dario Amodei last year—more than 4 times his salary",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxONTFYMkE3VElIM3Q5QlM3Q3FZSlJXQ2ExZDJwMkdqdmVTenZ0X0pwVXNkTHAwc2lBdkh0NVcxVENFN3Z0S21TZ3E0YWZ1UmZKdlZpc1Nsb0plTWRzU3dsZ05oX1dDX09yamJVWjN5bTRCeV95V0pnNjItWW91MC1Lak9ob3o5c2hGeERMOTJMdzNfSUgxQWdIR0tBeHd0d19XaVZPQkdGLWw3aC1mbTF2bUo3YlBiTkM1VVRpcXFUVQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:12:51.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ece1782368c559e2",
+          "title": "Medical Superintelligence, Anthropic IPO, and 2027 Predictions",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNN08teXY4NG9TMktyRFVPN2VrZThUYXdzZERXeWk1QnV6eDBDWGlyY2YtWllLVFQ3aTZPNGpHWi1HWnhyWUVnRWhic0xFT2tLc3Z0eHZ5TnJ0NjZBZDNqUENuWkdjMzYwR0loeWpjVDR0b3I4LWhFektZRGxoanlmUFIxVWxYYVY0SWJyVnRRODR1M0lpM2NzR2RwVEZpSzZ6bWJaYg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:10:31.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d43f44396904a3c9",
+          "title": "Anthropic warns Trump administration could target staff visas amid AI policy dispute | Hindustan Times",
+          "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxPMzE0dUpTZE9qYkNJNWh5S0pCbnVIUG54MkR0UlV6cnFHaEFqb0RBSTY3UmNlMmdicUFwYVN4X2FiMnA3OU1LZDJ1M0Q5T3ZzdEcyUU4yRE1rVlU1a3JmUmdfMW1ZVEZ1TFNCVldPcEFNbVJSei1VU3dFN3YyTFp1UENqTHlvcUoxZXhBUWpOME9jOTRDcjFPQUJ4TXIzT1hsOGs3VmJlY0pIZlBXRW1kQ1NDcy1USWNlZzQ1MWI5Wkk1aTN2ekdKTHZOa09SQ3Jpc3hKUm5iVkw2YkI4R2tScU9mSFBqU0I5eThpX3Z4NWfSAfABQVVfeXFMTzMxNHVKU2RPamJDSTVoeUtKQm51SFBueDJEdFJVenJxR2hBam9EQUk2N1JjZTJnYnFBcGFTeF9hYjJwNzlNS2QydTNEOU92c3RHMlFOMkRNa1ZVNWtyZlJnXzFtWVRGdUxTQlZXT3BBTW1SUnotVVN3RTd2MkxadVBDakx5b3FKMWV4QVFqTjBPYzk0Q3IxT0FCeE1yM09YbDhrN1ZiZWNKSGZQV0VtZENTQ3MtVEljZWc0NTFiOVpJNWkzdnpHSkx2TmtPUkNyaXN4SlJuYlZMNmJCOEdrUnFPZkhQalNCOXk4aV92eDVn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:03:28.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
         {
           "id": "cbd22bb73ba4a40a",
           "title": "Anthropic's secret AI extracts data from a locked Android phone and escapes the Chrome's sandbox",
@@ -311,93 +387,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "2a3ca8ed08b537e4",
-          "title": "Anthropic IPO On Tap, NVIDIA Updates And Other Investor Days Shaping Markets",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPeFpjM3B6Q3pxbkJFMVg2ZnpOME92azBDeU9OM2FwMW9CeG41VGhFejhNMmtkRTR2eTNWRVI3WUVrTWROeXlEYUxCLTE1WE00TVRlYkNuMFpBMHRaZ1ZsUVI4cXZ6T2ZPa2xWZnQ3TFFGWVh6cE1jSjMzSXJDR2dCOHdjVXEteENKUnVLRVlaUDd0NkRXY1diZXZXNG1nSm02bzVqT0h6WjIweW92NlE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:55:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0f80d9cbe2f11019",
-          "title": "Anthropic enters drug discovery with biotech acquisition and research partnerships",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQWlNUN3pGWE03b09KVjk4N0NiQkNrd2xNNGh2dUFJUDE3RmI0ekJmNk93Rlc4dVM1UW9IUGdmcGVkRVlyRDBOMFRRbmhhdTNOTFl2bHhqWjZ4UzdtRXBkRjUtVGtybVBrd3JKOVp5eENWUUJoY3lzYWJPd3d0Vjl3YjNXQV9nVUEwUnoxbmgtRXVNUGtaWDc5bUN6T1B6N053REM1cGtDN0lKWnlXUG1wc0xR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:44:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f54c87e51a2dd612",
-          "title": "Anthropic’s ‘Adjusted’ Profit Exposes Wall Street’s Earnings Game",
-          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQSWx5Q3UtbEx6dUhyUV9zMm5WUWhDUGI3ZWpIdnlzbklmVXVzWnV5SFAyTEo1MTRSUUhrSWhleHZMYUpvTTdNOEwxMnlMRTBLRHB1ZXVMMGdpd1FKZnY1eHNIdkRSUHdEdWFUWkJqbFAxd2VYWXJ1NjlKQzYzQ3I2Q3R6eldQS2duckRoV2hyOE5PSTFCYTk0MENRTGVnejdmVWpqNDJrbXdWVWRV?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-29T06:31:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6ddbeac78f72f192",
-          "title": "Google Gemini 4 Carbon is here: Is it better than OpenAI GPT-6 and Anthropic Claude?",
-          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPRGt4TGNSTWxqV2o1SDBMdm16RzVCZy1NWm8xanF0dGZFdEN0X2xSOGpldHNvYTc5YXo0aEJ6ZU0yTkVaYU82TVh6YTVQbGVreUhURndPWDVtY05rei1vcUhNeGk4bmxENXd4a1FuVmNrUkRzNUNJZWpuM3k1OF9BcC1WTkdDT2RuVG5TUzhNVVEzMFNfM251TGJ1aEVBeDNhekNBWFBxUlh1Zi1TRkRPaW1PTnFCY1ZuMzJTOXg2dUJ4SDB5bTNrOG1sSnhET01ScG1lRNIB2gFBVV95cUxNejZLYVBqV0QycjhBemhiWndEZTI5ZlhGN2hPWF9BWUZtbVY2aXhZZ0Jodm1GelItX0tfaE5ydVVTc2ZxVlp1eDZUMUozVmVSd1lVcVFwelAzTm8wckpUYmR6V0xGZmhJb0Q5Y2l2QlY1ZnRVaVhWejZjbVdZd3IyQnJDS2J2NHVNS2o0ejB0aURsSjJ2RmlqWVk5S3pjUlE0WV96eDRPUHZ1X1dBT2prZC1rWVpzZ245RWg4cDBpOEhsdl9FWHlIbUpvQWQ2Zzd6Q0RocmNIZ3p6Zw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:18:08.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c1db7c024856fc43",
-          "title": "Anthropic proposes that the court block the release of a dangerous AI model.",
-          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNNEFsSldUS2ZfQXNJU0ZmOGdqdzM0dXg4d2lEd3UtUHVIcW1pVXBvVHNJYzI2Nkl4REl2cHhaRHJCbjhyTE5SYks4WXJFajlnOGI5UXIwZnBRdlJkbDR2aGl4TFRuX2hnWUV3RTJNTzhEaC1ZYk9wVFFvNzNKVVpDMlNPNmJkOXJXc2ZBNVJ6NA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:10:57.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "203a7d9820676502",
-          "title": "Elvis Copyright Holders Sue Anthropic Over Unauthorized AI Training",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNMGtWLWpsSk9SX1M3R0tLR0VLVXBidW5mcmEyb1lsd3k0NkN1LUt5V3BHRlY2VFZxOWRZMVZtNV9HQWNBZlpSVGRxQWxlNXVjS3lMeEJGc3ctWXpndjVVMGJEZTFNdWhkN09QUkpzMnNuclFVX2VNOFBSOGVLVWRmX2lPMGZHalY2?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:56:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8c08d43b39cc61e8",
-          "title": "Watch Anthropic IPO: How Investors in Asia Can Get In",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQSUdWX1VxbkYtWE1iVHFqa2xkMlgySGxuY1JRaWk0ZjRfOEQyOHNnSG83VnZjWnJXM2ZYWUNRbkE5SkJMS2FNWjdoVW85czdNWklpSW80UXljQ0ZLcDBuWTJ6dm1DVDVpek8xUklDaXItTHM0TjRYcHpIS3pjQ0kwWVN5emljWVVlVjBmaDBSZG55NmprUDdCVHFibw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:37:24.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 18,
-      "index": 3.6,
+      "headlines": 19,
+      "index": 3.4,
       "mean_headline": 0.4,
       "sample": [
+        {
+          "id": "3ec30035855a2364",
+          "title": "Microsoft’s AI Agent Gatekeeper Draws OpenAI, Anthropic and Meta - Microsoft (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOY0t1WGo1ZEJfVnRkMUUzbzJUdVdJRG5BYVVRdDRBa2xNbFpIand2MGt1Qng1VHBLbGlfMEVxLXhlN2F5dG5FVWpfdFRvVFh2NE0wLThDQVFtV3ZyODJ6Ui00end4TWVTdmdJcFNKYUJWbGlEZ2dVMGdPanotM2lwUU1XamsteTdLbFFObFlrZHRqaTA1a1lVSVM1Vy1SZ3o0eHZOYUxLQVp2RTNZU3hrbGJCYw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:13:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1c73ecb03caadf29",
           "title": "Nvidia to Invest $3 Billion in Meta’s Equity Offering as They Expand AI Partnership",
@@ -480,17 +490,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "a916f64e5642a377",
-          "title": "Meta considered a ‘whisper strategy’ to turn academics against Jonathan Haidt",
-          "url": "https://bsky.app/profile/theverge.com/post/3mywo6jlgxn2y",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-28T11:40:49.877Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -528,10 +527,32 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 53,
+      "headlines": 47,
       "index": 6.3,
       "mean_headline": 0.8,
       "sample": [
+        {
+          "id": "6b322ee3154dae88",
+          "title": "Alphabet spells out more AI capex, China+1 doesn’t add up",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPaEJLbWUyMWlVWXlsYzVLRmpUYmRyZGE0T3dVanRaeHRwUE14aFZXdV9iUmZDUV9QS1BGUDlZMTFQODJrNzJoR29lT1R4T2lCWWFxLU50d2FiWFFRekhSbndVbXI2TTdNVmtKN1JCYk95czBQYnJON3pwVVdXT2l4ZW9sZmg?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-29T07:43:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "bac3551137e0a454",
+          "title": "OpenAI Eyes Google TPUs Amid AI Hardware Diversification",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOVVQ5eDlBTnU2OTlXd0ZWZzZ5UEhDRGktUjg1ak9jYk9ocldjNzY2UTQ5ZlFJT19XSkZrWXBrZ3NkaEVCNG02dl8zY3dEZUt3RmFRNG1kRTBBMDlIZFBUT3hGek1VMF8weWtGM2ZoMzBOU1R6c0ZqR1BldERxQjNld2NqMVd3RVhRZTJKazZ5a1ppUFhX?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:06:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "4af66f10726626f0",
           "title": "Google unveils Gemini 4 Carbon, its strongest AI model yet",
@@ -551,6 +572,17 @@
           "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPeUh1N1VGS3ZaSkdSLVAtZW5Hd2t0NEowUndMRDJCRFkxYTBmNlgyWEk2X3g3cWtXeWJ0a2ZaY0NZOHFLMmd1QTE1cFNJWWwydWJOaV9JcGZnQkkwOW1xMjVhLUpCeVVoS3hfdWJRc2I1MWhHOGJrY3FFeFdkdU5HZWlWRExDc3g2LWo1QzBNQXlsdkdLRVhlSWM0Yl9NQkxnYVIycFo1Mzd1dHktTGFMa0FkNUp2RnlZc0JpbQ?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-29T06:49:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f39e599a16cd91f8",
+          "title": "Tech Rally Stalls as Alphabet, Samsung Disappoint: Markets Wrap",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQd1B6V3JFX19tOWhyZHVKZzFGZ1k0aXcyNERXb0JrMFNjQVpEaFZMeVMxU1FUVnJpWmFrM3JQbjJ5cXRsU0NBekRsOUM2WEQ2Zlh3MWluWUU2c0poWTk1ZDBGMC13SUtxX1lVdjEtQW1PbWdXRE95ZFJqZ2JmZEwxeW5VbVVORWlzMlJTVHdnZ2NkaWR3?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-29T06:43:13.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -590,51 +622,40 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "4f204411e8fc5b08",
-          "title": "Your Google Messages chats are getting a ChatGPT upgrade",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBjWjVSaWxQbklXblB4bUhRdlpBX0s4Z0lBX2k1YThsR085NnFRXzcwUkotVXJVdDdDTWhqVUtQczRLUHQ2S1AydUlHbWYxZWhINENpUzRsNDJXWTBZd0FiMGp4Y0ZtYy1zOGtMalBzVFNJTGRjSVN4R2R6czlEQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:03:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3c94e7292ab92223",
-          "title": "Google Cloud Expands AI Model Choices and Flexibility, Introduces OpenAI Model",
-          "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE95T2llcmRrZm16S2NRR0R6eHZ2S3NMdGZ5bEo2WVlzM2JYWjNXMzRrUEx1aW81TGtlQVI2VmYzclRjQ0NpQlhKRDc4NNIBQkFVX3lxTE9ONjRXQ2h3VzN1NGU1bWRzZl9DTy1YbUNfMVVNWi1HeGc5WHBIWTUwdkJ3eTZmSVJHcXg4ZlRGRHNIUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:56:40.000Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f39e599a16cd91f8",
-          "title": "Tech Rally Stalls as Alphabet, Samsung Disappoint: Markets Wrap",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQd1B6V3JFX19tOWhyZHVKZzFGZ1k0aXcyNERXb0JrMFNjQVpEaFZMeVMxU1FUVnJpWmFrM3JQbjJ5cXRsU0NBekRsOUM2WEQ2Zlh3MWluWUU2c0poWTk1ZDBGMC13SUtxX1lVdjEtQW1PbWdXRE95ZFJqZ2JmZEwxeW5VbVVORWlzMlJTVHdnZ2NkaWR3?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-29T05:36:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 32,
-      "index": 0,
-      "mean_headline": 0,
+      "headlines": 35,
+      "index": 0.7,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "3ec30035855a2364",
+          "title": "Microsoft’s AI Agent Gatekeeper Draws OpenAI, Anthropic and Meta - Microsoft (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOY0t1WGo1ZEJfVnRkMUUzbzJUdVdJRG5BYVVRdDRBa2xNbFpIand2MGt1Qng1VHBLbGlfMEVxLXhlN2F5dG5FVWpfdFRvVFh2NE0wLThDQVFtV3ZyODJ6Ui00end4TWVTdmdJcFNKYUJWbGlEZ2dVMGdPanotM2lwUU1XamsteTdLbFFObFlrZHRqaTA1a1lVSVM1Vy1SZ3o0eHZOYUxLQVp2RTNZU3hrbGJCYw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:13:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "930cc97f55a267c3",
+          "title": "Key facts: MSFT guides $96–97B; trims capex; updates OpenAI deal",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQRG9UNDZtbnp0clpEWU5JbFI2ZGV1TzFPY3g4aU00RGRXNFlWQlpHNjRvVWpDNk40Si1qUFVaYm1HTUFfeXNxVHVRRzl2WUZZUWhvdVlEV1A4YkdVVW8xdDE4cEJZS19Uc09zSzZ2WjUzdGJOZ0M3bi1DaXh3MzhZcm1jMmRsTHlYUVZzbS15X2ZrQThnUmFlRWk1YnV4alF3ZGNkRDNkZ1R5ZTlxWWxyM1kydGNGdDhiVE84NzE5TQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:00:00.000Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "74abda1789e1978a",
           "title": "Demand for AI drives up revenue at Google, Samsung and Microsoft",
@@ -652,6 +673,17 @@
           "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxONl9CeXkzSlNsemhkM1VaVG1pa1BrdWpNRWJsZDlRcHJkOHNubm1aWGtoLTdCMVFMTGlJcjg3eDdxbDE2NjVsNllFNGRzVGZwaWdHYi1fYnZPTlV0X2ZlbEo0UjliZU0zTHJoQWpWOTNsTXBUX1pGLVNyUDh1MTZ1NklCNzJ6U1J0ME5KeW9EQjlyVlNzWVFqdUNzUzBCS1ZVYmRKeXJpUl9kMm9KV1YyTUxNNGFXeE8ySklrX1lybWFSRFZERlNfRWN4WkY?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-29T06:49:26.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e63477783160fbfe",
+          "title": "Forging a Microsoft Edge Full Chain with Logic Bugs Only",
+          "url": "https://blog.orange.tw/posts/2026-10-the-last-proof-of-human-craft-browser-full-chain",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-29T06:47:28.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -697,50 +729,15 @@
             "delays"
           ],
           "clickbait": []
-        },
-        {
-          "id": "629456eef26dc331",
-          "title": "Microsoft Reports Rising Cloud Sales That Show Payoff From AI",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQMFplZTkxUEdqUExRU0N0UHdSdGNtNWZzWVAxd1hrTXZNa3NCQVFXUXJxcW9icjhXZ0x3ZTVNS2NmRVhlT1lEYnQ0a2VPNG5zem1fQWRpTnZNdkNuRkZtdHJkVDUzSlA5MmNZOEF2ZUlCaERpLTdzUFdqUGtqaEMtZFlWRlU5aU5ZMEN3NTU4bjZsMHE2WHFBemx2cEFCcXlpeHRfendMa1Y1b2lFWWQ0?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T23:18:13.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2f347bcbb84004dc",
-          "title": "Microsoft Quarterly Profit Soars as Cloud Growth Accelerates",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxObG1JUFZyWEVVeTdxNHJ3djFId2dCZDY3Vkc3Qnc4Vzh1NVFKTXN2cVFEcWdrbEtSdlE5Y1VfQUV6aDE3M1BscVgzVFJXVWZ5R01XQnpjb0FGb2dmTVFEWFhlWGFBUm52dlZzTXhhZ081RzF2dWNWT3U0RU1tejhYZXdSQjA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T23:12:00.000Z",
-          "score": 3,
-          "positive": [
-            "soars"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7931e181ab39eb81",
-          "title": "Microsoft’s Profit Jumps 32% Despite Big Increase in Spending",
-          "url": "https://nytimes.com/2026/10/28/technology/microsoft-earnings-ai.html",
-          "source": "nyt-tech",
-          "published_at": "2026-10-28T22:54:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 25,
-      "index": 1.6,
-      "mean_headline": 0.2,
+      "headlines": 24,
+      "index": 3,
+      "mean_headline": 0.4,
       "sample": [
         {
           "id": "7ec1971c94391dc6",
@@ -751,19 +748,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "55dcb0e743faa84d",
-          "title": "Gene Munster Warns AI Bots Threaten Amazon, Alphabet - Amazon.com (NASDAQ:AMZN)",
-          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPQ0dsUjR1VTRfUFpGVVFlOE51N0RSWG5pMllRNFd5d1AwdUdNU0VuMEtPaWRrYk1JcHZaSEZSTmtDTkpUVlZjUElveUJoWXJEZXhNRWZJVWtoUVhoU2RuT01XRnlpZzFtdXJvY2c2VkFLcnRDVDAyTnpPOEZzeU1MUmtHVHVaNGduSzJ3SllSOV9YZTlhdU13RXl5ZzZHZENjRmRGMkNhR2Q1cVg5c0M4Si1DVC1WOEp6U2w4Yw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T04:51:10.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
           "clickbait": []
         },
         {
@@ -834,13 +818,24 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "84673db7eb7fde55",
+          "title": "Almost all of Amazon’s new Echo gear is available now",
+          "url": "https://bsky.app/profile/theverge.com/post/3mywtsgp6zf23",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-28T13:21:26.545Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 7,
+      "headlines": 5,
       "index": 0,
       "mean_headline": 0,
       "sample": [
@@ -872,28 +867,6 @@
           "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE1kWVNJbjZHVWNRTkN6YWM4VkpSX3FBNFhkZFNscmdYdXFZRlBLTTJObTFfc0pSQVF0VHZrdlU2cDg3Z0FWOHFSX3dCc9IBQkFVX3lxTE5oeHJlbTZ3TWVRVzlrQUZMZzEwSlkxZzcwVW0waXNkY0Y3cU1ScGIzeWxEcDU4ZHVVRWtoeTM2dmlCdw?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-29T05:53:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e4ef77056667cb23",
-          "title": "DeepSeek V5 identifiers surface in official Harness code repository",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPRVdtajFoWHpsbVNpUThwS1dua1FOV2t4N2lmeEkwRHluX1EyUDdBNHRJOWd1QllwUWNDeG9kdUpnUUg5eS1pSEUwN0pQMjlYUlBGdHo1SksyX0ZFQWQtTExHT0xhUmdEYlZxR2F3MDgtSWF4UGVGVDZKSGxSNEgyZUNzTklQSzF6My1RdHVkVEFXTTRuRThUUXRaTHlnT0NLUkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:16:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b22fac2efca92841",
-          "title": "DeepSeek and Moonshot AI Accused of Using OpenAI Output for Training",
-          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOM09McF8zMkVvUnozYUpSejBBMHVVS3lxb3BYTGc1Y0JxZC16aXdYOEl1ZjByRVduQ2QybEhOcmtwM3FnNFZuS0JBNVFidXU3bXdSOV9kMjdLbDNkYUZWTXQtZTJLLS1jVDV6SGUwc08zVHNNVWxfeldnczMtb1RmNzdpZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T04:48:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -928,9 +901,9 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 16,
-      "index": 10.5,
-      "mean_headline": 1.3,
+      "headlines": 15,
+      "index": 11.2,
+      "mean_headline": 1.4,
       "sample": [
         {
           "id": "2a3ca8ed08b537e4",
@@ -990,19 +963,8 @@
           "clickbait": []
         },
         {
-          "id": "14dc9d8e0d33818a",
-          "title": "Nvidia Shareholders Have a Major Reason to Be Bullish After Jensen Huang's Latest Announcement",
-          "url": "https://news.google.com/rss/articles/CBMiigJBVV95cUxNdWU2SjJXcWlSY1ZnZUl4eVRhZW12SVJlS1lyU1FubmI2S1ZfdDZLSDVoSlA0alJfOEJleFducW5zNmJfZ0JNX2g2ZzBVUFpoYWVaLUZQYzNDWlR6M09Na2RCZ0gyUmZkYWIzak8wZzZmMXkwMnI1bkZrMkxpT0tid18ya3JTTVpNcHlXa0VjVWNKR3plQklNWUlQMWw3WTQ5R3dXVGxsR2ZRUTQ3VU5vWXB0NVRiOGYyMjhiMWFRSnB0d21ZYXNDZ21yR0hSeXE1eGh6TlZLZW02cXZMQnlmQkZwQjV6dmJlQXpucVk2NlBGTWUySDBZQTBnUmlZR1R6TnJOR3FLVEJEQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T04:48:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "14224fb7b8c9107f",
-          "title": "FuriosaAI Quadruples Valuation to $2.9 Billion in Nvidia Chase",
+          "title": "FuriosaAI Quadruples Value to $2.9 Billion in Nvidia Chase",
           "url": "https://bloomberg.com/news/articles/2026-10-28/furiosaai-quadruples-valuation-to-2-9-billion-in-nvidia-chase",
           "source": "bloomberg-tech",
           "published_at": "2026-10-28T23:00:00.000Z",
@@ -1023,16 +985,51 @@
           ],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "941c97590dfe7e3c",
+          "title": "Exclusive: The DOJ made inquiries about how Nvidia’s $12.93 billion deal to buy open-source platform Hugging Face would affect competition in AI, as antitrust enforcers pursue their years-long investi",
+          "url": "https://bsky.app/profile/reuters.com/post/3myxfur4f5c2v",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-28T18:44:53.457Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "google",
       "name": "Google",
-      "headlines": 53,
+      "headlines": 47,
       "index": 6.3,
       "mean_headline": 0.8,
       "sample": [
+        {
+          "id": "6b322ee3154dae88",
+          "title": "Alphabet spells out more AI capex, China+1 doesn’t add up",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPaEJLbWUyMWlVWXlsYzVLRmpUYmRyZGE0T3dVanRaeHRwUE14aFZXdV9iUmZDUV9QS1BGUDlZMTFQODJrNzJoR29lT1R4T2lCWWFxLU50d2FiWFFRekhSbndVbXI2TTdNVmtKN1JCYk95czBQYnJON3pwVVdXT2l4ZW9sZmg?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-29T07:43:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "bac3551137e0a454",
+          "title": "OpenAI Eyes Google TPUs Amid AI Hardware Diversification",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOVVQ5eDlBTnU2OTlXd0ZWZzZ5UEhDRGktUjg1ak9jYk9ocldjNzY2UTQ5ZlFJT19XSkZrWXBrZ3NkaEVCNG02dl8zY3dEZUt3RmFRNG1kRTBBMDlIZFBUT3hGek1VMF8weWtGM2ZoMzBOU1R6c0ZqR1BldERxQjNld2NqMVd3RVhRZTJKazZ5a1ppUFhX?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:06:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "4af66f10726626f0",
           "title": "Google unveils Gemini 4 Carbon, its strongest AI model yet",
@@ -1052,6 +1049,17 @@
           "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPeUh1N1VGS3ZaSkdSLVAtZW5Hd2t0NEowUndMRDJCRFkxYTBmNlgyWEk2X3g3cWtXeWJ0a2ZaY0NZOHFLMmd1QTE1cFNJWWwydWJOaV9JcGZnQkkwOW1xMjVhLUpCeVVoS3hfdWJRc2I1MWhHOGJrY3FFeFdkdU5HZWlWRExDc3g2LWo1QzBNQXlsdkdLRVhlSWM0Yl9NQkxnYVIycFo1Mzd1dHktTGFMa0FkNUp2RnlZc0JpbQ?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-29T06:49:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f39e599a16cd91f8",
+          "title": "Tech Rally Stalls as Alphabet, Samsung Disappoint: Markets Wrap",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQd1B6V3JFX19tOWhyZHVKZzFGZ1k0aXcyNERXb0JrMFNjQVpEaFZMeVMxU1FUVnJpWmFrM3JQbjJ5cXRsU0NBekRsOUM2WEQ2Zlh3MWluWUU2c0poWTk1ZDBGMC13SUtxX1lVdjEtQW1PbWdXRE95ZFJqZ2JmZEwxeW5VbVVORWlzMlJTVHdnZ2NkaWR3?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-29T06:43:13.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1091,51 +1099,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "4f204411e8fc5b08",
-          "title": "Your Google Messages chats are getting a ChatGPT upgrade",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBjWjVSaWxQbklXblB4bUhRdlpBX0s4Z0lBX2k1YThsR085NnFRXzcwUkotVXJVdDdDTWhqVUtQczRLUHQ2S1AydUlHbWYxZWhINENpUzRsNDJXWTBZd0FiMGp4Y0ZtYy1zOGtMalBzVFNJTGRjSVN4R2R6czlEQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:03:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3c94e7292ab92223",
-          "title": "Google Cloud Expands AI Model Choices and Flexibility, Introduces OpenAI Model",
-          "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE95T2llcmRrZm16S2NRR0R6eHZ2S3NMdGZ5bEo2WVlzM2JYWjNXMzRrUEx1aW81TGtlQVI2VmYzclRjQ0NpQlhKRDc4NNIBQkFVX3lxTE9ONjRXQ2h3VzN1NGU1bWRzZl9DTy1YbUNfMVVNWi1HeGc5WHBIWTUwdkJ3eTZmSVJHcXg4ZlRGRHNIUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:56:40.000Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f39e599a16cd91f8",
-          "title": "Tech Rally Stalls as Alphabet, Samsung Disappoint: Markets Wrap",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQd1B6V3JFX19tOWhyZHVKZzFGZ1k0aXcyNERXb0JrMFNjQVpEaFZMeVMxU1FUVnJpWmFrM3JQbjJ5cXRsU0NBekRsOUM2WEQ2Zlh3MWluWUU2c0poWTk1ZDBGMC13SUtxX1lVdjEtQW1PbWdXRE95ZFJqZ2JmZEwxeW5VbVVORWlzMlJTVHdnZ2NkaWR3?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-29T05:36:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 18,
-      "index": 3.6,
+      "headlines": 19,
+      "index": 3.4,
       "mean_headline": 0.4,
       "sample": [
+        {
+          "id": "3ec30035855a2364",
+          "title": "Microsoft’s AI Agent Gatekeeper Draws OpenAI, Anthropic and Meta - Microsoft (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOY0t1WGo1ZEJfVnRkMUUzbzJUdVdJRG5BYVVRdDRBa2xNbFpIand2MGt1Qng1VHBLbGlfMEVxLXhlN2F5dG5FVWpfdFRvVFh2NE0wLThDQVFtV3ZyODJ6Ui00end4TWVTdmdJcFNKYUJWbGlEZ2dVMGdPanotM2lwUU1XamsteTdLbFFObFlrZHRqaTA1a1lVSVM1Vy1SZ3o0eHZOYUxLQVp2RTNZU3hrbGJCYw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:13:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1c73ecb03caadf29",
           "title": "Nvidia to Invest $3 Billion in Meta’s Equity Offering as They Expand AI Partnership",
@@ -1218,26 +1202,15 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "a916f64e5642a377",
-          "title": "Meta considered a ‘whisper strategy’ to turn academics against Jonathan Haidt",
-          "url": "https://bsky.app/profile/theverge.com/post/3mywo6jlgxn2y",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-28T11:40:49.877Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 25,
-      "index": 1.6,
-      "mean_headline": 0.2,
+      "headlines": 24,
+      "index": 3,
+      "mean_headline": 0.4,
       "sample": [
         {
           "id": "7ec1971c94391dc6",
@@ -1248,19 +1221,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "55dcb0e743faa84d",
-          "title": "Gene Munster Warns AI Bots Threaten Amazon, Alphabet - Amazon.com (NASDAQ:AMZN)",
-          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPQ0dsUjR1VTRfUFpGVVFlOE51N0RSWG5pMllRNFd5d1AwdUdNU0VuMEtPaWRrYk1JcHZaSEZSTmtDTkpUVlZjUElveUJoWXJEZXhNRWZJVWtoUVhoU2RuT01XRnlpZzFtdXJvY2c2VkFLcnRDVDAyTnpPOEZzeU1MUmtHVHVaNGduSzJ3SllSOV9YZTlhdU13RXl5ZzZHZENjRmRGMkNhR2Q1cVg5c0M4Si1DVC1WOEp6U2w4Yw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T04:51:10.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
           "clickbait": []
         },
         {
@@ -1331,240 +1291,13 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "openai",
-      "name": "OpenAI",
-      "headlines": 31,
-      "index": 0.8,
-      "mean_headline": 0.1,
-      "sample": [
-        {
-          "id": "f45591d25b05485d",
-          "title": "OpenAI's Sam Altman is disappointed with MBA students; AI will reshape jobs but also create big openings for founders, he says",
-          "url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxQV3FTVV9DUFVOSnZScEsyYXdaek1yU2tDVWZGbC1rUDI5NE9hUDlULUZPU0RHOEtpVnpOcXFlNDZCWGNJY0RDNEJHV3pIaHFxSjVnc09aQzdDaTE4b0NKQTk1RVBCTmNHY0FCZ2tJWWRzaWJJZmpjNGNGQUpydnZLOTJ6eml0WDl0TndvX29CSVhIX1hleDh5dGFpTF9LdWVZcGRyWXhxWUdlWUxGUy15cGFVbURhNUx4amhRWlI1clJ5NzRJYnM2QVh5ekhWTVRJSmh6Uy1KMWg4b2RmOEFlWG1lcExyMFJjZlVfQUdxdnNpd0JMM3lkRUdGY3lkWWhVY0VGeHJHTTNpcm1aNVd0Nk1yQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:25:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         },
         {
-          "id": "6ddbeac78f72f192",
-          "title": "Google Gemini 4 Carbon is here: Is it better than OpenAI GPT-6 and Anthropic Claude?",
-          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPRGt4TGNSTWxqV2o1SDBMdm16RzVCZy1NWm8xanF0dGZFdEN0X2xSOGpldHNvYTc5YXo0aEJ6ZU0yTkVaYU82TVh6YTVQbGVreUhURndPWDVtY05rei1vcUhNeGk4bmxENXd4a1FuVmNrUkRzNUNJZWpuM3k1OF9BcC1WTkdDT2RuVG5TUzhNVVEzMFNfM251TGJ1aEVBeDNhekNBWFBxUlh1Zi1TRkRPaW1PTnFCY1ZuMzJTOXg2dUJ4SDB5bTNrOG1sSnhET01ScG1lRNIB2gFBVV95cUxNejZLYVBqV0QycjhBemhiWndEZTI5ZlhGN2hPWF9BWUZtbVY2aXhZZ0Jodm1GelItX0tfaE5ydVVTc2ZxVlp1eDZUMUozVmVSd1lVcVFwelAzTm8wckpUYmR6V0xGZmhJb0Q5Y2l2QlY1ZnRVaVhWejZjbVdZd3IyQnJDS2J2NHVNS2o0ejB0aURsSjJ2RmlqWVk5S3pjUlE0WV96eDRPUHZ1X1dBT2prZC1rWVpzZ245RWg4cDBpOEhsdl9FWHlIbUpvQWQ2Zzd6Q0RocmNIZ3p6Zw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:18:08.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3c94e7292ab92223",
-          "title": "Google Cloud Expands AI Model Choices and Flexibility, Introduces OpenAI Model",
-          "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE95T2llcmRrZm16S2NRR0R6eHZ2S3NMdGZ5bEo2WVlzM2JYWjNXMzRrUEx1aW81TGtlQVI2VmYzclRjQ0NpQlhKRDc4NNIBQkFVX3lxTE9ONjRXQ2h3VzN1NGU1bWRzZl9DTy1YbUNfMVVNWi1HeGc5WHBIWTUwdkJ3eTZmSVJHcXg4ZlRGRHNIUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:56:40.000Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a863bac4fa6f95b7",
-          "title": "OpenAI announces three major scientific discoveries in Mathematics, Computer Science and Physics: What students should know",
-          "url": "https://news.google.com/rss/articles/CBMilgJBVV95cUxNNjU5a1F2bVoxNExLUk9JVTJqU1Z6WmRlTF9kaF9fQU0tZDRfY1A0WVlvSWRfY3VWV0FUejkzUjRfVVNUaFphbDFRZTR0RXVKUGkwRzBnVEJfQ3ZJOUl4UnJwY0VibTY4bTdmam5KcGF0QzBKZzRselcxNEpwUE91bVVUQ0txVjBkVmxhQm1FLVlWYjZpZXZ2c1lwYzZKMmNqeHpsaHZHOXVXWFd6TE9DUlZ2cl82WU0zTDI1OTlNTEtkaFM1aWFaMFpfSElNY2EzYVo2MzRnTWFOaXZNUVIzaDBsbF9ibnh6SjhiSzR3eFRiMXBvbkFqeFoxVVFJODI2Ykh3aFBhTTZnMThwSUE1SGVYc09mZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:44:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "046d3e0817c9c537",
-          "title": "Fact Check: FAKE Photos Show Sasha Obama With Baby Bump -- Images Are OpenAI-Generated",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQRkw3NFdhdnlUcGl6aUxCQUF4a1NfSGJDUU5YMFczWmFBdi1xQVBzcXdDS0dOMjZicGhuV1B4dC1tZV95N1F3cFdHR2xCT205NzkwUnFpeXVDY0cxS19xd3JKODlKc0swYUdac3pSVVA2U3JmTnhwdjZyaGhnak4xTDFYbTQzelhQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:32:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "089adc4064c84e4f",
-          "title": "ChatGPT guided woman to taper epilepsy medication; she died, parents sue OpenAI",
-          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQdnNxbUk1aFB2ODRsdzJaSkJNcTFuT0VickJmb0JxeUpnYU1KTS12c0tNTHBaZ2UtX3NhdWU1WmVLRTJTNGxZeXBjd0NkX2dNSUFxdlNZcFFKZU5CME9faHhFOVJZbTZWSm01WXoxc0pid3NhSXJaV0diWkwwS1IxRTZhaGhDcURzeUNyMDA0SnRyOG10RE5ZYmtUMUtGSnV1OVRWcEdWbXZjSWpROTRRakNkVUdlVWZWcVo0YkduWVJXQdIBxwFBVV95cUxQbFpwVHdfWXM1SXdQRHk2V25BSGpEanpzeDBoX01tN0IwcEViWWxENzE4WTdDYl9PU1M4N05sNFN0b0ZVSWRMX2k4UkQ0UVRPcnRpdUlYbEkwZExNR2dMdzE5N0lod2FMVjVscWstaU5SY1pKYTYzam1nbGpNdUVEVDl4N081SlFsM2JlQ3FaZFlHOVdIb2tTNWFpMEprZHFWWF96T0hvanFIc1FKMFY2OXNCbjZCaEI0U3o1T0d5TlVBUldxWjZV?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:27:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "66f077f61a9afe27",
-          "title": "Last Day Alert: OpenAI Codex $200 Free Quota Halved, ChatGPT Interface Gets Major Update – Don’t Miss the Deadline",
-          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE03NTdETjlBSVZWb3Fxbl9pcy1obUVjZHpFVlQ1RDBqUGthOE40ZTBnZFZmUXdhcE9FV1dXdWthdE1lMG9USEhyQ0NXd2xEY2Z3aUEw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:21:03.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "21b6c86c4c8bc88b",
-          "title": "AI: Google’s TPU Moment, with OpenAI, Oracle & Anthropic. AI-RTZ #1254",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1zaXBFNm5pR0dpc0tIQWdXbHlwYldqUlkxWE1vSjVOTGZtdkhIYUpJQldSTHFFUjVhbkpUWnV5eHpxZkdka3hlRlk4NG9wMDF3MXZQbTVOUUhuaEIyZUNyNUdkZk41c1lCWnhsUWt6NjZRNDhzalFmVWV3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:02:31.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "apple",
-      "name": "Apple",
-      "headlines": 4,
-      "index": 0,
-      "mean_headline": 0,
-      "sample": [
-        {
-          "id": "9c162e7755e1e5a3",
-          "title": "How surging demand from AI hyperscalers has quintupled flash memory prices and shifted market and negotiating power from Apple to suppliers like Kioxia (Rolfe Winkler/Wall Street Journal)",
-          "url": "https://techmeme.com/261028/p65",
-          "source": "techmeme",
-          "published_at": "2026-10-29T03:55:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c8161e0d70df0bfa",
-          "title": "Russia Adds Apple and Microsoft to State Surveillance Registry",
-          "url": "https://bloomberg.com/news/articles/2026-10-28/russia-adds-apple-and-microsoft-to-state-surveillance-registry",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-28T11:44:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "396c3250a78263b2",
-          "title": "Apple adds a beta AI assistant built on Apple's and OpenAI's models to Keynote, Pages, Numbers, and Logic Pro, plus MCP support to Keynote, Pages, and Numbers (Emma Roth/The Verge)",
-          "url": "https://techmeme.com/261027/p20",
-          "source": "techmeme",
-          "published_at": "2026-10-27T14:10:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7746904fd0bec8db",
-          "title": "Apple is adding an AI chatbot to Pages, Keynote, and Numbers",
-          "url": "https://bsky.app/profile/theverge.com/post/3myufhgrsmc2u",
+          "id": "84673db7eb7fde55",
+          "title": "Almost all of Amazon’s new Echo gear is available now",
+          "url": "https://bsky.app/profile/theverge.com/post/3mywtsgp6zf23",
           "source": "bluesky-ai",
-          "published_at": "2026-10-27T13:50:51.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "deepseek",
-      "name": "DeepSeek",
-      "headlines": 7,
-      "index": 0,
-      "mean_headline": 0,
-      "sample": [
-        {
-          "id": "a65215a30a8c9379",
-          "title": "\"DeepSeek and Moonshot's Main Target for 'Distillation' Is Astra\"",
-          "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1oQ3RmNDJhRU96aDQ1S2FJakNlZ0p4b09yYVRuUHdqYWxKT1Roclp3eDI0TWx0V2pzZ3M1WmtQWkJGT3o2Y29xaFVQcnhBYWNBdEJFWmxELVBRN0ZyNmZPalBnRjVQMUtGNVhRdHBB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:46:05.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "28bc4f6cf1713c48",
-          "title": "Kimi vs DeepSeek (2026): Which Chinese AI Should You Use?",
-          "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1iY2c1ekdGcFJrRTI5MTZnVEJEYkloemFjbGxhTWhRWndQTVRDRWJobU9vYnlrVzhXVnVxbFpvZVhaQ3lsM09aU3V4SlJRdw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:07:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a94f9a5a9eff6b6d",
-          "title": "DeepSeek Security Test Finds a Gap, the Termination Program is Disabled in 39 Percent of Trials",
-          "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE1kWVNJbjZHVWNRTkN6YWM4VkpSX3FBNFhkZFNscmdYdXFZRlBLTTJObTFfc0pSQVF0VHZrdlU2cDg3Z0FWOHFSX3dCc9IBQkFVX3lxTE5oeHJlbTZ3TWVRVzlrQUZMZzEwSlkxZzcwVW0waXNkY0Y3cU1ScGIzeWxEcDU4ZHVVRWtoeTM2dmlCdw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:53:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e4ef77056667cb23",
-          "title": "DeepSeek V5 identifiers surface in official Harness code repository",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPRVdtajFoWHpsbVNpUThwS1dua1FOV2t4N2lmeEkwRHluX1EyUDdBNHRJOWd1QllwUWNDeG9kdUpnUUg5eS1pSEUwN0pQMjlYUlBGdHo1SksyX0ZFQWQtTExHT0xhUmdEYlZxR2F3MDgtSWF4UGVGVDZKSGxSNEgyZUNzTklQSzF6My1RdHVkVEFXTTRuRThUUXRaTHlnT0NLUkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:16:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b22fac2efca92841",
-          "title": "DeepSeek and Moonshot AI Accused of Using OpenAI Output for Training",
-          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOM09McF8zMkVvUnozYUpSejBBMHVVS3lxb3BYTGc1Y0JxZC16aXdYOEl1ZjByRVduQ2QybEhOcmtwM3FnNFZuS0JBNVFidXU3bXdSOV9kMjdLbDNkYUZWTXQtZTJLLS1jVDV6SGUwc08zVHNNVWxfeldnczMtb1RmNzdpZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T04:48:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5217ab882ee849f9",
-          "title": "DeepSeek-v4.1-Flash: Pushing the Limits of KV Cache Compression",
-          "url": "https://arxiv.org/abs/2609.19969",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-28T19:00:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "bbd1b1fb075d4224",
-          "title": "How GPT-6.1 Sol compared to Claude and DeepSeek as an agent in Salesforce",
-          "url": "https://reddit.com/r/OpenAI/comments/1xh1w9z/how_gpt61_sol_compared_to_claude_and_deepseek_as",
-          "source": "reddit-openai",
-          "published_at": "2026-10-27T19:17:18.000Z",
+          "published_at": "2026-10-28T13:21:26.545Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1575,10 +1308,34 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 32,
-      "index": 0,
-      "mean_headline": 0,
+      "headlines": 35,
+      "index": 0.7,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "3ec30035855a2364",
+          "title": "Microsoft’s AI Agent Gatekeeper Draws OpenAI, Anthropic and Meta - Microsoft (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOY0t1WGo1ZEJfVnRkMUUzbzJUdVdJRG5BYVVRdDRBa2xNbFpIand2MGt1Qng1VHBLbGlfMEVxLXhlN2F5dG5FVWpfdFRvVFh2NE0wLThDQVFtV3ZyODJ6Ui00end4TWVTdmdJcFNKYUJWbGlEZ2dVMGdPanotM2lwUU1XamsteTdLbFFObFlrZHRqaTA1a1lVSVM1Vy1SZ3o0eHZOYUxLQVp2RTNZU3hrbGJCYw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:13:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "930cc97f55a267c3",
+          "title": "Key facts: MSFT guides $96–97B; trims capex; updates OpenAI deal",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQRG9UNDZtbnp0clpEWU5JbFI2ZGV1TzFPY3g4aU00RGRXNFlWQlpHNjRvVWpDNk40Si1qUFVaYm1HTUFfeXNxVHVRRzl2WUZZUWhvdVlEV1A4YkdVVW8xdDE4cEJZS19Uc09zSzZ2WjUzdGJOZ0M3bi1DaXh3MzhZcm1jMmRsTHlYUVZzbS15X2ZrQThnUmFlRWk1YnV4alF3ZGNkRDNkZ1R5ZTlxWWxyM1kydGNGdDhiVE84NzE5TQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:00:00.000Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "74abda1789e1978a",
           "title": "Demand for AI drives up revenue at Google, Samsung and Microsoft",
@@ -1596,6 +1353,17 @@
           "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxONl9CeXkzSlNsemhkM1VaVG1pa1BrdWpNRWJsZDlRcHJkOHNubm1aWGtoLTdCMVFMTGlJcjg3eDdxbDE2NjVsNllFNGRzVGZwaWdHYi1fYnZPTlV0X2ZlbEo0UjliZU0zTHJoQWpWOTNsTXBUX1pGLVNyUDh1MTZ1NklCNzJ6U1J0ME5KeW9EQjlyVlNzWVFqdUNzUzBCS1ZVYmRKeXJpUl9kMm9KV1YyTUxNNGFXeE8ySklrX1lybWFSRFZERlNfRWN4WkY?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-29T06:49:26.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e63477783160fbfe",
+          "title": "Forging a Microsoft Edge Full Chain with Logic Bugs Only",
+          "url": "https://blog.orange.tw/posts/2026-10-the-last-proof-of-human-craft-browser-full-chain",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-29T06:47:28.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1641,37 +1409,211 @@
             "delays"
           ],
           "clickbait": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "headlines": 31,
+      "index": 0.5,
+      "mean_headline": 0.1,
+      "sample": [
         {
-          "id": "629456eef26dc331",
-          "title": "Microsoft Reports Rising Cloud Sales That Show Payoff From AI",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQMFplZTkxUEdqUExRU0N0UHdSdGNtNWZzWVAxd1hrTXZNa3NCQVFXUXJxcW9icjhXZ0x3ZTVNS2NmRVhlT1lEYnQ0a2VPNG5zem1fQWRpTnZNdkNuRkZtdHJkVDUzSlA5MmNZOEF2ZUlCaERpLTdzUFdqUGtqaEMtZFlWRlU5aU5ZMEN3NTU4bjZsMHE2WHFBemx2cEFCcXlpeHRfendMa1Y1b2lFWWQ0?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T23:18:13.000Z",
+          "id": "1b49392c98ae2509",
+          "title": "Judge Grants Apple Wider Discovery In OpenAI Trade Secrets Case",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQTFZIQzA0Zi1BUUNrQTdJTDVXR2h5OWFOVGtia3VITGFnVmdOeU9yck4xc25FeXFpbFpTTklGdU0xcGx3d3FQaXp4LTZfdHBzekRmMkxOb09FVmpxbnlhQlRlN1h6UWpVb1hQLVkxeDdiLTZydk9laWpWejNoNmNaUU15QmVoS0xZMnhFQkhzUmdoV0VodEd5VjlYeXJhdw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:40:11.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "2f347bcbb84004dc",
-          "title": "Microsoft Quarterly Profit Soars as Cloud Growth Accelerates",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxObG1JUFZyWEVVeTdxNHJ3djFId2dCZDY3Vkc3Qnc4Vzh1NVFKTXN2cVFEcWdrbEtSdlE5Y1VfQUV6aDE3M1BscVgzVFJXVWZ5R01XQnpjb0FGb2dmTVFEWFhlWGFBUm52dlZzTXhhZ081RzF2dWNWT3U0RU1tejhYZXdSQjA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-28T23:12:00.000Z",
+          "id": "1ebccc42bedb67dd",
+          "title": "Family sues OpenAI over ChatGPT advice on epilepsy drug dose",
+          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPTGd5MmxsTFZieFZwaDNHaFNhckYyY0EyVVhLLUoyQlUtTmRLVTFwSlgta1dEWmFST2tsZTJndFJiRlllOF9wcFc3Z0pCZ2J6bURHUmc4QWVoOHl4WWVKY2wyRG9lcW03cTRJeURheUVDRVNJWEpRZjAtUUVpN29nN3hkalJrWTNodVZKcFZtcHhQWllma3B0V01HcXlkN3pVSDN4UnBwMmZkLXc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:29:15.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "sues"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "3ec30035855a2364",
+          "title": "Microsoft’s AI Agent Gatekeeper Draws OpenAI, Anthropic and Meta - Microsoft (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOY0t1WGo1ZEJfVnRkMUUzbzJUdVdJRG5BYVVRdDRBa2xNbFpIand2MGt1Qng1VHBLbGlfMEVxLXhlN2F5dG5FVWpfdFRvVFh2NE0wLThDQVFtV3ZyODJ6Ui00end4TWVTdmdJcFNKYUJWbGlEZ2dVMGdPanotM2lwUU1XamsteTdLbFFObFlrZHRqaTA1a1lVSVM1Vy1SZ3o0eHZOYUxLQVp2RTNZU3hrbGJCYw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:13:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "bac3551137e0a454",
+          "title": "OpenAI Eyes Google TPUs Amid AI Hardware Diversification",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOVVQ5eDlBTnU2OTlXd0ZWZzZ5UEhDRGktUjg1ak9jYk9ocldjNzY2UTQ5ZlFJT19XSkZrWXBrZ3NkaEVCNG02dl8zY3dEZUt3RmFRNG1kRTBBMDlIZFBUT3hGek1VMF8weWtGM2ZoMzBOU1R6c0ZqR1BldERxQjNld2NqMVd3RVhRZTJKazZ5a1ppUFhX?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:06:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "930cc97f55a267c3",
+          "title": "Key facts: MSFT guides $96–97B; trims capex; updates OpenAI deal",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQRG9UNDZtbnp0clpEWU5JbFI2ZGV1TzFPY3g4aU00RGRXNFlWQlpHNjRvVWpDNk40Si1qUFVaYm1HTUFfeXNxVHVRRzl2WUZZUWhvdVlEV1A4YkdVVW8xdDE4cEJZS19Uc09zSzZ2WjUzdGJOZ0M3bi1DaXh3MzhZcm1jMmRsTHlYUVZzbS15X2ZrQThnUmFlRWk1YnV4alF3ZGNkRDNkZ1R5ZTlxWWxyM1kydGNGdDhiVE84NzE5TQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:00:00.000Z",
           "score": 3,
           "positive": [
-            "soars"
+            "deal"
           ],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "7931e181ab39eb81",
-          "title": "Microsoft’s Profit Jumps 32% Despite Big Increase in Spending",
-          "url": "https://nytimes.com/2026/10/28/technology/microsoft-earnings-ai.html",
-          "source": "nyt-tech",
-          "published_at": "2026-10-28T22:54:52.000Z",
+          "id": "f45591d25b05485d",
+          "title": "OpenAI's Sam Altman is disappointed with MBA students; AI will reshape jobs but also create big openings for founders, he says",
+          "url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxQV3FTVV9DUFVOSnZScEsyYXdaek1yU2tDVWZGbC1rUDI5NE9hUDlULUZPU0RHOEtpVnpOcXFlNDZCWGNJY0RDNEJHV3pIaHFxSjVnc09aQzdDaTE4b0NKQTk1RVBCTmNHY0FCZ2tJWWRzaWJJZmpjNGNGQUpydnZLOTJ6eml0WDl0TndvX29CSVhIX1hleDh5dGFpTF9LdWVZcGRyWXhxWUdlWUxGUy15cGFVbURhNUx4amhRWlI1clJ5NzRJYnM2QVh5ekhWTVRJSmh6Uy1KMWg4b2RmOEFlWG1lcExyMFJjZlVfQUdxdnNpd0JMM3lkRUdGY3lkWWhVY0VGeHJHTTNpcm1aNVd0Nk1yQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T06:25:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6ddbeac78f72f192",
+          "title": "Google Gemini 4 Carbon is here: Is it better than OpenAI GPT-6 and Anthropic Claude?",
+          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPRGt4TGNSTWxqV2o1SDBMdm16RzVCZy1NWm8xanF0dGZFdEN0X2xSOGpldHNvYTc5YXo0aEJ6ZU0yTkVaYU82TVh6YTVQbGVreUhURndPWDVtY05rei1vcUhNeGk4bmxENXd4a1FuVmNrUkRzNUNJZWpuM3k1OF9BcC1WTkdDT2RuVG5TUzhNVVEzMFNfM251TGJ1aEVBeDNhekNBWFBxUlh1Zi1TRkRPaW1PTnFCY1ZuMzJTOXg2dUJ4SDB5bTNrOG1sSnhET01ScG1lRNIB2gFBVV95cUxNejZLYVBqV0QycjhBemhiWndEZTI5ZlhGN2hPWF9BWUZtbVY2aXhZZ0Jodm1GelItX0tfaE5ydVVTc2ZxVlp1eDZUMUozVmVSd1lVcVFwelAzTm8wckpUYmR6V0xGZmhJb0Q5Y2l2QlY1ZnRVaVhWejZjbVdZd3IyQnJDS2J2NHVNS2o0ejB0aURsSjJ2RmlqWVk5S3pjUlE0WV96eDRPUHZ1X1dBT2prZC1rWVpzZ245RWg4cDBpOEhsdl9FWHlIbUpvQWQ2Zzd6Q0RocmNIZ3p6Zw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T06:18:08.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3c94e7292ab92223",
+          "title": "Google Cloud Expands AI Model Choices and Flexibility, Introduces OpenAI Model",
+          "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE95T2llcmRrZm16S2NRR0R6eHZ2S3NMdGZ5bEo2WVlzM2JYWjNXMzRrUEx1aW81TGtlQVI2VmYzclRjQ0NpQlhKRDc4NNIBQkFVX3lxTE9ONjRXQ2h3VzN1NGU1bWRzZl9DTy1YbUNfMVVNWi1HeGc5WHBIWTUwdkJ3eTZmSVJHcXg4ZlRGRHNIUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T05:56:40.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "headlines": 3,
+      "index": 0,
+      "mean_headline": 0,
+      "sample": [
+        {
+          "id": "1b49392c98ae2509",
+          "title": "Judge Grants Apple Wider Discovery In OpenAI Trade Secrets Case",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQTFZIQzA0Zi1BUUNrQTdJTDVXR2h5OWFOVGtia3VITGFnVmdOeU9yck4xc25FeXFpbFpTTklGdU0xcGx3d3FQaXp4LTZfdHBzekRmMkxOb09FVmpxbnlhQlRlN1h6UWpVb1hQLVkxeDdiLTZydk9laWpWejNoNmNaUU15QmVoS0xZMnhFQkhzUmdoV0VodEd5VjlYeXJhdw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:40:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9c162e7755e1e5a3",
+          "title": "How surging demand from AI hyperscalers has quintupled flash memory prices and shifted market and negotiating power from Apple to suppliers like Kioxia (Rolfe Winkler/Wall Street Journal)",
+          "url": "https://techmeme.com/261028/p65",
+          "source": "techmeme",
+          "published_at": "2026-10-29T03:55:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "c8161e0d70df0bfa",
+          "title": "Russia Adds Apple and Microsoft to State Surveillance Registry",
+          "url": "https://bloomberg.com/news/articles/2026-10-28/russia-adds-apple-and-microsoft-to-state-surveillance-registry",
+          "source": "bloomberg-tech",
+          "published_at": "2026-10-28T11:44:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "headlines": 5,
+      "index": 0,
+      "mean_headline": 0,
+      "sample": [
+        {
+          "id": "a65215a30a8c9379",
+          "title": "\"DeepSeek and Moonshot's Main Target for 'Distillation' Is Astra\"",
+          "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1oQ3RmNDJhRU96aDQ1S2FJakNlZ0p4b09yYVRuUHdqYWxKT1Roclp3eDI0TWx0V2pzZ3M1WmtQWkJGT3o2Y29xaFVQcnhBYWNBdEJFWmxELVBRN0ZyNmZPalBnRjVQMUtGNVhRdHBB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T06:46:05.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "28bc4f6cf1713c48",
+          "title": "Kimi vs DeepSeek (2026): Which Chinese AI Should You Use?",
+          "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1iY2c1ekdGcFJrRTI5MTZnVEJEYkloemFjbGxhTWhRWndQTVRDRWJobU9vYnlrVzhXVnVxbFpvZVhaQ3lsM09aU3V4SlJRdw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T06:07:27.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a94f9a5a9eff6b6d",
+          "title": "DeepSeek Security Test Finds a Gap, the Termination Program is Disabled in 39 Percent of Trials",
+          "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE1kWVNJbjZHVWNRTkN6YWM4VkpSX3FBNFhkZFNscmdYdXFZRlBLTTJObTFfc0pSQVF0VHZrdlU2cDg3Z0FWOHFSX3dCc9IBQkFVX3lxTE5oeHJlbTZ3TWVRVzlrQUZMZzEwSlkxZzcwVW0waXNkY0Y3cU1ScGIzeWxEcDU4ZHVVRWtoeTM2dmlCdw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T05:53:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5217ab882ee849f9",
+          "title": "DeepSeek-v4.1-Flash: Pushing the Limits of KV Cache Compression",
+          "url": "https://arxiv.org/abs/2609.19969",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-28T19:00:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "bbd1b1fb075d4224",
+          "title": "How GPT-6.1 Sol compared to Claude and DeepSeek as an agent in Salesforce",
+          "url": "https://reddit.com/r/OpenAI/comments/1xh1w9z/how_gpt61_sol_compared_to_claude_and_deepseek_as",
+          "source": "reddit-openai",
+          "published_at": "2026-10-27T19:17:18.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1713,93 +1655,97 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 64,
-      "index": -0.2,
+      "headlines": 63,
+      "index": -0.1,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "4f253b5f73797428",
+          "title": "Anthropic Unveils Paperwork for Blockbuster IPO",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQbmI5VHgtQjFuck9nQkJ5Q0hCekJJT1YxVVR4MlFwcUNodk9hYzJPYWlaQ2JhYjVRcC1JYUFpZlRNNE5iZWJFMFZUQ0tyQ3VnempEZFJNcnhmalhDQWlpWjN5MkllV0p6cWtzd1lHWGZXZVdjcDVlREplX1JReV9fUUdSWjRqQUNr?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-29T07:53:44.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1d7d230181cd3518",
+          "title": "Venture Capitalists Read Anthropic’s S-1, and Exhale",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOeU5WMlNZekg4ay1ldnpyNkVyelF1bmFULXJpblhMOE9SQ0F3eWFyYk0tcy0wU0wtc3dDd1JITExxMndMTkdpVmFoaFB2TWlYdkQ4WF9tVVh4ZDlJR3dXT04yaWRvc19JZkRfTGdQRGZFcU5Mb3lsY0FRdVNadUF5eEx1UzdXdmlvNGVNbkxLUEhGNklWZHhnMHZ6d2hvdWdy?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-29T07:46:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e3ac8ea2352be0f1",
+          "title": "Michael Burry calls AI boom 'catastrophically vulnerable' after Anthropic filing (ANT:Pending)",
+          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOQi1ZTUVkcG5xSjR4TFdTLVlIdVFrZmRmM1FwT19IYU9kV0pjZllIVS0zbFQxVDhWVXA1NzdBTWM5ajF2b2ZHZUVCUzVVRU5lUUpibmxHV25NTlMtc2hLQkI3emk4SG1MVFVUalA5U3RvMmhTZzRFTGRiM1gyVGhXbHhMNy1FYndIbEdZSXNjYmpnbmpwVjJHSzNjeDVCV1RjSHlCTEt0YWIzR08xMFZPSXFVdTgzUmc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:19:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3ec30035855a2364",
+          "title": "Microsoft’s AI Agent Gatekeeper Draws OpenAI, Anthropic and Meta - Microsoft (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOY0t1WGo1ZEJfVnRkMUUzbzJUdVdJRG5BYVVRdDRBa2xNbFpIand2MGt1Qng1VHBLbGlfMEVxLXhlN2F5dG5FVWpfdFRvVFh2NE0wLThDQVFtV3ZyODJ6Ui00end4TWVTdmdJcFNKYUJWbGlEZ2dVMGdPanotM2lwUU1XamsteTdLbFFObFlrZHRqaTA1a1lVSVM1Vy1SZ3o0eHZOYUxLQVp2RTNZU3hrbGJCYw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:13:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ec5708b0571f277e",
+          "title": "Anthropic spent $2.75 million guarding Dario Amodei last year—more than 4 times his salary",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxONTFYMkE3VElIM3Q5QlM3Q3FZSlJXQ2ExZDJwMkdqdmVTenZ0X0pwVXNkTHAwc2lBdkh0NVcxVENFN3Z0S21TZ3E0YWZ1UmZKdlZpc1Nsb0plTWRzU3dsZ05oX1dDX09yamJVWjN5bTRCeV95V0pnNjItWW91MC1Lak9ob3o5c2hGeERMOTJMdzNfSUgxQWdIR0tBeHd0d19XaVZPQkdGLWw3aC1mbTF2bUo3YlBiTkM1VVRpcXFUVQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:12:51.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ece1782368c559e2",
+          "title": "Medical Superintelligence, Anthropic IPO, and 2027 Predictions",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNN08teXY4NG9TMktyRFVPN2VrZThUYXdzZERXeWk1QnV6eDBDWGlyY2YtWllLVFQ3aTZPNGpHWi1HWnhyWUVnRWhic0xFT2tLc3Z0eHZ5TnJ0NjZBZDNqUENuWkdjMzYwR0loeWpjVDR0b3I4LWhFektZRGxoanlmUFIxVWxYYVY0SWJyVnRRODR1M0lpM2NzR2RwVEZpSzZ6bWJaYg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:10:31.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d43f44396904a3c9",
+          "title": "Anthropic warns Trump administration could target staff visas amid AI policy dispute | Hindustan Times",
+          "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxPMzE0dUpTZE9qYkNJNWh5S0pCbnVIUG54MkR0UlV6cnFHaEFqb0RBSTY3UmNlMmdicUFwYVN4X2FiMnA3OU1LZDJ1M0Q5T3ZzdEcyUU4yRE1rVlU1a3JmUmdfMW1ZVEZ1TFNCVldPcEFNbVJSei1VU3dFN3YyTFp1UENqTHlvcUoxZXhBUWpOME9jOTRDcjFPQUJ4TXIzT1hsOGs3VmJlY0pIZlBXRW1kQ1NDcy1USWNlZzQ1MWI5Wkk1aTN2ekdKTHZOa09SQ3Jpc3hKUm5iVkw2YkI4R2tScU9mSFBqU0I5eThpX3Z4NWfSAfABQVVfeXFMTzMxNHVKU2RPamJDSTVoeUtKQm51SFBueDJEdFJVenJxR2hBam9EQUk2N1JjZTJnYnFBcGFTeF9hYjJwNzlNS2QydTNEOU92c3RHMlFOMkRNa1ZVNWtyZlJnXzFtWVRGdUxTQlZXT3BBTW1SUnotVVN3RTd2MkxadVBDakx5b3FKMWV4QVFqTjBPYzk0Q3IxT0FCeE1yM09YbDhrN1ZiZWNKSGZQV0VtZENTQ3MtVEljZWc0NTFiOVpJNWkzdnpHSkx2TmtPUkNyaXN4SlJuYlZMNmJCOEdrUnFPZkhQalNCOXk4aV92eDVn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-29T07:03:28.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
         {
           "id": "cbd22bb73ba4a40a",
           "title": "Anthropic's secret AI extracts data from a locked Android phone and escapes the Chrome's sandbox",
           "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxObGFxbTc1REF3TFdfS2Z1LUhmZGh5QzhFMnVnaUlyUFR5bTNZVWgycmMza1IzMEZIVEJhelRnWkNjd2x6Vjg1WVFEd2xDNGc2Tk5JN0xMTEU2WmpQUlQ2cm9hUmhNQldMTDl1NVQtUFVOLU1vVVMxY1paNDJUblU5a2pWLXJvNFR4dnJEb2NGTzNIQzFSTnBXUC1obHB5UXFneEtTODJ3R1NkTnRfbVVtWmtMbzVCU3N5Q0lKQWRzUzdNS3Z5YlVvUjJyb0pjeTZ0OVBZZVhwSS0?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-29T06:57:11.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2a3ca8ed08b537e4",
-          "title": "Anthropic IPO On Tap, NVIDIA Updates And Other Investor Days Shaping Markets",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPeFpjM3B6Q3pxbkJFMVg2ZnpOME92azBDeU9OM2FwMW9CeG41VGhFejhNMmtkRTR2eTNWRVI3WUVrTWROeXlEYUxCLTE1WE00TVRlYkNuMFpBMHRaZ1ZsUVI4cXZ6T2ZPa2xWZnQ3TFFGWVh6cE1jSjMzSXJDR2dCOHdjVXEteENKUnVLRVlaUDd0NkRXY1diZXZXNG1nSm02bzVqT0h6WjIweW92NlE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:55:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0f80d9cbe2f11019",
-          "title": "Anthropic enters drug discovery with biotech acquisition and research partnerships",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQWlNUN3pGWE03b09KVjk4N0NiQkNrd2xNNGh2dUFJUDE3RmI0ekJmNk93Rlc4dVM1UW9IUGdmcGVkRVlyRDBOMFRRbmhhdTNOTFl2bHhqWjZ4UzdtRXBkRjUtVGtybVBrd3JKOVp5eENWUUJoY3lzYWJPd3d0Vjl3YjNXQV9nVUEwUnoxbmgtRXVNUGtaWDc5bUN6T1B6N053REM1cGtDN0lKWnlXUG1wc0xR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:44:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f54c87e51a2dd612",
-          "title": "Anthropic’s ‘Adjusted’ Profit Exposes Wall Street’s Earnings Game",
-          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQSWx5Q3UtbEx6dUhyUV9zMm5WUWhDUGI3ZWpIdnlzbklmVXVzWnV5SFAyTEo1MTRSUUhrSWhleHZMYUpvTTdNOEwxMnlMRTBLRHB1ZXVMMGdpd1FKZnY1eHNIdkRSUHdEdWFUWkJqbFAxd2VYWXJ1NjlKQzYzQ3I2Q3R6eldQS2duckRoV2hyOE5PSTFCYTk0MENRTGVnejdmVWpqNDJrbXdWVWRV?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-29T06:31:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6ddbeac78f72f192",
-          "title": "Google Gemini 4 Carbon is here: Is it better than OpenAI GPT-6 and Anthropic Claude?",
-          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPRGt4TGNSTWxqV2o1SDBMdm16RzVCZy1NWm8xanF0dGZFdEN0X2xSOGpldHNvYTc5YXo0aEJ6ZU0yTkVaYU82TVh6YTVQbGVreUhURndPWDVtY05rei1vcUhNeGk4bmxENXd4a1FuVmNrUkRzNUNJZWpuM3k1OF9BcC1WTkdDT2RuVG5TUzhNVVEzMFNfM251TGJ1aEVBeDNhekNBWFBxUlh1Zi1TRkRPaW1PTnFCY1ZuMzJTOXg2dUJ4SDB5bTNrOG1sSnhET01ScG1lRNIB2gFBVV95cUxNejZLYVBqV0QycjhBemhiWndEZTI5ZlhGN2hPWF9BWUZtbVY2aXhZZ0Jodm1GelItX0tfaE5ydVVTc2ZxVlp1eDZUMUozVmVSd1lVcVFwelAzTm8wckpUYmR6V0xGZmhJb0Q5Y2l2QlY1ZnRVaVhWejZjbVdZd3IyQnJDS2J2NHVNS2o0ejB0aURsSjJ2RmlqWVk5S3pjUlE0WV96eDRPUHZ1X1dBT2prZC1rWVpzZ245RWg4cDBpOEhsdl9FWHlIbUpvQWQ2Zzd6Q0RocmNIZ3p6Zw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:18:08.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c1db7c024856fc43",
-          "title": "Anthropic proposes that the court block the release of a dangerous AI model.",
-          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNNEFsSldUS2ZfQXNJU0ZmOGdqdzM0dXg4d2lEd3UtUHVIcW1pVXBvVHNJYzI2Nkl4REl2cHhaRHJCbjhyTE5SYks4WXJFajlnOGI5UXIwZnBRdlJkbDR2aGl4TFRuX2hnWUV3RTJNTzhEaC1ZYk9wVFFvNzNKVVpDMlNPNmJkOXJXc2ZBNVJ6NA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T06:10:57.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "203a7d9820676502",
-          "title": "Elvis Copyright Holders Sue Anthropic Over Unauthorized AI Training",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNMGtWLWpsSk9SX1M3R0tLR0VLVXBidW5mcmEyb1lsd3k0NkN1LUt5V3BHRlY2VFZxOWRZMVZtNV9HQWNBZlpSVGRxQWxlNXVjS3lMeEJGc3ctWXpndjVVMGJEZTFNdWhkN09QUkpzMnNuclFVX2VNOFBSOGVLVWRmX2lPMGZHalY2?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:56:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8c08d43b39cc61e8",
-          "title": "Watch Anthropic IPO: How Investors in Asia Can Get In",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQSUdWX1VxbkYtWE1iVHFqa2xkMlgySGxuY1JRaWk0ZjRfOEQyOHNnSG83VnZjWnJXM2ZYWUNRbkE5SkJMS2FNWjdoVW85czdNWklpSW80UXljQ0ZLcDBuWTJ6dm1DVDVpek8xUklDaXItTHM0TjRYcHpIS3pjQ0kwWVN5emljWVVlVjBmaDBSZG55NmprUDdCVHFibw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-29T05:37:24.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
