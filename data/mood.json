@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-30T22:04:09.132Z",
-  "news_generated_at": "2026-10-30T22:04:09.132Z",
+  "generated_at": "2026-10-30T22:39:14.296Z",
+  "news_generated_at": "2026-10-30T22:39:14.296Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,10 +18,10 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 231,
+    "headlines_naming_a_company": 232,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.085
+    "negative_pair_share": 0.095
   },
   "glance": {
     "leading": {
@@ -37,17 +37,65 @@
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 60
+      "headlines": 58
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 7,
-      "index": -4.6,
-      "mean_headline": -0.6,
+      "headlines": 11,
+      "index": -3.6,
+      "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "02ebed3d2fbd9351",
+          "title": "Apple is launching an iOS 27.3 beta next week that will bring some of the initial Apple Intelligence features to the Chinese market. www.theverge.com/tech/1023974...",
+          "url": "https://bsky.app/profile/theverge.com/post/3mz4tnllbui27",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-30T22:34:43.180Z",
+          "score": 3,
+          "positive": [
+            "launching"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "35348fba4514d3e3",
+          "title": "Apple Intelligence is finally coming to China with iOS 27.3",
+          "url": "https://theverge.com/tech/1023974/apple-intelligence-china-ios-27-3",
+          "source": "verge-ai",
+          "published_at": "2026-10-30T22:32:53.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e225485e77178c89",
+          "title": "AI Daily: Apple Passes Nvidia as Intel Closes Down 28.6%",
+          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1oZzA2UFR3X2RSRlowM1NuUEgtbjJmSEtERE1sejZSVUlGTlFCeVY3TVpld3I3UkNZVGRMTzlwRG5Fam00REp4Q2JydlZEa0N2ZV9keTREQWJYV29ZeVUwZ3MxV2gyTEt3WFp3VGVoTHVuaktNRzBOOHB0clA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:22:14.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "down"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "a6c7906801b82020",
+          "title": "Apple Intelligence Is Coming to iPhone in China, With Help From Alibaba’s Qwen",
+          "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1oR0JNcWFWNGFwVVRlWmdlbnlmazhPVDZyanBGUHQ0ZjBBNk5RcERnN09RZEtfU0ZBQUp6RFQ4UEJmNVl4RFlLYkVOWTkwZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:09:50.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "05821f65f0a16c71",
           "title": "Apple Overtakes Nvidia to Become World’s Most Valuable Company",
@@ -91,41 +139,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "d367224347618b1b",
-          "title": "Did Apple and Amazon just save the smart display?",
-          "url": "https://bsky.app/profile/theverge.com/post/3mz3tnrtdnv2y",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-30T13:02:08.704Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "70dc420592b7f278",
-          "title": "Apple bullied flash memory suppliers, and why AI datacenters changed the game",
-          "url": "https://msn.com/en-us/news/other/the-beleaguered-chip-sellers-getting-their-revenge-on-apple/ar-AA2ghTPi",
-          "source": "hn-ai",
-          "published_at": "2026-10-29T20:52:44.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1ae118a5e608b181",
-          "title": "Apple And Google Fined In South Korea Over App Store Violations",
-          "url": "https://reddit.com/r/artificial/comments/1xin9g3/apple_and_google_fined_in_south_korea_over_app",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-29T15:33:56.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "fined"
-          ],
-          "clickbait": []
         }
       ]
     },
@@ -136,6 +149,17 @@
       "index": 2.6,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "bde799d0177e59bb",
+          "title": "Anthropic, Google, Microsoft, and OpenAI Agree to Let Sites Opt Out of AI Training",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQUkM2MS1CbWxTY2s4eTd4UlJyM0pnb1U5NVJGeXljbTl2ZUZuYk1rYmhLSHNmQ2R3MU1sMlpSR1N1a0xHNXR4WkRadVJhcjUybURrYWJPYjUwR3J3Vno5dzljNzVDS3VlZWRsc0h4V0tHRWNlMzlWMGh6NlZHVmVNMDg1RjJhWUlIWUdCdUU2MjdYVUw1QnVFeWZCUl8yN1JPYng0WGJNQUdCeDJkbHhJb3JZenZRUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:12:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "8ef0478d3386facc",
           "title": "OpenAI CEO Says Having RAM in Your PC Is a Waste Because It's Not Powering AI",
@@ -214,17 +238,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "db2f3e2f55ef4ff0",
-          "title": "House Democrats Criticize Justice Dept. Support of OpenAI in Copyright Suit",
-          "url": "https://nytimes.com/2026/10/30/technology/house-democrats-openai-copyright-lawsuit.html",
-          "source": "nyt-tech",
-          "published_at": "2026-10-30T20:30:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -232,9 +245,22 @@
       "id": "nvidia",
       "name": "NVIDIA",
       "headlines": 30,
-      "index": 0,
-      "mean_headline": 0,
+      "index": -1.1,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "e225485e77178c89",
+          "title": "AI Daily: Apple Passes Nvidia as Intel Closes Down 28.6%",
+          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1oZzA2UFR3X2RSRlowM1NuUEgtbjJmSEtERE1sejZSVUlGTlFCeVY3TVpld3I3UkNZVGRMTzlwRG5Fam00REp4Q2JydlZEa0N2ZV9keTREQWJYV29ZeVUwZ3MxV2gyTEt3WFp3VGVoTHVuaktNRzBOOHB0clA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:22:14.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "down"
+          ],
+          "clickbait": []
+        },
         {
           "id": "276e2dfdcf070386",
           "title": "🇺🇲 David Lin: if AI companies can’t keep raising fresh money, the unwind could get UGLY fast He points to Elon saying capital markets have nearly shut off funding for companies without meaningful revenue outside AI data centers. Nvidia’s Jensen Huang has",
@@ -265,17 +291,6 @@
           "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPZ0VieTFqdkdSazB4aGt3MDNLWm1waGJZV2xYdFJBNWdRNFpSeXMybURZOXgzRDJmNktJSFA4VEdka2JpeFhYb1duaVdvM2lsNkxKOTVNc19NTjhaQUpCcVVVd1BTTks5Z0dLRGtJbnhqMGNCTkZibHRCaTdmdzNiYXk3M0FUc2hqQzlycEk5T2t5NG1pbjZpcGhn?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-30T20:24:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "04214492c24d9dd8",
-          "title": "Nvidia to prop up British AI giant as data centre boom unwinds",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQTmVNZjRaUnR2VXl4aW1ReXEwNW9DUU9zQ3RLR2VwN1VkVF9hWmhxS0FrWGI3Yl96QWNIN2hQZFZscGNTRm9PTG00YldiS2lDVWNEb0wybUNmSlpnSUtsTFQxdVE3QkN1ZWc1dzUyT196QWZjaEhITkxZYXg2cWtBUHEzMFhmbWxqMHE0TEZtUzVpX29YSnpHSUlSYXdOVFRXRnc?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-30T15:34:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -330,13 +345,70 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 60,
-      "index": -3.7,
-      "mean_headline": -0.5,
+      "headlines": 58,
+      "index": -3.3,
+      "mean_headline": -0.4,
       "sample": [
         {
+          "id": "ad84ea5e921d4250",
+          "title": "IPO News - US IPO Weekly Recap: Anthropic files for potentially record-breaking IPO",
+          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPZUY4eFZXUWd2RTV3ZDdpNmtkcjYtTHdxLWxELVZKTFUtT1NUQ2stbm5VbnMxc1hxNjB0R04xQjFmOXl6X2tYOEpINmJoQkQ5OTRxVElaVHhLeHRrVE5xZGtleEstc0h0OFBya2tJbjJOcUp6TEp2YVllRzgwelZLOGJHenVaeWYzWFdTeVo0Wk8zWXF0UlRGS2trLXloVVJxajRzVkJkZmoycU5aa0c4dV9wQy1pUklWbm80UENGNGVHbVMtYmVVNg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:28:04.000Z",
+          "score": 3,
+          "positive": [
+            "record"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "cf36fc6985ae86b8",
+          "title": "Anthropic IPO Filing Reveals Nearly $900 Billion in Hidden Debt",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOS25oY1MwVDFzeVdSWjJ6WEtDcWNRbE1VVTROeEFma3V4WFZVQ2FyMXJvWm1SMW02cEdNN2cwNGJNWU10ZGtacDR3Y0FWS0tLeGpoOVo3RHFUaWFqQ2JNc2taRUVwQ05FeG0taGxTWkZqVDBDWVpJV2VBb1BFVkxYam4zOFpKRFdSZ0t2cnpRc2VGUFNqU1RLUkVkZ2Q2bE1sd2dQUFdEUXZFYXBNVHdiX3lPWXZUZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:21:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "bde799d0177e59bb",
+          "title": "Anthropic, Google, Microsoft, and OpenAI Agree to Let Sites Opt Out of AI Training",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQUkM2MS1CbWxTY2s4eTd4UlJyM0pnb1U5NVJGeXljbTl2ZUZuYk1rYmhLSHNmQ2R3MU1sMlpSR1N1a0xHNXR4WkRadVJhcjUybURrYWJPYjUwR3J3Vno5dzljNzVDS3VlZWRsc0h4V0tHRWNlMzlWMGh6NlZHVmVNMDg1RjJhWUlIWUdCdUU2MjdYVUw1QnVFeWZCUl8yN1JPYng0WGJNQUdCeDJkbHhJb3JZenZRUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:12:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d277d500e1002b5c",
+          "title": "Anthropic IPO Nears as Investors Sell AI Stocks to Buy More AI?",
+          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBDSUg3NzQ4SXlDTmJuUlZGcEV0Zm1IS1g0WW1OdDB0MXUzWHQ3WERnX05BbjN2YzdmbXZXaUo5YmdGTHBIcGo3T3drUzRlV2NsSWlwdA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:11:59.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1b4f69f8d7db0322",
+          "title": "Eisman: Anthropic's Growth Fell From 147% to 45% Just Before Its IPO — and $800 Billion in Compute Bills Is Coming",
+          "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFAyMHdCQ2ViYzR6ZkFLT0syZ2xxVzRlUjRPelpsTy0wbTBxd0pIT3ZqVjlmV1BMeUtsRE9LLTFEdWJzRk5PX2FmRl9MR3lNeEZVeTRDRDBOMmtFbVE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:08:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "1abfdb6dc9802b6f",
-          "title": "Anthropic expected to receive high ‘junk’ rating from credit agencies following IPO, report says",
+          "title": "Anthropic expected to receive high ‘junk’ rating from credit agencies following IPO, FT report says",
           "url": "https://techcrunch.com/2026/10/30/anthropic-expected-to-receive-high-junk-rating-from-credit-agencies-following-ipo-report-says",
           "source": "techcrunch-ai",
           "published_at": "2026-10-30T21:52:03.000Z",
@@ -366,75 +438,44 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "4f253b5f73797428",
-          "title": "Anthropic Unveils Paperwork for Blockbuster IPO",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQbmI5VHgtQjFuck9nQkJ5Q0hCekJJT1YxVVR4MlFwcUNodk9hYzJPYWlaQ2JhYjVRcC1JYUFpZlRNNE5iZWJFMFZUQ0tyQ3VnempEZFJNcnhmalhDQWlpWjN5MkllV0p6cWtzd1lHWGZXZVdjcDVlREplX1JReV9fUUdSWjRqQUNr?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-30T21:34:50.000Z",
-          "score": 3,
-          "positive": [
-            "unveils"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "eaad933c9eb95379",
-          "title": "Anthropic VS code extension on Cursor backdoored for nearly 12 hours",
-          "url": "https://arstechnica.com/security/2026/10/anthropic-vs-code-extension-on-cursor-backdoored-for-nearly-12-hours",
-          "source": "arstechnica-ai",
-          "published_at": "2026-10-30T21:09:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7551e5fff64663cd",
-          "title": "Anthropic Could Join Public Markets With a Junk Rating Despite $112B Cash Pile, Blackstone Warns",
-          "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNal9CWUxEVWJtSzRDMGptWmJYYkdqZHNVQlBHbnRjNHM0QVhBcF83blRKQWh2WElWRXNlSUxBN2kzTG4xcEs5MVVKWkFmRE1IenNhQkdOOFBSYlBSN0NuN2FqLWhGN3gxbEJMRmNMNzRWZnVDV25QLVhPRk5ZUzA0dXBPZ1FWcEVkRnJQQ1FlejdQSENUQXVDSXQ4VTdLWWY3bTdIcmxrdE8xc3hKSWk4YURpc3BOaVN1bTVMNmcwYkZpSGZ2OFNOVHJtUU9kMGxXWXYybTBNUWdZLUlUMWlJZHFqM2tmV0pTajZOelJxZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-30T21:09:48.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "231b9a05d592d2c8",
-          "title": "OpenAI, Google, Microsoft, and Anthropic say they will adopt a new standard that publishers can use to opt out of being scraped by AI across multiple crawlers (Emma Roth/The Verge)",
-          "url": "https://techmeme.com/261030/p26",
-          "source": "techmeme",
-          "published_at": "2026-10-30T21:05:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5c175a4eeca5ad69",
-          "title": "Stock Pay Is About 70% of Anthropic’s $3.2B Personnel Bill",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQcjlOMzZ5MVFJeVk3ekRfdkRRRjhWQzRuVzhYXzNpc09XNklVQVV3UllOSGJWejRXWVBHVjlxMkVLcERDX3FScUdUb0E4aC1RTHBDdW5XLThiV1dvbzdCZnRSMGw3NE1UTU5zTmh4MFFta0FlTVJ4Z1E4WnpscmtPUWdoeklLZ2syUlF3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-30T20:51:57.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 14,
-      "index": -0.6,
-      "mean_headline": -0.1,
+      "headlines": 16,
+      "index": -3,
+      "mean_headline": -0.4,
       "sample": [
+        {
+          "id": "58b0fcb06f5f98c2",
+          "title": "Facebook parent company donates Ray-Ban Meta AI glasses to legally blind West Michigan veterans",
+          "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQc0Vrb3V5bnRxRE5TdjJZbVJ0VU5VTjRqNWFLbEN6RWwtc0o4N21ybG5pY3hjaG80THNqanNHemRWVHp5RmpPb05Dd2ZaajgtR1IzOTdvVnB3aVVmaU1nV3NVdU1FbVpVa04yOFZ1dXBNR1R3enlOQVFZTEo3QXh4X0dFUWxkclFVU3VfT2lOejRJdVNjS2xlalFnT1g4TmZPNTRfOFMtVGNIdXR3MzNBeXlTVFVvNWVtOWlhTE9sTUcwX1l2ZlhfaFUwM1ExbEp4YzlEbzlycUxQQzQ0a3R1VTlXdVdZX29DY0dSWE9DeTlmX0dFMDZRUlE4TnNtcUsxcXRObnJn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:03:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "ban"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "fa10fdd90029bf82",
+          "title": "Meta’s Rating Outlook Cut to Negative by S&P on Spending Surge",
+          "url": "https://bloomberg.com/news/articles/2026-10-30/meta-s-credit-rating-outlook-downgraded-to-negative-by-s-p",
+          "source": "bloomberg-tech",
+          "published_at": "2026-10-30T21:56:00.000Z",
+          "score": -1,
+          "positive": [
+            "surge"
+          ],
+          "negative": [
+            "cut"
+          ],
+          "clickbait": []
+        },
         {
           "id": "9f7c7a008fe103b9",
           "title": "Alphabet, Meta, Microsoft, Amazon, and Oracle have a collective $3T+ in AI spending commitments over the coming years, including Alphabet's $1T and Meta's $800B (Brody Ford/Bloomberg)",
@@ -502,28 +543,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "6017949fdb8c0dee",
-          "title": "Meta discussed 'whisper strategy' against social media critic Jonathan Haidt",
-          "url": "https://theguardian.com/technology/2026/oct/29/meta-staff-us-social-media-critic-jonathan-haidt-court-documents",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-30T00:02:51.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "574dbaf7fc8731e4",
-          "title": "Fair use benefits everyone",
-          "url": "https://openai.com/index/fair-use-benefits-everyone",
-          "source": "openai",
-          "published_at": "2026-10-30T00:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -542,6 +561,17 @@
       "index": 2.7,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "bde799d0177e59bb",
+          "title": "Anthropic, Google, Microsoft, and OpenAI Agree to Let Sites Opt Out of AI Training",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQUkM2MS1CbWxTY2s4eTd4UlJyM0pnb1U5NVJGeXljbTl2ZUZuYk1rYmhLSHNmQ2R3MU1sMlpSR1N1a0xHNXR4WkRadVJhcjUybURrYWJPYjUwR3J3Vno5dzljNzVDS3VlZWRsc0h4V0tHRWNlMzlWMGh6NlZHVmVNMDg1RjJhWUlIWUdCdUU2MjdYVUw1QnVFeWZCUl8yN1JPYng0WGJNQUdCeDJkbHhJb3JZenZRUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:12:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "91d4cf15fee57ee0",
           "title": "Google’s first orbital AI data center is up and running — and it wrote a strange little poem",
@@ -618,17 +648,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "9f7c7a008fe103b9",
-          "title": "Alphabet, Meta, Microsoft, Amazon, and Oracle have a collective $3T+ in AI spending commitments over the coming years, including Alphabet's $1T and Meta's $800B (Brody Ford/Bloomberg)",
-          "url": "https://techmeme.com/261030/p22",
-          "source": "techmeme",
-          "published_at": "2026-10-30T20:00:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -639,6 +658,17 @@
       "index": -1.3,
       "mean_headline": -0.2,
       "sample": [
+        {
+          "id": "bde799d0177e59bb",
+          "title": "Anthropic, Google, Microsoft, and OpenAI Agree to Let Sites Opt Out of AI Training",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQUkM2MS1CbWxTY2s4eTd4UlJyM0pnb1U5NVJGeXljbTl2ZUZuYk1rYmhLSHNmQ2R3MU1sMlpSR1N1a0xHNXR4WkRadVJhcjUybURrYWJPYjUwR3J3Vno5dzljNzVDS3VlZWRsc0h4V0tHRWNlMzlWMGh6NlZHVmVNMDg1RjJhWUlIWUdCdUU2MjdYVUw1QnVFeWZCUl8yN1JPYng0WGJNQUdCeDJkbHhJb3JZenZRUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:12:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "147c5cfab11693a7",
           "title": "OpenAI, Google and Microsoft support new standard for websites — The Verge",
@@ -717,27 +747,38 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "0a3a7c2645a4e0bb",
-          "title": "Microsoft Earnings Expose a Growing Divide in the Magnificent 7 AI Trade",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNa1JtQ3NWa2xFaXA4Uy02UTRoVmY4VHY5Z1RWX2pmeWk5MHhZMXN4enY0NVlZN2F2d3dvcDF5VGs0R0NXTmdON1RaQldmY2dNRDdCM3dEQzlxeVRPR1pDcUtfWjhqSDBpREc5Q0JHUU5pLU90amZwb1NaWUpaRUY5MmNUSG5ESGc0ODJ2bE1CYXVodWoyMDBma0xHNEE3S3NQWEhvLXhnT2YtbUtQNW1qVGdLVURFUmMw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-30T19:11:12.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 41,
-      "index": 2,
+      "headlines": 42,
+      "index": 1.3,
       "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "f5443ee162a2b78f",
+          "title": "Amazon can now borrow up to $80B against the AI hardware it buys",
+          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFAzQ25PT01QQ01XZURFSmZicWZaNW1uaXB6bWF4UF82aC1LQ2RkNlFVR0Q2aERXSlhzRXJRMHdfSl91QTZjdHpKTjktRHhLN3JEQ1pmSlNoT25LN2xFQTFJdUFQbjdCVmM1SEpyY0hfRTdzWGFNODRMYlJfVFRJZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:34:13.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9c7e91395743d588",
+          "title": "Watch Lonnie Ali & Marc Rosen on New Muhammad Ali Amazon Show",
+          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxON0ZCY183c3hfTFlOazNLVHIxNHpnV0NnR0pLSEFsNlpGYzE4NnByb2dOM0xJNGpfeW5BNE4wMklwaXZOQ3J6RGJkemN3MU8tSjUycHRzcElVdnlDTlQtaGVXT1phbWQ4b0lOdDdDZ05XTDhDdnJaX0dvZk5QTnktYUJaaXJCbmxtb0J5TjBWSERkT3V3cmEwWGtXYWUxOWtCMHNjd1JoZDNMa3Fy?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-30T22:10:40.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "24c1285ad5edaaad",
           "title": "Preview web apps live as your coding agent builds them with Amazon Bedrock AgentCore runtime",
@@ -799,28 +840,6 @@
           "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxPYnZtTWxaSGhHVEIxZ2xxcHYxdFBVSUJVRXNPaGJBMlBoVnZ3UmdDWGZyV1dUV2ZsaTZCcHc0MGpRR091NElxcWdoVDF4MHloaUdTbG9fOF82ZTU2TmNKQWxFeHIzS0hNaW1ia3lMTVhMWVhOelJjMWlPRXFwN3BGclVaZzBHWDdyYWYwWVNqelZUMHhRX091c1ZGRDFKcVRHZzh0TERvUG82cVJyMWJKYkhRZHpJLXpkbUhOYWNHZUFWMm1rdFdLWklLYzcxZTU5TkdMeE8xZVBTWFRQbG8tWTY5Vi0wZzZsZ0I1Vw?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-30T19:39:59.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5c2498fc6a1b63e4",
-          "title": "Microsoft, Alphabet, Amazon, Meta, and Oracle returned just 9.3% of cash to shareholders in the first three quarters of 2026, a 15-year low amid AI spending (Patturaja Murugaboopathy/Reuters)",
-          "url": "https://techmeme.com/261030/p20",
-          "source": "techmeme",
-          "published_at": "2026-10-30T19:25:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7dcc9758baf5cb29",
-          "title": "How Worldwide Express automated freight exceptions with Amazon Bedrock",
-          "url": "https://aws.amazon.com/blogs/machine-learning/how-worldwide-express-automated-freight-exceptions-with-amazon-bedrock",
-          "source": "aws-ml",
-          "published_at": "2026-10-30T17:32:20.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -915,6 +934,17 @@
       "mean_headline": 0.3,
       "sample": [
         {
+          "id": "bde799d0177e59bb",
+          "title": "Anthropic, Google, Microsoft, and OpenAI Agree to Let Sites Opt Out of AI Training",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQUkM2MS1CbWxTY2s4eTd4UlJyM0pnb1U5NVJGeXljbTl2ZUZuYk1rYmhLSHNmQ2R3MU1sMlpSR1N1a0xHNXR4WkRadVJhcjUybURrYWJPYjUwR3J3Vno5dzljNzVDS3VlZWRsc0h4V0tHRWNlMzlWMGh6NlZHVmVNMDg1RjJhWUlIWUdCdUU2MjdYVUw1QnVFeWZCUl8yN1JPYng0WGJNQUdCeDJkbHhJb3JZenZRUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:12:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "91d4cf15fee57ee0",
           "title": "Google’s first orbital AI data center is up and running — and it wrote a strange little poem",
           "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQT25nbkpOYnlESy1RNzNSRjZPQ3BaNFRJV0Q5M3paOG1IUEg5cGVUem5oaE92WXNxcXIxUld6b05TUDBjbzJjSm90MHowd0JmWk5zRlVpa3BGcFNRdVBYU2luejZEVHNZQnZiMl9BSXVpOGU5QmVfVVE0YWtjQkFtUDZJeVRCeFJuUnJweFdINENRdmdCaXVVdmdEQVZ0VzNjVHJmd19tNzJESWMzQ0RWWWFDbjh2WF9UQUdnNlR1Ml9fbDBXU0Nfd2JFUWJHX1pB?oc=5",
@@ -990,17 +1020,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "9f7c7a008fe103b9",
-          "title": "Alphabet, Meta, Microsoft, Amazon, and Oracle have a collective $3T+ in AI spending commitments over the coming years, including Alphabet's $1T and Meta's $800B (Brody Ford/Bloomberg)",
-          "url": "https://techmeme.com/261030/p22",
-          "source": "techmeme",
-          "published_at": "2026-10-30T20:00:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -1011,6 +1030,17 @@
       "index": 2.6,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "bde799d0177e59bb",
+          "title": "Anthropic, Google, Microsoft, and OpenAI Agree to Let Sites Opt Out of AI Training",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQUkM2MS1CbWxTY2s4eTd4UlJyM0pnb1U5NVJGeXljbTl2ZUZuYk1rYmhLSHNmQ2R3MU1sMlpSR1N1a0xHNXR4WkRadVJhcjUybURrYWJPYjUwR3J3Vno5dzljNzVDS3VlZWRsc0h4V0tHRWNlMzlWMGh6NlZHVmVNMDg1RjJhWUlIWUdCdUU2MjdYVUw1QnVFeWZCUl8yN1JPYng0WGJNQUdCeDJkbHhJb3JZenZRUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:12:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "8ef0478d3386facc",
           "title": "OpenAI CEO Says Having RAM in Your PC Is a Waste Because It's Not Powering AI",
@@ -1089,27 +1119,38 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "db2f3e2f55ef4ff0",
-          "title": "House Democrats Criticize Justice Dept. Support of OpenAI in Copyright Suit",
-          "url": "https://nytimes.com/2026/10/30/technology/house-democrats-openai-copyright-lawsuit.html",
-          "source": "nyt-tech",
-          "published_at": "2026-10-30T20:30:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 41,
-      "index": 2,
+      "headlines": 42,
+      "index": 1.3,
       "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "f5443ee162a2b78f",
+          "title": "Amazon can now borrow up to $80B against the AI hardware it buys",
+          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFAzQ25PT01QQ01XZURFSmZicWZaNW1uaXB6bWF4UF82aC1LQ2RkNlFVR0Q2aERXSlhzRXJRMHdfSl91QTZjdHpKTjktRHhLN3JEQ1pmSlNoT25LN2xFQTFJdUFQbjdCVmM1SEpyY0hfRTdzWGFNODRMYlJfVFRJZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:34:13.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9c7e91395743d588",
+          "title": "Watch Lonnie Ali & Marc Rosen on New Muhammad Ali Amazon Show",
+          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxON0ZCY183c3hfTFlOazNLVHIxNHpnV0NnR0pLSEFsNlpGYzE4NnByb2dOM0xJNGpfeW5BNE4wMklwaXZOQ3J6RGJkemN3MU8tSjUycHRzcElVdnlDTlQtaGVXT1phbWQ4b0lOdDdDZ05XTDhDdnJaX0dvZk5QTnktYUJaaXJCbmxtb0J5TjBWSERkT3V3cmEwWGtXYWUxOWtCMHNjd1JoZDNMa3Fy?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-30T22:10:40.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "24c1285ad5edaaad",
           "title": "Preview web apps live as your coding agent builds them with Amazon Bedrock AgentCore runtime",
@@ -1175,28 +1216,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "5c2498fc6a1b63e4",
-          "title": "Microsoft, Alphabet, Amazon, Meta, and Oracle returned just 9.3% of cash to shareholders in the first three quarters of 2026, a 15-year low amid AI spending (Patturaja Murugaboopathy/Reuters)",
-          "url": "https://techmeme.com/261030/p20",
-          "source": "techmeme",
-          "published_at": "2026-10-30T19:25:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7dcc9758baf5cb29",
-          "title": "How Worldwide Express automated freight exceptions with Amazon Bedrock",
-          "url": "https://aws.amazon.com/blogs/machine-learning/how-worldwide-express-automated-freight-exceptions-with-amazon-bedrock",
-          "source": "aws-ml",
-          "published_at": "2026-10-30T17:32:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -1204,9 +1223,22 @@
       "id": "nvidia",
       "name": "NVIDIA",
       "headlines": 30,
-      "index": 0,
-      "mean_headline": 0,
+      "index": -1.1,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "e225485e77178c89",
+          "title": "AI Daily: Apple Passes Nvidia as Intel Closes Down 28.6%",
+          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1oZzA2UFR3X2RSRlowM1NuUEgtbjJmSEtERE1sejZSVUlGTlFCeVY3TVpld3I3UkNZVGRMTzlwRG5Fam00REp4Q2JydlZEa0N2ZV9keTREQWJYV29ZeVUwZ3MxV2gyTEt3WFp3VGVoTHVuaktNRzBOOHB0clA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:22:14.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "down"
+          ],
+          "clickbait": []
+        },
         {
           "id": "276e2dfdcf070386",
           "title": "🇺🇲 David Lin: if AI companies can’t keep raising fresh money, the unwind could get UGLY fast He points to Elon saying capital markets have nearly shut off funding for companies without meaningful revenue outside AI data centers. Nvidia’s Jensen Huang has",
@@ -1237,17 +1269,6 @@
           "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPZ0VieTFqdkdSazB4aGt3MDNLWm1waGJZV2xYdFJBNWdRNFpSeXMybURZOXgzRDJmNktJSFA4VEdka2JpeFhYb1duaVdvM2lsNkxKOTVNc19NTjhaQUpCcVVVd1BTTks5Z0dLRGtJbnhqMGNCTkZibHRCaTdmdzNiYXk3M0FUc2hqQzlycEk5T2t5NG1pbjZpcGhn?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-30T20:24:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "04214492c24d9dd8",
-          "title": "Nvidia to prop up British AI giant as data centre boom unwinds",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQTmVNZjRaUnR2VXl4aW1ReXEwNW9DUU9zQ3RLR2VwN1VkVF9hWmhxS0FrWGI3Yl96QWNIN2hQZFZscGNTRm9PTG00YldiS2lDVWNEb0wybUNmSlpnSUtsTFQxdVE3QkN1ZWc1dzUyT196QWZjaEhITkxZYXg2cWtBUHEzMFhmbWxqMHE0TEZtUzVpX29YSnpHSUlSYXdOVFRXRnc?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-30T15:34:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1300,111 +1321,23 @@
       ]
     },
     {
-      "id": "meta",
-      "name": "Meta",
-      "headlines": 14,
-      "index": -0.6,
-      "mean_headline": -0.1,
-      "sample": [
-        {
-          "id": "9f7c7a008fe103b9",
-          "title": "Alphabet, Meta, Microsoft, Amazon, and Oracle have a collective $3T+ in AI spending commitments over the coming years, including Alphabet's $1T and Meta's $800B (Brody Ford/Bloomberg)",
-          "url": "https://techmeme.com/261030/p22",
-          "source": "techmeme",
-          "published_at": "2026-10-30T20:00:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "af7203f1d22040e3",
-          "title": "The technologies, people, and ideas transforming our world—for one day in Miami. Join us at the first-ever WIRED World Fair on November 4. Lineup and tickets: buff.ly/5aCsst1",
-          "url": "https://bsky.app/profile/wired.com/post/3mz4l25zpvd2r",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-30T20:00:41.972Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5c2498fc6a1b63e4",
-          "title": "Microsoft, Alphabet, Amazon, Meta, and Oracle returned just 9.3% of cash to shareholders in the first three quarters of 2026, a 15-year low amid AI spending (Patturaja Murugaboopathy/Reuters)",
-          "url": "https://techmeme.com/261030/p20",
-          "source": "techmeme",
-          "published_at": "2026-10-30T19:25:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5edfef8e1aa570ec",
-          "title": "London's High Court dismisses Meta, TikTok, and X's challenge to Ofcom's Online Safety Act information requests, rejecting arguments they were disproportionate (Sam Tobin/Reuters)",
-          "url": "https://techmeme.com/261030/p15",
-          "source": "techmeme",
-          "published_at": "2026-10-30T16:10:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8f4757e0b3b120e4",
-          "title": "The UK CMA opens a probe into whether Meta imposed exploitative terms on publishers and advertisers to use their content to develop its AI and other services (Reuters)",
-          "url": "https://techmeme.com/261030/p10",
-          "source": "techmeme",
-          "published_at": "2026-10-30T11:40:12.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "probe"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "084e488a824040a7",
-          "title": "Meta, TikTok, X lose legal challenge against UK watchdog over online safety data demands",
-          "url": "https://bsky.app/profile/reuters.com/post/3mz3l6kk3272a",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-30T10:30:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6017949fdb8c0dee",
-          "title": "Meta discussed 'whisper strategy' against social media critic Jonathan Haidt",
-          "url": "https://theguardian.com/technology/2026/oct/29/meta-staff-us-social-media-critic-jonathan-haidt-court-documents",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-30T00:02:51.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "574dbaf7fc8731e4",
-          "title": "Fair use benefits everyone",
-          "url": "https://openai.com/index/fair-use-benefits-everyone",
-          "source": "openai",
-          "published_at": "2026-10-30T00:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
       "id": "microsoft",
       "name": "Microsoft",
       "headlines": 25,
       "index": -1.3,
       "mean_headline": -0.2,
       "sample": [
+        {
+          "id": "bde799d0177e59bb",
+          "title": "Anthropic, Google, Microsoft, and OpenAI Agree to Let Sites Opt Out of AI Training",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQUkM2MS1CbWxTY2s4eTd4UlJyM0pnb1U5NVJGeXljbTl2ZUZuYk1rYmhLSHNmQ2R3MU1sMlpSR1N1a0xHNXR4WkRadVJhcjUybURrYWJPYjUwR3J3Vno5dzljNzVDS3VlZWRsc0h4V0tHRWNlMzlWMGh6NlZHVmVNMDg1RjJhWUlIWUdCdUU2MjdYVUw1QnVFeWZCUl8yN1JPYng0WGJNQUdCeDJkbHhJb3JZenZRUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:12:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "147c5cfab11693a7",
           "title": "OpenAI, Google and Microsoft support new standard for websites — The Verge",
@@ -1483,13 +1416,107 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "headlines": 16,
+      "index": -3,
+      "mean_headline": -0.4,
+      "sample": [
+        {
+          "id": "58b0fcb06f5f98c2",
+          "title": "Facebook parent company donates Ray-Ban Meta AI glasses to legally blind West Michigan veterans",
+          "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQc0Vrb3V5bnRxRE5TdjJZbVJ0VU5VTjRqNWFLbEN6RWwtc0o4N21ybG5pY3hjaG80THNqanNHemRWVHp5RmpPb05Dd2ZaajgtR1IzOTdvVnB3aVVmaU1nV3NVdU1FbVpVa04yOFZ1dXBNR1R3enlOQVFZTEo3QXh4X0dFUWxkclFVU3VfT2lOejRJdVNjS2xlalFnT1g4TmZPNTRfOFMtVGNIdXR3MzNBeXlTVFVvNWVtOWlhTE9sTUcwX1l2ZlhfaFUwM1ExbEp4YzlEbzlycUxQQzQ0a3R1VTlXdVdZX29DY0dSWE9DeTlmX0dFMDZRUlE4TnNtcUsxcXRObnJn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:03:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "ban"
+          ],
+          "clickbait": []
         },
         {
-          "id": "0a3a7c2645a4e0bb",
-          "title": "Microsoft Earnings Expose a Growing Divide in the Magnificent 7 AI Trade",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNa1JtQ3NWa2xFaXA4Uy02UTRoVmY4VHY5Z1RWX2pmeWk5MHhZMXN4enY0NVlZN2F2d3dvcDF5VGs0R0NXTmdON1RaQldmY2dNRDdCM3dEQzlxeVRPR1pDcUtfWjhqSDBpREc5Q0JHUU5pLU90amZwb1NaWUpaRUY5MmNUSG5ESGc0ODJ2bE1CYXVodWoyMDBma0xHNEE3S3NQWEhvLXhnT2YtbUtQNW1qVGdLVURFUmMw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-30T19:11:12.000Z",
+          "id": "fa10fdd90029bf82",
+          "title": "Meta’s Rating Outlook Cut to Negative by S&P on Spending Surge",
+          "url": "https://bloomberg.com/news/articles/2026-10-30/meta-s-credit-rating-outlook-downgraded-to-negative-by-s-p",
+          "source": "bloomberg-tech",
+          "published_at": "2026-10-30T21:56:00.000Z",
+          "score": -1,
+          "positive": [
+            "surge"
+          ],
+          "negative": [
+            "cut"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9f7c7a008fe103b9",
+          "title": "Alphabet, Meta, Microsoft, Amazon, and Oracle have a collective $3T+ in AI spending commitments over the coming years, including Alphabet's $1T and Meta's $800B (Brody Ford/Bloomberg)",
+          "url": "https://techmeme.com/261030/p22",
+          "source": "techmeme",
+          "published_at": "2026-10-30T20:00:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "af7203f1d22040e3",
+          "title": "The technologies, people, and ideas transforming our world—for one day in Miami. Join us at the first-ever WIRED World Fair on November 4. Lineup and tickets: buff.ly/5aCsst1",
+          "url": "https://bsky.app/profile/wired.com/post/3mz4l25zpvd2r",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-30T20:00:41.972Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5c2498fc6a1b63e4",
+          "title": "Microsoft, Alphabet, Amazon, Meta, and Oracle returned just 9.3% of cash to shareholders in the first three quarters of 2026, a 15-year low amid AI spending (Patturaja Murugaboopathy/Reuters)",
+          "url": "https://techmeme.com/261030/p20",
+          "source": "techmeme",
+          "published_at": "2026-10-30T19:25:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5edfef8e1aa570ec",
+          "title": "London's High Court dismisses Meta, TikTok, and X's challenge to Ofcom's Online Safety Act information requests, rejecting arguments they were disproportionate (Sam Tobin/Reuters)",
+          "url": "https://techmeme.com/261030/p15",
+          "source": "techmeme",
+          "published_at": "2026-10-30T16:10:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8f4757e0b3b120e4",
+          "title": "The UK CMA opens a probe into whether Meta imposed exploitative terms on publishers and advertisers to use their content to develop its AI and other services (Reuters)",
+          "url": "https://techmeme.com/261030/p10",
+          "source": "techmeme",
+          "published_at": "2026-10-30T11:40:12.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "probe"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "084e488a824040a7",
+          "title": "Meta, TikTok, X lose legal challenge against UK watchdog over online safety data demands",
+          "url": "https://bsky.app/profile/reuters.com/post/3mz3l6kk3272a",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-30T10:30:29.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1500,13 +1527,70 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 60,
-      "index": -3.7,
-      "mean_headline": -0.5,
+      "headlines": 58,
+      "index": -3.3,
+      "mean_headline": -0.4,
       "sample": [
         {
+          "id": "ad84ea5e921d4250",
+          "title": "IPO News - US IPO Weekly Recap: Anthropic files for potentially record-breaking IPO",
+          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPZUY4eFZXUWd2RTV3ZDdpNmtkcjYtTHdxLWxELVZKTFUtT1NUQ2stbm5VbnMxc1hxNjB0R04xQjFmOXl6X2tYOEpINmJoQkQ5OTRxVElaVHhLeHRrVE5xZGtleEstc0h0OFBya2tJbjJOcUp6TEp2YVllRzgwelZLOGJHenVaeWYzWFdTeVo0Wk8zWXF0UlRGS2trLXloVVJxajRzVkJkZmoycU5aa0c4dV9wQy1pUklWbm80UENGNGVHbVMtYmVVNg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:28:04.000Z",
+          "score": 3,
+          "positive": [
+            "record"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "cf36fc6985ae86b8",
+          "title": "Anthropic IPO Filing Reveals Nearly $900 Billion in Hidden Debt",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOS25oY1MwVDFzeVdSWjJ6WEtDcWNRbE1VVTROeEFma3V4WFZVQ2FyMXJvWm1SMW02cEdNN2cwNGJNWU10ZGtacDR3Y0FWS0tLeGpoOVo3RHFUaWFqQ2JNc2taRUVwQ05FeG0taGxTWkZqVDBDWVpJV2VBb1BFVkxYam4zOFpKRFdSZ0t2cnpRc2VGUFNqU1RLUkVkZ2Q2bE1sd2dQUFdEUXZFYXBNVHdiX3lPWXZUZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:21:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "bde799d0177e59bb",
+          "title": "Anthropic, Google, Microsoft, and OpenAI Agree to Let Sites Opt Out of AI Training",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQUkM2MS1CbWxTY2s4eTd4UlJyM0pnb1U5NVJGeXljbTl2ZUZuYk1rYmhLSHNmQ2R3MU1sMlpSR1N1a0xHNXR4WkRadVJhcjUybURrYWJPYjUwR3J3Vno5dzljNzVDS3VlZWRsc0h4V0tHRWNlMzlWMGh6NlZHVmVNMDg1RjJhWUlIWUdCdUU2MjdYVUw1QnVFeWZCUl8yN1JPYng0WGJNQUdCeDJkbHhJb3JZenZRUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:12:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d277d500e1002b5c",
+          "title": "Anthropic IPO Nears as Investors Sell AI Stocks to Buy More AI?",
+          "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBDSUg3NzQ4SXlDTmJuUlZGcEV0Zm1IS1g0WW1OdDB0MXUzWHQ3WERnX05BbjN2YzdmbXZXaUo5YmdGTHBIcGo3T3drUzRlV2NsSWlwdA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:11:59.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1b4f69f8d7db0322",
+          "title": "Eisman: Anthropic's Growth Fell From 147% to 45% Just Before Its IPO — and $800 Billion in Compute Bills Is Coming",
+          "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFAyMHdCQ2ViYzR6ZkFLT0syZ2xxVzRlUjRPelpsTy0wbTBxd0pIT3ZqVjlmV1BMeUtsRE9LLTFEdWJzRk5PX2FmRl9MR3lNeEZVeTRDRDBOMmtFbVE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:08:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "1abfdb6dc9802b6f",
-          "title": "Anthropic expected to receive high ‘junk’ rating from credit agencies following IPO, report says",
+          "title": "Anthropic expected to receive high ‘junk’ rating from credit agencies following IPO, FT report says",
           "url": "https://techcrunch.com/2026/10/30/anthropic-expected-to-receive-high-junk-rating-from-credit-agencies-following-ipo-report-says",
           "source": "techcrunch-ai",
           "published_at": "2026-10-30T21:52:03.000Z",
@@ -1536,75 +1620,64 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "4f253b5f73797428",
-          "title": "Anthropic Unveils Paperwork for Blockbuster IPO",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQbmI5VHgtQjFuck9nQkJ5Q0hCekJJT1YxVVR4MlFwcUNodk9hYzJPYWlaQ2JhYjVRcC1JYUFpZlRNNE5iZWJFMFZUQ0tyQ3VnempEZFJNcnhmalhDQWlpWjN5MkllV0p6cWtzd1lHWGZXZVdjcDVlREplX1JReV9fUUdSWjRqQUNr?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-30T21:34:50.000Z",
-          "score": 3,
-          "positive": [
-            "unveils"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "eaad933c9eb95379",
-          "title": "Anthropic VS code extension on Cursor backdoored for nearly 12 hours",
-          "url": "https://arstechnica.com/security/2026/10/anthropic-vs-code-extension-on-cursor-backdoored-for-nearly-12-hours",
-          "source": "arstechnica-ai",
-          "published_at": "2026-10-30T21:09:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7551e5fff64663cd",
-          "title": "Anthropic Could Join Public Markets With a Junk Rating Despite $112B Cash Pile, Blackstone Warns",
-          "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNal9CWUxEVWJtSzRDMGptWmJYYkdqZHNVQlBHbnRjNHM0QVhBcF83blRKQWh2WElWRXNlSUxBN2kzTG4xcEs5MVVKWkFmRE1IenNhQkdOOFBSYlBSN0NuN2FqLWhGN3gxbEJMRmNMNzRWZnVDV25QLVhPRk5ZUzA0dXBPZ1FWcEVkRnJQQ1FlejdQSENUQXVDSXQ4VTdLWWY3bTdIcmxrdE8xc3hKSWk4YURpc3BOaVN1bTVMNmcwYkZpSGZ2OFNOVHJtUU9kMGxXWXYybTBNUWdZLUlUMWlJZHFqM2tmV0pTajZOelJxZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-30T21:09:48.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "231b9a05d592d2c8",
-          "title": "OpenAI, Google, Microsoft, and Anthropic say they will adopt a new standard that publishers can use to opt out of being scraped by AI across multiple crawlers (Emma Roth/The Verge)",
-          "url": "https://techmeme.com/261030/p26",
-          "source": "techmeme",
-          "published_at": "2026-10-30T21:05:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5c175a4eeca5ad69",
-          "title": "Stock Pay Is About 70% of Anthropic’s $3.2B Personnel Bill",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQcjlOMzZ5MVFJeVk3ekRfdkRRRjhWQzRuVzhYXzNpc09XNklVQVV3UllOSGJWejRXWVBHVjlxMkVLcERDX3FScUdUb0E4aC1RTHBDdW5XLThiV1dvbzdCZnRSMGw3NE1UTU5zTmh4MFFta0FlTVJ4Z1E4WnpscmtPUWdoeklLZ2syUlF3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-30T20:51:57.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 7,
-      "index": -4.6,
-      "mean_headline": -0.6,
+      "headlines": 11,
+      "index": -3.6,
+      "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "02ebed3d2fbd9351",
+          "title": "Apple is launching an iOS 27.3 beta next week that will bring some of the initial Apple Intelligence features to the Chinese market. www.theverge.com/tech/1023974...",
+          "url": "https://bsky.app/profile/theverge.com/post/3mz4tnllbui27",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-30T22:34:43.180Z",
+          "score": 3,
+          "positive": [
+            "launching"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "35348fba4514d3e3",
+          "title": "Apple Intelligence is finally coming to China with iOS 27.3",
+          "url": "https://theverge.com/tech/1023974/apple-intelligence-china-ios-27-3",
+          "source": "verge-ai",
+          "published_at": "2026-10-30T22:32:53.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e225485e77178c89",
+          "title": "AI Daily: Apple Passes Nvidia as Intel Closes Down 28.6%",
+          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1oZzA2UFR3X2RSRlowM1NuUEgtbjJmSEtERE1sejZSVUlGTlFCeVY3TVpld3I3UkNZVGRMTzlwRG5Fam00REp4Q2JydlZEa0N2ZV9keTREQWJYV29ZeVUwZ3MxV2gyTEt3WFp3VGVoTHVuaktNRzBOOHB0clA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:22:14.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "down"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "a6c7906801b82020",
+          "title": "Apple Intelligence Is Coming to iPhone in China, With Help From Alibaba’s Qwen",
+          "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1oR0JNcWFWNGFwVVRlWmdlbnlmazhPVDZyanBGUHQ0ZjBBNk5RcERnN09RZEtfU0ZBQUp6RFQ4UEJmNVl4RFlLYkVOWTkwZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-30T22:09:50.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "05821f65f0a16c71",
           "title": "Apple Overtakes Nvidia to Become World’s Most Valuable Company",
@@ -1647,41 +1720,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d367224347618b1b",
-          "title": "Did Apple and Amazon just save the smart display?",
-          "url": "https://bsky.app/profile/theverge.com/post/3mz3tnrtdnv2y",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-30T13:02:08.704Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "70dc420592b7f278",
-          "title": "Apple bullied flash memory suppliers, and why AI datacenters changed the game",
-          "url": "https://msn.com/en-us/news/other/the-beleaguered-chip-sellers-getting-their-revenge-on-apple/ar-AA2ghTPi",
-          "source": "hn-ai",
-          "published_at": "2026-10-29T20:52:44.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1ae118a5e608b181",
-          "title": "Apple And Google Fined In South Korea Over App Store Violations",
-          "url": "https://reddit.com/r/artificial/comments/1xin9g3/apple_and_google_fined_in_south_korea_over_app",
-          "source": "reddit-artificial",
-          "published_at": "2026-10-29T15:33:56.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "fined"
-          ],
           "clickbait": []
         }
       ]
