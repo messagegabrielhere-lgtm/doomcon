@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_at": "2026-10-29T20:28:49.104Z",
+ "generated_at": "2026-10-30T00:20:47.917Z",
  "services": [
   {
    "id": "openai",
@@ -27,7 +27,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-10-29T20:23:31.322Z",
+   "updated_at": "2026-10-30T00:04:59.510Z",
    "degraded": [],
    "components": 6,
    "incidents": [],
@@ -43,7 +43,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-10-29T15:04:55.814Z",
+   "updated_at": "2026-10-30T00:04:37.964Z",
    "degraded": [],
    "components": 12,
    "incidents": [],
@@ -57,12 +57,57 @@
    "page": "https://status.cursor.com",
    "api": "https://status.cursor.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "none",
-   "description": "All Systems Operational",
-   "updated_at": "2026-10-29T20:28:43.088Z",
-   "degraded": [],
+   "indicator": "minor",
+   "description": "Partially Degraded Service",
+   "updated_at": "2026-10-30T00:20:46.546Z",
+   "degraded": [
+    {
+     "name": "IDE",
+     "status": "degraded_performance"
+    },
+    {
+     "name": "Cloud Agents",
+     "status": "degraded_performance"
+    },
+    {
+     "name": "Automations",
+     "status": "degraded_performance"
+    },
+    {
+     "name": "Grok Bot",
+     "status": "degraded_performance"
+    }
+   ],
    "components": 11,
-   "incidents": [],
+   "incidents": [
+    {
+     "name": "Auto Review Degradation",
+     "impact": "minor",
+     "status": "investigating",
+     "started_at": "2026-10-29T23:44:42.000Z",
+     "updated_at": "2026-10-29T23:44:42.000Z",
+     "url": "https://status.x.ai/history?incident=grok-bot%2Fps_e5eb22a9954466c4",
+     "latest": "We are investigating a degradation in Auto Review functionality"
+    },
+    {
+     "name": "Cloud Agent Degradation",
+     "impact": "minor",
+     "status": "investigating",
+     "started_at": "2026-10-29T23:29:27.000Z",
+     "updated_at": "2026-10-29T23:29:27.000Z",
+     "url": "https://status.x.ai/history?incident=automations%2Fps_35b661ea1cde5cbc",
+     "latest": "We are investigation a degradation to Cloud Agents"
+    },
+    {
+     "name": "Investigating Service Degradation with VS Code Extensions",
+     "impact": "minor",
+     "status": "investigating",
+     "started_at": "2026-10-29T21:38:10.000Z",
+     "updated_at": "2026-10-29T21:38:10.000Z",
+     "url": "https://status.x.ai/history?incident=cursor-desktop%2Fps_ad31c985bfc193b9",
+     "latest": "We are investigating a service degradation with VS Code extensions"
+    }
+   ],
    "maintenance": 0,
    "error": null
   },
@@ -139,7 +184,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-10-29T20:04:24.188Z",
+   "updated_at": "2026-10-30T00:04:44.248Z",
    "degraded": [],
    "components": 59,
    "incidents": [],
