@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-30T05:01:40.887Z",
+  "generated_at": "2026-10-30T05:40:03.009Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,9 +47,66 @@
       "ycombinator.com"
     ]
   },
-  "live": 6,
-  "fresh": "b1860aa48acab",
+  "live": 5,
+  "fresh": "b1879688caad1",
   "clusters": [
+    {
+      "id": "ba5385f913e7c",
+      "title": "Microsoft Looks to Raise at Least $25 Billion From US Bond Sale",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNVW1FNlVmV2VIM1BicUxLa0t2X2xDaDF5X0dScC0tVmlnX1Z3OGJYVWRVcGtJaGx4R3cwR3E3cFA0enExcXhNUE01bWdyYXl5Z1paeVYyV284SDFkVTFFeWdPYTVLODVMZ29UbzVkSzA0Vlhxc1JlNEhwMnVhMVMzQzU4cmVqdGJEY1I5X0tkaGdkZ1VTQm1JREFoYUV4Q183cFVKT1hQS3JhTkdYbHVwbw?oc=5",
+      "source": "wires-ai",
+      "outlet": "bloomberg.com",
+      "outlets": [
+        "chosun.com",
+        "ft.com"
+      ],
+      "tier1_outlets": [
+        "ft.com"
+      ],
+      "corroboration": 2,
+      "sources": [
+        "ft-ai",
+        "gnews-ai"
+      ],
+      "rule": [
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
+      ],
+      "earliest_published_at": "2026-10-30T05:00:00.000Z",
+      "first_seen_at": "2026-10-28T22:38:16.314Z",
+      "latency_s": 0,
+      "clock_skew": true,
+      "breaking_at": "2026-10-30T05:40:03.009Z",
+      "item_ids": [
+        "021528c4acc09110",
+        "1c3b6113fa78d35e",
+        "62f8ab6d5ede2885",
+        "726a65c7d21faf4f",
+        "a31a5c0f12a07002",
+        "f4a07473c5f0422e",
+        "fd8fafd3de69c503",
+        "fffbcaef249b1d2d"
+      ],
+      "sightings": [
+        {
+          "source": "ft-ai",
+          "outlet": "ft.com",
+          "title": "Alphabet’s brutal day on the stock market",
+          "url": "https://ft.com/content/4ca8c7a2-1b83-4bfd-92d4-a17261d0b325?syn-25a6b1a6=1",
+          "published_at": "2026-10-30T05:00:00.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "chosun.com",
+          "title": "Alphabet's $500B Loss Amid AI Paradox",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPS1JYLXY1YWlXMkFYbWxObExZQnBDODdDOVVmdEszbHIxVjJGbTg1M2luRndZRmVYanByMzRZaGZER0VGUEFfczN3eHE4dExwXzZjZ2hFcEpNWmQwZmcwdGtwRDI5ZkZqVmc0NGJZdEpkR2c5aXdOQnJJNXIzYjdzVVVjLWlBdVZK?oc=5",
+          "published_at": "2026-10-30T05:02:26.000Z",
+          "tier1": false
+        }
+      ],
+      "live": true
+    },
     {
       "id": "b1860aa48acab",
       "title": "Chinese medical AI model wins top state science award as sectoral \"ChatGPT moment\" arrives",
@@ -97,7 +154,7 @@
           "tier1": true
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b1879688caad1",
@@ -464,31 +521,44 @@
       "outlet": "reuters.com",
       "outlets": [
         "bloomberg.com",
-        "reuters.com"
+        "marketscreener.com",
+        "reuters.com",
+        "tradingview.com"
       ],
       "tier1_outlets": [
         "bloomberg.com",
         "reuters.com"
       ],
-      "corroboration": 2,
+      "corroboration": 4,
       "sources": [
         "bloomberg-tech",
+        "bluesky-ai",
+        "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-29T23:59:53.000Z",
+      "earliest_published_at": "2026-10-29T23:41:08.103Z",
       "first_seen_at": "2026-10-29T22:52:05.763Z",
       "latency_s": 0,
-      "clock_skew": true,
       "breaking_at": "2026-10-29T23:41:08.103Z",
       "item_ids": [
+        "5abe60deb78de657",
         "7a0258d24f82ed75",
         "d82ad9a206776934",
         "fe88d00def173a0e"
       ],
       "sightings": [
+        {
+          "source": "gnews-ai",
+          "outlet": "tradingview.com",
+          "title": "Nvidia weighs billions in credit guarantees for Nscale’s Anthropic data center - report",
+          "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxOUUpISUJTZENuV25aeEhUVVhuRF9VS2RmRWRON3hFRFp3ZFNZb2hyck13RHljN1pteWVPMlBvdnUwTVBYY1ZZdHdaaUJIRTh0VHNlajdJLWE5NXlLdUNUV0lNdlBGVEozMF9hOF9XejNNeEhFbG5hMWdIdjhlaGdGVzBUUXBZNldrV3VqZ3FZVTluU0hZQzJlLTF5dnk1ZlNPM3FOSVBpd3drNTJkSzhuaHpabUZDZHR2a1NCOGxCY1VWWXVjRm9qNXphWmozT1c0dy1QX0QxaHBrUFBoTDdBQlh3?oc=5",
+          "published_at": "2026-10-29T23:41:08.103Z",
+          "tier1": false
+        },
         {
           "source": "bloomberg-tech",
           "outlet": "bloomberg.com",
@@ -504,6 +574,22 @@
           "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOeFZKQnF5QVdNQlBQRzNMTE5PbjhUSXF0Y0NzYXpyaVJFeGplang3clhEYUtGUF9Fd2tPRjE0VllQVjV0cncwdU9za2RGZkFjQ2ZSTGdpQ3hXSkRBSjVtY2tvTzhEVTYtUkxYQjdfc1A3blJMd0c2ajJTUFp0eGMtOEtMbEk2NGl2Y2hrRFVlSHVaT1VQWi1qaGhLTkoyZVhXWFVFaXpDVEpZQV90MFNSZzN2dTl0WXJWZEhBRzJmUFVpNzI2Smc?oc=5",
           "published_at": "2026-10-30T01:26:00.000Z",
           "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "reuters.com",
+          "title": "Nvidia in talks to give credit support for Nscale's deal with Anthropic, The Information reports",
+          "url": "https://bsky.app/profile/reuters.com/post/3mz2yyupofe2a",
+          "published_at": "2026-10-30T02:30:35.214Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "marketscreener.com",
+          "title": "Nvidia may guarantee multibillion-dollar loans to Nscale for Anthropic project - The Information",
+          "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNdlRVclBydnV2V1VRS2UyQ2RTYlU5MUVpVm9Fem9LeTJHUEM2WU5QVXZob1ppeUZOTlNDSVBxOVg3QlJCcGN6aHRxcnM5eTRkSnRBNUF3aWRSeTdxNFh0bjNfUDhpQ0J4bEtjYmRTRDBzWkhEREgzdkVsNnNzclVTSmgteWlscGU2SHByTzQxd0sza1RpU0RlUUlUVkJib1NqdGNFLXJ2RWM2cnJJT2MtR20zMFdPamdOSktIN01mOFcxTlY4SHpBQmt2X09vWXFsdVM2X1N4b19HSDVzNnJ3MQ?oc=5",
+          "published_at": "2026-10-30T05:12:42.000Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -689,7 +775,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "bb3d8fdb5bd10",
@@ -1790,51 +1876,6 @@
           "title": "Mistral releases latest AI model for download, giving companies more control over their cybersecurity",
           "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5ZTjhNWlhEYlRYd2E1dUpQakRFclBwSXpvTnczZFZvQ01pTHRSQjN0R3dtV0szdUl2dkVGZFdnZGFwMGgyY1pLelhqOHdHT0RFV0RhY19HTmJ3ZmxVYndOLW1fTzJpeFRXRHRvTElpM21hT0cxSGNCbTJQa0xwUQ?oc=5",
           "published_at": "2026-10-29T14:55:18.752Z",
-          "tier1": false
-        }
-      ],
-      "live": false
-    },
-    {
-      "id": "b93be43638a6a",
-      "title": "Michael Burry says Anthropic's IPO filing proves the AI boom is dangerously exposed",
-      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNVlJtT3pjNUJMcldBcGlzMGtFMzVOR0JFZEQ1WExtVzJQaE9ZbXdTblNueTZmQTV3c0ZqX2FvMzE1TEFLbFMzc29JbmFHZFV4dF9iT3lRMHV6VFloN1h0aHZQUVcxTjBialgwUEFDWXRCQW04cVFhU19vaGVMaU1QZDhZRnkxVktVMERjMV85VTZrbl9qSTJIaDlnbGUwUm9DcWRuVlJQVU5HZC1ERFAyQ0ZJelJHcDYyei0wMlpn?oc=5",
-      "source": "gnews-ai",
-      "outlet": "gurufocus.com",
-      "outlets": [
-        "gurufocus.com",
-        "tradingview.com"
-      ],
-      "tier1_outlets": [],
-      "corroboration": 2,
-      "sources": [
-        "gnews-ai"
-      ],
-      "rule": [
-        "two outlets within 20 min"
-      ],
-      "earliest_published_at": "2026-10-29T13:10:47.000Z",
-      "first_seen_at": "2026-10-29T13:24:24.963Z",
-      "latency_s": 818,
-      "breaking_at": "2026-10-29T14:55:18.752Z",
-      "item_ids": [
-        "707cba56a4236667"
-      ],
-      "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "gurufocus.com",
-          "title": "Michael Burry says Anthropic's IPO filing proves the AI boom is dangerously exposed",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNVlJtT3pjNUJMcldBcGlzMGtFMzVOR0JFZEQ1WExtVzJQaE9ZbXdTblNueTZmQTV3c0ZqX2FvMzE1TEFLbFMzc29JbmFHZFV4dF9iT3lRMHV6VFloN1h0aHZQUVcxTjBialgwUEFDWXRCQW04cVFhU19vaGVMaU1QZDhZRnkxVktVMERjMV85VTZrbl9qSTJIaDlnbGUwUm9DcWRuVlJQVU5HZC1ERFAyQ0ZJelJHcDYyei0wMlpn?oc=5",
-          "published_at": "2026-10-29T13:10:47.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "tradingview.com",
-          "title": "Michael Burry says Anthropic's IPO filing proves the AI boom is dangerously exposed",
-          "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOcG8yTW5OcXQtbm05RHpqVDItNXctdjgxUXJUSzdVUUVUcFJULUszZFVOa0FCYl9LUC1ZU0pJVjBDQ1l0NHR2OVNQVjJQZnRVWFJoc0RUXzl5ZWJ2Zk5BMk1iTGFuVkpWSERwcEY1Z1J1Y0Q0S1NJdllhVW5sbUx2bXh1TV9uNXBYOWlYbHNkdXo2OEM5VFhqSnpWWHBMbC0yT21RR2JTVVdfZWFWLVJFQkZjTW5JaWs5NnlMV0FtT0xYVUNVRjIzSnZDLWJJcl9HeWpDWThjcGVBUFE?oc=5",
-          "published_at": "2026-10-29T13:20:29.000Z",
           "tier1": false
         }
       ],
