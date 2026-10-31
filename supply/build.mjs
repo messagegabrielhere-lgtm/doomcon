@@ -41,7 +41,7 @@ const html = `<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Supply Depot: ${TOTAL} emergency prep supplies · SIREN</title>
+<title>Emergency preparedness supplies list: ${TOTAL} items, free checklist · SIREN</title>
 <meta name="description" content="A free checklist of ${TOTAL} emergency and off-grid supplies in ${CATALOG.length} categories: water, food, power, solar, radios, first aid, tools, pets, kids and offline computing. Tick what you have, then shop what you still need.">
 <script type="application/ld+json">
 ${JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebPage', name: `The Supply Depot: ${TOTAL} emergency prep supplies`, url: 'https://siren.watch/supply-depot.html', isPartOf: { '@type': 'WebSite', name: 'SIREN', url: 'https://siren.watch/' } })}
@@ -51,6 +51,9 @@ ${JSON.stringify({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', 
 </script>
 <script type="application/ld+json">
 ${JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) })}
+</script>
+<script type="application/ld+json">
+${JSON.stringify({ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Emergency prep supply categories', numberOfItems: CATALOG.length, itemListElement: CATALOG.map(([id, title, , items], i) => ({ '@type': 'ListItem', position: i + 1, name: `${title} (${items.length} supplies)`, url: `https://siren.watch/supply-depot.html#${id}` })) })}
 </script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>

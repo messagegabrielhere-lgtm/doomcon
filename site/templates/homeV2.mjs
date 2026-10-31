@@ -224,6 +224,9 @@ export function roomGroups(ctx) {
       ['/bunker-kit.html', 'bunker', 'What free tools belong in a bunker kit?', null, 'Free tools only.'],
       ['/si-ready.html', 'px:backpack', 'Ready for superintelligence?', null, 'A 3-minute personal plan — not a SI date or doom forecast.'],
       ['/prepper-checklist.html', 'px:doc', 'What belongs in a 72-hour prepper kit?', null, 'A checklist, not a forecast.'],
+      ['/supply-depot.html', 'px:crate', 'What 1,003 supplies belong in an emergency prep kit?', 'NEW', 'Searchable checklist: water, power, food, radios, first aid.'],
+      ['/prep-downloads.html', 'px:download', 'Where are free prep spreadsheets and printable checklists?', 'NEW', 'Calculators, trackers and PDFs. No sign-up.'],
+      ['/survival-llm.html', 'px:chip', 'Is there a free AI that works with no internet?', 'NEW', 'Survival LLM: offline AI and survival library.'],
       ['/bug-out-land.html', 'px:cabin', 'Where to buy remote land to ride out Skynet?', null, 'Listings and caveats — not a forecast.'],
       ['/library.html', 'books', 'What AI books argue both sides of the case?', null, 'Both sides, sourced.'],
     ]],
@@ -1070,6 +1073,18 @@ ${ticker(items, href)}
   </div>
   ${signupPanel(ctx, href, { id: 'nl', heading: `GET THE ${brand.NAME} BRIEF BY EMAIL` })}
   ${stayStrip(href, img)}
+  <section class="v2-prep" id="prep" data-sec="Prep" aria-labelledby="v2-prep-h">
+    <div class="v2-prep__txt">
+      <p class="v2-prep__k">THE SUPPLY DEPOT · FREE PREP TOOLS</p>
+      <h2 id="v2-prep-h">1,003 emergency prep supplies, in one checklist</h2>
+      <p>Water, food, power, solar, radios, first aid, pets and kids, plus the offline computers that run a survival AI. Tick what you have, shop what you need, or download the whole list free.</p>
+    </div>
+    <div class="v2-prep__cards">
+      <a href="${href('/supply-depot.html')}"><img src="${img('px:crate')}" width="48" height="48" alt="" loading="lazy"><b>Supply Depot</b><small>1,003 supplies in 25 categories. Search, filter, tick.</small></a>
+      <a href="${href('/prep-downloads.html')}"><img src="${img('px:download')}" width="48" height="48" alt="" loading="lazy"><b>Free downloads</b><small>Spreadsheets, calculators and printable checklists.</small></a>
+      <a href="${href('/survival-llm.html')}"><img src="${img('px:chip')}" width="48" height="48" alt="" loading="lazy"><b>Survival LLM</b><small>A free AI and survival library that works with no internet.</small></a>
+    </div>
+  </section>
   ${dash}
   ${readNext(ctx, href, items)}  <div class="v2-since" id="v2-since" hidden role="status"></div>
   <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
@@ -1427,6 +1442,18 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-new button:hover,.v2-new button:focus-visible{background:var(--ui);color:#05070B;outline:none}
 .v2-new b{font-variant-numeric:tabular-nums}
 .v2-3d{display:inline-flex;width:140px;height:140px;align-items:center;justify-content:center;flex:none}.v2-3d canvas{width:140px!important;height:140px!important}
+.v2-prep{margin:28px 0;padding:20px;border:2px solid #4ADE80;border-radius:4px;background:#07130C;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:20px;align-items:center}
+.v2-prep__k{margin:0 0 8px;font:700 12px/1.2 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.14em;color:#4ADE80}
+.v2-prep h2{margin:0 0 8px;font:700 clamp(1.4rem,3.2vw,2rem)/1.1 "IBM Plex Sans",system-ui,sans-serif;color:#E6EAF0}
+.v2-prep__txt p:last-child{margin:0;color:#AEB7C3}
+.v2-prep__cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.v2-prep__cards a{display:grid;gap:6px;align-content:start;padding:14px;border:1px solid #232C3B;border-radius:4px;background:#0E131D;text-decoration:none;color:#E6EAF0}
+.v2-prep__cards a:hover,.v2-prep__cards a:focus-visible{border-color:#4ADE80}
+.v2-prep__cards img{image-rendering:pixelated}
+.v2-prep__cards b{font:700 15px/1.2 "IBM Plex Sans",system-ui,sans-serif;color:#4ADE80}
+.v2-prep__cards small{font-size:13px;line-height:1.4;color:#AEB7C3}
+@media (max-width:860px){.v2-prep{grid-template-columns:1fr}}
+@media (max-width:560px){.v2-prep__cards{grid-template-columns:1fr}.v2-prep__cards a{grid-template-columns:48px 1fr;column-gap:12px}.v2-prep__cards a img{grid-row:span 2}}
 .v2-video{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:24px;align-items:center;margin:28px 0;padding:18px;border:1px solid #232C3B;border-radius:4px;background:#0E131D}
 .v2-video h2{margin:0 0 10px}.v2-video p{margin:0;color:#AEB7C3;font-size:15px;line-height:1.5}
 .v2-video video{width:100%;height:auto;aspect-ratio:16/9;background:#000;border-radius:3px;display:block}

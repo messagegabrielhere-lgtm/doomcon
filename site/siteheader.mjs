@@ -39,6 +39,7 @@ export const WHATS_NEW = [
   // Keep to about six (comment above). Prefer rooms that are not already in
   // PRIMARY, each with an icon unused by the every-room grid (icons-unique).
   // /#readers stays off this reel (map lives on the homepage; see #121).
+  ['/supply-depot.html', 'px:shelf', 'What 1,003 supplies belong in an emergency prep kit?', 'The Supply Depot: a searchable prep checklist, plus free spreadsheets and PDFs.'],
   ['/midterms.html', 'px:midterm', 'Who is pro-AI, against, or neutral in the 2026 midterms?', 'Cited AI stance tags for midterm candidates, with Post to X.'],
   ['/nations.html', 'px:tugofwar', 'USA vs China: who is winning the race to superintelligence?', 'The nations race to superintelligence, scored live.'],
   ['/power.html', 'px:pylon', 'Who makes the most electricity (China vs US)?', 'Who makes the most electricity: China vs the US, per person, fastest growing.'],

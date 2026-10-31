@@ -794,7 +794,7 @@ export function land(ctx) {
   <h2 id="listings">${esc(listQ)}</h2>
   <p>${LISTINGS.map(([n, h]) => `<a class="ag-btn ghost" href="${esc(h)}" rel="noopener" target="_blank">${esc(n)} ↗</a>`).join('')}</p>
   <h2 id="stock">${esc(stockQ)}</h2>
-  <p><a href="${esc(ctx.href('/prepper-checklist.html'))}">What belongs in a 72-hour prepper kit?</a> and <a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a> cover water, food, power and the rest.</p>
+  <p><a href="${esc(ctx.href('/prepper-checklist.html'))}">What belongs in a 72-hour prepper kit?</a> and <a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a> cover water, food, power and the rest. <a href="${esc(ctx.href('/supply-depot.html'))}">The Supply Depot</a> lists 1,003 supplies.</p>
   <p class="ag-note">General information, not real-estate, legal or financial advice. Prices and conditions change; visit before you buy, and have a local attorney check title, access and water rights. Links to listing sites are plain links; ${esc(brand.NAME)} is not paid for them.</p>
   <section class="ag-faq" aria-labelledby="faq">
     <h2 id="faq">What questions do people actually ask?</h2>
@@ -855,6 +855,9 @@ export function guideIndex(ctx, groups) {
     { q: 'jobs career lose my job ai', a: 'Try the 2-minute AI-proof-your-job plan, and see what has actually been counted about AI and jobs.', u: ctx.href('/ai-proof-job.html') },
     { q: 'prepare superintelligence agi ready', a: 'The Ready for SI check builds a personal plan across work, money, deepfakes, security, community and civic voice.', u: ctx.href('/si-ready.html') },
     { q: 'prepper supplies emergency kit bunker', a: 'What belongs in a 72-hour prepper kit? covers a 72-hour kit and two weeks at home; What free tools belong in a bunker kit? has free tools and supply crates.', u: ctx.href('/prepper-checklist.html') },
+    { q: 'supplies list checklist 1000 prep gear generator solar water storage', a: 'The Supply Depot is a searchable checklist of 1,003 emergency prep supplies in 25 categories.', u: ctx.href('/supply-depot.html') },
+    { q: 'download spreadsheet printable pdf checklist calculator pantry', a: 'Free prep spreadsheets and printable checklists: supply list, water and food calculator, pantry tracker, power budget, family plan.', u: ctx.href('/prep-downloads.html') },
+    { q: 'offline ai no internet survival llm local', a: 'Survival LLM is a free AI and survival library that runs on your own computer with no internet.', u: ctx.href('/survival-llm.html') },
     { q: 'land remote bug out skynet', a: 'Where to buy remote land to ride out Skynet? — regions people look at, and the checklist before you buy.', u: ctx.href('/bug-out-land.html') },
     { q: 'good news breakthroughs positive', a: 'What AI breakthroughs has SIREN tracked? covers AI helping: medicine, math and science, climate and accessibility.', u: ctx.href('/breakthroughs.html') },
     { q: 'good for people help humans benefit tools charter oversight', a: 'For People has four browser tools: a people-first deploy gate, an oversight planner, an agent charter builder, and domain moves linked to measured rooms.', u: ctx.href('/for-people.html') },

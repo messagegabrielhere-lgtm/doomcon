@@ -2,6 +2,18 @@
 // tiles on the homepage share a picture. 16x16 grids; build.mjs writes each
 // as public/img/px-<name>.svg and the tiles use them like the webp art.
 export const TILE_ICONS = {
+  shelf: [{ a: '#9CA3AF', b: '#F59E0B', c: '#4ADE80', d: '#60A5FA' }, [
+    '.aaaaaaaaaaaaaa.', '.a............a.', '.a.bbb.bbb.bb.a.', '.a.bbb.bbb.bb.a.', '.aaaaaaaaaaaaaa.', '.a............a.', '.a.cc.cc.cc.c.a.', '.a.cc.cc.cc.c.a.',
+    '.aaaaaaaaaaaaaa.', '.a............a.', '.a.dd.dd.dd.d.a.', '.a.dd.dd.dd.d.a.', '.aaaaaaaaaaaaaa.', '.a............a.', '.a............a.', '................']],
+  crate: [{ a: '#B45309', b: '#D97706', c: '#78350F', d: '#4ADE80' }, [
+    '................', '................', '.aaaaaaaaaaaaaa.', '.abbbbbbbbbbbba.', '.acccccccccccca.', '.abbbbbbbbbbbba.', '.abbbbbddbbbbba.', '.abbbbddddbbbba.',
+    '.abbbbbddbbbbba.', '.abbbbbbbbbbbba.', '.acccccccccccca.', '.abbbbbbbbbbbba.', '.aaaaaaaaaaaaaa.', '..a..........a..', '................', '................']],
+  download: [{ a: '#E5E7EB', b: '#4ADE80', c: '#6B7686', d: '#FACC15' }, [
+    '.aaaaaaaaaaa....', '.abbbbbbbbba....', '.a.c.c.c.c.a....', '.accccccccca....', '.a.c.c.c.c.a....', '.accccccccca....', '.a.c.c.c.c.a....', '.accccccccca.dd.',
+    '.a.c.c.c.c.a.dd.', '.aaaaaaaaaaa.dd.', '..........dddddd', '...........dddd.', '............dd..', '................', '................', '................']],
+  chip: [{ a: '#9CA3AF', b: '#374151', c: '#4ADE80' }, [
+    '................', '....a.a.a.a.a...', '...bbbbbbbbbb...', '.a.bbbbbbbbbb.a.', '...bbccccccbb...', '.a.bbcbbbbcbb.a.', '...bbcbccbcbb...', '.a.bbcbccbcbb.a.',
+    '...bbcbbbbcbb...', '.a.bbccccccbb.a.', '...bbbbbbbbbb...', '.a.bbbbbbbbbb.a.', '...bbbbbbbbbb...', '....a.a.a.a.a...', '................', '................']],
   radio: [{ a: '#56B0E0', b: '#0A1A24', c: '#B8E0F5', d: '#F87171' }, [
     '..........c.....', '.........c......', '........c.......', '.aaaaaaaaaaaaaa.', 'a..............a', 'a.bbbbbb..ccc..a', 'a.bccccb.c...c.a', 'a.bbbbbb.c.d.c.a',
     'a.bccccb.c...c.a', 'a.bbbbbb..ccc..a', 'a..............a', 'a.aa.aa.aa.aa..a', 'a..............a', '.aaaaaaaaaaaaaa.', '..a..........a..', '................']],
