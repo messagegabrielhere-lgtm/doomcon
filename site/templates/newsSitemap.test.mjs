@@ -3041,7 +3041,7 @@ test('news sitemap keywords include ECDSA from multi-title Anthropic curve-seed 
   // bare Claude / Anthropic tape must not invent ECDSA.
   const d = keywordsFor({
     title: 'Anthropic ships a quieter Claude coding update',
-    summary: 'Bare Claude tape without the curve-seed surface.',
+    summary: 'Bare Claude tape about a coding release, no cryptography.',
     pillar: 'attention',
     kind: 'press',
     source: 'gnews-ai',

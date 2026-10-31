@@ -508,8 +508,7 @@ GET ${u('/api/now.txt')}
 
 Quote the level name, the score, and the UTC stamp. The scale runs 5 (quietest) to 1 (loudest). It counts activity. It is not a probability of harm and not a forecast.
 
-How to cite: ${u('/skill.md')}
-Same entry, uppercase path coding agents request: ${u('/AGENTS.md')}
+How to cite: ${u('/skill.md')} · Same entry, uppercase path coding agents request: ${u('/AGENTS.md')}
 
 ## Fetch first
 
@@ -555,34 +554,20 @@ Same entry, uppercase path coding agents request: ${u('/AGENTS.md')}
 - ${u('/guide.md')} — SIREN vs DEFCON vs Doomsday Clock vs p(doom) (HTML ${u('/guide.html')}, short ${u('/ai-doom.html')})
 - ${u('/search-trends.html')} — Which Google Search Trends for AI does SIREN watch? (short alias ${u('/trends.html')})
 - ${u('/watts.html')} — What does the SIREN infrastructure index read? (IREN stock / AI cloud power Trends → Watts)
-- ${u('/lab/micron.html')} — What has SIREN scored about Micron / MU? (dram stock / memory stock Trends → Micron lab)
-- ${u('/lab/coreweave.html')} — What has SIREN scored about CoreWeave / CRWV? (CoreWeave stock / CRWV Trends / debt / bond Trends → CoreWeave lab)
-- ${u('/lab/nvidia.html')} — What has SIREN scored about NVIDIA / NVDA? (Nvidia stock / NVDA Trends → Nvidia lab)
-- ${u('/lab/openai.html')} — What has SIREN scored about OpenAI / ChatGPT? (OpenAI lawsuit / FTC / OpenAI outage / ChatGPT Chrome Trends → OpenAI lab)
-- ${u('/lab/anthropic.html')} — What has SIREN scored about Anthropic / Claude? (Anthropic IPO / FTC probe / AI safety bill / Canadian data centre / METR / ECDSA / Claude Opus 5.5 / Blackstone / Replit / Claude Mythos 5 Trends → Anthropic lab)
-- ${u('/lab/asml.html')} — What has SIREN scored about ASML? (ASML stock / EUV AI chip-tool Trends → ASML lab)
-- ${u('/lab/tsmc.html')} — What has SIREN scored about TSMC? (TSMC stock / AI foundry Trends → TSMC lab)
-- ${u('/lab/amazon.html')} — What has SIREN scored about Amazon? (Amazon Bee / AI wearables Trends → Amazon lab)
-- ${u('/lab/meta.html')} — What has SIREN scored about Meta AI / Muse? (Meta Muse / open-weight AI / Meta and Apple Mac AI Trends → Meta lab)
-- ${u('/lab/apple.html')} — What has SIREN scored about Apple / Apple Intelligence? (Apple Intelligence Trends → Apple lab)
-- ${u('/lab/microsoft.html')} — What has SIREN scored about Microsoft / Copilot? (Microsoft Copilot Trends → Microsoft lab; Microsoft MAI-Base / MAI-Base-2 → Microsoft lab; Surface Laptop Ultra Trends → Microsoft lab)
-- ${u('/lab/xai.html')} — What has SIREN scored about xAI / Grok? (Grok / xAI Trends → xAI lab)
-- ${u('/lab/google-deepmind.html')} — What has SIREN scored about Google DeepMind / Gemini / Argon? (Gemini / Gemma / Argon Trends → DeepMind lab)
-- ${u('/lab/samsung.html')} — What has SIREN scored about Samsung / HBM? (Samsung / AI memory / Samsung AI glasses Trends → Samsung lab)
-- ${u('/tags/neoclouds.html')} — What has SIREN scored about Neoclouds? (neocloud / neoclouds Trends → Neoclouds tag)
-- ${u('/tags/chatbots.html')} — What has SIREN scored about Chatbots? (Character.ai bankruptcy / companion chatbot Trends → Chatbots tag)
-- ${u('/tags/agents.html')} — What has SIREN scored about AI agents? (CERT-In / India AI-agent cyber Trends → Agents tag)
-- ${u('/tags/huggingface.html')} — What has SIREN scored about Hugging Face? (Hugging Face hack / incident Trends → Hugging Face tag)
-- ${u('/lab/qwen.html')} — What has SIREN scored about Alibaba Qwen? (Qwen / Alibaba open-weight Trends → Qwen lab)
-- ${u('/tags/datacenters.html')} — What has SIREN scored about Datacenters & power? (Oracle datacenter / AI datacenter Trends → Datacenters tag)
-- ${u('/lab/deepseek.html')} — What has SIREN scored about DeepSeek? (DeepSeek outage / Chinese open-model Trends → DeepSeek lab; DeepSeek V4.1 Flash Trends → DeepSeek lab)
-- ${u('/lab/mistral.html')} — What has SIREN scored about Mistral / Timestral? (Mistral / Timestral / CERN Flare Trends → Mistral lab)
-- ${u('/lab/palantir.html')} — What has SIREN scored about Palantir / AIP? (Palantir / AIP / government AI / Ondas Trends → Palantir lab)
-- ${u('/lab/amd.html')} — What has SIREN scored about AMD / MI300? (AMD / MI300 / Instinct AI GPU Trends → AMD lab)
-- ${u('/lab/tesla.html')} — What has SIREN scored about Tesla / FSD? (Tesla / FSD / Autopilot / Flying Roadster Trends → Tesla lab)
-- ${u('/lab/waymo.html')} — What has SIREN scored about Waymo? (Waymo Canada / Toronto robotaxi Trends → Waymo lab)
-- ${u('/lab/softbank.html')} — What has SIREN scored about SoftBank? (SoftBank / Allied Universal Trends → SoftBank lab)
-- ${u('/lab/spacex.html')} — What has SIREN scored about SpaceX? (SpaceX / Starshield Trends → SpaceX lab)
+- ${u('/lab/micron.html')} — What has SIREN scored about Micron / MU? (dram stock / memory stock Trends → Micron lab) · ${u('/lab/coreweave.html')} — What has SIREN scored about CoreWeave / CRWV? (CoreWeave stock / CRWV Trends / debt / bond Trends → CoreWeave lab)
+- ${u('/lab/nvidia.html')} — What has SIREN scored about NVIDIA / NVDA? (Nvidia stock / NVDA Trends → Nvidia lab) · ${u('/lab/openai.html')} — What has SIREN scored about OpenAI / ChatGPT? (OpenAI lawsuit / FTC / OpenAI outage / ChatGPT Chrome Trends → OpenAI lab)
+- ${u('/lab/anthropic.html')} — What has SIREN scored about Anthropic / Claude? (Anthropic IPO / FTC probe / AI safety bill / Canadian data centre / METR / ECDSA / Claude Opus 5.5 / Blackstone / Replit / Claude Mythos 5 Trends → Anthropic lab) · ${u('/lab/asml.html')} — What has SIREN scored about ASML? (ASML stock / EUV AI chip-tool Trends → ASML lab)
+- ${u('/lab/tsmc.html')} — What has SIREN scored about TSMC? (TSMC stock / AI foundry Trends → TSMC lab) · ${u('/lab/amazon.html')} — What has SIREN scored about Amazon? (Amazon Bee / AI wearables Trends → Amazon lab)
+- ${u('/lab/meta.html')} — What has SIREN scored about Meta AI / Muse? (Meta Muse / open-weight AI / Meta and Apple Mac AI Trends → Meta lab) · ${u('/lab/apple.html')} — What has SIREN scored about Apple / Apple Intelligence? (Apple Intelligence Trends → Apple lab)
+- ${u('/lab/microsoft.html')} — What has SIREN scored about Microsoft / Copilot? (Microsoft Copilot Trends → Microsoft lab; Microsoft MAI-Base / MAI-Base-2 → Microsoft lab; Surface Laptop Ultra Trends → Microsoft lab) · ${u('/lab/xai.html')} — What has SIREN scored about xAI / Grok? (Grok / xAI Trends → xAI lab)
+- ${u('/lab/google-deepmind.html')} — What has SIREN scored about Google DeepMind / Gemini / Argon? (Gemini / Gemma / Argon Trends → DeepMind lab) · ${u('/lab/samsung.html')} — What has SIREN scored about Samsung / HBM? (Samsung / AI memory / Samsung AI glasses Trends → Samsung lab)
+- ${u('/tags/neoclouds.html')} — What has SIREN scored about Neoclouds? (neocloud / neoclouds Trends → Neoclouds tag) · ${u('/tags/chatbots.html')} — What has SIREN scored about Chatbots? (Character.ai bankruptcy / companion chatbot Trends → Chatbots tag)
+- ${u('/tags/agents.html')} — What has SIREN scored about AI agents? (CERT-In / India AI-agent cyber Trends → Agents tag) · ${u('/tags/huggingface.html')} — What has SIREN scored about Hugging Face? (Hugging Face hack / incident Trends → Hugging Face tag)
+- ${u('/lab/qwen.html')} — What has SIREN scored about Alibaba Qwen? (Qwen / Alibaba open-weight Trends → Qwen lab) · ${u('/tags/datacenters.html')} — What has SIREN scored about Datacenters & power? (Oracle datacenter / AI datacenter Trends → Datacenters tag)
+- ${u('/lab/deepseek.html')} — What has SIREN scored about DeepSeek? (DeepSeek outage / Chinese open-model Trends → DeepSeek lab; DeepSeek V4.1 Flash Trends → DeepSeek lab) · ${u('/lab/mistral.html')} — What has SIREN scored about Mistral / Timestral? (Mistral / Timestral / CERN Flare Trends → Mistral lab)
+- ${u('/lab/palantir.html')} — What has SIREN scored about Palantir / AIP? (Palantir / AIP / government AI / Ondas Trends → Palantir lab) · ${u('/lab/amd.html')} — What has SIREN scored about AMD / MI300? (AMD / MI300 / Instinct AI GPU Trends → AMD lab)
+- ${u('/lab/tesla.html')} — What has SIREN scored about Tesla / FSD? (Tesla / FSD / Autopilot / Flying Roadster Trends → Tesla lab) · ${u('/lab/waymo.html')} — What has SIREN scored about Waymo? (Waymo Canada / Toronto robotaxi Trends → Waymo lab)
+- ${u('/lab/softbank.html')} — What has SIREN scored about SoftBank? (SoftBank / Allied Universal Trends → SoftBank lab) · ${u('/lab/spacex.html')} — What has SIREN scored about SpaceX? (SpaceX / Starshield Trends → SpaceX lab)
 - ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
 - ${u('/guides.html')} — What are the AI explainers? (p(doom), clocks, doom indexes)
 - ${u('/guides.md')} — markdown mirror of the explainers hub
@@ -605,11 +590,8 @@ Same entry, uppercase path coding agents request: ${u('/AGENTS.md')}
 
 ## Discovery
 
-- ${u('/AGENTS.md')} — same file as this page (uppercase path)
-- ${u('/agents.txt')} / ${u('/agents.json')} — agents-txt.com skills announcement
-- ${u('/.well-known/api-catalog')} — RFC 9727 API catalog
-- ${u('/.well-known/agent-skills/index.json')} — skill digest
-- ${u('/.well-known/mcp/server-card.json')} — stdio MCP install card
+- ${u('/AGENTS.md')} — same file as this page (uppercase path) · ${u('/agents.txt')} / ${u('/agents.json')} — agents-txt.com skills announcement
+- ${u('/.well-known/api-catalog')} — RFC 9727 API catalog · ${u('/.well-known/agent-skills/index.json')} — skill digest · ${u('/.well-known/mcp/server-card.json')} — stdio MCP install card
 
 ## Runnable kit (CLI + MCP)
 

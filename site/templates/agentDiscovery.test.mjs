@@ -130,9 +130,9 @@ test('ai.txt points agents at the discovery stack', () => {
     '/agents.md', '/AGENTS.md', '/agents.txt', '/skill.md', '/llms.txt', '/api/now.txt', '/.well-known/api-catalog',
     '/now.md', '/api/news.json', '/news-sitemap.xml', '/news.html',
     '/api/search-trends.json', '/search-trends.html', '/ai-prediction-markets.html',
-    '/free-tools.html', '/verify.html', '/classic.html',
+    '/free-tools.html', '/verify.html', '/classic.html', '/promote.md',
   ]) {
-  for (const p of ['/agents.md', '/agents.txt', '/skill.md', '/promote.md', '/llms.txt', '/api/now.txt', '/.well-known/api-catalog']) {    assert.ok(txt.includes(`https://siren.watch${p}`), p);
+    assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.match(txt, /Google News rolling sitemap/);
   assert.match(txt, /Which AI stories has SIREN scored in this window\?/);
