@@ -16,6 +16,7 @@ import { sitemapEntries as outletEntries } from './outletPages.mjs';
 
 import { esc } from './_html.mjs';
 import * as brand from '../brand.mjs';
+import { monthsIn, reportPath } from './reportPages.mjs';
 
 export function render(ctx) {
   const entries = [
@@ -23,6 +24,10 @@ export function render(ctx) {
     { loc: '/methodology.html', changefreq: 'monthly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/methodology.md', changefreq: 'monthly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/history.html', changefreq: 'monthly', priority: '0.8', lastmod: ctx.state.generated_at },
+    ...(ctx.history && ctx.history.length ? [
+      { loc: '/reports/', changefreq: 'monthly', priority: '0.7', lastmod: ctx.state.generated_at },
+      ...monthsIn(ctx.history).map((m) => ({ loc: reportPath(m), changefreq: 'monthly', priority: '0.7', lastmod: ctx.state.generated_at })),
+    ] : []),
     ...(ctx.ledger ? [
       { loc: '/jobs.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.state.generated_at },
       { loc: '/medicine.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.state.generated_at },

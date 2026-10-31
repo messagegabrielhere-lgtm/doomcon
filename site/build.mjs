@@ -27,6 +27,7 @@ import * as homeV2 from './templates/homeV2.mjs';
 import { pixelText, roomArt } from './templates/_pixel.mjs';
 import * as methodologyPage from './templates/methodology.mjs';
 import * as historyPage from './templates/history.mjs';
+import * as reportPages from './templates/reportPages.mjs';
 import * as movePage from './templates/move.mjs';
 import * as movesIndexPage from './templates/movesIndex.mjs';
 import * as embedPage from './templates/embed.mjs';
@@ -1862,6 +1863,11 @@ async function main() {
   written.push(await write(args.out, 'methodology.html', methodologyPage.render(ctx)));
   written.push(await write(args.out, 'methodology.md', methodologyPage.methodologyMd(ctx)));
   written.push(await write(args.out, 'history.html', historyPage.render(ctx)));
+  // Monthly reports: stable, citable URLs (one per month in history.ndjson).
+  for (const m of reportPages.monthsIn(ctx.history)) {
+    written.push(await write(args.out, `reports/${m}.html`, reportPages.render(ctx, m)));
+  }
+  written.push(await write(args.out, 'reports/index.html', reportPages.renderIndex(ctx)));
   written.push(await write(args.out, 'embed.html', embedPage.render(ctx)));
   // GitHub Pages serves this for every missing path under the site. Without it
   // a dead URL lands on GitHub's own page, with no masthead and no way back.

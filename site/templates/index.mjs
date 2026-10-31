@@ -125,7 +125,8 @@ export function render(ctx, { view = 'home' } = {}) {
 
   const embedSrc = ctx.url('/embed.html');
   const snippet = `<iframe src="${embedSrc}" width="320" height="152" ` +
-    `style="border:0;max-width:100%" loading="lazy" title="${brand.NAME} — AI activity tempo"></iframe>`;
+    `style="border:0;max-width:100%" loading="lazy" title="${brand.NAME} — AI activity tempo"></iframe>\n` +
+    `<p style="font:12px system-ui,sans-serif;margin:4px 0 0">AI activity index by <a href="${ctx.url('/')}">${brand.NAME}</a></p>`;
 
   const obs = ctx.history.length;
 

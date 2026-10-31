@@ -1237,6 +1237,8 @@ export function press(ctx) {
   <p>${esc(brand.NAME)} counts public AI activity across five pillars (${brand.PILLARS.map((p) => esc(p.name.toLowerCase())).join(', ')}) and turns it into one score from 0 to 100 and a level from 5 to 1.
     It measures tempo, not danger, and it does not forecast. Each reading is published with a receipt containing its inputs and the hash of the receipt before it,
     and a button on the home page lets any visitor re-check the last twelve readings in their own browser. It is run by one person, carries no display-ad network, and labels Amazon Associate links where they appear.</p>
+  <p>Need a number that will not change after you publish? Each closed month has its own report with quotable findings:
+    <a href="${esc(ctx.href('/reports/'))}">What did the ${esc(brand.NAME)} AI activity index do each month?</a></p>
   <h2>${esc(factsQ)}</h2>
   <ul>
     ${now ? `<li><b>Current reading:</b> ${esc(now)}. <a href="${esc(ctx.href('/'))}">AI activity index today · AI activity level today · ${esc(brand.NAME)}</a>.</li>` : ''}

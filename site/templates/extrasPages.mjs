@@ -327,7 +327,7 @@ export function exportPage(ctx) {
   const PATH = '/export.html';
   const qTitle = `How do I export and embed ${brand.NAME} data?`;
   const s = ctx.state;
-  const embedSnippet = `<iframe src="${ctx.url('/embed.html')}" width="320" height="152" style="border:0;max-width:100%" loading="lazy" title="${brand.NAME}: AI activity tempo"></iframe>`;
+  const embedSnippet = `<iframe src="${ctx.url('/embed.html')}" width="320" height="152" style="border:0;max-width:100%" loading="lazy" title="${brand.NAME}: AI activity tempo"></iframe>\n<p style="font:12px system-ui,sans-serif;margin:4px 0 0">AI activity index by <a href="${ctx.url('/')}">${brand.NAME}</a></p>`;
   const badgeHtml = `<a href="${ctx.url('/')}"><img src="${ctx.url('/badge.svg')}" alt="${brand.NAME} current level" height="20"></a>`;
   const badgeMd = `[![${brand.NAME} current level](${ctx.url('/badge.svg')})](${ctx.url('/')})`;
   const cardHtml = `<a href="${ctx.url('/')}"><img src="${ctx.url('/cards/state.png')}" alt="${brand.NAME} current reading" width="600" style="max-width:100%;height:auto"></a>`;
