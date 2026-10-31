@@ -1,0 +1,345 @@
+{
+  "as_of_date": "2026-09-27",
+  "honesty": [
+    "Every date, count and figure below is taken from a linked source; where sources disagree the row says so. Nothing is estimated.",
+    "in_orbit_spacecraft counts spacecraft carrying compute hardware that is in space on the as-of date. Hosted payloads on another programme's satellites are not counted twice: Axiom's two nodes ride on Kepler's ten.",
+    "filed_or_planned_satellites is the number in the programme's own filing or stated target. It is a number on paper. It is printed beside the flown number so it cannot be read alone.",
+    "Statuses change at launch. A launch is not commissioning and commissioning is not first inference; a row moves to operating only when a source reports the hardware working.",
+    "Programmes with unverified purpose (CTC-1/2, Space Compass) are listed with their purpose left blank rather than assigned to orbital compute."
+  ],
+  "programmes": [
+    {
+      "claimed": "Zhejiang Lab: a thousand-satellite constellation at 1,000 POPS. ADA Space: 2,800 Star Compute satellites (2,400 inference, 400 training). Two programmes' targets, often spliced into one figure; neither is hardware.",
+      "confidence": "verified",
+      "country": "China",
+      "country_code": "CN",
+      "filed_or_planned_satellites": 2800,
+      "first_launch": "2025-05-14",
+      "id": "three-body",
+      "in_orbit_now": "12 satellites, launched together on one Long March 2D from Jiuquan on 2025-05-14. Each carries a neural-processing payload rated 744 TOPS; the twelve are stated at 5 POPS with 30 TB of on-board storage and 100 Gbps laser inter-satellite links, and run an 8-billion-parameter remote-sensing model on board. Xinhua reported in February 2026 that nine months of in-orbit testing had concluded. The largest verified AI compute in orbit anywhere.",
+      "in_orbit_spacecraft": 12,
+      "name": "Three-Body Computing Constellation / Star Compute",
+      "next_milestone": "Further groups reported in preparation through 2026",
+      "operator": "Zhejiang Lab (initiator); satellites built by ADA Space (Guoxing Aerospace), whose own Star Compute programme shares the first launch",
+      "sources": [
+        "https://english.www.gov.cn/news/202505/15/content_WS6825452ec6d0868f4e8f28e6.html",
+        "https://www.scmp.com/news/china/science/article/3310506/china-launches-satellites-start-building-worlds-first-supercomputer-orbit",
+        "https://satnews.com/2026/02/16/china-completes-in-orbit-testing-of-three-body-ai-computing-constellation/",
+        "https://www.computerworld.com/article/3990472/china-takes-edge-computing-to-orbit-with-first-space-based-processing-network.html"
+      ],
+      "status": "operating"
+    },
+    {
+      "claimed": "NVIDIA: '100x more powerful GPU compute than any previous space-based operation' — a relative claim against a low bar; no absolute compute or power figure published.",
+      "confidence": "verified",
+      "country": "United States",
+      "country_code": "US",
+      "filed_or_planned_satellites": null,
+      "first_launch": "2025-11-02",
+      "id": "starcloud-1",
+      "in_orbit_now": "One 60 kg satellite carrying a single NVIDIA H100, launched 2025-11-02 on SpaceX Bandwagon-4. Tracked as NORAD 66303 at about 499 km — not the 325 km repeated in pre-launch press. In December 2025 it trained a nanoGPT model in orbit and ran Google's Gemma. Design life about eleven months; at roughly 500 km with no documented deorbit propulsion, natural reentry is years away, so 'burns up in October 2026' is a press number, not an orbital one.",
+      "in_orbit_spacecraft": 1,
+      "name": "Starcloud-1",
+      "next_milestone": null,
+      "operator": "Starcloud (formerly Lumen Orbit)",
+      "sources": [
+        "https://www.starcloud.com/starcloud-1",
+        "https://blogs.nvidia.com/blog/starcloud/",
+        "https://www.cnbc.com/2025/12/10/nvidia-backed-starcloud-trains-first-ai-model-in-space-orbital-data-centers.html",
+        "https://spaceflightnow.com/2025/11/01/live-coverage-commercial-space-station-demo-data-center-precursor-to-launch-on-spacex-bandwagon-mission/"
+      ],
+      "status": "operating"
+    },
+    {
+      "claimed": "'Up to 88,000 satellites'; a hypothetical Starcloud-4 with solar arrays 'four kilometers on a side to support a five-gigawatt data center', from a promotional video.",
+      "confidence": "probable",
+      "country": "United States",
+      "country_code": "US",
+      "filed_or_planned_satellites": 88000,
+      "first_launch": null,
+      "id": "starcloud-constellation",
+      "in_orbit_now": "Nothing of the constellation. Starcloud filed with the FCC on 2026-02-03 for up to 88,000 satellites at 600–850 km sun-synchronous; the FCC accepted the filing for consideration on 2026-03-13, a docketing step, not an authorisation. Starcloud-2 — NVIDIA Blackwell hardware, an AWS Outposts blade and bitcoin-mining ASICs — was due in October 2026 and is now expected in 2027 as one of a pair. Funding is real: $170M Series A at a $1.1B valuation (2026-03-30) and $250M at $2.3B (2026-08-21).",
+      "in_orbit_spacecraft": 0,
+      "name": "Starcloud constellation (Starcloud-2 onward; 88,000-satellite filing)",
+      "next_milestone": "Starcloud-2, expected 2027",
+      "operator": "Starcloud",
+      "sources": [
+        "https://spacenews.com/starcloud-files-plans-for-88000-satellite-constellation/",
+        "https://www.advanced-television.com/2026/03/17/starcloud-wants-88000-satellites/",
+        "https://www.geekwire.com/2026/orbital-ai-seattle-area-startup-starcloud-hits-1-1b-valuation-to-build-space-based-data-centers/",
+        "https://cryptobriefing.com/starcloud-bitcoin-mining-space-launch/"
+      ],
+      "status": "announced"
+    },
+    {
+      "claimed": "Bench demonstration of 800 Gbps each-way optical links (1.6 Tbps total); solar 'up to 8 times more productive than on earth'; an 81-satellite formation as a design study.",
+      "confidence": "verified",
+      "country": "United States",
+      "country_code": "US",
+      "filed_or_planned_satellites": 81,
+      "first_launch": null,
+      "id": "suncatcher",
+      "in_orbit_now": "Nothing yet. The first prototype, MVP, is a refrigerator-sized satellite built by Planet Labs carrying four Google TPUs on about one kilowatt of solar — Google's own comparison is one data-centre server. It is manifested on SpaceX Transporter-18, launch window opening 2026-10-01 at 11:18 PT from Vandenberg. About a year of operations is planned, in compute bursts of roughly fifteen minutes before thermal shutdown; the spacecraft remains in orbit for years beyond that. Two satellites to test laser links are planned for 2027. Google: 'We don't expect, to be perfectly frank, that we'll have anything usefully operational in the next few years.'",
+      "in_orbit_spacecraft": 0,
+      "name": "Project Suncatcher (MVP prototype)",
+      "next_milestone": "MVP launch NET 2026-10-01 on Transporter-18",
+      "operator": "Google Research; spacecraft built by Planet Labs",
+      "sources": [
+        "https://research.google/blog/exploring-a-space-based-scalable-ai-infrastructure-system-design/",
+        "https://blog.google/innovation-and-ai/technology/research/google-project-suncatcher/",
+        "https://www.space.com/space-exploration/satellites/spacex-launching-prototype-google-ai-satellite-next-week",
+        "https://qz.com/google-project-suncatcher-tpu-satellite-spacex-orbit-092426"
+      ],
+      "status": "awaiting-launch"
+    },
+    {
+      "claimed": "'Kilowatts to megawatts of processing power on-orbit' as a future goal.",
+      "confidence": "verified",
+      "country": "United States",
+      "country_code": "US",
+      "filed_or_planned_satellites": null,
+      "first_launch": "2026-01-11",
+      "hosted_on": "kepler",
+      "id": "axiom-odc",
+      "in_orbit_now": "Two things, both small. AxDCU-1, a data-processing prototype running Red Hat Device Edge, aboard the International Space Station since autumn 2025 — a box on a crewed station. And two orbital-data-centre nodes hosted as payloads on Kepler Communications' first ten relay satellites, launched 2026-01-11. Axiom publishes no compute, storage or power figure for either; its one number, 2.5 Gbps, is link bandwidth.",
+      "in_orbit_spacecraft": 0,
+      "name": "Axiom Space Orbital Data Centers (AxDCU-1 and two ODC nodes)",
+      "next_milestone": null,
+      "operator": "Axiom Space; nodes hosted on Kepler Communications satellites; partners Red Hat, Skyloom",
+      "sources": [
+        "https://www.axiomspace.com/orbital-data-center",
+        "https://www.axiomspace.com/release/axiom-space-to-launch-orbital-data-center-nodes-to-support-national-security-commercial-international-customers",
+        "https://spacenews.com/axiom-space-to-launch-orbital-data-centers-on-kepler-satellites/"
+      ],
+      "status": "demonstrated"
+    },
+    {
+      "claimed": "'Multi-GPU' and 'terabytes' — the whole public specification.",
+      "confidence": "verified",
+      "country": "Canada",
+      "country_code": "CA",
+      "filed_or_planned_satellites": null,
+      "first_launch": "2026-01-11",
+      "id": "kepler",
+      "in_orbit_now": "Ten satellites of about 300 kg, launched 2026-01-11 on a Falcon 9 from Vandenberg, each with SDA-compatible optical terminals and, per Kepler, 'multi-GPU on-orbit compute modules with terabytes of storage'. The physical host for Axiom's two nodes, and rarely counted as orbital compute because Kepler sells it as a relay network. No GPU model, count, FLOPS or power figure is published.",
+      "in_orbit_spacecraft": 10,
+      "name": "Kepler Communications optical relay constellation (on-orbit compute modules)",
+      "next_milestone": null,
+      "operator": "Kepler Communications",
+      "sources": [
+        "https://kepler.space/kepler-successfully-launches-first-tranche-of-optical-relay-satellites/",
+        "https://www.globenewswire.com/news-release/2026/01/11/3216480/0/en/kepler-successfully-launches-first-tranche-of-optical-relay-satellites.html",
+        "https://satnews.com/2026/02/09/63641/"
+      ],
+      "status": "operating"
+    },
+    {
+      "claimed": "Continuous commercial service 'in 2026' (Lonestar). Nothing on or near the Moon is operating.",
+      "confidence": "verified",
+      "country": "United States",
+      "country_code": "US",
+      "filed_or_planned_satellites": null,
+      "first_launch": "2024-02-15",
+      "id": "lonestar",
+      "in_orbit_now": "Nothing operating. Independence flew on Intuitive Machines' IM-1 Odysseus (launched 2024-02-15) and completed the first data-storage test from the lunar surface on 2024-02-22. Freedom — an 8 TB Phison SSD with a Microchip PolarFire RISC-V processor running Linux, in an enclosure designed by Bjarke Ingels Group — flew on IM-2 Athena (launched 2025-02-26), completed tests in transit and lunar orbit, and landed with the lander on its side on 2025-03-06; the mission was declared over on 2025-03-07.",
+      "in_orbit_spacecraft": 0,
+      "name": "Lonestar Data Holdings lunar data storage (Independence, Freedom)",
+      "next_milestone": null,
+      "operator": "Lonestar Data Holdings, flying on Intuitive Machines landers",
+      "sources": [
+        "https://www.lonestarlunar.com/press-release/lonestar-announces-freedom",
+        "https://www.datacenterdynamics.com/en/news/lonestars-lunar-data-center-successfully-launches-on-intuitive-machines-athena-mission/",
+        "https://en.wikipedia.org/wiki/IM-2"
+      ],
+      "status": "demonstrated"
+    },
+    {
+      "claimed": "'Up to 1,000,000' satellites; 'hundreds of gigawatts' of potential compute — projections in a filing.",
+      "confidence": "verified",
+      "country": "United States",
+      "country_code": "US",
+      "filed_or_planned_satellites": 1000000,
+      "first_launch": null,
+      "id": "starmind",
+      "in_orbit_now": "Nothing. SpaceX applied to the FCC on 2026-01-30 for up to 1,000,000 satellites at 500–2,000 km; the application was accepted for filing on 2026-02-04 and is pending. The programme was named Starmind in June 2026. On 2026-08-04 SpaceX and NVIDIA announced that the first-generation AI1 satellite would carry Vera CPUs and Rubin GPUs — about 72 chips, one NVL72 rack per satellite, 250 kW peak — with prototypes targeted for early 2027 and volume production later that year.",
+      "in_orbit_spacecraft": 0,
+      "name": "SpaceX Starmind (AI1 satellite; million-satellite filing)",
+      "next_milestone": "AI1 prototypes targeted for early 2027",
+      "operator": "SpaceX, with NVIDIA compute payloads",
+      "sources": [
+        "https://satnews.com/2026/01/31/spacex-files-fcc-application-for-million-satellite-orbital-data-center/",
+        "https://spacenews.com/spacex-files-plans-for-million-satellite-orbital-data-center-constellation/",
+        "https://interestingengineering.com/ai-robotics/spacex-nvidia-starmind-ai1-compute-payload",
+        "https://www.technology.org/2026/08/26/spacex-starmind-nvidia-gpus-orbital-data-centers/"
+      ],
+      "status": "announced"
+    },
+    {
+      "claimed": "51,600 satellites; a lower 'marginal cost of compute capacity compared to terrestrial alternatives' (the filing).",
+      "confidence": "verified",
+      "country": "United States",
+      "country_code": "US",
+      "filed_or_planned_satellites": 51600,
+      "first_launch": null,
+      "id": "blue-origin-sunrise",
+      "in_orbit_now": "Nothing. Blue Origin filed with the FCC on 2026-03-19 for up to 51,600 satellites in sun-synchronous orbits at 500–1,800 km that would themselves be the data centres, linked optically, with Ka-band for telemetry. NASA has filed an objection. Distinct from TeraWave, Blue Origin's 5,408-satellite communications constellation announced 2026-01-21 for a first launch in late 2027, which carries data rather than computing it.",
+      "in_orbit_spacecraft": 0,
+      "name": "Blue Origin Project Sunrise",
+      "next_milestone": null,
+      "operator": "Blue Origin",
+      "sources": [
+        "https://aviationweek.com/space/satellites/blue-origin-plans-51600-satellite-computing-constellation",
+        "https://www.datacenterdynamics.com/en/news/nasa-objects-to-bezos-blue-origins-51600-satellite-project-sunrise-constellation/",
+        "https://www.geekwire.com/2026/blue-origin-data-center-space-race-project-sunrise/"
+      ],
+      "status": "announced"
+    },
+    {
+      "claimed": "'One gigawatt before 2050' — a 24-year aspiration, usually quoted without the date.",
+      "confidence": "verified",
+      "country": "European Union",
+      "country_code": "EU",
+      "filed_or_planned_satellites": null,
+      "first_launch": null,
+      "id": "ascend",
+      "in_orbit_now": "Nothing was built. A feasibility study begun in 2023 with results announced 2024-06-27: space data centres judged feasible, contingent on a lower-carbon reusable launcher and on in-orbit robotic assembly.",
+      "in_orbit_spacecraft": 0,
+      "name": "ASCEND (Advanced Space Cloud for European Net zero emission and Data sovereignty)",
+      "next_milestone": null,
+      "operator": "Thales Alenia Space, funded by the European Commission under Horizon Europe",
+      "sources": [
+        "https://www.thalesaleniaspace.com/en/press-releases/thales-alenia-space-reveals-results-ascend-feasibility-study-space-data-centers-0",
+        "https://www.thalesgroup.com/en/news-centre/press-releases/thales-alenia-space-reveals-results-ascend-feasibility-study-space-data",
+        "https://www.theengineer.co.uk/content/news/feasibility-study-on-space-based-data-centres-shows-promising-results"
+      ],
+      "status": "study"
+    },
+    {
+      "claimed": "A use-case, architecture and roadmap study for orbital data centres.",
+      "confidence": "probable",
+      "country": "Luxembourg",
+      "country_code": "LU",
+      "filed_or_planned_satellites": null,
+      "first_launch": null,
+      "id": "esa-space-cloud",
+      "in_orbit_now": "Nothing under this contract: a Phase I architecture study awarded in May 2026. Edge Aerospace separately says it flew two on-board computers as an in-orbit demonstration on SpaceX Transporter-16 in March 2026 and that both met their targets; no capacity figure is published for them.",
+      "in_orbit_spacecraft": 0,
+      "name": "ESA Space Cloud, Phase I (Edge Aerospace)",
+      "next_milestone": null,
+      "operator": "European Space Agency, contracted to Edge Aerospace (Luxembourg)",
+      "sources": [
+        "https://payloadspace.com/esa-selects-edge-aerospace-to-study-orbital-data-center-concepts/",
+        "https://www.siliconluxembourg.lu/edge-aerospace-esa-orbital-data-centers/",
+        "https://www.satcom.digital/news/edge-aerospace-announces-esa-contract-for-orbital-data-centers-first-in-orbit-mission-completion-and-us-expansion"
+      ],
+      "status": "study"
+    },
+    {
+      "claimed": "A pilot payload 'the size of a toaster oven' combining storage and processing.",
+      "confidence": "probable",
+      "country": "United Arab Emirates",
+      "country_code": "AE",
+      "filed_or_planned_satellites": null,
+      "first_launch": null,
+      "id": "madari",
+      "in_orbit_now": "Nothing confirmed. The stated target was a Q3 2026 launch of a small storage-and-processing payload on an Emirati satellite. No launch confirmation was found on the as-of date, three days before the quarter ends. No compute, storage or power figure has been published.",
+      "in_orbit_spacecraft": 0,
+      "name": "Madari Space orbital data centre pilot",
+      "next_milestone": "Stated target Q3 2026",
+      "operator": "Madari Space, with the Mohammed bin Rashid Space Centre and UNOOSA Access to Space for All",
+      "sources": [
+        "https://www.datacenterdynamics.com/en/news/uaes-madari-space-to-pilot-sending-data-centers-into-space-in-2026/",
+        "https://satelliteprome.com/news/madari-space-to-launch-first-orbital-data-centre-in-2026/",
+        "https://rcrwireless.com/20250804/ai-infrastructure/madari-space-dc"
+      ],
+      "status": "announced"
+    },
+    {
+      "claimed": "Tiles assembled into orbital data centres, cooled without fans.",
+      "confidence": "probable",
+      "country": "United States",
+      "country_code": "US",
+      "filed_or_planned_satellites": null,
+      "first_launch": null,
+      "id": "sophia",
+      "in_orbit_now": "Nothing. A patent, secured with Caltech, for passively cooled modular tiles that radiate waste heat to space, presented at AIAA SciTech in January 2026. No flight hardware, no launch date, no published capacity.",
+      "in_orbit_spacecraft": 0,
+      "name": "Sophia Space modular orbital data centre tiles",
+      "next_milestone": null,
+      "operator": "Sophia Space, with Caltech",
+      "sources": [
+        "https://www.geekwire.com/2026/sophia-space-caltech-ai-patent-orbital-data-centers/",
+        "https://aerospaceamerica.aiaa.org/institute/no-fans-needed-sophia-spaces-orbital-data-centers-will-cool-compute-and-conquer-space-based-computing/",
+        "https://sophia.space/"
+      ],
+      "status": "announced"
+    },
+    {
+      "claimed": "Nearly 200,000 satellites, purpose unstated.",
+      "confidence": "unverified",
+      "country": "China",
+      "country_code": "CN",
+      "filed_or_planned_satellites": 193428,
+      "first_launch": null,
+      "id": "ctc",
+      "in_orbit_now": "Nothing, and the purpose is unknown. Filed with the ITU in January 2026 for two constellations of 96,714 satellites each. Several roundups list this as orbital compute; the filings do not say so. Printed here with the purpose left blank rather than imputed.",
+      "in_orbit_spacecraft": 0,
+      "name": "CTC-1 / CTC-2 ITU filings",
+      "next_milestone": null,
+      "operator": "Institute of Radio Spectrum Utilization and Technological Innovation (China)",
+      "purpose_established": false,
+      "sources": [
+        "https://gizmodo.com/china-wants-to-launch-200000-satellites-to-earth-orbit-outnumbering-all-other-constellations-2000710704",
+        "https://satnews.com/2026/01/12/as-spacex-targets-50000-starlink-satellites-china-files-for-200000-unit-mega-constellation/"
+      ],
+      "status": "unclear"
+    },
+    {
+      "claimed": "On-orbit processing of satellite imagery so that only useful data is downlinked.",
+      "confidence": "unverified",
+      "country": "Japan",
+      "country_code": "JP",
+      "filed_or_planned_satellites": null,
+      "first_launch": null,
+      "id": "space-compass",
+      "in_orbit_now": "A geostationary optical data-relay service, launched in fiscal 2024, is operating — relay, not compute. The orbital edge-processing layer announced in 2022 for 2025–26 has no confirmed flight and no published compute or power figure.",
+      "in_orbit_spacecraft": 0,
+      "name": "Space Compass Space Integrated Computing Network",
+      "next_milestone": null,
+      "operator": "Space Compass Corporation (NTT DOCOMO and SKY Perfect JSAT joint venture)",
+      "purpose_established": false,
+      "sources": [
+        "https://group.ntt/en/newsrelease/2022/04/26/220426a.html",
+        "https://www.rd.ntt/e/research/JN202210_19855.html",
+        "https://www.datacenterdynamics.com/en/news/ntt-and-sky-perfect-jsat-to-launch-space-data-center-in-2025/"
+      ],
+      "status": "unclear"
+    }
+  ],
+  "schema": 1,
+  "status_words": {
+    "announced": "a filing, a funding round or a plan; nothing flown under this programme",
+    "awaiting-launch": "built, manifested, not yet flown",
+    "demonstrated": "hardware flew and did something, and is not operating now or is a hosted prototype",
+    "operating": "hardware in orbit and reported working",
+    "study": "a paper study; no hardware built",
+    "unclear": "a filing or a service whose relation to computing in space is not established"
+  },
+  "totals": {
+    "by_status": {
+      "announced": 5,
+      "awaiting-launch": 1,
+      "demonstrated": 2,
+      "operating": 3,
+      "study": 2,
+      "unclear": 2
+    },
+    "filed_or_planned_for_compute": 1142481,
+    "filed_purpose_unknown": 193428,
+    "filed_to_flown_ratio": 49673,
+    "in_orbit_spacecraft": 23,
+    "programmes": 15
+  },
+  "verdict": "There are no data centres in space. On the as-of date, hardware in orbit that could be called compute totals a few dozen spacecraft; the constellations filed with regulators total more than a million. A register that printed only the filed number would be repeating a press release.",
+  "what_this_is": "A register of every programme that claims, files for, or has flown computing hardware in orbit or on the Moon described as a data centre. Each row separates what is actually in space from what has been announced or filed, with the sources for both."
+}
