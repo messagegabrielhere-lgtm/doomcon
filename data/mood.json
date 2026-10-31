@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-10-31T13:50:05.993Z",
-  "news_generated_at": "2026-10-31T13:50:05.993Z",
+  "generated_at": "2026-10-31T14:36:45.352Z",
+  "news_generated_at": "2026-10-31T14:36:45.352Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,26 +18,26 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 235,
+    "headlines_naming_a_company": 233,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.1
+    "negative_pair_share": 0.119
   },
   "glance": {
     "leading": {
-      "id": "amazon",
-      "name": "Amazon",
-      "index": 0.7
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "index": 6.9
     },
     "trailing": {
-      "id": "anthropic",
-      "name": "Anthropic",
-      "index": -3.8
+      "id": "meta",
+      "name": "Meta",
+      "index": -5
     },
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 46
+      "headlines": 45
     }
   },
   "companies": [
@@ -45,18 +45,20 @@
       "id": "apple",
       "name": "Apple",
       "headlines": 11,
-      "index": -0.7,
-      "mean_headline": -0.1,
+      "index": -3.6,
+      "mean_headline": -0.5,
       "sample": [
         {
-          "id": "38ac8c5186de6787",
-          "title": "Apple Brings 18 AI Features to China With Alibaba’s Qwen",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOa05OdG5kWDlTX3FhcTVLdzUtNkU0TjFKUUNiR2dyektsZnRlLVdsZWUyV3pRbXR2RDR4ZXpsUGtxanFRUHBxYUpGS2hXNUVXczdxTTZtZU52YzJ5UVhFMGtCcjg2RHpYaTJqbnc1dWpYbTNzV0RPcjRyVkFEckM5T2NrZzY0S1ctdHFj?oc=5",
+          "id": "cbba0e2132a4f688",
+          "title": "Tech layoffs tracker 2026: All the job losses across Amazon, Microsoft, Netflix, Electronic Arts, Apple, Meta and others",
+          "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxPWjc2bDlEWHNuV1BZeENVamFNMVlhdzQzRTctOENHYmJFbVVwOGZxNXhDU0E3bXRXemlkSXl3OUtvTXZ4SDE2ODBmOUVtZjJrQjFzbDhEeUd0Q0lrc01yRnctNmdmSzM0a1hsVVJTVUo3X3ZjdWswVlhDNTJxN2c1NEM5M2hqT0JoM0RNZC03cmMwUmw5X0xXcnB2UzdtNzFFaDRicWdJVThTZ3IwMC1OYjIzeGNCWVdTX2ZmT2NJaURqU2Z3aXBNN0NCdm04aF9pTXNUX0tWX2xOWWxDQXB1R3Y3NkJOR00ySjFpU0Z5UnU4M3RTd1hzdm9DLWh6NHBYbHZVT1RPR1ViM3pweUpJ?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-31T11:26:46.000Z",
-          "score": 0,
+          "published_at": "2026-10-31T13:50:24.000Z",
+          "score": -4,
           "positive": [],
-          "negative": [],
+          "negative": [
+            "layoffs"
+          ],
           "clickbait": []
         },
         {
@@ -143,10 +145,65 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 43,
+      "headlines": 45,
       "index": -0.7,
       "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "b145f4b9e8c77452",
+          "title": "OpenAI CEO says laptop memory is wasteful; favo...",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPQjJvcTRjR1FzS3gzYURxRGpZcUdUWXAxWVM3WVpILTBDQnBBX2Z0b0I5UU5ZeXF2c2o1Q3BLWXp3TnVRWjRMdk54SUxXZXlzN3UwR09tbFlYc2NEdmxpZlJVQnJGeEs2YnQ0RGp4enpHZzc3cUdVbklwNXRtUGxkdUJnTHZTdFhtQ1RDZmh6dmtRc0tNWnhn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T14:04:29.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8ae684b679b24a9a",
+          "title": "OpenAI CEO Argues Home PCs Waste the World's Limited DRAM Supply",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOQ0FFd3RmNDhuWnZhQkZOZGlFVlRMTXFHOFhHU1hwaWJOM3ROanJNa2Fhc3Z6Wlp5eW9HREM2czFKM0RYcWs1bEFEQlZxaEFfVWEyNkFTR1RJZWFZLWdSUUdBbzVlOGZFUndOWTZ0RVZMcFh3emRlWWZQTmNJMFhOdC0xcnVDZUdXT3hlMHQ0dGNlRGgzOVNBWmNJTHJubDTSAaQBQVVfeXFMTjVyVDdzdDRmRFpKUldvb2FKTGw3ZmxNQ0RaMDE2SzFOOG1DUzlrc2duQThrOXVmRzQ0aWcxTFZkZDFGcjVHRkRrcmNIV3hvY3lUb09xU2JSVFc4MEVFblZZd0tMdXlrWFRxemVzLTdyUmNXZHZyMlF3SzBYellocURfY1VjVndET3A2bzlRNTNETGhvaWh1T09ZNjFQa2xMbHJoLV8?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T14:03:41.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b91b90d27a0d81d7",
+          "title": "OpenAI CEO meets Samsung executives in South Korea to strengthen collaboration on AI and storage chips.",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNNmwyU3RiSnhQRTlnRG51X0RRRHJEb1B2S1hoQzFyRVh3S2ttYy1fd19URnNlQWQ4TWdWZzRfTGFfS085MHB6aThBN3lDbElPeU15ZUNvaUZjTGpwQjEzSzhNaEtBTmVVcG42ZExOa0kxSVpRbXd2TWhRU3lEejREZlRpbHhsbEFZMXY5WTZUUnVjYVJoOG5mLWh1b2FyZ1dsdXJ4RUtCUTZraWNOSFpjVlZaWUJNMldJUklIRlNjNmZtLVRPMDFZWFhpUG4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:55:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "afd55d7bd046451e",
+          "title": "OpenAI Offers Wealthy Investors Access to $1.25 Trillion Valuation",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOb3dTdDhFN3BRUmp2TF9xRWd5MWxZNGU4R3dHR1FPOWVjTkZCTDR5ODFQcWZ3VUpqdkU3ZE93cTdabU9VZTVGRkp5T1dSUnhUQXN4TmJxQkd3RzhyT25zR0VPVjJ6MWF6bXV2MHp5aG1ZbW9QSXFMMnQxMlN2YW8wbjZidkdyNm10UkR0TExqTW1EYUpMWWc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:50:27.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9d2c014fa6600526",
+          "title": "OpenAI’s CEO Thinks Your Laptop’s Memory Should Be in a Data Center",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNYzhBZ05wc1NIVWR0cHFQZ0tTWUpJYTNMZjRlUkN0ZHZVUllybGZXZ3ByUDNya2ZXX3dzU3g3aGpGZXlNYmlKUlhkVnNsa3otT3k3bXdMZW9OcTMwSThaSDVZM2FPOFkwTVFqbUxMNHg5bU5WTE9NM1ZJX1JOVHRoQjRQRkZvZjR5dnpiTF9lQmQxSk5sREc0?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:49:57.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "2bbf3dc797edac0f",
           "title": "Meta’s $97.5 billion AI funding plan, OpenAI’s scientific claims: This week’s tech highlights",
@@ -183,68 +240,13 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "96579b09a3d36952",
-          "title": "Cognizant Technology Solutions (CTSH) Pulls 25,000 Staff Into New OpenAI Group",
-          "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPNkhZODBVZVIzV2hUQmZWV2t1eXRPWnlGa0tvM0dCRXhGcGdnMVdGY3NjLXRXZDNHTGR6YkhNQk15NTNnY2lsc2pXYlZzdDZGNHpyVjcxY1h2enVBZW1ydHpTMkRfOHlLVFlLcUhDZ056RnFSeXcxUFB3cEVjbVpqVTc0VWFlZl9ibFVQVTBadUt0OHE3VHFLbElZMF85WkpBaXZYN0lYbkpEWkM2M1RlRkdHSnhOX24wMGhfeUxPS1ZyY1FhelRvMEhvTHpvUUpMLUl3dzVqNXBya0UtVEVWdllSONIB6AFBVV95cUxNQTBJZ3YwcFFzM2JFczFodGpGUWdBT0Fzdnhkc2k5YXhZZnIxOURXM2RTZm5BRjNQc011Rk52a0tTaTFYNFYxdmM5WDRqVWpqOW5BelBDMkFGN2NhNlRUd0h6X0pXaUxPUTBRcjVfc21uQ3BuX3hEYi1qRGNGRExyOEVQeXc2Wm5oUENfbzBhNFJyWEY4OGZ4eWF0TFllclhOeldTYWpySXhWN1JBX21UWGlDSG95OUQwWldLZWVtam9LLU9nVmpJWk5yZkhNUE9XR1hpeU1ZRmV5R09RZXc1bVdQOHVqZGtM?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:33:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "fc76b62209b11d44",
-          "title": "Cognizant Mobilizes 25,000 Staff to Form Dedicated OpenAI Unit, Betting Big Again After Google Cloud",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1ZQVM5UkZfTEd2d3JuWk43aWQ1QkprXzZjX2dGTDZ6NjAwMXJzRmV6ZkhBWVJVb0cwSThuT3I5Z1oyOU55UW9sUVVyZjBvNHVQTnUxeDNhRllXczJvZTRHY2ZweTBxOFRDV3lTSk1aOE14TmJIQkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:25:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "78f5fcc2453e3444",
-          "title": "OpenAI Slashes Fundraising Goal by $10 Billion as AI Stock Selloff Hits Investor Interest",
-          "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFBUeTJfTXdVZTJfTWxtN2trbnVWa19Za3JKOGdId09OeHRXcGpzeFYxWGtBbEJrUjY4VDFXOVhvUzd2bWpxd2VjMHdMT3RNMHljQXdQd3dRS3Y?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:15:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e941d506264ccc21",
-          "title": "OpenAI IPO Valuation Target Reportedly Trimmed By $150B After Nasdaq 100 Registers Worst Month Since March 2025 Following Brutal Tech Sell-Off",
-          "url": "https://news.google.com/rss/articles/CBMiqgJBVV95cUxObWdkdXhNWWRveDM5dG9zYVVGc2YwdElZNlptLXJWYTF4cUFiX0M3RFg4Q1hYMEJRZTUzai1mN2VWMlJfZ1RJRldKSEw0Z21CdTdaRFpOeGo2S0F2OW9zWHl4NjJBcWdqd1FzVGxyRnM4S1FHWTMxdHJGMDdFMENKRlZET1hMY3JQb3NmdWNWalFLX0ZNTFpsaE5OdGJoWVVZSGNRbHUteFR5SkhuT2Q2VzdydW9jSE9NcWdWWHBkRm5ycXlzeDYyT2RfOXpvWmRzWkgtNjRFdzVNeFlDNzRxc1ZxeGdVSkJnSGkzRjNGNEY0MG5WRm9QMVUydmt1QXZ6dm9lWEptWnR0WVVQMjgyS0hRSGlnX1J4cU9vcWVuZ0NCTW5lNjRYMDhB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:30:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8dc0cc9391f607bf",
-          "title": "Samsung executives, OpenAI CEO Altman discuss AI future",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQNC1mZk9pMTY1UHBjNXZYN1NBUGN4Wi0wSnZMcWxxT3pHcjZMUGEwTnk3WDVxU1BRNjB1ZGVnWFA3WmRJVDdEaVdQUUxyNUh1c1JwcEtWcjlQcHJGdG01SWVwTm9zbTgyMUlwWFZBMFhDcUYydE1VS2tTQzVNNm5zNi1wRW9VcHRUZ05WQnJRX2FGTXNUMXlISnV2dy1PZFk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:14:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 28,
+      "headlines": 27,
       "index": -0.9,
       "mean_headline": -0.1,
       "sample": [
@@ -254,17 +256,6 @@
           "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQWHJLWWpfcXR5dEpVekREaFNLUlhOUmpFYm1neGZkZDh5blljZWw5WHdPWWZ4ZkVBbUJGOTFsWFVnUnJZODJNMVJiYWlfTFBMaTNwWjFZUFZsdHZweU9xUXZjX0dnMWpWN0pYOTEzNTFFYkRaWDRDdjJPdmVITzlmZTJVcmlqZWNZSXZzTmxuaU9WNlViUWtLYTBYLVZ3M2loY3FBa0JJWlFwZldqUWc?oc=5",
           "source": "wires-ai",
           "published_at": "2026-10-31T13:12:48.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b6ff2fa99fdc104f",
-          "title": "Meet the Brilliant AI Stock Obliterating Nvidia in 2026 With a Return of 44%",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNRnFJczNReXExTWs4Um1FR2FMR005bmFzeVdHVjM2YXUzWEdXb3ExalZFU25fSk5SWjZrTGJGUlRPQmVuQ191cTdCT3RMc1Z6dnhTRHpmWWpBV2l2MGdackRERHk3ak01d3R2enl4VkdDV19PWWRCN1htRDNGQ0c5c1RXUWNFTExzeV9vRU9CYzZCeHdHYlE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:16:44.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -335,16 +326,40 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "3f9291db3f1bf015",
+          "title": "Dell workstation with 96GB Nvidia GPU may cost less than graphics card alone",
+          "url": "https://videocardz.com/newz/complete-dell-workstation-with-96gb-nvidia-gpu-may-cost-less-than-graphics-card-alone",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-30T06:08:42.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 46,
-      "index": -3.8,
+      "headlines": 45,
+      "index": -3.9,
       "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "0498f7c4837f85a9",
+          "title": "Firm that lets you rent out your idle Mac for AI inference workloads warns of plummeting token costs — Darkbloom network sees earnings drop to $1.23 a day as Anthropic tokens fall 77%",
+          "url": "https://news.google.com/rss/articles/CBMi8wJBVV95cUxQb3d1LS16enNVOHNfejNON0kxenFocnEtWlMwZnVyU2RFeGdpX2lIcTR0VFdyQ0ZnT2ZDcHlkUkhHT2hmNzl2UTNWamJwX244R2V5QzRfbjlzNGhka1JzU3A5QlF4RVdjMHVzRlZ0VDJwb1F2NEJsVHJjUTlPbHlfUFFLcmljckRHVExHUnpDSVNQaXdoX3FselNFUEhVaXNPMEkzVXphVmNmVXY5VVB3aC1mV0s5X1dOOUZyTGlYYWdtN25udjFNMzhCUzlNelpMdEFGZ1FCWjJCUEdkTEZLZ21ReDZOZXFLdV9FeS1Xd2luQWFvRWtHd0k5ZEpNWlgwZ3Zjb0tDS3EwZ0xQMFc5dmdGeUNqT2xNVS01YU9kY3pKdzI1YlA4Tzg1b2tGYnhORlh5VFRfUnhYVkJaOXFLRndTQUV3dkJXaElLVm1mS1RSODlaSGxzcnFVRi1HTXlKbHFxbDBHajgzMDkyM0g4TFN0NA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:49:09.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
         {
           "id": "bc2ee47d8e7c7e1c",
           "title": "Anthropic Faces Skepticism Amid AI Market Turmoil as IPO Looms",
@@ -421,27 +436,29 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "e9145b05200e6d42",
-          "title": "Anthropic reports $80 billion loss ahead of possible IPO — CNBC",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNT0ZodG1YYjRZa21FVzlRSEJpZ1RVSElISnpqZjhtMER4VzBDMkFKUDBwWENwdTdYMzBTcTVRVHkxN0NGbW9PbHJSYS1hR3BiOFdVeWYzR2xhdTl3U1pITkN6Um1SQnA0LTNzSm5pcjVKT3ZWdkl6NVczaVdtd0MxZ2lNVVB2OFEtUmtZNmhBSmUySW8?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:34:56.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 20,
-      "index": -3.6,
-      "mean_headline": -0.4,
+      "headlines": 21,
+      "index": -5,
+      "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "cbba0e2132a4f688",
+          "title": "Tech layoffs tracker 2026: All the job losses across Amazon, Microsoft, Netflix, Electronic Arts, Apple, Meta and others",
+          "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxPWjc2bDlEWHNuV1BZeENVamFNMVlhdzQzRTctOENHYmJFbVVwOGZxNXhDU0E3bXRXemlkSXl3OUtvTXZ4SDE2ODBmOUVtZjJrQjFzbDhEeUd0Q0lrc01yRnctNmdmSzM0a1hsVVJTVUo3X3ZjdWswVlhDNTJxN2c1NEM5M2hqT0JoM0RNZC03cmMwUmw5X0xXcnB2UzdtNzFFaDRicWdJVThTZ3IwMC1OYjIzeGNCWVdTX2ZmT2NJaURqU2Z3aXBNN0NCdm04aF9pTXNUX0tWX2xOWWxDQXB1R3Y3NkJOR00ySjFpU0Z5UnU4M3RTd1hzdm9DLWh6NHBYbHZVT1RPR1ViM3pweUpJ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:50:24.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "layoffs"
+          ],
+          "clickbait": []
+        },
         {
           "id": "2bbf3dc797edac0f",
           "title": "Meta’s $97.5 billion AI funding plan, OpenAI’s scientific claims: This week’s tech highlights",
@@ -522,17 +539,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "af7203f1d22040e3",
-          "title": "The technologies, people, and ideas transforming our world—for one day in Miami. Join us at the first-ever WIRED World Fair on November 4. Lineup and tickets: buff.ly/5aCsst1",
-          "url": "https://bsky.app/profile/wired.com/post/3mz4l25zpvd2r",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-30T20:00:41.972Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -547,10 +553,34 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 45,
-      "index": -0.2,
-      "mean_headline": 0,
+      "headlines": 44,
+      "index": -0.9,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "cd72780a81c92056",
+          "title": "Google’s Gemini Tool Cut UK Planners’ Assessment Time 58%",
+          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQY1pOVlIxNTI4bml4N0REdXNLUWdad3VvcjZzelQwY1JfaGlnMV9tY19fTVYxUmR1MldlaGRTeEtEUHh3aGREMG9PN1Z6cHg5QllSTWQ4bXo2RC15Z3BGMmtSZ1dMMTNlaEtvTXpoaURiY0V2YTA0MVhDTFVkR2V6ZThzeDlNNEVXTVE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:51:21.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cut"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "8f1589d4bea2c08e",
+          "title": "Google Just Made AI Talk From Space for the First Time Ever",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPZ2pxT0g0OE92NGZYTVRRckphQlBwXzMtOUtwMExsZHZpUkxzQkdVTkN2QnVIcmtTTVA2MFhhYkd3bmhMeHFabmJoeTM1MVJjWmVfakh0WjFFMnAzT2ZUXzdOZmVIR0JwUVhMbzUzcWtfcjJzbHBlc2RuM3lDNkU3VVR6VkpVcEZNMEJkTWlVV3QwQkN5Z3ZuTFptQdIBoAFBVV95cUxNMmRIbXRnelJEemw0YlJ4OERyY1pqZThabTVfRkJ0SXJST0M4bG5lM2FBRDBlaXZuMlNOZ2MwaUZTUGw5T3ptQkFseHo1UVRBa3Z5YmU1bGVWRnFMaVhicVRmSDRKdWgzRnRsT3FOOWhZclF1NHJaMElsdHpUdHdfbmMwOTRNZzU1OTd6RDlHNDhlOUNHZ0U4R2ZYb1R2QXFo?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:41:13.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1fc8e20de3203cc8",
           "title": "Strava Connects Your Training History to Google Gemini: AI Can Now Analyze Your Progress as a Cyclist",
@@ -620,38 +650,29 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "fc76b62209b11d44",
-          "title": "Cognizant Mobilizes 25,000 Staff to Form Dedicated OpenAI Unit, Betting Big Again After Google Cloud",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1ZQVM5UkZfTEd2d3JuWk43aWQ1QkprXzZjX2dGTDZ6NjAwMXJzRmV6ZkhBWVJVb0cwSThuT3I5Z1oyOU55UW9sUVVyZjBvNHVQTnUxeDNhRllXczJvZTRHY2ZweTBxOFRDV3lTSk1aOE14TmJIQkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:25:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e37e70e97b238a3a",
-          "title": "Google Plans Support for Shared Robots.txt AI Training Control",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPVm56UGgyZ3VxWVpzb0o0NTZPNVBreDNZTWxfLS1tYWx0Q3FJc0J3dElIa05tR09yeEVBNUdxTXRDVG5RZVpwVXNLSnljNUI3dVZNbUh0SGFOTmdBQTgwdEVfaW9NV25pSXNRTXN5WXNhd0NkVld2RElWLWd2V2JjYVZPYVNvVHhIYVlZaQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:30:03.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 24,
-      "index": 0.3,
-      "mean_headline": 0,
+      "headlines": 23,
+      "index": -1,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "cbba0e2132a4f688",
+          "title": "Tech layoffs tracker 2026: All the job losses across Amazon, Microsoft, Netflix, Electronic Arts, Apple, Meta and others",
+          "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxPWjc2bDlEWHNuV1BZeENVamFNMVlhdzQzRTctOENHYmJFbVVwOGZxNXhDU0E3bXRXemlkSXl3OUtvTXZ4SDE2ODBmOUVtZjJrQjFzbDhEeUd0Q0lrc01yRnctNmdmSzM0a1hsVVJTVUo3X3ZjdWswVlhDNTJxN2c1NEM5M2hqT0JoM0RNZC03cmMwUmw5X0xXcnB2UzdtNzFFaDRicWdJVThTZ3IwMC1OYjIzeGNCWVdTX2ZmT2NJaURqU2Z3aXBNN0NCdm04aF9pTXNUX0tWX2xOWWxDQXB1R3Y3NkJOR00ySjFpU0Z5UnU4M3RTd1hzdm9DLWh6NHBYbHZVT1RPR1ViM3pweUpJ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:50:24.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "layoffs"
+          ],
+          "clickbait": []
+        },
         {
           "id": "fb1d9af4ab006ab1",
           "title": "Can Microsoft Turn a Leaner Workforce and Record AI Spending Into Bigger Profits?",
@@ -699,28 +720,6 @@
           "clickbait": []
         },
         {
-          "id": "c6feb42433cd33d0",
-          "title": "Microsoft Stock: Cash Is King - Rich AI SaaS/Cloud Monetization Prospects (NASDAQ:MSFT)",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcjVSUzVsSWhkcmU5XzlRU3ZEZ0pHVy00N3Rna3NCdEgyN2Nrd09vSzVWa1hCSGJMNFpLVGVncVQtODdTSUJBVFY3S01rckFHOU5nYmhSTHVRa1E0OVB2Y0dCckNhS3V4aTZxTDVDWjlUYzZPb0xIeXFaNWNQMzhfeGx3QzJ4V3NTMlFUeklDQldHUDhwX1hfVGExZzNhY1F6WDVyY3JldUs?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1c4db2a26a4e1284",
-          "title": "Veteran Microsoft engineer makes his own RAM from scratch using AI — custom FPGA board dodges extreme 1970s PDP-11 memory prices",
-          "url": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxOX0RNZHlpczFfVk53ajhaMlp3RktOUjBBVFJwaE1VS25oTkxvSWM5Y0VWdE5NTm0xTGc1ajg4cXA1LUd2dG90MHBDWTlCX0JKUmlCWjNvUlNjcUpkeUZvS2RzLS1XbGhpSEZXSzJtd2hVN2FfTzRBajIzZmItMVlzNXFPb3FuSUNpU2N6WDdUeW96WmZZTm81dFIzc2NoY0JqMzM3TWJrQXc1RHNHWU1jMG9LLW9MZEpIa3hQaUdZZVRpQkZYSEtGbmRvQzdWaWZXc3hvc2RYUkhvT05jT0pNNDg2Q3l1TjlnQnBUTjhPUERFeDlwQ3V4cVBpYjU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:40:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "004f923cc42ee256",
           "title": "Microsoft offers a quarter of its workforce voluntary severance while shielding AI-critical teams",
           "url": "https://the-decoder.com/microsoft-offers-a-quarter-of-its-workforce-voluntary-severance-while-shielding-ai-critical-teams",
@@ -741,16 +740,51 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "6d370ef60b7c5369",
+          "title": "Microsoft expects 5% or fewer eligible employees to take its big buyout",
+          "url": "https://businessinsider.com/microsoft-expects-very-few-people-to-accept-buyouts-cfo-says-2026-10",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-30T20:41:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 36,
-      "index": 0.7,
-      "mean_headline": 0.1,
+      "headlines": 38,
+      "index": -0.2,
+      "mean_headline": 0,
       "sample": [
+        {
+          "id": "bfdd06320c5833d0",
+          "title": "Amazon CEO predicts 6 to 8 AI models will be ‘good enough’ for almost everything",
+          "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1tcldkS1NJMnBtdURvd1Ztejg2TkZ2Qk9KcHFHRXVZVjZyWGp1c3FZV2g2Mjg1cDlHdnNmUVAxV3hEcUJOcWRHYThSRTI5ajFkRFhCbHRvMEV3SFM0OEhxOGgzR3ZYLURJNG40?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T14:31:55.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "cbba0e2132a4f688",
+          "title": "Tech layoffs tracker 2026: All the job losses across Amazon, Microsoft, Netflix, Electronic Arts, Apple, Meta and others",
+          "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxPWjc2bDlEWHNuV1BZeENVamFNMVlhdzQzRTctOENHYmJFbVVwOGZxNXhDU0E3bXRXemlkSXl3OUtvTXZ4SDE2ODBmOUVtZjJrQjFzbDhEeUd0Q0lrc01yRnctNmdmSzM0a1hsVVJTVUo3X3ZjdWswVlhDNTJxN2c1NEM5M2hqT0JoM0RNZC03cmMwUmw5X0xXcnB2UzdtNzFFaDRicWdJVThTZ3IwMC1OYjIzeGNCWVdTX2ZmT2NJaURqU2Z3aXBNN0NCdm04aF9pTXNUX0tWX2xOWWxDQXB1R3Y3NkJOR00ySjFpU0Z5UnU4M3RTd1hzdm9DLWh6NHBYbHZVT1RPR1ViM3pweUpJ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:50:24.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "layoffs"
+          ],
+          "clickbait": []
+        },
         {
           "id": "07044dfb12cdb6c2",
           "title": "Amazon (AMZN) Expands AI Chip Ambitions Amid Rising Demand for C",
@@ -820,28 +854,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "9f7c7a008fe103b9",
-          "title": "Alphabet, Meta, Microsoft, Amazon, and Oracle have a collective $3T+ in AI spending commitments over the coming years, including Alphabet's $1T and Meta's $800B (Brody Ford/Bloomberg)",
-          "url": "https://techmeme.com/261030/p22",
-          "source": "techmeme",
-          "published_at": "2026-10-30T20:00:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5c2498fc6a1b63e4",
-          "title": "Microsoft, Alphabet, Amazon, Meta, and Oracle returned just 9.3% of cash to shareholders in the first three quarters of 2026, a 15-year low amid AI spending (Patturaja Murugaboopathy/Reuters)",
-          "url": "https://techmeme.com/261030/p20",
-          "source": "techmeme",
-          "published_at": "2026-10-30T19:25:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -849,26 +861,29 @@
       "id": "deepseek",
       "name": "DeepSeek",
       "headlines": 7,
-      "index": 0,
-      "mean_headline": 0,
+      "index": 6.9,
+      "mean_headline": 0.9,
       "sample": [
+        {
+          "id": "5bd78febd4a59e34",
+          "title": "DeepSeek open-sources dsh-superagent, a coding agent largely built by agents",
+          "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-31T13:41:11.000Z",
+          "score": 6,
+          "positive": [
+            "open sources",
+            "open-sources"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "71b231381a5e7f16",
           "title": "DeepSeek vs ChatGPT: $0.15 to $50 per 1M Tokens [2026]",
           "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOTmd5LTZFVWRKd0piN0JzSDc5UWx2aThIbDVGMHlDRDZheFFWZW5hdjJlS2dJd1RNWlNHc21QMXB6NVdPdF9QdG5ia0VCRERIYngteFg1SXI1TElpT1VJZE1tY0Y4a0tWOTZZR2VPWUFWaDhhV2xOeDJTbFcyZXpUYw?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-31T12:26:12.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "cfc2c2434711a4c0",
-          "title": "Chinese hackers attack 200+ organizations with DeepSeek AI agents",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPZEh1T3E3aGdwSDdMdzJINnVvUXhmM2hkZTJTVlI4ZUdEclcxRWtJZmo0WVdmOXlSSEp1M0dnVEZGNFRQVkVGTUZFQkx6NUVoNTg3STVOcnZzaVctVTBBOEk2al9oOGxvbmhzZG5oOHdkOGh0OEtsU0tEYkFRa1ZJZUdiNHBubWpMa09VNG42TVktTDlpdFZ2UlIwWndHR2JoZmFDdw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:51:56.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -934,12 +949,125 @@
   ],
   "ranked": [
     {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "headlines": 7,
+      "index": 6.9,
+      "mean_headline": 0.9,
+      "sample": [
+        {
+          "id": "5bd78febd4a59e34",
+          "title": "DeepSeek open-sources dsh-superagent, a coding agent largely built by agents",
+          "url": "https://github.com/deepseek-ai/dsh-superagent-prototype",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-31T13:41:11.000Z",
+          "score": 6,
+          "positive": [
+            "open sources",
+            "open-sources"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "71b231381a5e7f16",
+          "title": "DeepSeek vs ChatGPT: $0.15 to $50 per 1M Tokens [2026]",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOTmd5LTZFVWRKd0piN0JzSDc5UWx2aThIbDVGMHlDRDZheFFWZW5hdjJlS2dJd1RNWlNHc21QMXB6NVdPdF9QdG5ia0VCRERIYngteFg1SXI1TElpT1VJZE1tY0Y4a0tWOTZZR2VPWUFWaDhhV2xOeDJTbFcyZXpUYw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T12:26:12.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d019ff207d36fd0c",
+          "title": "ISTA DeepSeek-V4.1-Flash-1017 GSQ-RCO quants comparison",
+          "url": "https://reddit.com/r/LocalLLaMA/comments/1xjkjla/ista_deepseekv41flash1017_gsqrco_quants_comparison",
+          "source": "reddit-localllama",
+          "published_at": "2026-10-30T16:46:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a82d8e26b584726b",
+          "title": "CrowdStrike: Vapor Panda ran intrusions with DeepSeek-based agents",
+          "url": "https://crowdstrike.com/en-us/blog/vapor-panda-uses-artex-to-scale-global-campaign",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-30T15:55:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "07899bb44079730a",
+          "title": "Introducing DeepSeek-V4.1-Flash-1017 Dynamic v3.1 Unsloth GGUFs",
+          "url": "https://reddit.com/r/LocalLLaMA/comments/1xjfuqh/introducing_deepseekv41flash1017_dynamic_v31",
+          "source": "reddit-localllama",
+          "published_at": "2026-10-30T13:48:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8aed4e38dda09f26",
+          "title": "CrowdStrike: China-linked hackers used AI tool ARTEX with a DeepSeek LLM and another model to target 200+ organizations in 11 days, compromising at least nine (Kevin Collier/NBC News)",
+          "url": "https://techmeme.com/261030/p1",
+          "source": "techmeme",
+          "published_at": "2026-10-30T04:01:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5499d15054fccaed",
+          "title": "Sources: DeepSeek doubled its latest round's size due to surging black market Nvidia Blackwell chip prices, with Chinese state-owned investors representing 27% (The Information)",
+          "url": "https://techmeme.com/261029/p71",
+          "source": "techmeme",
+          "published_at": "2026-10-30T03:35:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 36,
-      "index": 0.7,
-      "mean_headline": 0.1,
+      "headlines": 38,
+      "index": -0.2,
+      "mean_headline": 0,
       "sample": [
+        {
+          "id": "bfdd06320c5833d0",
+          "title": "Amazon CEO predicts 6 to 8 AI models will be ‘good enough’ for almost everything",
+          "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1tcldkS1NJMnBtdURvd1Ztejg2TkZ2Qk9KcHFHRXVZVjZyWGp1c3FZV2g2Mjg1cDlHdnNmUVAxV3hEcUJOcWRHYThSRTI5ajFkRFhCbHRvMEV3SFM0OEhxOGgzR3ZYLURJNG40?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T14:31:55.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "cbba0e2132a4f688",
+          "title": "Tech layoffs tracker 2026: All the job losses across Amazon, Microsoft, Netflix, Electronic Arts, Apple, Meta and others",
+          "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxPWjc2bDlEWHNuV1BZeENVamFNMVlhdzQzRTctOENHYmJFbVVwOGZxNXhDU0E3bXRXemlkSXl3OUtvTXZ4SDE2ODBmOUVtZjJrQjFzbDhEeUd0Q0lrc01yRnctNmdmSzM0a1hsVVJTVUo3X3ZjdWswVlhDNTJxN2c1NEM5M2hqT0JoM0RNZC03cmMwUmw5X0xXcnB2UzdtNzFFaDRicWdJVThTZ3IwMC1OYjIzeGNCWVdTX2ZmT2NJaURqU2Z3aXBNN0NCdm04aF9pTXNUX0tWX2xOWWxDQXB1R3Y3NkJOR00ySjFpU0Z5UnU4M3RTd1hzdm9DLWh6NHBYbHZVT1RPR1ViM3pweUpJ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:50:24.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "layoffs"
+          ],
+          "clickbait": []
+        },
         {
           "id": "07044dfb12cdb6c2",
           "title": "Amazon (AMZN) Expands AI Chip Ambitions Amid Rising Demand for C",
@@ -1009,211 +1137,105 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "9f7c7a008fe103b9",
-          "title": "Alphabet, Meta, Microsoft, Amazon, and Oracle have a collective $3T+ in AI spending commitments over the coming years, including Alphabet's $1T and Meta's $800B (Brody Ford/Bloomberg)",
-          "url": "https://techmeme.com/261030/p22",
-          "source": "techmeme",
-          "published_at": "2026-10-30T20:00:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5c2498fc6a1b63e4",
-          "title": "Microsoft, Alphabet, Amazon, Meta, and Oracle returned just 9.3% of cash to shareholders in the first three quarters of 2026, a 15-year low amid AI spending (Patturaja Murugaboopathy/Reuters)",
-          "url": "https://techmeme.com/261030/p20",
-          "source": "techmeme",
-          "published_at": "2026-10-30T19:25:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
-      "id": "microsoft",
-      "name": "Microsoft",
-      "headlines": 24,
-      "index": 0.3,
-      "mean_headline": 0,
+      "id": "openai",
+      "name": "OpenAI",
+      "headlines": 45,
+      "index": -0.7,
+      "mean_headline": -0.1,
       "sample": [
         {
-          "id": "fb1d9af4ab006ab1",
-          "title": "Can Microsoft Turn a Leaner Workforce and Record AI Spending Into Bigger Profits?",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQR0xsajZVYmJndWstZzg0NmRaSzRsUmk0SllWWm5IM25ZNHFvSU9EbElLS0pLY3NvUzBBQ0lSM2hsbzVUVVh4MjdNOTllOFcyVjNtajZtZGhId05RcGpHVlFhd2NfemNRRGNZRjRWQ0o0N2xOQnBKSU9GMnBvcF9qZ24xQ01LTXJHNi0xVjV3WmNPOC1fUjkyT2ZFRW1ZNF9ZYVVIWWpWSEJJSW1ZU3hLYWRVZGZXdGZ6?oc=5",
+          "id": "b145f4b9e8c77452",
+          "title": "OpenAI CEO says laptop memory is wasteful; favo...",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPQjJvcTRjR1FzS3gzYURxRGpZcUdUWXAxWVM3WVpILTBDQnBBX2Z0b0I5UU5ZeXF2c2o1Q3BLWXp3TnVRWjRMdk54SUxXZXlzN3UwR09tbFlYc2NEdmxpZlJVQnJGeEs2YnQ0RGp4enpHZzc3cUdVbklwNXRtUGxkdUJnTHZTdFhtQ1RDZmh6dmtRc0tNWnhn?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-31T13:35:45.000Z",
+          "published_at": "2026-10-31T14:04:29.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8ae684b679b24a9a",
+          "title": "OpenAI CEO Argues Home PCs Waste the World's Limited DRAM Supply",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOQ0FFd3RmNDhuWnZhQkZOZGlFVlRMTXFHOFhHU1hwaWJOM3ROanJNa2Fhc3Z6Wlp5eW9HREM2czFKM0RYcWs1bEFEQlZxaEFfVWEyNkFTR1RJZWFZLWdSUUdBbzVlOGZFUndOWTZ0RVZMcFh3emRlWWZQTmNJMFhOdC0xcnVDZUdXT3hlMHQ0dGNlRGgzOVNBWmNJTHJubDTSAaQBQVVfeXFMTjVyVDdzdDRmRFpKUldvb2FKTGw3ZmxNQ0RaMDE2SzFOOG1DUzlrc2duQThrOXVmRzQ0aWcxTFZkZDFGcjVHRkRrcmNIV3hvY3lUb09xU2JSVFc4MEVFblZZd0tMdXlrWFRxemVzLTdyUmNXZHZyMlF3SzBYellocURfY1VjVndET3A2bzlRNTNETGhvaWh1T09ZNjFQa2xMbHJoLV8?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T14:03:41.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b91b90d27a0d81d7",
+          "title": "OpenAI CEO meets Samsung executives in South Korea to strengthen collaboration on AI and storage chips.",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNNmwyU3RiSnhQRTlnRG51X0RRRHJEb1B2S1hoQzFyRVh3S2ttYy1fd19URnNlQWQ4TWdWZzRfTGFfS085MHB6aThBN3lDbElPeU15ZUNvaUZjTGpwQjEzSzhNaEtBTmVVcG42ZExOa0kxSVpRbXd2TWhRU3lEejREZlRpbHhsbEFZMXY5WTZUUnVjYVJoOG5mLWh1b2FyZ1dsdXJ4RUtCUTZraWNOSFpjVlZaWUJNMldJUklIRlNjNmZtLVRPMDFZWFhpUG4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:55:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "afd55d7bd046451e",
+          "title": "OpenAI Offers Wealthy Investors Access to $1.25 Trillion Valuation",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOb3dTdDhFN3BRUmp2TF9xRWd5MWxZNGU4R3dHR1FPOWVjTkZCTDR5ODFQcWZ3VUpqdkU3ZE93cTdabU9VZTVGRkp5T1dSUnhUQXN4TmJxQkd3RzhyT25zR0VPVjJ6MWF6bXV2MHp5aG1ZbW9QSXFMMnQxMlN2YW8wbjZidkdyNm10UkR0TExqTW1EYUpMWWc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:50:27.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9d2c014fa6600526",
+          "title": "OpenAI’s CEO Thinks Your Laptop’s Memory Should Be in a Data Center",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNYzhBZ05wc1NIVWR0cHFQZ0tTWUpJYTNMZjRlUkN0ZHZVUllybGZXZ3ByUDNya2ZXX3dzU3g3aGpGZXlNYmlKUlhkVnNsa3otT3k3bXdMZW9OcTMwSThaSDVZM2FPOFkwTVFqbUxMNHg5bU5WTE9NM1ZJX1JOVHRoQjRQRkZvZjR5dnpiTF9lQmQxSk5sREc0?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:49:57.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2bbf3dc797edac0f",
+          "title": "Meta’s $97.5 billion AI funding plan, OpenAI’s scientific claims: This week’s tech highlights",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOSEpJX2h1ZzIxV2NuY2ZwdFlGOUdrN2IxNlRrT2pFcXJueDhWa0M2TWxVSV91V0ZxYzdHR1pYYVRUNmh6eThyVzVfSGVtVjR2UDFaMTRKSnczUkZoTjlIdnhmM2xSbVBFS1dmRzN3cndRd0pJSGladTVxVk82RC1UM0NzSzE3clZHaXZaRHFybUppenRXbGNScW90eFVWOEQtN3NUeE1CekpIUXdMbXh1aWFsVFktM2dPaUd5eHBUTFJSbHRKQ1VLTWZJUWtZMUZfTXV1bDhB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:40:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d62b3b30f5334d5d",
+          "title": "OpenAI lowers fundraising target to $20 billion: implied valuation cut to $1.25 trillion",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQZ055SzVEWUpUYjdPLVhWdkdld2V6NWVUaUxwZlpFNjdzODJjTVI2Nmx5TG9TbThieGNKcE9rNVlnVWtFTXF5S0NKMkhSNV9wVWdKVHRUcG45RUtIa2hXVHlWV1llUGJ4SWdDOFMzNlNXZm8yOU95cG9OSjI5S1lzaU92d0hFYlhQVzVZN0hoT3pCYnFlX2RhUUZZVGRDdThHaGp0X2EwdHhpZzFMbFJ0NW9xRHN5TzZELVE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:18:45.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cut"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "e8e9fbbf35180d72",
+          "title": "OpenAI Expands AI Agent Monitoring To Detect Misalignment And Unauthorised Actions",
+          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQdVFfU3ByTk1rYlRLN09uMktaSWhRbmwwQkxvRkl0RE1BbWFpY29IUnRtOVkzWDBBQVVPNVlRRVJURUl1ZWJqTXRpdUJHNC1CbHVkM2Q0ZFNsOFdyTEFWcDBXSi1ZZ3V0eXZ1M3kzMk1NaU5pWFp4bTFQY2FMbHRQSE1Pak95WjRFNlhJUmNMN1d3RzB0M3BIdm9xVVplajUwOHRULWNmWEM1SnFaWUZ3bHQyRTFCek9FRmRTZnlXUHZ4UHJtMG04adIBzgFBVV95cUxOdEpYUnUzajdPM0VmVkVkU2FoaVZqM1ZuVEtBY3hoVV9rcTlNVDltQ2pEb3dkaGNoU2RHZWgwcERDb2RidGxCN01hRTAyVWlPZGF6YzZpUVVSY3JDMEc3Zm5qTVJXNWdJQmlZUE5mcTduSU1wNmU5LXo5X3JsOVk5b3ZWaEx5eDJlVWV1SHdDYjBrdmwzU25Ob1VEWUo5dDZORXluU2JfZ0hzRktoTXZvcW01d0NwM1BRZ1ViREhWT05jLVRoa29kWXVGUzhCZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:16:39.000Z",
           "score": 3,
           "positive": [
-            "record"
+            "expands"
           ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8594f84c06aae678",
-          "title": "Microsoft’s AI Boom Has A Cost (NASDAQ:MSFT)",
-          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE4yeC0wbFJjNlN5eTFRNks4dGtwUlBBcUZlczVGV25xbHFFTk9qSnFfYnRGQ0I2dm1TeE15dHE2TmFJRFZoeTc1RHhLWjFyNTN4Y25Wc1l5aXpacXVMcF9uS2YtZU1kVXZNLUxjMlpJSkpQQk1MUFNSMQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T13:30:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c164930754eca98d",
-          "title": "Microsoft’s Server-Parts Receivables Rise 28% to $35.7B",
-          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNeFJxYXY4SXpxeGJMaWZIT2doZE82NzFyMHJzQ2dTa3ZFNkpvaWxyYnFTX3RkRnQ1NjJ0aVdJek01WFdpell0ZDhkX0hOSDROdjRKSE81U3h6NkpBdFgyTmF6aVNJcjR0ZTJYdzdFU053YW9MZHE1QTVCMXE5ZDMzd3VoRndHYXc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:29:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f7a1c542e23c8765",
-          "title": "Microsoft links ConnectWise supply chain attack to AI agents ...",
-          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9rZWRYT1FyU0dmWi1WWHU0VUpYWkoyMkJHUlZYdXB6dDk3UTlRVl9PTWlxbXhiSXdUYVRJVjFFb09ETFNOWlV2eDBfanc3ekNnam4ta3ZIWm9hS2Voejl2TWdGQnhhdWxHQ0ExcmJvZ3dQRXNrVUdIenQ1TktIbXM?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:00:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c6feb42433cd33d0",
-          "title": "Microsoft Stock: Cash Is King - Rich AI SaaS/Cloud Monetization Prospects (NASDAQ:MSFT)",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcjVSUzVsSWhkcmU5XzlRU3ZEZ0pHVy00N3Rna3NCdEgyN2Nrd09vSzVWa1hCSGJMNFpLVGVncVQtODdTSUJBVFY3S01rckFHOU5nYmhSTHVRa1E0OVB2Y0dCckNhS3V4aTZxTDVDWjlUYzZPb0xIeXFaNWNQMzhfeGx3QzJ4V3NTMlFUeklDQldHUDhwX1hfVGExZzNhY1F6WDVyY3JldUs?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1c4db2a26a4e1284",
-          "title": "Veteran Microsoft engineer makes his own RAM from scratch using AI — custom FPGA board dodges extreme 1970s PDP-11 memory prices",
-          "url": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxOX0RNZHlpczFfVk53ajhaMlp3RktOUjBBVFJwaE1VS25oTkxvSWM5Y0VWdE5NTm0xTGc1ajg4cXA1LUd2dG90MHBDWTlCX0JKUmlCWjNvUlNjcUpkeUZvS2RzLS1XbGhpSEZXSzJtd2hVN2FfTzRBajIzZmItMVlzNXFPb3FuSUNpU2N6WDdUeW96WmZZTm81dFIzc2NoY0JqMzM3TWJrQXc1RHNHWU1jMG9LLW9MZEpIa3hQaUdZZVRpQkZYSEtGbmRvQzdWaWZXc3hvc2RYUkhvT05jT0pNNDg2Q3l1TjlnQnBUTjhPUERFeDlwQ3V4cVBpYjU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:40:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "004f923cc42ee256",
-          "title": "Microsoft offers a quarter of its workforce voluntary severance while shielding AI-critical teams",
-          "url": "https://the-decoder.com/microsoft-offers-a-quarter-of-its-workforce-voluntary-severance-while-shielding-ai-critical-teams",
-          "source": "the-decoder",
-          "published_at": "2026-10-31T10:43:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "231b9a05d592d2c8",
-          "title": "OpenAI, Google, Microsoft, and Anthropic say they will adopt a new standard that publishers can use to opt out of being scraped by AI across multiple crawlers (Emma Roth/The Verge)",
-          "url": "https://techmeme.com/261030/p26",
-          "source": "techmeme",
-          "published_at": "2026-10-30T21:05:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "deepseek",
-      "name": "DeepSeek",
-      "headlines": 7,
-      "index": 0,
-      "mean_headline": 0,
-      "sample": [
-        {
-          "id": "71b231381a5e7f16",
-          "title": "DeepSeek vs ChatGPT: $0.15 to $50 per 1M Tokens [2026]",
-          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOTmd5LTZFVWRKd0piN0JzSDc5UWx2aThIbDVGMHlDRDZheFFWZW5hdjJlS2dJd1RNWlNHc21QMXB6NVdPdF9QdG5ia0VCRERIYngteFg1SXI1TElpT1VJZE1tY0Y4a0tWOTZZR2VPWUFWaDhhV2xOeDJTbFcyZXpUYw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:26:12.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "cfc2c2434711a4c0",
-          "title": "Chinese hackers attack 200+ organizations with DeepSeek AI agents",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPZEh1T3E3aGdwSDdMdzJINnVvUXhmM2hkZTJTVlI4ZUdEclcxRWtJZmo0WVdmOXlSSEp1M0dnVEZGNFRQVkVGTUZFQkx6NUVoNTg3STVOcnZzaVctVTBBOEk2al9oOGxvbmhzZG5oOHdkOGh0OEtsU0tEYkFRa1ZJZUdiNHBubWpMa09VNG42TVktTDlpdFZ2UlIwWndHR2JoZmFDdw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:51:56.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d019ff207d36fd0c",
-          "title": "ISTA DeepSeek-V4.1-Flash-1017 GSQ-RCO quants comparison",
-          "url": "https://reddit.com/r/LocalLLaMA/comments/1xjkjla/ista_deepseekv41flash1017_gsqrco_quants_comparison",
-          "source": "reddit-localllama",
-          "published_at": "2026-10-30T16:46:21.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a82d8e26b584726b",
-          "title": "CrowdStrike: Vapor Panda ran intrusions with DeepSeek-based agents",
-          "url": "https://crowdstrike.com/en-us/blog/vapor-panda-uses-artex-to-scale-global-campaign",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-10-30T15:55:11.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "07899bb44079730a",
-          "title": "Introducing DeepSeek-V4.1-Flash-1017 Dynamic v3.1 Unsloth GGUFs",
-          "url": "https://reddit.com/r/LocalLLaMA/comments/1xjfuqh/introducing_deepseekv41flash1017_dynamic_v31",
-          "source": "reddit-localllama",
-          "published_at": "2026-10-30T13:48:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8aed4e38dda09f26",
-          "title": "CrowdStrike: China-linked hackers used AI tool ARTEX with a DeepSeek LLM and another model to target 200+ organizations in 11 days, compromising at least nine (Kevin Collier/NBC News)",
-          "url": "https://techmeme.com/261030/p1",
-          "source": "techmeme",
-          "published_at": "2026-10-30T04:01:16.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5499d15054fccaed",
-          "title": "Sources: DeepSeek doubled its latest round's size due to surging black market Nvidia Blackwell chip prices, with Chinese state-owned investors representing 27% (The Information)",
-          "url": "https://techmeme.com/261029/p71",
-          "source": "techmeme",
-          "published_at": "2026-10-30T03:35:00.000Z",
-          "score": 0,
-          "positive": [],
           "negative": [],
           "clickbait": []
         }
@@ -1222,10 +1244,34 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 45,
-      "index": -0.2,
-      "mean_headline": 0,
+      "headlines": 44,
+      "index": -0.9,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "cd72780a81c92056",
+          "title": "Google’s Gemini Tool Cut UK Planners’ Assessment Time 58%",
+          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQY1pOVlIxNTI4bml4N0REdXNLUWdad3VvcjZzelQwY1JfaGlnMV9tY19fTVYxUmR1MldlaGRTeEtEUHh3aGREMG9PN1Z6cHg5QllSTWQ4bXo2RC15Z3BGMmtSZ1dMMTNlaEtvTXpoaURiY0V2YTA0MVhDTFVkR2V6ZThzeDlNNEVXTVE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:51:21.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cut"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "8f1589d4bea2c08e",
+          "title": "Google Just Made AI Talk From Space for the First Time Ever",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPZ2pxT0g0OE92NGZYTVRRckphQlBwXzMtOUtwMExsZHZpUkxzQkdVTkN2QnVIcmtTTVA2MFhhYkd3bmhMeHFabmJoeTM1MVJjWmVfakh0WjFFMnAzT2ZUXzdOZmVIR0JwUVhMbzUzcWtfcjJzbHBlc2RuM3lDNkU3VVR6VkpVcEZNMEJkTWlVV3QwQkN5Z3ZuTFptQdIBoAFBVV95cUxNMmRIbXRnelJEemw0YlJ4OERyY1pqZThabTVfRkJ0SXJST0M4bG5lM2FBRDBlaXZuMlNOZ2MwaUZTUGw5T3ptQkFseHo1UVRBa3Z5YmU1bGVWRnFMaVhicVRmSDRKdWgzRnRsT3FOOWhZclF1NHJaMElsdHpUdHdfbmMwOTRNZzU1OTd6RDlHNDhlOUNHZ0U4R2ZYb1R2QXFo?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:41:13.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1fc8e20de3203cc8",
           "title": "Strava Connects Your Training History to Google Gemini: AI Can Now Analyze Your Progress as a Cyclist",
@@ -1295,24 +1341,200 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "headlines": 27,
+      "index": -0.9,
+      "mean_headline": -0.1,
+      "sample": [
         {
-          "id": "fc76b62209b11d44",
-          "title": "Cognizant Mobilizes 25,000 Staff to Form Dedicated OpenAI Unit, Betting Big Again After Google Cloud",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1ZQVM5UkZfTEd2d3JuWk43aWQ1QkprXzZjX2dGTDZ6NjAwMXJzRmV6ZkhBWVJVb0cwSThuT3I5Z1oyOU55UW9sUVVyZjBvNHVQTnUxeDNhRllXczJvZTRHY2ZweTBxOFRDV3lTSk1aOE14TmJIQkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:25:00.000Z",
+          "id": "0b3b8202523a0e56",
+          "title": "Chinese Executive Close to Nvidia CEO Suspected of Giving China Information",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQWHJLWWpfcXR5dEpVekREaFNLUlhOUmpFYm1neGZkZDh5blljZWw5WHdPWWZ4ZkVBbUJGOTFsWFVnUnJZODJNMVJiYWlfTFBMaTNwWjFZUFZsdHZweU9xUXZjX0dnMWpWN0pYOTEzNTFFYkRaWDRDdjJPdmVITzlmZTJVcmlqZWNZSXZzTmxuaU9WNlViUWtLYTBYLVZ3M2loY3FBa0JJWlFwZldqUWc?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-31T13:12:48.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "e37e70e97b238a3a",
-          "title": "Google Plans Support for Shared Robots.txt AI Training Control",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPVm56UGgyZ3VxWVpzb0o0NTZPNVBreDNZTWxfLS1tYWx0Q3FJc0J3dElIa05tR09yeEVBNUdxTXRDVG5RZVpwVXNLSnljNUI3dVZNbUh0SGFOTmdBQTgwdEVfaW9NV25pSXNRTXN5WXNhd0NkVld2RElWLWd2V2JjYVZPYVNvVHhIYVlZaQ?oc=5",
+          "id": "e9457e9eee50406b",
+          "title": "Audi Announces Its First U.S. Factory; Nvidia, Micron Drive Earnings Boom",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPQmNYbU14T29fbUlGcmZXY1FYaE9vZEVSaWpRU3NvT25oSDBuS2NKMEg2Ykk2ZEVDWHlOVXV5MUNJb3V3M19vVlBfNlVSWGwtZmdtTlRoMURzRzNmTWZZd3E2cFk3UnpLZllLcW9seTlBdnA4N1dpS01zYnpzSHRhWEJ5VXF2OGFWVU55UDFQTlpIWGJrYnNDVFhtaDhoWDI3M3dlSnc5dDlvN2lxbFhGRg?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-31T05:52:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "778066fca87ac979",
+          "title": "Nvidia weighs playing the cosigner for Nscale’s AI data center in West Virginia",
+          "url": "https://techcrunch.com/2026/10/30/nvidia-weighs-playing-the-cosigner-for-nscales-ai-data-center-in-west-virginia",
+          "source": "techcrunch-ai",
+          "published_at": "2026-10-31T01:20:05.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "05821f65f0a16c71",
+          "title": "Apple Overtakes Nvidia to Become World’s Most Valuable Company",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQemhEdzVEaEpkYUJtQ2dYN2c3MlQ1N01MR0oxMnNheDZlbXVzaEJJd2k3bksyWGZwR0stcFZUOTNJZFB5dU1jajQ3RVZZYTBodlRJQXR4TG5tbjRibWYtUk9pUVpOWFZ5UGNOQV9sNnUyR3dfZllSSm81U2FjMDJFQTBsOU9XN2ZhRkVoTVBNdWxtVmJzdEVLRElxU2dkdG1HdjU4cGp6WmhjLVVEenJqQU80aw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-30T20:28:39.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b6966cccfb02bf44",
+          "title": "Trump ignored intel on China’s Nvidia spy to protect company’s stock, report says",
+          "url": "https://bsky.app/profile/arstechnica.com/post/3mz43x6sfm72g",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-30T15:30:33.870Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "44760dcbfab6ceec",
+          "title": "China dismisses US report of suspected spy targeting Nvidia CEO Jensen Huang as ‘groundless’",
+          "url": "https://scmp.com/tech/tech-war/article/3372743/china-dismisses-us-report-suspected-spy-targeting-nvidia-ceo-jensen-huang-groundless",
+          "source": "scmp-tech",
+          "published_at": "2026-10-30T10:30:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "c2e668db9a4275f2",
+          "title": "The RTX 5080 Has Been Removed From NVIDIA's Official Marketplace.",
+          "url": "https://reddit.com/r/LocalLLaMA/comments/1xj9xjh/the_rtx_5080_has_been_removed_from_nvidias",
+          "source": "reddit-localllama",
+          "published_at": "2026-10-30T08:38:08.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3f9291db3f1bf015",
+          "title": "Dell workstation with 96GB Nvidia GPU may cost less than graphics card alone",
+          "url": "https://videocardz.com/newz/complete-dell-workstation-with-96gb-nvidia-gpu-may-cost-less-than-graphics-card-alone",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-30T06:08:42.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "headlines": 23,
+      "index": -1,
+      "mean_headline": -0.1,
+      "sample": [
+        {
+          "id": "cbba0e2132a4f688",
+          "title": "Tech layoffs tracker 2026: All the job losses across Amazon, Microsoft, Netflix, Electronic Arts, Apple, Meta and others",
+          "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxPWjc2bDlEWHNuV1BZeENVamFNMVlhdzQzRTctOENHYmJFbVVwOGZxNXhDU0E3bXRXemlkSXl3OUtvTXZ4SDE2ODBmOUVtZjJrQjFzbDhEeUd0Q0lrc01yRnctNmdmSzM0a1hsVVJTVUo3X3ZjdWswVlhDNTJxN2c1NEM5M2hqT0JoM0RNZC03cmMwUmw5X0xXcnB2UzdtNzFFaDRicWdJVThTZ3IwMC1OYjIzeGNCWVdTX2ZmT2NJaURqU2Z3aXBNN0NCdm04aF9pTXNUX0tWX2xOWWxDQXB1R3Y3NkJOR00ySjFpU0Z5UnU4M3RTd1hzdm9DLWh6NHBYbHZVT1RPR1ViM3pweUpJ?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-31T11:30:03.000Z",
+          "published_at": "2026-10-31T13:50:24.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "layoffs"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "fb1d9af4ab006ab1",
+          "title": "Can Microsoft Turn a Leaner Workforce and Record AI Spending Into Bigger Profits?",
+          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQR0xsajZVYmJndWstZzg0NmRaSzRsUmk0SllWWm5IM25ZNHFvSU9EbElLS0pLY3NvUzBBQ0lSM2hsbzVUVVh4MjdNOTllOFcyVjNtajZtZGhId05RcGpHVlFhd2NfemNRRGNZRjRWQ0o0N2xOQnBKSU9GMnBvcF9qZ24xQ01LTXJHNi0xVjV3WmNPOC1fUjkyT2ZFRW1ZNF9ZYVVIWWpWSEJJSW1ZU3hLYWRVZGZXdGZ6?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:35:45.000Z",
+          "score": 3,
+          "positive": [
+            "record"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8594f84c06aae678",
+          "title": "Microsoft’s AI Boom Has A Cost (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE4yeC0wbFJjNlN5eTFRNks4dGtwUlBBcUZlczVGV25xbHFFTk9qSnFfYnRGQ0I2dm1TeE15dHE2TmFJRFZoeTc1RHhLWjFyNTN4Y25Wc1l5aXpacXVMcF9uS2YtZU1kVXZNLUxjMlpJSkpQQk1MUFNSMQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:30:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "c164930754eca98d",
+          "title": "Microsoft’s Server-Parts Receivables Rise 28% to $35.7B",
+          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNeFJxYXY4SXpxeGJMaWZIT2doZE82NzFyMHJzQ2dTa3ZFNkpvaWxyYnFTX3RkRnQ1NjJ0aVdJek01WFdpell0ZDhkX0hOSDROdjRKSE81U3h6NkpBdFgyTmF6aVNJcjR0ZTJYdzdFU053YW9MZHE1QTVCMXE5ZDMzd3VoRndHYXc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T12:29:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f7a1c542e23c8765",
+          "title": "Microsoft links ConnectWise supply chain attack to AI agents ...",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9rZWRYT1FyU0dmWi1WWHU0VUpYWkoyMkJHUlZYdXB6dDk3UTlRVl9PTWlxbXhiSXdUYVRJVjFFb09ETFNOWlV2eDBfanc3ekNnam4ta3ZIWm9hS2Voejl2TWdGQnhhdWxHQ0ExcmJvZ3dQRXNrVUdIenQ1TktIbXM?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T12:00:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "004f923cc42ee256",
+          "title": "Microsoft offers a quarter of its workforce voluntary severance while shielding AI-critical teams",
+          "url": "https://the-decoder.com/microsoft-offers-a-quarter-of-its-workforce-voluntary-severance-while-shielding-ai-critical-teams",
+          "source": "the-decoder",
+          "published_at": "2026-10-31T10:43:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "231b9a05d592d2c8",
+          "title": "OpenAI, Google, Microsoft, and Anthropic say they will adopt a new standard that publishers can use to opt out of being scraped by AI across multiple crawlers (Emma Roth/The Verge)",
+          "url": "https://techmeme.com/261030/p26",
+          "source": "techmeme",
+          "published_at": "2026-10-30T21:05:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6d370ef60b7c5369",
+          "title": "Microsoft expects 5% or fewer eligible employees to take its big buyout",
+          "url": "https://businessinsider.com/microsoft-expects-very-few-people-to-accept-buyouts-cfo-says-2026-10",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-10-30T20:41:23.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1324,18 +1546,20 @@
       "id": "apple",
       "name": "Apple",
       "headlines": 11,
-      "index": -0.7,
-      "mean_headline": -0.1,
+      "index": -3.6,
+      "mean_headline": -0.5,
       "sample": [
         {
-          "id": "38ac8c5186de6787",
-          "title": "Apple Brings 18 AI Features to China With Alibaba’s Qwen",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOa05OdG5kWDlTX3FhcTVLdzUtNkU0TjFKUUNiR2dyektsZnRlLVdsZWUyV3pRbXR2RDR4ZXpsUGtxanFRUHBxYUpGS2hXNUVXczdxTTZtZU52YzJ5UVhFMGtCcjg2RHpYaTJqbnc1dWpYbTNzV0RPcjRyVkFEckM5T2NrZzY0S1ctdHFj?oc=5",
+          "id": "cbba0e2132a4f688",
+          "title": "Tech layoffs tracker 2026: All the job losses across Amazon, Microsoft, Netflix, Electronic Arts, Apple, Meta and others",
+          "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxPWjc2bDlEWHNuV1BZeENVamFNMVlhdzQzRTctOENHYmJFbVVwOGZxNXhDU0E3bXRXemlkSXl3OUtvTXZ4SDE2ODBmOUVtZjJrQjFzbDhEeUd0Q0lrc01yRnctNmdmSzM0a1hsVVJTVUo3X3ZjdWswVlhDNTJxN2c1NEM5M2hqT0JoM0RNZC03cmMwUmw5X0xXcnB2UzdtNzFFaDRicWdJVThTZ3IwMC1OYjIzeGNCWVdTX2ZmT2NJaURqU2Z3aXBNN0NCdm04aF9pTXNUX0tWX2xOWWxDQXB1R3Y3NkJOR00ySjFpU0Z5UnU4M3RTd1hzdm9DLWh6NHBYbHZVT1RPR1ViM3pweUpJ?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-31T11:26:46.000Z",
-          "score": 0,
+          "published_at": "2026-10-31T13:50:24.000Z",
+          "score": -4,
           "positive": [],
-          "negative": [],
+          "negative": [
+            "layoffs"
+          ],
           "clickbait": []
         },
         {
@@ -1420,311 +1644,25 @@
       ]
     },
     {
-      "id": "openai",
-      "name": "OpenAI",
-      "headlines": 43,
-      "index": -0.7,
-      "mean_headline": -0.1,
-      "sample": [
-        {
-          "id": "2bbf3dc797edac0f",
-          "title": "Meta’s $97.5 billion AI funding plan, OpenAI’s scientific claims: This week’s tech highlights",
-          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOSEpJX2h1ZzIxV2NuY2ZwdFlGOUdrN2IxNlRrT2pFcXJueDhWa0M2TWxVSV91V0ZxYzdHR1pYYVRUNmh6eThyVzVfSGVtVjR2UDFaMTRKSnczUkZoTjlIdnhmM2xSbVBFS1dmRzN3cndRd0pJSGladTVxVk82RC1UM0NzSzE3clZHaXZaRHFybUppenRXbGNScW90eFVWOEQtN3NUeE1CekpIUXdMbXh1aWFsVFktM2dPaUd5eHBUTFJSbHRKQ1VLTWZJUWtZMUZfTXV1bDhB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T13:40:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d62b3b30f5334d5d",
-          "title": "OpenAI lowers fundraising target to $20 billion: implied valuation cut to $1.25 trillion",
-          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQZ055SzVEWUpUYjdPLVhWdkdld2V6NWVUaUxwZlpFNjdzODJjTVI2Nmx5TG9TbThieGNKcE9rNVlnVWtFTXF5S0NKMkhSNV9wVWdKVHRUcG45RUtIa2hXVHlWV1llUGJ4SWdDOFMzNlNXZm8yOU95cG9OSjI5S1lzaU92d0hFYlhQVzVZN0hoT3pCYnFlX2RhUUZZVGRDdThHaGp0X2EwdHhpZzFMbFJ0NW9xRHN5TzZELVE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T13:18:45.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cut"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "e8e9fbbf35180d72",
-          "title": "OpenAI Expands AI Agent Monitoring To Detect Misalignment And Unauthorised Actions",
-          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQdVFfU3ByTk1rYlRLN09uMktaSWhRbmwwQkxvRkl0RE1BbWFpY29IUnRtOVkzWDBBQVVPNVlRRVJURUl1ZWJqTXRpdUJHNC1CbHVkM2Q0ZFNsOFdyTEFWcDBXSi1ZZ3V0eXZ1M3kzMk1NaU5pWFp4bTFQY2FMbHRQSE1Pak95WjRFNlhJUmNMN1d3RzB0M3BIdm9xVVplajUwOHRULWNmWEM1SnFaWUZ3bHQyRTFCek9FRmRTZnlXUHZ4UHJtMG04adIBzgFBVV95cUxOdEpYUnUzajdPM0VmVkVkU2FoaVZqM1ZuVEtBY3hoVV9rcTlNVDltQ2pEb3dkaGNoU2RHZWgwcERDb2RidGxCN01hRTAyVWlPZGF6YzZpUVVSY3JDMEc3Zm5qTVJXNWdJQmlZUE5mcTduSU1wNmU5LXo5X3JsOVk5b3ZWaEx5eDJlVWV1SHdDYjBrdmwzU25Ob1VEWUo5dDZORXluU2JfZ0hzRktoTXZvcW01d0NwM1BRZ1ViREhWT05jLVRoa29kWXVGUzhCZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T13:16:39.000Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "96579b09a3d36952",
-          "title": "Cognizant Technology Solutions (CTSH) Pulls 25,000 Staff Into New OpenAI Group",
-          "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPNkhZODBVZVIzV2hUQmZWV2t1eXRPWnlGa0tvM0dCRXhGcGdnMVdGY3NjLXRXZDNHTGR6YkhNQk15NTNnY2lsc2pXYlZzdDZGNHpyVjcxY1h2enVBZW1ydHpTMkRfOHlLVFlLcUhDZ056RnFSeXcxUFB3cEVjbVpqVTc0VWFlZl9ibFVQVTBadUt0OHE3VHFLbElZMF85WkpBaXZYN0lYbkpEWkM2M1RlRkdHSnhOX24wMGhfeUxPS1ZyY1FhelRvMEhvTHpvUUpMLUl3dzVqNXBya0UtVEVWdllSONIB6AFBVV95cUxNQTBJZ3YwcFFzM2JFczFodGpGUWdBT0Fzdnhkc2k5YXhZZnIxOURXM2RTZm5BRjNQc011Rk52a0tTaTFYNFYxdmM5WDRqVWpqOW5BelBDMkFGN2NhNlRUd0h6X0pXaUxPUTBRcjVfc21uQ3BuX3hEYi1qRGNGRExyOEVQeXc2Wm5oUENfbzBhNFJyWEY4OGZ4eWF0TFllclhOeldTYWpySXhWN1JBX21UWGlDSG95OUQwWldLZWVtam9LLU9nVmpJWk5yZkhNUE9XR1hpeU1ZRmV5R09RZXc1bVdQOHVqZGtM?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:33:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "fc76b62209b11d44",
-          "title": "Cognizant Mobilizes 25,000 Staff to Form Dedicated OpenAI Unit, Betting Big Again After Google Cloud",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1ZQVM5UkZfTEd2d3JuWk43aWQ1QkprXzZjX2dGTDZ6NjAwMXJzRmV6ZkhBWVJVb0cwSThuT3I5Z1oyOU55UW9sUVVyZjBvNHVQTnUxeDNhRllXczJvZTRHY2ZweTBxOFRDV3lTSk1aOE14TmJIQkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:25:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "78f5fcc2453e3444",
-          "title": "OpenAI Slashes Fundraising Goal by $10 Billion as AI Stock Selloff Hits Investor Interest",
-          "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFBUeTJfTXdVZTJfTWxtN2trbnVWa19Za3JKOGdId09OeHRXcGpzeFYxWGtBbEJrUjY4VDFXOVhvUzd2bWpxd2VjMHdMT3RNMHljQXdQd3dRS3Y?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T12:15:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e941d506264ccc21",
-          "title": "OpenAI IPO Valuation Target Reportedly Trimmed By $150B After Nasdaq 100 Registers Worst Month Since March 2025 Following Brutal Tech Sell-Off",
-          "url": "https://news.google.com/rss/articles/CBMiqgJBVV95cUxObWdkdXhNWWRveDM5dG9zYVVGc2YwdElZNlptLXJWYTF4cUFiX0M3RFg4Q1hYMEJRZTUzai1mN2VWMlJfZ1RJRldKSEw0Z21CdTdaRFpOeGo2S0F2OW9zWHl4NjJBcWdqd1FzVGxyRnM4S1FHWTMxdHJGMDdFMENKRlZET1hMY3JQb3NmdWNWalFLX0ZNTFpsaE5OdGJoWVVZSGNRbHUteFR5SkhuT2Q2VzdydW9jSE9NcWdWWHBkRm5ycXlzeDYyT2RfOXpvWmRzWkgtNjRFdzVNeFlDNzRxc1ZxeGdVSkJnSGkzRjNGNEY0MG5WRm9QMVUydmt1QXZ6dm9lWEptWnR0WVVQMjgyS0hRSGlnX1J4cU9vcWVuZ0NCTW5lNjRYMDhB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:30:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8dc0cc9391f607bf",
-          "title": "Samsung executives, OpenAI CEO Altman discuss AI future",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQNC1mZk9pMTY1UHBjNXZYN1NBUGN4Wi0wSnZMcWxxT3pHcjZMUGEwTnk3WDVxU1BRNjB1ZGVnWFA3WmRJVDdEaVdQUUxyNUh1c1JwcEtWcjlQcHJGdG01SWVwTm9zbTgyMUlwWFZBMFhDcUYydE1VS2tTQzVNNm5zNi1wRW9VcHRUZ05WQnJRX2FGTXNUMXlISnV2dy1PZFk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:14:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "nvidia",
-      "name": "NVIDIA",
-      "headlines": 28,
-      "index": -0.9,
-      "mean_headline": -0.1,
-      "sample": [
-        {
-          "id": "0b3b8202523a0e56",
-          "title": "Chinese Executive Close to Nvidia CEO Suspected of Giving China Information",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQWHJLWWpfcXR5dEpVekREaFNLUlhOUmpFYm1neGZkZDh5blljZWw5WHdPWWZ4ZkVBbUJGOTFsWFVnUnJZODJNMVJiYWlfTFBMaTNwWjFZUFZsdHZweU9xUXZjX0dnMWpWN0pYOTEzNTFFYkRaWDRDdjJPdmVITzlmZTJVcmlqZWNZSXZzTmxuaU9WNlViUWtLYTBYLVZ3M2loY3FBa0JJWlFwZldqUWc?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-31T13:12:48.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b6ff2fa99fdc104f",
-          "title": "Meet the Brilliant AI Stock Obliterating Nvidia in 2026 With a Return of 44%",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNRnFJczNReXExTWs4Um1FR2FMR005bmFzeVdHVjM2YXUzWEdXb3ExalZFU25fSk5SWjZrTGJGUlRPQmVuQ191cTdCT3RMc1Z6dnhTRHpmWWpBV2l2MGdackRERHk3ak01d3R2enl4VkdDV19PWWRCN1htRDNGQ0c5c1RXUWNFTExzeV9vRU9CYzZCeHdHYlE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T11:16:44.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e9457e9eee50406b",
-          "title": "Audi Announces Its First U.S. Factory; Nvidia, Micron Drive Earnings Boom",
-          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPQmNYbU14T29fbUlGcmZXY1FYaE9vZEVSaWpRU3NvT25oSDBuS2NKMEg2Ykk2ZEVDWHlOVXV5MUNJb3V3M19vVlBfNlVSWGwtZmdtTlRoMURzRzNmTWZZd3E2cFk3UnpLZllLcW9seTlBdnA4N1dpS01zYnpzSHRhWEJ5VXF2OGFWVU55UDFQTlpIWGJrYnNDVFhtaDhoWDI3M3dlSnc5dDlvN2lxbFhGRg?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-31T05:52:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "778066fca87ac979",
-          "title": "Nvidia weighs playing the cosigner for Nscale’s AI data center in West Virginia",
-          "url": "https://techcrunch.com/2026/10/30/nvidia-weighs-playing-the-cosigner-for-nscales-ai-data-center-in-west-virginia",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-31T01:20:05.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "05821f65f0a16c71",
-          "title": "Apple Overtakes Nvidia to Become World’s Most Valuable Company",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQemhEdzVEaEpkYUJtQ2dYN2c3MlQ1N01MR0oxMnNheDZlbXVzaEJJd2k3bksyWGZwR0stcFZUOTNJZFB5dU1jajQ3RVZZYTBodlRJQXR4TG5tbjRibWYtUk9pUVpOWFZ5UGNOQV9sNnUyR3dfZllSSm81U2FjMDJFQTBsOU9XN2ZhRkVoTVBNdWxtVmJzdEVLRElxU2dkdG1HdjU4cGp6WmhjLVVEenJqQU80aw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-30T20:28:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b6966cccfb02bf44",
-          "title": "Trump ignored intel on China’s Nvidia spy to protect company’s stock, report says",
-          "url": "https://bsky.app/profile/arstechnica.com/post/3mz43x6sfm72g",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-30T15:30:33.870Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "44760dcbfab6ceec",
-          "title": "China dismisses US report of suspected spy targeting Nvidia CEO Jensen Huang as ‘groundless’",
-          "url": "https://scmp.com/tech/tech-war/article/3372743/china-dismisses-us-report-suspected-spy-targeting-nvidia-ceo-jensen-huang-groundless",
-          "source": "scmp-tech",
-          "published_at": "2026-10-30T10:30:07.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c2e668db9a4275f2",
-          "title": "The RTX 5080 Has Been Removed From NVIDIA's Official Marketplace.",
-          "url": "https://reddit.com/r/LocalLLaMA/comments/1xj9xjh/the_rtx_5080_has_been_removed_from_nvidias",
-          "source": "reddit-localllama",
-          "published_at": "2026-10-30T08:38:08.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "meta",
-      "name": "Meta",
-      "headlines": 20,
-      "index": -3.6,
-      "mean_headline": -0.4,
-      "sample": [
-        {
-          "id": "2bbf3dc797edac0f",
-          "title": "Meta’s $97.5 billion AI funding plan, OpenAI’s scientific claims: This week’s tech highlights",
-          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOSEpJX2h1ZzIxV2NuY2ZwdFlGOUdrN2IxNlRrT2pFcXJueDhWa0M2TWxVSV91V0ZxYzdHR1pYYVRUNmh6eThyVzVfSGVtVjR2UDFaMTRKSnczUkZoTjlIdnhmM2xSbVBFS1dmRzN3cndRd0pJSGladTVxVk82RC1UM0NzSzE3clZHaXZaRHFybUppenRXbGNScW90eFVWOEQtN3NUeE1CekpIUXdMbXh1aWFsVFktM2dPaUd5eHBUTFJSbHRKQ1VLTWZJUWtZMUZfTXV1bDhB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T13:40:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "dbf88ed3d5858a3c",
-          "title": "Alphabet (GOOGL) Stock Sees Fair Value Cut After Q3 Miss And Higher AI Spending",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOWWlnbjlFbXdHMnMxWUhBamtXT3BITGd3SW04dHVFXzQxWHVPMS1VYXN3SXFTaFhvc3NkZTkxN1pvSy1aQ2hqRzBId1drQmdwRkEyejAzUVJFcTlnSDBqZ3JMYnVmS0dzQUFDYWNqM0lvMzNfNTlNbXhEaS1ZYVJxR3dKUGFMUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T13:13:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cut"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "8ea34f8cab938c07",
-          "title": "Meta’s Muse Could Upend All Kinds of Businesses. It Hasn’t Yet",
-          "url": "https://bsky.app/profile/wired.com/post/3mz63ywepfc2t",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-31T10:30:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7db1537e7a4b266e",
-          "title": "S&P downgraded Meta's outlook from stable to negative, citing high capex and negative free cash flow; META fell 15% in October, its worst month in four years (Jonathan Vanian/CNBC)",
-          "url": "https://techmeme.com/261031/p3",
-          "source": "techmeme",
-          "published_at": "2026-10-31T05:10:42.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "be0845159b4dd164",
-          "title": "S&P Global revises Meta's outlook to 'negative' on AI spending, cash flow worries",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOY2JMY29zcEM2TFRURW5TbmY4MTNoWVM1NDhiVG44UTF1YWladnh0aDNSRUhxLXZpclBPZmFySDR3dXE2XzBsQ3NpcE5SRWZiNkF0RVI3NkQyQWhrS1RvdDlwamRJWmxSa2E4ckc0SlBBdFdnOHFZem1UOHVScElQZ2hzUkU0N0Z1ajdMNnNYYzB2djU5dFNnM1FHMUpzczdsbzUxSA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-30T23:27:59.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "fa10fdd90029bf82",
-          "title": "Meta’s Rating Outlook Cut to Negative by S&P on AI Spending",
-          "url": "https://bloomberg.com/news/articles/2026-10-30/meta-s-credit-rating-outlook-downgraded-to-negative-by-s-p",
-          "source": "bloomberg-tech",
-          "published_at": "2026-10-30T21:56:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cut"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "9f7c7a008fe103b9",
-          "title": "Alphabet, Meta, Microsoft, Amazon, and Oracle have a collective $3T+ in AI spending commitments over the coming years, including Alphabet's $1T and Meta's $800B (Brody Ford/Bloomberg)",
-          "url": "https://techmeme.com/261030/p22",
-          "source": "techmeme",
-          "published_at": "2026-10-30T20:00:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "af7203f1d22040e3",
-          "title": "The technologies, people, and ideas transforming our world—for one day in Miami. Join us at the first-ever WIRED World Fair on November 4. Lineup and tickets: buff.ly/5aCsst1",
-          "url": "https://bsky.app/profile/wired.com/post/3mz4l25zpvd2r",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-30T20:00:41.972Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 46,
-      "index": -3.8,
+      "headlines": 45,
+      "index": -3.9,
       "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "0498f7c4837f85a9",
+          "title": "Firm that lets you rent out your idle Mac for AI inference workloads warns of plummeting token costs — Darkbloom network sees earnings drop to $1.23 a day as Anthropic tokens fall 77%",
+          "url": "https://news.google.com/rss/articles/CBMi8wJBVV95cUxQb3d1LS16enNVOHNfejNON0kxenFocnEtWlMwZnVyU2RFeGdpX2lIcTR0VFdyQ0ZnT2ZDcHlkUkhHT2hmNzl2UTNWamJwX244R2V5QzRfbjlzNGhka1JzU3A5QlF4RVdjMHVzRlZ0VDJwb1F2NEJsVHJjUTlPbHlfUFFLcmljckRHVExHUnpDSVNQaXdoX3FselNFUEhVaXNPMEkzVXphVmNmVXY5VVB3aC1mV0s5X1dOOUZyTGlYYWdtN25udjFNMzhCUzlNelpMdEFGZ1FCWjJCUEdkTEZLZ21ReDZOZXFLdV9FeS1Xd2luQWFvRWtHd0k5ZEpNWlgwZ3Zjb0tDS3EwZ0xQMFc5dmdGeUNqT2xNVS01YU9kY3pKdzI1YlA4Tzg1b2tGYnhORlh5VFRfUnhYVkJaOXFLRndTQUV3dkJXaElLVm1mS1RSODlaSGxzcnFVRi1HTXlKbHFxbDBHajgzMDkyM0g4TFN0NA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:49:09.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
         {
           "id": "bc2ee47d8e7c7e1c",
           "title": "Anthropic Faces Skepticism Amid AI Market Turmoil as IPO Looms",
@@ -1801,13 +1739,105 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "headlines": 21,
+      "index": -5,
+      "mean_headline": -0.6,
+      "sample": [
+        {
+          "id": "cbba0e2132a4f688",
+          "title": "Tech layoffs tracker 2026: All the job losses across Amazon, Microsoft, Netflix, Electronic Arts, Apple, Meta and others",
+          "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxPWjc2bDlEWHNuV1BZeENVamFNMVlhdzQzRTctOENHYmJFbVVwOGZxNXhDU0E3bXRXemlkSXl3OUtvTXZ4SDE2ODBmOUVtZjJrQjFzbDhEeUd0Q0lrc01yRnctNmdmSzM0a1hsVVJTVUo3X3ZjdWswVlhDNTJxN2c1NEM5M2hqT0JoM0RNZC03cmMwUmw5X0xXcnB2UzdtNzFFaDRicWdJVThTZ3IwMC1OYjIzeGNCWVdTX2ZmT2NJaURqU2Z3aXBNN0NCdm04aF9pTXNUX0tWX2xOWWxDQXB1R3Y3NkJOR00ySjFpU0Z5UnU4M3RTd1hzdm9DLWh6NHBYbHZVT1RPR1ViM3pweUpJ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:50:24.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "layoffs"
+          ],
+          "clickbait": []
         },
         {
-          "id": "e9145b05200e6d42",
-          "title": "Anthropic reports $80 billion loss ahead of possible IPO — CNBC",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNT0ZodG1YYjRZa21FVzlRSEJpZ1RVSElISnpqZjhtMER4VzBDMkFKUDBwWENwdTdYMzBTcTVRVHkxN0NGbW9PbHJSYS1hR3BiOFdVeWYzR2xhdTl3U1pITkN6Um1SQnA0LTNzSm5pcjVKT3ZWdkl6NVczaVdtd0MxZ2lNVVB2OFEtUmtZNmhBSmUySW8?oc=5",
+          "id": "2bbf3dc797edac0f",
+          "title": "Meta’s $97.5 billion AI funding plan, OpenAI’s scientific claims: This week’s tech highlights",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOSEpJX2h1ZzIxV2NuY2ZwdFlGOUdrN2IxNlRrT2pFcXJueDhWa0M2TWxVSV91V0ZxYzdHR1pYYVRUNmh6eThyVzVfSGVtVjR2UDFaMTRKSnczUkZoTjlIdnhmM2xSbVBFS1dmRzN3cndRd0pJSGladTVxVk82RC1UM0NzSzE3clZHaXZaRHFybUppenRXbGNScW90eFVWOEQtN3NUeE1CekpIUXdMbXh1aWFsVFktM2dPaUd5eHBUTFJSbHRKQ1VLTWZJUWtZMUZfTXV1bDhB?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-10-31T11:34:56.000Z",
+          "published_at": "2026-10-31T13:40:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "dbf88ed3d5858a3c",
+          "title": "Alphabet (GOOGL) Stock Sees Fair Value Cut After Q3 Miss And Higher AI Spending",
+          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOWWlnbjlFbXdHMnMxWUhBamtXT3BITGd3SW04dHVFXzQxWHVPMS1VYXN3SXFTaFhvc3NkZTkxN1pvSy1aQ2hqRzBId1drQmdwRkEyejAzUVJFcTlnSDBqZ3JMYnVmS0dzQUFDYWNqM0lvMzNfNTlNbXhEaS1ZYVJxR3dKUGFMUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T13:13:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cut"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "8ea34f8cab938c07",
+          "title": "Meta’s Muse Could Upend All Kinds of Businesses. It Hasn’t Yet",
+          "url": "https://bsky.app/profile/wired.com/post/3mz63ywepfc2t",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-31T10:30:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7db1537e7a4b266e",
+          "title": "S&P downgraded Meta's outlook from stable to negative, citing high capex and negative free cash flow; META fell 15% in October, its worst month in four years (Jonathan Vanian/CNBC)",
+          "url": "https://techmeme.com/261031/p3",
+          "source": "techmeme",
+          "published_at": "2026-10-31T05:10:42.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "be0845159b4dd164",
+          "title": "S&P Global revises Meta's outlook to 'negative' on AI spending, cash flow worries",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOY2JMY29zcEM2TFRURW5TbmY4MTNoWVM1NDhiVG44UTF1YWladnh0aDNSRUhxLXZpclBPZmFySDR3dXE2XzBsQ3NpcE5SRWZiNkF0RVI3NkQyQWhrS1RvdDlwamRJWmxSa2E4ckc0SlBBdFdnOHFZem1UOHVScElQZ2hzUkU0N0Z1ajdMNnNYYzB2djU5dFNnM1FHMUpzczdsbzUxSA?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-30T23:27:59.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "fa10fdd90029bf82",
+          "title": "Meta’s Rating Outlook Cut to Negative by S&P on AI Spending",
+          "url": "https://bloomberg.com/news/articles/2026-10-30/meta-s-credit-rating-outlook-downgraded-to-negative-by-s-p",
+          "source": "bloomberg-tech",
+          "published_at": "2026-10-30T21:56:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cut"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9f7c7a008fe103b9",
+          "title": "Alphabet, Meta, Microsoft, Amazon, and Oracle have a collective $3T+ in AI spending commitments over the coming years, including Alphabet's $1T and Meta's $800B (Brody Ford/Bloomberg)",
+          "url": "https://techmeme.com/261030/p22",
+          "source": "techmeme",
+          "published_at": "2026-10-30T20:00:58.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
