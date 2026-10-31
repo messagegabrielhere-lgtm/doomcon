@@ -26,7 +26,7 @@ const sections = CATALOG.map(([id, title, intro, items]) => `
     <ul class="items">
 ${items.map(([name, why, q]) => {
     const key = `${id}-${slug(name)}`;
-    return `      <li data-k="${key}"><input type="checkbox" id="h-${key}" aria-label="Have it: ${esc(name)}"><label for="h-${key}" class="t">${esc(name)}<small>${esc(why)}</small></label><a class="buy" href="${esc(amazonSearch(q || name))}" target="_blank" rel="sponsored noopener">AMAZON ↗</a></li>`;
+    return `      <li data-k="${key}"><input type="checkbox" id="h-${key}" aria-label="Have it: ${esc(name)}"><label for="h-${key}" class="t">${esc(name)}<small>${esc(why)}</small></label><a class="buy" href="${esc(amazonSearch(q || name))}" target="_blank" rel="sponsored noopener">SHOP ON AMAZON ↗</a></li>`;
   }).join('\n')}
     </ul>
   </section>`).join('\n');
@@ -105,7 +105,8 @@ ul.items li.have .t{color:var(--faint);text-decoration:line-through}
 ul.items input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--green)}
 .t{font-weight:500}
 .t small{display:block;color:var(--dim);font-weight:400;font-size:13px;margin-top:2px}
-.buy{font:600 11px/1 var(--mono);white-space:nowrap;padding-top:4px}
+.buy{display:inline-block;padding:7px 9px;border:1px solid var(--green);border-radius:4px;background:var(--green);color:#000;font:700 11px/1 var(--mono);letter-spacing:.04em;white-space:nowrap;text-decoration:none}
+.buy:hover{filter:brightness(1.1)}
 .empty{color:var(--dim)}
 .cats{margin:0 0 16px}.cats h2{font:600 12px/1 var(--mono);letter-spacing:.14em;color:var(--dim);margin:0 0 10px;text-transform:uppercase}
 .cats ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px 16px}
@@ -308,7 +309,7 @@ ${CSS}
     <ul class="items">
 ${items.map(([name, why, q]) => {
     const key = `${id}-${slug(name)}`;
-    return `      <li data-k="${key}"><input type="checkbox" id="h-${key}" aria-label="Have it: ${esc(name)}"><label for="h-${key}" class="t">${esc(name)}<small>${esc(why)}</small></label><a class="buy" href="${esc(amazonSearch(q || name))}" target="_blank" rel="sponsored noopener">AMAZON ↗</a></li>`;
+    return `      <li data-k="${key}"><input type="checkbox" id="h-${key}" aria-label="Have it: ${esc(name)}"><label for="h-${key}" class="t">${esc(name)}<small>${esc(why)}</small></label><a class="buy" href="${esc(amazonSearch(q || name))}" target="_blank" rel="sponsored noopener">SHOP ON AMAZON ↗</a></li>`;
   }).join('\n')}
     </ul>
   </section>

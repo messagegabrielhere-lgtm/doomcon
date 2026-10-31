@@ -41,7 +41,9 @@ table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--rule);vertical-align:top}
 th{font:600 11px/1.2 var(--mono);letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
 td b{font-family:var(--mono)}
-.buy{font:600 11px/1 var(--mono);white-space:nowrap}
+.buy{display:inline-block;padding:8px 10px;border:1px solid var(--green);border-radius:4px;background:var(--green);color:#000;font:700 11px/1 var(--mono);letter-spacing:.04em;white-space:nowrap;text-decoration:none}
+.buy:hover{filter:brightness(1.1)}
+@media (max-width:560px){#gear table,#gear tbody,#gear tr,#gear td{display:block}#gear thead{display:none}#gear tr{padding:10px 0;border-bottom:1px solid var(--rule)}#gear td{border:0;padding:2px 0}#gear td:last-child{padding-top:8px}}
 .note{border-left:3px solid var(--amber);padding:4px 12px;color:var(--dim);font-size:14px;margin:8px 0 24px}
 .pc-faq{margin:28px 0 8px;max-width:62ch}
 .pc-faq h2{font:600 1.125rem/1.2 var(--sans);margin:0 0 12px}
@@ -58,6 +60,7 @@ footer.pc{border-top:1px solid var(--rule);margin-top:24px;padding:20px 0 90px;c
     <p class="lede">An AI assistant and a 1.5-million-article survival library that run entirely on your own computer. Ask how to keep food safe in a blackout, treat a burn or purify water, and it answers from its offline library and shows the exact passage each answer came from. Free and open source.</p>
     <div class="cta">
       <a class="btn go" href="https://www.brangus.io/survival-llm#download" rel="noopener" target="_blank">DOWNLOAD FREE ↗</a>
+      <a class="btn" href="#gear">GEAR TO RUN IT ↓</a>
       <a class="btn" href="https://github.com/anonnerdfrenzy/survival-llm" rel="noopener" target="_blank">SOURCE ON GITHUB ↗</a>
     </div>
   </div>
@@ -115,18 +118,18 @@ footer.pc{border-top:1px solid var(--rule);margin-top:24px;padding:20px 0 90px;c
     </table>
   </div>
 
-  <div class="card" style="margin-top:16px">
-    <h2>Run it off-grid</h2>
+  <div class="card" id="gear" style="margin-top:16px">
+    <h2>Run it off-grid: gear on Amazon</h2>
     <p>The app needs disk space, enough memory and power that outlasts the grid. Gear that covers each, and <a href="supply-depot.html">1,003 more supplies in the Supply Depot</a>:</p>
     <table>
       <thead><tr><th>Gear</th><th>Why</th><th></th></tr></thead>
       <tbody>
-        <tr><td>1–2 TB portable SSD</td><td>Holds the full library (19 GB) and the larger models (18–80 GB), plus a spare copy</td><td><a class="buy" href="https://www.amazon.com/s?k=portable+ssd+2tb&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">GEAR ↗</a></td></tr>
-        <tr><td>128 GB USB flash drive</td><td>A backup copy of the installer and the Essentials library to hand to a neighbour</td><td><a class="buy" href="https://www.amazon.com/s?k=128gb+usb+c+flash+drive&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">GEAR ↗</a></td></tr>
-        <tr><td>Mac mini with Apple Silicon</td><td>16 GB runs the 6 GB model; 32 GB or more runs the 18 GB one</td><td><a class="buy" href="https://www.amazon.com/s?k=apple+mac+mini+m4&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">GEAR ↗</a></td></tr>
-        <tr><td>Portable power station</td><td>Runs a laptop or Mac mini through a blackout</td><td><a class="buy" href="https://www.amazon.com/s?k=portable+power+station+1000wh&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">GEAR ↗</a></td></tr>
-        <tr><td>Folding solar panel</td><td>Recharges the power station with no grid at all</td><td><a class="buy" href="https://www.amazon.com/s?k=foldable+solar+panel+200w&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">GEAR ↗</a></td></tr>
-        <tr><td>Hand-crank NOAA weather radio</td><td>The one news source that works when the internet does not</td><td><a class="buy" href="https://www.amazon.com/s?k=hand+crank+noaa+weather+radio&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">GEAR ↗</a></td></tr>
+        <tr><td>1–2 TB portable SSD</td><td>Holds the full library (19 GB) and the larger models (18–80 GB), plus a spare copy</td><td><a class="buy" href="https://www.amazon.com/s?k=portable+ssd+2tb&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">SHOP ON AMAZON ↗</a></td></tr>
+        <tr><td>128 GB USB flash drive</td><td>A backup copy of the installer and the Essentials library to hand to a neighbour</td><td><a class="buy" href="https://www.amazon.com/s?k=128gb+usb+c+flash+drive&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">SHOP ON AMAZON ↗</a></td></tr>
+        <tr><td>Mac mini with Apple Silicon</td><td>16 GB runs the 6 GB model; 32 GB or more runs the 18 GB one</td><td><a class="buy" href="https://www.amazon.com/s?k=apple+mac+mini+m4&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">SHOP ON AMAZON ↗</a></td></tr>
+        <tr><td>Portable power station</td><td>Runs a laptop or Mac mini through a blackout</td><td><a class="buy" href="https://www.amazon.com/s?k=portable+power+station+1000wh&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">SHOP ON AMAZON ↗</a></td></tr>
+        <tr><td>Folding solar panel</td><td>Recharges the power station with no grid at all</td><td><a class="buy" href="https://www.amazon.com/s?k=foldable+solar+panel+200w&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">SHOP ON AMAZON ↗</a></td></tr>
+        <tr><td>Hand-crank NOAA weather radio</td><td>The one news source that works when the internet does not</td><td><a class="buy" href="https://www.amazon.com/s?k=hand+crank+noaa+weather+radio&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">SHOP ON AMAZON ↗</a></td></tr>
       </tbody>
     </table>
     <p style="margin-top:10px;font-size:13px">"Gear" links go to Amazon and are paid links: as an Amazon Associate, SIREN earns from qualifying purchases. They search for a kind of item, not one product. Nothing here is a product review.</p>
