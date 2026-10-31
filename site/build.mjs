@@ -2359,6 +2359,13 @@ async function main() {
       written.push(await write(args.out, `media/${name}`, await readFile(path.join(mediaDir, name))));
     }
   }
+  // Free prep downloads (prep-downloads.html), made by supply/make_files.py.
+  const dlDir = path.join(ROOT, 'assets', 'downloads');
+  if (existsSync(dlDir)) {
+    for (const name of (await readdir(dlDir)).filter((f) => /\.(xlsx|csv|pdf)$/i.test(f)).sort()) {
+      written.push(await write(args.out, `downloads/${name}`, await readFile(path.join(dlDir, name))));
+    }
+  }
   // Tally's agent brain: single source in site/, published next to guide.mjs so
   // the browser can import it with a relative path.
   written.push(await write(args.out, 'media/tally-agent.mjs', await readFile(path.join(ROOT, 'site', 'tally-agent.mjs'))));
