@@ -149,7 +149,10 @@ function prerenderStatic(html, name, ctx) {
   src = src
     .replace(/<title>[^<]*<\/title>/, `<title>${x(serpTitle(title))}</title>`)
     .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${x(serpDescription(desc))}"`);
-  const ogImage = ctx.url('/cards/state.png') + (ctx.state && ctx.state.receipt_id
+  // A page may name its own share picture (1200x630, in assets/img) with
+  // <meta name="siren:og-image" content="/img/og-….jpg">; otherwise the live card.
+  const ownOg = (src.match(/<meta name="siren:og-image" content="([^"]+)">/) || [])[1];
+  const ogImage = ownOg ? ctx.url(ownOg) : ctx.url('/cards/state.png') + (ctx.state && ctx.state.receipt_id
     ? `?v=${encodeURIComponent(ctx.state.receipt_id)}` : '');
   let head = `<link rel="canonical" href="${x(loc)}">
 <link rel="icon" href="${x(ctx.href('/favicon.svg'))}" type="image/svg+xml">${robotsMeta}
@@ -160,8 +163,8 @@ function prerenderStatic(html, name, ctx) {
 <meta property="og:url" content="${x(loc)}">
 <meta property="og:image" content="${x(ogImage)}">
 <meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="675">
-<meta property="og:image:alt" content="${x(`${brand.NAME} share card`)}">
+<meta property="og:image:height" content="${ownOg ? 630 : 675}">
+<meta property="og:image:alt" content="${x(ownOg ? title : `${brand.NAME} share card`)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="${x(ogImage)}">${brand.X_HANDLE ? `
 <meta name="twitter:site" content="${x(brand.X_HANDLE)}">` : ''}

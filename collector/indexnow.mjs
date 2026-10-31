@@ -12,6 +12,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SUPPLY_CATEGORY_PATHS } from '../supply/seo.mjs';
 
 export const INDEXNOW_KEY = 'd00mc0n7a11yc0un75a1d0e5n07pr3d1c7';
 export const INDEXNOW_HOST = 'siren.watch';
@@ -225,6 +226,7 @@ const ALWAYS = Object.freeze([
   '/supply-depot.html',
   '/prep-downloads.html',
   '/survival-llm.html',
+  ...SUPPLY_CATEGORY_PATHS,
   '/bets.html',
   '/medicine.html',
   '/library.html',
