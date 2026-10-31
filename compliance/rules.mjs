@@ -35,7 +35,9 @@ function hits(text, re) {
   const g = new RegExp(re.source, re.flags.includes('g') ? re.flags : re.flags + 'g');
   let m;
   while ((m = g.exec(text))) {
-    out.push({ line: lineOf(text, m.index), match: m[0] });
+    // Copy the match: a bare m[0] is a slice that keeps the whole file alive
+    // (see the note in audit.mjs scan()).
+    out.push({ line: lineOf(text, m.index), match: Buffer.from(m[0], 'utf8').toString('utf8') });
     if (m[0].length === 0) g.lastIndex++;
   }
   return out;

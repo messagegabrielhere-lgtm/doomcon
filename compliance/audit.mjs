@@ -95,6 +95,12 @@ function scan() {
     try { res = rule.check({ files, piiTerms }) || []; }
     catch (e) { res = [{ file: '(auditor)', line: 0, detail: `rule crashed: ${e.message}` }]; }
     for (const r of res) {
+      // A finding's detail is usually a regex match, and V8 keeps a match as a
+      // slice of the whole file it came from. One analytics tag per page made
+      // every finding pin its page, and the full site's ~30,000 item pages ran
+      // the gate out of an 8 GB heap (collect.yml exit 134, publishing
+      // blocked). Copy the short string so the page text can be freed.
+      if (typeof r.detail === 'string') r.detail = Buffer.from(r.detail, 'utf8').toString('utf8');
       const a = allow.find((x) => x.rule === rule.id && (!x.file || r.file === x.file || r.file.startsWith(x.file)));
       const suppressed = a && (!a.until || a.until >= today);
       findings.push({ rule: rule.id, severity: rule.severity, title: rule.title, law: rule.law, fix: rule.fix, ...r,

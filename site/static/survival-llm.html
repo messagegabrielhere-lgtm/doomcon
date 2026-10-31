@@ -13,7 +13,7 @@
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SIREN","item":"https://siren.watch/"},{"@type":"ListItem","position":2,"name":"Survival LLM","item":"https://siren.watch/survival-llm.html"}]}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Survival LLM?","acceptedAnswer":{"@type":"Answer","text":"A free, open-source AI assistant that runs entirely on your own computer and works with the internet off. It searches an offline library of medical, emergency, how-to and encyclopedia articles and shows the passage each answer came from."}},{"@type":"Question","name":"Does it cost anything?","acceptedAnswer":{"@type":"Answer","text":"No. It is free and MIT licensed. SIREN did not make it and is not paid by its maker; the page's Amazon gear links are paid links."}},{"@type":"Question","name":"What computer does it need?","acceptedAnswer":{"@type":"Answer","text":"An Apple Silicon Mac on macOS 14 or newer, or a 64-bit Windows 10 or 11 PC. 16 GB of memory runs a model; 8 GB can still search the library. Plan for the model's size plus 5 to 36 GB of free disk during setup."}},{"@type":"Question","name":"Is it medical advice?","acceptedAnswer":{"@type":"Answer","text":"No. It is a reference tool that cites its sources. In an emergency, call your local emergency number first when you can."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Survival LLM?","acceptedAnswer":{"@type":"Answer","text":"A free, open-source AI assistant that runs entirely on your own computer and works with the internet off. It searches an offline library of medical, emergency, how-to and encyclopedia articles and shows the passage each answer came from."}},{"@type":"Question","name":"Does it cost anything?","acceptedAnswer":{"@type":"Answer","text":"No. It is free and MIT licensed. SIREN did not make it and is not paid by its maker; the page's Amazon gear links are paid links."}},{"@type":"Question","name":"What computer does it need?","acceptedAnswer":{"@type":"Answer","text":"An Apple Silicon Mac on macOS 14 or newer, or a 64-bit Windows 10 or 11 PC. 16 GB of memory runs a model; 8 GB can still search the library. Plan for the model's size plus 5 to 36 GB of free disk during setup."}},{"@type":"Question","name":"Why won't my Mac open Survival LLM?","acceptedAnswer":{"@type":"Answer","text":"macOS blocks apps that are not verified by Apple until you approve them once. After the warning, open System Settings, Privacy & Security, and click Open Anyway next to the blocked app, then confirm with your password."}},{"@type":"Question","name":"Is it medical advice?","acceptedAnswer":{"@type":"Answer","text":"No. It is a reference tool that cites its sources. In an emergency, call your local emergency number first when you can."}}]}
 </script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
@@ -89,7 +89,8 @@ footer.pc{border-top:1px solid var(--rule);margin-top:24px;padding:20px 0 90px;c
       <ol>
         <li>Needs Apple Silicon and macOS 14 Sonoma or newer.</li>
         <li>Download <b>Survival-LLM-mac.zip</b> and double-click to unzip.</li>
-        <li>Open <b>Survival LLM</b>. The first time, macOS blocks it: open System Settings › Privacy &amp; Security, click <b>Open Anyway</b>, and confirm.</li>
+        <li>Double-click <b>Survival LLM</b>. The first time, macOS says it can't check the app for malware, because the app isn't sold through Apple. Click <b>Done</b>; that only closes the warning.</li>
+        <li>Open the Apple menu › <b>System Settings</b> › <b>Privacy &amp; Security</b>, scroll down to <b>Security</b>, click <b>Open Anyway</b> next to "Survival LLM was blocked", and confirm with your password or Touch ID. The button shows for about an hour after step 3; if it's gone, repeat step 3.</li>
         <li>The app walks you through picking a model and a library.</li>
       </ol>
     </div>
@@ -139,6 +140,8 @@ footer.pc{border-top:1px solid var(--rule);margin-top:24px;padding:20px 0 90px;c
     <h2>Questions</h2>
     <h3>Who made it?</h3>
     <p>Ronny Fernandez, released under the MIT license. SIREN did not build it and is not paid by its maker; the only paid links on this page are the Amazon gear links. It is listed here because a cited, offline reference belongs in any bunker kit.</p>
+    <h3>My Mac won't open it. What do I do?</h3>
+    <p>macOS blocks apps that aren't verified by Apple until you approve them once: after the warning, go to System Settings › Privacy &amp; Security and click <b>Open Anyway</b>. The right-click › Open shortcut no longer works on recent macOS. If the button never appears, open Terminal and run <code>xattr -dr com.apple.quarantine "/Applications/Survival LLM.app"</code> (change the path if the app is still in Downloads), then open the app. Only do this for software you trust; the full source is on GitHub.</p>
     <h3>Is it medical advice?</h3>
     <p>No. It is a reference tool that shows its sources so you can check them. In an emergency, call your local emergency number first when you can.</p>
     <h3>What else belongs in the kit?</h3>
