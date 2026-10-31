@@ -1,10 +1,21 @@
 {
-  "done": ["x-ai-media"],
-  "na": ["dmca-agent-registered", "clipper-env-channels"],
+  "done": [
+    "x-ai-media",
+    "private-vulnerability-reporting",
+    "dependabot-alerts",
+    "pii-secret"
+  ],
+  "na": [
+    "dmca-agent-registered",
+    "clipper-env-channels"
+  ],
   "notes": {
     "x-ai-media": "2026-10-06: every built page that shows a generated image carries the 'generated image' credit; post-daily/post-x/post-bluesky post only data-drawn PNG cards (cardpng.mjs), never generated images. Keep labelling any AI image you post by hand.",
     "dmca-agent-registered": "2026-10-06: nothing on the site accepts uploads.",
     "clipper-env-channels": "2026-10-06: clipper has never been configured (every scheduled run skips at 'Check configuration'). Rights are now a required variable, so the day it is configured you must assert own/licensed explicitly.",
-    "secrets-rotated": "2026-10-09: git history scan found no live provider keys (compliance fixtures only). Rotate any key that was ever pasted outside GitHub Secrets before launch; then move this id to done. See docs/LAUNCH.md §2."
+    "secrets-rotated": "2026-10-09: git history scan found no live provider keys (compliance fixtures only). Rotate any key that was ever pasted outside GitHub Secrets before launch; then move this id to done. See docs/LAUNCH.md \u00a72.",
+    "private-vulnerability-reporting": "2026-10-31: confirmed enabled via GitHub API.",
+    "dependabot-alerts": "2026-10-31: operator reports enabled (API path not readable from the agent proxy).",
+    "pii-secret": "2026-10-31: operator reports COMPLIANCE_PII_TERMS set (secrets are not readable from the agent proxy)."
   }
 }
