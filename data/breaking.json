@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-31T17:21:57.458Z",
+  "generated_at": "2026-10-31T18:10:01.900Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -96,7 +96,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "bbb0a19baccbb",
@@ -454,11 +454,13 @@
       "source": "wires-ai",
       "outlet": "bloomberg.com",
       "outlets": [
+        "chosun.com",
+        "martincid.com",
         "officechai.com",
         "sammyguru.com"
       ],
       "tier1_outlets": [],
-      "corroboration": 2,
+      "corroboration": 4,
       "sources": [
         "gnews-ai"
       ],
@@ -477,12 +479,14 @@
         "7598380730120109",
         "75f64454fa26b080",
         "7b1116a9188e8e0b",
+        "a081ce4584964476",
         "ccc393df5448bcd1",
         "d1df110ade7cd36c",
         "da85f8e250da17aa",
         "e9648dfe8b8ec3a8",
         "efc1ccfabb627470",
         "f5e5e45d23d15c63",
+        "fa71fa41347dea93",
         "fc78b41518f4f37e"
       ],
       "sightings": [
@@ -500,6 +504,22 @@
           "title": "Sam Altman Meets 50 Samsung Execs, Gifts OpenAI’s Codex Keyboard",
           "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1TX1BhWlYwM2ZoZ2x6V3FPc2gzRGVBYmVIRFcxdzgyak5pRlVZNGdUZENYTlNlOGdzVmt0Mjg2QkhiVnZiRFFObXlSM3JYeWltMTNibEFveV9FaVBTd2FwbWp5VmNGS014TXhsd0dGcFRoQko0MW9F?oc=5",
           "published_at": "2026-10-31T17:08:36.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "chosun.com",
+          "title": "OpenAI CEO Gifts First Hardware Keyboard to Samsung",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNZFhiTUFMOW9FTDZBRFdGclM5STJvTU1DZEJPWXdvNWE1Q01QOFRVWjlfM2ZLNElUWmpta2pxbW9jV0tpa3Q5UXRESHNwTW5hNnBsaER2MHAtU3R4c0hnOEQwdGlPd0RYSHlVNFJsVVlXMUZZMWR3Y1lPaU9rVVdrd0FwZmljVi1z?oc=5",
+          "published_at": "2026-10-31T17:24:11.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "martincid.com",
+          "title": "Elon Musk Answers Vegetarian AI CEOs OpenAI CEO Sam Altman, Alphabet CEO Sundar Pichai and Anthropic CEO Dario Amodei With Steak and Eggs",
+          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPek81TUZQSC1BdG5lMC1HVHZTZmlReWVValItX2hpcEVzNTJlaGItVVg2NmRfdjdCYkFsVHVJMDZYRU9uMmR3TGJ5dGNaQURVNS1uckZtQ2xPOXByZExFZlFKWFBReTdiSUFYZ0Y4eG5hb3c3MzFOMjdHSklNa2ZoblpWbTZwenJxNTlrbHFsRzk2ZXJ5b1F2UnVtdDA?oc=5",
+          "published_at": "2026-10-31T17:41:46.000Z",
           "tier1": false
         }
       ],
@@ -1519,74 +1539,53 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "moneyweb.co.za",
-        "spectator.com.au",
-        "startupfortune.com"
+        "cryptobriefing.com",
+        "fortune.com"
       ],
       "tier1_outlets": [],
-      "corroboration": 3,
+      "corroboration": 2,
       "sources": [
-        "gnews-ai",
-        "techmeme"
+        "gnews-ai"
       ],
       "rule": [
         "two outlets within 20 min"
       ],
-      "earliest_published_at": "2026-10-31T02:00:18.000Z",
+      "earliest_published_at": "2026-10-31T17:10:12.000Z",
       "first_seen_at": "2026-10-29T10:31:49.402Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-10-30T21:29:47.172Z",
       "item_ids": [
         "1c3b6113fa78d35e",
-        "2e41f33b18c06ff8",
-        "3001c639f1afcbb6",
         "5ab51df08a84a6d5",
         "5c2498fc6a1b63e4",
         "6216021de728b171",
         "7db1537e7a4b266e",
         "9f7c7a008fe103b9",
+        "bcc3487f602ef30c",
         "be0845159b4dd164",
-        "c55035bc503b0f1c",
-        "c67854e1d851efbc",
         "fa10fdd90029bf82",
         "fffbcaef249b1d2d"
       ],
       "sightings": [
         {
           "source": "gnews-ai",
-          "outlet": "moneyweb.co.za",
-          "title": "Anthropic’s record $2trn stock market listing highlights the growing risks for all of us",
-          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNYTh3UHVzM0lkZDdVcFdxYzZGWDhLU0xOMWpZS1NpR0U3S01scEhhTFZRY2Fhdzd2UmhjYVFVTW05VzAteUdCR3hZQUFhS09CZUpLajhoRlJvM2QtYWY1WDlHbVptWTZCcjUwbWc4MlpXMmkzeWlka0xBaVpGVmxUOXU5M1NFT2V4MW5KRzMxdkRNRVZOZ1hjZHFhcEpKNWVVdFVhdkFIclVqQm1qcUNrdFQzMGw2d1J1dnQ5SjBoaTgtZlBhWER2MHJmVW8?oc=5",
-          "published_at": "2026-10-31T02:00:18.000Z",
+          "outlet": "cryptobriefing.com",
+          "title": "OpenAI cuts fundraising target to $20B; Meta gets credit warning from S&P",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQaTZ4YTJISWdUTWpKUFk3eUpkVVpnMFp4NTZaRjd2MUlvSzBteldDMHhjZlRGNElXU0JUQ05UN2Q4aDhYcFh0eXAyUFV1LVBOSGlMZjlVank3aWJxMmtlUDhpTlRpdjJXaVhlLTROV3dXb0hSR1hzZWZaQ1dibEhoeGtRdUUtejZSOFdvVVp3S1dnbmJ0T2pRd2hkM1RjblU?oc=5",
+          "published_at": "2026-10-31T17:10:12.000Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "startupfortune.com",
-          "title": "S&P Global cuts Meta's credit outlook to negative over AI spending",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNRmViU0k4SmVlQ2haekQ0OUdHelROai1uaW5faUtLTW1jZTFweVdFRU41SXhvRlZHVHl1RW9NR2N5SXdHSGRQUm9Qemtrbk92OG05SkQybkxBOTA5TW9qVzdESTRXOVhQS3RkQmJ5U2Q5akE2V2FNZVZzSVIwbEJkWVNRNk9hQl80LVVvZFFpOU5YRFhqbWFJ?oc=5",
-          "published_at": "2026-10-31T02:48:51.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "spectator.com.au",
-          "title": "Anthropic’s laundry list of risks",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1yTTYxTlF3UlpGS3RMWnRRMVBlS1NMeUtpU3VGcHN4aWF0Q3NUbnJiVkxSNG9YZXFkVDFRUFJ4Y1ZGR3hHMXhHcmZKWXRoVTE5aUd3QzNuS0o5NzF0b28zQVd5ZjNUYW9DckxqLXJhVlZ4NFpCdEEzX2xR?oc=5",
-          "published_at": "2026-10-31T02:57:19.000Z",
-          "tier1": false
-        },
-        {
-          "source": "techmeme",
-          "outlet": "techmeme.com",
-          "title": "S&P downgraded Meta's outlook from stable to negative, citing high capex and negative free cash flow; META fell 15% in October, its worst month in four years (Jonathan Vanian/CNBC)",
-          "url": "https://techmeme.com/261031/p3",
-          "published_at": "2026-10-31T05:10:42.000Z",
+          "outlet": "fortune.com",
+          "title": "AI outlook: OpenAI cuts fundraising goal while Meta gets a credit warning on cash flow and spending",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQOU1oQjF2YllOMmQxYnVkczh2Q0VZbzhsSHA3VkZjQkZYVmNqUm1MVVhwVHdyczFEOFZGb01BVHNzV2pxcjdFaXd2WHhSbGl5ZUpFSWFpTE1kWlhzMWpoTmE5M09TZm80RWR2cVdubnVIX29JMDQyRXBmTVRqdWt4R0EtQUUwVjNhZ2lpYWY4Z2JlV0I1emVJQ1JJcV9yNDY2a2lrTmphdVRBUQ?oc=5",
+          "published_at": "2026-10-31T17:15:00.000Z",
           "tier1": false
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "b3bf25bcc2e05",
