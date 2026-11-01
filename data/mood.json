@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-01T02:03:23.322Z",
-  "news_generated_at": "2026-11-01T02:03:23.322Z",
+  "generated_at": "2026-11-01T02:46:44.264Z",
+  "news_generated_at": "2026-11-01T02:46:44.264Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,10 +18,10 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 227,
+    "headlines_naming_a_company": 228,
     "companies_on_roster": 10,
     "companies_with_headlines": 10,
-    "negative_pair_share": 0.084
+    "negative_pair_share": 0.083
   },
   "glance": {
     "leading": {
@@ -37,7 +37,7 @@
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 55
+      "headlines": 53
     }
   },
   "companies": [
@@ -143,10 +143,23 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 41,
-      "index": -1.4,
-      "mean_headline": -0.2,
+      "headlines": 42,
+      "index": -0.8,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "0e6616d7ba03b900",
+          "title": "OpenAI Has Raised About $11 Billion Toward Its $30 Billion Target, WSJ Reports",
+          "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5ZN2xzd3hyZUNlRld1amFjWjF3SkhRNXpMNThwNmdkOE1XTUN1MWZKZlBLMmx3dVlTX1JwZGV2RWtWNDA0eVlreFR0T25uWUhrekgzVGtMQndGWGR6cklBa0QtWEl5VkdNNXlEVjJiVk1zOFU?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T02:03:51.000Z",
+          "score": 3,
+          "positive": [
+            "raised"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1850587784e82aad",
           "title": "OpenAI Will Make ChatGPT Work and Codex Share One Usage Pool in December",
@@ -225,33 +238,22 @@
             "risk"
           ],
           "clickbait": []
-        },
-        {
-          "id": "c361ea6e6eba35fb",
-          "title": "OpenAI reportedly lowers funding target for new round",
-          "url": "https://techcrunch.com/2026/10/31/openai-reportedly-lowers-funding-target-for-new-round",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-31T16:12:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 23,
+      "headlines": 24,
       "index": 0.3,
       "mean_headline": 0,
       "sample": [
         {
-          "id": "612e187c8debe9a1",
-          "title": "Qualcomm's Monopoly on Windows SoCs Ends: NVIDIA \"RTX Spark\"-Powered Surface Marks AI PC Turning Point",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9ySGl5cE53QTlXQVhKOFZiSkxXVkxSSVFnTnpPNTZ0Tm5LWGl3bGNOOU5Yc3ZxdmlFYzY0RW84Q2ZnRVJDY05OUDRYVGI0UDlKLVlMWWRWejZMTWRsUlAxWFZQM3dsSmxoVUQwa2VHekxjTW4ya2c?oc=5",
+          "id": "170d496e3bb493b1",
+          "title": "EXPLAINED | Nvidia’s China Tightrope: Can Jensen Huang Keep Trump and Beijing on Side?",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPV3lCU2hKQXk4QThpRFhZQngwRTg0NVV6NGV6TmF0TEYtT19sU3V2UVlKU0t3VHpxQUZPQnRrZjlOODdHbFhPcmgxQ3prOHRnSlhoN056aWc5SnNXbklpWnE5MnZGY1F6UzhqLXlRM2s3NXBCUXpzcmJGOE93M28wTGM5WTQwREo4TnFIMFQtc1U3clpyZ3M0emtvMEtKRjcxRTFnQkdwbUNEbVlEZEY2OUNDU3Q4UHVzbVE?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-01T01:25:00.000Z",
+          "published_at": "2026-11-01T02:30:40.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -262,7 +264,18 @@
           "title": "The Sudden Death of an Nvidia AI Prodigy Leaves Behind Bitter Accusations",
           "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPVG5uendtNnNFc0xkbm42NUZkMVdIMVVxU1k2NEhNWXVUOUE0UEdwNFpIdV9INXdRR0QteVJzanlGUmVybWV6Nk92bnBUTlUtV2NtaDdTc0ZtcmY4ZkJGU0dBaktkbHVfXzR2MGlPWE5RMWRCZ1RUZVhneDFMNTdqTWlienlTSGowNlZVaW9vb3lBd09XU3F2VkJxcDYwNXRTZ053MmpUR19vMld2V01z?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-11-01T01:00:40.000Z",
+          "published_at": "2026-11-01T02:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "612e187c8debe9a1",
+          "title": "Qualcomm's Monopoly on Windows SoCs Ends: NVIDIA \"RTX Spark\"-Powered Surface Marks AI PC Turning Point",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9ySGl5cE53QTlXQVhKOFZiSkxXVkxSSVFnTnpPNTZ0Tm5LWGl3bGNOOU5Yc3ZxdmlFYzY0RW84Q2ZnRVJDY05OUDRYVGI0UDlKLVlMWWRWejZMTWRsUlAxWFZQM3dsSmxoVUQwa2VHekxjTW4ya2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T01:25:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -280,6 +293,17 @@
           "clickbait": []
         },
         {
+          "id": "0b3b8202523a0e56",
+          "title": "Chinese Executive Close to Nvidia CEO Suspected of Giving China Information",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQWHJLWWpfcXR5dEpVekREaFNLUlhOUmpFYm1neGZkZDh5blljZWw5WHdPWWZ4ZkVBbUJGOTFsWFVnUnJZODJNMVJiYWlfTFBMaTNwWjFZUFZsdHZweU9xUXZjX0dnMWpWN0pYOTEzNTFFYkRaWDRDdjJPdmVITzlmZTJVcmlqZWNZSXZzTmxuaU9WNlViUWtLYTBYLVZ3M2loY3FBa0JJWlFwZldqUWc?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-01T00:09:54.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "305626b959de8bb7",
           "title": "DOJ Scrutinizes Nvidia’s $12.9B Hugging Face Deal [2026]",
           "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNV2ZXRy1DbDVTZ2w4MC1mejlmckRuUU9ZeHFTcEd6aWFxLTN3WndjOWRVcDlydUxzMmRvY0FnOVdLVnVxWmVlVXpTMTRRajJvd0tVU1FTOG1NQi15Z0xmQjg3ZXNFTFljSFY0WlpPTmRlU0R1TzFqU2ZmUUtvSGxyM2JKMA?oc=5",
@@ -289,17 +313,6 @@
           "positive": [
             "deal"
           ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0b3b8202523a0e56",
-          "title": "Chinese Executive Close to Nvidia CEO Suspected of Giving China Information",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQWHJLWWpfcXR5dEpVekREaFNLUlhOUmpFYm1neGZkZDh5blljZWw5WHdPWWZ4ZkVBbUJGOTFsWFVnUnJZODJNMVJiYWlfTFBMaTNwWjFZUFZsdHZweU9xUXZjX0dnMWpWN0pYOTEzNTFFYkRaWDRDdjJPdmVITzlmZTJVcmlqZWNZSXZzTmxuaU9WNlViUWtLYTBYLVZ3M2loY3FBa0JJWlFwZldqUWc?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-31T13:12:48.000Z",
-          "score": 0,
-          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -324,27 +337,29 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "05821f65f0a16c71",
-          "title": "Apple Overtakes Nvidia to Become World’s Most Valuable Company",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQemhEdzVEaEpkYUJtQ2dYN2c3MlQ1N01MR0oxMnNheDZlbXVzaEJJd2k3bksyWGZwR0stcFZUOTNJZFB5dU1jajQ3RVZZYTBodlRJQXR4TG5tbjRibWYtUk9pUVpOWFZ5UGNOQV9sNnUyR3dfZllSSm81U2FjMDJFQTBsOU9XN2ZhRkVoTVBNdWxtVmJzdEVLRElxU2dkdG1HdjU4cGp6WmhjLVVEenJqQU80aw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-30T20:28:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 55,
-      "index": -3.2,
-      "mean_headline": -0.4,
+      "headlines": 53,
+      "index": -3.8,
+      "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "977a038cb46dfda5",
+          "title": "Anthropic sued for allegedly using Elvis Presley’s music to train Claude AI",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNWjFFbVlrYmJ1OUVKT0Nid3RoeUtWT05wU05FVnY4OVMxc054WFVNQVVtcEZCOXJ4ekZiRkI3RkVyOVRhV3dXTjBfampFUUZqMWYtME9UY1Bkc3hDWnFjdnluSzByUGJFV21FZndoMXJFVGxMTmVlQ2RLUkZTWnJoSFpOZGhxa3RVR1Zsa3F3Z2tHTmhlU2FodXg4N0JpNUMxMmRBVkNZTjVuOWl6Z0lVWHoxcHlTQmdQV1pIYUhUVExuYVZaTnc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T02:00:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "sued"
+          ],
+          "clickbait": []
+        },
         {
           "id": "47b994a3caaee5ed",
           "title": "Betting on 'Up to 10x' Before Anthropic's IPO…Hyperliquid Launches Derivatives Trading",
@@ -433,29 +448,29 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "4f253b5f73797428",
-          "title": "Anthropic Unveils Paperwork for Blockbuster IPO",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQbmI5VHgtQjFuck9nQkJ5Q0hCekJJT1YxVVR4MlFwcUNodk9hYzJPYWlaQ2JhYjVRcC1JYUFpZlRNNE5iZWJFMFZUQ0tyQ3VnempEZFJNcnhmalhDQWlpWjN5MkllV0p6cWtzd1lHWGZXZVdjcDVlREplX1JReV9fUUdSWjRqQUNr?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-01T00:25:44.000Z",
-          "score": 3,
-          "positive": [
-            "unveils"
-          ],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 22,
-      "index": -3.3,
-      "mean_headline": -0.4,
+      "headlines": 23,
+      "index": -2.1,
+      "mean_headline": -0.3,
       "sample": [
+        {
+          "id": "6b9c39f482cbeb55",
+          "title": "🧭 Broadcom's $63B Chip SPV, Meta's $37.5B Raise, Mubbadrah's ~$3B Oman Plan",
+          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9qMFhaTU5zTVg3clRjbGtVTGpqUThPNWswT0QxeWZxdzROa2ZvUlcwdC1nSHVOLXUxMnhzM0FFWnViNWNsUUdBUFk2QklEcEhtWFRoUDVIN3k2S2FTVFZzWnVRUWg4SUpyMmZSSS1YSEYyOVJjalhtUEVRaw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T02:01:04.000Z",
+          "score": 3,
+          "positive": [
+            "raise"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "dd72f18d71c9fe3e",
           "title": "Sandisk (SNDK) Stock Sees Modest Fair Value Cut As Analysts Weigh AI Demand",
@@ -530,17 +545,6 @@
           "url": "https://bsky.app/profile/theverge.com/post/3mz6okotl6e2o",
           "source": "bluesky-ai",
           "published_at": "2026-10-31T16:05:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8ea34f8cab938c07",
-          "title": "Meta’s Muse Could Upend All Kinds of Businesses. It Hasn’t Yet",
-          "url": "https://bsky.app/profile/wired.com/post/3mz63ywepfc2t",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-31T10:30:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -774,6 +778,17 @@
       "mean_headline": 0.1,
       "sample": [
         {
+          "id": "5825a10528be6760",
+          "title": "Amazon’s ailing stock needs booming cloud growth to revive rally",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPX2NwQTRUSHdCbTRUYlpKMWtJcFJtT3A4LV8yMmhxZFpSTzNydzhaVTZydTAzTFVJOUFQdy0xSFBrRG01SXNEZmtDUWNYNjdYVXJxQlhMVFdkd1FicHZRcW1RdTAtN1h2bHRmOVU0Sld6MGkycDVKN3R5czJCWlhBOFdidV9WY0hHc3VabWttMWN4T3F3UDNjZW1GTmhqUjBrZURj?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T02:00:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "51c92ec939ce2bf6",
           "title": "Amazon made the AUX input on older Alexa devices less useful",
           "url": "https://engadget.com/2300219/amazon-made-alexa-devices-aux-port-less-useful",
@@ -845,17 +860,6 @@
           "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQUnVyTjA2aE0tc2JUdXBzZmVGT0t4cGpuVEhRSFVpWXgweE1TcTFUUTE5MG9QWTVLX3FqOUVxR3oyT1U3aExFZnpqQ0xkSk9LYjJpT0c4ZzV3OTdqeEdrVEg3eUlWeTJOMzVyc2pwU3ZCMGlOaVFMcGo2a3RieWppcHFnOXJRRTM5M21Fd214S05LS3ZmWHdwdy1uYWc5aU0?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-30T20:14:48.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9f7c7a008fe103b9",
-          "title": "Alphabet, Meta, Microsoft, Amazon, and Oracle have a collective $3T+ in AI spending commitments over the coming years, including Alphabet's $1T and Meta's $800B (Brody Ford/Bloomberg)",
-          "url": "https://techmeme.com/261030/p22",
-          "source": "techmeme",
-          "published_at": "2026-10-30T20:00:58.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1277,6 +1281,17 @@
       "mean_headline": 0.1,
       "sample": [
         {
+          "id": "5825a10528be6760",
+          "title": "Amazon’s ailing stock needs booming cloud growth to revive rally",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPX2NwQTRUSHdCbTRUYlpKMWtJcFJtT3A4LV8yMmhxZFpSTzNydzhaVTZydTAzTFVJOUFQdy0xSFBrRG01SXNEZmtDUWNYNjdYVXJxQlhMVFdkd1FicHZRcW1RdTAtN1h2bHRmOVU0Sld6MGkycDVKN3R5czJCWlhBOFdidV9WY0hHc3VabWttMWN4T3F3UDNjZW1GTmhqUjBrZURj?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T02:00:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "51c92ec939ce2bf6",
           "title": "Amazon made the AUX input on older Alexa devices less useful",
           "url": "https://engadget.com/2300219/amazon-made-alexa-devices-aux-port-less-useful",
@@ -1348,17 +1363,6 @@
           "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQUnVyTjA2aE0tc2JUdXBzZmVGT0t4cGpuVEhRSFVpWXgweE1TcTFUUTE5MG9QWTVLX3FqOUVxR3oyT1U3aExFZnpqQ0xkSk9LYjJpT0c4ZzV3OTdqeEdrVEg3eUlWeTJOMzVyc2pwU3ZCMGlOaVFMcGo2a3RieWppcHFnOXJRRTM5M21Fd214S05LS3ZmWHdwdy1uYWc5aU0?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-10-30T20:14:48.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9f7c7a008fe103b9",
-          "title": "Alphabet, Meta, Microsoft, Amazon, and Oracle have a collective $3T+ in AI spending commitments over the coming years, including Alphabet's $1T and Meta's $800B (Brody Ford/Bloomberg)",
-          "url": "https://techmeme.com/261030/p22",
-          "source": "techmeme",
-          "published_at": "2026-10-30T20:00:58.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1466,16 +1470,16 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 23,
+      "headlines": 24,
       "index": 0.3,
       "mean_headline": 0,
       "sample": [
         {
-          "id": "612e187c8debe9a1",
-          "title": "Qualcomm's Monopoly on Windows SoCs Ends: NVIDIA \"RTX Spark\"-Powered Surface Marks AI PC Turning Point",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9ySGl5cE53QTlXQVhKOFZiSkxXVkxSSVFnTnpPNTZ0Tm5LWGl3bGNOOU5Yc3ZxdmlFYzY0RW84Q2ZnRVJDY05OUDRYVGI0UDlKLVlMWWRWejZMTWRsUlAxWFZQM3dsSmxoVUQwa2VHekxjTW4ya2c?oc=5",
+          "id": "170d496e3bb493b1",
+          "title": "EXPLAINED | Nvidia’s China Tightrope: Can Jensen Huang Keep Trump and Beijing on Side?",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPV3lCU2hKQXk4QThpRFhZQngwRTg0NVV6NGV6TmF0TEYtT19sU3V2UVlKU0t3VHpxQUZPQnRrZjlOODdHbFhPcmgxQ3prOHRnSlhoN056aWc5SnNXbklpWnE5MnZGY1F6UzhqLXlRM2s3NXBCUXpzcmJGOE93M28wTGM5WTQwREo4TnFIMFQtc1U3clpyZ3M0emtvMEtKRjcxRTFnQkdwbUNEbVlEZEY2OUNDU3Q4UHVzbVE?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-01T01:25:00.000Z",
+          "published_at": "2026-11-01T02:30:40.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1486,7 +1490,18 @@
           "title": "The Sudden Death of an Nvidia AI Prodigy Leaves Behind Bitter Accusations",
           "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPVG5uendtNnNFc0xkbm42NUZkMVdIMVVxU1k2NEhNWXVUOUE0UEdwNFpIdV9INXdRR0QteVJzanlGUmVybWV6Nk92bnBUTlUtV2NtaDdTc0ZtcmY4ZkJGU0dBaktkbHVfXzR2MGlPWE5RMWRCZ1RUZVhneDFMNTdqTWlienlTSGowNlZVaW9vb3lBd09XU3F2VkJxcDYwNXRTZ053MmpUR19vMld2V01z?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-11-01T01:00:40.000Z",
+          "published_at": "2026-11-01T02:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "612e187c8debe9a1",
+          "title": "Qualcomm's Monopoly on Windows SoCs Ends: NVIDIA \"RTX Spark\"-Powered Surface Marks AI PC Turning Point",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9ySGl5cE53QTlXQVhKOFZiSkxXVkxSSVFnTnpPNTZ0Tm5LWGl3bGNOOU5Yc3ZxdmlFYzY0RW84Q2ZnRVJDY05OUDRYVGI0UDlKLVlMWWRWejZMTWRsUlAxWFZQM3dsSmxoVUQwa2VHekxjTW4ya2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T01:25:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1504,6 +1519,17 @@
           "clickbait": []
         },
         {
+          "id": "0b3b8202523a0e56",
+          "title": "Chinese Executive Close to Nvidia CEO Suspected of Giving China Information",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQWHJLWWpfcXR5dEpVekREaFNLUlhOUmpFYm1neGZkZDh5blljZWw5WHdPWWZ4ZkVBbUJGOTFsWFVnUnJZODJNMVJiYWlfTFBMaTNwWjFZUFZsdHZweU9xUXZjX0dnMWpWN0pYOTEzNTFFYkRaWDRDdjJPdmVITzlmZTJVcmlqZWNZSXZzTmxuaU9WNlViUWtLYTBYLVZ3M2loY3FBa0JJWlFwZldqUWc?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-01T00:09:54.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "305626b959de8bb7",
           "title": "DOJ Scrutinizes Nvidia’s $12.9B Hugging Face Deal [2026]",
           "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNV2ZXRy1DbDVTZ2w4MC1mejlmckRuUU9ZeHFTcEd6aWFxLTN3WndjOWRVcDlydUxzMmRvY0FnOVdLVnVxWmVlVXpTMTRRajJvd0tVU1FTOG1NQi15Z0xmQjg3ZXNFTFljSFY0WlpPTmRlU0R1TzFqU2ZmUUtvSGxyM2JKMA?oc=5",
@@ -1513,17 +1539,6 @@
           "positive": [
             "deal"
           ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0b3b8202523a0e56",
-          "title": "Chinese Executive Close to Nvidia CEO Suspected of Giving China Information",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQWHJLWWpfcXR5dEpVekREaFNLUlhOUmpFYm1neGZkZDh5blljZWw5WHdPWWZ4ZkVBbUJGOTFsWFVnUnJZODJNMVJiYWlfTFBMaTNwWjFZUFZsdHZweU9xUXZjX0dnMWpWN0pYOTEzNTFFYkRaWDRDdjJPdmVITzlmZTJVcmlqZWNZSXZzTmxuaU9WNlViUWtLYTBYLVZ3M2loY3FBa0JJWlFwZldqUWc?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-31T13:12:48.000Z",
-          "score": 0,
-          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -1548,27 +1563,29 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "05821f65f0a16c71",
-          "title": "Apple Overtakes Nvidia to Become World’s Most Valuable Company",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQemhEdzVEaEpkYUJtQ2dYN2c3MlQ1N01MR0oxMnNheDZlbXVzaEJJd2k3bksyWGZwR0stcFZUOTNJZFB5dU1jajQ3RVZZYTBodlRJQXR4TG5tbjRibWYtUk9pUVpOWFZ5UGNOQV9sNnUyR3dfZllSSm81U2FjMDJFQTBsOU9XN2ZhRkVoTVBNdWxtVmJzdEVLRElxU2dkdG1HdjU4cGp6WmhjLVVEenJqQU80aw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-30T20:28:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 41,
-      "index": -1.4,
-      "mean_headline": -0.2,
+      "headlines": 42,
+      "index": -0.8,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "0e6616d7ba03b900",
+          "title": "OpenAI Has Raised About $11 Billion Toward Its $30 Billion Target, WSJ Reports",
+          "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5ZN2xzd3hyZUNlRld1amFjWjF3SkhRNXpMNThwNmdkOE1XTUN1MWZKZlBLMmx3dVlTX1JwZGV2RWtWNDA0eVlreFR0T25uWUhrekgzVGtMQndGWGR6cklBa0QtWEl5VkdNNXlEVjJiVk1zOFU?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T02:03:51.000Z",
+          "score": 3,
+          "positive": [
+            "raised"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1850587784e82aad",
           "title": "OpenAI Will Make ChatGPT Work and Codex Share One Usage Pool in December",
@@ -1647,13 +1664,103 @@
             "risk"
           ],
           "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "headlines": 23,
+      "index": -2.1,
+      "mean_headline": -0.3,
+      "sample": [
+        {
+          "id": "6b9c39f482cbeb55",
+          "title": "🧭 Broadcom's $63B Chip SPV, Meta's $37.5B Raise, Mubbadrah's ~$3B Oman Plan",
+          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9qMFhaTU5zTVg3clRjbGtVTGpqUThPNWswT0QxeWZxdzROa2ZvUlcwdC1nSHVOLXUxMnhzM0FFWnViNWNsUUdBUFk2QklEcEhtWFRoUDVIN3k2S2FTVFZzWnVRUWg4SUpyMmZSSS1YSEYyOVJjalhtUEVRaw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T02:01:04.000Z",
+          "score": 3,
+          "positive": [
+            "raise"
+          ],
+          "negative": [],
+          "clickbait": []
         },
         {
-          "id": "c361ea6e6eba35fb",
-          "title": "OpenAI reportedly lowers funding target for new round",
-          "url": "https://techcrunch.com/2026/10/31/openai-reportedly-lowers-funding-target-for-new-round",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-31T16:12:55.000Z",
+          "id": "dd72f18d71c9fe3e",
+          "title": "Sandisk (SNDK) Stock Sees Modest Fair Value Cut As Analysts Weigh AI Demand",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNM2lfWEFuNkgwT3phMFNuR3l2WEw3aFFlLXRodnhFeWNBdGdiN1pkOUdTeWNac1FKbDdEYjVQank0SVl0eHFDZ2h6bGUzVWRvbW8zTTJCMkVlTmxFOTR3WFZaNlRsTjJ2UHRXWjMxbDdrSFJFU3VVdXQ0VEpkYUpNRURlRW83X1Z2OGtXTWlUZWhPWnlDSWo4S1NoSQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T01:09:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cut"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "7daa7383c786b627",
+          "title": "Anthropic's Frenemies Meta and Google Are Showing Cracks In the AI Trade. What That Tells Us About the Anthropic IPO.",
+          "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxOYkpBamk3Ni1QRk0xSkZoNWhuMElEeWhNYXVyamhOMEhuc0RBeEZKQkpkODQwZmo5ZE93ODNFZ3ZSY1ZZbjFuUjdVMm94Q3R6aE9zblQ5eU84LXViVEtOYjlsNmtFRkd3dkhEZ3lIQVM1OXdkTzVSYm5KLVg2NnNIeV9rdmZxZl9QQ2lveFEzV1JfVGlmdldhZ2ZCbXVmZmtuVF9seXZuNFlzVXZCRF9OeEJkVWJ3MFE2a0dnYmtpZ1FJekhnNnMxUkpCU21KQmZDOUhsUU9WSUhLa2ExZjR3TTJCOUlnVjZYanp2UVJXVkI?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T01:00:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4fbfa5acaeb48b24",
+          "title": "Meta and China's Fourier Build 'Max' Humanoid Robot in Three Months as Muse's Physical Form",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE02UERKU0dWLTdRaHdHNEZydWlCVHBtTFdGZ0dUMExVUkFRNG8ySENmQ1pLZ1dNckMwSXd6eVduMl9iZElEOXBKejFCOTZyZkNWcEpJYjg2bXlEa3BFMy1GaUxSSHViVEFsNWpBU2xNZnpHd3lYN3c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T23:55:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0f870e86a6ad2260",
+          "title": "Salvadoran families demand fair trials, mourn prison dead on Day of the Dead",
+          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPRkdQUUgzVUh1N1F4MWQyX2hDR2sweTZiMTBlOVBtemRaeXRuUDdrMEI2emRkSFM3aXRteVJFdWFQR3J2cWhUeUt6RHZhb2l1em5ZRm1YVF9nWnpyekZCM2NZYXlHeWlVVXZpbDYtN3hPWWRYbTlFVzU1bFR4dnprU0VEcUU1Um90LXBMUzlpREF2aXhXa0NKZHR1NWREUXA0UExSUUdnWG51S2dFTDNzaVBnMGFpUHc?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-31T23:49:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7d145379491f3028",
+          "title": "Nebius Group (NBIS) Tests Its AI Story After Analyst Upgrades And A Fair Value Reset",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOczFFa3dXNDVUeDhuMmlIM2NwU0NXUFk5UHpTMGc5cHBVOFR2M0dRck9Hd2dBLVFBV2VrWmw5dlhwQ3JmVjZONW9SVWtxMmRwN3hLRDE3LUdpZFRHV0lLc0hrTGkwaHQwamFETFF1ZFc0a012RUtraEd1Vk1fWDJsNlNMSy1BTG5tMUxzX0k1OXk2LVotV2V4Ui1HWTIyemFhX2UzMGNhVG9tazNwRFJvZElOQmRvUTEwNVl6LTFNZnZpN3hwOExVcXRn0gHPAUFVX3lxTE9xcTgwMGc2YW9iZElldXRtMHRxNW5zalY0enFLQnBmNVUzM3h2NGdHY1N5M3VtV0VfSXNJaU13ZmJTSjYzeHNmZ0tIdnpSYmtBQklJVlM4S2hFM2RDZ3pOQ2xZMzBOSWNTLXV3UDIwVlJsVVNEU1B5a1hoNVVLREduZHBLQTN1N05aYll4WHdZSHNkNlVqdVowZVp6UmtuekxjbEtnUTJsUzV1SlRvTk01bEtBYS1UWDVsb3dBNi1zb2M5U3FrbGMtZXpNQ0JwOA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-10-31T23:43:39.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0d229558e64eee32",
+          "title": "Meta builds humanoid robot with Chinese startup Fourier, The Information says",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOdTFWdC1PaTBpUG1YSmt0aW9XWTNEdzJsdjRYeUtCd1FfUGVXNlBuYUpGemJVUXZTM2IxTkExZ3BOSy1MblBvdjhrYUY0VDY2LS1BVnhJTU5YYVR1RzFDMzk2SUtKTjR2QmNSZkx0VDlkcm55ZEthSGp3Nms0WlBPaFN2MzJ0SWhsbFhVV1dTZEdwdF8tSTNCUU5hVHV0N0dkZGlmNF9oQnh0dkcwQ3J6NWVPVVVBeV9vWFNYcA?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-10-31T16:14:09.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "356690661f153f4a",
+          "title": "I built an AI Tamagotchi before Meta could",
+          "url": "https://bsky.app/profile/theverge.com/post/3mz6okotl6e2o",
+          "source": "bluesky-ai",
+          "published_at": "2026-10-31T16:05:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1664,10 +1771,23 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 55,
-      "index": -3.2,
-      "mean_headline": -0.4,
+      "headlines": 53,
+      "index": -3.8,
+      "mean_headline": -0.5,
       "sample": [
+        {
+          "id": "977a038cb46dfda5",
+          "title": "Anthropic sued for allegedly using Elvis Presley’s music to train Claude AI",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNWjFFbVlrYmJ1OUVKT0Nid3RoeUtWT05wU05FVnY4OVMxc054WFVNQVVtcEZCOXJ4ekZiRkI3RkVyOVRhV3dXTjBfampFUUZqMWYtME9UY1Bkc3hDWnFjdnluSzByUGJFV21FZndoMXJFVGxMTmVlQ2RLUkZTWnJoSFpOZGhxa3RVR1Zsa3F3Z2tHTmhlU2FodXg4N0JpNUMxMmRBVkNZTjVuOWl6Z0lVWHoxcHlTQmdQV1pIYUhUVExuYVZaTnc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-01T02:00:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "sued"
+          ],
+          "clickbait": []
+        },
         {
           "id": "47b994a3caaee5ed",
           "title": "Betting on 'Up to 10x' Before Anthropic's IPO…Hyperliquid Launches Derivatives Trading",
@@ -1754,118 +1874,6 @@
           "positive": [
             "debut"
           ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4f253b5f73797428",
-          "title": "Anthropic Unveils Paperwork for Blockbuster IPO",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQbmI5VHgtQjFuck9nQkJ5Q0hCekJJT1YxVVR4MlFwcUNodk9hYzJPYWlaQ2JhYjVRcC1JYUFpZlRNNE5iZWJFMFZUQ0tyQ3VnempEZFJNcnhmalhDQWlpWjN5MkllV0p6cWtzd1lHWGZXZVdjcDVlREplX1JReV9fUUdSWjRqQUNr?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-01T00:25:44.000Z",
-          "score": 3,
-          "positive": [
-            "unveils"
-          ],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "meta",
-      "name": "Meta",
-      "headlines": 22,
-      "index": -3.3,
-      "mean_headline": -0.4,
-      "sample": [
-        {
-          "id": "dd72f18d71c9fe3e",
-          "title": "Sandisk (SNDK) Stock Sees Modest Fair Value Cut As Analysts Weigh AI Demand",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNM2lfWEFuNkgwT3phMFNuR3l2WEw3aFFlLXRodnhFeWNBdGdiN1pkOUdTeWNac1FKbDdEYjVQank0SVl0eHFDZ2h6bGUzVWRvbW8zTTJCMkVlTmxFOTR3WFZaNlRsTjJ2UHRXWjMxbDdrSFJFU3VVdXQ0VEpkYUpNRURlRW83X1Z2OGtXTWlUZWhPWnlDSWo4S1NoSQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-01T01:09:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cut"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "7daa7383c786b627",
-          "title": "Anthropic's Frenemies Meta and Google Are Showing Cracks In the AI Trade. What That Tells Us About the Anthropic IPO.",
-          "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxOYkpBamk3Ni1QRk0xSkZoNWhuMElEeWhNYXVyamhOMEhuc0RBeEZKQkpkODQwZmo5ZE93ODNFZ3ZSY1ZZbjFuUjdVMm94Q3R6aE9zblQ5eU84LXViVEtOYjlsNmtFRkd3dkhEZ3lIQVM1OXdkTzVSYm5KLVg2NnNIeV9rdmZxZl9QQ2lveFEzV1JfVGlmdldhZ2ZCbXVmZmtuVF9seXZuNFlzVXZCRF9OeEJkVWJ3MFE2a0dnYmtpZ1FJekhnNnMxUkpCU21KQmZDOUhsUU9WSUhLa2ExZjR3TTJCOUlnVjZYanp2UVJXVkI?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-01T01:00:03.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4fbfa5acaeb48b24",
-          "title": "Meta and China's Fourier Build 'Max' Humanoid Robot in Three Months as Muse's Physical Form",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE02UERKU0dWLTdRaHdHNEZydWlCVHBtTFdGZ0dUMExVUkFRNG8ySENmQ1pLZ1dNckMwSXd6eVduMl9iZElEOXBKejFCOTZyZkNWcEpJYjg2bXlEa3BFMy1GaUxSSHViVEFsNWpBU2xNZnpHd3lYN3c?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T23:55:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0f870e86a6ad2260",
-          "title": "Salvadoran families demand fair trials, mourn prison dead on Day of the Dead",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPRkdQUUgzVUh1N1F4MWQyX2hDR2sweTZiMTBlOVBtemRaeXRuUDdrMEI2emRkSFM3aXRteVJFdWFQR3J2cWhUeUt6RHZhb2l1em5ZRm1YVF9nWnpyekZCM2NZYXlHeWlVVXZpbDYtN3hPWWRYbTlFVzU1bFR4dnprU0VEcUU1Um90LXBMUzlpREF2aXhXa0NKZHR1NWREUXA0UExSUUdnWG51S2dFTDNzaVBnMGFpUHc?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-31T23:49:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7d145379491f3028",
-          "title": "Nebius Group (NBIS) Tests Its AI Story After Analyst Upgrades And A Fair Value Reset",
-          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOczFFa3dXNDVUeDhuMmlIM2NwU0NXUFk5UHpTMGc5cHBVOFR2M0dRck9Hd2dBLVFBV2VrWmw5dlhwQ3JmVjZONW9SVWtxMmRwN3hLRDE3LUdpZFRHV0lLc0hrTGkwaHQwamFETFF1ZFc0a012RUtraEd1Vk1fWDJsNlNMSy1BTG5tMUxzX0k1OXk2LVotV2V4Ui1HWTIyemFhX2UzMGNhVG9tazNwRFJvZElOQmRvUTEwNVl6LTFNZnZpN3hwOExVcXRn0gHPAUFVX3lxTE9xcTgwMGc2YW9iZElldXRtMHRxNW5zalY0enFLQnBmNVUzM3h2NGdHY1N5M3VtV0VfSXNJaU13ZmJTSjYzeHNmZ0tIdnpSYmtBQklJVlM4S2hFM2RDZ3pOQ2xZMzBOSWNTLXV3UDIwVlJsVVNEU1B5a1hoNVVLREduZHBLQTN1N05aYll4WHdZSHNkNlVqdVowZVp6UmtuekxjbEtnUTJsUzV1SlRvTk01bEtBYS1UWDVsb3dBNi1zb2M5U3FrbGMtZXpNQ0JwOA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-10-31T23:43:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0d229558e64eee32",
-          "title": "Meta builds humanoid robot with Chinese startup Fourier, The Information says",
-          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOdTFWdC1PaTBpUG1YSmt0aW9XWTNEdzJsdjRYeUtCd1FfUGVXNlBuYUpGemJVUXZTM2IxTkExZ3BOSy1MblBvdjhrYUY0VDY2LS1BVnhJTU5YYVR1RzFDMzk2SUtKTjR2QmNSZkx0VDlkcm55ZEthSGp3Nms0WlBPaFN2MzJ0SWhsbFhVV1dTZEdwdF8tSTNCUU5hVHV0N0dkZGlmNF9oQnh0dkcwQ3J6NWVPVVVBeV9vWFNYcA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-10-31T16:14:09.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "356690661f153f4a",
-          "title": "I built an AI Tamagotchi before Meta could",
-          "url": "https://bsky.app/profile/theverge.com/post/3mz6okotl6e2o",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-31T16:05:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8ea34f8cab938c07",
-          "title": "Meta’s Muse Could Upend All Kinds of Businesses. It Hasn’t Yet",
-          "url": "https://bsky.app/profile/wired.com/post/3mz63ywepfc2t",
-          "source": "bluesky-ai",
-          "published_at": "2026-10-31T10:30:00.000Z",
-          "score": 0,
-          "positive": [],
           "negative": [],
           "clickbait": []
         }
