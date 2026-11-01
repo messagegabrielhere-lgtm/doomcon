@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-01T08:36:23.748Z",
+  "generated_at": "2026-11-01T09:23:44.410Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,8 +47,8 @@
       "ycombinator.com"
     ]
   },
-  "live": 3,
-  "fresh": "bc8ae9545b421",
+  "live": 2,
+  "fresh": null,
   "clusters": [
     {
       "id": "bc8ae9545b421",
@@ -147,19 +147,25 @@
       "source": "wires-ai",
       "outlet": "bloomberg.com",
       "outlets": [
+        "biggo.com",
         "bloomberg.com",
-        "moneycontrol.com"
+        "investing.com",
+        "moneycontrol.com",
+        "newsbytesapp.com",
+        "stocktwits.com"
       ],
       "tier1_outlets": [
         "bloomberg.com"
       ],
-      "corroboration": 2,
+      "corroboration": 6,
       "sources": [
         "bloomberg-tech",
         "gnews-ai",
+        "hn-fresh-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-11-01T03:48:00.000Z",
@@ -188,9 +194,57 @@
         },
         {
           "source": "gnews-ai",
+          "outlet": "biggo.com",
+          "title": "DeepSeek Unveils Open-Source 'Super-Agent' Coding Tool in Direct Challenge to Anthropic's Claude Code",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE04Z3JfR3VDQUZIMjhMdXZQeWltTmxyYmk1SVNqM3ExYUNZaVVpTzNYelZGaXI5Z0MwbEtrRmhRS0xSblJpMmQtZm12S1V3b1ZzYlFSckxTN1ppT1Y1U1lQWElMVDF3NFBsb0ozMGhLNmw4ZGFnZFE?oc=5",
+          "published_at": "2026-11-01T04:37:55.763Z",
+          "tier1": false
+        },
+        {
+          "source": "hn-fresh-ai",
+          "outlet": "bloomberg.com",
+          "title": "DeepSeek launches advanced coding agent to rival Claude Code",
+          "url": "https://bloomberg.com/news/articles/2026-11-01/deepseek-drops-enhanced-coding-agent-with-aim-to-rival-anthropic",
+          "published_at": "2026-11-01T04:37:55.763Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "investing.com",
+          "title": "DeepSeek launches autonomous coding agent to challenge Anthropic’s Claude Code By Investing.com",
+          "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNSG1rNWJpRzRWTkFaT25OUzZhU3lFZ0ZaWkg2RDlrcFJvdFd1MkJYTlQ1djZ4UUFReWZJVlpmLW1yZnBlWmZGUi02a1JZRzYxMEwtcEVLWVMyTDVSQjdRTkJ6YU1CQTZiaEVOd2NEcHAxQThYNHZxV2xxS1NLLVZRYzNwUWlJcnlIVERXQWRlRnRPc2dvazZWTUhQVDZ4U2ZYamM5UmxMYU9jSndGTVQxZE5DYjlGVkpQbnhQTERRX0tNRkVfWE1N?oc=5",
+          "published_at": "2026-11-01T04:37:55.763Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "investing.com",
+          "title": "DeepSeek launches autonomous coding agent to challenge Anthropic’s Claude Code",
+          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNU3ZjNTJLaFEza3NuN1FnWVJkSjNzVXdsLW1VMjFrZDVsOTFzVGd6S1BvU2VMRkNBVlpHU2huZzBIU0xTZ0VtcWVMSnFGZHFhazJKLU1BUU5VQXNEejUzbXVrRHZDS2dnTG5jSFdmTjEydU4yaExlRk1Ed1VHelJ1aVFMeDhfSnNjZGVYVFNsd1VsS0owbGxJQ0stVThkdmlmaHFqMGdpOUwwOTJfOFlpTFpEd0pCN1VSVmVsdVd4NHJuZExjSVJweg?oc=5",
+          "published_at": "2026-11-01T04:37:55.763Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
           "outlet": "moneycontrol.com",
           "title": "DeepSeek drops enhanced coding agent with aim to rival Anthropic",
           "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOSUc2NjBiU2pQTVl5d0h6SWVtM2lvc3k3NFhsRUJIZzN3MEFTODAwZXZ2VkdZTG14Q3JLQ1JtcjRfRHdTR0R0Z204RDFfLUJpNWhwTEgtcjFyWURseWNjQVVzODByQzFtOExTNkFFX3ZUREptM2ZyeUpMOTVnWTJjX0lRZnMtUF84alR4VS1PanExWmU5TU9DZjFoLTBieTI4ZEtMLUxBUUVQb0FHRFQ4LTVMbWRTV2JWMXFqTUNEWnB0bUZzamRPUFR2RVM5YW92WjZtdENn0gHbAUFVX3lxTE1PRmlVRVJxQnlZSjZHMVJlZjdLSDNXRkhha09JVDkzUVFwNG80M3d6UzNiaHBJMGdUWnNsbFNHa3hUMXVNdzZ4ZDFoNC1Wc1ZRMFZnOGV3OTFiUTVpMGdVSVBRX2tIaHFheWZiajluZEJqZnBRMFgtVkEzMnJ4VlJNb0hDUTdaMVNjOWxSZjgxZjhETEUySGxsRVRLRGQxR0JwWjR2dlMzTnJORWxOVGxiWEVBRHZILXFuUnVRQmZLZnRicGRtS0RaVzNFZllLSFFUdmdyZGpBbTBHUQ?oc=5",
+          "published_at": "2026-11-01T04:37:55.763Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "newsbytesapp.com",
+          "title": "DeepSeek unveils autonomous coding agent to rival Anthropic's Claude Code",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOS01vcHNtOUhIMFhOOS0taW83a1FLWmZ4S011Q2xHNEF5RVlKUkhnNFYtZloyWUpKU2thYVg5MlBPTTF2d3MwNTdaOHYxV3gzRFJrOEM2Y2JuYnl1NUpPcWF0aXNYbDVCdzBFcVlzZS1tYlJubmVMV1BadGFTQzRQTjI1dG5mOUVIMnZhd3plWmRvRVlyR1RwODY5eWZ4RmFDT3F0U0VDNWdLVkdOX1F1Z0dyN3ZaaFpsMTNR?oc=5",
+          "published_at": "2026-11-01T04:37:55.763Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "stocktwits.com",
+          "title": "Weeks Ahead Of Expected Anthropic IPO, DeepSeek Launches Autonomous Coding Agent To Take On Claude Code",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPaXBscHNvYmNNV2RfZTJ0ZXlEanNzeUx6bVU1RW1UOThQcjhkRVdOMVl4bHlLZ3dDaUZFc3RiWE0xWHd0Y3RDU2ZUTVprR09fZHhheGg1Vm55NnFKYjZxeXItR2s1LVZWWVM0akEtbmNvSU9fYl9PVFpXWDc0b2o0SlkyVTd6MGRwTTd4S2RZb1loNkFuNnlUS0VDaUhtenU0R2V1cmVtUWFfbWFBem9VVmllMUxrNGlOdTMxaGs4dw?oc=5",
           "published_at": "2026-11-01T04:37:55.763Z",
           "tier1": false
         }
@@ -290,7 +344,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "bbb87dab358a6",
