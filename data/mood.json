@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-02T22:40:44.175Z",
-  "news_generated_at": "2026-11-02T22:40:44.175Z",
+  "generated_at": "2026-11-02T23:27:21.638Z",
+  "news_generated_at": "2026-11-02T23:27:21.638Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,10 +18,10 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 208,
+    "headlines_naming_a_company": 213,
     "companies_on_roster": 10,
     "companies_with_headlines": 10,
-    "negative_pair_share": 0.062
+    "negative_pair_share": 0.065
   },
   "glance": {
     "leading": {
@@ -30,24 +30,35 @@
       "index": 9.6
     },
     "trailing": {
-      "id": "xai",
-      "name": "xAI",
-      "index": -4
+      "id": "anthropic",
+      "name": "Anthropic",
+      "index": -2.9
     },
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 92
+      "headlines": 98
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 12,
+      "headlines": 13,
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "87b7b3b212dfe09e",
+          "title": "Apple Looks Very Smart in Modest AI Spend: Tom Forte",
+          "url": "https://bloomberg.com/news/videos/2026-11-02/apple-looks-very-smart-in-modest-ai-spend-tom-forte-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-02T22:46:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "aa431fc87a22aee9",
           "title": "Apple separates China’s November beta from December iPhone AI rollout",
@@ -124,17 +135,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "362d7951270f2286",
-          "title": "Apple CEO says the company doesn’t ‘want to ship AI for AI’s sake’",
-          "url": "https://techcrunch.com/2026/10/31/apple-ceo-says-the-company-doesnt-want-to-ship-ai-for-ais-sake",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-31T21:41:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -142,9 +142,48 @@
       "id": "openai",
       "name": "OpenAI",
       "headlines": 48,
-      "index": 0,
-      "mean_headline": 0,
+      "index": 1.5,
+      "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "8e1f7551ac04805e",
+          "title": "OpenAI hires Mark Esper to expand military AI efforts",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQR011MEpxXzd6eDA3VUJLd0VFZzUtNkxjVEN1cVB4bHZXM3c3RmxaRlctR2xQckZwMTRodnJXcE85WXpsZlZJNlQ1a0xsYVhLNVNYbEk2b3BqWjVuRVJnZlpvdTZMdnBfa0R1cktfUFIyWGM0UHRPbHRkVHo2TGsyRWNFUU56OWthWU1j?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-02T23:09:29.000Z",
+          "score": 3,
+          "positive": [
+            "hires"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d58dbf3bd475964f",
+          "title": "OpenAI hires former U.S. Army secretary Dan Driscoll- FT",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQazBWRk93Q1BJZmsyeHFKTmFFaERqMm9MMzZSWnlkY1JWekRrbTgzazFqTWFGbXcwMlBhNUUzMGFFZ2l1dERoSnBoY2lYdjJoTVBOcXh2aEpnTUQ4ZzR4UHdnT2MyeG1jXzdSd3pjNzc4cG14aUlyUEwwb2s0Vjl4RUJCZ1pNckR3NDB6TTZNai1fUzdVOVlDWlEwalc5ejBpOGRIcjUyRzFsR3hzYTFJR2NxdjlfUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T23:08:49.000Z",
+          "score": 3,
+          "positive": [
+            "hires"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5ede081f340fa1d5",
+          "title": "OpenAI hires former US Army secretary as military seeks to expand AI use",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPdVIwNmtWSjgyZ3BiQUV2akNTSzVrQnQyeTVVSEtua3BBVXpiQURSQmsyVzVwY2R3QTdOTWZER24xTTBPay0ybXl6RzBPdmtzOVdPbnR4dmtDOEliZWtyQUZwVjhtN1h4VVo4c09iVTMweVVYUmdSdjUyeEtNZXpOYXdFTk4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T22:58:27.000Z",
+          "score": 3,
+          "positive": [
+            "hires"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "253ae8fe98d0eb13",
           "title": "OpenAI, Anthropic Expose Gaps in AI Agent Monitoring",
@@ -189,39 +228,6 @@
           "negative": [
             "cutting"
           ],
-          "clickbait": []
-        },
-        {
-          "id": "a80ca9eb7e5e4245",
-          "title": "OpenAI trims fundraising goal",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5pN0pacXJpOUdxc0dLZnZXYnFYUURxUjFBLU5XSUY5dUd2bkYwQ0R2OUFQQ1BRdjJKUzdYNmZTUFVOaVBWU1I4ak9XYW1lVkw0eXpnY0g3bDAydFBQTHNCeGJJeWFWbUdvMEZMQmxURUlBTmQ5QUFQdmt2dUU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:35:41.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "93408c6b8e7199ac",
-          "title": "MIT: OpenAI’s GPT-6 Astra Edits Qwen Weights, MATH-500 Up 6x",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQN19wcTR0OFhDZG1YUlRnRGRFZWJUV0lUZ216azRMWVktTW0xa2tfNU9Xa2Y4NU9ZUXRZTDllQ1ctLVhTeHlyZmlDbVBqUkM5NFRveVlzbGt1MnRHYUdJOE5SNWdCWEFibU1NdENkM21xc3Z6WWgwWTRLRXRMV19hVlktRnZhTU16THBYU0pn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:34:08.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "29f5e42df72845a4",
-          "title": "ChatGTP and the Search for Truth: OpenAI Says It Receives 70 Million Religion Requests Weekly",
-          "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQM0ZZb080Uy1xcnFlMnBsTE1wWm5UMWZ0bjB1bXNkZ3dLNGpuWW0xekhMaGdIYWhhSG5QSVBzam9remxjY0NvLVRlX2pKVlpiNnczYjdiSDZyZWxjd0xXVjVWeHN2bzVoanZReHl2RFM5QlRWTlFLU3FPdzRMSEFfUXg2azZOQTBZWF9MUGQ4RG9INWhGZFlqeXd4VEZjZlRpTFVIejhmUVhXR3A5TnFZM19STUkzUlM0YUZMeUhSQ09ESHY0NzVudy1YR0ZCODVhVDdRQ2l5YWFMTkRBSGc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:01:43.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
           "clickbait": []
         },
         {
@@ -308,98 +314,102 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 92,
-      "index": -2.3,
-      "mean_headline": -0.3,
+      "headlines": 98,
+      "index": -2.9,
+      "mean_headline": -0.4,
       "sample": [
         {
-          "id": "b16270a8eea7cb68",
-          "title": "Anthropic's growth just flattened (really)",
-          "url": "https://regenerator1.com/p/anthropics-growth-just-flattened",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-02T22:33:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a97d386bf12fc737",
-          "title": "Anthropic’s shocking new number could crack the AI trade in two ways",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOSkFsUmZEMXM5X0Zvbkw5NE44TmN0ZkdlZldiXzlYY2lwN0pHVHdXUVlsNnBVMnRkN21EUU4zYzBwM3pSQjZ4X1p4Y1RpQi00VlNmT0FES1FYdGFJVjVEQ0VWRVBTYVNzd1hRcHVWNWFBRmg3cW1YdnJ6LWtsRzVQYlBLMl9uRHpFdDhpYjg5aGltR1ZGeFM1ZW1mX01lU1l2SV95UDNjVnJtWWpVa1RfUGVQZDBPRVE?oc=5",
+          "id": "2a9b1e087db21b58",
+          "title": "Anthropic Just Released Updated Numbers Ahead of Its Nov. IPO. Revenue Growth Slowed Sharply.",
+          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOZ0dfQlhjTmUtdVkza1BsbG9zdzBKRWVYQmRaeFZLbmFiS3I1SFJSc2VZZmx4ak5Cbm5Sc2ozdElYRU1OQVl1RlVQSWR2VnUzWk1tZHNFT2NWRGhXZjJwQnNzeVhUNXNsbTVyR1VxQlBqOUNoOWFfckFiUVhudHcyVmdDUy10aWhOR19GQWYzQWw5VmRXcW5RZThheERnUXlEanpJLU9IeDNJVTM3YUFVVVE0U1dnUXFMc0poSm5wd2xWUUlLSGJBVjlPZGZnZw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-02T22:31:00.000Z",
-          "score": -12,
-          "positive": [],
-          "negative": [],
-          "clickbait": [
-            "shocking"
-          ]
-        },
-        {
-          "id": "4d288a711fe3f258",
-          "title": "The SEC Should Block Anthropic's IPO to Protect the Public",
-          "url": "https://techpolicy.press/the-sec-should-block-anthropics-ipo-to-protect-the-public",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-02T22:30:47.000Z",
+          "published_at": "2026-11-02T23:20:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "253ae8fe98d0eb13",
-          "title": "OpenAI, Anthropic Expose Gaps in AI Agent Monitoring",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOU2pDckVXb2RqNy14RzFFeGo5MzJESUlFNlp0cmdkY3ByMGtfWDVqWVFpbElkYnlRcmN6QkVtYXVFa2tyN3JmZDdobzVUZ1RieVV6d3QxWVo0VWJZN2VvaFpmT3dJWXE5R3hIZHBHajdHWm5tRmJkNHVDNHFOdnBzVmZNSlliT0xHOFlLTHFEUDVKT1ByVW00?oc=5",
+          "id": "cd83c6a5a700bdc2",
+          "title": "Anthropic’s quarterly revenue jumps to $17B, losses grow ahead of IPO",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOeG9OZUF0Z092T3RBTFJKenY2bW9nRm80R1Z1VzFWYnItVW83T2hnWF9KMGZYZWRFUE9MUHBHdEotaEVaR0Y5YWgyTl9kLTAweS1lQ1E4cXZKRDVncUxxV1ZFTk5NbGh6RkV4TC1KWEZlUm96NGFaNDZ3dVlVb3YtNFF4aFhORDJkUWd0RTRKSC1oNGFzVklwcnZRY3k5NHo1UXRTS2hR?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-02T22:30:43.000Z",
+          "published_at": "2026-11-02T23:19:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "1211909e72d9cd67",
-          "title": "Anthropic may soon reach the AI self-improvement threshold — TechCrunch",
-          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPa0RfS3FBZi1VY1BLd1JacUg2ZzNURTJUMmx0aTU5OVJvMlpHczJyd1JhSzRqUUNYdmk2aGJIZHlZOWEyMVE0dWlvTl80NEktbXdoVTYxUmVKQlhiM0ZaS3VZX3hMMFRUVllUVmtmdl85OGxFYUI4Q3ZISmpYRm1BTkdSZ3Fwa29abkdRMnh3SkUtYnJTeXY4SlpSRlJhUkNXY0JXQXJrdHRzUQ?oc=5",
+          "id": "b0b277df0eb39d9b",
+          "title": "Palantir CTO Takes Shot at Anthropic's IPO Filing -- Market Talk",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOaUt3VWFkLWdMMWM2NlFsOElBbVlIYV9YOUVQaHVDYkFobDJhdE5DZW40QmhjMlMteV9pd25nUUVRbjZxT1NaODdQSEhuMUJqVlFjWkphVkRwZzBNWnpGNklwdmMtdGJnZENmcVFqcEhGVnNKWTU4WVI0LUVUb3FEMVJ4d1ExbHBFSDBCc2JRcWllT2I5TVBIRTZrcjB1TXc0YWc?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-02T22:27:03.000Z",
+          "published_at": "2026-11-02T23:15:54.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "e593f1d0d8c59b9f",
-          "title": "Anthropic Taps Macquarie, CommSec for Australia IPO Retail Offer",
-          "url": "https://bloomberg.com/news/articles/2026-11-02/anthropic-taps-macquarie-commsec-for-australia-ipo-retail-offer",
-          "source": "bloomberg-tech",
-          "published_at": "2026-11-02T22:23:53.000Z",
-          "score": 0,
+          "id": "2748817242ba1f55",
+          "title": "Anthropic S-1 claims it may \"imminently meet\" its RSI threshold and may fail to identify \"significant acceleration\" in its development until after it's occurred (Julie Bort/TechCrunch)",
+          "url": "https://techmeme.com/261102/p44",
+          "source": "techmeme",
+          "published_at": "2026-11-02T23:05:00.000Z",
+          "score": -4,
           "positive": [],
-          "negative": [],
+          "negative": [
+            "fail"
+          ],
           "clickbait": []
         },
         {
-          "id": "13e7b2fa18eb93bd",
-          "title": "Anthropic IPO Investors Push $1.5T-$1.6T, 22-24x Q3 Pace",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNRzJfeTdNTC1yRVJkaW9Zel9tZkhFdkdic0ZSZU9kRFFPYW9DMlI0RFo1RDh4eFo5RHp5c3k0Z1ZjZzEzY0FFV3VfdEJPelZxcklRTnFBTEE3UTFLUVdkUzBPeGhtTVlOb0hVU2pQVGc3bE5vYkpoVWpRd2xDcGVSNlA4Ym9rb2dQ?oc=5",
+          "id": "d28391e6d07ed2f6",
+          "title": "Anthropic hires eight Australian brokers for blockbuster IPO",
+          "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPLV81dkhrc01MMnJDcFZPaDczcTBSbTAtOHlTWExmcUt5bHgxQmpadEhZYi1TZXhhcUxzMVJ1ajFyRFozQTVfNkRhNU1FcWJVcndyS19YX2pVR0FjeU1DZnM4ZGVPOEZWVGpLLTFZWjZkUnBCNGZLWE83VjFoblZFTEVsWnBPbm5zTjB2ZlF5Ql9STjdmajNSZlJrd2Vidl8xNW9kSnRfX24xUXhaMXJwUTlmaUlXUHlaU1B5X1ZqY1VST2s3VDFmMXpGczF2VmpJMEE?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-02T22:22:25.000Z",
+          "published_at": "2026-11-02T23:05:00.000Z",
+          "score": 3,
+          "positive": [
+            "hires"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2476db8d75a9f57c",
+          "title": "Anthropic says it may be nearing its own threshold for recursive self-improvement",
+          "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE53WHpkdC10NE9JckE2V2ZUQlBRZjFrbUxxUnlyNjJWTUxfdHR2RjFNRFp6UUR1blVneVlyQmFHTjEtaTZybVhvVkZMLTZVSWxMaXQxU3VWLXNwUS1HeDdVS0lMTjh2VGgyN3c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T22:58:34.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "cc0d93c4918cf8d1",
-          "title": "Speedrun AI Labs, Builder of Cybersecurity and Compliance Agents, Accepted Into Anthropic's Claude Startups Program",
-          "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxPbGVNb00zaGZlZWk0WlhNZkVINEk1cENLZ1RFUDJUQmh4LXdPZENXaWhUbG9vVk9NbzZOR21PNXBEU21XakwtN1otdDVsSFdRTWwxbnNuN2FjaEYtVWRiX2h0dDNfMl9qcWZtY2xBeWFnZkFYVUZxcU1Xdk13SndFdVNnYkJNOFpDaW9PYnJjdmJoTmdKamFpamhoYW9TSDl6ckI2QU5yRUdYeDlZZ1VZREVVUzg5YU9ZQmw4MTRReV9EdTVjZDhvTV9ZaGt1Tmt0c09jRFlCdlVLWlR1YTVHUWNLbWh6Rmd0RWZIOGFyclZVNDNjWXo0?oc=5",
+          "id": "1728377a7c6b2cfc",
+          "title": "AI & Tech Brief: Why Anthropic isn’t calming AI’s troubled waters",
+          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQeWZuTU5Lb2xUdXFEVlFBS0h3THBwV1ZieEdKMTlUal9TYVNoVzlaOWE2ZkxqV2dZYUNuTGdNVjM4dzlHSmtGY3l2YVkxeXNUMmVubzF4RTItNnVTT245d1BnYi04UHpyOXFWWDNyRXJzbjhTTWFOYW9hc3JLUzFVNV9TcHZsS2ducjJHeHl2dGE5dlVtZjlUMnpSbEw1c3g5TWtobUo2dEctOFhaNExZbkNKQU5uS19lajM3bXUzb2hETHBVeVhpWm4ybVdTZw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-02T22:20:35.000Z",
+          "published_at": "2026-11-02T22:50:09.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "48affb766d128cb8",
+          "title": "Anthropic Prospectus Issues Rare Warning: AI Self-Improvement Threshold \"May Be Imminent\"",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE16azhpS05nMWVRazZHRUExQmtWZzRGNEVlSEd5bmhabXU5aE15OVYyMjBHd0ZhNnFMMnJ5OTRibXlLSTJNaFZFQzkwLUlUQV9jcjE2cFlkV0NILWFac0ZCZERzdVF6cks3VExoU1RkUXBHalQwRFE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T22:35:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warning"
+          ],
           "clickbait": []
         }
       ]
@@ -504,10 +514,21 @@
     {
       "id": "xai",
       "name": "xAI",
-      "headlines": 2,
-      "index": -4,
-      "mean_headline": -0.5,
+      "headlines": 3,
+      "index": -2.7,
+      "mean_headline": -0.3,
       "sample": [
+        {
+          "id": "be93d4108ddccbc9",
+          "title": "SpaceX's xAI acquisition puts Musk's plan for million-satellite AI data centers at the center of a $1.25 trillion merger",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOQzltQ2lEdGtlMnhMMk5YM25HN3RKRTFsaGphOFdQc3dXTERHekRiWE91dDRZUjUyZkIzMHR5TVZGV1FpQ0RROW13TTZDRHRBb0x1cDBDY1YwbnlNYjZIZmlXSTlVQW1lTHlOZnVOallDcDRWNWpEWnEwUjlORTFmSg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T22:47:55.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "57e33e1c03940976",
           "title": "Avartha: Fastest open-weight frontier voice AI beats OpenAI, Google, and xAI",
@@ -638,34 +659,10 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 12,
-      "index": -0.7,
-      "mean_headline": -0.1,
+      "headlines": 10,
+      "index": 2.4,
+      "mean_headline": 0.3,
       "sample": [
-        {
-          "id": "dd20eb466c35981f",
-          "title": "Microsoft and Lumen will jointly sell networks built for AI on Azure",
-          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE93MlRDN3V2QjFoVktyVGlidkoxZmxIdEdjSUhzT242bFRwaF9lVzd0RkpKZEdaeFR5Qk44NjNmc0RlNDdwNGJLVVBRZWFJOVkxSFI0d3VvUm5xcUREQXZKUU5ueDEzdlFXTVNFVmk1VnlzSDVveVNNNg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:35:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1c816ae7e0fc6a00",
-          "title": "Microsoft AI CEO warns industry against trying to build conscious machines",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQRU4wTmFlaDI2VHlBOGZKU0MzZjJoekIyZ3I4c2VOWlh3Ry0tRExsYThzTVN2Yi1MNHptUEg3NmtzNTVPNnFSVVFuZTJjTFd6QTl4S1VBdEdOTjFXLVlyT2tGNmU0bnA1a3ZGQ2RHMDVsSlJBZHA4ZmFrR0JRcVpyYXNBU2U4ckgxcnBlZ3diZGQ4bGFrcEJhRU5EUHp3dw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:03:54.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
-          "clickbait": []
-        },
         {
           "id": "7f60ca0e468c0630",
           "title": "Google, OpenAI, Microsoft, and Anthropic back a shared robots.txt",
@@ -731,6 +728,28 @@
           "positive": [
             "won"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "004f923cc42ee256",
+          "title": "Microsoft offers a quarter of its workforce voluntary severance while shielding AI-critical teams",
+          "url": "https://the-decoder.com/microsoft-offers-a-quarter-of-its-workforce-voluntary-severance-while-shielding-ai-critical-teams",
+          "source": "the-decoder",
+          "published_at": "2026-10-31T10:43:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "231b9a05d592d2c8",
+          "title": "OpenAI, Google, Microsoft, and Anthropic say they will adopt a new standard that publishers can use to opt out of being scraped by AI across multiple crawlers (Emma Roth/The Verge)",
+          "url": "https://techmeme.com/261030/p26",
+          "source": "techmeme",
+          "published_at": "2026-10-30T21:05:00.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
           "clickbait": []
         }
@@ -838,7 +857,7 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 5,
+      "headlines": 4,
       "index": 0,
       "mean_headline": 0,
       "sample": [
@@ -848,17 +867,6 @@
           "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOd0tTZ3c1MHRILWV0NE9xeFFWaVUyMFNGcU1yUGdGUUxpbVFRaDVaZjJlOTZJU3NzUlBMbW9NbFNfUW9DeFJ1Z09fNmxVbEc3amdhUkQ1TmdmaERDMktMZzlNVGFsd01xcWVGQldmYnVaOTNXVWFYQVNoc2ZzV2trTm1QTFNGbTFwU1E?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-02T21:54:11.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "58eb7c513fb977bc",
-          "title": "DeepSeek Creator Mode Lets Harness Users Build Plugins by Chat",
-          "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE53cnRUTzBHTG5OUkh1eVhjWk5NRVRfNV9FeUpRa1JSVlR4YWZSWldTMlBONS0yMWxyVy0yN193MWloXzRhTFhHejhDd0Z3cmNKYUFCUHFFRzBETUYy?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:32:10.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1069,6 +1077,105 @@
       ]
     },
     {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "headlines": 10,
+      "index": 2.4,
+      "mean_headline": 0.3,
+      "sample": [
+        {
+          "id": "7f60ca0e468c0630",
+          "title": "Google, OpenAI, Microsoft, and Anthropic back a shared robots.txt",
+          "url": "https://coywolf.com/news/seo/google-openai-microsoft-and-anthropic-back-a-shared-robotstxt-ai-training-signal",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-02T18:11:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "08a9eaa2504ba380",
+          "title": "Microsoft just gave us the perfect name for AI thieves: Kyle",
+          "url": "https://ketanjoshi.co/2026/11/02/microsoft-just-gave-us-the-perfect-name-for-ai-thieves-kyle",
+          "source": "hn-ai",
+          "published_at": "2026-11-02T17:06:43.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "051f0fa70284d72d",
+          "title": "Microsoft Lunduke Is Slop",
+          "url": "https://techrights.org/n/2026/11/02/Microsoft_Lunduke_is_Slop.shtml",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-02T15:33:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "66366c57e1b9699e",
+          "title": "Unpicking Microsoft’s free cash flow",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNcW92RHVaaXQ2bjhlbElrTjV0T3BaSFA0Q2xpdUM0MDJiYldUQ0JkLVF5QkZEWUNoTno3Ym5UYkZ6UFJuZ1FjYUVMZDhPY1NPcEhxZURGbWZNelp3ZE02RXE3OXRqNlBmajNwcUJTRGpzalowQ0VzbU0zM1VuMWR6OGdPaXc?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-02T06:30:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9b6538b4b17b7fa9",
+          "title": "Solve: the cost of insuring against debt defaults at hyperscalers Amazon, Alphabet, Microsoft, Meta, and Oracle has hit its highest level since 2021 (Gunjan Banerji/Wall Street Journal)",
+          "url": "https://techmeme.com/261101/p8",
+          "source": "techmeme",
+          "published_at": "2026-11-01T11:00:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "60b0013cc6ea6bb2",
+          "title": "Microsoft confirms Windows 11 won't let you move the Taskbar like on Windows 10",
+          "url": "https://windowscentral.com/microsoft/windows-11/its-a-deliberate-design-decision-not-a-missing-capability-microsoft-confirms-windows-11-wont-ever-let-you-move-the-taskbar-by-dragging-it-like-on-windows-10",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-01T07:31:26.000Z",
+          "score": 3,
+          "positive": [
+            "won"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "004f923cc42ee256",
+          "title": "Microsoft offers a quarter of its workforce voluntary severance while shielding AI-critical teams",
+          "url": "https://the-decoder.com/microsoft-offers-a-quarter-of-its-workforce-voluntary-severance-while-shielding-ai-critical-teams",
+          "source": "the-decoder",
+          "published_at": "2026-10-31T10:43:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "231b9a05d592d2c8",
+          "title": "OpenAI, Google, Microsoft, and Anthropic say they will adopt a new standard that publishers can use to opt out of being scraped by AI across multiple crawlers (Emma Roth/The Verge)",
+          "url": "https://techmeme.com/261030/p26",
+          "source": "techmeme",
+          "published_at": "2026-10-30T21:05:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "amazon",
       "name": "Amazon",
       "headlines": 22,
@@ -1168,12 +1275,128 @@
       ]
     },
     {
+      "id": "openai",
+      "name": "OpenAI",
+      "headlines": 48,
+      "index": 1.5,
+      "mean_headline": 0.2,
+      "sample": [
+        {
+          "id": "8e1f7551ac04805e",
+          "title": "OpenAI hires Mark Esper to expand military AI efforts",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQR011MEpxXzd6eDA3VUJLd0VFZzUtNkxjVEN1cVB4bHZXM3c3RmxaRlctR2xQckZwMTRodnJXcE85WXpsZlZJNlQ1a0xsYVhLNVNYbEk2b3BqWjVuRVJnZlpvdTZMdnBfa0R1cktfUFIyWGM0UHRPbHRkVHo2TGsyRWNFUU56OWthWU1j?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-02T23:09:29.000Z",
+          "score": 3,
+          "positive": [
+            "hires"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d58dbf3bd475964f",
+          "title": "OpenAI hires former U.S. Army secretary Dan Driscoll- FT",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQazBWRk93Q1BJZmsyeHFKTmFFaERqMm9MMzZSWnlkY1JWekRrbTgzazFqTWFGbXcwMlBhNUUzMGFFZ2l1dERoSnBoY2lYdjJoTVBOcXh2aEpnTUQ4ZzR4UHdnT2MyeG1jXzdSd3pjNzc4cG14aUlyUEwwb2s0Vjl4RUJCZ1pNckR3NDB6TTZNai1fUzdVOVlDWlEwalc5ejBpOGRIcjUyRzFsR3hzYTFJR2NxdjlfUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T23:08:49.000Z",
+          "score": 3,
+          "positive": [
+            "hires"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5ede081f340fa1d5",
+          "title": "OpenAI hires former US Army secretary as military seeks to expand AI use",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPdVIwNmtWSjgyZ3BiQUV2akNTSzVrQnQyeTVVSEtua3BBVXpiQURSQmsyVzVwY2R3QTdOTWZER24xTTBPay0ybXl6RzBPdmtzOVdPbnR4dmtDOEliZWtyQUZwVjhtN1h4VVo4c09iVTMweVVYUmdSdjUyeEtNZXpOYXdFTk4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T22:58:27.000Z",
+          "score": 3,
+          "positive": [
+            "hires"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "253ae8fe98d0eb13",
+          "title": "OpenAI, Anthropic Expose Gaps in AI Agent Monitoring",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOU2pDckVXb2RqNy14RzFFeGo5MzJESUlFNlp0cmdkY3ByMGtfWDVqWVFpbElkYnlRcmN6QkVtYXVFa2tyN3JmZDdobzVUZ1RieVV6d3QxWVo0VWJZN2VvaFpmT3dJWXE5R3hIZHBHajdHWm5tRmJkNHVDNHFOdnBzVmZNSlliT0xHOFlLTHFEUDVKT1ByVW00?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T22:30:43.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1bfbaf169aba2e34",
+          "title": "OpenAI plans to use less electricity when grid is strained at this new facility",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNYUVNNmw3cVBzdVltcEhyTi0xMUZWRzBsanExOGhFeThTWE5LQ1NieDByTFQxV3h6UlRmbjdGcXlsekIwR3U3R2xVZFREY0c1NG8xVURzd1pOYUZ3eXY2WkMyRHdPQTBLbnpZQmNheUlJRTN6QkRmODdBM1pfQ2xPemFodVJ5Q1diay1WUXhRVjR6c0owdGNncGZXTU1ueDA5RkJGVU11Wi0xNDdrMF9WWjd1allYQmdRRHVR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T22:25:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5ba6a61278196518",
+          "title": "OpenAI Touts Briefs Backing Fair Use for AI Training",
+          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNVFRob3RuU0JHbGp3SDgyaFJTam1pckxUYUJtQ3paU2NYWkl5cWY5aGVxODV0NTR4TkNldVExZ2tFa1FGZ3ZaV25mWjZtbWljLVY0X0xoaUVzcF9rczlYLXphaTBTbE5YUXJfTFVaaU5ONmNFNVpBS2FvMjVGSVMwdTZsWV9xRWxZaWdjZ3NDV0g?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T22:04:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5f1d1665406838b9",
+          "title": "OpenAI’s Fundraising Efforts Sputter and Stall as Investors Refuse to Keep Cutting Checks",
+          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNQVFpWk0zWFJTVGwtOFA1eTFaajR3dXpXcDE4aFczcThCcG9Gbno4RDNuSENLb2dXblRoNVVRZk12N251ZTFvQzNySXJ5emphb0hNclY4ZFNSeWU1TzZZZ1lyZkdEMzF0ZVpHc3RjTjdLSEMzTlM3Z1hHejI1Q1VSeXB5Zw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T20:46:55.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cutting"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "b7c3b0c2d13fd91f",
+          "title": "OpenAI lowers funding goals as investors cool on AI",
+          "url": "https://reddit.com/r/artificial/comments/1xm7eyb/openai_lowers_funding_goals_as_investors_cool_on",
+          "source": "reddit-artificial",
+          "published_at": "2026-11-02T19:47:27.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "apple",
       "name": "Apple",
-      "headlines": 12,
+      "headlines": 13,
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "87b7b3b212dfe09e",
+          "title": "Apple Looks Very Smart in Modest AI Spend: Tom Forte",
+          "url": "https://bloomberg.com/news/videos/2026-11-02/apple-looks-very-smart-in-modest-ai-spend-tom-forte-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-02T22:46:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "aa431fc87a22aee9",
           "title": "Apple separates China’s November beta from December iPhone AI rollout",
@@ -1250,24 +1473,13 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "362d7951270f2286",
-          "title": "Apple CEO says the company doesn’t ‘want to ship AI for AI’s sake’",
-          "url": "https://techcrunch.com/2026/10/31/apple-ceo-says-the-company-doesnt-want-to-ship-ai-for-ais-sake",
-          "source": "techcrunch-ai",
-          "published_at": "2026-10-31T21:41:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 5,
+      "headlines": 4,
       "index": 0,
       "mean_headline": 0,
       "sample": [
@@ -1277,17 +1489,6 @@
           "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOd0tTZ3c1MHRILWV0NE9xeFFWaVUyMFNGcU1yUGdGUUxpbVFRaDVaZjJlOTZJU3NzUlBMbW9NbFNfUW9DeFJ1Z09fNmxVbEc3amdhUkQ1TmdmaERDMktMZzlNVGFsd01xcWVGQldmYnVaOTNXVWFYQVNoc2ZzV2trTm1QTFNGbTFwU1E?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-02T21:54:11.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "58eb7c513fb977bc",
-          "title": "DeepSeek Creator Mode Lets Harness Users Build Plugins by Chat",
-          "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE53cnRUTzBHTG5OUkh1eVhjWk5NRVRfNV9FeUpRa1JSVlR4YWZSWldTMlBONS0yMWxyVy0yN193MWloXzRhTFhHejhDd0Z3cmNKYUFCUHFFRzBETUYy?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:32:10.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1323,206 +1524,6 @@
           "published_at": "2026-10-31T23:31:26.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "openai",
-      "name": "OpenAI",
-      "headlines": 48,
-      "index": 0,
-      "mean_headline": 0,
-      "sample": [
-        {
-          "id": "253ae8fe98d0eb13",
-          "title": "OpenAI, Anthropic Expose Gaps in AI Agent Monitoring",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOU2pDckVXb2RqNy14RzFFeGo5MzJESUlFNlp0cmdkY3ByMGtfWDVqWVFpbElkYnlRcmN6QkVtYXVFa2tyN3JmZDdobzVUZ1RieVV6d3QxWVo0VWJZN2VvaFpmT3dJWXE5R3hIZHBHajdHWm5tRmJkNHVDNHFOdnBzVmZNSlliT0xHOFlLTHFEUDVKT1ByVW00?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T22:30:43.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1bfbaf169aba2e34",
-          "title": "OpenAI plans to use less electricity when grid is strained at this new facility",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNYUVNNmw3cVBzdVltcEhyTi0xMUZWRzBsanExOGhFeThTWE5LQ1NieDByTFQxV3h6UlRmbjdGcXlsekIwR3U3R2xVZFREY0c1NG8xVURzd1pOYUZ3eXY2WkMyRHdPQTBLbnpZQmNheUlJRTN6QkRmODdBM1pfQ2xPemFodVJ5Q1diay1WUXhRVjR6c0owdGNncGZXTU1ueDA5RkJGVU11Wi0xNDdrMF9WWjd1allYQmdRRHVR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T22:25:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5ba6a61278196518",
-          "title": "OpenAI Touts Briefs Backing Fair Use for AI Training",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNVFRob3RuU0JHbGp3SDgyaFJTam1pckxUYUJtQ3paU2NYWkl5cWY5aGVxODV0NTR4TkNldVExZ2tFa1FGZ3ZaV25mWjZtbWljLVY0X0xoaUVzcF9rczlYLXphaTBTbE5YUXJfTFVaaU5ONmNFNVpBS2FvMjVGSVMwdTZsWV9xRWxZaWdjZ3NDV0g?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T22:04:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5f1d1665406838b9",
-          "title": "OpenAI’s Fundraising Efforts Sputter and Stall as Investors Refuse to Keep Cutting Checks",
-          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNQVFpWk0zWFJTVGwtOFA1eTFaajR3dXpXcDE4aFczcThCcG9Gbno4RDNuSENLb2dXblRoNVVRZk12N251ZTFvQzNySXJ5emphb0hNclY4ZFNSeWU1TzZZZ1lyZkdEMzF0ZVpHc3RjTjdLSEMzTlM3Z1hHejI1Q1VSeXB5Zw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:46:55.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cutting"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "a80ca9eb7e5e4245",
-          "title": "OpenAI trims fundraising goal",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5pN0pacXJpOUdxc0dLZnZXYnFYUURxUjFBLU5XSUY5dUd2bkYwQ0R2OUFQQ1BRdjJKUzdYNmZTUFVOaVBWU1I4ak9XYW1lVkw0eXpnY0g3bDAydFBQTHNCeGJJeWFWbUdvMEZMQmxURUlBTmQ5QUFQdmt2dUU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:35:41.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "93408c6b8e7199ac",
-          "title": "MIT: OpenAI’s GPT-6 Astra Edits Qwen Weights, MATH-500 Up 6x",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQN19wcTR0OFhDZG1YUlRnRGRFZWJUV0lUZ216azRMWVktTW0xa2tfNU9Xa2Y4NU9ZUXRZTDllQ1ctLVhTeHlyZmlDbVBqUkM5NFRveVlzbGt1MnRHYUdJOE5SNWdCWEFibU1NdENkM21xc3Z6WWgwWTRLRXRMV19hVlktRnZhTU16THBYU0pn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:34:08.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "29f5e42df72845a4",
-          "title": "ChatGTP and the Search for Truth: OpenAI Says It Receives 70 Million Religion Requests Weekly",
-          "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQM0ZZb080Uy1xcnFlMnBsTE1wWm5UMWZ0bjB1bXNkZ3dLNGpuWW0xekhMaGdIYWhhSG5QSVBzam9remxjY0NvLVRlX2pKVlpiNnczYjdiSDZyZWxjd0xXVjVWeHN2bzVoanZReHl2RFM5QlRWTlFLU3FPdzRMSEFfUXg2azZOQTBZWF9MUGQ4RG9INWhGZFlqeXd4VEZjZlRpTFVIejhmUVhXR3A5TnFZM19STUkzUlM0YUZMeUhSQ09ESHY0NzVudy1YR0ZCODVhVDdRQ2l5YWFMTkRBSGc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:01:43.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b7c3b0c2d13fd91f",
-          "title": "OpenAI lowers funding goals as investors cool on AI",
-          "url": "https://reddit.com/r/artificial/comments/1xm7eyb/openai_lowers_funding_goals_as_investors_cool_on",
-          "source": "reddit-artificial",
-          "published_at": "2026-11-02T19:47:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "microsoft",
-      "name": "Microsoft",
-      "headlines": 12,
-      "index": -0.7,
-      "mean_headline": -0.1,
-      "sample": [
-        {
-          "id": "dd20eb466c35981f",
-          "title": "Microsoft and Lumen will jointly sell networks built for AI on Azure",
-          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE93MlRDN3V2QjFoVktyVGlidkoxZmxIdEdjSUhzT242bFRwaF9lVzd0RkpKZEdaeFR5Qk44NjNmc0RlNDdwNGJLVVBRZWFJOVkxSFI0d3VvUm5xcUREQXZKUU5ueDEzdlFXTVNFVmk1VnlzSDVveVNNNg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:35:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1c816ae7e0fc6a00",
-          "title": "Microsoft AI CEO warns industry against trying to build conscious machines",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQRU4wTmFlaDI2VHlBOGZKU0MzZjJoekIyZ3I4c2VOWlh3Ry0tRExsYThzTVN2Yi1MNHptUEg3NmtzNTVPNnFSVVFuZTJjTFd6QTl4S1VBdEdOTjFXLVlyT2tGNmU0bnA1a3ZGQ2RHMDVsSlJBZHA4ZmFrR0JRcVpyYXNBU2U4ckgxcnBlZ3diZGQ4bGFrcEJhRU5EUHp3dw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T20:03:54.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "7f60ca0e468c0630",
-          "title": "Google, OpenAI, Microsoft, and Anthropic back a shared robots.txt",
-          "url": "https://coywolf.com/news/seo/google-openai-microsoft-and-anthropic-back-a-shared-robotstxt-ai-training-signal",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-02T18:11:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "08a9eaa2504ba380",
-          "title": "Microsoft just gave us the perfect name for AI thieves: Kyle",
-          "url": "https://ketanjoshi.co/2026/11/02/microsoft-just-gave-us-the-perfect-name-for-ai-thieves-kyle",
-          "source": "hn-ai",
-          "published_at": "2026-11-02T17:06:43.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "051f0fa70284d72d",
-          "title": "Microsoft Lunduke Is Slop",
-          "url": "https://techrights.org/n/2026/11/02/Microsoft_Lunduke_is_Slop.shtml",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-02T15:33:15.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "66366c57e1b9699e",
-          "title": "Unpicking Microsoft’s free cash flow",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNcW92RHVaaXQ2bjhlbElrTjV0T3BaSFA0Q2xpdUM0MDJiYldUQ0JkLVF5QkZEWUNoTno3Ym5UYkZ6UFJuZ1FjYUVMZDhPY1NPcEhxZURGbWZNelp3ZE02RXE3OXRqNlBmajNwcUJTRGpzalowQ0VzbU0zM1VuMWR6OGdPaXc?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-02T06:30:07.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9b6538b4b17b7fa9",
-          "title": "Solve: the cost of insuring against debt defaults at hyperscalers Amazon, Alphabet, Microsoft, Meta, and Oracle has hit its highest level since 2021 (Gunjan Banerji/Wall Street Journal)",
-          "url": "https://techmeme.com/261101/p8",
-          "source": "techmeme",
-          "published_at": "2026-11-01T11:00:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "60b0013cc6ea6bb2",
-          "title": "Microsoft confirms Windows 11 won't let you move the Taskbar like on Windows 10",
-          "url": "https://windowscentral.com/microsoft/windows-11/its-a-deliberate-design-decision-not-a-missing-capability-microsoft-confirms-windows-11-wont-ever-let-you-move-the-taskbar-by-dragging-it-like-on-windows-10",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-01T07:31:26.000Z",
-          "score": 3,
-          "positive": [
-            "won"
-          ],
           "negative": [],
           "clickbait": []
         }
@@ -1626,111 +1627,23 @@
       ]
     },
     {
-      "id": "anthropic",
-      "name": "Anthropic",
-      "headlines": 92,
-      "index": -2.3,
+      "id": "xai",
+      "name": "xAI",
+      "headlines": 3,
+      "index": -2.7,
       "mean_headline": -0.3,
       "sample": [
         {
-          "id": "b16270a8eea7cb68",
-          "title": "Anthropic's growth just flattened (really)",
-          "url": "https://regenerator1.com/p/anthropics-growth-just-flattened",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-02T22:33:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a97d386bf12fc737",
-          "title": "Anthropic’s shocking new number could crack the AI trade in two ways",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOSkFsUmZEMXM5X0Zvbkw5NE44TmN0ZkdlZldiXzlYY2lwN0pHVHdXUVlsNnBVMnRkN21EUU4zYzBwM3pSQjZ4X1p4Y1RpQi00VlNmT0FES1FYdGFJVjVEQ0VWRVBTYVNzd1hRcHVWNWFBRmg3cW1YdnJ6LWtsRzVQYlBLMl9uRHpFdDhpYjg5aGltR1ZGeFM1ZW1mX01lU1l2SV95UDNjVnJtWWpVa1RfUGVQZDBPRVE?oc=5",
+          "id": "be93d4108ddccbc9",
+          "title": "SpaceX's xAI acquisition puts Musk's plan for million-satellite AI data centers at the center of a $1.25 trillion merger",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOQzltQ2lEdGtlMnhMMk5YM25HN3RKRTFsaGphOFdQc3dXTERHekRiWE91dDRZUjUyZkIzMHR5TVZGV1FpQ0RROW13TTZDRHRBb0x1cDBDY1YwbnlNYjZIZmlXSTlVQW1lTHlOZnVOallDcDRWNWpEWnEwUjlORTFmSg?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-02T22:31:00.000Z",
-          "score": -12,
-          "positive": [],
-          "negative": [],
-          "clickbait": [
-            "shocking"
-          ]
-        },
-        {
-          "id": "4d288a711fe3f258",
-          "title": "The SEC Should Block Anthropic's IPO to Protect the Public",
-          "url": "https://techpolicy.press/the-sec-should-block-anthropics-ipo-to-protect-the-public",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-02T22:30:47.000Z",
+          "published_at": "2026-11-02T22:47:55.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
-        {
-          "id": "253ae8fe98d0eb13",
-          "title": "OpenAI, Anthropic Expose Gaps in AI Agent Monitoring",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOU2pDckVXb2RqNy14RzFFeGo5MzJESUlFNlp0cmdkY3ByMGtfWDVqWVFpbElkYnlRcmN6QkVtYXVFa2tyN3JmZDdobzVUZ1RieVV6d3QxWVo0VWJZN2VvaFpmT3dJWXE5R3hIZHBHajdHWm5tRmJkNHVDNHFOdnBzVmZNSlliT0xHOFlLTHFEUDVKT1ByVW00?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T22:30:43.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1211909e72d9cd67",
-          "title": "Anthropic may soon reach the AI self-improvement threshold — TechCrunch",
-          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPa0RfS3FBZi1VY1BLd1JacUg2ZzNURTJUMmx0aTU5OVJvMlpHczJyd1JhSzRqUUNYdmk2aGJIZHlZOWEyMVE0dWlvTl80NEktbXdoVTYxUmVKQlhiM0ZaS3VZX3hMMFRUVllUVmtmdl85OGxFYUI4Q3ZISmpYRm1BTkdSZ3Fwa29abkdRMnh3SkUtYnJTeXY4SlpSRlJhUkNXY0JXQXJrdHRzUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T22:27:03.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e593f1d0d8c59b9f",
-          "title": "Anthropic Taps Macquarie, CommSec for Australia IPO Retail Offer",
-          "url": "https://bloomberg.com/news/articles/2026-11-02/anthropic-taps-macquarie-commsec-for-australia-ipo-retail-offer",
-          "source": "bloomberg-tech",
-          "published_at": "2026-11-02T22:23:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "13e7b2fa18eb93bd",
-          "title": "Anthropic IPO Investors Push $1.5T-$1.6T, 22-24x Q3 Pace",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNRzJfeTdNTC1yRVJkaW9Zel9tZkhFdkdic0ZSZU9kRFFPYW9DMlI0RFo1RDh4eFo5RHp5c3k0Z1ZjZzEzY0FFV3VfdEJPelZxcklRTnFBTEE3UTFLUVdkUzBPeGhtTVlOb0hVU2pQVGc3bE5vYkpoVWpRd2xDcGVSNlA4Ym9rb2dQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T22:22:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "cc0d93c4918cf8d1",
-          "title": "Speedrun AI Labs, Builder of Cybersecurity and Compliance Agents, Accepted Into Anthropic's Claude Startups Program",
-          "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxPbGVNb00zaGZlZWk0WlhNZkVINEk1cENLZ1RFUDJUQmh4LXdPZENXaWhUbG9vVk9NbzZOR21PNXBEU21XakwtN1otdDVsSFdRTWwxbnNuN2FjaEYtVWRiX2h0dDNfMl9qcWZtY2xBeWFnZkFYVUZxcU1Xdk13SndFdVNnYkJNOFpDaW9PYnJjdmJoTmdKamFpamhoYW9TSDl6ckI2QU5yRUdYeDlZZ1VZREVVUzg5YU9ZQmw4MTRReV9EdTVjZDhvTV9ZaGt1Tmt0c09jRFlCdlVLWlR1YTVHUWNLbWh6Rmd0RWZIOGFyclZVNDNjWXo0?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T22:20:35.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "xai",
-      "name": "xAI",
-      "headlines": 2,
-      "index": -4,
-      "mean_headline": -0.5,
-      "sample": [
         {
           "id": "57e33e1c03940976",
           "title": "Avartha: Fastest open-weight frontier voice AI beats OpenAI, Google, and xAI",
@@ -1754,6 +1667,109 @@
           "positive": [],
           "negative": [
             "lawsuit"
+          ],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "headlines": 98,
+      "index": -2.9,
+      "mean_headline": -0.4,
+      "sample": [
+        {
+          "id": "2a9b1e087db21b58",
+          "title": "Anthropic Just Released Updated Numbers Ahead of Its Nov. IPO. Revenue Growth Slowed Sharply.",
+          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOZ0dfQlhjTmUtdVkza1BsbG9zdzBKRWVYQmRaeFZLbmFiS3I1SFJSc2VZZmx4ak5Cbm5Sc2ozdElYRU1OQVl1RlVQSWR2VnUzWk1tZHNFT2NWRGhXZjJwQnNzeVhUNXNsbTVyR1VxQlBqOUNoOWFfckFiUVhudHcyVmdDUy10aWhOR19GQWYzQWw5VmRXcW5RZThheERnUXlEanpJLU9IeDNJVTM3YUFVVVE0U1dnUXFMc0poSm5wd2xWUUlLSGJBVjlPZGZnZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T23:20:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "cd83c6a5a700bdc2",
+          "title": "Anthropic’s quarterly revenue jumps to $17B, losses grow ahead of IPO",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOeG9OZUF0Z092T3RBTFJKenY2bW9nRm80R1Z1VzFWYnItVW83T2hnWF9KMGZYZWRFUE9MUHBHdEotaEVaR0Y5YWgyTl9kLTAweS1lQ1E4cXZKRDVncUxxV1ZFTk5NbGh6RkV4TC1KWEZlUm96NGFaNDZ3dVlVb3YtNFF4aFhORDJkUWd0RTRKSC1oNGFzVklwcnZRY3k5NHo1UXRTS2hR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T23:19:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b0b277df0eb39d9b",
+          "title": "Palantir CTO Takes Shot at Anthropic's IPO Filing -- Market Talk",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOaUt3VWFkLWdMMWM2NlFsOElBbVlIYV9YOUVQaHVDYkFobDJhdE5DZW40QmhjMlMteV9pd25nUUVRbjZxT1NaODdQSEhuMUJqVlFjWkphVkRwZzBNWnpGNklwdmMtdGJnZENmcVFqcEhGVnNKWTU4WVI0LUVUb3FEMVJ4d1ExbHBFSDBCc2JRcWllT2I5TVBIRTZrcjB1TXc0YWc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T23:15:54.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2748817242ba1f55",
+          "title": "Anthropic S-1 claims it may \"imminently meet\" its RSI threshold and may fail to identify \"significant acceleration\" in its development until after it's occurred (Julie Bort/TechCrunch)",
+          "url": "https://techmeme.com/261102/p44",
+          "source": "techmeme",
+          "published_at": "2026-11-02T23:05:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "fail"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "d28391e6d07ed2f6",
+          "title": "Anthropic hires eight Australian brokers for blockbuster IPO",
+          "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPLV81dkhrc01MMnJDcFZPaDczcTBSbTAtOHlTWExmcUt5bHgxQmpadEhZYi1TZXhhcUxzMVJ1ajFyRFozQTVfNkRhNU1FcWJVcndyS19YX2pVR0FjeU1DZnM4ZGVPOEZWVGpLLTFZWjZkUnBCNGZLWE83VjFoblZFTEVsWnBPbm5zTjB2ZlF5Ql9STjdmajNSZlJrd2Vidl8xNW9kSnRfX24xUXhaMXJwUTlmaUlXUHlaU1B5X1ZqY1VST2s3VDFmMXpGczF2VmpJMEE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T23:05:00.000Z",
+          "score": 3,
+          "positive": [
+            "hires"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2476db8d75a9f57c",
+          "title": "Anthropic says it may be nearing its own threshold for recursive self-improvement",
+          "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE53WHpkdC10NE9JckE2V2ZUQlBRZjFrbUxxUnlyNjJWTUxfdHR2RjFNRFp6UUR1blVneVlyQmFHTjEtaTZybVhvVkZMLTZVSWxMaXQxU3VWLXNwUS1HeDdVS0lMTjh2VGgyN3c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T22:58:34.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1728377a7c6b2cfc",
+          "title": "AI & Tech Brief: Why Anthropic isn’t calming AI’s troubled waters",
+          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQeWZuTU5Lb2xUdXFEVlFBS0h3THBwV1ZieEdKMTlUal9TYVNoVzlaOWE2ZkxqV2dZYUNuTGdNVjM4dzlHSmtGY3l2YVkxeXNUMmVubzF4RTItNnVTT245d1BnYi04UHpyOXFWWDNyRXJzbjhTTWFOYW9hc3JLUzFVNV9TcHZsS2ducjJHeHl2dGE5dlVtZjlUMnpSbEw1c3g5TWtobUo2dEctOFhaNExZbkNKQU5uS19lajM3bXUzb2hETHBVeVhpWm4ybVdTZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T22:50:09.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "48affb766d128cb8",
+          "title": "Anthropic Prospectus Issues Rare Warning: AI Self-Improvement Threshold \"May Be Imminent\"",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE16azhpS05nMWVRazZHRUExQmtWZzRGNEVlSEd5bmhabXU5aE15OVYyMjBHd0ZhNnFMMnJ5OTRibXlLSTJNaFZFQzkwLUlUQV9jcjE2cFlkV0NILWFac0ZCZERzdVF6cks3VExoU1RkUXBHalQwRFE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-02T22:35:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warning"
           ],
           "clickbait": []
         }
