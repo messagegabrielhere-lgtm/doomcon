@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-03T01:04:59.335Z",
-  "news_generated_at": "2026-11-03T01:04:59.335Z",
+  "generated_at": "2026-11-03T01:48:56.357Z",
+  "news_generated_at": "2026-11-03T01:48:56.357Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,10 +18,10 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 217,
+    "headlines_naming_a_company": 209,
     "companies_on_roster": 10,
     "companies_with_headlines": 10,
-    "negative_pair_share": 0.064
+    "negative_pair_share": 0.08
   },
   "glance": {
     "leading": {
@@ -30,24 +30,37 @@
       "index": 6.9
     },
     "trailing": {
-      "id": "anthropic",
-      "name": "Anthropic",
-      "index": -2.6
+      "id": "xai",
+      "name": "xAI",
+      "index": -8
     },
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 96
+      "headlines": 90
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 13,
-      "index": 1.8,
-      "mean_headline": 0.2,
+      "headlines": 14,
+      "index": -0.6,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "bce9ca9012d09ad2",
+          "title": "Apple warns of sales slowdown as AI drives up prices",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOVXBtOEVleUJHTGxWYVh5MVByRDZQblkyNTM0a09qVDJIM0x6YWZVTE5NbGZNdHhmbkIyZGxxY1h0YzZDaldmRFBKXzlSQ3dfcTJKRzdRc1NaZWJHWWlLakk2VVZ2dEFaNmwzWXFza3RBVDJ1dGUzbEx2QzE5MUY4a2dGLW1zMGxuU0RiczNyTWJiUGN4QlRkSnBGQlh4dw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-03T01:20:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
         {
           "id": "73e1293c6b8c4edd",
           "title": "Apple beats sales and profit expectations but AI costs weigh on holiday sales",
@@ -126,26 +139,15 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "ccc275f5c0ff3084",
-          "title": "Asia shares bend under AI stress; Apple earnings loom",
-          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPbXpaWVRrQUkzYThuc1E5TnFCUXBTSTV2bHNaR1FhUmdEYnhjSHVneFdpbGhjeENwWlE2WVE1c3FCUV9qeGZzRGNoNFEzdERMblBDb005a2NBV3B2YzdfNF95dGtrVmxiNlJrNFU3UC1BTnZHcVh4a3hna25vdEFkSEtMUQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-02T00:41:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 54,
-      "index": 1.3,
-      "mean_headline": 0.2,
+      "headlines": 50,
+      "index": 1,
+      "mean_headline": 0.1,
       "sample": [
         {
           "id": "247764e3cfd4d066",
@@ -229,11 +231,11 @@
           "clickbait": []
         },
         {
-          "id": "d58dbf3bd475964f",
-          "title": "OpenAI hires former U.S. Army secretary Dan Driscoll- FT",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQazBWRk93Q1BJZmsyeHFKTmFFaERqMm9MMzZSWnlkY1JWekRrbTgzazFqTWFGbXcwMlBhNUUzMGFFZ2l1dERoSnBoY2lYdjJoTVBOcXh2aEpnTUQ4ZzR4UHdnT2MyeG1jXzdSd3pjNzc4cG14aUlyUEwwb2s0Vjl4RUJCZ1pNckR3NDB6TTZNai1fUzdVOVlDWlEwalc5ejBpOGRIcjUyRzFsR3hzYTFJR2NxdjlfUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T23:08:49.000Z",
+          "id": "5ede081f340fa1d5",
+          "title": "OpenAI hires former US Army secretary as military seeks to expand AI use",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPdVIwNmtWSjgyZ3BiQUV2akNTSzVrQnQyeTVVSEtua3BBVXpiQURSQmsyVzVwY2R3QTdOTWZER24xTTBPay0ybXl6RzBPdmtzOVdPbnR4dmtDOEliZWtyQUZwVjhtN1h4VVo4c09iVTMweVVYUmdSdjUyeEtNZXpOYXdFTk4?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-02T22:58:27.000Z",
           "score": 3,
           "positive": [
             "hires"
@@ -336,16 +338,49 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 96,
-      "index": -2.6,
-      "mean_headline": -0.3,
+      "headlines": 90,
+      "index": -1.7,
+      "mean_headline": -0.2,
       "sample": [
         {
-          "id": "b8bcb578378175aa",
-          "title": "Anthropic plans Australian share offer in IPO, CommSec says",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPRVpFX2o3RG9CVE9pX1BLUXBCTklyYUpaSU1sUGlTZ25fRlNXWkJhTHpnRE9hT3JlMUFZVlRRSFE0SXFCV24tdDhabTZ0Z2NabGhnNlBIcUp1ZmRNNEVoZ0RnM3FrLVd2RTl3SFd3T2twTjNVTGt6TGlKMHNWa3psRHFJNl9IbFJJWDlGSXhWSXIxZDRzUHI3Y3NWcTV5T1pKZHRpdVI5WXczbE5Ranl6eEI3cw?oc=5",
+          "id": "8640257aaab9d6a7",
+          "title": "Anthropic Buys One-Person Biotech to Prove Claude Can Make Drugs",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNN3dHUXY4YURtTE0tRmVnRF8xdFdpYnVOTDJSWWhCVU9FVkFqVXZsV3B1aUZQYWw1Q0ZqR0pwajFFMk1HT1ViYXBhVnBxSDZlb2twX0FSU05pdDY5MEJEWmotcnNEenpJTHJ2amc4QlVwMEtjbG95ZFhESzA5N2dMbHYyNkIzRHROUExMZFlpRlhTYnRYSmw4cDhaT0Z2eGlpYk9oQk5IdWFWSy0xR0EtLWpuZzd2ZVhFQW5sNkdNaw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-03T01:02:53.000Z",
+          "published_at": "2026-11-03T01:34:33.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0a23f26ebdc6f90f",
+          "title": "Anthropic’s R&D spending passed Microsoft’s last quarter",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOdHVfX0NTZjRsclhJZE50V3UtSDFpTEZYbWlOVmc1eGlETDVqNnNWQXdhMmdBdkZKMzc5N2FqbnJEa0VRbm5rSHZkWFJ6ZkFUSUR2Z0hHa2RDeUhfOFFMVHhpLUlKNWRRTVFZV3JrYmNfajZha0V1dFRYUEZKUkI5WW5NeEZORXR1Z0JPNQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:12:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5d292bafd903d5ce",
+          "title": "Anthropic’s Revised IPO Prospectus Reveals Steep Q3 Revenue Slowdown, Clouding $1.5 Trillion Valuation",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQTnp5WDJKQk95NUlCalJaRnZUWEdFWXpqNVg3OFVIVXNLQ0RfUHRra19zUF9kYzBvSGNDRzZjb21fWXZQaEpISHRsYjBuMkxsLTdWT1p3RnVLM21vRGZXNnVnZUlzOUYyZE96akIyX1VNMnhTeExMRDZsSldlZXlNUFhUV1A0dFRKMkVTb1FvMVlxTFRmMnhhbWFublBja2VlTC1XMWpnb0dNcUxkUF94bWpackdPRV9Da29RanFkX3B3ZHhScUZzSlRWdm4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:05:45.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f7d7d997a3ec6cf2",
+          "title": "EPAM: Partnering With Anthropic For Safe AI, As Agents Go Rogue (NYSE:EPAM)",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPWGlsQmJLODZWUnNvX2RZbF83ekM3dEtWcTVhUTRNNndFZmxBd2l0aVlrNkpQNFNNLU1MZGp1Q3l6UGtPekRvekdVU2pZVThSWGVQV1B0a0RxdWVvalZaR0RlWm5rWlhKMzRfdFNJV0F4MXpZbWh2NGZPR0dCQURST19jREFpelpXUEpYUV9XOTVuTVU5V2pwR29PcEw2QQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:04:32.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -357,6 +392,17 @@
           "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFB2WkstbEpNczZwcE9jYmpKRFUzcGZ2eWs0a2lPZlM4RWpMay1lV2k3bkVCQllyTFlMZENWbDJTZTZlQThRS1MwTzRMeXBGamg1SzlCUUtjR0sxSEhlUUhEVEFPU1piUzhHSzNkcm9MQzZ6NTUz?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-03T01:01:26.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b8bcb578378175aa",
+          "title": "Anthropic plans Australian share offer in IPO, CommSec says",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPRVpFX2o3RG9CVE9pX1BLUXBCTklyYUpaSU1sUGlTZ25fRlNXWkJhTHpnRE9hT3JlMUFZVlRRSFE0SXFCV24tdDhabTZ0Z2NabGhnNlBIcUp1ZmRNNEVoZ0RnM3FrLVd2RTl3SFd3T2twTjNVTGt6TGlKMHNWa3psRHFJNl9IbFJJWDlGSXhWSXIxZDRzUHI3Y3NWcTV5T1pKZHRpdVI5WXczbE5Ranl6eEI3cw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:01:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -383,61 +429,15 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "8625c14b9886f8a2",
-          "title": "athenahealth Launches athenaPatient MCP to Bridge Official Patient Records into Anthropic’s Claude",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNdXpwckVYeGZOOWMyemVjcXVsOURWT3lPcTBVYktTNl8zSzhlU21EUms5Q2d3bG03cUxZcE96RnY5TkxIdjFHd1d5LUY1MkgzajM2ZGZIbnZJcHNveWQ2cG5zV2hNZDRjbjBEcUxlQTEteXhxT3ItQTZWLWJGTFJ5VU56Mkl6R0NHN2FVYXN5b1BVdFdtSTFyZ2Z2T3NoT01FcXUtb1ktZ3BjazRUOUlR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T00:42:37.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1728377a7c6b2cfc",
-          "title": "AI & Tech Brief: Why Anthropic isn’t calming AI’s troubled waters",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQeWZuTU5Lb2xUdXFEVlFBS0h3THBwV1ZieEdKMTlUal9TYVNoVzlaOWE2ZkxqV2dZYUNuTGdNVjM4dzlHSmtGY3l2YVkxeXNUMmVubzF4RTItNnVTT245d1BnYi04UHpyOXFWWDNyRXJzbjhTTWFOYW9hc3JLUzFVNV9TcHZsS2ducjJHeHl2dGE5dlVtZjlUMnpSbEw1c3g5TWtobUo2dEctOFhaNExZbkNKQU5uS19lajM3bXUzb2hETHBVeVhpWm4ybVdTZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T00:20:09.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9729f21c37de0cdc",
-          "title": "Anthropic Revenue Growth Drops to 47% Before IPO [2026]",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQVllSYmNES04zRnpmazVnNUFKcFQyQnh1V0lnMVQ5YWw4QmxVa2dJS2ZpM194czdTdmVRa1p5bzM0VGh0VjlBMmFKMGYwTkxFanlGUlctcXVXZWxRVmRFN1BTTFJMMnNZVEl2SUdXTTlQeERDTHRQaTdyZV9NMjQxRXBPc1lqOWxGNmp1R1JzNmw0NFZJY2U4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T00:07:03.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "554267fcb42512cc",
-          "title": "Anthropic Addresses Video Game Cloning With Minor Claude Update",
-          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxObGl6Z1lPb2hocjU2aGRvdWx6aVhQWU9HdGlNQVdyaTB5WWlUSy1OX2loVkJ3Mnh0M3l2M3lWS1NMdXk2SHNYTDI5ZmFkNnBFM1ZBd1RLYmQ1aDB1d3ZudlRlWTJZQUFDZlA3d09pQ25oVTFuRUF6WFEyNk5nQ3JtYzlB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T00:06:13.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 16,
-      "index": -2,
-      "mean_headline": -0.2,
+      "headlines": 15,
+      "index": -2.1,
+      "mean_headline": -0.3,
       "sample": [
         {
           "id": "596efa42af4de037",
@@ -532,9 +532,9 @@
     {
       "id": "xai",
       "name": "xAI",
-      "headlines": 4,
-      "index": -2,
-      "mean_headline": -0.2,
+      "headlines": 5,
+      "index": -8,
+      "mean_headline": -1,
       "sample": [
         {
           "id": "7ae16a5f00c42ed9",
@@ -556,6 +556,19 @@
           "score": 0,
           "positive": [],
           "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8a9345f142f7b4f4",
+          "title": "SpaceX loses bid to dismiss lawsuit over xAI data center pollution — facility allegedly emits over 5,000 tons of nitrogen oxides and 47 tons of cancer-causing formaldehyde annually",
+          "url": "https://reddit.com/r/technology/comments/1xlwhhr/spacex_loses_bid_to_dismiss_lawsuit_over_xai_data",
+          "source": "reddit-technology",
+          "published_at": "2026-11-02T12:58:41.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "lawsuit"
+          ],
           "clickbait": []
         },
         {
@@ -589,9 +602,9 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 25,
-      "index": 3.8,
-      "mean_headline": 0.5,
+      "headlines": 23,
+      "index": 2.4,
+      "mean_headline": 0.3,
       "sample": [
         {
           "id": "9d7a36849539baf2",
@@ -651,6 +664,23 @@
           "clickbait": []
         },
         {
+          "id": "332c118aa000950c",
+          "title": "Google data center wins approval in Minnesota after protests delay council vote twice — 200-acre project moves forward despite opposition from local residents, tech giant scales down project and…",
+          "url": "https://reddit.com/r/technology/comments/1xlx2bo/google_data_center_wins_approval_in_minnesota",
+          "source": "reddit-technology",
+          "published_at": "2026-11-02T13:23:39.000Z",
+          "score": -2,
+          "positive": [
+            "approval",
+            "wins"
+          ],
+          "negative": [
+            "delay",
+            "down"
+          ],
+          "clickbait": []
+        },
+        {
           "id": "46ed2d008e659eed",
           "title": "Alphabet’s Euro Debt Market Return Tests Faith in AI",
           "url": "https://bloomberg.com/news/videos/2026-11-02/alphabet-s-euro-debt-market-return-tests-faith-in-ai-video",
@@ -671,17 +701,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "353dd2c0f3b9f7a8",
-          "title": "Google joins OpenAI and Anthropic in promising new scraping controls",
-          "url": "https://engadget.com/2303225/google-openai-anthropic-ai-crawling-controls",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-01T23:39:35.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -692,6 +711,17 @@
       "index": 1.3,
       "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "0a23f26ebdc6f90f",
+          "title": "Anthropic’s R&D spending passed Microsoft’s last quarter",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOdHVfX0NTZjRsclhJZE50V3UtSDFpTEZYbWlOVmc1eGlETDVqNnNWQXdhMmdBdkZKMzc5N2FqbnJEa0VRbm5rSHZkWFJ6ZkFUSUR2Z0hHa2RDeUhfOFFMVHhpLUlKNWRRTVFZV3JrYmNfajZha0V1dFRYUEZKUkI5WW5NeEZORXR1Z0JPNQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:12:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "7732997befdc74a5",
           "title": "Naria Santa Lucia leaves Microsoft after seven years leading digital and AI skills initiatives",
@@ -772,26 +802,13 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "60b0013cc6ea6bb2",
-          "title": "Microsoft confirms Windows 11 won't let you move the Taskbar like on Windows 10",
-          "url": "https://windowscentral.com/microsoft/windows-11/its-a-deliberate-design-decision-not-a-missing-capability-microsoft-confirms-windows-11-wont-ever-let-you-move-the-taskbar-by-dragging-it-like-on-windows-10",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-01T07:31:26.000Z",
-          "score": 3,
-          "positive": [
-            "won"
-          ],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 19,
+      "headlines": 18,
       "index": 1.3,
       "mean_headline": 0.2,
       "sample": [
@@ -888,10 +905,21 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 3,
+      "headlines": 4,
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "6c29343e0e80d1b7",
+          "title": "DeepSeek Harness' new Creator Mode creates plugins from prompts",
+          "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE42S1N3NlBTRjBLVlBsbk5FOGNLWUpfYm5rNVhwNUFSdldTNTB6d3FrOFFJVUlhTlVXOW1sSVBSS2RLRWZIanNENEMtVW9vZlJrS3hrMjRfdlR1SUpKdHhGaENzNkVJdw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:14:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "03ab8d2b5e76399c",
           "title": "DeepSeek releases a \"creator mode\" that allows DeepSeek Harness users to quickly create custom plugins, like a 3D model renderer and a video editing workbench (Debby Wu/Bloomberg)",
@@ -1022,9 +1050,9 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 25,
-      "index": 3.8,
-      "mean_headline": 0.5,
+      "headlines": 23,
+      "index": 2.4,
+      "mean_headline": 0.3,
       "sample": [
         {
           "id": "9d7a36849539baf2",
@@ -1084,6 +1112,23 @@
           "clickbait": []
         },
         {
+          "id": "332c118aa000950c",
+          "title": "Google data center wins approval in Minnesota after protests delay council vote twice — 200-acre project moves forward despite opposition from local residents, tech giant scales down project and…",
+          "url": "https://reddit.com/r/technology/comments/1xlx2bo/google_data_center_wins_approval_in_minnesota",
+          "source": "reddit-technology",
+          "published_at": "2026-11-02T13:23:39.000Z",
+          "score": -2,
+          "positive": [
+            "approval",
+            "wins"
+          ],
+          "negative": [
+            "delay",
+            "down"
+          ],
+          "clickbait": []
+        },
+        {
           "id": "46ed2d008e659eed",
           "title": "Alphabet’s Euro Debt Market Return Tests Faith in AI",
           "url": "https://bloomberg.com/news/videos/2026-11-02/alphabet-s-euro-debt-market-return-tests-faith-in-ai-video",
@@ -1104,123 +1149,13 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "353dd2c0f3b9f7a8",
-          "title": "Google joins OpenAI and Anthropic in promising new scraping controls",
-          "url": "https://engadget.com/2303225/google-openai-anthropic-ai-crawling-controls",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-01T23:39:35.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "apple",
-      "name": "Apple",
-      "headlines": 13,
-      "index": 1.8,
-      "mean_headline": 0.2,
-      "sample": [
-        {
-          "id": "73e1293c6b8c4edd",
-          "title": "Apple beats sales and profit expectations but AI costs weigh on holiday sales",
-          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOMjhZRE1hd2VpRDNYcGhBOVNYTFVUd0ZHd1pfUzR3SkVJYkxicURQZmw0T3h3Rm11d3E5ai1vcURXWlh1TVpZWlJlZGZ2VmVSMjdLaFB5eTFmN0RuT3VJeVFtWnZqX2R6d0ZpbVNpVzhVUDJlby15RTVQMHN1SWxCVVl1S2xtN2NSbjlfVmdkd0JZcWUzSG1Nc1htUW10SERJY3pHbFhpUmxTR00wWVhfdnVSYTIyTS1CUGtDVjNyYWxkQQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-02T23:35:00.000Z",
-          "score": 3,
-          "positive": [
-            "beats"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "87b7b3b212dfe09e",
-          "title": "Apple Looks Very Smart in Modest AI Spend: Tom Forte",
-          "url": "https://bloomberg.com/news/videos/2026-11-02/apple-looks-very-smart-in-modest-ai-spend-tom-forte-video",
-          "source": "bloomberg-tech",
-          "published_at": "2026-11-02T22:46:03.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "42ce1e48ada5c11a",
-          "title": "S&P 500 rises; Apple and Palantir set to report results",
-          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPbnVDQzd0LTF3Vi1BMnJDLWpGaHNIMlJVTDNnVmplMzZnVjRxRTZUUTRsQkVvZ21EN3lXMzA4ZDJnOTQwc01ld2tqT1pGZVN6VmpuVWpzLVVMUU1qcDdnRFdEQUZoM0l6Ym9NYnhfWDctWkZnSC1fLUk0RGxtUmd3WU9zLXdhcTdGTkJvcUxaazZKZEliVjl3bVBfZldDajJMOXZtVkx0NVI4YWlwMkVFbXpMR0ZGQW9wOWxEcTM3QThSdk1fb2c?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-02T19:18:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6725ad9e90d62dcc",
-          "title": "Coming in 2027: Apple’s $1,000 home robot for FaceTime and switching on lights",
-          "url": "https://arstechnica.com/apple/2026/11/apples-roaming-home-robot-may-do-facetime-switch-lights-on-and-yell-at-your-cat",
-          "source": "arstechnica-ai",
-          "published_at": "2026-11-02T18:32:21.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8b4975d31996bc22",
-          "title": "Apple’s Valuation Premium Confronts AI Jitters",
-          "url": "https://bloomberg.com/news/videos/2026-11-02/apple-s-valuation-premium-confronts-ai-jitters-video",
-          "source": "bloomberg-tech",
-          "published_at": "2026-11-02T17:38:57.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "71bc6e358eebb517",
-          "title": "Apple Earnings On Deck After $1 Trillion Rally: Preview",
-          "url": "https://bloomberg.com/news/videos/2026-11-02/apple-earnings-on-deck-after-1-trillion-rally-preview-video",
-          "source": "bloomberg-tech",
-          "published_at": "2026-11-02T14:11:49.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9038140f38c076cc",
-          "title": "How to stop Meta, OpenAI, and Apple from training AI on your data in the UK",
-          "url": "https://reddit.com/r/artificial/comments/1xlu9ui/how_to_stop_meta_openai_and_apple_from_training",
-          "source": "reddit-artificial",
-          "published_at": "2026-11-02T11:03:37.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ccc275f5c0ff3084",
-          "title": "Asia shares bend under AI stress; Apple earnings loom",
-          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPbXpaWVRrQUkzYThuc1E5TnFCUXBTSTV2bHNaR1FhUmdEYnhjSHVneFdpbGhjeENwWlE2WVE1c3FCUV9qeGZzRGNoNFEzdERMblBDb005a2NBV3B2YzdfNF95dGtrVmxiNlJrNFU3UC1BTnZHcVh4a3hna25vdEFkSEtMUQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-02T00:41:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 19,
+      "headlines": 18,
       "index": 1.3,
       "mean_headline": 0.2,
       "sample": [
@@ -1322,6 +1257,17 @@
       "mean_headline": 0.2,
       "sample": [
         {
+          "id": "0a23f26ebdc6f90f",
+          "title": "Anthropic’s R&D spending passed Microsoft’s last quarter",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOdHVfX0NTZjRsclhJZE50V3UtSDFpTEZYbWlOVmc1eGlETDVqNnNWQXdhMmdBdkZKMzc5N2FqbnJEa0VRbm5rSHZkWFJ6ZkFUSUR2Z0hHa2RDeUhfOFFMVHhpLUlKNWRRTVFZV3JrYmNfajZha0V1dFRYUEZKUkI5WW5NeEZORXR1Z0JPNQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:12:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "7732997befdc74a5",
           "title": "Naria Santa Lucia leaves Microsoft after seven years leading digital and AI skills initiatives",
           "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPcmZfZ2RvM3YwOXdrWUVOVUlDZXo1aUdCY1JoelhHaFlPSWFCTTdOUnNraWp6TTlNVzhsZ2F3VldxaVJZek1vdTN4aUZueFVmWllNS3lERmVPUW92T2c4dzdySFZLMGdRTVd4WHpseE9ibXZmR1prT0h4eV93T3RCUkhILWZpOGtyTnlMdGk5QVZmbGtQRmJWX2J5bnBiX2o5VEdrTmdTZzlsUDRxZERHYkdFZFVHZ1JPUmhEdHhMZ0JOWkZLMHdJc3dKREFsNnR3?oc=5",
@@ -1401,28 +1347,15 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "60b0013cc6ea6bb2",
-          "title": "Microsoft confirms Windows 11 won't let you move the Taskbar like on Windows 10",
-          "url": "https://windowscentral.com/microsoft/windows-11/its-a-deliberate-design-decision-not-a-missing-capability-microsoft-confirms-windows-11-wont-ever-let-you-move-the-taskbar-by-dragging-it-like-on-windows-10",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-01T07:31:26.000Z",
-          "score": 3,
-          "positive": [
-            "won"
-          ],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 54,
-      "index": 1.3,
-      "mean_headline": 0.2,
+      "headlines": 50,
+      "index": 1,
+      "mean_headline": 0.1,
       "sample": [
         {
           "id": "247764e3cfd4d066",
@@ -1506,11 +1439,11 @@
           "clickbait": []
         },
         {
-          "id": "d58dbf3bd475964f",
-          "title": "OpenAI hires former U.S. Army secretary Dan Driscoll- FT",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQazBWRk93Q1BJZmsyeHFKTmFFaERqMm9MMzZSWnlkY1JWekRrbTgzazFqTWFGbXcwMlBhNUUzMGFFZ2l1dERoSnBoY2lYdjJoTVBOcXh2aEpnTUQ4ZzR4UHdnT2MyeG1jXzdSd3pjNzc4cG14aUlyUEwwb2s0Vjl4RUJCZ1pNckR3NDB6TTZNai1fUzdVOVlDWlEwalc5ejBpOGRIcjUyRzFsR3hzYTFJR2NxdjlfUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-02T23:08:49.000Z",
+          "id": "5ede081f340fa1d5",
+          "title": "OpenAI hires former US Army secretary as military seeks to expand AI use",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPdVIwNmtWSjgyZ3BiQUV2akNTSzVrQnQyeTVVSEtua3BBVXpiQURSQmsyVzVwY2R3QTdOTWZER24xTTBPay0ybXl6RzBPdmtzOVdPbnR4dmtDOEliZWtyQUZwVjhtN1h4VVo4c09iVTMweVVYUmdSdjUyeEtNZXpOYXdFTk4?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-02T22:58:27.000Z",
           "score": 3,
           "positive": [
             "hires"
@@ -1523,10 +1456,21 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 3,
+      "headlines": 4,
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "6c29343e0e80d1b7",
+          "title": "DeepSeek Harness' new Creator Mode creates plugins from prompts",
+          "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE42S1N3NlBTRjBLVlBsbk5FOGNLWUpfYm5rNVhwNUFSdldTNTB6d3FrOFFJVUlhTlVXOW1sSVBSS2RLRWZIanNENEMtVW9vZlJrS3hrMjRfdlR1SUpKdHhGaENzNkVJdw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:14:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "03ab8d2b5e76399c",
           "title": "DeepSeek releases a \"creator mode\" that allows DeepSeek Harness users to quickly create custom plugins, like a 3D model renderer and a video editing workbench (Debby Wu/Bloomberg)",
@@ -1563,11 +1507,209 @@
       ]
     },
     {
+      "id": "apple",
+      "name": "Apple",
+      "headlines": 14,
+      "index": -0.6,
+      "mean_headline": -0.1,
+      "sample": [
+        {
+          "id": "bce9ca9012d09ad2",
+          "title": "Apple warns of sales slowdown as AI drives up prices",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOVXBtOEVleUJHTGxWYVh5MVByRDZQblkyNTM0a09qVDJIM0x6YWZVTE5NbGZNdHhmbkIyZGxxY1h0YzZDaldmRFBKXzlSQ3dfcTJKRzdRc1NaZWJHWWlLakk2VVZ2dEFaNmwzWXFza3RBVDJ1dGUzbEx2QzE5MUY4a2dGLW1zMGxuU0RiczNyTWJiUGN4QlRkSnBGQlh4dw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-03T01:20:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "73e1293c6b8c4edd",
+          "title": "Apple beats sales and profit expectations but AI costs weigh on holiday sales",
+          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOMjhZRE1hd2VpRDNYcGhBOVNYTFVUd0ZHd1pfUzR3SkVJYkxicURQZmw0T3h3Rm11d3E5ai1vcURXWlh1TVpZWlJlZGZ2VmVSMjdLaFB5eTFmN0RuT3VJeVFtWnZqX2R6d0ZpbVNpVzhVUDJlby15RTVQMHN1SWxCVVl1S2xtN2NSbjlfVmdkd0JZcWUzSG1Nc1htUW10SERJY3pHbFhpUmxTR00wWVhfdnVSYTIyTS1CUGtDVjNyYWxkQQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-02T23:35:00.000Z",
+          "score": 3,
+          "positive": [
+            "beats"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "87b7b3b212dfe09e",
+          "title": "Apple Looks Very Smart in Modest AI Spend: Tom Forte",
+          "url": "https://bloomberg.com/news/videos/2026-11-02/apple-looks-very-smart-in-modest-ai-spend-tom-forte-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-02T22:46:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "42ce1e48ada5c11a",
+          "title": "S&P 500 rises; Apple and Palantir set to report results",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPbnVDQzd0LTF3Vi1BMnJDLWpGaHNIMlJVTDNnVmplMzZnVjRxRTZUUTRsQkVvZ21EN3lXMzA4ZDJnOTQwc01ld2tqT1pGZVN6VmpuVWpzLVVMUU1qcDdnRFdEQUZoM0l6Ym9NYnhfWDctWkZnSC1fLUk0RGxtUmd3WU9zLXdhcTdGTkJvcUxaazZKZEliVjl3bVBfZldDajJMOXZtVkx0NVI4YWlwMkVFbXpMR0ZGQW9wOWxEcTM3QThSdk1fb2c?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-02T19:18:53.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6725ad9e90d62dcc",
+          "title": "Coming in 2027: Apple’s $1,000 home robot for FaceTime and switching on lights",
+          "url": "https://arstechnica.com/apple/2026/11/apples-roaming-home-robot-may-do-facetime-switch-lights-on-and-yell-at-your-cat",
+          "source": "arstechnica-ai",
+          "published_at": "2026-11-02T18:32:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8b4975d31996bc22",
+          "title": "Apple’s Valuation Premium Confronts AI Jitters",
+          "url": "https://bloomberg.com/news/videos/2026-11-02/apple-s-valuation-premium-confronts-ai-jitters-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-02T17:38:57.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "71bc6e358eebb517",
+          "title": "Apple Earnings On Deck After $1 Trillion Rally: Preview",
+          "url": "https://bloomberg.com/news/videos/2026-11-02/apple-earnings-on-deck-after-1-trillion-rally-preview-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-02T14:11:49.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9038140f38c076cc",
+          "title": "How to stop Meta, OpenAI, and Apple from training AI on your data in the UK",
+          "url": "https://reddit.com/r/artificial/comments/1xlu9ui/how_to_stop_meta_openai_and_apple_from_training",
+          "source": "reddit-artificial",
+          "published_at": "2026-11-02T11:03:37.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "headlines": 90,
+      "index": -1.7,
+      "mean_headline": -0.2,
+      "sample": [
+        {
+          "id": "8640257aaab9d6a7",
+          "title": "Anthropic Buys One-Person Biotech to Prove Claude Can Make Drugs",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNN3dHUXY4YURtTE0tRmVnRF8xdFdpYnVOTDJSWWhCVU9FVkFqVXZsV3B1aUZQYWw1Q0ZqR0pwajFFMk1HT1ViYXBhVnBxSDZlb2twX0FSU05pdDY5MEJEWmotcnNEenpJTHJ2amc4QlVwMEtjbG95ZFhESzA5N2dMbHYyNkIzRHROUExMZFlpRlhTYnRYSmw4cDhaT0Z2eGlpYk9oQk5IdWFWSy0xR0EtLWpuZzd2ZVhFQW5sNkdNaw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:34:33.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0a23f26ebdc6f90f",
+          "title": "Anthropic’s R&D spending passed Microsoft’s last quarter",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOdHVfX0NTZjRsclhJZE50V3UtSDFpTEZYbWlOVmc1eGlETDVqNnNWQXdhMmdBdkZKMzc5N2FqbnJEa0VRbm5rSHZkWFJ6ZkFUSUR2Z0hHa2RDeUhfOFFMVHhpLUlKNWRRTVFZV3JrYmNfajZha0V1dFRYUEZKUkI5WW5NeEZORXR1Z0JPNQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:12:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5d292bafd903d5ce",
+          "title": "Anthropic’s Revised IPO Prospectus Reveals Steep Q3 Revenue Slowdown, Clouding $1.5 Trillion Valuation",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQTnp5WDJKQk95NUlCalJaRnZUWEdFWXpqNVg3OFVIVXNLQ0RfUHRra19zUF9kYzBvSGNDRzZjb21fWXZQaEpISHRsYjBuMkxsLTdWT1p3RnVLM21vRGZXNnVnZUlzOUYyZE96akIyX1VNMnhTeExMRDZsSldlZXlNUFhUV1A0dFRKMkVTb1FvMVlxTFRmMnhhbWFublBja2VlTC1XMWpnb0dNcUxkUF94bWpackdPRV9Da29RanFkX3B3ZHhScUZzSlRWdm4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:05:45.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f7d7d997a3ec6cf2",
+          "title": "EPAM: Partnering With Anthropic For Safe AI, As Agents Go Rogue (NYSE:EPAM)",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPWGlsQmJLODZWUnNvX2RZbF83ekM3dEtWcTVhUTRNNndFZmxBd2l0aVlrNkpQNFNNLU1MZGp1Q3l6UGtPekRvekdVU2pZVThSWGVQV1B0a0RxdWVvalZaR0RlWm5rWlhKMzRfdFNJV0F4MXpZbWh2NGZPR0dCQURST19jREFpelpXUEpYUV9XOTVuTVU5V2pwR29PcEw2QQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:04:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1f1be785a5bc181a",
+          "title": "Anthropic’s journey from DRS to S-1: Zeroing in on accounting changes",
+          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFB2WkstbEpNczZwcE9jYmpKRFUzcGZ2eWs0a2lPZlM4RWpMay1lV2k3bkVCQllyTFlMZENWbDJTZTZlQThRS1MwTzRMeXBGamg1SzlCUUtjR0sxSEhlUUhEVEFPU1piUzhHSzNkcm9MQzZ6NTUz?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:01:26.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b8bcb578378175aa",
+          "title": "Anthropic plans Australian share offer in IPO, CommSec says",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPRVpFX2o3RG9CVE9pX1BLUXBCTklyYUpaSU1sUGlTZ25fRlNXWkJhTHpnRE9hT3JlMUFZVlRRSFE0SXFCV24tdDhabTZ0Z2NabGhnNlBIcUp1ZmRNNEVoZ0RnM3FrLVd2RTl3SFd3T2twTjNVTGt6TGlKMHNWa3psRHFJNl9IbFJJWDlGSXhWSXIxZDRzUHI3Y3NWcTV5T1pKZHRpdVI5WXczbE5Ranl6eEI3cw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T01:01:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ebd815c9adf8bf68",
+          "title": "Anthropic Rumored to Test Claude Fable/Mythos 5.5 Ahead of IPO, OpenAI A/B-Tests GPT-6.2 Astra",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNTjJXM1AtTW42eFFEV01wZ1NyTnRsVXZYQVpyY01iNlNpVmRTRmZWLTNrSkRhQUctR0NBeTljYTFhd2R0S3BxNGdJTEhuQ2lmV3J6UU1iUWU3MHdPUzZpZGpHY0twSWVYeFlQajJ6VlYtRUxCZ3pkalJmR1NNSU9sN3prQVlmOUdCTmt5SkFwSl91NXlQZ2JfVnZ0Ym8zOHlZYTdmVy1XcmVITFhmbnhCalloeGJsaWN4Vi05VnZqbGFzUlVJeWc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T00:57:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "66e100b559006bfa",
+          "title": "Anthropic's Governance Structure Draws Scrutiny Ahead of IPO as NYC Comptroller Says Shareholder Rights Are Being Hollowed Out",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5fcmY1S0ZFbmc3RXdNQloxRTJaYVdDcC00RTNqX3c5OFhGdm5MUTdOOExvNnpLLTlpaExmVVF0MnBseXExaGtWSUZvc0ZhMnFyWGcxZGZWYkRNOHNQMF92ckZwWUJ5eVRxbjZJX1V6U2xNeGhiRnc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-03T00:56:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "meta",
       "name": "Meta",
-      "headlines": 16,
-      "index": -2,
-      "mean_headline": -0.2,
+      "headlines": 15,
+      "index": -2.1,
+      "mean_headline": -0.3,
       "sample": [
         {
           "id": "596efa42af4de037",
@@ -1662,9 +1804,9 @@
     {
       "id": "xai",
       "name": "xAI",
-      "headlines": 4,
-      "index": -2,
-      "mean_headline": -0.2,
+      "headlines": 5,
+      "index": -8,
+      "mean_headline": -1,
       "sample": [
         {
           "id": "7ae16a5f00c42ed9",
@@ -1686,6 +1828,19 @@
           "score": 0,
           "positive": [],
           "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8a9345f142f7b4f4",
+          "title": "SpaceX loses bid to dismiss lawsuit over xAI data center pollution — facility allegedly emits over 5,000 tons of nitrogen oxides and 47 tons of cancer-causing formaldehyde annually",
+          "url": "https://reddit.com/r/technology/comments/1xlwhhr/spacex_loses_bid_to_dismiss_lawsuit_over_xai_data",
+          "source": "reddit-technology",
+          "published_at": "2026-11-02T12:58:41.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "lawsuit"
+          ],
           "clickbait": []
         },
         {
@@ -1712,105 +1867,6 @@
           "negative": [
             "lawsuit"
           ],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "anthropic",
-      "name": "Anthropic",
-      "headlines": 96,
-      "index": -2.6,
-      "mean_headline": -0.3,
-      "sample": [
-        {
-          "id": "b8bcb578378175aa",
-          "title": "Anthropic plans Australian share offer in IPO, CommSec says",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPRVpFX2o3RG9CVE9pX1BLUXBCTklyYUpaSU1sUGlTZ25fRlNXWkJhTHpnRE9hT3JlMUFZVlRRSFE0SXFCV24tdDhabTZ0Z2NabGhnNlBIcUp1ZmRNNEVoZ0RnM3FrLVd2RTl3SFd3T2twTjNVTGt6TGlKMHNWa3psRHFJNl9IbFJJWDlGSXhWSXIxZDRzUHI3Y3NWcTV5T1pKZHRpdVI5WXczbE5Ranl6eEI3cw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T01:02:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1f1be785a5bc181a",
-          "title": "Anthropic’s journey from DRS to S-1: Zeroing in on accounting changes",
-          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFB2WkstbEpNczZwcE9jYmpKRFUzcGZ2eWs0a2lPZlM4RWpMay1lV2k3bkVCQllyTFlMZENWbDJTZTZlQThRS1MwTzRMeXBGamg1SzlCUUtjR0sxSEhlUUhEVEFPU1piUzhHSzNkcm9MQzZ6NTUz?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T01:01:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ebd815c9adf8bf68",
-          "title": "Anthropic Rumored to Test Claude Fable/Mythos 5.5 Ahead of IPO, OpenAI A/B-Tests GPT-6.2 Astra",
-          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNTjJXM1AtTW42eFFEV01wZ1NyTnRsVXZYQVpyY01iNlNpVmRTRmZWLTNrSkRhQUctR0NBeTljYTFhd2R0S3BxNGdJTEhuQ2lmV3J6UU1iUWU3MHdPUzZpZGpHY0twSWVYeFlQajJ6VlYtRUxCZ3pkalJmR1NNSU9sN3prQVlmOUdCTmt5SkFwSl91NXlQZ2JfVnZ0Ym8zOHlZYTdmVy1XcmVITFhmbnhCalloeGJsaWN4Vi05VnZqbGFzUlVJeWc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T00:57:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "66e100b559006bfa",
-          "title": "Anthropic's Governance Structure Draws Scrutiny Ahead of IPO as NYC Comptroller Says Shareholder Rights Are Being Hollowed Out",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5fcmY1S0ZFbmc3RXdNQloxRTJaYVdDcC00RTNqX3c5OFhGdm5MUTdOOExvNnpLLTlpaExmVVF0MnBseXExaGtWSUZvc0ZhMnFyWGcxZGZWYkRNOHNQMF92ckZwWUJ5eVRxbjZJX1V6U2xNeGhiRnc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T00:56:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8625c14b9886f8a2",
-          "title": "athenahealth Launches athenaPatient MCP to Bridge Official Patient Records into Anthropic’s Claude",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNdXpwckVYeGZOOWMyemVjcXVsOURWT3lPcTBVYktTNl8zSzhlU21EUms5Q2d3bG03cUxZcE96RnY5TkxIdjFHd1d5LUY1MkgzajM2ZGZIbnZJcHNveWQ2cG5zV2hNZDRjbjBEcUxlQTEteXhxT3ItQTZWLWJGTFJ5VU56Mkl6R0NHN2FVYXN5b1BVdFdtSTFyZ2Z2T3NoT01FcXUtb1ktZ3BjazRUOUlR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T00:42:37.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1728377a7c6b2cfc",
-          "title": "AI & Tech Brief: Why Anthropic isn’t calming AI’s troubled waters",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQeWZuTU5Lb2xUdXFEVlFBS0h3THBwV1ZieEdKMTlUal9TYVNoVzlaOWE2ZkxqV2dZYUNuTGdNVjM4dzlHSmtGY3l2YVkxeXNUMmVubzF4RTItNnVTT245d1BnYi04UHpyOXFWWDNyRXJzbjhTTWFOYW9hc3JLUzFVNV9TcHZsS2ducjJHeHl2dGE5dlVtZjlUMnpSbEw1c3g5TWtobUo2dEctOFhaNExZbkNKQU5uS19lajM3bXUzb2hETHBVeVhpWm4ybVdTZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T00:20:09.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9729f21c37de0cdc",
-          "title": "Anthropic Revenue Growth Drops to 47% Before IPO [2026]",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQVllSYmNES04zRnpmazVnNUFKcFQyQnh1V0lnMVQ5YWw4QmxVa2dJS2ZpM194czdTdmVRa1p5bzM0VGh0VjlBMmFKMGYwTkxFanlGUlctcXVXZWxRVmRFN1BTTFJMMnNZVEl2SUdXTTlQeERDTHRQaTdyZV9NMjQxRXBPc1lqOWxGNmp1R1JzNmw0NFZJY2U4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T00:07:03.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "554267fcb42512cc",
-          "title": "Anthropic Addresses Video Game Cloning With Minor Claude Update",
-          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxObGl6Z1lPb2hocjU2aGRvdWx6aVhQWU9HdGlNQVdyaTB5WWlUSy1OX2loVkJ3Mnh0M3l2M3lWS1NMdXk2SHNYTDI5ZmFkNnBFM1ZBd1RLYmQ1aDB1d3ZudlRlWTJZQUFDZlA3d09pQ25oVTFuRUF6WFEyNk5nQ3JtYzlB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T00:06:13.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
           "clickbait": []
         }
       ]
