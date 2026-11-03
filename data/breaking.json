@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-03T04:05:58.995Z",
+  "generated_at": "2026-11-03T04:55:50.687Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -57,13 +57,17 @@
       "source": "wires-ai",
       "outlet": "bloomberg.com",
       "outlets": [
+        "biggo.com",
         "bloomberg.com",
-        "bloomingbit.io"
+        "bloomingbit.io",
+        "business-standard.com",
+        "ft.com"
       ],
       "tier1_outlets": [
-        "bloomberg.com"
+        "bloomberg.com",
+        "ft.com"
       ],
-      "corroboration": 2,
+      "corroboration": 5,
       "sources": [
         "bloomberg-tech",
         "gnews-ai",
@@ -72,23 +76,21 @@
       "rule": [
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-03T00:16:00.000Z",
-      "first_seen_at": "2026-11-03T01:04:59.335Z",
-      "latency_s": 2939,
+      "earliest_published_at": "2026-11-03T00:16:39.000Z",
+      "first_seen_at": "2026-11-02T15:56:54.447Z",
+      "latency_s": 0,
+      "clock_skew": true,
       "breaking_at": "2026-11-03T02:35:31.500Z",
       "item_ids": [
+        "60ced11647386663",
         "64d6784b602b2783",
-        "b5da05128b823d52"
+        "b22c5f2901f3e190",
+        "b5da05128b823d52",
+        "c10486049f5f3722",
+        "c7206f7f2b636bb6",
+        "c83586ab7058e458"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "Oracle Is Near $10 Billion Share Sale at 11% Discount",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNZnczY1BoREE4MUxrXzNMSHR2RTF3WC1xbk1MYWZsSld3SnA0S09fRXZMM3NlbkR3N2pBazJaMlBzRWZwR3ctQ3M2T3UxcGc0UWtWdmVndWV4WXFSV0lLWEU1MGpMSVFVVV91YWxjTkEwTy1BenpOQVR3dzhmSlJyVzMtSkJPQjIydXY0TmUyRGpXYUV6ak9yaE5sSU9qQWpSQzhIMDZ5TFMwcjBsdk5N?oc=5",
-          "published_at": "2026-11-03T00:16:00.000Z",
-          "tier1": true
-        },
         {
           "source": "bloomberg-tech",
           "outlet": "bloomberg.com",
@@ -98,11 +100,43 @@
           "tier1": true
         },
         {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "Oracle Is Near $10 Billion Share Sale at 11% Discount",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNZnczY1BoREE4MUxrXzNMSHR2RTF3WC1xbk1MYWZsSld3SnA0S09fRXZMM3NlbkR3N2pBazJaMlBzRWZwR3ctQ3M2T3UxcGc0UWtWdmVndWV4WXFSV0lLWEU1MGpMSVFVVV91YWxjTkEwTy1BenpOQVR3dzhmSlJyVzMtSkJPQjIydXY0TmUyRGpXYUV6ak9yaE5sSU9qQWpSQzhIMDZ5TFMwcjBsdk5N?oc=5",
+          "published_at": "2026-11-03T01:04:59.335Z",
+          "tier1": true
+        },
+        {
           "source": "gnews-ai",
           "outlet": "bloomingbit.io",
           "title": "Oracle Seeks $20 Billion for AI Investment, Pursues Stock Sale at 11% Discount",
           "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5GTU1lUU1MRGlMRVpodFdMaHp4LUpwTUh1ajY5MVRJdk4zbi0za3JvWUY3R3BNMThxc1lFM0F5QXlNc0FhZ2dPRzlFdi1tbEdoVGM0VQ?oc=5",
           "published_at": "2026-11-03T02:02:32.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "biggo.com",
+          "title": "Oracle Raises $20 Billion in Stock and Bonds in a Single Day to Fund AI Investment; Shares Plunge 9%",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBXOVMtb05sc2hDeVN1Z0xNMmNrN2haZURteElUMjBlOVQtTEh5WDJRanViM2dEM3FKWUNtdkxwOTkwNmJranJCUTZfUUlvSms5R2V5UTRRdk9NMVJIaDZneE1Jb0ZPNFI4QkY5dFdUZ3U5YWltd2c?oc=5",
+          "published_at": "2026-11-03T02:35:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "ft.com",
+          "title": "Oracle Announces Pricing of $20 Billion of Common Stock and Senior Notes",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQVW5vSHNUZi1rSmVNaW10VmlSSmhhR3pMQkliaVpjMFl6cHBzRFRJaENyZmlHeU1PTjdSMGJRaVEwTWtnQ1ExS0JVYWwwUDFTRTdnZk1GN2pDeERCNHFjdWFya0pFZlJqN29mV1ZzaWN2aEFDTG11dm1sNFVNR1loN05xMkRzRm9HYktQb2wwYzNUZzVPZUZFQQ?oc=5",
+          "published_at": "2026-11-03T03:09:00.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "business-standard.com",
+          "title": "Oracle raises $20 billion through stock and bond sales to fund AI push",
+          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQWXEzQkFFQ0YwOGViV0dkTVMzd0dYTUc3WTF3NUk5RzZtTWtXN3ZxYnBETUtnY3ZjSU84dUFRaFV1R25DblB5c3Ryai1sQWlnUFBFSnZDc1RmUE9oQzFwTHRpbndwNXNBUkdvV3Y3eFBBbEVCaE5pV3ltNDlrd1RPaGZSenBNZkpIelNaVDZLS1VHV2hjN1MxcHF6SjRMQWgtam9Ld0JBYjdiWmdNVEVRY0FFeldKQlNHU3FEcDZwckt5aC00OC1yd1poOW54VW_SAdQBQVVfeXFMTk8tN0NaNnpEUWpsdE0yWUNkTndfV2tDTXhRTm5WU1dRQ0JLME1PUUFBRV84aGlXSFN4SVoyQ3kzVWRLYU1oVkFJZnFqcms2UXJrZUo3OXNta0JkTTdVaHB1T0g2T0ZTX1BIZEdBQmZrMFh1M0JaOXRWenhjdVZxQmp3WGlVdDR2eVU1aXE3X0d4UW5rZWhUZEZUWjdHS25DcTJzME92QTV5bDlnQUFfUkNIN2tIQzhGX2lKTk80VW9GNk9maW8wampOTXV4LWg0YnRFOWY?oc=5",
+          "published_at": "2026-11-03T04:29:47.000Z",
           "tier1": false
         }
       ],
@@ -151,7 +185,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b4fc7519b97f3",
@@ -332,29 +366,25 @@
       "outlets": [
         "apnews.com",
         "reuters.com",
-        "techcrunch.com",
         "theguardian.com",
         "tradersunion.com"
       ],
       "tier1_outlets": [
         "apnews.com",
         "reuters.com",
-        "techcrunch.com",
         "theguardian.com"
       ],
-      "corroboration": 5,
+      "corroboration": 4,
       "sources": [
         "bluesky-ai",
         "guardian-ai",
-        "techcrunch-ai",
         "wires-ai"
       ],
       "rule": [
         "two outlets within 20 min",
-        "tier-one outlet plus one more",
-        "tier-one escalation signal"
+        "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-02T22:14:50.000Z",
+      "earliest_published_at": "2026-11-03T00:01:32.000Z",
       "first_seen_at": "2026-10-31T01:44:28.132Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -369,22 +399,6 @@
         "f63e66d9eb319d29"
       ],
       "sightings": [
-        {
-          "source": "techcrunch-ai",
-          "outlet": "techcrunch.com",
-          "title": "Anthropic warns that it’s very close to RSI capability, aka self-building AI",
-          "url": "https://techcrunch.com/2026/11/02/anthropic-warns-that-its-very-close-to-rsi-capability-aka-self-building-ai",
-          "published_at": "2026-11-02T22:14:50.000Z",
-          "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "techcrunch.com",
-          "title": "Anthropic warns that it’s very close to RSI capability, aka self-building AI",
-          "url": "https://bsky.app/profile/techcrunch.com/post/3mzee42g7pg2l",
-          "published_at": "2026-11-02T22:17:47.000Z",
-          "tier1": true
-        },
         {
           "source": "guardian-ai",
           "outlet": "theguardian.com",
@@ -447,7 +461,8 @@
         "techbuzz.ai",
         "tradersunion.com",
         "ua.news",
-        "washingtonexaminer.com"
+        "washingtonexaminer.com",
+        "wionews.com"
       ],
       "tier1_outlets": [
         "bloomberg.com",
@@ -455,7 +470,7 @@
         "ft.com",
         "reuters.com"
       ],
-      "corroboration": 13,
+      "corroboration": 14,
       "sources": [
         "bloomberg-tech",
         "bluesky-ai",
@@ -685,108 +700,73 @@
     },
     {
       "id": "b3f4b042d3cfa",
-      "title": "MIT: OpenAI’s GPT-6 Astra Edits Qwen Weights, MATH-500 Up 6x",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQN19wcTR0OFhDZG1YUlRnRGRFZWJUV0lUZ216azRMWVktTW0xa2tfNU9Xa2Y4NU9ZUXRZTDllQ1ctLVhTeHlyZmlDbVBqUkM5NFRveVlzbGt1MnRHYUdJOE5SNWdCWEFibU1NdENkM21xc3Z6WWgwWTRLRXRMV19hVlktRnZhTU16THBYU0pn?oc=5",
+      "title": "Can AI fix another AI's brain? MIT researchers use GPT-6 Astra to boost Qwen's maths skills",
+      "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxNWTRkTjlpY2c3TnlFbXBlWFo4VVdTRWlWTWhtX1FYR0xiNzViUEUxcjNzZUREUGZnN0F4S1NROFJKRUFCNDF5UFVvV1Q2Z2t6d25pZ2NEeTJCRXREajNDVmNLNTc0amx2V1pkanBmZUNtSWxuMjVOU21hdHhKeENkNVR3ZlRTdUlLMTlZdzZkR1ZibGdhR3V1MVNod1FPMEJnNUlvbnc0TkU1MnU5NWtOdmhjOWMxNHpPY0hkYzIzWmlyWEhjXy1JZHRqOC1VNUZZbEJQMFBZejVBemZlbjJOdGw1TkdoMXNyTzhF0gHwAUFVX3lxTFBOd3BmVkZRUGhOdWVGdTZuMWRrSERUWjd4MVdmNEU0bXF4Tmc3M21tT2FCYzhuQkpFX3RPanZnU0xWRUlWeWlXbmNCWGZhVFN1R3ozeXEwcDBvYVFUYXV3ekFxUXgwSGJ5eWlHNzlaMFVtSXl4MWJxREJjemZuYkw1SFZ1OWM1LUF5SnZPTmFESkRWdk4wekI1RFdWQXV6WEdZSDFaSWNldmNUYTF6UFZYeTFfT1lBcEozeUlrSEU3aGtnM0hwejBqSUVvX2lScWREMjZ1VnM0dnZfS3RwRmUtMEtSOHl0aEFubEV6dFpueA?oc=5",
       "source": "gnews-ai",
-      "outlet": "fourweekmba.com",
+      "outlet": "indiatoday.in",
       "outlets": [
-        "fourweekmba.com",
-        "github.io",
-        "kingy.ai",
-        "officechai.com",
-        "venturebeat.com"
+        "indiatoday.in",
+        "inshorts.com",
+        "tokenpost.com"
       ],
       "tier1_outlets": [],
-      "corroboration": 5,
+      "corroboration": 3,
       "sources": [
         "gnews-ai",
-        "lobsters-ai",
-        "reddit-singularity",
-        "techmeme"
+        "reddit-singularity"
       ],
       "rule": [
         "two outlets within 20 min"
       ],
-      "earliest_published_at": "2026-11-02T18:45:06.000Z",
+      "earliest_published_at": "2026-11-03T00:44:10.000Z",
       "first_seen_at": "2026-11-02T19:04:19.618Z",
-      "latency_s": 1154,
+      "latency_s": 0,
+      "clock_skew": true,
       "breaking_at": "2026-11-02T21:13:29.737Z",
       "item_ids": [
-        "119ffe64378357c5",
+        "091fe3cdd98e989f",
+        "09c281d94b17e971",
         "31626ad53e927bfa",
         "32b3bf2b225f3d4c",
-        "51609dad060386f5",
-        "93408c6b8e7199ac",
-        "a8c0cd8ab38262e9",
+        "68c896a01ff324d5",
+        "7b75e133dc09e488",
         "b676e8ca26ad3434"
       ],
       "sightings": [
         {
           "source": "reddit-singularity",
           "outlet": "reddit.com",
-          "title": "Sparks of Weight-Space Programming: LLMs can natively read & write neural network weights",
-          "url": "https://reddit.com/r/singularity/comments/1xm5oy9/sparks_of_weightspace_programming_llms_can",
-          "published_at": "2026-11-02T18:45:06.000Z",
-          "tier1": false
-        },
-        {
-          "source": "lobsters-ai",
-          "outlet": "github.io",
-          "title": "Sparks of Weight-Space Programming: LLMs can natively read & write neural network weights",
-          "url": "https://rikiyat.github.io/blog/weight-space-programming",
-          "published_at": "2026-11-02T19:04:19.618Z",
-          "tier1": false
-        },
-        {
-          "source": "techmeme",
-          "outlet": "techmeme.com",
-          "title": "Researchers say LLMs can be good at natively reading and writing neural network weights; GPT-6 Astra edited Qwen3.5-0.8B's weights to make it better at math (Rikiya Takehi)",
-          "url": "https://techmeme.com/261102/p36",
-          "published_at": "2026-11-02T20:00:53.000Z",
-          "tier1": false
-        },
-        {
-          "source": "reddit-singularity",
-          "outlet": "reddit.com",
-          "title": "MIT researchers say GPT-6 Astra improved a small Qwen model’s math score from 7.9% to 48.1% by directly editing just 0.016% of its weights, without gradient-based training.",
-          "url": "https://reddit.com/r/singularity/comments/1xm89o3/mit_researchers_say_gpt6_astra_improved_a_small",
-          "published_at": "2026-11-02T20:18:42.000Z",
+          "title": "Seems weight space programming is an emergent capability on new fronteir models",
+          "url": "https://reddit.com/r/singularity/comments/1xmesfd/seems_weight_space_programming_is_an_emergent",
+          "published_at": "2026-11-03T00:44:10.000Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "officechai.com",
-          "title": "AI Models Can Understand And Improve Model Weights Through \"Weight-Space Programming,\" Says MIT Research",
-          "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE83VE1kTGpFUGhiR1hOaWlUVDhqWWIxV2F3d2l2WlJ1WWNMbmhJTnZRdGI3Sjl2NXd5WHlpUENobm9UZUxhQ3dTZXpISnRyTG10MlFMZ3NTOEQ3dTNLaXh5Ug?oc=5",
-          "published_at": "2026-11-02T20:26:58.000Z",
+          "outlet": "inshorts.com",
+          "title": "Researchers use AI to edit another AI, boost its maths score from 8% to 48% | 'It's possible to just ask AI to fix another AI' | Inshorts",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQMEQwLUxfbm5BN3RoNlB6aW5Nd3U0MUlYRW1ETEpzdzA0NFY4anJWcUhscmdjRUpUZkxHTFU5Q2NIanhVNXk2eFhNNXhfTjlyRnlXX016cFRPaFNQaW50SHg5VFZ5ejlya3JRQUg5OEZOeEhFdjEzVlYyWmplR2Mzb191aUVWVHNsMlpRRnE5bkEzZ0dJbXBJOGJvU2ZlWmJKRHlsdS1kZDkyeEtrMHhuS0pGbnlqQktTTUHSAb8BQVVfeXFMT1VpaUpJLUJmMkxSZldpc08tZml1b2JmYko2cGJEaTBndmRRTG1IZDFuVjc5VkI0eHp4bVhKeG4zN3VwM2p1RWYwQl96clFTNTlJM1dLeWVFNGx3amdLYTBhUW91aHVkM0JIQ25sYi1EMjEzSE1lYjlSdktTdnJYMThPZWxOVmlRb0NLMG15blQ1OHV6eDFGWVV3UGJUSXREeGh3NEt1eUR2TEh0VDRRdDdhb21JZk9LRjBmLWFGcHM?oc=5",
+          "published_at": "2026-11-03T03:56:31.000Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "fourweekmba.com",
-          "title": "MIT: OpenAI’s GPT-6 Astra Edits Qwen Weights, MATH-500 Up 6x",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQN19wcTR0OFhDZG1YUlRnRGRFZWJUV0lUZ216azRMWVktTW0xa2tfNU9Xa2Y4NU9ZUXRZTDllQ1ctLVhTeHlyZmlDbVBqUkM5NFRveVlzbGt1MnRHYUdJOE5SNWdCWEFibU1NdENkM21xc3Z6WWgwWTRLRXRMV19hVlktRnZhTU16THBYU0pn?oc=5",
-          "published_at": "2026-11-02T20:34:08.000Z",
+          "outlet": "indiatoday.in",
+          "title": "Can AI fix another AI's brain? MIT researchers use GPT-6 Astra to boost Qwen's maths skills",
+          "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxNWTRkTjlpY2c3TnlFbXBlWFo4VVdTRWlWTWhtX1FYR0xiNzViUEUxcjNzZUREUGZnN0F4S1NROFJKRUFCNDF5UFVvV1Q2Z2t6d25pZ2NEeTJCRXREajNDVmNLNTc0amx2V1pkanBmZUNtSWxuMjVOU21hdHhKeENkNVR3ZlRTdUlLMTlZdzZkR1ZibGdhR3V1MVNod1FPMEJnNUlvbnc0TkU1MnU5NWtOdmhjOWMxNHpPY0hkYzIzWmlyWEhjXy1JZHRqOC1VNUZZbEJQMFBZejVBemZlbjJOdGw1TkdoMXNyTzhF0gHwAUFVX3lxTFBOd3BmVkZRUGhOdWVGdTZuMWRrSERUWjd4MVdmNEU0bXF4Tmc3M21tT2FCYzhuQkpFX3RPanZnU0xWRUlWeWlXbmNCWGZhVFN1R3ozeXEwcDBvYVFUYXV3ekFxUXgwSGJ5eWlHNzlaMFVtSXl4MWJxREJjemZuYkw1SFZ1OWM1LUF5SnZPTmFESkRWdk4wekI1RFdWQXV6WEdZSDFaSWNldmNUYTF6UFZYeTFfT1lBcEozeUlrSEU3aGtnM0hwejBqSUVvX2lScWREMjZ1VnM0dnZfS3RwRmUtMEtSOHl0aEFubEV6dFpueA?oc=5",
+          "published_at": "2026-11-03T04:18:19.000Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "kingy.ai",
-          "title": "Weight-Space Programming: GPT-6 Astra Edits Qwen",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE4xZkhieW8yX0VKdkZWNGxhOEVfNXdxSVplNVBGRko3Uy1uZi0zM3pYbXE3NUg4bVctdUFsbFNVS2hQZ0FNekFPUjdpZm9yVEp5bWJSeEtpNEdhbV85dHlJQ2F4TXJGbXhWT3NuYjlQeDVxYzNrUGdlc3hB?oc=5",
-          "published_at": "2026-11-02T21:33:19.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "venturebeat.com",
-          "title": "'Like gene editing for neural networks': MIT researchers used GPT-6 Astra to edit Qwen's open weights directly, boosting math performance",
-          "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxNVE9yblFoMWhHbklPREJlcjM5SjJ1UDNDQkdXOE1UUUR6MVFvaWNtamE4M1ZCMmhrSFZPeHNOcmRuNXh3LWNHREpzSnVGRlJTdmJVWWZrSDdkZXp0cUVTMDdMZzJnaTZwTW4zRHBDNVB1R2tLdTdKbWFQV3pSa2Z2SVpiTHJnZFR3UVdNX2VWNHIwQ2xxZ2ZnT0lURWVzQXNjWnNMLVZVM09Wd2p5ZVRTLVpRT2FiWmc5d2xNX0lqLUg3aWxic2ExSWlRTFVzTjVxX0tjampCWEVkaE1jaDctbkRYb0Vka1UzQjRRREh6REYybUtBekxHNm82Zw?oc=5",
-          "published_at": "2026-11-02T22:16:00.000Z",
+          "outlet": "tokenpost.com",
+          "title": "MIT Researchers Raise Qwen Math Score to 48.1% With Weight Edits",
+          "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBZRkZRaTFyeUtSVWlMa3FQMHR4c3VER0ZlSTJpY2xoQUZHZTNZTWVKZnRDNHJpOEJtNExwNUVDcDJXMUlITGNSc1pJRW1SY1ZQQ3I2a1RqMGk3Yjg?oc=5",
+          "published_at": "2026-11-03T04:23:00.000Z",
           "tier1": false
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "bf64c7baa86c4",
@@ -797,11 +777,10 @@
       "outlets": [
         "aninews.in",
         "beincrypto.com",
-        "biggo.com",
         "bloomberg.com",
+        "chosun.com",
+        "indiatimes.com",
         "investing.com",
-        "kucoin.com",
-        "nai500.com",
         "ppc.land",
         "reuters.com",
         "streetinsider.com",
@@ -811,9 +790,8 @@
         "bloomberg.com",
         "reuters.com"
       ],
-      "corroboration": 11,
+      "corroboration": 10,
       "sources": [
-        "bloomberg-tech",
         "gnews-ai",
         "wires-ai"
       ],
@@ -821,7 +799,7 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-02T22:23:53.000Z",
+      "earliest_published_at": "2026-11-02T23:16:26.000Z",
       "first_seen_at": "2026-10-30T17:12:07.202Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -832,7 +810,7 @@
         "0764d8ac7f4bc0f3",
         "1ad158fed67854a5",
         "1cf30f378f6702c2",
-        "1ef4f20a15745229",
+        "23c57d1f6ac714c6",
         "251c0bac2fc7f9a4",
         "27adcb601aaa01e6",
         "2d889fbec98baa38",
@@ -841,34 +819,22 @@
         "4c51cc287fbb4070",
         "4f253b5f73797428",
         "5cbacc5d5157e13e",
-        "5d292bafd903d5ce",
         "61804e3c7c7221ed",
-        "6533a20fe72158a6",
-        "66e100b559006bfa",
         "933fd030f1efc51b",
         "944412e69ff72298",
         "9e09abdafee47b43",
         "aaf66bdeceb674c5",
         "af8265c03cc9ea28",
+        "b7f1f365a055674e",
         "b8bcb578378175aa",
-        "bf01300c9b37b6b2",
         "c4edead64175d034",
         "d07da551ce96c005",
         "e284c37124453632",
         "e593f1d0d8c59b9f",
         "e7b582b4f98dde75",
-        "ebd815c9adf8bf68",
         "f5daa14eb0f276d9"
       ],
       "sightings": [
-        {
-          "source": "bloomberg-tech",
-          "outlet": "bloomberg.com",
-          "title": "Anthropic Taps Macquarie, CommSec for Australia IPO Retail Offer",
-          "url": "https://bloomberg.com/news/articles/2026-11-02/anthropic-taps-macquarie-commsec-for-australia-ipo-retail-offer",
-          "published_at": "2026-11-02T22:23:53.000Z",
-          "tier1": true
-        },
         {
           "source": "wires-ai",
           "outlet": "bloomberg.com",
@@ -876,22 +842,6 @@
           "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNZnU3bUhhUmpLbE81TlJUeFlMX3RXN2VlRXFtRTVicUVIX0tuRVUyeGpVUGo1VHhUQVM3SFRwMEM2UW1IX01FNWJ0dWlUVUlmTEhFakhaM0NLdDExQ0l6aTV6LVFKdHJXWEFOV0lvaU9qUG9ydWk4NXlCcU5aVTFmX29vemN2OXhSYXdSXy11MnBJQTRlckNhbQ?oc=5",
           "published_at": "2026-11-02T23:16:26.000Z",
           "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "biggo.com",
-          "title": "Anthropic's Governance Structure Draws Scrutiny Ahead of IPO as NYC Comptroller Says Shareholder Rights Are Being Hollowed Out",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5fcmY1S0ZFbmc3RXdNQloxRTJaYVdDcC00RTNqX3c5OFhGdm5MUTdOOExvNnpLLTlpaExmVVF0MnBseXExaGtWSUZvc0ZhMnFyWGcxZGZWYkRNOHNQMF92ckZwWUJ5eVRxbjZJX1V6U2xNeGhiRnc?oc=5",
-          "published_at": "2026-11-03T00:56:00.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "kucoin.com",
-          "title": "Anthropic Rumored to Test Claude Fable/Mythos 5.5 Ahead of IPO, OpenAI A/B-Tests GPT-6.2 Astra",
-          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNTjJXM1AtTW42eFFEV01wZ1NyTnRsVXZYQVpyY01iNlNpVmRTRmZWLTNrSkRhQUctR0NBeTljYTFhd2R0S3BxNGdJTEhuQ2lmV3J6UU1iUWU3MHdPUzZpZGpHY0twSWVYeFlQajJ6VlYtRUxCZ3pkalJmR1NNSU9sN3prQVlmOUdCTmt5SkFwSl91NXlQZ2JfVnZ0Ym8zOHlZYTdmVy1XcmVITFhmbnhCalloeGJsaWN4Vi05VnZqbGFzUlVJeWc?oc=5",
-          "published_at": "2026-11-03T00:57:20.000Z",
-          "tier1": false
         },
         {
           "source": "wires-ai",
@@ -927,14 +877,6 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "nai500.com",
-          "title": "Anthropic’s Revised IPO Prospectus Reveals Steep Q3 Revenue Slowdown, Clouding $1.5 Trillion Valuation",
-          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQTnp5WDJKQk95NUlCalJaRnZUWEdFWXpqNVg3OFVIVXNLQ0RfUHRra19zUF9kYzBvSGNDRzZjb21fWXZQaEpISHRsYjBuMkxsLTdWT1p3RnVLM21vRGZXNnVnZUlzOUYyZE96akIyX1VNMnhTeExMRDZsSldlZXlNUFhUV1A0dFRKMkVTb1FvMVlxTFRmMnhhbWFublBja2VlTC1XMWpnb0dNcUxkUF94bWpackdPRV9Da29RanFkX3B3ZHhScUZzSlRWdm4?oc=5",
-          "published_at": "2026-11-03T01:05:45.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
           "outlet": "beincrypto.com",
           "title": "Robinhood Pushes for Bigger Retail Share of Anthropic IPO as Allocations Grow",
           "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBLM0xMZzAyempvOTl3UDJMcWp5cjVKeFdacHFMZHZ6c2hMSjN2ekxZS3JqZVA4VmhZY3MzSFJjT19nVkkzRGZGM0dobXN1YXUxcVN3LWtrMlpSUGFDWEY4ZG1QLWgtRlZFZXVlZGV6LVREdkFjSGRPejdR?oc=5",
@@ -955,6 +897,22 @@
           "title": "Anthropic revenue surges 1,127% to USD 17 billion in Q3, higher computing costs weigh on margins",
           "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxONGFGYVR1SDVMQUJXSC1tMXdhZUxYaWtlc3Z5VWFPMjFCOUZDTW9ydjNQdk9sbUxWbGl6Umd2akNKME5OQ3dMRmdiVjBncnBzOG44N25NRlhjbTEzQlhxU0VwMkt4Z3ZObFFGRlplQ0Q0ZlBIUEk0bm1lN2xKN05sc0NhNmZBZlJNVkpxaEFzcUdfOFNQaG9mRVFQU05SQUE5SGJ1b2VLR2Mta25relRJYlgyTlNWUnV1d0dxcjJqMzA3WG5lSk9BQkI3U2FZYllLVGJFWFNmY2w0UWNs?oc=5",
           "published_at": "2026-11-03T02:59:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "chosun.com",
+          "title": "Investors push Anthropic IPO valuation down to $1.5T amid AI worries",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE0zWEJOT3hPY3NIZ1ZGSHg4SnQ0SktUaW1jWTN1YjhaeEQxZ0ZqRUpsNlI1MTJOTmZaaDZ6VGJXZ2dJaE9oVmdhUzBlV3djdWlyUmtiRWpYX0I1WXZkUk1HbU4xM2pRMFFRV0hfUDRrSjJIR0pGOXYtaUpB0gGOAUFVX3lxTE9zTHFXcTBiSm5qTlJfT3ZJRk1LZzl6cHY3Mm9hQ1FOTm1XLWI0N2wxd1ZwM1pzaGhXRE8xdzBxWUdTMHFWVVhScENpUy1Ua2kxRlcwbW5iYUs0Vm56c04ta2FESlQzVk1uWno0M0lTS2FpeE9lX1F4dTJJZkR6ZWdNUnRUa3ZNLURQQVp5NEE?oc=5",
+          "published_at": "2026-11-03T04:29:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "indiatimes.com",
+          "title": "Anthropic Q3 results: Revenue soars 1,127% to $17 billion, operating loss stands at $567 million",
+          "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxOYWZLRU9OcFRHSVR0UUlWbmoySTl4Y1hFSnVSelFJcENpVDFRV0R6dGxQbGRFNWNTTXAwR3R3Si1FTTJiR0dBTDNoX2tvdFBhZjctVEcxWjNVcUZDUnVpS0xNYk9XRzNrNUZ1RkttRmlObW85YWJYeXh1Z2JMTTEwYkdPZTVZTmc4cUlqUmZ0UUJYR0pOR0xWWVFBcGhmQU9WU3VaeFN2TGRHT2dKOGxZRElqazk1dmVIbkVONkFXb2c2UUJQdXc1X1UxeVhVZncyc1VUekFBS0ZZLU1JUU55emlzRmJJaFZzZ0hXR1J3MlY5aGkzS3c3UzlDV09RYkhSS2pnTTF6R3F6QXYzdnc1Wl930gGXAkFVX3lxTFBPaDc3SmdIX0thNkg4S09hcGxWZ2VIc1NZOVdCVDhkR05RZV8yRURsSTQtYUdIWUlCTzYwclo4OUcxSklBUFlVYmU2OUhCYkN1NzZnalhhMm1UX2ZwMm1vc3dENG5FeUhXUkhHeDlLbnNkRUMzY2JlUTRpZFZNZGlSdUZJYkQzZndrblRVN2FiX1dqQWxDU25yQ25lcDA4SE1NemRPNlg3aHpfRjRPZFk2UDJfa0ZfYXh0V2MxN3MzT0dwV21PY0MxLWxnRGQzSUZUdUpyVmNnTy1aNWRhRVV3Uzd3OVdKSHZPSWxCTmRPOUFNV3VPbVFVUGVNTm5BVHluNjdaQWFIaWQwMTluRDRmZjc1aVNYZw?oc=5",
+          "published_at": "2026-11-03T04:36:00.000Z",
           "tier1": false
         }
       ],
