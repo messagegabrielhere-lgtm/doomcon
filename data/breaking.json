@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-03T06:54:28.340Z",
+  "generated_at": "2026-11-03T07:32:14.705Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 8,
+  "live": 7,
   "fresh": "b0c5881b2f7fa",
   "clusters": [
     {
@@ -57,6 +57,7 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
+        "kfgo.com",
         "reuters.com",
         "scmp.com"
       ],
@@ -64,7 +65,7 @@
         "reuters.com",
         "scmp.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "bluesky-ai",
         "gnews-ai",
@@ -93,14 +94,6 @@
           "tier1": true
         },
         {
-          "source": "gnews-ai",
-          "outlet": "scmp.com",
-          "title": "China’s ‘Lipstick King’ hawks tokens as AI gets mass-market Singles’ Day push",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPTFhqclJ0M0ZFWkp5MkV1R0FTTk5xZEpBbVM2bWQ3eEw3aDVsYjdINy14bkpPT2tOSGNlUHo3WUlaLTgzN0RXSVpWSVE4WWFjWW1lamQzZXdzLXc3TFNsQlhuVm02WWNPaFRmQjItQ2pOV292b1dzWVFtSEJlbFc0b3dEc3JXTXFNMFhobkJhUXA5akdfX0JQc2RVNUdfR25KU0xDN3U4VlpNc21NQ1VjVzlfejZQQS1lSHJLdjJn?oc=5",
-          "published_at": "2026-11-03T06:30:09.000Z",
-          "tier1": true
-        },
-        {
           "source": "wires-ai",
           "outlet": "reuters.com",
           "title": "China's 'Lipstick King' touts AI tokens in first for Singles' Day festival",
@@ -115,6 +108,14 @@
           "url": "https://bsky.app/profile/reuters.com/post/3mzfaqdxdmc2i",
           "published_at": "2026-11-03T06:50:12.000Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "kfgo.com",
+          "title": "China’s ‘Lipstick King’ touts AI tokens in first for Singles’ Day festival",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNVXhQRDVYQy1xcUhENkszYzNlZGZTNkdSdUlQb1FvTUstd2ViVUdKT0QxR0dwSlZiOEo1NFdOcVJCYnFhajlQWUowVnAzUUJaRkpiVXhjY2JaTnUwOXFFM0ZrTUc3c08tNVRVazRTaElkSlpWUGh6N3RoYld0ajA0V2FmNngzZS01S2piRG9sakdCaHliemFfQzJqV3Aza1px?oc=5",
+          "published_at": "2026-11-03T06:53:27.000Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -206,6 +207,7 @@
       "corroboration": 3,
       "sources": [
         "bloomberg-tech",
+        "bluesky-ai",
         "ft-ai",
         "techmeme",
         "wires-ai"
@@ -262,6 +264,14 @@
           "title": "Nvidia Tells Data Center Clients to Trim China Business, FT Says",
           "url": "https://bloomberg.com/news/articles/2026-11-03/nvidia-tells-data-center-clients-to-trim-china-business-ft-says",
           "published_at": "2026-11-03T05:39:37.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "reuters.com",
+          "title": "Nvidia orders data centre clients to reduce China exposure, FT reports",
+          "url": "https://bsky.app/profile/reuters.com/post/3mzfbl2h6up2i",
+          "published_at": "2026-11-03T05:57:44.075Z",
           "tier1": true
         },
         {
@@ -327,7 +337,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b704b98731493",
@@ -399,16 +409,13 @@
       "source": "wires-ai",
       "outlet": "bloomberg.com",
       "outlets": [
-        "bloomberg.com",
-        "business-standard.com",
         "ft.com",
         "seekingalpha.com"
       ],
       "tier1_outlets": [
-        "bloomberg.com",
         "ft.com"
       ],
-      "corroboration": 4,
+      "corroboration": 2,
       "sources": [
         "gnews-ai",
         "wires-ai"
@@ -416,13 +423,12 @@
       "rule": [
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-03T01:04:59.335Z",
+      "earliest_published_at": "2026-11-03T03:09:00.000Z",
       "first_seen_at": "2026-11-02T13:30:52.194Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-11-03T02:35:31.500Z",
       "item_ids": [
-        "60ced11647386663",
         "80ff23faaf2ed9c7",
         "aebee300b18542c2",
         "b22c5f2901f3e190",
@@ -433,27 +439,11 @@
       "sightings": [
         {
           "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "Oracle Is Near $10 Billion Share Sale at 11% Discount",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNZnczY1BoREE4MUxrXzNMSHR2RTF3WC1xbk1MYWZsSld3SnA0S09fRXZMM3NlbkR3N2pBazJaMlBzRWZwR3ctQ3M2T3UxcGc0UWtWdmVndWV4WXFSV0lLWEU1MGpMSVFVVV91YWxjTkEwTy1BenpOQVR3dzhmSlJyVzMtSkJPQjIydXY0TmUyRGpXYUV6ak9yaE5sSU9qQWpSQzhIMDZ5TFMwcjBsdk5N?oc=5",
-          "published_at": "2026-11-03T01:04:59.335Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
           "outlet": "ft.com",
           "title": "Oracle Announces Pricing of $20 Billion of Common Stock and Senior Notes",
           "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQVW5vSHNUZi1rSmVNaW10VmlSSmhhR3pMQkliaVpjMFl6cHBzRFRJaENyZmlHeU1PTjdSMGJRaVEwTWtnQ1ExS0JVYWwwUDFTRTdnZk1GN2pDeERCNHFjdWFya0pFZlJqN29mV1ZzaWN2aEFDTG11dm1sNFVNR1loN05xMkRzRm9HYktQb2wwYzNUZzVPZUZFQQ?oc=5",
           "published_at": "2026-11-03T03:09:00.000Z",
           "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "business-standard.com",
-          "title": "Oracle raises $20 billion through stock and bond sales to fund AI push",
-          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQWXEzQkFFQ0YwOGViV0dkTVMzd0dYTUc3WTF3NUk5RzZtTWtXN3ZxYnBETUtnY3ZjSU84dUFRaFV1R25DblB5c3Ryai1sQWlnUFBFSnZDc1RmUE9oQzFwTHRpbndwNXNBUkdvV3Y3eFBBbEVCaE5pV3ltNDlrd1RPaGZSenBNZkpIelNaVDZLS1VHV2hjN1MxcHF6SjRMQWgtam9Ld0JBYjdiWmdNVEVRY0FFeldKQlNHU3FEcDZwckt5aC00OC1yd1poOW54VW_SAdQBQVVfeXFMTk8tN0NaNnpEUWpsdE0yWUNkTndfV2tDTXhRTm5WU1dRQ0JLME1PUUFBRV84aGlXSFN4SVoyQ3kzVWRLYU1oVkFJZnFqcms2UXJrZUo3OXNta0JkTTdVaHB1T0g2T0ZTX1BIZEdBQmZrMFh1M0JaOXRWenhjdVZxQmp3WGlVdDR2eVU1aXE3X0d4UW5rZWhUZEZUWjdHS25DcTJzME92QTV5bDlnQUFfUkNIN2tIQzhGX2lKTk80VW9GNk9maW8wampOTXV4LWg0YnRFOWY?oc=5",
-          "published_at": "2026-11-03T04:29:47.000Z",
-          "tier1": false
         },
         {
           "source": "gnews-ai",
@@ -984,42 +974,31 @@
       "outlets": [
         "bloomberg.com",
         "businesstimes.com.sg",
-        "indiatimes.com",
-        "investing.com",
-        "reuters.com",
-        "streetinsider.com",
         "thereport.live",
-        "ua.news",
         "unite.ai"
       ],
       "tier1_outlets": [
-        "bloomberg.com",
-        "reuters.com"
+        "bloomberg.com"
       ],
-      "corroboration": 9,
+      "corroboration": 4,
       "sources": [
         "bloomberg-tech",
-        "gnews-ai",
-        "wires-ai"
+        "gnews-ai"
       ],
       "rule": [
-        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-03T01:01:00.000Z",
+      "earliest_published_at": "2026-11-03T04:18:29.000Z",
       "first_seen_at": "2026-10-30T17:12:07.202Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-11-02T21:13:29.737Z",
       "item_ids": [
-        "0155276c53390818",
         "02bedbd8fea28b4b",
         "072461f8603cc21e",
         "0764d8ac7f4bc0f3",
         "1ad158fed67854a5",
         "1cf30f378f6702c2",
-        "23c57d1f6ac714c6",
-        "251c0bac2fc7f9a4",
         "27adcb601aaa01e6",
         "2d889fbec98baa38",
         "4c51cc287fbb4070",
@@ -1029,7 +1008,6 @@
         "78f11dcd479a765a",
         "933fd030f1efc51b",
         "944412e69ff72298",
-        "aaf66bdeceb674c5",
         "b8bcb578378175aa",
         "c4edead64175d034",
         "cc289800073bb15b",
@@ -1041,52 +1019,12 @@
       ],
       "sightings": [
         {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "Anthropic plans Australian share offer in IPO, CommSec says",
-          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOemZuN3Ria3VJdnlTMFphelNDSWFHeUpvM2dVa3JHNkdUQlZuWjRvZEdWS0c5c3BVQktYc2dkYWJERnVRblgwNUZOcjFpNTBIWTgxREtFazR0emkybTFIeVpaTmVnLTZ0YUZZUUtPX1Q1bEtRSzNnVy1rMDNPdUNzQVg2QTQ3MnJCeDgyLWdudi16ZVRqVGlIWHZXR3FDTF9CZkFKa25ESXVVVFJP?oc=5",
-          "published_at": "2026-11-03T01:01:00.000Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "streetinsider.com",
-          "title": "Anthropic plans Australian share offer in IPO, CommSec says",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPRVpFX2o3RG9CVE9pX1BLUXBCTklyYUpaSU1sUGlTZ25fRlNXWkJhTHpnRE9hT3JlMUFZVlRRSFE0SXFCV24tdDhabTZ0Z2NabGhnNlBIcUp1ZmRNNEVoZ0RnM3FrLVd2RTl3SFd3T2twTjNVTGt6TGlKMHNWa3psRHFJNl9IbFJJWDlGSXhWSXIxZDRzUHI3Y3NWcTV5T1pKZHRpdVI5WXczbE5Ranl6eEI3cw?oc=5",
-          "published_at": "2026-11-03T01:02:53.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "investing.com",
-          "title": "Anthropic plans Australian share offer in IPO, CommSec says By Reuters",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQYmlyNl9GRk5NdGtZMWlIWjNBLXN0TjB5cUxJQjJkcjY4YmxWQlp2ZDh1aWZWY1k1ODY4b2VydUNBam9VeEdMS3d2aU5xVnEtdDRiQUoxUjBXNmJ3ZjYxR2x6RUtjR3NsLU5IX25tLUpzWW8wU2ppZWs4SGthRTN6NlZwX2VvTEw0dHZCZHBFUzBnM0EzcGh5LU9Da0dvQkJ3YjJjNGg5ZEJ2RGRHdjJzUTFmemNMZw?oc=5",
-          "published_at": "2026-11-03T01:04:59.335Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "ua.news",
-          "title": "CommSec: Anthropic may include Australian share offer in IPO — Channel NewsAsia",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQQld1a2l6RkloOGwwci1oa0VuMEVhN3QxRE5ja3pkNXVBRHFKZlg1R2JRZ3lEZTVVRzZvdE11RW5nZ2FXY3k0dmE4cXRUd1ZqUTBDQ2VpbGRCSXN3TFV1bzdjUGhxMlktQjVrVHpWc1ZZZVNxR3Z1MVJzTi02UEU2M2ZpSE0yVmVzTk5UWWtHQThHRU1xZ0h1VnNac3NJTjF3QTY0b092SFdCMzdSREFuV28tX2pZdmM?oc=5",
-          "published_at": "2026-11-03T01:04:59.335Z",
-          "tier1": false
-        },
-        {
           "source": "bloomberg-tech",
           "outlet": "bloomberg.com",
           "title": "Morgan Stanley CEO Sees Up to $15T AI Investment Wave",
           "url": "https://bloomberg.com/news/videos/2026-11-03/morgan-stanley-ceo-sees-up-to-15t-ai-investment-wave-video",
           "published_at": "2026-11-03T04:18:29.000Z",
           "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "indiatimes.com",
-          "title": "Anthropic Q3 results: Revenue soars 1,127% to $17 billion, operating loss stands at $567 million",
-          "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxOYWZLRU9OcFRHSVR0UUlWbmoySTl4Y1hFSnVSelFJcENpVDFRV0R6dGxQbGRFNWNTTXAwR3R3Si1FTTJiR0dBTDNoX2tvdFBhZjctVEcxWjNVcUZDUnVpS0xNYk9XRzNrNUZ1RkttRmlObW85YWJYeXh1Z2JMTTEwYkdPZTVZTmc4cUlqUmZ0UUJYR0pOR0xWWVFBcGhmQU9WU3VaeFN2TGRHT2dKOGxZRElqazk1dmVIbkVONkFXb2c2UUJQdXc1X1UxeVhVZncyc1VUekFBS0ZZLU1JUU55emlzRmJJaFZzZ0hXR1J3MlY5aGkzS3c3UzlDV09RYkhSS2pnTTF6R3F6QXYzdnc1Wl930gGXAkFVX3lxTFBPaDc3SmdIX0thNkg4S09hcGxWZ2VIc1NZOVdCVDhkR05RZV8yRURsSTQtYUdIWUlCTzYwclo4OUcxSklBUFlVYmU2OUhCYkN1NzZnalhhMm1UX2ZwMm1vc3dENG5FeUhXUkhHeDlLbnNkRUMzY2JlUTRpZFZNZGlSdUZJYkQzZndrblRVN2FiX1dqQWxDU25yQ25lcDA4SE1NemRPNlg3aHpfRjRPZFk2UDJfa0ZfYXh0V2MxN3MzT0dwV21PY0MxLWxnRGQzSUZUdUpyVmNnTy1aNWRhRVV3Uzd3OVdKSHZPSWxCTmRPOUFNV3VPbVFVUGVNTm5BVHluNjdaQWFIaWQwMTluRDRmZjc1aVNYZw?oc=5",
-          "published_at": "2026-11-03T04:36:00.000Z",
-          "tier1": false
         },
         {
           "source": "gnews-ai",
