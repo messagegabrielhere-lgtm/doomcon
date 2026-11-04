@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-04T14:29:08.293Z",
-  "news_generated_at": "2026-11-04T14:29:08.293Z",
+  "generated_at": "2026-11-04T15:10:31.061Z",
+  "news_generated_at": "2026-11-04T15:10:31.061Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -21,7 +21,7 @@
     "headlines_naming_a_company": 167,
     "companies_on_roster": 10,
     "companies_with_headlines": 10,
-    "negative_pair_share": 0.082
+    "negative_pair_share": 0.086
   },
   "glance": {
     "leading": {
@@ -32,12 +32,12 @@
     "trailing": {
       "id": "deepseek",
       "name": "DeepSeek",
-      "index": -2.7
+      "index": -4
     },
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 44
+      "headlines": 40
     }
   },
   "companies": [
@@ -145,16 +145,38 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 37,
-      "index": 2.6,
+      "headlines": 38,
+      "index": 2.5,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "e185c59901259f5c",
+          "title": "What Makes India ChatGPT's Biggest Market? OpenAI's Sam Altman Shares His Take With Raj Shamani",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNLVpwQ3dWWVdDcllySy1tWElzVlpXQ2RfaTFudm5OQXlTSk1nTEliZDF4RjdFQXR6VTI5UEhsTWpRRm1uN25WUDRVMWZjTHRjSTNVVm9tNG91ZXdVRV9ZSml6bEVMeVp1ZURNaGExYXlCYU1nMEJZeWItazJfdWVFS1dfVklBOTVfdmZ5Wmo5ejRSSUtycXlmb3ZvamZaRzc5TXd0bTdpNERSY01wZGFXUkR4WnZ0UzZudVd0SnhxbnhpSE1hMGlPMHd0d1FQZGx0ZWhQYXhR0gHeAUFVX3lxTE9ERVFmdlc5MlI3VzZLVlFwcm5BcUloTWgtZGRxZnRsd2JFVmozbnVxdDNkMVlORkIySmx1enlWT3lQVWdxUlBYaVR6Ym5pYzM0Zm1CTjZlUXJSazh3ZUstdFotWERNZ29BdTdRckw3Q2lmXy1VXzRoMG1GeTFlSmY1UlBXbnpCQ3JaZzdtSEVuU2dWdjJOQmFlMUhUV0dZVUlhbGc5RV8xLU5sSllJNUFyRl81dHYyTlUxem1HUVZkMWRaWkUtdVplYkNvUmJFU2Z0SjVHLVdraTc3Sjc3Zw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:43:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1be4fdd8e6ca80f0",
+          "title": "OpenAI to acquire Pierre Computer Company, Inc.",
+          "url": "https://openai.com/index/openai-to-acquire-pierre",
+          "source": "openai",
+          "published_at": "2026-11-04T14:30:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "a48e9a932f70066a",
           "title": "OpenAI to rebrand its data centers as compute campuses as part of broader policy and PR push",
           "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQXzFaZW9pNk8xb2ptY0dIekF5Y3liZXgzSlhxY2RlSGVwOUY2RlN3WFlVZWtNWkkwYmxDb1VRb1FydG9DclZQYjd5ZVNqRWRWNy0zSDgxTUtIMk14aTZCb1JGNFkzMjdHNm4yRGJMRVdNSVZkeEdGOGlhaHVaR3k3cjFqajFMTDRBSmhGZHhueXdaX29LUXMtbUJ4X1doZVVDSUY1cDgxTV9OVWpYSEhiUWpSYzdEaG0xY1dsa1ZEYmMxYWhzbzZrZ1ZHZHV0QlRRYXc?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-04T14:06:58.000Z",
+          "published_at": "2026-11-04T14:13:07.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -218,38 +240,40 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "059951c7447ba41f",
-          "title": "OpenAI to buy developer tools firm Pierre Computer",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOeDJadzNhcG4wUmgzMk1wT2FOcnBxa2pCZW9USXJsREZPMER4cjRLMjk2eV9PcFgtV0RlUi1HMXFhZEUtZFQ2YWYwY0dCLXdlZkgyS2FEYU1OSDN5RjVlU3RpdVhoSmtaODhiMV9iY2xOSUtCUzdNZDhrU2tjV1BHV05ScjBMYk94U0FaNXJSVmJ6YnhrUWliMTJFRQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T12:12:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "cd45714ce12ca2b6",
-          "title": "OpenAI acquires developer tools startup Pierre Computer for an undisclosed amount and plans to integrate Pierre's Code Storage feature directly into Codex (Madison Mills/Axios)",
-          "url": "https://techmeme.com/261104/p21",
-          "source": "techmeme",
-          "published_at": "2026-11-04T12:10:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 16,
-      "index": -0.5,
-      "mean_headline": -0.1,
+      "headlines": 19,
+      "index": -2.1,
+      "mean_headline": -0.3,
       "sample": [
+        {
+          "id": "84a580ebd45132ef",
+          "title": "Ray Dalio Is Warning of an AI Bubble. Michael Burry’s Bets Against Nvidia and Palantir Add to the Debate.",
+          "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxOdjNUZ1ZpcjRWN2ZVenFNRzJUM3RFZE9yWWtmQkN1dlJibUZMWEV2SlQyaFA0dEhpUll6dVdJU3pzeEpoa25JNFZ3Mm9namYzU0UwOXRkQ01qWFdvWXQydVI1OTZ5UG8yRGFRWnIzeXZ3ZW1ncENiUTc2M1BNMmd3bDhrLTFVN3BrM05VUlJYLW1PR28xeWtoR3RPSHFZYnN0OXBmeGdMdjFBaUh2Q2k0Zld2UEkzMExwcDYzR01ueUtkMHotZk9PaEt0OTRtVEhvN1ZqWk5Rc083eXVDN3pJ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:36:26.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warning"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "43a9c2fbd8971d52",
+          "title": "The Sudden Death of an Nvidia AI Prodigy Leaves Behind Bitter Accusations",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPVG5uendtNnNFc0xkbm42NUZkMVdIMVVxU1k2NEhNWXVUOUE0UEdwNFpIdV9INXdRR0QteVJzanlGUmVybWV6Nk92bnBUTlUtV2NtaDdTc0ZtcmY4ZkJGU0dBaktkbHVfXzR2MGlPWE5RMWRCZ1RUZVhneDFMNTdqTWlienlTSGowNlZVaW9vb3lBd09XU3F2VkJxcDYwNXRTZ053MmpUR19vMld2V01z?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T14:29:24.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1929a98dd030dacc",
           "title": "ModelOp Unveils Industry-First Full-Stack AI Policy Enforcement With NVIDIA OpenShell",
@@ -260,6 +284,17 @@
           "positive": [
             "unveils"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d93ae24e8202ecb3",
+          "title": "Nvidia CEO Hints at Annual GPU Subscription Fees, Software Licensing Growth",
+          "url": "https://windowsreport.com/nvidia-ceo-hints-at-annual-gpu-subscription-fees-says-software-licensing-will-be-a-major-part-of-its-business",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-04T13:48:56.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -306,49 +341,49 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "ac73ac570b2cbb27",
-          "title": "Nvidia China Clients to Get 1% of $70 Billion RTX Chips Ordered",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOcDF2WGJ0VTU5c0hYZ3BSLTJzWHd4eHc2N0trQlNwZ2MzcjYwRnpOUXExalczVW9yODBJTXVnUDZ6MGVPQzI3allYS0Q3eG1qblB3Nm1oQlcyQ0xzOU9CTjdqR0dTeURvUzhSYkQ1dnJFbTVieFplUmU3Unh1VjlWNS02SVZWWk1NRVBWQ1hvWGxRczhqVWt4ektFUWRjMW1KMEpYRmpNY2N0X1dySmRuUzNB?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-04T03:14:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ca8cba1584819465",
-          "title": "How Nvidia uses soft power to influence customers and shape US chip policy; sources: OpenAI took no public stance on China chip exports to avoid angering Nvidia (The Information)",
-          "url": "https://techmeme.com/261103/p42",
-          "source": "techmeme",
-          "published_at": "2026-11-04T00:20:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "33af3cfa91769c61",
-          "title": "Nvidia is happy to take your money whether you're using open or closed models, says Jensen Huang",
-          "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxPWDFVVllIWUZnWjhLdzNsSGU1R19vQkQ0bHkxSWpYTFlZUUc5NXAxTkUwR1Nuc05kYlB4R1hBNmxkZmx5QkVqZ3NoUEdNMWlrQ1hvY3pCLV9STmQ3bmpCQVlFVTlybzhHcG9KVnJJRzVFUVNfalNkYlhyRUZMOWptUm13aUdJSkYza2U4YW9fNVY1NEE2VVJpV0pkQkNIM0pnSDJkUks1a0JuN2h3Y3J1cEg5dlFYRDZ3X1RLQ045TE9TUlFBSDNyTUJKbkJnMUY4MTE4U1I1dDFPaEFRQk1qMjRuay1Rdw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T21:00:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 44,
-      "index": 1.1,
+      "headlines": 40,
+      "index": 0.6,
       "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "fd770a6c02d32d72",
+          "title": "Google to support financing for TeraWulf data center for Anthropic — Channel NewsAsia",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQUTVSY2xwYkhqdjM2QmhuR04zMHo4VDYyc1pZMWo0NzN0V3ZBelY3QktiZ0ZqN0F1MVFGTy1MQmtRNGVBc3F0TVN4OTNUNU5UODRJMTg1M1NEWWkya1laSm1PSnVGOE9VRTVSRXdMdFRtZDJDYUtnclJUOExsSWF6YUhLam1KeUtmdnZCdmowc1NObjltM2xUZFhCVEp1VWd4VEdySzVOclMtNVc5bmZN?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:33:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "31f2beccea094328",
+          "title": "Google backstops TeraWulf’s $19 billion Anthropic leases in Kentucky",
+          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQMERNemhNVnZjWHU2aXpVZVh4YkpjMlJnQ3M2SGxWanRhRzdXOV81aUJhRWpYLV9lQzVGYUQwSUx0M042azZSSEFYUGZwNVUyT0VENGRTNXp4ejQ2ZnM3eGIyNkIyNHhHLUZvUlZWTnNKTnFLUFNmUmRkaHRWbWxVY0VR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:17:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8730f20e149ee6d7",
+          "title": "TeraWulf gets credit backstop from Google for Anthropic data-center project",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNdDRnZlVlY01kVjVYczh3YzN1N3ZrLWlLRFVURERNQ0lFcDFURElfOVJ3OXpvR3RodUpvaWZWaGtQMDBaNUFYVUNDZFFicC1DclF1aWl0dERFYkJXMVhFZnAwWE1uV0t2VUhkQmhYajRlWjZjWHpiRUJJR1ZtakdPQjNRWXRBRzFOLTRZZktDSldPcjFNa0ZSQm5yUWdOWGNHTFVvVGduOUQ5SlB3NHhHV2gtSQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T14:11:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "5f2501c53e757431",
           "title": "Aswath Damodaran trims his Anthropic IPO valuation to $1.45 trillion; Dean of valuation explains why",
@@ -394,44 +429,11 @@
           "clickbait": []
         },
         {
-          "id": "8730f20e149ee6d7",
-          "title": "TeraWulf gets credit backstop from Google for Anthropic data-center project",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNdDRnZlVlY01kVjVYczh3YzN1N3ZrLWlLRFVURERNQ0lFcDFURElfOVJ3OXpvR3RodUpvaWZWaGtQMDBaNUFYVUNDZFFicC1DclF1aWl0dERFYkJXMVhFZnAwWE1uV0t2VUhkQmhYajRlWjZjWHpiRUJJR1ZtakdPQjNRWXRBRzFOLTRZZktDSldPcjFNa0ZSQm5yUWdOWGNHTFVvVGduOUQ5SlB3NHhHV2gtSQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-04T13:44:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "acbe5fd9f427a0e8",
           "title": "Where can you trade Anthropic Pre-IPO?",
           "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5NbXNLWjdBNlEtQXVaOEhUcGZzUWRtWU5BM01LR0Z6X1NFc1NFN0M0QnlVSDdocEU3UmhYaFB4MGlpTXVHOUM2TzBZajdNdGZaZkR0aGtRSUtDSDFJOF9sZlRtZGlDbkVzNlNBVlBJZnNuc21Td2hUWTNLOEdGUQ?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-04T13:29:21.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "af57acb927696294",
-          "title": "TeraWulf Secures Google Credit Backstop for $19 Billion Anthropic AI Lease",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNWE1nU001YUswbGVnNmxrWGlPT3B0UWFZWXRjTnRZeXhUMW1PdkZHVzlvaEhTS1hWSGR2VThET1FOaXZQS1VRVWN6alRLazJJd01QNVVWRXRTaDFWX2pQQU9OLTdxTS02OW01UWhxeW9KWVFWOW1xOTEyaW1ma1FROGtkWkp6RmtoOTdlVmotQXh6WUNrUkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T13:24:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "96ddd0222ea11d31",
-          "title": "How Anthropic’s 7 Founders Will Take Majority Control of the Business",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1CV1ZjSWF3RU4yUTNoaFNfYVNTY1pWRHBzQXU2R2cydGJvWmpGb1U3Wmd3QUxuaGRvRHF5bi16MkIydEpWa0FfUzV1RjVMc1ZKQkNGWDlfMkJYTUVMcVd1Tkx4VzdMU2FpNU5sbVRSZy1GOXFoZ3FkNWVn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T13:23:47.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -569,16 +571,49 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 34,
+      "headlines": 36,
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "fd770a6c02d32d72",
+          "title": "Google to support financing for TeraWulf data center for Anthropic — Channel NewsAsia",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQUTVSY2xwYkhqdjM2QmhuR04zMHo4VDYyc1pZMWo0NzN0V3ZBelY3QktiZ0ZqN0F1MVFGTy1MQmtRNGVBc3F0TVN4OTNUNU5UODRJMTg1M1NEWWkya1laSm1PSnVGOE9VRTVSRXdMdFRtZDJDYUtnclJUOExsSWF6YUhLam1KeUtmdnZCdmowc1NObjltM2xUZFhCVEp1VWd4VEdySzVOclMtNVc5bmZN?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:33:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "baeb08035f0a9b12",
           "title": "UK AI Minister Kanishka Narayan says AI is set to add £55B to £140B to the economy by 2030, below a £400B estimate from a Google-led report touted by officials (Ben Gartside/Wired)",
           "url": "https://techmeme.com/261104/p32",
           "source": "techmeme",
           "published_at": "2026-11-04T14:20:04.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "31f2beccea094328",
+          "title": "Google backstops TeraWulf’s $19 billion Anthropic leases in Kentucky",
+          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQMERNemhNVnZjWHU2aXpVZVh4YkpjMlJnQ3M2SGxWanRhRzdXOV81aUJhRWpYLV9lQzVGYUQwSUx0M042azZSSEFYUGZwNVUyT0VENGRTNXp4ejQ2ZnM3eGIyNkIyNHhHLUZvUlZWTnNKTnFLUFNmUmRkaHRWbWxVY0VR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:17:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8730f20e149ee6d7",
+          "title": "TeraWulf gets credit backstop from Google for Anthropic data-center project",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNdDRnZlVlY01kVjVYczh3YzN1N3ZrLWlLRFVURERNQ0lFcDFURElfOVJ3OXpvR3RodUpvaWZWaGtQMDBaNUFYVUNDZFFicC1DclF1aWl0dERFYkJXMVhFZnAwWE1uV0t2VUhkQmhYajRlWjZjWHpiRUJJR1ZtakdPQjNRWXRBRzFOLTRZZktDSldPcjFNa0ZSQm5yUWdOWGNHTFVvVGduOUQ5SlB3NHhHV2gtSQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T14:11:15.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -618,46 +653,11 @@
           "clickbait": []
         },
         {
-          "id": "8730f20e149ee6d7",
-          "title": "TeraWulf gets credit backstop from Google for Anthropic data-center project",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNdDRnZlVlY01kVjVYczh3YzN1N3ZrLWlLRFVURERNQ0lFcDFURElfOVJ3OXpvR3RodUpvaWZWaGtQMDBaNUFYVUNDZFFicC1DclF1aWl0dERFYkJXMVhFZnAwWE1uV0t2VUhkQmhYajRlWjZjWHpiRUJJR1ZtakdPQjNRWXRBRzFOLTRZZktDSldPcjFNa0ZSQm5yUWdOWGNHTFVvVGduOUQ5SlB3NHhHV2gtSQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-04T13:44:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "af57acb927696294",
           "title": "TeraWulf Secures Google Credit Backstop for $19 Billion Anthropic AI Lease",
           "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNWE1nU001YUswbGVnNmxrWGlPT3B0UWFZWXRjTnRZeXhUMW1PdkZHVzlvaEhTS1hWSGR2VThET1FOaXZQS1VRVWN6alRLazJJd01QNVVWRXRTaDFWX2pQQU9OLTdxTS02OW01UWhxeW9KWVFWOW1xOTEyaW1ma1FROGtkWkp6RmtoOTdlVmotQXh6WUNrUkE?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-04T13:24:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b326af3d20c0725f",
-          "title": "TeraWulf secures Google credit support for Anthropic data center deal",
-          "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNVlIyakZjam1ZZ2E2RDlBaDBjRmlwaVl6ckJ5SE91LWhwYlpMSEFlbEhIa09JN3d3SVdIakRma2JDUUtQVHVWaU13bVgwQTQwMWRsdTdkNHFxWUdydkFIYTA1TGpPOGdoeFBycHV3YzlyUVB6bmxfSkk5X3B5bTFKMXRndHZjS2xHOXBpQzNzNmVPbV9jN0hjRWZmVDV2S2JKRGliVjlxUnJjY2llc0ZXcGR2S05vUEdNdEs1RU5FMENBUk5aY2hF?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T13:17:14.000Z",
-          "score": 3,
-          "positive": [
-            "deal"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "15cd0637b327e5de",
-          "title": "Google hasn’t figured out how to make AI pay like its search engine",
-          "url": "https://bsky.app/profile/theverge.com/post/3mzicnhyrj72g",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-04T12:00:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -669,9 +669,22 @@
       "id": "microsoft",
       "name": "Microsoft",
       "headlines": 11,
-      "index": 2.2,
-      "mean_headline": 0.3,
+      "index": 4.4,
+      "mean_headline": 0.5,
       "sample": [
+        {
+          "id": "19c2b56c16800ff4",
+          "title": "Ex-Microsoft Defender lead raises $15M to find the attacks AI security agents are missing",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5tYUJJekhZNXJtVDFjekpIVTRELVpJMl8zYjBnekVHeDhsYzVmX0NUYkkybTI0eXRQeWw3UF9Eb3hNdjI5YXduMDhOZFN3VnJadDZoREg0Rld6SG5JanBzTHQtb1VWX29vTTBpOVNUVm1BQ2t3VnJyNUZnM2NIR00?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:30:51.000Z",
+          "score": 3,
+          "positive": [
+            "raises"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "5bd61d6384b90e9b",
           "title": "What's Going on With Microsoft Stock?",
@@ -704,17 +717,6 @@
           "positive": [
             "wins"
           ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "91e5c9ed82488ba9",
-          "title": "Lumen, Microsoft expand collaboration for AI-ready enterprise networks",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPYUhOcGRqcXZ0a0RHdnMwWG9DOGlTN0JFcmE1cjY5SjRlanM4VWx0WEtMeEM1NlgtZnZJN0s5blp2N0NwRmF5NjZ6TzVZQ1E3cTI3MXN3MWFIQzhGWXpXVXgyY2FSczZPODZXWUdORHVtVndpallSUkh2NEhkQllqLTFJUEhzb0NCZzVXeUJ5ejhBQ2stNE80VFBNN2d5QmVUY19Za3dBVWg2LWFRZHFZY1YtcVBXZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T12:55:47.000Z",
-          "score": 0,
-          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -767,9 +769,9 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 12,
-      "index": 2,
-      "mean_headline": 0.3,
+      "headlines": 13,
+      "index": 1.8,
+      "mean_headline": 0.2,
       "sample": [
         {
           "id": "9908aaf6dfe53787",
@@ -818,6 +820,17 @@
           "clickbait": []
         },
         {
+          "id": "a3433e936d2c04bf",
+          "title": "Daybreak Red is now available in AWS GovCloud (US-East)",
+          "url": "https://openai.com/index/daybreak-red-aws-govcloud",
+          "source": "openai",
+          "published_at": "2026-11-04T07:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "504f209ba6cc983f",
           "title": "Brazil, Venezuela foreign ministers discuss trade, Amazon cooperation",
           "url": "https://bsky.app/profile/reuters.com/post/3mzgqbcls332o",
@@ -849,38 +862,16 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "e873f86dd6d6b0a2",
-          "title": "How Gen Digital built Norton Revamp’s AI-curated News Engine with Amazon Bedrock AgentCore Web Search",
-          "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPWU1vUUhzWU5ZMlFiS0JFRVBkcExZOTYyNnNTdWlmMEt4YjlzcXBGeTNfUklIRGNhMVFHTk5faUU3cjRMX0lNVVZtTGJlRllTRGUxTi15ek1yVEpHcXZRYjFZcDRNc1JHLU9tUm82T3BoTUs5S1hmcXFoM0ZaRXZOa1JfS3lib0NWczA5NXlheHRqUldHSVM4YnZqNl9tdkFMQmtGRWNVSTVzQWliZ3d0RHlrcWdzMkNmNnNCWUN0LUxid0c3dEVxakZZU3pLSWNiZXVfQk5JSWRSeU5nZmdsZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T16:43:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 3,
-      "index": -2.7,
-      "mean_headline": -0.3,
+      "headlines": 2,
+      "index": -4,
+      "mean_headline": -0.5,
       "sample": [
-        {
-          "id": "0dbc22c8debd05e3",
-          "title": "Kimi AI vs DeepSeek vs ChatGPT: 3 Picks for Canada [2026]",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9QSUE0MDBPRk5vWktKdk1pNlc5N2hRWEUta3ZzNFBndmd6RHFyekY3bWFiN1lQSFlPTFM1bEN1YWY5NVhwNk1SdmVjVENJOTllS0tXX2pnMms4VFM1NHZxM1FDaTRqNUQzUVdkNGppSUFIdHN0YXU2azJHOA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T12:02:21.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "1abeb220bc21d0bb",
           "title": "DeepSeek engineer defends push for open-source AGI despite higher risks",
@@ -1019,18 +1010,141 @@
       ]
     },
     {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "headlines": 11,
+      "index": 4.4,
+      "mean_headline": 0.5,
+      "sample": [
+        {
+          "id": "19c2b56c16800ff4",
+          "title": "Ex-Microsoft Defender lead raises $15M to find the attacks AI security agents are missing",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5tYUJJekhZNXJtVDFjekpIVTRELVpJMl8zYjBnekVHeDhsYzVmX0NUYkkybTI0eXRQeWw3UF9Eb3hNdjI5YXduMDhOZFN3VnJadDZoREg0Rld6SG5JanBzTHQtb1VWX29vTTBpOVNUVm1BQ2t3VnJyNUZnM2NIR00?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:30:51.000Z",
+          "score": 3,
+          "positive": [
+            "raises"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5bd61d6384b90e9b",
+          "title": "What's Going on With Microsoft Stock?",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOcURTNExzVlJ3QUYwamVDRWZrbXdqSldJc3dWNG9ES0lwSWU0OGs5M1lCTTlnM1liN1pKQjdGdE9kZ3FPNDhWZzhmWEJfZHBESGp4RFJSTnlsTmdhUG53MmdTUlJQYlE5TUc3R2Jkb3pEbzNPQmxxb2wyckRPdWRlb0NsV09aLTUwcWZtbWRvdnVuM0FteTdsMFJrMDk3aUE1ekxfUDRwMnNmUTduaXVYaFpKTk81S0ZTRkFxNA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:12:31.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a4218c2914327408",
+          "title": "Adobe Integrates Agentic CX Enterprise Coworker Into AI Platforms from Anthropic, Google, Microsoft, OpenAI and More",
+          "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxOT1JvVGhHYk5vZnJZUVg5cTFEYzVFTnhhS0N3eVFfaERCWlNNQ1RRWjlRRlhiQk52ZWdWaDg0Ri03MVg4Ukt3UGdaeHB2NW5yNG9XSTRfdGlheUtzZXhUamZwa0NzVWtNZG1xdFlxZnZ3SWVnTzhXSU1fUXAwc0JtR08xQWpTYmhIdENMbmVDd3FwVFRCZnVyVGI0OTVxTWRGRHBZVWtNQjZjNmxSQk5CWnFaekpDSHR1SHh0bXdyZWU0ZU1NOFNqQzA4MW5RUy1yUnRYMEZwTFNPRlhETXh5bVBWTnJxTkFfVG53dVpKdkNFckxrUTdiWWJQVUx6T3FDU3piVEtR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0048dabd966afdc0",
+          "title": "Microsoft Wins Even If The AI Bubble Pops (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOZmtqMTFaYVV3cDNnVWVXUVZScHhJd3pLNmFqTzlDd3pHRVZrZFJ3amFUTGFvSnhrX3FlSW5oS1N6ay1QY0c4VGlkLTdCMUIzZ1JKOXdkSFMwaDA4d1ZmbnJMRFpsTmZidFpmUlh1MFZnQmtNMTVVQVFHTUxVM19NS3Q3WlVoVFYtOVE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T13:03:53.000Z",
+          "score": 3,
+          "positive": [
+            "wins"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6c61dd1a5e19d9f3",
+          "title": "Microsoft’s Humane Buyouts Imperil Its AI Ambitions",
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOalpzaVYyaTNUb3M2RktlY3FKazREN3ZCXzN1LXpGeWtoY29WVVR2ZmdqWThjTTNUZ1dvWmtCNVI4NFdzbDc4QTlPSzd1cV9FVnU5Ui1fbmxfWW14UjFaQ3AxaTFoZFJvMzRFeTlVY2JpM3JSZUN0STNyb1VmOEI4X0ZDcVVfSkw5aGRaV0F5T0dSSnRXUk1adTFtcVkxandDRWJYMTU3MF8?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T10:30:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9047607fb3864875",
+          "title": "Sources: Ubisoft and at least two other gaming companies offered to acquire Arkane Studios from Microsoft, which is exploring options before a December deadline (Jason Schreier/Bloomberg)",
+          "url": "https://techmeme.com/261103/p33",
+          "source": "techmeme",
+          "published_at": "2026-11-03T21:20:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7b36403e9ebbc18f",
+          "title": "278M PII detection model bests OpenAI, AWS and Microsoft",
+          "url": "https://arxiv.org/abs/2610.30518",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-03T19:02:50.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d53a83a30740f299",
+          "title": "Microsoft updates Windows 11 to make PCs with 8GB of RAM up to 20% more responsive and multitasking up to 40% faster in lab tests, utilizing memory compression (Lance Whitney/ZDNET)",
+          "url": "https://techmeme.com/261103/p22",
+          "source": "techmeme",
+          "published_at": "2026-11-03T17:20:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 37,
-      "index": 2.6,
+      "headlines": 38,
+      "index": 2.5,
       "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "e185c59901259f5c",
+          "title": "What Makes India ChatGPT's Biggest Market? OpenAI's Sam Altman Shares His Take With Raj Shamani",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNLVpwQ3dWWVdDcllySy1tWElzVlpXQ2RfaTFudm5OQXlTSk1nTEliZDF4RjdFQXR6VTI5UEhsTWpRRm1uN25WUDRVMWZjTHRjSTNVVm9tNG91ZXdVRV9ZSml6bEVMeVp1ZURNaGExYXlCYU1nMEJZeWItazJfdWVFS1dfVklBOTVfdmZ5Wmo5ejRSSUtycXlmb3ZvamZaRzc5TXd0bTdpNERSY01wZGFXUkR4WnZ0UzZudVd0SnhxbnhpSE1hMGlPMHd0d1FQZGx0ZWhQYXhR0gHeAUFVX3lxTE9ERVFmdlc5MlI3VzZLVlFwcm5BcUloTWgtZGRxZnRsd2JFVmozbnVxdDNkMVlORkIySmx1enlWT3lQVWdxUlBYaVR6Ym5pYzM0Zm1CTjZlUXJSazh3ZUstdFotWERNZ29BdTdRckw3Q2lmXy1VXzRoMG1GeTFlSmY1UlBXbnpCQ3JaZzdtSEVuU2dWdjJOQmFlMUhUV0dZVUlhbGc5RV8xLU5sSllJNUFyRl81dHYyTlUxem1HUVZkMWRaWkUtdVplYkNvUmJFU2Z0SjVHLVdraTc3Sjc3Zw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:43:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1be4fdd8e6ca80f0",
+          "title": "OpenAI to acquire Pierre Computer Company, Inc.",
+          "url": "https://openai.com/index/openai-to-acquire-pierre",
+          "source": "openai",
+          "published_at": "2026-11-04T14:30:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "a48e9a932f70066a",
           "title": "OpenAI to rebrand its data centers as compute campuses as part of broader policy and PR push",
           "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQXzFaZW9pNk8xb2ptY0dIekF5Y3liZXgzSlhxY2RlSGVwOUY2RlN3WFlVZWtNWkkwYmxDb1VRb1FydG9DclZQYjd5ZVNqRWRWNy0zSDgxTUtIMk14aTZCb1JGNFkzMjdHNm4yRGJMRVdNSVZkeEdGOGlhaHVaR3k3cjFqajFMTDRBSmhGZHhueXdaX29LUXMtbUJ4X1doZVVDSUY1cDgxTV9OVWpYSEhiUWpSYzdEaG0xY1dsa1ZEYmMxYWhzbzZrZ1ZHZHV0QlRRYXc?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-04T14:06:58.000Z",
+          "published_at": "2026-11-04T14:13:07.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1094,136 +1208,15 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "059951c7447ba41f",
-          "title": "OpenAI to buy developer tools firm Pierre Computer",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOeDJadzNhcG4wUmgzMk1wT2FOcnBxa2pCZW9USXJsREZPMER4cjRLMjk2eV9PcFgtV0RlUi1HMXFhZEUtZFQ2YWYwY0dCLXdlZkgyS2FEYU1OSDN5RjVlU3RpdVhoSmtaODhiMV9iY2xOSUtCUzdNZDhrU2tjV1BHV05ScjBMYk94U0FaNXJSVmJ6YnhrUWliMTJFRQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T12:12:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "cd45714ce12ca2b6",
-          "title": "OpenAI acquires developer tools startup Pierre Computer for an undisclosed amount and plans to integrate Pierre's Code Storage feature directly into Codex (Madison Mills/Axios)",
-          "url": "https://techmeme.com/261104/p21",
-          "source": "techmeme",
-          "published_at": "2026-11-04T12:10:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "microsoft",
-      "name": "Microsoft",
-      "headlines": 11,
-      "index": 2.2,
-      "mean_headline": 0.3,
-      "sample": [
-        {
-          "id": "5bd61d6384b90e9b",
-          "title": "What's Going on With Microsoft Stock?",
-          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOcURTNExzVlJ3QUYwamVDRWZrbXdqSldJc3dWNG9ES0lwSWU0OGs5M1lCTTlnM1liN1pKQjdGdE9kZ3FPNDhWZzhmWEJfZHBESGp4RFJSTnlsTmdhUG53MmdTUlJQYlE5TUc3R2Jkb3pEbzNPQmxxb2wyckRPdWRlb0NsV09aLTUwcWZtbWRvdnVuM0FteTdsMFJrMDk3aUE1ekxfUDRwMnNmUTduaXVYaFpKTk81S0ZTRkFxNA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T14:12:31.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a4218c2914327408",
-          "title": "Adobe Integrates Agentic CX Enterprise Coworker Into AI Platforms from Anthropic, Google, Microsoft, OpenAI and More",
-          "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxOT1JvVGhHYk5vZnJZUVg5cTFEYzVFTnhhS0N3eVFfaERCWlNNQ1RRWjlRRlhiQk52ZWdWaDg0Ri03MVg4Ukt3UGdaeHB2NW5yNG9XSTRfdGlheUtzZXhUamZwa0NzVWtNZG1xdFlxZnZ3SWVnTzhXSU1fUXAwc0JtR08xQWpTYmhIdENMbmVDd3FwVFRCZnVyVGI0OTVxTWRGRHBZVWtNQjZjNmxSQk5CWnFaekpDSHR1SHh0bXdyZWU0ZU1NOFNqQzA4MW5RUy1yUnRYMEZwTFNPRlhETXh5bVBWTnJxTkFfVG53dVpKdkNFckxrUTdiWWJQVUx6T3FDU3piVEtR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T14:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0048dabd966afdc0",
-          "title": "Microsoft Wins Even If The AI Bubble Pops (NASDAQ:MSFT)",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOZmtqMTFaYVV3cDNnVWVXUVZScHhJd3pLNmFqTzlDd3pHRVZrZFJ3amFUTGFvSnhrX3FlSW5oS1N6ay1QY0c4VGlkLTdCMUIzZ1JKOXdkSFMwaDA4d1ZmbnJMRFpsTmZidFpmUlh1MFZnQmtNMTVVQVFHTUxVM19NS3Q3WlVoVFYtOVE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T13:03:53.000Z",
-          "score": 3,
-          "positive": [
-            "wins"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "91e5c9ed82488ba9",
-          "title": "Lumen, Microsoft expand collaboration for AI-ready enterprise networks",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPYUhOcGRqcXZ0a0RHdnMwWG9DOGlTN0JFcmE1cjY5SjRlanM4VWx0WEtMeEM1NlgtZnZJN0s5blp2N0NwRmF5NjZ6TzVZQ1E3cTI3MXN3MWFIQzhGWXpXVXgyY2FSczZPODZXWUdORHVtVndpallSUkh2NEhkQllqLTFJUEhzb0NCZzVXeUJ5ejhBQ2stNE80VFBNN2d5QmVUY19Za3dBVWg2LWFRZHFZY1YtcVBXZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T12:55:47.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6c61dd1a5e19d9f3",
-          "title": "Microsoft’s Humane Buyouts Imperil Its AI Ambitions",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOalpzaVYyaTNUb3M2RktlY3FKazREN3ZCXzN1LXpGeWtoY29WVVR2ZmdqWThjTTNUZ1dvWmtCNVI4NFdzbDc4QTlPSzd1cV9FVnU5Ui1fbmxfWW14UjFaQ3AxaTFoZFJvMzRFeTlVY2JpM3JSZUN0STNyb1VmOEI4X0ZDcVVfSkw5aGRaV0F5T0dSSnRXUk1adTFtcVkxandDRWJYMTU3MF8?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-04T10:30:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9047607fb3864875",
-          "title": "Sources: Ubisoft and at least two other gaming companies offered to acquire Arkane Studios from Microsoft, which is exploring options before a December deadline (Jason Schreier/Bloomberg)",
-          "url": "https://techmeme.com/261103/p33",
-          "source": "techmeme",
-          "published_at": "2026-11-03T21:20:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7b36403e9ebbc18f",
-          "title": "278M PII detection model bests OpenAI, AWS and Microsoft",
-          "url": "https://arxiv.org/abs/2610.30518",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-03T19:02:50.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d53a83a30740f299",
-          "title": "Microsoft updates Windows 11 to make PCs with 8GB of RAM up to 20% more responsive and multitasking up to 40% faster in lab tests, utilizing memory compression (Lance Whitney/ZDNET)",
-          "url": "https://techmeme.com/261103/p22",
-          "source": "techmeme",
-          "published_at": "2026-11-03T17:20:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 12,
-      "index": 2,
-      "mean_headline": 0.3,
+      "headlines": 13,
+      "index": 1.8,
+      "mean_headline": 0.2,
       "sample": [
         {
           "id": "9908aaf6dfe53787",
@@ -1272,6 +1265,17 @@
           "clickbait": []
         },
         {
+          "id": "a3433e936d2c04bf",
+          "title": "Daybreak Red is now available in AWS GovCloud (US-East)",
+          "url": "https://openai.com/index/daybreak-red-aws-govcloud",
+          "source": "openai",
+          "published_at": "2026-11-04T07:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "504f209ba6cc983f",
           "title": "Brazil, Venezuela foreign ministers discuss trade, Amazon cooperation",
           "url": "https://bsky.app/profile/reuters.com/post/3mzgqbcls332o",
@@ -1299,114 +1303,6 @@
           "url": "https://aws.amazon.com/blogs/machine-learning/bring-structured-and-unstructured-data-together-with-amazon-quick",
           "source": "aws-ml",
           "published_at": "2026-11-03T16:49:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e873f86dd6d6b0a2",
-          "title": "How Gen Digital built Norton Revamp’s AI-curated News Engine with Amazon Bedrock AgentCore Web Search",
-          "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPWU1vUUhzWU5ZMlFiS0JFRVBkcExZOTYyNnNTdWlmMEt4YjlzcXBGeTNfUklIRGNhMVFHTk5faUU3cjRMX0lNVVZtTGJlRllTRGUxTi15ek1yVEpHcXZRYjFZcDRNc1JHLU9tUm82T3BoTUs5S1hmcXFoM0ZaRXZOa1JfS3lib0NWczA5NXlheHRqUldHSVM4YnZqNl9tdkFMQmtGRWNVSTVzQWliZ3d0RHlrcWdzMkNmNnNCWUN0LUxid0c3dEVxakZZU3pLSWNiZXVfQk5JSWRSeU5nZmdsZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T16:43:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "anthropic",
-      "name": "Anthropic",
-      "headlines": 44,
-      "index": 1.1,
-      "mean_headline": 0.1,
-      "sample": [
-        {
-          "id": "5f2501c53e757431",
-          "title": "Aswath Damodaran trims his Anthropic IPO valuation to $1.45 trillion; Dean of valuation explains why",
-          "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxOT29wZGVEN2VyeXJPMzgxaHBUWjJMbVhoLXFCX1lrU08wT0QzekxZc19wZ0tGMEEwRmhTMERBdDE0eDl6NlhGVHlhS1pzbEhhQ1NVc1lnMzFoMGk2TVJiZjJfTnlJaXFXMS1qU1A0bUg4SU5jeHE5UWpjTS1aa3RsZkVYNks0X0w2WS1sNFREcTNfa2s0bUh3X3VNVlRQNVNMUE9kQ0lDbTdSbnBnTEZaOUhGM0g5QndNQk1pUzZXNVdQbXRrUjN6VEJBWENLaUcyNDRxeU0zcjZwcGl1aTNaMUxDNUdpQTRoUFJhYnYxVnMwdUNuT1B1SF9iUURfVXZmTTBwdUhHU1VmMWpjTnhhLXZKV3BNaWPSAZwCQVVfeXFMTmRndXFGQUVQR0UyVS1fYkMzU0NIOFNOMVh5dFdGNXJ5eE1EZmpxMTlvdkpVRGdHRExTSXpidkFnZWdPWkNfM3JBd0ltTmp6ekxXdUczTTRjLWVZSjdaN21NLUZUNVhJdGNNZEh6YWRZTlFzMmFGRHdJcFRsb3VRNDF2TVUyYzl0dE5sR0V2dXFqTy1qSFNweWFVOFJQNWhsbFl0TVhBYWJVeFhfR19fRmVIR0Zmdm93aU1NM0pJSFJDT3RESmlIc3Y2aklkT09LZzVKREFiaE9nUlVnWk9EdWtWMkZkcEtwM0g3NE5qNWJkd2JRbGZWNjZKSW11QUg0d19qOUlpVHkxc1dEUWR6ODRqV1VmMVZiYjFsclE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T14:06:30.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "dd7861a971c413db",
-          "title": "Google Backstops TeraWulf’s Anthropic Data Center Build",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNa1lRaTFIUktoNXhTbWIzVm41QS0ycGw4aHVkRWU0VmhlbFZ5UWRSSjA2UmxwQkJORG1EYjV3cXp1X0NQYkEwa1lGMnBvamFGdjZubk01b1RxN0sxbzl4cC03X0FqLUF4TEExU2ZrdjlHZHh3ZVh6d2tqTlJ3RHFCWXdkRmhUNE5kbjlN?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T14:00:38.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a4218c2914327408",
-          "title": "Adobe Integrates Agentic CX Enterprise Coworker Into AI Platforms from Anthropic, Google, Microsoft, OpenAI and More",
-          "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxOT1JvVGhHYk5vZnJZUVg5cTFEYzVFTnhhS0N3eVFfaERCWlNNQ1RRWjlRRlhiQk52ZWdWaDg0Ri03MVg4Ukt3UGdaeHB2NW5yNG9XSTRfdGlheUtzZXhUamZwa0NzVWtNZG1xdFlxZnZ3SWVnTzhXSU1fUXAwc0JtR08xQWpTYmhIdENMbmVDd3FwVFRCZnVyVGI0OTVxTWRGRHBZVWtNQjZjNmxSQk5CWnFaekpDSHR1SHh0bXdyZWU0ZU1NOFNqQzA4MW5RUy1yUnRYMEZwTFNPRlhETXh5bVBWTnJxTkFfVG53dVpKdkNFckxrUTdiWWJQVUx6T3FDU3piVEtR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T14:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d12f5763de797288",
-          "title": "What Does Anthropic's Amended Filing Show Behind USD 17 Billion of Quarterly Revenue?",
-          "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOaXF5cWd3QzFDeGRSUHl4N0hNSy04R2p1ejBHRmh1S0tOVi1iRkRvSk9ST1htd193WDdEcGpzaFNjUkt2MS0xWTkyNlVoWk1TTm9rMGdCc3JGMU5FLXBkaU11bmJ2aUpsRlZVQl9HMkxlUnpwRm5WMFhGekJuVk10TFZOQzljZUNMWWl5U29WRzJEQ1B6TjhlZDVjR252SFBKVWZydk5uWW1qRlR2YkZSZEZxenBSS1g1RmRSUTFWQkJBbTlxRy1TODU4VmVleC1K?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T13:49:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8730f20e149ee6d7",
-          "title": "TeraWulf gets credit backstop from Google for Anthropic data-center project",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNdDRnZlVlY01kVjVYczh3YzN1N3ZrLWlLRFVURERNQ0lFcDFURElfOVJ3OXpvR3RodUpvaWZWaGtQMDBaNUFYVUNDZFFicC1DclF1aWl0dERFYkJXMVhFZnAwWE1uV0t2VUhkQmhYajRlWjZjWHpiRUJJR1ZtakdPQjNRWXRBRzFOLTRZZktDSldPcjFNa0ZSQm5yUWdOWGNHTFVvVGduOUQ5SlB3NHhHV2gtSQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-04T13:44:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "acbe5fd9f427a0e8",
-          "title": "Where can you trade Anthropic Pre-IPO?",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5NbXNLWjdBNlEtQXVaOEhUcGZzUWRtWU5BM01LR0Z6X1NFc1NFN0M0QnlVSDdocEU3UmhYaFB4MGlpTXVHOUM2TzBZajdNdGZaZkR0aGtRSUtDSDFJOF9sZlRtZGlDbkVzNlNBVlBJZnNuc21Td2hUWTNLOEdGUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T13:29:21.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "af57acb927696294",
-          "title": "TeraWulf Secures Google Credit Backstop for $19 Billion Anthropic AI Lease",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNWE1nU001YUswbGVnNmxrWGlPT3B0UWFZWXRjTnRZeXhUMW1PdkZHVzlvaEhTS1hWSGR2VThET1FOaXZQS1VRVWN6alRLazJJd01QNVVWRXRTaDFWX2pQQU9OLTdxTS02OW01UWhxeW9KWVFWOW1xOTEyaW1ma1FROGtkWkp6RmtoOTdlVmotQXh6WUNrUkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T13:24:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "96ddd0222ea11d31",
-          "title": "How Anthropic’s 7 Founders Will Take Majority Control of the Business",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1CV1ZjSWF3RU4yUTNoaFNfYVNTY1pWRHBzQXU2R2cydGJvWmpGb1U3Wmd3QUxuaGRvRHF5bi16MkIydEpWa0FfUzV1RjVMc1ZKQkNGWDlfMkJYTUVMcVd1Tkx4VzdMU2FpNU5sbVRSZy1GOXFoZ3FkNWVn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T13:23:47.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1516,18 +1412,148 @@
       ]
     },
     {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "headlines": 40,
+      "index": 0.6,
+      "mean_headline": 0.1,
+      "sample": [
+        {
+          "id": "fd770a6c02d32d72",
+          "title": "Google to support financing for TeraWulf data center for Anthropic — Channel NewsAsia",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQUTVSY2xwYkhqdjM2QmhuR04zMHo4VDYyc1pZMWo0NzN0V3ZBelY3QktiZ0ZqN0F1MVFGTy1MQmtRNGVBc3F0TVN4OTNUNU5UODRJMTg1M1NEWWkya1laSm1PSnVGOE9VRTVSRXdMdFRtZDJDYUtnclJUOExsSWF6YUhLam1KeUtmdnZCdmowc1NObjltM2xUZFhCVEp1VWd4VEdySzVOclMtNVc5bmZN?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:33:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "31f2beccea094328",
+          "title": "Google backstops TeraWulf’s $19 billion Anthropic leases in Kentucky",
+          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQMERNemhNVnZjWHU2aXpVZVh4YkpjMlJnQ3M2SGxWanRhRzdXOV81aUJhRWpYLV9lQzVGYUQwSUx0M042azZSSEFYUGZwNVUyT0VENGRTNXp4ejQ2ZnM3eGIyNkIyNHhHLUZvUlZWTnNKTnFLUFNmUmRkaHRWbWxVY0VR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:17:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8730f20e149ee6d7",
+          "title": "TeraWulf gets credit backstop from Google for Anthropic data-center project",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNdDRnZlVlY01kVjVYczh3YzN1N3ZrLWlLRFVURERNQ0lFcDFURElfOVJ3OXpvR3RodUpvaWZWaGtQMDBaNUFYVUNDZFFicC1DclF1aWl0dERFYkJXMVhFZnAwWE1uV0t2VUhkQmhYajRlWjZjWHpiRUJJR1ZtakdPQjNRWXRBRzFOLTRZZktDSldPcjFNa0ZSQm5yUWdOWGNHTFVvVGduOUQ5SlB3NHhHV2gtSQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T14:11:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5f2501c53e757431",
+          "title": "Aswath Damodaran trims his Anthropic IPO valuation to $1.45 trillion; Dean of valuation explains why",
+          "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxOT29wZGVEN2VyeXJPMzgxaHBUWjJMbVhoLXFCX1lrU08wT0QzekxZc19wZ0tGMEEwRmhTMERBdDE0eDl6NlhGVHlhS1pzbEhhQ1NVc1lnMzFoMGk2TVJiZjJfTnlJaXFXMS1qU1A0bUg4SU5jeHE5UWpjTS1aa3RsZkVYNks0X0w2WS1sNFREcTNfa2s0bUh3X3VNVlRQNVNMUE9kQ0lDbTdSbnBnTEZaOUhGM0g5QndNQk1pUzZXNVdQbXRrUjN6VEJBWENLaUcyNDRxeU0zcjZwcGl1aTNaMUxDNUdpQTRoUFJhYnYxVnMwdUNuT1B1SF9iUURfVXZmTTBwdUhHU1VmMWpjTnhhLXZKV3BNaWPSAZwCQVVfeXFMTmRndXFGQUVQR0UyVS1fYkMzU0NIOFNOMVh5dFdGNXJ5eE1EZmpxMTlvdkpVRGdHRExTSXpidkFnZWdPWkNfM3JBd0ltTmp6ekxXdUczTTRjLWVZSjdaN21NLUZUNVhJdGNNZEh6YWRZTlFzMmFGRHdJcFRsb3VRNDF2TVUyYzl0dE5sR0V2dXFqTy1qSFNweWFVOFJQNWhsbFl0TVhBYWJVeFhfR19fRmVIR0Zmdm93aU1NM0pJSFJDT3RESmlIc3Y2aklkT09LZzVKREFiaE9nUlVnWk9EdWtWMkZkcEtwM0g3NE5qNWJkd2JRbGZWNjZKSW11QUg0d19qOUlpVHkxc1dEUWR6ODRqV1VmMVZiYjFsclE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:06:30.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "dd7861a971c413db",
+          "title": "Google Backstops TeraWulf’s Anthropic Data Center Build",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNa1lRaTFIUktoNXhTbWIzVm41QS0ycGw4aHVkRWU0VmhlbFZ5UWRSSjA2UmxwQkJORG1EYjV3cXp1X0NQYkEwa1lGMnBvamFGdjZubk01b1RxN0sxbzl4cC03X0FqLUF4TEExU2ZrdjlHZHh3ZVh6d2tqTlJ3RHFCWXdkRmhUNE5kbjlN?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:00:38.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a4218c2914327408",
+          "title": "Adobe Integrates Agentic CX Enterprise Coworker Into AI Platforms from Anthropic, Google, Microsoft, OpenAI and More",
+          "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxOT1JvVGhHYk5vZnJZUVg5cTFEYzVFTnhhS0N3eVFfaERCWlNNQ1RRWjlRRlhiQk52ZWdWaDg0Ri03MVg4Ukt3UGdaeHB2NW5yNG9XSTRfdGlheUtzZXhUamZwa0NzVWtNZG1xdFlxZnZ3SWVnTzhXSU1fUXAwc0JtR08xQWpTYmhIdENMbmVDd3FwVFRCZnVyVGI0OTVxTWRGRHBZVWtNQjZjNmxSQk5CWnFaekpDSHR1SHh0bXdyZWU0ZU1NOFNqQzA4MW5RUy1yUnRYMEZwTFNPRlhETXh5bVBWTnJxTkFfVG53dVpKdkNFckxrUTdiWWJQVUx6T3FDU3piVEtR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d12f5763de797288",
+          "title": "What Does Anthropic's Amended Filing Show Behind USD 17 Billion of Quarterly Revenue?",
+          "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOaXF5cWd3QzFDeGRSUHl4N0hNSy04R2p1ejBHRmh1S0tOVi1iRkRvSk9ST1htd193WDdEcGpzaFNjUkt2MS0xWTkyNlVoWk1TTm9rMGdCc3JGMU5FLXBkaU11bmJ2aUpsRlZVQl9HMkxlUnpwRm5WMFhGekJuVk10TFZOQzljZUNMWWl5U29WRzJEQ1B6TjhlZDVjR252SFBKVWZydk5uWW1qRlR2YkZSZEZxenBSS1g1RmRSUTFWQkJBbTlxRy1TODU4VmVleC1K?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T13:49:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "acbe5fd9f427a0e8",
+          "title": "Where can you trade Anthropic Pre-IPO?",
+          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5NbXNLWjdBNlEtQXVaOEhUcGZzUWRtWU5BM01LR0Z6X1NFc1NFN0M0QnlVSDdocEU3UmhYaFB4MGlpTXVHOUM2TzBZajdNdGZaZkR0aGtRSUtDSDFJOF9sZlRtZGlDbkVzNlNBVlBJZnNuc21Td2hUWTNLOEdGUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T13:29:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "google",
       "name": "Google",
-      "headlines": 34,
+      "headlines": 36,
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "fd770a6c02d32d72",
+          "title": "Google to support financing for TeraWulf data center for Anthropic — Channel NewsAsia",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQUTVSY2xwYkhqdjM2QmhuR04zMHo4VDYyc1pZMWo0NzN0V3ZBelY3QktiZ0ZqN0F1MVFGTy1MQmtRNGVBc3F0TVN4OTNUNU5UODRJMTg1M1NEWWkya1laSm1PSnVGOE9VRTVSRXdMdFRtZDJDYUtnclJUOExsSWF6YUhLam1KeUtmdnZCdmowc1NObjltM2xUZFhCVEp1VWd4VEdySzVOclMtNVc5bmZN?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:33:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "baeb08035f0a9b12",
           "title": "UK AI Minister Kanishka Narayan says AI is set to add £55B to £140B to the economy by 2030, below a £400B estimate from a Google-led report touted by officials (Ben Gartside/Wired)",
           "url": "https://techmeme.com/261104/p32",
           "source": "techmeme",
           "published_at": "2026-11-04T14:20:04.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "31f2beccea094328",
+          "title": "Google backstops TeraWulf’s $19 billion Anthropic leases in Kentucky",
+          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQMERNemhNVnZjWHU2aXpVZVh4YkpjMlJnQ3M2SGxWanRhRzdXOV81aUJhRWpYLV9lQzVGYUQwSUx0M042azZSSEFYUGZwNVUyT0VENGRTNXp4ejQ2ZnM3eGIyNkIyNHhHLUZvUlZWTnNKTnFLUFNmUmRkaHRWbWxVY0VR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:17:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8730f20e149ee6d7",
+          "title": "TeraWulf gets credit backstop from Google for Anthropic data-center project",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNdDRnZlVlY01kVjVYczh3YzN1N3ZrLWlLRFVURERNQ0lFcDFURElfOVJ3OXpvR3RodUpvaWZWaGtQMDBaNUFYVUNDZFFicC1DclF1aWl0dERFYkJXMVhFZnAwWE1uV0t2VUhkQmhYajRlWjZjWHpiRUJJR1ZtakdPQjNRWXRBRzFOLTRZZktDSldPcjFNa0ZSQm5yUWdOWGNHTFVvVGduOUQ5SlB3NHhHV2gtSQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T14:11:15.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1567,46 +1593,11 @@
           "clickbait": []
         },
         {
-          "id": "8730f20e149ee6d7",
-          "title": "TeraWulf gets credit backstop from Google for Anthropic data-center project",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNdDRnZlVlY01kVjVYczh3YzN1N3ZrLWlLRFVURERNQ0lFcDFURElfOVJ3OXpvR3RodUpvaWZWaGtQMDBaNUFYVUNDZFFicC1DclF1aWl0dERFYkJXMVhFZnAwWE1uV0t2VUhkQmhYajRlWjZjWHpiRUJJR1ZtakdPQjNRWXRBRzFOLTRZZktDSldPcjFNa0ZSQm5yUWdOWGNHTFVvVGduOUQ5SlB3NHhHV2gtSQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-04T13:44:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "af57acb927696294",
           "title": "TeraWulf Secures Google Credit Backstop for $19 Billion Anthropic AI Lease",
           "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNWE1nU001YUswbGVnNmxrWGlPT3B0UWFZWXRjTnRZeXhUMW1PdkZHVzlvaEhTS1hWSGR2VThET1FOaXZQS1VRVWN6alRLazJJd01QNVVWRXRTaDFWX2pQQU9OLTdxTS02OW01UWhxeW9KWVFWOW1xOTEyaW1ma1FROGtkWkp6RmtoOTdlVmotQXh6WUNrUkE?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-04T13:24:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b326af3d20c0725f",
-          "title": "TeraWulf secures Google credit support for Anthropic data center deal",
-          "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNVlIyakZjam1ZZ2E2RDlBaDBjRmlwaVl6ckJ5SE91LWhwYlpMSEFlbEhIa09JN3d3SVdIakRma2JDUUtQVHVWaU13bVgwQTQwMWRsdTdkNHFxWUdydkFIYTA1TGpPOGdoeFBycHV3YzlyUVB6bmxfSkk5X3B5bTFKMXRndHZjS2xHOXBpQzNzNmVPbV9jN0hjRWZmVDV2S2JKRGliVjlxUnJjY2llc0ZXcGR2S05vUEdNdEs1RU5FMENBUk5aY2hF?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T13:17:14.000Z",
-          "score": 3,
-          "positive": [
-            "deal"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "15cd0637b327e5de",
-          "title": "Google hasn’t figured out how to make AI pay like its search engine",
-          "url": "https://bsky.app/profile/theverge.com/post/3mzicnhyrj72g",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-04T12:00:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1637,10 +1628,34 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 16,
-      "index": -0.5,
-      "mean_headline": -0.1,
+      "headlines": 19,
+      "index": -2.1,
+      "mean_headline": -0.3,
       "sample": [
+        {
+          "id": "84a580ebd45132ef",
+          "title": "Ray Dalio Is Warning of an AI Bubble. Michael Burry’s Bets Against Nvidia and Palantir Add to the Debate.",
+          "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxOdjNUZ1ZpcjRWN2ZVenFNRzJUM3RFZE9yWWtmQkN1dlJibUZMWEV2SlQyaFA0dEhpUll6dVdJU3pzeEpoa25JNFZ3Mm9namYzU0UwOXRkQ01qWFdvWXQydVI1OTZ5UG8yRGFRWnIzeXZ3ZW1ncENiUTc2M1BNMmd3bDhrLTFVN3BrM05VUlJYLW1PR28xeWtoR3RPSHFZYnN0OXBmeGdMdjFBaUh2Q2k0Zld2UEkzMExwcDYzR01ueUtkMHotZk9PaEt0OTRtVEhvN1ZqWk5Rc083eXVDN3pJ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T14:36:26.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warning"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "43a9c2fbd8971d52",
+          "title": "The Sudden Death of an Nvidia AI Prodigy Leaves Behind Bitter Accusations",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPVG5uendtNnNFc0xkbm42NUZkMVdIMVVxU1k2NEhNWXVUOUE0UEdwNFpIdV9INXdRR0QteVJzanlGUmVybWV6Nk92bnBUTlUtV2NtaDdTc0ZtcmY4ZkJGU0dBaktkbHVfXzR2MGlPWE5RMWRCZ1RUZVhneDFMNTdqTWlienlTSGowNlZVaW9vb3lBd09XU3F2VkJxcDYwNXRTZ053MmpUR19vMld2V01z?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T14:29:24.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1929a98dd030dacc",
           "title": "ModelOp Unveils Industry-First Full-Stack AI Policy Enforcement With NVIDIA OpenShell",
@@ -1651,6 +1666,17 @@
           "positive": [
             "unveils"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d93ae24e8202ecb3",
+          "title": "Nvidia CEO Hints at Annual GPU Subscription Fees, Software Licensing Growth",
+          "url": "https://windowsreport.com/nvidia-ceo-hints-at-annual-gpu-subscription-fees-says-software-licensing-will-be-a-major-part-of-its-business",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-04T13:48:56.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -1697,60 +1723,16 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "ac73ac570b2cbb27",
-          "title": "Nvidia China Clients to Get 1% of $70 Billion RTX Chips Ordered",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOcDF2WGJ0VTU5c0hYZ3BSLTJzWHd4eHc2N0trQlNwZ2MzcjYwRnpOUXExalczVW9yODBJTXVnUDZ6MGVPQzI3allYS0Q3eG1qblB3Nm1oQlcyQ0xzOU9CTjdqR0dTeURvUzhSYkQ1dnJFbTVieFplUmU3Unh1VjlWNS02SVZWWk1NRVBWQ1hvWGxRczhqVWt4ektFUWRjMW1KMEpYRmpNY2N0X1dySmRuUzNB?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-04T03:14:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ca8cba1584819465",
-          "title": "How Nvidia uses soft power to influence customers and shape US chip policy; sources: OpenAI took no public stance on China chip exports to avoid angering Nvidia (The Information)",
-          "url": "https://techmeme.com/261103/p42",
-          "source": "techmeme",
-          "published_at": "2026-11-04T00:20:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "33af3cfa91769c61",
-          "title": "Nvidia is happy to take your money whether you're using open or closed models, says Jensen Huang",
-          "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxPWDFVVllIWUZnWjhLdzNsSGU1R19vQkQ0bHkxSWpYTFlZUUc5NXAxTkUwR1Nuc05kYlB4R1hBNmxkZmx5QkVqZ3NoUEdNMWlrQ1hvY3pCLV9STmQ3bmpCQVlFVTlybzhHcG9KVnJJRzVFUVNfalNkYlhyRUZMOWptUm13aUdJSkYza2U4YW9fNVY1NEE2VVJpV0pkQkNIM0pnSDJkUks1a0JuN2h3Y3J1cEg5dlFYRDZ3X1RLQ045TE9TUlFBSDNyTUJKbkJnMUY4MTE4U1I1dDFPaEFRQk1qMjRuay1Rdw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T21:00:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 3,
-      "index": -2.7,
-      "mean_headline": -0.3,
+      "headlines": 2,
+      "index": -4,
+      "mean_headline": -0.5,
       "sample": [
-        {
-          "id": "0dbc22c8debd05e3",
-          "title": "Kimi AI vs DeepSeek vs ChatGPT: 3 Picks for Canada [2026]",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9QSUE0MDBPRk5vWktKdk1pNlc5N2hRWEUta3ZzNFBndmd6RHFyekY3bWFiN1lQSFlPTFM1bEN1YWY5NVhwNk1SdmVjVENJOTllS0tXX2pnMms4VFM1NHZxM1FDaTRqNUQzUVdkNGppSUFIdHN0YXU2azJHOA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T12:02:21.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "1abeb220bc21d0bb",
           "title": "DeepSeek engineer defends push for open-source AGI despite higher risks",
