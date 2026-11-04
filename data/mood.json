@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-04T19:40:29.660Z",
-  "news_generated_at": "2026-11-04T19:40:29.660Z",
+  "generated_at": "2026-11-04T20:25:30.277Z",
+  "news_generated_at": "2026-11-04T20:25:30.277Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,36 +18,76 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 172,
+    "headlines_naming_a_company": 174,
     "companies_on_roster": 10,
     "companies_with_headlines": 10,
-    "negative_pair_share": 0.09
+    "negative_pair_share": 0.095
   },
   "glance": {
     "leading": {
       "id": "meta",
       "name": "Meta",
-      "index": 13.6
+      "index": 14.5
     },
     "trailing": {
-      "id": "google",
-      "name": "Google",
-      "index": -4.2
+      "id": "apple",
+      "name": "Apple",
+      "index": -6.6
     },
     "most_discussed": {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 46
+      "headlines": 48
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 15,
-      "index": 2.7,
-      "mean_headline": 0.3,
+      "headlines": 17,
+      "index": -6.6,
+      "mean_headline": -0.8,
       "sample": [
+        {
+          "id": "d04e90f09cc67dc6",
+          "title": "Apple Is an AI Safe Haven—but Safety Isn’t Cheap",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPTXB2Vm1NLVhnZGpidHJQanlpdzBaZjRWSmxBc1dMOWdWdXRIWlpPOWpLeHhTdGJPU1VFQnBzV05sUU1tcmdNSTZHZ1k1RDA0OXRiR0V4VDVGTHJNY2JuRHlhZGNBa08yaE5SSkhyWXJJYVVibUlReVdZQWJaRVVoMExkblVETW81bTc2QU43ZkFZTGZl?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T20:17:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a1cd0b1c5f32c7d6",
+          "title": "Sources: Apple cut some engineers' daily AI spending cap to $200 from $300 and plans cuts to as little as $100, as cost cutting stokes staff fears of layoffs (Mark Gurman/Bloomberg)",
+          "url": "https://techmeme.com/261104/p49",
+          "source": "techmeme",
+          "published_at": "2026-11-04T20:10:01.000Z",
+          "score": -15,
+          "positive": [],
+          "negative": [
+            "cut",
+            "cuts",
+            "cutting",
+            "layoffs"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "3aadfd8627511551",
+          "title": "Apple Cuts Internal AI Usage Budgets in Move to Reduce Spending",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQNlpwLUc1MHh4TnNOVk9HY3BLVUlLS2ZwTjRIUEtqb0VKa2JYZG13VTc2TzdZZ2dlOUUtTmlZYTdmeGJIUVVpcWFBeS1PWGQ5X3FFS3lBMzJ0WjJsRjMzWmpaRl9KRUZzSWRpTHVaQ3lUeU5wNnM0S3dZLTVaMWo3RWNnMmZqcTBCY3NOajRvSk13UmM4R2VBUjNtT2w0NU96aU9FelhEZ1BJcHNWTExwYVRNczg?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T19:45:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
+        },
         {
           "id": "31b1b80c1d50c973",
           "title": "CPI | OpenAI Says Apple ChatGPT Deal Doesn’t Shut Out AI Rivals",
@@ -58,17 +98,6 @@
           "positive": [
             "deal"
           ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d04e90f09cc67dc6",
-          "title": "Apple Is an AI Safe Haven—but Safety Isn’t Cheap",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPTXB2Vm1NLVhnZGpidHJQanlpdzBaZjRWSmxBc1dMOWdWdXRIWlpPOWpLeHhTdGJPU1VFQnBzV05sUU1tcmdNSTZHZ1k1RDA0OXRiR0V4VDVGTHJNY2JuRHlhZGNBa08yaE5SSkhyWXJJYVVibUlReVdZQWJaRVVoMExkblVETW81bTc2QU43ZkFZTGZl?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-04T18:31:17.000Z",
-          "score": 0,
-          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -119,44 +148,79 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "d4ed9f39f605d668",
-          "title": "Apple starts giving Siri AI access to third-party apps",
-          "url": "https://theverge.com/tech/1025694/apple-siri-ai-third-party-apps",
-          "source": "verge-ai",
-          "published_at": "2026-11-03T20:16:17.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f0557644bcecacbb",
-          "title": "Apple opens Siri AI to all developers, letting any app on iOS 27.3 beta and other 27.3 OS betas bring its content and actions into Siri AI by using App Intents (Apple Developer)",
-          "url": "https://techmeme.com/261103/p27",
-          "source": "techmeme",
-          "published_at": "2026-11-03T20:15:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 46,
-      "index": 0.9,
-      "mean_headline": 0.1,
+      "headlines": 48,
+      "index": 1.3,
+      "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "7091db172b7e89da",
+          "title": "How AMD’s OpenAI, Meta Deals Work: 12 GW, Up to 320M Shares",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQUU85MENNYmVCeElBcVFVU2pzM2dwSXM3bW9GNk91Nmd2WnZ4TU5hdVotc2t1OXBFN2FwdmZidXlULU9peWRQRDZrSVM0c2lZVkxCVmtDM3M1UVRkVHFyd1NxbVFNWGU0cmhoelprLWFVcnJ1TzFjX05VSzBucUU4VGcyQUNpMXdUSE1F?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:48:58.000Z",
+          "score": 3,
+          "positive": [
+            "deals"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f9d2d26599e932e2",
+          "title": "ChatGPT can now turn text prompts and photos into animated GIFs with OpenAI's Images 2.6 model",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPenJmc1pNNGsteEZyWDBjN0ttemlNSzVmcWRyWk1JUDJKanZ0R1h1WXh1dW5ZS2h6aDJUR3lxcFRCbkE0YVEweG5SY0s0MWdlZ0l2SVhWTEtnYV9SZVRIaXhQa1VkNmg0ZGpNYWZZUHFib0FubG8yd3MyTmlQOTVzSGoxYVZqOG9XaHpUb0RSVWlNamJrYjFhdUM2d1l3Mm53TW5xa0x5VjRXY2VuWEg5T0M0Y01LNDZic3c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:47:53.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0f93d7d3608687c4",
+          "title": "OpenAI takes data center power-flexibility pledge national",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPcFQtclhwNFBnVFJpSkxrNTkwTUUtamNRTlQxS3RsMVNLZDRNN25pUmlBWUdibVptbmp3SFpCQjJJODhlUldfd19HUGlPeV82WnRwMEw1Y0lGWm9VZWh1UmpKUWNCNXlmRnoyUktNTTVFdG95amNKRTdaQ0JfNldFazM1bG9ObWJtTHhpUFV0NFM5ZTM3amJiNDRYVW1FR2s?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:41:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "095d4e17e8a3be94",
+          "title": "AMD’s OpenAI and Meta Warrants Rose 12.5x to $178.58 a Share",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNSmdTMGxhWkxLdHl1Zkg1TFYwNXpETUplUkVTM3laY3dFSUJKQTFGb1JaM2hGTENpMEhBY2REajJ2S1lyWTBPX05wTDE2eVY2UkFBRlROSTFKN1cwbWE4eFJibnhHV3N0R2R5eENIWFpydG5TZDlRN25WajN4RU13WGd3cW1YeTVURHBTRHdWZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:38:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "d4bf67700cab9341",
           "title": "Sam Altman Opens Up to Raj Shamani on the Personal Cost of OpenAI’s Success",
           "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNZXZGejdvdlpnam1tX1FTRlVTSG1KMXhBdTBmUHNPQjRmajUzTmNtUUpLa0sxcVU4WWg2ZjNyMkJ3MkRITFJ0MFVOYXB2cURwUjA4WnZETVByVEQ0UV9uZTFCTHFuTHhEbGZNSnI2UUNIZnhubnA3TXNnT1ZHZ2otSGdyZTYzZFk4SEtsU1lnUGIwalhZaFowbWZZSDg0T2xy?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-04T19:35:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "fd6d035536f5513e",
+          "title": "OpenAI to Acquire Pierre: Why Codex Is Moving Deeper Into Git and Code Review",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1Qem5sX1lVV2ktTFZQdDN5TzhhVFdlZEo2TW85bUUyWmtROWxHMXFjdmVQZjlpYmxzUjhsSUxmWVdyUVNTU2tDVEdaZHhOam9zOWVVekdHTXM4dHQ4WTZOTkxfTkFCWmJna0cxY0JGVk1PTnZCUGQ4UzNn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:34:48.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -185,73 +249,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "1f2aab870e43e814",
-          "title": "OpenAI to Buy Pierre as Agent-Made GitHub PRs Climb 6x",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPeEdZZm5PUXY3TEtkTmw1MkxhMHRhVm9VOWdzNlpoaTMtblZ0czZpQ0tqNklkY3FKSW1PU1FwV1dFYVVKZ3ptNFRVRlNYaXY0R1ZJYXlSYU5zYVRXRVZmQ1E4Sm0tZlQzY0hjRldaUl8zRWtyTHZQWExvZWc2VDFOWTRlUXN4TEhYOUE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T18:34:36.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8ea5c2e91d7fb9bb",
-          "title": "OpenAI hones public sector focus with new leadership hires",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNSm5NMDJLaXZQdkpNUWFOQ0wxZjJ0YzI1QWlsam10TEl6NXBvQlVnZC13V1Rta21qVmc0VzYweUpKdENkSnh3U1lCNEF3cWJYdm9MWW5pRDFBLUw1UkdSdHRRRnpMRmpUTFJTSUpPV1RHbnRsaGc2aFk3UXU5OWt6NU5OSzIxaWN6YTRMczVpQ01qc215bU5KTEsyejdxZmpxQnZhLWFGdV9pRjdmRmstcUY2ZVNNdTBlcGpCX1NvNU8?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T18:32:00.000Z",
-          "score": 3,
-          "positive": [
-            "hires"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e68640e1e64981b0",
-          "title": "OpenAI adds animated GIF creation to ChatGPT — The Verge",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNazJNdTgwNm1ZX2ZPeGk3MzhYbi0ydmlUSnZ0RTRDSkpxRHhqcjRZWFJyUllxcTBXNUs1RDI4ZWs2NGdrZ0YzN2tEMnBXMlJVOWU2MHpmcXIxRlBwM3FUcFR3ZFM4OXZLMGN1a3hvMzB5S2xrY3hvOVBxbWk3QVBLT05hcGZOZXdPUHlwR1JKZjg3R1hiM09ySQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T18:26:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ebe6d9e816db8d5e",
-          "title": "OpenAI Just Bought Another AI Coding Startup. Here's What It Wants To Build",
-          "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPdDRyQTlfVkptSE5TXy1pQWlGa09QeTVpRmZYQnBzYzJnS0REQ09jMlZmaTZYRUVxRGRvVUFIQkR4Q0s1eDN6YlJFYk9GYm5fOVh0aTVqTExqRzV0VVUtLXpOSm5zZjRxYWxuU254RTlLMW9VQ3pPdzZWbDN0MUJLSXgyYjFQUjl3OGlnM2lfV3ptbHVwcENLRGZPU3I1QWFDZ0hDdkdfSTVXVWk4VWlKaTFLWlJ3UVNuTnY0cGFVclJNbDJlc3ZCZGJkWDR4T0dqQ25z?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T18:19:23.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6af7211c72e692a7",
-          "title": "OpenAI’s approach to mathematics does not add up",
-          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPdFh5RG43Smk1X05pc3ZtX1dybGFjWjBqamE0VjlFVm1Ga25fdXJPcWp6TnBJSnZvRFVpSVF1LTA0UURrLVo5QUk2dWl6SFBUcTk3Rl9qYlpDajJLOUFuZzBkSVRrX3ZhZ0hkWXRfQlBEM3pVZWxGeHp5LWxfTXBJdHVDN3U2YUYzdlRuWmlOS1MwYWsyeEZveXJmUGtmTHIwMDF2OFNfOGdxZ3M?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T18:11:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 14,
-      "index": -0.6,
+      "headlines": 15,
+      "index": -0.5,
       "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "ae7c4b2c49c06833",
+          "title": "CrowdStrike and Dell Expand Security for AI Factory With Nvidia",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPZldvS29zUXd1TENNMmUxeml4bXhfQ1dtZk5YQlJHS3U3YU1XZnI1ZGU5WVBad0ZmREtDTzEtVkpTa1R3RjUtVktjYzlnTHNZTTNsNXEtdzNWMFhfcUJjLU9mLTlaNkNpbjQ0QkdMazVla2dZeHZtUFk3Tjd4MlN1SUNHMEo2TGQ2eWg0?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:50:48.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "63c1deba3017577f",
           "title": "Why AI investors may need Nvidia and application stocks",
@@ -330,27 +348,51 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "4537047ca39a7433",
-          "title": "Nvidia DGX Spark encrypted firmware slows inference speed to 35% on Linux",
-          "url": "https://mindstudio.ai/blog/linux-nvidia-rtx-spark-laptop",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-04T08:46:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 40,
-      "index": 0.8,
-      "mean_headline": 0.1,
+      "headlines": 37,
+      "index": 2.4,
+      "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "29ddce58d1511f20",
+          "title": "Cerebras’ Lockups Hold a Lesson for Anthropic Employees",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQaHhLaFgtM0tEc3JiQnR1UnlKaVJvMjB3cmFWSEYzdkVXeEstY3AyOVZoVlppN2c2X3BiVm92ajN2MDN6NXFhWWRucDhPSWRmSl9hN0J2Ukt6YzZ4a0EyeVEwRWpJRG5qUzFXdDI5VUxpWXowMmlFMzVxemptMU5SNlcyekZidWZKMTc0N19BemdpbHI0OWxaZ1RjSmdHOU5FQjhR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:51:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "355b0db044f96983",
+          "title": "Analysis: Anthropic’s IPO Tests AI’s Growth Story Against Its Costs",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPM1dESGczRkVPOWFfaTBsVVdTd0xuSENMeVRvaUtDTmZmVTVsYk1aRnRyQnNLQkdDNUdMRzBqaWM0eXc1YUR2YW4wajJlNXVwYjlua0RETHRFX1kxUExDOENJRUFlY1paV2s2cXZYR3BfSW9RY3FaQVBSUzRKVzRtWGk0TVZoZVN6SXFSMEFyVnpoa0F5ekNOM1A2dEhjejkzR0dmdHpQemlEZTNtd1dYU0lkSjk1bktsbmdB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:41:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "68dbd957ba1d515c",
+          "title": "Anthropic Expands Claude Marketplace with Partner Agents and Products",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQbVlGNEhDcVpWX29wa3RmUk9ncFVhQ09yV0NDUWkxa01WVTFYN1QwajR1Vi1CNkJzbzZDMWhaLURxRFpDeGowSkJkMWh4c3haZkZlRmt2RzQzUUR3TElXQldCQlpHN2kzWTRNNXhOcWM2TjhqYS1RcFgzMUFtMVFiU2hDSU5sYmxlUkRSY3VNUi1wSmxkVkE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:30:01.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1c36e5ad735e4b70",
           "title": "Anthropic Opens IPO Website as Retail Share Plans Span Several Markets",
@@ -405,55 +447,46 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "d0f2a395159386e7",
-          "title": "Anthropic's text watermark is easy to bypass on several older Claude models",
-          "url": "https://the-decoder.com/anthropics-text-watermark-is-easy-to-bypass-on-several-older-claude-models",
-          "source": "the-decoder",
-          "published_at": "2026-11-04T19:03:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6e497580afacc4c9",
-          "title": "TeraWulf Falls 4% Despite Google Backstop for $19 Billion Anthropic Leases; Cipher Digital Plunges 18%, IREN Tumbles 9%",
-          "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOaThPdnZCSUJLTlMweE1vU096bW05Q2taanhQRWIwQ1F4RG91MHNab3A2SGFGYzdHN2kzVFg5MnlZWUx1Wkc0OFRULUJVVjNUVldRWlU4TXJiQmpldXlWUnpGNGd1Y0RPSlZrbEx5OXBLeVBEZnlLMGZfWkU1WWkxRDB2Z3NmS0J0d2t2RlFoX1NkSHlnNTZETkFnclZQVjRvVXJ0ZzZ1MHhKSnd2TnFKNDhBTGJaVnpYRTdUdU5HVTRWdlBreDJNNjlaTl9RSzdtRFBrOC13NWhwQ3JBZUF2VkhGVzhIcWZENzM1NG9n?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:56:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7ad0e8be228da855",
-          "title": "Microsoft Shares Rise 5.95% as Anthropic Commits at Least $44.9B to Cloud",
-          "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE4wWC1JZ0Y0VjJwUkhrbHpMaVpuLVNveFByUGhwZ3IzSmZwZUdJelVrLXZQaktjSWRPQWdBb0xpWnlDNU9xNjV3ZndMbHlDZWxqVWhLNTJKSkg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:53:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 10,
-      "index": 13.6,
-      "mean_headline": 1.7,
+      "headlines": 11,
+      "index": 14.5,
+      "mean_headline": 1.8,
       "sample": [
+        {
+          "id": "7091db172b7e89da",
+          "title": "How AMD’s OpenAI, Meta Deals Work: 12 GW, Up to 320M Shares",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQUU85MENNYmVCeElBcVFVU2pzM2dwSXM3bW9GNk91Nmd2WnZ4TU5hdVotc2t1OXBFN2FwdmZidXlULU9peWRQRDZrSVM0c2lZVkxCVmtDM3M1UVRkVHFyd1NxbVFNWGU0cmhoelprLWFVcnJ1TzFjX05VSzBucUU4VGcyQUNpMXdUSE1F?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:48:58.000Z",
+          "score": 3,
+          "positive": [
+            "deals"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "22c544790061e199",
           "title": "Ben Lamm, CEO of Colossal Biosciences, speaks to WIRED at WIRED World Fair in Miami about the de-extinction company’s mission to restore species such as the woolly mammoth and the dodo.",
           "url": "https://bsky.app/profile/wired.com/post/3mzj4agk5mp2k",
           "source": "bluesky-ai",
           "published_at": "2026-11-04T19:40:22.710Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "095d4e17e8a3be94",
+          "title": "AMD’s OpenAI and Meta Warrants Rose 12.5x to $178.58 a Share",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNSmdTMGxhWkxLdHl1Zkg1TFYwNXpETUplUkVTM3laY3dFSUJKQTFGb1JaM2hGTENpMEhBY2REajJ2S1lyWTBPX05wTDE2eVY2UkFBRlROSTFKN1cwbWE4eFJibnhHV3N0R2R5eENIWFpydG5TZDlRN25WajN4RU13WGd3cW1YeTVURHBTRHdWZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:38:56.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -521,31 +554,6 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "b503ee482ab53457",
-          "title": "Meta raises $15 billion in five-part US bond sale to fund AI expansion",
-          "url": "https://bsky.app/profile/reuters.com/post/3mzh53pgd6u2t",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-04T00:50:18.000Z",
-          "score": 6,
-          "positive": [
-            "expansion",
-            "raises"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f558129647f55389",
-          "title": "RobPicker: a meta-learning framework for robust identification of macromolecules in cryo-electron tomograms",
-          "url": "https://nature.com/articles/s41592-026-03250-3",
-          "source": "nature-ml",
-          "published_at": "2026-11-04T00:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -577,6 +585,28 @@
       "mean_headline": -0.5,
       "sample": [
         {
+          "id": "f2a2b9c70608372e",
+          "title": "Google Is Forcing AI Overviews in Classrooms. Schools Are Searching for a Way Out",
+          "url": "https://bsky.app/profile/wired.com/post/3mzj5yg7hah2m",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-04T20:06:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "99739e784850eb4a",
+          "title": "Google turns off AI for schoolchildren by default",
+          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNZTRqS0RQbDFIY19CVGhwek5rXzJMd1V6dzVyc3Z5a0xxcC16bnBGMmI3N3M3R3BidkJzd1VqNGZrRUlMaWdpNGtERFJqOVlXT21wMmNmUC1pRDhUQURJM01XMi04ZHRpOEIyLVBBZl9nUkFDclhVallfUVlYc0NCNThwQjhSa012WlQ5aThKOWM5a2hmdF9WWTVlU0c?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T19:53:48.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "ac2776547aacb7b8",
           "title": "DuckDuckGo pitches itself to schools amid backlash over Google’s AI policy",
           "url": "https://techcrunch.com/2026/11/04/duckduckgo-pitches-itself-to-schools-amid-backlash-over-googles-ai-policy",
@@ -595,28 +625,6 @@
           "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPNnpNTV80dDhMTzVhUGl2RXpBVENVeXh2N2FrRTlHbFVoMklTTU1vU2VtR0hmMTkxMHBYUEEyMFFwaWIwbUZ0SS1UZjlOVTBhdVFhZi1hV2VXbVFHS2tqUHNyMEQxMHloclhjV3RPNnlOeUhNQ1ZxbGpKa0o0MVlPN2plZGlkcDUxZEY3ZkdWYm40a2xzM0d0ZXBzNG5UbHFRWUdxdW9VWkxUN1M5cGt6NmhHb1V3X0o2?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-04T19:10:41.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6e497580afacc4c9",
-          "title": "TeraWulf Falls 4% Despite Google Backstop for $19 Billion Anthropic Leases; Cipher Digital Plunges 18%, IREN Tumbles 9%",
-          "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOaThPdnZCSUJLTlMweE1vU096bW05Q2taanhQRWIwQ1F4RG91MHNab3A2SGFGYzdHN2kzVFg5MnlZWUx1Wkc0OFRULUJVVjNUVldRWlU4TXJiQmpldXlWUnpGNGd1Y0RPSlZrbEx5OXBLeVBEZnlLMGZfWkU1WWkxRDB2Z3NmS0J0d2t2RlFoX1NkSHlnNTZETkFnclZQVjRvVXJ0ZzZ1MHhKSnd2TnFKNDhBTGJaVnpYRTdUdU5HVTRWdlBreDJNNjlaTl9RSzdtRFBrOC13NWhwQ3JBZUF2VkhGVzhIcWZENzM1NG9n?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:56:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "bf9dd871b8480799",
-          "title": "TeraWulf’s $19B Anthropic Lease Gets a Google Backstop",
-          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPMkZtQmZLaDd1b0JaNU8xamt6RjMxUHlUaVdjZ3Bwa1Q3b0tDcWJHaTJyc1pqdFpSQkdzU3F4VWtyVU11VDFGVDl4eDNSbmJza1NMZE54aS1OcGRlZExUZXpLdU9IYXdwd0xrdjBTbHBHLVA3bTVqZHV2cHREcl9DOWlod3duQmc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:44:14.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -671,7 +679,7 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 9,
+      "headlines": 6,
       "index": 0,
       "mean_headline": 0,
       "sample": [
@@ -681,28 +689,6 @@
           "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOT1RneWZyTXdjVzBhN0owd3pqUGE0SFJIWlktVERseHo5SjhSVGF2cnNucEVJX1p6M0dScXkta3BUaWh1UzFsWTZqZWNESV9mUFBobWZyLS02X0NWSnJ5S2hYSWV4WFhmaWJsX25ocXhRaGZVd1RFMm9NSUxYUm9ucklUbXgwcUJmQkJ1TFJrbkdRSkZfeXNKdWMtY0JTVXhVbWpZdDVKNnB5TnBNU0duTEhKOA?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-04T18:55:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7ad0e8be228da855",
-          "title": "Microsoft Shares Rise 5.95% as Anthropic Commits at Least $44.9B to Cloud",
-          "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE4wWC1JZ0Y0VjJwUkhrbHpMaVpuLVNveFByUGhwZ3IzSmZwZUdJelVrLXZQaktjSWRPQWdBb0xpWnlDNU9xNjV3ZndMbHlDZWxqVWhLNTJKSkg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:53:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7d6751ca4ed807fd",
-          "title": "AIMG® Sizes AI Governance Platforms Market at $12.5 Billion by 2030; Microsoft, Databricks and Salesforce Top AI LeaderMap®",
-          "url": "https://news.google.com/rss/articles/CBMinwJBVV95cUxPVFl5T3AwaXo5cDloQy1nS1lJWTVJb2I1RVlPQVBPZ2tKeTNCM0FDTUc4VmZSalRjLUx1M3VpaUc5Ynh4WUE0cXdTeENFQ0xVQldfR1M4Vmg5eWRaaTAxMkE0eW5NRUVPdGlQWHI5Ni1idC03VU5QanpTa2tiNC1tS09HM3B2R2dGMlNnRW9tOENKRmxsd1V4bnhRSVBXN0JoMkhaUGo1VWVyZktjS1NhMmVoX0NLWmI1cVhfVncwdlVuaGh0NmR4MkllM2dEdjBjZ2xrNGl6eTBFY3V2UktWNDlWU281VUlVS0piVjNKMjB1TlRpVnZtanBZM0NHbHdGMW9OV2tkcmxvbDJxN3hzS1Brc0o2NTk1N1hHQ2JtOA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:52:33.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -773,6 +759,17 @@
       "mean_headline": 0,
       "sample": [
         {
+          "id": "9b1e612856f13d1b",
+          "title": "AWS goes inside the enterprise to find the real value of AI",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQcHJMcFdWQkNHc2pmQUF4MGhiZXVkM2F4dlRJdHBwZ2ExMGUzbk9IV2VqeTdZSXBDcDVOa0tBMXhmZjJRX3BDdkxCZm9SS1NqczZ5bDQwQjYybVdCZy1BaWtnMWUyb0gxS1cyckFQbWxtbEZKS09kbEdtSVJYZnRpenJTRUpqaHhfQ2NZbmJB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T20:09:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "d32d8e40f63cd24b",
           "title": "Use decision models with Amazon Bedrock AgentCore Evaluations",
           "url": "https://aws.amazon.com/blogs/machine-learning/use-decision-models-with-amazon-bedrock-agentcore-evaluations",
@@ -789,17 +786,6 @@
           "url": "https://theverge.com/column/1026464/optimizer-amazon-bee-frontier-ambient-listening-wearables",
           "source": "verge-ai",
           "published_at": "2026-11-04T18:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "687f40c8b8bffec3",
-          "title": "Amazon and Walmart's $74 Billion Ad Market Faces an AI Test",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOV0N6M25DUnUyQlpDUWhuQ3pVb05yNW0yckNnclo0R1dHZDdPbFUtY05UYUU3eGNmTWFjanZrZmZ6cV9yQlBaVkgzN1lqX3p3S1F6NlY5QkpaTzV6Y2E1ZkZiT0dPN0tVcEhvSnFnVkNvQmdWMUZOZTFSdzM2M2oxT3JWUnU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:23:28.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -865,10 +851,21 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 3,
-      "index": -2.7,
-      "mean_headline": -0.3,
+      "headlines": 4,
+      "index": -2,
+      "mean_headline": -0.2,
       "sample": [
+        {
+          "id": "cc56ef16aa2e8819",
+          "title": "Ripple 65B vs DeepSeek V4.1 Pro: One Doesn't Exist",
+          "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5UNlE3aVI3ZUtMd21YMkJlMGdTd0YzNW9TbWxYMmJlbmdWRExhUGhmRWVEc2Z3TGl3aUktb01PcUM1ZllqS0c1OGF2ang2TlRISHVlSl9iNm5VQmlnRS15LVh1b3FpLVRzWFYzUkx0QQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:37:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "01a6dea19c85c94e",
           "title": "DeepSeek V5 Said to Shift Pretraining to Huawei Ascend Chips",
@@ -913,16 +910,40 @@
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 10,
-      "index": 13.6,
-      "mean_headline": 1.7,
+      "headlines": 11,
+      "index": 14.5,
+      "mean_headline": 1.8,
       "sample": [
+        {
+          "id": "7091db172b7e89da",
+          "title": "How AMD’s OpenAI, Meta Deals Work: 12 GW, Up to 320M Shares",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQUU85MENNYmVCeElBcVFVU2pzM2dwSXM3bW9GNk91Nmd2WnZ4TU5hdVotc2t1OXBFN2FwdmZidXlULU9peWRQRDZrSVM0c2lZVkxCVmtDM3M1UVRkVHFyd1NxbVFNWGU0cmhoelprLWFVcnJ1TzFjX05VSzBucUU4VGcyQUNpMXdUSE1F?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:48:58.000Z",
+          "score": 3,
+          "positive": [
+            "deals"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "22c544790061e199",
           "title": "Ben Lamm, CEO of Colossal Biosciences, speaks to WIRED at WIRED World Fair in Miami about the de-extinction company’s mission to restore species such as the woolly mammoth and the dodo.",
           "url": "https://bsky.app/profile/wired.com/post/3mzj4agk5mp2k",
           "source": "bluesky-ai",
           "published_at": "2026-11-04T19:40:22.710Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "095d4e17e8a3be94",
+          "title": "AMD’s OpenAI and Meta Warrants Rose 12.5x to $178.58 a Share",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNSmdTMGxhWkxLdHl1Zkg1TFYwNXpETUplUkVTM3laY3dFSUJKQTFGb1JaM2hGTENpMEhBY2REajJ2S1lyWTBPX05wTDE2eVY2UkFBRlROSTFKN1cwbWE4eFJibnhHV3N0R2R5eENIWFpydG5TZDlRN25WajN4RU13WGd3cW1YeTVURHBTRHdWZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:38:56.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -990,245 +1011,51 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "b503ee482ab53457",
-          "title": "Meta raises $15 billion in five-part US bond sale to fund AI expansion",
-          "url": "https://bsky.app/profile/reuters.com/post/3mzh53pgd6u2t",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-04T00:50:18.000Z",
-          "score": 6,
-          "positive": [
-            "expansion",
-            "raises"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f558129647f55389",
-          "title": "RobPicker: a meta-learning framework for robust identification of macromolecules in cryo-electron tomograms",
-          "url": "https://nature.com/articles/s41592-026-03250-3",
-          "source": "nature-ml",
-          "published_at": "2026-11-04T00:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "apple",
-      "name": "Apple",
-      "headlines": 15,
-      "index": 2.7,
-      "mean_headline": 0.3,
-      "sample": [
-        {
-          "id": "31b1b80c1d50c973",
-          "title": "CPI | OpenAI Says Apple ChatGPT Deal Doesn’t Shut Out AI Rivals",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNcUJyR1VMWDNNeGUzQVhfQlZSSmwzYWFnQjgwRXVFNVhud3VCUjRYM0FEM253TWNHUjlhb1NwN2lITFhiT1dfcGIzbUp1MDR1a3htelJRUGZ0MGQ0UmYxNmtCeGxBbFR1VzdJVDJaQjBHU2d0QmFrWEFsNjJkRVFfdVotalRpVUlBOFdNUExfUWY0aFI2?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T19:28:12.000Z",
-          "score": 3,
-          "positive": [
-            "deal"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d04e90f09cc67dc6",
-          "title": "Apple Is an AI Safe Haven—but Safety Isn’t Cheap",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPTXB2Vm1NLVhnZGpidHJQanlpdzBaZjRWSmxBc1dMOWdWdXRIWlpPOWpLeHhTdGJPU1VFQnBzV05sUU1tcmdNSTZHZ1k1RDA0OXRiR0V4VDVGTHJNY2JuRHlhZGNBa08yaE5SSkhyWXJJYVVibUlReVdZQWJaRVVoMExkblVETW81bTc2QU43ZkFZTGZl?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-04T18:31:17.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8055c0f67ac98758",
-          "title": "Apple Watch now listens to in-person conversations & lets you rewind them",
-          "url": "https://reddit.com/r/artificial/comments/1xntvml/apple_watch_now_listens_to_inperson_conversations",
-          "source": "reddit-artificial",
-          "published_at": "2026-11-04T17:15:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "540dc5198bd72f90",
-          "title": "I tried Apple’s Siri Recaps. They’re surprisingly useful — and a little unsettling",
-          "url": "https://techcrunch.com/2026/11/04/i-tried-apples-siri-recaps-theyre-surprisingly-useful-and-a-little-unsettling",
-          "source": "techcrunch-ai",
-          "published_at": "2026-11-04T16:51:35.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e63d1743e6d3ec45",
-          "title": "Apple AI tools come to China after two-year delay",
-          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9iZXIzUVV5QzJmV0hqWG12MFFvM1hpQ0VndDVWQ21DWndpQ1pFQ2VHRDlvZ2M5ZjhLZ1lEbVEwVjQ5a1RBcG05bGU2S291VEtXbExDNXdCbW1XR0c4Z2s1Q05IZmk5VklZZHVsQzBEdjd0QTI2LVFyNQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-04T06:09:58.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "delay"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "c799ff9f807b3a05",
-          "title": "Apple launches iOS 27.3 beta, adding Apple Intelligence in China with an Alibaba-powered content filter, and watchOS 27.3 beta, with Siri Recap and Live Rewind (Bloomberg)",
-          "url": "https://techmeme.com/261103/p30",
-          "source": "techmeme",
-          "published_at": "2026-11-03T20:50:00.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d4ed9f39f605d668",
-          "title": "Apple starts giving Siri AI access to third-party apps",
-          "url": "https://theverge.com/tech/1025694/apple-siri-ai-third-party-apps",
-          "source": "verge-ai",
-          "published_at": "2026-11-03T20:16:17.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f0557644bcecacbb",
-          "title": "Apple opens Siri AI to all developers, letting any app on iOS 27.3 beta and other 27.3 OS betas bring its content and actions into Siri AI by using App Intents (Apple Developer)",
-          "url": "https://techmeme.com/261103/p27",
-          "source": "techmeme",
-          "published_at": "2026-11-03T20:15:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "openai",
-      "name": "OpenAI",
-      "headlines": 46,
-      "index": 0.9,
-      "mean_headline": 0.1,
-      "sample": [
-        {
-          "id": "d4bf67700cab9341",
-          "title": "Sam Altman Opens Up to Raj Shamani on the Personal Cost of OpenAI’s Success",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNZXZGejdvdlpnam1tX1FTRlVTSG1KMXhBdTBmUHNPQjRmajUzTmNtUUpLa0sxcVU4WWg2ZjNyMkJ3MkRITFJ0MFVOYXB2cURwUjA4WnZETVByVEQ0UV9uZTFCTHFuTHhEbGZNSnI2UUNIZnhubnA3TXNnT1ZHZ2otSGdyZTYzZFk4SEtsU1lnUGIwalhZaFowbWZZSDg0T2xy?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T19:35:15.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "31b1b80c1d50c973",
-          "title": "CPI | OpenAI Says Apple ChatGPT Deal Doesn’t Shut Out AI Rivals",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNcUJyR1VMWDNNeGUzQVhfQlZSSmwzYWFnQjgwRXVFNVhud3VCUjRYM0FEM253TWNHUjlhb1NwN2lITFhiT1dfcGIzbUp1MDR1a3htelJRUGZ0MGQ0UmYxNmtCeGxBbFR1VzdJVDJaQjBHU2d0QmFrWEFsNjJkRVFfdVotalRpVUlBOFdNUExfUWY0aFI2?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T19:28:12.000Z",
-          "score": 3,
-          "positive": [
-            "deal"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6f4b50073285632d",
-          "title": "OpenAI acquires Pierre Computer Company to make Git keep up with AI coding agents",
-          "url": "https://the-decoder.com/openai-acquires-pierre-computer-company-to-make-git-keep-up-with-ai-coding-agents",
-          "source": "the-decoder",
-          "published_at": "2026-11-04T18:41:03.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1f2aab870e43e814",
-          "title": "OpenAI to Buy Pierre as Agent-Made GitHub PRs Climb 6x",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPeEdZZm5PUXY3TEtkTmw1MkxhMHRhVm9VOWdzNlpoaTMtblZ0czZpQ0tqNklkY3FKSW1PU1FwV1dFYVVKZ3ptNFRVRlNYaXY0R1ZJYXlSYU5zYVRXRVZmQ1E4Sm0tZlQzY0hjRldaUl8zRWtyTHZQWExvZWc2VDFOWTRlUXN4TEhYOUE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T18:34:36.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8ea5c2e91d7fb9bb",
-          "title": "OpenAI hones public sector focus with new leadership hires",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNSm5NMDJLaXZQdkpNUWFOQ0wxZjJ0YzI1QWlsam10TEl6NXBvQlVnZC13V1Rta21qVmc0VzYweUpKdENkSnh3U1lCNEF3cWJYdm9MWW5pRDFBLUw1UkdSdHRRRnpMRmpUTFJTSUpPV1RHbnRsaGc2aFk3UXU5OWt6NU5OSzIxaWN6YTRMczVpQ01qc215bU5KTEsyejdxZmpxQnZhLWFGdV9pRjdmRmstcUY2ZVNNdTBlcGpCX1NvNU8?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T18:32:00.000Z",
-          "score": 3,
-          "positive": [
-            "hires"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e68640e1e64981b0",
-          "title": "OpenAI adds animated GIF creation to ChatGPT — The Verge",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNazJNdTgwNm1ZX2ZPeGk3MzhYbi0ydmlUSnZ0RTRDSkpxRHhqcjRZWFJyUllxcTBXNUs1RDI4ZWs2NGdrZ0YzN2tEMnBXMlJVOWU2MHpmcXIxRlBwM3FUcFR3ZFM4OXZLMGN1a3hvMzB5S2xrY3hvOVBxbWk3QVBLT05hcGZOZXdPUHlwR1JKZjg3R1hiM09ySQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T18:26:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ebe6d9e816db8d5e",
-          "title": "OpenAI Just Bought Another AI Coding Startup. Here's What It Wants To Build",
-          "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPdDRyQTlfVkptSE5TXy1pQWlGa09QeTVpRmZYQnBzYzJnS0REQ09jMlZmaTZYRUVxRGRvVUFIQkR4Q0s1eDN6YlJFYk9GYm5fOVh0aTVqTExqRzV0VVUtLXpOSm5zZjRxYWxuU254RTlLMW9VQ3pPdzZWbDN0MUJLSXgyYjFQUjl3OGlnM2lfV3ptbHVwcENLRGZPU3I1QWFDZ0hDdkdfSTVXVWk4VWlKaTFLWlJ3UVNuTnY0cGFVclJNbDJlc3ZCZGJkWDR4T0dqQ25z?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T18:19:23.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6af7211c72e692a7",
-          "title": "OpenAI’s approach to mathematics does not add up",
-          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPdFh5RG43Smk1X05pc3ZtX1dybGFjWjBqamE0VjlFVm1Ga25fdXJPcWp6TnBJSnZvRFVpSVF1LTA0UURrLVo5QUk2dWl6SFBUcTk3Rl9qYlpDajJLOUFuZzBkSVRrX3ZhZ0hkWXRfQlBEM3pVZWxGeHp5LWxfTXBJdHVDN3U2YUYzdlRuWmlOS1MwYWsyeEZveXJmUGtmTHIwMDF2OFNfOGdxZ3M?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T18:11:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 40,
-      "index": 0.8,
-      "mean_headline": 0.1,
+      "headlines": 37,
+      "index": 2.4,
+      "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "29ddce58d1511f20",
+          "title": "Cerebras’ Lockups Hold a Lesson for Anthropic Employees",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQaHhLaFgtM0tEc3JiQnR1UnlKaVJvMjB3cmFWSEYzdkVXeEstY3AyOVZoVlppN2c2X3BiVm92ajN2MDN6NXFhWWRucDhPSWRmSl9hN0J2Ukt6YzZ4a0EyeVEwRWpJRG5qUzFXdDI5VUxpWXowMmlFMzVxemptMU5SNlcyekZidWZKMTc0N19BemdpbHI0OWxaZ1RjSmdHOU5FQjhR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:51:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "355b0db044f96983",
+          "title": "Analysis: Anthropic’s IPO Tests AI’s Growth Story Against Its Costs",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPM1dESGczRkVPOWFfaTBsVVdTd0xuSENMeVRvaUtDTmZmVTVsYk1aRnRyQnNLQkdDNUdMRzBqaWM0eXc1YUR2YW4wajJlNXVwYjlua0RETHRFX1kxUExDOENJRUFlY1paV2s2cXZYR3BfSW9RY3FaQVBSUzRKVzRtWGk0TVZoZVN6SXFSMEFyVnpoa0F5ekNOM1A2dEhjejkzR0dmdHpQemlEZTNtd1dYU0lkSjk1bktsbmdB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:41:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "68dbd957ba1d515c",
+          "title": "Anthropic Expands Claude Marketplace with Partner Agents and Products",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQbVlGNEhDcVpWX29wa3RmUk9ncFVhQ09yV0NDUWkxa01WVTFYN1QwajR1Vi1CNkJzbzZDMWhaLURxRFpDeGowSkJkMWh4c3haZkZlRmt2RzQzUUR3TElXQldCQlpHN2kzWTRNNXhOcWM2TjhqYS1RcFgzMUFtMVFiU2hDSU5sYmxlUkRSY3VNUi1wSmxkVkE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:30:01.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "1c36e5ad735e4b70",
           "title": "Anthropic Opens IPO Website as Retail Share Plans Span Several Markets",
@@ -1283,35 +1110,103 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "headlines": 48,
+      "index": 1.3,
+      "mean_headline": 0.2,
+      "sample": [
+        {
+          "id": "7091db172b7e89da",
+          "title": "How AMD’s OpenAI, Meta Deals Work: 12 GW, Up to 320M Shares",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQUU85MENNYmVCeElBcVFVU2pzM2dwSXM3bW9GNk91Nmd2WnZ4TU5hdVotc2t1OXBFN2FwdmZidXlULU9peWRQRDZrSVM0c2lZVkxCVmtDM3M1UVRkVHFyd1NxbVFNWGU0cmhoelprLWFVcnJ1TzFjX05VSzBucUU4VGcyQUNpMXdUSE1F?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:48:58.000Z",
+          "score": 3,
+          "positive": [
+            "deals"
+          ],
+          "negative": [],
+          "clickbait": []
         },
         {
-          "id": "d0f2a395159386e7",
-          "title": "Anthropic's text watermark is easy to bypass on several older Claude models",
-          "url": "https://the-decoder.com/anthropics-text-watermark-is-easy-to-bypass-on-several-older-claude-models",
+          "id": "f9d2d26599e932e2",
+          "title": "ChatGPT can now turn text prompts and photos into animated GIFs with OpenAI's Images 2.6 model",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPenJmc1pNNGsteEZyWDBjN0ttemlNSzVmcWRyWk1JUDJKanZ0R1h1WXh1dW5ZS2h6aDJUR3lxcFRCbkE0YVEweG5SY0s0MWdlZ0l2SVhWTEtnYV9SZVRIaXhQa1VkNmg0ZGpNYWZZUHFib0FubG8yd3MyTmlQOTVzSGoxYVZqOG9XaHpUb0RSVWlNamJrYjFhdUM2d1l3Mm53TW5xa0x5VjRXY2VuWEg5T0M0Y01LNDZic3c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:47:53.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0f93d7d3608687c4",
+          "title": "OpenAI takes data center power-flexibility pledge national",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPcFQtclhwNFBnVFJpSkxrNTkwTUUtamNRTlQxS3RsMVNLZDRNN25pUmlBWUdibVptbmp3SFpCQjJJODhlUldfd19HUGlPeV82WnRwMEw1Y0lGWm9VZWh1UmpKUWNCNXlmRnoyUktNTTVFdG95amNKRTdaQ0JfNldFazM1bG9ObWJtTHhpUFV0NFM5ZTM3amJiNDRYVW1FR2s?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:41:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "095d4e17e8a3be94",
+          "title": "AMD’s OpenAI and Meta Warrants Rose 12.5x to $178.58 a Share",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNSmdTMGxhWkxLdHl1Zkg1TFYwNXpETUplUkVTM3laY3dFSUJKQTFGb1JaM2hGTENpMEhBY2REajJ2S1lyWTBPX05wTDE2eVY2UkFBRlROSTFKN1cwbWE4eFJibnhHV3N0R2R5eENIWFpydG5TZDlRN25WajN4RU13WGd3cW1YeTVURHBTRHdWZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:38:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d4bf67700cab9341",
+          "title": "Sam Altman Opens Up to Raj Shamani on the Personal Cost of OpenAI’s Success",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNZXZGejdvdlpnam1tX1FTRlVTSG1KMXhBdTBmUHNPQjRmajUzTmNtUUpLa0sxcVU4WWg2ZjNyMkJ3MkRITFJ0MFVOYXB2cURwUjA4WnZETVByVEQ0UV9uZTFCTHFuTHhEbGZNSnI2UUNIZnhubnA3TXNnT1ZHZ2otSGdyZTYzZFk4SEtsU1lnUGIwalhZaFowbWZZSDg0T2xy?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:35:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "fd6d035536f5513e",
+          "title": "OpenAI to Acquire Pierre: Why Codex Is Moving Deeper Into Git and Code Review",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1Qem5sX1lVV2ktTFZQdDN5TzhhVFdlZEo2TW85bUUyWmtROWxHMXFjdmVQZjlpYmxzUjhsSUxmWVdyUVNTU2tDVEdaZHhOam9zOWVVekdHTXM4dHQ4WTZOTkxfTkFCWmJna0cxY0JGVk1PTnZCUGQ4UzNn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:34:48.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "31b1b80c1d50c973",
+          "title": "CPI | OpenAI Says Apple ChatGPT Deal Doesn’t Shut Out AI Rivals",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNcUJyR1VMWDNNeGUzQVhfQlZSSmwzYWFnQjgwRXVFNVhud3VCUjRYM0FEM253TWNHUjlhb1NwN2lITFhiT1dfcGIzbUp1MDR1a3htelJRUGZ0MGQ0UmYxNmtCeGxBbFR1VzdJVDJaQjBHU2d0QmFrWEFsNjJkRVFfdVotalRpVUlBOFdNUExfUWY0aFI2?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:28:12.000Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6f4b50073285632d",
+          "title": "OpenAI acquires Pierre Computer Company to make Git keep up with AI coding agents",
+          "url": "https://the-decoder.com/openai-acquires-pierre-computer-company-to-make-git-keep-up-with-ai-coding-agents",
           "source": "the-decoder",
-          "published_at": "2026-11-04T19:03:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6e497580afacc4c9",
-          "title": "TeraWulf Falls 4% Despite Google Backstop for $19 Billion Anthropic Leases; Cipher Digital Plunges 18%, IREN Tumbles 9%",
-          "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOaThPdnZCSUJLTlMweE1vU096bW05Q2taanhQRWIwQ1F4RG91MHNab3A2SGFGYzdHN2kzVFg5MnlZWUx1Wkc0OFRULUJVVjNUVldRWlU4TXJiQmpldXlWUnpGNGd1Y0RPSlZrbEx5OXBLeVBEZnlLMGZfWkU1WWkxRDB2Z3NmS0J0d2t2RlFoX1NkSHlnNTZETkFnclZQVjRvVXJ0ZzZ1MHhKSnd2TnFKNDhBTGJaVnpYRTdUdU5HVTRWdlBreDJNNjlaTl9RSzdtRFBrOC13NWhwQ3JBZUF2VkhGVzhIcWZENzM1NG9n?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:56:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7ad0e8be228da855",
-          "title": "Microsoft Shares Rise 5.95% as Anthropic Commits at Least $44.9B to Cloud",
-          "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE4wWC1JZ0Y0VjJwUkhrbHpMaVpuLVNveFByUGhwZ3IzSmZwZUdJelVrLXZQaktjSWRPQWdBb0xpWnlDNU9xNjV3ZndMbHlDZWxqVWhLNTJKSkg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:53:27.000Z",
+          "published_at": "2026-11-04T18:41:03.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1326,6 +1221,17 @@
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "9b1e612856f13d1b",
+          "title": "AWS goes inside the enterprise to find the real value of AI",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQcHJMcFdWQkNHc2pmQUF4MGhiZXVkM2F4dlRJdHBwZ2ExMGUzbk9IV2VqeTdZSXBDcDVOa0tBMXhmZjJRX3BDdkxCZm9SS1NqczZ5bDQwQjYybVdCZy1BaWtnMWUyb0gxS1cyckFQbWxtbEZKS09kbEdtSVJYZnRpenJTRUpqaHhfQ2NZbmJB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T20:09:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "d32d8e40f63cd24b",
           "title": "Use decision models with Amazon Bedrock AgentCore Evaluations",
@@ -1343,17 +1249,6 @@
           "url": "https://theverge.com/column/1026464/optimizer-amazon-bee-frontier-ambient-listening-wearables",
           "source": "verge-ai",
           "published_at": "2026-11-04T18:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "687f40c8b8bffec3",
-          "title": "Amazon and Walmart's $74 Billion Ad Market Faces an AI Test",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOV0N6M25DUnUyQlpDUWhuQ3pVb05yNW0yckNnclo0R1dHZDdPbFUtY05UYUU3eGNmTWFjanZrZmZ6cV9yQlBaVkgzN1lqX3p3S1F6NlY5QkpaTzV6Y2E1ZkZiT0dPN0tVcEhvSnFnVkNvQmdWMUZOZTFSdzM2M2oxT3JWUnU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:23:28.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1419,7 +1314,7 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 9,
+      "headlines": 6,
       "index": 0,
       "mean_headline": 0,
       "sample": [
@@ -1429,28 +1324,6 @@
           "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOT1RneWZyTXdjVzBhN0owd3pqUGE0SFJIWlktVERseHo5SjhSVGF2cnNucEVJX1p6M0dScXkta3BUaWh1UzFsWTZqZWNESV9mUFBobWZyLS02X0NWSnJ5S2hYSWV4WFhmaWJsX25ocXhRaGZVd1RFMm9NSUxYUm9ucklUbXgwcUJmQkJ1TFJrbkdRSkZfeXNKdWMtY0JTVXhVbWpZdDVKNnB5TnBNU0duTEhKOA?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-04T18:55:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7ad0e8be228da855",
-          "title": "Microsoft Shares Rise 5.95% as Anthropic Commits at Least $44.9B to Cloud",
-          "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE4wWC1JZ0Y0VjJwUkhrbHpMaVpuLVNveFByUGhwZ3IzSmZwZUdJelVrLXZQaktjSWRPQWdBb0xpWnlDNU9xNjV3ZndMbHlDZWxqVWhLNTJKSkg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:53:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7d6751ca4ed807fd",
-          "title": "AIMG® Sizes AI Governance Platforms Market at $12.5 Billion by 2030; Microsoft, Databricks and Salesforce Top AI LeaderMap®",
-          "url": "https://news.google.com/rss/articles/CBMinwJBVV95cUxPVFl5T3AwaXo5cDloQy1nS1lJWTVJb2I1RVlPQVBPZ2tKeTNCM0FDTUc4VmZSalRjLUx1M3VpaUc5Ynh4WUE0cXdTeENFQ0xVQldfR1M4Vmg5eWRaaTAxMkE0eW5NRUVPdGlQWHI5Ni1idC03VU5QanpTa2tiNC1tS09HM3B2R2dGMlNnRW9tOENKRmxsd1V4bnhRSVBXN0JoMkhaUGo1VWVyZktjS1NhMmVoX0NLWmI1cVhfVncwdlVuaGh0NmR4MkllM2dEdjBjZ2xrNGl6eTBFY3V2UktWNDlWU281VUlVS0piVjNKMjB1TlRpVnZtanBZM0NHbHdGMW9OV2tkcmxvbDJxN3hzS1Brc0o2NTk1N1hHQ2JtOA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:52:33.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1536,10 +1409,21 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 14,
-      "index": -0.6,
+      "headlines": 15,
+      "index": -0.5,
       "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "ae7c4b2c49c06833",
+          "title": "CrowdStrike and Dell Expand Security for AI Factory With Nvidia",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPZldvS29zUXd1TENNMmUxeml4bXhfQ1dtZk5YQlJHS3U3YU1XZnI1ZGU5WVBad0ZmREtDTzEtVkpTa1R3RjUtVktjYzlnTHNZTTNsNXEtdzNWMFhfcUJjLU9mLTlaNkNpbjQ0QkdMazVla2dZeHZtUFk3Tjd4MlN1SUNHMEo2TGQ2eWg0?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:50:48.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "63c1deba3017577f",
           "title": "Why AI investors may need Nvidia and application stocks",
@@ -1618,27 +1502,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "4537047ca39a7433",
-          "title": "Nvidia DGX Spark encrypted firmware slows inference speed to 35% on Linux",
-          "url": "https://mindstudio.ai/blog/linux-nvidia-rtx-spark-laptop",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-04T08:46:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 3,
-      "index": -2.7,
-      "mean_headline": -0.3,
+      "headlines": 4,
+      "index": -2,
+      "mean_headline": -0.2,
       "sample": [
+        {
+          "id": "cc56ef16aa2e8819",
+          "title": "Ripple 65B vs DeepSeek V4.1 Pro: One Doesn't Exist",
+          "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5UNlE3aVI3ZUtMd21YMkJlMGdTd0YzNW9TbWxYMmJlbmdWRExhUGhmRWVEc2Z3TGl3aUktb01PcUM1ZllqS0c1OGF2ang2TlRISHVlSl9iNm5VQmlnRS15LVh1b3FpLVRzWFYzUkx0QQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:37:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "01a6dea19c85c94e",
           "title": "DeepSeek V5 Said to Shift Pretraining to Huawei Ascend Chips",
@@ -1686,6 +1570,28 @@
       "mean_headline": -0.5,
       "sample": [
         {
+          "id": "f2a2b9c70608372e",
+          "title": "Google Is Forcing AI Overviews in Classrooms. Schools Are Searching for a Way Out",
+          "url": "https://bsky.app/profile/wired.com/post/3mzj5yg7hah2m",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-04T20:06:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "99739e784850eb4a",
+          "title": "Google turns off AI for schoolchildren by default",
+          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNZTRqS0RQbDFIY19CVGhwek5rXzJMd1V6dzVyc3Z5a0xxcC16bnBGMmI3N3M3R3BidkJzd1VqNGZrRUlMaWdpNGtERFJqOVlXT21wMmNmUC1pRDhUQURJM01XMi04ZHRpOEIyLVBBZl9nUkFDclhVallfUVlYc0NCNThwQjhSa012WlQ5aThKOWM5a2hmdF9WWTVlU0c?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T19:53:48.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "ac2776547aacb7b8",
           "title": "DuckDuckGo pitches itself to schools amid backlash over Google’s AI policy",
           "url": "https://techcrunch.com/2026/11/04/duckduckgo-pitches-itself-to-schools-amid-backlash-over-googles-ai-policy",
@@ -1704,28 +1610,6 @@
           "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPNnpNTV80dDhMTzVhUGl2RXpBVENVeXh2N2FrRTlHbFVoMklTTU1vU2VtR0hmMTkxMHBYUEEyMFFwaWIwbUZ0SS1UZjlOVTBhdVFhZi1hV2VXbVFHS2tqUHNyMEQxMHloclhjV3RPNnlOeUhNQ1ZxbGpKa0o0MVlPN2plZGlkcDUxZEY3ZkdWYm40a2xzM0d0ZXBzNG5UbHFRWUdxdW9VWkxUN1M5cGt6NmhHb1V3X0o2?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-04T19:10:41.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6e497580afacc4c9",
-          "title": "TeraWulf Falls 4% Despite Google Backstop for $19 Billion Anthropic Leases; Cipher Digital Plunges 18%, IREN Tumbles 9%",
-          "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOaThPdnZCSUJLTlMweE1vU096bW05Q2taanhQRWIwQ1F4RG91MHNab3A2SGFGYzdHN2kzVFg5MnlZWUx1Wkc0OFRULUJVVjNUVldRWlU4TXJiQmpldXlWUnpGNGd1Y0RPSlZrbEx5OXBLeVBEZnlLMGZfWkU1WWkxRDB2Z3NmS0J0d2t2RlFoX1NkSHlnNTZETkFnclZQVjRvVXJ0ZzZ1MHhKSnd2TnFKNDhBTGJaVnpYRTdUdU5HVTRWdlBreDJNNjlaTl9RSzdtRFBrOC13NWhwQ3JBZUF2VkhGVzhIcWZENzM1NG9n?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:56:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "bf9dd871b8480799",
-          "title": "TeraWulf’s $19B Anthropic Lease Gets a Google Backstop",
-          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPMkZtQmZLaDd1b0JaNU8xamt6RjMxUHlUaVdjZ3Bwa1Q3b0tDcWJHaTJyc1pqdFpSQkdzU3F4VWtyVU11VDFGVDl4eDNSbmJza1NMZE54aS1OcGRlZExUZXpLdU9IYXdwd0xrdjBTbHBHLVA3bTVqZHV2cHREcl9DOWlod3duQmc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T17:44:14.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1772,6 +1656,116 @@
           "published_at": "2026-11-04T13:49:51.000Z",
           "score": 0,
           "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "headlines": 17,
+      "index": -6.6,
+      "mean_headline": -0.8,
+      "sample": [
+        {
+          "id": "d04e90f09cc67dc6",
+          "title": "Apple Is an AI Safe Haven—but Safety Isn’t Cheap",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPTXB2Vm1NLVhnZGpidHJQanlpdzBaZjRWSmxBc1dMOWdWdXRIWlpPOWpLeHhTdGJPU1VFQnBzV05sUU1tcmdNSTZHZ1k1RDA0OXRiR0V4VDVGTHJNY2JuRHlhZGNBa08yaE5SSkhyWXJJYVVibUlReVdZQWJaRVVoMExkblVETW81bTc2QU43ZkFZTGZl?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T20:17:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a1cd0b1c5f32c7d6",
+          "title": "Sources: Apple cut some engineers' daily AI spending cap to $200 from $300 and plans cuts to as little as $100, as cost cutting stokes staff fears of layoffs (Mark Gurman/Bloomberg)",
+          "url": "https://techmeme.com/261104/p49",
+          "source": "techmeme",
+          "published_at": "2026-11-04T20:10:01.000Z",
+          "score": -15,
+          "positive": [],
+          "negative": [
+            "cut",
+            "cuts",
+            "cutting",
+            "layoffs"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "3aadfd8627511551",
+          "title": "Apple Cuts Internal AI Usage Budgets in Move to Reduce Spending",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQNlpwLUc1MHh4TnNOVk9HY3BLVUlLS2ZwTjRIUEtqb0VKa2JYZG13VTc2TzdZZ2dlOUUtTmlZYTdmeGJIUVVpcWFBeS1PWGQ5X3FFS3lBMzJ0WjJsRjMzWmpaRl9KRUZzSWRpTHVaQ3lUeU5wNnM0S3dZLTVaMWo3RWNnMmZqcTBCY3NOajRvSk13UmM4R2VBUjNtT2w0NU96aU9FelhEZ1BJcHNWTExwYVRNczg?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T19:45:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "31b1b80c1d50c973",
+          "title": "CPI | OpenAI Says Apple ChatGPT Deal Doesn’t Shut Out AI Rivals",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNcUJyR1VMWDNNeGUzQVhfQlZSSmwzYWFnQjgwRXVFNVhud3VCUjRYM0FEM253TWNHUjlhb1NwN2lITFhiT1dfcGIzbUp1MDR1a3htelJRUGZ0MGQ0UmYxNmtCeGxBbFR1VzdJVDJaQjBHU2d0QmFrWEFsNjJkRVFfdVotalRpVUlBOFdNUExfUWY0aFI2?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T19:28:12.000Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8055c0f67ac98758",
+          "title": "Apple Watch now listens to in-person conversations & lets you rewind them",
+          "url": "https://reddit.com/r/artificial/comments/1xntvml/apple_watch_now_listens_to_inperson_conversations",
+          "source": "reddit-artificial",
+          "published_at": "2026-11-04T17:15:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "540dc5198bd72f90",
+          "title": "I tried Apple’s Siri Recaps. They’re surprisingly useful — and a little unsettling",
+          "url": "https://techcrunch.com/2026/11/04/i-tried-apples-siri-recaps-theyre-surprisingly-useful-and-a-little-unsettling",
+          "source": "techcrunch-ai",
+          "published_at": "2026-11-04T16:51:35.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e63d1743e6d3ec45",
+          "title": "Apple AI tools come to China after two-year delay",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9iZXIzUVV5QzJmV0hqWG12MFFvM1hpQ0VndDVWQ21DWndpQ1pFQ2VHRDlvZ2M5ZjhLZ1lEbVEwVjQ5a1RBcG05bGU2S291VEtXbExDNXdCbW1XR0c4Z2s1Q05IZmk5VklZZHVsQzBEdjd0QTI2LVFyNQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T06:09:58.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "delay"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "c799ff9f807b3a05",
+          "title": "Apple launches iOS 27.3 beta, adding Apple Intelligence in China with an Alibaba-powered content filter, and watchOS 27.3 beta, with Siri Recap and Live Rewind (Bloomberg)",
+          "url": "https://techmeme.com/261103/p30",
+          "source": "techmeme",
+          "published_at": "2026-11-03T20:50:00.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
           "negative": [],
           "clickbait": []
         }
