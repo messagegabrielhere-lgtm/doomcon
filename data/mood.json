@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-04T05:22:40.560Z",
-  "news_generated_at": "2026-11-04T05:22:40.560Z",
+  "generated_at": "2026-11-04T06:44:40.589Z",
+  "news_generated_at": "2026-11-04T06:44:40.589Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,21 +18,21 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 166,
+    "headlines_naming_a_company": 167,
     "companies_on_roster": 10,
-    "companies_with_headlines": 10,
-    "negative_pair_share": 0.113
+    "companies_with_headlines": 9,
+    "negative_pair_share": 0.124
   },
   "glance": {
     "leading": {
       "id": "meta",
       "name": "Meta",
-      "index": 4
+      "index": 4.6
     },
     "trailing": {
-      "id": "deepseek",
-      "name": "DeepSeek",
-      "index": -32
+      "id": "google",
+      "name": "Google",
+      "index": -4.7
     },
     "most_discussed": {
       "id": "anthropic",
@@ -44,10 +44,23 @@
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 18,
-      "index": 2.7,
-      "mean_headline": 0.3,
+      "headlines": 19,
+      "index": 0.8,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "e63d1743e6d3ec45",
+          "title": "Apple AI tools come to China after two-year delay",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9iZXIzUVV5QzJmV0hqWG12MFFvM1hpQ0VndDVWQ21DWndpQ1pFQ2VHRDlvZ2M5ZjhLZ1lEbVEwVjQ5a1RBcG05bGU2S291VEtXbExDNXdCbW1XR0c4Z2s1Q05IZmk5VklZZHVsQzBEdjd0QTI2LVFyNQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T05:45:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "delay"
+          ],
+          "clickbait": []
+        },
         {
           "id": "d04e90f09cc67dc6",
           "title": "Apple Is an AI Safe Haven—but Safety Isn’t Cheap",
@@ -126,27 +139,55 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "5074a863befce54f",
-          "title": "Apple’s latest watchOS beta includes its new always-on Audio Intelligence features",
-          "url": "https://theverge.com/tech/1025002/apple-watch-audio-intelligence-watchos-beta",
-          "source": "verge-ai",
-          "published_at": "2026-11-03T18:31:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 38,
-      "index": 3.2,
-      "mean_headline": 0.4,
+      "headlines": 39,
+      "index": 0,
+      "mean_headline": 0,
       "sample": [
+        {
+          "id": "8e1a8d1b9b51f990",
+          "title": "OpenAI Beefs Up Internal Defenses After Hidden Recorder and Messenger Breach",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE01SmNFZndiT3VxeWtDSVhrZEh0SG5iNkR1dUpYNlNVXzVEaEFsOWpoUWltSVlsQ25VeElWS3ZwWmUxZ0RpRTdyNWxBUXN2OVgwRjgwelZpdkxlS2tEeEo4VkF5bEFDSExpaldGWFQwaXRmQUd1RlE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:36:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "breach"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "2ace4567d51f23b6",
+          "title": "OpenAI CEO Sam Altman Has A Warning On Superintelligence, 'People...'",
+          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOX0NodFpPNjlTQ01KSXhNN19hR0xvODVxQ3VPck5Qdld0dVZ4MWw5ZmNHQWpIdnFKcFl0WWJ2S3hNZU5oLXBLcHd2VjNCMWwzbWdMaENWWDhrVklGYXlabFRndUVuWWp3MllLemRZWHNZZUhKMVdfbXlpeTdkTlJubUhRandEVEVrVzhpRmV6d0M5MTVtelc1dWtpaldWZ1RwSVVnc0tFbjh5SFRWUWlmTy0xRHl1ZzdVMnd3TzlzYUJZcUZ3SUg0TNIBzgFBVV95cUxPS2VXNW9oWTNia0prQkxDMEFPbEpEOG5pUGw0ek5QMzlrNjZIUkc3UWt4LVpoTU95djh5STFreVZCNHdjdmQ3ZHlZcEtST2RzSHRMQ3d4bHpwcTdaZ3gwc19Ic0k3Y2trbnpFVXpCMmpLV0lfM2Vfd21rMlZIbVoxamt4bk50Mks2ZDd2cG1YclUtUkF1RmxqR2tsNWl2QkI3Yk5Db2NPZHEzbTlwQWxwd1VKb21sWmI1NXkzMEZNakh6d3owVWk1RDVoNTJVQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:12:07.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warning"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "d37549ced8519a66",
+          "title": "OpenAI tightens security after bugging and hacks amid staff warnings",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFA2UzVxNnJISHRsckdLYnRpTDR5NlV2ZUtyc18yQXNDYVdwQ1hTSkJVWGY4TzAtTnZBZG13S3V6ZXdhbDR5dnNoX285MFNieEdjMTFhNGRHeUdlVk1IeHd5QzBvNVJpeWdkREJTZUdlNXVFbmR2YkVaOHln0gGOAUFVX3lxTE5jLTVXcE56X2YtVHBFM0d3TDJleFZXRUZEYzZRb2ZXWjBSY3JnRENKcjNxYlkyejFORWM4UGdGM2FDXzRodVlHVERrRExWM0dMZm5qazJFX0tHVkR2Q2I1eGhYd0JlbkY3YllVOGdCek5wZW16U2JTTW9sVk1UalBGSEpQMDdDbTh4QmdjV0E?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:12:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warnings"
+          ],
+          "clickbait": []
+        },
         {
           "id": "976ee5da8000809a",
           "title": "After FBI arrested a Saudi National for hiding a spy device at OpenAI, employees said ‘not surprised’: Co",
@@ -205,51 +246,38 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "aca99d1efd647fc3",
-          "title": "OpenAI is enticing cybersecurity experts with record rewards of up to $172,000 for discovering AI vulnerabilities",
-          "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxOLWd1TEZ3bEJjVTcwazBQQm9maHd5TlpyX1MzeUh5cGdvMUtWS3FXbjdrX2lBTWNDd2dfSUVRTDNGNFBYaXo0bUVRVDBNZmt6UWFBWjhVbGJfRjRRYWM3bTllSE5xVkFWaFZMZ015T1Z5YUlyTzhjUkpYWVN3N3lzQUI4aXlLSVV1TnBlTXdnMUNGNUJVdkVZamNuYlBlN1VSazJ5XzBuWko3Nzg2WE5lRTNZRkhWOWN6Ulh2dGxObm9OTVRRdU1BbjMtUUV0aVhmSElpT2pPNl94WDlhWG9YT05tMmgzUWxfLVZEY1F5TWtGOGc2dEo5dUxmVE5CTDduY0pYR253?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T02:59:17.000Z",
-          "score": 3,
-          "positive": [
-            "record"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "05ea4719aa8f607a",
-          "title": "Human control must set limits on superintelligence, says OpenAI's Sam Altman",
-          "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxNV01JTFVNZTFwQjRvOEZuZXVFWlZnWnBsMFRZUmlvRmZTUEgwMUtMN2pWa2NhQ0tzRmtrYm1JY0cxOTN5OXhkRHlRUXpfSGp3NC02SXdLVktXNGFvSjlKcFpwQ3lJUUk4c1VrMkRlLWc3SjFFUE82Y3BYam5GdERKYXo2OEJ1eUtMN3RSTkVyVXB0TGFuXzNhRkk4RFRBdk1haE5fRXhRM2NwcTlkQzgyTmtXTFRrdndhSlZ5cUpJRW5XWjA3a2YyN0tGY01lSEFfdHRRa3BpdzJteVFEaGVYazBDYlpkTGZ4cXFTNHRR0gHzAUFVX3lxTFB4X1pheXVxT0RxZXd1ZVJjNkRYVHJFSmFNX0E2Zk1ydFpNRTVIeTRtd0UyTHZmbGhhaFhJNXNVaUpNZzVpVG5rMDhOU1dXZGFRLVlnYnVieEFDcHlzc1BnRV9mVFpzTm1rU25GcU5Eb1dFNjFtSHpyR0RKbFVHejRDMU1qSHItU2owT0p0MXN3VDNZaHVSOVAxYmxyZmdpbmItbXMtZWJrTkZlTHo4bnRwcTY3dHdVREFva3d4MnBoUWczY09jeGJkdEV3ay1NUjQzZkNNTmJnWkIzQ3FhS0M2d2RJUXJseHlfOXdsMFdKNEhfMA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T02:47:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6c1f673548c5860e",
-          "title": "openai/openai-python v3.45.0",
-          "url": "https://github.com/openai/openai-python/releases/tag/v3.45.0",
-          "source": "github-releases",
-          "published_at": "2026-11-04T02:23:23.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 15,
+      "headlines": 17,
       "index": -0.5,
       "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "6bc88404ddb21c1e",
+          "title": "Nvidia to Fill Just 1% of 6 Million Chinese AI Chip Orders: 'Money Can't Buy Them'",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5xMVNQVHZ5ZGl3U3FYdkg4SmNzTTlVeUhIQ3AyRjBkMGc1WG1FS1d5aGdMTFk0d0xud3Rkb2hLQ3c1ZGxxTzV0em9TaVl5TWZfWko1Z09CVEVQbGlJN0Fsb2ZNWjRQb21nTmtmY3kzYzQtRW1oa2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:36:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d98c21b35b94cd5c",
+          "title": "Sources: Alibaba, Tencent, ByteDance, and other Chinese AI companies ordered 6M Nvidia RTX Pro 5500 chips worth $70B, but expect only ~1% within four months (Bloomberg)",
+          "url": "https://techmeme.com/261104/p1",
+          "source": "techmeme",
+          "published_at": "2026-11-04T05:55:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "bb4e8f7cf509148f",
           "title": "AMD and Moreh Unveil Simulation Showing 60% Margin on AI Token Production, Taking Aim at Nvidia",
@@ -317,28 +345,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "33af3cfa91769c61",
-          "title": "Nvidia is happy to take your money whether you're using open or closed models, says Jensen Huang",
-          "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxPWDFVVllIWUZnWjhLdzNsSGU1R19vQkQ0bHkxSWpYTFlZUUc5NXAxTkUwR1Nuc05kYlB4R1hBNmxkZmx5QkVqZ3NoUEdNMWlrQ1hvY3pCLV9STmQ3bmpCQVlFVTlybzhHcG9KVnJJRzVFUVNfalNkYlhyRUZMOWptUm13aUdJSkYza2U4YW9fNVY1NEE2VVJpV0pkQkNIM0pnSDJkUks1a0JuN2h3Y3J1cEg5dlFYRDZ3X1RLQ045TE9TUlFBSDNyTUJKbkJnMUY4MTE4U1I1dDFPaEFRQk1qMjRuay1Rdw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T21:00:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "17db3bbae0c0599e",
-          "title": "Nvidia tells data center operators to limit business to Chinese customers",
-          "url": "https://tomshardware.com/tech-industry/data-centers/nvidia-tells-data-center-operators-to-limit-business-from-chinese-customers-with-new-global-restrictions-report-claims-allegedly-restricted-to-49-percent-of-the-total-ensuring-51-percent-are-non-chinese-outfits",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-03T17:31:28.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -350,92 +356,90 @@
       "mean_headline": -0.3,
       "sample": [
         {
+          "id": "284a86d89f6df701",
+          "title": "3 of Anthropic’s 4 Named Exits in 60 Days Were Claude Code",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNZWxwV25yRTg5ek9uWjRULWlWakg4Vi05Y2YtWFZOUGxDbVMwS1c1Z1ZqblRZRXFXelRVQ3Z5TXlid2VHSDZ0NURlaE5PMlAtcXJFakxfaWNTMXY1TjNyRU9YUWpoODZITXdNeU1NQU5VYjllbTI4VThubDRaS1FrRUZpakYwZkoxUVFtWk1B?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:30:45.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7a83291ef266a95e",
+          "title": "Anthropic Names Claude Code in 79 of Its 681 Open Job Ads",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxONzFIZ1J3TVlVT2lBeW9JcWRLWEY2MUxhcnlQOEczTWsyUjV3WjNfOUo0d1NPSE9BcUF3Q2xXSXVMZFFvU19fMFMwN1ItVGJWRDYtbm5fbWJYMnM2WXZraDZzS0RacXFpSFdpNjhSa1NWT3MtOWVFZTA5cUR3UFZoeHJ6b05WZEREN09qWDh3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:30:44.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "c506d03a1f7ace78",
+          "title": "What is FlashProve? Anthropic’s open-source tool to prove which AI model generated a response",
+          "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOTTdGNnA3d3NrU0dnLV9MRFJib094R0VvQzBLaXdJSy03eU56bXlDd3BBTWswUWhEZmZOZ3NsMjZiVEdzVjRYMWpvNkNoZmNqaFI1by1fcUlTclNXSXlKVVdnSm9yWWNZMlktbWtfYkJOSlRrZHlTZXpnSUJLemRjaEdLdVJDZjFveXNvYUpHaHFvYXNtQ2R1TWtzckd2OEkzVTRNQTM0MjBvZmxXTks2UVRsZTZVaGdDU2o4SF9oWm9pSFZpZEY1MmRXRWMzdDdIMjZSRl8tQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:25:41.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5f1d29f179123c53",
+          "title": "Anthropic Residency 2026: Applications Open for Experienced Technical Leaders in AI Safety Research",
+          "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1iajUyWmsyX3UwTkNpT08yNWFybE8tdXFQUnRIQ0VhQmh6RjZoZmFaQi12TW9JRHFJZDRvT3NoaDQ0bU50V2U4XzRWeGJacHoyRHdSeHAtcktQY2JXUjM2dy1MSThOdWNNVGdYN1Q2eVIxa2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:25:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "860ee7a4908fef2f",
+          "title": "Anthropic unveils system to verify which AI model responds",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNU2hGYlRLZjUtUlhObFpLRkVDVVVXODU2eUFQU3U0S3lKSmxiZXFHZHNNekIwX1NOdWhHMjN4ZV9aUnFRZ2EzekVnbFpNMmN0eFY3MGpjVnlLd2p4SXVVYVRrTFJ3Tlg0Z1MzVnk1OEg5VUJIeFV0dVQyRU5iUGVLdTEwdGtnWnpGdG5VZ2swUU9HZkNo?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:20:22.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "883413b758ad7436",
+          "title": "Anthropic loses 3 Claude Code team members, just weeks before its mega IPO",
+          "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNYmtTQy1pVm1LLWg0N0tpSGdTcHQwbjZFMU9SbkUxemFKX0l1LTl0R2dJSlRuRm5BWHVlVW1SWWRObFdyNU5NeWxjWjZ4TDM4a3d2dVNqdjItTS12MUpSc3ZYRUlwMDBIZEg0WE0xVmJSV09XeDV3c3pmWldZMnhpLUZ2N1Nxc0FWcEtaaEJHQ3lRdTF4RDlxWC1UX3pxbFBBLXZuOXpLRFRiM2lWYi1PajFDWXZ0LVZLVHRXQlhGMnpuYkloV2U3Wi1pb3JlQjlqaUZnaFp4Z9IB3AFBVV95cUxPbjBEYXgwVmU0NFYtNmVxMUdVb0RWeU5wMkMzYWNmeGJNZ0VlbUZOaTI5d3pSdmtad01CZnQ1V0xLWTlUd0V4cUJZY0dybVJhMFV1V29IaDg1dDctV1BxXzRlSDdyRWRCUG9VUERvUzUzcEhZa2NZQkFEYXhCSHFDUUxnck9PSVZpU3NlLUNxaVFYbDk1NTJSajQ4QnY3cW9qSVJpZDlXU0pZcGdvel9IcUt6aUpkaUM0SUlDekxlTFRubWhJa1VyaXlFUXVZN3hxR0RiaWMweW93YWhC?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:03:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0038f5b610c6400e",
+          "title": "Korean brokerages sit out Anthropic IPO after SpaceX setback",
+          "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5YT1hCNlVvSm5GdDMyZDREWG5pOEtLRW93U01HMEYyOWNQbjlzdHJmUzJlV2U1X1IwN0R2SjZsbjBvTnZkT1FLU3k1dVQwZzFRaVhmN2VXYw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T05:51:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "af3c07e014f64579",
           "title": "Anthropic’s Biology Work Spotlights Researchers’ Need for Advanced AI Access",
           "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOMEpqZ19fbm1kaXZ1YUlJZWwxMDQ1MkRYM1ZlVDh0WDBLVEJ0OGNDZ2pYUDF1YkdOTnNndlVNT2szNEpXbFZKclJ1ajZYS3Y3ak9xNmpNVlZBS0NyOS00TWhCdE9BaktQOHFMZTczZFlBWDZYdWZ5S1VWQWJJY3dBV0tpWWo3NVJwdE5LaVRMaENBLXlaeUZrVVFmc1pnOGdZNGlDRVV6SmtfVTAxNHFqQg?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-04T05:15:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6359c3608998b9f9",
-          "title": "MCMC seeks clarification from Anthropic over alleged AI-driven election manipulation",
-          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQT0ZNazBmQnlRRVZSYmhpenRoeEZXM1AxRDFUMXJISG5YSnNDSmFqQVhuREQ5aW9IS1I1UGNiQmZ3MnA3a1kzX0tXWDNRdjlFVXpVTThEWVRvYXlDbnRZQUtKUzRpMlYyNFY3a3oxUGEzdldwTDVWSFRIRTB0aVdna0t3RkRUdkdfRGhCTkpxY0FPQkRPR3B6NXRWYW5sSllfdk9hdG12LW1vMUVkZ2oxY1A5VERSR0Y2S2pOR3B5a1VXVVV6Zk96N09R?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:41:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ab2ff136cc83741f",
-          "title": "'You Are Not Entitled To...': Ashwath Damodaran Defends $1.48 Trillion Anthropic Valuation, Pushes Back On Critics",
-          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPRDJic0k1OWg2eUpkVXNOa2E2VUlaamFBQXJLZURSVkFUN3VUbUlWTjdHZHNUX0NJbGhSdzBpWnBJWjdfZWNxUHRBd29ZNTR1OU53VUpfV2NTSHQ5Qk9aTzlyYmlvSUtBb0ZCOWNGUkEyWC1NVEpXeFppSmZKZ0VQRmNDNUcyV1lQa2hBb3hRN2E1WElUNXJ5RTNjcFBlR1ZEaFEwbUZDMGxJZ0JyUEpXSWdINEFDaGRJOFF0d1lxcWc1Vk1KTHhtdnVQeGrSAdQBQVVfeXFMTUV3bWhHa2kxS3FJQ2RqeWNlazNGbFVmZDNSSTZVTVppZTFyWkFaWFhPR2t1eWJ6NDVrM1FGQnpPMTdtT3luZHBrSXVOQ09aYml2X1cwbm8zZ0FkVDFvNk1JcC13Y2hRNHdDRVJSamV4TUZ3OXVWdzFzcG81X08yVGlyeVNtXzk4aTJWSkIwSmc2N2t4VzQxd29jMzN2TUV0WENRSXNUbk90WUJUbzVWY2JjT2lVLXpsSDI0RFExaWtGOEtmRlc3Ry1ZZVBLMFBWRW11UGw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:33:11.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1d55108a884a65e2",
-          "title": "Anthropic Commits More Than $895 Billion to AI Infrastructure",
-          "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9FTGZZVmpBMjdrcFo0cGxVUVpJOXFtdWpjVTZ4aDYzSk1WZHIzWjVvNEVCMF9kbWJjOWFDXzEtYzFnR2pLeVVrQk8tZmtycEhJc3VfY3JXUko?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:33:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "bb1f2f07f5994d40",
-          "title": "Anthropic launched tools to show companies what their AI spending is buying",
-          "url": "https://techcrunch.com/2026/10/28/anthropic-just-launched-tools-to-show-companies-what-their-ai-spending-is-buying",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-04T04:26:22.000Z",
-          "score": 3,
-          "positive": [
-            "launched"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "231d740eccd4bca1",
-          "title": "SemiAnalysis Breaks Down the Compute Shortage: OpenAI and Anthropic Are Snapping Up Global Incremental Compute Capacity",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNSG1pM2ludUZ0MnBYcm1BQW1rSFU2d004TUZMX0hXMDlVSHRwaXExd3lKRlNLVFlBR2hZeVpUZEN5dG5CT3RGbDZnNUF0UUtSOEN3QUllWWVld2tYenhzc0tZZHRVNFUxaFpXVnp3R0xQV3JUYzlyaU5aU1dRWFlWQ25hSklHdmx3ckhGUFAtVVBqSi1SeVR4eThYS3ZUSk1hSl8yeldYdUlXYk84Yko2Y3hiRQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:26:02.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "down"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "a84a3942cf82fef6",
-          "title": "CERT-In Gets Access to Anthropic’s Claude Mythos AI Model for Cybersecurity Testing",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9nN1FpZF91LXVoZEIzdUktREN2VXRPbzBaMGZ6dTlzUDU4a2Y5X2VNdDNRMnBVVzJneWFlUElTU01kZU9ncUMza3RhYmU0Tk1nT2I2YmVCMkFDRkpCY0I1MW1LdU53WHlKVE9EMVo2VlFtVXBWbV8xMWJPT2M?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:25:28.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f986851c601abce4",
-          "title": "What of the Anthropic IPO healthcare bet?",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQZHVINlppNlZadjBZS1RrNnFjRzlybmIzVjJIa2FOS2lTQUFQc29WYTI4VV82WkR6cnRlRlVEdnVlQ3M5cGZKcFBKTkU0VV9CS0NrNjBydnFjQWtyTXN0Mkgzeno4dHdjc3lmZi1TYVRWeFZXNGUzNWZoWm40TWZYZ3Njdk1ST2R2dnlGVFpR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:21:48.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -446,9 +450,9 @@
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 8,
-      "index": 4,
-      "mean_headline": 0.5,
+      "headlines": 7,
+      "index": 4.6,
+      "mean_headline": 0.6,
       "sample": [
         {
           "id": "1828dcb33d305873",
@@ -536,17 +540,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "596efa42af4de037",
-          "title": "WIRED World Fair: A Festival of the Future",
-          "url": "https://bsky.app/profile/wired.com/post/3mze6bq6h3c2z",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-02T20:33:34.369Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -584,9 +577,9 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 28,
-      "index": -6.9,
-      "mean_headline": -0.9,
+      "headlines": 27,
+      "index": -4.7,
+      "mean_headline": -0.6,
       "sample": [
         {
           "id": "cc9153a6ff839c7f",
@@ -881,33 +874,19 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 1,
-      "index": -32,
-      "mean_headline": -4,
-      "sample": [
-        {
-          "id": "4910d282865a33c6",
-          "title": "China-Linked Hackers Used DeepSeek to Hit 200-Plus Organizations in 14 Countries at Once; US Semiconductor, Defense Firms Breached",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9yQnpGX3oySXN5Yml1SXdnU0FQNGsyVTNmb3RZay1UV1k5dm5tT3N1aUNtYTNzOU5zRTUzYVExMEx2MURTVmxXSjNFXzlweWZOSWJ1N09MeGtUSERYN3V2WS1iMWcyak5fTnN2Smc1NEFRMkxOcEE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T03:06:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "breached"
-          ],
-          "clickbait": []
-        }
-      ]
+      "headlines": 0,
+      "index": null,
+      "mean_headline": null,
+      "sample": []
     }
   ],
   "ranked": [
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 8,
-      "index": 4,
-      "mean_headline": 0.5,
+      "headlines": 7,
+      "index": 4.6,
+      "mean_headline": 0.6,
       "sample": [
         {
           "id": "1828dcb33d305873",
@@ -991,120 +970,6 @@
           "url": "https://arxiv.org/abs/2611.04510",
           "source": "arxiv-newest",
           "published_at": "2026-11-03T08:34:28.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "596efa42af4de037",
-          "title": "WIRED World Fair: A Festival of the Future",
-          "url": "https://bsky.app/profile/wired.com/post/3mze6bq6h3c2z",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-02T20:33:34.369Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "openai",
-      "name": "OpenAI",
-      "headlines": 38,
-      "index": 3.2,
-      "mean_headline": 0.4,
-      "sample": [
-        {
-          "id": "976ee5da8000809a",
-          "title": "After FBI arrested a Saudi National for hiding a spy device at OpenAI, employees said ‘not surprised’: Co",
-          "url": "https://news.google.com/rss/articles/CBMitgJBVV95cUxPR2Q2ZzdKc1ZURk92aC1reV9iQ2FESUFzQ0tJSklETHhWZkQ1T0Jxb0pTRE9EeG9PX2JYQnFWeHd2cjdiczJ0ODM2S0NQWldHRlEwWUpRa0hKY2o1eExHRzRiWmlHYkZ3VXhVLVEtRWNoLUJRTGtsdmRRT0dQNDJ4NTNCdmd1RVV4N055aEdtYnJMMGN4XzYwWEdJZE9pNU1PUDZ6MmpIUTBpRm9XWldoR2RvZjVEeWxPcVRRc1F6d0JERDIxRUJCdnVVRjhoYl9rc1M1alZkYjBtLWRNTm5UM2t5THdSbDdpTGJxa2RiTW01Tnczc1BmVWlkRFA5VDVtMW1mMmpyZG9ObENpUVBPNGFoOEpMZUlZRGM0c2IwTVVOZXNCOFFuTDB2QUpBbWh1RnRXa3B30gG7AkFVX3lxTE5IeGpjY0F2dmZ4LUd4YS0wT1NpWG5TcGFBV01qckR0VTdCT1pQc3RJQ2xBQ2wxSjQ2TGJCZGZaU0ZHbVF6Qm5nRWdVUUczdURxUUVrVzluRHlvU18wQ083a3IwVFhpdTZsenpsZHpsc2hOQVBJVFR0dWlmcDgxbDhLa3JmbnEwbUo1UXNlSmt6dWh6bGQyd3JLQnJPQ084MkZyOVpabE5DVGVFcXlvOVBLNGt6Y3l0NjZKcEhCSTVsd2NWc0VHUzN0elNFbFJvWm1oUFBqYVdyOFhiZTRMcUJYVDdxLWpRRVVVN2dTMGN2MzBVQUZwMEJmN0FRVkRKVm9kdUlaMkNpRzN1aGFMeGRZTDJRLWtqUVBqdGJjNmhMbnRjQnJ3aWdfU3h3Zy1WZkl4ME43eGFPcXVRTQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:46:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "231d740eccd4bca1",
-          "title": "SemiAnalysis Breaks Down the Compute Shortage: OpenAI and Anthropic Are Snapping Up Global Incremental Compute Capacity",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNSG1pM2ludUZ0MnBYcm1BQW1rSFU2d004TUZMX0hXMDlVSHRwaXExd3lKRlNLVFlBR2hZeVpUZEN5dG5CT3RGbDZnNUF0UUtSOEN3QUllWWVld2tYenhzc0tZZHRVNFUxaFpXVnp3R0xQV3JUYzlyaU5aU1dRWFlWQ25hSklHdmx3ckhGUFAtVVBqSi1SeVR4eThYS3ZUSk1hSl8yeldYdUlXYk84Yko2Y3hiRQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:26:02.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "down"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "af21beb359b8b60f",
-          "title": "OpenAI Overhauls Internal Security Following String of Eavesdropping and Hacking Incidents",
-          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE81cVlEbXYzeWxCUV93RWwtM3h0R0tGZWlRZ2luVWdhMUs2andwcDk4akRrdVFoeDVNbFNkUWtwVUVKTlhvYW5rOU1uczc5NU11YWNhQi1jUEF1R0phdE55bm5B?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:00:04.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "hacking"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "916a7b26f8ac30db",
-          "title": "OpenAI Wants to Stop You from Hating Data Centers by Renaming Them",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQOEFnTzczb1Riem9OUFlyOUt2cFFYaDRuRy0wOXFRcm5hVno5ZmhNdVUtb1dmMEx4Y1JRUU5nLUc4TTc5Tmdaam5fOGRBU0pEWVhtUFI0N3pfSVZxbUs4SU93UUxnT2pRN0d0Njh2UGpiaTZ1ZlBfX3BXRnN6ZHpZcDFtMFRMaTZKbjMwUThCNFlXS3JJenlyX1p3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T03:57:38.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c0db1619da1ed343",
-          "title": "Effingham County Tables OpenAI Project Camellia Data Center Plan",
-          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOWFBsNkw4eHFXdUxsdXZwQ0FWeGgwRjlDcEd3RVZRcC0waS1xbFhQanYyazlqby1nNE5pdEswZ2lsc2hZWF9ySXd2MXdYQThDczg5amUxWU1WbHYyQmR1ZkNadzNOU3oxUG9ZbHE2dlZ2MDRjbEViNEVUTkwzZVgtZ0RYOXBoYUQ3Tl9ldm9OT1hiUEkwWU1FeEs3MWhOZE9ZN0pYSTRwaW9KWWR3NThLaEdTQnhQXzVyS0dtYjZoOG40OGs?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T03:44:06.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "aca99d1efd647fc3",
-          "title": "OpenAI is enticing cybersecurity experts with record rewards of up to $172,000 for discovering AI vulnerabilities",
-          "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxOLWd1TEZ3bEJjVTcwazBQQm9maHd5TlpyX1MzeUh5cGdvMUtWS3FXbjdrX2lBTWNDd2dfSUVRTDNGNFBYaXo0bUVRVDBNZmt6UWFBWjhVbGJfRjRRYWM3bTllSE5xVkFWaFZMZ015T1Z5YUlyTzhjUkpYWVN3N3lzQUI4aXlLSVV1TnBlTXdnMUNGNUJVdkVZamNuYlBlN1VSazJ5XzBuWko3Nzg2WE5lRTNZRkhWOWN6Ulh2dGxObm9OTVRRdU1BbjMtUUV0aVhmSElpT2pPNl94WDlhWG9YT05tMmgzUWxfLVZEY1F5TWtGOGc2dEo5dUxmVE5CTDduY0pYR253?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T02:59:17.000Z",
-          "score": 3,
-          "positive": [
-            "record"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "05ea4719aa8f607a",
-          "title": "Human control must set limits on superintelligence, says OpenAI's Sam Altman",
-          "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxNV01JTFVNZTFwQjRvOEZuZXVFWlZnWnBsMFRZUmlvRmZTUEgwMUtMN2pWa2NhQ0tzRmtrYm1JY0cxOTN5OXhkRHlRUXpfSGp3NC02SXdLVktXNGFvSjlKcFpwQ3lJUUk4c1VrMkRlLWc3SjFFUE82Y3BYam5GdERKYXo2OEJ1eUtMN3RSTkVyVXB0TGFuXzNhRkk4RFRBdk1haE5fRXhRM2NwcTlkQzgyTmtXTFRrdndhSlZ5cUpJRW5XWjA3a2YyN0tGY01lSEFfdHRRa3BpdzJteVFEaGVYazBDYlpkTGZ4cXFTNHRR0gHzAUFVX3lxTFB4X1pheXVxT0RxZXd1ZVJjNkRYVHJFSmFNX0E2Zk1ydFpNRTVIeTRtd0UyTHZmbGhhaFhJNXNVaUpNZzVpVG5rMDhOU1dXZGFRLVlnYnVieEFDcHlzc1BnRV9mVFpzTm1rU25GcU5Eb1dFNjFtSHpyR0RKbFVHejRDMU1qSHItU2owT0p0MXN3VDNZaHVSOVAxYmxyZmdpbmItbXMtZWJrTkZlTHo4bnRwcTY3dHdVREFva3d4MnBoUWczY09jeGJkdEV3ay1NUjQzZkNNTmJnWkIzQ3FhS0M2d2RJUXJseHlfOXdsMFdKNEhfMA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T02:47:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6c1f673548c5860e",
-          "title": "openai/openai-python v3.45.0",
-          "url": "https://github.com/openai/openai-python/releases/tag/v3.45.0",
-          "source": "github-releases",
-          "published_at": "2026-11-04T02:23:23.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1115,10 +980,23 @@
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 18,
-      "index": 2.7,
-      "mean_headline": 0.3,
+      "headlines": 19,
+      "index": 0.8,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "e63d1743e6d3ec45",
+          "title": "Apple AI tools come to China after two-year delay",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9iZXIzUVV5QzJmV0hqWG12MFFvM1hpQ0VndDVWQ21DWndpQ1pFQ2VHRDlvZ2M5ZjhLZ1lEbVEwVjQ5a1RBcG05bGU2S291VEtXbExDNXdCbW1XR0c4Z2s1Q05IZmk5VklZZHVsQzBEdjd0QTI2LVFyNQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-04T05:45:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "delay"
+          ],
+          "clickbait": []
+        },
         {
           "id": "d04e90f09cc67dc6",
           "title": "Apple Is an AI Safe Haven—but Safety Isn’t Cheap",
@@ -1193,17 +1071,6 @@
           "url": "https://bloomberg.com/news/videos/2026-11-03/apple-s-upbeat-outlook-overshadowed-by-margin-squeeze-video",
           "source": "bloomberg-tech",
           "published_at": "2026-11-03T19:24:13.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5074a863befce54f",
-          "title": "Apple’s latest watchOS beta includes its new always-on Audio Intelligence features",
-          "url": "https://theverge.com/tech/1025002/apple-watch-audio-intelligence-watchos-beta",
-          "source": "verge-ai",
-          "published_at": "2026-11-03T18:31:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1406,6 +1273,113 @@
       ]
     },
     {
+      "id": "openai",
+      "name": "OpenAI",
+      "headlines": 39,
+      "index": 0,
+      "mean_headline": 0,
+      "sample": [
+        {
+          "id": "8e1a8d1b9b51f990",
+          "title": "OpenAI Beefs Up Internal Defenses After Hidden Recorder and Messenger Breach",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE01SmNFZndiT3VxeWtDSVhrZEh0SG5iNkR1dUpYNlNVXzVEaEFsOWpoUWltSVlsQ25VeElWS3ZwWmUxZ0RpRTdyNWxBUXN2OVgwRjgwelZpdkxlS2tEeEo4VkF5bEFDSExpaldGWFQwaXRmQUd1RlE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:36:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "breach"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "2ace4567d51f23b6",
+          "title": "OpenAI CEO Sam Altman Has A Warning On Superintelligence, 'People...'",
+          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOX0NodFpPNjlTQ01KSXhNN19hR0xvODVxQ3VPck5Qdld0dVZ4MWw5ZmNHQWpIdnFKcFl0WWJ2S3hNZU5oLXBLcHd2VjNCMWwzbWdMaENWWDhrVklGYXlabFRndUVuWWp3MllLemRZWHNZZUhKMVdfbXlpeTdkTlJubUhRandEVEVrVzhpRmV6d0M5MTVtelc1dWtpaldWZ1RwSVVnc0tFbjh5SFRWUWlmTy0xRHl1ZzdVMnd3TzlzYUJZcUZ3SUg0TNIBzgFBVV95cUxPS2VXNW9oWTNia0prQkxDMEFPbEpEOG5pUGw0ek5QMzlrNjZIUkc3UWt4LVpoTU95djh5STFreVZCNHdjdmQ3ZHlZcEtST2RzSHRMQ3d4bHpwcTdaZ3gwc19Ic0k3Y2trbnpFVXpCMmpLV0lfM2Vfd21rMlZIbVoxamt4bk50Mks2ZDd2cG1YclUtUkF1RmxqR2tsNWl2QkI3Yk5Db2NPZHEzbTlwQWxwd1VKb21sWmI1NXkzMEZNakh6d3owVWk1RDVoNTJVQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:12:07.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warning"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "d37549ced8519a66",
+          "title": "OpenAI tightens security after bugging and hacks amid staff warnings",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFA2UzVxNnJISHRsckdLYnRpTDR5NlV2ZUtyc18yQXNDYVdwQ1hTSkJVWGY4TzAtTnZBZG13S3V6ZXdhbDR5dnNoX285MFNieEdjMTFhNGRHeUdlVk1IeHd5QzBvNVJpeWdkREJTZUdlNXVFbmR2YkVaOHln0gGOAUFVX3lxTE5jLTVXcE56X2YtVHBFM0d3TDJleFZXRUZEYzZRb2ZXWjBSY3JnRENKcjNxYlkyejFORWM4UGdGM2FDXzRodVlHVERrRExWM0dMZm5qazJFX0tHVkR2Q2I1eGhYd0JlbkY3YllVOGdCek5wZW16U2JTTW9sVk1UalBGSEpQMDdDbTh4QmdjV0E?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:12:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warnings"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "976ee5da8000809a",
+          "title": "After FBI arrested a Saudi National for hiding a spy device at OpenAI, employees said ‘not surprised’: Co",
+          "url": "https://news.google.com/rss/articles/CBMitgJBVV95cUxPR2Q2ZzdKc1ZURk92aC1reV9iQ2FESUFzQ0tJSklETHhWZkQ1T0Jxb0pTRE9EeG9PX2JYQnFWeHd2cjdiczJ0ODM2S0NQWldHRlEwWUpRa0hKY2o1eExHRzRiWmlHYkZ3VXhVLVEtRWNoLUJRTGtsdmRRT0dQNDJ4NTNCdmd1RVV4N055aEdtYnJMMGN4XzYwWEdJZE9pNU1PUDZ6MmpIUTBpRm9XWldoR2RvZjVEeWxPcVRRc1F6d0JERDIxRUJCdnVVRjhoYl9rc1M1alZkYjBtLWRNTm5UM2t5THdSbDdpTGJxa2RiTW01Tnczc1BmVWlkRFA5VDVtMW1mMmpyZG9ObENpUVBPNGFoOEpMZUlZRGM0c2IwTVVOZXNCOFFuTDB2QUpBbWh1RnRXa3B30gG7AkFVX3lxTE5IeGpjY0F2dmZ4LUd4YS0wT1NpWG5TcGFBV01qckR0VTdCT1pQc3RJQ2xBQ2wxSjQ2TGJCZGZaU0ZHbVF6Qm5nRWdVUUczdURxUUVrVzluRHlvU18wQ083a3IwVFhpdTZsenpsZHpsc2hOQVBJVFR0dWlmcDgxbDhLa3JmbnEwbUo1UXNlSmt6dWh6bGQyd3JLQnJPQ084MkZyOVpabE5DVGVFcXlvOVBLNGt6Y3l0NjZKcEhCSTVsd2NWc0VHUzN0elNFbFJvWm1oUFBqYVdyOFhiZTRMcUJYVDdxLWpRRVVVN2dTMGN2MzBVQUZwMEJmN0FRVkRKVm9kdUlaMkNpRzN1aGFMeGRZTDJRLWtqUVBqdGJjNmhMbnRjQnJ3aWdfU3h3Zy1WZkl4ME43eGFPcXVRTQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T04:46:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "231d740eccd4bca1",
+          "title": "SemiAnalysis Breaks Down the Compute Shortage: OpenAI and Anthropic Are Snapping Up Global Incremental Compute Capacity",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNSG1pM2ludUZ0MnBYcm1BQW1rSFU2d004TUZMX0hXMDlVSHRwaXExd3lKRlNLVFlBR2hZeVpUZEN5dG5CT3RGbDZnNUF0UUtSOEN3QUllWWVld2tYenhzc0tZZHRVNFUxaFpXVnp3R0xQV3JUYzlyaU5aU1dRWFlWQ25hSklHdmx3ckhGUFAtVVBqSi1SeVR4eThYS3ZUSk1hSl8yeldYdUlXYk84Yko2Y3hiRQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T04:26:02.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "down"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "af21beb359b8b60f",
+          "title": "OpenAI Overhauls Internal Security Following String of Eavesdropping and Hacking Incidents",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE81cVlEbXYzeWxCUV93RWwtM3h0R0tGZWlRZ2luVWdhMUs2andwcDk4akRrdVFoeDVNbFNkUWtwVUVKTlhvYW5rOU1uczc5NU11YWNhQi1jUEF1R0phdE55bm5B?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T04:00:04.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "hacking"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "916a7b26f8ac30db",
+          "title": "OpenAI Wants to Stop You from Hating Data Centers by Renaming Them",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQOEFnTzczb1Riem9OUFlyOUt2cFFYaDRuRy0wOXFRcm5hVno5ZmhNdVUtb1dmMEx4Y1JRUU5nLUc4TTc5Tmdaam5fOGRBU0pEWVhtUFI0N3pfSVZxbUs4SU93UUxnT2pRN0d0Njh2UGpiaTZ1ZlBfX3BXRnN6ZHpZcDFtMFRMaTZKbjMwUThCNFlXS3JJenlyX1p3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T03:57:38.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "c0db1619da1ed343",
+          "title": "Effingham County Tables OpenAI Project Camellia Data Center Plan",
+          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOWFBsNkw4eHFXdUxsdXZwQ0FWeGgwRjlDcEd3RVZRcC0waS1xbFhQanYyazlqby1nNE5pdEswZ2lsc2hZWF9ySXd2MXdYQThDczg5amUxWU1WbHYyQmR1ZkNadzNOU3oxUG9ZbHE2dlZ2MDRjbEViNEVUTkwzZVgtZ0RYOXBoYUQ3Tl9ldm9OT1hiUEkwWU1FeEs3MWhOZE9ZN0pYSTRwaW9KWWR3NThLaEdTQnhQXzVyS0dtYjZoOG40OGs?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T03:44:06.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "xai",
       "name": "xAI",
       "headlines": 2,
@@ -1439,10 +1413,32 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 15,
+      "headlines": 17,
       "index": -0.5,
       "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "6bc88404ddb21c1e",
+          "title": "Nvidia to Fill Just 1% of 6 Million Chinese AI Chip Orders: 'Money Can't Buy Them'",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5xMVNQVHZ5ZGl3U3FYdkg4SmNzTTlVeUhIQ3AyRjBkMGc1WG1FS1d5aGdMTFk0d0xud3Rkb2hLQ3c1ZGxxTzV0em9TaVl5TWZfWko1Z09CVEVQbGlJN0Fsb2ZNWjRQb21nTmtmY3kzYzQtRW1oa2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:36:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d98c21b35b94cd5c",
+          "title": "Sources: Alibaba, Tencent, ByteDance, and other Chinese AI companies ordered 6M Nvidia RTX Pro 5500 chips worth $70B, but expect only ~1% within four months (Bloomberg)",
+          "url": "https://techmeme.com/261104/p1",
+          "source": "techmeme",
+          "published_at": "2026-11-04T05:55:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "bb4e8f7cf509148f",
           "title": "AMD and Moreh Unveil Simulation Showing 60% Margin on AI Token Production, Taking Aim at Nvidia",
@@ -1510,28 +1506,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "33af3cfa91769c61",
-          "title": "Nvidia is happy to take your money whether you're using open or closed models, says Jensen Huang",
-          "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxPWDFVVllIWUZnWjhLdzNsSGU1R19vQkQ0bHkxSWpYTFlZUUc5NXAxTkUwR1Nuc05kYlB4R1hBNmxkZmx5QkVqZ3NoUEdNMWlrQ1hvY3pCLV9STmQ3bmpCQVlFVTlybzhHcG9KVnJJRzVFUVNfalNkYlhyRUZMOWptUm13aUdJSkYza2U4YW9fNVY1NEE2VVJpV0pkQkNIM0pnSDJkUks1a0JuN2h3Y3J1cEg5dlFYRDZ3X1RLQ045TE9TUlFBSDNyTUJKbkJnMUY4MTE4U1I1dDFPaEFRQk1qMjRuay1Rdw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-03T21:00:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "17db3bbae0c0599e",
-          "title": "Nvidia tells data center operators to limit business to Chinese customers",
-          "url": "https://tomshardware.com/tech-industry/data-centers/nvidia-tells-data-center-operators-to-limit-business-from-chinese-customers-with-new-global-restrictions-report-claims-allegedly-restricted-to-49-percent-of-the-total-ensuring-51-percent-are-non-chinese-outfits",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-03T17:31:28.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -1543,92 +1517,90 @@
       "mean_headline": -0.3,
       "sample": [
         {
+          "id": "284a86d89f6df701",
+          "title": "3 of Anthropic’s 4 Named Exits in 60 Days Were Claude Code",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNZWxwV25yRTg5ek9uWjRULWlWakg4Vi05Y2YtWFZOUGxDbVMwS1c1Z1ZqblRZRXFXelRVQ3Z5TXlid2VHSDZ0NURlaE5PMlAtcXJFakxfaWNTMXY1TjNyRU9YUWpoODZITXdNeU1NQU5VYjllbTI4VThubDRaS1FrRUZpakYwZkoxUVFtWk1B?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:30:45.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7a83291ef266a95e",
+          "title": "Anthropic Names Claude Code in 79 of Its 681 Open Job Ads",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxONzFIZ1J3TVlVT2lBeW9JcWRLWEY2MUxhcnlQOEczTWsyUjV3WjNfOUo0d1NPSE9BcUF3Q2xXSXVMZFFvU19fMFMwN1ItVGJWRDYtbm5fbWJYMnM2WXZraDZzS0RacXFpSFdpNjhSa1NWT3MtOWVFZTA5cUR3UFZoeHJ6b05WZEREN09qWDh3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:30:44.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "c506d03a1f7ace78",
+          "title": "What is FlashProve? Anthropic’s open-source tool to prove which AI model generated a response",
+          "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOTTdGNnA3d3NrU0dnLV9MRFJib094R0VvQzBLaXdJSy03eU56bXlDd3BBTWswUWhEZmZOZ3NsMjZiVEdzVjRYMWpvNkNoZmNqaFI1by1fcUlTclNXSXlKVVdnSm9yWWNZMlktbWtfYkJOSlRrZHlTZXpnSUJLemRjaEdLdVJDZjFveXNvYUpHaHFvYXNtQ2R1TWtzckd2OEkzVTRNQTM0MjBvZmxXTks2UVRsZTZVaGdDU2o4SF9oWm9pSFZpZEY1MmRXRWMzdDdIMjZSRl8tQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:25:41.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5f1d29f179123c53",
+          "title": "Anthropic Residency 2026: Applications Open for Experienced Technical Leaders in AI Safety Research",
+          "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1iajUyWmsyX3UwTkNpT08yNWFybE8tdXFQUnRIQ0VhQmh6RjZoZmFaQi12TW9JRHFJZDRvT3NoaDQ0bU50V2U4XzRWeGJacHoyRHdSeHAtcktQY2JXUjM2dy1MSThOdWNNVGdYN1Q2eVIxa2c?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:25:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "860ee7a4908fef2f",
+          "title": "Anthropic unveils system to verify which AI model responds",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNU2hGYlRLZjUtUlhObFpLRkVDVVVXODU2eUFQU3U0S3lKSmxiZXFHZHNNekIwX1NOdWhHMjN4ZV9aUnFRZ2EzekVnbFpNMmN0eFY3MGpjVnlLd2p4SXVVYVRrTFJ3Tlg0Z1MzVnk1OEg5VUJIeFV0dVQyRU5iUGVLdTEwdGtnWnpGdG5VZ2swUU9HZkNo?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:20:22.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "883413b758ad7436",
+          "title": "Anthropic loses 3 Claude Code team members, just weeks before its mega IPO",
+          "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNYmtTQy1pVm1LLWg0N0tpSGdTcHQwbjZFMU9SbkUxemFKX0l1LTl0R2dJSlRuRm5BWHVlVW1SWWRObFdyNU5NeWxjWjZ4TDM4a3d2dVNqdjItTS12MUpSc3ZYRUlwMDBIZEg0WE0xVmJSV09XeDV3c3pmWldZMnhpLUZ2N1Nxc0FWcEtaaEJHQ3lRdTF4RDlxWC1UX3pxbFBBLXZuOXpLRFRiM2lWYi1PajFDWXZ0LVZLVHRXQlhGMnpuYkloV2U3Wi1pb3JlQjlqaUZnaFp4Z9IB3AFBVV95cUxPbjBEYXgwVmU0NFYtNmVxMUdVb0RWeU5wMkMzYWNmeGJNZ0VlbUZOaTI5d3pSdmtad01CZnQ1V0xLWTlUd0V4cUJZY0dybVJhMFV1V29IaDg1dDctV1BxXzRlSDdyRWRCUG9VUERvUzUzcEhZa2NZQkFEYXhCSHFDUUxnck9PSVZpU3NlLUNxaVFYbDk1NTJSajQ4QnY3cW9qSVJpZDlXU0pZcGdvel9IcUt6aUpkaUM0SUlDekxlTFRubWhJa1VyaXlFUXVZN3hxR0RiaWMweW93YWhC?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T06:03:56.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0038f5b610c6400e",
+          "title": "Korean brokerages sit out Anthropic IPO after SpaceX setback",
+          "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5YT1hCNlVvSm5GdDMyZDREWG5pOEtLRW93U01HMEYyOWNQbjlzdHJmUzJlV2U1X1IwN0R2SjZsbjBvTnZkT1FLU3k1dVQwZzFRaVhmN2VXYw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-04T05:51:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "af3c07e014f64579",
           "title": "Anthropic’s Biology Work Spotlights Researchers’ Need for Advanced AI Access",
           "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOMEpqZ19fbm1kaXZ1YUlJZWwxMDQ1MkRYM1ZlVDh0WDBLVEJ0OGNDZ2pYUDF1YkdOTnNndlVNT2szNEpXbFZKclJ1ajZYS3Y3ak9xNmpNVlZBS0NyOS00TWhCdE9BaktQOHFMZTczZFlBWDZYdWZ5S1VWQWJJY3dBV0tpWWo3NVJwdE5LaVRMaENBLXlaeUZrVVFmc1pnOGdZNGlDRVV6SmtfVTAxNHFqQg?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-04T05:15:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6359c3608998b9f9",
-          "title": "MCMC seeks clarification from Anthropic over alleged AI-driven election manipulation",
-          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQT0ZNazBmQnlRRVZSYmhpenRoeEZXM1AxRDFUMXJISG5YSnNDSmFqQVhuREQ5aW9IS1I1UGNiQmZ3MnA3a1kzX0tXWDNRdjlFVXpVTThEWVRvYXlDbnRZQUtKUzRpMlYyNFY3a3oxUGEzdldwTDVWSFRIRTB0aVdna0t3RkRUdkdfRGhCTkpxY0FPQkRPR3B6NXRWYW5sSllfdk9hdG12LW1vMUVkZ2oxY1A5VERSR0Y2S2pOR3B5a1VXVVV6Zk96N09R?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:41:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ab2ff136cc83741f",
-          "title": "'You Are Not Entitled To...': Ashwath Damodaran Defends $1.48 Trillion Anthropic Valuation, Pushes Back On Critics",
-          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPRDJic0k1OWg2eUpkVXNOa2E2VUlaamFBQXJLZURSVkFUN3VUbUlWTjdHZHNUX0NJbGhSdzBpWnBJWjdfZWNxUHRBd29ZNTR1OU53VUpfV2NTSHQ5Qk9aTzlyYmlvSUtBb0ZCOWNGUkEyWC1NVEpXeFppSmZKZ0VQRmNDNUcyV1lQa2hBb3hRN2E1WElUNXJ5RTNjcFBlR1ZEaFEwbUZDMGxJZ0JyUEpXSWdINEFDaGRJOFF0d1lxcWc1Vk1KTHhtdnVQeGrSAdQBQVVfeXFMTUV3bWhHa2kxS3FJQ2RqeWNlazNGbFVmZDNSSTZVTVppZTFyWkFaWFhPR2t1eWJ6NDVrM1FGQnpPMTdtT3luZHBrSXVOQ09aYml2X1cwbm8zZ0FkVDFvNk1JcC13Y2hRNHdDRVJSamV4TUZ3OXVWdzFzcG81X08yVGlyeVNtXzk4aTJWSkIwSmc2N2t4VzQxd29jMzN2TUV0WENRSXNUbk90WUJUbzVWY2JjT2lVLXpsSDI0RFExaWtGOEtmRlc3Ry1ZZVBLMFBWRW11UGw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:33:11.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1d55108a884a65e2",
-          "title": "Anthropic Commits More Than $895 Billion to AI Infrastructure",
-          "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9FTGZZVmpBMjdrcFo0cGxVUVpJOXFtdWpjVTZ4aDYzSk1WZHIzWjVvNEVCMF9kbWJjOWFDXzEtYzFnR2pLeVVrQk8tZmtycEhJc3VfY3JXUko?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:33:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "bb1f2f07f5994d40",
-          "title": "Anthropic launched tools to show companies what their AI spending is buying",
-          "url": "https://techcrunch.com/2026/10/28/anthropic-just-launched-tools-to-show-companies-what-their-ai-spending-is-buying",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-04T04:26:22.000Z",
-          "score": 3,
-          "positive": [
-            "launched"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "231d740eccd4bca1",
-          "title": "SemiAnalysis Breaks Down the Compute Shortage: OpenAI and Anthropic Are Snapping Up Global Incremental Compute Capacity",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNSG1pM2ludUZ0MnBYcm1BQW1rSFU2d004TUZMX0hXMDlVSHRwaXExd3lKRlNLVFlBR2hZeVpUZEN5dG5CT3RGbDZnNUF0UUtSOEN3QUllWWVld2tYenhzc0tZZHRVNFUxaFpXVnp3R0xQV3JUYzlyaU5aU1dRWFlWQ25hSklHdmx3ckhGUFAtVVBqSi1SeVR4eThYS3ZUSk1hSl8yeldYdUlXYk84Yko2Y3hiRQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:26:02.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "down"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "a84a3942cf82fef6",
-          "title": "CERT-In Gets Access to Anthropic’s Claude Mythos AI Model for Cybersecurity Testing",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9nN1FpZF91LXVoZEIzdUktREN2VXRPbzBaMGZ6dTlzUDU4a2Y5X2VNdDNRMnBVVzJneWFlUElTU01kZU9ncUMza3RhYmU0Tk1nT2I2YmVCMkFDRkpCY0I1MW1LdU53WHlKVE9EMVo2VlFtVXBWbV8xMWJPT2M?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:25:28.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f986851c601abce4",
-          "title": "What of the Anthropic IPO healthcare bet?",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQZHVINlppNlZadjBZS1RrNnFjRzlybmIzVjJIa2FOS2lTQUFQc29WYTI4VV82WkR6cnRlRlVEdnVlQ3M5cGZKcFBKTkU0VV9CS0NrNjBydnFjQWtyTXN0Mkgzeno4dHdjc3lmZi1TYVRWeFZXNGUzNWZoWm40TWZYZ3Njdk1ST2R2dnlGVFpR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T04:21:48.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1639,9 +1611,9 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 28,
-      "index": -6.9,
-      "mean_headline": -0.9,
+      "headlines": 27,
+      "index": -4.7,
+      "mean_headline": -0.6,
       "sample": [
         {
           "id": "cc9153a6ff839c7f",
@@ -1735,28 +1707,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "deepseek",
-      "name": "DeepSeek",
-      "headlines": 1,
-      "index": -32,
-      "mean_headline": -4,
-      "sample": [
-        {
-          "id": "4910d282865a33c6",
-          "title": "China-Linked Hackers Used DeepSeek to Hit 200-Plus Organizations in 14 Countries at Once; US Semiconductor, Defense Firms Breached",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9yQnpGX3oySXN5Yml1SXdnU0FQNGsyVTNmb3RZay1UV1k5dm5tT3N1aUNtYTNzOU5zRTUzYVExMEx2MURTVmxXSjNFXzlweWZOSWJ1N09MeGtUSERYN3V2WS1iMWcyak5fTnN2Smc1NEFRMkxOcEE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-04T03:06:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "breached"
-          ],
           "clickbait": []
         }
       ]
