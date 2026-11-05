@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "index": "BLISS",
-  "generated_at": "2026-11-05T05:31:26.139Z",
+  "generated_at": "2026-11-05T06:23:36.689Z",
   "score": null,
   "level": null,
   "level_name": null,
@@ -13,17 +13,16 @@
   "awaiting_baseline": true,
   "reference_present": false,
   "dark_pillars": [
+    "science",
     "medicine"
   ],
   "uncalibrated_pillars": [
-    "science",
     "access",
     "adoption",
     "openness"
   ],
   "uncalibrated_sources": [
     "arxiv-science-ai",
-    "openalex-ai-science",
     "clinicaltrials-ai",
     "hf-permissive-models",
     "hf-permissive-share",
@@ -34,9 +33,10 @@
     "github-permissive-ai"
   ],
   "failed_sources": [
+    "openalex-ai-science",
     "pubmed-ai-clinical"
   ],
-  "sources_reporting": 10,
+  "sources_reporting": 9,
   "sources_total": 11,
   "rule_fired": "no_live_pillars",
   "decision": null,
@@ -105,8 +105,8 @@
       "percentile": null,
       "sources_ok": 0,
       "sources_total": 2,
-      "dark": false,
-      "uncalibrated": true,
+      "dark": true,
+      "uncalibrated": false,
       "blurb": "AI methods showing up in other people’s fields.",
       "description": "Papers outside computer science whose method is a model: structural biology, materials, chemistry, numerical analysis. Not the field talking about itself — the field being used by somebody solving a different problem."
     },
@@ -172,13 +172,13 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-05T05:31:26.156Z",
+      "observed_at": "2026-11-05T06:23:36.703Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-05T05:31:26.156Z",
+      "last_ok": "2026-11-05T06:23:36.703Z",
       "meta": {
         "window_days": 7,
-        "window_from": "202610290531",
-        "window_to": "202611050531",
+        "window_from": "202610290623",
+        "window_to": "202611050623",
         "categories": [
           "q-bio.BM",
           "q-bio.QM",
@@ -203,23 +203,17 @@
       "pillar": "science",
       "label": "OpenAlex AI-in-science articles",
       "ok": false,
-      "uncalibrated": true,
-      "error": "awaiting_baseline: \"openalex-ai-science\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 55,
-      "unit": "works/30d",
+      "uncalibrated": false,
+      "error": "HTTP 429 Too Many Requests from https://api.openalex.org/works?filter=from_publication_date:2026-10-06,to_publication_date:2026-11-05,type:article,title_and_abstract.search:(machine%20learning%20OR%20deep%20learning)%20AND%20(protein%20structure%20OR%20materials%20discovery)&per-page=1 — {\"error\":\"Rate limit exceeded\",\"message\":\"Anonymous search is temporarily rate-limited while the search cluster is under elevated load. Please retry in 37s, or use a free API key for uninterrupted access: https://openalex.org/rest-api.\",\"retryAfter\":37}",
+      "value": null,
+      "unit": null,
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-05T05:31:26.161Z",
-      "age_seconds": 0,
+      "observed_at": null,
+      "age_seconds": null,
       "last_ok": "2026-11-05T05:31:26.161Z",
-      "meta": {
-        "window_days": 30,
-        "window_from": "2026-10-06",
-        "window_to": "2026-11-05",
-        "search": "(machine learning OR deep learning) AND (protein structure OR materials discovery)",
-        "boolean_operators": 3
-      }
+      "meta": {}
     },
     {
       "id": "clinicaltrials-ai",
@@ -233,9 +227,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-05T05:31:26.162Z",
+      "observed_at": "2026-11-05T06:23:36.708Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-05T05:31:26.162Z",
+      "last_ok": "2026-11-05T06:23:36.708Z",
       "meta": {
         "window_days": 180,
         "start_date_from": "2026-05-09",
@@ -253,7 +247,7 @@
       "label": "PubMed AI-in-clinical-practice records",
       "ok": false,
       "uncalibrated": false,
-      "error": "pubmed-ai-clinical: no .esearchresult.count from https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&rettype=count&tool=doomcon-bliss&term=(%22artificial%20intelligence%22%5BTitle%2FAbstract%5D%20OR%20%22machine%20learning%22%5BTitle%2FAbstract%5D%20OR%20%22deep%20learning%22%5BTitle%2FAbstract%5D)%20AND%20(diagnosis%5BTitle%2FAbstract%5D%20OR%20%22drug%20discovery%22%5BTitle%2FAbstract%5D%20OR%20screening%5BTitle%2FAbstract%5D%20OR%20prognosis%5BTitle%2FAbstract%5D)%20AND%20(%222026%2F10%2F06%22%5BEDAT%5D%20%3A%20%222026%2F11%2F05%22%5BEDAT%5D) (got undefined, NCBI said: Search Backend failed: An error occurred while processing request. Status: 500. Source: /api/search/?r= Details: Search is temporarily unavailable. Please try again later. Details: Cannot connect to SOLR) — API shape changed",
+      "error": "HTTP 500 Internal Server Error from https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&rettype=count&tool=doomcon-bliss&term=(%22artificial%20intelligence%22%5BTitle%2FAbstract%5D%20OR%20%22machine%20learning%22%5BTitle%2FAbstract%5D%20OR%20%22deep%20learning%22%5BTitle%2FAbstract%5D)%20AND%20(diagnosis%5BTitle%2FAbstract%5D%20OR%20%22drug%20discovery%22%5BTitle%2FAbstract%5D%20OR%20screening%5BTitle%2FAbstract%5D%20OR%20prognosis%5BTitle%2FAbstract%5D)%20AND%20(%222026%2F10%2F06%22%5BEDAT%5D%20%3A%20%222026%2F11%2F05%22%5BEDAT%5D) — <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\"> <html> <head> <title>NCBI/eutils201 - WWW Error 500 Diagnostic</title> <style type=\"text/css\"> h1.error {color: red; font-size: 40pt} div.diags {text-indent: 0.5in } </style> </head> <body> <h1>Server E…",
       "value": null,
       "unit": null,
       "score": null,
@@ -271,14 +265,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 1482,
+      "value": 1477,
       "unit": "models/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-05T05:31:26.163Z",
+      "observed_at": "2026-11-05T06:23:36.708Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-05T05:31:26.163Z",
+      "last_ok": "2026-11-05T06:23:36.708Z",
       "meta": {
         "window_hours": 24,
         "licences": [
@@ -286,8 +280,8 @@
           "mit"
         ],
         "per_licence": {
-          "apache-2.0": 1040,
-          "mit": 442
+          "apache-2.0": 1039,
+          "mit": 438
         },
         "pages_fetched": 3,
         "page_size": 1000
@@ -300,25 +294,25 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-share\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 0.319603,
+      "value": 0.316206,
       "unit": "share/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-05T05:31:26.163Z",
+      "observed_at": "2026-11-05T06:23:36.708Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-05T05:31:26.163Z",
+      "last_ok": "2026-11-05T06:23:36.708Z",
       "meta": {
         "window_hours": 24,
         "licences": [
           "apache-2.0",
           "mit"
         ],
-        "permissive_models": 1482,
-        "total_models": 4637,
+        "permissive_models": 1477,
+        "total_models": 4671,
         "per_licence": {
-          "apache-2.0": 1040,
-          "mit": 442
+          "apache-2.0": 1039,
+          "mit": 438
         },
         "pages_licence": 3,
         "pages_total": 5,
@@ -333,27 +327,27 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"openrouter-cost-floor\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 8,
+      "value": 8.201763,
       "unit": "Mtok/usd",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-05T05:31:26.163Z",
+      "observed_at": "2026-11-05T06:23:36.709Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-05T05:31:26.163Z",
+      "last_ok": "2026-11-05T06:23:36.709Z",
       "meta": {
         "percentile": 0.1,
-        "usd_per_million_tokens": 0.125,
+        "usd_per_million_tokens": 0.121925,
         "blend": {
           "prompt": 0.75,
           "completion": 0.25
         },
         "min_context": 131072,
-        "pool_size": 361,
-        "catalogue_size": 454,
-        "priced_models": 429,
+        "pool_size": 362,
+        "catalogue_size": 455,
+        "priced_models": 430,
         "free_models": 16,
-        "cheapest_usd_per_million": 0.0185,
+        "cheapest_usd_per_million": 0.01825,
         "median_usd_per_million": 1
       }
     },
@@ -369,9 +363,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-05T05:31:26.163Z",
+      "observed_at": "2026-11-05T06:23:36.709Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-05T05:31:26.163Z",
+      "last_ok": "2026-11-05T06:23:36.709Z",
       "meta": {
         "basket": [
           "sentence-transformers/all-MiniLM-L6-v2",
@@ -409,9 +403,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-05T05:31:26.163Z",
+      "observed_at": "2026-11-05T06:23:36.709Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-05T05:31:26.163Z",
+      "last_ok": "2026-11-05T06:23:36.709Z",
       "meta": {
         "basket": [
           "openai",
@@ -451,9 +445,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-05T05:31:26.164Z",
+      "observed_at": "2026-11-05T06:23:36.709Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-05T05:31:26.164Z",
+      "last_ok": "2026-11-05T06:23:36.709Z",
       "meta": {
         "window_days": 365,
         "open_weight_models": 42,
@@ -482,14 +476,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"github-permissive-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 242,
+      "value": 243,
       "unit": "repos/30d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-05T05:31:26.164Z",
+      "observed_at": "2026-11-05T06:23:36.709Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-05T05:31:26.164Z",
+      "last_ok": "2026-11-05T06:23:36.709Z",
       "meta": {
         "window_days": 30,
         "created_from": "2026-10-06",
@@ -508,10 +502,10 @@
       "level_name": null
     },
     "doomcon": {
-      "score": 57.7803,
+      "score": 58.6885,
       "level": 3,
       "level_name": "ELEVATED",
-      "generated_at": "2026-11-05T05:13:09.537Z"
+      "generated_at": "2026-11-05T06:12:40.931Z"
     },
     "divergence": null,
     "divergence_band": 3,
