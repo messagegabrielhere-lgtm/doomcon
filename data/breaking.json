@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-05T20:08:56.314Z",
+  "generated_at": "2026-11-05T20:56:57.069Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,8 +47,8 @@
       "ycombinator.com"
     ]
   },
-  "live": 16,
-  "fresh": "b42929901d803",
+  "live": 15,
+  "fresh": "bf00709d25640",
   "clusters": [
     {
       "id": "b42929901d803",
@@ -326,7 +326,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "bac73d0e13f77",
@@ -394,14 +394,20 @@
       "outlet": "reuters.com",
       "outlets": [
         "lesswrong.com",
-        "reuters.com"
+        "metr.org",
+        "myrtlebeachonline.com",
+        "reuters.com",
+        "unite.ai"
       ],
       "tier1_outlets": [
         "reuters.com"
       ],
-      "corroboration": 2,
+      "corroboration": 5,
       "sources": [
+        "gnews-ai",
+        "hn-fresh-ai",
         "lesswrong",
+        "reddit-singularity",
         "techmeme",
         "wires-ai"
       ],
@@ -409,17 +415,44 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-05T18:38:31.055Z",
+      "earliest_published_at": "2026-11-05T18:11:48.000Z",
       "first_seen_at": "2026-11-05T18:38:31.055Z",
-      "latency_s": 0,
+      "latency_s": 1603,
       "breaking_at": "2026-11-05T19:29:20.800Z",
       "item_ids": [
         "2835ed7c19e70d95",
+        "389f758e71002fb8",
         "3ec001c7a9963631",
         "4455019b2764e392",
-        "5f446ab5947a3775"
+        "5f446ab5947a3775",
+        "aad4e22c3f64f85a",
+        "c9162c6a29395c0b"
       ],
       "sightings": [
+        {
+          "source": "reddit-singularity",
+          "outlet": "reddit.com",
+          "title": "GPT-6.1 Sol learns from real-world surgical experience: After just 3 mouse brain procedures, with a surgeon correcting its mistakes, the AI finds key anatomical landmarks nearly twice as fast (169 →…",
+          "url": "https://reddit.com/r/singularity/comments/1xoptyr/gpt61_sol_learns_from_realworld_surgical",
+          "published_at": "2026-11-05T18:11:48.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "unite.ai",
+          "title": "METR Estimates Anthropic’s Model Capability Growth Has Nearly Doubled",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQbk9paWxJc1NyMmhHQUpwLXQ1MDV1bkdNc2dqbkZVamIybkFKcUlodGNRdHIzUlVTY0VkbjdGOFRCaVpMaHhQZkE3WlJNaFFoLUNyZTI5MEhyZkV6dnVpTWpSWGtfal9MTWpWNVhHeURMXzJocFVnbkZUbDV2emxRTlBKcTdsc3AtZnVLV3c1YnI1QkNt?oc=5",
+          "published_at": "2026-11-05T18:35:02.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "myrtlebeachonline.com",
+          "title": "Anthropic's models improving nearly twice as fast with help from AI, study finds",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBRam9PWjBQU0pWVkV4ZHhMZGdDY2hPRjAwSWp5UnF5S2ZHRDRIVFEyaFdtS1FTNjB2UGx6UVFhcExkb1lXLWM3RXJZZXZHRV9vMjZvcndoUW9OejRaUVhQVUlBQmlxOC1FbmNZVE91NmJLVVNFeXlfMg?oc=5",
+          "published_at": "2026-11-05T18:38:31.055Z",
+          "tier1": false
+        },
         {
           "source": "wires-ai",
           "outlet": "reuters.com",
@@ -451,6 +484,22 @@
           "url": "https://lesswrong.com/posts/N5AmYkRks5CqAxvBg/metr-independent-assessment-of-ai-r-and-d-acceleration-at",
           "published_at": "2026-11-05T19:06:38.000Z",
           "tier1": false
+        },
+        {
+          "source": "reddit-singularity",
+          "outlet": "reddit.com",
+          "title": "METR reveals Anthropic's unreleased Model 4, trained in September–October 2026, scored 178.6 on the AI capability index, a jump nearly 90% as large as the entire improvement from Opus 4.6 to Mythos 5.",
+          "url": "https://reddit.com/r/singularity/comments/1xorf5c/metr_reveals_anthropics_unreleased_model_4",
+          "published_at": "2026-11-05T19:12:08.000Z",
+          "tier1": false
+        },
+        {
+          "source": "hn-fresh-ai",
+          "outlet": "metr.org",
+          "title": "Independent Assessment of AI R&D Acceleration at Anthropic in October 2026",
+          "url": "https://metr.org/blog/2026-11-05-anthropic-ai-rd-acceleration-assessment",
+          "published_at": "2026-11-05T19:29:20.800Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -462,13 +511,14 @@
       "source": "wires-ai",
       "outlet": "apnews.com",
       "outlets": [
-        "abcnews.com",
-        "apnews.com"
+        "apnews.com",
+        "post-gazette.com",
+        "scrippsnews.com"
       ],
       "tier1_outlets": [
         "apnews.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "bluesky-ai",
         "gnews-ai",
@@ -495,20 +545,28 @@
           "tier1": true
         },
         {
-          "source": "gnews-ai",
-          "outlet": "abcnews.com",
-          "title": "Anthropic is rapidly accelerating AI development amid slowdown calls, outside research group says",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQamdwckRqeXgydFpCeHRHcmdEbGgyRkxMTHJsOFVRSTB5U1JPc1N0eFV3SEhCZ2pid19OSWxZNXNBS05Dd1kzdHNzdlF0cHYzMTBEME5QT2pmcmVRZkRoRXREN21EbkUtdlR3MzZZRkFyekpvT29JUklZZ3BlTHY5aVRnQW9FQXkySWsyUFRmZ01RUXFSVlJWMVpjTkFkUUxoSzRPdFFGX1NMRWpDWGo3SEg5MHBBUTjSAbwBQVVfeXFMT2RBOHJ3dUpHYUtkX3pmVXlYbDZQY3VjZHRsdXgxZmVXZjlSOW1zOFdMSHRhUF9SMWxzdjdqLWludzhocjVkS3plOXZwY0xVSXJUc2h3REg3blVPNno4Y0ZJelM2U3FGc0UtdHEyQ3libWZROWxUXzdTMTRiODJqeVc5QjBKcEh1T2s4Z1Y1ZTBoalFuODdNRjNsOU9wQ3B3MnFWSjJhWGcyX3J3NHVOSTdmWWpBM29ybUJqeHQ?oc=5",
-          "published_at": "2026-11-05T18:38:31.055Z",
-          "tier1": false
-        },
-        {
           "source": "bluesky-ai",
           "outlet": "apnews.com",
           "title": "Anthropic is rapidly accelerating AI development amid slowdown calls, outside research group says",
           "url": "https://bsky.app/profile/apnews.com/post/3mzlnt6ayhe27",
           "published_at": "2026-11-05T18:38:31.055Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "post-gazette.com",
+          "title": "Anthropic is rapidly accelerating AI development amid slowdown calls, outside research group says",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPRk0tUUdoeGdIc1UydWZuaE9ncVdEN0RZcFc3NVIyX0t2VUFXS2xYTDY2SHp1d0hISkEycGdrSThLcXhiaGRfMW12dnYwMnIwWHIzVGk3dldWV1lYSGFMaTJmNmU1X21PM1luNkVCdTI5ZVpNSDNJMlhoRnNIRXBGSDlPWWRsdkVJay1CaFpLR3BvYUlmU2VwSW1BQjlFLXpoNTlYTTRnRTRmQ1VvZHc?oc=5",
+          "published_at": "2026-11-05T18:38:31.055Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "scrippsnews.com",
+          "title": "Anthropic is reportedly rapidly accelerating AI development amid slowdown calls",
+          "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxOVjlRTHp6M3RIS2pfRGx4SDRxcE9WVE12SExpMkhqNnVnMTVJcmo3UEpIZDlncTIyYUN2TzFoNTVSOGE4djJNVkVXYmZMcnhsNEpRZVlHd2lWYXNCZ1k1Nm15VXhCU2JzRFFRME8tamZQeVl1emt6UzhuVzRPc3pYUFVJY1g3LV9yS1FaNUk5R0RlSlBBV0lzNmQ5YWdkMVNsVEdBRzNDOWFXUHhtQlRLbmM1emVzQ2VPQzN1VG55TGVZYU56a2ZOcmhKQnBjM0VOYVY0b09IT0NoTU1yT3ktZzVR?oc=5",
+          "published_at": "2026-11-05T18:38:31.055Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -520,10 +578,8 @@
       "source": "bluesky-ai",
       "outlet": "theverge.com",
       "outlets": [
-        "advisorhub.com",
         "anthropic.com",
         "bloomberg.com",
-        "news.az",
         "reuters.com",
         "techcrunch.com",
         "theverge.com",
@@ -536,7 +592,7 @@
         "techcrunch.com",
         "theverge.com"
       ],
-      "corroboration": 8,
+      "corroboration": 6,
       "sources": [
         "bloomberg-tech",
         "bluesky-ai",
@@ -629,22 +685,6 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "advisorhub.com",
-          "title": "Anthropic, Plaid Collaborate on AI Consumer Finance Guidance",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPNG1NV0N5NUllS0pOVUtVZzBwSXM1ZlpfbDV6X3Z6b2xscWNwcXZYcGxCbl9yTWtuek80bUFrbTI0Q1pJQ1BueGdMOUxVRW9ZcWFtX1ZMSHJVVlBobnJZWTFwWFI1ZXc0dHFqclUwVDcyeDd3UDdWTFJsa3FiX1dTVTllMEx0eFZyX1J4amNtWWc?oc=5",
-          "published_at": "2026-11-05T18:38:31.055Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "news.az",
-          "title": "Anthropic adds personal finance feature to Claude",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBVUzdSeWZVRV9NTm1OUmhYTG9MalladDRuenlCR3lhWVgwMkN3OC14aEhFbVk2TklIUUUwWVVHVnZhb2FZeDZSUGN3UzNUbmNYRWs3cXhranR5Q2NxTEJEX1pZdU4taXhnTzdlUWR1Rk43RGtrc0F6SXRR?oc=5",
-          "published_at": "2026-11-05T18:38:31.055Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
           "outlet": "windowsreport.com",
           "title": "Anthropic Wants Claude to Manage Your Money With New Personal Finance Feature",
           "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOOWwtdGdsQjJQOXctNnE3X3pFcWJNNmQtVzlmYVhTemJyeDJQSjdLbXREUTNMNmhPVDd1VlRsWFRKTzk3WkJhS1hjX2VrV2dyNFFwTWh6NDhJREoyMlVhdnlWWXJTcEgwcHdnd1h2YVVHeWJsNGl5c2RPN2JUbzVYblh2SEZSQ3c4VXV4bzhrU3RvVWpnUFpaNDNYVy1Lb3FQYXZXWFpCdw?oc=5",
@@ -656,19 +696,20 @@
     },
     {
       "id": "bdf5d5947126c",
-      "title": "SpaceX, Tesla extend losses as midterm results cloud data center, merger outlook",
-      "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQaXI0TWJjeldpYmNUM0tQR3NKcEh6bGtsaWUzOV9XQnQyaFVnNlNuaEcxakNkdjd4MzBJR2NoMWdua1RaNEVfSzNjOGRCVU5vVmc3MXRYdlkzVEpYV3JZR2JMYVVSMTJ5ZmkxY2VYM2RSWm1nb005RENwSk93NTcxa0U5X1lrMUw1cHRFV3c4b3lhc2doNHFJM012TE1yN1N5ZEo2em9pSExVcHgtQ2h1cURZOE5taVF6aFVKZU5GWVpHX0FDSGpGYmppMFUtUXM?oc=5",
-      "source": "wires-ai",
-      "outlet": "reuters.com",
+      "title": "Shares in Musk's SpaceX plunge as tech and AI stocks fall",
+      "url": "https://bbc.co.uk/news/articles/cmn04705rd8jo",
+      "source": "bbc-tech",
+      "outlet": "bbc.co.uk",
       "outlets": [
+        "americanbazaaronline.com",
         "bbc.co.uk",
         "bloomberg.com",
         "nytimes.com",
         "reuters.com",
         "scmp.com",
         "tech-insider.org",
-        "the-decoder.com",
         "theguardian.com",
+        "thenationalnews.com",
         "washingtonpost.com",
         "yahoo.com"
       ],
@@ -681,24 +722,23 @@
         "theguardian.com",
         "washingtonpost.com"
       ],
-      "corroboration": 10,
+      "corroboration": 11,
       "sources": [
         "bbc-tech",
         "bluesky-ai",
         "gnews-ai",
         "guardian-ai",
+        "hn-ai",
         "hn-fresh-ai",
         "nyt-tech",
-        "reddit-openai",
         "scmp-tech",
-        "the-decoder",
         "wires-ai"
       ],
       "rule": [
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-05T14:37:46.000Z",
+      "earliest_published_at": "2026-11-05T15:00:08.000Z",
       "first_seen_at": "2026-11-04T09:12:09.927Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -720,14 +760,11 @@
         "57d3156439f64ed5",
         "609c1e0de7a7bae9",
         "60b643de71c0e128",
-        "64ab46862b4bf822",
         "6db2e6525d5b44f4",
         "6f7f52fd436b01fe",
-        "72181e70de3eee39",
         "733a3ea9b3b95410",
         "7419693c341871b6",
         "7ed4c0eb20cb55f1",
-        "82ad77dfdb2a91fd",
         "870bb53d5cc76f0d",
         "8e9feb0f7d75f5ca",
         "91665df47205c62b",
@@ -740,28 +777,14 @@
         "bd04684d5efdc144",
         "be3f84c58188b399",
         "c2671de956cd159c",
+        "cbe050780939ea80",
         "d4aee4e75dde1e7b",
+        "ea378ae56c33fae3",
         "efe0c2e809d345b1",
         "f61abd293f245097",
-        "faed0690cfc98c42"
+        "f9e167e5cf5abd04"
       ],
       "sightings": [
-        {
-          "source": "the-decoder",
-          "outlet": "the-decoder.com",
-          "title": "After midterm rout, OpenAI tries to win over communities it needs for AI expansion",
-          "url": "https://the-decoder.com/after-midterm-rout-openai-tries-to-win-over-communities-it-needs-for-ai-expansion",
-          "published_at": "2026-11-05T14:37:46.000Z",
-          "tier1": false
-        },
-        {
-          "source": "reddit-openai",
-          "outlet": "reddit.com",
-          "title": "After America voted against data centres, OpenAI promises to pay its own power bills and end secrecy deals",
-          "url": "https://reddit.com/r/OpenAI/comments/1xokowx/after_america_voted_against_data_centres_openai",
-          "published_at": "2026-11-05T14:55:32.000Z",
-          "tier1": false
-        },
         {
           "source": "scmp-tech",
           "outlet": "scmp.com",
@@ -795,10 +818,26 @@
           "tier1": true
         },
         {
+          "source": "hn-ai",
+          "outlet": "bbc.co.uk",
+          "title": "Shares in Musk's SpaceX plunge as tech and AI stocks fall",
+          "url": "https://bbc.com/news/articles/cmn04705rd8jo",
+          "published_at": "2026-11-05T17:09:33.620Z",
+          "tier1": true
+        },
+        {
           "source": "hn-fresh-ai",
           "outlet": "bbc.co.uk",
           "title": "Shares in Musk's SpaceX plunge as tech and AI stocks fall",
           "url": "https://bbc.com/news/articles/cmn04705rd8jo",
+          "published_at": "2026-11-05T17:09:33.620Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "bloomberg.com",
+          "title": "Tesla Shares Tumble Again in Deepening Post-Election Slump",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3mzlqd5dsfs2r",
           "published_at": "2026-11-05T17:09:33.620Z",
           "tier1": true
         },
@@ -809,14 +848,6 @@
           "url": "https://theguardian.com/business/2026/nov/05/nasdaq-heading-for-worst-day-in-18-months-as-wall-street-sustains-widespread-losses",
           "published_at": "2026-11-05T17:59:12.052Z",
           "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "yahoo.com",
-          "title": "SpaceX Stock Falls as Banks Test Demand for AI Debt",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOWVA4a0tRV0tCZ25qY3duTFdKa0NPWTRLcVludWcyZWRhTDl2bC1MQm5QMDhweGlTcnZLNE9vRXZNbjlSbko0bThXVXRMRGxtRG5YZlFvU3BxODA0NHVVOXRpdXhRek5DMlh4Uk5qc1BCT18wTTBNUWwzSEpZUjc3SXJGaWRrZDk0ZnpPVDg0Wjdpd0tTMV9ndlhR?oc=5",
-          "published_at": "2026-11-05T17:59:43.000Z",
-          "tier1": false
         },
         {
           "source": "bluesky-ai",
@@ -835,12 +866,20 @@
           "tier1": false
         },
         {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "SpaceX, Tesla extend losses as midterm results cloud data center, merger outlook",
-          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQaXI0TWJjeldpYmNUM0tQR3NKcEh6bGtsaWUzOV9XQnQyaFVnNlNuaEcxakNkdjd4MzBJR2NoMWdua1RaNEVfSzNjOGRCVU5vVmc3MXRYdlkzVEpYV3JZR2JMYVVSMTJ5ZmkxY2VYM2RSWm1nb005RENwSk93NTcxa0U5X1lrMUw1cHRFV3c4b3lhc2doNHFJM012TE1yN1N5ZEo2em9pSExVcHgtQ2h1cURZOE5taVF6aFVKZU5GWVpHX0FDSGpGYmppMFUtUXM?oc=5",
-          "published_at": "2026-11-05T19:19:43.000Z",
+          "source": "bluesky-ai",
+          "outlet": "washingtonpost.com",
+          "title": "Stocks tumble, erasing post-midterm gains as markets weigh future of AI build-out",
+          "url": "https://bsky.app/profile/washingtonpost.com/post/3mzllnmxj5j2m",
+          "published_at": "2026-11-05T19:21:31.406Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "yahoo.com",
+          "title": "SpaceX Stock Tumbles. A 6-Gigawatt AI Data Center Is Drawing Backlash",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPeXIyejQ3T2hqTF9Zelhacmhicm1Ma3NsMEFPWVNSRlJsSVJvVmg5OXJVT0dwcm0zVkFKdk1MQkxxNWMyWDkzekxJdmF6YU1DbllTWk5wSlVRa1UyVXV3UWotSkUxaDBaelFlOGN4aWtYUWwyZXZPNk4yZU5sNUlkblZEV0JHRGRRZ0hKTTZMQk53d3FjS3ZuS1B4OA?oc=5",
+          "published_at": "2026-11-05T19:32:57.000Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -1155,7 +1194,7 @@
           "outlet": "thenextweb.com",
           "title": "Google’s Gemini Omni 1.2 Flash makes 15-second AI videos for less",
           "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQa1JDYUlOV0Nnemd6amVZSnBiQy15RFRIdHVfcVhGbGoyZkZlTExNd3dUNXpwZ2lnVk9UejdnTmtGR0hBMkU0dkpjdEFmNmItdEs1REVHUHJoeHlfbk1ydjkzdWh4NWxUNVE2aGxqdVBMNmpFWlZqa0lQRFMzWG0wcnFSQXBQcWVHS2VN?oc=5",
-          "published_at": "2026-11-05T20:04:07.000Z",
+          "published_at": "2026-11-05T20:03:48.000Z",
           "tier1": false
         }
       ],
@@ -1183,6 +1222,7 @@
       "sources": [
         "bluesky-ai",
         "gnews-ai",
+        "reddit-singularity",
         "techmeme",
         "verge-ai"
       ],
@@ -1207,7 +1247,8 @@
         "b55b60afeebcb249",
         "cfb3fe35f31663fb",
         "d7d244f0d7c31522",
-        "ddbd41bba7b93e32"
+        "ddbd41bba7b93e32",
+        "f1781267526c3b2e"
       ],
       "sightings": [
         {
@@ -1241,6 +1282,14 @@
           "url": "https://bsky.app/profile/theverge.com/post/3mzlefvcj5t2u",
           "published_at": "2026-11-05T17:09:33.620Z",
           "tier1": true
+        },
+        {
+          "source": "reddit-singularity",
+          "outlet": "reddit.com",
+          "title": "OpenAI has just announced GPT‑6 Cyber, a major step up from GPT‑5.6 Cyber and outperforms GPT‑6 Astra on most cyber tasks",
+          "url": "https://reddit.com/r/singularity/comments/1xoo9ob/openai_has_just_announced_gpt6_cyber_a_major_step",
+          "published_at": "2026-11-05T17:13:30.000Z",
+          "tier1": false
         },
         {
           "source": "gnews-ai",
@@ -1462,16 +1511,16 @@
       ],
       "corroboration": 2,
       "sources": [
-        "bloomberg-tech",
-        "bluesky-ai"
+        "bluesky-ai",
+        "hn-fresh-ai"
       ],
       "rule": [
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-05T16:00:05.000Z",
+      "earliest_published_at": "2026-11-05T16:11:54.034Z",
       "first_seen_at": "2026-11-05T16:29:19.690Z",
-      "latency_s": 1755,
+      "latency_s": 1046,
       "breaking_at": "2026-11-05T16:29:19.690Z",
       "item_ids": [
         "87652656571eb052",
@@ -1480,19 +1529,19 @@
       ],
       "sightings": [
         {
-          "source": "bloomberg-tech",
-          "outlet": "bloomberg.com",
-          "title": "Sony Debuts Retro $60 Wired Headphones in Tribute to 1979 Walkman",
-          "url": "https://bloomberg.com/news/articles/2026-11-05/sony-debuts-retro-60-wired-headphones-in-tribute-to-1979-walkman",
-          "published_at": "2026-11-05T16:00:05.000Z",
-          "tier1": true
-        },
-        {
           "source": "bluesky-ai",
           "outlet": "theverge.com",
           "title": "Sony’s retro headphones brought me back to my youth",
           "url": "https://bsky.app/profile/theverge.com/post/3mzlb2mbn552u",
           "published_at": "2026-11-05T16:11:54.034Z",
+          "tier1": true
+        },
+        {
+          "source": "hn-fresh-ai",
+          "outlet": "bloomberg.com",
+          "title": "Sony Debuts Retro $60 Wired Headphones in Tribute to 1979 Walkman",
+          "url": "https://bloomberg.com/news/articles/2026-11-05/sony-debuts-retro-60-wired-headphones-in-tribute-to-1979-walkman",
+          "published_at": "2026-11-05T16:29:19.690Z",
           "tier1": true
         },
         {
@@ -1706,25 +1755,24 @@
       "outlet": "bloomberg.com",
       "outlets": [
         "bloomberg.com",
-        "latimes.com",
         "stocktwits.com"
       ],
       "tier1_outlets": [
         "bloomberg.com"
       ],
-      "corroboration": 3,
+      "corroboration": 2,
       "sources": [
         "bloomberg-tech",
         "gnews-ai",
-        "hn-ai",
         "wires-ai"
       ],
       "rule": [
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-05T14:23:41.000Z",
+      "earliest_published_at": "2026-11-05T15:31:17.000Z",
       "first_seen_at": "2026-11-05T14:59:23.795Z",
-      "latency_s": 2143,
+      "latency_s": 0,
+      "clock_skew": true,
       "breaking_at": "2026-11-05T15:38:41.094Z",
       "item_ids": [
         "3d15f4a7d10ed90d",
@@ -1732,14 +1780,6 @@
         "d515409749a5cde8"
       ],
       "sightings": [
-        {
-          "source": "hn-ai",
-          "outlet": "latimes.com",
-          "title": "AI stock selloffs fuel fears Big Tech's best quarters are over",
-          "url": "https://latimes.com/business/story/2026-10-30/big-techs-growth-is-cooling-raising-fears-that-best-quarters-are-over",
-          "published_at": "2026-11-05T14:23:41.000Z",
-          "tier1": false
-        },
         {
           "source": "bloomberg-tech",
           "outlet": "bloomberg.com",
