@@ -1,13 +1,13 @@
 {
   "schema": 1,
   "engine_version": "1.0.0",
-  "generated_at": "2026-11-06T08:35:05.088Z",
+  "generated_at": "2026-11-06T09:16:27.905Z",
   "index": {
     "name": "SUBSTRATE",
     "question": "How loaded is the physical substrate the models are being built on?",
     "feeds_main_index": false
   },
-  "score": 40.3,
+  "score": 40.4,
   "level": 4,
   "level_name": "STEADY",
   "level_gloss": "Ordinary. This is where most observations sit.",
@@ -19,8 +19,8 @@
     "level": 4,
     "level_name": "STEADY",
     "level_since": "2026-09-24T03:20:33.302Z",
-    "score": 40.3,
-    "generated_at": "2026-11-06T08:35:05.088Z"
+    "score": 40.4,
+    "generated_at": "2026-11-06T09:16:27.905Z"
   },
   "degraded": true,
   "dark_pillars": [],
@@ -85,7 +85,7 @@
       "id": "water",
       "name": "The water",
       "blurb": "The state of the rivers and the ground the clusters were built beside.",
-      "score": 43,
+      "score": 43.3,
       "state": "live",
       "dark": false,
       "sources_live": 2,
@@ -126,9 +126,9 @@
       "baseline_span": null,
       "baseline_note": null,
       "observed_at": null,
-      "error": "caiso-baseload: overnight window incomplete — 7 of 72 intervals present (need 68), 66 still blank. CAISO publishes the current Pacific day only, so this is the normal state between 00:00 and 06:00 Pacific and an outage at any other hour.",
+      "error": "caiso-baseload: overnight window incomplete — 15 of 72 intervals present (need 68), 58 still blank. CAISO publishes the current Pacific day only, so this is the normal state between 00:00 and 06:00 Pacific and an outage at any other hour.",
       "meta": {},
-      "ms": 709
+      "ms": 270
     },
     {
       "id": "ercot-baseload",
@@ -163,11 +163,11 @@
           "2026-11-06",
           "2026-11-05"
         ],
-        "feed_last_updated": "2026-11-06 02:31:00-0600",
+        "feed_last_updated": "2026-11-06 03:11:00-0600",
         "direction": "higher = more always-on load",
         "source_note": "net generation summed across all fuel categories, five-minute resolution; Power Storage is negative while batteries charge and that sign is kept"
       },
-      "ms": 739,
+      "ms": 209,
       "z": -1.78186,
       "baseline_min": 38941.2,
       "baseline_median": 44815.6,
@@ -183,32 +183,32 @@
       "cadence": "every 5 minutes",
       "direction": "higher = less slack between load and the committed fleet",
       "state": "live",
-      "value": 67.765,
+      "value": 67.381,
       "score": 21.6,
-      "percentile": 0.0072,
+      "percentile": 0.0049,
       "baseline_n": 43,
       "baseline_origin": "accumulated",
       "baseline_source": "one reading per UTC day, recorded by this collector",
       "baseline_span": "2026-09-24 to 2026-11-05",
       "baseline_note": "this feed publishes no usable history, so the baseline is grown a day at a time",
-      "observed_at": "2026-11-06T08:30:00.000Z",
+      "observed_at": "2026-11-06T09:15:00.000Z",
       "error": null,
       "meta": {
-        "demand_mw": 45024,
-        "committed_capacity_mw": 66441,
-        "headroom_mw": 21417,
-        "interval_local": "2026-11-06 02:30:00-0600",
-        "intervals_today": 31,
+        "demand_mw": 44568,
+        "committed_capacity_mw": 66143,
+        "headroom_mw": 21575,
+        "interval_local": "2026-11-06 03:15:00-0600",
+        "intervals_today": 40,
         "intervals_in_feed": 289,
-        "intervals_dropped_forecast": 258,
+        "intervals_dropped_forecast": 249,
         "today_high_pct": 71.679,
-        "today_low_pct": 67.765,
-        "feed_last_updated": "2026-11-06 02:30:00-0600",
+        "today_low_pct": 67.154,
+        "feed_last_updated": "2026-11-06 03:15:00-0600",
         "prc": {
-          "current_mw": 10625,
+          "current_mw": 11294,
           "day_low_mw": 9495,
           "day_low_at_local": "2026-11-06 00:17:34-0600",
-          "samples": 929,
+          "samples": 1178,
           "ercot_state": "normal",
           "ercot_title": "Normal Conditions",
           "ercot_note": "There is enough power for current demand.",
@@ -217,7 +217,7 @@
         "direction": "higher = tighter",
         "source_note": "capacity is COMMITTED capacity, which follows expected load, so this ratio understates the swing in physical margin; PRC is enrichment and never scored; rows ERCOT flags as forecast, and any row stamped after the run clock, are dropped before the ratio and the day high and low are computed"
       },
-      "ms": 774,
+      "ms": 221,
       "z": -2.269203,
       "baseline_min": 66.559,
       "baseline_median": 79.512,
@@ -254,12 +254,12 @@
         "floor_at_local": "11/05/2026 03:25:00",
         "time_zone": "EST",
         "attempts": [
-          "20261106pal.csv: 41 complete intervals (need 66)"
+          "20261106pal.csv: 49 complete intervals (need 66)"
         ],
         "direction": "higher = more always-on load",
         "source_note": "statewide sum of all eleven NYISO load zones; a timestamp missing any zone is discarded rather than summed short"
       },
-      "ms": 1337,
+      "ms": 621,
       "z": 0.389968,
       "baseline_min": 12109.1,
       "baseline_median": 12697.8,
@@ -417,7 +417,7 @@
         "direction": "higher = drier",
         "source_note": "US Drought Monitor, produced weekly by NDMC, USDA and NOAA; an expert assessment, not an instrument reading, and averaged here without area or population weighting"
       },
-      "ms": 1693,
+      "ms": 1075,
       "z": -0.813475,
       "baseline_min": 1.539,
       "baseline_median": 18.994,
@@ -433,9 +433,9 @@
       "cadence": "daily, one day in arrears",
       "direction": "higher = less water in the rivers these clusters draw on",
       "state": "live",
-      "value": 7.46,
-      "score": 46.1,
-      "percentile": 0.376,
+      "value": 8.06,
+      "score": 46.7,
+      "percentile": 0.395,
       "baseline_n": 1095,
       "baseline_origin": "feed",
       "baseline_source": "the same nine-gauge median recomputed for every earlier day in the window",
@@ -445,10 +445,9 @@
       "error": null,
       "meta": {
         "reading_day": "2026-11-05",
-        "gauges_reporting": 7,
+        "gauges_reporting": 8,
         "gauges_total": 9,
         "gauges_missing": [
-          "09380000 Colorado Rv at Lees Ferry",
           "14105700 Columbia Rv at The Dalles"
         ],
         "gauges": [
@@ -535,10 +534,22 @@
             "percent_of_normal": 84.8,
             "deficit_pct": 15.2,
             "record_years": "1957–2026"
+          },
+          {
+            "site": "09380000",
+            "name": "Colorado Rv at Lees Ferry",
+            "state": "AZ",
+            "cluster": "Phoenix metro",
+            "note": "the accounting point for Lower Basin deliveries, which is how Central Arizona Project water reaches Phoenix; it is 300 miles upstream of the datacentres and is a supply gauge, not a local one",
+            "flow_cfs": 6490,
+            "normal_cfs": 8430,
+            "percent_of_normal": 77,
+            "deficit_pct": 23,
+            "record_years": "1922–2026"
           }
         ],
-        "median_deficit_pct": 7.46,
-        "mean_deficit_pct": -102.81,
+        "median_deficit_pct": 8.06,
+        "mean_deficit_pct": -87.09,
         "aggregator": "median across gauges; the mean is reported but never scored",
         "driest": "Potomac Rv at Little Falls",
         "wettest": "Scioto Rv at Columbus",
@@ -548,8 +559,8 @@
         "direction": "higher = drier",
         "source_note": "denominator is the USGS published median for that gauge on that day of the year, over the gauge’s full period of record; it is not computed by this project"
       },
-      "ms": 1520,
-      "z": -0.315945,
+      "ms": 872,
+      "z": -0.266269,
       "baseline_min": -139.437,
       "baseline_median": 11.527,
       "baseline_max": 57.167
@@ -572,7 +583,7 @@
       "baseline_source": "the same 180-day rolling count taken at weekly anchors across the fetched corpus",
       "baseline_span": "2022-05-07 to 2026-10-30",
       "baseline_note": "windows overlap, so these points are strongly autocorrelated and the effective sample size is much smaller than the count",
-      "observed_at": "2026-11-06T08:35:05.110Z",
+      "observed_at": "2026-11-06T09:16:27.925Z",
       "error": null,
       "meta": {
         "term": "data center",
@@ -587,7 +598,7 @@
         "direction": "higher = more federal documents mention datacentres",
         "source_note": "the noisiest source in this index: \"data center\" also matches the National Climatic Data Center, federal facility consolidation notices and every agency building with the words in its name"
       },
-      "ms": 2162,
+      "ms": 1599,
       "z": 0.296739,
       "baseline_min": 96,
       "baseline_median": 128,
@@ -611,7 +622,7 @@
       "baseline_source": "one reading per UTC day, recorded by this collector",
       "baseline_span": "2026-09-24 to 2026-11-05",
       "baseline_note": "this feed publishes no usable history, so the baseline is grown a day at a time",
-      "observed_at": "2026-11-06T08:35:07.834Z",
+      "observed_at": "2026-11-06T09:16:28.759Z",
       "error": null,
       "meta": {
         "phrase": "data centers",
@@ -622,7 +633,7 @@
         "direction": "higher = more filings mention datacentres",
         "source_note": "efts.sec.gov full-text search; a count of matching filings, not of dollars, and it carries EDGAR’s own filing calendar — 10-K season lifts every phrase"
       },
-      "ms": 2724,
+      "ms": 834,
       "z": -0.539082,
       "baseline_min": 1086,
       "baseline_median": 1594,
@@ -646,7 +657,7 @@
       "baseline_source": "one reading per UTC day, recorded by this collector",
       "baseline_span": "2026-09-24 to 2026-11-05",
       "baseline_note": "this feed publishes no usable history, so the baseline is grown a day at a time",
-      "observed_at": "2026-11-06T08:35:07.454Z",
+      "observed_at": "2026-11-06T09:16:29.249Z",
       "error": null,
       "meta": {
         "phrase": "power purchase agreement",
@@ -657,7 +668,7 @@
         "direction": "higher = more bulk power contracted",
         "source_note": "efts.sec.gov full-text search; PPAs are signed by every heavy industry, and nothing in a phrase count separates a datacentre’s from a smelter’s"
       },
-      "ms": 2344,
+      "ms": 1324,
       "z": -2.25093,
       "baseline_min": 267,
       "baseline_median": 302,
@@ -673,11 +684,6 @@
     "normalisation": "empirical percentile -> inverse normal CDF -> 50 + 12.5z, clamped to [0,100]"
   },
   "history": [
-    {
-      "generated_at": "2026-10-21T20:09:33.002Z",
-      "score": 51.6,
-      "level": 4
-    },
     {
       "generated_at": "2026-10-21T20:43:20.137Z",
       "score": 51.6,
@@ -3072,6 +3078,11 @@
       "generated_at": "2026-11-06T08:35:05.088Z",
       "score": 40.3,
       "level": 4
+    },
+    {
+      "generated_at": "2026-11-06T09:16:27.905Z",
+      "score": 40.4,
+      "level": 4
     }
   ],
   "baselines": {
@@ -3607,7 +3618,7 @@
         },
         {
           "d": "2026-11-06",
-          "v": 67.765
+          "v": 67.381
         }
       ]
     },
@@ -4007,7 +4018,7 @@
         },
         {
           "d": "2026-11-05",
-          "v": 7.46
+          "v": 8.06
         }
       ]
     },
