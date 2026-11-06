@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-06T18:01:32.217Z",
-  "news_generated_at": "2026-11-06T18:01:32.217Z",
+  "generated_at": "2026-11-06T18:54:50.122Z",
+  "news_generated_at": "2026-11-06T18:54:50.122Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,35 +18,35 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 185,
+    "headlines_naming_a_company": 198,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.182
+    "negative_pair_share": 0.169
   },
   "glance": {
     "leading": {
       "id": "amazon",
       "name": "Amazon",
-      "index": 3.3
+      "index": 3.6
     },
     "trailing": {
-      "id": "apple",
-      "name": "Apple",
-      "index": -18
+      "id": "google",
+      "name": "Google",
+      "index": -14.9
     },
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 49
+      "headlines": 50
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 4,
-      "index": -18,
-      "mean_headline": -2.2,
+      "headlines": 3,
+      "index": -2.7,
+      "mean_headline": -0.3,
       "sample": [
         {
           "id": "308380b29e4bb75b",
@@ -84,121 +84,110 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "58413720e3cb6b8e",
-          "title": "Apple is cutting employee AI spending budgets even as it pushes workers to use the technology more. Engineers have seen daily limits cut from $300 to $200, with further reductions to $100 planned.…",
-          "url": "https://reddit.com/r/artificial/comments/1xocwcy/apple_is_cutting_employee_ai_spending_budgets",
-          "source": "reddit-artificial",
-          "published_at": "2026-11-05T07:50:01.000Z",
-          "score": -8,
-          "positive": [],
-          "negative": [
-            "cut",
-            "cutting"
-          ],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 40,
-      "index": 0.2,
-      "mean_headline": 0,
+      "headlines": 47,
+      "index": -0.7,
+      "mean_headline": -0.1,
       "sample": [
         {
-          "id": "00e8b1ddbca301c2",
-          "title": "CNBC Exclusive: Transcript: OpenAI CFO Sarah Friar Speaks with CNBC’s Sara Eisen on “Squawk on the Street” Today",
-          "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNM0VZUGN2Tm9Yd3RGUllkNUNKRnNRWDA4YXYzbmhpTjZTTURtOTRwTHVLM0lzX043V0gtVkJVbHRFbmFSVUQwRzI0N2o1cHk1SFVybnU1SzA3QVpkWTZfYW5oblZWcHZLRW5zaG8tbnpxWWpIS0hfdFVxeVR3QlBaRDhjeHQ3Y3pKaGFibTY3MTdXNlA0anBTQjQ4cUhFd29PTm15b3pYVXRsTlVHdE90OExUdG95M1gxUENhSHo2UHhzUWFScGYtbDRIeWFDWHdTNVZxTGRmajNjSURO0gHiAUFVX3lxTE9yeWtVTmxkbmtrRWltS2txUUdmNHpiZ3pjNG1lT0hSdHBLRmkyMU9kd0x6VHU2NzdyZFJ1anh4N2VrMkdzejlTZjEybWFWeWJKSjFXdk51dkxPY3p5cDB4ZTZQS29pb3pXU0dNMC1GRjZHV0lkWlQ1WEIydnE3Y2E5bUZiaGktQzBTTXMxa19zdEFjRlhYNXI2QWhVMUh2aFdMeGhNcXJLY0VkaXJvOGMzRVl5VlcyZEI2Z0ZaR0x4bEdBd2Y3M0FlUFV3UEhkQ3d0SDZaLXp6Q1MxemE0aVhuWmc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:43:08.000Z",
+          "id": "05ca4d2ddc680320",
+          "title": "OpenAI status: Elevated error rates with Brex Cards and U.S. business Mastercards",
+          "url": "https://status.openai.com//incidents/01M6S2FV5TZWQ753NHRB7BF5K7",
+          "source": "openai-status",
+          "published_at": "2026-11-06T18:50:47.311Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "4da448fcb96aa35f",
-          "title": "OpenAI CFO says blue tsunami ‘didn’t dramatically change’ IPO plans",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOM0VVVjV5aURBZVBYemhIUW1vVU1YVENfamJ0RnVxZjZpeDhSUFZDRm9sbncwc3BTeFQwTDNia1ZCQ0YtbGl5R1ZxUmQtZmdWMmZLOTNseF8ybnktN1VWQVlyS3hIMXlLLUw2WWJFcVZEMEZ1SUlUSU4tekFFOWRfRldicjk0ZmhJV0V1aHpaMW5QT3dx?oc=5",
+          "id": "2ebf31f3c783b714",
+          "title": "OpenAI Partners With Hacktron to Test Third-Party Service Connections",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPNzlwenQxQVZXMkt6T0lORFF6cWFXeXNsNTBCWEsydm1qTk9kSGM0bnVVblFJQXVPZDJKS0M3Q2VIU3dxYUU0NURGN1pCZkRrazVzN1JNQW1FTmJwcnk0UGpmTElMeHdKX2xuMy1ZOGp0U2NIVkFYMC1VLTFQYUwwbk9zY2NucnBHVGNFNnQ4bXRiVk94UXc?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-06T17:41:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "abc6a6c5861c5064",
-          "title": "OpenAI expands AI education partnerships in Australia",
-          "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFAtNG1hTmZoWTZzNVBfaGUwVm9FQTJOVWEtVG15QWJWMFUxbUM0Rm55WHFhVWl4ekZOS1JuUEZLNERsQUpOb2cxeFQ4a1dFMEI4RmJBNktiSXpZaUNkblgxQTY5U2VhZVQwX0Rn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:39:21.000Z",
+          "published_at": "2026-11-06T18:41:03.000Z",
           "score": 3,
           "positive": [
-            "expands"
+            "partners"
           ],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "c7eec16cc2c680a0",
-          "title": "OpenAI wants to win over data-center opponents by calling them ‘compute campuses’ and promising local benefits",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNcXdMUlBid3FOdmE1WmREMjJtRjc1NTBXLUxHUjBMMTBTRGJRcklBTEZkRHl4MXFSV1VOX3dQZEJRdXlISjc0cld5RXNFMjJXb1J0WEFVREhwT2VjN04yN2g3YzB2cUxmbHVfUFlwX1Q2bFE1S0pFbFJIeG55c2tBMmNPaEZxRThOZWVQVWNn?oc=5",
+          "id": "45ddef4e9d4373bf",
+          "title": "OpenAI, Arm and Qualcomm executives react to post-midterm AI sell-off",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQdE1TbUF3dUNNZjVhZlhtOEhPOVRVbkYwV25tWXZzY1Q0LTdfV3pKOTg4bkpBZ3QwaFhlUS1LRjJHczMzelRQRFlFQWtwQlhxaDV3NHVHX2FsVzJ1eXVxR0VBLVBUUllyek1OLXZUNk5wZGxzM1Y2bnA1MGJEanV1MFFqS2ZjUl8wY25kadIBkgFBVV95cUxQc29HQmdLYzRubHlYQnBNMEo1LU5ud1dseElEaDR4bGxXRlJwZngxSnEyMW1IWjF3Yk5DQm9OTkNNQmd2OEJQSnctR3Rzb0ZXTnA2NENaWURQTk4yQ1BQTGMxZ0ZaTEpVTWpZamlLMU12OGlHZUZaT0lvOFd6V3JhUUlwdWtsOVdhQW51SUZZSUpyUQ?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-06T17:39:00.000Z",
+          "published_at": "2026-11-06T18:27:19.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "9d67226dcdf26889",
-          "title": "OpenAI CFO Doubles Down on Data Centers Despite Voter Revolt",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNc2hnakNDbmozTk1lVFhhOFl6SDhmV3IzRm9nMDlaaDQ2VWUtNWZZcGJHVGtZQnY5REtwWWYwRUQzVHltWDhjU1RxcXlYZGl0Q2ZaQWV4UGNGN1dPR1hqOVc2MTBYU1ZnU2g4emhjazVUT29Pd2c0QlZvY0x3SVhad09YVDc1VXYwNEhLMGlacXRESW04VGNmcA?oc=5",
+          "id": "8e5710b5b9254ea2",
+          "title": "Anthropic, OpenAI promote philanthropy by letting workers donate their equity to charity",
+          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNODBoc1ZCUUtlcEdsWFBlc2d0SHRfOHdUTUpUUlVmbm9yQWt0UExOZWJPV2xCN0dqZnlFbzZ5LUVwWWFFRTRyZTJscVJfeDJONElHbGk0b0Zpa3g0UDVXcEh6al96d3BiR2xpNEJKTVpsSVRSWVFiMFJXYjNUOUR3eFFoUQ?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-06T17:36:02.000Z",
-          "score": -4,
+          "published_at": "2026-11-06T18:22:46.000Z",
+          "score": 0,
           "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3f81cdb5ebfe80fb",
+          "title": "OpenAI's $600B Compute Plan vs 40 Voter Setbacks [2026]",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQdlRPU045aTlUTF94c1ZmSVRENE5sVWwzM3FIY0JVUmJNUkJRZkpGWU9WZ0dkWllHSi1wLUs2QkRnZTRieU1UMlJrUWxMay1JT0VPNVNacnZkb3pTdjA4T0pZenZocjF1NWdSbXNWQjBtdnFDYVdiTDVDY2VLbmhzaW1IVExuM3hyN09XMk9Mb2N1UGVwUUVB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:21:51.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b99ccb6ffe0bd63c",
+          "title": "OpenAI Launches GPT-6 Cyber to Find Security Flaws, Limits Access Over Hacking Risks",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOMC12MzRacm82ckVOS3lOV2pkbW5nUVJ4OWtGeW15X1hGMWtsQzZSZUNFaEFXVTBybWZxVUtzZGRJby04MXMzeHF2blRQTk1fQnJaZzFyR0JaQjUyY1pULV92MU5wV1k4bzNyX29weTNwR0RYMXowdWs3NWNBNDd6UUJTYTlDLWFiOFNxMnVjWnJ4dWpwZUQxWE15cGNrSExpUDhrU1psT1U3SFRXdkF4NVFOSkQyeXYwQlFtaVM2Zw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:20:56.000Z",
+          "score": -5,
+          "positive": [
+            "launches"
+          ],
           "negative": [
-            "down"
+            "hacking",
+            "risks"
           ],
           "clickbait": []
         },
         {
-          "id": "257e5b7f27cfc941",
-          "title": "OpenAI Faces Backlash Over Massive A.I. Data Centers",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTklDWW9ORFpFZDhpWGRVWHI1TVBqZ2lzNTdkQTlpelJXME1IXzJ5cm90Q3FZMDAxSFY3bVJjM05lLVhtOFRSRnZwY0taX3JZTm13b0NIMUN5OXhiOTFaelhFNDVLWG9hVDkxR3lXanhMWjd3cEk4OUdGZ2QtSDVDSXBoTmtXb2JE?oc=5",
+          "id": "13a0526bea13f28f",
+          "title": "OpenAI and Anthropic Drop New AI Tools for Cybersecurity, Images and Finance",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNQURicUhYclN6VEZ0VEtFVW5uSVpzZEY2VktKRS11RXhaVTdFbWF3MnBZMTVvOWVtMzlnNW5OLTh4em9waGMxSTF0anNUWnBNSmVBaDlXQTBmQnJsNGZTYUR2UXJJX1NrZVBCaDg2YWtHY0h3b2ZqNlF1UXV2U1ktWGxsanEyNnVXcF9YY0x6d0h6X2tiZGU3Sl8xOGF6RnNMbnc2aWdwc3BNR05Iclc1dw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-06T17:06:43.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "backlash"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "7a9d9caef3657635",
-          "title": "OpenAI executive Sarah Friar vows to keep building data centers",
-          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9qTUY2eU1FRFBpTW1TZElESFZBZTk1Q29QcUxRT2piXy1Ja2NyRmFDQmI4eGJBUHBQNGh4ZmVTQzVzWXNwVm4tX2xYS2lWektWcmtlWWRsXzRQVEY0Y202a00xTXRvOHUzZllKRTNlWUlVd0Zo?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T16:57:44.000Z",
+          "published_at": "2026-11-06T18:10:18.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "a5a7a6d4cd33fbff",
-          "title": "OpenAI Remains Committed to AI Infrastructure Investment Despite Election Results, CNBC Reports",
-          "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOOVB1SU41T3plejFDQWZUaVZUM1RLYmQ2SW5EdUY3anFndVl3RXA1bFhCNE14UExSeDRJb3d3ajdZUU83WUMtZDB6M3dwTTcwbjhRSEtWUU5jWFNyQzUyMFZBWmtxVGtJNWRGNmFHZE9YQUVFR0NSMXVrREJRZkhZcFEwXzFEMnNlZWxsMzQ4WmlPT0dTSEtHdjFrNlpnSi1UZ2VkMTRMUnlVWEVWNEdpdkQ3UmNHcFZiakh3bUM3cGIzTUNjdl90enkyTkZNbl9Gbi1OSXNEUzA4NUstWGdJaQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T16:54:26.000Z",
-          "score": 0,
-          "positive": [],
+          "id": "08eaa58b40d03ca2",
+          "title": "OpenAI to press ahead with data-center expansion despite midterm sweep, CFO tells CNBC",
+          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNRFVIUW5SSGZmTGw2cnZmN0tEbE5zWGZVekdqazlncUFkSVo2Q3ZOMFlyS2xEbHY3NVhOalJzeFRCTWIxR2xydFdUaVQxZ3RMbk9yRzN1UEt6VnZHd0FycnVPTVhhWmx6QUhHeF92MVVqWFpQYWdaVEpia1c1Qk5qYXFpYTRWS3JMUkV6eXFUM1drV1RqdDJ3VkNKb3lELWhwbl9DU1Z5V0h3d3pHNmxIcWZQd3o3aV8yUU1OSkdmTF9KVENvRU5XQ0MyYV9UX0NsUEEyTA?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-06T18:06:47.000Z",
+          "score": 3,
+          "positive": [
+            "expansion"
+          ],
           "negative": [],
           "clickbait": []
         }
@@ -208,9 +197,33 @@
       "id": "nvidia",
       "name": "NVIDIA",
       "headlines": 29,
-      "index": 1.4,
-      "mean_headline": 0.2,
+      "index": 2.2,
+      "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "2fd334b1e47ee0ef",
+          "title": "AI stocks rebound as Nvidia, AMD, Intel, Broadcom and Micron recover from sell-off",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNdUpyZUw5TThUSEFNUkFxM2hPNkxQdTMtU0JhR0ZGSkZTckg2bXpFSXpvLWljMEZZV1NCVm85RXgySUlYV3BPTXVlM2pQN2I0bmd2SWw3Ny1wU0hOY3QyMENaWkszZFo5NXRtdWtQXzYzUlM5d2hXcXJXMTNNSUFYUkZKUWJjTVZwSXQ3bGVKOTVzODc0?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:30:42.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9a6f6d132e097362",
+          "title": "Sources: Microsoft has been turning off rented computing capacity from Oracle after declining to renew a 2023 deal, because the hardware used older Nvidia chips (Brody Ford/Bloomberg)",
+          "url": "https://techmeme.com/261106/p18",
+          "source": "techmeme",
+          "published_at": "2026-11-06T18:05:03.000Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "11d4331e199b89f0",
           "title": "NVIDIA Corporation (NVDA) Is Taking AI Beyond Chips: Here’s What Could Drive Its Next Growth Phase",
@@ -264,7 +277,7 @@
           "title": "Fermaca to deploy 60MW of AI capacity in Mexico with Nvidia by 2027",
           "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPbW9oWkhnaG4yd243S0tmZ3hWMkNlenFFb2RUM2tjV0p4Y1RNcHVOWEJLVzh0NWlTZUh3bjZzQjJIZWxGMF80WFhYMVQtNlJ0aVAwU1pKX2ZjX0djeUZZMXYtRDRpUlVMNVMtUXdueVR3NUxyazJjSmFnVTQ3TGpkcXQxSVNmeEhzUWNOM2tlRENMN2NtX0FiSm5vYy1NNXNpMGtwTw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-06T16:33:25.000Z",
+          "published_at": "2026-11-06T16:33:54.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -280,38 +293,95 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "0676c12db8f0f583",
-          "title": "How NVIDIA Open Source Tools Are Helping Researchers Build Next-Generation 6G Networks",
-          "url": "https://blogs.nvidia.com/blog/telco-open-source-tools-research-6g-networks",
-          "source": "nvidia-blog",
-          "published_at": "2026-11-06T16:00:35.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b4d2c2ec7d80564a",
-          "title": "Democrats, with Elizabeth Warren a top contender to chair Senate Banking, are poised to step up oversight of Nvidia over chip exports and circular financing (Maggie Eastland/Bloomberg)",
-          "url": "https://techmeme.com/261106/p15",
-          "source": "techmeme",
-          "published_at": "2026-11-06T15:51:06.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 49,
-      "index": -7,
-      "mean_headline": -0.9,
+      "headlines": 50,
+      "index": -5.8,
+      "mean_headline": -0.7,
       "sample": [
+        {
+          "id": "b30494150f45c223",
+          "title": "Anthropic IPO Investors Weigh Valuation as Low as $1.2 Trillion",
+          "url": "https://bloomberg.com/news/videos/2026-11-06/anthropic-ipo-investors-weigh-valuation-as-low-as-1-2t-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-06T18:47:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f50f5b6f4ac9d0ba",
+          "title": "Anthropic’s IPO Is Cratering",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBUa1UzcjdaZThLRFNxQUxVZ3NUY1oyanBjUmlPZmpSWnF2M2VMbUUwMEVDVjBqVkVpTDNsTHFRR2loVE0wRF82eFJxTms3M0FjUFpOc04xd3lWci1pcG9nazRkSnhoUTlXSjRObGU3eFpCSktBR3VrXw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:46:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "33dd179e9f09474d",
+          "title": "EVE AI Lab and Anthropic test AI agents in a world that never resets, and Sui wants that market",
+          "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBkQmhBUFBXSDJqMTRXblRBQ0F5ZGF5TzJRMDJNVzZwRFNJNFdTTVk5ZkstbzVESTIyV2dsTS1Db01aWEtlUl9BYndkTTYxWDluWDdINW1iWDFQRTBSV1VGZDFUV2pBMWlpeDZJ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:39:09.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "83096cfd08ef69b3",
+          "title": "Anthropic Launches Claude Personal Finance Ahead of Nasdaq Listing",
+          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQTGVPOGo1UDd1TUxtU3AybjA3MXhXeWJmU0lkNndvc29oeTBpTWFJTnJJR3ZWSXlPak9rQUVSM2ZsbEFVUGlEdjMxMm5VbEtSdWprb3liSkp3dFFSdnJXMVBoM1dyQTJZNDZMMTc3UmgxVTFiUHpEcEJubVNUYTZlOGVFMkRNdGh1b3VuX3F5ekJwSGdFV21GNWFHVFRlZDIzdkRUZnhfdVhRa25ZZXRPWG02S0FXSURhbjBYMUZTekRVZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:27:09.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "cd8ea55d3369e499",
+          "title": "Week’s Best: How to Get In on Anthropic’s IPO",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBHZ3I1Q2dYaVVLdHVxc2lNczRqdTlsX0pIVnBDOXBlTC1yS3J4Z3NLMGY3cTVUcUNLSFRIM0ZhTVVENHBpdjdYWGdzZktpQ09OWUZlaE5XWVowZDB1V2poV2o0blhxZlVRQlF2clBuMlYwUFR4SlJ0cnlWUUZpRGc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:25:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8e5710b5b9254ea2",
+          "title": "Anthropic, OpenAI promote philanthropy by letting workers donate their equity to charity",
+          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNODBoc1ZCUUtlcEdsWFBlc2d0SHRfOHdUTUpUUlVmbm9yQWt0UExOZWJPV2xCN0dqZnlFbzZ5LUVwWWFFRTRyZTJscVJfeDJONElHbGk0b0Zpa3g0UDVXcEh6al96d3BiR2xpNEJKTVpsSVRSWVFiMFJXYjNUOUR3eFFoUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:22:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "13a0526bea13f28f",
+          "title": "OpenAI and Anthropic Drop New AI Tools for Cybersecurity, Images and Finance",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNQURicUhYclN6VEZ0VEtFVW5uSVpzZEY2VktKRS11RXhaVTdFbWF3MnBZMTVvOWVtMzlnNW5OLTh4em9waGMxSTF0anNUWnBNSmVBaDlXQTBmQnJsNGZTYUR2UXJJX1NrZVBCaDg2YWtHY0h3b2ZqNlF1UXV2U1ktWGxsanEyNnVXcF9YY0x6d0h6X2tiZGU3Sl8xOGF6RnNMbnc2aWdwc3BNR05Iclc1dw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:10:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "4303d3d19081fc63",
           "title": "Anthropic IPO Buyers Eye $1.2T, Down From $1.5T [2026]",
@@ -324,95 +394,49 @@
             "down"
           ],
           "clickbait": []
-        },
-        {
-          "id": "2544f436151aae24",
-          "title": "Anthropic IPO Odds Drop After AI Sell-Off",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPdFBMeE8xQ25peVA3TjI2ZGJOT0g1Vi1faXRON2pyOXBveGR4TkZJY0lORFNGZG5IdnZRbFR3SkdPNjFja1lQTU5PTXo2cnVCUWtXUlZtQjlqQnBDTUN2bGNkT3BLSUpfYnlrZWJiZWhsbHZZenRuZHdNSXcycXU4Sk1xQVhPbFNkRVI4aXlrUldpZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:34:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "96ef88c2e444e946",
-          "title": "XN set to increase Anthropic exposure despite AI market sell-off",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPYkdWaXZhMF9mU1VaeHJRWXVNRFlWcXh3YWlFbm1lRnJrbDh3Q3ZrdzBQbm9zMmR6eHlFNU5YczVIVzVvb3pZX2pXUGRhNnk0N0xuQ3M3X0l0Z3FwQllSbHpxWk4xb2Vxc2FoaDVzMjl2cVV5MnB6NFM1RjJpODVwMFFyc0FCQjVXNzJZaWdIc3JpS0tTdlE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:32:05.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "967523cf77df07ba",
-          "title": "Why Anthropic’s IPO faces a reality check over $1.5trn valuation",
-          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQQTItSzFfN0lRV1JPZXdTbWxVLVZTTG13dVZ6QlNYTng4dk9tOEtteGJKWkZsQXJieDcyMEZEUVN5ZVBrSWlBVGF6Z0FqbkZoU3hjb0ZRSVZGeEx4ZlhDMmJaSHVxdG5BcTM2TmNKT29GbXV4R1BpUnpCNERybDlzRXgwZk9MNHRUSTBRU1dCR0ZuWmw5MFlmSnBvd05lM0xwbjk1ZG1HWkVRaEpaYXY1djVPcG4wQ1RSWmp0VVhlV0llZDZFMWU3dTl0TQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:20:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "75173d326845d912",
-          "title": "Investors consider lower Anthropic valuation or IPO delay — Jerusalem Post",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOcWRyWGtPUU05XzJZUWNnRTVZUlRINEdvRVJmTlFLM2tvMGNXWHVBSHQ1OTNTSWZob0IyNmVhMUpZX3d0WWFjRl9KUU11SExVdnNoYkFETERTamNSemdZMEF4Rm92V1kwXy14cU94aGxfVDN4MWdsWkFjNklkZ0hsU0RCcXNRNzZXbFh6em9Na0FSdkM0blg1dU5USVRiMmZ4djFNZ3A3SFBaOGxsZnZQMlhPUHpKYmg2a3VR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:11:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "delay"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "ba809e6dfaaf4e2b",
-          "title": "What Shaped Anthropic CEO Dario Amodei’s Thinking on A.I.",
-          "url": "https://nytimes.com/2026/11/05/technology/dario-amodei-anthropic-ai.html",
-          "source": "nyt-tech",
-          "published_at": "2026-11-06T17:09:35.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4a1a79b38d988ba6",
-          "title": "Anthropic lines up UK retail offer as AI stocks wobble",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNcDdaYVBiT3ZxeklmUVh1amRnM3FjcE5LUTZRbGJRQTMwS3VkUkp2a0ZUa242TmVrSm45MjU5clg1MzlLSkprbFlGSUxXa2FjM1hRZzAybENJNF81Z3FfUXlTbHRrLXlZQjhQcUdKOHFIeHBxMkk1T2YzRVN5UWF5c3dTTVE?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-06T16:50:16.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "16544fa5b297950a",
-          "title": "Anthropic IPO Valuation Could Be Slashed in Half to $1T After AI Stock Rout: Report",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOV3F1cGU1d1ZyNnlubW9iaE1JVTVrRUNBdU56R05BUmxVaDRNNGxkWnI3by1qd2JPQms3dUNBT2tTanF4NGdGNzdudmd3STJsemJWc0Y2TldNNGE5RXFqdEVIQ3hXNG43dndYcWhTY1UxTUNGSEdzQmRuZDR4OE1BWEFJX1d0N1IxNlVvYkFjam93OEhPSThtdWxfcnVyVkta?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T16:28:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 16,
-      "index": -12.5,
-      "mean_headline": -1.6,
+      "headlines": 19,
+      "index": -10.5,
+      "mean_headline": -1.3,
       "sample": [
+        {
+          "id": "a8fc5de6487f58f9",
+          "title": "Meta introduces Spaces, a new way to collaborate with your Muse agent",
+          "url": "https://techcrunch.com/2026/11/06/meta-introduces-spaces-a-new-way-to-collaborate-with-your-muse-agent",
+          "source": "techcrunch-ai",
+          "published_at": "2026-11-06T18:44:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6824b4b719ac3f73",
+          "title": "Meta’s best AI model now trains the one most of its users get",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5nbW5LUUNKb1pkRXdiSWx5TXYtalJRUzVBaC1oQm4yTEozam56TUhGWVRCSUZJOXMyZXNZd0d5cVFQUmZQd3ZBMnVZTXhBVTlmZWpPUExmbHVkelNoRFd4R1VR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:21:12.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "41e5e51468fc6c76",
+          "title": "Meta’s Muse AI can create custom ‘spaces’ for the version of the app you need right now",
+          "url": "https://bsky.app/profile/theverge.com/post/3mznym7xdjw2s",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-06T18:10:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "0b33259ab4386660",
           "title": "“Does Meta think we can’t read?” Meta abandons sketchy commercial terms update.",
@@ -468,47 +492,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e854b60774b7bdc3",
-          "title": "Meta rolls out voice mode and expressive avatars in the Muse app, starting in the US, letting users have real-time voice conversations with their Muse AI agent (Jay Peters/The Verge)",
-          "url": "https://techmeme.com/261105/p48",
-          "source": "techmeme",
-          "published_at": "2026-11-05T19:30:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "284810c2fd047502",
-          "title": "Meta warns that election backlash against data centers could make AI expansion harder",
-          "url": "https://techcrunch.com/2026/11/05/metas-warns-that-election-backlash-against-data-centers-could-make-ai-expansion-harder",
-          "source": "techcrunch-ai",
-          "published_at": "2026-11-05T19:12:39.000Z",
-          "score": -5,
-          "positive": [
-            "expansion"
-          ],
-          "negative": [
-            "backlash",
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "14d3d22aae137090",
-          "title": "Mark Cuban says Facebook knowingly runs AI deepfake scam ads as Meta docs reveal $16 billion in fraud-linked revenue",
-          "url": "https://reddit.com/r/technology/comments/1xoqri7/mark_cuban_says_facebook_knowingly_runs_ai",
-          "source": "reddit-technology",
-          "published_at": "2026-11-05T18:47:12.000Z",
-          "score": -8,
-          "positive": [],
-          "negative": [
-            "fraud",
-            "scam"
-          ],
           "clickbait": []
         }
       ]
@@ -627,20 +610,91 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 15,
-      "index": -5.9,
-      "mean_headline": -0.7,
+      "headlines": 22,
+      "index": -1.1,
+      "mean_headline": -0.1,
       "sample": [
         {
-          "id": "f557c2d1f6bd63d0",
-          "title": "Microsoft Is Winding Down Oracle Deal to Rent AI Cloud Capacity",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPeXFhaDRlRjBvZktGaFM2eExYdGpJakRNazYxc2Y2UWoyMDJzS1VFb2Z5ZTNkSVhMRHBTbUdtb25kZHJUdkpRVXRQU1hQVGtIbS1maVNoeGhSZ2pHOGF1aDY3R1AwSTU4TmlmSEdEc19RYlowVXAzc0NlSzdVZ2xBZXduc2FzT3ViQ0xDS3RYdklKMzFnVzRtUkZKQnVBWlBDTWtGcGZUU01ZSktQTG5aOE9lbXE?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-06T17:36:39.000Z",
-          "score": -1,
+          "id": "8578b1f54f36a552",
+          "title": "Activists break into building site of Microsoft datacentre in Amsterdam",
+          "url": "https://theguardian.com/world/2026/nov/06/activists-break-into-building-site-of-microsoft-datacentre-in-amsterdam",
+          "source": "guardian-ai",
+          "published_at": "2026-11-06T18:51:37.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6ac55f69675fbf8c",
+          "title": "Microsoft: AI Monetization Accelerates, Strong Buy Reaffirmed (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOai1ncFNYWG53d0VSTnBwVndZSU8yWVAzRkFrVDNucVM5Wk5pNmEyelhtMHNLeG1pcWkxbzFjNXNLRXdEY20wTThvLUpZTGkteXlKNTlxaF8wWmpEanlqMWdOQmRvNVQ4RUl0VHh2RWQwdEp6M2huVHcwb1BNbU5HTWVaWk0wRElwNjlERHRQR3otdnJIZGFkdTVxSExlUkUzcUE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:47:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d53780eb9f883912",
+          "title": "Oracle Stock Slides as Microsoft Reportedly Pulls Back From AI Computing Deal",
+          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNNTU3dnFrRjE3bHRSOHhWdEh3S1dlTVF5eGxjVlNYalVOLUItdUhZdmlRWlJ3RWFJM2NrZFdLdzIwMTJhV3BUdkhPRDlwN2FoQmg5X0FyOWJjTVQzTEhxYVo3ZjZEVThmNzV1U2hnWDcwN0xwTjZ3OFlpbmJmS3V4UnczU1NsNC01Y09ITnBhWm1NRlFQMnliUkV0U08tcTBWSU53dW9MTUthTk5xUmljcEJuSzA3YUhpTUZOVVAyRTdOZkVnMXFmOXJPUXFnRDVMRHE3OQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:45:10.000Z",
+          "score": 3,
           "positive": [
             "deal"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "209dbf3224fa022e",
+          "title": "Microsoft plans to use fewer neoclouds as AI buildout shows signs of strain",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNTlBrMkJ1TjdYY3VXQTVQeWZ3NFBvZE10d25OU1d2UXVLTlhXQWlrUzBDX082T2UyY3dSY2VBX2tnanFYQmRkVmRMMnU1Y2pvcEZ1eHU0WXBNRmZMa1pzaWFrT1FWZkF3cE44QVVkblgwMHFKOXZEZS16UHVNV3RNQUhEbUdmTHBGd3B6NTF4YmpHNEJrUktjdVdyZlgyU1V0ZEstT2hvNWdxQdIBrwFBVV95cUxNUWxBWFlLbTJteFZrY2Z5dVcwT3FrelRobWc5c013N1hsR05RVThlWUFuN09YcHpfa0I4V0tLb0V1QVFsVlkyREp1a3A2cnN1UHhmR0tJN1p0YWtib0Q4c0NNaHNiSW83enY1VUJQejM5YU42RlBvVm1qdTJkc3NzM1diemg1Ry0zVjNzUEM0bVc5NzcwbmRubms1amhVVHRfdHpTSEJ2VW8tS0dscFpJ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:31:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e9a7f98969583c72",
+          "title": "Microsoft Won’t Renew Deal for Renting AI Cloud Capacity From Oracle: Report",
+          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9VMldqNUtPTEN1N2JuNFB3OGwwV0k2bnNtbVJObWhoSDRMOUg2ZGh6d0hsUlB4WFF3bDJobDUxNEQ3cEN3dDhBaEl1WUlCRG1mTlNvbkJ6RVNMZ2JNTkhjSVRpckYxRnN0dkVhb3ZBQ1JsM1ZpWFdKNnNQcHdldw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:31:00.000Z",
+          "score": 6,
+          "positive": [
+            "deal",
+            "won"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9a6f6d132e097362",
+          "title": "Sources: Microsoft has been turning off rented computing capacity from Oracle after declining to renew a 2023 deal, because the hardware used older Nvidia chips (Brody Ford/Bloomberg)",
+          "url": "https://techmeme.com/261106/p18",
+          "source": "techmeme",
+          "published_at": "2026-11-06T18:05:03.000Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "98888e9dc1d10e92",
+          "title": "Microsoft winds down rented AI computing capacity from Oracle: report (MSFT:NASDAQ)",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQOF9pWl9KSUVidWlYTmR0RURMNWsyWF9TdWZvaXA3WllqVW54Y0VPN1hoQkVWdkFrVVMtQktIVkVHOFJDMFNFWkhfdnhpaHBLaEpFYmRLdkI5LW55WmxaTmFoRFdFenlsdk1JbTNBc1NKRkgwLUd1TFdJN3d5ZmRMTnprSVgtVHh2WVFvNk9YRmlUUEw0Qy1pLTBzWXBQZFk5QTg0TlBaSnVnUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:04:13.000Z",
+          "score": -4,
+          "positive": [],
           "negative": [
             "down"
           ],
@@ -651,75 +705,7 @@
           "title": "Microsoft Corporation (MSFT.O) | Stock Price & Latest News",
           "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5mc1U3MkxiZ00yS0FLaXVrTG1GRkFVdFRNTVRBV2cxQm1vSGl4bThaMXdGRHI2Q09oUkpsTE5mcElfN2ppbnlkcTQ2eE5jYlZETzBnNTdCN2lUNDluNkE?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-11-06T16:58:47.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "096f9c96760ac84d",
-          "title": "News/Media Alliance files amicus brief in news publisher suits against OpenAI, Microsoft",
-          "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxOZ2docGh4MjR5NWdpT19uQk5mYWhZMm5yc2FGT2RWNFR2WkotRzRsZW1WeGExSnpzV2tpSHE4RktaVHNGY00tc1Q0UXVSUUtnRzlCZ1hSTC12ZjBwdXFLZEdCWjVSNW4zTEpuUFI4NDd6VXVuR0c0ZlVhSWtjQm9GMFAtVG9PcjNWUktJcGh5dXVlUVc4R29lckJuVzJTRVROYzFfQVEtVWVWTGY3REE4ekNEOE0tYTdNSkNnbHplMk5CZTMtUlRuLUlEVFRUVkhYMjg3SmEycFJTR3ZaN0tfUXJ2T19EdUVrSVA4Rjdudll0eU9aaXlBNHN4b2wyRmNweF9tWnlfYzR4cGh5d1RN?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T16:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "85fdcad484371f4f",
-          "title": "Employees at Microsoft, long known for its stability, are grappling with its decision to offer buyouts to 60,000 people as its spending priorities shift to AI (Emmy Martin/New York Times)",
-          "url": "https://techmeme.com/261106/p12",
-          "source": "techmeme",
-          "published_at": "2026-11-06T14:25:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "49d91d1cfae7ee79",
-          "title": "Activists breach Microsoft data centre construction site as protests spread in Europe",
-          "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQWlBqNDNLWm53eHI0c0JoT0pQRWhQTFZ0LU12MEFzNmV2YVNqaEdkbWNPOGl0MG93VFlfUUluLXVoV1JFMnk4OFA0dVdoNm9hU044UjNyTnBfMDdHZmlCbC1QeGZqNFk1VF9ZQ2dLRW9keVNLWl9QX0NrZE55cFU4MXJZaDRZLWJjMFI4QVoxekwybVlydDcwc01UaFJuY1RQLXNienI3eFlPSXpVZHBJX09sMnZRRktxQ2hWNFk2UmtDaGRQbndF?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-06T13:37:29.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "breach"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "e8d793df67a8526e",
-          "title": "Pro-Palestine protestors enter Microsoft datacenter site",
-          "url": "https://reuters.com/technology/protesters-enter-microsoft-data-centre-site-amsterdam-2026-11-06",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-06T12:38:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e9546f26c00f5f4c",
-          "title": "Microsoft’s Buyout Offer Sets Its Workforce on Edge",
-          "url": "https://nytimes.com/2026/11/06/technology/microsoft-buyouts.html",
-          "source": "nyt-tech",
-          "published_at": "2026-11-06T12:23:09.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ad52cfb91c036981",
-          "title": "LIVE: Protesters break into Microsoft data center site in Amsterdam www.youtube.com/live/zpeZxS-...",
-          "url": "https://bsky.app/profile/reuters.com/post/3mzn7z4e22c2f",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-06T10:58:31.253Z",
+          "published_at": "2026-11-06T18:02:58.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -730,9 +716,9 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 22,
-      "index": 3.3,
-      "mean_headline": 0.4,
+      "headlines": 20,
+      "index": 3.6,
+      "mean_headline": 0.5,
       "sample": [
         {
           "id": "cc93a4f22788707f",
@@ -862,9 +848,9 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 22,
-      "index": 3.3,
-      "mean_headline": 0.4,
+      "headlines": 20,
+      "index": 3.6,
+      "mean_headline": 0.5,
       "sample": [
         {
           "id": "cc93a4f22788707f",
@@ -962,9 +948,33 @@
       "id": "nvidia",
       "name": "NVIDIA",
       "headlines": 29,
-      "index": 1.4,
-      "mean_headline": 0.2,
+      "index": 2.2,
+      "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "2fd334b1e47ee0ef",
+          "title": "AI stocks rebound as Nvidia, AMD, Intel, Broadcom and Micron recover from sell-off",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNdUpyZUw5TThUSEFNUkFxM2hPNkxQdTMtU0JhR0ZGSkZTckg2bXpFSXpvLWljMEZZV1NCVm85RXgySUlYV3BPTXVlM2pQN2I0bmd2SWw3Ny1wU0hOY3QyMENaWkszZFo5NXRtdWtQXzYzUlM5d2hXcXJXMTNNSUFYUkZKUWJjTVZwSXQ3bGVKOTVzODc0?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:30:42.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9a6f6d132e097362",
+          "title": "Sources: Microsoft has been turning off rented computing capacity from Oracle after declining to renew a 2023 deal, because the hardware used older Nvidia chips (Brody Ford/Bloomberg)",
+          "url": "https://techmeme.com/261106/p18",
+          "source": "techmeme",
+          "published_at": "2026-11-06T18:05:03.000Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "11d4331e199b89f0",
           "title": "NVIDIA Corporation (NVDA) Is Taking AI Beyond Chips: Here’s What Could Drive Its Next Growth Phase",
@@ -1018,7 +1028,7 @@
           "title": "Fermaca to deploy 60MW of AI capacity in Mexico with Nvidia by 2027",
           "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPbW9oWkhnaG4yd243S0tmZ3hWMkNlenFFb2RUM2tjV0p4Y1RNcHVOWEJLVzh0NWlTZUh3bjZzQjJIZWxGMF80WFhYMVQtNlJ0aVAwU1pKX2ZjX0djeUZZMXYtRDRpUlVMNVMtUXdueVR3NUxyazJjSmFnVTQ3TGpkcXQxSVNmeEhzUWNOM2tlRENMN2NtX0FiSm5vYy1NNXNpMGtwTw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-06T16:33:25.000Z",
+          "published_at": "2026-11-06T16:33:54.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1030,131 +1040,6 @@
           "url": "https://tomshardware.com/pc-components/gpus/six-pallets-of-nvidia-gpus-worth-usd11-4-million-stolen-in-california-cargo-heist-authorities-investigate-after-truck-posing-as-a-food-transport-company-disappears",
           "source": "hn-fresh-ai",
           "published_at": "2026-11-06T16:12:07.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0676c12db8f0f583",
-          "title": "How NVIDIA Open Source Tools Are Helping Researchers Build Next-Generation 6G Networks",
-          "url": "https://blogs.nvidia.com/blog/telco-open-source-tools-research-6g-networks",
-          "source": "nvidia-blog",
-          "published_at": "2026-11-06T16:00:35.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b4d2c2ec7d80564a",
-          "title": "Democrats, with Elizabeth Warren a top contender to chair Senate Banking, are poised to step up oversight of Nvidia over chip exports and circular financing (Maggie Eastland/Bloomberg)",
-          "url": "https://techmeme.com/261106/p15",
-          "source": "techmeme",
-          "published_at": "2026-11-06T15:51:06.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "openai",
-      "name": "OpenAI",
-      "headlines": 40,
-      "index": 0.2,
-      "mean_headline": 0,
-      "sample": [
-        {
-          "id": "00e8b1ddbca301c2",
-          "title": "CNBC Exclusive: Transcript: OpenAI CFO Sarah Friar Speaks with CNBC’s Sara Eisen on “Squawk on the Street” Today",
-          "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNM0VZUGN2Tm9Yd3RGUllkNUNKRnNRWDA4YXYzbmhpTjZTTURtOTRwTHVLM0lzX043V0gtVkJVbHRFbmFSVUQwRzI0N2o1cHk1SFVybnU1SzA3QVpkWTZfYW5oblZWcHZLRW5zaG8tbnpxWWpIS0hfdFVxeVR3QlBaRDhjeHQ3Y3pKaGFibTY3MTdXNlA0anBTQjQ4cUhFd29PTm15b3pYVXRsTlVHdE90OExUdG95M1gxUENhSHo2UHhzUWFScGYtbDRIeWFDWHdTNVZxTGRmajNjSURO0gHiAUFVX3lxTE9yeWtVTmxkbmtrRWltS2txUUdmNHpiZ3pjNG1lT0hSdHBLRmkyMU9kd0x6VHU2NzdyZFJ1anh4N2VrMkdzejlTZjEybWFWeWJKSjFXdk51dkxPY3p5cDB4ZTZQS29pb3pXU0dNMC1GRjZHV0lkWlQ1WEIydnE3Y2E5bUZiaGktQzBTTXMxa19zdEFjRlhYNXI2QWhVMUh2aFdMeGhNcXJLY0VkaXJvOGMzRVl5VlcyZEI2Z0ZaR0x4bEdBd2Y3M0FlUFV3UEhkQ3d0SDZaLXp6Q1MxemE0aVhuWmc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:43:08.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4da448fcb96aa35f",
-          "title": "OpenAI CFO says blue tsunami ‘didn’t dramatically change’ IPO plans",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOM0VVVjV5aURBZVBYemhIUW1vVU1YVENfamJ0RnVxZjZpeDhSUFZDRm9sbncwc3BTeFQwTDNia1ZCQ0YtbGl5R1ZxUmQtZmdWMmZLOTNseF8ybnktN1VWQVlyS3hIMXlLLUw2WWJFcVZEMEZ1SUlUSU4tekFFOWRfRldicjk0ZmhJV0V1aHpaMW5QT3dx?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:41:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "abc6a6c5861c5064",
-          "title": "OpenAI expands AI education partnerships in Australia",
-          "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFAtNG1hTmZoWTZzNVBfaGUwVm9FQTJOVWEtVG15QWJWMFUxbUM0Rm55WHFhVWl4ekZOS1JuUEZLNERsQUpOb2cxeFQ4a1dFMEI4RmJBNktiSXpZaUNkblgxQTY5U2VhZVQwX0Rn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:39:21.000Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c7eec16cc2c680a0",
-          "title": "OpenAI wants to win over data-center opponents by calling them ‘compute campuses’ and promising local benefits",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNcXdMUlBid3FOdmE1WmREMjJtRjc1NTBXLUxHUjBMMTBTRGJRcklBTEZkRHl4MXFSV1VOX3dQZEJRdXlISjc0cld5RXNFMjJXb1J0WEFVREhwT2VjN04yN2g3YzB2cUxmbHVfUFlwX1Q2bFE1S0pFbFJIeG55c2tBMmNPaEZxRThOZWVQVWNn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:39:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9d67226dcdf26889",
-          "title": "OpenAI CFO Doubles Down on Data Centers Despite Voter Revolt",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNc2hnakNDbmozTk1lVFhhOFl6SDhmV3IzRm9nMDlaaDQ2VWUtNWZZcGJHVGtZQnY5REtwWWYwRUQzVHltWDhjU1RxcXlYZGl0Q2ZaQWV4UGNGN1dPR1hqOVc2MTBYU1ZnU2g4emhjazVUT29Pd2c0QlZvY0x3SVhad09YVDc1VXYwNEhLMGlacXRESW04VGNmcA?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:36:02.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "down"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "257e5b7f27cfc941",
-          "title": "OpenAI Faces Backlash Over Massive A.I. Data Centers",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTklDWW9ORFpFZDhpWGRVWHI1TVBqZ2lzNTdkQTlpelJXME1IXzJ5cm90Q3FZMDAxSFY3bVJjM05lLVhtOFRSRnZwY0taX3JZTm13b0NIMUN5OXhiOTFaelhFNDVLWG9hVDkxR3lXanhMWjd3cEk4OUdGZ2QtSDVDSXBoTmtXb2JE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:06:43.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "backlash"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "7a9d9caef3657635",
-          "title": "OpenAI executive Sarah Friar vows to keep building data centers",
-          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9qTUY2eU1FRFBpTW1TZElESFZBZTk1Q29QcUxRT2piXy1Ja2NyRmFDQmI4eGJBUHBQNGh4ZmVTQzVzWXNwVm4tX2xYS2lWektWcmtlWWRsXzRQVEY0Y202a00xTXRvOHUzZllKRTNlWUlVd0Zo?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T16:57:44.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a5a7a6d4cd33fbff",
-          "title": "OpenAI Remains Committed to AI Infrastructure Investment Despite Election Results, CNBC Reports",
-          "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOOVB1SU41T3plejFDQWZUaVZUM1RLYmQ2SW5EdUY3anFndVl3RXA1bFhCNE14UExSeDRJb3d3ajdZUU83WUMtZDB6M3dwTTcwbjhRSEtWUU5jWFNyQzUyMFZBWmtxVGtJNWRGNmFHZE9YQUVFR0NSMXVrREJRZkhZcFEwXzFEMnNlZWxsMzQ4WmlPT0dTSEtHdjFrNlpnSi1UZ2VkMTRMUnlVWEVWNEdpdkQ3UmNHcFZiakh3bUM3cGIzTUNjdl90enkyTkZNbl9Gbi1OSXNEUzA4NUstWGdJaQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T16:54:26.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1194,22 +1079,199 @@
       ]
     },
     {
-      "id": "microsoft",
-      "name": "Microsoft",
-      "headlines": 15,
-      "index": -5.9,
-      "mean_headline": -0.7,
+      "id": "openai",
+      "name": "OpenAI",
+      "headlines": 47,
+      "index": -0.7,
+      "mean_headline": -0.1,
       "sample": [
         {
-          "id": "f557c2d1f6bd63d0",
-          "title": "Microsoft Is Winding Down Oracle Deal to Rent AI Cloud Capacity",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPeXFhaDRlRjBvZktGaFM2eExYdGpJakRNazYxc2Y2UWoyMDJzS1VFb2Z5ZTNkSVhMRHBTbUdtb25kZHJUdkpRVXRQU1hQVGtIbS1maVNoeGhSZ2pHOGF1aDY3R1AwSTU4TmlmSEdEc19RYlowVXAzc0NlSzdVZ2xBZXduc2FzT3ViQ0xDS3RYdklKMzFnVzRtUkZKQnVBWlBDTWtGcGZUU01ZSktQTG5aOE9lbXE?oc=5",
+          "id": "05ca4d2ddc680320",
+          "title": "OpenAI status: Elevated error rates with Brex Cards and U.S. business Mastercards",
+          "url": "https://status.openai.com//incidents/01M6S2FV5TZWQ753NHRB7BF5K7",
+          "source": "openai-status",
+          "published_at": "2026-11-06T18:50:47.311Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2ebf31f3c783b714",
+          "title": "OpenAI Partners With Hacktron to Test Third-Party Service Connections",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPNzlwenQxQVZXMkt6T0lORFF6cWFXeXNsNTBCWEsydm1qTk9kSGM0bnVVblFJQXVPZDJKS0M3Q2VIU3dxYUU0NURGN1pCZkRrazVzN1JNQW1FTmJwcnk0UGpmTElMeHdKX2xuMy1ZOGp0U2NIVkFYMC1VLTFQYUwwbk9zY2NucnBHVGNFNnQ4bXRiVk94UXc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:41:03.000Z",
+          "score": 3,
+          "positive": [
+            "partners"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "45ddef4e9d4373bf",
+          "title": "OpenAI, Arm and Qualcomm executives react to post-midterm AI sell-off",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQdE1TbUF3dUNNZjVhZlhtOEhPOVRVbkYwV25tWXZzY1Q0LTdfV3pKOTg4bkpBZ3QwaFhlUS1LRjJHczMzelRQRFlFQWtwQlhxaDV3NHVHX2FsVzJ1eXVxR0VBLVBUUllyek1OLXZUNk5wZGxzM1Y2bnA1MGJEanV1MFFqS2ZjUl8wY25kadIBkgFBVV95cUxQc29HQmdLYzRubHlYQnBNMEo1LU5ud1dseElEaDR4bGxXRlJwZngxSnEyMW1IWjF3Yk5DQm9OTkNNQmd2OEJQSnctR3Rzb0ZXTnA2NENaWURQTk4yQ1BQTGMxZ0ZaTEpVTWpZamlLMU12OGlHZUZaT0lvOFd6V3JhUUlwdWtsOVdhQW51SUZZSUpyUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:27:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8e5710b5b9254ea2",
+          "title": "Anthropic, OpenAI promote philanthropy by letting workers donate their equity to charity",
+          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNODBoc1ZCUUtlcEdsWFBlc2d0SHRfOHdUTUpUUlVmbm9yQWt0UExOZWJPV2xCN0dqZnlFbzZ5LUVwWWFFRTRyZTJscVJfeDJONElHbGk0b0Zpa3g0UDVXcEh6al96d3BiR2xpNEJKTVpsSVRSWVFiMFJXYjNUOUR3eFFoUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:22:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "3f81cdb5ebfe80fb",
+          "title": "OpenAI's $600B Compute Plan vs 40 Voter Setbacks [2026]",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQdlRPU045aTlUTF94c1ZmSVRENE5sVWwzM3FIY0JVUmJNUkJRZkpGWU9WZ0dkWllHSi1wLUs2QkRnZTRieU1UMlJrUWxMay1JT0VPNVNacnZkb3pTdjA4T0pZenZocjF1NWdSbXNWQjBtdnFDYVdiTDVDY2VLbmhzaW1IVExuM3hyN09XMk9Mb2N1UGVwUUVB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:21:51.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b99ccb6ffe0bd63c",
+          "title": "OpenAI Launches GPT-6 Cyber to Find Security Flaws, Limits Access Over Hacking Risks",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOMC12MzRacm82ckVOS3lOV2pkbW5nUVJ4OWtGeW15X1hGMWtsQzZSZUNFaEFXVTBybWZxVUtzZGRJby04MXMzeHF2blRQTk1fQnJaZzFyR0JaQjUyY1pULV92MU5wV1k4bzNyX29weTNwR0RYMXowdWs3NWNBNDd6UUJTYTlDLWFiOFNxMnVjWnJ4dWpwZUQxWE15cGNrSExpUDhrU1psT1U3SFRXdkF4NVFOSkQyeXYwQlFtaVM2Zw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:20:56.000Z",
+          "score": -5,
+          "positive": [
+            "launches"
+          ],
+          "negative": [
+            "hacking",
+            "risks"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "13a0526bea13f28f",
+          "title": "OpenAI and Anthropic Drop New AI Tools for Cybersecurity, Images and Finance",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNQURicUhYclN6VEZ0VEtFVW5uSVpzZEY2VktKRS11RXhaVTdFbWF3MnBZMTVvOWVtMzlnNW5OLTh4em9waGMxSTF0anNUWnBNSmVBaDlXQTBmQnJsNGZTYUR2UXJJX1NrZVBCaDg2YWtHY0h3b2ZqNlF1UXV2U1ktWGxsanEyNnVXcF9YY0x6d0h6X2tiZGU3Sl8xOGF6RnNMbnc2aWdwc3BNR05Iclc1dw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:10:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "08eaa58b40d03ca2",
+          "title": "OpenAI to press ahead with data-center expansion despite midterm sweep, CFO tells CNBC",
+          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNRFVIUW5SSGZmTGw2cnZmN0tEbE5zWGZVekdqazlncUFkSVo2Q3ZOMFlyS2xEbHY3NVhOalJzeFRCTWIxR2xydFdUaVQxZ3RMbk9yRzN1UEt6VnZHd0FycnVPTVhhWmx6QUhHeF92MVVqWFpQYWdaVEpia1c1Qk5qYXFpYTRWS3JMUkV6eXFUM1drV1RqdDJ3VkNKb3lELWhwbl9DU1Z5V0h3d3pHNmxIcWZQd3o3aV8yUU1OSkdmTF9KVENvRU5XQ0MyYV9UX0NsUEEyTA?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-11-06T17:36:39.000Z",
-          "score": -1,
+          "published_at": "2026-11-06T18:06:47.000Z",
+          "score": 3,
+          "positive": [
+            "expansion"
+          ],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "headlines": 22,
+      "index": -1.1,
+      "mean_headline": -0.1,
+      "sample": [
+        {
+          "id": "8578b1f54f36a552",
+          "title": "Activists break into building site of Microsoft datacentre in Amsterdam",
+          "url": "https://theguardian.com/world/2026/nov/06/activists-break-into-building-site-of-microsoft-datacentre-in-amsterdam",
+          "source": "guardian-ai",
+          "published_at": "2026-11-06T18:51:37.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6ac55f69675fbf8c",
+          "title": "Microsoft: AI Monetization Accelerates, Strong Buy Reaffirmed (NASDAQ:MSFT)",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOai1ncFNYWG53d0VSTnBwVndZSU8yWVAzRkFrVDNucVM5Wk5pNmEyelhtMHNLeG1pcWkxbzFjNXNLRXdEY20wTThvLUpZTGkteXlKNTlxaF8wWmpEanlqMWdOQmRvNVQ4RUl0VHh2RWQwdEp6M2huVHcwb1BNbU5HTWVaWk0wRElwNjlERHRQR3otdnJIZGFkdTVxSExlUkUzcUE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:47:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d53780eb9f883912",
+          "title": "Oracle Stock Slides as Microsoft Reportedly Pulls Back From AI Computing Deal",
+          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNNTU3dnFrRjE3bHRSOHhWdEh3S1dlTVF5eGxjVlNYalVOLUItdUhZdmlRWlJ3RWFJM2NrZFdLdzIwMTJhV3BUdkhPRDlwN2FoQmg5X0FyOWJjTVQzTEhxYVo3ZjZEVThmNzV1U2hnWDcwN0xwTjZ3OFlpbmJmS3V4UnczU1NsNC01Y09ITnBhWm1NRlFQMnliUkV0U08tcTBWSU53dW9MTUthTk5xUmljcEJuSzA3YUhpTUZOVVAyRTdOZkVnMXFmOXJPUXFnRDVMRHE3OQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:45:10.000Z",
+          "score": 3,
           "positive": [
             "deal"
           ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "209dbf3224fa022e",
+          "title": "Microsoft plans to use fewer neoclouds as AI buildout shows signs of strain",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNTlBrMkJ1TjdYY3VXQTVQeWZ3NFBvZE10d25OU1d2UXVLTlhXQWlrUzBDX082T2UyY3dSY2VBX2tnanFYQmRkVmRMMnU1Y2pvcEZ1eHU0WXBNRmZMa1pzaWFrT1FWZkF3cE44QVVkblgwMHFKOXZEZS16UHVNV3RNQUhEbUdmTHBGd3B6NTF4YmpHNEJrUktjdVdyZlgyU1V0ZEstT2hvNWdxQdIBrwFBVV95cUxNUWxBWFlLbTJteFZrY2Z5dVcwT3FrelRobWc5c013N1hsR05RVThlWUFuN09YcHpfa0I4V0tLb0V1QVFsVlkyREp1a3A2cnN1UHhmR0tJN1p0YWtib0Q4c0NNaHNiSW83enY1VUJQejM5YU42RlBvVm1qdTJkc3NzM1diemg1Ry0zVjNzUEM0bVc5NzcwbmRubms1amhVVHRfdHpTSEJ2VW8tS0dscFpJ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:31:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e9a7f98969583c72",
+          "title": "Microsoft Won’t Renew Deal for Renting AI Cloud Capacity From Oracle: Report",
+          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9VMldqNUtPTEN1N2JuNFB3OGwwV0k2bnNtbVJObWhoSDRMOUg2ZGh6d0hsUlB4WFF3bDJobDUxNEQ3cEN3dDhBaEl1WUlCRG1mTlNvbkJ6RVNMZ2JNTkhjSVRpckYxRnN0dkVhb3ZBQ1JsM1ZpWFdKNnNQcHdldw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:31:00.000Z",
+          "score": 6,
+          "positive": [
+            "deal",
+            "won"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9a6f6d132e097362",
+          "title": "Sources: Microsoft has been turning off rented computing capacity from Oracle after declining to renew a 2023 deal, because the hardware used older Nvidia chips (Brody Ford/Bloomberg)",
+          "url": "https://techmeme.com/261106/p18",
+          "source": "techmeme",
+          "published_at": "2026-11-06T18:05:03.000Z",
+          "score": 3,
+          "positive": [
+            "deal"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "98888e9dc1d10e92",
+          "title": "Microsoft winds down rented AI computing capacity from Oracle: report (MSFT:NASDAQ)",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQOF9pWl9KSUVidWlYTmR0RURMNWsyWF9TdWZvaXA3WllqVW54Y0VPN1hoQkVWdkFrVVMtQktIVkVHOFJDMFNFWkhfdnhpaHBLaEpFYmRLdkI5LW55WmxaTmFoRFdFenlsdk1JbTNBc1NKRkgwLUd1TFdJN3d5ZmRMTnprSVgtVHh2WVFvNk9YRmlUUEw0Qy1pLTBzWXBQZFk5QTg0TlBaSnVnUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:04:13.000Z",
+          "score": -4,
+          "positive": [],
           "negative": [
             "down"
           ],
@@ -1220,75 +1282,7 @@
           "title": "Microsoft Corporation (MSFT.O) | Stock Price & Latest News",
           "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5mc1U3MkxiZ00yS0FLaXVrTG1GRkFVdFRNTVRBV2cxQm1vSGl4bThaMXdGRHI2Q09oUkpsTE5mcElfN2ppbnlkcTQ2eE5jYlZETzBnNTdCN2lUNDluNkE?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-11-06T16:58:47.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "096f9c96760ac84d",
-          "title": "News/Media Alliance files amicus brief in news publisher suits against OpenAI, Microsoft",
-          "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxOZ2docGh4MjR5NWdpT19uQk5mYWhZMm5yc2FGT2RWNFR2WkotRzRsZW1WeGExSnpzV2tpSHE4RktaVHNGY00tc1Q0UXVSUUtnRzlCZ1hSTC12ZjBwdXFLZEdCWjVSNW4zTEpuUFI4NDd6VXVuR0c0ZlVhSWtjQm9GMFAtVG9PcjNWUktJcGh5dXVlUVc4R29lckJuVzJTRVROYzFfQVEtVWVWTGY3REE4ekNEOE0tYTdNSkNnbHplMk5CZTMtUlRuLUlEVFRUVkhYMjg3SmEycFJTR3ZaN0tfUXJ2T19EdUVrSVA4Rjdudll0eU9aaXlBNHN4b2wyRmNweF9tWnlfYzR4cGh5d1RN?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T16:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "85fdcad484371f4f",
-          "title": "Employees at Microsoft, long known for its stability, are grappling with its decision to offer buyouts to 60,000 people as its spending priorities shift to AI (Emmy Martin/New York Times)",
-          "url": "https://techmeme.com/261106/p12",
-          "source": "techmeme",
-          "published_at": "2026-11-06T14:25:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "49d91d1cfae7ee79",
-          "title": "Activists breach Microsoft data centre construction site as protests spread in Europe",
-          "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQWlBqNDNLWm53eHI0c0JoT0pQRWhQTFZ0LU12MEFzNmV2YVNqaEdkbWNPOGl0MG93VFlfUUluLXVoV1JFMnk4OFA0dVdoNm9hU044UjNyTnBfMDdHZmlCbC1QeGZqNFk1VF9ZQ2dLRW9keVNLWl9QX0NrZE55cFU4MXJZaDRZLWJjMFI4QVoxekwybVlydDcwc01UaFJuY1RQLXNienI3eFlPSXpVZHBJX09sMnZRRktxQ2hWNFk2UmtDaGRQbndF?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-06T13:37:29.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "breach"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "e8d793df67a8526e",
-          "title": "Pro-Palestine protestors enter Microsoft datacenter site",
-          "url": "https://reuters.com/technology/protesters-enter-microsoft-data-centre-site-amsterdam-2026-11-06",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-06T12:38:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e9546f26c00f5f4c",
-          "title": "Microsoft’s Buyout Offer Sets Its Workforce on Edge",
-          "url": "https://nytimes.com/2026/11/06/technology/microsoft-buyouts.html",
-          "source": "nyt-tech",
-          "published_at": "2026-11-06T12:23:09.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ad52cfb91c036981",
-          "title": "LIVE: Protesters break into Microsoft data center site in Amsterdam www.youtube.com/live/zpeZxS-...",
-          "url": "https://bsky.app/profile/reuters.com/post/3mzn7z4e22c2f",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-06T10:58:31.253Z",
+          "published_at": "2026-11-06T18:02:58.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1297,12 +1291,137 @@
       ]
     },
     {
+      "id": "apple",
+      "name": "Apple",
+      "headlines": 3,
+      "index": -2.7,
+      "mean_headline": -0.3,
+      "sample": [
+        {
+          "id": "308380b29e4bb75b",
+          "title": "Siri AI's Biggest Upgrade Yet + John Ternus's First Apple Earnings Call",
+          "url": "https://bloomberg.com/news/videos/2026-11-05/power-on-podcast-apple-earnings-siri-ai-upgrade-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-05T17:13:45.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "eab25daaa639cf57",
+          "title": "Apple slashes internal AI budgets, with deeper cuts still planned",
+          "url": "https://the-decoder.com/apple-slashes-internal-ai-budgets-with-deeper-cuts-still-planned",
+          "source": "the-decoder",
+          "published_at": "2026-11-05T14:03:14.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "82cfafb86b00dab1",
+          "title": "Apple Raises $7.5 Billion From Investment-Grade Debt Offering",
+          "url": "https://bloomberg.com/news/articles/2026-11-05/apple-kicks-off-high-grade-debt-sale-joining-issuance-spree",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-05T13:22:07.000Z",
+          "score": 3,
+          "positive": [
+            "raises"
+          ],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 49,
-      "index": -7,
-      "mean_headline": -0.9,
+      "headlines": 50,
+      "index": -5.8,
+      "mean_headline": -0.7,
       "sample": [
+        {
+          "id": "b30494150f45c223",
+          "title": "Anthropic IPO Investors Weigh Valuation as Low as $1.2 Trillion",
+          "url": "https://bloomberg.com/news/videos/2026-11-06/anthropic-ipo-investors-weigh-valuation-as-low-as-1-2t-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-06T18:47:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f50f5b6f4ac9d0ba",
+          "title": "Anthropic’s IPO Is Cratering",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBUa1UzcjdaZThLRFNxQUxVZ3NUY1oyanBjUmlPZmpSWnF2M2VMbUUwMEVDVjBqVkVpTDNsTHFRR2loVE0wRF82eFJxTms3M0FjUFpOc04xd3lWci1pcG9nazRkSnhoUTlXSjRObGU3eFpCSktBR3VrXw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:46:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "33dd179e9f09474d",
+          "title": "EVE AI Lab and Anthropic test AI agents in a world that never resets, and Sui wants that market",
+          "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBkQmhBUFBXSDJqMTRXblRBQ0F5ZGF5TzJRMDJNVzZwRFNJNFdTTVk5ZkstbzVESTIyV2dsTS1Db01aWEtlUl9BYndkTTYxWDluWDdINW1iWDFQRTBSV1VGZDFUV2pBMWlpeDZJ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:39:09.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "83096cfd08ef69b3",
+          "title": "Anthropic Launches Claude Personal Finance Ahead of Nasdaq Listing",
+          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQTGVPOGo1UDd1TUxtU3AybjA3MXhXeWJmU0lkNndvc29oeTBpTWFJTnJJR3ZWSXlPak9rQUVSM2ZsbEFVUGlEdjMxMm5VbEtSdWprb3liSkp3dFFSdnJXMVBoM1dyQTJZNDZMMTc3UmgxVTFiUHpEcEJubVNUYTZlOGVFMkRNdGh1b3VuX3F5ekJwSGdFV21GNWFHVFRlZDIzdkRUZnhfdVhRa25ZZXRPWG02S0FXSURhbjBYMUZTekRVZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:27:09.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "cd8ea55d3369e499",
+          "title": "Week’s Best: How to Get In on Anthropic’s IPO",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBHZ3I1Q2dYaVVLdHVxc2lNczRqdTlsX0pIVnBDOXBlTC1yS3J4Z3NLMGY3cTVUcUNLSFRIM0ZhTVVENHBpdjdYWGdzZktpQ09OWUZlaE5XWVowZDB1V2poV2o0blhxZlVRQlF2clBuMlYwUFR4SlJ0cnlWUUZpRGc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:25:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8e5710b5b9254ea2",
+          "title": "Anthropic, OpenAI promote philanthropy by letting workers donate their equity to charity",
+          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNODBoc1ZCUUtlcEdsWFBlc2d0SHRfOHdUTUpUUlVmbm9yQWt0UExOZWJPV2xCN0dqZnlFbzZ5LUVwWWFFRTRyZTJscVJfeDJONElHbGk0b0Zpa3g0UDVXcEh6al96d3BiR2xpNEJKTVpsSVRSWVFiMFJXYjNUOUR3eFFoUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:22:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "13a0526bea13f28f",
+          "title": "OpenAI and Anthropic Drop New AI Tools for Cybersecurity, Images and Finance",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNQURicUhYclN6VEZ0VEtFVW5uSVpzZEY2VktKRS11RXhaVTdFbWF3MnBZMTVvOWVtMzlnNW5OLTh4em9waGMxSTF0anNUWnBNSmVBaDlXQTBmQnJsNGZTYUR2UXJJX1NrZVBCaDg2YWtHY0h3b2ZqNlF1UXV2U1ktWGxsanEyNnVXcF9YY0x6d0h6X2tiZGU3Sl8xOGF6RnNMbnc2aWdwc3BNR05Iclc1dw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:10:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "4303d3d19081fc63",
           "title": "Anthropic IPO Buyers Eye $1.2T, Down From $1.5T [2026]",
@@ -1315,95 +1434,49 @@
             "down"
           ],
           "clickbait": []
-        },
-        {
-          "id": "2544f436151aae24",
-          "title": "Anthropic IPO Odds Drop After AI Sell-Off",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPdFBMeE8xQ25peVA3TjI2ZGJOT0g1Vi1faXRON2pyOXBveGR4TkZJY0lORFNGZG5IdnZRbFR3SkdPNjFja1lQTU5PTXo2cnVCUWtXUlZtQjlqQnBDTUN2bGNkT3BLSUpfYnlrZWJiZWhsbHZZenRuZHdNSXcycXU4Sk1xQVhPbFNkRVI4aXlrUldpZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:34:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "96ef88c2e444e946",
-          "title": "XN set to increase Anthropic exposure despite AI market sell-off",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPYkdWaXZhMF9mU1VaeHJRWXVNRFlWcXh3YWlFbm1lRnJrbDh3Q3ZrdzBQbm9zMmR6eHlFNU5YczVIVzVvb3pZX2pXUGRhNnk0N0xuQ3M3X0l0Z3FwQllSbHpxWk4xb2Vxc2FoaDVzMjl2cVV5MnB6NFM1RjJpODVwMFFyc0FCQjVXNzJZaWdIc3JpS0tTdlE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:32:05.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "967523cf77df07ba",
-          "title": "Why Anthropic’s IPO faces a reality check over $1.5trn valuation",
-          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQQTItSzFfN0lRV1JPZXdTbWxVLVZTTG13dVZ6QlNYTng4dk9tOEtteGJKWkZsQXJieDcyMEZEUVN5ZVBrSWlBVGF6Z0FqbkZoU3hjb0ZRSVZGeEx4ZlhDMmJaSHVxdG5BcTM2TmNKT29GbXV4R1BpUnpCNERybDlzRXgwZk9MNHRUSTBRU1dCR0ZuWmw5MFlmSnBvd05lM0xwbjk1ZG1HWkVRaEpaYXY1djVPcG4wQ1RSWmp0VVhlV0llZDZFMWU3dTl0TQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:20:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "75173d326845d912",
-          "title": "Investors consider lower Anthropic valuation or IPO delay — Jerusalem Post",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOcWRyWGtPUU05XzJZUWNnRTVZUlRINEdvRVJmTlFLM2tvMGNXWHVBSHQ1OTNTSWZob0IyNmVhMUpZX3d0WWFjRl9KUU11SExVdnNoYkFETERTamNSemdZMEF4Rm92V1kwXy14cU94aGxfVDN4MWdsWkFjNklkZ0hsU0RCcXNRNzZXbFh6em9Na0FSdkM0blg1dU5USVRiMmZ4djFNZ3A3SFBaOGxsZnZQMlhPUHpKYmg2a3VR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T17:11:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "delay"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "ba809e6dfaaf4e2b",
-          "title": "What Shaped Anthropic CEO Dario Amodei’s Thinking on A.I.",
-          "url": "https://nytimes.com/2026/11/05/technology/dario-amodei-anthropic-ai.html",
-          "source": "nyt-tech",
-          "published_at": "2026-11-06T17:09:35.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4a1a79b38d988ba6",
-          "title": "Anthropic lines up UK retail offer as AI stocks wobble",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNcDdaYVBiT3ZxeklmUVh1amRnM3FjcE5LUTZRbGJRQTMwS3VkUkp2a0ZUa242TmVrSm45MjU5clg1MzlLSkprbFlGSUxXa2FjM1hRZzAybENJNF81Z3FfUXlTbHRrLXlZQjhQcUdKOHFIeHBxMkk1T2YzRVN5UWF5c3dTTVE?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-06T16:50:16.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "16544fa5b297950a",
-          "title": "Anthropic IPO Valuation Could Be Slashed in Half to $1T After AI Stock Rout: Report",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOV3F1cGU1d1ZyNnlubW9iaE1JVTVrRUNBdU56R05BUmxVaDRNNGxkWnI3by1qd2JPQms3dUNBT2tTanF4NGdGNzdudmd3STJsemJWc0Y2TldNNGE5RXFqdEVIQ3hXNG43dndYcWhTY1UxTUNGSEdzQmRuZDR4OE1BWEFJX1d0N1IxNlVvYkFjam93OEhPSThtdWxfcnVyVkta?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T16:28:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 16,
-      "index": -12.5,
-      "mean_headline": -1.6,
+      "headlines": 19,
+      "index": -10.5,
+      "mean_headline": -1.3,
       "sample": [
+        {
+          "id": "a8fc5de6487f58f9",
+          "title": "Meta introduces Spaces, a new way to collaborate with your Muse agent",
+          "url": "https://techcrunch.com/2026/11/06/meta-introduces-spaces-a-new-way-to-collaborate-with-your-muse-agent",
+          "source": "techcrunch-ai",
+          "published_at": "2026-11-06T18:44:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6824b4b719ac3f73",
+          "title": "Meta’s best AI model now trains the one most of its users get",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5nbW5LUUNKb1pkRXdiSWx5TXYtalJRUzVBaC1oQm4yTEozam56TUhGWVRCSUZJOXMyZXNZd0d5cVFQUmZQd3ZBMnVZTXhBVTlmZWpPUExmbHVkelNoRFd4R1VR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T18:21:12.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "41e5e51468fc6c76",
+          "title": "Meta’s Muse AI can create custom ‘spaces’ for the version of the app you need right now",
+          "url": "https://bsky.app/profile/theverge.com/post/3mznym7xdjw2s",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-06T18:10:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "0b33259ab4386660",
           "title": "“Does Meta think we can’t read?” Meta abandons sketchy commercial terms update.",
@@ -1459,47 +1532,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e854b60774b7bdc3",
-          "title": "Meta rolls out voice mode and expressive avatars in the Muse app, starting in the US, letting users have real-time voice conversations with their Muse AI agent (Jay Peters/The Verge)",
-          "url": "https://techmeme.com/261105/p48",
-          "source": "techmeme",
-          "published_at": "2026-11-05T19:30:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "284810c2fd047502",
-          "title": "Meta warns that election backlash against data centers could make AI expansion harder",
-          "url": "https://techcrunch.com/2026/11/05/metas-warns-that-election-backlash-against-data-centers-could-make-ai-expansion-harder",
-          "source": "techcrunch-ai",
-          "published_at": "2026-11-05T19:12:39.000Z",
-          "score": -5,
-          "positive": [
-            "expansion"
-          ],
-          "negative": [
-            "backlash",
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "14d3d22aae137090",
-          "title": "Mark Cuban says Facebook knowingly runs AI deepfake scam ads as Meta docs reveal $16 billion in fraud-linked revenue",
-          "url": "https://reddit.com/r/technology/comments/1xoqri7/mark_cuban_says_facebook_knowingly_runs_ai",
-          "source": "reddit-technology",
-          "published_at": "2026-11-05T18:47:12.000Z",
-          "score": -8,
-          "positive": [],
-          "negative": [
-            "fraud",
-            "scam"
-          ],
           "clickbait": []
         }
       ]
@@ -1602,66 +1634,6 @@
           "positive": [],
           "negative": [
             "risks"
-          ],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "apple",
-      "name": "Apple",
-      "headlines": 4,
-      "index": -18,
-      "mean_headline": -2.2,
-      "sample": [
-        {
-          "id": "308380b29e4bb75b",
-          "title": "Siri AI's Biggest Upgrade Yet + John Ternus's First Apple Earnings Call",
-          "url": "https://bloomberg.com/news/videos/2026-11-05/power-on-podcast-apple-earnings-siri-ai-upgrade-video",
-          "source": "bloomberg-tech",
-          "published_at": "2026-11-05T17:13:45.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "eab25daaa639cf57",
-          "title": "Apple slashes internal AI budgets, with deeper cuts still planned",
-          "url": "https://the-decoder.com/apple-slashes-internal-ai-budgets-with-deeper-cuts-still-planned",
-          "source": "the-decoder",
-          "published_at": "2026-11-05T14:03:14.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cuts"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "82cfafb86b00dab1",
-          "title": "Apple Raises $7.5 Billion From Investment-Grade Debt Offering",
-          "url": "https://bloomberg.com/news/articles/2026-11-05/apple-kicks-off-high-grade-debt-sale-joining-issuance-spree",
-          "source": "bloomberg-tech",
-          "published_at": "2026-11-05T13:22:07.000Z",
-          "score": 3,
-          "positive": [
-            "raises"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "58413720e3cb6b8e",
-          "title": "Apple is cutting employee AI spending budgets even as it pushes workers to use the technology more. Engineers have seen daily limits cut from $300 to $200, with further reductions to $100 planned.…",
-          "url": "https://reddit.com/r/artificial/comments/1xocwcy/apple_is_cutting_employee_ai_spending_budgets",
-          "source": "reddit-artificial",
-          "published_at": "2026-11-05T07:50:01.000Z",
-          "score": -8,
-          "positive": [],
-          "negative": [
-            "cut",
-            "cutting"
           ],
           "clickbait": []
         }
