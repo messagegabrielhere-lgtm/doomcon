@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-07T14:48:43.340Z",
+  "generated_at": "2026-11-07T15:35:42.193Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,8 +47,8 @@
       "ycombinator.com"
     ]
   },
-  "live": 3,
-  "fresh": "b611428f236b3",
+  "live": 2,
+  "fresh": null,
   "clusters": [
     {
       "id": "b611428f236b3",
@@ -93,7 +93,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "bad920f7cb84b",
@@ -719,6 +719,8 @@
       "outlet": "ft.com",
       "outlets": [
         "apnews.com",
+        "cointribune.com",
+        "moneywise.com",
         "washingtonpost.com",
         "yahoo.com"
       ],
@@ -726,7 +728,7 @@
         "apnews.com",
         "washingtonpost.com"
       ],
-      "corroboration": 3,
+      "corroboration": 5,
       "sources": [
         "bluesky-ai",
         "gnews-ai",
@@ -734,6 +736,7 @@
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-11-07T12:00:11.881Z",
@@ -744,6 +747,7 @@
       "item_ids": [
         "06642d99b7ff466b",
         "14a51f689f1a70f9",
+        "16544fa5b297950a",
         "16793386f18aadf3",
         "253052a08e11f05a",
         "2cad3c86e5a6926d",
@@ -751,6 +755,7 @@
         "363aeff92629abda",
         "45c62b469a8ef511",
         "471f53b7cb451f3d",
+        "509b69bff8d67184",
         "53b7d0bb74fcdda6",
         "558286b676dbaa5f",
         "55e2abef4182a5bb",
@@ -766,10 +771,12 @@
         "9a7f75bd74f5eac2",
         "9c8f2bcbed4d1f9d",
         "9ed34cdeea8fa075",
+        "ac175868a950ea9b",
         "afd29ea570125dcd",
         "b320cdac48815bb8",
         "b67dc0b76c87fa7a",
         "bbe3a8cbb3e50f57",
+        "bcb4565b7f344a4e",
         "bd04684d5efdc144",
         "c0193a906d9246c5",
         "c1efaf5d0456adb4",
@@ -785,6 +792,8 @@
         "e60037ea3a70d676",
         "e6c9498f58ec76e1",
         "f08e5a8161d25468",
+        "f1e779facd1b7e6b",
+        "f302f2e77f74531b",
         "f61abd293f245097",
         "fa993593b60f168e"
       ],
@@ -802,7 +811,7 @@
           "outlet": "apnews.com",
           "title": "From high-flying AI stocks to tariff-hit alcohol companies, the midterms shook up Wall Street",
           "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNVGE5cWdNNmdGUVUta195UWctb3dsWEp2d0ZDRE5FQU02SDRwckpqa25JM2QxNk1wOTV5aXF4NDJiZnRZRzlCcm85RzNjOEltYktuc1NDQ2Y2UzJOc2VMQm5HaFZUR2FGdkNDMVhoazNkN1FTYTBVdWRDQjItS2c2ZUVoemlwVVg4X3Z6cVhtTEx4NWtVbjhSMm5NR1loaXVaUkNFOTVB?oc=5",
-          "published_at": "2026-11-07T13:30:00.000Z",
+          "published_at": "2026-11-07T13:54:01.876Z",
           "tier1": true
         },
         {
@@ -816,9 +825,25 @@
         {
           "source": "techmeme",
           "outlet": "techmeme.com",
-          "title": "Investigation: some Chinese firms approved by the US Commerce Department to handle Nvidia's H200 chips have empty offices and ties to firms under sanctions (New York Times)",
+          "title": "Investigation: some Chinese companies approved by the US Commerce Department to handle Nvidia's H200 chips have empty offices and ties to firms under sanctions (New York Times)",
           "url": "https://techmeme.com/261107/p9",
           "published_at": "2026-11-07T14:30:04.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "cointribune.com",
+          "title": "Anthropic's IPO Plans Face Mounting Wall Street Pressure",
+          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOcEUzVHduSFlEekxKdlhheE1kWC10UFBmS2xWVUxzSXZfaF90QkM1TlZVZmlrMjFreFlZdVVfYjg5RmRsRW9ITkt2YVRCb1pnU1diZVY4VFprdkFJS1ZEcE0wQlNrLTNWWEpnRGVhNDNqNlg5ZmJ0Rkx4UUVvWlRWWk1VaHliZExzTHNsalF4UnY?oc=5",
+          "published_at": "2026-11-07T15:05:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "moneywise.com",
+          "title": "Elon Musk references 'Brave New World' as Democrats push AI pause — while $2.3 trillion vanishes from tech stocks",
+          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNc2xBMUExVXJ4NXBCMDVVNWpSVExXUkg5UDN4dy02am0zUnl5UDh0NXhlb1BteWV2T05TTUNmLUVqYmtyMkxZWVF4cW01cVVvdkIxX25VLWNYRUpZQTlwOG5aeVpodDdQeEIwTk5Wc1NxN3YzRTJKQ2RyLUllY1cxS1pHeF9BdXRObTBlTEVYcGdIdlR4?oc=5",
+          "published_at": "2026-11-07T15:10:04.000Z",
           "tier1": false
         }
       ],
