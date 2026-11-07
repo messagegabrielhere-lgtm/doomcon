@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-07T03:16:36.939Z",
+  "generated_at": "2026-11-07T04:28:27.221Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 6,
+  "live": 2,
   "fresh": null,
   "clusters": [
     {
@@ -106,28 +106,31 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b0f1ced407c90",
-      "title": "Google executive Donald Harrison resigns from SpaceX board",
-      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPaFBQUUZob254UUQxOGhmLUd6Vm1xNThSU2RNTXVib3Rja0R3OVdMbkR4MjR0UDY4ZWRUMkZab1JaZmVaZmllSW96SkR1WmVFb1dXblU4dDg1Y05mUDlPUmlpTlI3VjBxcFpFbVIweUNhRlNxeE5ZLU93VDJzVmE4Y3c5VTByV1poaVFfRG5CUy0wNWlFeUZ6bnA3bmZhek1VOENqdWFyQ0poUzIxU016SUN3?oc=5",
+      "title": "SpaceX Director Resigns From Board One Day After US Election",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPQWNtaG5kQTlLMHJoRXhBaGM1QkJSQlE0Rnctdk96WDFQQmJOZ1ZVZlQyYlNlNHkxdVZ6aGh0bk5wRV92VUFvV2pJN1dMNGcxdXdTdlFnY3FiRXFXMkVoTVF0Sk1RSmd6QWhmaVRzdWFOQkxTQWp3blNfZWpHWXFvSE83X2R0UlVRTG5zZXFqa2k2eUxPdDZyNEp2M2Jmd2UwRHFfcDhUM3dRdWxTbWQ1Yg?oc=5",
       "source": "wires-ai",
-      "outlet": "reuters.com",
+      "outlet": "bloomberg.com",
       "outlets": [
         "bloomberg.com",
+        "business-standard.com",
         "reuters.com"
       ],
       "tier1_outlets": [
         "bloomberg.com",
         "reuters.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "bluesky-ai",
+        "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-11-06T22:33:03.000Z",
@@ -154,6 +157,14 @@
           "url": "https://bsky.app/profile/bloomberg.com/post/3mzop2lrec52q",
           "published_at": "2026-11-06T22:54:29.012Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "business-standard.com",
+          "title": "SpaceX director Donald Harrison resigns from board a day after US election",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPclM5b1NxMXcyX3dSUmYzSUN0YnctV2RrREt5bFkxLWQzSWpuUmstbmFqTUQ4MnU3RFRvdXV6NGxjTWJBSU1fZlFoOC1YdWJmdkFVam1kaXN2cy1aV2FxLWJPRDBLUHlQS1hkTWsxSXVoMUdXRFBycVEtU0JvRjlCeE80UnlEaVpzVlB6SXBSNWJxSjFwTnFnVWRObWQ4Z296RlFwVTZQelRJai1oWFFnbDRzNUYxNWJsTklmeUg0R0dIUGZjQ3djUDNfU0RxWE9EYXBmYWlR0gHbAUFVX3lxTE9CMjdfT21zbF9xMV9WbGFhcTVRQ2hYTGlUWDVJSmI5SVZUeGlWNlFxRlA3UFZVUFFsMUZCWk5semZKMFZHM3hjR0Z6emJlbXhvc2tuLUFnZnVaVzNzTF9YVTFoX0JfdGpWck1mQ211TmhBRWUwaElCNmdUSklwUFBwZlZZUUo1dGVHcjVxZEwwTC1Tams5TW5rQU9OdU5jcmtlM2RFeTBSNWpsY1RGa3BtcE10dFZncjM4bUJPazZLbU54MXdDVWhTVkN6UGhBa19sYVZ5ZVlaQk42dw?oc=5",
+          "published_at": "2026-11-06T22:54:29.012Z",
+          "tier1": false
         },
         {
           "source": "wires-ai",
@@ -253,22 +264,20 @@
       "outlet": "bloomberg.com",
       "outlets": [
         "bloomberg.com",
-        "tech-insider.org",
-        "theatlantic.com"
+        "tech-insider.org"
       ],
       "tier1_outlets": [
         "bloomberg.com"
       ],
-      "corroboration": 3,
+      "corroboration": 2,
       "sources": [
-        "bluesky-ai",
         "gnews-ai",
         "wires-ai"
       ],
       "rule": [
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-06T21:39:03.000Z",
+      "earliest_published_at": "2026-11-06T23:16:03.000Z",
       "first_seen_at": "2026-11-06T21:17:19.480Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -281,14 +290,6 @@
         "b1449d881fb472e9"
       ],
       "sightings": [
-        {
-          "source": "bluesky-ai",
-          "outlet": "theatlantic.com",
-          "title": "Appointing Stephen Miller as chief of staff is a sign that Donald Trump is doubling down, @jonathanbchait.bsky.social argues: “His instinct in a moment of defeat is to empower an aide who he himself r",
-          "url": "https://bsky.app/profile/theatlantic.com/post/3mzodsibvsz2v",
-          "published_at": "2026-11-06T21:39:03.000Z",
-          "tier1": false
-        },
         {
           "source": "wires-ai",
           "outlet": "bloomberg.com",
@@ -306,7 +307,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b762579db349a",
@@ -469,13 +470,15 @@
         "bloomberg.com",
         "businesstimes.com.sg",
         "cryptonews.net",
+        "cryptonomist.ch",
+        "dayton247now.com",
+        "economictimes.com",
         "ft.com",
         "livemint.com",
         "nytimes.com",
         "richtv.io",
-        "ssbcrack.com",
-        "thenationaldesk.com",
         "theverge.com",
+        "washingtonpost.com",
         "wsj.com"
       ],
       "tier1_outlets": [
@@ -483,13 +486,13 @@
         "ft.com",
         "nytimes.com",
         "theverge.com",
+        "washingtonpost.com",
         "wsj.com"
       ],
-      "corroboration": 11,
+      "corroboration": 13,
       "sources": [
         "bluesky-ai",
         "gnews-ai",
-        "techmeme",
         "verge-ai",
         "wires-ai"
       ],
@@ -497,7 +500,7 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-06T21:23:32.000Z",
+      "earliest_published_at": "2026-11-06T22:54:29.012Z",
       "first_seen_at": "2026-11-05T14:59:23.795Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -509,7 +512,6 @@
         "16544fa5b297950a",
         "16793386f18aadf3",
         "253052a08e11f05a",
-        "28adccf11e5b02a4",
         "363aeff92629abda",
         "4318c1f2f011bb16",
         "43e43c732e39b72f",
@@ -521,7 +523,9 @@
         "55e2abef4182a5bb",
         "629830ad6e40721d",
         "6630f341c6a2d662",
+        "6ae23f76e4d0f9ab",
         "6b10eb6fc59b7d97",
+        "6c75c243183bc23a",
         "6cadaf64b3aac1b6",
         "7aada1c9dcbd29ca",
         "7f3305c8ca36e63d",
@@ -537,6 +541,7 @@
         "afd29ea570125dcd",
         "b038b9078142ef4d",
         "b320cdac48815bb8",
+        "b71c99a608434d8a",
         "bbe3a8cbb3e50f57",
         "bc31046baec08d26",
         "bd04684d5efdc144",
@@ -556,37 +561,21 @@
         "e5f821c685c62600",
         "e60037ea3a70d676",
         "e6c9498f58ec76e1",
+        "ead215c1f2c6b374",
         "f08e5a8161d25468",
         "f1e779facd1b7e6b",
         "f302f2e77f74531b",
         "f61abd293f245097",
-        "f6df033ad7aedbb0",
         "fa993593b60f168e"
       ],
       "sightings": [
         {
-          "source": "wires-ai",
+          "source": "bluesky-ai",
           "outlet": "bloomberg.com",
           "title": "AI’s Wild Week Has Wall Street Hunting for Fresh Escape Routes",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPQUthZWVGS0lWUTZtbFMzeVk0dTdpTERCejZ2VzBJaUI2VTE3Z0ZHbzZIYVdnb25pRlY0aTR6QlNWcC1JbzJQRUVBejg1eUxQdGRPdTlsNUtrdkM2eWptZDFjYWtUUVg5bFJHX2R4VHVFWEx4TWJqLUJOYXp4SWxzNlIxa2xyeVpXQUp0Z1AwMVlKX0FReG5mYlRwcXlaUHFMckpzdkRoS1F3LVUyLTQtSFAyaw?oc=5",
-          "published_at": "2026-11-06T21:23:32.000Z",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3mzoz47qh472q",
+          "published_at": "2026-11-06T22:54:29.012Z",
           "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "nytimes.com",
-          "title": "Global Stocks Follow U.S. Sell-Off as A.I. Spending Fears Spread",
-          "url": "https://bsky.app/profile/nytimes.com/post/3mzodhyz2w52b",
-          "published_at": "2026-11-06T21:33:11.983Z",
-          "tier1": true
-        },
-        {
-          "source": "techmeme",
-          "outlet": "techmeme.com",
-          "title": "Sources: US intelligence concluded that Megaspeed executive Alice Huang was recruited by China's top spy agency MSS to collect intelligence on Jensen Huang (New York Times)",
-          "url": "https://techmeme.com/261106/p24",
-          "published_at": "2026-11-06T21:46:41.000Z",
-          "tier1": false
         },
         {
           "source": "verge-ai",
@@ -603,22 +592,6 @@
           "url": "https://bsky.app/profile/theverge.com/post/3mzoii6ylxu2o",
           "published_at": "2026-11-06T23:02:45.385Z",
           "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "ssbcrack.com",
-          "title": "Investors Lower Expectations for Anthropic’s IPO Amid Market Selloff",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNTk1uVWIzS21OU0RwWkI2ZHNHaTVWTG83WEYyX1ZhZkp1Nkt3ZHpMSHpheDcyT3lTYm9KTlQ0QmNLci1MZjBnSE91Tmh6N1llVEYzdjUzN0RjWTFFQnhqQUo2NVVQYlFHQi0tYWhpY0JQSDB3bFM0MXlZMUs1amtmZE5DU1oyM2xmXzZ1Y0tNeUVYaGRMb2tWdkxn?oc=5",
-          "published_at": "2026-11-06T23:46:18.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "thenationaldesk.com",
-          "title": "OpenAI moves to rebuild trust after voters reject data centers in local measures",
-          "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxOLUJkSDB2a0lSa1JHc2ZQVTFlZVI3d0hocjdncWo3Sl9uOG5zWjdKeWZQTk1mZmdRdVlYdUx0QzA5X3d2Q2I1NEg3bTdzVTFYM0VaRGtadTBVTjRlbklRYjlra1dnd1k4cGlHbEpFa3RMczVNYWphYXZHdGhpTWE0eDV6a1BZRVpSRkh2UFA4QWk5SXZOdDlRd1BTVXVBVFpIN0FVN0pfVERIdE9NY0tqWVVSMHE1XzM5QUpuLUZycURpQWNaWmswdk0xUEM4RDRrdVloLTF2TUhvTmVzQmowSXlkSQ?oc=5",
-          "published_at": "2026-11-07T01:04:25.000Z",
-          "tier1": false
         },
         {
           "source": "gnews-ai",
@@ -659,6 +632,38 @@
           "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNN0c2OUhFdWZ1dzhnQ2dLdF9LeXNzR1Q1aWlDdXpIMTN4aDU2UVQtTG1ncncwT01xNzU5MFE4T1FLaGlxclRGTFlvSG8ydDhCV3pxVTRfSV9icncxUHc4UWgtTVBtOWJCTlJnUDRScEpfdWwyUE11ZTYxNTV0dF9BVlFLa2Uwd1JKWWNwTWdBVzdHWUNxYlNVSE0tb3ZBWVhjdVAxR1hTUQ?oc=5",
           "published_at": "2026-11-07T01:44:00.000Z",
           "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "ft.com",
+          "title": "US believes Nvidia’s Huang had romantic relationship with alleged Chinese spy",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcHo3eTNwbl9OX25ycmZfZ21DWjNEbTlxZ0w5UTk5RW9KZW5hZ1FUS3ZWblFCVHQ5S0EtVU8tbW94SERsbV8tb1A2NzFrN0htdjBoMzVyM1NHMXd1Wnk1OWJoQk1ORnFna0hMUFRhb2VKQVZGTzBPYWdRRDhrOC1VRjVwZUU?oc=5",
+          "published_at": "2026-11-07T02:33:26.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "businesstimes.com.sg",
+          "title": "US: Wall Street stocks rally after heavy AI-related sell-off",
+          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNWl9DcWpVSUJoNWF2ckQwQmJXanBnaFBZOWNBOHVIUVZ2UUdVWkVTNXlvRU1YN1NZdXQtNHRmX0FCUXRadGxRQ0ZXanEyWTBqNWMtN3dvTFdxWGlhbFdWam9lN01EWlpWbmMyVWdNMjJ1d0M0ejB2b2xQeWR2VERsVmE1V2s5SV85WUFIM1NYNThXTW1fR1hYdHJIU0lIT0tnRzVkOHRHNWlBSjUzaE9xTmZmdzJiSUo4MC1xYWpRMVZfWTE2VVdmSndBbnZZQQ?oc=5",
+          "published_at": "2026-11-07T02:54:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "economictimes.com",
+          "title": "Wall Street stocks rally after heavy AI-related selloff",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQMkcxc1JVQ19KbDRJUGlRNldVbHkxdHQzM3pnRWdOWDREUTE3WXBnYk5Ebmg1d0RxS3BQQXBZUUk3emtfd0Q2RldZZmpzeHdaajRra2JkeC12OFNoWWR2REFVYTcyYzVPM0hzemVYbUh3dzJaLTVlaHp6WkZhblgyUkVlR011OHVJX2Z4ZzE1blFIYUlkQVI2MzhEY2FGMW4tMktwQlhfYThVTW54SzF5SHlnYUdCY1huZ1NvWjJFcUs4c3JocFZUZ050OFrSAdIBQVVfeXFMTWVOYl9RTkwyTFlOMFBoUnFYMVN3YUNIMlFDWndqYXg5dlJMVGVBSWlFemV0bUJwRER4SENuampLcG1MYmZ0aDJ3YW5meVV6eUVTdk5FcnFnanRCWTYxeGl4Y3c0YW5tNWNvd2Vpb1YteEJhamNrWjBBUVJSRC1YaTJPcXdraGwwa2xXWVN0aWM2T2I4emdyV3VDeGMzNFdlQ200X2FTQjJVS0pQSmZ5dmtoWkdmbUN0SDQwdFhZVG1YWnVxUFRBUnJXNGh5ZjhvcUpB?oc=5",
+          "published_at": "2026-11-07T03:16:36.939Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "washingtonpost.com",
+          "title": "Why investors are dumping AI company stocks after Democrats’ election sweep",
+          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOeHBQalQ0UlBpeEtqdmZBTlJpQTJtaVNlV1B4Zm45UnV3Q0R4VWl6MXF6U1RfZDRUSXBLQU5YWWFma0xxMnJ5OXpiRVliTFlELVoxZEZiWGFmbm8xNlJvTkJBdlZCTlY0RzlOTVNZNFp2UU1qTnFsalotZmZPcE5YbVktcm9URUNUN0dSN2draU5EYU81ekl1ZTZCOGZoZFRmVDI0NDlON2k1ZEREMEdyaWJsaHZyLTU5QWhNNnJ6bWE5U3BU?oc=5",
+          "published_at": "2026-11-07T03:16:36.939Z",
+          "tier1": true
         }
       ],
       "live": true
@@ -745,7 +750,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b46098399739b",
@@ -912,7 +917,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b7f5d891f908c",
@@ -2016,15 +2021,21 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 4744,
-      "n": 1060
+      "median_s": 3129,
+      "n": 863
     },
     "by_source": [
       {
+        "source": "the-decoder",
+        "label": "The Decoder",
+        "median_s": 120,
+        "n": 7
+      },
+      {
         "source": "gnews-ai",
         "label": "Google News — AI searches, last hour",
-        "median_s": 799,
-        "n": 298
+        "median_s": 892,
+        "n": 295
       },
       {
         "source": "simon-willison",
@@ -2033,262 +2044,208 @@
         "n": 1
       },
       {
+        "source": "aws-ml",
+        "label": "AWS Machine Learning Blog",
+        "median_s": 1181,
+        "n": 8
+      },
+      {
         "source": "eu-digital-strategy",
         "label": "EU Digital Strategy",
         "median_s": 1399,
         "n": 1
       },
       {
-        "source": "aws-ml",
-        "label": "AWS Machine Learning Blog",
-        "median_s": 1610,
-        "n": 10
-      },
-      {
-        "source": "bbc-tech",
-        "label": "BBC News — Technology",
-        "median_s": 2020,
-        "n": 3
+        "source": "guardian-ai",
+        "label": "The Guardian — AI",
+        "median_s": 1932,
+        "n": 14
       },
       {
         "source": "hn-fresh-ai",
         "label": "Hacker News — newest AI submissions (2h)",
-        "median_s": 2065,
-        "n": 35
-      },
-      {
-        "source": "guardian-ai",
-        "label": "The Guardian — AI",
-        "median_s": 2173,
-        "n": 16
+        "median_s": 2043,
+        "n": 30
       },
       {
         "source": "arstechnica-ai",
         "label": "Ars Technica AI",
-        "median_s": 4058,
-        "n": 5
-      },
-      {
-        "source": "bluesky-ai",
-        "label": "Bluesky — AI posts from vetted newsrooms and reporters",
-        "median_s": 4064,
-        "n": 70
-      },
-      {
-        "source": "wires-ai",
-        "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
-        "median_s": 5354,
-        "n": 141
-      },
-      {
-        "source": "mit-tech-review",
-        "label": "MIT Technology Review",
-        "median_s": 5551,
-        "n": 3
-      },
-      {
-        "source": "latent-space",
-        "label": "Latent Space (newsletter)",
-        "median_s": 8288,
-        "n": 3
-      },
-      {
-        "source": "nyt-tech",
-        "label": "The New York Times — Technology",
-        "median_s": 8767,
-        "n": 8
-      },
-      {
-        "source": "bloomberg-tech",
-        "label": "Bloomberg Technology",
-        "median_s": 9122,
-        "n": 53
-      },
-      {
-        "source": "techmeme",
-        "label": "Techmeme front page (AI-filtered)",
-        "median_s": 11041,
-        "n": 33
-      },
-      {
-        "source": "techcrunch-ai",
-        "label": "TechCrunch — AI",
-        "median_s": 13266,
-        "n": 19
-      },
-      {
-        "source": "reddit-artificial",
-        "label": "Reddit r/artificial",
-        "median_s": 13766,
-        "n": 32
-      },
-      {
-        "source": "lesswrong",
-        "label": "LessWrong",
-        "median_s": 14193,
-        "n": 17
-      },
-      {
-        "source": "reddit-controlproblem",
-        "label": "Reddit r/ControlProblem",
-        "median_s": 14396,
-        "n": 14
+        "median_s": 2158,
+        "n": 2
       },
       {
         "source": "infoq-ai",
         "label": "InfoQ — AI/ML",
-        "median_s": 14995,
-        "n": 4
+        "median_s": 2837,
+        "n": 2
       },
       {
-        "source": "github-releases",
-        "label": "GitHub releases (AI basket)",
-        "median_s": 15350,
-        "n": 6
+        "source": "bbc-tech",
+        "label": "BBC News — Technology",
+        "median_s": 3019,
+        "n": 2
       },
       {
-        "source": "the-decoder",
-        "label": "The Decoder",
-        "median_s": 15372,
-        "n": 16
-      },
-      {
-        "source": "reddit-machinelearning",
-        "label": "Reddit r/MachineLearning",
-        "median_s": 16941,
-        "n": 15
-      },
-      {
-        "source": "verge-ai",
-        "label": "The Verge — AI",
-        "median_s": 17238,
-        "n": 17
-      },
-      {
-        "source": "reddit-singularity",
-        "label": "Reddit r/singularity",
-        "median_s": 17770,
-        "n": 20
-      },
-      {
-        "source": "lobsters-ai",
-        "label": "Lobsters — AI",
-        "median_s": 18900,
+        "source": "latent-space",
+        "label": "Latent Space (newsletter)",
+        "median_s": 3430,
         "n": 3
       },
       {
-        "source": "hn-ai",
-        "label": "Hacker News AI stories (72h)",
-        "median_s": 19768,
-        "n": 22
+        "source": "mit-tech-review",
+        "label": "MIT Technology Review",
+        "median_s": 3559,
+        "n": 2
+      },
+      {
+        "source": "wires-ai",
+        "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
+        "median_s": 4068,
+        "n": 110
+      },
+      {
+        "source": "bluesky-ai",
+        "label": "Bluesky — AI posts from vetted newsrooms and reporters",
+        "median_s": 4983,
+        "n": 55
+      },
+      {
+        "source": "nvidia-blog",
+        "label": "NVIDIA Blog",
+        "median_s": 5306,
+        "n": 1
+      },
+      {
+        "source": "scmp-tech",
+        "label": "SCMP — Tech",
+        "median_s": 6284,
+        "n": 4
+      },
+      {
+        "source": "techcrunch-ai",
+        "label": "TechCrunch — AI",
+        "median_s": 7161,
+        "n": 11
       },
       {
         "source": "openai-status",
         "label": "OpenAI incident history",
-        "median_s": 20482,
+        "median_s": 7817,
         "n": 1
       },
       {
-        "source": "deepmind",
-        "label": "Google DeepMind blog",
-        "median_s": 20522,
-        "n": 1
+        "source": "reddit-controlproblem",
+        "label": "Reddit r/ControlProblem",
+        "median_s": 12116,
+        "n": 11
       },
       {
-        "source": "google-ai-blog",
-        "label": "Google AI blog (The Keyword)",
-        "median_s": 20838,
-        "n": 1
+        "source": "verge-ai",
+        "label": "The Verge — AI",
+        "median_s": 12541,
+        "n": 11
+      },
+      {
+        "source": "reddit-machinelearning",
+        "label": "Reddit r/MachineLearning",
+        "median_s": 12548,
+        "n": 16
+      },
+      {
+        "source": "reddit-artificial",
+        "label": "Reddit r/artificial",
+        "median_s": 13360,
+        "n": 24
+      },
+      {
+        "source": "bloomberg-tech",
+        "label": "Bloomberg Technology",
+        "median_s": 13441,
+        "n": 49
+      },
+      {
+        "source": "govuk-ai",
+        "label": "GOV.UK — AI",
+        "median_s": 17105,
+        "n": 3
+      },
+      {
+        "source": "wired-ai",
+        "label": "WIRED — AI",
+        "median_s": 18754,
+        "n": 2
+      },
+      {
+        "source": "techmeme",
+        "label": "Techmeme front page (AI-filtered)",
+        "median_s": 19045,
+        "n": 26
+      },
+      {
+        "source": "huggingface-blog",
+        "label": "Hugging Face blog",
+        "median_s": 20786,
+        "n": 2
+      },
+      {
+        "source": "nyt-tech",
+        "label": "The New York Times — Technology",
+        "median_s": 21354,
+        "n": 2
       },
       {
         "source": "ft-ai",
         "label": "Financial Times — AI",
         "median_s": 23537,
-        "n": 20
-      },
-      {
-        "source": "google-research",
-        "label": "Google Research Blog",
-        "median_s": 24370,
-        "n": 1
-      },
-      {
-        "source": "nvidia-blog",
-        "label": "NVIDIA Blog",
-        "median_s": 24433,
-        "n": 5
-      },
-      {
-        "source": "microsoft-research",
-        "label": "Microsoft Research Blog",
-        "median_s": 24438,
-        "n": 1
-      },
-      {
-        "source": "404media",
-        "label": "404 Media",
-        "median_s": 25619,
-        "n": 4
-      },
-      {
-        "source": "huggingface-blog",
-        "label": "Hugging Face blog",
-        "median_s": 26537,
-        "n": 4
-      },
-      {
-        "source": "scmp-tech",
-        "label": "SCMP — Tech",
-        "median_s": 28030,
-        "n": 9
-      },
-      {
-        "source": "ieee-ai",
-        "label": "IEEE Spectrum — AI",
-        "median_s": 28035,
-        "n": 1
-      },
-      {
-        "source": "govuk-ai",
-        "label": "GOV.UK — AI",
-        "median_s": 30672,
-        "n": 7
-      },
-      {
-        "source": "fli",
-        "label": "Future of Life Institute",
-        "median_s": 31278,
-        "n": 1
-      },
-      {
-        "source": "wired-ai",
-        "label": "WIRED — AI",
-        "median_s": 31638,
-        "n": 7
-      },
-      {
-        "source": "mistral",
-        "label": "Mistral AI blog",
-        "median_s": 38824,
-        "n": 1
-      },
-      {
-        "source": "restofworld",
-        "label": "Rest of World",
-        "median_s": 42438,
-        "n": 1
+        "n": 13
       },
       {
         "source": "federal-register-ai",
         "label": "Federal Register — AI",
-        "median_s": 43795,
-        "n": 4
+        "median_s": 23551,
+        "n": 2
       },
       {
-        "source": "openai",
-        "label": "OpenAI newsroom",
-        "median_s": 55951,
-        "n": 5
+        "source": "hn-ai",
+        "label": "Hacker News AI stories (72h)",
+        "median_s": 25458,
+        "n": 20
+      },
+      {
+        "source": "lesswrong",
+        "label": "LessWrong",
+        "median_s": 25743,
+        "n": 15
+      },
+      {
+        "source": "reddit-singularity",
+        "label": "Reddit r/singularity",
+        "median_s": 25908,
+        "n": 20
+      },
+      {
+        "source": "mit-news-ai",
+        "label": "MIT News — AI",
+        "median_s": 31189,
+        "n": 1
+      },
+      {
+        "source": "github-releases",
+        "label": "GitHub releases (AI basket)",
+        "median_s": 34484,
+        "n": 3
+      },
+      {
+        "source": "hf-daily-papers",
+        "label": "Hugging Face Daily Papers",
+        "median_s": 41881,
+        "n": 28
+      },
+      {
+        "source": "nature-ml",
+        "label": "Nature — machine learning",
+        "median_s": 44797,
+        "n": 2
       },
       {
         "source": "alignment-forum",
@@ -2303,22 +2260,10 @@
         "n": 60
       },
       {
-        "source": "hf-daily-papers",
-        "label": "Hugging Face Daily Papers",
-        "median_s": 64819,
-        "n": 54
-      },
-      {
-        "source": "apple-ml",
-        "label": "Apple Machine Learning Research",
-        "median_s": 82038,
-        "n": 1
-      },
-      {
-        "source": "nature-ml",
-        "label": "Nature — machine learning",
-        "median_s": 83362,
-        "n": 5
+        "source": "openai",
+        "label": "OpenAI newsroom",
+        "median_s": 66751,
+        "n": 3
       }
     ]
   }
