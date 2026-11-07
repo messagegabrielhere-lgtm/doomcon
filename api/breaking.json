@@ -56,7 +56,7 @@
         "fa9b7ffd010bc992"
       ],
       "latency_s": 0,
-      "live": true,
+      "live": false,
       "outlet": "pluang.com",
       "outlets": [
         "247wallst.com",
@@ -742,7 +742,6 @@
       "first_seen_at": "2026-11-05T14:59:23.795Z",
       "id": "b7d7170ebb6a5",
       "item_ids": [
-        "016449068ae46826",
         "06642d99b7ff466b",
         "14a51f689f1a70f9",
         "16793386f18aadf3",
@@ -754,6 +753,7 @@
         "55e2abef4182a5bb",
         "629830ad6e40721d",
         "6630f341c6a2d662",
+        "66b3a4e11fddc3eb",
         "6ae23f76e4d0f9ab",
         "6b10eb6fc59b7d97",
         "7aada1c9dcbd29ca",
@@ -790,12 +790,11 @@
       "outlet": "theverge.com",
       "outlets": [
         "apnews.com",
-        "futurism.com",
+        "pcmag.com",
         "theverge.com",
         "ynetnews.com"
       ],
       "rule": [
-        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "sightings": [
@@ -832,35 +831,26 @@
           "url": "https://bsky.app/profile/theverge.com/post/3mzqaip63w42f"
         },
         {
-          "outlet": "futurism.com",
-          "published_at": "2026-11-07T15:51:00.000Z",
-          "source": "gnews-ai",
-          "tier1": false,
-          "title": "OpenAI Hears Voters’ Overwhelming Rebuke To Data Centers, Vows to Build More of Them",
-          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNaXhKdlo4clpCQmxEUVZnQ2VFY2p3VFpMVVdOM1Qtbm9vTkx6THlidzI2LTNtN1FIdE1HYXNhWFREWjZBNXZQT19DeXBCZ3NXbGFremJXMVFpbFhBUkJqUEpFWTlYMzRXSDBwcEFUS2tzRU40WnhsMy12bnFsSlNHNy1n?oc=5"
-        },
-        {
-          "outlet": "theverge.com",
-          "published_at": "2026-11-07T16:22:47.252Z",
-          "source": "hn-fresh-ai",
-          "tier1": true,
-          "title": "The US let Nvidia sell chips to an empty office in China",
-          "url": "https://theverge.com/ai-artificial-intelligence/1029483/nvidia-ai-chips-china-blacklist-government"
-        },
-        {
           "outlet": "ynetnews.com",
           "published_at": "2026-11-07T17:06:39.000Z",
           "source": "gnews-ai",
           "tier1": false,
           "title": "Secret US intelligence memo alleges Nvidia CEO had affair with suspected Chinese spy",
           "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBCbFJMM1M4ZjBBdHZ6SUxEcFBpM21qWFJtaTBPbFl0OEprM1JORHJvdURjeEp3ektKQUZJMWxEQ3lrTl9fOXdoREVDbTR4dGVoMmMyajkxVVZwRFBfNU8tUnFrdmJHbkFneFVzTg?oc=5"
+        },
+        {
+          "outlet": "pcmag.com",
+          "published_at": "2026-11-07T18:11:33.000Z",
+          "source": "gnews-ai",
+          "tier1": false,
+          "title": "Nvidia CEO Had ‘Close’ Relationship with Chinese Spy, US Officials Believe",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQQVI4SUdLQU9BbVAzVjdOZU40V3ZBR1d1ajJ3a1ZfU25PU3d1UVdPSWpsbEJVOTVzLTcyWV9VVFpmRmFmdHJ2OEhoUUYzNU9QYWwxX0RqaEt3STVPWGZQM3NBOG9XNVQzb3ZfQzZiYVB4RXJ0UmQ2aHVwNndRUGU5TjRFSFJ3UXNRWlh5RVhiX0ZQeFVYS1ZnQURycHQwTzQ1eXVvZU1n?oc=5"
         }
       ],
       "source": "bluesky-ai",
       "sources": [
         "bluesky-ai",
         "gnews-ai",
-        "hn-fresh-ai",
         "techmeme",
         "verge-ai",
         "wires-ai"
@@ -1802,8 +1792,8 @@
     }
   ],
   "fresh": null,
-  "generated_at": "2026-11-07T18:11:08.922Z",
-  "live": 3,
+  "generated_at": "2026-11-07T18:23:59.148Z",
+  "live": 2,
   "rules": {
     "keep": 30,
     "pair_minutes": 20,
@@ -1855,8 +1845,8 @@
     "by_source": [
       {
         "label": "Google News — AI searches, last hour",
-        "median_s": 1468,
-        "n": 88,
+        "median_s": 1564,
+        "n": 87,
         "source": "gnews-ai"
       },
       {
@@ -1866,28 +1856,22 @@
         "source": "latent-space"
       },
       {
+        "label": "Hacker News — newest AI submissions (2h)",
+        "median_s": 3901,
+        "n": 7,
+        "source": "hn-fresh-ai"
+      },
+      {
         "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
         "median_s": 4955,
         "n": 14,
         "source": "wires-ai"
       },
       {
-        "label": "Hacker News — newest AI submissions (2h)",
-        "median_s": 5439,
-        "n": 9,
-        "source": "hn-fresh-ai"
-      },
-      {
         "label": "OpenAI incident history",
         "median_s": 7817,
         "n": 1,
         "source": "openai-status"
-      },
-      {
-        "label": "The Verge — AI",
-        "median_s": 12592,
-        "n": 8,
-        "source": "verge-ai"
       },
       {
         "label": "GOV.UK — AI",
@@ -1897,9 +1881,15 @@
       },
       {
         "label": "Bluesky — AI posts from vetted newsrooms and reporters",
-        "median_s": 13373,
-        "n": 22,
+        "median_s": 13862,
+        "n": 21,
         "source": "bluesky-ai"
+      },
+      {
+        "label": "The Verge — AI",
+        "median_s": 14011,
+        "n": 7,
+        "source": "verge-ai"
       },
       {
         "label": "SCMP — Tech",
@@ -1920,6 +1910,12 @@
         "source": "the-decoder"
       },
       {
+        "label": "Reddit r/singularity",
+        "median_s": 22251,
+        "n": 22,
+        "source": "reddit-singularity"
+      },
+      {
         "label": "Reddit r/ControlProblem",
         "median_s": 22327,
         "n": 9,
@@ -1930,12 +1926,6 @@
         "median_s": 23089,
         "n": 17,
         "source": "techmeme"
-      },
-      {
-        "label": "Reddit r/singularity",
-        "median_s": 23487,
-        "n": 20,
-        "source": "reddit-singularity"
       },
       {
         "label": "TechCrunch — AI",
@@ -1999,8 +1989,8 @@
       },
       {
         "label": "Hacker News AI stories (72h)",
-        "median_s": 34651,
-        "n": 14,
+        "median_s": 34543,
+        "n": 15,
         "source": "hn-ai"
       },
       {
@@ -2019,8 +2009,8 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 8504,
-      "n": 294
+      "median_s": 8785,
+      "n": 292
     },
     "window_hours": 24
   }
