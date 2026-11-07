@@ -25,33 +25,33 @@ Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](ht
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-07 17:19 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-07 18:00 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
 1. [The US let Nvidia sell chips to an empty office in China](https://bsky.app/profile/theverge.com/post/3mzqaip63w42f) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-07 15:43 UTC · score 85.3 · compute
-2. [OpenAI says its new cybersecurity model is better at not hacking other companies](https://news.google.com/rss/articles/CBMijgFBVV95cUxOLVJhXzNhR2ZJZ19kVm5FVkQ4dVVwUDlRV2ZZUGZKZ2ZZai1HQ3VzSTV4RHQ3UlhRNjNZbjhCcUFRMmFIN21PMmpKNGpzanZqSE5xZ3VZeUtMc3o1M0NidFpvV3VWSlR3YWdYV2RycTdXZGtYazNsYW9OZGljZFJHdzl4bi1valBMT0cyd3N3?oc=5) — Google News — AI searches, last hour · 2026-11-05 17:00 UTC · score 85.3 · attention
-3. [Microsoft Is Winding Down Oracle Deal to Rent AI Cloud Capacity](https://news.google.com/rss/articles/CBMitAFBVV95cUxPeXFhaDRlRjBvZktGaFM2eExYdGpJakRNazYxc2Y2UWoyMDJzS1VFb2Z5ZTNkSVhMRHBTbUdtb25kZHJUdkpRVXRQU1hQVGtIbS1maVNoeGhSZ2pHOGF1aDY3R1AwSTU4TmlmSEdEc19RYlowVXAzc0NlSzdVZ2xBZXduc2FzT3ViQ0xDS3RYdklKMzFnVzRtUkZKQnVBWlBDTWtGcGZUU01ZSktQTG5aOE9lbXE?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-06 17:36 UTC · score 81.0 · attention
-4. [Free Chinese AI Models Are Getting Scary Good at Hacking](https://bsky.app/profile/wired.com/post/3mzo2gd4b7e26) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-06 18:43 UTC · score 75.9 · attention
-5. [Anthropic launches Personal Finance in Claude, letting users connect bank and credit card accounts via Plaid with read-only access to analyze spending trends (Radhika Rajkumar/ZDNET)](https://techmeme.com/261105/p44) — Techmeme front page (AI-filtered) · 2026-11-05 18:00 UTC · score 74.5 · attention
-6. [Perplexity launches its own take on AI agents for work](https://bsky.app/profile/theverge.com/post/3mzlw4yb5bl2g) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-05 22:26 UTC · score 72.8 · attention
-7. [SoftBank, ABB Consider China Carve-Out to Salvage Robotics Deal](https://news.google.com/rss/articles/CBMirwFBVV95cUxPTWhOZ29fWXk2aERCZC1HVmhTY0k3VjFfV1pGZGpuengxTEdRNndXX2NHNWtXdXozbzFuRmE5QWtpT3lqZVEtQ21NZHdpS2NiOHB4d05SUUI3MVcyMkhJS0QtQlhRM3JTU0dITkhobG1fQ2NxaUE5QjZYeVA5Q2xfUXRvdHdYX2NiVWZMMkV4WDdGSjd1QXc5czFLNDFNc0NSdFJBcjducXc1ZERUR1pv?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-07 08:39 UTC · score 72.7 · attention
-8. [Amazon rolls out text-based shopping through Alexa](https://news.google.com/rss/articles/CBMisAFBVV95cUxQQkJyc3dlTThDcC1Fb05WSGRoS05GZEdfN0FfZjZHaE5kNVVWYm9Nb1dXQ185YzBPVmgxTE9rUHJMTE1iVEdZcDdBVEZxclQxTkhuRkVBd0tkMnBpVTc0WmFjZW9HSVVFeU5kbjBDQUVwcEQydWRLM05nMWZZV3BpTXVUelFHRnZWaWlWZDhUNWh0UGxTYzlQbmc4LVVUWEtJN3ZhbERqelRHTG1NQzZQUw?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-06 14:03 UTC · score 71.7 · attention
-9. [Anthropic is rapidly accelerating AI development amid slowdown calls, outside research group says](https://news.google.com/rss/articles/CBMingFBVV95cUxQeU5MeHUxWDhnY0d4UE9OUFVjSWpLVnd1UEw4a1ZiY2EzaU85b2Q0NHFlRkFGMk9OakM1VjVVTzB1NnktZ3RKaW9MQ3ZlOTItV21ZcUd6WU9zQVRyZmRvN0FPYXRFbEZ6aDBCdENjZHRoV3pFWUJoelZEN2xaNkFKZUYxVXFhUWtjTjEtbTdKMnBxRVBUMFUwMmo3Q0ZhZw?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-05 20:00 UTC · score 69.2 · attention
-10. [LIVE: Protesters break into Microsoft data center site in Amsterdam www.youtube.com/live/zpeZxS-...](https://bsky.app/profile/reuters.com/post/3mzn7z4e22c2f) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-06 10:58 UTC · score 69.1 · compute
+2. [OpenAI says its new cybersecurity model is better at not hacking other companies](https://news.google.com/rss/articles/CBMijgFBVV95cUxOLVJhXzNhR2ZJZ19kVm5FVkQ4dVVwUDlRV2ZZUGZKZ2ZZai1HQ3VzSTV4RHQ3UlhRNjNZbjhCcUFRMmFIN21PMmpKNGpzanZqSE5xZ3VZeUtMc3o1M0NidFpvV3VWSlR3YWdYV2RycTdXZGtYazNsYW9OZGljZFJHdzl4bi1valBMT0cyd3N3?oc=5) — Google News — AI searches, last hour · 2026-11-05 17:00 UTC · score 85.2 · attention
+3. [Anthropic IPO Valuation Could Be Slashed in Half to $1T After AI Stock Rout: Report](https://news.google.com/rss/articles/CBMioAFBVV95cUxOV3F1cGU1d1ZyNnlubW9iaE1JVTVrRUNBdU56R05BUmxVaDRNNGxkWnI3by1qd2JPQms3dUNBT2tTanF4NGdGNzdudmd3STJsemJWc0Y2TldNNGE5RXFqdEVIQ3hXNG43dndYcWhTY1UxTUNGSEdzQmRuZDR4OE1BWEFJX1d0N1IxNlVvYkFjam93OEhPSThtdWxfcnVyVkta?oc=5) — Google News — AI searches, last hour · 2026-11-06 16:28 UTC · score 81.8 · compute
+4. [Microsoft Is Winding Down Oracle Deal to Rent AI Cloud Capacity](https://news.google.com/rss/articles/CBMitAFBVV95cUxPeXFhaDRlRjBvZktGaFM2eExYdGpJakRNazYxc2Y2UWoyMDJzS1VFb2Z5ZTNkSVhMRHBTbUdtb25kZHJUdkpRVXRQU1hQVGtIbS1maVNoeGhSZ2pHOGF1aDY3R1AwSTU4TmlmSEdEc19RYlowVXAzc0NlSzdVZ2xBZXduc2FzT3ViQ0xDS3RYdklKMzFnVzRtUkZKQnVBWlBDTWtGcGZUU01ZSktQTG5aOE9lbXE?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-06 17:36 UTC · score 80.8 · attention
+5. [Free Chinese AI Models Are Getting Scary Good at Hacking](https://bsky.app/profile/wired.com/post/3mzo2gd4b7e26) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-06 18:43 UTC · score 75.8 · attention
+6. [Anthropic launches Personal Finance in Claude, letting users connect bank and credit card accounts via Plaid with read-only access to analyze spending trends (Radhika Rajkumar/ZDNET)](https://techmeme.com/261105/p44) — Techmeme front page (AI-filtered) · 2026-11-05 18:00 UTC · score 74.4 · attention
+7. [Perplexity launches its own take on AI agents for work](https://bsky.app/profile/theverge.com/post/3mzlw4yb5bl2g) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-05 22:26 UTC · score 72.6 · attention
+8. [SoftBank, ABB Consider China Carve-Out to Salvage Robotics Deal](https://news.google.com/rss/articles/CBMirwFBVV95cUxPTWhOZ29fWXk2aERCZC1HVmhTY0k3VjFfV1pGZGpuengxTEdRNndXX2NHNWtXdXozbzFuRmE5QWtpT3lqZVEtQ21NZHdpS2NiOHB4d05SUUI3MVcyMkhJS0QtQlhRM3JTU0dITkhobG1fQ2NxaUE5QjZYeVA5Q2xfUXRvdHdYX2NiVWZMMkV4WDdGSjd1QXc5czFLNDFNc0NSdFJBcjducXc1ZERUR1pv?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-07 08:39 UTC · score 72.5 · attention
+9. [Amazon rolls out text-based shopping through Alexa](https://news.google.com/rss/articles/CBMisAFBVV95cUxQQkJyc3dlTThDcC1Fb05WSGRoS05GZEdfN0FfZjZHaE5kNVVWYm9Nb1dXQ185YzBPVmgxTE9rUHJMTE1iVEdZcDdBVEZxclQxTkhuRkVBd0tkMnBpVTc0WmFjZW9HSVVFeU5kbjBDQUVwcEQydWRLM05nMWZZV3BpTXVUelFHRnZWaWlWZDhUNWh0UGxTYzlQbmc4LVVUWEtJN3ZhbERqelRHTG1NQzZQUw?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-06 14:03 UTC · score 71.6 · attention
+10. [Anthropic is rapidly accelerating AI development amid slowdown calls, outside research group says](https://news.google.com/rss/articles/CBMingFBVV95cUxQeU5MeHUxWDhnY0d4UE9OUFVjSWpLVnd1UEw4a1ZiY2EzaU85b2Q0NHFlRkFGMk9OakM1VjVVTzB1NnktZ3RKaW9MQ3ZlOTItV21ZcUd6WU9zQVRyZmRvN0FPYXRFbEZ6aDBCdENjZHRoV3pFWUJoelZEN2xaNkFKZUYxVXFhUWtjTjEtbTdKMnBxRVBUMFUwMmo3Q0ZhZw?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-05 20:00 UTC · score 69.0 · attention
 
 ## Leaders most covered this week
 
 Stories in the press naming each person over the last 7 days (Google News search). Coverage is not a statement by the person.
 
-- Elon Musk (xAI): 459+ stories
-- Jensen Huang (Nvidia): 290 stories
+- Elon Musk (xAI): 460+ stories
+- Jensen Huang (Nvidia): 289 stories
 - Sam Altman (OpenAI): 184 stories
 - Alex Karp (Palantir): 153 stories
-- Mark Zuckerberg (Meta): 149 stories
-- Greg Brockman (OpenAI): 102 stories
-- Dario Amodei (Anthropic): 64 stories
+- Mark Zuckerberg (Meta): 152 stories
+- Greg Brockman (OpenAI): 101 stories
+- Dario Amodei (Anthropic): 65 stories
 - Mustafa Suleyman (Microsoft AI): 56 stories
 - Geoffrey Hinton (University of Toronto): 53 stories
-- Sundar Pichai (Alphabet): 41 stories
+- Sundar Pichai (Alphabet): 42 stories
 
 ## Takeover Watch
 
