@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-09T14:30:13.290Z",
-  "news_generated_at": "2026-11-09T14:30:13.290Z",
+  "generated_at": "2026-11-09T15:13:00.200Z",
+  "news_generated_at": "2026-11-09T15:13:00.200Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,58 +18,36 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 222,
+    "headlines_naming_a_company": 217,
     "companies_on_roster": 10,
     "companies_with_headlines": 10,
-    "negative_pair_share": 0.204
+    "negative_pair_share": 0.213
   },
   "glance": {
     "leading": {
-      "id": "deepseek",
-      "name": "DeepSeek",
-      "index": 6.9
+      "id": "xai",
+      "name": "xAI",
+      "index": 12
     },
     "trailing": {
       "id": "nvidia",
       "name": "NVIDIA",
-      "index": -9.4
+      "index": -9.6
     },
     "most_discussed": {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 99
+      "headlines": 100
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 11,
+      "headlines": 9,
       "index": 0,
       "mean_headline": 0,
       "sample": [
-        {
-          "id": "f1609888f9f5db1c",
-          "title": "Apple, Samsung turn to Chinese AI firms to boost competitiveness",
-          "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9iTW93dHVoR2xoYmJhVnRoQmJfY01PUUFFdWYxa0hNQzZuXzdSWkRSZ1RRdHVPQ2pjWFJ5b1ZhVWJUTnA5UldGUGl3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:28:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "bce043794dc0ce51",
-          "title": "Apple Registers Apple Intelligence For China’s IPads And Macs",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPdndIaUdZVVFqMU02QS02T1NiLTc1SGhQWlZ5TndVcnBSQVZ2bDJHbVdIZ05wSTg4MFB2Wk9Eemk5N3U5N0ctMmM3TlMyc1ktd0stNmRlRGZMT0ZfREUtTWw5cXA0bEpfRHgycGI0YlY3UTlQMVZVVnhmVmJ4X2ljOFFyMGJHOEF4WHRlekZ4MGRiY1k?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T12:59:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "325bfabf5362da84",
           "title": "Apple Intelligence AI service registers with Chinese regulator for use on tablets, laptops",
@@ -135,53 +113,59 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "openai",
-      "name": "OpenAI",
-      "headlines": 24,
-      "index": -6.3,
-      "mean_headline": -0.8,
-      "sample": [
-        {
-          "id": "73a6f121af620da9",
-          "title": "The Week Ahead in AI: OpenAI Hires Hactron for Probe, Anthropic Details Claude 'Dreaming', Post-Election US AI Safety, Plus Upcoming Earnings & Events",
-          "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxPUFVBR0Jmd0JaTWd5cXFTczBnWV9mREJrd245d0I0QV9JdnhFUl9DZmhUNTZJRmdCUkNtM2d4MFB4OUlCZlY4M2ZyVGxZLUJ1d09ld1R0N0JjUDRYa0FOMmNLZnhvZ2JEdTNmYWhUV29LS21EOTVkNldHVmhja2t2bmVpT196YjdMU19SUGhRU1ZlTTA1RF9uQ182OVFMY2VBUEV6WEVhUks0WE9Oc2dXMHJZdTI0OU14QkZ4bS14c2kxYk93SjZYOVhNWmZyY01HVWJmcElFT3FtbDR3LXR3MXA3MTViTTI2U0RyZTVGZnh3WjB6cEczSTFWclFQSWNwbzdyUkhuNVFuYWcw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:25:02.000Z",
-          "score": -1,
-          "positive": [
-            "hires"
-          ],
-          "negative": [
-            "probe"
-          ],
-          "clickbait": []
         },
         {
-          "id": "cdc2600bc8f157f8",
-          "title": "I tested OpenAI's Dot and Anthropic's Duet for weeks - and all I got was one helpful notification",
-          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9Cc1c4dEI0UGc2YVZJdkhjWHBPel8td1hJVXlOT28wb0V4c3gzaHVZN3dFcmlRWjJ6QUYtM1VYWEVnTGpiLV82OVktQVpWSWdTN09iRHBMNkpaZVdVRktmWkdHeFZPc3FfNVR1a2FWZjZ1RXlvcTE0SExnRnd5TkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:24:38.000Z",
+          "id": "13db5ec6c3874478",
+          "title": "Chatbots might be coming to Apple’s HomeView",
+          "url": "https://bsky.app/profile/theverge.com/post/3mzsoomv6as2x",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-08T15:04:22.704Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "892d127d61e5eaad",
-          "title": "Third Lawsuit Over Project Camellia Alleges Fraud, Conspiracy Over OpenAI Data Center in Effingham County",
-          "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOd3FJVVRVMTlEVjdNUkdoTHRJd3BHd1E4eERkRjRhOU9uZjZSbHgwckp2cjV3c1RGOTFPdlREMEI0MFFlZEo4NF8zVU91N2Jfdjd6SzlLRU1DYjQ1SUd4VnlQRXBJQ1M0MkNkRERULW5nak1SZ2ZJRWV3Rjh6Qmo2Mm54NTU2dlgwNURYSmRHc0ZHVXVyZjdvZ0dsOFNRMWRqd0hibDY2aTVadDZqUUFZU0kyd05YVGQ5ZmNzekt5S0VvWFJEYXdiU2VIQU9IZUlBRmJWbVdlLTNUY3NqM0pvRXQyd0RVZDEwXzlENnhYN3V5SnFVaGQ0NTJ5VUE5QQ?oc=5",
+          "id": "b81cde62a40fb586",
+          "title": "Apple CEO Presses Software Chief to Pursue More Ambitious AI Strategy",
+          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNQjlhNk9NU1ZVZFo4UG9TR3FmcGxtMWhnY3o4R3dJNGxHc3E2QlR4cmlOSDBuU2JHLVFnMlpVYWtneGxacHhOZWM5bWNJWndxZndxdEstamJjenMwaFoxT3RHSXg3Q2E3cC1pdDM1bm16VkJPak43T2xLRkNvTE9QNHdTRjdfekNGbXJuMFNrcWJ5OGpxR0x3OEJPTll6bHNOaUwzc1E1OF9DQnRZdFZBRXgtN0VYeEhUTTVOa3RKdDlrVU9keXNDOA?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-08T15:00:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "headlines": 23,
+      "index": -4.9,
+      "mean_headline": -0.6,
+      "sample": [
+        {
+          "id": "a58e60ef08d426c4",
+          "title": "Effingham County residents sue OpenAI, county officials over Project Camellia data center",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNVjk2dktaLUFOeU5BRmFhOFZGeXQzMEpEYTlNZGRNbktoOWFFZmxYSnUzRWM0UGdKQlFoVTF0c0piY1dYaWhpWmlZMHBaMVZIUElmOGxfYVBhR0tMVGQwblhUVDRJeTljRE9fM3Vhal9fWXNKTC1qWGVySTZfUEJXeTg3SENkOEYzRkM4MHRDdjdXdGJOQjR6aEp0eEhnMV9oTTRjaG5wWk9SeE55ekYwcWRFSHFIbGRFdWpSb19n?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-09T13:00:29.000Z",
-          "score": -8,
+          "published_at": "2026-11-09T14:40:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4884515f9080b08e",
+          "title": "OpenAI Hopes to Ease Backlash Against AI Data Centers",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQeFpEeWNEZFpZMUFTc091cjNuQWtXdEdWRW5xcWtRMEtYdXNQQXVHbzJ0YUYzMjFtNzVGR1BNOW45VENkRkkyZ3ZFWXIwR19GWERuSnVyVHB0YU5uMGVPWDVRcl91UnoyM2xHNVNlaU5Td0tCZ2NlZnkxWXF6RDFzS2RzUnBmNHVNSk1sS2dqc01HMEw3a1JHNHRn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:39:34.000Z",
+          "score": -4,
           "positive": [],
           "negative": [
-            "fraud",
-            "lawsuit"
+            "backlash"
           ],
           "clickbait": []
         },
@@ -241,35 +225,79 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "02a78d56b4ac5915",
+          "title": "6th-grade Peano arithmetic broke OpenAI's $100B Yang-Mills mass gap proof",
+          "url": "https://github.com/Dr-Logvinovich/round-square/blob/main/README.md",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-08T08:23:27.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 99,
-      "index": -9.4,
+      "headlines": 100,
+      "index": -9.6,
       "mean_headline": -1.2,
       "sample": [
         {
-          "id": "ba5e0c7d2e20ac34",
-          "title": "Telekom Doubles Down on AI with 20MW NVIDIA Munich Site",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQdXE1RjgzZVdKWG55UlZhNWVocXladm1rR0RINGxyUHB5aVdrUXl0NHBEME1xeW1nTWxzWFFtU2s1c1U4cVNPY2w5d3BCVV9yRnU5ck9zSWRKaElmMXZieWZDTHNUTkxSUXV3c1l0U2J3dzJ1b1R6NnM3SEtUbWluNGIxNnBZSFpNSWJQVjExWUR1eVM5QUE?oc=5",
+          "id": "6dd50f7eece849d4",
+          "title": "Wall St rallies after last week's AI rout; Nvidia falls",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNNldnOF8ybWVHdkNyWXAxOG1mSFRERGpWNlpaM2N6R1ctTUk1MDZEWlR4aEtWZ1RlT092T1NtaVBfbDRtWmItVi01TWpzV3BIdTRDUDJUblRwSkFSZDl6S0J1NE42bzE4bEsxVGMyeURKR3lTbmlYNTRLQnM2TmFCQ1JUZkJ1aFppVURGQjkxSk1PVWtCcEF1Sy12SlB5a3UyaW5lVkhkMWZtTktaclE?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-09T15:05:39.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "04296f396760912c",
+          "title": "Jensen Huang Is ‘Core DNA of Nvidia and Its AI Success’: Dan Ives Says CEO ‘Not Replaceable’",
+          "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxOUlJOYTIwOXdSbno0ZGZFdW1SWUh3aDc4TVNRVXNzYVJmek83SHZwR3ZjaHZHUkRTMWZMSERkeTNJa1dzZkgwS01kRXZ0VERoMFJGUnFDSExrUkdXWC1GekozQkg5R2t1eWhfV3paVUdKUjljc2V0cVhtbFhOY1JtSmpXNUpDcmpKV1dZVkdwdWY1bm94UF81dVZCenN4QndRX2J5RHNjSmk3ajhUUnY0Uk5xQVVfTnpKVHNBamVPYVJPOHBIZnNBdW1SZXBFLTJFNnZBMUp3d0gwdnZTakNsY2tkMlVQZ1RSTmcyTHFUeE0zWmgtQ1E?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-09T14:28:26.000Z",
+          "published_at": "2026-11-09T15:04:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8830f08194a085f2",
+          "title": "Nvidia Drama Explodes; The Startup Tricking Scammers by Using AI Agents",
+          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQeFNlQUVnUXdMWTQtTUtWSEVUcTJTSVRSRnZzcW1QN3ZmaTR0YzJRbVJ5SVJ2VmJzSmdhOTNLMzZST0o4Y1BWTTRSRV94ZXNDaUFhNzZyajRtbHdpQlB3WmhONkl3LUx6Y2QwUWhUVUlYb0NqWTBONERnZTVvT2FfaFQ5al9UU2U1b0dDcFRLbkVNUjdmaUdXSmd1VENScWVyOThjYjk4Tm1lU0lGMGtSTVEwbmsyUmc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T15:01:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1744960920844e92",
+          "title": "Nvidia stock crashes 9% in worst fall since DeepSeek shock; Jensen Huang loses $15.1 billion as AI stocks tumble",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOaGh3T1JTdlBNWjJSMWM1bTUyVXZlMlRfUElqNkk5RlZudGV3WmhYZHB6UmtBX1hjOHkwZUhZb2J5d2ZrcmZaQml0WHMtOHZHbGZHR0psNkN5Nkh1M1FjZEwtZm55dG4yZi00SE5MaEdoS0dJUGxBRWFWdF94emxIUVg3Sng0NmszQ2tqNldTdkM1YVZYZS1uZ29MamJUMktGRjNGN2U2cmJURE9fRE5yT25HRk54bTZIU1BpWkNENA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:51:41.000Z",
           "score": -4,
           "positive": [],
           "negative": [
-            "down"
+            "crashes"
           ],
           "clickbait": []
         },
         {
-          "id": "12fb5e9836e82aee",
-          "title": "Nvidia: Investigation Into CEO Huang Casts Dark Cloud Over Company's Bright AI Future",
-          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOZ3BNcW1GcGJMSU5ic0JZWjJLSFVCYms4NU41U21PZDdpdjBJQjNPYmdoY2ZGUUNTQndPekNOMDlGODl1VFhtYTJKelRxdzBYQlYyX0FnVkJRc01oVVBpSmcxRDFJa0pKMnZaWFhpS3UyRmdQYzVRRmRCZTIwVUVjdDNCV0Fyb3MyRFhaTXg4ODNKRGF3Q1d0OXQ4WHNUYzVsVzZKcEoxZC1IcVZxZkdRN0lfZlpyMGRIa0ZfaEtLOXBYUExPdHc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:20:32.000Z",
+          "id": "15d320d9ca97d366",
+          "title": "Who is the suspected Chinese spy at centre of the Nvidia investigation?",
+          "url": "https://bbc.co.uk/news/videos/c80404zyr53wo",
+          "source": "bbc-tech",
+          "published_at": "2026-11-09T14:50:35.000Z",
           "score": -4,
           "positive": [],
           "negative": [
@@ -278,71 +306,42 @@
           "clickbait": []
         },
         {
-          "id": "75ba13e444ef0ff0",
-          "title": "Chinese AI lab that Dario Amodei complained to the US government is targeting Nvidia' most-powerful chips",
-          "url": "https://news.google.com/rss/articles/CBMi9AJBVV95cUxNQlIyM2dSMWdKdDZMdTZhR2c1cFhzbl9XNGk5blpYcTltZEJ6aThXSXFaZ3ZNME5LX0VxaFJnUGQ1b0pCeWEzMTBIeVZ1V19jSVlfRHotbG12QTdYT3JTUzV5aXZ5bkwyZGdKMGxseHhfaGZ3Wk92djZjZmQ0bTZQNkNOQkVZOHRNTDZ0YnR2WkFHV2xfMDhFQVhfcHBSWHY3VXlteEhIWXRYbnRMS0lZRW92QUowQndmVVE5dy1kRzRvUWdZX2dJVkpGX2UwR0JsbTNCYVZueU1qMGRSRkY2OXhCWFpXcm5JaWZHUUZzTTljdnJ2eERYSHVXbmZKNlMzSElTb19qOS1lRzAtcTlsY1NNWmRYWTdYZ1N5UFNzNklNLVZJN1VadW8yaGo3TXdFUFBJUEpRUzc2UzBDeDZ6VmtmQ05xMENzN1hCSnU0S0pscWlDaEZDbkRuVTg2VmczTjJTd2RIb3ZkaTVPemx5aEVBMFrSAfoCQVVfeXFMTUJhdHdvUkhrVDBZVzFKdjJxd0NXX1hWY3ppdUxONVVMcFpXQkNhRFFuUFJBN2RjS1YyamlJUmt3VEQxRDFaSU5PQXl0VHV3NzlZTWpmeUJlTHlwUmJRT3ZfWkhZUW1weGJEVzE5QUdrQjVnaFJZSVhRQzhLZVlSNWdNSGVLYktud3N6QkdLS1U4VldKTlZHbE40RVBoTVJEX2JWVTItZFNwTUduamtuMXF6VENhN2UxeEVMWnN0aUFqSFVZLWNRY0hUdjVBeW5PQS0tSkhLUVJJSF9aNkoxdTNyQmdzbm1wZGJkNno4UThHQy1TVlZDYjNMbHJqWjM5SkNITjgzME90NlFJbFE3WFRQLVpvdE8wRnlDRURUWnJVcl8tdkRxbVNkc1FSb0UxRUU4aU9FVG1HZXNIbE40UFJJellGbWNwV2xNSzFheklZb1RhR0ZzSUNJMDNZSnpLcExjcWtMbF9JbGRDbTNHWUJxVEhSX3p1SThB?oc=5",
+          "id": "cd17579593f4a953",
+          "title": "Google Expands AI Chip Portfolio as Nvidia Faces Investigation Involving CEO",
+          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQUG1mU0tBNXRldGVkb2toaS1wN3lYeU1mQkdPdElnV1dKX2dlMlNxaHgyQWt2OUZZS2x0UGNVYk1HSHQwMGZsaWtaNFZTOElYOEdwQV94Nnd4OFNmeHBfMlM3T0k5MDJFZk80c21OeHRrNmwtR2tfaWJ6RGdMcDQ4eGhYVUIzZ251cEpIaExfbE1KbXhIR3JNbjBWTlU?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-09T14:19:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "eb1488f3b6a2512a",
-          "title": "A Famous Research Report Says AI Spending Has Peaked. Should Nvidia Investors Worry?",
-          "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOVDZ1MnQ5VFl4d21pTzZkclpnSWhqdWo5ODRMUHFlUVl5Vk5POWhBNTZZWmJ3TEktYTVXRWRianI5VWdtV0hacTBJTFpCWnJKWWptdExRSDFiY1dLNW1aS0VQMnNMQ2tTVEpmcEtTN0ZPRHJBanNvRGRHWENUQjZGYzZYOXNWSzlHclFxUXdfZ093SFl1SENMVUNjQTh2aENfOWJsMGVHWkExRGh3SVFNRnRLcHZIeGlzWmFlOEp2MWpGRUJrenR2ekRYV1MyZ3Fub3A5TkRXN2FGeDA3dm9teGtSRmljUFJGYW5ubENPY0pLaTJJb1cwTWhBeVFkUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:12:30.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "be15e45179f37970",
-          "title": "Jensen Huang Net Worth Falls $15.1B, Nvidia -9.26% [2026]",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOQkJWdmtid0stMFUtbnFUaHdGYUlocDVWT2dvMS0wbUNFMU9mdW1uZ1U0b0QwQ0ZrRmxhYzBMS0pfMHlDcEZSU1dxS1NRZ20wVEN5QzNMeVppWTFrVjBQcEpfajNjRy1zUnNFeG9oYzA4cE5zYy04ajR6aEVlT2tWOFVwWkZwV1BodlMxU21oUkpSZTdxUjJZcGthUEtzMXdy?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:05:56.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9affa5776f31f6ca",
-          "title": "SK Telecom, Nvidia work on South Korea's sovereign AI infrastructure",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPMXRNTWwwbTlhMWxJcHhweFhhaFRMdWdUZVhtbkFzYkMxRnVhbWdoenlYNjg0UHU1X19WUldLQ3R0ZlFHTER4NjBsVkplcjk3bklDM1U0aGQtSE40di0zWmdCZ3pXYWhja3FKVVVYSkpCS0wwUXdSYmNoeW56NmZDUGxiTlNXVC1EMnYzUlNJaUxqNW43V0t0aHd1eE9TUF8tRWhIYjFNQl9ZeUtPamdGUDVB0gG3AUFVX3lxTE83N3R5WXRDZVNLUDdWX044WFNTdXBsYnV4dzlBV2JEaUlaUnpEX2ZzRjVHVGNSbk9fRGV0M1N1Y3YtUXd3Ylp1UFlpMUZTS3QwM2ZDOFdZeXJLM3Q2RWF3MVR5T2ZQUDlDblNqY2k1eGxhNGxRa0lNVnpxSFNfa25tcFVtSmp0aDRPRlcxRzg3Nmhpay1Ca01ydk9HQlJVN1AwZ1RvWkQ5ell4S1lWYkNUTDc0X0hzSQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:01:30.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e9d73684b6020c5d",
-          "title": "‘I have fallen short’: Read Jensen Huang’s letter to Nvidia about his affair",
-          "url": "https://bsky.app/profile/washingtonpost.com/post/3mzv3lebmxn2m",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-09T14:00:32.729Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6e07690c27eb09da",
-          "title": "Practice Makes Precise: At CoRL, NVIDIA and Partners Reveal How Robots Rehearse Delicate Work in Simulation",
-          "url": "https://blogs.nvidia.com/blog/robotics-simulation-advancements-corl",
-          "source": "nvidia-blog",
-          "published_at": "2026-11-09T14:00:01.000Z",
-          "score": 3,
+          "published_at": "2026-11-09T14:45:36.000Z",
+          "score": -1,
           "positive": [
-            "partners"
+            "expands"
           ],
+          "negative": [
+            "investigation"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "1e660d22960b6c3f",
+          "title": "Nvidia-Backed Cohere Says IPO Timing Uncertain Despite Surging Revenue",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQX0xzbkZDSktlNl9LTFZWNENQTXgxT0gtVEVNclBXMmVTVnFuVU9BeTBwc3h0UWtXU3RkTzF2dUVzQmF5UXFzS1BDQWlmZHBMbzVhakZfRTZYSExTcEJqVjhFTWlwYkRyNFFxME82WmJLQ21jSHFfenFBc0RFemJ5VHMxMVhSYXY5SkRDRkQxRzcxano1OWZpUDFKQXhkMUhGQ0ZjbU0zNEt2OXRDTzQxcnhlRzMwV1Z3WFF3?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-09T14:34:31.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b457edc5cee99756",
+          "title": "Nvidia faces defining test as Jensen Huang probe adds to chip stock turbulence",
+          "url": "https://scmp.com/tech/big-tech/article/3373825/nvidia-faces-defining-test-jensen-huang-probe-adds-chip-stock-turbulence",
+          "source": "scmp-tech",
+          "published_at": "2026-11-09T14:30:07.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "probe"
+          ],
           "clickbait": []
         }
       ]
@@ -350,15 +349,87 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 38,
-      "index": 1.1,
-      "mean_headline": 0.1,
+      "headlines": 37,
+      "index": 2.6,
+      "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "200ac630e2117825",
+          "title": "SpaceX’s Anthropic Deal Catch: Musk Says Clause Cuts Both Ways",
+          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNeWtRMU5jUnhGbXd6Um4xRkhCeUFRYXhsNWxpVGRfRU5EWjFLZ3JkNlk3QW5OYnBKRHpSN1FCakoxdXpaNXZCdUtsUlVFeFljc2ItMXE0cnBEYi1xMzN0MzhhaFgwZjdEMlc3anBaMGZoQ3JSUFdYY0I2QWliMEp4UU90VmpDb3RJRXFkcGRLWGg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T15:01:34.000Z",
+          "score": -1,
+          "positive": [
+            "deal"
+          ],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9fb3435b6205098e",
+          "title": "Chasing New Frontiers: We See Anthropic as Well Placed to Capture Value in an AI World",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOTHNiVXQ0bUxYaVF0ZDBTS2FlbDRxd1FmX2hXQ3p5NGRSYnlrZW9xU0F2X0tTSVdDSDVYbjc4TDZMQlFRZThCZFhuYnNqZ2VWb0s4Q1duenBYSVhDUnoxWm1DV3NmcXA1eDVYMUYtal8xSXVUdW0wMmxnaVdUNURYTUJOSV9WdEk4RjRfQ1ZHZEtDazBKcGJFQm9MbHJsdTRKbmJJcldsLV9hQ08tRTNSOG1LTjlxRWxaSHl5Vg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T15:01:14.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d5c323de6d37f773",
+          "title": "Why Morningstar Thinks Anthropic Is Worth USD 1.7 Trillion",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNckZ6azhxdE8yUUl1Y0JUSURFc3Atb0REWG1RVlp0QkJrVmN6Y0NPNXNfMWh2OTVhTS1FNGlxMEFBd3J6dGgzZk1zMkE0Q255UFJYaHVncXNfd0xudkx3QjNsU19KMi1OdXVCbXJCdS0tMEZCR0ZPNWw1VzhZQjZJWUg1V3hjck5NVkFwdzNVMW9BM0ZBVTVqWUpuZ3A4WEZWcWdV?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T15:01:14.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "09fb694784bf1a60",
+          "title": "Anthropic IPO to Test AI Industry's Financial Viability",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNeTJDUU11OHd3c1RRWWRaVEtYdWxCdlNCWGVMMUxiM1BLLXEzM1AyOHJyS2JlRGM2VG1DcGdzR1laV21seHBYaVRuSS13ZmNoY2xjSzVnUnVLXzl1QVdlRm44V1o5LXd6eDRGblZFZDZXWFVPRlpFdDlQN1h6MWZIaEhiWmd5aXBESng1MThuRTVlVU03VzBhQ3FKSQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:40:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2c570a0ae5140c3c",
+          "title": "Anthropic launches personal finance feature for Claude",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQZnliYnF5anhVNl8zR2c1NXZaX25yQWZnSWNoMlJfUHBqeDdsQjVmZDQ1MWM4RmtjalFSckdCbHZCc1l1RU9ReXE1T1NCUEpqUlc0ZXliaW5pYlpKVGhLclViNnZnSDItcDI1Unl3Q1dvaW1jenFIaGxYdXpmX2FiTjB3Z19aSzBoa3BXWEhGZHVuRHlmOHc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:34:45.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "615a496c0612307f",
+          "title": "US stock market outlook: AI sell-off, Anthropic IPO and Nvidia earnings keep investors on alert | Hindustan Times",
+          "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxNZldfS185cUlybkJKaE9DakZkV2drWVI2bWhOUmFHZC1DZDF5Y2tranQtU1BGV0hZQjI1REFWOVRBWEt0amFOWUg0dGtqbmthOUVEdGZaMUI2aExRWUlzajJMT1JyeDBEd0RyN0NvMXJtNkhjaE12eklmbHVYYnBUYzluc0VlcWE2WVlTX3BVZkxVa0hPVFRZZ01aOGhJZ0pycVp1dVc0NUpNM2p0NU1td3YyYTBMVXFma0lyem5wOE5HaFpFUnpaQk1NYkx5U09GdmZEdEV5WWJIbk5CczdrYjZsR1NKdjdqRUk0SUtSRHllWXZVUVI00gH8AUFVX3lxTFBtZlpTSXlTTXhVQ3RBamU1ZEhoekJ6YjI3ZXR2NENGZ0lleU9fWnFIRjVVZnB0NU9uUmNpT3FiZjV0a2lFOHJlQU1tTHJ4NGQxa3pOVUk2WDl1ZE1WZVp3NU45OHpnVU02Y3pGTzVmS21TMW1oX3VRNTRmTF9hSUNUVjN0c2plZ2lVOXgwVHZGT1B0Z0xTM0hpLUlDQ3JFc2FYdE10Z3l3Tmo3SFNxVkVOUU5IUmtROGR6eHY5LXZ3STdPRTRjZklDNEhrZXNnY3NlN2FLdHVUeUJmR0ZtdWIyV1lPYWo4MUJqU2FndVZVY0QySnpHOG1VLVRnMw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:24:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "08c58059d1b65333",
           "title": "Anthropic IPO’s Moment of Truth Nears as Waiting Period Expires",
           "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPR18tUkxpWXdHY2ltZ01ybEpIbWJYWHpmQmxkTWozQkxadVBFeGExUGJHZ3pCSXhNLThmTGJvTjNiU0h2bmZ3dEhmZjQ3ODliTks5Y1J2bDBLNGJ6WWo0aDFFOEZtN1pRZXlCRk9TV1pmb1k2alIwcDhwSVA2V3ktTGNtd2ZGTHBuMzg4aG9nRHZqSzItNlF0RVZzN3VsdmFGTm5McEtHOU55cXZZVW1uOXJ6cnU?oc=5",
-          "source": "gnews-ai",
+          "source": "wires-ai",
           "published_at": "2026-11-09T14:20:12.000Z",
           "score": 0,
           "positive": [],
@@ -375,101 +446,16 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "4407a2e8589f125d",
-          "title": "SoftwareOne expands AI push with Anthropic Select partner status",
-          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNQkdkOFNqX0tCNVRMTTVqemZROUQza1Fqd0dOMGhtMWtxUV9FZzBZUlV4aFNKQVc5cWhPeVBuVXo4UExXaGJuVmQtREJoWi1OTXFwWnBwR3dfZUhodUNELTFhZ3hFMDhVR2FabEh6ek11Z3BGdVV1RXpuQnJGRC1pWQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:11:44.000Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e912c2ac4dfe67f2",
-          "title": "Anthropic strikes $3.4 bn off-grid power deal - FT",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPWlo2Ym5qUTZ2RDR2U3Rxc3ZMa0VZT1h0OXFmVlEyMVZZWXVLM3Nlc2dQUDdBSjExTVB2OFR4T3dKanQxWEQ0RXlzOXlkdE9mVkx5X0d3WnptVE9iY2t0M0E3cDVUd2hKS2RSbHJsOW51emh6NnU0cG1VZjQzSzBGdXZEdm04SElBbzRZSjlFOTdOaTVFMHZz?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:05:00.000Z",
-          "score": 3,
-          "positive": [
-            "deal"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9671af9e23306b81",
-          "title": "Anthropic is rapidly accelerating AI development amid slowdown calls, outside research group says",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQeU5MeHUxWDhnY0d4UE9OUFVjSWpLVnd1UEw4a1ZiY2EzaU85b2Q0NHFlRkFGMk9OakM1VjVVTzB1NnktZ3RKaW9MQ3ZlOTItV21ZcUd6WU9zQVRyZmRvN0FPYXRFbEZ6aDBCdENjZHRoV3pFWUJoelZEN2xaNkFKZUYxVXFhUWtjTjEtbTdKMnBxRVBUMFUwMmo3Q0ZhZw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-09T13:43:09.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "73a6f121af620da9",
-          "title": "The Week Ahead in AI: OpenAI Hires Hactron for Probe, Anthropic Details Claude 'Dreaming', Post-Election US AI Safety, Plus Upcoming Earnings & Events",
-          "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxPUFVBR0Jmd0JaTWd5cXFTczBnWV9mREJrd245d0I0QV9JdnhFUl9DZmhUNTZJRmdCUkNtM2d4MFB4OUlCZlY4M2ZyVGxZLUJ1d09ld1R0N0JjUDRYa0FOMmNLZnhvZ2JEdTNmYWhUV29LS21EOTVkNldHVmhja2t2bmVpT196YjdMU19SUGhRU1ZlTTA1RF9uQ182OVFMY2VBUEV6WEVhUks0WE9Oc2dXMHJZdTI0OU14QkZ4bS14c2kxYk93SjZYOVhNWmZyY01HVWJmcElFT3FtbDR3LXR3MXA3MTViTTI2U0RyZTVGZnh3WjB6cEczSTFWclFQSWNwbzdyUkhuNVFuYWcw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:25:02.000Z",
-          "score": -1,
-          "positive": [
-            "hires"
-          ],
-          "negative": [
-            "probe"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "cdc2600bc8f157f8",
-          "title": "I tested OpenAI's Dot and Anthropic's Duet for weeks - and all I got was one helpful notification",
-          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9Cc1c4dEI0UGc2YVZJdkhjWHBPel8td1hJVXlOT28wb0V4c3gzaHVZN3dFcmlRWjJ6QUYtM1VYWEVnTGpiLV82OVktQVpWSWdTN09iRHBMNkpaZVdVRktmWkdHeFZPc3FfNVR1a2FWZjZ1RXlvcTE0SExnRnd5TkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:24:38.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ca2bbdb4ef329cce",
-          "title": "Anthropic Remains Focused On IPO Plans Despite AI Market Volatility",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQMHp2cWFYcTNUeDFEZFN5S2IxdmNiZ25OUUJUbUdoUHN1WEtVNjM5ZUZCVDJ5WVFEY1RPa3Jqend0eG92UHFYZHJySDlRb3pkR3hFZFZEcmhxRU5NOFFaUTJPZVFxSml1WlM2Vm9qbUE5dWI3VGJya2ZOVzVERzZBbkxhc0NRbDRjaFNYMEpqSGJwT2ZrYUVpcFhPeENOaTNfZnRYQUJDV2lvNk9peFY0NmhCdkZlWkk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:20:15.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 7,
-      "index": -1.1,
-      "mean_headline": -0.1,
+      "headlines": 6,
+      "index": 2.7,
+      "mean_headline": 0.3,
       "sample": [
-        {
-          "id": "2b3e9f4f1b0c3088",
-          "title": "Is Capgemini (ENXTPA:CAP) Below Fair Value On Its New EU AI Safety Role?",
-          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOc2cwZWVDSl9mMHgtbHEyanJMRzh3Uy0zcW1hZWFkeUQzZTlVZGNPeXRpQ19raWlOQmdKbWxwNFdYY0tPZGtQSENtQlpWMGFfbC1NMlhneVQ5cDFoMVoxT1BNZkVVNW1uYzgyTWljMDVzUTRHTi1iUGw3MGZhaHFvZkJweXNWR1AxUVl4eUlVOHFaeF9TcHNQNk9xdmJ2TWZaeUZuNkdLMEw0Z1ZSNzB1VS1nOGQ1aWVQREQwblZDcEtyakdiQmdBSlBWZ9IB0AFBVV95cUxONUNoS1JWQkdoOGkzbjVKOEswYk1heFp4Yi05MThQbm40V1ExVzg2SzNFdUcxbGJUakRwM0p5aTl1TjRLbkxpS3JWNmY0OV96WTlPMFd4dTVHVGNZWTkwQ1RDTXREMUxKNzVRNTd0cl9BU3kwMG55VmFJUmxGM01RRFBTODZ5WC1adEtHRHg2MVA5MUM2d2hSaTQzNWZyVHZ5TVVvVEdxZHZKbXAtQUdhTkFaNWc1anpkZm5sMThXR0YxdEdqQTMtbnBLc0ZFM3Rk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:26:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
         {
           "id": "2ab5a84200ef66c9",
           "title": "Meta expands AI age checks for Instagram teens as lawsuits mount",
@@ -487,12 +473,14 @@
         },
         {
           "id": "a3ddadecdf47d1a9",
-          "title": "Meta says it is globally expanding Instagram's AI age estimation tech to apply Teen Account protections to teens aged 13 to 17 who misrepresented their age (Jess Weatherbed/The Verge)",
+          "title": "Meta expands its AI age estimation tech globally to apply Instagram's Teen Account protections for millions of users from 13 to 17 who misrepresented their age (Jess Weatherbed/The Verge)",
           "url": "https://techmeme.com/261109/p19",
           "source": "techmeme",
-          "published_at": "2026-11-09T12:02:04.107Z",
-          "score": 0,
-          "positive": [],
+          "published_at": "2026-11-09T12:15:00.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
           "negative": [],
           "clickbait": []
         },
@@ -545,10 +533,23 @@
     {
       "id": "xai",
       "name": "xAI",
-      "headlines": 1,
-      "index": 0,
-      "mean_headline": 0,
+      "headlines": 2,
+      "index": 12,
+      "mean_headline": 1.5,
       "sample": [
+        {
+          "id": "b008976321be0fa2",
+          "title": "xAI's Jet Engine-Powered Data Center Has Experts Raising the Alarm",
+          "url": "https://slashgear.com/2309379/xai-jet-engine-data-center-pollution-alarm",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-09T14:14:47.000Z",
+          "score": 3,
+          "positive": [
+            "raising"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "92e07120ffa3c83c",
           "title": "xAI ignoring Grokbot rootkit vulnerability",
@@ -565,10 +566,25 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 25,
-      "index": 1,
-      "mean_headline": 0.1,
+      "headlines": 24,
+      "index": -0.3,
+      "mean_headline": 0,
       "sample": [
+        {
+          "id": "cd17579593f4a953",
+          "title": "Google Expands AI Chip Portfolio as Nvidia Faces Investigation Involving CEO",
+          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQUG1mU0tBNXRldGVkb2toaS1wN3lYeU1mQkdPdElnV1dKX2dlMlNxaHgyQWt2OUZZS2x0UGNVYk1HSHQwMGZsaWtaNFZTOElYOEdwQV94Nnd4OFNmeHBfMlM3T0k5MDJFZk80c21OeHRrNmwtR2tfaWJ6RGdMcDQ4eGhYVUIzZ251cEpIaExfbE1KbXhIR3JNbjBWTlU?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:45:36.000Z",
+          "score": -1,
+          "positive": [
+            "expands"
+          ],
+          "negative": [
+            "investigation"
+          ],
+          "clickbait": []
+        },
         {
           "id": "698d0a4aa64ed8be",
           "title": "Google AI Agents Cut Quantum Costs Up to 290x, With Proofs",
@@ -642,24 +658,11 @@
           "clickbait": []
         },
         {
-          "id": "026f1bb68ffc9c97",
-          "title": "Google expands AI chip lineup as Nvidia faces CEO spy scandal",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOYmZ4bWtBYVNQZnY4ajU4cmlvVDFFVkwzRGgwRnJ5ZWlHM3BDaWpNTUh1OFhTMDR1Wkx6VGw4WmNKQ2NDd2ZINlhRT1JwT0pRblZ6azB0SFlnbVZoaHJmQ1A5bERWbVczN1piSC1fOHVzOUI4bjl3S2tuU05PNWdwOVZpa2FhZDJpdWtaWHJfM2M5dFVnd0ZrMQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:14:04.000Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "968598980bbc080a",
-          "title": "Google advances agentic AI custom silicon expanding TPU family with 8tx and 8i Max",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQSExHUWowb1B2YjZpWGcxMkhtSXZaWlVWY1VLQXRqWHlsTHcxVjluNEw3ZUFqal9kSEtNaFdSc3JWdXprTkIzS2ZFNmNQT1EzMWR3b1Y4V1h5am1oSFZUV1N2LUZGekZYVURMU09DVlpOajRxVWhuY2dXOUp0X2JvWF9HM2k2eFRWWDh2ZTE0MUdIclRxY1lNNjVocTZNS3NaMWVkeWRhUy1OLV8xV3NmTFQzV1puNmRFb3lr?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:00:00.000Z",
+          "id": "7504f0587f9ffa4d",
+          "title": "Google ships four TPU variants in one year as it ramps up competition with Nvidia",
+          "url": "https://the-decoder.com/google-ships-four-tpu-variants-in-one-year-as-it-ramps-up-competition-with-nvidia",
+          "source": "the-decoder",
+          "published_at": "2026-11-09T12:59:02.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -769,10 +772,23 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 12,
-      "index": 2,
-      "mean_headline": 0.3,
+      "headlines": 10,
+      "index": 4.8,
+      "mean_headline": 0.6,
       "sample": [
+        {
+          "id": "b5e8c103adb49244",
+          "title": "Norway announces $64 million for Brazil's Amazon Fund after record deforestation decline",
+          "url": "https://bsky.app/profile/reuters.com/post/3mzv5sbym6d2o",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-09T14:40:12.000Z",
+          "score": 3,
+          "positive": [
+            "record"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "0c63938c1c60fab3",
           "title": "DoorDash Shareholders Aren’t Convinced the Company Can Take On Amazon",
@@ -851,33 +867,35 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "32c831700e2faf46",
-          "title": "Amazon announces ‘Melania, The Series’ after airing first lady’s documentary",
-          "url": "https://bsky.app/profile/washingtonpost.com/post/3mzp7sem7f32j",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-07T06:00:04.492Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 7,
-      "index": 6.9,
-      "mean_headline": 0.9,
+      "headlines": 8,
+      "index": 2,
+      "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "1744960920844e92",
+          "title": "Nvidia stock crashes 9% in worst fall since DeepSeek shock; Jensen Huang loses $15.1 billion as AI stocks tumble",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOaGh3T1JTdlBNWjJSMWM1bTUyVXZlMlRfUElqNkk5RlZudGV3WmhYZHB6UmtBX1hjOHkwZUhZb2J5d2ZrcmZaQml0WHMtOHZHbGZHR0psNkN5Nkh1M1FjZEwtZm55dG4yZi00SE5MaEdoS0dJUGxBRWFWdF94emxIUVg3Sng0NmszQ2tqNldTdkM1YVZYZS1uZ29MamJUMktGRjNGN2U2cmJURE9fRE5yT25HRk54bTZIU1BpWkNENA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:51:41.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "crashes"
+          ],
+          "clickbait": []
+        },
         {
           "id": "c43a26c35f9d0a84",
           "title": "Qwen 4 Beats Deepseek 4.1 Flash in Web Tasks on Half the Tokens",
           "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBTc2M5TVBIVWExc2tQeUp0WUhOYzF0S1RlLWZ1TUxTZ0xhejU3ajZpNENpRk9HM3JnVlh4NUYzUXhEbFFlRGltNkZYOXd4YmphUlpHSFJ0RXNFbVBGelowUXRfUWcxSGM?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-09T14:14:39.000Z",
+          "published_at": "2026-11-09T14:14:16.000Z",
           "score": 3,
           "positive": [
             "beats"
@@ -958,88 +976,31 @@
   ],
   "ranked": [
     {
-      "id": "deepseek",
-      "name": "DeepSeek",
-      "headlines": 7,
-      "index": 6.9,
-      "mean_headline": 0.9,
+      "id": "xai",
+      "name": "xAI",
+      "headlines": 2,
+      "index": 12,
+      "mean_headline": 1.5,
       "sample": [
         {
-          "id": "c43a26c35f9d0a84",
-          "title": "Qwen 4 Beats Deepseek 4.1 Flash in Web Tasks on Half the Tokens",
-          "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBTc2M5TVBIVWExc2tQeUp0WUhOYzF0S1RlLWZ1TUxTZ0xhejU3ajZpNENpRk9HM3JnVlh4NUYzUXhEbFFlRGltNkZYOXd4YmphUlpHSFJ0RXNFbVBGelowUXRfUWcxSGM?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:14:39.000Z",
+          "id": "b008976321be0fa2",
+          "title": "xAI's Jet Engine-Powered Data Center Has Experts Raising the Alarm",
+          "url": "https://slashgear.com/2309379/xai-jet-engine-data-center-pollution-alarm",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-09T14:14:47.000Z",
           "score": 3,
           "positive": [
-            "beats"
+            "raising"
           ],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "35e8ecb58201f8e1",
-          "title": "Can DeepSeek challenge OpenAI, Anthropic in AI agents as Harness adoption takes off?",
-          "url": "https://scmp.com/tech/big-tech/article/3373757/can-deepseek-challenge-openai-anthropic-ai-agents-harness-adoption-takes",
-          "source": "scmp-tech",
-          "published_at": "2026-11-09T07:00:04.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ce3be21eaeeac5d5",
-          "title": "DeepSeek says its open-source agent app Harness hit 1.54M DAUs on November 4, less than three months after launch, and uses ~92T tokens a day, or ~60M per user (Saritha Rai/Bloomberg)",
-          "url": "https://techmeme.com/261108/p12",
-          "source": "techmeme",
-          "published_at": "2026-11-08T20:10:00.000Z",
-          "score": 3,
-          "positive": [
-            "launch"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "25ff4c9b9c89391a",
-          "title": "DeepSeek’s AI Agent Platform Hits 1.54 Million Daily Users",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOUXBLN3Nwd181RFJQQzBkdGo0TUFhbGZpQ1Zxb0dPWXBORHdzeG5US1ZIOGtGUTFfc2ZSVktjMktVMmtSOUZ0SkVkZ2s4cEJWWWgyQVpSRDVGTUlqWnJ6bjdybkhHaTM5czBaZXpvelNlNTZ4WUd4Y0trdk1RQlpxZXd1MFRMb0dSckw3SXpPU2RFWG9JTFlhOVcyVzVJNjFHaUpsUFNZTC10blFqVWc?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-08T18:01:43.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "55858f2b4ca73bde",
-          "title": "Llama-modchip: 284B DeepSeek on 64GB RAM, no GPU",
-          "url": "https://github.com/synchopate/llama-modchip",
+          "id": "92e07120ffa3c83c",
+          "title": "xAI ignoring Grokbot rootkit vulnerability",
+          "url": "https://profero.io/blog/the-rootkit-built-into-grok-bot",
           "source": "hn-fresh-ai",
-          "published_at": "2026-11-08T10:22:04.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7748c6170834d7b4",
-          "title": "DeepSeek Harness – Creator Mode",
-          "url": "https://reddit.com/r/DeepSeek/s/sxg7aAM6rS",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-08T05:53:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d2fbb0fae5914fd3",
-          "title": "In less than $1, DeepSeek v4.1 Flash 1017 built a Mac App",
-          "url": "https://twitter.com/1littlecoder/status/2118985666008953038",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-07T18:40:07.000Z",
+          "published_at": "2026-11-09T13:37:52.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1050,10 +1011,23 @@
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 12,
-      "index": 2,
-      "mean_headline": 0.3,
+      "headlines": 10,
+      "index": 4.8,
+      "mean_headline": 0.6,
       "sample": [
+        {
+          "id": "b5e8c103adb49244",
+          "title": "Norway announces $64 million for Brazil's Amazon Fund after record deforestation decline",
+          "url": "https://bsky.app/profile/reuters.com/post/3mzv5sbym6d2o",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-09T14:40:12.000Z",
+          "score": 3,
+          "positive": [
+            "record"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "0c63938c1c60fab3",
           "title": "DoorDash Shareholders Aren’t Convinced the Company Can Take On Amazon",
@@ -1132,13 +1106,83 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "headlines": 6,
+      "index": 2.7,
+      "mean_headline": 0.3,
+      "sample": [
+        {
+          "id": "2ab5a84200ef66c9",
+          "title": "Meta expands AI age checks for Instagram teens as lawsuits mount",
+          "url": "https://bsky.app/profile/reuters.com/post/3mzuz26sah42g",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-09T13:15:08.000Z",
+          "score": -1,
+          "positive": [
+            "expands"
+          ],
+          "negative": [
+            "lawsuits"
+          ],
+          "clickbait": []
         },
         {
-          "id": "32c831700e2faf46",
-          "title": "Amazon announces ‘Melania, The Series’ after airing first lady’s documentary",
-          "url": "https://bsky.app/profile/washingtonpost.com/post/3mzp7sem7f32j",
+          "id": "a3ddadecdf47d1a9",
+          "title": "Meta expands its AI age estimation tech globally to apply Instagram's Teen Account protections for millions of users from 13 to 17 who misrepresented their age (Jess Weatherbed/The Verge)",
+          "url": "https://techmeme.com/261109/p19",
+          "source": "techmeme",
+          "published_at": "2026-11-09T12:15:00.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "371c02c8d015d4df",
+          "title": "Meta Brings Active Memory and Active Focus to Muse and Meta AI",
+          "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1uaG1ra0NIa290WnVsQzNya2ZrY1czMDZ3SWhQeWFsdG9HSy1iZFM2cGRKaXNzN3U5aEZubm13MHpjTF9BTm9FNFNEbUJYVnNzYkJhX0FZV191dkxYRnZnSXdvSXlVNEhIYWV5SUpiWQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-06T22:51:41.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a8fc5de6487f58f9",
+          "title": "Meta introduces Spaces, a new way to collaborate with your Muse agent",
+          "url": "https://techcrunch.com/2026/11/06/meta-introduces-spaces-a-new-way-to-collaborate-with-your-muse-agent",
+          "source": "techcrunch-ai",
+          "published_at": "2026-11-06T18:44:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "41e5e51468fc6c76",
+          "title": "Meta’s Muse AI can create custom ‘spaces’ for the version of the app you need right now",
+          "url": "https://bsky.app/profile/theverge.com/post/3mznym7xdjw2s",
           "source": "bluesky-ai",
-          "published_at": "2026-11-07T06:00:04.492Z",
+          "published_at": "2026-11-06T18:10:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0b33259ab4386660",
+          "title": "“Does Meta think we can’t read?” Meta abandons sketchy commercial terms update.",
+          "url": "https://arstechnica.com/tech-policy/2026/11/does-meta-think-we-cant-read-meta-abandons-sketchy-commercial-terms-update",
+          "source": "arstechnica-ai",
+          "published_at": "2026-11-06T17:43:02.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1149,15 +1193,87 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 38,
-      "index": 1.1,
-      "mean_headline": 0.1,
+      "headlines": 37,
+      "index": 2.6,
+      "mean_headline": 0.3,
       "sample": [
+        {
+          "id": "200ac630e2117825",
+          "title": "SpaceX’s Anthropic Deal Catch: Musk Says Clause Cuts Both Ways",
+          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNeWtRMU5jUnhGbXd6Um4xRkhCeUFRYXhsNWxpVGRfRU5EWjFLZ3JkNlk3QW5OYnBKRHpSN1FCakoxdXpaNXZCdUtsUlVFeFljc2ItMXE0cnBEYi1xMzN0MzhhaFgwZjdEMlc3anBaMGZoQ3JSUFdYY0I2QWliMEp4UU90VmpDb3RJRXFkcGRLWGg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T15:01:34.000Z",
+          "score": -1,
+          "positive": [
+            "deal"
+          ],
+          "negative": [
+            "cuts"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9fb3435b6205098e",
+          "title": "Chasing New Frontiers: We See Anthropic as Well Placed to Capture Value in an AI World",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOTHNiVXQ0bUxYaVF0ZDBTS2FlbDRxd1FmX2hXQ3p5NGRSYnlrZW9xU0F2X0tTSVdDSDVYbjc4TDZMQlFRZThCZFhuYnNqZ2VWb0s4Q1duenBYSVhDUnoxWm1DV3NmcXA1eDVYMUYtal8xSXVUdW0wMmxnaVdUNURYTUJOSV9WdEk4RjRfQ1ZHZEtDazBKcGJFQm9MbHJsdTRKbmJJcldsLV9hQ08tRTNSOG1LTjlxRWxaSHl5Vg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T15:01:14.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d5c323de6d37f773",
+          "title": "Why Morningstar Thinks Anthropic Is Worth USD 1.7 Trillion",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNckZ6azhxdE8yUUl1Y0JUSURFc3Atb0REWG1RVlp0QkJrVmN6Y0NPNXNfMWh2OTVhTS1FNGlxMEFBd3J6dGgzZk1zMkE0Q255UFJYaHVncXNfd0xudkx3QjNsU19KMi1OdXVCbXJCdS0tMEZCR0ZPNWw1VzhZQjZJWUg1V3hjck5NVkFwdzNVMW9BM0ZBVTVqWUpuZ3A4WEZWcWdV?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T15:01:14.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "09fb694784bf1a60",
+          "title": "Anthropic IPO to Test AI Industry's Financial Viability",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNeTJDUU11OHd3c1RRWWRaVEtYdWxCdlNCWGVMMUxiM1BLLXEzM1AyOHJyS2JlRGM2VG1DcGdzR1laV21seHBYaVRuSS13ZmNoY2xjSzVnUnVLXzl1QVdlRm44V1o5LXd6eDRGblZFZDZXWFVPRlpFdDlQN1h6MWZIaEhiWmd5aXBESng1MThuRTVlVU03VzBhQ3FKSQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:40:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2c570a0ae5140c3c",
+          "title": "Anthropic launches personal finance feature for Claude",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQZnliYnF5anhVNl8zR2c1NXZaX25yQWZnSWNoMlJfUHBqeDdsQjVmZDQ1MWM4RmtjalFSckdCbHZCc1l1RU9ReXE1T1NCUEpqUlc0ZXliaW5pYlpKVGhLclViNnZnSDItcDI1Unl3Q1dvaW1jenFIaGxYdXpmX2FiTjB3Z19aSzBoa3BXWEhGZHVuRHlmOHc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:34:45.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "615a496c0612307f",
+          "title": "US stock market outlook: AI sell-off, Anthropic IPO and Nvidia earnings keep investors on alert | Hindustan Times",
+          "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxNZldfS185cUlybkJKaE9DakZkV2drWVI2bWhOUmFHZC1DZDF5Y2tranQtU1BGV0hZQjI1REFWOVRBWEt0amFOWUg0dGtqbmthOUVEdGZaMUI2aExRWUlzajJMT1JyeDBEd0RyN0NvMXJtNkhjaE12eklmbHVYYnBUYzluc0VlcWE2WVlTX3BVZkxVa0hPVFRZZ01aOGhJZ0pycVp1dVc0NUpNM2p0NU1td3YyYTBMVXFma0lyem5wOE5HaFpFUnpaQk1NYkx5U09GdmZEdEV5WWJIbk5CczdrYjZsR1NKdjdqRUk0SUtSRHllWXZVUVI00gH8AUFVX3lxTFBtZlpTSXlTTXhVQ3RBamU1ZEhoekJ6YjI3ZXR2NENGZ0lleU9fWnFIRjVVZnB0NU9uUmNpT3FiZjV0a2lFOHJlQU1tTHJ4NGQxa3pOVUk2WDl1ZE1WZVp3NU45OHpnVU02Y3pGTzVmS21TMW1oX3VRNTRmTF9hSUNUVjN0c2plZ2lVOXgwVHZGT1B0Z0xTM0hpLUlDQ3JFc2FYdE10Z3l3Tmo3SFNxVkVOUU5IUmtROGR6eHY5LXZ3STdPRTRjZklDNEhrZXNnY3NlN2FLdHVUeUJmR0ZtdWIyV1lPYWo4MUJqU2FndVZVY0QySnpHOG1VLVRnMw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:24:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "08c58059d1b65333",
           "title": "Anthropic IPO’s Moment of Truth Nears as Waiting Period Expires",
           "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPR18tUkxpWXdHY2ltZ01ybEpIbWJYWHpmQmxkTWozQkxadVBFeGExUGJHZ3pCSXhNLThmTGJvTjNiU0h2bmZ3dEhmZjQ3ODliTks5Y1J2bDBLNGJ6WWo0aDFFOEZtN1pRZXlCRk9TV1pmb1k2alIwcDhwSVA2V3ktTGNtd2ZGTHBuMzg4aG9nRHZqSzItNlF0RVZzN3VsdmFGTm5McEtHOU55cXZZVW1uOXJ6cnU?oc=5",
-          "source": "gnews-ai",
+          "source": "wires-ai",
           "published_at": "2026-11-09T14:20:12.000Z",
           "score": 0,
           "positive": [],
@@ -1174,76 +1290,202 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "headlines": 8,
+      "index": 2,
+      "mean_headline": 0.3,
+      "sample": [
         {
-          "id": "4407a2e8589f125d",
-          "title": "SoftwareOne expands AI push with Anthropic Select partner status",
-          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNQkdkOFNqX0tCNVRMTTVqemZROUQza1Fqd0dOMGhtMWtxUV9FZzBZUlV4aFNKQVc5cWhPeVBuVXo4UExXaGJuVmQtREJoWi1OTXFwWnBwR3dfZUhodUNELTFhZ3hFMDhVR2FabEh6ek11Z3BGdVV1RXpuQnJGRC1pWQ?oc=5",
+          "id": "1744960920844e92",
+          "title": "Nvidia stock crashes 9% in worst fall since DeepSeek shock; Jensen Huang loses $15.1 billion as AI stocks tumble",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOaGh3T1JTdlBNWjJSMWM1bTUyVXZlMlRfUElqNkk5RlZudGV3WmhYZHB6UmtBX1hjOHkwZUhZb2J5d2ZrcmZaQml0WHMtOHZHbGZHR0psNkN5Nkh1M1FjZEwtZm55dG4yZi00SE5MaEdoS0dJUGxBRWFWdF94emxIUVg3Sng0NmszQ2tqNldTdkM1YVZYZS1uZ29MamJUMktGRjNGN2U2cmJURE9fRE5yT25HRk54bTZIU1BpWkNENA?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-09T14:11:44.000Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e912c2ac4dfe67f2",
-          "title": "Anthropic strikes $3.4 bn off-grid power deal - FT",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPWlo2Ym5qUTZ2RDR2U3Rxc3ZMa0VZT1h0OXFmVlEyMVZZWXVLM3Nlc2dQUDdBSjExTVB2OFR4T3dKanQxWEQ0RXlzOXlkdE9mVkx5X0d3WnptVE9iY2t0M0E3cDVUd2hKS2RSbHJsOW51emh6NnU0cG1VZjQzSzBGdXZEdm04SElBbzRZSjlFOTdOaTVFMHZz?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:05:00.000Z",
-          "score": 3,
-          "positive": [
-            "deal"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9671af9e23306b81",
-          "title": "Anthropic is rapidly accelerating AI development amid slowdown calls, outside research group says",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQeU5MeHUxWDhnY0d4UE9OUFVjSWpLVnd1UEw4a1ZiY2EzaU85b2Q0NHFlRkFGMk9OakM1VjVVTzB1NnktZ3RKaW9MQ3ZlOTItV21ZcUd6WU9zQVRyZmRvN0FPYXRFbEZ6aDBCdENjZHRoV3pFWUJoelZEN2xaNkFKZUYxVXFhUWtjTjEtbTdKMnBxRVBUMFUwMmo3Q0ZhZw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-09T13:43:09.000Z",
-          "score": 0,
+          "published_at": "2026-11-09T14:51:41.000Z",
+          "score": -4,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "73a6f121af620da9",
-          "title": "The Week Ahead in AI: OpenAI Hires Hactron for Probe, Anthropic Details Claude 'Dreaming', Post-Election US AI Safety, Plus Upcoming Earnings & Events",
-          "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxPUFVBR0Jmd0JaTWd5cXFTczBnWV9mREJrd245d0I0QV9JdnhFUl9DZmhUNTZJRmdCUkNtM2d4MFB4OUlCZlY4M2ZyVGxZLUJ1d09ld1R0N0JjUDRYa0FOMmNLZnhvZ2JEdTNmYWhUV29LS21EOTVkNldHVmhja2t2bmVpT196YjdMU19SUGhRU1ZlTTA1RF9uQ182OVFMY2VBUEV6WEVhUks0WE9Oc2dXMHJZdTI0OU14QkZ4bS14c2kxYk93SjZYOVhNWmZyY01HVWJmcElFT3FtbDR3LXR3MXA3MTViTTI2U0RyZTVGZnh3WjB6cEczSTFWclFQSWNwbzdyUkhuNVFuYWcw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:25:02.000Z",
-          "score": -1,
-          "positive": [
-            "hires"
-          ],
           "negative": [
-            "probe"
+            "crashes"
           ],
           "clickbait": []
         },
         {
-          "id": "cdc2600bc8f157f8",
-          "title": "I tested OpenAI's Dot and Anthropic's Duet for weeks - and all I got was one helpful notification",
-          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9Cc1c4dEI0UGc2YVZJdkhjWHBPel8td1hJVXlOT28wb0V4c3gzaHVZN3dFcmlRWjJ6QUYtM1VYWEVnTGpiLV82OVktQVpWSWdTN09iRHBMNkpaZVdVRktmWkdHeFZPc3FfNVR1a2FWZjZ1RXlvcTE0SExnRnd5TkE?oc=5",
+          "id": "c43a26c35f9d0a84",
+          "title": "Qwen 4 Beats Deepseek 4.1 Flash in Web Tasks on Half the Tokens",
+          "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBTc2M5TVBIVWExc2tQeUp0WUhOYzF0S1RlLWZ1TUxTZ0xhejU3ajZpNENpRk9HM3JnVlh4NUYzUXhEbFFlRGltNkZYOXd4YmphUlpHSFJ0RXNFbVBGelowUXRfUWcxSGM?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-09T13:24:38.000Z",
+          "published_at": "2026-11-09T14:14:16.000Z",
+          "score": 3,
+          "positive": [
+            "beats"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "35e8ecb58201f8e1",
+          "title": "Can DeepSeek challenge OpenAI, Anthropic in AI agents as Harness adoption takes off?",
+          "url": "https://scmp.com/tech/big-tech/article/3373757/can-deepseek-challenge-openai-anthropic-ai-agents-harness-adoption-takes",
+          "source": "scmp-tech",
+          "published_at": "2026-11-09T07:00:04.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "ca2bbdb4ef329cce",
-          "title": "Anthropic Remains Focused On IPO Plans Despite AI Market Volatility",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQMHp2cWFYcTNUeDFEZFN5S2IxdmNiZ25OUUJUbUdoUHN1WEtVNjM5ZUZCVDJ5WVFEY1RPa3Jqend0eG92UHFYZHJySDlRb3pkR3hFZFZEcmhxRU5NOFFaUTJPZVFxSml1WlM2Vm9qbUE5dWI3VGJya2ZOVzVERzZBbkxhc0NRbDRjaFNYMEpqSGJwT2ZrYUVpcFhPeENOaTNfZnRYQUJDV2lvNk9peFY0NmhCdkZlWkk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:20:15.000Z",
+          "id": "ce3be21eaeeac5d5",
+          "title": "DeepSeek says its open-source agent app Harness hit 1.54M DAUs on November 4, less than three months after launch, and uses ~92T tokens a day, or ~60M per user (Saritha Rai/Bloomberg)",
+          "url": "https://techmeme.com/261108/p12",
+          "source": "techmeme",
+          "published_at": "2026-11-08T20:10:00.000Z",
+          "score": 3,
+          "positive": [
+            "launch"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "25ff4c9b9c89391a",
+          "title": "DeepSeek’s AI Agent Platform Hits 1.54 Million Daily Users",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOUXBLN3Nwd181RFJQQzBkdGo0TUFhbGZpQ1Zxb0dPWXBORHdzeG5US1ZIOGtGUTFfc2ZSVktjMktVMmtSOUZ0SkVkZ2s4cEJWWWgyQVpSRDVGTUlqWnJ6bjdybkhHaTM5czBaZXpvelNlNTZ4WUd4Y0trdk1RQlpxZXd1MFRMb0dSckw3SXpPU2RFWG9JTFlhOVcyVzVJNjFHaUpsUFNZTC10blFqVWc?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-08T18:01:43.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "55858f2b4ca73bde",
+          "title": "Llama-modchip: 284B DeepSeek on 64GB RAM, no GPU",
+          "url": "https://github.com/synchopate/llama-modchip",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-08T10:22:04.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7748c6170834d7b4",
+          "title": "DeepSeek Harness – Creator Mode",
+          "url": "https://reddit.com/r/DeepSeek/s/sxg7aAM6rS",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-08T05:53:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d2fbb0fae5914fd3",
+          "title": "In less than $1, DeepSeek v4.1 Flash 1017 built a Mac App",
+          "url": "https://twitter.com/1littlecoder/status/2118985666008953038",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-07T18:40:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "headlines": 9,
+      "index": 0,
+      "mean_headline": 0,
+      "sample": [
+        {
+          "id": "325bfabf5362da84",
+          "title": "Apple Intelligence AI service registers with Chinese regulator for use on tablets, laptops",
+          "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQanptRUNhdmdrV2x6Y01qWFNCU3BlRTZTN1FyZ2hubTNralRKUE8yWWVpNUd0NERlVngtNS00dG1JYmd0bzVobkNjcDl4X0lXUFdKdnhwQU5ZbW1mMWh1dGZHS3N4Mmk5UGozTzdBdEpwZi1lNl9HUEJXUFYxaGtua2cyUWNVNC1EQjE4M2FJQURmQU4xUjhzR281UkpZa3V2VTVXRmhJOHNFRjJXS1VpUENObEpId0x6VFFSUjh6c01jdEFCUGhVM0xwaEZtM2NG?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-09T12:54:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "104a8c6b653534f9",
+          "title": "Apple capped engineers at a $200 daily AI budget",
+          "url": "https://stork.ai/newsletter/2026-11-08-apple-capped-engineers-at-a-200-daily-ai-budget",
+          "source": "hn-ai",
+          "published_at": "2026-11-09T05:30:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "dae8a5ae3e8bff71",
+          "title": "Apple’s new CEO is pressing software chief Craig Federighi to take a more ambitious approach to AI, writes Mark Gurman. Read the latest edition of the Power On newsletter: bloom.bg/4kyE66U 📷: Bloombe",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3mztauz5els2b",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-08T20:30:05.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5a1e2d5801d9dcaa",
+          "title": "Apple researchers use a Mac mini running Qwen locally to control a Unitree G1 humanoid robot. Trained on 1,000 simulated homes, it autonomously sits, crawls under tables and navigates unfamiliar…",
+          "url": "https://reddit.com/r/singularity/comments/1xr6w6w/apple_researchers_use_a_mac_mini_running_qwen",
+          "source": "reddit-singularity",
+          "published_at": "2026-11-08T19:32:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f1dc5a95b3b363e8",
+          "title": "Apple is racing to make Siri more agentic",
+          "url": "https://bsky.app/profile/theverge.com/post/3mzt4zift242f",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-08T19:18:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7536437b5c26c7a9",
+          "title": "Sources: John Ternus wants more urgency in Apple's AI efforts, pushing Craig Federighi to move beyond Siri AI tweaks to agentic and other advanced capabilities (Mark Gurman/Bloomberg)",
+          "url": "https://techmeme.com/261108/p9",
+          "source": "techmeme",
+          "published_at": "2026-11-08T16:20:06.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "13db5ec6c3874478",
+          "title": "Chatbots might be coming to Apple’s HomeView",
+          "url": "https://bsky.app/profile/theverge.com/post/3mzsoomv6as2x",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-08T15:04:22.704Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b81cde62a40fb586",
+          "title": "Apple CEO Presses Software Chief to Pursue More Ambitious AI Strategy",
+          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNQjlhNk9NU1ZVZFo4UG9TR3FmcGxtMWhnY3o4R3dJNGxHc3E2QlR4cmlOSDBuU2JHLVFnMlpVYWtneGxacHhOZWM5bWNJWndxZndxdEstamJjenMwaFoxT3RHSXg3Q2E3cC1pdDM1bm16VkJPak43T2xLRkNvTE9QNHdTRjdfekNGbXJuMFNrcWJ5OGpxR0x3OEJPTll6bHNOaUwzc1E1OF9DQnRZdFZBRXgtN0VYeEhUTTVOa3RKdDlrVU9keXNDOA?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-08T15:00:01.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1254,10 +1496,25 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 25,
-      "index": 1,
-      "mean_headline": 0.1,
+      "headlines": 24,
+      "index": -0.3,
+      "mean_headline": 0,
       "sample": [
+        {
+          "id": "cd17579593f4a953",
+          "title": "Google Expands AI Chip Portfolio as Nvidia Faces Investigation Involving CEO",
+          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQUG1mU0tBNXRldGVkb2toaS1wN3lYeU1mQkdPdElnV1dKX2dlMlNxaHgyQWt2OUZZS2x0UGNVYk1HSHQwMGZsaWtaNFZTOElYOEdwQV94Nnd4OFNmeHBfMlM3T0k5MDJFZk80c21OeHRrNmwtR2tfaWJ6RGdMcDQ4eGhYVUIzZ251cEpIaExfbE1KbXhIR3JNbjBWTlU?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:45:36.000Z",
+          "score": -1,
+          "positive": [
+            "expands"
+          ],
+          "negative": [
+            "investigation"
+          ],
+          "clickbait": []
+        },
         {
           "id": "698d0a4aa64ed8be",
           "title": "Google AI Agents Cut Quantum Costs Up to 290x, With Proofs",
@@ -1331,231 +1588,11 @@
           "clickbait": []
         },
         {
-          "id": "026f1bb68ffc9c97",
-          "title": "Google expands AI chip lineup as Nvidia faces CEO spy scandal",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOYmZ4bWtBYVNQZnY4ajU4cmlvVDFFVkwzRGgwRnJ5ZWlHM3BDaWpNTUh1OFhTMDR1Wkx6VGw4WmNKQ2NDd2ZINlhRT1JwT0pRblZ6azB0SFlnbVZoaHJmQ1A5bERWbVczN1piSC1fOHVzOUI4bjl3S2tuU05PNWdwOVZpa2FhZDJpdWtaWHJfM2M5dFVnd0ZrMQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:14:04.000Z",
-          "score": 3,
-          "positive": [
-            "expands"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "968598980bbc080a",
-          "title": "Google advances agentic AI custom silicon expanding TPU family with 8tx and 8i Max",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQSExHUWowb1B2YjZpWGcxMkhtSXZaWlVWY1VLQXRqWHlsTHcxVjluNEw3ZUFqal9kSEtNaFdSc3JWdXprTkIzS2ZFNmNQT1EzMWR3b1Y4V1h5am1oSFZUV1N2LUZGekZYVURMU09DVlpOajRxVWhuY2dXOUp0X2JvWF9HM2k2eFRWWDh2ZTE0MUdIclRxY1lNNjVocTZNS3NaMWVkeWRhUy1OLV8xV3NmTFQzV1puNmRFb3lr?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "apple",
-      "name": "Apple",
-      "headlines": 11,
-      "index": 0,
-      "mean_headline": 0,
-      "sample": [
-        {
-          "id": "f1609888f9f5db1c",
-          "title": "Apple, Samsung turn to Chinese AI firms to boost competitiveness",
-          "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9iTW93dHVoR2xoYmJhVnRoQmJfY01PUUFFdWYxa0hNQzZuXzdSWkRSZ1RRdHVPQ2pjWFJ5b1ZhVWJUTnA5UldGUGl3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:28:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "bce043794dc0ce51",
-          "title": "Apple Registers Apple Intelligence For China’s IPads And Macs",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPdndIaUdZVVFqMU02QS02T1NiLTc1SGhQWlZ5TndVcnBSQVZ2bDJHbVdIZ05wSTg4MFB2Wk9Eemk5N3U5N0ctMmM3TlMyc1ktd0stNmRlRGZMT0ZfREUtTWw5cXA0bEpfRHgycGI0YlY3UTlQMVZVVnhmVmJ4X2ljOFFyMGJHOEF4WHRlekZ4MGRiY1k?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T12:59:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "325bfabf5362da84",
-          "title": "Apple Intelligence AI service registers with Chinese regulator for use on tablets, laptops",
-          "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQanptRUNhdmdrV2x6Y01qWFNCU3BlRTZTN1FyZ2hubTNralRKUE8yWWVpNUd0NERlVngtNS00dG1JYmd0bzVobkNjcDl4X0lXUFdKdnhwQU5ZbW1mMWh1dGZHS3N4Mmk5UGozTzdBdEpwZi1lNl9HUEJXUFYxaGtua2cyUWNVNC1EQjE4M2FJQURmQU4xUjhzR281UkpZa3V2VTVXRmhJOHNFRjJXS1VpUENObEpId0x6VFFSUjh6c01jdEFCUGhVM0xwaEZtM2NG?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-09T12:54:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "104a8c6b653534f9",
-          "title": "Apple capped engineers at a $200 daily AI budget",
-          "url": "https://stork.ai/newsletter/2026-11-08-apple-capped-engineers-at-a-200-daily-ai-budget",
-          "source": "hn-ai",
-          "published_at": "2026-11-09T05:30:11.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "dae8a5ae3e8bff71",
-          "title": "Apple’s new CEO is pressing software chief Craig Federighi to take a more ambitious approach to AI, writes Mark Gurman. Read the latest edition of the Power On newsletter: bloom.bg/4kyE66U 📷: Bloombe",
-          "url": "https://bsky.app/profile/bloomberg.com/post/3mztauz5els2b",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-08T20:30:05.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5a1e2d5801d9dcaa",
-          "title": "Apple researchers use a Mac mini running Qwen locally to control a Unitree G1 humanoid robot. Trained on 1,000 simulated homes, it autonomously sits, crawls under tables and navigates unfamiliar…",
-          "url": "https://reddit.com/r/singularity/comments/1xr6w6w/apple_researchers_use_a_mac_mini_running_qwen",
-          "source": "reddit-singularity",
-          "published_at": "2026-11-08T19:32:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f1dc5a95b3b363e8",
-          "title": "Apple is racing to make Siri more agentic",
-          "url": "https://bsky.app/profile/theverge.com/post/3mzt4zift242f",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-08T19:18:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7536437b5c26c7a9",
-          "title": "Sources: John Ternus wants more urgency in Apple's AI efforts, pushing Craig Federighi to move beyond Siri AI tweaks to agentic and other advanced capabilities (Mark Gurman/Bloomberg)",
-          "url": "https://techmeme.com/261108/p9",
-          "source": "techmeme",
-          "published_at": "2026-11-08T16:20:06.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "xai",
-      "name": "xAI",
-      "headlines": 1,
-      "index": 0,
-      "mean_headline": 0,
-      "sample": [
-        {
-          "id": "92e07120ffa3c83c",
-          "title": "xAI ignoring Grokbot rootkit vulnerability",
-          "url": "https://profero.io/blog/the-rootkit-built-into-grok-bot",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-09T13:37:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "meta",
-      "name": "Meta",
-      "headlines": 7,
-      "index": -1.1,
-      "mean_headline": -0.1,
-      "sample": [
-        {
-          "id": "2b3e9f4f1b0c3088",
-          "title": "Is Capgemini (ENXTPA:CAP) Below Fair Value On Its New EU AI Safety Role?",
-          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOc2cwZWVDSl9mMHgtbHEyanJMRzh3Uy0zcW1hZWFkeUQzZTlVZGNPeXRpQ19raWlOQmdKbWxwNFdYY0tPZGtQSENtQlpWMGFfbC1NMlhneVQ5cDFoMVoxT1BNZkVVNW1uYzgyTWljMDVzUTRHTi1iUGw3MGZhaHFvZkJweXNWR1AxUVl4eUlVOHFaeF9TcHNQNk9xdmJ2TWZaeUZuNkdLMEw0Z1ZSNzB1VS1nOGQ1aWVQREQwblZDcEtyakdiQmdBSlBWZ9IB0AFBVV95cUxONUNoS1JWQkdoOGkzbjVKOEswYk1heFp4Yi05MThQbm40V1ExVzg2SzNFdUcxbGJUakRwM0p5aTl1TjRLbkxpS3JWNmY0OV96WTlPMFd4dTVHVGNZWTkwQ1RDTXREMUxKNzVRNTd0cl9BU3kwMG55VmFJUmxGM01RRFBTODZ5WC1adEtHRHg2MVA5MUM2d2hSaTQzNWZyVHZ5TVVvVEdxZHZKbXAtQUdhTkFaNWc1anpkZm5sMThXR0YxdEdqQTMtbnBLc0ZFM3Rk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:26:39.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2ab5a84200ef66c9",
-          "title": "Meta expands AI age checks for Instagram teens as lawsuits mount",
-          "url": "https://bsky.app/profile/reuters.com/post/3mzuz26sah42g",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-09T13:15:08.000Z",
-          "score": -1,
-          "positive": [
-            "expands"
-          ],
-          "negative": [
-            "lawsuits"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "a3ddadecdf47d1a9",
-          "title": "Meta says it is globally expanding Instagram's AI age estimation tech to apply Teen Account protections to teens aged 13 to 17 who misrepresented their age (Jess Weatherbed/The Verge)",
-          "url": "https://techmeme.com/261109/p19",
-          "source": "techmeme",
-          "published_at": "2026-11-09T12:02:04.107Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "371c02c8d015d4df",
-          "title": "Meta Brings Active Memory and Active Focus to Muse and Meta AI",
-          "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1uaG1ra0NIa290WnVsQzNya2ZrY1czMDZ3SWhQeWFsdG9HSy1iZFM2cGRKaXNzN3U5aEZubm13MHpjTF9BTm9FNFNEbUJYVnNzYkJhX0FZV191dkxYRnZnSXdvSXlVNEhIYWV5SUpiWQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-06T22:51:41.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a8fc5de6487f58f9",
-          "title": "Meta introduces Spaces, a new way to collaborate with your Muse agent",
-          "url": "https://techcrunch.com/2026/11/06/meta-introduces-spaces-a-new-way-to-collaborate-with-your-muse-agent",
-          "source": "techcrunch-ai",
-          "published_at": "2026-11-06T18:44:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "41e5e51468fc6c76",
-          "title": "Meta’s Muse AI can create custom ‘spaces’ for the version of the app you need right now",
-          "url": "https://bsky.app/profile/theverge.com/post/3mznym7xdjw2s",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-06T18:10:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0b33259ab4386660",
-          "title": "“Does Meta think we can’t read?” Meta abandons sketchy commercial terms update.",
-          "url": "https://arstechnica.com/tech-policy/2026/11/does-meta-think-we-cant-read-meta-abandons-sketchy-commercial-terms-update",
-          "source": "arstechnica-ai",
-          "published_at": "2026-11-06T17:43:02.000Z",
+          "id": "7504f0587f9ffa4d",
+          "title": "Google ships four TPU variants in one year as it ramps up competition with Nvidia",
+          "url": "https://the-decoder.com/google-ships-four-tpu-variants-in-one-year-as-it-ramps-up-competition-with-nvidia",
+          "source": "the-decoder",
+          "published_at": "2026-11-09T12:59:02.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1665,47 +1702,31 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 24,
-      "index": -6.3,
-      "mean_headline": -0.8,
+      "headlines": 23,
+      "index": -4.9,
+      "mean_headline": -0.6,
       "sample": [
         {
-          "id": "73a6f121af620da9",
-          "title": "The Week Ahead in AI: OpenAI Hires Hactron for Probe, Anthropic Details Claude 'Dreaming', Post-Election US AI Safety, Plus Upcoming Earnings & Events",
-          "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxPUFVBR0Jmd0JaTWd5cXFTczBnWV9mREJrd245d0I0QV9JdnhFUl9DZmhUNTZJRmdCUkNtM2d4MFB4OUlCZlY4M2ZyVGxZLUJ1d09ld1R0N0JjUDRYa0FOMmNLZnhvZ2JEdTNmYWhUV29LS21EOTVkNldHVmhja2t2bmVpT196YjdMU19SUGhRU1ZlTTA1RF9uQ182OVFMY2VBUEV6WEVhUks0WE9Oc2dXMHJZdTI0OU14QkZ4bS14c2kxYk93SjZYOVhNWmZyY01HVWJmcElFT3FtbDR3LXR3MXA3MTViTTI2U0RyZTVGZnh3WjB6cEczSTFWclFQSWNwbzdyUkhuNVFuYWcw?oc=5",
+          "id": "a58e60ef08d426c4",
+          "title": "Effingham County residents sue OpenAI, county officials over Project Camellia data center",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNVjk2dktaLUFOeU5BRmFhOFZGeXQzMEpEYTlNZGRNbktoOWFFZmxYSnUzRWM0UGdKQlFoVTF0c0piY1dYaWhpWmlZMHBaMVZIUElmOGxfYVBhR0tMVGQwblhUVDRJeTljRE9fM3Vhal9fWXNKTC1qWGVySTZfUEJXeTg3SENkOEYzRkM4MHRDdjdXdGJOQjR6aEp0eEhnMV9oTTRjaG5wWk9SeE55ekYwcWRFSHFIbGRFdWpSb19n?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-09T13:25:02.000Z",
-          "score": -1,
-          "positive": [
-            "hires"
-          ],
-          "negative": [
-            "probe"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "cdc2600bc8f157f8",
-          "title": "I tested OpenAI's Dot and Anthropic's Duet for weeks - and all I got was one helpful notification",
-          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9Cc1c4dEI0UGc2YVZJdkhjWHBPel8td1hJVXlOT28wb0V4c3gzaHVZN3dFcmlRWjJ6QUYtM1VYWEVnTGpiLV82OVktQVpWSWdTN09iRHBMNkpaZVdVRktmWkdHeFZPc3FfNVR1a2FWZjZ1RXlvcTE0SExnRnd5TkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T13:24:38.000Z",
+          "published_at": "2026-11-09T14:40:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "892d127d61e5eaad",
-          "title": "Third Lawsuit Over Project Camellia Alleges Fraud, Conspiracy Over OpenAI Data Center in Effingham County",
-          "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOd3FJVVRVMTlEVjdNUkdoTHRJd3BHd1E4eERkRjRhOU9uZjZSbHgwckp2cjV3c1RGOTFPdlREMEI0MFFlZEo4NF8zVU91N2Jfdjd6SzlLRU1DYjQ1SUd4VnlQRXBJQ1M0MkNkRERULW5nak1SZ2ZJRWV3Rjh6Qmo2Mm54NTU2dlgwNURYSmRHc0ZHVXVyZjdvZ0dsOFNRMWRqd0hibDY2aTVadDZqUUFZU0kyd05YVGQ5ZmNzekt5S0VvWFJEYXdiU2VIQU9IZUlBRmJWbVdlLTNUY3NqM0pvRXQyd0RVZDEwXzlENnhYN3V5SnFVaGQ0NTJ5VUE5QQ?oc=5",
+          "id": "4884515f9080b08e",
+          "title": "OpenAI Hopes to Ease Backlash Against AI Data Centers",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQeFpEeWNEZFpZMUFTc091cjNuQWtXdEdWRW5xcWtRMEtYdXNQQXVHbzJ0YUYzMjFtNzVGR1BNOW45VENkRkkyZ3ZFWXIwR19GWERuSnVyVHB0YU5uMGVPWDVRcl91UnoyM2xHNVNlaU5Td0tCZ2NlZnkxWXF6RDFzS2RzUnBmNHVNSk1sS2dqc01HMEw3a1JHNHRn?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-09T13:00:29.000Z",
-          "score": -8,
+          "published_at": "2026-11-09T14:39:34.000Z",
+          "score": -4,
           "positive": [],
           "negative": [
-            "fraud",
-            "lawsuit"
+            "backlash"
           ],
           "clickbait": []
         },
@@ -1765,35 +1786,79 @@
           "positive": [],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "02a78d56b4ac5915",
+          "title": "6th-grade Peano arithmetic broke OpenAI's $100B Yang-Mills mass gap proof",
+          "url": "https://github.com/Dr-Logvinovich/round-square/blob/main/README.md",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-08T08:23:27.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 99,
-      "index": -9.4,
+      "headlines": 100,
+      "index": -9.6,
       "mean_headline": -1.2,
       "sample": [
         {
-          "id": "ba5e0c7d2e20ac34",
-          "title": "Telekom Doubles Down on AI with 20MW NVIDIA Munich Site",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQdXE1RjgzZVdKWG55UlZhNWVocXladm1rR0RINGxyUHB5aVdrUXl0NHBEME1xeW1nTWxzWFFtU2s1c1U4cVNPY2w5d3BCVV9yRnU5ck9zSWRKaElmMXZieWZDTHNUTkxSUXV3c1l0U2J3dzJ1b1R6NnM3SEtUbWluNGIxNnBZSFpNSWJQVjExWUR1eVM5QUE?oc=5",
+          "id": "6dd50f7eece849d4",
+          "title": "Wall St rallies after last week's AI rout; Nvidia falls",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNNldnOF8ybWVHdkNyWXAxOG1mSFRERGpWNlpaM2N6R1ctTUk1MDZEWlR4aEtWZ1RlT092T1NtaVBfbDRtWmItVi01TWpzV3BIdTRDUDJUblRwSkFSZDl6S0J1NE42bzE4bEsxVGMyeURKR3lTbmlYNTRLQnM2TmFCQ1JUZkJ1aFppVURGQjkxSk1PVWtCcEF1Sy12SlB5a3UyaW5lVkhkMWZtTktaclE?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-09T15:05:39.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "04296f396760912c",
+          "title": "Jensen Huang Is ‘Core DNA of Nvidia and Its AI Success’: Dan Ives Says CEO ‘Not Replaceable’",
+          "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxOUlJOYTIwOXdSbno0ZGZFdW1SWUh3aDc4TVNRVXNzYVJmek83SHZwR3ZjaHZHUkRTMWZMSERkeTNJa1dzZkgwS01kRXZ0VERoMFJGUnFDSExrUkdXWC1GekozQkg5R2t1eWhfV3paVUdKUjljc2V0cVhtbFhOY1JtSmpXNUpDcmpKV1dZVkdwdWY1bm94UF81dVZCenN4QndRX2J5RHNjSmk3ajhUUnY0Uk5xQVVfTnpKVHNBamVPYVJPOHBIZnNBdW1SZXBFLTJFNnZBMUp3d0gwdnZTakNsY2tkMlVQZ1RSTmcyTHFUeE0zWmgtQ1E?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-09T14:28:26.000Z",
+          "published_at": "2026-11-09T15:04:18.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8830f08194a085f2",
+          "title": "Nvidia Drama Explodes; The Startup Tricking Scammers by Using AI Agents",
+          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQeFNlQUVnUXdMWTQtTUtWSEVUcTJTSVRSRnZzcW1QN3ZmaTR0YzJRbVJ5SVJ2VmJzSmdhOTNLMzZST0o4Y1BWTTRSRV94ZXNDaUFhNzZyajRtbHdpQlB3WmhONkl3LUx6Y2QwUWhUVUlYb0NqWTBONERnZTVvT2FfaFQ5al9UU2U1b0dDcFRLbkVNUjdmaUdXSmd1VENScWVyOThjYjk4Tm1lU0lGMGtSTVEwbmsyUmc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T15:01:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1744960920844e92",
+          "title": "Nvidia stock crashes 9% in worst fall since DeepSeek shock; Jensen Huang loses $15.1 billion as AI stocks tumble",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOaGh3T1JTdlBNWjJSMWM1bTUyVXZlMlRfUElqNkk5RlZudGV3WmhYZHB6UmtBX1hjOHkwZUhZb2J5d2ZrcmZaQml0WHMtOHZHbGZHR0psNkN5Nkh1M1FjZEwtZm55dG4yZi00SE5MaEdoS0dJUGxBRWFWdF94emxIUVg3Sng0NmszQ2tqNldTdkM1YVZYZS1uZ29MamJUMktGRjNGN2U2cmJURE9fRE5yT25HRk54bTZIU1BpWkNENA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-09T14:51:41.000Z",
           "score": -4,
           "positive": [],
           "negative": [
-            "down"
+            "crashes"
           ],
           "clickbait": []
         },
         {
-          "id": "12fb5e9836e82aee",
-          "title": "Nvidia: Investigation Into CEO Huang Casts Dark Cloud Over Company's Bright AI Future",
-          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOZ3BNcW1GcGJMSU5ic0JZWjJLSFVCYms4NU41U21PZDdpdjBJQjNPYmdoY2ZGUUNTQndPekNOMDlGODl1VFhtYTJKelRxdzBYQlYyX0FnVkJRc01oVVBpSmcxRDFJa0pKMnZaWFhpS3UyRmdQYzVRRmRCZTIwVUVjdDNCV0Fyb3MyRFhaTXg4ODNKRGF3Q1d0OXQ4WHNUYzVsVzZKcEoxZC1IcVZxZkdRN0lfZlpyMGRIa0ZfaEtLOXBYUExPdHc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:20:32.000Z",
+          "id": "15d320d9ca97d366",
+          "title": "Who is the suspected Chinese spy at centre of the Nvidia investigation?",
+          "url": "https://bbc.co.uk/news/videos/c80404zyr53wo",
+          "source": "bbc-tech",
+          "published_at": "2026-11-09T14:50:35.000Z",
           "score": -4,
           "positive": [],
           "negative": [
@@ -1802,71 +1867,42 @@
           "clickbait": []
         },
         {
-          "id": "75ba13e444ef0ff0",
-          "title": "Chinese AI lab that Dario Amodei complained to the US government is targeting Nvidia' most-powerful chips",
-          "url": "https://news.google.com/rss/articles/CBMi9AJBVV95cUxNQlIyM2dSMWdKdDZMdTZhR2c1cFhzbl9XNGk5blpYcTltZEJ6aThXSXFaZ3ZNME5LX0VxaFJnUGQ1b0pCeWEzMTBIeVZ1V19jSVlfRHotbG12QTdYT3JTUzV5aXZ5bkwyZGdKMGxseHhfaGZ3Wk92djZjZmQ0bTZQNkNOQkVZOHRNTDZ0YnR2WkFHV2xfMDhFQVhfcHBSWHY3VXlteEhIWXRYbnRMS0lZRW92QUowQndmVVE5dy1kRzRvUWdZX2dJVkpGX2UwR0JsbTNCYVZueU1qMGRSRkY2OXhCWFpXcm5JaWZHUUZzTTljdnJ2eERYSHVXbmZKNlMzSElTb19qOS1lRzAtcTlsY1NNWmRYWTdYZ1N5UFNzNklNLVZJN1VadW8yaGo3TXdFUFBJUEpRUzc2UzBDeDZ6VmtmQ05xMENzN1hCSnU0S0pscWlDaEZDbkRuVTg2VmczTjJTd2RIb3ZkaTVPemx5aEVBMFrSAfoCQVVfeXFMTUJhdHdvUkhrVDBZVzFKdjJxd0NXX1hWY3ppdUxONVVMcFpXQkNhRFFuUFJBN2RjS1YyamlJUmt3VEQxRDFaSU5PQXl0VHV3NzlZTWpmeUJlTHlwUmJRT3ZfWkhZUW1weGJEVzE5QUdrQjVnaFJZSVhRQzhLZVlSNWdNSGVLYktud3N6QkdLS1U4VldKTlZHbE40RVBoTVJEX2JWVTItZFNwTUduamtuMXF6VENhN2UxeEVMWnN0aUFqSFVZLWNRY0hUdjVBeW5PQS0tSkhLUVJJSF9aNkoxdTNyQmdzbm1wZGJkNno4UThHQy1TVlZDYjNMbHJqWjM5SkNITjgzME90NlFJbFE3WFRQLVpvdE8wRnlDRURUWnJVcl8tdkRxbVNkc1FSb0UxRUU4aU9FVG1HZXNIbE40UFJJellGbWNwV2xNSzFheklZb1RhR0ZzSUNJMDNZSnpLcExjcWtMbF9JbGRDbTNHWUJxVEhSX3p1SThB?oc=5",
+          "id": "cd17579593f4a953",
+          "title": "Google Expands AI Chip Portfolio as Nvidia Faces Investigation Involving CEO",
+          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQUG1mU0tBNXRldGVkb2toaS1wN3lYeU1mQkdPdElnV1dKX2dlMlNxaHgyQWt2OUZZS2x0UGNVYk1HSHQwMGZsaWtaNFZTOElYOEdwQV94Nnd4OFNmeHBfMlM3T0k5MDJFZk80c21OeHRrNmwtR2tfaWJ6RGdMcDQ4eGhYVUIzZ251cEpIaExfbE1KbXhIR3JNbjBWTlU?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-09T14:19:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "eb1488f3b6a2512a",
-          "title": "A Famous Research Report Says AI Spending Has Peaked. Should Nvidia Investors Worry?",
-          "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOVDZ1MnQ5VFl4d21pTzZkclpnSWhqdWo5ODRMUHFlUVl5Vk5POWhBNTZZWmJ3TEktYTVXRWRianI5VWdtV0hacTBJTFpCWnJKWWptdExRSDFiY1dLNW1aS0VQMnNMQ2tTVEpmcEtTN0ZPRHJBanNvRGRHWENUQjZGYzZYOXNWSzlHclFxUXdfZ093SFl1SENMVUNjQTh2aENfOWJsMGVHWkExRGh3SVFNRnRLcHZIeGlzWmFlOEp2MWpGRUJrenR2ekRYV1MyZ3Fub3A5TkRXN2FGeDA3dm9teGtSRmljUFJGYW5ubENPY0pLaTJJb1cwTWhBeVFkUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:12:30.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "be15e45179f37970",
-          "title": "Jensen Huang Net Worth Falls $15.1B, Nvidia -9.26% [2026]",
-          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOQkJWdmtid0stMFUtbnFUaHdGYUlocDVWT2dvMS0wbUNFMU9mdW1uZ1U0b0QwQ0ZrRmxhYzBMS0pfMHlDcEZSU1dxS1NRZ20wVEN5QzNMeVppWTFrVjBQcEpfajNjRy1zUnNFeG9oYzA4cE5zYy04ajR6aEVlT2tWOFVwWkZwV1BodlMxU21oUkpSZTdxUjJZcGthUEtzMXdy?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:05:56.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9affa5776f31f6ca",
-          "title": "SK Telecom, Nvidia work on South Korea's sovereign AI infrastructure",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPMXRNTWwwbTlhMWxJcHhweFhhaFRMdWdUZVhtbkFzYkMxRnVhbWdoenlYNjg0UHU1X19WUldLQ3R0ZlFHTER4NjBsVkplcjk3bklDM1U0aGQtSE40di0zWmdCZ3pXYWhja3FKVVVYSkpCS0wwUXdSYmNoeW56NmZDUGxiTlNXVC1EMnYzUlNJaUxqNW43V0t0aHd1eE9TUF8tRWhIYjFNQl9ZeUtPamdGUDVB0gG3AUFVX3lxTE83N3R5WXRDZVNLUDdWX044WFNTdXBsYnV4dzlBV2JEaUlaUnpEX2ZzRjVHVGNSbk9fRGV0M1N1Y3YtUXd3Ylp1UFlpMUZTS3QwM2ZDOFdZeXJLM3Q2RWF3MVR5T2ZQUDlDblNqY2k1eGxhNGxRa0lNVnpxSFNfa25tcFVtSmp0aDRPRlcxRzg3Nmhpay1Ca01ydk9HQlJVN1AwZ1RvWkQ5ell4S1lWYkNUTDc0X0hzSQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-09T14:01:30.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e9d73684b6020c5d",
-          "title": "‘I have fallen short’: Read Jensen Huang’s letter to Nvidia about his affair",
-          "url": "https://bsky.app/profile/washingtonpost.com/post/3mzv3lebmxn2m",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-09T14:00:32.729Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6e07690c27eb09da",
-          "title": "Practice Makes Precise: At CoRL, NVIDIA and Partners Reveal How Robots Rehearse Delicate Work in Simulation",
-          "url": "https://blogs.nvidia.com/blog/robotics-simulation-advancements-corl",
-          "source": "nvidia-blog",
-          "published_at": "2026-11-09T14:00:01.000Z",
-          "score": 3,
+          "published_at": "2026-11-09T14:45:36.000Z",
+          "score": -1,
           "positive": [
-            "partners"
+            "expands"
           ],
+          "negative": [
+            "investigation"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "1e660d22960b6c3f",
+          "title": "Nvidia-Backed Cohere Says IPO Timing Uncertain Despite Surging Revenue",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQX0xzbkZDSktlNl9LTFZWNENQTXgxT0gtVEVNclBXMmVTVnFuVU9BeTBwc3h0UWtXU3RkTzF2dUVzQmF5UXFzS1BDQWlmZHBMbzVhakZfRTZYSExTcEJqVjhFTWlwYkRyNFFxME82WmJLQ21jSHFfenFBc0RFemJ5VHMxMVhSYXY5SkRDRkQxRzcxano1OWZpUDFKQXhkMUhGQ0ZjbU0zNEt2OXRDTzQxcnhlRzMwV1Z3WFF3?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-09T14:34:31.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b457edc5cee99756",
+          "title": "Nvidia faces defining test as Jensen Huang probe adds to chip stock turbulence",
+          "url": "https://scmp.com/tech/big-tech/article/3373825/nvidia-faces-defining-test-jensen-huang-probe-adds-chip-stock-turbulence",
+          "source": "scmp-tech",
+          "published_at": "2026-11-09T14:30:07.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "probe"
+          ],
           "clickbait": []
         }
       ]
