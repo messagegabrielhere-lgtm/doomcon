@@ -1,15 +1,15 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-09T18:50:33.440Z",
+  "generated_at": "2026-11-09T19:34:32.603Z",
   "affects_index": false,
   "agent_prs": {
     "ok": true,
-    "total_24h": 4019,
+    "total_24h": 4023,
     "by_agent": [
       {
         "app": "copilot-swe-agent",
         "name": "GitHub Copilot agent",
-        "prs_24h": 1358
+        "prs_24h": 1365
       },
       {
         "app": "devin-ai-integration",
@@ -19,203 +19,213 @@
       {
         "app": "chatgpt-codex-connector",
         "name": "OpenAI Codex",
-        "prs_24h": 0,
-        "approximate": true
+        "prs_24h": 0
       },
       {
         "app": "claude",
         "name": "Claude",
-        "prs_24h": 290
+        "prs_24h": 282
       },
       {
         "app": "cursor",
         "name": "Cursor",
-        "prs_24h": 703
+        "prs_24h": 702
       },
       {
         "app": "google-labs-jules",
         "name": "Google Jules",
-        "prs_24h": 283
+        "prs_24h": 289
       }
     ],
-    "branch_total_24h": 18208,
+    "branch_total_24h": 159390,
     "by_branch": [
       {
         "prefix": "codex/",
         "name": "OpenAI Codex",
-        "prs_24h": null,
-        "error": "HTTP 403 Forbidden from https://api.github.com/search/issues?q=is%3Apr%20head%3Acodex%2F%20created%3A%3E%3D2026-11-08T18"
+        "prs_24h": 39311
       },
       {
         "prefix": "claude/",
         "name": "Claude Code",
-        "prs_24h": null,
-        "error": "HTTP 403 Forbidden from https://api.github.com/search/issues?q=is%3Apr%20head%3Aclaude%2F%20created%3A%3E%3D2026-11-08T1"
+        "prs_24h": 101613
       },
       {
         "prefix": "cursor/",
         "name": "Cursor",
-        "prs_24h": 15049
+        "prs_24h": 15297
       },
       {
         "prefix": "copilot/",
         "name": "GitHub Copilot",
-        "prs_24h": 1519
+        "prs_24h": 1522
       },
       {
         "prefix": "jules/",
         "name": "Google Jules",
-        "prs_24h": 42
+        "prs_24h": 40
       },
       {
         "prefix": "devin/",
         "name": "Devin",
-        "prs_24h": 1598
+        "prs_24h": 1607
       }
     ],
     "work": {
-      "sample_size": 230,
+      "sample_size": 270,
       "kinds": [
         {
-          "id": "feature",
-          "n": 64
+          "id": "other",
+          "n": 70
         },
         {
-          "id": "other",
-          "n": 61
+          "id": "feature",
+          "n": 54
         },
         {
           "id": "fix",
-          "n": 28
+          "n": 50
+        },
+        {
+          "id": "refactor",
+          "n": 18
+        },
+        {
+          "id": "tests",
+          "n": 18
         },
         {
           "id": "docs",
           "n": 17
         },
         {
-          "id": "tests",
-          "n": 14
-        },
-        {
-          "id": "refactor",
-          "n": 13
-        },
-        {
-          "id": "ci",
-          "n": 11
-        },
-        {
           "id": "improve",
-          "n": 6
-        },
-        {
-          "id": "perf",
-          "n": 6
-        },
-        {
-          "id": "ui",
-          "n": 5
+          "n": 16
         },
         {
           "id": "deps",
+          "n": 9
+        },
+        {
+          "id": "ui",
+          "n": 8
+        },
+        {
+          "id": "ci",
+          "n": 5
+        },
+        {
+          "id": "perf",
           "n": 5
         }
       ],
       "by_agent": {
         "GitHub Copilot agent": {
-          "feature": 12,
-          "fix": 6,
-          "refactor": 1,
-          "other": 7,
+          "fix": 11,
+          "feature": 4,
+          "other": 4,
+          "improve": 3,
+          "refactor": 2,
+          "ui": 2,
+          "deps": 1,
           "tests": 1,
-          "ci": 1,
           "docs": 2
         },
         "Devin": {
-          "other": 13,
+          "other": 11,
+          "fix": 9,
+          "ci": 4,
           "tests": 5,
+          "ui": 4,
           "feature": 11,
-          "ci": 10,
-          "docs": 3,
+          "perf": 2,
+          "deps": 1,
           "refactor": 2,
-          "ui": 5,
-          "fix": 1
+          "improve": 1
         },
-        "OpenAI Codex": {},
-        "Claude": {
+        "OpenAI Codex": {
+          "fix": 2,
+          "feature": 3,
+          "tests": 4,
+          "improve": 2,
           "other": 8,
-          "feature": 11,
-          "refactor": 2,
-          "fix": 4,
+          "refactor": 1
+        },
+        "Claude": {
+          "fix": 6,
+          "deps": 1,
+          "feature": 6,
+          "other": 9,
+          "refactor": 3,
           "tests": 2,
           "docs": 2,
           "improve": 1
         },
         "Cursor": {
-          "fix": 10,
-          "feature": 7,
-          "docs": 8,
           "other": 17,
-          "improve": 3,
-          "deps": 1,
           "tests": 2,
-          "perf": 1,
+          "docs": 9,
+          "feature": 5,
+          "improve": 7,
+          "fix": 7,
+          "deps": 2,
           "refactor": 1
         },
         "Google Jules": {
-          "deps": 4,
-          "refactor": 6,
-          "feature": 15,
-          "fix": 5,
-          "other": 8,
-          "tests": 4,
-          "perf": 5,
-          "docs": 2,
-          "improve": 1
+          "feature": 17,
+          "other": 10,
+          "fix": 6,
+          "refactor": 7,
+          "deps": 3,
+          "tests": 3,
+          "perf": 3,
+          "docs": 1
+        },
+        "Claude Code": {
+          "docs": 3,
+          "feature": 2,
+          "fix": 3,
+          "other": 9,
+          "ci": 1,
+          "tests": 1,
+          "refactor": 1
         },
         "GitHub Copilot": {
-          "feature": 8,
-          "other": 8,
-          "fix": 2,
+          "feature": 6,
+          "deps": 1,
+          "fix": 6,
+          "other": 2,
+          "improve": 2,
           "refactor": 1,
-          "improve": 1
+          "ui": 2
         }
       },
       "languages": [
         {
           "name": "TypeScript",
-          "n": 55
+          "n": 64
         },
         {
           "name": "Python",
-          "n": 38
+          "n": 54
         },
         {
           "name": "JavaScript",
-          "n": 14
-        },
-        {
-          "name": "Go",
-          "n": 8
-        },
-        {
-          "name": "Jupyter Notebook",
-          "n": 6
-        },
-        {
-          "name": "Rust",
-          "n": 6
-        },
-        {
-          "name": "HTML",
-          "n": 6
-        },
-        {
-          "name": "Java",
-          "n": 5
+          "n": 15
         },
         {
           "name": "C#",
+          "n": 10
+        },
+        {
+          "name": "HTML",
+          "n": 9
+        },
+        {
+          "name": "Go",
+          "n": 5
+        },
+        {
+          "name": "TypeSpec",
           "n": 4
         },
         {
@@ -223,372 +233,380 @@
           "n": 4
         },
         {
-          "name": "GDScript",
+          "name": "Rust",
+          "n": 4
+        },
+        {
+          "name": "Java",
           "n": 3
         },
         {
-          "name": "Dart",
+          "name": "Solidity",
+          "n": 2
+        },
+        {
+          "name": "PHP",
           "n": 2
         }
       ],
       "top_repos": [
         {
-          "repo": "johnkozaris/Kodosi",
-          "n": 9
-        },
-        {
-          "repo": "COG-GTM/shopizer",
-          "n": 8
-        },
-        {
-          "repo": "github/gh-aw",
-          "n": 6
-        },
-        {
-          "repo": "CentraGlobal/zed",
-          "n": 6
-        },
-        {
-          "repo": "terraware/web-components",
+          "repo": "camp-candor/000.microservice-audio",
           "n": 5
         },
         {
-          "repo": "maarten-k/gatk",
+          "repo": "Azure/azure-rest-api-specs",
           "n": 4
         },
         {
-          "repo": "camp-candor/000.microservice-audio",
+          "repo": "aryanshaurya1012-collab/skills-code-with-codespaces",
           "n": 4
         },
         {
-          "repo": "janhoeree/TISP_Teamportaal",
+          "repo": "iftheshoefritz/webula",
+          "n": 4
+        },
+        {
+          "repo": "ofayese/OJU-Video-Forge",
+          "n": 3
+        },
+        {
+          "repo": "yohann888/downhill",
+          "n": 3
+        },
+        {
+          "repo": "RKarseka/ra-razorenie-as-pro-tg-bot",
+          "n": 3
+        },
+        {
+          "repo": "epartscart/ecomae",
           "n": 3
         }
       ],
       "latest": [
         {
           "agent": "Devin",
-          "title": "fix(ruvocal/mcp-bridge): refuse foreign browser requests in local-only mode (#4226)",
-          "repo": "QRCL-Technologies/ruflo",
-          "url": "https://github.com/QRCL-Technologies/ruflo/pull/1",
-          "at": "2026-11-09T18:52:22Z",
-          "kind": "fix",
+          "title": "feat(v2): パーティモードの場一覧・作成・会話UI（RIT-216）",
+          "repo": "kouiso/character-chat",
+          "url": "https://github.com/kouiso/character-chat/pull/108",
+          "at": "2026-11-09T19:35:35Z",
+          "kind": "feature",
           "language": null
         },
         {
           "agent": "Devin",
-          "title": "Step 2b: ORA redesign (navy/gold) + full Rides/Logistics/Rental/Services catalogues (frontend only)",
-          "repo": "mahams12/Ora-app",
-          "url": "https://github.com/mahams12/Ora-app/pull/4",
-          "at": "2026-11-09T18:52:08Z",
+          "title": "Accept split and time entry without a \":\" key on phone keypads",
+          "repo": "jkdreamr/stanfordrowingoyo",
+          "url": "https://github.com/jkdreamr/stanfordrowingoyo/pull/59",
+          "at": "2026-11-09T19:35:33Z",
           "kind": "other",
-          "language": null
+          "language": "TypeScript"
         },
         {
-          "agent": "Cursor",
-          "title": "SEO sprint Nov 9: ownership depth, Bridge facts, and four rate notes",
-          "repo": "mattmilford1997/anvil",
-          "url": "https://github.com/mattmilford1997/anvil/pull/68",
-          "at": "2026-11-09T18:51:58Z",
-          "kind": "other",
-          "language": "Astro"
-        },
-        {
-          "agent": "GitHub Copilot",
-          "title": "[WIP] Add event registration system with QR-code ticketing",
-          "repo": "FrankMCodez/UniEventsDotNetProject",
-          "url": "https://github.com/FrankMCodez/UniEventsDotNetProject/pull/1",
-          "at": "2026-11-09T18:51:56Z",
-          "kind": "feature",
-          "language": null
-        },
-        {
-          "agent": "Cursor",
-          "title": "Report measured loudness before and after normalize (KLH-309)",
-          "repo": "KyaniteLabs/kinocut",
-          "url": "https://github.com/KyaniteLabs/kinocut/pull/699",
-          "at": "2026-11-09T18:51:55Z",
-          "kind": "other",
-          "language": "Python"
-        },
-        {
-          "agent": "Cursor",
-          "title": "docs: refresh README screenshots (TestBackend + Komut Rehberi)",
-          "repo": "Teknoloji-Filozoflari/Nova",
-          "url": "https://github.com/Teknoloji-Filozoflari/Nova/pull/63",
-          "at": "2026-11-09T18:51:50Z",
+          "agent": "Claude Code",
+          "title": "docs: close out #1663 follow-ups (applied record, live checks, parked deferrals)",
+          "repo": "croprxsolutions/CRX_Manager_V1.0",
+          "url": "https://github.com/croprxsolutions/CRX_Manager_V1.0/pull/1704",
+          "at": "2026-11-09T19:35:18Z",
           "kind": "docs",
-          "language": "Rust"
+          "language": "PLpgSQL"
         },
         {
-          "agent": "Cursor",
-          "title": "fix(web): quitar subrayado naranja del nav y Enviar monocromo",
-          "repo": "JPGallegos1/neutro",
-          "url": "https://github.com/JPGallegos1/neutro/pull/122",
-          "at": "2026-11-09T18:51:43Z",
+          "agent": "Claude Code",
+          "title": "feat(ios): import PDFs from Files and read them beside their note",
+          "repo": "meddlin/composition",
+          "url": "https://github.com/meddlin/composition/pull/285",
+          "at": "2026-11-09T19:35:18Z",
+          "kind": "feature",
+          "language": null
+        },
+        {
+          "agent": "Claude Code",
+          "title": "fix: el interruptor de automatizaciones apagado se ve en ámbar de alerta en la cabecera y en el panel",
+          "repo": "algeronimo92/sugerencias-chat",
+          "url": "https://github.com/algeronimo92/sugerencias-chat/pull/140",
+          "at": "2026-11-09T19:35:18Z",
           "kind": "fix",
-          "language": "TypeScript"
+          "language": null
         },
         {
-          "agent": "Cursor",
-          "title": "fix(creature creator): ability limits +10 / −4 (ignore stale core_rules)",
-          "repo": "MastersoftheRealm/RealmsRPG-Test",
-          "url": "https://github.com/MastersoftheRealm/RealmsRPG-Test/pull/554",
-          "at": "2026-11-09T18:51:38Z",
-          "kind": "fix",
-          "language": "TypeScript"
-        },
-        {
-          "agent": "Cursor",
-          "title": "Pin Report a Bug to the bottom of the sidebar",
-          "repo": "JSamyak08/samyakflexi-erp",
-          "url": "https://github.com/JSamyak08/samyakflexi-erp/pull/102",
-          "at": "2026-11-09T18:51:36Z",
-          "kind": "fix",
-          "language": "JavaScript"
-        },
-        {
-          "agent": "Cursor",
-          "title": "Land on Home when a season is still current",
-          "repo": "chasejrose5-coder/rio",
-          "url": "https://github.com/chasejrose5-coder/rio/pull/55",
-          "at": "2026-11-09T18:51:30Z",
+          "agent": "Claude Code",
+          "title": "roarstudio-import: Spotify links",
+          "repo": "alexisdigipro-hub/roarme",
+          "url": "https://github.com/alexisdigipro-hub/roarme/pull/206",
+          "at": "2026-11-09T19:35:17Z",
           "kind": "other",
+          "language": null
+        },
+        {
+          "agent": "Devin",
+          "title": "Derive latest models automatically instead of hardcoding them",
+          "repo": "BOTOOM/llm-token-calculator",
+          "url": "https://github.com/BOTOOM/llm-token-calculator/pull/9",
+          "at": "2026-11-09T19:35:17Z",
+          "kind": "other",
+          "language": null
+        },
+        {
+          "agent": "Claude Code",
+          "title": "Studio: Spotify links",
+          "repo": "alexisdigipro-hub/roartransfer",
+          "url": "https://github.com/alexisdigipro-hub/roartransfer/pull/82",
+          "at": "2026-11-09T19:35:14Z",
+          "kind": "other",
+          "language": null
+        },
+        {
+          "agent": "Claude Code",
+          "title": "ci: pin the knowledge store check to the ORGANIZE 1.27 checker",
+          "repo": "jonhill90/inpara",
+          "url": "https://github.com/jonhill90/inpara/pull/11",
+          "at": "2026-11-09T19:35:13Z",
+          "kind": "ci",
+          "language": null
+        },
+        {
+          "agent": "Claude Code",
+          "title": "📝 docs: sync and archive show-episode-player-status",
+          "repo": "codekiln/logseq-gardener",
+          "url": "https://github.com/codekiln/logseq-gardener/pull/602",
+          "at": "2026-11-09T19:35:12Z",
+          "kind": "docs",
+          "language": null
+        },
+        {
+          "agent": "Claude Code",
+          "title": "边说边上屏完整版：草稿直接出现在输入框 · v0.4.21",
+          "repo": "Yhaijiao/saykey-ios-keyboard",
+          "url": "https://github.com/Yhaijiao/saykey-ios-keyboard/pull/13",
+          "at": "2026-11-09T19:35:12Z",
+          "kind": "other",
+          "language": null
+        },
+        {
+          "agent": "Claude Code",
+          "title": "feat(swipe): private album for matches, and ad zones ready",
+          "repo": "Codeqlick/Codeqlick",
+          "url": "https://github.com/Codeqlick/Codeqlick/pull/164",
+          "at": "2026-11-09T19:35:12Z",
+          "kind": "feature",
+          "language": "TypeScript"
+        },
+        {
+          "agent": "OpenAI Codex",
+          "title": "fix: preserve exceptions in instrumented async context managers",
+          "repo": "pydantic/logfire",
+          "url": "https://github.com/pydantic/logfire/pull/2767",
+          "at": "2026-11-09T19:35:11Z",
+          "kind": "fix",
           "language": "Python"
         },
         {
-          "agent": "Cursor",
-          "title": "Add Conventional, FHA, and VA options to the mortgage calculator",
-          "repo": "enesma7/enesma-calculators",
-          "url": "https://github.com/enesma7/enesma-calculators/pull/3",
-          "at": "2026-11-09T18:51:27Z",
-          "kind": "feature",
-          "language": "HTML"
+          "agent": "Claude Code",
+          "title": "Фенологик прогноз: сана сургичи (2.2)",
+          "repo": "75665fffffff6tttt/Cluess-ushun",
+          "url": "https://github.com/75665fffffff6tttt/Cluess-ushun/pull/72",
+          "at": "2026-11-09T19:35:11Z",
+          "kind": "other",
+          "language": null
         },
         {
-          "agent": "Cursor",
-          "title": "fix(security): load x-crypto test vectors from pinned upstream module",
-          "repo": "OpenSesame-Labs/OpenSesame",
-          "url": "https://github.com/OpenSesame-Labs/OpenSesame/pull/2537",
-          "at": "2026-11-09T18:51:23Z",
-          "kind": "fix",
+          "agent": "OpenAI Codex",
+          "title": "feat(web): loop exhausted Home Track carousels",
+          "repo": "Theryston/vozzify",
+          "url": "https://github.com/Theryston/vozzify/pull/523",
+          "at": "2026-11-09T19:35:10Z",
+          "kind": "feature",
           "language": "TypeScript"
         },
         {
-          "agent": "Cursor",
-          "title": "Add a standalone Hungarian immersion PWA",
-          "repo": "bzybandit-bot/magyar-app",
-          "url": "https://github.com/bzybandit-bot/magyar-app/pull/1",
-          "at": "2026-11-09T18:51:21Z",
-          "kind": "feature",
-          "language": null
-        },
-        {
-          "agent": "Cursor",
-          "title": "fix(courier): meta-адрес после GAS + без «·» (t506)",
-          "repo": "konchaarsenia-a11y/superboyna",
-          "url": "https://github.com/konchaarsenia-a11y/superboyna/pull/737",
-          "at": "2026-11-09T18:51:18Z",
-          "kind": "fix",
-          "language": "JavaScript"
-        },
-        {
-          "agent": "Cursor",
-          "title": "Auto-consume excess emoji in the Bank",
-          "repo": "choy551/emojirl",
-          "url": "https://github.com/choy551/emojirl/pull/70",
-          "at": "2026-11-09T18:51:15Z",
-          "kind": "other",
-          "language": null
-        },
-        {
-          "agent": "Cursor",
-          "title": "OPS: collapse dated race/closure alerts on phone",
-          "repo": "passplusmotorcycle/passplus-website-build",
-          "url": "https://github.com/passplusmotorcycle/passplus-website-build/pull/22",
-          "at": "2026-11-09T18:51:08Z",
-          "kind": "other",
-          "language": null
-        },
-        {
-          "agent": "Cursor",
-          "title": "Rewrite the Portland guide to The Dancing Mary",
-          "repo": "testedprofit/testedprofit",
-          "url": "https://github.com/testedprofit/testedprofit/pull/128",
-          "at": "2026-11-09T18:51:08Z",
-          "kind": "other",
-          "language": null
-        },
-        {
-          "agent": "Cursor",
-          "title": "HTTPS для app/api: certbot + дефолт https://api.harkonlord.su",
-          "repo": "harkonlord-psixoz/feed-time",
-          "url": "https://github.com/harkonlord-psixoz/feed-time/pull/10",
-          "at": "2026-11-09T18:51:01Z",
-          "kind": "other",
-          "language": null
-        },
-        {
-          "agent": "Cursor",
-          "title": "加上出场研究和杠杆模拟",
-          "repo": "Donglee1021/crypto-backtest",
-          "url": "https://github.com/Donglee1021/crypto-backtest/pull/2",
-          "at": "2026-11-09T18:50:57Z",
-          "kind": "other",
-          "language": null
-        },
-        {
-          "agent": "Cursor",
-          "title": "fix(docs): INT-364 serve VitePress assets under the public Pages path",
-          "repo": "blooo-io/intelligent-eu-bps-source",
-          "url": "https://github.com/blooo-io/intelligent-eu-bps-source/pull/59",
-          "at": "2026-11-09T18:50:56Z",
+          "agent": "Claude Code",
+          "title": "workflow ready: a research issue is never a ready build ticket (#572)",
+          "repo": "medTech-group/pairnexus-workflow",
+          "url": "https://github.com/medTech-group/pairnexus-workflow/pull/599",
+          "at": "2026-11-09T19:35:10Z",
           "kind": "fix",
           "language": null
         },
         {
-          "agent": "GitHub Copilot",
-          "title": "Add interactive GitHub Copilot app demo",
-          "repo": "jolguk/skills-copilot-code-review",
-          "url": "https://github.com/jolguk/skills-copilot-code-review/pull/6",
-          "at": "2026-11-09T18:50:53Z",
-          "kind": "feature",
-          "language": null
-        },
-        {
-          "agent": "Cursor",
-          "title": "perf(rls): a leitura deixa de reavaliar permissão por linha",
-          "repo": "mindtech111/DeskcommCRM",
-          "url": "https://github.com/mindtech111/DeskcommCRM/pull/6",
-          "at": "2026-11-09T18:50:52Z",
-          "kind": "perf",
-          "language": null
-        },
-        {
-          "agent": "Cursor",
-          "title": "Specify Funded's payout architecture and database",
-          "repo": "shawkkkkk/funded",
-          "url": "https://github.com/shawkkkkk/funded/pull/2",
-          "at": "2026-11-09T18:50:36Z",
+          "agent": "Claude Code",
+          "title": "Refuse a prescriptive filing the state's cited rules send engineered",
+          "repo": "Moosen-alt/Proj",
+          "url": "https://github.com/Moosen-alt/Proj/pull/637",
+          "at": "2026-11-09T19:35:10Z",
           "kind": "other",
           "language": null
         },
         {
-          "agent": "Cursor",
-          "title": "Rename the Checker drop_fields variable so firm-field confirms work",
-          "repo": "mindgame77/regrettamine",
-          "url": "https://github.com/mindgame77/regrettamine/pull/382",
-          "at": "2026-11-09T18:50:30Z",
+          "agent": "Claude Code",
+          "title": "tests: pin integrity minimum-sample assertions to frozen historical fixture",
+          "repo": "chmoses98/cfb-edge-finder",
+          "url": "https://github.com/chmoses98/cfb-edge-finder/pull/286",
+          "at": "2026-11-09T19:35:10Z",
+          "kind": "tests",
+          "language": null
+        },
+        {
+          "agent": "Claude Code",
+          "title": "Draw comparison routes one home at a time",
+          "repo": "williamsstu99-beep/Settle-",
+          "url": "https://github.com/williamsstu99-beep/Settle-/pull/4",
+          "at": "2026-11-09T19:35:10Z",
+          "kind": "other",
+          "language": null
+        },
+        {
+          "agent": "OpenAI Codex",
+          "title": "Verify isolated authentication lifecycle in release checks",
+          "repo": "Otto-space/allied-autotech",
+          "url": "https://github.com/Otto-space/allied-autotech/pull/35",
+          "at": "2026-11-09T19:35:09Z",
+          "kind": "tests",
+          "language": "TypeScript"
+        },
+        {
+          "agent": "Claude Code",
+          "title": "Migração 20261109a (cdm) aplicada: sai de \"Pendentes\" no README",
+          "repo": "fexpepe/tcg-collector",
+          "url": "https://github.com/fexpepe/tcg-collector/pull/243",
+          "at": "2026-11-09T19:35:09Z",
+          "kind": "docs",
+          "language": null
+        },
+        {
+          "agent": "Claude Code",
+          "title": "Apply the black-and-white pill design system and simplify every section",
+          "repo": "Sphamandla-designer/sphamandlaxaba",
+          "url": "https://github.com/Sphamandla-designer/sphamandlaxaba/pull/68",
+          "at": "2026-11-09T19:35:08Z",
           "kind": "refactor",
           "language": null
         },
         {
-          "agent": "Claude",
-          "title": "Night shift 2026-11-09: no tasks left (blocked on human steps)",
-          "repo": "gabriel-wargha/studyrats",
-          "url": "https://github.com/gabriel-wargha/studyrats/pull/6",
-          "at": "2026-11-09T18:50:29Z",
-          "kind": "other",
-          "language": "TypeScript"
+          "agent": "Claude Code",
+          "title": "fix(review): report NULL triage and email fields as null",
+          "repo": "zacshak/Studio_Reach_Engine",
+          "url": "https://github.com/zacshak/Studio_Reach_Engine/pull/4",
+          "at": "2026-11-09T19:35:08Z",
+          "kind": "fix",
+          "language": null
         },
         {
-          "agent": "Devin",
-          "title": "docs(skills): add ODS setup traps for HTTPS origin and PYTHONPATH",
-          "repo": "onyx-dot-app/onyx",
-          "url": "https://github.com/onyx-dot-app/onyx/pull/17497",
-          "at": "2026-11-09T18:50:27Z",
-          "kind": "docs",
-          "language": "Python"
+          "agent": "Claude Code",
+          "title": "Answer pages for Linework, Cue and Backspin (compare, alternatives, FAQ, facts, llms.txt, sitemap)",
+          "repo": "MerlinWerlin/App-Projects",
+          "url": "https://github.com/MerlinWerlin/App-Projects/pull/261",
+          "at": "2026-11-09T19:35:08Z",
+          "kind": "other",
+          "language": null
         },
         {
           "agent": "Cursor",
-          "title": "fix: 가계부 가져오기·연결을 접어 상단 밀도를 낮춥니다",
-          "repo": "h3clo/hazeflow",
-          "url": "https://github.com/h3clo/hazeflow/pull/7",
-          "at": "2026-11-09T18:49:48Z",
-          "kind": "fix",
-          "language": "JavaScript"
+          "title": "Switch TLH rotator to beta-distance substitutes",
+          "repo": "qmcdonough1315/quirk_macro_web_dev",
+          "url": "https://github.com/qmcdonough1315/quirk_macro_web_dev/pull/3",
+          "at": "2026-11-09T19:35:07Z",
+          "kind": "improve",
+          "language": null
         },
         {
-          "agent": "Devin",
-          "title": "Texte : retour à la ligne avec Maj+Entrée",
-          "repo": "ZAHIRI1398/G-om-trie-en-poche",
-          "url": "https://github.com/ZAHIRI1398/G-om-trie-en-poche/pull/3",
-          "at": "2026-11-09T18:49:03Z",
+          "agent": "Claude Code",
+          "title": "Bundle the NDI library with the Linux builds",
+          "repo": "blue-tj01/LumenPresenter",
+          "url": "https://github.com/blue-tj01/LumenPresenter/pull/44",
+          "at": "2026-11-09T19:35:04Z",
           "kind": "other",
-          "language": "JavaScript"
+          "language": null
         },
         {
-          "agent": "Devin",
-          "title": "Texte : retour à la ligne avec Maj+Entrée",
-          "repo": "ZAHIRI1398/G-om-trie-en-poche",
-          "url": "https://github.com/ZAHIRI1398/G-om-trie-en-poche/pull/3",
-          "at": "2026-11-09T18:49:03Z",
+          "agent": "Claude Code",
+          "title": "Jn 1:14–18 06-the-framework: Lund read at first hand",
+          "repo": "ronroades747-droid/secnt-site",
+          "url": "https://github.com/ronroades747-droid/secnt-site/pull/100",
+          "at": "2026-11-09T19:35:04Z",
           "kind": "other",
-          "language": "JavaScript"
+          "language": null
         },
         {
-          "agent": "Devin",
-          "title": "[Tests] Ticket 4 - jjwt 0.12 + Spring Security 6 security: unit/integration/UAT tests for #349",
-          "repo": "COG-GTM/shopizer",
-          "url": "https://github.com/COG-GTM/shopizer/pull/354",
-          "at": "2026-11-09T18:49:00Z",
+          "agent": "OpenAI Codex",
+          "title": "Improve Owner App Value Asset sizing and readability",
+          "repo": "Aim4price/Aim4price.com-",
+          "url": "https://github.com/Aim4price/Aim4price.com-/pull/2013",
+          "at": "2026-11-09T19:35:03Z",
+          "kind": "improve",
+          "language": "TypeScript"
+        },
+        {
+          "agent": "OpenAI Codex",
+          "title": "Bill: podgląd i wysyłka przypomnienia o niezapłaconej fakturze",
+          "repo": "robisie/Cleanfleet",
+          "url": "https://github.com/robisie/Cleanfleet/pull/127",
+          "at": "2026-11-09T19:35:03Z",
+          "kind": "other",
+          "language": "HTML"
+        },
+        {
+          "agent": "OpenAI Codex",
+          "title": "Check private conditional-draw observations before estimation",
+          "repo": "itchyshin/pigauto",
+          "url": "https://github.com/itchyshin/pigauto/pull/300",
+          "at": "2026-11-09T19:34:57Z",
           "kind": "tests",
-          "language": null
-        },
-        {
-          "agent": "Devin",
-          "title": "[Tests] Ticket 4 - jjwt 0.12 + Spring Security 6 security: unit/integration/UAT tests for #349",
-          "repo": "COG-GTM/shopizer",
-          "url": "https://github.com/COG-GTM/shopizer/pull/354",
-          "at": "2026-11-09T18:49:00Z",
-          "kind": "tests",
-          "language": null
-        },
-        {
-          "agent": "GitHub Copilot agent",
-          "title": "[WIP] Add initial game design document for TDG",
-          "repo": "hansekiter/TDG",
-          "url": "https://github.com/hansekiter/TDG/pull/1",
-          "at": "2026-11-09T18:48:24Z",
-          "kind": "feature",
-          "language": null
+          "language": "R"
         },
         {
           "agent": "GitHub Copilot",
-          "title": "[WIP] Add initial game design document for TDG",
-          "repo": "hansekiter/TDG",
-          "url": "https://github.com/hansekiter/TDG/pull/1",
-          "at": "2026-11-09T18:48:24Z",
+          "title": "[WIP] Add README file for project portfolio",
+          "repo": "HentaBaldo/Portfolio",
+          "url": "https://github.com/HentaBaldo/Portfolio/pull/1",
+          "at": "2026-11-09T19:34:57Z",
           "kind": "feature",
           "language": null
         },
         {
-          "agent": "Devin",
-          "title": "Terug naar teamportaal links in de balk bovenaan",
-          "repo": "janhoeree/TISP_Teamportaal",
-          "url": "https://github.com/janhoeree/TISP_Teamportaal/pull/11",
-          "at": "2026-11-09T18:47:23Z",
+          "agent": "OpenAI Codex",
+          "title": "Reject malformed observations before local rendering",
+          "repo": "fishperson113/agent-expression-runtime",
+          "url": "https://github.com/fishperson113/agent-expression-runtime/pull/80",
+          "at": "2026-11-09T19:34:56Z",
           "kind": "other",
-          "language": "HTML"
+          "language": "JavaScript"
         },
         {
-          "agent": "Devin",
-          "title": "Terug naar teamportaal links in de balk bovenaan",
-          "repo": "janhoeree/TISP_Teamportaal",
-          "url": "https://github.com/janhoeree/TISP_Teamportaal/pull/11",
-          "at": "2026-11-09T18:47:23Z",
+          "agent": "OpenAI Codex",
+          "title": "Develop stranded-captain story and V01 storyboard concepts",
+          "repo": "David-and-Kenny/Worms-Lost-in-Space-and-Time",
+          "url": "https://github.com/David-and-Kenny/Worms-Lost-in-Space-and-Time/pull/24",
+          "at": "2026-11-09T19:34:54Z",
           "kind": "other",
-          "language": "HTML"
+          "language": "C#"
         },
         {
-          "agent": "GitHub Copilot agent",
-          "title": "Fix Vercel deployment build",
-          "repo": "BuduTec/LMS-JP-SMART-SOLUTIONS",
-          "url": "https://github.com/BuduTec/LMS-JP-SMART-SOLUTIONS/pull/3",
-          "at": "2026-11-09T18:46:56Z",
+          "agent": "Cursor",
+          "title": "Fix Android monitor encoding, insets, and Gradle tests",
+          "repo": "louiscalata/agiw-suite",
+          "url": "https://github.com/louiscalata/agiw-suite/pull/69",
+          "at": "2026-11-09T19:34:54Z",
           "kind": "fix",
-          "language": "TypeScript"
+          "language": null
+        },
+        {
+          "agent": "Cursor",
+          "title": "lab(stock): SPIRIT pull/fib／strict×reclaim OOS（keep v106）",
+          "repo": "wayne05281019/WayneBot",
+          "url": "https://github.com/wayne05281019/WayneBot/pull/859",
+          "at": "2026-11-09T19:34:51Z",
+          "kind": "other",
+          "language": null
+        },
+        {
+          "agent": "OpenAI Codex",
+          "title": "Index Python syntax with bounded workers and explicit capability tiers",
+          "repo": "strmt7/VulnerabilityScreener",
+          "url": "https://github.com/strmt7/VulnerabilityScreener/pull/18",
+          "at": "2026-11-09T19:34:50Z",
+          "kind": "other",
+          "language": "Python"
         }
       ]
     },
@@ -639,8 +657,8 @@
   },
   "moltbook": {
     "ok": true,
-    "agents_seen": 27,
+    "agents_seen": 26,
     "posts_seen": 42,
-    "replies_seen": 111869
+    "replies_seen": 114522
   }
 }
