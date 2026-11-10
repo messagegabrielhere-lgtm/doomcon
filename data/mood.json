@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-10T21:34:03.716Z",
-  "news_generated_at": "2026-11-10T21:34:03.716Z",
+  "generated_at": "2026-11-10T22:25:24.656Z",
+  "news_generated_at": "2026-11-10T22:25:24.656Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,10 +18,10 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 285,
+    "headlines_naming_a_company": 286,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.136
+    "negative_pair_share": 0.137
   },
   "glance": {
     "leading": {
@@ -30,24 +30,35 @@
       "index": 4
     },
     "trailing": {
-      "id": "openai",
-      "name": "OpenAI",
-      "index": -5
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "index": -5.1
     },
     "most_discussed": {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 113
+      "headlines": 112
     }
   },
   "companies": [
     {
       "id": "apple",
       "name": "Apple",
-      "headlines": 5,
+      "headlines": 6,
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "9836df3492903c3f",
+          "title": "Apple has new Mac app coming to make running local AI models easy",
+          "url": "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy",
+          "source": "hn-ai",
+          "published_at": "2026-11-10T21:25:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "4ad7848222ba5600",
           "title": "My Week With Apple’s Beach-Friendly iPad Mini and Amazon’s Upscale Alexa Tablet",
@@ -113,6 +124,28 @@
       "mean_headline": -0.6,
       "sample": [
         {
+          "id": "6f95c5314b4c56ea",
+          "title": "OpenAI to Bring Pierre Computer’s Code Storage to Codex Through Acquisition",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQMHB3WDNrSi01NF8zXzUyZWdSb0U0ZUZyVlZWUF9jeVBfeHVTNkpESjFRSk1FWTk1aFZNcVl2LTRXdlpnR2N5eTRURXJMZkVRM0o5dlVSZWRuY0dVc2ZRTGRLb3M1WVZjRk54Z0doRGt2MVlDTURZaHR6LWpPR3RiT0FmU19vWWd6dE5iY3FLOWozZkNhSHJENktiRGtmc3dJM2xXSDFyOFNlM0N2b2FLWQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-10T22:21:47.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "abb1231862c56079",
+          "title": "OpenAI Bolsters Cyber Defenses",
+          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5jSmRVNVhpejROUVFObk9xUFIyYnZpY0NfNm5BWXpKN1hlWG1GV3NHR1F1Zm9weks3SjMycEowd3duWDM1Y0IwLUxrUVp0SkptMWh5bnZkSHh5aUZ5X0t5bC14eHlfQm43WWMzNXJkeG1ldlgwZ3lJU0FXMA?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-10T22:00:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "aa456e3792eb0973",
           "title": "Source: OpenAI told investors on Tuesday that its revenue jumped 50% to around $10B in Q3, up from 17% growth in Q2 (The Information)",
           "url": "https://techmeme.com/261110/p51",
@@ -177,38 +210,84 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "abb1231862c56079",
-          "title": "OpenAI Bolsters Cyber Defenses",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5jSmRVNVhpejROUVFObk9xUFIyYnZpY0NfNm5BWXpKN1hlWG1GV3NHR1F1Zm9weks3SjMycEowd3duWDM1Y0IwLUxrUVp0SkptMWh5bnZkSHh5aUZ5X0t5bC14eHlfQm43WWMzNXJkeG1ldlgwZ3lJU0FXMA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-10T19:43:41.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e2080c2a33b4c254",
-          "title": "OpenAI Acquires Odessia, the AI Travel Agent From Sonder’s Co-Founder",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxONGpXeWNILTNEanFCXzVFUmhBRWl4cEVXMWZnczhzYXpZS0VJZEFoWjhCUThHeUJ3Uk4tNHNBclcyVVVoZEdvRWFVdmJHZ0F6REdKbTdqek90d0VqcHBjSUNrMnZqSFBWVXNtNW9zLTJFQjVUaDBXOERab0Uyc1Q2RUhjYXZpZEQxU2VYU3JZLU9JQnRuRDNxRnZBOVdzeTlPeTRRUVJmV2djdU9oRUxKejMxLVk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T19:31:07.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 113,
-      "index": -4.5,
+      "headlines": 112,
+      "index": -5.1,
       "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "7a8faac8cd5a434e",
+          "title": "Uniserve To Acquire Additional NVIDIA B300 Systems to Expand Canadian AI Compute Capacity; $4 Million Loan Secured",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQUk9pNjFhU01DRnFibktONDhzSEs4VHJyN241R1dDS2lISkgybUhEa3FRbmRCdjhPNWRSODlGTDY4aFV4TG9kd1VwWTJCMTFuaGx3aDYxNmg2Rnh4VDZ0SWJyRmxzb2VtOWc1T3kyWTB5ak1uZUprYU1yYnlrdXRTenI5dmtEaWFxc1QybWJWTlIxWDZMc3gyRVFMa203Tm5HN18tb213?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-10T22:18:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f66dcb6a412bd973",
+          "title": "Anthropic’s Giant IPO Will Tie It Closer to Nvidia",
+          "url": "https://nytimes.com/2026/11/10/business/anthropic-ipo-nvidia.html",
+          "source": "nyt-tech",
+          "published_at": "2026-11-10T22:03:38.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1f238d496a2083ab",
+          "title": "US stocks fall on hot inflation report as Nvidia tumbles again",
+          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOVmVLVnRxSEJzWFh2NFBsM004Qk1YNDJTbklmRzl6Smtib2hPRVlQNlJzM0VYc2ZZdU5xNjJzeEpmUXVUdWM5NHpsT28tZ3J5VDh2dFZWOERLeTA1MnZuY05YZFpBUW55eE9kQXB5VHk3MWxTdFo5UUluUEtCMU5UNU84TmV4QQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-10T22:03:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1ebc84f17fdf899b",
+          "title": "Nvidia’s Bull Case Hinges on CEO Huang Surviving China Spy Probe",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3mzyfz3uxo42v",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-10T21:45:10.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "probe"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "c2224f604ef5a576",
+          "title": "Anthropic, Nvidia, CoreWeave, Take-Two, D-Wave, Securitize, and More That Explain Today’s Market",
+          "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBadmZWU2FuV3dHLWppWGY3d25ISDFGQXpneE9HcDRqX21TSjNzbWVIbk1OWUZiaWJhVktkSDlQMk1sQmg0aDJYdzMwTDI1eGJaQVdfRGdDel9ndHhNaXhROGZPckI?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-10T21:42:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d78f41446e0f7dfc",
+          "title": "AI & Tech Brief: Nvidia’s Capitol Hill fallout",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNQ3o0a0V0VVNQTGUyRDdoY1ZCd0hSZkpfS0NOSjlTWlo0V3VDbEh6Vm96R01VSHFIaWhJT2ZKRDRSekdPYXNjRkhTZlVzNmd4dFgwTnhwMTh1U3loZmlYYXI0aEdhMW81N0tPWEhYVk8zTGQzeWc1RnhrMERNVzREdHVFX2FOTTB4dEJXbXp5Ml96V0FFX2RtNC04QVMwZW1QZUMxWDdWelU2dlkzbVJvMXY5VEJLUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-10T21:41:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "9d12b2a602b0cf87",
           "title": "La crisis de Nvidia expone su dependencia de Jensen Huang",
@@ -230,28 +309,57 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "headlines": 96,
+      "index": 3.5,
+      "mean_headline": 0.4,
+      "sample": [
         {
-          "id": "aa3193ccfec4754b",
-          "title": "Nvidia could slip another 10-20% if CEO affair fallout grows, says expert",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5vWEEyUUduZ0l3SVJ5Q0Y5OVZpcFpQSmJfWjlCMzdleFJVeDVTdmxVUERWLVIxY2xkYUJkLUEwNENCUFZib2FMbUtDRVgwdkdkSzJGYjVKTzlHamlORGJkTFVuRXpCbURaZmNucFh2M0lZNlJMMDc5Mm9iR3pVdw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-10T21:02:32.000Z",
+          "id": "2e94838247b77db6",
+          "title": "Anthropic's margins support IPO case, say Burnham Park's Rohit Kulkarni",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPVE1MMUQwRTY4bkZ2NzJWYkxWSXlDcjBxOExzMTlRLWhEMFJRaUZmQmpscjNhelp3WGVUSEMtNkJPM2VLUVAtOE5BQWNCTEV1U1V2RjB3cmVYOGpUZU8zU1l5dnZLSHM0RzcydG0yZVEtSjRIRExuNzJTenVUaDRXRFI4Q2dNOTdRY1oxSzVxcGRrc0lacHFzdHQ2eGlKOEsyMmZmdWhsQllQS3Y1eG93Mg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-10T22:16:49.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "e50680e57e1dc330",
-          "title": "S-1: Nvidia plans to invest about $10B in Anthropic after its IPO, or ~10% of the new cash Anthropic is expected to raise this month, including in the IPO (Cory Weinberg/New York Times)",
-          "url": "https://techmeme.com/261110/p50",
-          "source": "techmeme",
-          "published_at": "2026-11-10T20:55:05.000Z",
-          "score": 3,
-          "positive": [
-            "raise"
-          ],
+          "id": "58632701037b45c8",
+          "title": "Anthropic's IPO by the Numbers: Range, Cornerstones and the Bill",
+          "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBGRW1yclZjTXlrN1o1aVo4cjM2ei1Od2psc2RlQ0ItUGlDaFVOM090Q09UVURFNEJRaWRtTUs5ZWVtZnlYTWp2SFVpRkVoRjhYWFAtN255Yjlwc2RzeGwzdURBYi1zazZmUzNXQkVn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-10T22:14:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "c5930c9e6fd8db03",
+          "title": "Stifel CEO on Anthropic, Integrating AI and Fed Policy",
+          "url": "https://bloomberg.com/news/videos/2026-11-10/stifel-ceo-on-anthropic-integrating-ai-and-fed-policy-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-10T22:08:48.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "752fce493c19d35c",
+          "title": "Anthropic IPO could give AI stocks a needed spark",
+          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9WcnpXY25VdUZRMy1MdVlJczZxWVVsMXRTaE1JYU9xMkVPZ3VuV1E5QWt5Y0x4Yi1yWnZxOHRFRFdzTkNTNWRkam1RVTRmX0ZoYWxaenhwRWQtNE40U2FMZEljbzRxbUZReWF4OXdnYW1FNmts?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-10T22:07:25.000Z",
+          "score": 0,
+          "positive": [],
           "negative": [],
           "clickbait": []
         },
@@ -260,137 +368,40 @@
           "title": "Anthropic’s Giant IPO Will Tie It Closer to Nvidia",
           "url": "https://nytimes.com/2026/11/10/business/anthropic-ipo-nvidia.html",
           "source": "nyt-tech",
-          "published_at": "2026-11-10T20:52:45.000Z",
+          "published_at": "2026-11-10T22:03:38.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "d59528c0401cc745",
-          "title": "Nvidia selloff deepens, adding to AI jitters",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOOG9OZzJuZm1xMUpsNTF6M2dFN2VIbG1PaTRBU25xdUNtRnk2ZDg2c05UdERqUHQwcjN6OGhuZUoxajU0aFNGVWhLekxITjdwV1BwUFNucUdMaHp1N1UwWmhVYXI1Q3ZQUUFjVTBGbG1IUXVHTWlTQUU5TUlJc1RMYWREUkhwaFpKWFNyMW83a0k5dw?oc=5",
+          "id": "95e2809104e6ea26",
+          "title": "Amazon and Google Will See Big Paydays from Anthropic IPO",
+          "url": "https://nytimes.com/2026/11/10/technology/anthropic-ipo-google-amazon.html",
+          "source": "nyt-tech",
+          "published_at": "2026-11-10T21:54:37.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "08859c1a276096f3",
+          "title": "Anthropic status: Elevated errors on Fable 52 and Mythos 52",
+          "url": "https://status.claude.com/incidents/pgz8r13pk4sm",
+          "source": "anthropic-status",
+          "published_at": "2026-11-10T21:47:48.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "6b004222ee24db22",
+          "title": "US Stock Futures Trade Mixed With Focus on CPI, Anthropic IPO",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOdjBQVFA0Nll1UzlIOTRoQVA1d2ZnRUtFSnFGNERjXzMtOG0tcmpfS1IxOGR4Vzk1bGpzbzZvejFZbW1Jc25VNFBWeEdhdk1lSVV2dmNUeXg5MVZObVg3R2dKX3BCdmFkX3dSNndwWmFlcUY2LW1EM19FeGZtWnhJWjhfX0ltZHlfWTI5eW1pR3hOZl96aW1xNXlPUnBoSy1pVmdxMjkxZTM3MDlLYm1sLQ?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-11-10T20:46:17.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9e68857a482f5bbe",
-          "title": "Nvidia's clubby board faces a sticky 'honey pot' test",
-          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQYXU4SmFUNm5wajhKdnZobGVhU3NOOGxWMGdwYkFFTGJseXg1VlJRZ2Z3RDllbjhjallVd3pQUUtic1AwZ1FpUnByYm4tN0JKSE4zMUczeGlKSVBiYkl2WDh3RkF1OVBDLXUtWXhpSzhJcm16STUyT0liZXZjbWZOaHkza3RfTDltT1NzTm5wYy1WREpqdlBYRGUwRnA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-10T20:40:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "211b0dbb97e7beea",
-          "title": "Statement from the Independent Members of the Nvidia Board",
-          "url": "https://nvidianews.nvidia.com/news/statement-from-the-independent-members-of-the-nvidia-board",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-10T20:26:24.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "anthropic",
-      "name": "Anthropic",
-      "headlines": 90,
-      "index": 3.7,
-      "mean_headline": 0.5,
-      "sample": [
-        {
-          "id": "66d3125c6da7d789",
-          "title": "Anthropic Targets $90 Billion Haul With IPO, Big Tech Placement",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQR2RDTEFmUnE2dC02YVNOV0QyaElZSmhETE5HZmpXa29uRDB4Z2xrdDJTNzE3SnRWYl90ekQzaHlxNE5Rc3otME1vczVia0FyMk9oc2xQVmtKSVRtXzcyNW1qVHVJMEZERmNiSDEyQnE1T2xyS1VscV9Ka1p1bG9ReERSYlJqVHB0Q3A5QlZnSDF0cmJFdDAzRUV6dEVDZllnNS0xTWw5VWwybUZSSmhINnItTUJvZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:24:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9b459721773bb8b7",
-          "title": "Anthropic IPO Valuation Debated Amid Market Uncertainty",
-          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNVEZFblprTkhiN0VoTXdxTWhBTTVrd3pXaHozcVpvRHU3U3dGS19pcUVreURfUUlxQkpJeDRBRnpaWXNmOUJQTFAtVGJDUXZ0X1RLVUlaMEdQU3BpazR5SzhkWGZZblk4bnNBa1BPLTdQdXY4andYYTlVS0VTWk94bExDWHh1QlhkY3AyQWZsNTMta192NXdnTm5udjQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:22:23.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5b2f4e335869a90e",
-          "title": "Anthropic Goes for Microsoft’s Crown With New Claude-Powered Office Tools",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOa0MxTGUtcVdLcUFyZHFINTB4SlR2MlhpUVhpTEYtb0dlMU9EcmV3X2NCRkJ4T1dmM2xyY2c0ZWRRak8yRURtRGhoQm9qR3UtcDd3c3JocWdDRXJjY1FSejVRdTMwYVlYSEk4VTNNWjNHNmcwRnlmT2tGWUg5Z0c3VWlQbXRKYUxBTW9pc094eXVud1ZJdUgycDJUQUlmWVoyZEl5NkxB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:15:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5c2a3a58d841edb7",
-          "title": "OpenAI and Anthropic are now neck and neck on quarterly revenue growth",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQU3NrSnBvYVZOelJCdFdkcXJwNG1oc3BXWGNLdXozUlB2NzF3c1dBR05lUHdrNExMT3N2dU5EbWFrRzBKWXRMWnd1TGlMTXF1djA4V0pwRk9PMVZtMTdzYjZXZmdWalV6VTJBeE9pSzB2R2ZfNjZTWE1YZ0ZQdkZkX3RGVjROMWQwRk5uX18xYVR3d3EtSHJhYVdiRFg1endGZmlPaHAwbHU4ZWNRTm5MVXh1UHp6dzdE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:11:36.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9216c4f37d7ad6f5",
-          "title": "Anthropic IPO values Claude developer at $1.4 trillion — will it be a test on Wall Street?",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPSkxXd3ZBSng2NXZseEJuQ3d0NHhqZkJpUDNNZVBlbnVlUkRaV09ob3E0YWc2T3N4NUUxQWFBdXlJVUs1c2NQeDV2TklEVzZYb3ZzQ3RhcVNfMW9sMGE4S0RTWjBzMFVEZThwZnBXTXNRLXFjOWV1RldJWmFqY1Jtd2piNkdGVHpMdEdodmZjY1huUDVDOTFEVmtCYVlGakI5bzA3NHl0djZtZnFDaUxzZUdXNUfSAbMBQVVfeXFMUGdCRTlNakw3alZ0U1dSdWhaa3hzMXR2YTJrUjB1NG00YWVhR2xBUTNoQWhVbGlhUkN6SHhsb1NhVjhxOHBVbDhDeW9VbEtmX216c09GT0pXV2xfNmxpSnA2cHAxaktXdHVwSFd5LTlCZ0x2d2owalhpS0JWdWhtN3lZeEU5RFZNNFNQUlRFbjF0eUJZWkk4YUJxWmtfZmNDclZrM0Y2ZWp6U19XbEVqdjdnU1U?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:10:40.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "07f8d2b311b3e8a9",
-          "title": "New York's AI Safety Law Hits OpenAI, Anthropic Today",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQdVBfa2QtTzdkazEtSDk0WC1iRWt4dl9TOWg5Wlp3YWpCZ2dGOTRhdVZ1TWI2QXh0VHh6eV9BVnJ6YURzSWQ5MWQ1YXl2Y0ZEQ1pxaTFuQlNaZUx3OFprRTFVQnQ5SlB4Sks1MFMtR2o3Vl9Fa3hHLS1MaEhLWXkwZVB5bkhoVktzZlNjZUdn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:03:46.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8b006434f5ea71cf",
-          "title": "Anthropic's 7 Founders Each Cash Out $250M in Rare Equal Split",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNZUxESjZFTmZOcUVyYjllNHFrTHVyR1VESDliUVZYT1hjY2NDRnBFc2dMb2huN0VQNVZBOUlaU1ZVMFFlZm1TLWM5N0dLWmJwNDJjRVZyVTFLc01sSXY1b1F6TUpFX29ycjhKQ3h4YTJpNDMxSWxxdTlNYTUyS2Rid2VlUjJoUHVrTkhsY19sOVVTVE0wY1oxZWpB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:03:46.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b49838b68d5d1792",
-          "title": "Anthropic IPO: Here's What Betting Markets Are Predicting After the AI Correction",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTndncWk3SkwwazZRTm1OenlKTTdJUnR3MnpXSlJGR2dEdElFOVJraHhoSDAtTmhQam45VFJYZFl0ekpPR3ZNeE51Wk1wZzFVNFVfeE84T0Y1d1BRN0lvdlNvbHNlb0Z4LWlkNzNaZ2UzWkx0OWEyUm5SZzZ0bW9KemhtbkNzTnhFRUtock1CRWhoT3hPbXM5Sg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:02:00.000Z",
+          "published_at": "2026-11-10T21:42:49.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -486,16 +497,29 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 31,
-      "index": 2.1,
-      "mean_headline": 0.3,
+      "headlines": 28,
+      "index": 3.1,
+      "mean_headline": 0.4,
       "sample": [
+        {
+          "id": "8fe3ad9f72ce249c",
+          "title": "Google Expands Gemini 4 Carbon Availability",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQVGdSUGtYZ19mQ3otR2pNUk12MGhKck14dHNsVFQ0ZFBUVS1idHFDcFJXX2RTYlZjdHNoUjdLVW0zQUVwRDhyVlpqNlN6dzhuSVhIeW5TZVNTSzRUZTJZNy15dWJ5bGhBMXIzZnI5MF9hdTFGRDhjU2VIU25YZVFhakhURWh3aFp4UV9YOHF5dmpZbFBUSGlr?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-10T22:07:30.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "95e2809104e6ea26",
           "title": "Amazon and Google Will See Big Paydays from Anthropic IPO",
           "url": "https://nytimes.com/2026/11/10/technology/anthropic-ipo-google-amazon.html",
           "source": "nyt-tech",
-          "published_at": "2026-11-10T20:39:56.000Z",
+          "published_at": "2026-11-10T21:54:37.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -514,7 +538,7 @@
         },
         {
           "id": "7ffc1687638ad2f1",
-          "title": "Updated S-1: Anthropic commits ~$10B more to Microsoft and Google cloud by 2033; it can cancel a $34.9B Lambda deal over a delay but doesn't currently plan to (Aaron Holmes/The Information)",
+          "title": "Updated S-1: Anthropic commits ~$10B more to Microsoft Azure and Google Cloud by 2033; it can cancel a $34.9B Lambda deal over a delay but doesn't yet plan to (Aaron Holmes/The Information)",
           "url": "https://techmeme.com/261110/p42",
           "source": "techmeme",
           "published_at": "2026-11-10T19:16:01.000Z",
@@ -525,17 +549,6 @@
           "negative": [
             "delay"
           ],
-          "clickbait": []
-        },
-        {
-          "id": "0976d1fcd56aa88a",
-          "title": "Anthropic Announces Claude Meetings With a Google Meet Whiteboard Beta",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQUVBic1JHelVDQ2t5Z19xa3pMaUVjNTlwWE55U3lTUHc4TEMxckhKVkYzOFExaTdlZjgzNTVBWDZmLTJLaUlXbWFTVHZKdm1Xa3M0ZGR3c0c3TXJ4QUI4bS1PWXY1V2dvN3JycEN6SXprY2FsVC1WUDlJT1R3MWJNZExBZmZxZVM4ejJHeGtIS2xEcldvdUVJ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T19:14:28.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
           "clickbait": []
         },
         {
@@ -587,9 +600,9 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 18,
-      "index": -0.4,
-      "mean_headline": -0.1,
+      "headlines": 14,
+      "index": 0,
+      "mean_headline": 0,
       "sample": [
         {
           "id": "5b2f4e335869a90e",
@@ -638,43 +651,8 @@
           "clickbait": []
         },
         {
-          "id": "adcef3fc8e601738",
-          "title": "Microsoft patent eyes idle gaming GPUs for paid AI training",
-          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE42YnV0bFVPZVdTQTVicGVDVFc3NUl5NUw3YjNiY0dtYXZEeHJFN255b0h6UEJDc2JvRTdZZktpZl9HVG9PbXVGOXBEZllxWklNdzBjZXlsSktKM2xuYnZWcmJNQ0xUM2lQWDlxdTVTU2hHRE5MV3NKNg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T19:41:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b9b1491b51da423b",
-          "title": "Microsoft Warns a New Trade Crackdown Could Derail America's AI Boom",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNV1NGejM2ZFpBM0E0OEVYc1NtZm92NEFFU1YtQVpZNTBjV2daZWR2WGhaemExSTdfaXpnLUNFTE02eFAzRVVBZWJUVVhvUDlxWTdLZTNzNUdCYjZNajNjYWh0dFBlaFJRRjJlVmwybVNBY1lDV1ZMOEhtdEdLUGhPaTFXYVk0NHFQM0dXRkcyZTJaWmZiRVBsa1lZSnBEZXhVOHVn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T19:39:04.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "a43a117cf07b2651",
-          "title": "Microsoft Stock Falls On Anthropic’s Challenge To Office Software",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQVU1YdlJPSUlEcmx5OUpyelIxZlBYSnp5QmUzbTJpNE5IcG4xSURIbndrNWlHSXJpMGVacnM2QlpmWGdUbWRtY0xJQ3l1Z3RqN0RCRDM5VXZEOFlQWktpNTBDdHZqTTJDRnhlUkFVS1VOQS1Dakx2VmFhSVU3WXlaTGFicjRpcnBPWjJkbHBtcExZbXQySktYOWRB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T19:31:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "7ffc1687638ad2f1",
-          "title": "Updated S-1: Anthropic commits ~$10B more to Microsoft and Google cloud by 2033; it can cancel a $34.9B Lambda deal over a delay but doesn't currently plan to (Aaron Holmes/The Information)",
+          "title": "Updated S-1: Anthropic commits ~$10B more to Microsoft Azure and Google Cloud by 2033; it can cancel a $34.9B Lambda deal over a delay but doesn't yet plan to (Aaron Holmes/The Information)",
           "url": "https://techmeme.com/261110/p42",
           "source": "techmeme",
           "published_at": "2026-11-10T19:16:01.000Z",
@@ -686,22 +664,59 @@
             "delay"
           ],
           "clickbait": []
+        },
+        {
+          "id": "55d919de9feb9984",
+          "title": "Anthropic unveils office tools, including a video call assistant, a data dashboard, and spreadsheet service Claude Sheets, competing with Microsoft and Google (Shirin Ghaffary/Bloomberg)",
+          "url": "https://techmeme.com/261110/p35",
+          "source": "techmeme",
+          "published_at": "2026-11-10T17:35:00.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "fe024ba2e2c48c41",
+          "title": "Anthropic Unveils Office Tools Ahead of IPO, Taking on Microsoft",
+          "url": "https://bloomberg.com/news/articles/2026-11-10/anthropic-unveils-office-tools-ahead-of-ipo-taking-on-microsoft",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-10T17:21:08.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4dad1f138f600382",
+          "title": "Microsoft tops Nvidia's market cap for first time since June 2025",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNNGpwLVRZNGJRQ3diMmx2QnhNaERXa3RCdzR1MThDdk04TGprcXF5Z3djdXFrUnlPN25udC1qNU5BNVRhN2ZnWWd1dk5sR0lUN0FhdDR5dWFIeWZqQ2UwMGFFdmpvbkxFazJfNy1HTjR4aHZJN3ZRTnFmMFhvcm43YjRhYXB0a29LbllQYUFxNkY5WUZ1MlJ4U0tELVNTa3c3Vkl1YlJyOA?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-10T17:11:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 23,
-      "index": 2.8,
-      "mean_headline": 0.3,
+      "headlines": 22,
+      "index": 2.9,
+      "mean_headline": 0.4,
       "sample": [
         {
           "id": "95e2809104e6ea26",
           "title": "Amazon and Google Will See Big Paydays from Anthropic IPO",
           "url": "https://nytimes.com/2026/11/10/technology/anthropic-ipo-google-amazon.html",
           "source": "nyt-tech",
-          "published_at": "2026-11-10T20:39:56.000Z",
+          "published_at": "2026-11-10T21:54:37.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -741,17 +756,6 @@
           "clickbait": []
         },
         {
-          "id": "7bc6a9543894c58e",
-          "title": "Amazon, Google set for big windfall from Anthropic IPO",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOcjFwZHRWdU1KX1lVQzlmS2tLcE1EemFWd2trLV9Td2NtemNvRGdjbHVEUjJySldqUjRqaEtpZGpfck9QWkpCcmhoby1ERHFwSk4ySkNMQ2pQbkZsbmJXUm5NOTM3Y09XZnl1cEMxcjhZVFpEYTZDX0ZHRHNhVXdkZFdIOExqa2tHZC1qM0xuazYzRENHZzNDYUo4aVBSck5IRHc?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-10T17:28:21.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "4895a9783a956456",
           "title": "How TCS built an agentic test orchestrator with Amazon Bedrock AgentCore",
           "url": "https://aws.amazon.com/blogs/machine-learning/how-tcs-built-an-agentic-test-orchestrator-with-amazon-bedrock-agentcore",
@@ -785,6 +789,17 @@
           ],
           "negative": [],
           "clickbait": []
+        },
+        {
+          "id": "cf4fcc9a123d28d4",
+          "title": "Amazon turned its Alexa robot into a Ring security patrol bot",
+          "url": "https://bsky.app/profile/theverge.com/post/3mzxla6em352f",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-10T13:45:55.329Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
         }
       ]
     },
@@ -796,11 +811,11 @@
       "mean_headline": 0,
       "sample": [
         {
-          "id": "0f866c93884152e6",
-          "title": "DeepSeek AI XRP Price Prediction: Could Ripple Really Go This High?",
-          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5LMVkwRnJuMHhESDB4bUpZVnFZU3MzNG54S3hkWmZYdG9PWmhoZlNDN256cVBvc2duMEItWGt5aE1WcWZMbGtNbUFXUkhNT1NlNGJnZE95SDVuMFhnbVJhZGdGZTZ1TkFPNG5hVXlnWEhkUlVJVWFZ?oc=5",
+          "id": "9aa36a7a501263bc",
+          "title": "DeepSeek API Pricing 2026: $0.15/1M Off-Peak, Chat Free",
+          "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFAxc1VVdDdvczk1c3FiYllxSzlzbzgtOUU2RmVjNWZJczRuSU9mbEt1TlY3bnZERF9PTHBoaWpwNDZyeUdKVmtpbnYwcFNBZw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-10T19:02:00.000Z",
+          "published_at": "2026-11-10T21:27:46.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -901,194 +916,95 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 90,
-      "index": 3.7,
-      "mean_headline": 0.5,
+      "headlines": 96,
+      "index": 3.5,
+      "mean_headline": 0.4,
       "sample": [
         {
-          "id": "66d3125c6da7d789",
-          "title": "Anthropic Targets $90 Billion Haul With IPO, Big Tech Placement",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQR2RDTEFmUnE2dC02YVNOV0QyaElZSmhETE5HZmpXa29uRDB4Z2xrdDJTNzE3SnRWYl90ekQzaHlxNE5Rc3otME1vczVia0FyMk9oc2xQVmtKSVRtXzcyNW1qVHVJMEZERmNiSDEyQnE1T2xyS1VscV9Ka1p1bG9ReERSYlJqVHB0Q3A5QlZnSDF0cmJFdDAzRUV6dEVDZllnNS0xTWw5VWwybUZSSmhINnItTUJvZw?oc=5",
+          "id": "2e94838247b77db6",
+          "title": "Anthropic's margins support IPO case, say Burnham Park's Rohit Kulkarni",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPVE1MMUQwRTY4bkZ2NzJWYkxWSXlDcjBxOExzMTlRLWhEMFJRaUZmQmpscjNhelp3WGVUSEMtNkJPM2VLUVAtOE5BQWNCTEV1U1V2RjB3cmVYOGpUZU8zU1l5dnZLSHM0RzcydG0yZVEtSjRIRExuNzJTenVUaDRXRFI4Q2dNOTdRY1oxSzVxcGRrc0lacHFzdHQ2eGlKOEsyMmZmdWhsQllQS3Y1eG93Mg?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-10T21:24:00.000Z",
+          "published_at": "2026-11-10T22:16:49.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "9b459721773bb8b7",
-          "title": "Anthropic IPO Valuation Debated Amid Market Uncertainty",
-          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNVEZFblprTkhiN0VoTXdxTWhBTTVrd3pXaHozcVpvRHU3U3dGS19pcUVreURfUUlxQkpJeDRBRnpaWXNmOUJQTFAtVGJDUXZ0X1RLVUlaMEdQU3BpazR5SzhkWGZZblk4bnNBa1BPLTdQdXY4andYYTlVS0VTWk94bExDWHh1QlhkY3AyQWZsNTMta192NXdnTm5udjQ?oc=5",
+          "id": "58632701037b45c8",
+          "title": "Anthropic's IPO by the Numbers: Range, Cornerstones and the Bill",
+          "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBGRW1yclZjTXlrN1o1aVo4cjM2ei1Od2psc2RlQ0ItUGlDaFVOM090Q09UVURFNEJRaWRtTUs5ZWVtZnlYTWp2SFVpRkVoRjhYWFAtN255Yjlwc2RzeGwzdURBYi1zazZmUzNXQkVn?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-10T21:22:23.000Z",
+          "published_at": "2026-11-10T22:14:02.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "5b2f4e335869a90e",
-          "title": "Anthropic Goes for Microsoft’s Crown With New Claude-Powered Office Tools",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOa0MxTGUtcVdLcUFyZHFINTB4SlR2MlhpUVhpTEYtb0dlMU9EcmV3X2NCRkJ4T1dmM2xyY2c0ZWRRak8yRURtRGhoQm9qR3UtcDd3c3JocWdDRXJjY1FSejVRdTMwYVlYSEk4VTNNWjNHNmcwRnlmT2tGWUg5Z0c3VWlQbXRKYUxBTW9pc094eXVud1ZJdUgycDJUQUlmWVoyZEl5NkxB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:15:29.000Z",
+          "id": "c5930c9e6fd8db03",
+          "title": "Stifel CEO on Anthropic, Integrating AI and Fed Policy",
+          "url": "https://bloomberg.com/news/videos/2026-11-10/stifel-ceo-on-anthropic-integrating-ai-and-fed-policy-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-10T22:08:48.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "5c2a3a58d841edb7",
-          "title": "OpenAI and Anthropic are now neck and neck on quarterly revenue growth",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQU3NrSnBvYVZOelJCdFdkcXJwNG1oc3BXWGNLdXozUlB2NzF3c1dBR05lUHdrNExMT3N2dU5EbWFrRzBKWXRMWnd1TGlMTXF1djA4V0pwRk9PMVZtMTdzYjZXZmdWalV6VTJBeE9pSzB2R2ZfNjZTWE1YZ0ZQdkZkX3RGVjROMWQwRk5uX18xYVR3d3EtSHJhYVdiRFg1endGZmlPaHAwbHU4ZWNRTm5MVXh1UHp6dzdE?oc=5",
+          "id": "752fce493c19d35c",
+          "title": "Anthropic IPO could give AI stocks a needed spark",
+          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9WcnpXY25VdUZRMy1MdVlJczZxWVVsMXRTaE1JYU9xMkVPZ3VuV1E5QWt5Y0x4Yi1yWnZxOHRFRFdzTkNTNWRkam1RVTRmX0ZoYWxaenhwRWQtNE40U2FMZEljbzRxbUZReWF4OXdnYW1FNmts?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-10T21:11:36.000Z",
+          "published_at": "2026-11-10T22:07:25.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "9216c4f37d7ad6f5",
-          "title": "Anthropic IPO values Claude developer at $1.4 trillion — will it be a test on Wall Street?",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPSkxXd3ZBSng2NXZseEJuQ3d0NHhqZkJpUDNNZVBlbnVlUkRaV09ob3E0YWc2T3N4NUUxQWFBdXlJVUs1c2NQeDV2TklEVzZYb3ZzQ3RhcVNfMW9sMGE4S0RTWjBzMFVEZThwZnBXTXNRLXFjOWV1RldJWmFqY1Jtd2piNkdGVHpMdEdodmZjY1huUDVDOTFEVmtCYVlGakI5bzA3NHl0djZtZnFDaUxzZUdXNUfSAbMBQVVfeXFMUGdCRTlNakw3alZ0U1dSdWhaa3hzMXR2YTJrUjB1NG00YWVhR2xBUTNoQWhVbGlhUkN6SHhsb1NhVjhxOHBVbDhDeW9VbEtmX216c09GT0pXV2xfNmxpSnA2cHAxaktXdHVwSFd5LTlCZ0x2d2owalhpS0JWdWhtN3lZeEU5RFZNNFNQUlRFbjF0eUJZWkk4YUJxWmtfZmNDclZrM0Y2ZWp6U19XbEVqdjdnU1U?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:10:40.000Z",
+          "id": "f66dcb6a412bd973",
+          "title": "Anthropic’s Giant IPO Will Tie It Closer to Nvidia",
+          "url": "https://nytimes.com/2026/11/10/business/anthropic-ipo-nvidia.html",
+          "source": "nyt-tech",
+          "published_at": "2026-11-10T22:03:38.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
-        {
-          "id": "07f8d2b311b3e8a9",
-          "title": "New York's AI Safety Law Hits OpenAI, Anthropic Today",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQdVBfa2QtTzdkazEtSDk0WC1iRWt4dl9TOWg5Wlp3YWpCZ2dGOTRhdVZ1TWI2QXh0VHh6eV9BVnJ6YURzSWQ5MWQ1YXl2Y0ZEQ1pxaTFuQlNaZUx3OFprRTFVQnQ5SlB4Sks1MFMtR2o3Vl9Fa3hHLS1MaEhLWXkwZVB5bkhoVktzZlNjZUdn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:03:46.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "8b006434f5ea71cf",
-          "title": "Anthropic's 7 Founders Each Cash Out $250M in Rare Equal Split",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNZUxESjZFTmZOcUVyYjllNHFrTHVyR1VESDliUVZYT1hjY2NDRnBFc2dMb2huN0VQNVZBOUlaU1ZVMFFlZm1TLWM5N0dLWmJwNDJjRVZyVTFLc01sSXY1b1F6TUpFX29ycjhKQ3h4YTJpNDMxSWxxdTlNYTUyS2Rid2VlUjJoUHVrTkhsY19sOVVTVE0wY1oxZWpB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:03:46.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b49838b68d5d1792",
-          "title": "Anthropic IPO: Here's What Betting Markets Are Predicting After the AI Correction",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTndncWk3SkwwazZRTm1OenlKTTdJUnR3MnpXSlJGR2dEdElFOVJraHhoSDAtTmhQam45VFJYZFl0ekpPR3ZNeE51Wk1wZzFVNFVfeE84T0Y1d1BRN0lvdlNvbHNlb0Z4LWlkNzNaZ2UzWkx0OWEyUm5SZzZ0bW9KemhtbkNzTnhFRUtock1CRWhoT3hPbXM5Sg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T21:02:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "amazon",
-      "name": "Amazon",
-      "headlines": 23,
-      "index": 2.8,
-      "mean_headline": 0.3,
-      "sample": [
         {
           "id": "95e2809104e6ea26",
           "title": "Amazon and Google Will See Big Paydays from Anthropic IPO",
           "url": "https://nytimes.com/2026/11/10/technology/anthropic-ipo-google-amazon.html",
           "source": "nyt-tech",
-          "published_at": "2026-11-10T20:39:56.000Z",
+          "published_at": "2026-11-10T21:54:37.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "a226ff82ec151bd6",
-          "title": "AWS Introduces Nitro Sandboxes on EKS, ECS and EC2",
-          "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-10T19:30:50.000Z",
+          "id": "08859c1a276096f3",
+          "title": "Anthropic status: Elevated errors on Fable 52 and Mythos 52",
+          "url": "https://status.claude.com/incidents/pgz8r13pk4sm",
+          "source": "anthropic-status",
+          "published_at": "2026-11-10T21:47:48.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "4ad7848222ba5600",
-          "title": "My Week With Apple’s Beach-Friendly iPad Mini and Amazon’s Upscale Alexa Tablet",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOUWdfX1plNUNZQnFaSkNZckkxdlJ2TUtHSzJRQk9UYkktRkV0Ri1qUlQwcnZNUEdhNnJwZ0tRTDVsRWZhM2NHV3VMM3BlWG5lQzdGV05qdUFGc1d0bEc2OEdLd0htQmZiMm1CT1JfV2lWSENuQV9sanpZQTQ5TVZyQnVNVFdXWTRzSWxCODFxR0ZsNDNUTk16X0xKRFFOQQ?oc=5",
+          "id": "6b004222ee24db22",
+          "title": "US Stock Futures Trade Mixed With Focus on CPI, Anthropic IPO",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOdjBQVFA0Nll1UzlIOTRoQVA1d2ZnRUtFSnFGNERjXzMtOG0tcmpfS1IxOGR4Vzk1bGpzbzZvejFZbW1Jc25VNFBWeEdhdk1lSVV2dmNUeXg5MVZObVg3R2dKX3BCdmFkX3dSNndwWmFlcUY2LW1EM19FeGZtWnhJWjhfX0ltZHlfWTI5eW1pR3hOZl96aW1xNXlPUnBoSy1pVmdxMjkxZTM3MDlLYm1sLQ?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-11-10T19:30:41.000Z",
+          "published_at": "2026-11-10T21:42:49.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "13a34de7d52df6b3",
-          "title": "Autonomous treasury agents: How Trovata built an AI-native solution on Amazon Bedrock and AgentCore",
-          "url": "https://aws.amazon.com/blogs/machine-learning/autonomous-treasury-agents-how-trovata-built-an-ai-native-solution-on-amazon-bedrock-and-agentcore",
-          "source": "aws-ml",
-          "published_at": "2026-11-10T18:11:08.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "7bc6a9543894c58e",
-          "title": "Amazon, Google set for big windfall from Anthropic IPO",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOcjFwZHRWdU1KX1lVQzlmS2tLcE1EemFWd2trLV9Td2NtemNvRGdjbHVEUjJySldqUjRqaEtpZGpfck9QWkpCcmhoby1ERHFwSk4ySkNMQ2pQbkZsbmJXUm5NOTM3Y09XZnl1cEMxcjhZVFpEYTZDX0ZHRHNhVXdkZFdIOExqa2tHZC1qM0xuazYzRENHZzNDYUo4aVBSck5IRHc?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-10T17:28:21.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4895a9783a956456",
-          "title": "How TCS built an agentic test orchestrator with Amazon Bedrock AgentCore",
-          "url": "https://aws.amazon.com/blogs/machine-learning/how-tcs-built-an-agentic-test-orchestrator-with-amazon-bedrock-agentcore",
-          "source": "aws-ml",
-          "published_at": "2026-11-10T16:59:43.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d3f687b6e93365cd",
-          "title": "Amazon Bedrock tokenomics data lake",
-          "url": "https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-tokenomics-data-lake",
-          "source": "aws-ml",
-          "published_at": "2026-11-10T16:56:36.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "54d0d07f4dc41d2d",
-          "title": "Amazon launches $250 Ring Drone Cam",
-          "url": "https://engadget.com/2311630/amazon-finally-launches-the-250-ring-drone-cam-and-also-the-ring-rover-cam",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-10T16:05:05.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
           "negative": [],
           "clickbait": []
         }
@@ -1097,16 +1013,29 @@
     {
       "id": "google",
       "name": "Google",
-      "headlines": 31,
-      "index": 2.1,
-      "mean_headline": 0.3,
+      "headlines": 28,
+      "index": 3.1,
+      "mean_headline": 0.4,
       "sample": [
+        {
+          "id": "8fe3ad9f72ce249c",
+          "title": "Google Expands Gemini 4 Carbon Availability",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQVGdSUGtYZ19mQ3otR2pNUk12MGhKck14dHNsVFQ0ZFBUVS1idHFDcFJXX2RTYlZjdHNoUjdLVW0zQUVwRDhyVlpqNlN6dzhuSVhIeW5TZVNTSzRUZTJZNy15dWJ5bGhBMXIzZnI5MF9hdTFGRDhjU2VIU25YZVFhakhURWh3aFp4UV9YOHF5dmpZbFBUSGlr?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-10T22:07:30.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "95e2809104e6ea26",
           "title": "Amazon and Google Will See Big Paydays from Anthropic IPO",
           "url": "https://nytimes.com/2026/11/10/technology/anthropic-ipo-google-amazon.html",
           "source": "nyt-tech",
-          "published_at": "2026-11-10T20:39:56.000Z",
+          "published_at": "2026-11-10T21:54:37.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1125,7 +1054,7 @@
         },
         {
           "id": "7ffc1687638ad2f1",
-          "title": "Updated S-1: Anthropic commits ~$10B more to Microsoft and Google cloud by 2033; it can cancel a $34.9B Lambda deal over a delay but doesn't currently plan to (Aaron Holmes/The Information)",
+          "title": "Updated S-1: Anthropic commits ~$10B more to Microsoft Azure and Google Cloud by 2033; it can cancel a $34.9B Lambda deal over a delay but doesn't yet plan to (Aaron Holmes/The Information)",
           "url": "https://techmeme.com/261110/p42",
           "source": "techmeme",
           "published_at": "2026-11-10T19:16:01.000Z",
@@ -1136,17 +1065,6 @@
           "negative": [
             "delay"
           ],
-          "clickbait": []
-        },
-        {
-          "id": "0976d1fcd56aa88a",
-          "title": "Anthropic Announces Claude Meetings With a Google Meet Whiteboard Beta",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQUVBic1JHelVDQ2t5Z19xa3pMaUVjNTlwWE55U3lTUHc4TEMxckhKVkYzOFExaTdlZjgzNTVBWDZmLTJLaUlXbWFTVHZKdm1Xa3M0ZGR3c0c3TXJ4QUI4bS1PWXY1V2dvN3JycEN6SXprY2FsVC1WUDlJT1R3MWJNZExBZmZxZVM4ejJHeGtIS2xEcldvdUVJ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T19:14:28.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
           "clickbait": []
         },
         {
@@ -1196,12 +1114,122 @@
       ]
     },
     {
+      "id": "amazon",
+      "name": "Amazon",
+      "headlines": 22,
+      "index": 2.9,
+      "mean_headline": 0.4,
+      "sample": [
+        {
+          "id": "95e2809104e6ea26",
+          "title": "Amazon and Google Will See Big Paydays from Anthropic IPO",
+          "url": "https://nytimes.com/2026/11/10/technology/anthropic-ipo-google-amazon.html",
+          "source": "nyt-tech",
+          "published_at": "2026-11-10T21:54:37.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a226ff82ec151bd6",
+          "title": "AWS Introduces Nitro Sandboxes on EKS, ECS and EC2",
+          "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-10T19:30:50.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4ad7848222ba5600",
+          "title": "My Week With Apple’s Beach-Friendly iPad Mini and Amazon’s Upscale Alexa Tablet",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOUWdfX1plNUNZQnFaSkNZckkxdlJ2TUtHSzJRQk9UYkktRkV0Ri1qUlQwcnZNUEdhNnJwZ0tRTDVsRWZhM2NHV3VMM3BlWG5lQzdGV05qdUFGc1d0bEc2OEdLd0htQmZiMm1CT1JfV2lWSENuQV9sanpZQTQ5TVZyQnVNVFdXWTRzSWxCODFxR0ZsNDNUTk16X0xKRFFOQQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-10T19:30:41.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "13a34de7d52df6b3",
+          "title": "Autonomous treasury agents: How Trovata built an AI-native solution on Amazon Bedrock and AgentCore",
+          "url": "https://aws.amazon.com/blogs/machine-learning/autonomous-treasury-agents-how-trovata-built-an-ai-native-solution-on-amazon-bedrock-and-agentcore",
+          "source": "aws-ml",
+          "published_at": "2026-11-10T18:11:08.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4895a9783a956456",
+          "title": "How TCS built an agentic test orchestrator with Amazon Bedrock AgentCore",
+          "url": "https://aws.amazon.com/blogs/machine-learning/how-tcs-built-an-agentic-test-orchestrator-with-amazon-bedrock-agentcore",
+          "source": "aws-ml",
+          "published_at": "2026-11-10T16:59:43.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d3f687b6e93365cd",
+          "title": "Amazon Bedrock tokenomics data lake",
+          "url": "https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-tokenomics-data-lake",
+          "source": "aws-ml",
+          "published_at": "2026-11-10T16:56:36.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "54d0d07f4dc41d2d",
+          "title": "Amazon launches $250 Ring Drone Cam",
+          "url": "https://engadget.com/2311630/amazon-finally-launches-the-250-ring-drone-cam-and-also-the-ring-rover-cam",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-10T16:05:05.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "cf4fcc9a123d28d4",
+          "title": "Amazon turned its Alexa robot into a Ring security patrol bot",
+          "url": "https://bsky.app/profile/theverge.com/post/3mzxla6em352f",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-10T13:45:55.329Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "apple",
       "name": "Apple",
-      "headlines": 5,
+      "headlines": 6,
       "index": 0,
       "mean_headline": 0,
       "sample": [
+        {
+          "id": "9836df3492903c3f",
+          "title": "Apple has new Mac app coming to make running local AI models easy",
+          "url": "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy",
+          "source": "hn-ai",
+          "published_at": "2026-11-10T21:25:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "4ad7848222ba5600",
           "title": "My Week With Apple’s Beach-Friendly iPad Mini and Amazon’s Upscale Alexa Tablet",
@@ -1267,11 +1295,11 @@
       "mean_headline": 0,
       "sample": [
         {
-          "id": "0f866c93884152e6",
-          "title": "DeepSeek AI XRP Price Prediction: Could Ripple Really Go This High?",
-          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5LMVkwRnJuMHhESDB4bUpZVnFZU3MzNG54S3hkWmZYdG9PWmhoZlNDN256cVBvc2duMEItWGt5aE1WcWZMbGtNbUFXUkhNT1NlNGJnZE95SDVuMFhnbVJhZGdGZTZ1TkFPNG5hVXlnWEhkUlVJVWFZ?oc=5",
+          "id": "9aa36a7a501263bc",
+          "title": "DeepSeek API Pricing 2026: $0.15/1M Off-Peak, Chat Free",
+          "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFAxc1VVdDdvczk1c3FiYllxSzlzbzgtOUU2RmVjNWZJczRuSU9mbEt1TlY3bnZERF9PTHBoaWpwNDZyeUdKVmtpbnYwcFNBZw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-10T19:02:00.000Z",
+          "published_at": "2026-11-10T21:27:46.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1293,9 +1321,9 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 18,
-      "index": -0.4,
-      "mean_headline": -0.1,
+      "headlines": 14,
+      "index": 0,
+      "mean_headline": 0,
       "sample": [
         {
           "id": "5b2f4e335869a90e",
@@ -1344,43 +1372,8 @@
           "clickbait": []
         },
         {
-          "id": "adcef3fc8e601738",
-          "title": "Microsoft patent eyes idle gaming GPUs for paid AI training",
-          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE42YnV0bFVPZVdTQTVicGVDVFc3NUl5NUw3YjNiY0dtYXZEeHJFN255b0h6UEJDc2JvRTdZZktpZl9HVG9PbXVGOXBEZllxWklNdzBjZXlsSktKM2xuYnZWcmJNQ0xUM2lQWDlxdTVTU2hHRE5MV3NKNg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T19:41:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b9b1491b51da423b",
-          "title": "Microsoft Warns a New Trade Crackdown Could Derail America's AI Boom",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNV1NGejM2ZFpBM0E0OEVYc1NtZm92NEFFU1YtQVpZNTBjV2daZWR2WGhaemExSTdfaXpnLUNFTE02eFAzRVVBZWJUVVhvUDlxWTdLZTNzNUdCYjZNajNjYWh0dFBlaFJRRjJlVmwybVNBY1lDV1ZMOEhtdEdLUGhPaTFXYVk0NHFQM0dXRkcyZTJaWmZiRVBsa1lZSnBEZXhVOHVn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T19:39:04.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "a43a117cf07b2651",
-          "title": "Microsoft Stock Falls On Anthropic’s Challenge To Office Software",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQVU1YdlJPSUlEcmx5OUpyelIxZlBYSnp5QmUzbTJpNE5IcG4xSURIbndrNWlHSXJpMGVacnM2QlpmWGdUbWRtY0xJQ3l1Z3RqN0RCRDM5VXZEOFlQWktpNTBDdHZqTTJDRnhlUkFVS1VOQS1Dakx2VmFhSVU3WXlaTGFicjRpcnBPWjJkbHBtcExZbXQySktYOWRB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-10T19:31:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "7ffc1687638ad2f1",
-          "title": "Updated S-1: Anthropic commits ~$10B more to Microsoft and Google cloud by 2033; it can cancel a $34.9B Lambda deal over a delay but doesn't currently plan to (Aaron Holmes/The Information)",
+          "title": "Updated S-1: Anthropic commits ~$10B more to Microsoft Azure and Google Cloud by 2033; it can cancel a $34.9B Lambda deal over a delay but doesn't yet plan to (Aaron Holmes/The Information)",
           "url": "https://techmeme.com/261110/p42",
           "source": "techmeme",
           "published_at": "2026-11-10T19:16:01.000Z",
@@ -1392,101 +1385,39 @@
             "delay"
           ],
           "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "nvidia",
-      "name": "NVIDIA",
-      "headlines": 113,
-      "index": -4.5,
-      "mean_headline": -0.6,
-      "sample": [
-        {
-          "id": "9d12b2a602b0cf87",
-          "title": "La crisis de Nvidia expone su dependencia de Jensen Huang",
-          "url": "https://bloomberg.com/news/features/2026-11-10/la-crisis-de-nvidia-expone-su-dependencia-de-jensen-huang",
-          "source": "bloomberg-tech",
-          "published_at": "2026-11-10T21:27:25.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         },
         {
-          "id": "5c6ca218df63c6b2",
-          "title": "Who Is Alice Huang, the Woman in the Middle of Nvidia’s Spy Scandal?",
-          "url": "https://nytimes.com/2026/11/10/technology/alice-huang-megaspeed-nvidia-jensen-huang.html",
-          "source": "nyt-tech",
-          "published_at": "2026-11-10T21:12:38.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "aa3193ccfec4754b",
-          "title": "Nvidia could slip another 10-20% if CEO affair fallout grows, says expert",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5vWEEyUUduZ0l3SVJ5Q0Y5OVZpcFpQSmJfWjlCMzdleFJVeDVTdmxVUERWLVIxY2xkYUJkLUEwNENCUFZib2FMbUtDRVgwdkdkSzJGYjVKTzlHamlORGJkTFVuRXpCbURaZmNucFh2M0lZNlJMMDc5Mm9iR3pVdw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-10T21:02:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e50680e57e1dc330",
-          "title": "S-1: Nvidia plans to invest about $10B in Anthropic after its IPO, or ~10% of the new cash Anthropic is expected to raise this month, including in the IPO (Cory Weinberg/New York Times)",
-          "url": "https://techmeme.com/261110/p50",
+          "id": "55d919de9feb9984",
+          "title": "Anthropic unveils office tools, including a video call assistant, a data dashboard, and spreadsheet service Claude Sheets, competing with Microsoft and Google (Shirin Ghaffary/Bloomberg)",
+          "url": "https://techmeme.com/261110/p35",
           "source": "techmeme",
-          "published_at": "2026-11-10T20:55:05.000Z",
+          "published_at": "2026-11-10T17:35:00.000Z",
           "score": 3,
           "positive": [
-            "raise"
+            "unveils"
           ],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "f66dcb6a412bd973",
-          "title": "Anthropic’s Giant IPO Will Tie It Closer to Nvidia",
-          "url": "https://nytimes.com/2026/11/10/business/anthropic-ipo-nvidia.html",
-          "source": "nyt-tech",
-          "published_at": "2026-11-10T20:52:45.000Z",
-          "score": 0,
-          "positive": [],
+          "id": "fe024ba2e2c48c41",
+          "title": "Anthropic Unveils Office Tools Ahead of IPO, Taking on Microsoft",
+          "url": "https://bloomberg.com/news/articles/2026-11-10/anthropic-unveils-office-tools-ahead-of-ipo-taking-on-microsoft",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-10T17:21:08.000Z",
+          "score": 3,
+          "positive": [
+            "unveils"
+          ],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "d59528c0401cc745",
-          "title": "Nvidia selloff deepens, adding to AI jitters",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOOG9OZzJuZm1xMUpsNTF6M2dFN2VIbG1PaTRBU25xdUNtRnk2ZDg2c05UdERqUHQwcjN6OGhuZUoxajU0aFNGVWhLekxITjdwV1BwUFNucUdMaHp1N1UwWmhVYXI1Q3ZQUUFjVTBGbG1IUXVHTWlTQUU5TUlJc1RMYWREUkhwaFpKWFNyMW83a0k5dw?oc=5",
+          "id": "4dad1f138f600382",
+          "title": "Microsoft tops Nvidia's market cap for first time since June 2025",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNNGpwLVRZNGJRQ3diMmx2QnhNaERXa3RCdzR1MThDdk04TGprcXF5Z3djdXFrUnlPN25udC1qNU5BNVRhN2ZnWWd1dk5sR0lUN0FhdDR5dWFIeWZqQ2UwMGFFdmpvbkxFazJfNy1HTjR4aHZJN3ZRTnFmMFhvcm43YjRhYXB0a29LbllQYUFxNkY5WUZ1MlJ4U0tELVNTa3c3Vkl1YlJyOA?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-11-10T20:46:17.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9e68857a482f5bbe",
-          "title": "Nvidia's clubby board faces a sticky 'honey pot' test",
-          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQYXU4SmFUNm5wajhKdnZobGVhU3NOOGxWMGdwYkFFTGJseXg1VlJRZ2Z3RDllbjhjallVd3pQUUtic1AwZ1FpUnByYm4tN0JKSE4zMUczeGlKSVBiYkl2WDh3RkF1OVBDLXUtWXhpSzhJcm16STUyT0liZXZjbWZOaHkza3RfTDltT1NzTm5wYy1WREpqdlBYRGUwRnA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-10T20:40:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "211b0dbb97e7beea",
-          "title": "Statement from the Independent Members of the Nvidia Board",
-          "url": "https://nvidianews.nvidia.com/news/statement-from-the-independent-members-of-the-nvidia-board",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-10T20:26:24.000Z",
+          "published_at": "2026-11-10T17:11:10.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1501,6 +1432,28 @@
       "index": -5,
       "mean_headline": -0.6,
       "sample": [
+        {
+          "id": "6f95c5314b4c56ea",
+          "title": "OpenAI to Bring Pierre Computer’s Code Storage to Codex Through Acquisition",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQMHB3WDNrSi01NF8zXzUyZWdSb0U0ZUZyVlZWUF9jeVBfeHVTNkpESjFRSk1FWTk1aFZNcVl2LTRXdlpnR2N5eTRURXJMZkVRM0o5dlVSZWRuY0dVc2ZRTGRLb3M1WVZjRk54Z0doRGt2MVlDTURZaHR6LWpPR3RiT0FmU19vWWd6dE5iY3FLOWozZkNhSHJENktiRGtmc3dJM2xXSDFyOFNlM0N2b2FLWQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-10T22:21:47.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "abb1231862c56079",
+          "title": "OpenAI Bolsters Cyber Defenses",
+          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5jSmRVNVhpejROUVFObk9xUFIyYnZpY0NfNm5BWXpKN1hlWG1GV3NHR1F1Zm9weks3SjMycEowd3duWDM1Y0IwLUxrUVp0SkptMWh5bnZkSHh5aUZ5X0t5bC14eHlfQm43WWMzNXJkeG1ldlgwZ3lJU0FXMA?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-10T22:00:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "aa456e3792eb0973",
           "title": "Source: OpenAI told investors on Tuesday that its revenue jumped 50% to around $10B in Q3, up from 17% growth in Q2 (The Information)",
@@ -1566,24 +1519,101 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
+        }
+      ]
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "headlines": 112,
+      "index": -5.1,
+      "mean_headline": -0.6,
+      "sample": [
         {
-          "id": "abb1231862c56079",
-          "title": "OpenAI Bolsters Cyber Defenses",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5jSmRVNVhpejROUVFObk9xUFIyYnZpY0NfNm5BWXpKN1hlWG1GV3NHR1F1Zm9weks3SjMycEowd3duWDM1Y0IwLUxrUVp0SkptMWh5bnZkSHh5aUZ5X0t5bC14eHlfQm43WWMzNXJkeG1ldlgwZ3lJU0FXMA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-10T19:43:41.000Z",
+          "id": "7a8faac8cd5a434e",
+          "title": "Uniserve To Acquire Additional NVIDIA B300 Systems to Expand Canadian AI Compute Capacity; $4 Million Loan Secured",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQUk9pNjFhU01DRnFibktONDhzSEs4VHJyN241R1dDS2lISkgybUhEa3FRbmRCdjhPNWRSODlGTDY4aFV4TG9kd1VwWTJCMTFuaGx3aDYxNmg2Rnh4VDZ0SWJyRmxzb2VtOWc1T3kyWTB5ak1uZUprYU1yYnlrdXRTenI5dmtEaWFxc1QybWJWTlIxWDZMc3gyRVFMa203Tm5HN18tb213?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-10T22:18:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "e2080c2a33b4c254",
-          "title": "OpenAI Acquires Odessia, the AI Travel Agent From Sonder’s Co-Founder",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxONGpXeWNILTNEanFCXzVFUmhBRWl4cEVXMWZnczhzYXpZS0VJZEFoWjhCUThHeUJ3Uk4tNHNBclcyVVVoZEdvRWFVdmJHZ0F6REdKbTdqek90d0VqcHBjSUNrMnZqSFBWVXNtNW9zLTJFQjVUaDBXOERab0Uyc1Q2RUhjYXZpZEQxU2VYU3JZLU9JQnRuRDNxRnZBOVdzeTlPeTRRUVJmV2djdU9oRUxKejMxLVk?oc=5",
+          "id": "f66dcb6a412bd973",
+          "title": "Anthropic’s Giant IPO Will Tie It Closer to Nvidia",
+          "url": "https://nytimes.com/2026/11/10/business/anthropic-ipo-nvidia.html",
+          "source": "nyt-tech",
+          "published_at": "2026-11-10T22:03:38.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1f238d496a2083ab",
+          "title": "US stocks fall on hot inflation report as Nvidia tumbles again",
+          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOVmVLVnRxSEJzWFh2NFBsM004Qk1YNDJTbklmRzl6Smtib2hPRVlQNlJzM0VYc2ZZdU5xNjJzeEpmUXVUdWM5NHpsT28tZ3J5VDh2dFZWOERLeTA1MnZuY05YZFpBUW55eE9kQXB5VHk3MWxTdFo5UUluUEtCMU5UNU84TmV4QQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-10T22:03:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1ebc84f17fdf899b",
+          "title": "Nvidia’s Bull Case Hinges on CEO Huang Surviving China Spy Probe",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3mzyfz3uxo42v",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-10T21:45:10.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "probe"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "c2224f604ef5a576",
+          "title": "Anthropic, Nvidia, CoreWeave, Take-Two, D-Wave, Securitize, and More That Explain Today’s Market",
+          "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBadmZWU2FuV3dHLWppWGY3d25ISDFGQXpneE9HcDRqX21TSjNzbWVIbk1OWUZiaWJhVktkSDlQMk1sQmg0aDJYdzMwTDI1eGJaQVdfRGdDel9ndHhNaXhROGZPckI?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-10T19:31:07.000Z",
+          "published_at": "2026-11-10T21:42:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d78f41446e0f7dfc",
+          "title": "AI & Tech Brief: Nvidia’s Capitol Hill fallout",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNQ3o0a0V0VVNQTGUyRDdoY1ZCd0hSZkpfS0NOSjlTWlo0V3VDbEh6Vm96R01VSHFIaWhJT2ZKRDRSekdPYXNjRkhTZlVzNmd4dFgwTnhwMTh1U3loZmlYYXI0aEdhMW81N0tPWEhYVk8zTGQzeWc1RnhrMERNVzREdHVFX2FOTTB4dEJXbXp5Ml96V0FFX2RtNC04QVMwZW1QZUMxWDdWelU2dlkzbVJvMXY5VEJLUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-10T21:41:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9d12b2a602b0cf87",
+          "title": "La crisis de Nvidia expone su dependencia de Jensen Huang",
+          "url": "https://bloomberg.com/news/features/2026-11-10/la-crisis-de-nvidia-expone-su-dependencia-de-jensen-huang",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-10T21:27:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5c6ca218df63c6b2",
+          "title": "Who Is Alice Huang, the Woman in the Middle of Nvidia’s Spy Scandal?",
+          "url": "https://nytimes.com/2026/11/10/technology/alice-huang-megaspeed-nvidia-jensen-huang.html",
+          "source": "nyt-tech",
+          "published_at": "2026-11-10T21:12:38.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
