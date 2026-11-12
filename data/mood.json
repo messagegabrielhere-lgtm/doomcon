@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-12T02:29:29.575Z",
-  "news_generated_at": "2026-11-12T02:29:29.575Z",
+  "generated_at": "2026-11-12T03:15:18.034Z",
+  "news_generated_at": "2026-11-12T03:15:18.034Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,16 +18,16 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 257,
+    "headlines_naming_a_company": 262,
     "companies_on_roster": 10,
     "companies_with_headlines": 8,
-    "negative_pair_share": 0.083
+    "negative_pair_share": 0.082
   },
   "glance": {
     "leading": {
       "id": "google",
       "name": "Google",
-      "index": 5
+      "index": 5.9
     },
     "trailing": {
       "id": "meta",
@@ -37,7 +37,7 @@
     "most_discussed": {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 91
+      "headlines": 101
     }
   },
   "companies": [
@@ -75,10 +75,34 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 40,
-      "index": 0.4,
-      "mean_headline": 0.1,
+      "headlines": 38,
+      "index": -0.4,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "6f95c5314b4c56ea",
+          "title": "OpenAI to Bring Pierre Computer’s Code Storage to Codex Through Acquisition",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQMHB3WDNrSi01NF8zXzUyZWdSb0U0ZUZyVlZWUF9jeVBfeHVTNkpESjFRSk1FWTk1aFZNcVl2LTRXdlpnR2N5eTRURXJMZkVRM0o5dlVSZWRuY0dVc2ZRTGRLb3M1WVZjRk54Z0doRGt2MVlDTURZaHR6LWpPR3RiT0FmU19vWWd6dE5iY3FLOWozZkNhSHJENktiRGtmc3dJM2xXSDFyOFNlM0N2b2FLWQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-12T03:08:14.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4884515f9080b08e",
+          "title": "OpenAI Hopes to Ease Backlash Against AI Data Centers",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQeFpEeWNEZFpZMUFTc091cjNuQWtXdEdWRW5xcWtRMEtYdXNQQXVHbzJ0YUYzMjFtNzVGR1BNOW45VENkRkkyZ3ZFWXIwR19GWERuSnVyVHB0YU5uMGVPWDVRcl91UnoyM2xHNVNlaU5Td0tCZ2NlZnkxWXF6RDFzS2RzUnBmNHVNSk1sS2dqc01HMEw3a1JHNHRn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T02:39:55.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "backlash"
+          ],
+          "clickbait": []
+        },
         {
           "id": "f79a86eea94e478b",
           "title": "Russian Pranksters Fooled 3 OpenAI National Security Leads",
@@ -126,28 +150,6 @@
           "clickbait": []
         },
         {
-          "id": "6f95c5314b4c56ea",
-          "title": "OpenAI to Bring Pierre Computer’s Code Storage to Codex Through Acquisition",
-          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQMHB3WDNrSi01NF8zXzUyZWdSb0U0ZUZyVlZWUF9jeVBfeHVTNkpESjFRSk1FWTk1aFZNcVl2LTRXdlpnR2N5eTRURXJMZkVRM0o5dlVSZWRuY0dVc2ZRTGRLb3M1WVZjRk54Z0doRGt2MVlDTURZaHR6LWpPR3RiT0FmU19vWWd6dE5iY3FLOWozZkNhSHJENktiRGtmc3dJM2xXSDFyOFNlM0N2b2FLWQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-12T01:09:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2c91400d8aaa53ff",
-          "title": "OpenAI calls for teacher training as AI homework use outpaces guidance | ETIH EdTech News",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNSzNkU0IwWEJwaVhaRHVYR3RZTFQ1YVdqZkwxNnIxMjMtOGpGeVJGWUMwaDU1QWhreHB0R3U0eHJCQnhLZWdyNjNMWm96NTNvbTYwbDFfSS1XN2p6SjFzMWJGQ2VNTHN5UXVpR1gweTd1LTlqLUpZaUNQay1ITkR5SDBveUVBLVRGX21BTUJEV1A0TWxFaGlvT3NwZVFGclhTYnlWWlJCNHJVU0UxbmtFWE12NF9tdVZYME9r?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-12T00:07:22.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "81df763f448d42a4",
           "title": "OpenAI Fooled by Russian Pranksters Into Thinking They Were Speaking to Ukrainian Official",
           "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFB4SVRPUjB4RVdVY1lGV1h3V2U1dkdsTEVrbUFLcDFJQWNITkx1R3EwSjFsZnl1ejlXMnJxWXlub0tfaUpYZU9ldmd6eE52MHdtRDRDeXg4VDFQYTR6eXZUYlZMLVllU3B6UjRORloyNTN1MU5MRFB0QzRVZ0lhdw?oc=5",
@@ -159,11 +161,11 @@
           "clickbait": []
         },
         {
-          "id": "5b76f2ed872edd98",
-          "title": "AI Bulls Return on CoreWeave, Anthropic and OpenAI Buzz",
-          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNbDVyVXJLM0xoWXpxLVcxOElGUThIVndBSU9MekRDTF8wc0pBcnpHZER2V0VKSlhnQnJBdjZSZF9aM1pTcXVoSGhEalNMTUNxaDMxbUNVTk5ONGJQS1ZHRmRtWVhiOEI1QzNTNEdQWFpSZnR2bkgyTUJ1T1lRN0U1ajNiLXhmc2JWMnpkczFHaXZmTXlmaVBhS0dMVVZ6UkhrQzVicGZya19ZMnBu?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-11T23:49:27.000Z",
+          "id": "af92f8b8f091c9ba",
+          "title": "OpenAI Codex on Amazon Bedrock",
+          "url": "https://aws.amazon.com/blogs/machine-learning/openai-codex-on-amazon-bedrock",
+          "source": "aws-ml",
+          "published_at": "2026-11-11T23:35:47.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -174,93 +176,96 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 91,
-      "index": -2.7,
+      "headlines": 101,
+      "index": -2.2,
       "mean_headline": -0.3,
       "sample": [
         {
-          "id": "e25b4c81bb4709c1",
-          "title": "Nvidia 'prepares to oust' CEO Jensen Huang as he's 'caught in another scandal'",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQZHRVNFVlU1JvZ29DeEJjUmR4MnI4WTFKekdIQ3BsZ3BIWjRwdmpiSmN5SGVCSC11RmwtaU5oMEFOdnhrRHJ6SDQ5SkZJNHV3MTVPeGhJMDAyY0lGMzlDbUNYekx0TWQ3Z0xKeHRTa09NMXRseEpBY3RDQ2dPMEREbEUyVE1hcDQ4TkHSAY8BQVVfeXFMT3VudmxZMzlfQ3BaUmdUdnM0cENWejdTZi00OU9nSkVfSGdJZWVNUnMtR1F2M2FuRTVsY0R5SkRtbUdrdVdyM2FVSkZuZGJTTURxMWpudXlUWURqUjE3eWU0ZnNacHhhODQ5MG5TbXh3Um5LN2dwMlBsVlJhYndVTEwyZWZBTzE4aEhPZGxLdHc?oc=5",
+          "id": "cb9a1a5823d82c40",
+          "title": "Will Nvidia Replace Jensen Huang as CEO? What’s Next for AI, Markets?: Live Q&A",
+          "url": "https://bloomberg.com/sessions/2026-11-11/live-q-amp-a-will-jensen-huang-be-replaced-as-ceo-what-s-next-for-nvidia",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-12T03:13:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b80634a59e1427c6",
+          "title": "Asian stocks extend gains but traders keep eye on Nvidia crisis",
+          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOUVY3MDB1c0lKWXJCdkc2STZ4YURiWlRQY2E3YXpxWUs4TVZiN3lST1JzLS1YOU1UVFNkX3J5a0RaUmVfeXRqQXdmck5GT0t0azdCZEx5S0ZQbU1Tb0FDOHFqbFZoY0lFOWJLRllBS012RmRGaGlwc0dJaGFYM3MxUGtYaXVXdw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-12T03:03:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7f7eeabc19343d4c",
+          "title": "The (alleged) spy who loved me: the Nvidia scandal - podcast",
+          "url": "https://theguardian.com/news/audio/2026/nov/12/the-alleged-spy-who-loved-me-the-nvidia-scandal-podcast",
+          "source": "guardian-ai",
+          "published_at": "2026-11-12T03:00:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1208864642f2d701",
+          "title": "Nvidia Row Tests US-China Truce as 4 Key Terms End Jan. 10",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQNmlDVFdwMkxGSmZrcG9IckEyclpmTjZOSno0UkJLRDAzVmpEZ09peHZaaFBoR0hXY1VhVVh6eG9sRHByc1VkX2JSeENubGJpUUNVa1MzR3FrdElqVEdyRTBHS3FuV3ZsVzlYSkUwbjdEdVNIZzF2U2RwYWlXc3N4VmFvZ0ZFbThoWTlMamRB?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-12T02:18:00.000Z",
+          "published_at": "2026-11-12T02:57:55.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "1cbe55c8e0da6d2f",
-          "title": "Nvidia Board and Huang as CEO: 0 Votes Confirmed [2026]",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOdjlLcUd2aUxmRjliLVRaWlEtTWNHY0s4SDdQTFd6R2RMUVM4OHdwWVduaFZWbkx3Tk04SmllOXlNdGV0YmxSdldaR0tMR0lVVXU2NHFoOWFMNVFBSUJMUkxKLWktX3FYcG45NUlRaWR5VXNQRGw4eHUzaEw5VVdjQ2h6SFZIYlQ1NTlR?oc=5",
+          "id": "ebb3b0b240717fc5",
+          "title": "Naver in Talks with Nvidia for 'Asia's Largest' Server Order; Wins First 2 Trillion Won AI Factory Contract",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE90eUEwQjJEMFdodVlFSmxVV3pFZjhOSmFWMzJvbkhiMGtiNzE5WGZkdzg4Umx6VW51WVVkTF9wcEV1LWtHUGNYLTZ3UmdtelV2UVF5Z2tTRHRSMVBwemV0SC1QaXJaeHJ0NVFYNzJnaFBPem1DM3c?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-12T02:02:36.000Z",
-          "score": 0,
-          "positive": [],
+          "published_at": "2026-11-12T02:55:00.000Z",
+          "score": 6,
+          "positive": [
+            "wins",
+            "won"
+          ],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "5a89be429cb5e9dd",
-          "title": "Trump's ties to Nvidia CEO Jensen Huang in the spotlight",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPZ1RYYVlNcjVQeGNHTUREclhvOXJQaEtpd2N5UmU2em9ZSTRQdTFJTjZlTGVBQTlSUGJuanhhXzV1cXNoVFBYbDk1aHNWeGpPcl9Hd2ZCM0w2YW95T1c3dFJUX0Z2WVF5cEZRNVBWaXNTRF9nOElKbnFuN3g1R0lXdTViRXpQclFxR2dyR0hpVlIxSk81?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-12T01:56:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1b49dc6d68ff5351",
-          "title": "Asian stocks fragile, Nvidia plummets as board to decide CEO's fate",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFA1ODl5LXpyQ0RZanVjSnZGS1NjS1ljMjZvdW9xY3ZSSUxvNkY2Z3dCMThiSjdKNHI1TFRCZnBIRHdYY0UxTGh0QjRZX3Y2S25sY0k4M0dKN3VZdGNMSGk5N0tPUmVJa3ozWXRCcmluOWxVVjVfblRLdmttMA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-12T01:53:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "99e8faab742c3987",
-          "title": "Nvidia Tumbles as Investors Consider Future Without CEO Huang",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNSWt2M09CMmZEV2FtdDlsblRCTGFFZDZfcWNtSjdGQndIUlR1ajhVcFJGcTJuSzhQYzZsM0FyODI1dE9PaFR4TXU4dS10OERzWFhoSFhSeU8wNFh5RWgyNjM5QnRDVS1pZ2pHNUhseGVuUjdCTjJoajRQZjlmbzNkbkFscGFvTHRsV04zcldlcU5USkcyeExYemUwVkREeXR2SDdEWWNmOEhQeDREblduQlF3?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-12T01:35:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5102888a0ff0682d",
-          "title": "Market Take | AMD and Memory Could Win as Nvidia's Grip Weakens",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPX29aR0lQSHluUG9xbEhaYkdySkRKZTVCSlBCQ1NuT1pqUHBhRG91ZGo2MHdMd19SLTBRZWlPZEJoNTFORzdiOWZYWHptRkhrMmpuVm8zbm91WHItN3ZNN2hMRjdXTVlHS0t2Ukw5Tnh6WndJNGRTZ2xad3BLSHlZWHFyZUFPRngyWFQ1ejQxOF9uT2Z5Q0VmOFN3NDBHLXMtdVp4WQ?oc=5",
+          "id": "1f0896201447c0b9",
+          "title": "Lutnick Stalls Nvidia H200 China Chip Curbs [2026]",
+          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOZG9vZHVRQTlNeDJ0NVJudnhYaEJXUTlQb0ZmZFBDdmNpRnd0UE1Tdkw4c3dwd3BuMkhQOWRJZl9TMkVPeG5wRm1MM1hFMTkxT0tnWXp6QkN4YTVic2tNM1VtVHhyQ2ltS2RtXzZzSnRvOTRGLUItaUU0ZmJkTElyWk9fTmhvZldqMllubklieDU?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-12T01:23:28.000Z",
+          "published_at": "2026-11-12T02:50:43.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "a460180bcdae0017",
-          "title": "Nvidia board to decide Jensen Huang’s fate after revelation of affair with subordinate",
-          "url": "https://ft.com/content/d3838274-a055-4d5d-a1ff-48f2979a08f0?syn-25a6b1a6=1",
-          "source": "ft-ai",
-          "published_at": "2026-11-12T01:13:24.000Z",
+          "id": "d8778f52d82c24ff",
+          "title": "Nvidia's Future Beyond Jensen Huang Could Test the AI Boom -- Market Talk",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNVTBqUEVxcHlrd2gxUTVnV1FZMUlIYlF1YmhsV0FGRUU1T2IyMWFyVmkzZVEwcDhBb1kyLVd0U2gwUUlMWTEwdGU4aS1BWTJSbFlGOFB2amhXNGFaa3cxY1hPMmpiUVFobE5SYmZtaDNpNU1wNXUza1FWOTlQVmVOaDBLRzFBYllkeFlhMG1yYXVXa0pDQndPUFJTWFEyZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T02:48:47.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "c5a9ee485124314d",
-          "title": "Nvidia’s Disappearing Singapore Sales Deepen Mystery Around Megaspeed",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQTVMxMWYtSHpfTEN1dUVzcTRpZDBkRUR4ZVBENFJxODZHaEg5WHp0ekZFdENtZEZrNDl5eENKWW11LVJFSGd4T0Y0TVNEQU0wRUhoMW5HMVdsUmZmQThZVV9WdmVXc3ZGM0F5Wk1kRlM0TEFXbG51WUNyWGt3WXlRU1I2cmNoNmNocEtkdkktdU9NTVA1dUhiWHlYRG44aUxTM3VlVmdzOU41T3Z4aGxKbkw4VG5RZw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-12T01:00:00.000Z",
+          "id": "0e63babdd851aff3",
+          "title": "Sources: some Nvidia board members favor naming CFO Colette Kress interim CEO; an administration official says the board briefed the White House on its meeting (Semafor)",
+          "url": "https://techmeme.com/261111/p52",
+          "source": "techmeme",
+          "published_at": "2026-11-12T02:45:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -271,10 +276,21 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 80,
-      "index": 1.4,
-      "mean_headline": 0.2,
+      "headlines": 74,
+      "index": 1,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "f2e3eb32605b7c29",
+          "title": "The computing power agreement between Anthropic and SpaceX is reportedly unlikely to last, and Musk promptly replied: \"Glad to take back all the computing power.\"",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOSXI0WWFTeGk3X0tkTnlmZUtDR2pDZENpaTNETTl3VWhiOUZJTUpBV1J6VjJWdmRBd1Y4eTkwVGpQdVE0dFZDckltcTlIVjMtZVNPY3Y4ak9jR1JTbnlDdlN1U0VxQ0IzQ29FRktEMmluRFRYSHVOazZuMFBaZVRCSjBfOHFLTk5jR1NWdzF1dXRNNjhuX0RYQU9ScFl2SUhQXzl1NWpBbUlERmpGelBJeTVVbmt4dw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T02:39:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "acbfae5ae8f30e06",
           "title": "Anthropic IPO Oversubscription Drives AI Recovery Rally",
@@ -292,17 +308,6 @@
           "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQU3VfRFJkVmt5SW8wUXc2M0dRVk9KQVNqV2ZIUXlKM2F5V1RseG52VXpqenZXM29UaVFia096Q3JKSzN5QlVBSFpMRGFrenV5Q0FhRkZ3OGhlZGN3cGJlLUxkVWY3b2ZGRkEyYnRKTDhqT0dOTDdPal9SQWRublJNbjZnREUyOGhhTzNVclQ2Q0syYUh3c3l2WA?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-12T01:55:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a1620478c72dee0c",
-          "title": "Anthropic CEO Dario Amodei Predicts AI Will Cure Cancer and Alzheimer's Within 10 Years",
-          "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE92bDBtdXlsN3hwdGI1YUliTmVNUVFrTXBlQkRxeFhEMFRRdzJkeExOYm1nOHE1Y2t2U1MxLUdTSjNmRElSSlJpVlB6V0l4d1ZCSFdqTGNMQ1VhMFVKdjNfOGdFNGVjSmd4OThiUzdR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-12T01:52:39.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -451,9 +456,22 @@
       "id": "google",
       "name": "Google",
       "headlines": 27,
-      "index": 5,
-      "mean_headline": 0.6,
+      "index": 5.9,
+      "mean_headline": 0.7,
       "sample": [
+        {
+          "id": "cc538a41e59293ed",
+          "title": "Google expands Gemini ecosystem with faster, lower-cost decision-making API",
+          "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOTzVoU29sdzdLNGhpd09nTWl2MzBvWEFJY0xObmY3TUhnbUdJdGRWck8zNlY1OGJ6SWhkamFudHRGNnlISmNidThYcl9qMThOMkE1Y0phQnVrcnAxUWQwRzhrMDdZNVdOcFlFYkRtM2VfckNZUTBfZnFTU0hmWElmSlFTYkZXTVZMaC0tX0U4LWZiYU1DVjVIVXdNWkdFdHFWU3hlbUNKRm1pcktGSWFYWDFBR2t2VTFPMWVkZ3dPelJJTDRFWTV0djJ6Y0FRZTM0dV96dkZkMEtoY0IydzNIbzdLejNQOC1Kc2fSAe8BQVVfeXFMT1l5UVhBQWxxeHlkeUF6QXdGaHo5Q0Rjakt2WkluVEw5RXpCWFNSUldpc3lBenF0UVlmcGxpSUFsMXliMW1QbkZIZnFLM1JKdmZhRk95WS11bFJPbDhRa3d1bU84LXpTQXBlejhVenlyME5CcUtIZjJleURteGJDRnFCb3lYYVdpWlE4aXFHa0dBQjFNSzRDNWlEXzRFX2lWTE9SbHhSa0pjWU1zYzE3NFNuX1hDWEczNGJkc2otNHJlUC1Vc2VuV21BOWVtc0NjTkVBdzNHdi1OLXB4M2FHa0RoT1hnNXJZWktuNnhJb1E?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T03:00:39.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "adc14b2034ee6587",
           "title": "Google DeepMind unveils Alphagenome 2 AI to pinpoint causes of disease",
@@ -472,7 +490,7 @@
           "title": "Alphabet Kicks Off Asia Bond Sale as AI Firms Face Scrutiny",
           "url": "https://bloomberg.com/news/articles/2026-11-12/alphabet-kicks-off-asia-bond-sale-as-ai-firms-face-scrutiny",
           "source": "bloomberg-tech",
-          "published_at": "2026-11-12T01:12:49.000Z",
+          "published_at": "2026-11-12T01:12:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -495,17 +513,6 @@
           "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBsdm9uU0w5aW9vWDZrSktOYzlLUHlyeW5kRXFjNUZfTnBJa0ZTbmNPVEZSaFhnUnoyTjA1SzRpQmZrbE44Zy0yWDJyQ2tCaDFoSGVzdkpkM2k2SUdFaDVoY2t2WmllVjdVUDI0Vk1rX1pzU2k3dXc?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-12T00:35:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f428c54a2ed29fc1",
-          "title": "Google DeepMind uses AI to verify Signal protocol security",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQQkhZTm14MVAyNDhVNm9USTZIMTNoVlNYV3pjZ09Gd1JMeXZWMW42SGRCOUlrN1NEWmxkMEpsN3FtUlRVc2otZDM3WGJiSDdoRDgwemxXWWxBdXBBV01BcElqbEJhVE8tNW9MNmpQZXdoa2ljM0NyZG1qZ3h6YnJhSC1rSVdtU3BrOVVmQ0Izb2pIQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-11T23:40:03.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -551,10 +558,45 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 18,
-      "index": 3.6,
+      "headlines": 19,
+      "index": 3.4,
       "mean_headline": 0.4,
       "sample": [
+        {
+          "id": "90a549b571b845a8",
+          "title": "Microsoft to Absorb AI Power Costs Itself, Rejects Shifting Burden to Communities Under $117 Billion Investment",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBCdXNWM0x1OHlwUDNPNThSR1BHOW9LcFBYQ2tlLXpfYmhVZ2M0emlaRDdiSXdpZjE0NkRmczhESnh0bjVjWVdSMzV4YmR2aTE2cUU1YmJWYS1DbWlvVnVwZG4xVnE0eGFVbW5PZldZTkdGRUlFd1E?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T02:59:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "42180155bf23e7f2",
+          "title": "Invoke Wins Worldwide 2026 Microsoft Secure AI Productivity Partner of the Year Award",
+          "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPanFvSEY2MU5aeER1by1EUVYyZVJJU2JidFlDZEVibVAxSWRSem9OYWtpQ0szZG5BQVVIZUxhOVRlcTAwSkhLN2RIV2dqTmx3b0FpU1I5MDRVNTBDSzFxczU1NEN0LXR3a09uOTNVUXM0RG40dUxyMzBVbzRYdTdOSkhPMjR1cjZyeEhoTTlXMGw1NmtSZUlLbXNKZXN4NDVMbFp3OWpwUkhCNERfV2tIU1Q2VzVpS0psYjVpTXNsbEpPbC1ILVdnSFBNZnVQQUFESzcwVEV1cHI?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T02:41:35.000Z",
+          "score": 3,
+          "positive": [
+            "wins"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f8db5ba9ab6c06f7",
+          "title": "Microsoft Corporation (MSFT.O) | Stock Price & Latest News",
+          "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5mc1U3MkxiZ00yS0FLaXVrTG1GRkFVdFRNTVRBV2cxQm1vSGl4bThaMXdGRHI2Q09oUkpsTE5mcElfN2ppbnlkcTQ2eE5jYlZETzBnNTdCN2lUNDluNkE?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-12T02:03:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "e1e726412d7e93e9",
           "title": "Microsoft Ignite 2026 Kicks Off in San Francisco on November 17",
@@ -574,30 +616,6 @@
           "published_at": "2026-11-12T00:56:15.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "98a39abab0dd33cc",
-          "title": "Microsoft admits people don't want AI in search, releases new tools to let you turn it off on Bing: \"Users want to have the option to choose whether or not AI is involved\"",
-          "url": "https://news.google.com/rss/articles/CBMitwJBVV95cUxNZEFWQnA5M2haRzdNV2xRNWh0X2RhelJkS2ZwX25MbVlqcFNoMk9UUUs4SUgtMF8zYTdOeXl2SDJzbnN2VEtxaXlqUzM3WGFjN2p2S1FoSHRWNlN4LUNNSFprbjlGMlBNb0pGNTdEOG9YVmJEUHJIaXRxaHc2dW12T1FoVHJBZkU4VEZ3RUk5dF90cGhfNWktMk5WeV9IV1ZpczZwQlZZWjgtVGx0X0NVZW5SSFZSZjh3RW56NDJ4bmlpOGdXTnBWNDFMS1FpeDNVWlFLUmMwUzV3bzltRm15Wm82c1pEczV4VnB6cl9adkgtcnlaTXM5NldaSDE1S2tQM1YyUHZ0TW9nZ1ltaTB2WndqZVQyYkphcm8welZFcXlJM0R6MlhsTURTMzRTR0c5QXp3SzYzaw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-12T00:00:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "004aa7d044bb069f",
-          "title": "Databricks launches always-on Genie agents to take on Anthropic and Microsoft",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPMklhNVBPLUhtaTlUV0JDaEJEQ1hjXzJ2TW50M042b2N3OE55dUhQdmZUUEl5V3NkcjNsTFI3LVhsdEVIU29nRUJwdHZEdHZQS2h1WFMyNUc3dENPSUR3U1g4d21tNmxheV8xdFZUdXhPVW1rejFtSzd1eVMzcWVDdk9EVHhuUDFFSTVKWGtVRHdJNkxWak55RWx2d2tnT3psTWN6WTFSZGU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-11T23:51:07.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
           "negative": [],
           "clickbait": []
         },
@@ -629,17 +647,6 @@
           "url": "https://krebsonsecurity.com/2026/11/microsoft-fixes-nearly-1100-security-vulnerabilities",
           "source": "hn-fresh-ai",
           "published_at": "2026-11-11T14:34:38.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "212b348cef3122c0",
-          "title": "Microsoft AI Speech Editing: Who Controls The Recording?",
-          "url": "https://reddit.com/r/ControlProblem/comments/1xthtbi/microsoft_ai_speech_editing_who_controls_the",
-          "source": "reddit-controlproblem",
-          "published_at": "2026-11-11T13:31:46.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -760,9 +767,22 @@
       "id": "google",
       "name": "Google",
       "headlines": 27,
-      "index": 5,
-      "mean_headline": 0.6,
+      "index": 5.9,
+      "mean_headline": 0.7,
       "sample": [
+        {
+          "id": "cc538a41e59293ed",
+          "title": "Google expands Gemini ecosystem with faster, lower-cost decision-making API",
+          "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOTzVoU29sdzdLNGhpd09nTWl2MzBvWEFJY0xObmY3TUhnbUdJdGRWck8zNlY1OGJ6SWhkamFudHRGNnlISmNidThYcl9qMThOMkE1Y0phQnVrcnAxUWQwRzhrMDdZNVdOcFlFYkRtM2VfckNZUTBfZnFTU0hmWElmSlFTYkZXTVZMaC0tX0U4LWZiYU1DVjVIVXdNWkdFdHFWU3hlbUNKRm1pcktGSWFYWDFBR2t2VTFPMWVkZ3dPelJJTDRFWTV0djJ6Y0FRZTM0dV96dkZkMEtoY0IydzNIbzdLejNQOC1Kc2fSAe8BQVVfeXFMT1l5UVhBQWxxeHlkeUF6QXdGaHo5Q0Rjakt2WkluVEw5RXpCWFNSUldpc3lBenF0UVlmcGxpSUFsMXliMW1QbkZIZnFLM1JKdmZhRk95WS11bFJPbDhRa3d1bU84LXpTQXBlejhVenlyME5CcUtIZjJleURteGJDRnFCb3lYYVdpWlE4aXFHa0dBQjFNSzRDNWlEXzRFX2lWTE9SbHhSa0pjWU1zYzE3NFNuX1hDWEczNGJkc2otNHJlUC1Vc2VuV21BOWVtc0NjTkVBdzNHdi1OLXB4M2FHa0RoT1hnNXJZWktuNnhJb1E?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T03:00:39.000Z",
+          "score": 3,
+          "positive": [
+            "expands"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "adc14b2034ee6587",
           "title": "Google DeepMind unveils Alphagenome 2 AI to pinpoint causes of disease",
@@ -781,7 +801,7 @@
           "title": "Alphabet Kicks Off Asia Bond Sale as AI Firms Face Scrutiny",
           "url": "https://bloomberg.com/news/articles/2026-11-12/alphabet-kicks-off-asia-bond-sale-as-ai-firms-face-scrutiny",
           "source": "bloomberg-tech",
-          "published_at": "2026-11-12T01:12:49.000Z",
+          "published_at": "2026-11-12T01:12:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -804,17 +824,6 @@
           "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBsdm9uU0w5aW9vWDZrSktOYzlLUHlyeW5kRXFjNUZfTnBJa0ZTbmNPVEZSaFhnUnoyTjA1SzRpQmZrbE44Zy0yWDJyQ2tCaDFoSGVzdkpkM2k2SUdFaDVoY2t2WmllVjdVUDI0Vk1rX1pzU2k3dXc?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-12T00:35:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f428c54a2ed29fc1",
-          "title": "Google DeepMind uses AI to verify Signal protocol security",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQQkhZTm14MVAyNDhVNm9USTZIMTNoVlNYV3pjZ09Gd1JMeXZWMW42SGRCOUlrN1NEWmxkMEpsN3FtUlRVc2otZDM3WGJiSDdoRDgwemxXWWxBdXBBV01BcElqbEJhVE8tNW9MNmpQZXdoa2ljM0NyZG1qZ3h6YnJhSC1rSVdtU3BrOVVmQ0Izb2pIQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-11T23:40:03.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -860,10 +869,45 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 18,
-      "index": 3.6,
+      "headlines": 19,
+      "index": 3.4,
       "mean_headline": 0.4,
       "sample": [
+        {
+          "id": "90a549b571b845a8",
+          "title": "Microsoft to Absorb AI Power Costs Itself, Rejects Shifting Burden to Communities Under $117 Billion Investment",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBCdXNWM0x1OHlwUDNPNThSR1BHOW9LcFBYQ2tlLXpfYmhVZ2M0emlaRDdiSXdpZjE0NkRmczhESnh0bjVjWVdSMzV4YmR2aTE2cUU1YmJWYS1DbWlvVnVwZG4xVnE0eGFVbW5PZldZTkdGRUlFd1E?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T02:59:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "42180155bf23e7f2",
+          "title": "Invoke Wins Worldwide 2026 Microsoft Secure AI Productivity Partner of the Year Award",
+          "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPanFvSEY2MU5aeER1by1EUVYyZVJJU2JidFlDZEVibVAxSWRSem9OYWtpQ0szZG5BQVVIZUxhOVRlcTAwSkhLN2RIV2dqTmx3b0FpU1I5MDRVNTBDSzFxczU1NEN0LXR3a09uOTNVUXM0RG40dUxyMzBVbzRYdTdOSkhPMjR1cjZyeEhoTTlXMGw1NmtSZUlLbXNKZXN4NDVMbFp3OWpwUkhCNERfV2tIU1Q2VzVpS0psYjVpTXNsbEpPbC1ILVdnSFBNZnVQQUFESzcwVEV1cHI?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T02:41:35.000Z",
+          "score": 3,
+          "positive": [
+            "wins"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "f8db5ba9ab6c06f7",
+          "title": "Microsoft Corporation (MSFT.O) | Stock Price & Latest News",
+          "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5mc1U3MkxiZ00yS0FLaXVrTG1GRkFVdFRNTVRBV2cxQm1vSGl4bThaMXdGRHI2Q09oUkpsTE5mcElfN2ppbnlkcTQ2eE5jYlZETzBnNTdCN2lUNDluNkE?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-12T02:03:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "e1e726412d7e93e9",
           "title": "Microsoft Ignite 2026 Kicks Off in San Francisco on November 17",
@@ -883,30 +927,6 @@
           "published_at": "2026-11-12T00:56:15.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "98a39abab0dd33cc",
-          "title": "Microsoft admits people don't want AI in search, releases new tools to let you turn it off on Bing: \"Users want to have the option to choose whether or not AI is involved\"",
-          "url": "https://news.google.com/rss/articles/CBMitwJBVV95cUxNZEFWQnA5M2haRzdNV2xRNWh0X2RhelJkS2ZwX25MbVlqcFNoMk9UUUs4SUgtMF8zYTdOeXl2SDJzbnN2VEtxaXlqUzM3WGFjN2p2S1FoSHRWNlN4LUNNSFprbjlGMlBNb0pGNTdEOG9YVmJEUHJIaXRxaHc2dW12T1FoVHJBZkU4VEZ3RUk5dF90cGhfNWktMk5WeV9IV1ZpczZwQlZZWjgtVGx0X0NVZW5SSFZSZjh3RW56NDJ4bmlpOGdXTnBWNDFMS1FpeDNVWlFLUmMwUzV3bzltRm15Wm82c1pEczV4VnB6cl9adkgtcnlaTXM5NldaSDE1S2tQM1YyUHZ0TW9nZ1ltaTB2WndqZVQyYkphcm8welZFcXlJM0R6MlhsTURTMzRTR0c5QXp3SzYzaw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-12T00:00:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "004aa7d044bb069f",
-          "title": "Databricks launches always-on Genie agents to take on Anthropic and Microsoft",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPMklhNVBPLUhtaTlUV0JDaEJEQ1hjXzJ2TW50M042b2N3OE55dUhQdmZUUEl5V3NkcjNsTFI3LVhsdEVIU29nRUJwdHZEdHZQS2h1WFMyNUc3dENPSUR3U1g4d21tNmxheV8xdFZUdXhPVW1rejFtSzd1eVMzcWVDdk9EVHhuUDFFSTVKWGtVRHdJNkxWak55RWx2d2tnT3psTWN6WTFSZGU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-11T23:51:07.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
           "negative": [],
           "clickbait": []
         },
@@ -938,17 +958,6 @@
           "url": "https://krebsonsecurity.com/2026/11/microsoft-fixes-nearly-1100-security-vulnerabilities",
           "source": "hn-fresh-ai",
           "published_at": "2026-11-11T14:34:38.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "212b348cef3122c0",
-          "title": "Microsoft AI Speech Editing: Who Controls The Recording?",
-          "url": "https://reddit.com/r/ControlProblem/comments/1xthtbi/microsoft_ai_speech_editing_who_controls_the",
-          "source": "reddit-controlproblem",
-          "published_at": "2026-11-11T13:31:46.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1058,10 +1067,21 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 80,
-      "index": 1.4,
-      "mean_headline": 0.2,
+      "headlines": 74,
+      "index": 1,
+      "mean_headline": 0.1,
       "sample": [
+        {
+          "id": "f2e3eb32605b7c29",
+          "title": "The computing power agreement between Anthropic and SpaceX is reportedly unlikely to last, and Musk promptly replied: \"Glad to take back all the computing power.\"",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOSXI0WWFTeGk3X0tkTnlmZUtDR2pDZENpaTNETTl3VWhiOUZJTUpBV1J6VjJWdmRBd1Y4eTkwVGpQdVE0dFZDckltcTlIVjMtZVNPY3Y4ak9jR1JTbnlDdlN1U0VxQ0IzQ29FRktEMmluRFRYSHVOazZuMFBaZVRCSjBfOHFLTk5jR1NWdzF1dXRNNjhuX0RYQU9ScFl2SUhQXzl1NWpBbUlERmpGelBJeTVVbmt4dw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T02:39:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "acbfae5ae8f30e06",
           "title": "Anthropic IPO Oversubscription Drives AI Recovery Rally",
@@ -1079,17 +1099,6 @@
           "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQU3VfRFJkVmt5SW8wUXc2M0dRVk9KQVNqV2ZIUXlKM2F5V1RseG52VXpqenZXM29UaVFia096Q3JKSzN5QlVBSFpMRGFrenV5Q0FhRkZ3OGhlZGN3cGJlLUxkVWY3b2ZGRkEyYnRKTDhqT0dOTDdPal9SQWRublJNbjZnREUyOGhhTzNVclQ2Q0syYUh3c3l2WA?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-12T01:55:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "a1620478c72dee0c",
-          "title": "Anthropic CEO Dario Amodei Predicts AI Will Cure Cancer and Alzheimer's Within 10 Years",
-          "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE92bDBtdXlsN3hwdGI1YUliTmVNUVFrTXBlQkRxeFhEMFRRdzJkeExOYm1nOHE1Y2t2U1MxLUdTSjNmRElSSlJpVlB6V0l4d1ZCSFdqTGNMQ1VhMFVKdjNfOGdFNGVjSmd4OThiUzdR?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-12T01:52:39.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1158,12 +1167,67 @@
       ]
     },
     {
+      "id": "apple",
+      "name": "Apple",
+      "headlines": 2,
+      "index": 0,
+      "mean_headline": 0,
+      "sample": [
+        {
+          "id": "be9bcd192fa0f0a4",
+          "title": "Google Adds Gemini Voice AI Assistant to Apple CarPlay",
+          "url": "https://bloomberg.com/news/articles/2026-11-11/google-adds-gemini-voice-ai-assistant-to-apple-carplay",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-11T18:57:04.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9836df3492903c3f",
+          "title": "Apple has new Mac app coming to make running local AI models easy",
+          "url": "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy",
+          "source": "hn-ai",
+          "published_at": "2026-11-10T21:25:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 40,
-      "index": 0.4,
-      "mean_headline": 0.1,
+      "headlines": 38,
+      "index": -0.4,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "6f95c5314b4c56ea",
+          "title": "OpenAI to Bring Pierre Computer’s Code Storage to Codex Through Acquisition",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQMHB3WDNrSi01NF8zXzUyZWdSb0U0ZUZyVlZWUF9jeVBfeHVTNkpESjFRSk1FWTk1aFZNcVl2LTRXdlpnR2N5eTRURXJMZkVRM0o5dlVSZWRuY0dVc2ZRTGRLb3M1WVZjRk54Z0doRGt2MVlDTURZaHR6LWpPR3RiT0FmU19vWWd6dE5iY3FLOWozZkNhSHJENktiRGtmc3dJM2xXSDFyOFNlM0N2b2FLWQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-12T03:08:14.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4884515f9080b08e",
+          "title": "OpenAI Hopes to Ease Backlash Against AI Data Centers",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQeFpEeWNEZFpZMUFTc091cjNuQWtXdEdWRW5xcWtRMEtYdXNQQXVHbzJ0YUYzMjFtNzVGR1BNOW45VENkRkkyZ3ZFWXIwR19GWERuSnVyVHB0YU5uMGVPWDVRcl91UnoyM2xHNVNlaU5Td0tCZ2NlZnkxWXF6RDFzS2RzUnBmNHVNSk1sS2dqc01HMEw3a1JHNHRn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T02:39:55.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "backlash"
+          ],
+          "clickbait": []
+        },
         {
           "id": "f79a86eea94e478b",
           "title": "Russian Pranksters Fooled 3 OpenAI National Security Leads",
@@ -1211,28 +1275,6 @@
           "clickbait": []
         },
         {
-          "id": "6f95c5314b4c56ea",
-          "title": "OpenAI to Bring Pierre Computer’s Code Storage to Codex Through Acquisition",
-          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQMHB3WDNrSi01NF8zXzUyZWdSb0U0ZUZyVlZWUF9jeVBfeHVTNkpESjFRSk1FWTk1aFZNcVl2LTRXdlpnR2N5eTRURXJMZkVRM0o5dlVSZWRuY0dVc2ZRTGRLb3M1WVZjRk54Z0doRGt2MVlDTURZaHR6LWpPR3RiT0FmU19vWWd6dE5iY3FLOWozZkNhSHJENktiRGtmc3dJM2xXSDFyOFNlM0N2b2FLWQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-12T01:09:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "2c91400d8aaa53ff",
-          "title": "OpenAI calls for teacher training as AI homework use outpaces guidance | ETIH EdTech News",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNSzNkU0IwWEJwaVhaRHVYR3RZTFQ1YVdqZkwxNnIxMjMtOGpGeVJGWUMwaDU1QWhreHB0R3U0eHJCQnhLZWdyNjNMWm96NTNvbTYwbDFfSS1XN2p6SjFzMWJGQ2VNTHN5UXVpR1gweTd1LTlqLUpZaUNQay1ITkR5SDBveUVBLVRGX21BTUJEV1A0TWxFaGlvT3NwZVFGclhTYnlWWlJCNHJVU0UxbmtFWE12NF9tdVZYME9r?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-12T00:07:22.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "81df763f448d42a4",
           "title": "OpenAI Fooled by Russian Pranksters Into Thinking They Were Speaking to Ukrainian Official",
           "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFB4SVRPUjB4RVdVY1lGV1h3V2U1dkdsTEVrbUFLcDFJQWNITkx1R3EwSjFsZnl1ejlXMnJxWXlub0tfaUpYZU9ldmd6eE52MHdtRDRDeXg4VDFQYTR6eXZUYlZMLVllU3B6UjRORloyNTN1MU5MRFB0QzRVZ0lhdw?oc=5",
@@ -1244,42 +1286,11 @@
           "clickbait": []
         },
         {
-          "id": "5b76f2ed872edd98",
-          "title": "AI Bulls Return on CoreWeave, Anthropic and OpenAI Buzz",
-          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNbDVyVXJLM0xoWXpxLVcxOElGUThIVndBSU9MekRDTF8wc0pBcnpHZER2V0VKSlhnQnJBdjZSZF9aM1pTcXVoSGhEalNMTUNxaDMxbUNVTk5ONGJQS1ZHRmRtWVhiOEI1QzNTNEdQWFpSZnR2bkgyTUJ1T1lRN0U1ajNiLXhmc2JWMnpkczFHaXZmTXlmaVBhS0dMVVZ6UkhrQzVicGZya19ZMnBu?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-11T23:49:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "apple",
-      "name": "Apple",
-      "headlines": 2,
-      "index": 0,
-      "mean_headline": 0,
-      "sample": [
-        {
-          "id": "be9bcd192fa0f0a4",
-          "title": "Google Adds Gemini Voice AI Assistant to Apple CarPlay",
-          "url": "https://bloomberg.com/news/articles/2026-11-11/google-adds-gemini-voice-ai-assistant-to-apple-carplay",
-          "source": "bloomberg-tech",
-          "published_at": "2026-11-11T18:57:04.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9836df3492903c3f",
-          "title": "Apple has new Mac app coming to make running local AI models easy",
-          "url": "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy",
-          "source": "hn-ai",
-          "published_at": "2026-11-10T21:25:03.000Z",
+          "id": "af92f8b8f091c9ba",
+          "title": "OpenAI Codex on Amazon Bedrock",
+          "url": "https://aws.amazon.com/blogs/machine-learning/openai-codex-on-amazon-bedrock",
+          "source": "aws-ml",
+          "published_at": "2026-11-11T23:35:47.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1290,93 +1301,96 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 91,
-      "index": -2.7,
+      "headlines": 101,
+      "index": -2.2,
       "mean_headline": -0.3,
       "sample": [
         {
-          "id": "e25b4c81bb4709c1",
-          "title": "Nvidia 'prepares to oust' CEO Jensen Huang as he's 'caught in another scandal'",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQZHRVNFVlU1JvZ29DeEJjUmR4MnI4WTFKekdIQ3BsZ3BIWjRwdmpiSmN5SGVCSC11RmwtaU5oMEFOdnhrRHJ6SDQ5SkZJNHV3MTVPeGhJMDAyY0lGMzlDbUNYekx0TWQ3Z0xKeHRTa09NMXRseEpBY3RDQ2dPMEREbEUyVE1hcDQ4TkHSAY8BQVVfeXFMT3VudmxZMzlfQ3BaUmdUdnM0cENWejdTZi00OU9nSkVfSGdJZWVNUnMtR1F2M2FuRTVsY0R5SkRtbUdrdVdyM2FVSkZuZGJTTURxMWpudXlUWURqUjE3eWU0ZnNacHhhODQ5MG5TbXh3Um5LN2dwMlBsVlJhYndVTEwyZWZBTzE4aEhPZGxLdHc?oc=5",
+          "id": "cb9a1a5823d82c40",
+          "title": "Will Nvidia Replace Jensen Huang as CEO? What’s Next for AI, Markets?: Live Q&A",
+          "url": "https://bloomberg.com/sessions/2026-11-11/live-q-amp-a-will-jensen-huang-be-replaced-as-ceo-what-s-next-for-nvidia",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-12T03:13:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b80634a59e1427c6",
+          "title": "Asian stocks extend gains but traders keep eye on Nvidia crisis",
+          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOUVY3MDB1c0lKWXJCdkc2STZ4YURiWlRQY2E3YXpxWUs4TVZiN3lST1JzLS1YOU1UVFNkX3J5a0RaUmVfeXRqQXdmck5GT0t0azdCZEx5S0ZQbU1Tb0FDOHFqbFZoY0lFOWJLRllBS012RmRGaGlwc0dJaGFYM3MxUGtYaXVXdw?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-12T03:03:11.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7f7eeabc19343d4c",
+          "title": "The (alleged) spy who loved me: the Nvidia scandal - podcast",
+          "url": "https://theguardian.com/news/audio/2026/nov/12/the-alleged-spy-who-loved-me-the-nvidia-scandal-podcast",
+          "source": "guardian-ai",
+          "published_at": "2026-11-12T03:00:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1208864642f2d701",
+          "title": "Nvidia Row Tests US-China Truce as 4 Key Terms End Jan. 10",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQNmlDVFdwMkxGSmZrcG9IckEyclpmTjZOSno0UkJLRDAzVmpEZ09peHZaaFBoR0hXY1VhVVh6eG9sRHByc1VkX2JSeENubGJpUUNVa1MzR3FrdElqVEdyRTBHS3FuV3ZsVzlYSkUwbjdEdVNIZzF2U2RwYWlXc3N4VmFvZ0ZFbThoWTlMamRB?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-12T02:18:00.000Z",
+          "published_at": "2026-11-12T02:57:55.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "1cbe55c8e0da6d2f",
-          "title": "Nvidia Board and Huang as CEO: 0 Votes Confirmed [2026]",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOdjlLcUd2aUxmRjliLVRaWlEtTWNHY0s4SDdQTFd6R2RMUVM4OHdwWVduaFZWbkx3Tk04SmllOXlNdGV0YmxSdldaR0tMR0lVVXU2NHFoOWFMNVFBSUJMUkxKLWktX3FYcG45NUlRaWR5VXNQRGw4eHUzaEw5VVdjQ2h6SFZIYlQ1NTlR?oc=5",
+          "id": "ebb3b0b240717fc5",
+          "title": "Naver in Talks with Nvidia for 'Asia's Largest' Server Order; Wins First 2 Trillion Won AI Factory Contract",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE90eUEwQjJEMFdodVlFSmxVV3pFZjhOSmFWMzJvbkhiMGtiNzE5WGZkdzg4Umx6VW51WVVkTF9wcEV1LWtHUGNYLTZ3UmdtelV2UVF5Z2tTRHRSMVBwemV0SC1QaXJaeHJ0NVFYNzJnaFBPem1DM3c?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-12T02:02:36.000Z",
-          "score": 0,
-          "positive": [],
+          "published_at": "2026-11-12T02:55:00.000Z",
+          "score": 6,
+          "positive": [
+            "wins",
+            "won"
+          ],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "5a89be429cb5e9dd",
-          "title": "Trump's ties to Nvidia CEO Jensen Huang in the spotlight",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPZ1RYYVlNcjVQeGNHTUREclhvOXJQaEtpd2N5UmU2em9ZSTRQdTFJTjZlTGVBQTlSUGJuanhhXzV1cXNoVFBYbDk1aHNWeGpPcl9Hd2ZCM0w2YW95T1c3dFJUX0Z2WVF5cEZRNVBWaXNTRF9nOElKbnFuN3g1R0lXdTViRXpQclFxR2dyR0hpVlIxSk81?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-12T01:56:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1b49dc6d68ff5351",
-          "title": "Asian stocks fragile, Nvidia plummets as board to decide CEO's fate",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFA1ODl5LXpyQ0RZanVjSnZGS1NjS1ljMjZvdW9xY3ZSSUxvNkY2Z3dCMThiSjdKNHI1TFRCZnBIRHdYY0UxTGh0QjRZX3Y2S25sY0k4M0dKN3VZdGNMSGk5N0tPUmVJa3ozWXRCcmluOWxVVjVfblRLdmttMA?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-12T01:53:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "99e8faab742c3987",
-          "title": "Nvidia Tumbles as Investors Consider Future Without CEO Huang",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNSWt2M09CMmZEV2FtdDlsblRCTGFFZDZfcWNtSjdGQndIUlR1ajhVcFJGcTJuSzhQYzZsM0FyODI1dE9PaFR4TXU4dS10OERzWFhoSFhSeU8wNFh5RWgyNjM5QnRDVS1pZ2pHNUhseGVuUjdCTjJoajRQZjlmbzNkbkFscGFvTHRsV04zcldlcU5USkcyeExYemUwVkREeXR2SDdEWWNmOEhQeDREblduQlF3?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-12T01:35:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5102888a0ff0682d",
-          "title": "Market Take | AMD and Memory Could Win as Nvidia's Grip Weakens",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPX29aR0lQSHluUG9xbEhaYkdySkRKZTVCSlBCQ1NuT1pqUHBhRG91ZGo2MHdMd19SLTBRZWlPZEJoNTFORzdiOWZYWHptRkhrMmpuVm8zbm91WHItN3ZNN2hMRjdXTVlHS0t2Ukw5Tnh6WndJNGRTZ2xad3BLSHlZWHFyZUFPRngyWFQ1ejQxOF9uT2Z5Q0VmOFN3NDBHLXMtdVp4WQ?oc=5",
+          "id": "1f0896201447c0b9",
+          "title": "Lutnick Stalls Nvidia H200 China Chip Curbs [2026]",
+          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOZG9vZHVRQTlNeDJ0NVJudnhYaEJXUTlQb0ZmZFBDdmNpRnd0UE1Tdkw4c3dwd3BuMkhQOWRJZl9TMkVPeG5wRm1MM1hFMTkxT0tnWXp6QkN4YTVic2tNM1VtVHhyQ2ltS2RtXzZzSnRvOTRGLUItaUU0ZmJkTElyWk9fTmhvZldqMllubklieDU?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-12T01:23:28.000Z",
+          "published_at": "2026-11-12T02:50:43.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "a460180bcdae0017",
-          "title": "Nvidia board to decide Jensen Huang’s fate after revelation of affair with subordinate",
-          "url": "https://ft.com/content/d3838274-a055-4d5d-a1ff-48f2979a08f0?syn-25a6b1a6=1",
-          "source": "ft-ai",
-          "published_at": "2026-11-12T01:13:24.000Z",
+          "id": "d8778f52d82c24ff",
+          "title": "Nvidia's Future Beyond Jensen Huang Could Test the AI Boom -- Market Talk",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNVTBqUEVxcHlrd2gxUTVnV1FZMUlIYlF1YmhsV0FGRUU1T2IyMWFyVmkzZVEwcDhBb1kyLVd0U2gwUUlMWTEwdGU4aS1BWTJSbFlGOFB2amhXNGFaa3cxY1hPMmpiUVFobE5SYmZtaDNpNU1wNXUza1FWOTlQVmVOaDBLRzFBYllkeFlhMG1yYXVXa0pDQndPUFJTWFEyZw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-12T02:48:47.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "c5a9ee485124314d",
-          "title": "Nvidia’s Disappearing Singapore Sales Deepen Mystery Around Megaspeed",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQTVMxMWYtSHpfTEN1dUVzcTRpZDBkRUR4ZVBENFJxODZHaEg5WHp0ekZFdENtZEZrNDl5eENKWW11LVJFSGd4T0Y0TVNEQU0wRUhoMW5HMVdsUmZmQThZVV9WdmVXc3ZGM0F5Wk1kRlM0TEFXbG51WUNyWGt3WXlRU1I2cmNoNmNocEtkdkktdU9NTVA1dUhiWHlYRG44aUxTM3VlVmdzOU41T3Z4aGxKbkw4VG5RZw?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-12T01:00:00.000Z",
+          "id": "0e63babdd851aff3",
+          "title": "Sources: some Nvidia board members favor naming CFO Colette Kress interim CEO; an administration official says the board briefed the White House on its meeting (Semafor)",
+          "url": "https://techmeme.com/261111/p52",
+          "source": "techmeme",
+          "published_at": "2026-11-12T02:45:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
