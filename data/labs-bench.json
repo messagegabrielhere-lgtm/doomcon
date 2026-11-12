@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-12T12:43:14.087Z",
+  "generated_at": "2026-11-12T13:34:35.879Z",
   "affects_index": false,
   "week": {
     "start": "2026-10-12",
@@ -16,52 +16,62 @@
         "merged": 0,
         "agent_merged": 0,
         "share": null,
-        "by_agent": [
-          {
-            "key": "head:jules/",
-            "name": "Google Jules",
-            "prs": null,
-            "error": "HTTP 403 rate limit exceeded from https://api.github.com/search/issues?q=is%3Apr"
-          }
-        ],
-        "approximate": true
+        "by_agent": []
       },
       {
         "repo": "huggingface/transformers",
-        "merged": null,
-        "agent_merged": null,
-        "share": null,
-        "by_agent": [],
-        "error": "HTTP 403 rate limit exceeded from https://api.github.com/search/issues?q=is%3Apr%20is%3Amerged%20repo%3Ahuggingface%2Ftr"
+        "merged": 114,
+        "agent_merged": 0,
+        "share": 0,
+        "by_agent": []
       },
       {
         "repo": "vllm-project/vllm",
-        "merged": null,
-        "agent_merged": null,
-        "share": null,
-        "by_agent": [],
-        "error": "HTTP 403 rate limit exceeded from https://api.github.com/search/issues?q=is%3Apr%20is%3Amerged%20repo%3Avllm-project%2Fv"
+        "merged": 594,
+        "agent_merged": 15,
+        "share": 0.0253,
+        "by_agent": [
+          {
+            "key": "head:codex/",
+            "name": "OpenAI Codex",
+            "prs": 9
+          },
+          {
+            "key": "head:claude/",
+            "name": "Claude Code",
+            "prs": 5
+          },
+          {
+            "key": "head:cursor/",
+            "name": "Cursor",
+            "prs": 1
+          }
+        ]
       },
       {
         "repo": "jax-ml/jax",
-        "merged": null,
-        "agent_merged": null,
-        "share": null,
-        "by_agent": [],
-        "error": "HTTP 403 rate limit exceeded from https://api.github.com/search/issues?q=is%3Apr%20is%3Amerged%20repo%3Ajax-ml%2Fjax%20m"
+        "merged": 165,
+        "agent_merged": 0,
+        "share": 0,
+        "by_agent": []
       },
       {
         "repo": "ggml-org/llama.cpp",
-        "merged": null,
-        "agent_merged": null,
-        "share": null,
-        "by_agent": [],
-        "error": "HTTP 403 rate limit exceeded from https://api.github.com/search/issues?q=is%3Apr%20is%3Amerged%20repo%3Aggml-org%2Fllama"
+        "merged": 224,
+        "agent_merged": 1,
+        "share": 0.0045,
+        "by_agent": [
+          {
+            "key": "head:codex/",
+            "name": "OpenAI Codex",
+            "prs": 1
+          }
+        ]
       }
     ],
-    "total_merged": 0,
-    "total_agent": 0,
-    "share": null,
+    "total_merged": 1097,
+    "total_agent": 16,
+    "share": 0.0146,
     "note": "Agent PRs = merged pulls from a coding agent’s GitHub app account or from a branch named with an agent’s default prefix (codex/, claude/, …), same roster as Takeover Watch. Counts are summed across separate searches, so the share is an upper-bound proxy."
   },
   "horizon": {
@@ -620,7 +630,7 @@
         "id": "openai",
         "name": "OpenAI",
         "days_silent": 0,
-        "news_7d": 57,
+        "news_7d": 50,
         "flag": "normal",
         "median_gap_days": 0,
         "principals": [
@@ -646,7 +656,7 @@
         "id": "anthropic",
         "name": "Anthropic",
         "days_silent": 0,
-        "news_7d": 84,
+        "news_7d": 83,
         "flag": "normal",
         "median_gap_days": 1,
         "principals": [
@@ -664,7 +674,7 @@
         "id": "google-deepmind",
         "name": "Google DeepMind",
         "days_silent": 1,
-        "news_7d": 6,
+        "news_7d": 7,
         "flag": "normal",
         "median_gap_days": 1,
         "principals": [
@@ -708,7 +718,7 @@
         "id": "meta",
         "name": "Meta",
         "days_silent": 14,
-        "news_7d": 6,
+        "news_7d": 8,
         "flag": "unusual",
         "median_gap_days": 4,
         "principals": [
@@ -762,7 +772,7 @@
         "id": "qwen",
         "name": "Qwen",
         "days_silent": null,
-        "news_7d": 6,
+        "news_7d": 7,
         "flag": "unread",
         "median_gap_days": null,
         "principals": []
