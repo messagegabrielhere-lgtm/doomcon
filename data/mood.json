@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-13T06:24:27.690Z",
-  "news_generated_at": "2026-11-13T06:24:27.690Z",
+  "generated_at": "2026-11-13T07:24:36.289Z",
+  "news_generated_at": "2026-11-13T07:24:36.289Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,26 +18,26 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 288,
+    "headlines_naming_a_company": 289,
     "companies_on_roster": 10,
     "companies_with_headlines": 10,
-    "negative_pair_share": 0.177
+    "negative_pair_share": 0.194
   },
   "glance": {
     "leading": {
-      "id": "meta",
-      "name": "Meta",
-      "index": 6.9
+      "id": "google",
+      "name": "Google",
+      "index": 6.5
     },
     "trailing": {
       "id": "microsoft",
       "name": "Microsoft",
-      "index": -24.9
+      "index": -26.2
     },
     "most_discussed": {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 154
+      "headlines": 149
     }
   },
   "companies": [
@@ -141,10 +141,45 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 26,
-      "index": -4,
-      "mean_headline": -0.5,
+      "headlines": 25,
+      "index": -0.6,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "4887fb2fee1ee695",
+          "title": "Meta’s Muse Buys at 74% of Stores vs 24% for OpenAI Checkout",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNVTJFNGNXYWl1bGZRU0p2RzBVM1JoZlpDRHBELWNMY3lmcmRsMHNlY0tuMlJWaHdmY1lyZzY2cHdtOGpqcThzTzUwckN0c29ONmE4Y0dtcWFDOHI4YldRejVPTUtOcGVFS1E1MjVhMWkySWl2bnI0LVZWZ2I3VEZLenFYRVkzeWExSUo3YjBn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:56:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "422fbabdc287335d",
+          "title": "GPT-6.2 Did Not Ship: What OpenAI Launched on 12 Nov",
+          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBtYWNLVVZkVF9fT1VmRHZWNVJCMGlIV3prZGFScUFYd3FzR1YyWjlzbzI4QVI0dmw2RFdiMy03a3NSd3FCZEFrOUlhbVJGSHRUVWx4Z1R4VGhyX2pmbVJJeWsxYVcxQXJZWDlxazhzRmhyUV9LSi1j?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:48:43.000Z",
+          "score": 3,
+          "positive": [
+            "launched"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "398f3c086754ac58",
+          "title": "AI models need more data about biology, and OpenAI is paying to create it",
+          "url": "https://bsky.app/profile/technologyreview.com/post/3n26et5ks4u2x",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-13T06:39:55.413Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "045b6fb0542f5eaf",
           "title": "\"OpenAI is going to eat Microsoft alive\": Elon Musk’s old tweet goes viral amid global...",
@@ -201,59 +236,33 @@
             "outage"
           ],
           "clickbait": []
-        },
-        {
-          "id": "87f6c6fc773eb4e8",
-          "title": "OpenAI board member warns AI could take over in 6 months and kill humans by accident",
-          "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxNT2xZTGJaTTZiRzRwcUZuZkk2NDBYQ0M5NXIyckRyRmdSRkJsY2RsM2dpcWZxQ2laUXh5SEtWOTljcURWYXBqbzByTzNhSEZpcFdjbWxTVFpveHNZWVZtVTJCZmJHd2lFMHV3cFkweTBSYlMycEJmUGVJSUFsVG5zdzgzaHhjZlVZRWJOWG9qTnZHbGV4cFZqcXRfTFpKS1otdEs3c2s1UkViVzJBZTYzLTZWUFhjZzJRYnVTWVR3cUd4UUV2c0NqUmxiRDMyNGoydHBLU29TMmU5RnZ2OFpvemxBd0hvUdIB6wFBVV95cUxPT2tfTk1HOWZENjVlcGlnMWhiMUwyZGlfRjVYZnloNDRkWVVZTTlVenV6NUhUMkYxVEV1RVExWXlaekN2a2xsYW41bGMzNnF3RngwNEg0a3UtUnIyeHhaejNPaG1ESVVLbGRaU2dCUHlHcHlnZXRmT1Q0cElWSzdhTEpzd18zMHg1YjI2UGU0SGI2M3k4RzBVMWlQX0VJRGpDZENfVkxiOS04U3RuLW5YOFZvSktYbE1fMlItRXMtM2N2S0p0aExqNTRwQ0xLb3JHZk9vVzRGSHZqSW1HVnJpM3NxRjF5NFBCaS1n?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:07:45.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "55f5c52e66c91e30",
-          "title": "OpenAI backs US bills to tighten AI chip export controls to China",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFB0VE52NlRkN3p1S3VuUXd2UlNpZFI1cndJS2VOaEF4OHYwRVRna1RhUmR4cWQzb0UxbGVkSTJabmROV21wN0NYNHBCd1Zzd2ZFdlM3amhPdWxVNXZkc2lKZ0VTQ2ZCSS1ud0FreVhKQTcxUHpWYmxhb2930gGOAUFVX3lxTE85b3pRYmF1cHI4YnNqSlNpWHVCc1hyZlFJS0p6cUtYbEVXa2poWWFzZWJiUlNJbHlGdF91dGJEN29BMXY4bFBqOWx6U3BpVW9xMEM5MFdoUUtfd0RrRk9mTy1uMm82cGFQN2xjVkhHYzc3MlY5U3g0Y01UT29WNnJpWGxIR193cUU5dWZ5TkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:02:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "263ddd695146468c",
-          "title": "Microsoft Outage Triggers Chaos Across Outlook, Teams and Copilot — Spills Over to OpenAI and Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOd2VIOGtCbGo5eElKWlV5LUFGcU91Y3BTUHRKUk9KaVVkZS0xQURXNkpsZGtmZTNhNm9PcjFRcWJrUGc2S01QS0RTdmRnT3pENW5FNFB1aURjbm43ZjRnbXRpTnlvSzhITWxCVFFfNEJ5dHJfcG9FSGFQWURleHlnS29mQXJzVU9qa1M5cGZfSWhfT0E1dkx3dmFnUnBDMlZVdnFFU2JfZm5lRFJjXzM2eEdEc2hGVUhlXzBJWDZOUEVaS0pOOEJEbkg3aG5GMGpsUF9KYjlSX0ZRNnpNX3B4bWlRbFF0WVp4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:41:39.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 154,
-      "index": -2.6,
+      "headlines": 149,
+      "index": -2.4,
       "mean_headline": -0.3,
       "sample": [
         {
-          "id": "1c33005d4fa7b250",
-          "title": "China AI stocks tumble as Nvidia fallout fuels fears of tighter U.S. chip curbs",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNNnk1ZkNxT0F5Tlp2aEpJR1VsQTFTamR6MjE0N2o0dzVWRXY0TDNfVk1mbkFDTDlIZHY2RmJoUHpHWURCS0s3OFo5QXlaTUg2ekNhS0RPbWh2MHNuRkViWVF0c2J6b2FKaC1oUGFNMXc1UDVJNFJoUUFZbEE1d1BXemR6NXdxRW9WaW1TRkVURWlXY24yRXNzV3J4TXVFTUxOcmJWRFN4XzFXY1RTRl9KSGxqazhKRjZ5TFFpajZkbTJOMC1Rc0VoaXFZVzRqUQ?oc=5",
+          "id": "9b9bffa2711af518",
+          "title": "Chinese Businesswoman Alice Huang's Companies Invest in DeepSeek, Commit to Nvidia's Blackwell Chips",
+          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQcmZlMG5TQllRSlc2d1ZfcHpIWGZST29lS0VWdS05dnZQM1hkYUFHcjJGZHFyRmVxSXVuNmRfQnNrSVVUTXMxOVNHcmFNTmRNMGpJREpSeElaeUdnbWVUM3RiNW5QRmoxTkh1LVRkOGg4TmdndXJVM0l4RDRzT2hqckpWNVlidFRpVXpReFFhNFFVUVRveERHam9KQ3piQmdlTlRqY293NWZOeFF3RVZha1R3TmVidmxTWjl5TFIzQ1Y2YmxwaElSd3Jkdw?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-13T06:18:51.000Z",
+          "published_at": "2026-11-13T07:11:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b30377d4780340d6",
+          "title": "Asia’s Stock Rebound Fades as Nvidia Uncertainty Lingers",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQTVZoTk5zU2dUYjU1MktNdTFKQjJRMGl0bFBMYVVBMnhPTHJnOVREcWhtczJFYlVpWTIyQWdzU2xzMXRLMXUycFZySk96RzNPYnFZajdvQkhPWHpTSjQ3VVRud20xenc0NjdXaGY5cEk2S09mRGNfemt2aTRnaWgxNTlZSlVLa0gwc3E5VEI5eGlkMDljUTNhczh4QVlLVHVyX1B4U1B3UjVJR3R5NHc?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-13T07:09:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -264,80 +273,69 @@
           "title": "Lutnick should have prevented the diversion of sensitive Nvidia AI chips to China, critics charge",
           "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBWWUFFVjY5Z3BrdDd6b2JaRDlvME50cGpLeUR4U2lPVU1tNnM1TjlrX3MtaVRrR3dsTmxoa2tmRGotVUdTYjhVTG5OV0k4U0ViTWRDM01vZExzZzFRLVY0UDA3a1lQWVNtT0Y4?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-13T06:13:30.000Z",
+          "published_at": "2026-11-13T07:01:07.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "acc2333375ee8483",
-          "title": "Chinese AI shares tumble after Nvidia’s Huang resigns",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPXy1BQXRIRjk2WUwyZ04wUHFVNWlaV0dESjJCQjBSUTlmSjhxSWQyaEJMVGhqWV9LcGZQaWVIVXNjX1dHZ3B1cGUyTktjY1hLZUhnTi10UHdXanBXc1VrU0lkUlkyLTZWN00wMlVEdjBHYmtHNWxBdExnd19uME05aFZUMG5Ka0VQT3MtZ0F4bzZSSVVudzRRUHByeEpSdE90N2xIZXUxdWxpZGVfVl9qdW1PMW5QSTQ?oc=5",
+          "id": "85b04aad67b62cb4",
+          "title": "Jensen Huang’s abrupt exit stuns Nvidia’s China staff, clouding the outlook in a key market",
+          "url": "https://scmp.com/tech/big-tech/article/3374316/jensen-huangs-abrupt-exit-stuns-nvidias-china-staff-clouding-outlook-key-market",
+          "source": "scmp-tech",
+          "published_at": "2026-11-13T07:00:40.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "42785ad6249b6561",
+          "title": "The White House is considering removing Howard Lutnick amid the Nvidia espionage scandal (sources)",
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPQWF2TEF6V3lBZTJDX29HV3NwTC1McUxZdDh0bzBUN0t2WXdVY1RwRG8xT3NDeC1JZFJscGRTNlpUZGRkQ0hSSnpDbXQteUJYd2J4YW80Ujh1cGo0Skh1cno1VGFRVHFJb0F3Nlp4VDFWVlFzNkVwcDZlX3ZmQXNobDZEeVJWandFc0ozZ1JZc3RtMS0xYVFGc0xfYi1RYlluWjBjbjViaTI?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-13T06:08:07.000Z",
+          "published_at": "2026-11-13T06:59:26.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "085736cd01ffb5e3",
-          "title": "AI: Nvidia Beyond Jensen. The ‘Mega-Blip’ Lands. AI-RTZ #1269 (Part 1)",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE15dnFXVlFrNHRNTGdSS1FjZEpEZW1uVnM4M1NBSHdIUlRmQUhEZG90S2pwcU1VcGh1bDNxaVlZV241cHlaRW02N3hjSWJLajlGZzBVdHljcTVyU2tNSlktemtfX1ZRVTVfSU1qaGNxUXNtUTBzbmVfLWZMZXU3UQ?oc=5",
+          "id": "011e6be78c7d25ff",
+          "title": "DeepSeek Investment Raises Nvidia Security Questions",
+          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQaWdEem1rY3JqNk52YXBCUExORGVjMi1rVmhTX09KNXZQM3NpVEZCWHk4alRNTFdZNlZCcEpaR1dMeEFuUWVnMGp0UFlvUXMxVFVqX04zUUxHaGpoWFBhaDZiczBVQnM3Y2xXSnJ0VWNjM2dITHc3SHFnalc4b0RNZ2NHc3dPVFF1Znc?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-13T06:03:12.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ab50f8d2cb5a3342",
-          "title": "Filing: Nscale says it needs more funding for its 2027 commitments after ordering Nvidia chips for a $45B Anthropic deal, casting doubt on its planned $35B IPO (Financial Times)",
-          "url": "https://techmeme.com/261113/p3",
-          "source": "techmeme",
-          "published_at": "2026-11-13T06:01:16.000Z",
+          "published_at": "2026-11-13T06:58:57.000Z",
           "score": 3,
           "positive": [
-            "deal"
+            "raises"
           ],
           "negative": [],
           "clickbait": []
         },
         {
-          "id": "0882536d1acf28ee",
-          "title": "Chinese AI stocks slide after Huang's Nvidia exit: Why are investors worried?",
-          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQMnZOQ3hseUVpeDRNM1pxZDUybTlHYXMtTnFjR3cwRk52RmlPZWlheW1zU0RoeVdIcnR2ZDVHYzRpWnNCS2ktOVNtN1NwdWlSdkFraE5nN3Q4bFdwRVRVQ21QZk1KWWhFNnE2TUV3azB6dDlIcDc4YW9fSjNKTEZ3eUx4WEFfRGlpMzREbjhwRVk2MEo2cnJCSE42S3lPWnJGWWgtbk9NcWx0ak4wTko0ZHVDcjdPNU1TT2pzQTI2czNBcEkyZDN6aEZXUFZ5ZFnSAdQBQVVfeXFMUG1aVjQ4UFZmU2FLU1JZQWpKLW94RkhDMEJaWFc4QTE5MmJpczhiMmdEZ2lMMGl6cU11TS1Dcl9VeXJaT1BtejhrdUN5Qjl5OGV4bkVRVmZLUy1mMU9rVXdBTWRGaVE4aW10LWludnJONzlLNDRVWURPV203Wk1sZnE4ZzBTQUdFcVBvOWUwQkNEN05zT1JJTnhmdGptSFk5UkFlajIwUUJJaDVvcWZxdDVRYkF1djVqZlo0dVF0T0sxTlllZDBTMTlYVnQxRndGbkxxclM?oc=5",
+          "id": "979f44d56cc3b9c1",
+          "title": "Nvidia turmoil and policy letdown send KOSPI down nearly 1%",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOZktkZU9uYV9xTV96R0tRb2o3SVNabXdmV05aTkhzLXZ0LTVEWHd0LUtYNmJJaU5pdlZKRVJNZ2Y3ZTdrWFoxaFVVQXdQUkp1Vm1xbzBINVF0b21lS3Z0bDNkNWVrQk5TYjk5Zk1wemdibVhvZ2kyVmVrNDE0WVI1cdIBlAFBVV95cUxPSHBwblg1N2VKYW9MSGxlYnlYVnhfWFF3Z29DZ19vOUVFNFFSLUdTWG8xRklRb1ZfUDk0OHBKR3lOWVQ3THVYQmZyNHZfLXhuaDdKeHdzb3pXa2lHS01SczJoelhSMEl2RmpsV2Z4dmszSVVGWnJpWTBhdmVTc3Q3OWJCVlh5Z3lrUkNJN1FsOVNXNzJo?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-13T06:01:12.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "934556417b32c614",
-          "title": "Alice Huang Network's Nvidia Chip Imports May Be Just The Tip Of The Iceberg: Jing Yang Of The Information",
-          "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQMlI1NV9IdV9mRHZGaWx5dDNnMy1EWkw0YXBqYUFkQzlzNk40MWQ2R2k1QlpQb2NSZDdHdkc5NG1OamdBUkE2b0ZlWVhMRDNuczAta0hsOEVPaFZkaDdKQWhzcmt1bTdBTU5rT3hxWFFLaU5IMWczcDd4em44SFNiSG1zcHp4T1Z3NmU4a3RFNHZiWU5XUEprYVZJVXBJZzFiSjA3MnlOVWhJNlRHMmp3ajltUVFlVzlUMGV4R0Ztd1pRdFdyWVhCSW5fTjh5cnFZcnZGal9DZHk4RlFQS3hKNVpn0gHqAUFVX3lxTE12TDFlYzRlVzVEODZHUnppcFB6d1RYazVqU3BsQ1JtM3Zna1NJemk3QkQ2aDJOTGlRR0pJNUhyd1BFZjJnYnZQb1BzQnpqNVB6VktMR3FGSVlKMTU4cWY2YzRrRlNUMUpUSF9Ja2VLVEFTT21Ya0hXX1lrSGNEV3lDa2VYUkVnYUVoUGxoVkM4N19WNnJlMlZGcUM1dVF4aHBYOE1PU0RqV2ROVmR1QlJtRGxoVFYxVmxDckpqWWtDVEFIM1huZ2dQLTZfYkRHVndEY1pzbXhiYzVDZmRGTU10b1JjalZQRkZ4dw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:56:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d01413b6eb78ad01",
-          "title": "China’s SMIC sees AI computing crunch until 2028 as Nvidia heat risks tighter chip curbs",
-          "url": "https://scmp.com/tech/big-tech/article/3374305/chinas-smic-sees-ai-computing-crunch-until-2028-nvidia-heat-risks-tighter-chip-curbs",
-          "source": "scmp-tech",
-          "published_at": "2026-11-13T05:55:56.000Z",
+          "published_at": "2026-11-13T06:58:00.000Z",
           "score": -4,
           "positive": [],
           "negative": [
-            "risks"
+            "down"
           ],
+          "clickbait": []
+        },
+        {
+          "id": "d878044512d87468",
+          "title": "Singapore Charges 5th Person Linked to Nvidia Chip Case, ST Says",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPZVV6VXYySmNyb1B3cXRtMU54M0ptUnZEQzNqSjNtWXMyRmFiNzgxeVNnN1FoUGo4ZUNGcEs3aXZjakY4UmFWZ1FfbGJjOGdXRFlmYlI1N21ETndoM043a3J5aW1BN3FibXJaUjdHajBsX3BKZXFFSGtOREVQQTBUOGJxb3F0Uk14dEFucFpoeDZSaXB5MmlXb2V3eVFJaUhYRTg5Ym9naThBc2VwZHBQZVdFeTM?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-13T06:56:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
           "clickbait": []
         }
       ]
@@ -345,10 +343,80 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 24,
-      "index": 1.3,
+      "headlines": 21,
+      "index": 1.5,
       "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "dfd791c4afe85a87",
+          "title": "How the Anthropic IPO Works: Price Range, Pricing Day, Listing and the Lock-Up",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBERXlUcFpjcGN5SUh3VWFQVkVacnRrRmFIa1BUbEx2Y21Db0VNakZMYkkxQkQ3ZjZsaGFMcWxTUHZJNVpKY29QejJ4NlVKemRKWE53aFZYbkVJU2lkdVBKRXhn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T07:07:30.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "51151b5d6bf57d7d",
+          "title": "Anthropic IPO Said to Be Six Times Oversubscribed",
+          "url": "https://bloomberg.com/news/videos/2026-11-13/anthropic-ipo-said-to-be-six-times-oversubscribed-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-13T06:54:57.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9b3dcc4ad3f19b26",
+          "title": "Anthropic’s new AI leads freelance benchmarks, yet fails 58% of the tasks",
+          "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBvZHFvMG5yQzV2cEw3TW9lVlRxZmJFOV8wQUZyTkZjTHJrQzBZRnRCcG1YS1VVWGxYOXZBd09QZE50UUFkOGZ5V09UdXcweTlEQk1fc21B?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:45:22.000Z",
+          "score": -1,
+          "positive": [
+            "leads"
+          ],
+          "negative": [
+            "fails"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "2d2af775b0409034",
+          "title": "Xlence prepares for Anthropic’s anticipated IPO",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNOWpZNzl0eE1FcF9rdURfSDBnQlNDdDlpVFU5ZjhSVFVJX2ZXdmdyTWlOYTRrZXJnLURaU01ldlJRN0Ztb2hxNklTZTM1N1luaDJLSUtNRkxPUXhnMngzeFptdkhkVnN4MS1JT3IwVVN1Zi1WTjIwdzVjTzRWVm5MTHVldTcwdGdQUHFiTA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:44:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e37cde6e739b60c0",
+          "title": "Trading Sphere eyes Anthropic IPO with plans for day-one CFD trading",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQeUt2T0hUWVRndjZsS0s4X0p2VFpIZjFOY0kwaHoyeG5MVXlFM3lHTWJfSjBENWpkbVdXWGNpRjZfbEs0RGxQQmJVZ080NGdfS3VvSW5lYXJiVldsUGRSX0VfbG1naXM2ajhIVnBsQV9GYUVxMG02bGkzSTVhWDdZV3dPSlBTcXAzY3ZQNFpFMDBKRWl1enpvRzQ4NHZyalBOYldiSXRiVjRkVVJmYXIwOXlhTm9FY3JWeWhVMA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:30:34.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8a323307eaa5ddbb",
+          "title": "Anthropic's AI 'Claude' Joins Meetings, Aiming to Create Documents Alongside Minutes",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE40cUpPNnlJRG5aUnVDbFJkWjJwVDNKeGNkWTFMYVRYWTZMaUJ3dk1EeHZncDJGTk9GMkhKTW02cTYzTzM4Q2ZfSWhSaDdxZUE2Qm5YcU1kaG50U0Y5TWM2Vm1DMzdIRFZDSmxJUHpGT0pQMGZHNnc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:26:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "ab50f8d2cb5a3342",
           "title": "Filing: Nscale says it needs more funding for its 2027 commitments after ordering Nvidia chips for a $45B Anthropic deal, casting doubt on its planned $35B IPO (Financial Times)",
@@ -372,86 +440,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "9a6f49a2ae0dfbdf",
-          "title": "anthropic-claude-ipo-plans-1point4-trillion-valuation-nasdaq-2026 Archives",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNazB2SDZfTklkbEpncWc1NlF6Nm5hanZmMXhQTzRTX0phNmxRVWVDY04tRDJDXzE5dklkTEZFWlpwZXdMenZHTkhVRkprTTNKQ2c4MkdfakF5aktYYUJ3MG1mM09FZkdYVWtZX1YyeGxMd0QwcXZnUVBoWmJIdVpWXzNvdU54S0JmMENOQVZkVkY3SUo5Y2c?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:38:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b3b704baff64beaf",
-          "title": "Microsoft experienced a massive outage that lasted for hours! OpenAI and Anthropic were also affected, and the governments of Japan and Singapore were impacted.",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQSVJidUZHd256TFJKZW5LWktGdEgtNy1xVXYwamhXczBvd0hvcTVVRi1VVTlpNzhHeF9MMElieFVQYWh5dER3M212UmFTNjBoUlZMdmVmR1Q1TGxzc0M4d05laXhVNUlqWHZPeG5VUmlBczNxY2NiLW1iZXBRZmNYM25Jdk1aWkozd0ZOWWh6Y1A3RGJEaERHS0pMeGltTWlNMFVObnZEQkY4TmxTZHg4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:34:35.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "f354b62d85208b04",
-          "title": "Watch Jensen Huang Saga Tests AI Trade Ahead of Anthropic IPO",
-          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNRklCQ09yLVQwZmhsb09wWk9DOUExN2tQcVBRejdlQk9QUVFCQ3RDd2k1b0dHeDd6eldwSWtrQkN2MHBFMzlWLVBwR2lDY0JENFItNmdrczZGbURiMjRXQThlS29rTlF2NUZqd0VMWjZ4QVI0eGZ0Y1FGZ1VpTFRMdXFCUlVoN28?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-13T05:28:47.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "98057d078f99fc2d",
-          "title": "Anthropic IPO: If you get shares, how will your investment be taxed in India and US? Check TCS, capital gains tax rules",
-          "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxORDhjVnFyRXpDR05hNndMcEJEXzRlenFoa01ZblBVeVdZQWRMckNRalZMa1ZfSkdQUmZhSkIzRE8zV0dadDNYdnZaSm9leFN2MEFtQkhuTndFYkNtYU94QnVZcXV3bUtTVTRhc3NiSlkzN05PMS1tMkpHRlJvUklyWnM1V0o0N1I4Ukg1LUFPNzBrTFZQSHNlRFE5SElPeHJyQm9SdzNXVmpJSlF1aElfNnd1emZCQjhKc1pUSU5NTmw2YjNsc1NrYzljNUhHY1NzRHZPODAwSTNNTWxNd2sxRkJNVENiRW54OFBQSHBYSUhld1lDemVGNUdNOElwZUE4cHB6aFBNcDdFYlhBOFlEMNIBlgJBVV95cUxObkw3eWEySWtHWWpnbVZnSjZJcUM5MEt2V3MwZ25CVjYzNHo5SjhTNFRmRW9aNmxGYUs1WHBkQ192cG9hUFFGUkZOTXlvOGZXYWV4UnlIbGZlbWdoS1l5NFQ4NUk5T0VIQXRwWGxlYXIwbE9rQl9JblNXOFR0RmxDUkdXRkV2RmE2SGdDNEctU1k4ajg1cHpTOFBOZC1rXzF2R1pTR3ZIYkdma2dhaEZIcUx5UFFPVGR3M0JvdjNwMTNjZl9yeFBWVlRMUEIwSnNVU0lpM3FoV2t2QWpDWTVWX2RtVGtPekprdFRaWmhmbmZYV0pZd1pseVVkRGhOTnZDbGVwMEZsTUt6S0tkNGlFa1ZUZ29KZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:57:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3ac07e510bd4b49b",
-          "title": "Asian stocks post mixed results amid Nvidia leadership turmoil, Anthropic IPO buzz",
-          "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOZkRTdmkwQklYSmxQNFctUXFWM0M0WW5iU2lLZGdSaWo1eDRrUkRDQ29FWFhkZXZjNDk3dlpjODZ4OFRCX3dWaFJHZWFiMWwzZjZCOVo5ZmNYVnJPMDdCcEFfbWNDMm5JV3BHRmlMTXBibHJCdFZRNmhOZGlPRmJrYllLZ01yWEQtUW9EaHlWdmJtbGVHLTUyUkQyRVZ6ck9QcHdoYW1XMFk3cWc3LTB6MGV3ZTAwY1VNMGttSEIwYzVIanhMOTNucUpUMnBVYlRvU1cyUF82WXlsU1JhUzNscQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:51:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "07f314c1436674ef",
-          "title": "Schwab surprises analysts with extra rapid launch of own MCP servers, also leaping from read-only to agentic (get stuff done) AI; it leaves RIAs out for now, and makes Anthropic's days numbered as Schwab's exclusive LLM",
-          "url": "https://news.google.com/rss/articles/CBMi4gJBVV95cUxPMlUyZXktN0NpY0lBbjdtSERpbzIxZjdfNk9VRjhoS29TSkc0QWpQSG54U2otWWdiekdJei1tSDY3RFlvN1k1UExIVnpDSnJ5dkJPM2FNZWNER1VoXzVRSVRPNzBJSFc0Qk9XOWxTMWxEZ0lLX3lxOFAwOTg0WTFoelk1Y0tNY2NhTnRrR3g2a2IzMTE0a3hqUmlybGdFQjBBckl5M01CWjFLR3dUZWpVVUNmT0RXR1R4R2dqS2NsMWNOYmE4VHJmLS0teXN0N2NPWjJMbjU3NzZZOTdLS2xmNGRrOWEzdlRJUWZpRnhHWU1iZjJkSHdCUVMyUmptVWJISDdwSDlaVlp1OF92Tkw1WDFfQ1dMWGFHZWR0UURfcEREZG1NMVJjRjNWSDQxQXk1N1NjZmV3VElKMDVHNkk5WElyWTk2WHFTa0RvWHhaQ294Wmp0ekktc3NWeDg1eFZ4UGc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:47:12.000Z",
-          "score": 3,
-          "positive": [
-            "launch"
-          ],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 7,
-      "index": 6.9,
-      "mean_headline": 0.9,
+      "headlines": 8,
+      "index": 6,
+      "mean_headline": 0.8,
       "sample": [
+        {
+          "id": "4887fb2fee1ee695",
+          "title": "Meta’s Muse Buys at 74% of Stores vs 24% for OpenAI Checkout",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNVTJFNGNXYWl1bGZRU0p2RzBVM1JoZlpDRHBELWNMY3lmcmRsMHNlY0tuMlJWaHdmY1lyZzY2cHdtOGpqcThzTzUwckN0c29ONmE4Y0dtcWFDOHI4YldRejVPTUtOcGVFS1E1MjVhMWkySWl2bnI0LVZWZ2I3VEZLenFYRVkzeWExSUo3YjBn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:56:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "b4cebd1d62791ec6",
           "title": "Meta launches Muse Ember, a cheaper AI model built for repetitive tasks",
@@ -559,9 +568,33 @@
       "id": "google",
       "name": "Google",
       "headlines": 32,
-      "index": 5.8,
-      "mean_headline": 0.7,
+      "index": 6.5,
+      "mean_headline": 0.8,
       "sample": [
+        {
+          "id": "262ca35ebddf25e1",
+          "title": "After 'Carbon', Google launches new AI model 'Hydrogen' | 'Hydrogen better at following user guidance' | Inshorts",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNa3Q3elZWWmJxWFZQTEFqNjFjSjF4OE5yYmlYQzVjcmpnWGhZNUV4cy12a1Z2djNTcUdzdGNJcm1ETHVGZ1c4LVRKQjdaYTdoa2ZuUGlaWk5pT0dWY1BMMkQ5cFBjTTRETXNSUFVYU0t3YlBLVkVtVTVOZDd0ZWxOcENYSHAzNGtYWC16U1lfSjM1dXVCRXQ0MGtLM010RFXSAaQBQVVfeXFMTVJfalljbUZpSkR2RURFTzdob0dDMFY2cS1RNFBjRmlNSndxdnlQR05CSnRQc1h2ZDA4dWkxVExwMjFNczZ2aTZYUmlWNVBObm5TcFdiUVhpZTRsMk0xY254d1NzVFRoN2hfdW1pYUU2TG5kS3lvS05nbDd6eFc3dHRJZVllaTM1bEdiTFlITUM4TFUwSGs0c0pETUVTaXFVYUVhNjY?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:57:52.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a1a452b1b608e7ba",
+          "title": "Gemini 4 Hydrogen: Google Brings Top-Tier A.I. to the Masses",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9TNEZQY0RxdUJLQTdISVl5QnAwdGE4ZlZOTENDMmo1TzRuZkdrbUVpYWFPMmdkTTQzdGtUcXhqeGl1V1p1Wnk0VzhNNS1zc2ZYN01WQ0RxcEotS09Ra2FDc1FBajBNOWprR3F4TlBPcXMwajFzWUdWSk5qR2dkTWs?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:48:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "55d8615918a9f0b1",
           "title": "Google's Gemini 4 Hydrogen speeds up coding, research, agentic workflows",
@@ -622,28 +655,6 @@
           "clickbait": []
         },
         {
-          "id": "29b12f2aece8e380",
-          "title": "Google DeepMind Uses AI to Verify Security of Signal Messaging",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQY0lpVkFVWWY2UEdzbXF3bE5zSmotck9JLTMwVy1mVVNRbm4yNFZVNDFnNXp0VmRsc19obnpueEJmRUJJRWJQOTZPSTJJbFF6OUltclBsRjZzWUV4UHRZNmg5clg1SktVSUtiNXkzUDB6VEpxTExZY3JINmtEejJYVlBxZHlobTVlbWhsXw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:47:04.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "90cb9bd509a31a89",
-          "title": "Google Search can now understand complicated questions and typos better with Gemini 4 Hydrogen",
-          "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxORjhZeEdTdV83SDlqR0o1bFB2bWI1czFqYndhZEhtV2F5Q1NLNkJqRDBmeXN3MmJCQmRiT2JUNTlON1lsNW5VVnV0dElnazZtb05LWFdXTTdQTXd1Uy1MX1RKanlOOXdxaUlmbFVwbG1UeU1mUEUtZUxDcVZjdVRPY3IwV0ZpT290aUEyVFZJVFdVdkNfX3VCMEE1UGlFME9fY19FRUVlVzFBeGNyNFJlaTNBdGZZMV8xZEI1NUFVRWVFZEhaVFZucTg3eGRXT0dMMVF3SWVQdG1PUdIB3wFBVV95cUxPSGdVV1JEVXBWVEdMM0ZRdTVOa1YtcDVDellkUnlVQ21kQkEzWVFKcEhJb0h4VC1MV1FyT2ZqNTBSMWMzYlF6cGp6X0JLenNURFFpVWEycXI0RkVkXzJ3MGdxSHphUjloX3VGT0dnRmNZVVpIanJXOFIyZThKRDBWOEVnSHhJNEZYeXBSako4VENwd01naF9yd0ZDUjNNZHdMWHhXamdkSncwMUVGRFhDTmpEMnFLb19wVXkzdXFoTVhfUy1oUFV0RjBsd1htbjRJR2ZyWWFKY253Y0xCUEZN?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:10:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "aeeef3a184b07b05",
           "title": "Google’s new Gemini model is better at understanding complicated questions",
           "url": "https://bsky.app/profile/theverge.com/post/3n25htlsypd25",
@@ -659,10 +670,101 @@
     {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 35,
-      "index": -24.9,
-      "mean_headline": -3.1,
+      "headlines": 43,
+      "index": -26.2,
+      "mean_headline": -3.3,
       "sample": [
+        {
+          "id": "bf811be0093812a5",
+          "title": "What happened overnight with the Microsoft global outage",
+          "url": "https://bbc.co.uk/news/videos/cwm2591k27e2o",
+          "source": "bbc-tech",
+          "published_at": "2026-11-13T07:18:17.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "e95a1a1d7762332c",
+          "title": "What we know about the global Microsoft outage",
+          "url": "https://bbc.co.uk/news/articles/cwvg238zrnm5o",
+          "source": "bbc-tech",
+          "published_at": "2026-11-13T07:12:10.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "4257f5acd54e2b18",
+          "title": "Microsoft Outage Gums Up Markets, Forces Traders to Use Phones",
+          "url": "https://bloomberg.com/news/articles/2026-11-13/microsoft-outage-gums-up-markets-forces-traders-to-use-phones",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-13T07:00:08.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "f5adf00909fbbce4",
+          "title": "Microsoft outage: As cyberattack and rogue AI theories go viral, Copilot EVP Charles Lamanna reveals what",
+          "url": "https://news.google.com/rss/articles/CBMi1AJBVV95cUxNSDE5NjZJX2RQNlhvZUx0SW9vQ0E4UTFjTFFKUDluSXZuV2g3LVF0M2FGZm8xMlZQUXdMTVBXX2JuYlYtWlN2STc5dV92RGE1UmgwYVhodDZJZjd4dEdiaXNaUlJjVU1UOWtjNW1zUlV4WS1WVU9KMGpJTUJjZ2NST0d1dWRIa2dxMjctZlhOVVNvck4zdXhKaUZnQlRwekx3ZkVwOUEzc0ZqU2RSNDJHVG5uSVI2a0ZjbDFaaUQ1VVNrSU5Uc0N3Yk5YaEVia1VSaU8wdEdVcmc5NFhwYUZNc3FQVkNtQWlSTFJramNiVHBFY1RFTTdEODV2SldWdXJGSndiMUE4ZFRNMm53ZVQ2S3d2WGduOW5HdDMtMW9pYnpZN1hiTG5rc2FBZHZESHRwSU1UNWstOVBNNkowTk1XUTdIZDRaWjVoYkx2MnBpUEUxNldC0gHaAkFVX3lxTE5Ia2M5d2xvX3YxUm80amU0TEpKYkVndXd6NmtLdFU4X2xRRHM2TThyaHRfdEx5a0R6RXFwZlpvU2pxcXZnaHh4ZDRoazRHb2pfeGt5Sk9IZzhqTHB1dFBoREI4clhLRTJzRC1Jc0tiSXFuYlNrNEx3S2I4M2N3dWlfZWpKOTk0TVNXXzRfb2NPMEFIWmxUSTJNdERXb0dwbGphLWozRGxLQ2Q5NFVtdWlWdWZudXZMX05lSjBaYjNieW0tNndaSVRTaUd5OFFjbHZuYlVKRUQ1bUU0bkVSbHFnS3p4emt1UUpWRy05djdfeV9yUW01c0NTSGRVTXhRUGtEbldYc0JrUXFnYnhSdnhIeGNET016TXNYQ3NFa2ZsbF9ScEFUbjhWeGRfLXNoTjM4T3g1Z3o1di1xTXJxdVBra1dUSFBzZG9SaUZ2RHc3R2V6RXItZHJfOGc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:58:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "54d00899552df262",
+          "title": "Microsoft's massive outage hits government agencies and businesses across three continents",
+          "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1lUVFueFhnRXZsYUpra0JETXhoWTFsMTZKdk5RVUx6RW1qWHRSMFE5LXJTZWdwSkcxeXVFZ19idFhqQmhyVGhPTDhqTmd5amtEcTRIbDY2OHZBaE5DX0o3eWV3WXo5MVU?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:41:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "02c191c467f5344e",
+          "title": "Major Microsoft outage disrupts Teams and Outlook as thousands of users affected",
+          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQTlRMa0JVelpBOVhraUdSaDJ5Z2hxUjE0VmJYQWxCUUFYRzVZWUllNFFxNlU4U2s1NDBDREFyYVU1RXRXdUpNQktMXzBNSmMxeTN2THZidHEwLWliUm9YbWFHbFlEUm9zVXBocmZTRi1Xbm94YnRXVG1mREtLUVpEaFJ5eWdlS0JhcW1HbzlOOXNXN2haeThVVC1wR3l6OWNlOGduWXlkbTFETVVrVG1Wb1JRLXU5d3BIQk9uVnN4cVJkeW8?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:35:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "c5011e984257faa1",
+          "title": "Global Microsoft Outage",
+          "url": "https://cnn.com/2026/11/12/business/live-news/microsoft-global-outage-intl-hnk",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-13T06:18:23.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
         {
           "id": "045b6fb0542f5eaf",
           "title": "\"OpenAI is going to eat Microsoft alive\": Elon Musk’s old tweet goes viral amid global...",
@@ -673,106 +775,14 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "58f3fb5a5dd34c44",
-          "title": "Microsoft says attempts to fix global outage not going 'as expected'",
-          "url": "https://bbc.com/news/live/cq5y10ge3dp3t",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-13T06:12:02.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "8b56df992ce54301",
-          "title": "Microsoft outage hits Outlook and Teams, disrupting ChatGPT and Claude links",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1vX0FBZFNFMy03cVI0NklvNkNEcmRDbExzTV9ld1dvLW55NnhEd1R1ZXcweDBrc3p5VTFWLUNrajNMZDI4T1lzbUxtUDBOdktEMnZ1YlBGOXRKY1o1aVBkNHk2U0Vnek8yMXB0UTZzTVBnc3pwSUVsWE1n0gGOAUFVX3lxTE01cmJGamNYbU1CWktHWnVUUzBrN0V4dkozS0FVWWdtcXdZeTFCVTFHZjRnV29MQ1ZhSmxUY3h1YlhtTUlORUMyNDZSNnIwbW5kV1JoY3BLeWxJMFVZNXRQeUVjRC1zMjN0Vjk4RHRvejNqeWVDQ20tRTdSeldFNy1XN1JRRUxJRktQNGg4b3c?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:58:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "b3b704baff64beaf",
-          "title": "Microsoft experienced a massive outage that lasted for hours! OpenAI and Anthropic were also affected, and the governments of Japan and Singapore were impacted.",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQSVJidUZHd256TFJKZW5LWktGdEgtNy1xVXYwamhXczBvd0hvcTVVRi1VVTlpNzhHeF9MMElieFVQYWh5dER3M212UmFTNjBoUlZMdmVmR1Q1TGxzc0M4d05laXhVNUlqWHZPeG5VUmlBczNxY2NiLW1iZXBRZmNYM25Jdk1aWkozd0ZOWWh6Y1A3RGJEaERHS0pMeGltTWlNMFVObnZEQkY4TmxTZHg4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:34:35.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "f2c5394227f8c38e",
-          "title": "Is ChatGPT down because of the Microsoft outage? Only its Microsoft 365 connector, and Claude's too",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPc1dhZ2ktbXFVZEtPTXFmbTg0QWNsZnhRQ0Z4T25uOUR6VThlODNzOUszUHF3T29TU2VDYkNQU0FoWTE2OWdQSXdDaDhDOG5LUTI1Wmk2NUpIbHhIRHdrc0RkNnF3dEg0TmtrVEJwQ2J3MktfSUp6YXYwdE1CbHN5VUJlSW90ejA1M2JBVnBJUGxnRkl3TTJaUFlBdElqTnN5cExwOEMzWk9fd3NIS2c?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:29:27.000Z",
-          "score": -8,
-          "positive": [],
-          "negative": [
-            "down",
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "6985055dec20b2f2",
-          "title": "Microsoft battling to fix global Outlook outage",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNTHdNejdlVmFySll1b2c0cHc1Rmd1STFDNGJUWXFUUGJpMGQwdlNOcHVxX0JVMDdKV0lPTTlseU9NWXhiRDdDUWkzUVBRcU9YRTFRUHVmVnJ5WXFBd2lOTWxjbWVYSXJOdUVNN1pqbGlySHV2RGNZZ2FDTmRHelByMENja0labExNZ3NOLTJhdlVBUUJ2d2FBVUF3?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-13T05:11:22.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "56cd93f5a7ab89e5",
-          "title": "Microsoft Outlook/365 still down after 12 hours",
-          "url": "https://twitter.com/MSFT365Status/status/2121079061774491735",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-13T05:08:23.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "down"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "263ddd695146468c",
-          "title": "Microsoft Outage Triggers Chaos Across Outlook, Teams and Copilot — Spills Over to OpenAI and Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOd2VIOGtCbGo5eElKWlV5LUFGcU91Y3BTUHRKUk9KaVVkZS0xQURXNkpsZGtmZTNhNm9PcjFRcWJrUGc2S01QS0RTdmRnT3pENW5FNFB1aURjbm43ZjRnbXRpTnlvSzhITWxCVFFfNEJ5dHJfcG9FSGFQWURleHlnS29mQXJzVU9qa1M5cGZfSWhfT0E1dkx3dmFnUnBDMlZVdnFFU2JfZm5lRFJjXzM2eEdEc2hGVUhlXzBJWDZOUEVaS0pOOEJEbkg3aG5GMGpsUF9KYjlSX0ZRNnpNX3B4bWlRbFF0WVp4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:41:39.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 15,
-      "index": -2.1,
+      "headlines": 12,
+      "index": -2.7,
       "mean_headline": -0.3,
       "sample": [
         {
@@ -868,10 +878,45 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 8,
-      "index": -4,
-      "mean_headline": -0.5,
+      "headlines": 9,
+      "index": -0.9,
+      "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "9b9bffa2711af518",
+          "title": "Chinese Businesswoman Alice Huang's Companies Invest in DeepSeek, Commit to Nvidia's Blackwell Chips",
+          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQcmZlMG5TQllRSlc2d1ZfcHpIWGZST29lS0VWdS05dnZQM1hkYUFHcjJGZHFyRmVxSXVuNmRfQnNrSVVUTXMxOVNHcmFNTmRNMGpJREpSeElaeUdnbWVUM3RiNW5QRmoxTkh1LVRkOGg4TmdndXJVM0l4RDRzT2hqckpWNVlidFRpVXpReFFhNFFVUVRveERHam9KQ3piQmdlTlRqY293NWZOeFF3RVZha1R3TmVidmxTWjl5TFIzQ1Y2YmxwaElSd3Jkdw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T07:11:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5e1304b21e5f4d16",
+          "title": "A DeepSeek Moment for Biotech",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3n26fxqqurl2z",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-13T07:00:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "011e6be78c7d25ff",
+          "title": "DeepSeek Investment Raises Nvidia Security Questions",
+          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQaWdEem1rY3JqNk52YXBCUExORGVjMi1rVmhTX09KNXZQM3NpVEZCWHk4alRNTFdZNlZCcEpaR1dMeEFuUWVnMGp0UFlvUXMxVFVqX04zUUxHaGpoWFBhaDZiczBVQnM3Y2xXSnJ0VWNjM2dITHc3SHFnalc4b0RNZ2NHc3dPVFF1Znc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:58:57.000Z",
+          "score": 3,
+          "positive": [
+            "raises"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "14804a9f3e645b92",
           "title": "Video | Alice Huang’s $7.5 Billion Nvidia Chip Network: DeepSeek Connection Under Scanner",
@@ -889,28 +934,6 @@
           "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9YaDBVMkVhaU1ydDBERjdQNFJMODh4Wmpub2lJaERaUS02MWxPNXVJa1VmMXFnZlE0ejcwR3cyMERaaWhrMXBRWG51emZjcjhKS2Z1eXZXNkVMMWF6OFJSWjh0MXdlNGxJRmZIRjNZaC1wdUx5?oc=5",
           "source": "gnews-ai",
           "published_at": "2026-11-13T05:14:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "39b23ed40a57c143",
-          "title": "The mystery of 445 rows: Nvidia Blackwell chip traces found in 6 Chinese AI models including DeepSeek, Ant...",
-          "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxQY19lQi1FZnNkUEF4VEFwMjQ1MGNBdVhVVmthUl9fNFltSkxnLVdoTFpHdlI1M25wTVBmVk9oMUo3TWRGVUJyeXctQzVoZ2piM3FLamZyQzltVHQ3MFFJcElNcW53bUlNQW9FdDgtYzFmY09kMWRBNHJKZEFxaC1nd0NtODZ0QnlrNFNuQ3lyVmpZZ3ZaWEhmUUJVSFh2UXlTOHU5c19IbmRMTGNaZ29oTDR2WnFYb0FORjlfVlpVV0ZZTHFOc3VqZG5TZlJycUhsYUdCTkVFUFlZTFY4bERCUUtFbHZMWDRtZER3Ui1BZWNwaHJZMXhFcFFGNNIBgAJBVV95cUxQTl9BTVVDY2ZJWHJTbWk4UEdLOEZwVVd0Vlp1ejluUFlnOEdhLVZrdTREdkpRbGlFaElHR3lGWUI5cVhTTWxkRXl5ZFJ4VmdGNTJKaVBKQm9MZEkwQTRsaUU0VGpPOVpRbWhmT2o5YzdqWGsxOUNzcTJVY1dMdkU1c1Nhb0NTV0hUbF9PZ0pFcnp2cVJEbU1kMVo1dWtlREJKTnVQeFFWdlkwOXBIWk52ZDU2SXFRMkNKcnI2d2hrTzc3bG43dFpxdFc4MVg5cGhldXRiRGVEWUpINUJaS2hpRHNodFdOdnlpcEFabDZOS25vS1J0bC1XbTBKQjJENkx6?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:57:41.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f4aceeca2438eb72",
-          "title": "A DeepSeek Moment for Biotech",
-          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOZVlOSEkxNGstaTM2Q3VEanN0czdKVk5RSmFUVUVvcUR2ZFRYb1N5TjRMa0owOUxoVmQwRWZlYmtKd1V5Q0I5ZFNGOE54ZXIwaGF6R0JleEtrTVg2OG5jSXFiTXJKaUk5aDI2Vy16R0pINEt0eFVWX2ZyemJuV2Fla1ZzaWVCa0c5Q1AzR19tRWpJM2U2TlhCYi1pdjdUY3FpQXV1Y2FwSUduTEk?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-13T00:00:00.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -948,31 +971,132 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "c538d9e1facd16f7",
-          "title": "Sources: firms tied to Alice Huang recently invested in DeepSeek, to forge closer ties and supply Nvidia's Blackwell chips, which are banned from sale to China (The Information)",
-          "url": "https://techmeme.com/261112/p37",
-          "source": "techmeme",
-          "published_at": "2026-11-12T15:35:02.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "banned"
-          ],
-          "clickbait": []
         }
       ]
     }
   ],
   "ranked": [
     {
+      "id": "google",
+      "name": "Google",
+      "headlines": 32,
+      "index": 6.5,
+      "mean_headline": 0.8,
+      "sample": [
+        {
+          "id": "262ca35ebddf25e1",
+          "title": "After 'Carbon', Google launches new AI model 'Hydrogen' | 'Hydrogen better at following user guidance' | Inshorts",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNa3Q3elZWWmJxWFZQTEFqNjFjSjF4OE5yYmlYQzVjcmpnWGhZNUV4cy12a1Z2djNTcUdzdGNJcm1ETHVGZ1c4LVRKQjdaYTdoa2ZuUGlaWk5pT0dWY1BMMkQ5cFBjTTRETXNSUFVYU0t3YlBLVkVtVTVOZDd0ZWxOcENYSHAzNGtYWC16U1lfSjM1dXVCRXQ0MGtLM010RFXSAaQBQVVfeXFMTVJfalljbUZpSkR2RURFTzdob0dDMFY2cS1RNFBjRmlNSndxdnlQR05CSnRQc1h2ZDA4dWkxVExwMjFNczZ2aTZYUmlWNVBObm5TcFdiUVhpZTRsMk0xY254d1NzVFRoN2hfdW1pYUU2TG5kS3lvS05nbDd6eFc3dHRJZVllaTM1bEdiTFlITUM4TFUwSGs0c0pETUVTaXFVYUVhNjY?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:57:52.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "a1a452b1b608e7ba",
+          "title": "Gemini 4 Hydrogen: Google Brings Top-Tier A.I. to the Masses",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9TNEZQY0RxdUJLQTdISVl5QnAwdGE4ZlZOTENDMmo1TzRuZkdrbUVpYWFPMmdkTTQzdGtUcXhqeGl1V1p1Wnk0VzhNNS1zc2ZYN01WQ0RxcEotS09Ra2FDc1FBajBNOWprR3F4TlBPcXMwajFzWUdWSk5qR2dkTWs?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:48:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "55d8615918a9f0b1",
+          "title": "Google's Gemini 4 Hydrogen speeds up coding, research, agentic workflows",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNSUtsREp2MmY3R21mVHdOTnhRa2dwbFJGTUw0VG9HTjAwRDhXblZsSDNuSDdiRVVBRUwzUGJPRGVEczZhcHFQdnhFNjFONVU0bFA1a0tCQ0NJdWQ1Tk5rTlBRZjZETjFuczhiak56VVAzRkptRGxyVnRwbFRta3EyNGtFdTFIOXFvczZ4LTZENWQtQmNOTVJDWXFYOTdiNGNGeFZr?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T05:56:38.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "bb0e7897c8ad25f4",
+          "title": "Google launches Gemini 4 Hydrogen with faster AI capabilities",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPN0hZQmtoeG1TdFo3aXNNdFFZRFo2WDNxLWs5MkNMcU9VUUhGbFUweml2QnZ4UUpFM2NWNENaUFE3WEpLWTY1ek9mLU5HQ2ZsT1FfLVh5SjBQOXlkWnRBS1BZMFJrZ2VkR3ZKOGNRNWZCc2hEYldFaC1vZERHU3E1UW85WGtqd211OEJqRWtCTVVIZXFVR0R1Zg?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T05:55:56.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "baa802a2e0166074",
+          "title": "Google Launches Gemini 4 Hydrogen: How Much Does Its New AI Model Cost?",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNbDE5NE5jMS1KUUlHbjkxTHBlbUZuQ1JaRElObTBhRjRwTEhXUXA2THFTX1U2ekxiSEN5bTdCamtDM1dIRWx4SXY4MUtqUGNKM19HSUhSeUoxU2dZYVlzNlpENHl6c09uNEswLUtOc0E1eUMwRWpaVEgxOW1YTWFNSEwwLURIU2xkbkdKZmFWNWNvZTF6YWlUVkNUMDFkRGNsSzVQVDRSMXYzQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T05:46:38.000Z",
+          "score": 3,
+          "positive": [
+            "launches"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e63af0f2e083ae47",
+          "title": "Google rolls out Gemini 4 Hydrogen with 2.5x speed boost, four reasoning levels",
+          "url": "https://news.google.com/rss/articles/CBMitwJBVV95cUxORUxBZ185elZHOVluZjJuanZESU90Tm53TlltU2xhYm5YVGk4YzgxaEtHTHpEc1lWcHZkZ3VKdzBNMV9NYzN5SS1FcWNIUHdscXplNGJmNV9UQkM0ajhuanltMFlmU0ZibVZaaFhTeTVCZm5hTnFtNXpOWEIzV2d6MzZhMGhOa2RXbXkzQS1wOGpyaVhJVHhPZmd5aHpnQlFINUlUclQ1OEQ1VTZ5MF9hRXpCY3pjcW1mMjItdHpfeWNhajVJazNDYnFFWXhzLVhPOFVFX2psSFl4RUtyWXJqSDdXWDB5WjcxVHlES1lTS2VYZ093NzFIam5ZeEw0amQ3Z3Rfc1c3YWN5M2o3a0lJaXZ6eW5EOHpTcy1zMmY2Y2ZybG9qbFZ2MFcxclFYX0hvQUs4dk9uWdIB9AFBVV95cUxNVHNnR0lfYTNlUjFReTZkdTZiS0ZiSE03MXU4TEZyclBUbVBYSGx1aWVmTFJjREFQYXB4TXlzRUc4SkpZT1QtSTJuUGZPNUo3NFZtUUtwenpmTXdHbGR6VlJGc0lXTVlKZjhHQnA2MFlRY0hybk5pazh4cjVaWTVTbnpIbE1mc05KQVN6MmJZdzhpa180amxRTzBPTmdTUVZvcEY2WTluLUVDeERPUVpWaWVOY2VrS29BUEVicnVkblVSaHVJWnRVTXNDMEpsZnE0VFRTTUZDZngtMS0xblFKdjFYWDV2cVNqcUFVak43bGoydk8t?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T05:30:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "16833680da197a6a",
+          "title": "Google search hides Nvidia stock graph",
+          "url": "https://news.ycombinator.com/item?id=50478730",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-13T05:26:55.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "aeeef3a184b07b05",
+          "title": "Google’s new Gemini model is better at understanding complicated questions",
+          "url": "https://bsky.app/profile/theverge.com/post/3n25htlsypd25",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-12T21:55:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "meta",
       "name": "Meta",
-      "headlines": 7,
-      "index": 6.9,
-      "mean_headline": 0.9,
+      "headlines": 8,
+      "index": 6,
+      "mean_headline": 0.8,
       "sample": [
+        {
+          "id": "4887fb2fee1ee695",
+          "title": "Meta’s Muse Buys at 74% of Stores vs 24% for OpenAI Checkout",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNVTJFNGNXYWl1bGZRU0p2RzBVM1JoZlpDRHBELWNMY3lmcmRsMHNlY0tuMlJWaHdmY1lyZzY2cHdtOGpqcThzTzUwckN0c29ONmE4Y0dtcWFDOHI4YldRejVPTUtOcGVFS1E1MjVhMWkySWl2bnI0LVZWZ2I3VEZLenFYRVkzeWExSUo3YjBn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:56:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "b4cebd1d62791ec6",
           "title": "Meta launches Muse Ember, a cheaper AI model built for repetitive tasks",
@@ -1057,113 +1181,82 @@
       ]
     },
     {
-      "id": "google",
-      "name": "Google",
-      "headlines": 32,
-      "index": 5.8,
-      "mean_headline": 0.7,
-      "sample": [
-        {
-          "id": "55d8615918a9f0b1",
-          "title": "Google's Gemini 4 Hydrogen speeds up coding, research, agentic workflows",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNSUtsREp2MmY3R21mVHdOTnhRa2dwbFJGTUw0VG9HTjAwRDhXblZsSDNuSDdiRVVBRUwzUGJPRGVEczZhcHFQdnhFNjFONVU0bFA1a0tCQ0NJdWQ1Tk5rTlBRZjZETjFuczhiak56VVAzRkptRGxyVnRwbFRta3EyNGtFdTFIOXFvczZ4LTZENWQtQmNOTVJDWXFYOTdiNGNGeFZr?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:56:38.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "bb0e7897c8ad25f4",
-          "title": "Google launches Gemini 4 Hydrogen with faster AI capabilities",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPN0hZQmtoeG1TdFo3aXNNdFFZRFo2WDNxLWs5MkNMcU9VUUhGbFUweml2QnZ4UUpFM2NWNENaUFE3WEpLWTY1ek9mLU5HQ2ZsT1FfLVh5SjBQOXlkWnRBS1BZMFJrZ2VkR3ZKOGNRNWZCc2hEYldFaC1vZERHU3E1UW85WGtqd211OEJqRWtCTVVIZXFVR0R1Zg?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:55:56.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "baa802a2e0166074",
-          "title": "Google Launches Gemini 4 Hydrogen: How Much Does Its New AI Model Cost?",
-          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNbDE5NE5jMS1KUUlHbjkxTHBlbUZuQ1JaRElObTBhRjRwTEhXUXA2THFTX1U2ekxiSEN5bTdCamtDM1dIRWx4SXY4MUtqUGNKM19HSUhSeUoxU2dZYVlzNlpENHl6c09uNEswLUtOc0E1eUMwRWpaVEgxOW1YTWFNSEwwLURIU2xkbkdKZmFWNWNvZTF6YWlUVkNUMDFkRGNsSzVQVDRSMXYzQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:46:38.000Z",
-          "score": 3,
-          "positive": [
-            "launches"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e63af0f2e083ae47",
-          "title": "Google rolls out Gemini 4 Hydrogen with 2.5x speed boost, four reasoning levels",
-          "url": "https://news.google.com/rss/articles/CBMitwJBVV95cUxORUxBZ185elZHOVluZjJuanZESU90Tm53TlltU2xhYm5YVGk4YzgxaEtHTHpEc1lWcHZkZ3VKdzBNMV9NYzN5SS1FcWNIUHdscXplNGJmNV9UQkM0ajhuanltMFlmU0ZibVZaaFhTeTVCZm5hTnFtNXpOWEIzV2d6MzZhMGhOa2RXbXkzQS1wOGpyaVhJVHhPZmd5aHpnQlFINUlUclQ1OEQ1VTZ5MF9hRXpCY3pjcW1mMjItdHpfeWNhajVJazNDYnFFWXhzLVhPOFVFX2psSFl4RUtyWXJqSDdXWDB5WjcxVHlES1lTS2VYZ093NzFIam5ZeEw0amQ3Z3Rfc1c3YWN5M2o3a0lJaXZ6eW5EOHpTcy1zMmY2Y2ZybG9qbFZ2MFcxclFYX0hvQUs4dk9uWdIB9AFBVV95cUxNVHNnR0lfYTNlUjFReTZkdTZiS0ZiSE03MXU4TEZyclBUbVBYSGx1aWVmTFJjREFQYXB4TXlzRUc4SkpZT1QtSTJuUGZPNUo3NFZtUUtwenpmTXdHbGR6VlJGc0lXTVlKZjhHQnA2MFlRY0hybk5pazh4cjVaWTVTbnpIbE1mc05KQVN6MmJZdzhpa180amxRTzBPTmdTUVZvcEY2WTluLUVDeERPUVpWaWVOY2VrS29BUEVicnVkblVSaHVJWnRVTXNDMEpsZnE0VFRTTUZDZngtMS0xblFKdjFYWDV2cVNqcUFVak43bGoydk8t?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:30:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "16833680da197a6a",
-          "title": "Google search hides Nvidia stock graph",
-          "url": "https://news.ycombinator.com/item?id=50478730",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-13T05:26:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "29b12f2aece8e380",
-          "title": "Google DeepMind Uses AI to Verify Security of Signal Messaging",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQY0lpVkFVWWY2UEdzbXF3bE5zSmotck9JLTMwVy1mVVNRbm4yNFZVNDFnNXp0VmRsc19obnpueEJmRUJJRWJQOTZPSTJJbFF6OUltclBsRjZzWUV4UHRZNmg5clg1SktVSUtiNXkzUDB6VEpxTExZY3JINmtEejJYVlBxZHlobTVlbWhsXw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:47:04.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "90cb9bd509a31a89",
-          "title": "Google Search can now understand complicated questions and typos better with Gemini 4 Hydrogen",
-          "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxORjhZeEdTdV83SDlqR0o1bFB2bWI1czFqYndhZEhtV2F5Q1NLNkJqRDBmeXN3MmJCQmRiT2JUNTlON1lsNW5VVnV0dElnazZtb05LWFdXTTdQTXd1Uy1MX1RKanlOOXdxaUlmbFVwbG1UeU1mUEUtZUxDcVZjdVRPY3IwV0ZpT290aUEyVFZJVFdVdkNfX3VCMEE1UGlFME9fY19FRUVlVzFBeGNyNFJlaTNBdGZZMV8xZEI1NUFVRWVFZEhaVFZucTg3eGRXT0dMMVF3SWVQdG1PUdIB3wFBVV95cUxPSGdVV1JEVXBWVEdMM0ZRdTVOa1YtcDVDellkUnlVQ21kQkEzWVFKcEhJb0h4VC1MV1FyT2ZqNTBSMWMzYlF6cGp6X0JLenNURFFpVWEycXI0RkVkXzJ3MGdxSHphUjloX3VGT0dnRmNZVVpIanJXOFIyZThKRDBWOEVnSHhJNEZYeXBSako4VENwd01naF9yd0ZDUjNNZHdMWHhXamdkSncwMUVGRFhDTmpEMnFLb19wVXkzdXFoTVhfUy1oUFV0RjBsd1htbjRJR2ZyWWFKY253Y0xCUEZN?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:10:20.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "aeeef3a184b07b05",
-          "title": "Google’s new Gemini model is better at understanding complicated questions",
-          "url": "https://bsky.app/profile/theverge.com/post/3n25htlsypd25",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-12T21:55:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 24,
-      "index": 1.3,
+      "headlines": 21,
+      "index": 1.5,
       "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "dfd791c4afe85a87",
+          "title": "How the Anthropic IPO Works: Price Range, Pricing Day, Listing and the Lock-Up",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBERXlUcFpjcGN5SUh3VWFQVkVacnRrRmFIa1BUbEx2Y21Db0VNakZMYkkxQkQ3ZjZsaGFMcWxTUHZJNVpKY29QejJ4NlVKemRKWE53aFZYbkVJU2lkdVBKRXhn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T07:07:30.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "51151b5d6bf57d7d",
+          "title": "Anthropic IPO Said to Be Six Times Oversubscribed",
+          "url": "https://bloomberg.com/news/videos/2026-11-13/anthropic-ipo-said-to-be-six-times-oversubscribed-video",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-13T06:54:57.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "9b3dcc4ad3f19b26",
+          "title": "Anthropic’s new AI leads freelance benchmarks, yet fails 58% of the tasks",
+          "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBvZHFvMG5yQzV2cEw3TW9lVlRxZmJFOV8wQUZyTkZjTHJrQzBZRnRCcG1YS1VVWGxYOXZBd09QZE50UUFkOGZ5V09UdXcweTlEQk1fc21B?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:45:22.000Z",
+          "score": -1,
+          "positive": [
+            "leads"
+          ],
+          "negative": [
+            "fails"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "2d2af775b0409034",
+          "title": "Xlence prepares for Anthropic’s anticipated IPO",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNOWpZNzl0eE1FcF9rdURfSDBnQlNDdDlpVFU5ZjhSVFVJX2ZXdmdyTWlOYTRrZXJnLURaU01ldlJRN0Ztb2hxNklTZTM1N1luaDJLSUtNRkxPUXhnMngzeFptdkhkVnN4MS1JT3IwVVN1Zi1WTjIwdzVjTzRWVm5MTHVldTcwdGdQUHFiTA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:44:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e37cde6e739b60c0",
+          "title": "Trading Sphere eyes Anthropic IPO with plans for day-one CFD trading",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQeUt2T0hUWVRndjZsS0s4X0p2VFpIZjFOY0kwaHoyeG5MVXlFM3lHTWJfSjBENWpkbVdXWGNpRjZfbEs0RGxQQmJVZ080NGdfS3VvSW5lYXJiVldsUGRSX0VfbG1naXM2ajhIVnBsQV9GYUVxMG02bGkzSTVhWDdZV3dPSlBTcXAzY3ZQNFpFMDBKRWl1enpvRzQ4NHZyalBOYldiSXRiVjRkVVJmYXIwOXlhTm9FY3JWeWhVMA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:30:34.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8a323307eaa5ddbb",
+          "title": "Anthropic's AI 'Claude' Joins Meetings, Aiming to Create Documents Alongside Minutes",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE40cUpPNnlJRG5aUnVDbFJkWjJwVDNKeGNkWTFMYVRYWTZMaUJ3dk1EeHZncDJGTk9GMkhKTW02cTYzTzM4Q2ZfSWhSaDdxZUE2Qm5YcU1kaG50U0Y5TWM2Vm1DMzdIRFZDSmxJUHpGT0pQMGZHNnc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:26:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "ab50f8d2cb5a3342",
           "title": "Filing: Nscale says it needs more funding for its 2027 commitments after ordering Nvidia chips for a $45B Anthropic deal, casting doubt on its planned $35B IPO (Financial Times)",
@@ -1185,76 +1278,6 @@
           "published_at": "2026-11-13T05:59:26.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9a6f49a2ae0dfbdf",
-          "title": "anthropic-claude-ipo-plans-1point4-trillion-valuation-nasdaq-2026 Archives",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNazB2SDZfTklkbEpncWc1NlF6Nm5hanZmMXhQTzRTX0phNmxRVWVDY04tRDJDXzE5dklkTEZFWlpwZXdMenZHTkhVRkprTTNKQ2c4MkdfakF5aktYYUJ3MG1mM09FZkdYVWtZX1YyeGxMd0QwcXZnUVBoWmJIdVpWXzNvdU54S0JmMENOQVZkVkY3SUo5Y2c?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:38:10.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b3b704baff64beaf",
-          "title": "Microsoft experienced a massive outage that lasted for hours! OpenAI and Anthropic were also affected, and the governments of Japan and Singapore were impacted.",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQSVJidUZHd256TFJKZW5LWktGdEgtNy1xVXYwamhXczBvd0hvcTVVRi1VVTlpNzhHeF9MMElieFVQYWh5dER3M212UmFTNjBoUlZMdmVmR1Q1TGxzc0M4d05laXhVNUlqWHZPeG5VUmlBczNxY2NiLW1iZXBRZmNYM25Jdk1aWkozd0ZOWWh6Y1A3RGJEaERHS0pMeGltTWlNMFVObnZEQkY4TmxTZHg4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:34:35.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "f354b62d85208b04",
-          "title": "Watch Jensen Huang Saga Tests AI Trade Ahead of Anthropic IPO",
-          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNRklCQ09yLVQwZmhsb09wWk9DOUExN2tQcVBRejdlQk9QUVFCQ3RDd2k1b0dHeDd6eldwSWtrQkN2MHBFMzlWLVBwR2lDY0JENFItNmdrczZGbURiMjRXQThlS29rTlF2NUZqd0VMWjZ4QVI0eGZ0Y1FGZ1VpTFRMdXFCUlVoN28?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-13T05:28:47.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "98057d078f99fc2d",
-          "title": "Anthropic IPO: If you get shares, how will your investment be taxed in India and US? Check TCS, capital gains tax rules",
-          "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxORDhjVnFyRXpDR05hNndMcEJEXzRlenFoa01ZblBVeVdZQWRMckNRalZMa1ZfSkdQUmZhSkIzRE8zV0dadDNYdnZaSm9leFN2MEFtQkhuTndFYkNtYU94QnVZcXV3bUtTVTRhc3NiSlkzN05PMS1tMkpHRlJvUklyWnM1V0o0N1I4Ukg1LUFPNzBrTFZQSHNlRFE5SElPeHJyQm9SdzNXVmpJSlF1aElfNnd1emZCQjhKc1pUSU5NTmw2YjNsc1NrYzljNUhHY1NzRHZPODAwSTNNTWxNd2sxRkJNVENiRW54OFBQSHBYSUhld1lDemVGNUdNOElwZUE4cHB6aFBNcDdFYlhBOFlEMNIBlgJBVV95cUxObkw3eWEySWtHWWpnbVZnSjZJcUM5MEt2V3MwZ25CVjYzNHo5SjhTNFRmRW9aNmxGYUs1WHBkQ192cG9hUFFGUkZOTXlvOGZXYWV4UnlIbGZlbWdoS1l5NFQ4NUk5T0VIQXRwWGxlYXIwbE9rQl9JblNXOFR0RmxDUkdXRkV2RmE2SGdDNEctU1k4ajg1cHpTOFBOZC1rXzF2R1pTR3ZIYkdma2dhaEZIcUx5UFFPVGR3M0JvdjNwMTNjZl9yeFBWVlRMUEIwSnNVU0lpM3FoV2t2QWpDWTVWX2RtVGtPekprdFRaWmhmbmZYV0pZd1pseVVkRGhOTnZDbGVwMEZsTUt6S0tkNGlFa1ZUZ29KZw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:57:52.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "3ac07e510bd4b49b",
-          "title": "Asian stocks post mixed results amid Nvidia leadership turmoil, Anthropic IPO buzz",
-          "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOZkRTdmkwQklYSmxQNFctUXFWM0M0WW5iU2lLZGdSaWo1eDRrUkRDQ29FWFhkZXZjNDk3dlpjODZ4OFRCX3dWaFJHZWFiMWwzZjZCOVo5ZmNYVnJPMDdCcEFfbWNDMm5JV3BHRmlMTXBibHJCdFZRNmhOZGlPRmJrYllLZ01yWEQtUW9EaHlWdmJtbGVHLTUyUkQyRVZ6ck9QcHdoYW1XMFk3cWc3LTB6MGV3ZTAwY1VNMGttSEIwYzVIanhMOTNucUpUMnBVYlRvU1cyUF82WXlsU1JhUzNscQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:51:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "07f314c1436674ef",
-          "title": "Schwab surprises analysts with extra rapid launch of own MCP servers, also leaping from read-only to agentic (get stuff done) AI; it leaves RIAs out for now, and makes Anthropic's days numbered as Schwab's exclusive LLM",
-          "url": "https://news.google.com/rss/articles/CBMi4gJBVV95cUxPMlUyZXktN0NpY0lBbjdtSERpbzIxZjdfNk9VRjhoS29TSkc0QWpQSG54U2otWWdiekdJei1tSDY3RFlvN1k1UExIVnpDSnJ5dkJPM2FNZWNER1VoXzVRSVRPNzBJSFc0Qk9XOWxTMWxEZ0lLX3lxOFAwOTg0WTFoelk1Y0tNY2NhTnRrR3g2a2IzMTE0a3hqUmlybGdFQjBBckl5M01CWjFLR3dUZWpVVUNmT0RXR1R4R2dqS2NsMWNOYmE4VHJmLS0teXN0N2NPWjJMbjU3NzZZOTdLS2xmNGRrOWEzdlRJUWZpRnhHWU1iZjJkSHdCUVMyUmptVWJISDdwSDlaVlp1OF92Tkw1WDFfQ1dMWGFHZWR0UURfcEREZG1NMVJjRjNWSDQxQXk1N1NjZmV3VElKMDVHNkk5WElyWTk2WHFTa0RvWHhaQ294Wmp0ekktc3NWeDg1eFZ4UGc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:47:12.000Z",
-          "score": 3,
-          "positive": [
-            "launch"
-          ],
           "negative": [],
           "clickbait": []
         }
@@ -1378,10 +1401,311 @@
       ]
     },
     {
+      "id": "openai",
+      "name": "OpenAI",
+      "headlines": 25,
+      "index": -0.6,
+      "mean_headline": -0.1,
+      "sample": [
+        {
+          "id": "4887fb2fee1ee695",
+          "title": "Meta’s Muse Buys at 74% of Stores vs 24% for OpenAI Checkout",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNVTJFNGNXYWl1bGZRU0p2RzBVM1JoZlpDRHBELWNMY3lmcmRsMHNlY0tuMlJWaHdmY1lyZzY2cHdtOGpqcThzTzUwckN0c29ONmE4Y0dtcWFDOHI4YldRejVPTUtOcGVFS1E1MjVhMWkySWl2bnI0LVZWZ2I3VEZLenFYRVkzeWExSUo3YjBn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:56:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "422fbabdc287335d",
+          "title": "GPT-6.2 Did Not Ship: What OpenAI Launched on 12 Nov",
+          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBtYWNLVVZkVF9fT1VmRHZWNVJCMGlIV3prZGFScUFYd3FzR1YyWjlzbzI4QVI0dmw2RFdiMy03a3NSd3FCZEFrOUlhbVJGSHRUVWx4Z1R4VGhyX2pmbVJJeWsxYVcxQXJZWDlxazhzRmhyUV9LSi1j?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:48:43.000Z",
+          "score": 3,
+          "positive": [
+            "launched"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "398f3c086754ac58",
+          "title": "AI models need more data about biology, and OpenAI is paying to create it",
+          "url": "https://bsky.app/profile/technologyreview.com/post/3n26et5ks4u2x",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-13T06:39:55.413Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "045b6fb0542f5eaf",
+          "title": "\"OpenAI is going to eat Microsoft alive\": Elon Musk’s old tweet goes viral amid global...",
+          "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxPbmFnY3BLVFRPU2h1UGpZT0FxZHFhRk54b1V2QzhGcTZCMzJXME1jZmdKcXZJTmh3Yy1JaTNpNUJrSHBfMzRKZDRjOUszb21SaG53QVRpa2NOOXFRQlQ5Y0dwRER5cGFNN3p4c1VWd1hHaGVLT2lrWGFqbVdrbjBRLUFjMmdJTHdIdHJFeEdQbVBETUoxUXVkRV9ycmo2VWtJb0NhRVgyRGhRcnlBZFVudEljSzVueUZZRkR4YkFCTnRnbFJ1RFZ2YUZRVjNkTGVNWDlfMFVSU2ZWZDBuc0FHUDZVOFYwS3NPQmVHX0ZpaDhhNGJpTmgwQ9IB_gFBVV95cUxOb3E5aTJVVThfR0Nnb3d1U1pzdGYtSDB4cTlYTDFOUktCc2NiMmtLWVpkSlcwdVlGblNLNHZDMGdTREJDTEJUM3N4b3hDNVgzT1RNcTVPWGpxc1NySC0tSjItb04zd2JteGlEbUlHTHc5Sm1NQ2RvS094RW51SzFQLU5xMUthcFdwcU5fNEwtUDR5WUtWTWNLcHZBX2ZjTGJaVld0WjU5R3d3MEFvNjJYTFBYSk9zdElqMHVQMDl6YWNLY0lNMXM0U1QwMHlkV29nRjFlME9hWG5mZWozZWtUTEZEU2dzZDduaTJKOHFtT1pJVUdyUURPU1oybFA2Zw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:17:44.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "30166b954d760ab7",
+          "title": "OpenAI status: Sites: Publishing failing",
+          "url": "https://status.openai.com//incidents/01M79GYA0GA772Y6D089AH5478",
+          "source": "openai-status",
+          "published_at": "2026-11-13T05:55:44.846Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "0148d6a1027cde8d",
+          "title": "OpenAI Runs 500+ AI Agents Like Contractors: Its 5 Controls",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPMmxNdy04Zl9lQXZ6RlQ3U0RVblNBNW1iUVZSSEMtR1BUTXRaZUZ3WUhJdm84S0ZCS0gxMXJ4MVdXcXhxRzJMaWhnNGtEY0F1ckswUjNVREdBUXk3Y3FlbXhxaW5FLWxPUXBIU3ZpMGMzb0xUX0d4YVJkUERwUEVhMUZoUHNsd2c3bXlPdFVn?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T05:36:53.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ba1eb40a52daa44e",
+          "title": "OpenAI’s Newest Feature Enables Business Owners To Set Up Shop In ChatGPT And Connect With 1.2 Billion Prospective Customers",
+          "url": "https://news.google.com/rss/articles/CBMihAJBVV95cUxNUV8tbUM0YXlrVzEtUkNkdUJXQUpmcjFLZzlUY01wZlQ3RE10ckVZRGxnSzJibmlBbHA2TnRmcWRneFhHT3JxcWFFTm9TcmdjYXJvdGxKU3ZodFRKUEg4N185WF9xZVhEUmN5UkhCZUY2V2I5ekE5TDRnUmZwdzZzQnd0ekNGVmFELXUtQjRScDBJenF5R1k4YjhjYzBSV1dLNnRVLU05bGZva0E1STl0azRDWFU1RnE3Mnk2XzQ2eXVPMmpCQUhra3J2QnZTTDJ1ZUNpc0ZIc0UxY0JNYm1Nc2Rqb0Q0SjA0X042RWlnTUhGd3d0bnRzdDRvV3dVQU5EY3dROQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T05:36:37.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b3b704baff64beaf",
+          "title": "Microsoft experienced a massive outage that lasted for hours! OpenAI and Anthropic were also affected, and the governments of Japan and Singapore were impacted.",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQSVJidUZHd256TFJKZW5LWktGdEgtNy1xVXYwamhXczBvd0hvcTVVRi1VVTlpNzhHeF9MMElieFVQYWh5dER3M212UmFTNjBoUlZMdmVmR1Q1TGxzc0M4d05laXhVNUlqWHZPeG5VUmlBczNxY2NiLW1iZXBRZmNYM25Jdk1aWkozd0ZOWWh6Y1A3RGJEaERHS0pMeGltTWlNMFVObnZEQkY4TmxTZHg4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T05:34:35.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "headlines": 9,
+      "index": -0.9,
+      "mean_headline": -0.1,
+      "sample": [
+        {
+          "id": "9b9bffa2711af518",
+          "title": "Chinese Businesswoman Alice Huang's Companies Invest in DeepSeek, Commit to Nvidia's Blackwell Chips",
+          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQcmZlMG5TQllRSlc2d1ZfcHpIWGZST29lS0VWdS05dnZQM1hkYUFHcjJGZHFyRmVxSXVuNmRfQnNrSVVUTXMxOVNHcmFNTmRNMGpJREpSeElaeUdnbWVUM3RiNW5QRmoxTkh1LVRkOGg4TmdndXJVM0l4RDRzT2hqckpWNVlidFRpVXpReFFhNFFVUVRveERHam9KQ3piQmdlTlRqY293NWZOeFF3RVZha1R3TmVidmxTWjl5TFIzQ1Y2YmxwaElSd3Jkdw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T07:11:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "5e1304b21e5f4d16",
+          "title": "A DeepSeek Moment for Biotech",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3n26fxqqurl2z",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-13T07:00:23.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "011e6be78c7d25ff",
+          "title": "DeepSeek Investment Raises Nvidia Security Questions",
+          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQaWdEem1rY3JqNk52YXBCUExORGVjMi1rVmhTX09KNXZQM3NpVEZCWHk4alRNTFdZNlZCcEpaR1dMeEFuUWVnMGp0UFlvUXMxVFVqX04zUUxHaGpoWFBhaDZiczBVQnM3Y2xXSnJ0VWNjM2dITHc3SHFnalc4b0RNZ2NHc3dPVFF1Znc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:58:57.000Z",
+          "score": 3,
+          "positive": [
+            "raises"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "14804a9f3e645b92",
+          "title": "Video | Alice Huang’s $7.5 Billion Nvidia Chip Network: DeepSeek Connection Under Scanner",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOVlF2QzJjemZoNjlTUmpwS1VHcXdmaWRwSzB4WEpFaGVReE9qaGMtRjBXc2FaSk5pUHBBU1Y2UFBEOHRscHdxWll3SFZSaG1neEpoRHJXaGpOX0NaajBpSWlZeDU3blJOamZUQ3hpUGNrVjZ4QU5yMjNrVzB3NDlwNlhUOXVqZ05lOFpROWZGYXpKbE11Z1k0X2otYkdORm44Rm5HNWpPa3I4Z1Nmd2lQSU5CWVFwVlU0Z1FlLTIzNzQ0N09XMmN5emN3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T05:49:54.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4b08841f02a7d4ce",
+          "title": "DeepSeek V4.1 Pro Turned Up in a Coding Agent's Source Code. It Is a Test Fixture.",
+          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9YaDBVMkVhaU1ydDBERjdQNFJMODh4Wmpub2lJaERaUS02MWxPNXVJa1VmMXFnZlE0ejcwR3cyMERaaWhrMXBRWG51emZjcjhKS2Z1eXZXNkVMMWF6OFJSWjh0MXdlNGxJRmZIRjNZaC1wdUx5?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T05:14:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "14b77571fcf8214a",
+          "title": "Per ex OpenAI researcher, DeepSeek, Kimi, MiniMax, Ling models are all trained on Nvidia chips",
+          "url": "https://reddit.com/r/singularity/comments/1xur25o/per_ex_openai_researcher_deepseek_kimi_minimax",
+          "source": "reddit-singularity",
+          "published_at": "2026-11-12T22:40:45.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1dd87fefc0ad16fe",
+          "title": "Analysis of open weights: six models from DeepSeek, Moonshot, MiniMax, and Ant Group released since April carry fingerprints of export-controlled Blackwell GPUs (Will DePue/Unemployment Labs)",
+          "url": "https://techmeme.com/261112/p62",
+          "source": "techmeme",
+          "published_at": "2026-11-12T22:30:04.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d7db56090eecfc26",
+          "title": "JUST IN: Companies tied to Alice Huang invested in DeepSeek and promised to supply it with Nvidia chips, The Information reports.",
+          "url": "https://reddit.com/r/technology/comments/1xummnw/just_in_companies_tied_to_alice_huang_invested_in",
+          "source": "reddit-technology",
+          "published_at": "2026-11-12T19:45:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "headlines": 149,
+      "index": -2.4,
+      "mean_headline": -0.3,
+      "sample": [
+        {
+          "id": "9b9bffa2711af518",
+          "title": "Chinese Businesswoman Alice Huang's Companies Invest in DeepSeek, Commit to Nvidia's Blackwell Chips",
+          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQcmZlMG5TQllRSlc2d1ZfcHpIWGZST29lS0VWdS05dnZQM1hkYUFHcjJGZHFyRmVxSXVuNmRfQnNrSVVUTXMxOVNHcmFNTmRNMGpJREpSeElaeUdnbWVUM3RiNW5QRmoxTkh1LVRkOGg4TmdndXJVM0l4RDRzT2hqckpWNVlidFRpVXpReFFhNFFVUVRveERHam9KQ3piQmdlTlRqY293NWZOeFF3RVZha1R3TmVidmxTWjl5TFIzQ1Y2YmxwaElSd3Jkdw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T07:11:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b30377d4780340d6",
+          "title": "Asia’s Stock Rebound Fades as Nvidia Uncertainty Lingers",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQTVZoTk5zU2dUYjU1MktNdTFKQjJRMGl0bFBMYVVBMnhPTHJnOVREcWhtczJFYlVpWTIyQWdzU2xzMXRLMXUycFZySk96RzNPYnFZajdvQkhPWHpTSjQ3VVRud20xenc0NjdXaGY5cEk2S09mRGNfemt2aTRnaWgxNTlZSlVLa0gwc3E5VEI5eGlkMDljUTNhczh4QVlLVHVyX1B4U1B3UjVJR3R5NHc?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-13T07:09:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "cee63f021c1ed892",
+          "title": "Lutnick should have prevented the diversion of sensitive Nvidia AI chips to China, critics charge",
+          "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBWWUFFVjY5Z3BrdDd6b2JaRDlvME50cGpLeUR4U2lPVU1tNnM1TjlrX3MtaVRrR3dsTmxoa2tmRGotVUdTYjhVTG5OV0k4U0ViTWRDM01vZExzZzFRLVY0UDA3a1lQWVNtT0Y4?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T07:01:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "85b04aad67b62cb4",
+          "title": "Jensen Huang’s abrupt exit stuns Nvidia’s China staff, clouding the outlook in a key market",
+          "url": "https://scmp.com/tech/big-tech/article/3374316/jensen-huangs-abrupt-exit-stuns-nvidias-china-staff-clouding-outlook-key-market",
+          "source": "scmp-tech",
+          "published_at": "2026-11-13T07:00:40.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "42785ad6249b6561",
+          "title": "The White House is considering removing Howard Lutnick amid the Nvidia espionage scandal (sources)",
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPQWF2TEF6V3lBZTJDX29HV3NwTC1McUxZdDh0bzBUN0t2WXdVY1RwRG8xT3NDeC1JZFJscGRTNlpUZGRkQ0hSSnpDbXQteUJYd2J4YW80Ujh1cGo0Skh1cno1VGFRVHFJb0F3Nlp4VDFWVlFzNkVwcDZlX3ZmQXNobDZEeVJWandFc0ozZ1JZc3RtMS0xYVFGc0xfYi1RYlluWjBjbjViaTI?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:59:26.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "011e6be78c7d25ff",
+          "title": "DeepSeek Investment Raises Nvidia Security Questions",
+          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQaWdEem1rY3JqNk52YXBCUExORGVjMi1rVmhTX09KNXZQM3NpVEZCWHk4alRNTFdZNlZCcEpaR1dMeEFuUWVnMGp0UFlvUXMxVFVqX04zUUxHaGpoWFBhaDZiczBVQnM3Y2xXSnJ0VWNjM2dITHc3SHFnalc4b0RNZ2NHc3dPVFF1Znc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:58:57.000Z",
+          "score": 3,
+          "positive": [
+            "raises"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "979f44d56cc3b9c1",
+          "title": "Nvidia turmoil and policy letdown send KOSPI down nearly 1%",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOZktkZU9uYV9xTV96R0tRb2o3SVNabXdmV05aTkhzLXZ0LTVEWHd0LUtYNmJJaU5pdlZKRVJNZ2Y3ZTdrWFoxaFVVQXdQUkp1Vm1xbzBINVF0b21lS3Z0bDNkNWVrQk5TYjk5Zk1wemdibVhvZ2kyVmVrNDE0WVI1cdIBlAFBVV95cUxPSHBwblg1N2VKYW9MSGxlYnlYVnhfWFF3Z29DZ19vOUVFNFFSLUdTWG8xRklRb1ZfUDk0OHBKR3lOWVQ3THVYQmZyNHZfLXhuaDdKeHdzb3pXa2lHS01SczJoelhSMEl2RmpsV2Z4dmszSVVGWnJpWTBhdmVTc3Q3OWJCVlh5Z3lrUkNJN1FsOVNXNzJo?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:58:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "down"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "d878044512d87468",
+          "title": "Singapore Charges 5th Person Linked to Nvidia Chip Case, ST Says",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPZVV6VXYySmNyb1B3cXRtMU54M0ptUnZEQzNqSjNtWXMyRmFiNzgxeVNnN1FoUGo4ZUNGcEs3aXZjakY4UmFWZ1FfbGJjOGdXRFlmYlI1N21ETndoM043a3J5aW1BN3FibXJaUjdHajBsX3BKZXFFSGtOREVQQTBUOGJxb3F0Uk14dEFucFpoeDZSaXB5MmlXb2V3eVFJaUhYRTg5Ym9naThBc2VwZHBQZVdFeTM?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-13T06:56:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "amazon",
       "name": "Amazon",
-      "headlines": 15,
-      "index": -2.1,
+      "headlines": 12,
+      "index": -2.7,
       "mean_headline": -0.3,
       "sample": [
         {
@@ -1475,315 +1799,103 @@
       ]
     },
     {
-      "id": "nvidia",
-      "name": "NVIDIA",
-      "headlines": 154,
-      "index": -2.6,
-      "mean_headline": -0.3,
-      "sample": [
-        {
-          "id": "1c33005d4fa7b250",
-          "title": "China AI stocks tumble as Nvidia fallout fuels fears of tighter U.S. chip curbs",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNNnk1ZkNxT0F5Tlp2aEpJR1VsQTFTamR6MjE0N2o0dzVWRXY0TDNfVk1mbkFDTDlIZHY2RmJoUHpHWURCS0s3OFo5QXlaTUg2ekNhS0RPbWh2MHNuRkViWVF0c2J6b2FKaC1oUGFNMXc1UDVJNFJoUUFZbEE1d1BXemR6NXdxRW9WaW1TRkVURWlXY24yRXNzV3J4TXVFTUxOcmJWRFN4XzFXY1RTRl9KSGxqazhKRjZ5TFFpajZkbTJOMC1Rc0VoaXFZVzRqUQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T06:18:51.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "cee63f021c1ed892",
-          "title": "Lutnick should have prevented the diversion of sensitive Nvidia AI chips to China, critics charge",
-          "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBWWUFFVjY5Z3BrdDd6b2JaRDlvME50cGpLeUR4U2lPVU1tNnM1TjlrX3MtaVRrR3dsTmxoa2tmRGotVUdTYjhVTG5OV0k4U0ViTWRDM01vZExzZzFRLVY0UDA3a1lQWVNtT0Y4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T06:13:30.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "acc2333375ee8483",
-          "title": "Chinese AI shares tumble after Nvidia’s Huang resigns",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPXy1BQXRIRjk2WUwyZ04wUHFVNWlaV0dESjJCQjBSUTlmSjhxSWQyaEJMVGhqWV9LcGZQaWVIVXNjX1dHZ3B1cGUyTktjY1hLZUhnTi10UHdXanBXc1VrU0lkUlkyLTZWN00wMlVEdjBHYmtHNWxBdExnd19uME05aFZUMG5Ka0VQT3MtZ0F4bzZSSVVudzRRUHByeEpSdE90N2xIZXUxdWxpZGVfVl9qdW1PMW5QSTQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T06:08:07.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "085736cd01ffb5e3",
-          "title": "AI: Nvidia Beyond Jensen. The ‘Mega-Blip’ Lands. AI-RTZ #1269 (Part 1)",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE15dnFXVlFrNHRNTGdSS1FjZEpEZW1uVnM4M1NBSHdIUlRmQUhEZG90S2pwcU1VcGh1bDNxaVlZV241cHlaRW02N3hjSWJLajlGZzBVdHljcTVyU2tNSlktemtfX1ZRVTVfSU1qaGNxUXNtUTBzbmVfLWZMZXU3UQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T06:03:12.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ab50f8d2cb5a3342",
-          "title": "Filing: Nscale says it needs more funding for its 2027 commitments after ordering Nvidia chips for a $45B Anthropic deal, casting doubt on its planned $35B IPO (Financial Times)",
-          "url": "https://techmeme.com/261113/p3",
-          "source": "techmeme",
-          "published_at": "2026-11-13T06:01:16.000Z",
-          "score": 3,
-          "positive": [
-            "deal"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0882536d1acf28ee",
-          "title": "Chinese AI stocks slide after Huang's Nvidia exit: Why are investors worried?",
-          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQMnZOQ3hseUVpeDRNM1pxZDUybTlHYXMtTnFjR3cwRk52RmlPZWlheW1zU0RoeVdIcnR2ZDVHYzRpWnNCS2ktOVNtN1NwdWlSdkFraE5nN3Q4bFdwRVRVQ21QZk1KWWhFNnE2TUV3azB6dDlIcDc4YW9fSjNKTEZ3eUx4WEFfRGlpMzREbjhwRVk2MEo2cnJCSE42S3lPWnJGWWgtbk9NcWx0ak4wTko0ZHVDcjdPNU1TT2pzQTI2czNBcEkyZDN6aEZXUFZ5ZFnSAdQBQVVfeXFMUG1aVjQ4UFZmU2FLU1JZQWpKLW94RkhDMEJaWFc4QTE5MmJpczhiMmdEZ2lMMGl6cU11TS1Dcl9VeXJaT1BtejhrdUN5Qjl5OGV4bkVRVmZLUy1mMU9rVXdBTWRGaVE4aW10LWludnJONzlLNDRVWURPV203Wk1sZnE4ZzBTQUdFcVBvOWUwQkNEN05zT1JJTnhmdGptSFk5UkFlajIwUUJJaDVvcWZxdDVRYkF1djVqZlo0dVF0T0sxTlllZDBTMTlYVnQxRndGbkxxclM?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T06:01:12.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "934556417b32c614",
-          "title": "Alice Huang Network's Nvidia Chip Imports May Be Just The Tip Of The Iceberg: Jing Yang Of The Information",
-          "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQMlI1NV9IdV9mRHZGaWx5dDNnMy1EWkw0YXBqYUFkQzlzNk40MWQ2R2k1QlpQb2NSZDdHdkc5NG1OamdBUkE2b0ZlWVhMRDNuczAta0hsOEVPaFZkaDdKQWhzcmt1bTdBTU5rT3hxWFFLaU5IMWczcDd4em44SFNiSG1zcHp4T1Z3NmU4a3RFNHZiWU5XUEprYVZJVXBJZzFiSjA3MnlOVWhJNlRHMmp3ajltUVFlVzlUMGV4R0Ztd1pRdFdyWVhCSW5fTjh5cnFZcnZGal9DZHk4RlFQS3hKNVpn0gHqAUFVX3lxTE12TDFlYzRlVzVEODZHUnppcFB6d1RYazVqU3BsQ1JtM3Zna1NJemk3QkQ2aDJOTGlRR0pJNUhyd1BFZjJnYnZQb1BzQnpqNVB6VktMR3FGSVlKMTU4cWY2YzRrRlNUMUpUSF9Ja2VLVEFTT21Ya0hXX1lrSGNEV3lDa2VYUkVnYUVoUGxoVkM4N19WNnJlMlZGcUM1dVF4aHBYOE1PU0RqV2ROVmR1QlJtRGxoVFYxVmxDckpqWWtDVEFIM1huZ2dQLTZfYkRHVndEY1pzbXhiYzVDZmRGTU10b1JjalZQRkZ4dw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:56:34.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d01413b6eb78ad01",
-          "title": "China’s SMIC sees AI computing crunch until 2028 as Nvidia heat risks tighter chip curbs",
-          "url": "https://scmp.com/tech/big-tech/article/3374305/chinas-smic-sees-ai-computing-crunch-until-2028-nvidia-heat-risks-tighter-chip-curbs",
-          "source": "scmp-tech",
-          "published_at": "2026-11-13T05:55:56.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "risks"
-          ],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "deepseek",
-      "name": "DeepSeek",
-      "headlines": 8,
-      "index": -4,
-      "mean_headline": -0.5,
-      "sample": [
-        {
-          "id": "14804a9f3e645b92",
-          "title": "Video | Alice Huang’s $7.5 Billion Nvidia Chip Network: DeepSeek Connection Under Scanner",
-          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOVlF2QzJjemZoNjlTUmpwS1VHcXdmaWRwSzB4WEpFaGVReE9qaGMtRjBXc2FaSk5pUHBBU1Y2UFBEOHRscHdxWll3SFZSaG1neEpoRHJXaGpOX0NaajBpSWlZeDU3blJOamZUQ3hpUGNrVjZ4QU5yMjNrVzB3NDlwNlhUOXVqZ05lOFpROWZGYXpKbE11Z1k0X2otYkdORm44Rm5HNWpPa3I4Z1Nmd2lQSU5CWVFwVlU0Z1FlLTIzNzQ0N09XMmN5emN3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:49:54.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "4b08841f02a7d4ce",
-          "title": "DeepSeek V4.1 Pro Turned Up in a Coding Agent's Source Code. It Is a Test Fixture.",
-          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9YaDBVMkVhaU1ydDBERjdQNFJMODh4Wmpub2lJaERaUS02MWxPNXVJa1VmMXFnZlE0ejcwR3cyMERaaWhrMXBRWG51emZjcjhKS2Z1eXZXNkVMMWF6OFJSWjh0MXdlNGxJRmZIRjNZaC1wdUx5?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:14:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "39b23ed40a57c143",
-          "title": "The mystery of 445 rows: Nvidia Blackwell chip traces found in 6 Chinese AI models including DeepSeek, Ant...",
-          "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxQY19lQi1FZnNkUEF4VEFwMjQ1MGNBdVhVVmthUl9fNFltSkxnLVdoTFpHdlI1M25wTVBmVk9oMUo3TWRGVUJyeXctQzVoZ2piM3FLamZyQzltVHQ3MFFJcElNcW53bUlNQW9FdDgtYzFmY09kMWRBNHJKZEFxaC1nd0NtODZ0QnlrNFNuQ3lyVmpZZ3ZaWEhmUUJVSFh2UXlTOHU5c19IbmRMTGNaZ29oTDR2WnFYb0FORjlfVlpVV0ZZTHFOc3VqZG5TZlJycUhsYUdCTkVFUFlZTFY4bERCUUtFbHZMWDRtZER3Ui1BZWNwaHJZMXhFcFFGNNIBgAJBVV95cUxQTl9BTVVDY2ZJWHJTbWk4UEdLOEZwVVd0Vlp1ejluUFlnOEdhLVZrdTREdkpRbGlFaElHR3lGWUI5cVhTTWxkRXl5ZFJ4VmdGNTJKaVBKQm9MZEkwQTRsaUU0VGpPOVpRbWhmT2o5YzdqWGsxOUNzcTJVY1dMdkU1c1Nhb0NTV0hUbF9PZ0pFcnp2cVJEbU1kMVo1dWtlREJKTnVQeFFWdlkwOXBIWk52ZDU2SXFRMkNKcnI2d2hrTzc3bG43dFpxdFc4MVg5cGhldXRiRGVEWUpINUJaS2hpRHNodFdOdnlpcEFabDZOS25vS1J0bC1XbTBKQjJENkx6?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:57:41.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "f4aceeca2438eb72",
-          "title": "A DeepSeek Moment for Biotech",
-          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOZVlOSEkxNGstaTM2Q3VEanN0czdKVk5RSmFUVUVvcUR2ZFRYb1N5TjRMa0owOUxoVmQwRWZlYmtKd1V5Q0I5ZFNGOE54ZXIwaGF6R0JleEtrTVg2OG5jSXFiTXJKaUk5aDI2Vy16R0pINEt0eFVWX2ZyemJuV2Fla1ZzaWVCa0c5Q1AzR19tRWpJM2U2TlhCYi1pdjdUY3FpQXV1Y2FwSUduTEk?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-13T00:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "14b77571fcf8214a",
-          "title": "Per ex OpenAI researcher, DeepSeek, Kimi, MiniMax, Ling models are all trained on Nvidia chips",
-          "url": "https://reddit.com/r/singularity/comments/1xur25o/per_ex_openai_researcher_deepseek_kimi_minimax",
-          "source": "reddit-singularity",
-          "published_at": "2026-11-12T22:40:45.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "1dd87fefc0ad16fe",
-          "title": "Analysis of open weights: six models from DeepSeek, Moonshot, MiniMax, and Ant Group released since April carry fingerprints of export-controlled Blackwell GPUs (Will DePue/Unemployment Labs)",
-          "url": "https://techmeme.com/261112/p62",
-          "source": "techmeme",
-          "published_at": "2026-11-12T22:30:04.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "d7db56090eecfc26",
-          "title": "JUST IN: Companies tied to Alice Huang invested in DeepSeek and promised to supply it with Nvidia chips, The Information reports.",
-          "url": "https://reddit.com/r/technology/comments/1xummnw/just_in_companies_tied_to_alice_huang_invested_in",
-          "source": "reddit-technology",
-          "published_at": "2026-11-12T19:45:01.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c538d9e1facd16f7",
-          "title": "Sources: firms tied to Alice Huang recently invested in DeepSeek, to forge closer ties and supply Nvidia's Blackwell chips, which are banned from sale to China (The Information)",
-          "url": "https://techmeme.com/261112/p37",
-          "source": "techmeme",
-          "published_at": "2026-11-12T15:35:02.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "banned"
-          ],
-          "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "openai",
-      "name": "OpenAI",
-      "headlines": 26,
-      "index": -4,
-      "mean_headline": -0.5,
-      "sample": [
-        {
-          "id": "045b6fb0542f5eaf",
-          "title": "\"OpenAI is going to eat Microsoft alive\": Elon Musk’s old tweet goes viral amid global...",
-          "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxPbmFnY3BLVFRPU2h1UGpZT0FxZHFhRk54b1V2QzhGcTZCMzJXME1jZmdKcXZJTmh3Yy1JaTNpNUJrSHBfMzRKZDRjOUszb21SaG53QVRpa2NOOXFRQlQ5Y0dwRER5cGFNN3p4c1VWd1hHaGVLT2lrWGFqbVdrbjBRLUFjMmdJTHdIdHJFeEdQbVBETUoxUXVkRV9ycmo2VWtJb0NhRVgyRGhRcnlBZFVudEljSzVueUZZRkR4YkFCTnRnbFJ1RFZ2YUZRVjNkTGVNWDlfMFVSU2ZWZDBuc0FHUDZVOFYwS3NPQmVHX0ZpaDhhNGJpTmgwQ9IB_gFBVV95cUxOb3E5aTJVVThfR0Nnb3d1U1pzdGYtSDB4cTlYTDFOUktCc2NiMmtLWVpkSlcwdVlGblNLNHZDMGdTREJDTEJUM3N4b3hDNVgzT1RNcTVPWGpxc1NySC0tSjItb04zd2JteGlEbUlHTHc5Sm1NQ2RvS094RW51SzFQLU5xMUthcFdwcU5fNEwtUDR5WUtWTWNLcHZBX2ZjTGJaVld0WjU5R3d3MEFvNjJYTFBYSk9zdElqMHVQMDl6YWNLY0lNMXM0U1QwMHlkV29nRjFlME9hWG5mZWozZWtUTEZEU2dzZDduaTJKOHFtT1pJVUdyUURPU1oybFA2Zw?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T06:17:44.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "30166b954d760ab7",
-          "title": "OpenAI status: Sites: Publishing failing",
-          "url": "https://status.openai.com//incidents/01M79GYA0GA772Y6D089AH5478",
-          "source": "openai-status",
-          "published_at": "2026-11-13T05:55:44.846Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "0148d6a1027cde8d",
-          "title": "OpenAI Runs 500+ AI Agents Like Contractors: Its 5 Controls",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPMmxNdy04Zl9lQXZ6RlQ3U0RVblNBNW1iUVZSSEMtR1BUTXRaZUZ3WUhJdm84S0ZCS0gxMXJ4MVdXcXhxRzJMaWhnNGtEY0F1ckswUjNVREdBUXk3Y3FlbXhxaW5FLWxPUXBIU3ZpMGMzb0xUX0d4YVJkUERwUEVhMUZoUHNsd2c3bXlPdFVn?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:36:53.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ba1eb40a52daa44e",
-          "title": "OpenAI’s Newest Feature Enables Business Owners To Set Up Shop In ChatGPT And Connect With 1.2 Billion Prospective Customers",
-          "url": "https://news.google.com/rss/articles/CBMihAJBVV95cUxNUV8tbUM0YXlrVzEtUkNkdUJXQUpmcjFLZzlUY01wZlQ3RE10ckVZRGxnSzJibmlBbHA2TnRmcWRneFhHT3JxcWFFTm9TcmdjYXJvdGxKU3ZodFRKUEg4N185WF9xZVhEUmN5UkhCZUY2V2I5ekE5TDRnUmZwdzZzQnd0ekNGVmFELXUtQjRScDBJenF5R1k4YjhjYzBSV1dLNnRVLU05bGZva0E1STl0azRDWFU1RnE3Mnk2XzQ2eXVPMmpCQUhra3J2QnZTTDJ1ZUNpc0ZIc0UxY0JNYm1Nc2Rqb0Q0SjA0X042RWlnTUhGd3d0bnRzdDRvV3dVQU5EY3dROQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:36:37.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "b3b704baff64beaf",
-          "title": "Microsoft experienced a massive outage that lasted for hours! OpenAI and Anthropic were also affected, and the governments of Japan and Singapore were impacted.",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQSVJidUZHd256TFJKZW5LWktGdEgtNy1xVXYwamhXczBvd0hvcTVVRi1VVTlpNzhHeF9MMElieFVQYWh5dER3M212UmFTNjBoUlZMdmVmR1Q1TGxzc0M4d05laXhVNUlqWHZPeG5VUmlBczNxY2NiLW1iZXBRZmNYM25Jdk1aWkozd0ZOWWh6Y1A3RGJEaERHS0pMeGltTWlNMFVObnZEQkY4TmxTZHg4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:34:35.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "87f6c6fc773eb4e8",
-          "title": "OpenAI board member warns AI could take over in 6 months and kill humans by accident",
-          "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxNT2xZTGJaTTZiRzRwcUZuZkk2NDBYQ0M5NXIyckRyRmdSRkJsY2RsM2dpcWZxQ2laUXh5SEtWOTljcURWYXBqbzByTzNhSEZpcFdjbWxTVFpveHNZWVZtVTJCZmJHd2lFMHV3cFkweTBSYlMycEJmUGVJSUFsVG5zdzgzaHhjZlVZRWJOWG9qTnZHbGV4cFZqcXRfTFpKS1otdEs3c2s1UkViVzJBZTYzLTZWUFhjZzJRYnVTWVR3cUd4UUV2c0NqUmxiRDMyNGoydHBLU29TMmU5RnZ2OFpvemxBd0hvUdIB6wFBVV95cUxPT2tfTk1HOWZENjVlcGlnMWhiMUwyZGlfRjVYZnloNDRkWVVZTTlVenV6NUhUMkYxVEV1RVExWXlaekN2a2xsYW41bGMzNnF3RngwNEg0a3UtUnIyeHhaejNPaG1ESVVLbGRaU2dCUHlHcHlnZXRmT1Q0cElWSzdhTEpzd18zMHg1YjI2UGU0SGI2M3k4RzBVMWlQX0VJRGpDZENfVkxiOS04U3RuLW5YOFZvSktYbE1fMlItRXMtM2N2S0p0aExqNTRwQ0xLb3JHZk9vVzRGSHZqSW1HVnJpM3NxRjF5NFBCaS1n?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:07:45.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "warns"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "55f5c52e66c91e30",
-          "title": "OpenAI backs US bills to tighten AI chip export controls to China",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFB0VE52NlRkN3p1S3VuUXd2UlNpZFI1cndJS2VOaEF4OHYwRVRna1RhUmR4cWQzb0UxbGVkSTJabmROV21wN0NYNHBCd1Zzd2ZFdlM3amhPdWxVNXZkc2lKZ0VTQ2ZCSS1ud0FreVhKQTcxUHpWYmxhb2930gGOAUFVX3lxTE85b3pRYmF1cHI4YnNqSlNpWHVCc1hyZlFJS0p6cUtYbEVXa2poWWFzZWJiUlNJbHlGdF91dGJEN29BMXY4bFBqOWx6U3BpVW9xMEM5MFdoUUtfd0RrRk9mTy1uMm82cGFQN2xjVkhHYzc3MlY5U3g0Y01UT29WNnJpWGxIR193cUU5dWZ5TkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:02:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "263ddd695146468c",
-          "title": "Microsoft Outage Triggers Chaos Across Outlook, Teams and Copilot — Spills Over to OpenAI and Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOd2VIOGtCbGo5eElKWlV5LUFGcU91Y3BTUHRKUk9KaVVkZS0xQURXNkpsZGtmZTNhNm9PcjFRcWJrUGc2S01QS0RTdmRnT3pENW5FNFB1aURjbm43ZjRnbXRpTnlvSzhITWxCVFFfNEJ5dHJfcG9FSGFQWURleHlnS29mQXJzVU9qa1M5cGZfSWhfT0E1dkx3dmFnUnBDMlZVdnFFU2JfZm5lRFJjXzM2eEdEc2hGVUhlXzBJWDZOUEVaS0pOOEJEbkg3aG5GMGpsUF9KYjlSX0ZRNnpNX3B4bWlRbFF0WVp4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:41:39.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        }
-      ]
-    },
-    {
       "id": "microsoft",
       "name": "Microsoft",
-      "headlines": 35,
-      "index": -24.9,
-      "mean_headline": -3.1,
+      "headlines": 43,
+      "index": -26.2,
+      "mean_headline": -3.3,
       "sample": [
+        {
+          "id": "bf811be0093812a5",
+          "title": "What happened overnight with the Microsoft global outage",
+          "url": "https://bbc.co.uk/news/videos/cwm2591k27e2o",
+          "source": "bbc-tech",
+          "published_at": "2026-11-13T07:18:17.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "e95a1a1d7762332c",
+          "title": "What we know about the global Microsoft outage",
+          "url": "https://bbc.co.uk/news/articles/cwvg238zrnm5o",
+          "source": "bbc-tech",
+          "published_at": "2026-11-13T07:12:10.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "4257f5acd54e2b18",
+          "title": "Microsoft Outage Gums Up Markets, Forces Traders to Use Phones",
+          "url": "https://bloomberg.com/news/articles/2026-11-13/microsoft-outage-gums-up-markets-forces-traders-to-use-phones",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-13T07:00:08.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "f5adf00909fbbce4",
+          "title": "Microsoft outage: As cyberattack and rogue AI theories go viral, Copilot EVP Charles Lamanna reveals what",
+          "url": "https://news.google.com/rss/articles/CBMi1AJBVV95cUxNSDE5NjZJX2RQNlhvZUx0SW9vQ0E4UTFjTFFKUDluSXZuV2g3LVF0M2FGZm8xMlZQUXdMTVBXX2JuYlYtWlN2STc5dV92RGE1UmgwYVhodDZJZjd4dEdiaXNaUlJjVU1UOWtjNW1zUlV4WS1WVU9KMGpJTUJjZ2NST0d1dWRIa2dxMjctZlhOVVNvck4zdXhKaUZnQlRwekx3ZkVwOUEzc0ZqU2RSNDJHVG5uSVI2a0ZjbDFaaUQ1VVNrSU5Uc0N3Yk5YaEVia1VSaU8wdEdVcmc5NFhwYUZNc3FQVkNtQWlSTFJramNiVHBFY1RFTTdEODV2SldWdXJGSndiMUE4ZFRNMm53ZVQ2S3d2WGduOW5HdDMtMW9pYnpZN1hiTG5rc2FBZHZESHRwSU1UNWstOVBNNkowTk1XUTdIZDRaWjVoYkx2MnBpUEUxNldC0gHaAkFVX3lxTE5Ia2M5d2xvX3YxUm80amU0TEpKYkVndXd6NmtLdFU4X2xRRHM2TThyaHRfdEx5a0R6RXFwZlpvU2pxcXZnaHh4ZDRoazRHb2pfeGt5Sk9IZzhqTHB1dFBoREI4clhLRTJzRC1Jc0tiSXFuYlNrNEx3S2I4M2N3dWlfZWpKOTk0TVNXXzRfb2NPMEFIWmxUSTJNdERXb0dwbGphLWozRGxLQ2Q5NFVtdWlWdWZudXZMX05lSjBaYjNieW0tNndaSVRTaUd5OFFjbHZuYlVKRUQ1bUU0bkVSbHFnS3p4emt1UUpWRy05djdfeV9yUW01c0NTSGRVTXhRUGtEbldYc0JrUXFnYnhSdnhIeGNET016TXNYQ3NFa2ZsbF9ScEFUbjhWeGRfLXNoTjM4T3g1Z3o1di1xTXJxdVBra1dUSFBzZG9SaUZ2RHc3R2V6RXItZHJfOGc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:58:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "54d00899552df262",
+          "title": "Microsoft's massive outage hits government agencies and businesses across three continents",
+          "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1lUVFueFhnRXZsYUpra0JETXhoWTFsMTZKdk5RVUx6RW1qWHRSMFE5LXJTZWdwSkcxeXVFZ19idFhqQmhyVGhPTDhqTmd5amtEcTRIbDY2OHZBaE5DX0o3eWV3WXo5MVU?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:41:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "02c191c467f5344e",
+          "title": "Major Microsoft outage disrupts Teams and Outlook as thousands of users affected",
+          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQTlRMa0JVelpBOVhraUdSaDJ5Z2hxUjE0VmJYQWxCUUFYRzVZWUllNFFxNlU4U2s1NDBDREFyYVU1RXRXdUpNQktMXzBNSmMxeTN2THZidHEwLWliUm9YbWFHbFlEUm9zVXBocmZTRi1Xbm94YnRXVG1mREtLUVpEaFJ5eWdlS0JhcW1HbzlOOXNXN2haeThVVC1wR3l6OWNlOGduWXlkbTFETVVrVG1Wb1JRLXU5d3BIQk9uVnN4cVJkeW8?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-13T06:35:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "c5011e984257faa1",
+          "title": "Global Microsoft Outage",
+          "url": "https://cnn.com/2026/11/12/business/live-news/microsoft-global-outage-intl-hnk",
+          "source": "hn-fresh-ai",
+          "published_at": "2026-11-13T06:18:23.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "outage"
+          ],
+          "clickbait": []
+        },
         {
           "id": "045b6fb0542f5eaf",
           "title": "\"OpenAI is going to eat Microsoft alive\": Elon Musk’s old tweet goes viral amid global...",
@@ -1793,98 +1905,6 @@
           "score": 0,
           "positive": [],
           "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "58f3fb5a5dd34c44",
-          "title": "Microsoft says attempts to fix global outage not going 'as expected'",
-          "url": "https://bbc.com/news/live/cq5y10ge3dp3t",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-13T06:12:02.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "8b56df992ce54301",
-          "title": "Microsoft outage hits Outlook and Teams, disrupting ChatGPT and Claude links",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1vX0FBZFNFMy03cVI0NklvNkNEcmRDbExzTV9ld1dvLW55NnhEd1R1ZXcweDBrc3p5VTFWLUNrajNMZDI4T1lzbUxtUDBOdktEMnZ1YlBGOXRKY1o1aVBkNHk2U0Vnek8yMXB0UTZzTVBnc3pwSUVsWE1n0gGOAUFVX3lxTE01cmJGamNYbU1CWktHWnVUUzBrN0V4dkozS0FVWWdtcXdZeTFCVTFHZjRnV29MQ1ZhSmxUY3h1YlhtTUlORUMyNDZSNnIwbW5kV1JoY3BLeWxJMFVZNXRQeUVjRC1zMjN0Vjk4RHRvejNqeWVDQ20tRTdSeldFNy1XN1JRRUxJRktQNGg4b3c?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:58:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "b3b704baff64beaf",
-          "title": "Microsoft experienced a massive outage that lasted for hours! OpenAI and Anthropic were also affected, and the governments of Japan and Singapore were impacted.",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQSVJidUZHd256TFJKZW5LWktGdEgtNy1xVXYwamhXczBvd0hvcTVVRi1VVTlpNzhHeF9MMElieFVQYWh5dER3M212UmFTNjBoUlZMdmVmR1Q1TGxzc0M4d05laXhVNUlqWHZPeG5VUmlBczNxY2NiLW1iZXBRZmNYM25Jdk1aWkozd0ZOWWh6Y1A3RGJEaERHS0pMeGltTWlNMFVObnZEQkY4TmxTZHg4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:34:35.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "f2c5394227f8c38e",
-          "title": "Is ChatGPT down because of the Microsoft outage? Only its Microsoft 365 connector, and Claude's too",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPc1dhZ2ktbXFVZEtPTXFmbTg0QWNsZnhRQ0Z4T25uOUR6VThlODNzOUszUHF3T29TU2VDYkNQU0FoWTE2OWdQSXdDaDhDOG5LUTI1Wmk2NUpIbHhIRHdrc0RkNnF3dEg0TmtrVEJwQ2J3MktfSUp6YXYwdE1CbHN5VUJlSW90ejA1M2JBVnBJUGxnRkl3TTJaUFlBdElqTnN5cExwOEMzWk9fd3NIS2c?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T05:29:27.000Z",
-          "score": -8,
-          "positive": [],
-          "negative": [
-            "down",
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "6985055dec20b2f2",
-          "title": "Microsoft battling to fix global Outlook outage",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNTHdNejdlVmFySll1b2c0cHc1Rmd1STFDNGJUWXFUUGJpMGQwdlNOcHVxX0JVMDdKV0lPTTlseU9NWXhiRDdDUWkzUVBRcU9YRTFRUHVmVnJ5WXFBd2lOTWxjbWVYSXJOdUVNN1pqbGlySHV2RGNZZ2FDTmRHelByMENja0labExNZ3NOLTJhdlVBUUJ2d2FBVUF3?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-13T05:11:22.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "56cd93f5a7ab89e5",
-          "title": "Microsoft Outlook/365 still down after 12 hours",
-          "url": "https://twitter.com/MSFT365Status/status/2121079061774491735",
-          "source": "hn-fresh-ai",
-          "published_at": "2026-11-13T05:08:23.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "down"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "263ddd695146468c",
-          "title": "Microsoft Outage Triggers Chaos Across Outlook, Teams and Copilot — Spills Over to OpenAI and Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOd2VIOGtCbGo5eElKWlV5LUFGcU91Y3BTUHRKUk9KaVVkZS0xQURXNkpsZGtmZTNhNm9PcjFRcWJrUGc2S01QS0RTdmRnT3pENW5FNFB1aURjbm43ZjRnbXRpTnlvSzhITWxCVFFfNEJ5dHJfcG9FSGFQWURleHlnS29mQXJzVU9qa1M5cGZfSWhfT0E1dkx3dmFnUnBDMlZVdnFFU2JfZm5lRFJjXzM2eEdEc2hGVUhlXzBJWDZOUEVaS0pOOEJEbkg3aG5GMGpsUF9KYjlSX0ZRNnpNX3B4bWlRbFF0WVp4?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-13T04:41:39.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "outage"
-          ],
           "clickbait": []
         }
       ]
