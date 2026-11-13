@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_at": "2026-11-12T17:11:37.462Z",
+ "generated_at": "2026-11-13T10:45:43.846Z",
  "services": [
   {
    "id": "openai",
@@ -9,12 +9,22 @@
    "page": "https://status.openai.com",
    "api": "https://status.openai.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "none",
-   "description": "All Systems Operational",
-   "updated_at": "2026-10-16T20:01:40Z",
+   "indicator": "minor",
+   "description": "Partial System Degradation",
+   "updated_at": "2026-11-12T18:29:14Z",
    "degraded": [],
    "components": 25,
-   "incidents": [],
+   "incidents": [
+    {
+     "name": "Elevated errors affecting the Microsoft 365 connector",
+     "impact": "minor",
+     "status": "investigating",
+     "started_at": "2026-11-12T18:29:14Z",
+     "updated_at": "2026-11-12T18:29:14Z",
+     "url": null,
+     "latest": "We’re investigating an issue with Microsoft connectors where new connections may be broken and tools are not working as expected. We’ll share an update when we know more."
+    }
+   ],
    "maintenance": 0,
    "error": null
   },
@@ -25,12 +35,48 @@
    "page": "https://status.claude.com",
    "api": "https://status.claude.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "none",
-   "description": "All Systems Operational",
-   "updated_at": "2026-11-12T16:59:58.026Z",
-   "degraded": [],
+   "indicator": "major",
+   "description": "Partial System Outage",
+   "updated_at": "2026-11-13T10:23:20.427Z",
+   "degraded": [
+    {
+     "name": "claude.ai",
+     "status": "major_outage"
+    },
+    {
+     "name": "Claude Console (platform.claude.com)",
+     "status": "partial_outage"
+    },
+    {
+     "name": "Claude Code",
+     "status": "partial_outage"
+    },
+    {
+     "name": "Claude Cowork",
+     "status": "degraded_performance"
+    }
+   ],
    "components": 9,
-   "incidents": [],
+   "incidents": [
+    {
+     "name": "Elevated errors on claude.ai, Claude Code, and platform.claude.com",
+     "impact": "major",
+     "status": "investigating",
+     "started_at": "2026-11-13T09:58:58.049Z",
+     "updated_at": "2026-11-13T09:58:58.258Z",
+     "url": "https://stspg.io/6kqyd0c5b1gr",
+     "latest": "We are investigating an issue with users authenticating to Claude.ai and Claude Code. We will provide an update as soon as possible."
+    },
+    {
+     "name": "Elevated errors affecting the Microsoft 365 connector",
+     "impact": "major",
+     "status": "identified",
+     "started_at": "2026-11-12T17:52:44.926Z",
+     "updated_at": "2026-11-12T23:54:26.992Z",
+     "url": "https://stspg.io/m0rbx38nmy1c",
+     "latest": "This issue is caused by a Microsoft 365 service incident, and mail, calendar and search tools in the Microsoft 365 connector are still failing for most requests. Claude for Outlook remains affected. You can follow Microsoft's progress at https://status.cloud.microsoft. We will up"
+    }
+   ],
    "maintenance": 0,
    "error": null
   },
@@ -43,7 +89,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-11-12T16:59:32.855Z",
+   "updated_at": "2026-11-13T07:09:26.798Z",
    "degraded": [],
    "components": 12,
    "incidents": [],
@@ -59,7 +105,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-11-12T17:11:32.460Z",
+   "updated_at": "2026-11-13T10:45:33.849Z",
    "degraded": [],
    "components": 11,
    "incidents": [],
@@ -139,7 +185,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-11-12T16:59:42.593Z",
+   "updated_at": "2026-11-13T08:54:37.905Z",
    "degraded": [],
    "components": 59,
    "incidents": [],
