@@ -2287,7 +2287,7 @@ async function main() {
       'watts', 'map', 'world', 'leaders', 'flock', 'exploits', 'jobs', 'medicine',
       'about', 'classic', 'embed', 'guide', 'library', 'press', 'brand', 'desk',
       'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
-      'p-doom', 'pdoom', 'ai-doomsday-clock', 'doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
+      'p-doom', 'pdoom', 'ai-doomsday-clock', 'doomsday-clock', 'arena', 'scanner', 'monitor', 'elon', 'flights',
       'game', 'bunker-kit', 'alerts', 'export', 'evidence', 'moltbook', 'staff', 'careers',
       // FINDABILITY #133 — /ai-doom /doom-index typed guesses.
       'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'vs', 'guides',

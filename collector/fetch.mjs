@@ -171,7 +171,7 @@ function hostGate(url) {
   return next;
 }
 
-async function attemptOnce(url, { method, headers, timeoutMs, body: reqBody }) {
+async function attemptOnce(url, { method, headers, timeoutMs, body: reqBody, binary }) {
   // Refuse localhost / metadata / non-HTTPS before any socket opens.
   // TypeError from assertSafeUrl becomes a non-retryable FetchError below.
   let safe;
@@ -213,7 +213,8 @@ async function attemptOnce(url, { method, headers, timeoutMs, body: reqBody }) {
 
   let body;
   try {
-    body = await res.text();
+    // A zip archive (flights/collect.mjs) is bytes; an error page is still text.
+    body = binary && res.ok ? Buffer.from(await res.arrayBuffer()) : await res.text();
   } catch (cause) {
     // Headers arrived, the body did not — a reset mid-stream. Transport class.
     throw new FetchError(`network error reading body: ${cause?.message ?? String(cause)}: ${url}`, {
@@ -278,6 +279,15 @@ function normaliseOpts(opts = {}) {
 export async function fetchText(url, opts = {}) {
   const res = await withRetry(url, normaliseOpts(opts));
   return opts.withMeta ? { data: res.body, status: res.status, headers: res.headers, url: res.url } : res.body;
+}
+
+/**
+ * GET a URL and resolve with its body as a Buffer. Throws FetchError.
+ * Used for the monthly BTS zip archives (flights/collect.mjs).
+ */
+export async function fetchBytes(url, opts = {}) {
+  const res = await withRetry(url, { ...normaliseOpts(opts), binary: true });
+  return res.body;
 }
 
 /**
