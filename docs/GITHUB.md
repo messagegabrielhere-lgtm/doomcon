@@ -19,6 +19,7 @@ For first-time setup see [GO-LIVE.md](GO-LIVE.md). For posting credentials see
 | `arena-data` | Paper-trading state (orphan, force-pushed) | `arena` |
 | `scanner-data` | Stock snapshot for `/scanner.html` (orphan, force-pushed) | `scanner-stocks` |
 | `investors-data` | Fund / ARK / Congress trade snapshot (orphan, force-pushed) | `investors` |
+| `flights-data` | Flight on-time snapshot for `/flights.html` (orphan, force-pushed) | `flights-data` |
 
 Never merge `gh-pages`, `arena-data`, `scanner-data`, or `investors-data` into
 `main`. They are publish targets, not history.
@@ -35,6 +36,7 @@ Never merge `gh-pages`, `arena-data`, `scanner-data`, or `investors-data` into
 | `arena` | `*/5` | `arena` | `arena-data` | optional model keys |
 | `scanner-stocks` | US session + after close | `scanner-stocks` (cancel ok) | `scanner-data` | none |
 | `investors` | weekdays `12:17` + `23:47` | `investors` | `investors-data` | none (`SEC_UA` variable optional) |
+| `flights-data` | Mondays `09:23` | `flights-data` | `flights-data` | none |
 | `clipper` | `:04,:19,:34,:49` | `clipper` | Actions cache only | YouTube + Anthropic |
 | `compliance` | every push/PR; Mondays `13:17` | PR runs cancel stale | none | optional `COMPLIANCE_PII_TERMS` |
 | `ops-health` | Mondays `15:00` + manual | — | job summary only | none |

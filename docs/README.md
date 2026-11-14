@@ -53,6 +53,7 @@ its own Git branch for JSON so the main branch stays small.
 | [`scanner/`](../scanner/) | `/scanner.html` | Stock candles + a read-only crypto gap monitor | `scanner-data` |
 | [`investors/`](../investors/) | (inside Arena) | SEC 13F, ARK holdings, House stock disclosures | `investors-data` |
 | [`monitor/`](../monitor/) | `/monitor.html` | World news / hazards map and country stress index | `monitor-data` |
+| [`flights/`](../flights/) | `/flights.html` | Flight numbers graded on their 12-month on-time record (BTS) | `flights-data` |
 | [`elon/`](../elon/) | `/elon.html` | Index of YouTube channels that post Elon clips (by uploader) | `elon-data` |
 | [`clipper/`](../clipper/) | — | Optional tool: cut your own YouTube videos into Shorts | (Actions cache) |
 | [`agent-kit/`](../agent-kit/) | `/agents.html` | Zero-dep CLI + MCP so other AI agents can read/cite SIREN | (none — talks to the live API) |
@@ -106,7 +107,7 @@ These docs guide **wording and design**, not the scoring engine:
 | `news-fast.yml` | Faster news refresh |
 | `compliance.yml` | Legal/policy audit on every push |
 | `post-daily.yml` | Optional daily X/Bluesky post (needs secrets) |
-| `arena.yml` / `scanner-stocks.yml` / `investors.yml` / `monitor-data.yml` / `elon-clips.yml` / `clipper.yml` | Side-project data or publishing |
+| `arena.yml` / `scanner-stocks.yml` / `investors.yml` / `monitor-data.yml` / `flights-data.yml` / `elon-clips.yml` / `clipper.yml` | Side-project data or publishing |
 
 ---
 
