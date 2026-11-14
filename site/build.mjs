@@ -64,6 +64,7 @@ import { items as faqItems } from './templates/_faq.mjs';
 import { TILE_ICONS, tileSvg } from './tileicons.mjs';
 import { writeExtras, EXTRAS_PAGES } from './extras.mjs';
 import * as topicPages from './templates/topicPages.mjs';
+import * as answerPages from './templates/answerPages.mjs';
 import * as shopPages from './templates/shopPages.mjs';
 import * as betsPage from './templates/betsPage.mjs';
 import { faqCss } from './templates/_faq.mjs';
@@ -222,6 +223,14 @@ import * as itemPage from './templates/itemPage.mjs';
 import * as mapPage from './templates/mapPage.mjs';
 import * as leadersPage from './templates/leadersPage.mjs';
 import * as newsSitemap from './templates/newsSitemap.mjs';
+import { ITEM_PAGES_INDEXABLE } from './templates/itemPage.mjs';
+
+// Item pages are noindex while ITEM_PAGES_INDEXABLE is false (see itemPage.mjs).
+// A news sitemap listing noindex URLs is a Search Console error, so it ships empty.
+function newsSitemapCtx(ctx) {
+  if (ITEM_PAGES_INDEXABLE || !ctx.news) return ctx;
+  return { ...ctx, news: { ...ctx.news, items: [] } };
+}
 import * as openapi from './templates/openapi.mjs';
 import * as agentText from './templates/agentText.mjs';
 import * as agentDiscovery from './templates/agentDiscovery.mjs';
@@ -1772,7 +1781,7 @@ async function main() {
     }
     // FINDABILITY #106 — full sitemap.xml (6k+ locs) stays on the hourly full
     // pass; news-only keeps the Google News window + robots tips fresh.
-    written.push(await write(args.out, 'news-sitemap.xml', newsSitemap.render(ctx)));
+    written.push(await write(args.out, 'news-sitemap.xml', newsSitemap.render(newsSitemapCtx(ctx))));
     // FINDABILITY #95 — robots tip comments (#79) must not depend on SEO overlays
     // after a newsroom Publish; rewrite with the same tip shape as the full build.
     written.push(await write(args.out, 'robots.txt', robots(ctx)));
@@ -1902,6 +1911,11 @@ async function main() {
   for (const key of ['jobs', 'medicine']) {
     if (topicPages.hasTopic(ctx, key)) written.push(await write(args.out, `${key}.html`, topicPages.render(ctx, key)));
   }
+  // US head-term answer pages (answerPages.mjs).
+  for (const slug of answerPages.SLUGS) {
+    written.push(await write(args.out, `${slug}.html`, answerPages.render(ctx, slug)));
+  }
+
   written.push(await write(args.out, 'about.html', infoPages.about(ctx)));
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
   written.push(await write(args.out, 'terms.html', infoPages.terms(ctx)));
@@ -2329,7 +2343,7 @@ async function main() {
 
   written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
   // Google News channel. Empty file is still valid XML so crawlers never 404.
-  written.push(await write(args.out, 'news-sitemap.xml', newsSitemap.render(ctx)));
+  written.push(await write(args.out, 'news-sitemap.xml', newsSitemap.render(newsSitemapCtx(ctx))));
   written.push(await write(args.out, 'robots.txt', robots(ctx)));
   written.push(await write(args.out, 'openapi.json', openapi.render(ctx)));
   written.push(await write(args.out, 'feed.xml', feed.render(ctx)));

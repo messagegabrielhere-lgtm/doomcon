@@ -19,6 +19,15 @@
 // the newspaper. Those pairs are labelled MECHANICAL and excluded from any
 // lead claim; only independent carriers count.
 
+// 2026-11-14 — Search Console verdict: Google indexed 690 of ~15,000 known
+// URLs and left ~10,000 as "Discovered/Crawled – currently not indexed"; 5,851
+// of the 6,770 sitemap URLs were these item pages (28 days: 52 impressions, 0
+// clicks). Google reads them as excerpts of other sites' reporting, and a site
+// that is mostly such pages drags its real pages down with it. Until the site
+// earns authority, item pages stay up for readers but are noindex,follow and
+// out of both sitemaps. Flip to true to restore the long tail.
+export const ITEM_PAGES_INDEXABLE = false;
+
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
@@ -353,6 +362,7 @@ export function render(ctx, item, related = []) {
     ctx,
     path,
     title: `${item.title} — ${brand.PUBLICATION}`,
+    noindex: !ITEM_PAGES_INDEXABLE,
     description: `${clipX(String(item.summary || item.title), 140)} ${hasScore(item)
       ? `Scored ${num(item.score, 1)} of 100 by the ${brand.NAME} AI activity index.`
       : `Indexed by the ${brand.NAME} AI activity index; ${UNSCORED}.`}`,
@@ -516,7 +526,7 @@ export function renderArchivePage(ctx, pageNum = 1) {
     path,
     title,
     description,
-    noindex: slice.length === 0,
+    noindex: slice.length === 0 || !ITEM_PAGES_INDEXABLE,
     jsonld: [{
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',

@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import {
   ARCHIVE_PAGE_SIZE,
+  ITEM_PAGES_INDEXABLE,
   archivePageCount,
   archivePagePath,
   archiveSitemapEntries,
@@ -76,7 +77,9 @@ describe('item archive hubs', () => {
     assert.match(page1, /"@type"\s*:\s*"FAQPage"/);
     assert.match(page1, /speakable/);
     assert.match(page1, /not a probability of harm/);
-    assert.doesNotMatch(page1, /noindex/);
+    // Archive hubs follow item indexability (itemPage.ITEM_PAGES_INDEXABLE).
+    if (ITEM_PAGES_INDEXABLE) assert.doesNotMatch(page1, /noindex/);
+    else assert.match(page1, /noindex,follow/);
     assert.doesNotMatch(page1, /doom score:\s*\d/i);
     const locs = archiveSitemapEntries(ctx).map((e) => e.loc);
     assert.deepEqual(locs, ['/item/archive.html', '/item/archive-2.html', '/item/archive-3.html']);

@@ -1,4 +1,4 @@
-import { slugFor, archiveSitemapEntries } from './itemPage.mjs';
+import { slugFor, archiveSitemapEntries, ITEM_PAGES_INDEXABLE } from './itemPage.mjs';
 import { SUPPLY_CATEGORY_PATHS } from '../../supply/seo.mjs';
 import { sitemapEntries as facetEntries } from './facetPages.mjs';
 import { sitemapEntries as countryEntries } from './countryPages.mjs';
@@ -9,6 +9,7 @@ import { sitemapEntries as dayEntries } from './dayPages.mjs';
 import { sitemapEntries as tagEntries } from './tagPages.mjs';
 import { sitemapEntries as kindEntries } from './kindPages.mjs';
 import { sitemapEntries as outletEntries } from './outletPages.mjs';
+import { sitemapEntries as answerEntries } from './answerPages.mjs';
 // sitemap.xml. Head pages always; move pages only when substantive, matching
 // the noindex decision in move.mjs exactly. Submitting thin pages you have
 // already told Google not to index is a way of looking like you do not know
@@ -169,11 +170,12 @@ export function render(ctx) {
   entries.push(...tagEntries(ctx));
   entries.push(...kindEntries(ctx));
   entries.push(...outletEntries(ctx));
+  entries.push(...answerEntries(ctx));
 
   // Every scored item is an indexable page. Live window + durable archive
   // (data/item-archive.json) so the long tail grows instead of churning off
   // when the mobile newsroom cap binds (FINDABILITY.md / COMPETITIVE-SEO.md).
-  if (ctx.news && Array.isArray(ctx.news.items)) {
+  if (ITEM_PAGES_INDEXABLE && ctx.news && Array.isArray(ctx.news.items)) {
     entries.push({ loc: '/item/', changefreq: 'hourly', priority: '0.7', lastmod: ctx.news.generated_at });
     const seen = new Set();
     for (const it of ctx.news.items) {
