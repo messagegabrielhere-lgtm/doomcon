@@ -84,15 +84,15 @@ export const PAGES = {
     pillar: 'compute',
     sections: [
       ['How much is being spent?',
-        `<p>Microsoft, Amazon, Alphabet and Meta, plus Oracle, guided toward a combined $635–690 billion of capital spending for 2026, up 67–74% on 2025, with about three-quarters of it for AI infrastructure. Goldman Sachs put total AI capital spending near $765 billion for 2026, about 2.4% of US GDP. (${a('https://longyield.substack.com/p/the-ai-capex-boom-bubble-or-infrastructure', 'LongYield')}; ${a('https://www.fool.com/investing/2026/07/16/is-the-ai-infrastructure-build-out-a-bubble-heres/', 'Motley Fool')})</p>`],
+        `<p>The five biggest cloud spenders, Microsoft, Amazon, Alphabet, Meta and Oracle, were on track for $600–700 billion of capital spending in 2026, up roughly 60% on 2025, with about three-quarters of it for AI infrastructure. Goldman Sachs put total AI capital spending near $765 billion for 2026, about 2.4% of US GDP. (${a('https://www.mobileworldlive.com/microsoft/feature-data-centre-spending-spree-shows-no-sign-of-slowing/', 'Mobile World Live')}; ${a('https://algeriatech.news/hyperscaler-gpu-obsolescence-capex-cycle-2026/', 'Algeria Tech')}; ${a('https://www.fool.com/investing/2026/07/16/is-the-ai-infrastructure-build-out-a-bubble-heres/', 'Motley Fool')})</p>`],
       ['Why do people call it a bubble?',
         `<p>Spending is growing much faster than revenue. For the four largest cloud companies, 2026 plans implied capital spending growth around 80% against revenue growth around 15%. One estimate puts 2026 AI revenue at $80–120 billion against roughly $450 billion of AI capital spending, and the chips wear out within a few years. (${a('https://www.futuriom.com/articles/news/ctp-is-hyperscaler-ai-spending-sustainable/2026/04', 'Futuriom')}; ${a('https://philippdubach.com/posts/ai-capex-arms-race-who-blinks-first/', 'Philipp Dubach')})</p>`],
       ['Why do others say it is not?',
         '<p>The spenders are some of the most profitable companies in history and pay largely from cash flow, demand for computing still outruns supply, and AI revenue is growing quickly from a small base. A bubble is only certain in hindsight; the numbers above show the gap, not when or whether it closes.</p>'],
     ],
     faq: [
-      ['Is AI a bubble?', 'It is disputed. In 2026 the largest tech companies planned roughly $635–690 billion of capital spending, mostly for AI, while AI revenue was a fraction of that. Critics call that gap a bubble; defenders point to profits, cash flow and demand.'],
-      ['How much are tech companies spending on AI in 2026?', 'Microsoft, Amazon, Alphabet, Meta and Oracle guided toward a combined $635–690 billion of capital spending for 2026, about three-quarters of it for AI infrastructure.'],
+      ['Is AI a bubble?', 'It is disputed. In 2026 the largest tech companies were on track for $600–700 billion of capital spending, mostly for AI, while AI revenue was a fraction of that. Critics call that gap a bubble; defenders point to profits, cash flow and demand.'],
+      ['How much are tech companies spending on AI in 2026?', 'Microsoft, Amazon, Alphabet, Meta and Oracle were on track for a combined $600–700 billion of capital spending in 2026, up roughly 60% on 2025, about three-quarters of it for AI infrastructure.'],
     ],
   },
 };
