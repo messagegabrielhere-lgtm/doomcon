@@ -255,10 +255,13 @@ export const AI_AGENTS = [
   'Google-Extended', 'GoogleOther', 'Applebot-Extended', 'Amazonbot', 'CCBot',
   'meta-externalagent', 'DuckAssistBot', 'cohere-ai', 'MistralAI-User',
   'AI2Bot', 'YouBot', 'Bytespider',
+  // Personal-assistant fetchers (user-triggered lookups): Meta AI, Siri/Apple,
+  // Copilot (Bing grounding), Claude's legacy web agent.
+  'meta-externalfetcher', 'Applebot', 'bingbot', 'Claude-Web',
 ];
 
 export function robots(ctx) {
-  return `# AI crawlers and assistants welcome (ChatGPT, Grok, Claude, Perplexity, …).
+  return `# AI crawlers and personal AI assistants welcome (ChatGPT, Claude, Gemini, Copilot, Perplexity, Grok, Meta AI, Siri, …).
 # Start with ${ctx.url('/llms.txt')} · short agent entry ${ctx.url('/agents.md')}
 # How to use (no key): GET ${ctx.url('/api/now.txt')} · how to cite ${ctx.url('/skill.md')}
 # AGENTS.md convention (same body as agents.md): ${ctx.url('/AGENTS.md')}
