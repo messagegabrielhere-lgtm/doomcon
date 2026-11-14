@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flight Report Card: how often is your flight on time? · SIREN</title>
+<meta name="description" content="Every US domestic flight number graded on its own record: the share of scheduled flights that arrived under 15 minutes late, counted from 12 months of BTS filings.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Flight Report Card: how often is your flight on time?","description":"US domestic flight numbers graded on their own 12-month on-time record, counted from Bureau of Transportation Statistics filings. A count of past flights, not a claim about the next one.","url":"https://siren.watch/flights.html","isPartOf":{"@type":"WebSite","name":"SIREN","url":"https://siren.watch/"},"speakable":{"@type":"SpeakableSpecification","cssSelector":["h1","p.lede"]}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SIREN","item":"https://siren.watch/"},{"@type":"ListItem","position":2,"name":"Flight Report Card","item":"https://siren.watch/flights.html"}]}
+</script>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--bg:#000;--raised:#0E131D;--rule:#232C3B;--ink:#E6EAF0;--dim:#AEB7C3;--faint:#8A94A3;--green:#4ADE80;--amber:#FFB020;--red:#FF8A8A;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;--sans:"IBM Plex Sans","Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--sans)}
+a{color:var(--green)}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+header.pc{padding:36px 0 24px;border-bottom:1px solid var(--rule)}
+.eyebrow{font:600 12px/1.4 var(--mono);letter-spacing:.16em;color:var(--green);margin:0 0 10px}
+h1{font:700 clamp(2rem,6vw,3.4rem)/1.02 var(--sans);margin:0;letter-spacing:-.02em}
+.lede{color:var(--dim);max-width:62ch;margin:12px 0 0;font-size:1.05rem}
+.stamp{font:500 12px/1.5 var(--mono);color:var(--dim);margin:16px 0 0}
+form{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin:24px 0 8px}
+label{display:flex;flex-direction:column;gap:6px;font:600 11px/1 var(--mono);letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+input{width:7.5rem;height:48px;padding:0 12px;background:var(--raised);border:1px solid var(--rule);border-radius:4px;color:var(--ink);font:600 20px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+button{height:48px;padding:0 18px;border:1px solid var(--green);border-radius:4px;background:var(--green);color:#000;font:700 13px/1 var(--mono);letter-spacing:.06em;cursor:pointer}
+#note{color:var(--dim);margin:8px 0 16px;min-height:1.5em}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+caption{text-align:left;color:var(--dim);font-size:14px;padding:0 0 8px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--rule);vertical-align:top;white-space:nowrap}
+th{font:600 11px/1.2 var(--mono);letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+td small{display:block;color:var(--faint);font-size:12px}
+.g{font:700 20px/1 var(--mono)}
+.gA,.gB{color:var(--green)}.gC{color:var(--amber)}.gD,.gF{color:var(--red)}.gx{color:var(--faint);font-size:12px}
+section.how{margin:32px 0;padding:16px;background:var(--raised);border:1px solid var(--rule);border-radius:4px}
+section.how h2{font:600 12px/1 var(--mono);letter-spacing:.14em;color:var(--dim);margin:0 0 12px;text-transform:uppercase}
+section.how h2:not(:first-child){margin-top:20px}
+section.how li,section.how p{color:var(--dim);font-size:15px;margin:0 0 8px}
+section.how ul{padding-left:20px;margin:0}
+</style>
+</head>
+<body>
+<header class="pc">
+  <div class="wrap">
+    <p class="eyebrow">FLIGHT REPORT CARD · A SIREN SIDE ROOM · DOES NOT FEED THE MAIN NUMBER</p>
+    <h1>How often is your flight on time?</h1>
+    <p class="lede">Every US domestic flight number, graded on its own record: the share of its scheduled flights that arrived less than 15 minutes late, counted from 12 months of Bureau of Transportation Statistics filings. It is a count of what happened. It says nothing about your next flight.</p>
+    <p class="stamp" id="stamp">No snapshot read yet.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <form id="f">
+    <label for="from">From<input id="from" name="from" maxlength="3" autocomplete="off" autocapitalize="characters" placeholder="ATL" required pattern="[A-Za-z]{3}"></label>
+    <label for="to">To<input id="to" name="to" maxlength="3" autocomplete="off" autocapitalize="characters" placeholder="DEN" required pattern="[A-Za-z]{3}"></label>
+    <button type="submit">SHOW FLIGHTS</button>
+  </form>
+  <p id="note" role="status" aria-live="polite">Enter two US airport codes.</p>
+  <div class="scroll">
+    <table id="t" hidden>
+      <caption id="cap"></caption>
+      <thead><tr><th scope="col">Grade</th><th scope="col">Flight</th><th scope="col">Leaves</th><th scope="col">On time</th><th scope="col">Cancelled</th><th scope="col">When late</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <section class="how">
+    <h2>How is the grade computed?</h2>
+    <ul>
+      <li>On time means BTS recorded the arrival less than 15 minutes after schedule.</li>
+      <li>The grade is on-time arrivals divided by every flight scheduled. A cancelled or diverted flight counts as scheduled and not on time.</li>
+      <li>A is 90% or more, B is 80%, C is 70%, D is 60%, F is below 60%.</li>
+      <li>A flight with fewer than 20 scheduled flights in the window gets no letter. One with fewer than 5 is not listed.</li>
+      <li>"Leaves" is the scheduled local departure on the latest date counted. Schedules change; the flight number is what is graded.</li>
+    </ul>
+    <h2>What does it not cover?</h2>
+    <ul>
+      <li>International flights, and airlines that do not report to BTS.</li>
+      <li>The newest two months or so. BTS publishes each month about two months after it ends.</li>
+      <li>Regional flights under the number on your ticket. BTS files these under the airline that flew the plane, so a flight sold by a large airline and flown by a regional partner appears under the partner's code.</li>
+      <li>Safety, turbulence, price or the ride from the airport. This room counts arrivals and nothing else.</li>
+    </ul>
+    <h2>Where does the data come from?</h2>
+    <p>The <a href="https://www.transtats.bts.gov/Tables.asp?QO_VQ=EFD" rel="noopener" target="_blank">BTS Reporting Carrier On-Time Performance</a> files, one per month, read by <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/flights" rel="noopener" target="_blank">open code</a> once a week. The counts behind every grade are in the table, so each one can be recomputed by hand.</p>
+  </section>
+</main>
+
+<script data-inline="flights/core.mjs" data-ns="Core"></script>
+<script>
+const DATA = 'https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/flights-data/';
+const $ = (id) => document.getElementById(id);
+const pct = (a, b) => `${(100 * a / b).toFixed(1)}%`;
+let index = null;
+
+function say(text) { $('note').textContent = text; }
+
+function cell(tr, text, small) {
+  const td = tr.insertCell();
+  td.textContent = text;
+  if (small) { const s = document.createElement('small'); s.textContent = small; td.appendChild(s); }
+  return td;
+}
+
+function draw(from, to, flights) {
+  const graded = flights.map((f) => ({ f, g: Core.grade(f[3], f[4]) }))
+    .sort((a, b) => (b.g.letter ? 1 : 0) - (a.g.letter ? 1 : 0) || b.g.pct - a.g.pct || a.f[2].localeCompare(b.f[2]));
+  const body = $('rows');
+  body.replaceChildren();
+  for (const { f, g } of graded) {
+    const [carrier, number, dep, n, ontime, cancelled, , late, lateMin] = f;
+    const tr = body.insertRow();
+    const td = cell(tr, g.letter || `under ${Core.MIN_FLIGHTS} flights`);
+    td.className = g.letter ? `g g${g.letter}` : 'gx';
+    cell(tr, `${Core.CARRIERS[carrier] || carrier} ${number}`, `${carrier} ${number}`);
+    cell(tr, dep.length === 4 ? `${dep.slice(0, 2)}:${dep.slice(2)}` : dep, 'local, scheduled');
+    cell(tr, pct(ontime, n), `${ontime} of ${n}`);
+    cell(tr, pct(cancelled, n), `${cancelled} of ${n}`);
+    cell(tr, late ? `${Math.round(lateMin / late)} min avg` : 'none late', late ? `${late} late arrivals` : '');
+  }
+  $('cap').textContent = `${from} to ${to}: ${graded.length} flight numbers, ${index.months[0]} to ${index.months.at(-1)}.`;
+  $('t').hidden = false;
+  say(`${graded.length} flight numbers from ${from} to ${to}, best record first.`);
+}
+
+async function show(from, to) {
+  $('t').hidden = true;
+  if (!index) return say('No snapshot has been published yet, so there is nothing to grade.');
+  const dests = index.routes[from];
+  if (!dests) return say(`No flights from ${from} in the window.`);
+  if (!dests.includes(to)) return say(`No nonstop flights from ${from} to ${to} in the window. ${from} has nonstops to ${dests.length} airports.`);
+  try {
+    const res = await fetch(`${DATA}origin/${from}.json`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    draw(from, to, (await res.json()).routes[to]);
+  } catch (err) {
+    say(`The data file for ${from} did not answer (${err.message}). Nothing is shown.`);
+  }
+}
+
+function fromHash() {
+  const m = /^#([A-Za-z]{3})-([A-Za-z]{3})$/.exec(location.hash);
+  if (!m) return;
+  $('from').value = m[1].toUpperCase();
+  $('to').value = m[2].toUpperCase();
+  show($('from').value, $('to').value);
+}
+
+$('f').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const from = $('from').value.trim().toUpperCase();
+  const to = $('to').value.trim().toUpperCase();
+  history.replaceState(null, '', `#${from}-${to}`);
+  show(from, to);
+});
+window.addEventListener('hashchange', fromHash);
+
+fetch(`${DATA}index.json`).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`)))).then((d) => {
+  index = d;
+  $('stamp').textContent = `${d.months.length} months counted, ${d.months[0]} to ${d.months.at(-1)} · ${d.rows_read.toLocaleString('en-US')} flights read · ${d.flights.toLocaleString('en-US')} flight numbers graded · built ${d.generated_at.slice(0, 16).replace('T', ' ')} UTC`;
+  fromHash();
+}).catch(() => {
+  $('stamp').textContent = 'No snapshot published yet. The collector has not completed a first run.';
+});
+</script>
+</body>
+</html>

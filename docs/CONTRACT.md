@@ -73,6 +73,7 @@ scanner/                     stock candles / scanner UI       -> scanner-data
 investors/                   13F / ARK / House PTR            -> investors-data
 monitor/                     world map + stress index         -> monitor-data
 elon/                        Elon-clip channel index          -> elon-data
+flights/                     flight on-time report card       -> flights-data
 clipper/                     optional Shorts pipeline (own package.json)
 compliance/                  legal / secret tripwire scanner (CI gate)
 ```
