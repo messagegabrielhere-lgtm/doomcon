@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-15T21:07:30.243Z",
+  "generated_at": "2026-11-15T21:30:36.187Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -58,8 +58,10 @@
       "outlet": "reuters.com",
       "outlets": [
         "bloomberg.com",
+        "fourweekmba.com",
         "reuters.com",
         "space.com",
+        "spacenews.com",
         "theverge.com"
       ],
       "tier1_outlets": [
@@ -67,9 +69,10 @@
         "reuters.com",
         "theverge.com"
       ],
-      "corroboration": 4,
+      "corroboration": 6,
       "sources": [
         "bluesky-ai",
+        "gnews-ai",
         "hn-fresh-ai",
         "wires-ai"
       ],
@@ -83,7 +86,7 @@
       "breaking_at": "2026-11-15T20:32:30.120Z",
       "item_ids": [
         "3271c2732b59f8de",
-        "3a00ca820996c007",
+        "88effb1d0e7b3db6",
         "935a78943c5e45b6",
         "b3bf1e49ba314579",
         "b3d94f76c4b08137",
@@ -139,12 +142,28 @@
           "tier1": false
         },
         {
+          "source": "hn-fresh-ai",
+          "outlet": "spacenews.com",
+          "title": "Vulcan launch of Amazon Leo satellites fails",
+          "url": "https://spacenews.com/vulcan-launch-of-amazon-leo-satellites-fails",
+          "published_at": "2026-11-15T20:41:43.000Z",
+          "tier1": false
+        },
+        {
           "source": "bluesky-ai",
           "outlet": "theverge.com",
           "title": "Vulcan rocket fails, destroying 40 Amazon Leo satellites",
           "url": "https://bsky.app/profile/theverge.com/post/3n2ew6qwg4o2y",
           "published_at": "2026-11-15T21:06:35.330Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "fourweekmba.com",
+          "title": "Vulcan Loses 40 Amazon Leo Satellites; Leo at 12% of 3,232",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxONE52TXRwM0RiamFQM0F5YVFLVlU3eEZzNm9Ccm9qU21XWmtCdzI5VGtldmxZVFRjRzNsMDltd2hseWJjWml4U1B5NjdVbjFSQmFfb2kxSlNScXE3eDk4d1FiN1dtZGxwd3B6MWlCZUx3SVdISGxMMThDTFlkVWppWXlhY0VYcVRXeHJqZw?oc=5",
+          "published_at": "2026-11-15T21:10:29.000Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -213,6 +232,14 @@
           "url": "https://bloomberg.com/news/articles/2026-11-15/us-allies-agree-to-guard-ai-supply-chains-from-china-ft-says",
           "published_at": "2026-11-15T18:57:21.064Z",
           "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "US, Allies Agree to Guard AI Supply Chains From China, FT Says",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNYWdZazV1cGI2aFI0Ymdpb2hhRTU1Z3FjZ1hTdkZWVlRzT0Y4RzZnZXMzSXdPS2VEaFp4NGg2STQxdzhxQ2tGN1AxZzJQc3BkUjE4RnVoenRnM3dwN2t5TzV1dVpyUjAyd254NU1kM1ZSTTdoZkVnU3V3dUJxSE1LVFBiQWxWQzFkSHNIanRhQVRlU3ExV3MzYnpEeVhlZUZjbkRBZ1o4bVQ1YnlsdVl4TA?oc=5",
+          "published_at": "2026-11-15T18:57:21.064Z",
+          "tier1": true
         }
       ],
       "live": true
@@ -269,7 +296,6 @@
       "source": "wires-ai",
       "outlet": "ft.com",
       "outlets": [
-        "barrons.com",
         "biggo.com",
         "bloomberg.com",
         "chosun.com",
@@ -278,11 +304,10 @@
         "fourweekmba.com",
         "france24.com",
         "ft.com",
+        "independent.co.uk",
         "latintimes.com",
-        "livemint.com",
+        "mobidevices.com",
         "mugglehead.com",
-        "nbr.co.nz",
-        "nzherald.co.nz",
         "ozarab.media",
         "pasqualepillitteri.it",
         "pluang.com",
@@ -294,6 +319,7 @@
         "thetimes.com",
         "theverge.com",
         "timesnownews.com",
+        "usnews.com",
         "washingtonpost.com",
         "wccftech.com",
         "wired.com",
@@ -310,7 +336,7 @@
         "wired.com",
         "wsj.com"
       ],
-      "corroboration": 30,
+      "corroboration": 29,
       "sources": [
         "bloomberg-tech",
         "bluesky-ai",
@@ -325,7 +351,7 @@
         "tier-one outlet plus one more",
         "tier-one escalation signal"
       ],
-      "earliest_published_at": "2026-11-15T15:16:46.000Z",
+      "earliest_published_at": "2026-11-15T15:32:11.649Z",
       "first_seen_at": "2026-11-12T19:46:09.516Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -335,9 +361,7 @@
         "00faff2aac375fa7",
         "01de088c129d835f",
         "057b63f9f8971142",
-        "060b582609c64179",
         "0911a803e6de1803",
-        "0cc0c43dea48b12b",
         "0df7f9ceb0d6bc54",
         "0e29d0e56f6448ad",
         "0e6264d83ff96bdd",
@@ -352,7 +376,6 @@
         "199b8f9178e97191",
         "19b2c23a52bfb818",
         "1a2a9283b0d30e24",
-        "1d29654a88b1b1f1",
         "1dcca899a4f1e514",
         "1ff71e67ef0c4cef",
         "246b01b54f5a968d",
@@ -362,16 +385,15 @@
         "299cfd655b5df2e6",
         "2b4d1f119259b75c",
         "2b64e543ab1c9c6b",
-        "2cfba7381514da92",
         "2e8c688f6ed3cb13",
         "30c3fae7687d8607",
         "3190c0b8ab0e8251",
+        "320524db89e45909",
         "327ccfb348d79d2b",
         "33309ac18424bb4f",
         "33c718a7327c22f5",
         "34a8d7166dbb6636",
         "3528dd358fe451bf",
-        "3619c9ffe44d684b",
         "3842a4b23dcedd54",
         "3908f0792824a425",
         "3b25cd2e71655e8e",
@@ -390,15 +412,12 @@
         "54edd2b10954afbb",
         "57aea6b3cc36f803",
         "57f54d4aa7837423",
-        "5890a66342cb30ea",
         "5c2d643701d67ce8",
         "5d4118abf8456646",
-        "60531a2355bebcd2",
         "60e6974ce6341e2d",
         "659ff894e87fd602",
         "6678a6e433bf0b7a",
         "66b930cef8850ef1",
-        "68a89aa81971ad6b",
         "69c40e0386c7ea13",
         "72186a2db6420c3e",
         "73737316429f71c9",
@@ -408,7 +427,7 @@
         "8088e27d025c4fe1",
         "81f679e562d4a805",
         "82cde813e7c22dfc",
-        "835346ca362d5233",
+        "84014782df4ed17a",
         "8557639c88a17799",
         "85b04aad67b62cb4",
         "8673860d4dc1750d",
@@ -416,9 +435,7 @@
         "8b2c4e8b9cf69691",
         "8bad15de6a09f088",
         "8c29703ea5af1b14",
-        "8d9fda0b4f8f1bbf",
         "8dd8203ca955d4f5",
-        "8ec95f5fcaa1ae81",
         "9006d1b0baeef8c4",
         "961a34c7885ec790",
         "96ffddea888c764e",
@@ -439,7 +456,6 @@
         "aadea3dfb1eb8f3e",
         "ab50f8d2cb5a3342",
         "ada54437cab978d2",
-        "aedb5c6b0e3bcdac",
         "afd90788cddf3ed5",
         "aff9a18b8c51cc23",
         "b0700598353d42b7",
@@ -460,6 +476,7 @@
         "d1d0e380e2408edb",
         "d1d48e9655593e0e",
         "d1f18e8b141cbfaa",
+        "d2377d916015e23d",
         "d438d0edcb908cd9",
         "d48bbddc0cd6ee49",
         "d59a71a9fc95e764",
@@ -467,8 +484,8 @@
         "d5cdb53d6fd8722f",
         "d636c2eab1639161",
         "d985a9ebc1745ec9",
-        "da2ca1c961a6871b",
         "dbc29cd6f905bdb9",
+        "dcaafe95297c4408",
         "dd202fb667b2fa40",
         "ddb05a91a1086be1",
         "de195c6bc3ba97ae",
@@ -493,22 +510,6 @@
         "ff0b876ae29d3101"
       ],
       "sightings": [
-        {
-          "source": "bloomberg-tech",
-          "outlet": "bloomberg.com",
-          "title": "Nvidia Feels the Heat on CEO Search as Bessent Calls for Shakeup",
-          "url": "https://bloomberg.com/news/articles/2026-11-15/bessent-says-nvidia-needs-dramatic-shakeup-after-huang-ouster",
-          "published_at": "2026-11-15T15:16:46.000Z",
-          "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "washingtonpost.com",
-          "title": "SNL teaches tech billionaires the lessons of the Jensen Huang affair",
-          "url": "https://bsky.app/profile/washingtonpost.com/post/3n2edexvxkk2b",
-          "published_at": "2026-11-15T15:30:04.425Z",
-          "tier1": true
-        },
         {
           "source": "wires-ai",
           "outlet": "bloomberg.com",
@@ -588,6 +589,22 @@
           "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNZGRUdGlLOWNRUEhzcHBmVUI2Sk50czlMU0J6OE91cllXRmxxN2lwc1lDQkx3T09mWTJ5ZjBRdXp2U3hndUhKRzVyR3BqM09Qb1pmd3ZjbDdQTjljS2VCREVuZDFIY0lJY3oxdzB2SWdRWm5nWEgzM0RNLUticUZGcWFSTDc?oc=5",
           "published_at": "2026-11-15T17:15:23.000Z",
           "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
+          "title": "Nvidia Board Must Craft Epic Job Description for New CEO | The Morning Download for Nov. 12",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPbVlETFAzLW1xcUFqWEhobl9VbUVDYkFWeGxOLWx1MmtlWUJRLUhFZnlfNGhnaXluVVIyT1JqUDNEZllxYUpnNDlqaXJyaS1SOFFEQmRhQUo3TDZMZ3NLVVdrSmc4bU9VX2RUd1FZYUIwdzE1UzA0RTUzbGFQLUE3bkpNUWxZZDRzT1plWXlCZjliT0w2RDZwa3VCYVI4QQ?oc=5",
+          "published_at": "2026-11-15T17:28:47.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "smh.com.au",
+          "title": "ASX set for flat start, Nvidia scandal weighs on Wall Street",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQckpEaFFOaFFFV1BPdXdxWnJiV2dqaEVqT3l4VHZ4WnFkN3JUUGVXdjhFSGtQYWpFU1IzbnoyN2hoUGEzREdWczdHaXJlS0xkVkp1V3ZyaUxZTUNScE9DcW1vcldhRjhzRWZKUndIY0NMU0h5Ry1ONEg4TjB6T0tqaHFyREkxeGhCWVFPdDRiQm5XaG5HWFBXcmNLTTlkNTNrWks2aWRHNlRyNV92Zks3UFRnblhHVFJkbTFIUw?oc=5",
+          "published_at": "2026-11-15T18:21:14.000Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -623,7 +640,8 @@
         "5c72af4949eeb7da",
         "b1b16d73a4b937b5",
         "c4848d6522b2858b",
-        "cbceaf848f438a79"
+        "cbceaf848f438a79",
+        "cce0cc2890407e7c"
       ],
       "sightings": [
         {
@@ -656,6 +674,14 @@
           "title": "Apple’s first smart glasses are coming together",
           "url": "https://bsky.app/profile/theverge.com/post/3n2ej2i5d6s2i",
           "published_at": "2026-11-15T17:11:33.248Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "bloomberg.com",
+          "title": "Apple’s just-announced Siri AI integrations are the centerpiece of the company’s upcoming smart glasses push, writes Mark Gurman. Read the latest edition of the Power On newsletter: bloom.bg/4eDZJPD \ud83d",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3n2exip5rcx2s",
+          "published_at": "2026-11-15T21:30:04.000Z",
           "tier1": true
         }
       ],
@@ -1476,10 +1502,10 @@
     },
     {
       "id": "b34b171414e97",
-      "title": "Could everything be broken? Grounded jets, Microsoft outage, AI chaos make some wonder",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQbUFCdzU3WWxqWDJyOThxR0pfSENwbHdjWE50LVZfX0xSUUZFZnpTemtWN2RRckNlOW56TnZwT2pmUHpPYnU0cGtiaUJ4aFpzLXZ4OHN0a3UxVEpNenFlc0VETFE2UDJkdy1Ld0ZSU2V2MHJxNE9WN3VFMjA2U1lLRThOdE5kSWk2UVdpektzb00yV3ZjUjhOeWpiNA?oc=5",
-      "source": "wires-ai",
-      "outlet": "apnews.com",
+      "title": "Inside Microsoft’s Rush to Get Back Online After a Global Outage",
+      "url": "https://bsky.app/profile/nytimes.com/post/3n2aiyxi2ti2v",
+      "source": "bluesky-ai",
+      "outlet": "nytimes.com",
       "outlets": [
         "fourweekmba.com",
         "wsj.com"
