@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_at": "2026-11-13T10:45:43.846Z",
+ "generated_at": "2026-11-15T14:31:26.664Z",
  "services": [
   {
    "id": "openai",
@@ -11,18 +11,23 @@
    "browser": true,
    "indicator": "minor",
    "description": "Partial System Degradation",
-   "updated_at": "2026-11-12T18:29:14Z",
-   "degraded": [],
+   "updated_at": "2026-11-14T05:31:20Z",
+   "degraded": [
+    {
+     "name": "Compliance API",
+     "status": "degraded_performance"
+    }
+   ],
    "components": 25,
    "incidents": [
     {
-     "name": "Elevated errors affecting the Microsoft 365 connector",
+     "name": "Delayed Costs Data in the Compliance API",
      "impact": "minor",
-     "status": "investigating",
-     "started_at": "2026-11-12T18:29:14Z",
-     "updated_at": "2026-11-12T18:29:14Z",
+     "status": "monitoring",
+     "started_at": "2026-11-13T16:10:07Z",
+     "updated_at": "2026-11-14T05:31:20Z",
      "url": null,
-     "latest": "We’re investigating an issue with Microsoft connectors where new connections may be broken and tools are not working as expected. We’ll share an update when we know more."
+     "latest": "We are monitoring the affected services to confirm recovery. Delays in cost data are still expected."
     }
    ],
    "maintenance": 0,
@@ -35,46 +40,25 @@
    "page": "https://status.claude.com",
    "api": "https://status.claude.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "major",
-   "description": "Partial System Outage",
-   "updated_at": "2026-11-13T10:23:20.427Z",
+   "indicator": "minor",
+   "description": "Partially Degraded Service",
+   "updated_at": "2026-11-15T13:25:11.123Z",
    "degraded": [
     {
      "name": "claude.ai",
-     "status": "major_outage"
-    },
-    {
-     "name": "Claude Console (platform.claude.com)",
-     "status": "partial_outage"
-    },
-    {
-     "name": "Claude Code",
-     "status": "partial_outage"
-    },
-    {
-     "name": "Claude Cowork",
      "status": "degraded_performance"
     }
    ],
    "components": 9,
    "incidents": [
     {
-     "name": "Elevated errors on claude.ai, Claude Code, and platform.claude.com",
+     "name": "Some users unable to sign up with Apple on the Claude iOS app",
      "impact": "major",
      "status": "investigating",
-     "started_at": "2026-11-13T09:58:58.049Z",
-     "updated_at": "2026-11-13T09:58:58.258Z",
-     "url": "https://stspg.io/6kqyd0c5b1gr",
-     "latest": "We are investigating an issue with users authenticating to Claude.ai and Claude Code. We will provide an update as soon as possible."
-    },
-    {
-     "name": "Elevated errors affecting the Microsoft 365 connector",
-     "impact": "major",
-     "status": "identified",
-     "started_at": "2026-11-12T17:52:44.926Z",
-     "updated_at": "2026-11-12T23:54:26.992Z",
-     "url": "https://stspg.io/m0rbx38nmy1c",
-     "latest": "This issue is caused by a Microsoft 365 service incident, and mail, calendar and search tools in the Microsoft 365 connector are still failing for most requests. Claude for Outlook remains affected. You can follow Microsoft's progress at https://status.cloud.microsoft. We will up"
+     "started_at": "2026-11-14T07:11:36.111Z",
+     "updated_at": "2026-11-15T02:10:54.568Z",
+     "url": "https://stspg.io/4858wf40dx89",
+     "latest": "We are continuing to investigate an issue with Sign in with Apple on the Claude iOS app, which is mainly affecting new accounts. New users can sign up with Google or email instead. We will provide another update as soon as possible."
     }
    ],
    "maintenance": 0,
@@ -89,7 +73,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-11-13T07:09:26.798Z",
+   "updated_at": "2026-11-15T13:24:46.203Z",
    "degraded": [],
    "components": 12,
    "incidents": [],
@@ -105,7 +89,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-11-13T10:45:33.849Z",
+   "updated_at": "2026-11-15T14:31:19.015Z",
    "degraded": [],
    "components": 11,
    "incidents": [],
@@ -185,7 +169,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-11-13T08:54:37.905Z",
+   "updated_at": "2026-11-15T13:24:54.582Z",
    "degraded": [],
    "components": 59,
    "incidents": [],
