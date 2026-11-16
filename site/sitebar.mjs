@@ -15,7 +15,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { CANONICAL_URL } from './brand.mjs';
 import { XCOMPOSE_JS } from './xcompose.mjs';
-import { on as mzOn, sponsorLine, adSlot, AD_PAGES, MZ_CSS, MONETIZE, gtagHead, CONSENT_JS } from './monetize.mjs';
+import { on as mzOn, sponsorLine, adSlot, AD_PAGES, MZ_CSS, MONETIZE, gtagHead, ahrefsHead, CONSENT_JS } from './monetize.mjs';
 import { HEADER_MARK, NAV_JS_PATH, headerHtml, relatedHtml, navJs } from './siteheader.mjs';
 import { securityHeadMeta, hasSecurityMeta } from './security.mjs';
 const BASE = new URL(CANONICAL_URL).pathname.replace(/\/$/, '');
@@ -352,6 +352,11 @@ export function stamp(html, asOf, rel = '') {
   // Google's gtag docs put the loader in <head>; stamp every built page once.
   if (ga && /<\/head>/i.test(out) && !out.includes('googletagmanager.com/gtag/js')) {
     out = out.replace(/<\/head>/i, `${ga}\n</head>`);
+  }
+  // Ahrefs Web Analytics (cookieless), once per page, in <head> as Ahrefs asks.
+  const ah = ahrefsHead();
+  if (ah && /<\/head>/i.test(out) && !out.includes('analytics.ahrefs.com/analytics.js')) {
+    out = out.replace(/<\/head>/i, `${ah}\n</head>`);
   }
   // "You are here" and related rooms sit above the page's own foot (the
   // prev/next strip, the footer or the legal line), or else above the disclosure.

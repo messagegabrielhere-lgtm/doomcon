@@ -161,6 +161,7 @@ export function privacy(ctx) {
   const qTitle = `What does ${brand.NAME} know about you?`;
   const hasGc = !!(MONETIZE.analytics && MONETIZE.analytics.goatcounter);
   const hasGa = !!(MONETIZE.analytics && MONETIZE.analytics.gtag);
+  const hasAh = !!(MONETIZE.analytics && MONETIZE.analytics.ahrefs);
   const gaId = hasGa ? esc(MONETIZE.analytics.gtag) : '';
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
   const repo = `<a href="${esc(brand.REPO_URL)}/issues" rel="noopener">an issue on the repository</a>`;
@@ -239,6 +240,9 @@ export function privacy(ctx) {
       : `<li><b>No first-party cookies.</b> The site's own code sets none.</li>`}
     ${hasGc
       ? `<li><b>Visitor counts, without cookies.</b> Pages load GoatCounter, which counts visits: the page, the referring site, your country (worked out from your IP address, which is not stored), browser, screen size and language. It sets no cookies, does not track you across sites, and keeps no personal data. Turn on your browser's Do Not Track to be left out.</li>`
+      : ''}
+    ${hasAh
+      ? `<li><b>Ahrefs Web Analytics.</b> Pages load Ahrefs' analytics script, which counts visits and the searches and sites that send them: the page, the referrer, your country, browser and device type. Ahrefs says it sets no cookies and does not store personal data; your IP address reaches Ahrefs as part of the request. See <a href="https://ahrefs.com/privacy" rel="noopener">Ahrefs' privacy policy</a>.</li>`
       : ''}
     ${hasGa
       ? `<li><b>Google Analytics.</b> Pages load Google's gtag script for ${gaId}. Google receives your IP address, browser details, the page you open and a client identifier, under <a href="https://policies.google.com/privacy" rel="noopener">Google's privacy policy</a>. ${esc(brand.NAME)} uses the reports to see which pages are read; it does not sell that data or share it with sponsors. Data may be processed in the United States.</li>`

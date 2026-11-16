@@ -29,7 +29,9 @@ export const MONETIZE = {
   //   goatcounter: site code before .goatcounter.com. Cookieless; null = off.
   //   gtag: Google Analytics 4 measurement ID (G-…). null = off. Loads on
   //   every stamped page via site/sitebar.mjs and is disclosed on /privacy.
-  analytics: { goatcounter: 'messagegabriel', gtag: 'G-93SEVYQXY3' },
+  //   ahrefs: Ahrefs Web Analytics data-key (public, from the Ahrefs install
+  //   snippet). Cookieless; null = off. Loads in <head> of every stamped page.
+  analytics: { goatcounter: 'messagegabriel', gtag: 'G-93SEVYQXY3', ahrefs: 'dOTtRrGK2u3bLv86td2ZFw' },
 
   // Tip jar: your Buy Me a Coffee or Ko-fi page URL.
   tips: { url: 'https://ko-fi.com/I0R828E7LP', label: 'Support SIREN on Ko-fi' },
@@ -164,6 +166,13 @@ try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.w
 
 export function tipLink() {
   return on.tips() ? `<a class="mz-tip" href="${esc(MONETIZE.tips.url)}" rel="noopener">☕ ${esc(MONETIZE.tips.label)}</a>` : '';
+}
+
+/** Ahrefs Web Analytics tag for <head>, or '' when analytics.ahrefs is off. */
+export function ahrefsHead() {
+  const key = MONETIZE.analytics && MONETIZE.analytics.ahrefs;
+  if (!key || !/^[A-Za-z0-9_-]+$/.test(String(key))) return '';
+  return `\n<script src="https://analytics.ahrefs.com/analytics.js" data-key="${esc(key)}" async></script>`;
 }
 
 /** Google Analytics gtag snippet for <head>, or '' when analytics.gtag is off. */

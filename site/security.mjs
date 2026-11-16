@@ -22,7 +22,7 @@ export const CSP = [
   "object-src 'none'",
   "form-action 'self' https:",
   // Inline + known analytics / ad hosts. No wildcards on script-src.
-  `script-src 'self' 'unsafe-inline' https://${GTM_HOST} https://${GA_HOST} https://gc.zgo.at https://cdn.carbonads.com`,
+  `script-src 'self' 'unsafe-inline' https://${GTM_HOST} https://${GA_HOST} https://gc.zgo.at https://analytics.ahrefs.com https://cdn.carbonads.com`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
