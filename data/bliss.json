@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "index": "BLISS",
-  "generated_at": "2026-11-17T15:41:12.168Z",
+  "generated_at": "2026-11-17T16:38:44.231Z",
   "score": null,
   "level": null,
   "level_name": null,
@@ -9,15 +9,16 @@
   "level_since": "2026-09-24T03:08:24.487Z",
   "delta_from_previous": null,
   "posture": "awaiting-baseline",
-  "degraded": false,
+  "degraded": true,
   "awaiting_baseline": true,
   "reference_present": false,
-  "dark_pillars": [],
+  "dark_pillars": [
+    "adoption"
+  ],
   "uncalibrated_pillars": [
     "science",
     "medicine",
     "access",
-    "adoption",
     "openness"
   ],
   "uncalibrated_sources": [
@@ -29,12 +30,13 @@
     "hf-permissive-share",
     "openrouter-cost-floor",
     "hf-model-downloads",
-    "npm-ai-installs",
     "epoch-open-weights",
     "github-permissive-ai"
   ],
-  "failed_sources": [],
-  "sources_reporting": 11,
+  "failed_sources": [
+    "npm-ai-installs"
+  ],
+  "sources_reporting": 10,
   "sources_total": 11,
   "rule_fired": "no_live_pillars",
   "decision": null,
@@ -139,8 +141,8 @@
       "percentile": null,
       "sources_ok": 0,
       "sources_total": 2,
-      "dark": false,
-      "uncalibrated": true,
+      "dark": true,
+      "uncalibrated": false,
       "blurb": "People building, not labs announcing.",
       "description": "Installs of the AI stack and downloads of widely deployed open models. Every other pillar counts what laboratories produce; this one counts what everybody else does with it."
     },
@@ -170,13 +172,13 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-17T15:41:12.181Z",
+      "observed_at": "2026-11-17T16:38:44.243Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-17T15:41:12.181Z",
+      "last_ok": "2026-11-17T16:38:44.243Z",
       "meta": {
         "window_days": 7,
-        "window_from": "202611101541",
-        "window_to": "202611171541",
+        "window_from": "202611101638",
+        "window_to": "202611171638",
         "categories": [
           "q-bio.BM",
           "q-bio.QM",
@@ -208,9 +210,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-17T15:41:12.185Z",
+      "observed_at": "2026-11-17T16:38:44.247Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-17T15:41:12.185Z",
+      "last_ok": "2026-11-17T16:38:44.247Z",
       "meta": {
         "window_days": 30,
         "window_from": "2026-10-18",
@@ -231,9 +233,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-17T15:41:12.186Z",
+      "observed_at": "2026-11-17T16:38:44.248Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-17T15:41:12.186Z",
+      "last_ok": "2026-11-17T16:38:44.248Z",
       "meta": {
         "window_days": 180,
         "start_date_from": "2026-05-21",
@@ -257,9 +259,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-17T15:41:12.186Z",
+      "observed_at": "2026-11-17T16:38:44.248Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-17T15:41:12.186Z",
+      "last_ok": "2026-11-17T16:38:44.248Z",
       "meta": {
         "window_days": 30,
         "edat_from": "2026/10/18",
@@ -285,14 +287,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 1348,
+      "value": 1359,
       "unit": "models/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-17T15:41:12.186Z",
+      "observed_at": "2026-11-17T16:38:44.249Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-17T15:41:12.186Z",
+      "last_ok": "2026-11-17T16:38:44.249Z",
       "meta": {
         "window_hours": 24,
         "licences": [
@@ -300,8 +302,8 @@
           "mit"
         ],
         "per_licence": {
-          "apache-2.0": 907,
-          "mit": 441
+          "apache-2.0": 909,
+          "mit": 450
         },
         "pages_fetched": 2,
         "page_size": 1000
@@ -314,25 +316,25 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-share\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 0.372582,
+      "value": 0.368093,
       "unit": "share/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-17T15:41:12.186Z",
+      "observed_at": "2026-11-17T16:38:44.249Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-17T15:41:12.186Z",
+      "last_ok": "2026-11-17T16:38:44.249Z",
       "meta": {
         "window_hours": 24,
         "licences": [
           "apache-2.0",
           "mit"
         ],
-        "permissive_models": 1348,
-        "total_models": 3618,
+        "permissive_models": 1359,
+        "total_models": 3692,
         "per_licence": {
-          "apache-2.0": 907,
-          "mit": 441
+          "apache-2.0": 909,
+          "mit": 450
         },
         "pages_licence": 2,
         "pages_total": 4,
@@ -352,9 +354,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-17T15:41:12.187Z",
+      "observed_at": "2026-11-17T16:38:44.249Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-17T15:41:12.187Z",
+      "last_ok": "2026-11-17T16:38:44.249Z",
       "meta": {
         "percentile": 0.1,
         "usd_per_million_tokens": 0.125,
@@ -383,9 +385,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-17T15:41:12.187Z",
+      "observed_at": "2026-11-17T16:38:44.249Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-17T15:41:12.187Z",
+      "last_ok": "2026-11-17T16:38:44.249Z",
       "meta": {
         "basket": [
           "sentence-transformers/all-MiniLM-L6-v2",
@@ -416,42 +418,17 @@
       "pillar": "adoption",
       "label": "npm installs of the AI application stack",
       "ok": false,
-      "uncalibrated": true,
-      "error": "awaiting_baseline: \"npm-ai-installs\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 191192584,
-      "unit": "installs/7d",
+      "uncalibrated": false,
+      "error": "HTTP 429 Too Many Requests from https://api.npmjs.org/downloads/point/last-week/@huggingface/inference — {\"type\":\"https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1015/\",\"title\":\"Error 1015: You are being rate limited\",\"status\":429,\"detail\":\"You are being rate-limited by the website owner's configuration.\",\"instance\":\"a5c02ae06fe1d68c\",\"error_code…",
+      "value": null,
+      "unit": null,
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-17T15:41:12.187Z",
-      "age_seconds": 0,
+      "observed_at": null,
+      "age_seconds": null,
       "last_ok": "2026-11-17T15:41:12.187Z",
-      "meta": {
-        "basket": [
-          "openai",
-          "ai",
-          "langchain",
-          "tiktoken",
-          "ollama",
-          "@anthropic-ai/sdk",
-          "@google/generative-ai",
-          "@huggingface/inference"
-        ],
-        "basket_size": 8,
-        "per_package": {
-          "openai": 59774802,
-          "ai": 46516458,
-          "langchain": 4076570,
-          "tiktoken": 2267218,
-          "ollama": 1184351,
-          "@anthropic-ai/sdk": 71932807,
-          "@google/generative-ai": 4964068,
-          "@huggingface/inference": 476310
-        },
-        "window_start": "2026-11-10",
-        "window_end": "2026-11-16",
-        "requests": 4
-      }
+      "meta": {}
     },
     {
       "id": "epoch-open-weights",
@@ -465,9 +442,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-17T15:41:12.187Z",
+      "observed_at": "2026-11-17T16:38:44.249Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-17T15:41:12.187Z",
+      "last_ok": "2026-11-17T16:38:44.249Z",
       "meta": {
         "window_days": 365,
         "open_weight_models": 44,
@@ -496,14 +473,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"github-permissive-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 250,
+      "value": 251,
       "unit": "repos/30d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-17T15:41:12.187Z",
+      "observed_at": "2026-11-17T16:38:44.249Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-17T15:41:12.187Z",
+      "last_ok": "2026-11-17T16:38:44.249Z",
       "meta": {
         "window_days": 30,
         "created_from": "2026-10-18",
@@ -522,10 +499,10 @@
       "level_name": null
     },
     "doomcon": {
-      "score": 52.0148,
+      "score": 53.4576,
       "level": 4,
       "level_name": "ROUTINE",
-      "generated_at": "2026-11-17T15:29:46.245Z"
+      "generated_at": "2026-11-17T16:27:08.332Z"
     },
     "divergence": null,
     "divergence_band": 3,
