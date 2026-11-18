@@ -25,32 +25,32 @@ Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](ht
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-18 18:43 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-18 19:35 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
-1. [Amazon, Google to Have About 28% of Anthropic Stock After IPO](https://news.google.com/rss/articles/CBMirwFBVV95cUxPV2pZZmdyc0t4VzZKQ21zUWRjVENMam14ZG1qQ2ludXhhSmxGbUF5NVNmX1h0a1B2SlBMNEVZWmRZRDZSbFQyTWZKMHZuZzJrNk13Z21iaV9nbGxBaVlwTmJ4cVVMdnVYSUZrRHJNcF9ObGVyZ19MbzEzeElOcmtNTmRfSGtEOUlkNGRWZENESVliWUtfd3lyQ1ZmY0FYWTNiRzduZW02QjhyOWx6UUFN?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-17 13:03 UTC · score 83.6 · compute
-2. [Nvidia Forms Export Control Board Committee After Chip Curbs](https://news.google.com/rss/articles/CBMisAFBVV95cUxNQWxyajYtdjVkUkVrcGYzOVFNc0wzclpPdXZvZHIyUnEwU2VzNkF6ZENhZ3Y2aWMwaW9BQUF2RG1uVng2Tk5JR2wwZUJXcTRjVlRFbS1FUzhOYWZENnczaUN1WEtBVVlRTUZuTGtSbzhaUHh1ZDBvbGgyZGN2Y0QxbUxzR2tYOFR5WlQ3bXNWVGpQYlFZNG1jaGcyMzNieG14Z0x3cVNtcFJJd21lcWVsMQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-17 10:18 UTC · score 79.0 · governance
-3. [Microsoft AI: Seven new world-class models at scalable price-performance](https://microsoft.ai/news/microsoft-ignite-2026) — Hacker News AI stories (72h) · 2026-11-18 16:08 UTC · score 77.3 · attention
-4. [Waymo Pauses All Highway Rides After California Safety Ban](https://bsky.app/profile/wired.com/post/3n2jsfnelgv24) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-17 19:42 UTC · score 70.0 · governance
-5. [Criminals Have a New Favorite ‘Point-and-Shoot’ AI Hacking Weapon](https://bsky.app/profile/wired.com/post/3n2lynjp3jj2u) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 16:35 UTC · score 69.2 · attention
-6. [Rogue Agents Hacked His Company. Why Is Clément Delangue So Optimistic About AI?](https://bsky.app/profile/wired.com/post/3n2ivikpdjj2o) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-17 11:00 UTC · score 69.2 · attention
-7. [More banks say customers using AI agents are on their own — even if they get hacked](https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked) — TechCrunch — AI · 2026-11-18 17:32 UTC · score 69.1 · attention
-8. [Nvidia isn’t selling any more AI chips to China](https://bsky.app/profile/theverge.com/post/3n2lmmeud2t2b) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 13:01 UTC · score 68.5 · compute
-9. [Remember the frontier AI pause? Chip companies don’t either](https://bsky.app/profile/theverge.com/post/3n2lvnjuctl2w) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 15:44 UTC · score 67.9 · compute
-10. [Jensen Huang Breaks Silence, Signals Willingness to Return as Nvidia CEO](https://news.google.com/rss/articles/CBMidkFVX3lxTE5QczVTbUQzdjZ0WHN0QjYwRXJidGl2YmJzeFVVOGhEV0FoZHp3QkJ1dng1REtUS21Qa2lYSGdUejlhbGtfNzlQT1V6Zm45NDltc2hKeEowZ3NtcHdsaUNvN2ttTTJXWUgzNkF3SGZUUjdFX1FiRHc?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-17 16:09 UTC · score 67.9 · attention
+1. [Amazon, Google to Have About 28% of Anthropic Stock After IPO](https://news.google.com/rss/articles/CBMirwFBVV95cUxPV2pZZmdyc0t4VzZKQ21zUWRjVENMam14ZG1qQ2ludXhhSmxGbUF5NVNmX1h0a1B2SlBMNEVZWmRZRDZSbFQyTWZKMHZuZzJrNk13Z21iaV9nbGxBaVlwTmJ4cVVMdnVYSUZrRHJNcF9ObGVyZ19MbzEzeElOcmtNTmRfSGtEOUlkNGRWZENESVliWUtfd3lyQ1ZmY0FYWTNiRzduZW02QjhyOWx6UUFN?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-17 13:03 UTC · score 83.4 · compute
+2. [Nvidia Forms Export Control Board Committee After Chip Curbs](https://news.google.com/rss/articles/CBMisAFBVV95cUxNQWxyajYtdjVkUkVrcGYzOVFNc0wzclpPdXZvZHIyUnEwU2VzNkF6ZENhZ3Y2aWMwaW9BQUF2RG1uVng2Tk5JR2wwZUJXcTRjVlRFbS1FUzhOYWZENnczaUN1WEtBVVlRTUZuTGtSbzhaUHh1ZDBvbGgyZGN2Y0QxbUxzR2tYOFR5WlQ3bXNWVGpQYlFZNG1jaGcyMzNieG14Z0x3cVNtcFJJd21lcWVsMQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-17 10:18 UTC · score 78.8 · governance
+3. [OpenAI debuts GPT-6.2 Astra and Sol in ChatGPT Work, Codex, and API, saying Astra sets records on work and science evals at under a third of GPT-6 Astra's cost (OpenAI)](https://techmeme.com/261117/p43) — Techmeme front page (AI-filtered) · 2026-11-17 18:00 UTC · score 75.7 · attention
+4. [Waymo Pauses All Highway Rides After California Safety Ban](https://bsky.app/profile/wired.com/post/3n2jsfnelgv24) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-17 19:42 UTC · score 69.8 · governance
+5. [Criminals Have a New Favorite ‘Point-and-Shoot’ AI Hacking Weapon](https://bsky.app/profile/wired.com/post/3n2lynjp3jj2u) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 16:35 UTC · score 69.1 · attention
+6. [Rogue Agents Hacked His Company. Why Is Clément Delangue So Optimistic About AI?](https://bsky.app/profile/wired.com/post/3n2ivikpdjj2o) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-17 11:00 UTC · score 69.0 · attention
+7. [Nvidia isn’t selling any more AI chips to China](https://bsky.app/profile/theverge.com/post/3n2lmmeud2t2b) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 13:01 UTC · score 68.2 · compute
+8. [Jensen Huang Breaks Silence, Signals Willingness to Return as Nvidia CEO](https://news.google.com/rss/articles/CBMidkFVX3lxTE5QczVTbUQzdjZ0WHN0QjYwRXJidGl2YmJzeFVVOGhEV0FoZHp3QkJ1dng1REtUS21Qa2lYSGdUejlhbGtfNzlQT1V6Zm45NDltc2hKeEowZ3NtcHdsaUNvN2ttTTJXWUgzNkF3SGZUUjdFX1FiRHc?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-17 16:09 UTC · score 67.7 · attention
+9. [Remember the frontier AI pause? Chip companies don’t either](https://bsky.app/profile/theverge.com/post/3n2lvnjuctl2w) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 15:44 UTC · score 67.6 · compute
+10. [Democrats probe whether Lutnick helped Cantor Fitzgerald avoid Nvidia-linked losses](https://news.google.com/rss/articles/CBMivAFBVV95cUxONTZfWHVZQkZBSHhzWl9pY3ZMUk9HQVhEUmtmckJNcVBYUXFHQ2ZDZF9XUkpESEF2bjM1cjh3S2R6T3N4cG8xeDJCS0NOQ1JLMDRRcFZvUjl0X3YzREVxM1RheFRESF9QekdKTnpFRC1oaW51Mkwwb0w1REYwSngzRjh1VXA1ZVJick5SczdmTjltWExrV0JEeXRVUmVpbDhEQ0lORlAzWGpWaG50UWJFOGpValMzd09jZGhQNQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-18 17:27 UTC · score 67.0 · attention
 
 ## Leaders most covered this week
 
 Stories in the press naming each person over the last 7 days (Google News search). Coverage is not a statement by the person.
 
-- Jensen Huang (Nvidia): 610+ stories
-- Elon Musk (xAI): 412 stories
-- Sam Altman (OpenAI): 337 stories
-- Satya Nadella (Microsoft): 177 stories
-- Dario Amodei (Anthropic): 141 stories
-- Mark Zuckerberg (Meta): 130 stories
-- Sundar Pichai (Alphabet): 85 stories
-- Greg Brockman (OpenAI): 85 stories
-- Demis Hassabis (Google DeepMind): 63 stories
+- Jensen Huang (Nvidia): 617+ stories
+- Elon Musk (xAI): 411 stories
+- Sam Altman (OpenAI): 325 stories
+- Satya Nadella (Microsoft): 176 stories
+- Dario Amodei (Anthropic): 139 stories
+- Mark Zuckerberg (Meta): 131 stories
+- Sundar Pichai (Alphabet): 86 stories
+- Greg Brockman (OpenAI): 77 stories
+- Alex Karp (Palantir): 64 stories
 - Geoffrey Hinton (University of Toronto): 63 stories
 
 ## Takeover Watch

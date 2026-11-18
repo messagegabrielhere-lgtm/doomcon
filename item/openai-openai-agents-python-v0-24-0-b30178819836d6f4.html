@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://gc.zgo.at https://analytics.ahrefs.com https://cdn.carbonads.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https: wss:; media-src 'self' https: blob:; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com; worker-src 'self' blob:; upgrade-insecure-requests" data-siren-csp>
 <title>openai/openai-agents-python v0.24.0</title>
-<meta name="description" content="0.24.0 (2026-10-15) Features expose MCP annotations on converted tools ( #5356 ) ( 75813f8 ) support run-wide tool exception formatting (… Scored 31.8 of 100…">
+<meta name="description" content="0.24.0 (2026-10-15) Key Changes 0.24.0 adds run-wide function error formatting and MCP discovery annotations, and improves recovery… Scored 41.7 of 100 by the…">
 <link rel="canonical" href="https://siren.watch/item/openai-openai-agents-python-v0-24-0-b30178819836d6f4.html">
-<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="robots" content="noindex,follow">
 
 
 <meta name="color-scheme" content="dark light">
@@ -15,16 +17,19 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Superintelligence Real-time Early Notice">
 <meta property="og:title" content="openai/openai-agents-python v0.24.0">
-<meta property="og:description" content="0.24.0 (2026-10-15) Features expose MCP annotations on converted tools ( #5356 ) ( 75813f8 ) support run-wide tool exception formatting (… Scored 31.8 of 100 by the SIREN AI activity index.">
+<meta property="og:description" content="0.24.0 (2026-10-15) Key Changes 0.24.0 adds run-wide function error formatting and MCP discovery annotations, and improves recovery… Scored 41.7 of 100 by the SIREN AI activity index.">
 <meta property="og:url" content="https://siren.watch/item/openai-openai-agents-python-v0-24-0-b30178819836d6f4.html">
+<meta property="article:modified_time" content="2026-11-18T18:15:21.941Z">
+<meta property="og:updated_time" content="2026-11-18T18:15:21.941Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@SIRENutf6">
-<meta property="og:image" content="https://siren.watch/cards/state.png?v=2026-10-16T14-45-12Z">
+<meta property="og:image" content="https://siren.watch/cards/state.png?v=2026-11-18T18-15-21Z">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="675">
-    <meta property="og:image:alt" content="SIREN scored this item 31.8 of 100">
-    <meta name="twitter:image" content="https://siren.watch/cards/state.png?v=2026-10-16T14-45-12Z">
+    <meta property="og:image:alt" content="SIREN scored this item 41.7 of 100">
+    <meta name="twitter:image" content="https://siren.watch/cards/state.png?v=2026-11-18T18-15-21Z">
     <meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="application/rss+xml" title="SIREN daily brief" href="/feed-daily.xml">
 <link rel="alternate" type="application/rss+xml" title="SIREN index moves" href="/feed.xml">
 <link rel="alternate" type="application/rss+xml" title="SIREN level changes only" href="/feed-level.xml">
 <link rel="alternate" type="text/markdown" href="/now.md" title="Current reading (markdown)">
@@ -32,6 +37,10 @@
 <link rel="alternate" type="text/markdown" href="/agents.md" title="For AI agents">
 <link rel="alternate" type="text/plain" href="/agents.txt" title="agents.txt">
 <link rel="alternate" type="text/plain" href="/ai.txt" title="ai.txt">
+<link rel="alternate" type="text/markdown" href="/skill.md" title="How to use and cite SIREN">
+<link rel="alternate" type="text/plain" href="/api/now.txt" title="Current reading (plain text)">
+<link rel="alternate" type="application/json" href="/.well-known/agent-skills/index.json" title="Agent skills index">
+<link rel="alternate" type="application/json" href="/.well-known/mcp/server-card.json" title="MCP server card (stdio)">
 <link rel="describedby" href="/openapi.json" type="application/json">
 <link rel="api-catalog" href="/.well-known/api-catalog" type="application/linkset+json">
 <link rel="preload" as="style" href="/fonts/fonts.css">
@@ -40,7 +49,7 @@
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="stylesheet" href="/s-dd14669b04b7.css">
+<link rel="stylesheet" href="/s-aaf4544ff4c5.css">
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -50,8 +59,11 @@
     "SIREN",
     "DOOMCON",
     "AI SIREN Index",
-    "AI Siren Index"
+    "AI Siren Index",
+    "SIREN AI activity index",
+    "siren.watch"
   ],
+  "disambiguatingDescription": "siren.watch: an hourly, recomputable index of AI industry activity. Not the SIREN crypto token and not the Siren investigation platform.",
   "url": "https://siren.watch/",
   "description": "Every AI doom number is a judgement call. This one is arithmetic: how much is happening in AI, measured hourly from public data — not how bad it is. Five pillars, one 0-100 score, one level from 5 (quietest) to 1 (loudest), and every number reproducible from a published receipt.",
   "logo": "https://siren.watch/favicon.svg",
@@ -553,7 +565,7 @@
     "Which desk picks are kept",
     "How do they compare side by side",
     "Which rival should you pick",
-    "Which complementary index is not a doom index",
+    "Which complementary instruments are not doom indexes",
     "When is SIREN the right alternative",
     "When is SIREN the wrong alternative",
     "Where is one page per rival",
@@ -931,13 +943,13 @@
   "name": "openai/openai-agents-python v0.24.0",
   "url": "https://siren.watch/item/openai-openai-agents-python-v0-24-0-b30178819836d6f4.html",
   "isBasedOn": "https://github.com/openai/openai-agents-python/releases/tag/v0.24.0",
-  "datePublished": "2026-10-15T02:37:43.000Z",
+  "datePublished": "2026-11-18T19:20:04.000Z",
   "publisher": {
     "@type": "Organization",
     "name": "Superintelligence Real-time Early Notice",
     "url": "https://siren.watch/"
   },
-  "description": "0.24.0 (2026-10-15) Features expose MCP annotations on converted tools ( #5356 ) ( 75813f8 ) support run-wide tool exception formatting ( #5326 ) ( 8fd9a7c ) Bug Fixes batch OpenAI conversation…",
+  "description": "0.24.0 (2026-10-15) Key Changes 0.24.0 adds run-wide function error formatting and MCP discovery annotations, and improves recovery, sandbox safety, and tracing. This minor release includes…",
   "speakable": {
     "@type": "SpeakableSpecification",
     "cssSelector": [
@@ -990,7 +1002,7 @@
       "name": "What is the score on this story?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Scored 31.8 of 100. Every term is published and every input is public, so this number can be recomputed. It ranks the item inside the 800-item window — not a judgement about importance in the world and not an item doom score."
+        "text": "Scored 41.7 of 100. Every term is published and every input is public, so this number can be recomputed. It ranks the item inside the 800-item window — not a judgement about importance in the world and not an item doom score."
       }
     },
     {
@@ -1039,10 +1051,12 @@
   gtag('js', new Date());
   gtag('config', 'G-93SEVYQXY3', { allow_google_signals: false, allow_ad_personalization_signals: false });
 </script>
+
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="dOTtRrGK2u3bLv86td2ZFw" async></script>
 </head>
 <body>
 <style data-siteheader-css>
-.sh{--sh-bg:#000;--sh-panel:#0E131D;--sh-line:#232C3B;--sh-btn:#2A3446;--sh-ink:#E6EAF0;--sh-mute:#AEB7C3;--sh-acc:#4F46E5;--sh-acc2:#818CF8;
+.sh{--sh-bg:#000;--sh-panel:#0E131D;--sh-line:#232C3B;--sh-btn:#2A3446;--sh-ink:#E6EAF0;--sh-mute:#AEB7C3;--sh-acc:#56B0E0;--sh-acc2:#56B0E0;
   position:relative;z-index:60;background:var(--sh-bg);border-bottom:2px solid var(--sh-line);color:var(--sh-ink);
   font:600 12px/1.2 'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em;-webkit-text-size-adjust:100%}
 .sh *,.sh *::before,.sh *::after{box-sizing:border-box}
@@ -1056,7 +1070,7 @@
 @media (max-width:560px){.sh__exp{font-size:7.5px;letter-spacing:0;white-space:normal;max-width:100px;line-height:1.15}}
 .sh .v2-ptext{display:block;line-height:0}.sh .v2-px{display:block}
 .sh .v2-sr,.sh__sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.sh__lv{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:4px 9px;border:1px solid var(--sh-lv);background:#03130A;color:var(--sh-lv);font-weight:700;font-size:12px;white-space:nowrap}
+.sh__lv{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:4px 9px;border:1px solid var(--sh-lv);background:#03130A;color:var(--sh-lv);font-weight:700;font-size:12px;white-space:nowrap}
 .sh__lv i{width:8px;height:8px;border-radius:50%;background:var(--sh-lv);box-shadow:0 0 8px var(--sh-lv)}
 .sh__nav{flex:1 1 auto;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
 .sh__nav::-webkit-scrollbar{display:none}
@@ -1064,8 +1078,8 @@
 .sh__nav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:0 9px;color:var(--sh-mute);border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;text-transform:uppercase;font-size:11.5px}
 .sh__nav a:hover{color:#fff}
 .sh__nav a[aria-current=page]{color:#fff;border-bottom-color:var(--sh-acc2)}
-.sh__all{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;background:var(--sh-acc);color:#fff;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
-.sh__all:hover{background:#4338CA}
+.sh__all{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;background:var(--sh-acc);color:#06070b;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh__all:hover{background:#7EC8E8}
 .sh__new{flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 12px;border:2px solid #FACC15;background:transparent;color:#FACC15;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
 .sh__new:hover{background:#FACC15;color:#000}
 @media (max-width:560px){.sh__new{padding:0 10px}.sh__new span{display:none}}
@@ -1074,22 +1088,22 @@
 .sh__srch:hover{border-color:var(--sh-acc2);color:#fff}
 .sh-rooms__chips{flex:0 0 auto;display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid #232C3B;scrollbar-width:none}
 .sh-rooms__chips::-webkit-scrollbar{display:none}
-.sh-rooms__chips button{flex:0 0 auto;min-height:32px;padding:0 10px;border:1px solid #2A3446;background:#0E131D;color:#D7DCE3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
-.sh-rooms__chips button:hover{border-color:#818CF8;color:#fff}
+.sh-rooms__chips button{flex:0 0 auto;min-height:44px;touch-action:manipulation;padding:0 10px;border:1px solid #2A3446;background:#0E131D;color:#D7DCE3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh-rooms__chips button:hover{border-color:#56B0E0;color:#fff}
 .sh-rooms__g--rec{color:#FACC15}
 .sh-pn{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}
 .sh-pn a{display:flex;flex-direction:column;gap:3px;min-height:56px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
-.sh-pn a:hover{border-color:#6366F1;background:#161D33}
+.sh-pn a:hover{border-color:#56B0E0;background:#0C1822}
 .sh-pn small{color:#AEB7C3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase}
 .sh-pn b{font-weight:650}
 .sh-pn a[data-sh-next]{text-align:right;grid-column:2}
 .sh__all svg{display:block}
 .sh__all kbd{font:inherit;font-size:10px;border:1px solid rgba(255,255,255,.55);padding:1px 5px}
 .sh a:focus-visible,.sh button:focus-visible,.sh-rooms a:focus-visible,.sh-rel a:focus-visible,.sh-rel button:focus-visible,.sh-top:focus-visible,video:focus-visible{outline:2px solid #E2A03B;outline-offset:2px}
-@media (max-width:1360px){.sh__lv b{display:none}.sh__all kbd{display:none}.sh__nav a{padding:0 7px}}
+@media (max-width:4000px){.sh__lv b{display:none}.sh__all kbd{display:none}.sh__nav a{padding:0 7px}}
 @media (max-width:1180px){.sh__nav{mask-image:linear-gradient(90deg,#000 90%,transparent)}}
 @media (max-width:900px){.sh__nav{display:none}.sh__lv{margin-left:auto}}
-@media (max-width:560px){.sh__in{gap:6px;padding:0 10px;min-height:56px}.sh__brand svg{width:96px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px}.sh__all{padding:0 12px}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px}}
+@media (max-width:560px){.sh__in{gap:6px;padding:0 10px;min-height:56px}.sh__brand svg{width:96px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px;min-height:40px}.sh__all{padding:0 12px;min-width:48px;justify-content:center}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px}.sh__all,.sh__brand,.sh__lv,.sh__srch,.sh__new{touch-action:manipulation}.sh-top{bottom:calc(12px + env(safe-area-inset-bottom,0px))}}
 .sh__lvw{font-style:normal}
 @media (max-width:400px){.sh__srch{display:none}}
 @media (max-width:340px){.sh__brand svg{display:none}}
@@ -1107,12 +1121,12 @@
 .sh-rooms__i span{min-width:0;display:flex;flex-direction:column}
 .sh-rooms__i b{font-weight:650}
 .sh-rooms__i small{color:#AEB7C3;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sh-rooms__i:hover,.sh-rooms__i.on{background:#161D33;border-left-color:#818CF8}
+.sh-rooms__i:hover,.sh-rooms__i.on{background:#0C1822;border-left-color:#56B0E0}
 .sh-rooms__i[aria-current=page] b::after{content:' · you are here';color:#86EFAC;font-weight:500;font-size:12px}
-.sh-rooms__i--x b{color:#A5B4FC}
+.sh-rooms__i--x b{color:#56B0E0}
 .sh-rooms__i mark{background:rgba(250,204,21,.28);color:inherit}
 .sh-rooms__k{margin:0;padding:8px 16px;border-top:1px solid #232C3B;color:#AEB7C3;font:500 11px/1.3 'IBM Plex Mono',ui-monospace,monospace}
-@media (max-width:560px){.sh-rooms{margin:10px auto auto;max-height:calc(100vh - 20px)}.sh-rooms__box{max-height:calc(100vh - 20px)}.sh-rooms__k{display:none}}
+@media (max-width:560px){.sh-rooms{margin:max(10px,env(safe-area-inset-top,0px)) auto max(10px,env(safe-area-inset-bottom,0px));max-height:calc(100vh - 20px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));width:min(720px,calc(100vw - 16px))}.sh-rooms__box{max-height:inherit}.sh-rooms__k{display:none}}
 .sh-rel{max-width:1240px;margin:40px auto 0;padding:0 16px;color:#E6EAF0;font:500 14px/1.4 system-ui,-apple-system,'Segoe UI',sans-serif}
 .sh-rel *{box-sizing:border-box}
 .sh-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:0 0 12px;padding:0;list-style:none;color:#AEB7C3;font:600 12px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
@@ -1123,25 +1137,25 @@
 .sh-rel__h{margin:0 0 10px;color:#AEB7C3;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}
 .sh-rel__g{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
 .sh-rel__a{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
-.sh-rel__a:hover{border-color:#6366F1;background:#161D33}
+.sh-rel__a:hover{border-color:#56B0E0;background:#0C1822}
 .sh-rel__a img{flex:0 0 auto;width:40px;height:40px;display:block}
 .sh-rel__a span{min-width:0;display:flex;flex-direction:column;gap:2px}
 .sh-rel__a b{font:700 12px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
 .sh-rel__a small{color:#AEB7C3;font-size:12.5px;line-height:1.35}
 .sh-rel__more{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px 16px}
-.sh-rel__more a,.sh-rel__more button{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;color:#A5B4FC;font:600 12px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-rel__more a,.sh-rel__more button{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;color:#56B0E0;font:600 12px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
 .sh-rel__more a:hover,.sh-rel__more button:hover{color:#fff}
 .sh-top{position:fixed;left:12px;bottom:12px;z-index:9997;display:none;align-items:center;justify-content:center;width:44px;height:44px;border:2px solid #2A3446;background:rgba(10,14,22,.94);color:#E6EAF0;font:700 18px/1 system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.4)}
 .sh-top.on{display:inline-flex}
-.sh-top:hover{border-color:#6366F1;color:#fff}
+.sh-top:hover{border-color:#56B0E0;color:#fff}
 @media (max-width:700px){#sitebar,.sh-top{transition:transform .25s ease,opacity .25s ease}html.sh-dn #sitebar,html.sh-dn .sh-top{transform:translateY(160%);opacity:0;pointer-events:none}}
 @media (prefers-reduced-motion:reduce){#sitebar,.sh-top{transition:none}}
 @media print{.sh,.sh-rel,.sh-top{display:none}}
 </style>
 <header class="sh" data-siteheader role="banner"><div class="sh__in">
-<a class="sh__brand" href="/" aria-label="AI SIREN Index: Superintelligence Real-time Early Notice. Home" title="SIREN = Superintelligence Real-time Early Notice"><img src="/img/art-siren.webp" width="36" height="36" alt=""><span class="sh__wm"><span class="v2-ptext "><span class="v2-sr">AI SIREN INDEX</span><svg class="v2-px" width="213" height="21" viewBox="0 0 71 7" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="6" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="14" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="19" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="23" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="29" y="0" width="5" height="1" fill="#FFFFFF"/><rect x="35" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="44" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="48" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="60" y="0" width="5" height="1" fill="#FFFFFF"/><rect x="66" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="13" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="1" width="2" height="1" fill="#FFFFFF"/><rect x="39" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="1" width="2" height="1" fill="#FFFFFF"/><rect x="52" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="66" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="13" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="37" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="50" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="67" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="69" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="3" width="5" height="1" fill="#FFFFFF"/><rect x="7" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="14" y="3" width="3" height="1" fill="#FFFFFF"/><rect x="20" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="29" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="35" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="38" y="3" width="2" height="1" fill="#FFFFFF"/><rect x="45" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="51" y="3" width="2" height="1" fill="#FFFFFF"/><rect x="54" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="68" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="17" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="25" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="67" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="69" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="17" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="26" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="66" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="6" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="13" y="6" width="4" height="1" fill="#FFFFFF"/><rect x="19" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="23" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="6" width="5" height="1" fill="#FFFFFF"/><rect x="35" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="44" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="48" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="6" width="4" height="1" fill="#FFFFFF"/><rect x="60" y="6" width="5" height="1" fill="#FFFFFF"/><rect x="66" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="6" width="1" height="1" fill="#FFFFFF"/></svg></span><span class="sh__exp" aria-hidden="true"><b>S</b>uper<b>I</b>ntelligence <b>R</b>eal-time <b>E</b>arly <b>N</b>otice</span></span></a>
-<a class="sh__lv" href="/#signal" style="--sh-lv:#4ADE80" title="Current reading: SIREN 4 (ROUTINE), score 56.7 of 100"><i aria-hidden="true"></i><span><em class="sh__lvw">SIREN </em>4<b> · ROUTINE</b> · 56.7</span></a>
-<nav class="sh__nav" aria-label="Primary"><a href="/">Index</a><a href="/race.html">Race</a><a href="/news.html">News</a><a href="/games.html">Games</a><a href="/labs.html">Labs</a><a href="/leaders.html">Leaders</a><a href="/monitor.html">Monitor</a><a href="/dispatch.html">Dispatch</a><a href="/moltbook.html">Agent Watch</a><a href="/videos.html">Videos</a><a href="/radio.html">Radio</a></nav>
+<a class="sh__brand" href="/" aria-label="AI SIREN Index: Superintelligence Real-time Early Notice. Home" title="SIREN = Superintelligence Real-time Early Notice"><img src="/img/art-siren.webp" width="36" height="36" alt=""><span class="sh__wm"><span class="v2-ptext "><span class="v2-sr">AI SIREN INDEX</span><svg class="v2-px" width="213" height="21" viewBox="0 0 71 7" shape-rendering="crispEdges" aria-hidden="true"><path d="M1 0h3v1h-3zM6 0h3v1h-3zM14 0h4v1h-4zM19 0h3v1h-3zM23 0h4v1h-4zM29 0h5v1h-5zM35 0h1v1h-1zM39 0h1v1h-1zM44 0h3v1h-3zM48 0h1v1h-1zM52 0h1v1h-1zM54 0h4v1h-4zM60 0h5v1h-5zM66 0h1v1h-1zM70 0h1v1h-1zM0 1h1v1h-1zM4 1h1v1h-1zM7 1h1v1h-1zM13 1h1v1h-1zM20 1h1v1h-1zM23 1h1v1h-1zM27 1h1v1h-1zM29 1h1v1h-1zM35 1h2v1h-2zM39 1h1v1h-1zM45 1h1v1h-1zM48 1h2v1h-2zM52 1h1v1h-1zM54 1h1v1h-1zM58 1h1v1h-1zM60 1h1v1h-1zM66 1h1v1h-1zM70 1h1v1h-1zM0 2h1v1h-1zM4 2h1v1h-1zM7 2h1v1h-1zM13 2h1v1h-1zM20 2h1v1h-1zM23 2h1v1h-1zM27 2h1v1h-1zM29 2h1v1h-1zM35 2h1v1h-1zM37 2h1v1h-1zM39 2h1v1h-1zM45 2h1v1h-1zM48 2h1v1h-1zM50 2h1v1h-1zM52 2h1v1h-1zM54 2h1v1h-1zM58 2h1v1h-1zM60 2h1v1h-1zM67 2h1v1h-1zM69 2h1v1h-1zM0 3h5v1h-5zM7 3h1v1h-1zM14 3h3v1h-3zM20 3h1v1h-1zM23 3h4v1h-4zM29 3h4v1h-4zM35 3h1v1h-1zM38 3h2v1h-2zM45 3h1v1h-1zM48 3h1v1h-1zM51 3h2v1h-2zM54 3h1v1h-1zM58 3h1v1h-1zM60 3h4v1h-4zM68 3h1v1h-1zM0 4h1v1h-1zM4 4h1v1h-1zM7 4h1v1h-1zM17 4h1v1h-1zM20 4h1v1h-1zM23 4h1v1h-1zM25 4h1v1h-1zM29 4h1v1h-1zM35 4h1v1h-1zM39 4h1v1h-1zM45 4h1v1h-1zM48 4h1v1h-1zM52 4h1v1h-1zM54 4h1v1h-1zM58 4h1v1h-1zM60 4h1v1h-1zM67 4h1v1h-1zM69 4h1v1h-1zM0 5h1v1h-1zM4 5h1v1h-1zM7 5h1v1h-1zM17 5h1v1h-1zM20 5h1v1h-1zM23 5h1v1h-1zM26 5h1v1h-1zM29 5h1v1h-1zM35 5h1v1h-1zM39 5h1v1h-1zM45 5h1v1h-1zM48 5h1v1h-1zM52 5h1v1h-1zM54 5h1v1h-1zM58 5h1v1h-1zM60 5h1v1h-1zM66 5h1v1h-1zM70 5h1v1h-1zM0 6h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM13 6h4v1h-4zM19 6h3v1h-3zM23 6h1v1h-1zM27 6h1v1h-1zM29 6h5v1h-5zM35 6h1v1h-1zM39 6h1v1h-1zM44 6h3v1h-3zM48 6h1v1h-1zM52 6h1v1h-1zM54 6h4v1h-4zM60 6h5v1h-5zM66 6h1v1h-1zM70 6h1v1h-1z" fill="#FFFFFF"/></svg></span><span class="sh__exp" aria-hidden="true"><b>S</b>uper<b>I</b>ntelligence <b>R</b>eal-time <b>E</b>arly <b>N</b>otice</span></span></a>
+<a class="sh__lv" href="/#signal" style="--sh-lv:#FACC15" title="Current reading: SIREN 4 (ROUTINE), score 55.3 of 100"><i aria-hidden="true"></i><span><em class="sh__lvw">SIREN </em>4<b> · ROUTINE</b> · 55.3</span></a>
+<nav class="sh__nav" aria-label="Primary"><a href="/">Index</a><a href="/news.html">News</a><a href="/race.html">Race</a><a href="/midterms.html">Midterms</a><a href="/leaders.html">Leaders</a><a href="/labs.html">Labs</a><a href="/monitor.html">Monitor</a><a href="/games.html">Games</a></nav>
 <button type="button" class="sh__new" data-sh-rooms-group="NEW ON SIREN" aria-haspopup="dialog" aria-controls="sh-rooms" title="What’s new on SIREN">✦<span> New</span></button>
 <button type="button" class="sh__srch" data-sh-rooms data-sh-search aria-haspopup="dialog" aria-controls="sh-rooms" title="Search the site (/)"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11.6 11.6 16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg><b class="sh__sr">Search the site</b></button>
 <button type="button" class="sh__all" data-sh-rooms aria-haspopup="dialog" aria-controls="sh-rooms"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" fill="currentColor"/></svg><span>All rooms</span><kbd>/</kbd><b class="sh__sr">Open the list of every room</b></button>
@@ -1154,7 +1168,7 @@
 .sr a img{width:26px;height:26px;display:block;image-rendering:pixelated}
 .sr a:hover,.sr a:focus-visible{background:#141B27;border-color:#334155}
 .sr a[aria-current]{background:#10251A;border-color:#4ADE80}
-.sr a span{position:absolute;left:50px;top:50%;transform:translateY(-50%);white-space:nowrap;padding:5px 9px;border-radius:6px;background:#0B0F16;border:1px solid #818CF8;color:#E6EAF0;font:600 12px/1 system-ui,sans-serif;opacity:0;pointer-events:none;transition:opacity .12s}
+.sr a span{position:absolute;left:50px;top:50%;transform:translateY(-50%);white-space:nowrap;padding:5px 9px;border-radius:6px;background:#0B0F16;border:1px solid #56B0E0;color:#E6EAF0;font:600 12px/1 system-ui,sans-serif;opacity:0;pointer-events:none;transition:opacity .12s}
 .sr a:hover span,.sr a:focus-visible span{opacity:1}
 .sr i{display:block;width:30px;height:1px;background:#2A3446;margin:5px 0;font:700 8.5px/1 'IBM Plex Mono',monospace;font-style:normal;color:#4ADE80;letter-spacing:.12em;text-align:center}
 .sr i.t{height:auto;background:none;border-top:1px solid #2A3446;padding-top:5px}
@@ -1261,10 +1275,11 @@
 .tab { display: none; }
 @media (max-width: 699px) {
   .tab { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); border-top: 1px solid var(--rule); background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(10px); }
-  .tab__t { display: grid; justify-items: center; gap: 3px; padding: 5px 2px; border-radius: 8px; text-decoration: none; color: var(--ink-dim); font: 700 11px/1.1 var(--mono); letter-spacing: .04em; text-transform: uppercase; min-height: 44px; align-content: center; }
+  .tab__t { display: grid; justify-items: center; gap: 3px; padding: 5px 2px; border-radius: 8px; text-decoration: none; color: var(--ink-dim); font: 700 11px/1.1 var(--mono); letter-spacing: .04em; text-transform: uppercase; min-height: 44px; align-content: center; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
   .tab__t svg { width: 19px; height: 19px; }
   .tab__t[aria-current="page"] { color: var(--accent); }
-  body { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+  /* Clear the tab bar and the floating freshness sitebar that sits above it. */
+  body { padding-bottom: calc(130px + env(safe-area-inset-bottom)); }
 }
 @media print { .tab, .nxt { display: none !important; } }
 .nxt { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-block: var(--s-6) var(--s-5); }
@@ -1274,13 +1289,20 @@
 .nxt__a b { font: 650 var(--t-base)/1.25 var(--sans); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nxt__a--n { text-align: right; }
 </style>
-<div class="rail"><div class="wrap rail__in"><span class="rail__c" title="Wall-clock UTC. The observation stamp is the next cell along."><span class="rail__k">UTC</span><b class="rail__v rail__clk num" data-dc-clock>14:45Z</b></span><a class="rail__c rail__c--home" href="/"><span class="rail__k">Now</span><b class="rail__v">SIREN 4</b><span class="rail__v num">56.7<small>/100</small></span></a><span class="rail__c" title="Change in the composite since the previous scored observation at 2026-10-16 14:03:07 UTC."><span class="rail__k">Delta</span><span class="delta" data-dir="down"><span class="delta__g" aria-hidden="true">▼</span><b class="delta__n num">−0.2</b><span class="vh">down</span></span><span class="rail__s">since 14:03Z</span></span><span class="rail__c" title="2026-10-16 14:45:12 UTC"><span class="rail__k">Observed</span><time class="rail__v num" datetime="2026-10-16T14:45:12.477Z" data-dc-obs>14:45Z</time><span class="rail__age num" data-dc-age hidden></span></span><span class="rail__c"><span class="rail__k">Sources</span><b class="rail__v num">15/15</b><span class="rail__s">reporting</span></span><span class="rail__c rail__c--posture" data-posture="operational"><span class="rail__k">Status</span><b class="rail__v">OPERATIONAL</b></span></div></div>
-<aside class="rvisit" id="dc-visit" role="status" hidden data-at="2026-10-16T14:45:12.477Z" data-score="56.7" data-level="4" data-name="ROUTINE" data-obs="656"><div class="wrap rvisit__in"><b class="rvisit__k">Since you looked</b><span class="rvisit__t num"></span><span class="rvisit__d"></span><span class="rvisit__x"></span><button class="rvisit__b" type="button" data-dc-dismiss>Dismiss</button></div></aside>
+<div class="rail"><div class="wrap rail__in"><span class="rail__c" title="Wall-clock UTC. The observation stamp is the next cell along."><span class="rail__k">UTC</span><b class="rail__v rail__clk num" data-dc-clock>18:15Z</b></span><a class="rail__c rail__c--home" href="/"><span class="rail__k">Now</span><b class="rail__v">SIREN 4</b><span class="rail__v num">55.3<small>/100</small></span></a><span class="rail__c" title="Change in the composite since the previous scored observation at 2026-11-18 17:10:09 UTC."><span class="rail__k">Delta</span><span class="delta" data-dir="up"><span class="delta__g" aria-hidden="true">▲</span><b class="delta__n num">+0.3</b><span class="vh">up</span></span><span class="rail__s">since 17:10Z</span></span><span class="rail__c" title="2026-11-18 18:15:21 UTC"><span class="rail__k">Observed</span><time class="rail__v num" datetime="2026-11-18T18:15:21.941Z" data-dc-obs>18:15Z</time><span class="rail__age num" data-dc-age hidden></span></span><span class="rail__c"><span class="rail__k">Sources</span><b class="rail__v num">18/18</b><span class="rail__s">reporting</span></span><span class="rail__c rail__c--posture" data-posture="operational"><span class="rail__k">Status</span><b class="rail__v">OPERATIONAL</b></span></div></div>
+<aside class="rvisit" id="dc-visit" role="status" hidden data-at="2026-11-18T18:15:21.941Z" data-score="55.3" data-level="4" data-name="ROUTINE" data-obs="1644"><div class="wrap rvisit__in"><b class="rvisit__k">Since you looked</b><span class="rvisit__t num"></span><span class="rvisit__d"></span><span class="rvisit__x"></span><button class="rvisit__b" type="button" data-dc-dismiss>Dismiss</button></div></aside>
 
 <main class="wrap" id="main" data-level="4">
 <style>
 .it__k{font-family:var(--mono);font-size: var(--t-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
 .it__h{margin:var(--s-2) 0;max-width:24ch;font-size:clamp(22px,4vw,34px);line-height:1.15}
+.it__act{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:var(--s-2) 0 var(--s-3)}
+.it__score{display:inline-flex;align-items:baseline;gap:4px;min-height:44px;padding:8px 12px;box-sizing:border-box;border:2px solid var(--rule);color:var(--ink);text-decoration:none}
+.it__score b{font-size:20px;font-variant-numeric:tabular-nums}.it__score span{font-size:12px;color:var(--ink-dim)}
+.it__read{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;background:var(--ink);color:var(--bg-sunken)!important;font-weight:700;text-decoration:none;border-radius:3px}
+.it__read:hover{opacity:.9}
+.it__next{display:flex;flex-wrap:wrap;gap:8px 14px;margin:0 0 var(--s-3);font-family:var(--mono);font-size:var(--t-xs)}
+.it__next a{color:var(--accent,#93C5FD)}
 .it__src{font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-dim)}
 .it blockquote.lede{margin:var(--s-2) 0;padding-left:var(--s-3);border-left:3px solid var(--rule)}.it blockquote.lede p{margin:0}.it blockquote.lede footer{margin-top:6px;font-family:var(--mono);font-size:var(--t-xs);color:var(--ink-faint)}
 .it__s{margin-top:var(--s-5);border-top:1px solid var(--rule);padding-top:var(--s-3)}
@@ -1302,14 +1324,20 @@
 .it__rm{font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-faint);font-variant-numeric:tabular-nums}
 </style>
 <article class="it">
-  <p class="it__k"><a href="/news.html">Which AI stories has SIREN scored in this window?</a> · <a href="/pillar/capability.html">What has SIREN scored under Capability?</a> · <a href="/kind/release.html">What has SIREN scored as Releases?</a> · <time datetime="2026-10-15T02:37:43.000Z">2026-10-15 02:37:43 UTC</time></p>
+  <p class="it__k"><a href="/news.html">Which AI stories has SIREN scored in this window?</a> · <a href="/pillar/capability.html">What has SIREN scored under Capability?</a> · <a href="/kind/release.html">What has SIREN scored as Releases?</a> · <time datetime="2026-11-18T19:20:04.000Z">2026-11-18 19:20:04 UTC</time></p>
 
   <h1 class="it__h">openai/openai-agents-python v0.24.0</h1>
-  <blockquote class="lede" cite="https://github.com/openai/openai-agents-python/releases/tag/v0.24.0"><p>0.24.0 (2026-10-15) Features expose MCP annotations on converted tools ( #5356 ) ( 75813f8 ) support run-wide tool exception formatting ( #5326 ) ( 8fd9a7c ) Bug Fixes batch OpenAI conversation…</p><footer>— excerpt from github-releases; the full story and its rights belong to them.</footer></blockquote>
+  <p class="it__act"><a class="it__score" href="#it-score"><b>41.7</b><span>/100 SIREN score</span></a><a class="it__read" href="https://github.com/openai/openai-agents-python/releases/tag/v0.24.0" rel="nofollow noopener">Read the full story →</a></p>
+  <nav class="it__next" aria-label="Keep reading">
+    <a href="/charts.html">What AI charts does SIREN publish?</a>
+    <a href="/news.html">Which AI stories has SIREN scored in this window?</a>
+    <a href="/">AI activity index today</a>
+  </nav>
+  <blockquote class="lede" cite="https://github.com/openai/openai-agents-python/releases/tag/v0.24.0"><p>0.24.0 (2026-10-15) Key Changes 0.24.0 adds run-wide function error formatting and MCP discovery annotations, and improves recovery, sandbox safety, and tracing. This minor release includes…</p><footer>— excerpt from github-releases; the full story and its rights belong to them.</footer></blockquote>
 
   <p class="it__src">
     Source: <a href="/source/github-releases.html">What has SIREN scored via GitHub releases (AI basket)?</a> · <a href="https://github.com/openai/openai-agents-python/releases/tag/v0.24.0" rel="nofollow noopener">original</a>
-    · first seen by this index at <time datetime="2026-10-15T02:52:59.205Z">2026-10-15 02:52:59 UTC</time>
+    · first seen by this index at <time datetime="2026-11-18T19:26:56.576Z">2026-11-18 19:26:56 UTC</time>
   </p>
   <p class="it__src">Names in this headline: OpenAI. A name is a match against the published entity list, not a claim the subject wrote the story.</p>
   
@@ -1320,14 +1348,14 @@
   <section class="it__s" aria-labelledby="it-score">
     <h2 id="it-score">What is the score on this story?</h2>
     <table class="it__t">
-    <caption>How this item scored 31.8 of 100</caption>
+    <caption>How this item scored 41.7 of 100</caption>
     <thead><tr><th scope="col">Component</th><th scope="col">Points</th></tr></thead>
     <tbody><tr>
+      <th scope="row">recency</th>
+      <td class="num">19.9</td>
+    </tr><tr>
       <th scope="row">source weight</th>
       <td class="num">18.8</td>
-    </tr><tr>
-      <th scope="row">recency</th>
-      <td class="num">10.0</td>
     </tr><tr>
       <th scope="row">entities</th>
       <td class="num">3.0</td>
@@ -1344,7 +1372,7 @@
       <th scope="row">coverage</th>
       <td class="num">0.0</td>
     </tr></tbody>
-    <tfoot><tr><th scope="row">Total</th><td class="num">31.8</td></tr></tfoot>
+    <tfoot><tr><th scope="row">Total</th><td class="num">41.7</td></tr></tfoot>
   </table>
     <p class="it__n">Every term is published and every input is public, so this number can be
        recomputed. It ranks the item inside the 800-item window; it is
@@ -1366,26 +1394,26 @@
   <section class="it__s" aria-labelledby="it-rel">
     <h2 id="it-rel">Which related stories are in this window?</h2>
     <ul class="it__rel"><li>
-      <a href="/item/ai-in-production-panellists-highlight-silent-failures-harness-en-260c3bf8c95553c1.html">AI in Production: Panellists Highlight Silent Failures, Harness Engineering, and Agent Governance</a>
-      <span class="it__rm">32.3</span>
+      <a href="/item/openai-openai-agents-python-v0-25-0-395eb2f50bbc7a2c.html">openai/openai-agents-python v0.25.0</a>
+      <span class="it__rm">41.7</span>
     </li><li>
-      <a href="/item/he-wants-ai-benchmarking-to-be-a-science-not-a-dark-art-b5d91dec55a6a21e.html">He Wants AI Benchmarking To Be a Science, Not a Dark Art</a>
-      <span class="it__rm">33.3</span>
+      <a href="/item/this-featherweight-flying-robot-carries-its-own-sensors-and-comp-f4d5cc76792a20c6.html">This featherweight, flying robot carries its own sensors and computers</a>
+      <span class="it__rm">31.1</span>
     </li><li>
-      <a href="/item/grafana-applies-slos-and-error-budgets-to-ai-agent-behaviour-5640be55f6304937.html">Grafana Applies SLOs and Error Budgets to AI Agent Behaviour</a>
-      <span class="it__rm">31.5</span>
+      <a href="/item/why-your-fine-tuning-job-takes-longer-than-the-flops-say-e55c8f2df06c07ff.html">Why your fine-tuning job takes longer than the FLOPs say</a>
+      <span class="it__rm">37.2</span>
     </li><li>
-      <a href="/item/mini-book-evolutionary-architecture-in-practice-642457443034d436.html">Mini book: Evolutionary Architecture in Practice</a>
-      <span class="it__rm">31.3</span>
+      <a href="/item/genie-4-is-now-available-ca9ca0837de1673f.html">Genie 4 is now available</a>
+      <span class="it__rm">43.3</span>
     </li><li>
-      <a href="/item/rota-bench-evaluating-3d-spatial-reasoning-through-interactive-p-4472cef530d68270.html">RoTA-Bench: Evaluating 3D Spatial Reasoning through Interactive Projection Alignment</a>
-      <span class="it__rm">53.0</span>
+      <a href="/item/the-gemini-app-is-now-available-on-lower-memory-android-devices-0191a8cf5007a7e3.html">The Gemini app is now available on lower-memory Android devices.</a>
+      <span class="it__rm">42.0</span>
     </li></ul>
   </section>
   <h2 id="faq">What questions do people actually ask?</h2>
   
   <h3>What is the score on this story?</h3>
-  <p>Scored 31.8 of 100. Every term is published and every input is public, so this number can be recomputed. It ranks the item inside the 800-item window — not a judgement about importance in the world and not an item doom score.</p>
+  <p>Scored 41.7 of 100. Every term is published and every input is public, so this number can be recomputed. It ranks the item inside the 800-item window — not a judgement about importance in the world and not an item doom score.</p>
   <h3>How many sources carried this story?</h3>
   <p>Carried by one source. That is the normal case — most items are reported once — and it is stated rather than left blank so a single-source item cannot be mistaken for a corroborated one.</p>
   <h3>Which related stories are in this window?</h3>
@@ -1443,7 +1471,7 @@
       <h2 class="foot__h" id="foot-pages">Pages</h2>
       
       <ul class="foot__list foot__list--2">
-        <li><a href="/">AI activity index today · AI activity level today · SIREN</a></li><li><a href="/race.html">Who is winning the AI race?</a></li><li><a href="/news.html">Which AI stories has SIREN scored in this window?</a></li><li><a href="/watts.html">What does the SIREN infrastructure index read?</a></li><li><a href="/map.html">How many datacentres has SIREN mapped in the United States?</a></li><li><a href="/world.html">How many datacentres has SIREN mapped on Earth?</a></li><li><a href="/flock.html">How many Flock ALPR cameras has SIREN mapped?</a></li><li><a href="/exploits.html">How many days from a CVE going public to CISA listing it as exploited?</a></li><li><a href="/leaders.html">Which AI leaders are on the record this week?</a></li><li><a href="/digest.html">What is the SIREN daily brief?</a></li><li><a href="/jobs.html">Is AI taking jobs? What has actually been measured</a></li><li><a href="/medicine.html">Is AI curing anything? Trial results, approvals and what they show</a></li><li><a href="/balance.html">How does SIREN count AI harm and benefit side by side?</a></li><li><a href="/bliss.html">What is BLISS, the SIREN upside index?</a></li><li><a href="/methodology.html">How the SIREN AI activity index is computed · methodology</a></li><li><a href="/instruments.html">What instruments sit behind the SIREN reading?</a></li><li><a href="/ai-doomsday-clock.html">Is there an AI doomsday clock?</a></li><li><a href="/nothing.html">How often do dated AI claims miss?</a></li><li><a href="/desk.html">What unserious counts does SIREN keep on Tally’s desk?</a></li><li><a href="/game.html">How do you play Tally Counts?</a></li><li><a href="/library.html">What AI books argue both sides of the case?</a></li><li><a href="/bunker-kit.html">What free tools belong in a bunker kit?</a></li><li><a href="/history.html">What is the history of AI risk?</a></li><li><a href="/moves/">Where are the SIREN index moves?</a></li>
+        <li><a href="/">AI activity index today · AI activity level today · SIREN</a></li><li><a href="/race.html">Who is winning the AI race?</a></li><li><a href="/news.html">Which AI stories has SIREN scored in this window?</a></li><li><a href="/watts.html">What does the SIREN infrastructure index read?</a></li><li><a href="/map.html">How many datacentres has SIREN mapped in the United States?</a></li><li><a href="/world.html">How many datacentres has SIREN mapped on Earth?</a></li><li><a href="/flock.html">How many Flock ALPR cameras has SIREN mapped?</a></li><li><a href="/exploits.html">How many days from a CVE going public to CISA listing it as exploited?</a></li><li><a href="/leaders.html">Which AI leaders are on the record this week?</a></li><li><a href="/digest.html">What is the SIREN daily brief?</a></li><li><a href="/today.html">Today</a></li><li><a href="/mood.html">Mood</a></li><li><a href="/boards.html">Boards</a></li><li><a href="/coding-agents.html">Agents hub</a></li><li><a href="/mcp-hub.html">MCP hub</a></li><li><a href="/jobs.html">Is AI taking jobs? What has actually been measured</a></li><li><a href="/medicine.html">Is AI curing anything? Trial results, approvals and what they show</a></li><li><a href="/balance.html">How does SIREN count AI harm and benefit side by side?</a></li><li><a href="/bliss.html">What is BLISS, the SIREN upside index?</a></li><li><a href="/methodology.html">How the SIREN AI activity index is computed · methodology</a></li><li><a href="/instruments.html">What instruments sit behind the SIREN reading?</a></li><li><a href="/ai-doomsday-clock.html">Is there an AI doomsday clock?</a></li><li><a href="/nothing.html">How often do dated AI claims miss?</a></li><li><a href="/desk.html">What unserious counts does SIREN keep on Tally’s desk?</a></li><li><a href="/game.html">How do you play Tally Counts?</a></li><li><a href="/library.html">What AI books argue both sides of the case?</a></li><li><a href="/bunker-kit.html">What free tools belong in a bunker kit?</a></li><li><a href="/history.html">What is the history of AI risk?</a></li><li><a href="/moves/">Where are the SIREN index moves?</a></li>
       </ul>
     </div>
         
@@ -1464,8 +1492,8 @@
     </div>
       </div>
     </div>
-    <p class="foot__tele" aria-label="Collector telemetry"><span class="tele__c" title="Collection runs on a published */15 cron. Scheduled runs are queued and are routinely late."><span class="tele__k">Next collection</span><b class="tele__v num"><time datetime="2026-10-16T15:00:00.000Z" data-dc-next>15:00Z</time></b></span><span class="tele__c" title="Sources with a frozen baseline to score against."><span class="tele__k">Sources scored</span><b class="tele__v num">5</b></span><span class="tele__c" title="Newsroom feeds answering, of those asked."><span class="tele__k">News feeds</span><b class="tele__v num">74/82</b></span><span class="tele__c"><span class="tele__k">Items scored</span><b class="tele__v num">800</b></span><span class="tele__c" title="Hash-chained receipts, one per scored observation."><span class="tele__k">Receipts</span><b class="tele__v num">656</b></span></p>
-    <p class="foot__memo"><span>Formerly <b>DOOMCON</b></span><span>Ref <b>DC/2026-10-16T14-45-12Z</b></span><span>Typed by <b>a cron job</b></span><span>Checked by <b>SHA-256</b></span><span>Copies to <b>anyone</b></span><span>Destroy after reading <b>no need, it is hash-chained</b></span></p>
+    <p class="foot__tele" aria-label="Collector telemetry"><span class="tele__c" title="Collection runs on a published */15 cron. Scheduled runs are queued and are routinely late."><span class="tele__k">Next collection</span><b class="tele__v num"><time datetime="2026-11-18T18:30:00.000Z" data-dc-next>18:30Z</time></b></span><span class="tele__c" title="Sources with a frozen baseline to score against."><span class="tele__k">Sources scored</span><b class="tele__v num">5</b></span><span class="tele__c" title="Newsroom feeds answering, of those asked."><span class="tele__k">News feeds</span><b class="tele__v num">70/82</b></span><span class="tele__c"><span class="tele__k">Items scored</span><b class="tele__v num">800</b></span><span class="tele__c" title="Hash-chained receipts, one per scored observation."><span class="tele__k">Receipts</span><b class="tele__v num">1644</b></span></p>
+    <p class="foot__memo"><span>Formerly <b>DOOMCON</b></span><span>Ref <b>DC/2026-11-18T18-15-21Z</b></span><span>Typed by <b>a cron job</b></span><span>Checked by <b>SHA-256</b></span><span>Copies to <b>anyone</b></span><span>Destroy after reading <b>no need, it is hash-chained</b></span></p>
     <p class="foot__fine">Collection runs on a published <code>*/15</code> cron; scheduled runs are queued and
       are routinely late, which is why the rail above says <b>overdue</b> rather than counting down into fiction.
       Every value on this site is computed from public data by published code, and each observation is written to a
@@ -1568,8 +1596,12 @@ try{
 }catch(e){}
 })();</script>
 
+<aside data-siren-nl-strip role="complementary" aria-label="Email signup" style="max-width:72ch;margin:24px auto 8px;padding:12px 16px;border:1px solid rgba(86,176,224,.45);border-radius:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+  <span><b>Get the SIREN brief by email.</b> One email a day, or one when the level changes. Free.</span>
+  <a href="/subscribe.html" style="display:inline-block;min-height:40px;line-height:40px;padding:0 16px;border-radius:6px;background:#56B0E0;color:#06070b;font-weight:700;text-decoration:none">Sign up</a>
+</aside>
 <aside class="site-disclosure" data-sitebar role="note"><b>Disclosure:</b> Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest. As an Amazon Associate, SIREN earns from qualifying purchases; paid links are labelled. Full terms, privacy and disclosures: /terms.html, /privacy.html, /disclosures.html.</aside>
-<div id="sitebar" data-sitebar data-at="1792161912477" data-news="1792162056808" role="region" aria-label="Page freshness">
+<div id="sitebar" data-sitebar data-at="1795025721941" data-news="1795030557556" role="region" aria-label="Page freshness">
 <style>
 #sitebar{position:fixed;right:12px;bottom:12px;z-index:9999;display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:999px;background:rgba(255,255,255,.94);color:#1b2230;border:1px solid rgba(0,0,0,.14);box-shadow:0 4px 18px rgba(0,0,0,.14);font:500 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;backdrop-filter:blur(6px)}
 #sitebar button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;background:#1b2230;color:#fff;font:600 12px/1 system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -1584,7 +1616,7 @@ try{
 #sitebar.stale .dot{background:#d97706;animation:none}
 #sitebar .fb{all:unset;cursor:pointer;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}#sitebar .fb:hover{opacity:1}#sitebar .fb:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
 #sitebar .ago{opacity:.65}#sitebar .kofi{color:#1d4ed8;opacity:1;text-decoration:none}@media (max-width:440px){#sitebar a.fb.kofi{display:none}}
-#sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.st{padding:4px 7px}#sitebar button.rad[aria-pressed=true]{background:#818CF8;border-color:#818CF8;color:#000;opacity:1}
+#sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.st{padding:4px 7px}#sitebar button.rad[aria-pressed=true]{background:#56B0E0;border-color:#56B0E0;color:#000;opacity:1}
 #siren-intro{position:fixed;left:12px;bottom:12px;z-index:9998;max-width:min(300px,calc(100vw - 24px));border-radius:8px;overflow:hidden;background:#000;border:1px solid #232C3B;box-shadow:0 10px 30px rgba(0,0,0,.5)}
 #siren-intro video{display:block;width:100%;height:auto}
 #siren-intro .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 8px;font:600 11px/1 system-ui,sans-serif;color:#AEB7C3;letter-spacing:.06em}
@@ -1595,14 +1627,21 @@ try{
 /* Phones: a small picture docked bottom-right, just above the freshness bar and the guide button
    (their offset comes from --sb-off, set by lift() below), so it never covers the header, the level
    or the score at the top of the page. */
-@media (max-width:560px){#siren-intro.playing{width:140px;left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro.chip{left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro .bar{padding:2px 4px}#siren-intro.playing .bar>span:first-child{display:none}#siren-intro.playing .bar>span:last-child{display:flex;width:100%;justify-content:space-between}#siren-intro button{min-height:32px;display:inline-flex;align-items:center}}
+@media (max-width:560px){#siren-intro.playing{width:140px;left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro.chip{left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro .bar{padding:2px 4px}#siren-intro.playing .bar>span:first-child{display:none}#siren-intro.playing .bar>span:last-child{display:flex;width:100%;justify-content:space-between}#siren-intro button{min-height:44px;display:inline-flex;align-items:center;touch-action:manipulation}}
 @keyframes sitebar-spin{to{transform:rotate(360deg)}}
 @media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}#sitebar .kofi{color:#93b8f5}}
-/* Phones: the bar sits left and the round Ask SIREN button (media/guide.js) takes the same row on
+/* The site is dark by design (html[data-theme=dark]); the bar matches it whatever the OS scheme, so a light-mode phone no longer gets a white pill on a black page. */
+html[data-theme="dark"] #sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}html[data-theme="dark"] #sitebar button{background:#e6e9ef;color:#141820}html[data-theme="dark"] #sitebar .kofi{color:#93b8f5}
+/* Phones: the bar sits left and the round Talk to Tally button (media/guide.mjs) takes the same row on
    the right, so the two never stack on each other or on the reading. */
-@media (max-width:560px){#sitebar{left:8px;right:auto;bottom:10px;max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:30px;box-sizing:border-box}#sitebar .fb{display:inline-flex;align-items:center;min-height:30px}}
+@media (max-width:560px){#sitebar{left:8px;right:auto;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:44px;box-sizing:border-box;touch-action:manipulation}#sitebar .fb{display:inline-flex;align-items:center;min-height:44px;touch-action:manipulation}}
 @media (max-width:360px){#sitebar #sitebar-x{display:none}}
-@media (max-width:440px){#sitebar{gap:6px;padding:3px 3px 3px 10px;max-width:calc(100vw - 68px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:5px 8px}}
+@media (max-width:440px){#sitebar{gap:6px;padding:3px 3px 3px 10px;max-width:calc(100vw - 68px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:8px 10px}}
+#sitebar{transition:transform .25s ease,opacity .25s ease}
+/* Tucked while the reader scrolls down so the pill never sits on the text; back on scroll-up, at the end, or when there is news. */
+#sitebar.tuck{transform:translateY(calc(100% + 24px));opacity:0;pointer-events:none}
+html.sb-tuck #siren-intro.chip{opacity:0;pointer-events:none}#siren-intro.chip{transition:opacity .25s ease}
+@media (prefers-reduced-motion:reduce){#sitebar{transition:none}}
 @media print{#sitebar{display:none}}
 .site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
 .site-disclosure b{font-weight:600}
@@ -1620,7 +1659,7 @@ body.site-em-pad{padding-top:40px}
 <span class="sb-fresh" title="News is checked every minute and Dispatch alerts refresh through the hour, so both are live. The SIREN score is recalculated once an hour from every source."><i class="dot" aria-hidden="true"></i><b>News &amp; alerts live</b> · news <span id="sitebar-news">–</span> · <span class="sb-score">SIREN score <time id="sitebar-at"></time> (hourly)</span></span>
 <a class="fb" id="sitebar-fb" href="https://siren.watch/feedback.html" title="Report a problem or send feedback">Feedback</a>
 <a class="fb kofi" href="https://ko-fi.com/I0R828E7LP" target="_blank" rel="noopener" title="Support SIREN on Ko-fi">☕ Support</a><a class="fb" id="sitebar-x" href="https://x.com/intent/post?via=SIRENutf6" target="_blank" rel="noopener" title="Post this page on X">𝕏 Post</a>
-<button type="button" class="rad" data-siren-radio data-level="4" aria-pressed="false" title="Turn SIREN Radio on">♪ OFF</button><button type="button" class="rad st" data-siren-station="" aria-label="Next radio station" title="Next station (6 stations)">📻</button>
+<button type="button" class="rad" data-siren-radio data-level="4" aria-pressed="false" title="Turn SIREN Radio on">♪ OFF</button><button type="button" class="rad st" data-siren-station="" aria-label="Next radio station" title="Next station (9 stations)">📻</button>
 <button type="button" id="sitebar-btn" aria-label="Refresh this page's data"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span id="sitebar-lbl">Refresh</span></button>
 <script>(function(){
 if (window.sirenX) return;
@@ -1632,14 +1671,12 @@ if (window.sirenX) return;
 var HOOKS = {
   news: [
     "{t}",
-    "{t} ({s})",
-    "Just in: {t}",
-    "New from {s}: {t}",
-    "This one matters: {t}",
-    "The AI story everyone's about to be talking about: {t}",
-    "Quietly huge: {t}",
-    "{s} has it: {t}",
-    "Today in AI: {t}"
+    "{s}: {t}",
+    "Fresh off the AI wire: {t}",
+    "Logged at {time}: {t}",
+    "{t}\n\n({s})",
+    "Big if true: {t}",
+    "Read this one twice: {t}"
   ],
   alert: [
     "{t}",
@@ -1649,35 +1686,62 @@ var HOOKS = {
     "{t} ({s})"
   ],
   reading: [
-    "The AI SIREN reads {L} right now: {S} out of 100.",
-    "How loud is AI today? SIREN {L}, {S}/100.",
-    "AI loudness check: level {L}, score {S}/100.",
-    "SIREN is at {L} ({S}/100). Counted from public data, not vibes.",
-    "Skynet meter, honest edition: SIREN {L}, {S}/100."
+    "AI is {mood} today: SIREN {L}, {S} out of 100.",
+    "How loud is AI right now? SIREN {L}, {S}/100. {Mood}.",
+    "AI loudness check at {time}: {S}/100, SIREN {L}.",
+    "SIREN {L}, {S}/100. Counted hourly from public data, not vibes.",
+    "Skynet meter, honest edition: {S}/100, level {L}."
   ],
   page: [
     "{t}",
-    "This is worth 30 seconds: {t}",
-    "Found this and can't stop looking at it: {t}",
-    "{t} 👇",
-    "Okay, this is good: {t}"
+    "{t}\n\nAnswered with live public data:",
+    "Worth 30 seconds: {t}",
+    "{t} 👇"
   ]
 };
+// What the story is about picks the question, an optional hashtag and a few
+// extra hooks, so a chip story asks about the grid and a jobs story asks
+// about jobs. First match wins; order puts the most specific topics first.
+var TOPICS = [
+  { id: "midterms", re: /midterm|coded (pro|against|neutral) on ai|senate race|governor race|on the ballot/i,
+    hooks: ["Where does this candidate stand on AI? {t}", "AI is on the ballot: {t}"],
+    ask: ["Does their AI stance change your vote?", "Right call on the tag?", "Where should candidates stand on AI?"], tag: "#Midterms2026" },
+  { id: "safety", re: /safety|misalign|rogue|escap|jailbreak|alignment|deceiv|\blied\b|sabotag|self-replicat|monitoring system|containment/i,
+    hooks: ["The kind of AI story that keeps safety people up at night: {t}", "Read this before you hand an agent the keys: {t}"],
+    ask: ["How worried should we be?", "Who should be checking these systems?", "Would you let this run unsupervised?"], tag: "#AISafety" },
+  { id: "jobs", re: /\bjobs?\b|layoff|laid off|worker|hiring|employ|labou?r|unemploy|workforce/i,
+    hooks: ["AI and your job, today's chapter: {t}"],
+    ask: ["Is your job exposed to this?", "Net jobs: up or down?", "Who should get retrained first?"], tag: "#FutureOfWork" },
+  { id: "power", re: /nvidia|\bchips?\b|gpu|data ?cent|power|grid|electric|tsmc|energy|nuclear|water/i,
+    hooks: ["Follow the compute: {t}", "The AI build-out, in one headline: {t}"],
+    ask: ["Who pays the power bill?", "Would you want this data centre in your county?", "How much grid can AI eat?"], tag: "#DataCenters" },
+  { id: "policy", re: /\bbill\b|\blaw\b|regulat|senate|congress|ftc|ai act|\bban\b|court|lawsuit|\bsue|probe|white house/i,
+    hooks: ["The rules for AI are being written right now: {t}"],
+    ask: ["Does this go far enough?", "Who should write the rules for AI?", "Too much regulation or not enough?"], tag: "#AIPolicy" },
+  { id: "money", re: /\bipo\b|valuation|raises?|funding|billion|\$\d|stock|shares|merger|acquir|revenue|debt/i,
+    hooks: ["Follow the money: {t}", "The AI money machine, today: {t}"],
+    ask: ["Bubble or bargain?", "Who is left holding the bag?", "Is this priced in?"], tag: "" },
+  { id: "race", re: /openai|anthropic|deepmind|google|gemini|claude|chatgpt|\bgpt|xai|grok|\bmeta\b|llama|mistral|deepseek|qwen|china/i,
+    hooks: ["The AI race just moved: {t}", "Another move in the AI race: {t}"],
+    ask: ["Who is actually ahead right now?", "Does this change who wins the AI race?", "Which lab are you betting on?"], tag: "#AI" }
+];
+function topicOf(title){ for (var i = 0; i < TOPICS.length; i++) if (TOPICS[i].re.test(title || "")) return TOPICS[i]; return null; }
 var CONTEXT = {
-  news: ["SIREN {L} · {S}/100 at {time}.", "Logged {time}.", "Source: {s}.", "", ""],
+  news: ["SIREN {L} · {S}/100 as this landed ({time}).", "SIREN reads {S}/100 right now.", "", ""],
   alert: ["Source: {s} · {time}.", "Public feed, not a warning system. Follow local officials.", "Logged {time}.", ""],
-  reading: ["Updated every hour, receipts included.", "Measured {time}.", ""],
+  reading: ["Updated every hour, receipts included.", "Every number has a public receipt.", ""],
   page: ["SIREN {L} · {S}/100 right now.", "", ""]
 };
 var ASK = {
-  news: ["Overhyped or a big deal?", "Who wins from this?", "Good news or bad news for the rest of us?", "What's your read?", "Would you trust it?", "Does this change your timeline?", "Are we ready for this?", ""],
+  news: ["Overhyped or a big deal?", "What's your read?", "Good news or bad news for the rest of us?", "Saw this one early?"],
   alert: ["Anyone near this? Stay safe.", "Check on your people.", "Anyone seeing it where you are?", ""],
-  reading: ["Does that feel right to you?", "Louder or quieter than you'd guess?", "What would push it to 1?", "Where would you set it?"],
-  page: ["What's your take?", "Thoughts?", "Where do you land on this?", "Would you have guessed?", ""]
+  reading: ["Does that match your feed today?", "Louder or quieter than you'd guess?", "What would push it to SIREN 1?", "Where would you set it?"],
+  page: ["What's your take?", "Where do you land on this?", "Would you have guessed?", "Surprised?"]
 };
-var EMOJI = { news: ["", "", "🤖 ", "🧠 ", "⚡ ", "📡 "], alert: ["🚨 ", "⚠️ ", ""], reading: ["📊 ", "🔔 ", ""], page: ["", "", "👀 ", "🤖 "] };
-var TAGS = ["", "", "", "#AI", "#AI", "#AGI", "#AISafety"];
+var EMOJI = { news: ["", "", "🤖 ", "⚡ ", "📡 "], alert: ["🚨 ", "⚠️ ", ""], reading: ["📊 ", "🔔 ", ""], page: ["", "", "👀 "] };
+var TAGS = ["", "", "#AI"];
 var ALERT_TAGS = ["", "", "", "#BreakingNews"];
+function mood(S){ var n = parseFloat(S); if (!isFinite(n)) return "normal"; return n < 35 ? "quiet" : n < 55 ? "ticking along" : n < 70 ? "busy" : n < 85 ? "running hot" : "red-hot"; }
 var KEY = "siren:x-recent", LAST = {};
 function recent(){ try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; } }
 function remember(t){ try { var l = recent(); l.unshift(hash(t)); localStorage.setItem(KEY, JSON.stringify(l.slice(0, 30))); } catch (e) {} }
@@ -1709,11 +1773,18 @@ function compose(o){
   var time = ("0" + d.getUTCHours()).slice(-2) + ":" + ("0" + d.getUTCMinutes()).slice(-2) + " UTC";
   var used = o.used || recent();
   var hasLv = !!(lvl.L && lvl.S);
-  var ok = function(t){ return hasLv || !/\{[LS]\}/.test(t); };
-  var pool = HOOKS[kind].filter(ok);
+  var ok = function(t){ return hasLv || !/\{[LS]\}|\{[Mm]ood\}/.test(t); };
+  var topic = kind === "alert" ? null : topicOf(o.title);
+  var pool = HOOKS[kind].concat(topic && kind !== "reading" ? topic.hooks : []).filter(ok);
+  // A reading share that already carries the site's own line (it names the
+  // loudest story on the wire) keeps that line: it is the specific one.
+  if (kind === "reading" && o.title && /SIREN \d/.test(o.title)) pool = ["{t}"];
   if (!pool.length) pool = kind === "reading" ? ["How loud is AI right now? The SIREN index counts it every hour."] : ["{t}"];
   var srcName = prettySrc(o.src);
-  var v = { s: srcName || "the wire", time: time, L: lvl.L, S: lvl.S };
+  var m = mood(lvl.S);
+  var v = { s: srcName || "the wire", time: time, L: lvl.L, S: lvl.S, mood: m, Mood: m.charAt(0).toUpperCase() + m.slice(1) };
+  var asks = topic ? topic.ask.concat(topic.ask, ASK[kind]) : ASK[kind]; // topic questions weighted 2:1
+  var tags = topic ? [topic.tag, topic.tag, ""] : (kind === "alert" ? ALERT_TAGS : TAGS);
   var best = "";
   // X counts a link as 23 characters; 250 of text plus the link always fits.
   for (var tries = 0; tries < 60; tries++) {
@@ -1721,9 +1792,10 @@ function compose(o){
     if (pool.length > 1 && tpl === LAST[kind] && tries < 40) continue;
     var ctx = pick(CONTEXT[kind].filter(ok).concat([""]));
     if (!srcName && /\{s\}/.test(ctx)) ctx = "";
-    var ask = pick(ASK[kind]);
+    if (/\{s\}/.test(tpl) && !srcName && tries < 40) continue;
+    var ask = pick(asks);
     var emo = pick(EMOJI[kind]);
-    var tag = pick(kind === "alert" ? ALERT_TAGS : TAGS);
+    var tag = pick(tags);
     var tail = [fill(ctx, v), ask].filter(Boolean);
     var tailTxt = tail.length ? "\n\n" + tail.join("\n\n") : "";
     if (tag) tailTxt += (tail.length ? " " : "\n\n") + tag;
@@ -1741,7 +1813,7 @@ function compose(o){
 function intent(text, url){
   return "https://x.com/intent/post?text=" + encodeURIComponent(text) + (url ? "&url=" + encodeURIComponent(url) : "") + "&via=SIRENutf6";
 }
-window.sirenX = { compose: compose, intent: intent, hooks: HOOKS };
+window.sirenX = { compose: compose, intent: intent, hooks: HOOKS, topics: TOPICS, asks: ASK };
 if (typeof document === "undefined" || !document.addEventListener) return;
 document.addEventListener("click", function(e){
   var el = e.target && e.target.closest ? e.target.closest('[data-xpost],a[href^="https://x.com/intent/post"],a[href^="https://twitter.com/intent/tweet"]') : null;
@@ -1800,6 +1872,10 @@ document.addEventListener("click", function(e){
       if (document.getElementById("v2-video") || document.querySelector("section.v2-video")) return;
       if (path === "" || /\/(index\.html)?$/.test(path)) return;
       if (/(elon|videos|radio)\.html$/.test(path) || sessionStorage.getItem(ik)) return;
+      // Offer the intro once a week, not on every page of every visit.
+      var seen = +localStorage.getItem("siren:intro:seen") || 0;
+      if (Date.now() - seen < 7 * 864e5) return;
+      localStorage.setItem("siren:intro:seen", String(Date.now()));
     } catch (e) { return; }
     if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     var m = "/media/siren-explainer";
@@ -1838,7 +1914,10 @@ document.addEventListener("click", function(e){
     });
     // The owner's call: the page's intro plays by itself, silently, once per
     // visit (the chip above stays as the fallback if the browser blocks it).
-    var pb = box.querySelector('[data-a="play"]'); if (pb) pb.click();
+    // Phones keep it as a small chip: an autoplaying picture there covered the
+    // page under the bar and the Talk to Tally button (2026-10-22).
+    var phone = window.matchMedia && matchMedia("(max-width:560px)").matches;
+    var pb = box.querySelector('[data-a="play"]'); if (pb && !phone) pb.click();
   })();
   // OUTSIDE LINKS OPEN IN A NEW TAB, so a visitor who follows a story, a clip
   // or a market comes back to SIREN instead of losing it. Same-site links
@@ -1885,7 +1964,7 @@ document.addEventListener("click", function(e){
     var lbl = document.getElementById("sitebar-lbl");
     if (!lbl || btn.classList.contains("due")) return;
     lbl.textContent = label;
-    btn.classList.add("due");
+    btn.classList.add("due"); bar.classList.remove("tuck"); document.documentElement.classList.remove("sb-tuck");
     btn.setAttribute("aria-label", label + ". Refresh this page.");
   }
   function watch(){
@@ -1902,7 +1981,21 @@ document.addEventListener("click", function(e){
   setInterval(watch, 60000); setTimeout(watch, 4000);
   document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
   paint(); setInterval(paint, 60000);
-  lift(); addEventListener("resize", lift); addEventListener("load", lift); setTimeout(lift, 1500);
+  // First measure after load, in a frame: lift() reads layout, and running it
+  // mid-parse forced a full style and layout pass (~200 ms on a big page, phone).
+  addEventListener("resize", lift); addEventListener("load", function(){ requestAnimationFrame(lift); }); setTimeout(lift, 1500);
+  // Phones start with it tucked: the first screen is the reading and the
+  // signup, and the tab bar already sits at the bottom. A scroll up brings it.
+  var lastY = scrollY, tucked = !!(window.matchMedia && matchMedia("(max-width:560px)").matches) && !btn.classList.contains("due");
+  if (tucked) { bar.classList.add("tuck"); document.documentElement.classList.add("sb-tuck"); }
+  addEventListener("scroll", function(){
+    var y = scrollY, d = y - lastY;
+    if (Math.abs(d) < 8) return;
+    var atEnd = innerHeight + y >= document.documentElement.scrollHeight - 48;
+    var t = d > 0 && y > 160 && !atEnd && !btn.classList.contains("due");
+    if (t !== tucked) { tucked = t; bar.classList.toggle("tuck", t); document.documentElement.classList.toggle("sb-tuck", t); }
+    lastY = y;
+  }, { passive: true });
 
   // Dispatch emergency mark: poll the orphan dispatch-data branch. Quiet when
   // CLEAR. Dismiss lasts one session so a visitor can keep reading.
@@ -1979,16 +2072,15 @@ document.addEventListener("click", function(e){
 </div>
 <script src="/nav/site-nav.js" defer></script>
 <script src="/media/radio.js" defer></script>
-<script src="/media/guide.js" defer></script>
+<script type="module" src="/media/guide.mjs"></script>
 <script data-goatcounter="https://messagegabriel.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>(function(){var K='siren:consent';function get(){try{return localStorage.getItem(K)}catch(e){return null}}
 function set(v){try{localStorage.setItem(K,v)}catch(e){}if(window.gtag)gtag('consent','update',{analytics_storage:v});close()}
 var el=null;function close(){if(el&&el.parentNode)el.parentNode.removeChild(el);el=null}
 function show(){if(el)return;el=document.createElement('div');el.id='siren-consent';el.setAttribute('role','dialog');el.setAttribute('aria-label','Privacy choices');
-el.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:10001;max-width:560px;margin:0 auto;padding:14px 16px;border-radius:10px;background:#0B0F16;color:#E6EAF0;border:1px solid #818CF8;box-shadow:0 10px 30px rgba(0,0,0,.55);font:14px/1.45 system-ui,sans-serif';
-el.innerHTML='<b>Analytics cookies?</b> SIREN uses Google Analytics to see which pages get read. It sets cookies only if you allow it. No ads, no selling data. <a data-privacy style="color:#A5B4FC">Privacy</a><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button type="button" data-c="granted" style="min-height:40px;padding:0 14px;border:0;border-radius:6px;background:#4F46E5;color:#fff;font-weight:700;cursor:pointer">Allow analytics</button><button type="button" data-c="denied" style="min-height:40px;padding:0 14px;border:1px solid #475569;border-radius:6px;background:transparent;color:#E6EAF0;font-weight:700;cursor:pointer">No thanks</button></div>';
-el.querySelector('[data-privacy]').setAttribute('href',(window.SIREN_BASE||'')+'/privacy.html');el.addEventListener('click',function(e){var v=e.target&&e.target.getAttribute&&e.target.getAttribute('data-c');if(v)set(v)});document.body.appendChild(el)}
-document.addEventListener('click',function(e){var t=e.target&&e.target.closest&&e.target.closest('[data-consent-open]');if(t){e.preventDefault();show()}});
+el.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:10001;max-width:560px;margin:0 auto;padding:14px 16px;border-radius:10px;background:#0B0F16;color:#E6EAF0;border:1px solid #56B0E0;box-shadow:0 10px 30px rgba(0,0,0,.55);font:14px/1.45 system-ui,sans-serif';
+el.innerHTML='<b>Analytics cookies?</b> SIREN uses Google Analytics to see which pages get read. It sets cookies only if you allow it. No ads, no selling data. <a href="'+(window.SIREN_BASE||'')+'/privacy.html" style="color:#56B0E0">Privacy</a><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button type="button" data-c="granted" style="min-height:40px;padding:0 14px;border:0;border-radius:6px;background:#56B0E0;color:#06070b;font-weight:700;cursor:pointer">Allow analytics</button><button type="button" data-c="denied" style="min-height:40px;padding:0 14px;border:1px solid #475569;border-radius:6px;background:transparent;color:#E6EAF0;font-weight:700;cursor:pointer">No thanks</button></div>';
+el.addEventListener('click',function(e){var v=e.target&&e.target.getAttribute&&e.target.getAttribute('data-c');if(v)set(v)});document.body.appendChild(el)}document.addEventListener('click',function(e){var t=e.target&&e.target.closest&&e.target.closest('[data-consent-open]');if(t){e.preventDefault();show()}});
 var tz='';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}
 var eu=/^Europe\//.test(tz)||/^(Atlantic\/(Reykjavik|Canary|Madeira|Azores|Faroe)|Arctic\/Longyearbyen)$/.test(tz);
 if(!get()&&eu&&navigator.globalPrivacyControl!==true){if(document.body)show();else document.addEventListener('DOMContentLoaded',show)}})();</script>
