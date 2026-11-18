@@ -75,7 +75,7 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
     lab/index.html companies.html companies/index.html \
     index.html classic.html race.html race/index.html \
     watts.html watts/index.html lab/micron.html lab/coreweave.html \
-    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/agents.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html pillar/compute.html pillar/attention.html pillar/capability.html pillar/governance.html pillar/markets.html search-trends.html news-sitemap.xml; do
+    lab/nvidia.html lab/openai.html lab/anthropic.html lab/asml.html lab/tsmc.html lab/amazon.html lab/meta.html lab/apple.html lab/microsoft.html lab/xai.html lab/google-deepmind.html lab/samsung.html lab/qwen.html lab/deepseek.html lab/mistral.html lab/palantir.html lab/amd.html lab/tesla.html lab/waymo.html lab/softbank.html lab/spacex.html tags/neoclouds.html tags/chatbots.html tags/agents.html tags/huggingface.html tags/datacenters.html model/muse-spark.html model/fable.html pillar/compute.html pillar/attention.html pillar/capability.html pillar/governance.html pillar/markets.html search-trends.html news-sitemap.xml sitemap.xml; do
     if [ -f ".pages-faq-tip/$hub" ]; then
       mkdir -p "$PRESERVE_FAQ/$(dirname "$hub")"
       cp -a ".pages-faq-tip/$hub" "$PRESERVE_FAQ/$hub"
@@ -84,6 +84,12 @@ if git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages-faq-tip 2>/de
   rm -rf .pages-faq-tip
 fi
 tar cf - -C public . | (cd .pages && tar xf -)
+# The hourly full pass owns sitemap.xml (site/build.mjs, FINDABILITY #106);
+# the news-only build never writes one, so public/ holds the stale seeded copy
+# and this tar would roll the live sitemap back an hour, dropping every URL
+# the full pass just added (seen 2026-11-18: /flock/<state> pages listed at
+# 06:45, gone at 06:58). Always keep the tip's copy.
+if [ -f "$PRESERVE_FAQ/sitemap.xml" ]; then cp -a "$PRESERVE_FAQ/sitemap.xml" .pages/sitemap.xml; echo "kept tip sitemap.xml (full pass owns it)"; fi
 # FINDABILITY #115 — news-only public/ can omit conquest short aliases
 # (#111/#113). Orphan publish must not wipe them (same restore as
 # news-fast #114). Primaries already carry the correct canonical.
