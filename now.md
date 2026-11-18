@@ -25,33 +25,33 @@ Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](ht
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-18 21:21 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-18 21:32 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
 1. [Amazon, Google to Have About 28% of Anthropic Stock After IPO](https://news.google.com/rss/articles/CBMirwFBVV95cUxPV2pZZmdyc0t4VzZKQ21zUWRjVENMam14ZG1qQ2ludXhhSmxGbUF5NVNmX1h0a1B2SlBMNEVZWmRZRDZSbFQyTWZKMHZuZzJrNk13Z21iaV9nbGxBaVlwTmJ4cVVMdnVYSUZrRHJNcF9ObGVyZ19MbzEzeElOcmtNTmRfSGtEOUlkNGRWZENESVliWUtfd3lyQ1ZmY0FYWTNiRzduZW02QjhyOWx6UUFN?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-17 13:03 UTC · score 83.0 · compute
-2. [Microsoft AI: Seven new world-class models at scalable price-performance](https://microsoft.ai/news/microsoft-ignite-2026) — Hacker News AI stories (72h) · 2026-11-18 16:08 UTC · score 79.0 · attention
-3. [US House panel seeks Microsoft briefing on reported AI deal talks with China's ByteDance](https://news.google.com/rss/articles/CBMivwFBVV95cUxNdEpRTFc4Q3Nsa085U2xoZldyY1BXSmlhSy0yT00tRzF4eU5QekdiUENlSTQyajA0eU5PVWl0MUpoejlXdXJMVVFPbHRVaGFlZmxoWFA5SHN5VXBpWHJvLUFLMjZISk96bVRuWWs0V3NSblpmWTM3VVZNQ3VHQVNpQTNUOFM5VzdwZ0ZOcHlFX3hmcEJ5ZDhRVXlCS0dCZEwxbXZ3Z09zVjB4N1FGMHo4Qkc4WWEwTG5LdHNWbk14NA?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-18 20:27 UTC · score 76.9 · attention
+2. [Microsoft AI: Seven new world-class models at scalable price-performance](https://microsoft.ai/news/microsoft-ignite-2026) — Hacker News AI stories (72h) · 2026-11-18 16:08 UTC · score 78.9 · attention
+3. [Anthropic IPO to mint thousands of millionaires](https://news.google.com/rss/articles/CBMipgFBVV95cUxOdW1QU3VfRndFeVFEODFZbWVTcUVkcE1CelRpYmJWZ0FleXRVd3EwbjFXeHRmbUJQUDBsQXFQc21iVjdCRHFscy1qQjZWeWhIMnF6d0NBR3gxQmRERFdyLXBDNFFpZDQtY05mT3REaThpVWdVSVQzLUtmOUpweHZmc0dvWEFjbmpxWDdadjNzaFI4ajNmNUZsVVlhb05hWm5qRFdNTV9R?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-18 20:43 UTC · score 72.3 · compute
 4. [Waymo Pauses All Highway Rides After California Safety Ban](https://bsky.app/profile/wired.com/post/3n2jsfnelgv24) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-17 19:42 UTC · score 69.4 · governance
 5. [Criminals Have a New Favorite ‘Point-and-Shoot’ AI Hacking Weapon](https://bsky.app/profile/wired.com/post/3n2lynjp3jj2u) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 16:35 UTC · score 68.4 · attention
 6. [Nvidia isn’t selling any more AI chips to China](https://bsky.app/profile/theverge.com/post/3n2lmmeud2t2b) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 13:01 UTC · score 67.6 · compute
 7. [Jensen Huang Breaks Silence, Signals Willingness to Return as Nvidia CEO](https://news.google.com/rss/articles/CBMidkFVX3lxTE5QczVTbUQzdjZ0WHN0QjYwRXJidGl2YmJzeFVVOGhEV0FoZHp3QkJ1dng1REtUS21Qa2lYSGdUejlhbGtfNzlQT1V6Zm45NDltc2hKeEowZ3NtcHdsaUNvN2ttTTJXWUgzNkF3SGZUUjdFX1FiRHc?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-17 16:09 UTC · score 67.3 · attention
-8. [Anthropic IPO to mint thousands of millionaires](https://news.google.com/rss/articles/CBMiggFBVV95cUxNNHpuSTRFUzFpd3R0bGlIdVhEV2ktd0ZuOWtzYUlYS284a3pFd0JQVEtFT1RTSkhGZkJmUk9DZUNMMXBvNzNFeXU0MmxLMlFUQnB6VVp3MG9laFNXZl81b3l6Y1p5OUdHZG53TThxbEMwSUZqZDVlczFLNEc1S0l1enRB?oc=5) — Google News — AI searches, last hour · 2026-11-18 20:43 UTC · score 67.2 · compute
-9. [What is Nvidia without AI’s sugar daddy in charge?](https://news.google.com/rss/articles/CBMipgFBVV95cUxPOFVtVkJVUXpzZ2wteklYRFpsZUdCWjc5ZkJvNHNtaGR2c1FYZ1Uyc05fT254TXFBSFFhNDFEUmRTLVhLOHhKSVVXbHNOd3JxR2Rsa0ZuN0Rpay1JRmdKYndNU3FSZ2l5ZWp1TzFianNsaUpsV1ZpSWV2WnljNjZJd2Utc3ZQNERPSm1aaFdvSkhBTDhEamlIVGtZMGpBWW9GOTNTd1dn?oc=5) — Google News — AI searches, last hour · 2026-11-18 18:34 UTC · score 67.2 · attention
-10. [Remember the frontier AI pause? Chip companies don’t either](https://bsky.app/profile/theverge.com/post/3n2lvnjuctl2w) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 15:44 UTC · score 66.9 · compute
+8. [What is Nvidia without AI’s sugar daddy in charge?](https://news.google.com/rss/articles/CBMipgFBVV95cUxPOFVtVkJVUXpzZ2wteklYRFpsZUdCWjc5ZkJvNHNtaGR2c1FYZ1Uyc05fT254TXFBSFFhNDFEUmRTLVhLOHhKSVVXbHNOd3JxR2Rsa0ZuN0Rpay1JRmdKYndNU3FSZ2l5ZWp1TzFianNsaUpsV1ZpSWV2WnljNjZJd2Utc3ZQNERPSm1aaFdvSkhBTDhEamlIVGtZMGpBWW9GOTNTd1dn?oc=5) — Google News — AI searches, last hour · 2026-11-18 18:34 UTC · score 67.1 · attention
+9. [Remember the frontier AI pause? Chip companies don’t either](https://bsky.app/profile/theverge.com/post/3n2lvnjuctl2w) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 15:44 UTC · score 66.9 · compute
+10. [Isomorphic Labs raises $5B as it looks to take drug candidates to clinical trials](https://techcrunch.com/2026/11/17/isomorphic-labs-raises-5b-as-it-looks-to-take-drug-candidates-to-clinical-trials) — TechCrunch — AI · 2026-11-17 12:10 UTC · score 66.5 · compute
 
 ## Leaders most covered this week
 
 Stories in the press naming each person over the last 7 days (Google News search). Coverage is not a statement by the person.
 
-- Jensen Huang (Nvidia): 609+ stories
-- Elon Musk (xAI): 414 stories
-- Sam Altman (OpenAI): 345 stories
-- Satya Nadella (Microsoft): 178 stories
-- Dario Amodei (Anthropic): 141 stories
+- Jensen Huang (Nvidia): 611+ stories
+- Elon Musk (xAI): 416 stories
+- Sam Altman (OpenAI): 350+ stories
+- Satya Nadella (Microsoft): 179 stories
+- Dario Amodei (Anthropic): 147 stories
 - Mark Zuckerberg (Meta): 128 stories
-- Greg Brockman (OpenAI): 86 stories
+- Greg Brockman (OpenAI): 87 stories
 - Sundar Pichai (Alphabet): 84 stories
 - Geoffrey Hinton (University of Toronto): 64 stories
-- Demis Hassabis (Google DeepMind): 62 stories
+- Demis Hassabis (Google DeepMind): 61 stories
 
 ## Takeover Watch
 
