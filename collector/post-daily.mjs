@@ -42,7 +42,7 @@ import {
 import { loadBrand, loadNews } from './card.mjs';
 import * as X from './post-x.mjs';
 import * as BSKY from './post-bluesky.mjs';
-import { indexReading, readingBlockReason, selfTest as xReadGuardSelfTest, xMessageBlock } from './x-read-guard.mjs';
+import { indexReading, readingBlockReason, selfTest as xReadGuardSelfTest, xMessageBlock, withPartialLabel } from './x-read-guard.mjs';
 
 export const LEDGER_PATH = 'data/posted.ndjson';
 export const CHANNELS = Object.freeze(['x', 'bluesky']);
@@ -420,7 +420,11 @@ export async function run({ dryRun, channels, ledgerPath = LEDGER_PATH, now = ne
       continue;
     }
     const post = pick.post;
-    const { text, link, variant } = channelText(channel, post);
+    const ct = channelText(channel, post);
+    // X carries the "Read on 4 of 5 pillars; markets not yet scored." line
+    // whenever the reading stands on fewer than five (x-read-guard.mjs).
+    const text = channel === 'x' ? withPartialLabel(ct.text, inputs.state) : ct.text;
+    const { link, variant } = ct;
     const card = await cardFor(post, inputs, cards);
     if (!card) warn(`[post-daily] ${channel}: no card could be rendered or found; posting text only`);
     say(`[post-daily] ${channel}: ${post.rank}.${post.kind} (${variant} variant, ${channel === 'x' ? `${charCount(text)}/${X_CHAR_LIMIT} chars` : `${BSKY.graphemeCount(text)}/${BSKY.BSKY_MAX_GRAPHEMES} graphemes`}), `
@@ -562,7 +566,7 @@ export async function selfTest() {
     const cases = [
       [indexReading({ degraded: true }), /index is degraded/],
       [indexReading({ dark_pillars: ['markets'], pillars: indexReading().pillars.map((p) => (p.id === 'markets' ? { ...p, dark: true, score: null } : p)) }), /is missing/],
-      [indexReading({ uncalibrated_pillars: ['markets'], pillars: marketsOut }), /no frozen baseline/],
+      [indexReading({ uncalibrated_pillars: ['compute'], pillars: indexReading().pillars.map((p) => (p.id === 'compute' ? { ...p, uncalibrated: true, score: null } : p)) }), /no frozen baseline/],
       [indexReading({ pillars: indexReading().pillars.map((p) => (p.id === 'markets' ? { ...p, imputed: true } : p)) }), /imputed/],
       [indexReading({ score: null }), /no real number/],
     ];
@@ -571,6 +575,7 @@ export async function selfTest() {
       if (!pattern.test(why || '')) throw new Error(why);
     }
     eq(readingBlockReason(indexReading()), null, 'healthy reading still posts');
+    eq(readingBlockReason(indexReading({ uncalibrated_pillars: ['markets'], pillars: marketsOut })), null, 'markets awaiting its baseline posts, labelled');
     const failed = xReadGuardSelfTest().filter((r) => !r.ok);
     if (failed.length) throw new Error(failed.map((r) => `${r.name}: ${r.error}`).join('; '));
   });

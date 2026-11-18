@@ -24,6 +24,16 @@ export const BLOCKED_X_MESSAGE_TYPES = Object.freeze([
 
 const PILLAR_IDS = Object.freeze(['capability', 'compute', 'attention', 'governance', 'markets']);
 
+// PILLARS WHOSE BASELINE IS PENDING BY DESIGN (operator decision, 2026-11-18).
+// Markets has no keyless history to freeze against (docs/MARKETS.md) and waits
+// on a forward baseline of 300+ days. Until then the homepage publishes the
+// reading on the other four pillars with markets marked "not yet scored", and
+// X may post that same reading, labelled the same way (partialLabel). This
+// covers only a pillar that is uncalibrated AND unscored: an imputed, dark or
+// scored-while-uncalibrated markets pillar still blocks, as does every other
+// pillar's missing baseline, a degraded index and any failed source.
+export const PENDING_BASELINE_OK = Object.freeze(['markets']);
+
 function finiteNumber(n) {
   return typeof n === 'number' && Number.isFinite(n);
 }
@@ -47,7 +57,8 @@ export function xMessageBlock(text, kind) {
 /**
  * Why this index reading must not be posted to X, or null when it is a real
  * number on every pillar. `degraded`, a dark pillar, an imputed pillar, a
- * pillar with no frozen baseline, and a missing composite are all refusals.
+ * pillar with no frozen baseline (except an unscored PENDING_BASELINE_OK
+ * pillar, which posts with partialLabel), and a missing composite are all refusals.
  */
 export function readingBlockReason(state) {
   if (!state || typeof state !== 'object') return 'no index reading';
@@ -82,7 +93,7 @@ export function readingBlockReason(state) {
       continue;
     }
     if (uncal) {
-      baseline.push(id);
+      if (!(PENDING_BASELINE_OK.includes(id) && !scored)) baseline.push(id);
       continue;
     }
     if (!scored) noNumber.push(id);
@@ -101,6 +112,41 @@ export function readingBlockReason(state) {
   if (imputedSources.length) reasons.push(`source ${imputedSources.join(', ')} is imputed`);
   if (!finiteNumber(state.score)) reasons.push('the reading has no real number');
   return reasons.length ? reasons.join('; ') : null;
+}
+
+/**
+ * The label an X post carries when the reading stands on fewer than five
+ * pillars because a PENDING_BASELINE_OK pillar is unscored, or '' otherwise.
+ * Worded to pass xMessageBlock (no "baseline", "uncalibrated", "status").
+ */
+export function partialLabel(state) {
+  if (!state || typeof state !== 'object') return '';
+  const uncalList = new Set(Array.isArray(state.uncalibrated_pillars) ? state.uncalibrated_pillars : []);
+  const pillars = Array.isArray(state.pillars) ? state.pillars : [];
+  const pending = PILLAR_IDS.filter((id) => {
+    const p = pillars.find((x) => x && x.id === id);
+    return p && PENDING_BASELINE_OK.includes(id) && (p.uncalibrated === true || uncalList.has(id)) && !finiteNumber(p.score);
+  });
+  if (!pending.length) return '';
+  return `Read on ${PILLAR_IDS.length - pending.length} of ${PILLAR_IDS.length} pillars; ${pending.join(', ')} not yet scored.`;
+}
+
+// Copy that states the index reading itself. Only such posts need the label;
+// a drought count or race price says nothing the missing pillar would change.
+const STATES_READING = /\bSIREN [1-5]\b|\bof 100\b|\bcomposite\b|\blevel [1-5]\b/i;
+
+/**
+ * `text` with the partial label on its own line when the copy states the
+ * reading and the reading stands on fewer than five pillars. Falls back to a
+ * short label when the long one would push past `limit` characters.
+ */
+export function withPartialLabel(text, state, limit = 280) {
+  const body = String(text ?? '');
+  const label = partialLabel(state);
+  if (!label || !STATES_READING.test(body)) return body;
+  const long = `${body.trimEnd()}\n${label}`;
+  if ([...long].length <= limit) return long;
+  return `${body.trimEnd()}\n${label.replace(/^Read on (\d) of (\d) pillars; /, '$1/$2 pillars; ')}`;
 }
 
 /** A complete five-pillar reading. Tests and the pulse self-check start here. */
@@ -206,14 +252,30 @@ export function selfTest() {
     if (!/pillar markets is missing/.test(why)) throw new Error(why);
   });
 
-  check('a pillar with no frozen baseline is skipped even when the composite is a number', () => {
-    const why = readingBlockReason(indexReading({
+  check('unscored markets awaiting its baseline posts, labelled partial', () => {
+    const st = indexReading({
       score: 49.3,
       degraded: false,
       uncalibrated_pillars: ['markets'],
       pillars: indexReading().pillars.map((p) => (p.id === 'markets' ? { ...p, uncalibrated: true, score: null } : p)),
+    });
+    if (readingBlockReason(st) !== null) throw new Error(readingBlockReason(st));
+    const t = withPartialLabel(REAL_READ, st);
+    if (!/Read on 4 of 5 pillars; markets not yet scored\.$/.test(t)) throw new Error(t);
+    if (xMessageBlock(t)) throw new Error(`label trips the copy guard: ${xMessageBlock(t)}`);
+    if (withPartialLabel(REAL_READ, indexReading()) !== REAL_READ) throw new Error('a full reading gained a label');
+    const drought = '794 of 1,921 mapped US datacentres are in a county at D1 drought or worse.';
+    if (withPartialLabel(drought, st) !== drought) throw new Error('a post that states no reading gained a label');
+  });
+
+  check('any other pillar with no frozen baseline is still skipped', () => {
+    const why = readingBlockReason(indexReading({
+      score: 49.3,
+      degraded: false,
+      uncalibrated_pillars: ['compute'],
+      pillars: indexReading().pillars.map((p) => (p.id === 'compute' ? { ...p, uncalibrated: true, score: null } : p)),
     }));
-    if (!/pillar markets has no frozen baseline/.test(why)) throw new Error(why);
+    if (!/pillar compute has no frozen baseline/.test(why)) throw new Error(why);
     if (/no real number/.test(why)) throw new Error(`composite was a number: ${why}`);
   });
 

@@ -21,7 +21,7 @@
 //   node collector/post-pulse.mjs --selftest
 import { readFileSync, appendFileSync, existsSync } from 'node:fs';
 import { preflightX, postToX, printResults, readCredentials, X_TWEETS_URL } from './post-x.mjs';
-import { indexReading, readingBlockReason, selfTest as xReadGuardSelfTest, xMessageBlock } from './x-read-guard.mjs';
+import { indexReading, readingBlockReason, selfTest as xReadGuardSelfTest, xMessageBlock, withPartialLabel } from './x-read-guard.mjs';
 
 const LEDGER = 'data/pulse-posted.ndjson';
 export const MIN_GAP_H = 3;
@@ -157,7 +157,9 @@ export function preparePulsePost({ state, candidates, ledger }) {
  * post-daily (channelCredentials) and dispatch/post-alerts.mjs. A missing
  * secret throws the env names and never a value. `transport` is for selfTest.
  */
-export async function postPulse({ text, state, env = process.env, transport } = {}) {
+export async function postPulse({ text: draft, state, env = process.env, transport } = {}) {
+  // Labelled "Read on 4 of 5 pillars; markets not yet scored." when it applies.
+  const text = withPartialLabel(draft, state);
   const reasons = [];
   const readWhy = readingBlockReason(state);
   if (readWhy) reasons.push(readWhy);
@@ -267,9 +269,11 @@ export async function selfTest() {
       { text: FIXTURE_PULSE_TEXT, state: indexReading({ degraded: true }), pattern: /index is degraded/ },
       {
         text: FIXTURE_PULSE_TEXT,
+        // Markets awaiting its baseline now posts, labelled (x-read-guard
+        // PENDING_BASELINE_OK); any other pillar without one still blocks.
         state: indexReading({
-          uncalibrated_pillars: ['markets'],
-          pillars: healthy.pillars.map((p) => (p.id === 'markets' ? { ...p, uncalibrated: true, score: null } : p)),
+          uncalibrated_pillars: ['compute'],
+          pillars: healthy.pillars.map((p) => (p.id === 'compute' ? { ...p, uncalibrated: true, score: null } : p)),
         }),
         pattern: /no frozen baseline/,
       },
