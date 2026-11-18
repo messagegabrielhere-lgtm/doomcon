@@ -9,6 +9,7 @@ import { sitemapEntries as dayEntries } from './dayPages.mjs';
 import { sitemapEntries as tagEntries } from './tagPages.mjs';
 import { sitemapEntries as kindEntries } from './kindPages.mjs';
 import { sitemapEntries as outletEntries } from './outletPages.mjs';
+import { sitemapEntries as stateEntries } from './statePages.mjs';
 import { sitemapEntries as answerEntries } from './answerPages.mjs';
 // sitemap.xml. Head pages always; move pages only when substantive, matching
 // the noindex decision in move.mjs exactly. Submitting thin pages you have
@@ -170,6 +171,7 @@ export function render(ctx) {
   entries.push(...tagEntries(ctx));
   entries.push(...kindEntries(ctx));
   entries.push(...outletEntries(ctx));
+  entries.push(...stateEntries(ctx));
   entries.push(...answerEntries(ctx));
 
   // Every scored item is an indexable page. Live window + durable archive

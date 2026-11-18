@@ -70,6 +70,7 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { flockStateLinks } from './statePages.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 // Imported, never edited. This page borrows the projection, the outline table
@@ -1541,6 +1542,7 @@ ${methodSection(ctx, f, m)}
 <section class="flk__faq" aria-labelledby="faq">
   <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
+  ${flockStateLinks(ctx)}
   <p class="flk__faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a>.</p>
 </section>
@@ -1550,6 +1552,8 @@ ${methodSection(ctx, f, m)}
   return page({
     ctx,
     path: PATH,
+    // The search-result title leads with what people type ("Flock camera
+    // map") and stays inside the ~60 characters a results page shows. The
     title: `${title} · ${headline} · ${brand.NAME}`,
     ogTitle: `${brand.NAME}: ${title}`,
     description,

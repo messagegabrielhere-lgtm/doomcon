@@ -244,6 +244,7 @@ import * as dayPages from './templates/dayPages.mjs';
 import * as tagPages from './templates/tagPages.mjs';
 import * as kindPages from './templates/kindPages.mjs';
 import * as outletPages from './templates/outletPages.mjs';
+import * as statePages from './templates/statePages.mjs';
 import * as moodPage from './templates/moodPage.mjs';
 import * as boardsPage from './templates/boardsPage.mjs';
 import * as codingAgentsPage from './templates/codingAgentsPage.mjs';
@@ -2189,6 +2190,10 @@ async function main() {
   if (ctx.routes.flock) {
     written.push(await write(args.out, 'flock.html', flockPage.render(ctx)));
   }
+  // /flock/<state>.html and /datacenters/<state>.html, plus a hub for each
+  // ("Flock cameras in Ohio", "data centers in Virginia"). Gated inside the
+  // module on the same data the parent pages need; sitemap lists the same set.
+  for (const sp of statePages.allPages(ctx)) written.push(await write(args.out, sp.rel, sp.html));
   // /exploits. Days from a CVE record being published to CISA cataloguing it
   // as exploited — the measurement that came back NEGATIVE and is published
   // for that reason. Gated on ctx.routes.exploits, set immediately after ctx

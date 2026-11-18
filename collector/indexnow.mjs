@@ -28,6 +28,8 @@ const ALWAYS = Object.freeze([
   '/ai-activity-index.html', // short alias; canonical stays on / (FINDABILITY #252)
   '/ai-activity-level.html', // short alias; canonical stays on / (FINDABILITY #262)
   '/news.html',
+  '/flock/', // state-by-state Flock camera hub (site/templates/statePages.mjs)
+  '/datacenters/', // state-by-state data center hub
   '/methodology.html',
   '/methodology.md',
   '/guide.html',

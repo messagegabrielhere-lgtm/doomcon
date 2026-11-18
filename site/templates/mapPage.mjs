@@ -42,6 +42,7 @@
 
 import { esc, utc, num } from './_html.mjs';
 import { page } from './layout.mjs';
+import { dcStateLinks } from './statePages.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 // mapTable is deliberately NOT imported. _usmap.mjs still exports it and it is
@@ -1489,12 +1490,15 @@ ${methodSection(ctx, dc, model)}
     <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a>.</p>
 </section>
 
+${dcStateLinks(ctx)}
+
 ${siblingCard(ctx)}
 </div>`;
 
   return page({
     ctx,
     path: PATH,
+    // Search-result title in US spelling, the one people type ("data center
     title: `${title} · ${headline} · ${brand.NAME}`,
     ogTitle: `${brand.NAME}: ${title}`,
     description,
