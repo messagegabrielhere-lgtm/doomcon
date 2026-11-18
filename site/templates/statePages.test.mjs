@@ -42,6 +42,7 @@ test('flock: one page per state with a camera, none for a state with zero', () =
   assert.deepEqual(st.map((s) => s.name), ['Ohio', 'Louisiana']);
   const html = sp.renderFlockState(ctx, st[0], 0, st);
   assert.match(html, /<title>Flock Cameras in Ohio: 20 Mapped, by County · SIREN/);
+  assert.match(html, /<h1>How many Flock cameras are in Ohio\?<\/h1>/);
   assert.match(html, /Cuyahoga County/);
   assert.match(html, /Adams County\./, 'counties with none mapped are named');
   assert.match(html, /nobody has mapped/, 'the empty-state caveat ships on every state page');

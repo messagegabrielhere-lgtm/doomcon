@@ -172,6 +172,7 @@ export function render(ctx) {
   entries.push(...kindEntries(ctx));
   entries.push(...outletEntries(ctx));
   entries.push(...stateEntries(ctx));
+  entries.push({ loc: '/subscribe.html', changefreq: 'monthly', priority: '0.6', lastmod: ctx.state && ctx.state.generated_at });
   entries.push(...answerEntries(ctx));
 
   // Every scored item is an indexable page. Live window + durable archive

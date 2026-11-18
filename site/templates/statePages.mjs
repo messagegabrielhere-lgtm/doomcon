@@ -18,6 +18,16 @@ import * as brand from '../brand.mjs';
 
 export const DC_MIN = 3;
 
+// H1s and breadcrumb names are questions, house rule (breadcrumb-h1.test.mjs,
+// tip #259). The parents' questions are their own H1s, verbatim.
+const FLOCK_Q = `How many Flock ALPR cameras has ${brand.NAME} mapped?`;
+const FLOCK_HUB_Q = 'How many Flock cameras are in each state?';
+const DC_Q = `How many datacentres has ${brand.NAME} mapped in the United States?`;
+const DC_HUB_Q = 'How many data centers are in each state?';
+const theName = (n) => (/^District of Columbia$/.test(n) ? `the ${n}` : n);
+export const flockQ = (n) => `How many Flock cameras are in ${theName(n)}?`;
+export const dcQ = (n) => `How many data centers are in ${theName(n)}?`;
+
 const N = (n) => Number(n || 0).toLocaleString('en-US');
 const pct = (v, dp = 1) => (Number.isFinite(v) ? `${(v * 100).toFixed(dp)}%` : '—');
 export const slug = (s) => String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '')
@@ -96,7 +106,7 @@ export function renderFlockState(ctx, s, i, ranked) {
 
   const main = `${CSS}<article class="stp">
   <p class="stp__eb">Plate readers · ${esc(s.name)} · a ${esc(brand.NAME)} register</p>
-  <h1>Flock cameras in ${esc(s.name)}</h1>
+  <h1>${esc(flockQ(s.name))}</h1>
   <p class="stp__lede">${esc(lede)}</p>
   <ul class="stp__kpis">
     <li><b>${N(n)}</b><span>Flock cameras mapped</span></li>
@@ -141,9 +151,9 @@ export function renderFlockState(ctx, s, i, ranked) {
       isAccessibleForFree: true,
       variableMeasured: [{ '@type': 'PropertyValue', name: 'Flock cameras mapped', value: n }],
     }, breadcrumbs(ctx, [
-      { name: 'Flock camera map', path: '/flock.html' },
-      { name: 'By state', path: '/flock/' },
-      { name: s.name, path },
+      { name: FLOCK_Q, path: '/flock.html' },
+      { name: FLOCK_HUB_Q, path: '/flock/' },
+      { name: flockQ(s.name), path },
     ])],
     main,
   });
@@ -156,7 +166,7 @@ export function renderFlockIndex(ctx) {
   const total = list.reduce((a, x) => a + Number(x.cameras_mapped), 0);
   const main = `${CSS}<article class="stp">
   <p class="stp__eb">Plate readers · by state · a ${esc(brand.NAME)} register</p>
-  <h1>Flock cameras by state</h1>
+  <h1>${esc(FLOCK_HUB_Q)}</h1>
   <p class="stp__lede">${N(total)} Flock Safety license-plate reader cameras are mapped in OpenStreetMap across ${N(list.length)} US states and territories. The most are in ${list.slice(0, 3).map((s) => `${esc(s.name)} (${N(s.cameras_mapped)})`).join(', ')}. Pick a state for every county.</p>
   <ul class="stp__links">${alpha.map((s) => `<li><a href="${esc(ctx.href(flockStatePath(s)))}">${esc(s.name)}</a> <span>${N(s.cameras_mapped)}</span></li>`).join('')}</ul>
   <p class="stp__note">${esc(f.copy.empty_state || '')} <a href="${esc(ctx.href('/flock.html'))}">The national Flock camera map →</a></p>
@@ -165,7 +175,7 @@ export function renderFlockIndex(ctx) {
     ctx, path: '/flock/',
     title: `Flock Cameras by State: ${N(total)} Mapped · ${brand.NAME}`,
     description: `How many Flock license-plate readers are in each US state: ${N(total)} mapped in OpenStreetMap across ${N(list.length)} states and territories, county by county.`,
-    jsonld: [breadcrumbs(ctx, [{ name: 'Flock camera map', path: '/flock.html' }, { name: 'By state', path: '/flock/' }])],
+    jsonld: [breadcrumbs(ctx, [{ name: FLOCK_Q, path: '/flock.html' }, { name: FLOCK_HUB_Q, path: '/flock/' }])],
     main,
   });
 }
@@ -223,7 +233,7 @@ export function renderDcState(ctx, s, i, ranked) {
     + `That ranks ${s.name} ${ordinal(i + 1)} of ${N(ranked.length)} states with a page here, with ${pct(national ? s.total / national : NaN)} of every US site mapped.`;
   const main = `${CSS}<article class="stp">
   <p class="stp__eb">Data centers · ${esc(s.name)} · a ${esc(brand.NAME)} register</p>
-  <h1>Data centers in ${esc(s.name)}</h1>
+  <h1>${esc(dcQ(s.name))}</h1>
   <p class="stp__lede">${esc(lede)}</p>
   <ul class="stp__kpis">
     <li><b>${N(s.total)}</b><span>sites mapped</span></li>
@@ -273,9 +283,9 @@ export function renderDcState(ctx, s, i, ranked) {
         { '@type': 'PropertyValue', name: 'under construction', value: uc },
       ],
     }, breadcrumbs(ctx, [
-      { name: 'US data center map', path: '/map.html' },
-      { name: 'By state', path: '/datacenters/' },
-      { name: s.name, path },
+      { name: DC_Q, path: '/map.html' },
+      { name: DC_HUB_Q, path: '/datacenters/' },
+      { name: dcQ(s.name), path },
     ])],
     main,
   });
@@ -288,7 +298,7 @@ export function renderDcIndex(ctx) {
   const uc = list.reduce((a, x) => a + (Number(x.c.under_construction) || 0), 0);
   const main = `${CSS}<article class="stp">
   <p class="stp__eb">Data centers · by state · a ${esc(brand.NAME)} register</p>
-  <h1>Data centers by state</h1>
+  <h1>${esc(DC_HUB_Q)}</h1>
   <p class="stp__lede">${N(total)} data centers are mapped in OpenStreetMap across the ${N(list.length)} US states with at least ${DC_MIN} sites, ${N(uc)} of them under construction. The most are in ${list.slice(0, 3).map((s) => `${esc(s.name)} (${N(s.total)})`).join(', ')}. Pick a state for every site, with local drought.</p>
   <ul class="stp__links">${alpha.map((s) => `<li><a href="${esc(ctx.href(dcStatePath(s)))}">${esc(s.name)}</a> <span>${N(s.total)}</span></li>`).join('')}</ul>
   <p class="stp__note">${esc((ctx.datacenters.honesty || [])[0] || '')} <a href="${esc(ctx.href('/map.html'))}">The US data center map →</a></p>
@@ -297,7 +307,7 @@ export function renderDcIndex(ctx) {
     ctx, path: '/datacenters/',
     title: `Data Centers by State: ${N(total)} US Sites Mapped · ${brand.NAME}`,
     description: `How many data centers are in each US state: ${N(total)} mapped in OpenStreetMap, ${N(uc)} under construction, with county drought for every site.`,
-    jsonld: [breadcrumbs(ctx, [{ name: 'US data center map', path: '/map.html' }, { name: 'By state', path: '/datacenters/' }])],
+    jsonld: [breadcrumbs(ctx, [{ name: DC_Q, path: '/map.html' }, { name: DC_HUB_Q, path: '/datacenters/' }])],
     main,
   });
 }

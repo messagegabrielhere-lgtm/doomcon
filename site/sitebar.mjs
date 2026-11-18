@@ -15,6 +15,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { CANONICAL_URL } from './brand.mjs';
 import { XCOMPOSE_JS } from './xcompose.mjs';
+import { strip as nlStrip, STRIP_MARK as NL_STRIP_MARK } from './templates/subscribePage.mjs';
 import { on as mzOn, sponsorLine, adSlot, AD_PAGES, MZ_CSS, MONETIZE, gtagHead, ahrefsHead, CONSENT_JS } from './monetize.mjs';
 import { HEADER_MARK, NAV_JS_PATH, headerHtml, relatedHtml, navJs } from './siteheader.mjs';
 import { securityHeadMeta, hasSecurityMeta } from './security.mjs';
@@ -368,8 +369,13 @@ export function stamp(html, asOf, rel = '') {
     if (at !== undefined) out = out.slice(0, at) + rel2.trimStart() + '\n' + out.slice(at);
     else tail = rel2;
   }
+  // Email signup strip on every page except the homepage (its own box), the
+  // signup page, and any page already carrying a signup form or the strip.
+  const nlSkip = rel === '' || rel === 'index.html' || rel === 'classic.html' || rel === 'subscribe.html'
+    || out.includes(NL_STRIP_MARK) || out.includes('class="mz-nl');
+  const nlBar = nlSkip ? '' : nlStrip(BASE);
   const nav = `\n<script src="${BASE}/${NAV_JS_PATH}" defer></script>`;
-  return out.replace(/<\/body>(?![\s\S]*<\/body>)/i, `${tail}${css}${ad}${sp}${own ? '' : disclosureHtml()}${sitebar(asOf, { ...stampOpts, rel })}${nav}${radio}${analytics}${consent}\n</body>`);
+  return out.replace(/<\/body>(?![\s\S]*<\/body>)/i, `${tail}${nlBar}${css}${ad}${sp}${own ? '' : disclosureHtml()}${sitebar(asOf, { ...stampOpts, rel })}${nav}${radio}${analytics}${consent}\n</body>`);
 }
 
 // The shared header goes right after <body>, once, on any page that does not
