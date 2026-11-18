@@ -1,52 +1,52 @@
 # SIREN: current reading
 
-> SIREN 4 · ROUTINE · 55.3/100, computed 2026-11-18 21:22 UTC. Levels run from 5 (quietest) to 1 (loudest). It counts AI activity. It is not a probability of harm and not a forecast.
+> SIREN 4 · ROUTINE · 55.2/100, computed 2026-11-18 22:30 UTC. Levels run from 5 (quietest) to 1 (loudest). It counts AI activity. It is not a probability of harm and not a forecast.
 
 Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](https://siren.watch/verify.html) · [Search Trends](https://siren.watch/search-trends.html) (short alias https://siren.watch/trends.html) · [news sitemap](https://siren.watch/news-sitemap.xml) · [classic instrument panel](https://siren.watch/classic.html).
 
 ## Reading
 
 - Level: 4 (ROUTINE) — The normal range: as much happening as usual.
-- Score: 55.3 / 100 (−0.1 vs the previous reading)
-- Computed: 2026-11-18 21:22 UTC
+- Score: 55.2 / 100 (−0.1 vs the previous reading)
+- Computed: 2026-11-18 22:30 UTC
 - At this level since: 2026-11-08 06:24 UTC
-- Top mover: Capability −0.5 since 20:18 UTC
-- Receipt: https://siren.watch/api/receipts/2026-11-18T21-22-30Z.json
+- Top mover: Capability −0.5 since 21:22 UTC
+- Receipt: https://siren.watch/api/receipts/2026-11-18T22-30-36Z.json
 
 ## Pillars
 
 | Pillar | Score | Sources answering | In composite |
 |---|---|---|---|
-| Capability | 44.7 | 1/5 | yes |
-| Compute & Capital | 61.5 | 1/4 | yes |
-| Attention | 46.5 | 2/4 | yes |
+| Capability | 44.2 | 1/5 | yes |
+| Compute & Capital | 61.6 | 1/4 | yes |
+| Attention | 46.2 | 2/4 | yes |
 | Governance | 57.9 | 1/2 | yes |
 | Markets | — | 0/3 | no |
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-18 22:56 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-18 23:06 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
-1. [Source: Anthropic priced its IPO at $83 per share, above the $70-$78 marketed range, which would put its valuation above the $1.4T it was previously targeting (CNBC)](https://techmeme.com/261118/p34) — Techmeme front page (AI-filtered) · 2026-11-18 17:15 UTC · score 84.0 · compute
-2. [Palmer Luckey warns AI-powered cyberattacks are outpacing defenses: ‘It’s time to start running’](https://techcrunch.com/2026/11/18/palmer-luckey-warns-ai-powered-cyberattacks-are-outpacing-defenses-its-time-to-start-running) — TechCrunch — AI · 2026-11-18 21:34 UTC · score 81.7 · attention
+1. [Nvidia Tells Employees That Company Is Moving On From Huang Era](https://news.google.com/rss/articles/CBMitAFBVV95cUxQdmJBeTBNRzc2WnpadnRGaVh0cE8zTEhIVGstcmtqZnF0cHh2THdwSHNPYzJ6aXZmbGZiYXZvMzV5WTlpN2c4R0F5dS01R0VjcENMVTZpTXcwWVROTmNlZTJsY3BtcldDZFltVG4zVWhZTTNXZmlkS1ItWXJEVkRyRVNhWkU5NTEyRDdweFNhZk41aGQ1U3hIMGJyMnVyTHhEbXVVYTF2MXZSTXJYRTFFdHFFVG8?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-18 21:00 UTC · score 86.2 · attention
+2. [Palmer Luckey warns AI-powered cyberattacks are outpacing defenses: ‘It’s time to start running’](https://techcrunch.com/2026/11/18/palmer-luckey-warns-ai-powered-cyberattacks-are-outpacing-defenses-its-time-to-start-running) — TechCrunch — AI · 2026-11-18 21:34 UTC · score 81.6 · attention
 3. [Microsoft AI: Seven new world-class models at scalable price-performance](https://microsoft.ai/news/microsoft-ignite-2026) — Hacker News AI stories (72h) · 2026-11-18 16:08 UTC · score 78.4 · attention
 4. [Waymo has stopped its robotaxis from driving on the freeway—here’s why](https://bsky.app/profile/arstechnica.com/post/3n2mhjxmwkf27) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 21:05 UTC · score 73.4 · attention
-5. [Exclusive | Palo Alto Networks to Buy AI-Startup Applied Compute for $4.5 Billion](https://news.google.com/rss/articles/CBMiqAFBVV95cUxNYzJMRVRpMDh6UlVrLWNaa0JYTmZhMkUxWWdweFJuWDdJZWE2NmVsSFczcFMwT3FVYzRxVV93TXlrSVhfWDBnRTBsSTNRcjMxUF9KMnp5UVNYOTRKSlJPa0tRMC1Mc2FTN3I4RGpZRVJxZ3FCOUVkaEZkQTlDUzNpZ1V2VS1UOXZRdEkyODVCMTJuMC1pSWd2QnN1Skw1eTFWS0Z3dzd1enk?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-18 21:00 UTC · score 71.2 · compute
-6. [Criminals Have a New Favorite ‘Point-and-Shoot’ AI Hacking Weapon](https://bsky.app/profile/wired.com/post/3n2lynjp3jj2u) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 16:35 UTC · score 67.9 · attention
-7. [Amazon, Google to Have About 28% of Anthropic Stock After IPO](https://news.google.com/rss/articles/CBMirwFBVV95cUxPV2pZZmdyc0t4VzZKQ21zUWRjVENMam14ZG1qQ2ludXhhSmxGbUF5NVNmX1h0a1B2SlBMNEVZWmRZRDZSbFQyTWZKMHZuZzJrNk13Z21iaV9nbGxBaVlwTmJ4cVVMdnVYSUZrRHJNcF9ObGVyZ19MbzEzeElOcmtNTmRfSGtEOUlkNGRWZENESVliWUtfd3lyQ1ZmY0FYWTNiRzduZW02QjhyOWx6UUFN?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-17 13:03 UTC · score 67.7 · compute
-8. [China seeks advanced Nvidia chips for AI weapons despite US curbs, report says](https://bsky.app/profile/reuters.com/post/3n2lkz3xqll26) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 12:25 UTC · score 67.4 · compute
-9. [Nvidia isn’t selling any more AI chips to China](https://bsky.app/profile/theverge.com/post/3n2lmmeud2t2b) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 13:01 UTC · score 67.1 · compute
-10. [Jensen Huang Breaks Silence, Signals Willingness to Return as Nvidia CEO](https://news.google.com/rss/articles/CBMidkFVX3lxTE5QczVTbUQzdjZ0WHN0QjYwRXJidGl2YmJzeFVVOGhEV0FoZHp3QkJ1dng1REtUS21Qa2lYSGdUejlhbGtfNzlQT1V6Zm45NDltc2hKeEowZ3NtcHdsaUNvN2ttTTJXWUgzNkF3SGZUUjdFX1FiRHc?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-17 16:09 UTC · score 67.0 · attention
+5. [Exclusive | Palo Alto Networks to Buy AI-Startup Applied Compute for $4.5 Billion](https://news.google.com/rss/articles/CBMiqAFBVV95cUxNYzJMRVRpMDh6UlVrLWNaa0JYTmZhMkUxWWdweFJuWDdJZWE2NmVsSFczcFMwT3FVYzRxVV93TXlrSVhfWDBnRTBsSTNRcjMxUF9KMnp5UVNYOTRKSlJPa0tRMC1Mc2FTN3I4RGpZRVJxZ3FCOUVkaEZkQTlDUzNpZ1V2VS1UOXZRdEkyODVCMTJuMC1pSWd2QnN1Skw1eTFWS0Z3dzd1enk?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-18 21:00 UTC · score 72.0 · compute
+6. [Source: Anthropic priced its IPO at $83 per share, above the $70-$78 marketed range, which would put its valuation above the $1.4T it was previously targeting (CNBC)](https://techmeme.com/261118/p34) — Techmeme front page (AI-filtered) · 2026-11-18 17:15 UTC · score 69.6 · compute
+7. [Criminals Have a New Favorite ‘Point-and-Shoot’ AI Hacking Weapon](https://bsky.app/profile/wired.com/post/3n2lynjp3jj2u) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 16:35 UTC · score 67.8 · attention
+8. [Amazon, Google to Have About 28% of Anthropic Stock After IPO](https://news.google.com/rss/articles/CBMirwFBVV95cUxPV2pZZmdyc0t4VzZKQ21zUWRjVENMam14ZG1qQ2ludXhhSmxGbUF5NVNmX1h0a1B2SlBMNEVZWmRZRDZSbFQyTWZKMHZuZzJrNk13Z21iaV9nbGxBaVlwTmJ4cVVMdnVYSUZrRHJNcF9ObGVyZ19MbzEzeElOcmtNTmRfSGtEOUlkNGRWZENESVliWUtfd3lyQ1ZmY0FYWTNiRzduZW02QjhyOWx6UUFN?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-17 13:03 UTC · score 67.7 · compute
+9. [China seeks advanced Nvidia chips for AI weapons despite US curbs, report says](https://bsky.app/profile/reuters.com/post/3n2lkz3xqll26) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 12:25 UTC · score 67.4 · compute
+10. [Nvidia isn’t selling any more AI chips to China](https://bsky.app/profile/theverge.com/post/3n2lmmeud2t2b) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 13:01 UTC · score 67.1 · compute
 
 ## Leaders most covered this week
 
 Stories in the press naming each person over the last 7 days (Google News search). Coverage is not a statement by the person.
 
-- Jensen Huang (Nvidia): 605+ stories
-- Elon Musk (xAI): 418+ stories
-- Sam Altman (OpenAI): 353+ stories
-- Satya Nadella (Microsoft): 179 stories
-- Dario Amodei (Anthropic): 164 stories
+- Jensen Huang (Nvidia): 585+ stories
+- Elon Musk (xAI): 421+ stories
+- Sam Altman (OpenAI): 354+ stories
+- Dario Amodei (Anthropic): 184+ stories
+- Satya Nadella (Microsoft): 183 stories
 - Mark Zuckerberg (Meta): 129 stories
 - Greg Brockman (OpenAI): 92 stories
 - Sundar Pichai (Alphabet): 83 stories
@@ -55,16 +55,16 @@ Stories in the press naming each person over the last 7 days (Google News search
 
 ## Takeover Watch
 
-Signals about AI autonomy, watched but not scored: they do not move the SIREN level. Updated 2026-11-18 21:22 UTC.
+Signals about AI autonomy, watched but not scored: they do not move the SIREN level. Updated 2026-11-18 22:30 UTC.
 
-- AI coding agents' own GitHub accounts opened 3,049 pull requests in the last 24 h (Devin 1,403, Cursor 935, Claude 500, GitHub Copilot agent 211, OpenAI Codex 0, Google Jules 0).
+- AI coding agents' own GitHub accounts opened 3,112 pull requests in the last 24 h (Devin 1,390, Cursor 1,015, Claude 505, GitHub Copilot agent 202, OpenAI Codex 0, Google Jules 0).
 - Notable AI models released in the last 90 days (Epoch AI): 32 of 1,102 on record. Newest: Gemini 4 Carbon (Google DeepMind, 2026-11-10); Claude Mythos 5.2 (Anthropic, 2026-11-09); Claude Fable 5.2 (Anthropic, 2026-11-09).
 - Largest training run on record: GPT-6 Astra (OpenAI), 9.40e+26 FLOP.
-- Moltbook: 26 distinct AI agents seen posting about AI, 114,148 agent replies in the threads read.
+- Moltbook: 28 distinct AI agents seen posting about AI, 113,155 agent replies in the threads read.
 
 ## How to cite
 
-"SIREN 4 · 55.3/100 at 21:22 UTC — siren.watch"
+"SIREN 4 · 55.2/100 at 22:30 UTC — siren.watch"
 
 Say the level with its name and which way the scale runs, e.g. "AI activity is at SIREN 4: ROUTINE, on a scale where 1 is loudest." Link https://siren.watch/.
 
