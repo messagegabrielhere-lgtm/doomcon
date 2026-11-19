@@ -1,6 +1,51 @@
 {
   "clusters": [
     {
+      "breaking_at": "2026-11-19T23:03:50.555Z",
+      "corroboration": 2,
+      "earliest_published_at": "2026-11-19T22:11:37.000Z",
+      "first_seen_at": "2026-11-19T22:18:26.109Z",
+      "id": "bb9535dd13013",
+      "item_ids": [
+        "5dbfbc09896e1952"
+      ],
+      "latency_s": 409,
+      "live": true,
+      "outlet": "executivegov.com",
+      "outlets": [
+        "executivegov.com",
+        "wisevoter.com"
+      ],
+      "rule": [
+        "two outlets within 20 min"
+      ],
+      "sightings": [
+        {
+          "outlet": "executivegov.com",
+          "published_at": "2026-11-19T22:11:37.000Z",
+          "source": "gnews-ai",
+          "tier1": false,
+          "title": "House Republicans Introduce Four Bills for DHS, CISA to Address AI Cyberthreats",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPbEtuRW1vSVdVQ0l0NFFDS2Zwa2ZDOWt3M3h4YmFuazlsTlVTVFVMbWgwOUxxRXY5c1V6SlpwZ1VuRmNtSnVJREQ5eE1WOTN4b1lSNF9lWUdVb1VQRWdIblZBQUJkSmhMNEE3UEszMDhMMFFsN2FaenljLW1OQzRZNktfYmNoYmVxWnRKak1nZw?oc=5"
+        },
+        {
+          "outlet": "wisevoter.com",
+          "published_at": "2026-11-19T22:18:26.109Z",
+          "source": "gnews-ai",
+          "tier1": false,
+          "title": "House Republicans Introduce Four AI Cyber Bills",
+          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOeU95RnB2RXROcFlPUENmd0ZwdXdwWDh4c18tXzcwaGQ0UGRoUWFWYlhvMTFsM20yaWNuaXR1VjBZaU1EX0phMThjNWRTVVhEN3U3OGxEdmNlb2lOQWEzWjFMWkl1NmlFcndBT2ZwRHJhOEhlSFZZbWpZbGplUlZoRFE4UVFpWEpKNC1XZllGcjNDT2M?oc=5"
+        }
+      ],
+      "source": "gnews-ai",
+      "sources": [
+        "gnews-ai"
+      ],
+      "tier1_outlets": [],
+      "title": "House Republicans Introduce Four Bills for DHS, CISA to Address AI Cyberthreats",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPbEtuRW1vSVdVQ0l0NFFDS2Zwa2ZDOWt3M3h4YmFuazlsTlVTVFVMbWgwOUxxRXY5c1V6SlpwZ1VuRmNtSnVJREQ5eE1WOTN4b1lSNF9lWUdVb1VQRWdIblZBQUJkSmhMNEE3UEszMDhMMFFsN2FaenljLW1OQzRZNktfYmNoYmVxWnRKak1nZw?oc=5"
+    },
+    {
       "breaking_at": "2026-11-19T22:48:36.038Z",
       "clock_skew": true,
       "corroboration": 2,
@@ -150,7 +195,7 @@
     },
     {
       "breaking_at": "2026-11-19T22:04:07.926Z",
-      "corroboration": 3,
+      "corroboration": 4,
       "earliest_published_at": "2026-11-19T19:33:22.000Z",
       "first_seen_at": "2026-11-19T20:24:31.886Z",
       "id": "b21490ea7a481",
@@ -163,10 +208,12 @@
       "outlets": [
         "kelo.com",
         "mercedsunstar.com",
+        "reuters.com",
         "sunherald.com"
       ],
       "rule": [
-        "two outlets within 20 min"
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
       ],
       "sightings": [
         {
@@ -186,6 +233,14 @@
           "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBmSjBZd0hmeUdvVlVQclFyU0g3QUNrb2NwYW9tOFNqX1BTbHhhakE5ZEg2bml5MHhESmc1Tm1peVhJWlN6TXdjd01ZM3pZMHdTUElLUFZDcVJwWHNEUXZYaHhKU3RCYU1PTHR3ZW16T1hfMkk?oc=5"
         },
         {
+          "outlet": "reuters.com",
+          "published_at": "2026-11-19T20:24:31.886Z",
+          "source": "bluesky-ai",
+          "tier1": true,
+          "title": "From anti-war physicist to AI power broker, Amodei takes his safety approach public",
+          "url": "https://bsky.app/profile/reuters.com/post/3n2p6oiemxx2h"
+        },
+        {
           "outlet": "sunherald.com",
           "published_at": "2026-11-19T20:24:31.886Z",
           "source": "wires-ai",
@@ -196,9 +251,12 @@
       ],
       "source": "wires-ai",
       "sources": [
+        "bluesky-ai",
         "wires-ai"
       ],
-      "tier1_outlets": [],
+      "tier1_outlets": [
+        "reuters.com"
+      ],
       "title": "From anti-war physicist to AI power broker, Amodei takes his safety approach public",
       "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNOTJmdzcxN0JRZkZ5Ym9LU01QYUk5YU9mUUhFSVRaODNMYmhyS2xtdk9Yakg1X2Z1S3Bob0hxWjhFeUg5ZkI2WUo1NVl6Z1hvUktjTlpreEJJTHk3WXdZWTNJWTBNM2lnQ3ZuU2lVNlEzSFpJVGRjRk5nNDBuYTBXY3RZMkRNeFdWcS1mWXJoWTZabENHTmc3Ml8xT3JnZVl1TXUyOUZoTkpFMjN3dURSNg?oc=5"
     },
@@ -206,13 +264,13 @@
       "breaking_at": "2026-11-19T22:04:07.926Z",
       "clock_skew": true,
       "corroboration": 41,
-      "earliest_published_at": "2026-11-19T16:52:44.000Z",
+      "earliest_published_at": "2026-11-19T17:17:26.106Z",
       "first_seen_at": "2026-11-18T10:41:34.307Z",
       "id": "bdeb0adaa1489",
       "item_ids": [
         "005a7323b1de6c88",
+        "016ea5fbdda7d72f",
         "022ccde416c7bb63",
-        "0620b51aeaa6c37b",
         "0b3a0c7438c3a029",
         "0e52d626648e93dc",
         "0f8335ce2828d9ab",
@@ -256,7 +314,6 @@
         "56f5de5b11aedbd4",
         "5905d1f747691879",
         "599329497b41dd82",
-        "59e9a1deb36c1337",
         "5a320413b509f759",
         "5b0261f26bc89e9c",
         "5b2e0b393d49219d",
@@ -269,9 +326,11 @@
         "694eda7767094817",
         "69b6252c2e9a018e",
         "6b48b44b7b7800e8",
+        "6dcfcf1a63e7a14e",
         "6f5250d54cc3ed45",
         "74b46c8b5e6ae130",
         "76db4fd405ce28bb",
+        "77a6e4b05f7504de",
         "7b4d99ca3afbdd8c",
         "7f101d4d8438bdb9",
         "843b5218d76aca0f",
@@ -289,7 +348,6 @@
         "9c58ba1af7341daa",
         "9cd84c2455ae281d",
         "a0db95a208c59b50",
-        "a561b987e9420237",
         "a9aece33f33d2427",
         "ad87052c4317eb12",
         "b164470525164fcb",
@@ -297,7 +355,6 @@
         "b4c507c91819cc4b",
         "b500ab90ee0c0912",
         "b5ec36ed726515bd",
-        "bf7b37359468b7c8",
         "c40287a5d15bb4a9",
         "c4ad3a04752f3121",
         "c5543bd2a6ddcbea",
@@ -359,13 +416,13 @@
         "cbsnews.com",
         "chosun.com",
         "cnn.com",
+        "cryptobriefing.com",
         "deadline.com",
         "dig.watch",
         "finviz.com",
         "forbes.com",
         "france24.com",
         "ft.com",
-        "investors.com",
         "marketplace.org",
         "mexicobusiness.news",
         "morningbrew.com",
@@ -379,12 +436,12 @@
         "techpolicy.press",
         "theguardian.com",
         "therealdeal.com",
-        "theverge.com",
         "wapt.com",
         "washingtonpost.com",
         "wbaltv.com",
         "whas11.com",
         "winknews.com",
+        "wisn.com",
         "wmtw.com",
         "wsj.com",
         "wtae.com",
@@ -396,62 +453,6 @@
         "tier-one outlet plus one more"
       ],
       "sightings": [
-        {
-          "outlet": "techmeme.com",
-          "published_at": "2026-11-19T16:52:44.000Z",
-          "source": "techmeme",
-          "tier1": false,
-          "title": "Anthropic opens at $111.50 per share in record IPO: Live updates (CNBC)",
-          "url": "https://techmeme.com/261119/p39"
-        },
-        {
-          "outlet": "techmeme.com",
-          "published_at": "2026-11-19T16:56:35.000Z",
-          "source": "techmeme",
-          "tier1": false,
-          "title": "Anthropic closes up 17% at $97.17 in its Nasdaq debut, giving it a market cap of $1.3T, after opening at $111.50, up 34% from its IPO price (Reuters)",
-          "url": "https://techmeme.com/261119/p40"
-        },
-        {
-          "outlet": "techcrunch.com",
-          "published_at": "2026-11-19T16:59:23.000Z",
-          "source": "techcrunch-ai",
-          "tier1": true,
-          "title": "Anthropic hits Nasdaq exchanges at $111, 33% above IPO price",
-          "url": "https://techcrunch.com/2026/11/19/anthropic-hits-nasdaq-exchanges-at-110-27-above-ipo-price"
-        },
-        {
-          "outlet": "bloomberg.com",
-          "published_at": "2026-11-19T17:02:15.000Z",
-          "source": "bloomberg-tech",
-          "tier1": true,
-          "title": "Anthropic IPO Provides Cash to Continue R&D Spending, CFO Says",
-          "url": "https://bloomberg.com/news/articles/2026-11-19/anthropic-ipo-provides-cash-to-continue-r-d-spending-cfo-says"
-        },
-        {
-          "outlet": "bloomberg.com",
-          "published_at": "2026-11-19T17:02:15.000Z",
-          "source": "wires-ai",
-          "tier1": true,
-          "title": "Anthropic IPO Provides Cash to Continue R&D Spending, CFO Says",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQZWRPenhGcVpIMmVtak40YS1mTTNlcDJjS0hjZ0lvOF9WbElRYmZ3ZENKdnhTcUx1bndKS2xrRll5OEJIQmxLLVV6UjZ0ODR6Mk9JMjFGRjJKM09DdkNuM2NMSFVVZGlqNGkwU1F3TW00eEJqNzBCTG1XX245eVBVNHVtTm52cXBjVllhTjBzXzMwenk5dkt5am5KMVNKM0tVVm80OTBhWVlMLVVyTm9VVFNR?oc=5"
-        },
-        {
-          "outlet": "reuters.com",
-          "published_at": "2026-11-19T17:02:40.000Z",
-          "source": "hn-fresh-ai",
-          "tier1": true,
-          "title": "Anthropic hits $2T in Nasdaq debut",
-          "url": "https://reuters.com/business/finance/anthropics-historic-debut-put-ais-promise-peril-wall-st-test-2026-11-19"
-        },
-        {
-          "outlet": "theverge.com",
-          "published_at": "2026-11-19T17:03:46.967Z",
-          "source": "bluesky-ai",
-          "tier1": true,
-          "title": "Anthropic starts trading on Wall Street",
-          "url": "https://bsky.app/profile/theverge.com/post/3n2oki7scis24"
-        },
         {
           "outlet": "washingtonpost.com",
           "published_at": "2026-11-19T17:17:26.106Z",
@@ -491,6 +492,62 @@
           "tier1": true,
           "title": "Anthropic Investor: IPO Is ‘Day One’ for AI Giant",
           "url": "https://bloomberg.com/news/videos/2026-11-19/anthropic-investor-ipo-is-day-one-for-ai-giant-video"
+        },
+        {
+          "outlet": "bloomberg.com",
+          "published_at": "2026-11-19T17:46:27.371Z",
+          "source": "bluesky-ai",
+          "tier1": true,
+          "title": "Anthropic Opens at $111.50, 34% Above IPO Price: Live Updates",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3n2oykzurhf2c"
+        },
+        {
+          "outlet": "bloomberg.com",
+          "published_at": "2026-11-19T17:49:26.598Z",
+          "source": "bloomberg-tech",
+          "tier1": true,
+          "title": "Anthropic Shares Jump 17% After $107.3 Billion IPO Breaks Record",
+          "url": "https://bloomberg.com/news/videos/2026-11-19/anthropic-ipo-breaks-record-video"
+        },
+        {
+          "outlet": "bloomberg.com",
+          "published_at": "2026-11-19T17:49:26.598Z",
+          "source": "bloomberg-tech",
+          "tier1": true,
+          "title": "Anthropic Makes Trading Debut With Record Breaking IPO",
+          "url": "https://bloomberg.com/news/videos/2026-11-19/anthropic-makes-trading-debut-with-record-breaking-ipo-video"
+        },
+        {
+          "outlet": "bloomberg.com",
+          "published_at": "2026-11-19T17:49:26.598Z",
+          "source": "bloomberg-tech",
+          "tier1": true,
+          "title": "Anthropic Sets Record With $107.3 Billion IPO",
+          "url": "https://bloomberg.com/news/videos/2026-11-19/anthropic-sets-record-with-107-3-billion-ipo-video"
+        },
+        {
+          "outlet": "bloomberg.com",
+          "published_at": "2026-11-19T17:49:26.598Z",
+          "source": "wires-ai",
+          "tier1": true,
+          "title": "Anthropic Shares Jump 17% After $107.3 Billion IPO Breaks Record",
+          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNRXRrX1hfTVJkTGR5Z3pCeDhWUGhZUm9MaWpkVGVQQUdVVExTUDhkY28wRzJmNmJ0YW1DNmZCOHNCUzZaeUlVdW1QZ0VkNjU0a0o0YjVTTTNYRGt0ZXVhNjZGQzNXcjMzTEs3THFyV2ozZVVzcHg4Q1lhcFViUFRiQWNqQnJLdG9mdVhCYVN0cGR6bnV4N2lldGNENUU1aDZ2TkQzcDBuYk04c1JrQWNUR1lR?oc=5"
+        },
+        {
+          "outlet": "bloomberg.com",
+          "published_at": "2026-11-19T17:49:26.598Z",
+          "source": "wires-ai",
+          "tier1": true,
+          "title": "Anthropic Founders’ Fortunes Soar to $140 Billion in Record IPO",
+          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxONm12b2M3cU9FUmRXYjM1WXdDNUphc1lnNGRIbnN6RjJ6dTVHdkUwRnN5NEhjRDRWSWVaanpSZ1I2d3Vpa3ZjTURYX3A4bE9Xd3dnSlpDdjEwc0lVOXVTZnFja1RDcWdodENmcEphOTBPd3ViS1hXLTViR1VObFpqdmtCeVRTaE0zVUN3RWp0a09qSTg1Q0NsRi0weTJmTlhFNXc5NklyXzEtSXFhOHhRakFR?oc=5"
+        },
+        {
+          "outlet": "mexicobusiness.news",
+          "published_at": "2026-11-19T17:49:26.598Z",
+          "source": "gnews-ai",
+          "tier1": false,
+          "title": "Anthropic Raises US$81 Billion in Record AI IPO",
+          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOZGVkQ1QxMEdtOGhJUXhzMmZtUERJTE0tRTVrLVlrTmVkX0I0LURHSkdQeS1TVnZLb3ZJazhIOUJCTGV3bkFaQ1FyUXloSmhSQ0tKeEpGaEJZZ0hudjVITEhoalFteWI0Skx0cDBfdkV3bllHSXVuVURjUENsZkVXeGk5M2VxM2hva1ZraV9yUTNfYW8?oc=5"
         }
       ],
       "source": "bluesky-ai",
@@ -504,7 +561,6 @@
         "hn-fresh-ai",
         "nyt-tech",
         "techcrunch-ai",
-        "techmeme",
         "wires-ai"
       ],
       "tier1_outlets": [
@@ -516,7 +572,6 @@
         "reuters.com",
         "techcrunch.com",
         "theguardian.com",
-        "theverge.com",
         "washingtonpost.com",
         "wsj.com"
       ],
@@ -746,7 +801,7 @@
         "9251eca1d9cb7c80"
       ],
       "latency_s": 0,
-      "live": true,
+      "live": false,
       "outlet": "casrai.org",
       "outlets": [
         "casrai.org",
@@ -1244,13 +1299,16 @@
         "072c9ac683045166",
         "09bdef44448c12d6",
         "1e9612539abde365",
+        "2fc14dee0689e415",
         "5488e9ff8f86d5df",
         "564be04a85ee421f",
+        "616cb535d7c1ade4",
         "66369ae21ee11431",
         "72dcf87cb4b1c06b",
         "76052896ed5fc980",
         "77b9e2dbbad60a4e",
         "806578be9a08eded",
+        "8268d5c023356cbc",
         "84669b04361855c5",
         "995749c5ea331665",
         "a24ce0ab102d5846",
@@ -1296,11 +1354,20 @@
           "tier1": false,
           "title": "Microsoft’s CEO Says Employees Should Follow This Transformative Career Advice",
           "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOSDU0dmdpM0ptQzhmYnpvQXBpU25zSmRhZVBkZkZHVkstYWpyMTBkR1pSbE9Vam9JSDFJdG1jRE9HcXIybTZFTkFTeWNrWjVocHVMVDFxRVlQbHZ0STFBSmh0WkhGU1hpclNpWnJuczF1Nmk4ZjNYRkFzQThFSk1nSVJsMTh4MWlab01icmR0anQ4NEFtMHI4NXE3RzJ5cU9ySVo5VjFwc296a1FtUnc2ZU9icy1xR3l3Vk1Zaw?oc=5"
+        },
+        {
+          "outlet": "techmeme.com",
+          "published_at": "2026-11-19T23:00:01.000Z",
+          "source": "techmeme",
+          "tier1": false,
+          "title": "Sources: Nvidia is in advanced talks to acquire diffusion LLM developer Inception for $500M+ plus earnouts; talks began before Jensen Huang's resignation (The Information)",
+          "url": "https://techmeme.com/261119/p54"
         }
       ],
       "source": "gnews-ai",
       "sources": [
         "gnews-ai",
+        "techmeme",
         "wires-ai"
       ],
       "tier1_outlets": [
@@ -1854,60 +1921,10 @@
       "tier1_outlets": [],
       "title": "Three used Nvidia V100s deliver about 100 tokens/s on Qwen 3.6 35B in a $1,042 build",
       "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQbGJVS1dwRTNmaGQ3VGFLMDZnN0t2WExwRkoxV3l2TzFYeEh6ekVzQ1R5SGQ0d3R3OUt2S0ktUk1IeEpqejhVNG5iLVNRd3A5NjhnazVHZldYN2lzSHdjaE4wR29LWFhKdWREN0JKV1hfdTBqUjRwYmlRNHVOQ2lXU0x3?oc=5"
-    },
-    {
-      "breaking_at": "2026-11-19T11:35:55.534Z",
-      "corroboration": 2,
-      "earliest_published_at": "2026-11-19T10:13:14.000Z",
-      "first_seen_at": "2026-11-19T10:24:46.321Z",
-      "id": "b52ef885ebbee",
-      "item_ids": [
-        "39dfcdf20db2d36d",
-        "921716002138336d"
-      ],
-      "latency_s": 692,
-      "live": false,
-      "outlet": "scmp.com",
-      "outlets": [
-        "bloomberg.com",
-        "scmp.com"
-      ],
-      "rule": [
-        "tier-one outlet plus one more"
-      ],
-      "sightings": [
-        {
-          "outlet": "bloomberg.com",
-          "published_at": "2026-11-19T10:13:14.000Z",
-          "source": "bloomberg-tech",
-          "tier1": true,
-          "title": "Alibaba Spends Big on AI Hardware to Drive 10% Revenue Climb",
-          "url": "https://bloomberg.com/news/articles/2026-11-19/alibaba-s-revenue-beats-estimates-during-china-s-ai-boom"
-        },
-        {
-          "outlet": "scmp.com",
-          "published_at": "2026-11-19T11:00:22.000Z",
-          "source": "scmp-tech",
-          "tier1": true,
-          "title": "Alibaba’s AI bet paying off as cloud services drive 10% revenue jump",
-          "url": "https://scmp.com/tech/big-tech/article/3375093/alibabas-ai-bet-paying-cloud-services-drive-10-revenue-jump"
-        }
-      ],
-      "source": "scmp-tech",
-      "sources": [
-        "bloomberg-tech",
-        "scmp-tech"
-      ],
-      "tier1_outlets": [
-        "bloomberg.com",
-        "scmp.com"
-      ],
-      "title": "Alibaba’s AI bet paying off as cloud services drive 10% revenue jump",
-      "url": "https://scmp.com/tech/big-tech/article/3375093/alibabas-ai-bet-paying-cloud-services-drive-10-revenue-jump"
     }
   ],
-  "fresh": "b88e56a4e578a",
-  "generated_at": "2026-11-19T22:52:24.430Z",
+  "fresh": "bb9535dd13013",
+  "generated_at": "2026-11-19T23:05:49.973Z",
   "live": 11,
   "rules": {
     "keep": 30,
@@ -1965,21 +1982,21 @@
         "source": "restofworld"
       },
       {
-        "label": "Google News — AI searches, last hour",
-        "median_s": 1070,
-        "n": 542,
-        "source": "gnews-ai"
-      },
-      {
         "label": "AWS Machine Learning Blog",
-        "median_s": 1516,
-        "n": 16,
+        "median_s": 1060,
+        "n": 17,
         "source": "aws-ml"
       },
       {
+        "label": "Google News — AI searches, last hour",
+        "median_s": 1066,
+        "n": 551,
+        "source": "gnews-ai"
+      },
+      {
         "label": "Techmeme front page (AI-filtered)",
-        "median_s": 1569,
-        "n": 44,
+        "median_s": 1514,
+        "n": 45,
         "source": "techmeme"
       },
       {
@@ -1996,8 +2013,8 @@
       },
       {
         "label": "Bluesky — AI posts from vetted newsrooms and reporters",
-        "median_s": 2737,
-        "n": 104,
+        "median_s": 2717,
+        "n": 105,
         "source": "bluesky-ai"
       },
       {
@@ -2026,8 +2043,8 @@
       },
       {
         "label": "Bloomberg Technology",
-        "median_s": 3622,
-        "n": 69,
+        "median_s": 3559,
+        "n": 71,
         "source": "bloomberg-tech"
       },
       {
@@ -2049,16 +2066,16 @@
         "source": "guardian-ai"
       },
       {
-        "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
-        "median_s": 5016,
-        "n": 226,
-        "source": "wires-ai"
-      },
-      {
         "label": "Anthropic / Claude incident history",
         "median_s": 5071,
         "n": 1,
         "source": "anthropic-status"
+      },
+      {
+        "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
+        "median_s": 5105,
+        "n": 227,
+        "source": "wires-ai"
       },
       {
         "label": "The Decoder",
@@ -2226,8 +2243,8 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 2717,
-      "n": 1349
+      "median_s": 2666,
+      "n": 1364
     },
     "window_hours": 24
   }
