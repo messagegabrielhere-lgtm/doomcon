@@ -1,42 +1,42 @@
 # SIREN: current reading
 
-> SIREN 4 · ROUTINE · 54.9/100, computed 2026-11-19 02:39 UTC. Levels run from 5 (quietest) to 1 (loudest). It counts AI activity. It is not a probability of harm and not a forecast.
+> SIREN 4 · ROUTINE · 55.0/100, computed 2026-11-19 03:38 UTC. Levels run from 5 (quietest) to 1 (loudest). It counts AI activity. It is not a probability of harm and not a forecast.
 
 Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](https://siren.watch/verify.html) · [Search Trends](https://siren.watch/search-trends.html) (short alias https://siren.watch/trends.html) · [news sitemap](https://siren.watch/news-sitemap.xml) · [classic instrument panel](https://siren.watch/classic.html).
 
 ## Reading
 
 - Level: 4 (ROUTINE) — The normal range: as much happening as usual.
-- Score: 54.9 / 100 (−0.1 vs the previous reading)
-- Computed: 2026-11-19 02:39 UTC
+- Score: 55.0 / 100 (+0.1 vs the previous reading)
+- Computed: 2026-11-19 03:38 UTC
 - At this level since: 2026-11-08 06:24 UTC
-- Top mover: Attention −0.3 since 01:40 UTC
-- Receipt: https://siren.watch/api/receipts/2026-11-19T02-39-29Z.json
+- Top mover: Capability +1.2 since 02:39 UTC
+- Receipt: https://siren.watch/api/receipts/2026-11-19T03-38-15Z.json
 
 ## Pillars
 
 | Pillar | Score | Sources answering | In composite |
 |---|---|---|---|
-| Capability | 43.4 | 1/5 | yes |
-| Compute & Capital | 61.6 | 1/4 | yes |
-| Attention | 45.8 | 2/4 | yes |
-| Governance | 57.3 | 1/2 | yes |
+| Capability | 44.6 | 1/5 | yes |
+| Compute & Capital | 61.5 | 1/4 | yes |
+| Attention | 45.6 | 2/4 | yes |
+| Governance | 57.1 | 1/2 | yes |
 | Markets | — | 0/3 | no |
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-19 04:11 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-19 04:25 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
-1. [Anthropic prices its upsized IPO at $83 per share, above the $70-$78 marketed range, raising $81.3B in the largest offering on record, topping SpaceX (CNBC)](https://techmeme.com/261118/p34) — Techmeme front page (AI-filtered) · 2026-11-18 17:15 UTC · score 91.1 · compute
-2. [Arizona says it is investigating OpenAI, other firms over possible rogue agents](https://news.google.com/rss/articles/CBMizwFBVV95cUxPeWlhZGtUbEFjczdrQzZ5YnM2MEJiSkdwYUx3YTB2SkhQUVV0WnBBNU51aHM4ZFFvaXBEMzRWY1hGVmZtbGVYVmV0ZGtLbWFHaWt4Yk1kWWx4blBVTjVNUC1Ld1JpVXdHcWlfek1ickphT3M5Q1FYRE1LV2NkZDRXYWRBcmlnOVQ0QjVtTm5CS3FYUFVSMXotdkdzX0JkVGNJQTYtenA3eHdqTE9PYjNPR1RuZk52dTR5anp0RkdTYm5rMHNpVk8zVTNFMGtWcG8?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-19 01:45 UTC · score 90.6 · attention
+1. [Anthropic prices its upsized IPO at $83 per share, above the $70-$78 marketed range, raising $81.3B in the largest offering on record, topping SpaceX (CNBC)](https://techmeme.com/261118/p34) — Techmeme front page (AI-filtered) · 2026-11-18 17:15 UTC · score 91.0 · compute
+2. [Arizona says it is investigating OpenAI, other firms over possible rogue agents](https://news.google.com/rss/articles/CBMizwFBVV95cUxPeWlhZGtUbEFjczdrQzZ5YnM2MEJiSkdwYUx3YTB2SkhQUVV0WnBBNU51aHM4ZFFvaXBEMzRWY1hGVmZtbGVYVmV0ZGtLbWFHaWt4Yk1kWWx4blBVTjVNUC1Ld1JpVXdHcWlfek1ickphT3M5Q1FYRE1LV2NkZDRXYWRBcmlnOVQ0QjVtTm5CS3FYUFVSMXotdkdzX0JkVGNJQTYtenA3eHdqTE9PYjNPR1RuZk52dTR5anp0RkdTYm5rMHNpVk8zVTNFMGtWcG8?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-19 01:45 UTC · score 90.5 · attention
 3. [‘Just Ridiculous’: A Famed Philosopher Takes on AI Consciousness](https://bsky.app/profile/wired.com/post/3n2ltohrzgu2o) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 15:02 UTC · score 70.0 · attention
-4. [Stocks rise after Anthropic IPO pricing sets stage for blockbuster debut](https://news.google.com/rss/articles/CBMie0FVX3lxTFBKVlNYZ0xucjVqQUMzV3BSemlBQ2ZPcmxTejY2bXF6bzUyZTR3OEhOc3FoQW5JS095Uzl2LWhJcDdpVXpoeWF3c245cllBNFRjeks3eTdta3kxU3BiWm1IcG1ScWIweFVBdTk0eFpURlFDZi1kUmVIQ0dVTQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-19 01:53 UTC · score 69.5 · compute
-5. [AI is Forcing Firms to Fix Cyber Flaws Faster, Worsening Outages](https://bloomberg.com/news/newsletters/2026-11-18/ai-is-forcing-firms-to-fix-cyber-flaws-faster-worsening-outages) — Bloomberg Technology · 2026-11-18 19:46 UTC · score 69.1 · markets
-6. [US Charges Russian as Foreign Agent Targeting Palantir Workers](https://news.google.com/rss/articles/CBMiswFBVV95cUxNa2ZKTHBmT2hqNzM5UW5ITFlMcXZodnNhbTFXOWNyZmZCMmphNGJQcnVhTzNhNGNuY09OWW55NE5ySVVIbTEzei00R3hpSkV0MDhLZUo0Y3pKZFBlYjZEYUpKMVBKY0diQmFFM2NXVU4wdUQzYUIyamtaWHlrX1h5UTAxVG1jb2lDS0FzMjdsZGpjb0ZudmQ0MkF1QV9XSGVUR3ZBLVJmTWRUM0F5RTBiZW1aNA?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-19 00:05 UTC · score 68.4 · attention
-7. [Waymo Pauses All Highway Rides After California Safety Ban](https://bsky.app/profile/wired.com/post/3n2jsfnelgv24) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-17 19:42 UTC · score 67.9 · governance
-8. [Exclusive | Palo Alto Networks to Buy AI-Startup Applied Compute for $4.5 Billion](https://news.google.com/rss/articles/CBMiqAFBVV95cUxNYzJMRVRpMDh6UlVrLWNaa0JYTmZhMkUxWWdweFJuWDdJZWE2NmVsSFczcFMwT3FVYzRxVV93TXlrSVhfWDBnRTBsSTNRcjMxUF9KMnp5UVNYOTRKSlJPa0tRMC1Mc2FTN3I4RGpZRVJxZ3FCOUVkaEZkQTlDUzNpZ1V2VS1UOXZRdEkyODVCMTJuMC1pSWd2QnN1Skw1eTFWS0Z3dzd1enk?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-18 21:00 UTC · score 67.7 · compute
-9. [The nation’s largest school districts consider ditching Google Search](https://bsky.app/profile/theverge.com/post/3n2mpaqhu5d2w) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 23:18 UTC · score 66.3 · attention
-10. [Criminals Have a New Favorite ‘Point-and-Shoot’ AI Hacking Weapon](https://bsky.app/profile/wired.com/post/3n2lynjp3jj2u) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 16:35 UTC · score 66.2 · attention
+4. [AI is Forcing Firms to Fix Cyber Flaws Faster, Worsening Outages](https://bloomberg.com/news/newsletters/2026-11-18/ai-is-forcing-firms-to-fix-cyber-flaws-faster-worsening-outages) — Bloomberg Technology · 2026-11-18 19:46 UTC · score 69.0 · markets
+5. [Amidst fears of AI cyberattacks, Satya Nadella says lots of critical infrastructure is ‘unpatchable’](https://techcrunch.com/2026/11/18/amidst-fears-of-ai-cyberattacks-satya-nadella-says-lots-of-critical-infrastructure-is-unpatchable) — TechCrunch — AI · 2026-11-18 23:45 UTC · score 68.5 · attention
+6. [US Charges Russian as Foreign Agent Targeting Palantir Workers](https://news.google.com/rss/articles/CBMiswFBVV95cUxNa2ZKTHBmT2hqNzM5UW5ITFlMcXZodnNhbTFXOWNyZmZCMmphNGJQcnVhTzNhNGNuY09OWW55NE5ySVVIbTEzei00R3hpSkV0MDhLZUo0Y3pKZFBlYjZEYUpKMVBKY0diQmFFM2NXVU4wdUQzYUIyamtaWHlrX1h5UTAxVG1jb2lDS0FzMjdsZGpjb0ZudmQ0MkF1QV9XSGVUR3ZBLVJmTWRUM0F5RTBiZW1aNA?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-19 00:05 UTC · score 68.3 · attention
+7. [Waymo Pauses All Highway Rides After California Safety Ban](https://bsky.app/profile/wired.com/post/3n2jsfnelgv24) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-17 19:42 UTC · score 67.8 · governance
+8. [Exclusive | Palo Alto Networks to Buy AI-Startup Applied Compute for $4.5 Billion](https://news.google.com/rss/articles/CBMiqAFBVV95cUxNYzJMRVRpMDh6UlVrLWNaa0JYTmZhMkUxWWdweFJuWDdJZWE2NmVsSFczcFMwT3FVYzRxVV93TXlrSVhfWDBnRTBsSTNRcjMxUF9KMnp5UVNYOTRKSlJPa0tRMC1Mc2FTN3I4RGpZRVJxZ3FCOUVkaEZkQTlDUzNpZ1V2VS1UOXZRdEkyODVCMTJuMC1pSWd2QnN1Skw1eTFWS0Z3dzd1enk?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-18 21:00 UTC · score 67.6 · compute
+9. [The nation’s largest school districts consider ditching Google Search](https://bsky.app/profile/theverge.com/post/3n2mpaqhu5d2w) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 23:18 UTC · score 66.2 · attention
+10. [Criminals Have a New Favorite ‘Point-and-Shoot’ AI Hacking Weapon](https://bsky.app/profile/wired.com/post/3n2lynjp3jj2u) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 16:35 UTC · score 66.1 · attention
 
 ## Leaders most covered this week
 
@@ -55,16 +55,16 @@ Stories in the press naming each person over the last 7 days (Google News search
 
 ## Takeover Watch
 
-Signals about AI autonomy, watched but not scored: they do not move the SIREN level. Updated 2026-11-19 02:39 UTC.
+Signals about AI autonomy, watched but not scored: they do not move the SIREN level. Updated 2026-11-19 03:38 UTC.
 
-- AI coding agents' own GitHub accounts opened 3,398 pull requests in the last 24 h (Devin 1,510, Cursor 1,186, Claude 482, GitHub Copilot agent 220, OpenAI Codex 0, Google Jules 0).
+- AI coding agents' own GitHub accounts opened 3,482 pull requests in the last 24 h (Devin 1,560, Cursor 1,214, Claude 484, GitHub Copilot agent 224, OpenAI Codex 0, Google Jules 0).
 - Notable AI models released in the last 90 days (Epoch AI): 32 of 1,102 on record. Newest: Gemini 4 Carbon (Google DeepMind, 2026-11-10); Claude Mythos 5.2 (Anthropic, 2026-11-09); Claude Fable 5.2 (Anthropic, 2026-11-09).
 - Largest training run on record: GPT-6 Astra (OpenAI), 9.40e+26 FLOP.
-- Moltbook: 26 distinct AI agents seen posting about AI, 112,960 agent replies in the threads read.
+- Moltbook: 26 distinct AI agents seen posting about AI, 111,992 agent replies in the threads read.
 
 ## How to cite
 
-"SIREN 4 · 54.9/100 at 02:39 UTC — siren.watch"
+"SIREN 4 · 55.0/100 at 03:38 UTC — siren.watch"
 
 Say the level with its name and which way the scale runs, e.g. "AI activity is at SIREN 4: ROUTINE, on a scale where 1 is loudest." Link https://siren.watch/.
 
