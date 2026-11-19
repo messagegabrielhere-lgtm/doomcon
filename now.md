@@ -25,33 +25,33 @@ Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](ht
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-19 23:38 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-19 23:49 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
-1. [No Bailout for the AI Bubble, Anthropic IPO Protesters Say](https://news.google.com/rss/articles/CBMikAFBVV95cUxQbkRwRnBXSHMtQmNWQzU0Q1otMGozNy1pSlFlNTVxT094RFduaDcxVkVDRm5xUlZFajRiaTJOTXJNbkEwem9EdmZOYjN2NnRQSl9wUEN4cUxrZmFRTEhhdFVyeEJUMXh5RjZDZkwtSmdZaVpxSGlfRElidE5LRFdWMXNXMExsVUp0UkdxelFiaXE?oc=5) — Google News — AI searches, last hour · 2026-11-19 18:02 UTC · score 85.0 · compute
+1. [No Bailout for the AI Bubble, Anthropic IPO Protesters Say](https://news.google.com/rss/articles/CBMikAFBVV95cUxQbkRwRnBXSHMtQmNWQzU0Q1otMGozNy1pSlFlNTVxT094RFduaDcxVkVDRm5xUlZFajRiaTJOTXJNbkEwem9EdmZOYjN2NnRQSl9wUEN4cUxrZmFRTEhhdFVyeEJUMXh5RjZDZkwtSmdZaVpxSGlfRElidE5LRFdWMXNXMExsVUp0UkdxelFiaXE?oc=5) — Google News — AI searches, last hour · 2026-11-19 18:02 UTC · score 84.9 · compute
 2. [Arizona says it is investigating OpenAI, other firms over possible rogue agents](https://news.google.com/rss/articles/CBMizwFBVV95cUxPeWlhZGtUbEFjczdrQzZ5YnM2MEJiSkdwYUx3YTB2SkhQUVV0WnBBNU51aHM4ZFFvaXBEMzRWY1hGVmZtbGVYVmV0ZGtLbWFHaWt4Yk1kWWx4blBVTjVNUC1Ld1JpVXdHcWlfek1ickphT3M5Q1FYRE1LV2NkZDRXYWRBcmlnOVQ0QjVtTm5CS3FYUFVSMXotdkdzX0JkVGNJQTYtenA3eHdqTE9PYjNPR1RuZk52dTR5anp0RkdTYm5rMHNpVk8zVTNFMGtWcG8?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-19 01:45 UTC · score 84.7 · attention
-3. [OpenAI CEO Sam Altman: It's hard to imagine the AI industry without Jensen Huang](https://news.google.com/rss/articles/CBMivgFBVV95cUxQNV9XcFZiZXAtTlhlNmt2YmpCREQ5VWFqSkY4NV80V1B2QlBDLWZQc3J5ODBuWHpZeU02NzB4Qy1uWUtfS1ZuZ3pxcGRqZG5FS2s4RklEN19mQzRZZmlKOXpuZUxCcGxnOFlYcEJ1NlZVc3NaLVVvVUJjWFlKd0I3LWluMTZRXzBOcTRFWFE0QjdmLXVjOEtkWTJHN1czRERjcy1BaXFSQVpjMVVXQkxtX3hEdV9STDJHb3dvaWZB?oc=5) — Google News — AI searches, last hour · 2026-11-18 15:05 UTC · score 73.1 · attention
-4. [Anthropic starts trading on Wall Street](https://bsky.app/profile/theverge.com/post/3n2oki7scis24) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-19 16:52 UTC · score 66.4 · attention
-5. [Retail Investors Dive Into Both Sides of the Anthropic Trade](https://bloomberg.com/news/articles/2026-11-19/retail-investors-dive-into-both-sides-of-the-anthropic-trade) — Bloomberg Technology · 2026-11-19 19:27 UTC · score 65.8 · markets
-6. [How OpenAI’s Performance Factory keeps ChatGPT fast](https://news.google.com/rss/articles/CBMigAFBVV95cUxOdlZZQktlZzdORDFTUWt1MnM3OFRzb3QyR1c4bnFNbUg2WVU5eFZtN3hIV1FtUjJPY3dESFI2dTdkdTg2N0J6STFhVVFhSnFJLUhSQktKTzhiTGdiTFFMbFp2Um9FVXBMWENuaTNFRzRRdlFjOXZWSl9sZDNnTGI4RQ?oc=5) — Google News — AI searches, last hour · 2026-11-19 08:00 UTC · score 65.2 · attention
-7. [‘Just Ridiculous’: A Famed Philosopher Takes on AI Consciousness](https://bsky.app/profile/wired.com/post/3n2ltohrzgu2o) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 15:02 UTC · score 65.2 · attention
-8. [Anthropic and its seven co-founders raised $107.3 billion through an $81.3 billion IPO and a $26 billion private placement. The IPO is the biggest of all time, topping the $75 billion raised by SpaceX](https://bsky.app/profile/bloomberg.com/post/3n2n2euwpnu2k) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-19 02:42 UTC · score 65.0 · compute
-9. [Lenovo posts 48% revenue jump on AI-related sales, beating estimates](https://news.google.com/rss/articles/CBMisAFBVV95cUxPakF2dUtyWGhnNzlUeGQ4cWxIb3hGSjFWWU5Qb05STXdtelBYV1ppOE1nX05nbDdvbmk0ekNNYmJnODFHYndqVXRlX2dkWW9ucldzdFBCdTVIcW01WjhaR08tVjFrMHhxZnFCR0taQV9pY2pnMFh2X0RVX2ItZENzcjB2TVJ2RXZBNXdfRDNTOVQ2Z2FFSmM1cGhQVTNad1FneE9PRHNNTUp4ZHpBZVd4Zw?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-19 05:47 UTC · score 64.9 · compute
+3. [OpenAI CEO Sam Altman: It's hard to imagine the AI industry without Jensen Huang](https://news.google.com/rss/articles/CBMivgFBVV95cUxQNV9XcFZiZXAtTlhlNmt2YmpCREQ5VWFqSkY4NV80V1B2QlBDLWZQc3J5ODBuWHpZeU02NzB4Qy1uWUtfS1ZuZ3pxcGRqZG5FS2s4RklEN19mQzRZZmlKOXpuZUxCcGxnOFlYcEJ1NlZVc3NaLVVvVUJjWFlKd0I3LWluMTZRXzBOcTRFWFE0QjdmLXVjOEtkWTJHN1czRERjcy1BaXFSQVpjMVVXQkxtX3hEdV9STDJHb3dvaWZB?oc=5) — Google News — AI searches, last hour · 2026-11-18 15:05 UTC · score 73.0 · attention
+4. [Google rolls out Gemini 4 Neon, with "fast end-to-end task completion" across coding, knowledge work, and science, in the API, Antigravity, and the Gemini app (Koray Kavukcuoglu/Google)](https://techmeme.com/261118/p44) — Techmeme front page (AI-filtered) · 2026-11-18 21:03 UTC · score 67.4 · attention
+5. [Anthropic starts trading on Wall Street](https://bsky.app/profile/theverge.com/post/3n2oki7scis24) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-19 16:52 UTC · score 66.3 · attention
+6. [Retail Investors Dive Into Both Sides of the Anthropic Trade](https://bloomberg.com/news/articles/2026-11-19/retail-investors-dive-into-both-sides-of-the-anthropic-trade) — Bloomberg Technology · 2026-11-19 19:27 UTC · score 65.8 · markets
+7. [How OpenAI’s Performance Factory keeps ChatGPT fast](https://news.google.com/rss/articles/CBMigAFBVV95cUxOdlZZQktlZzdORDFTUWt1MnM3OFRzb3QyR1c4bnFNbUg2WVU5eFZtN3hIV1FtUjJPY3dESFI2dTdkdTg2N0J6STFhVVFhSnFJLUhSQktKTzhiTGdiTFFMbFp2Um9FVXBMWENuaTNFRzRRdlFjOXZWSl9sZDNnTGI4RQ?oc=5) — Google News — AI searches, last hour · 2026-11-19 08:00 UTC · score 65.1 · attention
+8. [‘Just Ridiculous’: A Famed Philosopher Takes on AI Consciousness](https://bsky.app/profile/wired.com/post/3n2ltohrzgu2o) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 15:02 UTC · score 65.1 · attention
+9. [Lenovo posts 48% revenue jump on AI-related sales, beating estimates](https://news.google.com/rss/articles/CBMisAFBVV95cUxPakF2dUtyWGhnNzlUeGQ4cWxIb3hGSjFWWU5Qb05STXdtelBYV1ppOE1nX05nbDdvbmk0ekNNYmJnODFHYndqVXRlX2dkWW9ucldzdFBCdTVIcW01WjhaR08tVjFrMHhxZnFCR0taQV9pY2pnMFh2X0RVX2ItZENzcjB2TVJ2RXZBNXdfRDNTOVQ2Z2FFSmM1cGhQVTNad1FneE9PRHNNTUp4ZHpBZVd4Zw?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-19 05:47 UTC · score 64.8 · compute
 10. [AI is Forcing Firms to Fix Cyber Flaws Faster, Worsening Outages](https://bloomberg.com/news/newsletters/2026-11-18/ai-is-forcing-firms-to-fix-cyber-flaws-faster-worsening-outages) — Bloomberg Technology · 2026-11-18 19:46 UTC · score 63.8 · markets
 
 ## Leaders most covered this week
 
 Stories in the press naming each person over the last 7 days (Google News search). Coverage is not a statement by the person.
 
-- Elon Musk (xAI): 528+ stories
-- Jensen Huang (Nvidia): 438 stories
-- Dario Amodei (Anthropic): 430+ stories
-- Sam Altman (OpenAI): 369+ stories
+- Elon Musk (xAI): 524+ stories
+- Jensen Huang (Nvidia): 435 stories
+- Dario Amodei (Anthropic): 434+ stories
+- Sam Altman (OpenAI): 370+ stories
 - Satya Nadella (Microsoft): 236+ stories
-- Mark Zuckerberg (Meta): 145 stories
-- Greg Brockman (OpenAI): 102 stories
+- Mark Zuckerberg (Meta): 146 stories
+- Greg Brockman (OpenAI): 101 stories
 - Demis Hassabis (Google DeepMind): 68 stories
-- Geoffrey Hinton (University of Toronto): 57 stories
-- Sundar Pichai (Alphabet): 54 stories
+- Geoffrey Hinton (University of Toronto): 63 stories
+- Sundar Pichai (Alphabet): 53 stories
 
 ## Takeover Watch
 
