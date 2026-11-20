@@ -311,6 +311,18 @@ def opt_screen(syms, trends, earn=(), budget=150, workers=6):
     flow.sort(key=lambda r: -r["prem"])
     return {"rows": rows[:12], "scanned": scanned, "errs": errs, "n": len(syms), "rejects": why, "flow": flow[:6]}
 
+def regime_label(spy, vix):
+    return "RISK-OFF" if (not spy["above50"] or vix > 25) else ("MIXED" if not spy["above20"] else "RISK-ON")
+
+def vix_fallback(res):
+    """CBOE's VIX feed fails at times (VIX 0 in the regime on 11/19 while CNBC/Yahoo had 28.44, which alone means
+    RISK-OFF): take the macro-section VIX instead and recompute the regime label."""
+    rg = (res.get("stocks") or {}).get("regime")
+    mv = (((res.get("macro") or {}).get("q") or {}).get("VIX") or {}).get("px")
+    if rg and rg.get("spy") and not rg.get("vix") and mv:
+        rg["vix"], rg["vix_src"] = float(mv), "macro"
+        rg["label"] = regime_label(rg["spy"], rg["vix"])
+
 def stocks():
     out = {}
     # regime
@@ -318,8 +330,7 @@ def stocks():
         spy = tech("SPY", px=cboe_px("SPY"))
         try: vix = float(get("https://cdn.cboe.com/api/global/delayed_quotes/options/_VIX.json", headers=CBOE_UA)["data"]["current_price"])
         except Exception as e: ERRS.append(f"vix {type(e).__name__}"); vix = 0
-        reg = "RISK-OFF" if (not spy["above50"] or vix > 25) else ("MIXED" if not spy["above20"] else "RISK-ON")
-        out["regime"] = {"spy": spy, "vix": vix, "label": reg}
+        out["regime"] = {"spy": spy, "vix": vix, "label": regime_label(spy, vix)}
     except Exception as e:
         ERRS.append(f"regime {type(e).__name__}: {str(e)[:60]}"); out["regime"] = {"label": "UNKNOWN"}
     # all-stock table
@@ -742,6 +753,7 @@ def main():
         try: res[name] = fn()
         except Exception as e: ERRS.append(f"{name} {type(e).__name__}: {str(e)[:80]}"); res[name] = {}
         log(f"end {name}")
+    vix_fallback(res)
     st = res.get("stocks", {})
     try: res["crowd"] = crowd(held_syms() | set(st.get("watch", {})) | {r["sym"] for r in st.get("puts", [])})
     except Exception as e: ERRS.append(f"crowd {type(e).__name__}"); res["crowd"] = {}
@@ -770,7 +782,7 @@ def main():
     L = [f"SCAN {res['utc']} (prices delayed up to 15m; Coinbase day% = 24h)",
          f"GATE: {gate(res.get('crypto', {}), res.get('macro', {}))}"]
     rg = s.get("regime", {}); spy = rg.get("spy", {})
-    L.append(f"REGIME {rg.get('label')}: SPY {f(spy.get('px'))} sma20 {f(spy.get('sma20'))} sma50 {f(spy.get('sma50'))} VIX {f(rg.get('vix'),1)}")
+    L.append(f"REGIME {rg.get('label')}: SPY {f(spy.get('px'))} sma20 {f(spy.get('sma20'))} sma50 {f(spy.get('sma50'))} VIX {f(rg.get('vix'),1)}{' (macro)' if rg.get('vix_src') else ''}")
     b = c.get("btc", {})
     L.append(f"BTC {f(b.get('px'),0)} vs midnight-ET mark {f(b.get('mark_midnight_et'),0)} ({f(b.get('vs_mark'))}%) 1h {f(b.get('h1'))}% {'ABOVE' if b.get('above_sma20_1h') else 'BELOW'} 1h-SMA20 {f(b.get('sma20_1h'),0)}")
     L.append(f"CRYPTO {c.get('n')} ok/{c.get('n_err')} miss. LONG 5-20% (PASS=1h<=8% rising): " + ("; ".join(f"{r['sym']} +{f(r['d'],1)}% spr {f(r['spr'],1)} 1h {f(r.get('h1'),1)}{' PASS' if r.get('pass') else ''}" for r in c.get("longs", [])[:6]) or "none"))
