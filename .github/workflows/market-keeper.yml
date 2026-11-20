@@ -40,9 +40,12 @@ jobs:
           while [ "$(date +%s)" -lt "$stop_utc" ] && [ $(( $(date +%s) - start )) -lt 20700 ]; do
             t0=$(date +%s)
             if timeout 600 python3 -u trades/scan.py; then
+              git fetch -q origin trade-data && git show FETCH_HEAD:shadow.json > /tmp/sp.json 2>/dev/null && mv /tmp/sp.json trades/out/shadow.json || true
+              timeout 120 python3 trades/shadow.py || echo "shadow failed"
               rm -rf /tmp/pub && mkdir /tmp/pub && cp trades/out/scan.md trades/out/scan.json /tmp/pub/
+              cp trades/out/shadow.json trades/out/shadow.md /tmp/pub/ 2>/dev/null || true
               ( cd /tmp/pub && rm -rf .git && git init -q -b trade-data \
-                && git add scan.md scan.json \
+                && git add . \
                 && git -c user.name=trade-scan -c user.email=trade-scan@users.noreply.github.com commit -qm "trade-scan $(head -1 scan.md | head -c 40) [skip ci]" \
                 && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" trade-data ) \
                 || echo "publish failed"

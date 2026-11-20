@@ -30,3 +30,16 @@ ratio from stooq/Yahoo for the candidates), SPY/VIX regime, a BTC-linked and
 inverse-ETF watch row, and Kalshi public markets: near-certain contracts
 (>=93c, closing within 48h) plus BTC daily range markets near 50c. Advisory
 only; nothing here places orders.
+
+## shadow.py — real-time forward test (every scan)
+
+Runs right after `scan.py` in `trade-scan.yml` and `market-keeper.yml`. Every
+candidate row (stock longs, PUT LIST, coin longs, coin downs) opens a paper
+"shadow" entry with its features (regime, RSI band, volume ratio, trend, BTC
+state). Each later scan marks it with the price tables `scan.py` already
+downloaded (`out/prices.json`), records the return at +4h and +24h, then closes it.
+`shadow.json` (ledger) and `shadow.md` (results by setup and feature, `EDGE+` /
+`EDGE-` once a bucket has >= 30 closed entries) are published on `trade-data`:
+`https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/trade-data/shadow.md`.
+Paper only: delayed prices, no fees, no orders. It changes no rule; a flagged
+bucket is evidence for the owner. Tests: `python3 trades/tests/test_shadow.py`.

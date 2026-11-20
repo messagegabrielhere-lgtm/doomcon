@@ -19,6 +19,7 @@ UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/1
       "Accept": "application/json, text/plain, */*", "Accept-Language": "en-US,en;q=0.9"}
 NOW = datetime.datetime.now(datetime.timezone.utc)
 ERRS = []
+PX = {"crypto": {}, "stock": {}}   # full price tables, written to out/prices.json for shadow.py
 
 T0 = time.time()
 def log(msg):
@@ -79,6 +80,7 @@ def crypto():
         time.sleep(0.12)
     ok = [r for r in rows if "err" not in r]
     log(f"crypto quotes done: {len(ok)} ok, {len(rows)-len(ok)} missing")
+    PX["crypto"] = {r["sym"]: r["px"] for r in ok}
     # BTC context: 1h candles -> 20-SMA, midnight-ET mark, last-hour move
     btc = {}
     try:
@@ -346,6 +348,7 @@ def stocks():
             out["universe"] = f"yahoo screeners {len(rows)}"
         except Exception as e2:
             ERRS.append(f"yahoo screener {type(e2).__name__}")
+    PX["stock"] = {r["sym"]: r["px"] for r in rows if r["px"]}
     liquid = [r for r in rows if r["px"] and r["px"] >= 5 and r["vol"] >= 1_000_000 and r["mc"] >= 300e6 and "/" not in r["sym"] and "^" not in r["sym"]]
     movers = {"up": [], "down": []}
     try:
@@ -762,6 +765,7 @@ def main():
     except Exception as e: ERRS.append(f"opts {type(e).__name__}: {str(e)[:60]}"); res["opts"] = {}
     res["errors"] = ERRS
     (OUT / "scan.json").write_text(json.dumps(res, indent=1, default=str))
+    (OUT / "prices.json").write_text(json.dumps({"utc": res["utc"], **PX}))
     c, s, k = res.get("crypto", {}), res.get("stocks", {}), res.get("kalshi", {})
     L = [f"SCAN {res['utc']} (prices delayed up to 15m; Coinbase day% = 24h)",
          f"GATE: {gate(res.get('crypto', {}), res.get('macro', {}))}"]
