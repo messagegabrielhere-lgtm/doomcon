@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-20T04:41:28.460Z",
+  "generated_at": "2026-11-20T05:51:16.651Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 9,
+  "live": 5,
   "fresh": "b66e32d893785",
   "clusters": [
     {
@@ -184,7 +184,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b9257f71b848c",
@@ -241,7 +241,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "ba5ab508c028b",
@@ -272,14 +272,6 @@
         "8e15277de7ad5f6b"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "france24.com",
-          "title": "'Insane' to see AI in hands of private giants: ex-Anthropic researcher to AFP",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxONF8zalhlRlJkcFV5NGFrODVGUmdZb3lCcEdsdUJoRGFXVTM3TEVIeGNNVnRHd2liTkN6T2lYbW11aHhmU0ZQeVQyLXBsLXQ3UWdXYlZjSEJFSnRkOGplMFU1UkVaaE1KWlozcDI4TWNCa0lnT0IyOXFCd0g2eFlTRWxsenBxVHp4a2lxaGRCNGZ4aU5yQzBVOEk0TlkySGVPeURjU3hCdXJtekQ1YTdiM2tWM2JPTXh0VUF3ZzJn?oc=5",
-          "published_at": "2026-11-20T02:24:15.000Z",
-          "tier1": false
-        },
         {
           "source": "wires-ai",
           "outlet": "france24.com",
@@ -415,39 +407,57 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
+        "apnews.com",
+        "benzinga.com",
         "nikkei.com",
-        "reuters.com"
+        "reuters.com",
+        "seekingalpha.com",
+        "wsj.com"
       ],
       "tier1_outlets": [
-        "reuters.com"
+        "apnews.com",
+        "reuters.com",
+        "wsj.com"
       ],
-      "corroboration": 2,
+      "corroboration": 6,
       "sources": [
         "bluesky-ai",
         "gnews-ai",
+        "techmeme",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-19T23:32:09.000Z",
-      "first_seen_at": "2026-11-19T02:58:24.019Z",
+      "earliest_published_at": "2026-11-20T01:14:00.000Z",
+      "first_seen_at": "2026-11-18T18:41:58.381Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-11-20T01:38:51.773Z",
       "item_ids": [
+        "02655ab9edd4651b",
+        "09bdef44448c12d6",
+        "37ce321cec2a8ecf",
         "3d8d9903e44c64ff",
-        "dc4a495c71734f3c"
+        "616cb535d7c1ade4",
+        "6c48a96208903f01",
+        "6d089e58b9c7aeb1",
+        "72dcf87cb4b1c06b",
+        "7dbabb61947b542d",
+        "8268d5c023356cbc",
+        "84669b04361855c5",
+        "95b947692cb60a19",
+        "a313778414a3053d",
+        "b735f41c19bee252",
+        "bd9deef5bf618973",
+        "dc4a495c71734f3c",
+        "ebe45bdc04dc6c49",
+        "ec489e2dcb2ba2eb",
+        "fe06c633adbc1f3b",
+        "ffe30e3b4e08dc15"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "Alibaba defrauded shareholders by concealing ties to suspected spy in Nvidia scandal, lawsuit says",
-          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNU2NLaWxYa3VzZlBrX09yMHM0MjctV3RIZzNUVVNWbjhHODZZQlZtTkNJaWJJbkJLUTNsckRSRURrWTdzYUVNa2JwNnNmenJYb3FVTS16U1B4R3Ezc1ZHcWZ5ZTl2aTh5V2VCdkZUQzRQMXpUbEJaQnRRZ1AybGYxaFk5Yjh2c256cVJJaFAzaG03eGtiRUIydWctNHNRSUFiWmV5aTlGVzlYUVRUQ0RiUGpOMUw5LW5UbXRCMFNhMTY3UnYzSjlkNmNwQnN5azFEZGxNUjBn?oc=5",
-          "published_at": "2026-11-19T23:32:09.000Z",
-          "tier1": true
-        },
         {
           "source": "gnews-ai",
           "outlet": "nikkei.com",
@@ -457,11 +467,83 @@
           "tier1": false
         },
         {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
+          "title": "Exclusive | SEC Is Probing Nvidia Amid Departure of CEO Jensen Huang",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQbjl2b0tzT1ROT2plV1p5RHhQd3hXOEJKRFhOZ1ItZExOQV9oVGkzTU9tcEEyTXhjNHRKQVExRTNRdEtlY24zUFhmS0h0c21FUVVrVVh0NGF2SXFmdm1wcmVRLUlCcG5CMGRIZklSdVBkVElkS3lwRF9LaGg4YzU5b0dsZXlveWxSNzhGYzJlZmRSRkhvUWZRTHB3?oc=5",
+          "published_at": "2026-11-20T01:37:02.000Z",
+          "tier1": true
+        },
+        {
           "source": "bluesky-ai",
           "outlet": "reuters.com",
           "title": "Alibaba defrauded shareholders by concealing ties to suspected spy in Nvidia scandal, lawsuit says",
           "url": "https://bsky.app/profile/reuters.com/post/3n2pjlekfmu22",
           "published_at": "2026-11-20T01:38:51.773Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "reuters.com",
+          "title": "California AG subpoenas Nvidia over concerns about former CEO, China ties",
+          "url": "https://bsky.app/profile/reuters.com/post/3n2pizi4jpo26",
+          "published_at": "2026-11-20T01:38:51.773Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
+          "title": "Nvidia’s Finance Chief Kress to Lead First Earnings Call Following Huang’s Ouster",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOYWNSeEVqX0dfVEF1QnBYdks5Tk92TU9mWEdlYkZ1a285YnBfOThIeGkybjZSTG9oSkJIYUE5WFgwYlZtdzBuVUQwQzJZTm1fcEtCeFBWd242RkVIVThYaVFaSm5sV1ppZlBWdGdtUkVNRXRUZ1dCWVpBd2hzMlhISWhyNms4R1BSUzM4S282SG5NT2J3VExlWjVtb015ZUd1UEpoQVh3US1oZGotRlQ0LWJrZUItbmtiWjlEcg?oc=5",
+          "published_at": "2026-11-20T01:47:13.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
+          "title": "Nvidia Forms National-Security Committee After Huang’s Exit",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPaXhhSVphOVEtNXVqU24ySnNTdTdRbzFpQ3hQc2k0dzJuZndjVW4yNGlDQWFpRWRXR1ZWQnJ1U0gwcmdnZkpPb2hMaGhfbmhmMG55UGd0QzctQy00RUF6aThiRHAzSC0zVWFFdkJ4RFpjNGhSWkVCYVBjY2FKRGFDcUJrZTdGa2NDODhiYkh1NGE0czRCNmVpMmQ3RER4WlBYTjBRdHFaUmVQTTIya2V2Ri00Wng?oc=5",
+          "published_at": "2026-11-20T02:34:34.564Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "seekingalpha.com",
+          "title": "Nvidia in advanced talks to buy diffusion AI startup Inception for over $500M - report",
+          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOdzlMdDVYVFc1OVY1U0VQT2ZSeEJyMkJFOFR0YkRxazZSUGtGMjV0aXNkWndFZHFXSGE0VGxYV0ZEdURVMlpRa2dBNHhtUUxuWVNGcHVLQkdveDBCdmtyekJRU1lnLVJzNWk3YnRiUzFTcldVWkFvdXoyVC0wdVRiWEhDTnBabHZGcHQxMEdFdUI4Uk1WT0NZSkJQd1RuZ3BhdEYzV1paUXhtQk9MYTZ2cHlSeVJJemZIV1FVeWpUMUo?oc=5",
+          "published_at": "2026-11-20T02:59:59.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "benzinga.com",
+          "title": "Trump Says He and Xi Jinping Want to Work Together on AI Safety Rules, But Nvidia and Jensen Huang Remain",
+          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOeTQ4NWNBRGFaMERXa1lXcVlSb0Y4c3YtVDFmdURXNzRweXVaR0Q2RnRkY3dISWE2c2hFblJETUpmOHJUOTU3RTNtTVVBNkJsUk84b1U4X20wTU1mNU4tUHlPNVI5TmNDeDJhWFVpWFlDdm1EQVVlSWc1S2lLXzhIakd0TFBJM0R4Z3dIUXo2aWw?oc=5",
+          "published_at": "2026-11-20T03:24:25.000Z",
+          "tier1": false
+        },
+        {
+          "source": "techmeme",
+          "outlet": "techmeme.com",
+          "title": "California's AG subpoenas Nvidia to investigate whether Jensen Huang's actions resulted in China getting advanced chips, and whether Nvidia misled investors (Katie Nicora/CBS News)",
+          "url": "https://techmeme.com/261119/p60",
+          "published_at": "2026-11-20T03:30:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
+          "title": "Jensen Huang Breaks Silence, Signals Willingness to Return as Nvidia CEO",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5QczVTbUQzdjZ0WHN0QjYwRXJidGl2YmJzeFVVOGhEV0FoZHp3QkJ1dng1REtUS21Qa2lYSGdUejlhbGtfNzlQT1V6Zm45NDltc2hKeEowZ3NtcHdsaUNvN2ttTTJXWUgzNkF3SGZUUjdFX1FiRHc?oc=5",
+          "published_at": "2026-11-20T03:34:47.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "apnews.com",
+          "title": "Asian American women feel the impact of Nvidia CEO affair scandal and ‘spy’ accusations",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOYUdCZFY3blNlVDctTnpTWTVLb3BjYWRiVFJfU0V5Y2hyazQ0b2lKcjJZYjB1YjNsTUZrWUVodUVPREhlNHdjUEw2VHdfQ0RJUGlFTTZGVVdqcmhSWFdQQV9ReElqS0o2WnN1TjRSNnVmeVVjX1huaWtVa2tybUJBWHpEd3ZLUDZCQ0d2M0hnSWtIbTJHbXFQSEhMcTJib3ltcHRQdmpmUlRqdw?oc=5",
+          "published_at": "2026-11-20T05:01:00.000Z",
           "tier1": true
         }
       ],
@@ -572,7 +654,7 @@
           "tier1": true
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b446f46a1fdcd",
@@ -681,13 +763,12 @@
     },
     {
       "id": "bdeb0adaa1489",
-      "title": "Tech stocks fall as Anthropic IPO fails to stem broader AI sell-off",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOeFI2NEJCRHRJS3oxQnpSc2hUclVhRzQ4TGQxRVFYbEhRWS1tdGdHMlUtR1JtWDRtdERaTEo4M1F5c2kxOUZQODJMUHdUbVNIV2wxX0ZHR2ltVkVRcW83MVVzSXpoYV9wS3I2RkdUOGtITm9lNDBjRkJlakZ0ektISDNHZzY?oc=5",
+      "title": "Japanese investors sought $9.4 billion of shares in Anthropic IPO, sources say",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPbzA3aGxPN3dWWXpGQ0NxUkVUdm9md2JpZnZQSjFtY0ZTeG1sazJtSUxMZHliR2Z2Rm5paDM2UjRwa3VXRDNUb2JCV0JOQkdiUnBnek50RTEtMGlCUmRsMTNaTkVfcklXVWk4SjZSRnFGN1BmblVxdVhfLVU3MkFkd3JYd21IY0ozME1KUjZUMjNXeHZGZzJxU3VrYWVkODc1RF9wZzA1UnBCRzBSY3dlQWllcEZaQzZGNXp6Z0JWTQ?oc=5",
       "source": "wires-ai",
-      "outlet": "ft.com",
+      "outlet": "reuters.com",
       "outlets": [
         "247wallst.com",
-        "abcnews.com",
         "afp.com",
         "aljazeera.com",
         "apnews.com",
@@ -697,14 +778,16 @@
         "briefs.co",
         "businessinsider.com",
         "chosun.com",
-        "cnbc.com",
+        "coinpaper.com",
+        "digiday.com",
+        "forbes.com",
         "france24.com",
         "ft.com",
         "fxempire.com",
-        "hollywoodreporter.com",
         "inc.com",
         "investmentnews.com",
         "ktvu.com",
+        "news4jax.com",
         "nytimes.com",
         "openthemagazine.com",
         "reuters.com",
@@ -712,7 +795,11 @@
         "seekingalpha.com",
         "sofx.com",
         "techbuzz.ai",
+        "techcrunch.com",
+        "thedailyupside.com",
         "theguardian.com",
+        "thenationalnews.com",
+        "washingtonpost.com",
         "wpsdlocal6.com",
         "wral.com",
         "wsj.com",
@@ -721,21 +808,23 @@
       "tier1_outlets": [
         "apnews.com",
         "bloomberg.com",
-        "cnbc.com",
         "ft.com",
         "nytimes.com",
         "reuters.com",
         "scmp.com",
+        "techcrunch.com",
         "theguardian.com",
+        "washingtonpost.com",
         "wsj.com"
       ],
-      "corroboration": 31,
+      "corroboration": 36,
       "sources": [
         "bloomberg-tech",
         "bluesky-ai",
         "ft-ai",
         "gnews-ai",
         "guardian-ai",
+        "techcrunch-ai",
         "techmeme",
         "wires-ai"
       ],
@@ -743,7 +832,7 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-19T23:02:31.000Z",
+      "earliest_published_at": "2026-11-20T00:26:46.000Z",
       "first_seen_at": "2026-11-18T10:41:34.307Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -751,9 +840,9 @@
       "item_ids": [
         "005a7323b1de6c88",
         "05235e3dbe3f4523",
-        "060b582609c64179",
         "0880cc40b134916a",
         "088a45edda09498e",
+        "0cebec4236b76582",
         "0e52d626648e93dc",
         "0f8335ce2828d9ab",
         "116aca0165d221d2",
@@ -764,20 +853,26 @@
         "1889314e480e9b38",
         "1c04c9a294d21019",
         "1f0f361a116fe9e3",
+        "27c3dabfd7f64d30",
         "28ad45f6296f450f",
+        "2ac4b6d0f4d6b5ad",
         "2c937e985fce20d7",
         "2d0a59487c9c607c",
         "2e6f70fa07075133",
+        "350ae6da46149293",
         "39d45384decb5581",
         "3ab827b560f861e5",
+        "3b293dadbb0872ac",
         "3b91d94e55cf5f8e",
         "3ec98f30f481f0b9",
         "401e935a3cef7963",
-        "419be7f3bafbca30",
         "446bce60cb938374",
         "45a4d6e2eea8454c",
         "46d41ca0284ea34b",
         "47b26b5b0c377729",
+        "47b30394d8db1158",
+        "486edeef39c78e56",
+        "48f218c1fd0dc5ce",
         "4d19481a18698750",
         "4d4c61d7192354d0",
         "4dac533cc02bf013",
@@ -787,8 +882,10 @@
         "519ae28c13048169",
         "559b89dfb99f77d3",
         "55a0b31d787232fa",
+        "56b10abf495b6a42",
         "56f5de5b11aedbd4",
         "599329497b41dd82",
+        "5a1cf6e87034ad5c",
         "5a320413b509f759",
         "5b0261f26bc89e9c",
         "5e4d9d4570c1018a",
@@ -798,16 +895,20 @@
         "6683571a256ed92f",
         "694eda7767094817",
         "69b6252c2e9a018e",
+        "6b48b44b7b7800e8",
         "6c7b88242d3e73fc",
         "6dba4f8c5bea9120",
         "74b46c8b5e6ae130",
+        "76e1a6f2adef1331",
         "7af00d2acb189e24",
         "7b4d99ca3afbdd8c",
         "7c2b858530337306",
+        "7d071c7a377b3a39",
         "7f023861dff974d1",
         "7f101d4d8438bdb9",
         "8165657dffc03316",
         "843b5218d76aca0f",
+        "845d385e0bf0d88b",
         "85b602c7b146bed2",
         "85cfad2763ea7f8d",
         "87e96b00701bbaca",
@@ -821,24 +922,23 @@
         "9c29c540a23f65b6",
         "9c58ba1af7341daa",
         "a0db95a208c59b50",
+        "a621fa0068fd1281",
         "a9aece33f33d2427",
+        "ad84405834598899",
         "b1431f227bd77df3",
+        "b32088ff64f6edef",
         "b3fc30bf1fb56ac8",
         "b4c507c91819cc4b",
         "ba0ad7407e5f9f50",
         "c2af952f4472529c",
         "c40287a5d15bb4a9",
-        "c433d1a14b0625ef",
-        "c49215284c89b4c8",
         "c4ad3a04752f3121",
         "c4e24f89160bb1ce",
-        "c5c4125d1353f8c2",
         "c5d873cd65af1330",
-        "c622eb88e23593ee",
         "c68ffc0138617e57",
         "c99ad6a0bbe5d8d6",
+        "ca5d47f6d31f9f2a",
         "cc25b3f2b33e352c",
-        "ce6edee70a28c143",
         "cfe49dfd7b6adfdd",
         "d00715117a85d5c8",
         "d0aa7556a78e4c42",
@@ -857,10 +957,13 @@
         "df867403b19674a0",
         "e07b66c9b8bc50a3",
         "e1f01818d189827d",
+        "e4ada5838b33450c",
         "e63362162534ec13",
         "e7eb2ef97b3f06fe",
+        "e86906fe6fabba01",
+        "e86d037ec9726f1b",
         "e9a2c573bc3e70d2",
-        "ec3a3474f121af8f",
+        "edfe600c23f6c06b",
         "eeab092161f80361",
         "f3868b17ad358119",
         "f425f84f1f6433d5",
@@ -875,46 +978,6 @@
         "ffa3d1c1620e9a22"
       ],
       "sightings": [
-        {
-          "source": "bloomberg-tech",
-          "outlet": "bloomberg.com",
-          "title": "Anthropic’s Historic IPO Debuts",
-          "url": "https://bloomberg.com/news/videos/2026-11-19/the-close-11-19-2026-video",
-          "published_at": "2026-11-19T23:02:31.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "wsj.com",
-          "title": "Nvidia Earnings, Anthropic IPO Ahead in New Test for AI Economy",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPbjM3c3k5Q2otRklJTDllbEJZR1N1VUMwQ3NoajUtV1k0bWkyZmg1eDJZbkxZRmlWdzBCSko1d0laWnVQaFhYN2RYNFAyUjN1R0VxaU1GbjcteC0tQ252bkRZWFhSb3ZjWEhNd2JMdVRwR0hXVmM5SzliNmtiWU5IN3Y2Y3ZHSmdURWZnY1doTzA2cmdVLXExYUNrMXU3VGw5WXNUblBR?oc=5",
-          "published_at": "2026-11-19T23:04:31.000Z",
-          "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "bloomberg.com",
-          "title": "Anthropic IPO Said to Give Nothing to Most Institutional Buyers",
-          "url": "https://bsky.app/profile/bloomberg.com/post/3n2p7aea3y62i",
-          "published_at": "2026-11-19T23:15:11.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "Anthropic Becomes World’s 7th Most Valuable Company After IPO",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOcW8tQnJ5WUpvN2FUZ2N2SVVmM3lqaDFGVkw4UnBLaGFKQ0lISDhLeXk2VWhHbXZROWRrSWJVdTdPVjVKd1JkYnMtNnFrN1BmRGlmMVotYlNPc2VSUFNMZ3hDOWE4Q0tjdW5JWGpFTUVYZi1RbnpFc242dFhBdk1xTTB4c2pRVnlQVGllTHlmdWZPdTNyMGNuRVVhX2VZUGF2VE4zQjRxZWtvTW85VFlZR29n?oc=5",
-          "published_at": "2026-11-19T23:16:20.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "Market Talk: 'No rush' to buy Anthropic as shares may underperform",
-          "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9ibEFtSGxqOUc1MWtrWDIxNjBNMW1GNC1VcE9UbDZRcUlDTFdGRmNrcExWR0ZHOEpDY1NGVWV3c3h3ZzBvUWFEV2FvZDJnWC1nZnA5ZGJOTlpQMzZiQnhoMXlYXzMwMkE?oc=5",
-          "published_at": "2026-11-19T23:23:56.000Z",
-          "tier1": true
-        },
         {
           "source": "wires-ai",
           "outlet": "reuters.com",
@@ -964,12 +1027,52 @@
           "tier1": true
         },
         {
+          "source": "wires-ai",
+          "outlet": "reuters.com",
+          "title": "Anthropic shares soar, then wobble: What it means for the AI trade",
+          "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1yam9ubEVPUkZGU25xRlpBRXBmYVRYWnJod2hOR2Z5bUEzS2ZZS2FLOFdMWUNJV01BUzczaEp4Tmh1VjU4ak4tUms2RUpvMU03b2MyR3Q2RG5Ya1lV?oc=5",
+          "published_at": "2026-11-20T00:36:59.435Z",
+          "tier1": true
+        },
+        {
+          "source": "bloomberg-tech",
+          "outlet": "bloomberg.com",
+          "title": "Anthropic Set for Second-Day Drop as AI Fears Eclipse Record IPO",
+          "url": "https://bloomberg.com/news/articles/2026-11-20/anthropic-shares-drop-post-market-on-apple-s-ai-agent-plans",
+          "published_at": "2026-11-20T00:40:04.000Z",
+          "tier1": true
+        },
+        {
+          "source": "techcrunch-ai",
+          "outlet": "techcrunch.com",
+          "title": "Anthropic’s 7 founders cashed out nearly $2B in record-breaking IPO",
+          "url": "https://techcrunch.com/2026/11/19/anthropics-7-founders-cashed-out-nearly-2b-in-record-breaking-ipo",
+          "published_at": "2026-11-20T00:43:50.000Z",
+          "tier1": true
+        },
+        {
           "source": "bloomberg-tech",
           "outlet": "bloomberg.com",
           "title": "Japanese Shares Slide as AI Concerns Overshadow Anthropic Debut",
           "url": "https://bloomberg.com/news/articles/2026-11-20/japanese-shares-slide-amid-uncertainty-around-the-ai-trade-mwo9cqcj",
           "published_at": "2026-11-20T00:45:42.000Z",
           "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "techcrunch.com",
+          "title": "Anthropic’s 7 founders cashed out nearly $2B in record-breaking IPO",
+          "url": "https://bsky.app/profile/techcrunch.com/post/3n2pegly2dt2h",
+          "published_at": "2026-11-20T00:48:09.000Z",
+          "tier1": true
+        },
+        {
+          "source": "techmeme",
+          "outlet": "techmeme.com",
+          "title": "Source: Iconiq invested more than $6B in Anthropic; its estimated 1.8% stake was worth ~$31.8B at Thursday's close, a 430%+ return on investment (Richard Nieva/Forbes)",
+          "url": "https://techmeme.com/261119/p56",
+          "published_at": "2026-11-20T00:50:59.000Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -2039,7 +2142,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     }
   ],
   "speed": {
