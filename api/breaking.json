@@ -260,14 +260,13 @@
     {
       "breaking_at": "2026-11-20T01:38:51.773Z",
       "clock_skew": true,
-      "corroboration": 36,
+      "corroboration": 40,
       "earliest_published_at": "2026-11-20T00:34:16.000Z",
       "first_seen_at": "2026-11-19T01:18:25.404Z",
       "id": "b2f0e1a435a1e",
       "item_ids": [
         "005a7323b1de6c88",
         "00771c4cb6f6506c",
-        "05235e3dbe3f4523",
         "07fe04c71669dba9",
         "0880cc40b134916a",
         "088a45edda09498e",
@@ -330,10 +329,10 @@
         "6c7b88242d3e73fc",
         "6dba4f8c5bea9120",
         "74b46c8b5e6ae130",
+        "74edca7862aad34f",
         "76e1a6f2adef1331",
         "7af00d2acb189e24",
         "7b4d99ca3afbdd8c",
-        "7c2b858530337306",
         "7cbd78e730357cf7",
         "7d071c7a377b3a39",
         "7f101d4d8438bdb9",
@@ -428,9 +427,13 @@
         "indiatimes.com",
         "investing.com",
         "jamaica-gleaner.com",
+        "marketscreener.com",
         "nbcnews.com",
+        "news4jax.com",
         "nytimes.com",
         "reuters.com",
+        "seekingalpha.com",
+        "sitkasentinel.com",
         "streetinsider.com",
         "techbuzz.ai",
         "techcrunch.com",
@@ -440,10 +443,10 @@
         "theguardian.com",
         "thenationalnews.com",
         "tmgm.com",
+        "tradingview.com",
         "vernonreporter.com",
         "washingtonpost.com",
         "wfaa.com",
-        "wral.com",
         "wsj.com",
         "yahoo.com"
       ],
@@ -541,12 +544,12 @@
           "url": "https://bloomberg.com/news/articles/2026-11-20/japanese-shares-slide-amid-uncertainty-around-the-ai-trade-mwo9cqcj"
         },
         {
-          "outlet": "techmeme.com",
-          "published_at": "2026-11-20T00:50:59.000Z",
-          "source": "techmeme",
-          "tier1": false,
-          "title": "Source: Iconiq invested more than $6B in Anthropic; its estimated 1.8% stake was worth ~$31.8B at Thursday's close, a 430%+ return on investment (Richard Nieva/Forbes)",
-          "url": "https://techmeme.com/261119/p56"
+          "outlet": "techcrunch.com",
+          "published_at": "2026-11-20T00:48:09.000Z",
+          "source": "bluesky-ai",
+          "tier1": true,
+          "title": "Anthropic’s 7 founders cashed out nearly $2B in record-breaking IPO",
+          "url": "https://bsky.app/profile/techcrunch.com/post/3n2pegly2dt2h"
         }
       ],
       "source": "wires-ai",
@@ -2278,7 +2281,7 @@
     }
   ],
   "fresh": "b66e32d893785",
-  "generated_at": "2026-11-20T06:10:57.938Z",
+  "generated_at": "2026-11-20T06:21:58.153Z",
   "live": 4,
   "rules": {
     "keep": 30,
@@ -2338,7 +2341,7 @@
       {
         "label": "Google News — AI searches, last hour",
         "median_s": 1084,
-        "n": 499,
+        "n": 505,
         "source": "gnews-ai"
       },
       {
@@ -2348,21 +2351,21 @@
         "source": "openai-status"
       },
       {
+        "label": "Techmeme front page (AI-filtered)",
+        "median_s": 2992,
+        "n": 45,
+        "source": "techmeme"
+      },
+      {
         "label": "AWS Machine Learning Blog",
         "median_s": 3081,
         "n": 16,
         "source": "aws-ml"
       },
       {
-        "label": "Techmeme front page (AI-filtered)",
-        "median_s": 3108,
-        "n": 44,
-        "source": "techmeme"
-      },
-      {
         "label": "Bluesky — AI posts from vetted newsrooms and reporters",
-        "median_s": 3375,
-        "n": 103,
+        "median_s": 3211,
+        "n": 104,
         "source": "bluesky-ai"
       },
       {
@@ -2409,8 +2412,8 @@
       },
       {
         "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
-        "median_s": 5192,
-        "n": 215,
+        "median_s": 5138,
+        "n": 218,
         "source": "wires-ai"
       },
       {
@@ -2597,8 +2600,8 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 3121,
-      "n": 1327
+      "median_s": 3095,
+      "n": 1338
     },
     "window_hours": 24
   }
