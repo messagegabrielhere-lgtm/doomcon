@@ -25,31 +25,31 @@ Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](ht
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-20 00:25 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-20 00:36 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
-1. [No Bailout for the AI Bubble, Anthropic IPO Protesters Say](https://news.google.com/rss/articles/CBMikAFBVV95cUxQbkRwRnBXSHMtQmNWQzU0Q1otMGozNy1pSlFlNTVxT094RFduaDcxVkVDRm5xUlZFajRiaTJOTXJNbkEwem9EdmZOYjN2NnRQSl9wUEN4cUxrZmFRTEhhdFVyeEJUMXh5RjZDZkwtSmdZaVpxSGlfRElidE5LRFdWMXNXMExsVUp0UkdxelFiaXE?oc=5) — Google News — AI searches, last hour · 2026-11-19 18:02 UTC · score 84.8 · compute
+1. [No Bailout for the AI Bubble, Anthropic IPO Protesters Say](https://news.google.com/rss/articles/CBMikAFBVV95cUxQbkRwRnBXSHMtQmNWQzU0Q1otMGozNy1pSlFlNTVxT094RFduaDcxVkVDRm5xUlZFajRiaTJOTXJNbkEwem9EdmZOYjN2NnRQSl9wUEN4cUxrZmFRTEhhdFVyeEJUMXh5RjZDZkwtSmdZaVpxSGlfRElidE5LRFdWMXNXMExsVUp0UkdxelFiaXE?oc=5) — Google News — AI searches, last hour · 2026-11-19 18:02 UTC · score 84.7 · compute
 2. [Arizona says it is investigating OpenAI, other firms over possible rogue agents](https://news.google.com/rss/articles/CBMizwFBVV95cUxPeWlhZGtUbEFjczdrQzZ5YnM2MEJiSkdwYUx3YTB2SkhQUVV0WnBBNU51aHM4ZFFvaXBEMzRWY1hGVmZtbGVYVmV0ZGtLbWFHaWt4Yk1kWWx4blBVTjVNUC1Ld1JpVXdHcWlfek1ickphT3M5Q1FYRE1LV2NkZDRXYWRBcmlnOVQ0QjVtTm5CS3FYUFVSMXotdkdzX0JkVGNJQTYtenA3eHdqTE9PYjNPR1RuZk52dTR5anp0RkdTYm5rMHNpVk8zVTNFMGtWcG8?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-19 01:45 UTC · score 84.5 · attention
-3. [Traumatized teens sue school, cops after Doritos bag triggers AI gun alert](https://arstechnica.com/tech-policy/2026/11/traumatized-teens-sue-school-cops-after-doritos-bag-triggers-ai-gun-alert) — Ars Technica AI · 2026-11-19 20:19 UTC · score 76.6 · governance
-4. [OpenAI CEO Sam Altman: It's hard to imagine the AI industry without Jensen Huang](https://news.google.com/rss/articles/CBMivgFBVV95cUxQNV9XcFZiZXAtTlhlNmt2YmpCREQ5VWFqSkY4NV80V1B2QlBDLWZQc3J5ODBuWHpZeU02NzB4Qy1uWUtfS1ZuZ3pxcGRqZG5FS2s4RklEN19mQzRZZmlKOXpuZUxCcGxnOFlYcEJ1NlZVc3NaLVVvVUJjWFlKd0I3LWluMTZRXzBOcTRFWFE0QjdmLXVjOEtkWTJHN1czRERjcy1BaXFSQVpjMVVXQkxtX3hEdV9STDJHb3dvaWZB?oc=5) — Google News — AI searches, last hour · 2026-11-18 15:05 UTC · score 72.9 · attention
-5. [Google rolls out Gemini 4 Neon, with "fast end-to-end task completion" across coding, knowledge work, and science, in the API, Antigravity, and the Gemini app (Koray Kavukcuoglu/Google)](https://techmeme.com/261118/p44) — Techmeme front page (AI-filtered) · 2026-11-18 21:03 UTC · score 67.3 · attention
-6. [Anthropic starts trading on Wall Street](https://bsky.app/profile/theverge.com/post/3n2oki7scis24) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-19 16:52 UTC · score 66.1 · attention
-7. [Retail Investors Dive Into Both Sides of the Anthropic Trade](https://bloomberg.com/news/articles/2026-11-19/retail-investors-dive-into-both-sides-of-the-anthropic-trade) — Bloomberg Technology · 2026-11-19 19:27 UTC · score 65.6 · markets
-8. [How OpenAI’s Performance Factory keeps ChatGPT fast](https://news.google.com/rss/articles/CBMigAFBVV95cUxOdlZZQktlZzdORDFTUWt1MnM3OFRzb3QyR1c4bnFNbUg2WVU5eFZtN3hIV1FtUjJPY3dESFI2dTdkdTg2N0J6STFhVVFhSnFJLUhSQktKTzhiTGdiTFFMbFp2Um9FVXBMWENuaTNFRzRRdlFjOXZWSl9sZDNnTGI4RQ?oc=5) — Google News — AI searches, last hour · 2026-11-19 08:00 UTC · score 65.0 · attention
-9. [‘Just Ridiculous’: A Famed Philosopher Takes on AI Consciousness](https://bsky.app/profile/wired.com/post/3n2ltohrzgu2o) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 15:02 UTC · score 65.0 · attention
-10. [Lenovo posts 48% revenue jump on AI-related sales, beating estimates](https://news.google.com/rss/articles/CBMisAFBVV95cUxPakF2dUtyWGhnNzlUeGQ4cWxIb3hGSjFWWU5Qb05STXdtelBYV1ppOE1nX05nbDdvbmk0ekNNYmJnODFHYndqVXRlX2dkWW9ucldzdFBCdTVIcW01WjhaR08tVjFrMHhxZnFCR0taQV9pY2pnMFh2X0RVX2ItZENzcjB2TVJ2RXZBNXdfRDNTOVQ2Z2FFSmM1cGhQVTNad1FneE9PRHNNTUp4ZHpBZVd4Zw?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-19 05:47 UTC · score 64.7 · compute
+3. [OpenAI CEO Sam Altman: It's hard to imagine the AI industry without Jensen Huang](https://news.google.com/rss/articles/CBMivgFBVV95cUxQNV9XcFZiZXAtTlhlNmt2YmpCREQ5VWFqSkY4NV80V1B2QlBDLWZQc3J5ODBuWHpZeU02NzB4Qy1uWUtfS1ZuZ3pxcGRqZG5FS2s4RklEN19mQzRZZmlKOXpuZUxCcGxnOFlYcEJ1NlZVc3NaLVVvVUJjWFlKd0I3LWluMTZRXzBOcTRFWFE0QjdmLXVjOEtkWTJHN1czRERjcy1BaXFSQVpjMVVXQkxtX3hEdV9STDJHb3dvaWZB?oc=5) — Google News — AI searches, last hour · 2026-11-18 15:05 UTC · score 72.9 · attention
+4. [Google rolls out Gemini 4 Neon, with "fast end-to-end task completion" across coding, knowledge work, and science, in the API, Antigravity, and the Gemini app (Koray Kavukcuoglu/Google)](https://techmeme.com/261118/p44) — Techmeme front page (AI-filtered) · 2026-11-18 21:03 UTC · score 67.3 · attention
+5. [Anthropic starts trading on Wall Street](https://bsky.app/profile/theverge.com/post/3n2oki7scis24) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-19 16:52 UTC · score 66.0 · attention
+6. [US Approved AI Chip Sales to China’s Tencent, Alibaba, Data Show](https://bloomberg.com/news/articles/2026-11-19/us-approved-ai-chip-sales-to-china-s-tencent-alibaba-data-show) — Bloomberg Technology · 2026-11-19 22:21 UTC · score 65.7 · compute
+7. [Retail Investors Dive Into Both Sides of the Anthropic Trade](https://bloomberg.com/news/articles/2026-11-19/retail-investors-dive-into-both-sides-of-the-anthropic-trade) — Bloomberg Technology · 2026-11-19 19:27 UTC · score 65.5 · markets
+8. [‘Just Ridiculous’: A Famed Philosopher Takes on AI Consciousness](https://bsky.app/profile/wired.com/post/3n2ltohrzgu2o) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-18 15:02 UTC · score 65.0 · attention
+9. [How OpenAI’s Performance Factory keeps ChatGPT fast](https://news.google.com/rss/articles/CBMigAFBVV95cUxOdlZZQktlZzdORDFTUWt1MnM3OFRzb3QyR1c4bnFNbUg2WVU5eFZtN3hIV1FtUjJPY3dESFI2dTdkdTg2N0J6STFhVVFhSnFJLUhSQktKTzhiTGdiTFFMbFp2Um9FVXBMWENuaTNFRzRRdlFjOXZWSl9sZDNnTGI4RQ?oc=5) — Google News — AI searches, last hour · 2026-11-19 08:00 UTC · score 64.9 · attention
+10. [Lenovo posts 48% revenue jump on AI-related sales, beating estimates](https://news.google.com/rss/articles/CBMisAFBVV95cUxPakF2dUtyWGhnNzlUeGQ4cWxIb3hGSjFWWU5Qb05STXdtelBYV1ppOE1nX05nbDdvbmk0ekNNYmJnODFHYndqVXRlX2dkWW9ucldzdFBCdTVIcW01WjhaR08tVjFrMHhxZnFCR0taQV9pY2pnMFh2X0RVX2ItZENzcjB2TVJ2RXZBNXdfRDNTOVQ2Z2FFSmM1cGhQVTNad1FneE9PRHNNTUp4ZHpBZVd4Zw?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-19 05:47 UTC · score 64.6 · compute
 
 ## Leaders most covered this week
 
 Stories in the press naming each person over the last 7 days (Google News search). Coverage is not a statement by the person.
 
-- Elon Musk (xAI): 524+ stories
-- Jensen Huang (Nvidia): 435 stories
-- Dario Amodei (Anthropic): 434+ stories
+- Elon Musk (xAI): 533+ stories
+- Dario Amodei (Anthropic): 454+ stories
+- Jensen Huang (Nvidia): 427 stories
 - Sam Altman (OpenAI): 370+ stories
-- Satya Nadella (Microsoft): 236+ stories
-- Mark Zuckerberg (Meta): 146 stories
-- Greg Brockman (OpenAI): 101 stories
-- Demis Hassabis (Google DeepMind): 68 stories
+- Satya Nadella (Microsoft): 237+ stories
+- Mark Zuckerberg (Meta): 149 stories
+- Greg Brockman (OpenAI): 100 stories
+- Demis Hassabis (Google DeepMind): 67 stories
 - Geoffrey Hinton (University of Toronto): 63 stories
 - Sundar Pichai (Alphabet): 53 stories
 
