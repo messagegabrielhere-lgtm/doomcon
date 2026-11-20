@@ -19,6 +19,8 @@ PER_SETUP = 6            # newest rows taken per setup per scan
 KEEP_CLOSED = 4000
 MIN_N = 30               # no EDGE flag below this many closed entries
 H4, H24, STALE = 4, 24, 72
+COST = {"stock": 0.1, "crypto": 2.0}   # est. round-trip cost in %, taken off every result (Robinhood crypto
+                                       # bid/ask runs ~1-2% wide: BTC was 1.9% on 11/19), so EDGE flags are net
 
 def ts(s): return datetime.datetime.strptime(s, "%Y-%m-%dT%H:%MZ").replace(tzinfo=datetime.timezone.utc)
 
@@ -70,7 +72,7 @@ def step(led, scan, prices, now):
         if (sym, setup) in have: continue
         have.add((sym, setup))
         still.append({"t": now.strftime("%Y-%m-%dT%H:%MZ"), "kind": kind, "sym": sym, "side": side, "setup": setup,
-                      "px0": px, "feat": feat, "hi": 0.0, "lo": 0.0, "last": 0.0, "r4": None, "r24": None})
+                      "px0": px, "cost": COST[kind], "feat": feat, "hi": 0.0, "lo": 0.0, "last": 0.0, "r4": None, "r24": None})
     led["open"], led["closed"] = still, led["closed"][-KEEP_CLOSED:]
     led["updated"] = now.strftime("%Y-%m-%dT%H:%MZ")
     return led
@@ -78,8 +80,9 @@ def step(led, scan, prices, now):
 def agg(rows):
     n = len(rows)
     if not n: return None
-    r24 = [e["r24"] for e in rows]
-    r4 = [e["r4"] for e in rows if e.get("r4") is not None]
+    net = lambda e, k: e[k] - e.get("cost", 0)
+    r24 = [net(e, "r24") for e in rows]
+    r4 = [net(e, "r4") for e in rows if e.get("r4") is not None]
     return {"n": n, "win": sum(1 for x in r24 if x > 0) / n, "avg": sum(r24) / n,
             "r4": sum(r4) / len(r4) if r4 else None, "hi": sum(e["hi"] for e in rows) / n, "lo": sum(e["lo"] for e in rows) / n}
 
@@ -99,7 +102,7 @@ def short(name, a):
 def report(led):
     cl = led.get("closed", [])
     L = [f"SHADOW {led.get('updated', '?')} open={len(led.get('open', []))} closed={len(cl)} "
-         "(paper forward test of every scan row; 24h hold, delayed prices, no fees; evidence only, changes no rule)"]
+         "(paper forward test of every scan row; 24h hold, delayed prices, win/avg net of est. cost; evidence only, changes no rule)"]
     by = {}
     for e in cl: by.setdefault(e["setup"], []).append(e)
     for setup in sorted(by):
@@ -112,6 +115,22 @@ def report(led):
             if len(grp) > 1:
                 L.append(f"  {k}: " + "; ".join(short(v, agg(g)) for v, g in sorted(grp.items())))
     if not cl: L.append("no closed entries yet (first results 24h after the first scan)")
+    return L
+
+def digest(led):
+    """Short block appended to scan.md so every pass sees the forward-test result: one line per setup,
+    plus feature buckets that earned an EDGE flag (n >= MIN_N)."""
+    by = {}
+    for e in led.get("closed", []): by.setdefault(e["setup"], []).append(e)
+    if not by: return [f"SHADOW: no closed entries yet (open={len(led.get('open', []))}; first 24h results pending)"]
+    L = ["SHADOW (paper 24h, net of est. cost; evidence only): " + "; ".join(short(s, agg(by[s])) for s in sorted(by))]
+    for s in sorted(by):
+        for k in sorted({k for e in by[s] for k in e["feat"]}):
+            grp = {}
+            for e in by[s]: grp.setdefault(str(e["feat"].get(k)), []).append(e)
+            for v, g in sorted(grp.items()):
+                a = agg(g)
+                if flag(a).strip().startswith("EDGE"): L.append(f"  {s} {k}={v}: " + short("", a).strip())
     return L
 
 def load_prior():
@@ -133,6 +152,8 @@ def main():
     (OUT / "shadow.json").write_text(json.dumps(led, separators=(",", ":")))
     L = report(led)
     (OUT / "shadow.md").write_text("\n".join(L) + "\n")
+    md = OUT / "scan.md"
+    if md.exists(): md.write_text(md.read_text().rstrip("\n") + "\n\n" + "\n".join(digest(led)) + "\n")
     print("\n".join(L[:12]))
 
 if __name__ == "__main__":

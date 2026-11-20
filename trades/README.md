@@ -41,5 +41,9 @@ downloaded (`out/prices.json`), records the return at +4h and +24h, then closes 
 `shadow.json` (ledger) and `shadow.md` (results by setup and feature, `EDGE+` /
 `EDGE-` once a bucket has >= 30 closed entries) are published on `trade-data`:
 `https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/trade-data/shadow.md`.
-Paper only: delayed prices, no fees, no orders. It changes no rule; a flagged
+Win rate and averages are net of an estimated round-trip cost (`COST`: stocks
+0.1%, crypto 2.0%, since Robinhood crypto quotes run 1-2% wide), so a flag means
+the edge survives costs. A short `SHADOW` block (one line per setup, plus any
+flagged bucket) is appended to `scan.md`, so every trading pass sees it.
+Paper only: delayed prices, no orders. It changes no rule; a flagged
 bucket is evidence for the owner. Tests: `python3 trades/tests/test_shadow.py`.
