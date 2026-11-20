@@ -85,7 +85,7 @@ def watch(s, ts):
         return
     rows = [l for l in lines[1:] if any(k in l for k in ("-> STOP", "-> TARGET", "-> TRAIL", "-> ALERT"))]
     text = (f"FAST WAKE (keeper watch): {head}. " + " | ".join(r[:200] for r in rows[:4]) +
-            ". Read trades/status.txt and handle these rows now.")
+            ". Real-time wake, not a quiet pass: skip STEP 2 and handle these rows now with live quotes.")
     if fire(text):
         w.update(n=w["n"] + 1, at=ts)
 
@@ -123,8 +123,8 @@ def scan(s, ts, now):
             why.append("gate QUIET -> CHECK")
         if pending:
             why.append("new candidates " + ", ".join(sorted(pending)[:12]))
-        text = (f"FAST WAKE (keeper scan): {'; '.join(why)}. Run the full pass now on the fresh scan.md "
-                "and live Robinhood quotes; the rules still decide.")
+        text = (f"FAST WAKE (keeper scan): {'; '.join(why)}. Real-time wake, not a quiet pass: skip STEP 2 "
+                "and run the full pass now on the fresh scan.md and live Robinhood quotes; the rules still decide.")
         if fire(text):
             c.update(at=ts, pending=[], gate_open=False)
             return
