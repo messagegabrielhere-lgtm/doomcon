@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-20T09:35:25.139Z",
+  "generated_at": "2026-11-20T10:25:26.590Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -153,20 +153,16 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "kelo.com",
         "reuters.com"
       ],
       "tier1_outlets": [
         "reuters.com"
       ],
-      "corroboration": 2,
+      "corroboration": 1,
       "sources": [
-        "gnews-ai",
         "wires-ai"
       ],
       "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more",
         "tier-one escalation signal"
       ],
       "earliest_published_at": "2026-11-20T08:23:43.000Z",
@@ -184,47 +180,33 @@
           "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNM3JhZ1hpWlJqYlVISU9pcFFUS0N1Sk9MeEx5aU9jWmt5OVBxY2RkeWNCWDBITU5nYmdNdzFNQm4xTkZVbTM3T214cjhzSDBPWHFsaGt0Uk56c2F0TUFOOWl2ZlZHRGhjdXN5WDNPM3BiS3E1QW9lbHZ0NjZDUVNtaVZBbGUzNmxMR1o4c3REOGE3c3R4ZFk3d1VpR3diM0FmTnphSVdtR0M5MWpHRm9OeFJtaTQ5U1p6bnVRc3VnTW54cVVW?oc=5",
           "published_at": "2026-11-20T08:23:43.000Z",
           "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "kelo.com",
-          "title": "US AI chip curbs hit China tech stocks, spur self-sufficiency push",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxObjFrWEh1RGtsVTJxSFdHZ29wams2ekZ6N0Vvc1NHek9wUkxMVE96T1FIQWtnaUU1YlE4bFUzQkVyNTVSSTRIMnpTaTFpVU5JZHNoU0xuazJaWFFxZmFXZU1XaTV3MkVVbFRFX3pLTzI0Y2pzV2NBdDBBQWg4Mkhab2FraWduVHhBVmNtV3QxZFk4N0w3eXlWV0Rn?oc=5",
-          "published_at": "2026-11-20T08:41:37.738Z",
-          "tier1": false
         }
       ],
       "live": true
     },
     {
       "id": "bc73e8d125020",
-      "title": "Alibaba defrauded shareholders by concealing ties to suspected spy in Nvidia scandal, lawsuit says",
-      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNU2NLaWxYa3VzZlBrX09yMHM0MjctV3RIZzNUVVNWbjhHODZZQlZtTkNJaWJJbkJLUTNsckRSRURrWTdzYUVNa2JwNnNmenJYb3FVTS16U1B4R3Ezc1ZHcWZ5ZTl2aTh5V2VCdkZUQzRQMXpUbEJaQnRRZ1AybGYxaFk5Yjh2c256cVJJaFAzaG03eGtiRUIydWctNHNRSUFiWmV5aTlGVzlYUVRUQ0RiUGpOMUw5LW5UbXRCMFNhMTY3UnYzSjlkNmNwQnN5azFEZGxNUjBn?oc=5",
+      "title": "California AG subpoenas Nvidia over concerns about former CEO, China ties",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNY2NBVmplUHV4MUZrbVByaDVvby13dXpkX3RuaGVwd1RDMzAxdGtGSDQ3aFhjNjc3VHNxWnlYNHBrcWhRa0xiemxLOE8wTnZFVE9YZ3B4NVFjZ3d5QmJTaWtqc3JTVWdRX0IyT3VlU3BOaEFlMm5fS1lqczg1RmxyMUk4c0JfTEtUSlV4bDh0Z1BVQ0NySHZ3UHRINXZBdUM5NDhOX3Y0bUdsZXRuODdDZDJsMWNHUjY3STVCRA?oc=5",
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "apnews.com",
         "bloomberg.com",
-        "gregpalast.com",
-        "marketscreener.com",
-        "wsj.com"
+        "nytimes.com"
       ],
       "tier1_outlets": [
-        "apnews.com",
         "bloomberg.com",
-        "wsj.com"
+        "nytimes.com"
       ],
-      "corroboration": 5,
+      "corroboration": 2,
       "sources": [
-        "gnews-ai",
-        "hn-fresh-ai",
+        "nyt-tech",
         "wires-ai"
       ],
       "rule": [
-        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-20T03:36:36.778Z",
+      "earliest_published_at": "2026-11-20T07:19:00.000Z",
       "first_seen_at": "2026-11-18T18:41:58.381Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -234,46 +216,18 @@
         "09bdef44448c12d6",
         "1e835cea1fc5aec4",
         "37ce321cec2a8ecf",
-        "3d8d9903e44c64ff",
-        "46f3aefcf892993c",
         "616cb535d7c1ade4",
         "6d089e58b9c7aeb1",
         "72dcf87cb4b1c06b",
         "7dbabb61947b542d",
-        "806bf2135900cf46",
         "8268d5c023356cbc",
         "95b947692cb60a19",
         "b735f41c19bee252",
         "bd9deef5bf618973",
-        "dc4a495c71734f3c",
-        "ebe45bdc04dc6c49",
+        "efb3a76da7930f9d",
         "fe06c633adbc1f3b"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "wsj.com",
-          "title": "Jensen Huang Breaks Silence, Signals Willingness to Return as Nvidia CEO",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5QczVTbUQzdjZ0WHN0QjYwRXJidGl2YmJzeFVVOGhEV0FoZHp3QkJ1dng1REtUS21Qa2lYSGdUejlhbGtfNzlQT1V6Zm45NDltc2hKeEowZ3NtcHdsaUNvN2ttTTJXWUgzNkF3SGZUUjdFX1FiRHc?oc=5",
-          "published_at": "2026-11-20T03:36:36.778Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "apnews.com",
-          "title": "Asian American women feel the impact of Nvidia CEO affair scandal and ‘spy’ accusations",
-          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOYUdCZFY3blNlVDctTnpTWTVLb3BjYWRiVFJfU0V5Y2hyazQ0b2lKcjJZYjB1YjNsTUZrWUVodUVPREhlNHdjUEw2VHdfQ0RJUGlFTTZGVVdqcmhSWFdQQV9ReElqS0o2WnN1TjRSNnVmeVVjX1huaWtVa2tybUJBWHpEd3ZLUDZCQ0d2M0hnSWtIbTJHbXFQSEhMcTJib3ltcHRQdmpmUlRqdw?oc=5",
-          "published_at": "2026-11-20T05:01:00.000Z",
-          "tier1": true
-        },
-        {
-          "source": "hn-fresh-ai",
-          "outlet": "gregpalast.com",
-          "title": "No spy. No temptress. The Nvidia love affair is called RICO",
-          "url": "https://gregpalast.com/the-so-called-affair-between-the-nvidia-chief-and-the-chinese-spy",
-          "published_at": "2026-11-20T06:33:34.000Z",
-          "tier1": false
-        },
         {
           "source": "wires-ai",
           "outlet": "bloomberg.com",
@@ -283,12 +237,12 @@
           "tier1": true
         },
         {
-          "source": "gnews-ai",
-          "outlet": "marketscreener.com",
-          "title": "Why Nvidia Could Lose Without Jensen Huang and Google Become AI's Biggest Winner",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxORURzcjVGYXpyUEF4Z3dyMTRjLXAzWXM1VUF6T1J6b0dIUEt6ZzdZTWZPS0RfcVhYWkdiSGh4dFN0dV9wNDhYRzQySi16YXVnY08xX0tRVTFsdTh5WHlUZHhLNnV2UHpZdEpYZ0ZtQUJjU0xiT3BQVUNEV3NNcjBUOVpKWXdqdDhIOWNvTm5ReExkNzV6Uk5iSGNvSGVyazRwRWZyQ0ZsMUIzbmc1eU9kUDVtOWNGNkZlM0hOS0ZFblpiUXRZMEFhQ3M2d1BKQQ?oc=5",
-          "published_at": "2026-11-20T07:38:16.000Z",
-          "tier1": false
+          "source": "nyt-tech",
+          "outlet": "nytimes.com",
+          "title": "How Jensen Huang Made Humiliation Routine at Nvidia",
+          "url": "https://nytimes.com/2026/11/20/technology/jensen-huang-nvidia-culture.html",
+          "published_at": "2026-11-20T10:03:50.000Z",
+          "tier1": true
         }
       ],
       "live": true
@@ -676,40 +630,41 @@
     },
     {
       "id": "b2f0e1a435a1e",
-      "title": "Japanese investors sought $9.4 billion of shares in Anthropic IPO, sources say",
-      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPbzA3aGxPN3dWWXpGQ0NxUkVUdm9md2JpZnZQSjFtY0ZTeG1sazJtSUxMZHliR2Z2Rm5paDM2UjRwa3VXRDNUb2JCV0JOQkdiUnBnek50RTEtMGlCUmRsMTNaTkVfcklXVWk4SjZSRnFGN1BmblVxdVhfLVU3MkFkd3JYd21IY0ozME1KUjZUMjNXeHZGZzJxU3VrYWVkODc1RF9wZzA1UnBCRzBSY3dlQWllcEZaQzZGNXp6Z0JWTQ?oc=5",
+      "title": "Anthropic’s IPO caps an explosive growth period for the AI startup, filled with contradictions",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQMENibFhsUGZLc0pMdU5wa2tULUpUWG1BMVZ2U3JzX0ZmRlhDODdnUEs5RE0wMkVFWXRtci1JUENZNmJLTC1tSmR0LWlKXzFFYThxUkJpZTN3MGx4THJ2WGNWRlFXR2Z5UDd5VVRGODJUTk9pSlRUSG00eUtGTmhNMy04Vjlmc0dDV3lTVzdET1J5UjNWR3lUZUpFeFlXcDU0R2Zj?oc=5",
       "source": "wires-ai",
-      "outlet": "reuters.com",
+      "outlet": "apnews.com",
       "outlets": [
-        "aa.com.tr",
         "abcnews.com",
         "afp.com",
         "apnews.com",
+        "benzinga.com",
         "bloomberg.com",
         "bsky.app",
-        "chosun.com",
+        "businesscloud.co.uk",
+        "businessinsider.com",
         "cnbc.com",
+        "coindesk.com",
         "dmarketforces.com",
         "euronews.com",
-        "fool.com",
         "fortune.com",
-        "fox26medford.com",
         "ft.com",
         "futureparty.com",
-        "fxempire.com",
         "fxstreet.com",
+        "hawaiitribune-herald.com",
         "latent.space",
-        "marketscreener.com",
+        "motherjones.com",
         "reuters.com",
-        "seattletimes.com",
         "seekingalpha.com",
         "techxplore.com",
+        "theglobeandmail.com",
         "theguardian.com",
         "trendingtopics.eu",
         "ua.news",
-        "unite.ai",
         "vocal.media",
-        "wpsdlocal6.com"
+        "wpsdlocal6.com",
+        "wsj.com",
+        "yahoo.com"
       ],
       "tier1_outlets": [
         "apnews.com",
@@ -717,14 +672,15 @@
         "cnbc.com",
         "ft.com",
         "reuters.com",
-        "theguardian.com"
+        "theguardian.com",
+        "wsj.com"
       ],
-      "corroboration": 29,
+      "corroboration": 30,
       "sources": [
-        "bloomberg-tech",
         "bluesky-ai",
         "ft-ai",
         "gnews-ai",
+        "guardian-ai",
         "hn-fresh-ai",
         "latent-space",
         "techmeme",
@@ -734,7 +690,7 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-20T03:36:36.778Z",
+      "earliest_published_at": "2026-11-20T04:41:28.460Z",
       "first_seen_at": "2026-11-19T01:18:25.404Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -742,44 +698,36 @@
       "item_ids": [
         "005a7323b1de6c88",
         "0880cc40b134916a",
-        "0b10198eb9d6615b",
-        "0cebec4236b76582",
         "0e52d626648e93dc",
         "0f8335ce2828d9ab",
         "12cb4dffa65b1cce",
-        "1513b5b4c84cba7d",
-        "16efd6d8b6045beb",
         "1889314e480e9b38",
         "1f0f361a116fe9e3",
-        "24f5d79cc921266d",
+        "21832dc78d097d57",
+        "21cfeab75cc11cb9",
         "27c3dabfd7f64d30",
         "28ad45f6296f450f",
         "2ac4b6d0f4d6b5ad",
         "2c937e985fce20d7",
         "2d0a59487c9c607c",
         "2e6f70fa07075133",
+        "32e901a056c3456b",
         "350ae6da46149293",
-        "3546c3c3b36c25dc",
         "3ab827b560f861e5",
         "3b293dadbb0872ac",
         "3b91d94e55cf5f8e",
         "3ec98f30f481f0b9",
         "3f65f13d0d85c836",
-        "3fa125f204a9726e",
         "401e935a3cef7963",
         "446bce60cb938374",
         "45a4d6e2eea8454c",
         "464744fb4a0deaa2",
         "47b26b5b0c377729",
-        "47b30394d8db1158",
-        "486edeef39c78e56",
-        "48f218c1fd0dc5ce",
         "4d19481a18698750",
         "4d4c61d7192354d0",
         "4dac533cc02bf013",
         "4e9a39fe7d7fb078",
         "4ef18a775332ec09",
-        "4f135e3672efb00a",
         "519ae28c13048169",
         "540281248cc1adf8",
         "55a0b31d787232fa",
@@ -795,12 +743,13 @@
         "6695ce5be32cc629",
         "694eda7767094817",
         "69b6252c2e9a018e",
+        "6a511e063b04c217",
         "6b48b44b7b7800e8",
-        "6c7b88242d3e73fc",
         "6db12e7d3e6f36e3",
         "6dba4f8c5bea9120",
+        "73126f643b168bf1",
         "74b46c8b5e6ae130",
-        "74d9270e9479d3b3",
+        "74ed1b95ef9f8d94",
         "76e1a6f2adef1331",
         "7af00d2acb189e24",
         "7b4d99ca3afbdd8c",
@@ -815,7 +764,6 @@
         "868a32b096b3cc9d",
         "87e96b00701bbaca",
         "88bc456f43d8dba5",
-        "8f17a5f623167461",
         "917a93230d5de5ad",
         "91c85368a78d9cd8",
         "91eb07c3abff86d3",
@@ -827,8 +775,9 @@
         "9c58ba1af7341daa",
         "a0db95a208c59b50",
         "a1e593973dd40c3e",
+        "a29ff01c74a63313",
+        "a308693fdbd5871b",
         "a621fa0068fd1281",
-        "a79d8ed7fa0c2ce9",
         "a7cb082290fc8fb4",
         "a9aece33f33d2427",
         "ac0ec05c4bb02b1b",
@@ -837,14 +786,14 @@
         "b2a4606c8b7cfcaf",
         "b3fc30bf1fb56ac8",
         "b4c507c91819cc4b",
+        "b5ec36ed726515bd",
         "b9d842b2ec63568a",
         "be3be1a56ac03482",
-        "bf625b53b30653b1",
-        "c1e050d33d23ecb7",
-        "c2f09bae2290ac31",
         "c40287a5d15bb4a9",
+        "c49215284c89b4c8",
         "c4ad3a04752f3121",
         "c5d873cd65af1330",
+        "c68ffc0138617e57",
         "c99ad6a0bbe5d8d6",
         "ca5d47f6d31f9f2a",
         "cc25b3f2b33e352c",
@@ -852,19 +801,23 @@
         "d00715117a85d5c8",
         "d0aa7556a78e4c42",
         "d0ef954d061524a0",
-        "d149492ae422428f",
+        "d189bcb965c04fa9",
         "d250446a4dca35d4",
         "d4a1051a83645ba0",
+        "dbb34d8be6b5c287",
         "dbbfc3376ba3e270",
         "dd34e1f646f7a9b4",
         "dd3d440fcaf749b2",
         "dd6e732a218d28ec",
+        "dda12045e8220b8b",
         "de1f128abf2b86c8",
         "deb531d09878b455",
-        "e07b66c9b8bc50a3",
         "e1f01818d189827d",
+        "e2d482a2348089e0",
         "e4ada5838b33450c",
+        "e713f7c26de72e44",
         "e86d037ec9726f1b",
+        "e97581b42a76e6b2",
         "e9a2c573bc3e70d2",
         "ea6a8e6cbba640ff",
         "eeab092161f80361",
@@ -874,50 +827,10 @@
         "f8e93d17bb5958e6",
         "fb41d16d12558364",
         "fda85565d56f9140",
-        "fe3cea42d2b96a4e",
-        "ffa3d1c1620e9a22"
+        "ffa3d1c1620e9a22",
+        "ffe5471d0a69b0c0"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "apnews.com",
-          "title": "Global shares drop on AI worries, echoing Wall Street's decline despite the strong Anthropic debut",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQY09GMmxTYlpRMnQ3YVJ4Q3BUdmg3NEFJWG5lVlh4TC0zZGxxZVcydTkwSkpiZUZfS3BXdlRab05HSW5TS0h5TDY5NFRKajBDSWdFbUdhNFIxMzUxc3pLRnEtMXVNblBwZmgteFlUWVhuS0lRU3diRGpWQnkyeWtDMGJiS3hzd2xCdUtDVHIxc0hOWGkwTHdPZ1FfenUwQQ?oc=5",
-          "published_at": "2026-11-20T03:36:36.778Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "apnews.com",
-          "title": "Global shares drop on AI worries, echoing Wall Street's decline despite the strong Anthropic debut",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQY09GMmxTYlpRMnQ3YVJ4Q3BUdmg3NEFJWG5lVlh4TC0zZGxxZVcydTkwSkpiZUZfS3BXdlRab05HSW5TS0h5TDY5NFRKajBDSWdFbUdhNFIxMzUxc3pLRnEtMXVNblBwZmgteFlUWVhuS0lRU3diRGpWQnkyeWtDMGJiS3hzd2xCdUtDVHIxc0hOWGkwTHdPZ1FfenUwQQ?oc=5",
-          "published_at": "2026-11-20T03:36:36.778Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "seattletimes.com",
-          "title": "Global shares drop on AI worries, echoing Wall Street’s decline despite the strong Anthropic debut",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPSlpBam9TZms0VDA5NTdrb28xeUFzbkRFSHVpUFpKVVl3SG03bzVDM0hpNnpmVU1oR1VEc1o3ZThSNXhWMGpMWkFHVVFQRm16aTNIMGRTUVFxRUJ0OTBiZ0ZsN2JZVDZNWFBzM3UzR0pTYVdQd2ZjWWk3NUViaEJZRlM3b2pXSVlXU2pQcjhXSnExQV9CQ0dfUnBYT0RBMjhIMVhkYUJrbFdhNWFldGluMS1saGFEWmx1dW9hbllVR1ZETlhXQjU4V0VFZzF6dw?oc=5",
-          "published_at": "2026-11-20T03:36:36.778Z",
-          "tier1": false
-        },
-        {
-          "source": "techmeme",
-          "outlet": "techmeme.com",
-          "title": "Anthropic fell ~5% in after-hours trading on its debut day, following a record $107.3B IPO (Bloomberg)",
-          "url": "https://techmeme.com/261119/p61",
-          "published_at": "2026-11-20T04:15:00.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "Bloomberg Daybreak Asia: Anthropic Record Debut",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOZ0xKS2lPUGN4RGs5SG16bnJPQk1DQXFEYXdiSEZubFVyMW1KOEg4TDNyNzd0WGNOWkpQRF8xTm5ZQ3RDaDl3SFhCd3VSSjFLelVGOGZESkVXQV9fU25PSTlNSEtZQXdOMkNlSGtCeWRjRmt0d3F6aTF6MzN4eVc2Q0N4S1p5VExjMnBhVXBMNWViaG9vLTdpbC1EOXd1aXdzajNyOQ?oc=5",
-          "published_at": "2026-11-20T04:26:51.000Z",
-          "tier1": true
-        },
         {
           "source": "wires-ai",
           "outlet": "bloomberg.com",
@@ -951,14 +864,6 @@
           "tier1": false
         },
         {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "Protesters blocking Nasdaq doors arrested ahead of Anthropic debut",
-          "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBRR1ZmUU55akg2UF9Gczd1UDdYQkZyTkxrenhtQi1FeHBJN1lBYWpOM3VlbU1mZEtPNWhmZUJ1NlJoOUZ0bFdxUDZpRjB6aURMMUowSzljM1VnZm9VZzdhVGR6a2I4OTA?oc=5",
-          "published_at": "2026-11-20T04:57:37.000Z",
-          "tier1": true
-        },
-        {
           "source": "ft-ai",
           "outlet": "ft.com",
           "title": "Anthropic’s Wall Street stimulus fades",
@@ -973,6 +878,54 @@
           "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQMENibFhsUGZLc0pMdU5wa2tULUpUWG1BMVZ2U3JzX0ZmRlhDODdnUEs5RE0wMkVFWXRtci1JUENZNmJLTC1tSmR0LWlKXzFFYThxUkJpZTN3MGx4THJ2WGNWRlFXR2Z5UDd5VVRGODJUTk9pSlRUSG00eUtGTmhNMy04Vjlmc0dDV3lTVzdET1J5UjNWR3lUZUpFeFlXcDU0R2Zj?oc=5",
           "published_at": "2026-11-20T05:01:00.000Z",
           "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "Anthropic Slumps 5% Post-Market After Record $107.3 Billion IPO",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNU05IcE5RazNyajNodmVGbEJxU0g5U3FPc2IzMFlfdVdSbkxsUWRFYkxpc0JpOWxQNnVZSGlEVWpHSklHMGwyRzRmdjZXUFVYWDdxdTIwbmRGUVk0WGZ6RnB3MHFhSS1YR3VJSVUxeUtlcktQY1NDbUVWNXpfOVpXREFYY3k5bXpnMjEwM2drWTdMQldwWEFFVG9BX2cySUdmUUNOcFFURVNIa2dZal84?oc=5",
+          "published_at": "2026-11-20T05:51:16.651Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "yahoo.com",
+          "title": "Anthropic Slumps 5% Post-Market After Record $107.3 Billion IPO",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOX0R5LTRWRW1XbGFlMlVqdFJnQ3hoU0FubG9QUnA0RjhyMVFGR3d3UnBnbk84X0RRdXo0M0NVTTJBa1J4SEEzR3FZcm5XNUZubUdRWGpOd0dDM21LX1ZjTjh0LVA4aEQtQWJaZFpibGNYMEs5UTAydnJJMmpIeFR1OEtLa2xaTDFuZmRFdXB2Z0FJZGlyWXZiLV93?oc=5",
+          "published_at": "2026-11-20T05:51:16.651Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "reuters.com",
+          "title": "Morning Bid: Anthropic's splashy IPO fails to lift AI boat",
+          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOQ2RGU3lYLUtMZ2FwZzBEU2hlcmRDbWV6c3dDRU9OYTVzU0pSa0xzeUpuVk9McG9lYTBKdEcxZEtRY0JXbmZ3dDJlZ2xiVG5Ba3pDdkotNXBIN3Z2a3hqcHdlUlNFekh6REp6bWo2bW1sS25mTUJWUDlqU3UtMU5DRlpERQ?oc=5",
+          "published_at": "2026-11-20T05:53:00.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "abcnews.com",
+          "title": "Anthropic's IPO caps an explosive growth period for the AI startup, filled with contradictions",
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNVzRVcF9RVkU4eFBKdjd6aS1yVHZYSkxLZ0Zxek9Hb295MWN6THYxWDJsWTZmY0d4UHVBczBWYjdHamtYdDBJSUo4LVBwcUF3ejBSU25PYmtzdFM2MEpsa05jZWZzTXdBWkE5WkEyNWZscW16dDFxLU1ReW9Cc1NpdEVWOEpDV0luSkFDMlMxV3RMU1JHX2Y0ejhQTWF3anNPMUMtMXRvMHbSAa4BQVVfeXFMUHVxODFhNTk3emktRWM4V2hiekVmc2k4S2lPQllQYkR6NUEtRjZIcWtRUkN2MnJZSFNrMmRmc1F5M0ZfSFBfREJ3TDc2aFBva3A1OWcyaEt5Z28xSVNkYmxYQUpvSFBpaWN6LWFuUV9LT3pPT3lSeUFhNGlLX0ZZTWVMQjFVYU9Bal9oTlVCYWtZVWFlRlQ1blBrQnczZlUtcFI3aVF3YVJfQllGMXBB?oc=5",
+          "published_at": "2026-11-20T06:45:38.128Z",
+          "tier1": false
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "apnews.com",
+          "title": "Anthropic's IPO caps an explosive growth period for the AI startup, filled with contradictions",
+          "url": "https://bsky.app/profile/apnews.com/post/3n2qdbvikr72b",
+          "published_at": "2026-11-20T06:45:38.128Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "fxstreet.com",
+          "title": "No relief seen for AI or chip trades ahead of the weekend as Anthropic IPO drains market liquidity",
+          "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQWE1IZTh5RVJqMmQ2QllseDYxdFlNUUhBS0pqbDE4UkU0VnVwa3N0cW1IVTlYbW1LeU5aZ25sNkV0ZGJrSTJhVG5jUkFCek1IZkgzOFU3bHRFeXdqejc1LWQ0NXBCWGV2MFhkeXF3RlJCUUU5Tl9vdW9UMUNiZXM4VlhsWFF0ZmR2RDRWYXdtNjA5aE5ydWtWYTNwVFBNY1hvMW9iemxqZ3FwMjdLRG9seVA1SjFhbUpsT0F6YktnS0ZDYm9kTHdoSjM3bXhvbklMcmtIbkdwQ2dMeExpblE?oc=5",
+          "published_at": "2026-11-20T06:47:19.000Z",
+          "tier1": false
         }
       ],
       "live": true
