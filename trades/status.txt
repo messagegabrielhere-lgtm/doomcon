@@ -1,2 +1,2 @@
-OK 2026-11-20T14:47Z n=1
-ON_SQQQ px=51.38 pnl=+0.5% stop=48.04 target=57.24 high=52.021 -> HOLD | SELL 2 SQQQ limit at live bid, market_hours all_day_hours outside 9:30-16:00 ET else regular_hours. Filled 2 @51.11 05:18Z 11/20. INVALID: QQQ back above 645.04 (11/19 close) -> sell next fire. 9:46 ET: GTC OCO stop 48.04 / target 57.24.
+OK 2026-11-20T14:48Z n=1
+SQQQ_OCO px=51.09 pnl=-0.0% stop=48.04 target=57.24 high=52.021 -> HOLD | Broker GTC OCO 6b005a6a live (sell 2 SQQQ: stop 48.04 / limit 57.24). On BREACH: confirm OCO filled (get_advanced_orders); if not, cancel OCO then sell 2 at live bid. Cost 51.11. INVALID: QQQ close above 645.04. Sell before weekend only if OCO not live; +25% (63.89) sell 1 and trail 10%.
