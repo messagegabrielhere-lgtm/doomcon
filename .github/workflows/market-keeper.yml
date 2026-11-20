@@ -3,40 +3,70 @@ name: market-keeper
 # GitHub's cron skips many runs, which left scan.md and status.txt over an hour old.
 # This keeps ONE long-running job alive through market hours that refreshes the scan
 # every 10 min and the stop watcher every 1 min (owner 10/22: "check every minute" while holding). Extra cron lines are redundant starts:
-# if one is skipped, the next one picks up. A start after the end time exits at once.
-# Off-hours / weekends (crypto trades 24/7): a Claude scheduled task dispatches this with until=max
-# at 00:20, 06:20, 18:20 ET daily and 12:20 ET Sat/Sun, so scan.md and status.txt stay fresh around the clock.
+# if one is skipped, the next one picks up.
+# 11/20: the keeper now keeps itself alive around the clock with no Claude dispatch. The `chain` job queues
+# the next run (until=max) the moment each run starts; the concurrency group holds it until this run ends,
+# so coverage is continuous (crypto trades 24/7). Cron starts also run the full ~5h50m now. The hourly :53
+# cron is a free safety net that restarts the chain if it ever breaks; a crash-loop guard stops queueing
+# after 3 short runs in a row.
+# Fast wake (11/20): with the ATLAS_FIRE_URL and ATLAS_FIRE_TOKEN secrets set, trades/fastwake.py calls the
+# trader's scheduled-task API trigger the moment a stop/target/trail or hot-watch trigger hits, or a new scan
+# candidate appears (cooldowns in that file). Without the secrets it only logs.
 
 on:
   schedule:
-    - cron: '3,23,43 13-20 * * 1-5'  # backup only; a Claude scheduled task dispatches this at 9:20 and 13:20 ET (GitHub skips crons)
+    - cron: '3,23,43 13-20 * * 1-5'  # market-hours backup starts
+    - cron: '53 * * * *'             # hourly safety net for the self-queueing chain
   workflow_dispatch:
     inputs:
       until:
-        description: "market = stop at 16:10 ET (default); max = run the full ~5h50m (off-hours / weekend crypto keeper)"
+        description: "market = stop at 16:10 ET; max = run the full ~5h50m (cron starts and the chain use max)"
         default: market
         required: false
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: market-keeper
   cancel-in-progress: false
 
 jobs:
+  chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Queue the next keeper run (it starts the moment this one ends)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          short=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow market-keeper.yml --limit 20 \
+            --json status,conclusion,startedAt,updatedAt \
+            --jq '[.[] | select(.status == "completed" and .conclusion != "cancelled" and .conclusion != "skipped")] | .[:3] | map((.updatedAt | fromdateiso8601) - (.startedAt | fromdateiso8601)) | map(select(. < 300)) | length') || short=0
+          if [ "${short:-0}" -ge 3 ]; then
+            echo "::warning::The last 3 keeper runs each ended within 5 minutes, so not queueing another (crash-loop guard). The :53 cron or MONITOR will restart it."
+            exit 0
+          fi
+          gh workflow run market-keeper.yml --repo "$GITHUB_REPOSITORY" --ref main -f until=max
+          echo "next keeper run queued (until=max)"
+
   scan-loop:
     runs-on: ubuntu-latest
     timeout-minutes: 355
     steps:
       - uses: actions/checkout@v7
       - name: "Refresh scan every 10 min until 16:10 ET (until=max: ~5h50m)"
+        env:
+          ATLAS_FIRE_URL: ${{ secrets.ATLAS_FIRE_URL }}
+          ATLAS_FIRE_TOKEN: ${{ secrets.ATLAS_FIRE_TOKEN }}
         run: |
           git config user.name 'trade-scan'
           git config user.email 'trade-scan@users.noreply.github.com'
           start=$(date +%s); stop_utc=$(TZ=America/New_York date -d '16:10' +%s)
-          [ "${{ inputs.until }}" = "max" ] && stop_utc=$(( start + 20700 ))
-          echo "mode=${{ inputs.until }} stop_utc=$stop_utc"
+          mode="${{ inputs.until }}"; [ -z "$mode" ] && mode=max
+          [ "$mode" = "max" ] && stop_utc=$(( start + 20700 ))
+          echo "mode=$mode stop_utc=$stop_utc"
           while [ "$(date +%s)" -lt "$stop_utc" ] && [ $(( $(date +%s) - start )) -lt 20700 ]; do
             t0=$(date +%s)
             if timeout 600 python3 -u trades/scan.py; then
@@ -49,6 +79,7 @@ jobs:
                 && git -c user.name=trade-scan -c user.email=trade-scan@users.noreply.github.com commit -qm "trade-scan $(head -1 scan.md | head -c 40) [skip ci]" \
                 && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" trade-data ) \
                 || echo "publish failed"
+              timeout 40 python3 trades/fastwake.py scan || echo "fastwake failed"
             else
               echo "scan failed"
             fi
@@ -61,11 +92,15 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: "Check stops every 1 min until 16:10 ET (until=max: ~5h50m)"
+        env:
+          ATLAS_FIRE_URL: ${{ secrets.ATLAS_FIRE_URL }}
+          ATLAS_FIRE_TOKEN: ${{ secrets.ATLAS_FIRE_TOKEN }}
         run: |
           git config user.name 'trade-watch'
           git config user.email 'trade-watch@users.noreply.github.com'
           start=$(date +%s); stop_utc=$(TZ=America/New_York date -d '16:10' +%s)
-          [ "${{ inputs.until }}" = "max" ] && stop_utc=$(( start + 20700 ))
+          mode="${{ inputs.until }}"; [ -z "$mode" ] && mode=max
+          [ "$mode" = "max" ] && stop_utc=$(( start + 20700 ))
           while [ "$(date +%s)" -lt "$stop_utc" ] && [ $(( $(date +%s) - start )) -lt 20700 ]; do
             git pull -q --rebase origin main || true
             timeout 50 python3 trades/check.py || echo "check failed"
@@ -74,5 +109,6 @@ jobs:
               git commit -qm "trade-watch: $(head -1 trades/status.txt) [skip ci]"
               for i in 1 2 3; do git push -q origin HEAD:main && break || { git pull -q --rebase origin main; sleep 3; }; done
             fi
+            timeout 40 python3 trades/fastwake.py watch || echo "fastwake failed"
             sleep 60
           done
