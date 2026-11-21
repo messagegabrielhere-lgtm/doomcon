@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-21T13:42:07.407Z",
+  "generated_at": "2026-11-21T14:37:21.783Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -154,17 +154,21 @@
       "outlet": "reuters.com",
       "outlets": [
         "ibtimes.sg",
+        "nytimes.com",
         "wsj.com"
       ],
       "tier1_outlets": [
+        "nytimes.com",
         "wsj.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "gnews-ai",
+        "nyt-tech",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-11-21T10:30:00.000Z",
@@ -174,9 +178,11 @@
       "breaking_at": "2026-11-21T09:19:21.883Z",
       "item_ids": [
         "02655ab9edd4651b",
+        "09bdef44448c12d6",
         "0d6c363da289f28f",
         "12bec60742797437",
         "1671c78b1c59b841",
+        "1809be91ad1b51bd",
         "1e59dec8e8e22c03",
         "1eff7115246511a4",
         "222a4ccbcc2e285e",
@@ -189,8 +195,10 @@
         "6d089e58b9c7aeb1",
         "7dbabb61947b542d",
         "8268d5c023356cbc",
+        "84669b04361855c5",
         "95b947692cb60a19",
         "9a4814296a73e616",
+        "9f0c2cadaa6848d8",
         "b05b855ed57c7289",
         "b82f306271e85c99",
         "bc6cd0668a9d5bb9",
@@ -200,7 +208,8 @@
         "dc4a495c71734f3c",
         "ed831f9adc7842e4",
         "efb3a76da7930f9d",
-        "fb88ff75a2aab3eb"
+        "fb88ff75a2aab3eb",
+        "fe06c633adbc1f3b"
       ],
       "sightings": [
         {
@@ -222,9 +231,41 @@
         {
           "source": "wires-ai",
           "outlet": "wsj.com",
+          "title": "Jensen Huang Called Her ‘a Deer in the Headlights.’ Now She Runs Nvidia.",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb1otRlRSSXRmek1yNmFSRkJrVU4xM1RESXBrUWZXOGR2SUhXRUNUTHZQUlFmU2RTTmRHZkR4dUtPTHBJMGFGYnFZUUlzTlROWWtEbmZZdGo2U2ZaSUNGTkp0SmJEQkhBVnJGanJtMm43TGlaMGs2V3NfWlpxSkFaQl9kZkNyWDRGSHBKb1lYelhhQXZLNEk1MmJwT2R6YUM5QndFelQ1SVBmdw?oc=5",
+          "published_at": "2026-11-21T12:42:31.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
           "title": "Uber Co-Founder Kalanick Teases Protest at Nvidia as Calls for Huang’s Return Continue",
           "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOVVhwbzh4allnMUt5ZzRaR3JZbXlqeU9tY3lIT19fSXA5QW1GTk0tcDVacHg0S05XdkpESUJ2VGpnQnpSWG4wQ2FGTTZRZEZoVE9oT0hYSUFzUmNzQk9MaDZRSjRZdmctZ195WlYwX0g1bjQ5MmcwWGFReC1NbE45MnExanpxM2VCc1Q0ZUNjcGZON0MweExxSlZJMFQ1NGNVa1RodUxGRk9wNWNxSUMxQmRqVzRPd2w0a1lvRUZJNA?oc=5",
           "published_at": "2026-11-21T13:04:52.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
+          "title": "Exclusive | SEC Is Probing Nvidia Amid Departure of CEO Jensen Huang",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQbjl2b0tzT1ROT2plV1p5RHhQd3hXOEJKRFhOZ1ItZExOQV9oVGkzTU9tcEEyTXhjNHRKQVExRTNRdEtlY24zUFhmS0h0c21FUVVrVVh0NGF2SXFmdm1wcmVRLUlCcG5CMGRIZklSdVBkVElkS3lwRF9LaGg4YzU5b0dsZXlveWxSNzhGYzJlZmRSRkhvUWZRTHB3?oc=5",
+          "published_at": "2026-11-21T13:55:10.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
+          "title": "Jensen Huang Breaks Silence, Signals Willingness to Return as Nvidia CEO",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5QczVTbUQzdjZ0WHN0QjYwRXJidGl2YmJzeFVVOGhEV0FoZHp3QkJ1dng1REtUS21Qa2lYSGdUejlhbGtfNzlQT1V6Zm45NDltc2hKeEowZ3NtcHdsaUNvN2ttTTJXWUgzNkF3SGZUUjdFX1FiRHc?oc=5",
+          "published_at": "2026-11-21T14:29:16.000Z",
+          "tier1": true
+        },
+        {
+          "source": "nyt-tech",
+          "outlet": "nytimes.com",
+          "title": "What Nvidia’s Interim CEO, Colette Kress, Said to Employees After Jensen Huang’s Resignation",
+          "url": "https://nytimes.com/2026/11/18/technology/nvidia-jensen-huang-affair-colette-kress.html",
+          "published_at": "2026-11-21T14:31:30.000Z",
           "tier1": true
         }
       ],
@@ -292,27 +333,28 @@
       "outlet": "theguardian.com",
       "outlets": [
         "aa.com.tr",
-        "aljazeera.com",
-        "apnews.com",
+        "cambodianess.com",
         "channelnewsasia.com",
         "democrata.es",
         "dig.watch",
+        "einpresswire.com",
+        "forklog.com",
         "kathmandupost.com",
         "khaama.com",
-        "modernghana.com",
-        "nacionale.com",
+        "kuwaittimes.com",
+        "npr.org",
+        "nytimes.com",
         "operativmm.az",
         "ratopati.com",
         "startupfortune.com",
         "superpowerdaily.com",
-        "swissinfo.ch",
         "theguardian.com"
       ],
       "tier1_outlets": [
-        "apnews.com",
+        "nytimes.com",
         "theguardian.com"
       ],
-      "corroboration": 16,
+      "corroboration": 17,
       "sources": [
         "guardian-ai",
         "wires-ai"
@@ -321,92 +363,40 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-21T08:22:51.360Z",
+      "earliest_published_at": "2026-11-21T10:28:13.000Z",
       "first_seen_at": "2026-11-21T06:49:19.314Z",
       "latency_s": 0,
+      "clock_skew": true,
       "breaking_at": "2026-11-21T07:38:53.509Z",
       "item_ids": [
-        "0010fa4dd04f42dd",
+        "0153310339b4ebc0",
+        "04ab9a2cdda0a75b",
         "0a745224a57aff68",
-        "2c69e858e87225c7",
+        "18dfbcc124462554",
         "47746de03c9497ca",
         "509b6f5224f9683d",
+        "5a7817b15e0da6d1",
         "615d43e82a512c31",
-        "6bced54b815a9c77",
+        "7174763f8322c422",
         "719a9e01ece1cd04",
         "71b4ce3f63e6fa28",
+        "7760e63658fddeb7",
+        "9516b3c5216691a4",
         "99276a3a77896e41",
         "9cabc6353718f452",
-        "a241f598597ed95c",
         "ab111e6b9d1903d8",
         "acb3031615995827",
+        "ba748d5db688a113",
         "bbe29f0cbab46136",
-        "d6cf44f53b2874e6",
         "ffd595b52da024ae"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "apnews.com",
-          "title": "Nations at UN talks on AI killer robots agree to more talks but no firm commitment to rein them in",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQY3JlX1Q4VXpOM1lnZ2s3aUdnSmxhOExuMl9PUlVwSUpZclY1R3RSb04wdzljcmNaQzJoOENYYmxCQ2tLaXpma2RhQ3hHeWdwYURDN2ZBaGxYT0k5MkEyVDFubm5GX2FfYWVsd2Q0VkQwTWh6X2x0SF9qZS1kWW8za2Nod0I2QV9DQlVsSHpjRnhRN3ZaUWNjb1dpRHYzdw?oc=5",
-          "published_at": "2026-11-21T08:22:51.360Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "nacionale.com",
-          "title": "Are killer robots being banned? No: UN talks end with a plan to draft rules by 2028, binding or not",
-          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPdDNpVy1uR3R4TVowTHBjQTlaZTdqczFRcnVfOXdETThZSG9ZUkJfc0o3cGhRRm95UGRZYUJaQzhibnhvODRpakxWOTdEcGtVakxWNkhKTjZzeElXbDR0ci1URzJSV2NlU3QwNFpLSEdZeVBGODd5U2hDbmZ5NjY4bERlbEZWbjB0TTNtRXRWZmNHbFAyRU5hbHFKSFBKcnlZd1JLa0lpaE1CWE1NQ240REhmSlU0RTRqWXc?oc=5",
-          "published_at": "2026-11-21T09:50:02.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "modernghana.com",
-          "title": "Nations agree to talks on regulating 'killer robots' by 2028",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPcWI5ZXpLaHMtMUFPbDJPQUZvRlFqNFZaQVo3RXdyQTFjeXlKMW81a2EwOE5uckhMUFBqLV9XSVc4RnlBcVlianU4a0JWVHhKWG5LV2tvY3QwSnpfQ2NMR1dYTFktc2RjVWl2dHRMMEtCWS0xeGRkU1RRV0RSS2NGOTJ1S3k4Qkh6ckx3TjMzODJlV3BFOUcyVE530gGaAUFVX3lxTE9xYjllektocy0xQU9sMk9BRm9GUWo0VlpBWjdFd3JBMWN5eUoxbzVrYTA4Tm5ySExQUGotX1dJVzhGeUFxWWJqdThrQlZUeEpYbktXa29jdDBKel9DY0xHV1hMWS1zZGNVaXZ0dEwwS0JZLTF4ZGRTVFFXRFJLY0Y5MnVLeThCSHpyTHdOMzM4MmVXcEU5RzJUTnc?oc=5",
-          "published_at": "2026-11-21T10:08:00.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "nacionale.com",
-          "title": "AI weapons can kill without human orders as countries fail to agree on limits",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbUllZGgzRDBuTTdhYy1nRDRWMXhXTTFRSGVPN0VMVmJMSEtxQ2N1ekp4dF9SaFkxcy1uTWdpUGptNjFTTEsxN3dNNjR5amN3Z0FVZmhfSkNzWUdKZ25HaXEweFYwRnk2RFJuNmNUbDJ6Y0YxSVByeGM0dmtRaXpheFpOZGtBUGxTMmxRazdwMFNBMkU0Qk9IbURkb19ZUHhZUE9SQW5HYXhWcTdsMEhsbTVn?oc=5",
-          "published_at": "2026-11-21T10:14:34.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "swissinfo.ch",
-          "title": "Geneva talks on autonomous weapons end with minimal consensus",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQYUVRSVVVenZpOXA5SjV5T2lNLVJxOEdnLWZ3VW9Td0VZVHRfQV9WUzRPdlA1SHpxUVN6cENnMkM5YWN5SFJxS3FuOTMzV3NxbTl5RE9CRlhrNE9SVUNadmVvNU5YRS1SeXBpUXYwYm1WTkM0ekFQUEl6bkl4MDNpa0hfUEFmclNadlpHYjd6ZUJzeXU3T3BNa2poSnRTa1NfcU9OYjY0b1N3aGM3YTN5QlJXOVpDSkZB?oc=5",
-          "published_at": "2026-11-21T10:20:39.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "aljazeera.com",
-          "title": "Nations agree to ‘elaborate’ on rules for AI-run ‘killer robots’ by 2028",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQQzJ0OE0tX0tDVVlSVjdCRmF6S0tEVXdmLVN2QTdFVGJiOGsza29SUGlUaHNrTGYyUGZqdlBSaDhBMUJTR1ZaZjFHVlhqRFdOZGEwMW5MUVBsZTdHNkV1ZmpNdXBiRi1CVHhFX0VMbS1OYWcxRmctN2NDUkZHS2ZxTWpWZG55VzlKQzloUEZnQ0tFWk1GWUlXdy1nQVNPZjFjVFpvb0c1bHM4SlA5S29QbEt2dXFvQdIBtgFBVV95cUxQQzJ0OE0tX0tDVVlSVjdCRmF6S0tEVXdmLVN2QTdFVGJiOGsza29SUGlUaHNrTGYyUGZqdlBSaDhBMUJTR1ZaZjFHVlhqRFdOZGEwMW5MUVBsZTdHNkV1ZmpNdXBiRi1CVHhFX0VMbS1OYWcxRmctN2NDUkZHS2ZxTWpWZG55VzlKQzloUEZnQ0tFWk1GWUlXdy1nQVNPZjFjVFpvb0c1bHM4SlA5S29QbEt2dXFvQQ?oc=5",
-          "published_at": "2026-11-21T10:27:30.000Z",
-          "tier1": false
-        },
         {
           "source": "wires-ai",
           "outlet": "khaama.com",
           "title": "UN Talks on Killer Robots End Without Binding Agreement",
           "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5nMGxEVnJrd0Vpd0ZTbW1FbGEySWNORWVMWnRFWXRobmJhWk5oTWlXY2ZfU1ZReVhURW1JeFFwX2JHd0p5SS1VeVdyZG1ZLWpWanE1OFc3eWZIazNXSjQ2eFowdzlnd0ZWcHZOTURTRzFfMENyempWYg?oc=5",
           "published_at": "2026-11-21T10:28:13.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "aljazeera.com",
-          "title": "Nations agree to ‘elaborate’ on rules for AI-run ‘killer robots’ by 2028",
-          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOdHkxWkFJUEcwN0tRWHJ2YzRESThuZG5QeWx6WmxsTG8xZU1UWGoyU09xTWFKOEMtemJUZVUwbF9vQW84VTR6eDRhQ1o3Q3g3ZXVXakRPVEtEQzdLVHQ0RDlKRzhNdERneEoybEh3VDBBZGJHVUtZY2hGbktrRjhPenJuYnAwRC1Ea054bVFRdS1Tb0pnaUpFWnUySm5GMXBJQmVKdUtZelJtWFZuUTVOVNIBtgFBVV95cUxQQzJ0OE0tX0tDVVlSVjdCRmF6S0tEVXdmLVN2QTdFVGJiOGsza29SUGlUaHNrTGYyUGZqdlBSaDhBMUJTR1ZaZjFHVlhqRFdOZGEwMW5MUVBsZTdHNkV1ZmpNdXBiRi1CVHhFX0VMbS1OYWcxRmctN2NDUkZHS2ZxTWpWZG55VzlKQzloUEZnQ0tFWk1GWUlXdy1nQVNPZjFjVFpvb0c1bHM4SlA5S29QbEt2dXFvQQ?oc=5",
-          "published_at": "2026-11-21T10:34:40.000Z",
           "tier1": false
         },
         {
@@ -439,6 +429,62 @@
           "title": "128 UN Member States Agree to Advance International Treaty Process for Regulating Lethal Autonomous Weapons",
           "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOMVU1dURHOG1NS2tfYjZUZXdoQXc5VFpTX0xWSkswSTBOUEduR3h0RENLMldJanE1Zm1udm1HTFRMbXNUQ05UdGNJT1ctS2NVQTV2VC05Wms3Q212MjR0bTRvaXlFQ0c2RHFRRUlERVI1MmQ0Wkoza3NDazhWMUlZRUdRcDZvR1Z0ZGhRZEtIUGxSTWh3S3NPT1NB?oc=5",
           "published_at": "2026-11-21T11:24:41.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "forklog.com",
+          "title": "UN Conference Discusses Autonomous Weapons Regulations",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQekpNbTlEVFV5YU8xdTRIakxVdklUaFdVQ1pEdjliRVdLa016WUhHMHdURllsMXJlZVZ2dGdVOTE1YjlyOWN4NkI3M3pJeHFYYzRCOG92REtweXRNczEydVBrekUzbzE0V0x0U2R4NzBvRjRhUzdFcEdNUkdWVHM5RlFTVEY?oc=5",
+          "published_at": "2026-11-21T11:52:49.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "operativmm.az",
+          "title": "UN talks on autonomous weapons extended until 2028",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQUzBORVN0LTlyaWJvRUZlLWNYSjV2NVluMTBETU91ajNlbmRhYjY2UEZRcVJ5ZHJKM2kwYTVBbjl4clczdmtSNTJkVF9qamZmbXZiTTJxWVNDOVpuSzVMR3dWLW10Z2x2RkE4ZzhRZFJBMXZRa3ZGYmdJRk5pbjAyMFAyNXBEZ19Dam5CU3E1OA?oc=5",
+          "published_at": "2026-11-21T11:55:13.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "superpowerdaily.com",
+          "title": "States agree on 2028 autonomous-weapons deadline without committing to binding rules",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxON3gtSWUzQ3U5LTRiMnZYalNhYm9IbjYwblpleEc0RHJSbC1DOWFVTWFqdzVIZVg3XzVOMHg5SlpiUE9oUlVxZnV4ZFUyOW9NZW9RQTFma2Qxbi1sSjJYZzZySnpUV0FyaV8zbjcyVnFJODItWWJPVWhYS2tUWXN1cnZZMnlZT01oZTh6MXl1ZnU3S1hxZnJEbHhzT09DREd6RW9kcTFTYWNYNmI1aFNERWpNR2tZS0VBUWc?oc=5",
+          "published_at": "2026-11-21T11:58:31.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "kuwaittimes.com",
+          "title": "Countries agree to work toward ‘killer robots’ pact",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNR2dzcVBVYWFPcV9rTGk1NnlKSTJXMkhOQXdyWEx3UUhqWDJRVEdMbHZRb1dJM3JvaV9XS3h4TlJkVTdJdUFQN1BXZmFlMWdnLVowTTRwcm5Yekt6WFRwcDJUQldOZjhxQURPRFM5RTdONVJDVlltUGtEWWV4cEEwRmhiSVZENEMtRG5vbXBtU3NPOC0zUzVSWkV30gGeAUFVX3lxTFBoaFRlRU9OMXJVWG43NXpfMTd0NmZmV1UyMGJ6aVNpSV9FMUxkd25GTXZyRGdfUVFOU1JGQ280YUZqT0s4QlhZVGg5ZnBPSC1kdU1EUld4N1h5QWowbGxWM3BaeGJKX21EMWM0Yzd6dnpoWC1wQVpqbDJuNkVpMjExS3lkWG1BQnZ5bFJoOVJOTWlpejN5ajRfdEVtUEVR?oc=5",
+          "published_at": "2026-11-21T12:13:04.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "channelnewsasia.com",
+          "title": "AI arms safety: UN conference to regulate autonomous weapons ends with watered-down deal",
+          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPTmoxQzdzX3Rfd0hGSkhFOEJfWEtGV2tPVmlMQWxTUnRmVkdyc0VEZl9jRThRazNOc1JKekM4VlhoSzlFTGk4dHM1emg4MVl2ekhIaGRoSVpsaWV0cU1xLVVCaEVVcnBkaDhla1hLZl83NjFDUy05cUlJMThDU1FuemdWbU8weUhxSW9sMllySkZELXphTV9WWENmVkVuNkxPay1tb3ZLckpGUFJtYVdybnZDdjBEY0czMmpyQnloT1RYQlU?oc=5",
+          "published_at": "2026-11-21T12:34:22.000Z",
+          "tier1": false
+        },
+        {
+          "source": "guardian-ai",
+          "outlet": "theguardian.com",
+          "title": "International talks on controlling use of autonomous weapons collapse",
+          "url": "https://theguardian.com/technology/2026/nov/21/international-talks-control-ai-autonomous-weapons-collapse",
+          "published_at": "2026-11-21T13:15:29.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "einpresswire.com",
+          "title": "ICRC renews urgent call for legally binding rules on autonomous weapons after failure to launch negotiations",
+          "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxOaDZBNXNMUkVfdUloeUdnOFpFMXo0cmVQYmRra3FMbW14Qm5iN05MN25USVlIMHBfbVM3eC1xUzdweTMwc0lQQjliWmh6bjRBNFQzUjRFUFJTOHRzTlkzdGFncWw2Q0J5RzMtVFpNcTJEdEFjWjBYdTVXcDNwVk1RMjktRGVHTEJXbHNyVXRMVlY0d2w5d3pNMTRZaG83R21WWUFPeGFqZXdYWWlGaENqZnpfOUdYWGJnV3BnRDlBSHhNVFZ1V0Q2NVZuTzMwdWFpQWxYaVlMcU9abTZuNUUyV24yb01IVUlsYV9n?oc=5",
+          "published_at": "2026-11-21T13:16:00.000Z",
           "tier1": false
         }
       ],
@@ -926,13 +972,18 @@
         "benzinga.com",
         "biggo.com",
         "bloomberg.com",
+        "businessinsider.com",
         "cnbc.com",
         "cryptobriefing.com",
-        "freep.com",
+        "fool.com",
         "imdb.com",
+        "maaal.com",
         "memeburn.com",
-        "scrippsnews.com",
+        "nacionale.com",
+        "sfstandard.com",
+        "theglobeandmail.com",
         "therealdeal.com",
+        "unite.ai",
         "wsj.com"
       ],
       "tier1_outlets": [
@@ -941,7 +992,7 @@
         "cnbc.com",
         "wsj.com"
       ],
-      "corroboration": 12,
+      "corroboration": 17,
       "sources": [
         "gnews-ai",
         "hn-fresh-ai",
@@ -966,7 +1017,6 @@
         "1f0f361a116fe9e3",
         "27b5e7377e52d527",
         "288a7346dc293145",
-        "28ad45f6296f450f",
         "2a523aee8f729e3b",
         "2ac4b6d0f4d6b5ad",
         "2c937e985fce20d7",
@@ -978,8 +1028,8 @@
         "397bbe556666a72f",
         "3ab827b560f861e5",
         "3b293dadbb0872ac",
-        "3ec98f30f481f0b9",
         "401e935a3cef7963",
+        "442db1db60d5d81c",
         "4618694f6daf05db",
         "464744fb4a0deaa2",
         "4775d7241fd99a38",
@@ -989,7 +1039,7 @@
         "4d4c61d7192354d0",
         "4dac533cc02bf013",
         "513e85bbb0d51614",
-        "519ae28c13048169",
+        "514ec5176883cd53",
         "56f5de5b11aedbd4",
         "5b3f9aa8f171a0f5",
         "615a36a313e3ab4a",
@@ -1000,9 +1050,11 @@
         "68ddb63e63875391",
         "694eda7767094817",
         "6997b35bd2a94b4f",
+        "6ba35217bc445bc8",
         "6db12e7d3e6f36e3",
         "6f99906517bf675d",
         "71930b88f561be81",
+        "72a3554f66e7f582",
         "74b46c8b5e6ae130",
         "758703cc360e15cb",
         "76e1a6f2adef1331",
@@ -1017,12 +1069,10 @@
         "88bc456f43d8dba5",
         "8faabd8b09965278",
         "91c85368a78d9cd8",
-        "9432a23d373c36e9",
         "9736b65e9c25efef",
         "9787310f00282b24",
         "9a42000e515b8ff4",
         "9b72b8c92467cad2",
-        "9be8769703ba646d",
         "9c29c540a23f65b6",
         "9edd8559b62a7ed1",
         "a0db95a208c59b50",
@@ -1041,33 +1091,34 @@
         "c5543bd2a6ddcbea",
         "c5d873cd65af1330",
         "c66cef7c883307b6",
-        "c89c1d13cc2c45d6",
         "c99ad6a0bbe5d8d6",
         "ca0a4de0d3bf459d",
         "ca36e479fb0600c7",
         "ca5d47f6d31f9f2a",
-        "cc25b3f2b33e352c",
         "d2897ae864ce6b39",
         "d52b712d80be67f1",
+        "d81b22bbab768264",
         "dbbfc3376ba3e270",
         "dd3d440fcaf749b2",
+        "dd4140b08201d0c7",
         "dd6e732a218d28ec",
         "e1f01818d189827d",
         "e2e1d96158839dc6",
         "e32cbd51ef17e568",
         "e4ada5838b33450c",
-        "e52d3b012eb40c4e",
         "e621a2a9dfa1d8d9",
         "e713f7c26de72e44",
         "e86d037ec9726f1b",
         "e9a2c573bc3e70d2",
         "eb5e342f82e24c7d",
-        "eb8844634609b350",
+        "ef039fa198e1142c",
         "f425f84f1f6433d5",
         "f4aa31ef35818f8a",
         "f5e8fba56d68a750",
         "f67a307a3b3b9c51",
+        "f7b0b17567182d87",
         "f854a6f90237bb25",
+        "f8965c220e0d8d75",
         "f8e93d17bb5958e6",
         "fb41d16d12558364",
         "ffa3d1c1620e9a22",
@@ -1093,14 +1144,6 @@
         {
           "source": "wires-ai",
           "outlet": "wsj.com",
-          "title": "Anthropic’s IPO Is a Win for Venture. Its Success Could Reshape the Industry.",
-          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPSTFtNllCZ185aGplLW0zamNtUkJpdzBTaGJjeWcwYkctQWNQOEFVOGdtTFk1WFVCTlNZdnNvOU9pOV8yZU81Y1IzNE9nWm9FVDBJWV9CMHBfUFVpcmlwU1poVUZmUzhiLTZnTTJxTC1sRHRsOFFFeG5maHBFRHFoNHZSUlREaEpGSWFHQ1AxMWp5Ti1TNTZDdzBrZ3JyQlVaRTZWLXhaX1EwRmFXRXBuQ2VOS0RnMENrcUJPR04ydFQ?oc=5",
-          "published_at": "2026-11-21T09:36:58.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "wsj.com",
           "title": "Anthropic Goes Public With $1.8T Valuation: How Did It Happen, So Fast?",
           "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQT0thM1lGczA3MmRpMVo0YkFGUHZ0X2RBbmNGdVI0QnZIdGwxUFZ5MC1rLTVISUR6dUtuU0NnUmVEUHdkdDNleDNqWXMxbjBXSjJ3ZTF0Y0JzTXZFb2ZNS2ZwZ25uYkhJS1V2OExkYTlicFVJTThfbVJCMEppbEhOTkplNV94VzNZUExJZU5IeEZGTFlCLVhUcVJqQmEtcFdzRHFaR0ZEX0F2eGw3bndZdEN6ejY0RksyYW9FR0c1R1ZnQmotcFl6eQ?oc=5",
           "published_at": "2026-11-21T10:53:45.000Z",
@@ -1113,22 +1156,6 @@
           "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQVzRTSkx2c3VNQjI0WXZFY096NHNrWVRNV1dlTDZiSXdCeVZPVTgtWDNKbjdLNkFYeUoxdFYtMkJNN2kxUnpiZlZkMXg3aUkzRkJpcE9sTnEzUUpGMTZpSlg1UnJidzdCdk95eFdrdEtwWUd0XzAyaDhjYk84Wmt3VnpzZFVUbExjUzRfRkN4WUt0UjVkV3doa0V2VWlhVGFybzZEdUZrVVgzazdlQzNBTWJoRzRkS1F0SFdGTzdYNVhJZFMyOURNczdJbWU?oc=5",
           "published_at": "2026-11-21T11:00:00.000Z",
           "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "freep.com",
-          "title": "Nvidia longest losing streak since 2008; Anthropic record IPO fizzles",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNM2REdkZPTXQxdGJZY3VWYjZaMjk2MjRpUk9yMHoxM2JoZ3RsMXVFaUp6UjB2UlJrdy1ZY0VBSThQN1NLR21iZlhKSzVsbnN4endYTTZRUkVmX3JvYlVKYVM2RmNUTGJGbk9SLUNQTnBiQjlZMWdiTEh1ak5NbmNkRUh6VVdEd25FSlhNVHhpY3EySVdCcmRtUkUyMzRRRU9LWUxFMGZQeGF3cWJWeU9PNEhSNkdkVDBhQmFZ?oc=5",
-          "published_at": "2026-11-21T11:07:00.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "scrippsnews.com",
-          "title": "Anthropic begins trading as a $1.5 trillion company in the biggest IPO on record",
-          "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOdU9LaGlNaXRNT1pFbEFFeE5DekJHLVdKcDRaMkxJNnRSLWt2R3ZzUXUyS1FmUklNTno1Z3RFVGpCUUN4WnB3eUhTTXRRem9vNzUzWHVnQXhWU3dxdlJLTDJRdGJGQjZqc2paVUFVd3VYOTl3dFlIcXM5ZFpNRDgwREJreGc0S1hDVTdyTEZnX1ZiaFJZa0hwUTFFc1B0a0tpekNqLWtIYzhHRGI2bnF1NGtFWlIzckh1ZFBzUUFvVWp0OW9VTlZiQQ?oc=5",
-          "published_at": "2026-11-21T11:20:54.000Z",
-          "tier1": false
         },
         {
           "source": "wires-ai",
@@ -1169,6 +1196,30 @@
           "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNcGZTRVdJcGNQbEdjRlRQUnN1YjBzTXlaYzFDb0swSDlCNTVsLVo2SGtQTGxsUGxzVmE0SkFPbHB0dFBXbWhGQVZUdmFQZ21zeDBwcW5OSjJmOUtmQjB4U3lNVkptMzYybHpmR1hkTUZESVlQU1VtWFhsSzNGWUlmWHNUa3FCd0t6NjNFR0xkTzBxdjYySFFtSTRQbTFwTDd0TXlfVEY4dnZCNmxrVnZFWVlSR0U?oc=5",
           "published_at": "2026-11-21T13:00:00.000Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "therealdeal.com",
+          "title": "Anthropic’s IPO could flood NYC’s luxury market",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNS0FKVGVRemxJOXp2eEYyc1RaNFZkRjNQMGswY3JWZjVQYW9kMlVTQzltaWk4cTZRMFA4QUVpUXJFZ0tBS0s2UXFUQzVTWmZReUh2YUxJVkUyVzMtSlQ3RWUtRWl3cThhUDcyZzJ2UXBJX1JtTDFaZk1pUmJnRGhtMkxEQmhSRy1fanJjMVVwdmlPSEozMWVjV3BQTQ?oc=5",
+          "published_at": "2026-11-21T13:00:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "cnbc.com",
+          "title": "Anthropic’s record IPO collides with tech’s worst week on Wall Street since 2020",
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBuZ3QwZ1Qzd0FwWVhzOWhhbWZ5YWEzNTI0anpyemhZQXF6LVM1d202X3VSVGthTFNUaE13UlNfWUx5VkNhTEduOHctbWZtVlloME45dGFBMDA3OGpWdDhXdTUxNFVhSFpya21aMnpGVHHSAXZBVV95cUxORlNoeVVtbW1fLU1EY01EellhNHg0VldaY0Y5R3Y5enVEaTdZZTZENDJMWFNrblBqTEtORGZFRlZacjBwOWQ2ZXNjSF9KZFNsNkQ4WEtTallYdnVHMm5JRVBMYWl5bHhlb19QUzlIcUZOTXh2U1hB?oc=5",
+          "published_at": "2026-11-21T13:00:01.000Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "Watch Anthropic Makes Its Public Market Debut",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQOWNfY1g1dzFJMEFObWtxNHZQWm9LOEZ4ejhvMEljNk5oZkU0Z1ZfcHJhR2JuM0lQb3pjWXBtcVFKOU94XzZMQlFWbUdxOFlwOXB2N1FCc2U3ZjFTNHJjWnJadjNaZW9NS2VFOEdmNkM4TTF0VWJ2RmlQWG9jSmVyZVhOaGNmNzBjOFpWd1lkY1Bud2hQdFA5R2xB?oc=5",
+          "published_at": "2026-11-21T13:04:51.000Z",
+          "tier1": true
         }
       ],
       "live": true
@@ -1176,52 +1227,53 @@
     {
       "id": "b92a503216591",
       "title": "Treasury secretary says no further restrictions are needed for Nvidia chip exports to China",
-      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNWVNwbUpEZjJtY1NaOWc5Z1ZfYUo2QXJqdl9WVGhJVnFvajdCTGV5RFJwNzNQTFVSeENSNzdUQ2ctRjB5Sl9ybmJqb3FfZENLMEZkeFdYSUJMa1FSamFBS2pqTGpjQzAwWHBza2JHOXBzdmV2ZG1icEgzQXp1aW4zRDFLWnN1Rm1USW9zZ3I4V2NZZ05RN2tBa295b0I4c1VIME1OR3N0VXlZc0ZxOUcwb2lrOA?oc=5",
-      "source": "wires-ai",
+      "url": "https://bsky.app/profile/apnews.com/post/3n2tb6slzag2f",
+      "source": "bluesky-ai",
       "outlet": "apnews.com",
       "outlets": [
         "apnews.com",
-        "scmp.com"
+        "casrai.org"
       ],
       "tier1_outlets": [
-        "apnews.com",
-        "scmp.com"
+        "apnews.com"
       ],
       "corroboration": 2,
       "sources": [
-        "scmp-tech",
-        "wires-ai"
+        "bluesky-ai",
+        "gnews-ai"
       ],
       "rule": [
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-20T22:36:00.000Z",
+      "earliest_published_at": "2026-11-21T11:42:22.000Z",
       "first_seen_at": "2026-11-20T22:53:48.804Z",
-      "latency_s": 1069,
+      "latency_s": 0,
+      "clock_skew": true,
       "breaking_at": "2026-11-21T01:39:18.008Z",
       "item_ids": [
+        "129601333b501a87",
         "4613e2f75090bfad",
-        "7a3eebc2b1c5abf2"
+        "922dae2a58873a90"
       ],
       "sightings": [
         {
-          "source": "wires-ai",
-          "outlet": "apnews.com",
-          "title": "Treasury secretary says no further restrictions are needed for Nvidia chip exports to China",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNWVNwbUpEZjJtY1NaOWc5Z1ZfYUo2QXJqdl9WVGhJVnFvajdCTGV5RFJwNzNQTFVSeENSNzdUQ2ctRjB5Sl9ybmJqb3FfZENLMEZkeFdYSUJMa1FSamFBS2pqTGpjQzAwWHBza2JHOXBzdmV2ZG1icEgzQXp1aW4zRDFLWnN1Rm1USW9zZ3I4V2NZZ05RN2tBa295b0I4c1VIME1OR3N0VXlZc0ZxOUcwb2lrOA?oc=5",
-          "published_at": "2026-11-20T22:36:00.000Z",
-          "tier1": true
+          "source": "gnews-ai",
+          "outlet": "casrai.org",
+          "title": "US Holds Nvidia AI Chip Export Policy to China",
+          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOTU9kbDRaTDdIQmdCODdtbDl6b0M1eWltUUdPSTJBcHRXWi1NZ2V1dE5iZWhVU3liaGdsWkZsamJ1ZHZHYmxoLXlJZk12aElfRUdJNFl3RUFRLXZqamJ3Q3FQb05PYXl6SF9FX053NzZVVnJZcHJRVllvNjlLVm9OMDlxU3NqRWRVOGI3azZiZlJ4R0FFdmc?oc=5",
+          "published_at": "2026-11-21T11:42:22.000Z",
+          "tier1": false
         },
         {
-          "source": "scmp-tech",
-          "outlet": "scmp.com",
-          "title": "Nvidia faces further blow after shock US export permit data release: analysts",
-          "url": "https://scmp.com/tech/big-tech/article/3375287/nvidia-faces-further-blow-after-shock-us-export-permit-data-release-analysts",
-          "published_at": "2026-11-21T01:00:13.000Z",
+          "source": "bluesky-ai",
+          "outlet": "apnews.com",
+          "title": "Treasury secretary says no further restrictions are needed for Nvidia chip exports to China",
+          "url": "https://bsky.app/profile/apnews.com/post/3n2tb6slzag2f",
+          "published_at": "2026-11-21T14:00:45.000Z",
           "tier1": true
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "b1af84b7f9236",
@@ -1754,7 +1806,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "ba272990758ee",
