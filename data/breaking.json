@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-22T11:11:14.522Z",
+  "generated_at": "2026-11-22T11:56:10.125Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 6,
+  "live": 5,
   "fresh": null,
   "clusters": [
     {
@@ -58,18 +58,20 @@
       "outlet": "theguardian.com",
       "outlets": [
         "dailyindependent.com.pk",
+        "inkl.com",
         "theguardian.com",
         "wenewsenglish.com"
       ],
       "tier1_outlets": [
         "theguardian.com"
       ],
-      "corroboration": 3,
+      "corroboration": 4,
       "sources": [
         "guardian-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-11-22T07:49:12.053Z",
@@ -93,6 +95,14 @@
           "tier1": false
         },
         {
+          "source": "wires-ai",
+          "outlet": "inkl.com",
+          "title": "It will soon be too late to regulate use of autonomous weapons, warns Red Cross",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQTmhHSWkyejZyeVI1ajNvVXF2SkI4QU9uUV9DQk42VVVEN2JUajR5WGtUclczdzhlTGN0c2lMeHhHd0pRcmlVb1NWallsXzhiRzJxcFdkcFBjbkE3U2FEMFV6enBwZlIxUm1pYmpOc00tN2kwU0NiQkl1cldGZnFLUEEzaE1UNkZnWmFkVW0xTXA2QVhhT2x4SDBIU0lGMjdPYUdNVzllcw?oc=5",
+          "published_at": "2026-11-22T09:00:22.000Z",
+          "tier1": false
+        },
+        {
           "source": "guardian-ai",
           "outlet": "theguardian.com",
           "title": "It will soon be too late to regulate use of autonomous weapons, warns Red Cross",
@@ -102,19 +112,19 @@
         },
         {
           "source": "wires-ai",
-          "outlet": "theguardian.com",
-          "title": "It will soon be too late to regulate use of autonomous weapons, warns Red Cross",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNZzZTcWFJbUx5Wmt3ZWNyOGttaFlYOGw2M3NZQmI3cUwxUUhPRGdNbW1RV0Y2bkZtNUhROXpHRkxsVmNxalRHSTRONUdQX2RGZS1lTXB5aTlNdUU1LXgydVNsZGRzZ0Q4X3RJazE4V0NzX3VqbGtVUVlWODJ1QTFBOFk0ZzduaEJzbGkycWpIcU1UM2VISENUajBDZVpwRG9wWmRfeWlyRnBiV05jSEFQQWJxbGhpUQ?oc=5",
-          "published_at": "2026-11-22T09:01:00.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
           "outlet": "dailyindependent.com.pk",
           "title": "AJK Chief Justice Calls for Global Legislation on AI Use in Warfare",
           "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOelBFUFIwc0R2U1V2Z3puRGFkamJ6XzRreThJNVZONmNKVTJUdXh4OHQ3RHl0MmVNbGNEYnU2b3k5dmJVa29CM0VtRm15MTkyOVhtd3hCUTVOOW96cERzc2l2QkxhbktwQzZJVFNNUUlMZXc0YU1fX3laX3I3dm1PQmQ0WDVmcHpvRVFEWjY4SjBwRS1yMDNESUQxSWtMdmh2SnRiYjB5emNaajBMUFF1ejZBRlhldw?oc=5",
           "published_at": "2026-11-22T09:25:06.000Z",
           "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "theguardian.com",
+          "title": "It will soon be too late to regulate use of autonomous weapons, warns Red Cross | Weapons technology",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNZzZTcWFJbUx5Wmt3ZWNyOGttaFlYOGw2M3NZQmI3cUwxUUhPRGdNbW1RV0Y2bkZtNUhROXpHRkxsVmNxalRHSTRONUdQX2RGZS1lTXB5aTlNdUU1LXgydVNsZGRzZ0Q4X3RJazE4V0NzX3VqbGtVUVlWODJ1QTFBOFk0ZzduaEJzbGkycWpIcU1UM2VISENUajBDZVpwRG9wWmRfeWlyRnBiV05jSEFQQWJxbGhpUQ?oc=5",
+          "published_at": "2026-11-22T09:26:48.829Z",
+          "tier1": true
         }
       ],
       "live": true
@@ -127,38 +137,26 @@
       "outlet": "wsj.com",
       "outlets": [
         "fool.com",
-        "wsj.com",
         "yahoo.com"
       ],
-      "tier1_outlets": [
-        "wsj.com"
-      ],
-      "corroboration": 3,
+      "tier1_outlets": [],
+      "corroboration": 2,
       "sources": [
-        "gnews-ai",
-        "wires-ai"
+        "gnews-ai"
       ],
       "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
+        "two outlets within 20 min"
       ],
-      "earliest_published_at": "2026-11-22T05:16:35.000Z",
+      "earliest_published_at": "2026-11-22T09:14:02.000Z",
       "first_seen_at": "2026-11-22T06:16:13.696Z",
-      "latency_s": 3579,
+      "latency_s": 0,
+      "clock_skew": true,
       "breaking_at": "2026-11-22T09:26:48.829Z",
       "item_ids": [
         "4127e4b6a2f3314e",
         "91a1030aefae2e1b"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "wsj.com",
-          "title": "European Chip Stocks Rise After Strong Nvidia Results",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOMldXbGg0UF9xaEtzeVRMMEltSExuOWxmT2tkQmptWlRuRFJMbUNvM0pNY1dmcE9ZT21ESUFUTWpvN3I3V2tBZkNmZ0VJc1ROd3RGZC1TSEc2Tlkydk82MTJnRU9PYVZoS1R5WUlyV0xGVDJBd2hXQ1dYVFRINXNYSUtTRzRVQllmTEE?oc=5",
-          "published_at": "2026-11-22T05:16:35.000Z",
-          "tier1": true
-        },
         {
           "source": "gnews-ai",
           "outlet": "fool.com",
@@ -633,19 +631,22 @@
     },
     {
       "id": "b534d097c693b",
-      "title": "Anthropic's IPO bank closed position meant to stabilize stock, removing source of support",
-      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQSVpRUnlwbWF4cmpjRkg1N1ZnRU9Dc1ZIRFFQU3pyMHNac0tJSXlINUg5YUdLRl9mMUEzQTRkZTdQWHJwRkhJbmYyWV9VYkt4dDVTSGRib3VzbVVENWd1WWllZkhzR2E5SGhrNm5xOUM1QzBfdFFqZlNvNmJDUHFNeU1IdnRMclVkRmdsNTRxTWVZY0hQYWJHN05EZ2xxZTFORDZ0V1g2eWZEWnBGRnVEVVNROURGMVFCTzkwbA?oc=5",
-      "source": "wires-ai",
+      "title": "EXCLUSIVE: Like SpaceX, Anthropic ran an unusual IPO process, chafing some bankers",
+      "url": "https://bsky.app/profile/reuters.com/post/3n2vhtqn7j42h",
+      "source": "bluesky-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "business-standard.com",
+        "cryptobriefing.com",
         "dailyvoa.com",
-        "dealroom.co",
+        "finimize.com",
+        "fourweekmba.com",
         "ft.com",
         "globalbankingandfinance.com",
         "livemint.com",
         "reuters.com",
+        "tradersunion.com",
         "tradingkey.com",
+        "unite.ai",
         "wsj.com",
         "yahoo.com"
       ],
@@ -654,7 +655,7 @@
         "reuters.com",
         "wsj.com"
       ],
-      "corroboration": 10,
+      "corroboration": 13,
       "sources": [
         "bluesky-ai",
         "gnews-ai",
@@ -664,7 +665,7 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-22T08:32:01.000Z",
+      "earliest_published_at": "2026-11-22T08:43:42.566Z",
       "first_seen_at": "2026-11-19T09:27:15.856Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -676,6 +677,7 @@
         "1f0f361a116fe9e3",
         "27acdb66a0fa2355",
         "27b5e7377e52d527",
+        "288a7346dc293145",
         "2a4a0fba3101c104",
         "2a523aee8f729e3b",
         "2ac4b6d0f4d6b5ad",
@@ -691,9 +693,11 @@
         "46561268433f35a7",
         "4775d7241fd99a38",
         "47b26b5b0c377729",
+        "4cccbff3737345d4",
         "4d19481a18698750",
         "4e8b2fd5aac71927",
         "56f5de5b11aedbd4",
+        "5b3a24456a7d1d62",
         "5b3f9aa8f171a0f5",
         "615a36a313e3ab4a",
         "628597019fb31713",
@@ -711,7 +715,6 @@
         "845d385e0bf0d88b",
         "87e96b00701bbaca",
         "88bc456f43d8dba5",
-        "91775a099c9052c2",
         "91c85368a78d9cd8",
         "9a42000e515b8ff4",
         "9b72b8c92467cad2",
@@ -725,48 +728,36 @@
         "a969375b2de40d64",
         "ad84405834598899",
         "b1431f227bd77df3",
+        "b3fc30bf1fb56ac8",
         "b78f5b90a6e12283",
         "b828ef9334f96bb2",
+        "bece41038d97c69d",
         "c4ad3a04752f3121",
         "c5191a90c01f7be0",
         "c5d873cd65af1330",
         "c66cef7c883307b6",
         "ca0a4de0d3bf459d",
         "ca5d47f6d31f9f2a",
-        "cd9d7d54fc12c7d5",
         "d2897ae864ce6b39",
         "dac080abfbb8f4a1",
         "dd6e732a218d28ec",
         "e1f01818d189827d",
         "e32cbd51ef17e568",
+        "e336b1d44a09fd62",
         "e621a2a9dfa1d8d9",
         "e713f7c26de72e44",
+        "f1c4b415d5bb616c",
         "f425f84f1f6433d5",
         "f5e8fba56d68a750",
         "f67a307a3b3b9c51",
         "f854a6f90237bb25",
         "f8e93d17bb5958e6",
         "fb41d16d12558364",
+        "fde6d609933d7adf",
         "ffa3d1c1620e9a22",
         "ffe5471d0a69b0c0"
       ],
       "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "dealroom.co",
-          "title": "Noah Smith and Steve Rattner on Anthropic's IPO: the largest wealth-creation event in a generation, and what it means for inequality",
-          "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxQRnBUTHBCRFZ2MnVJOWFuVXJzcWZpSVNlUzFBTXRCQnJmT0htbF9tNWFxeVh0WW52a3ZQeTMxVEZfZjc4MUlQSVVLVkFxN0dkZm16WmdGVmpMLWE4eXlMTHZqcWZsNEp2akV3VW8wUUZiNF9nRHBYQVJhX19zbmJZcEtoY2RzMHdRV21UUDJfRE40SURPXzJ1Y1ZlT0plWnk2MWlseW1BZXFMWWI3RjJxNGduckJzT09FMG5BT3M4N1MtZmlHX2RXd1FJVE1TbElYX2JINWN3VzYzdUZIRmtNdG1laGFFY3Zhdjg0Y1dRczBTZWNZTkpR?oc=5",
-          "published_at": "2026-11-22T08:32:01.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "business-standard.com",
-          "title": "Anthropic stock slides 8.5%, but is its AI risk warning the reason?",
-          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQaktTb0V1SzMxSWRuSXFGOXdfMFNYOUdQSDJ6LVZLWHdhaDlLUXVUdnNYcFI4V3pLcm1oUl9QQ01DWUxvaGlEQ3lRNFhyMjVEcmQ4U0w0U3hMRnZSWi1US2pMdVM2V052YVFoV1RGY3VDNXE3ZjF5Vm9WYjRPRHI4NkFqU2c2djVJcXA3Ry1wMmxPcTJuUE5mUmQ2WUJKbk5YLVlCOXBwNTZ3SXB5RVFQZXpCYmVZUGR2NnFZbjNuNDU3YUQ5MTE2bGtCNmQ2R1JZaDF5WjFULXhLNWRpT0diek9PR1dDSXRnSVJYVNIB8gFBVV95cUxNZWRTQlB6V243VUVvZ0F2dVh6NWFHQlVWVVpwTjh1QVBMWGduMmJwY3k1OWhPeEk1UmpRYmVDNDA4NjZzeDRsdkNwajZra2FGMmJ5TGdOZFJBYkZUeURaZFZjSkFHQm8yaXlOSVJ2dURhVkVvM2ZRdFg0Uk1MdXA2S1pLNTJLU3VUQUdnMFY5T1BRbzNLUEd2R0hFZWhVMFRSa3lUOEIwdzFRSjZjWmpRbmx6VnhydWc1MG1ZQlozTEVBWkduaHE0OVc2U1VOQmJON0I3alFuSmMyZkktaU1HM2lvbVZuV1lVT1dXM19YVldjZw?oc=5",
-          "published_at": "2026-11-22T08:42:49.000Z",
-          "tier1": false
-        },
         {
           "source": "gnews-ai",
           "outlet": "tradingkey.com",
@@ -808,6 +799,14 @@
           "tier1": false
         },
         {
+          "source": "gnews-ai",
+          "outlet": "yahoo.com",
+          "title": "From Anthropic to Nvidia, Wall Street just had a bizarre, wild week",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPTTlnMTk2THBhREtONUtxbE43WnpsM0pVRllWY0Z1ZEplVDA1QXRtOUxlYXhHUnNEaTRDXzA3a0IxRUtJbkxMdlBXQ0s1MGgza0VEejF0ZjA1OEc5SkJ1WHMwaGFGak1FVURSYnd5STIybnB5MnJJdHdsSUtQUjlvdUpyMHRjTWdyTWQzRHRIdUNUOU00Y1Z4aGxNQ25QZmhfMlk1eVhmX2lXQXdDUzU4WlRHc0VWNHA4bnJZZ2NVQQ?oc=5",
+          "published_at": "2026-11-22T11:00:00.000Z",
+          "tier1": false
+        },
+        {
           "source": "wires-ai",
           "outlet": "ft.com",
           "title": "Did Anthropic and its bankers get a key call wrong after IPO?",
@@ -824,6 +823,14 @@
           "tier1": true
         },
         {
+          "source": "gnews-ai",
+          "outlet": "finimize.com",
+          "title": "Anthropic’s IPO Showed Wall Street Who’s Really In Charge",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPSkdvYzJWOFktSGVPbFdDOEpJOGFPLWhkdTM1LVlRVlRMdVNJUjdsOFM0elZScUNxaHBMUmxDYVY1SUhQOUJ0TTBjVkwxRG9Fc09zUE9ZbENjb3R1cGlYWUpYMTZXVUdGM3BxMFNMd3U5eHZSbDM3dVJLS3daXzNDcHdGZWpZRWtYUHV1bg?oc=5",
+          "published_at": "2026-11-22T11:04:06.000Z",
+          "tier1": false
+        },
+        {
           "source": "bluesky-ai",
           "outlet": "reuters.com",
           "title": "EXCLUSIVE: Like SpaceX, Anthropic ran an unusual IPO process, chafing some bankers",
@@ -838,6 +845,14 @@
           "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNYng1Wnp1VzZhUjlFQ1RxZjdaRnB5RGctdWk3RVBFaWZ2ZlNnVkltUFJhWW5lcUVqWkpHQlFnTVpXTWduTGp4RGhONUxkeTBoSUY4TlJEZXhLTU44Y2JNUGRlcEh4RjRXNlZ5UFRPclBTS216NEZ3YWRvMlg5MHoySWU3S0E3Y3BYRVVaVk51aEZadzAydjlKMnN1Qjc?oc=5",
           "published_at": "2026-11-22T11:06:49.000Z",
           "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "reuters.com",
+          "title": "EXCLUSIVE: Like SpaceX, Anthropic ran an unusual IPO process, chafing some bankers",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNT1RsTFBlMWZGejNqWjVvdVlYX2lRTGpZZXhoYXFXN2RuV3lHZ09ra0ctdnZqc3hiVENXSlc2ZTBIbDRyTmpTS1Nhdk1kdU5HLW5FNGdNRTNoeXVBeEc5cDl5VGx3c3dUSzNDYkVVTHVfenVQbHFUQ0hQS2NfalhuNDczWFdUS0FWQS1iZ1ZhVnNYMy1FOHVSUmlBMmI3NTdVTGY1X0JxTFRmYnptV3huQQ?oc=5",
+          "published_at": "2026-11-22T11:10:45.000Z",
+          "tier1": true
         }
       ],
       "live": true
@@ -1240,7 +1255,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b45c3395fb708",
@@ -1304,11 +1319,13 @@
       "outlet": "theverge.com",
       "outlets": [
         "africanews.com",
+        "aljazeera.com",
+        "dailynewsegypt.com",
         "dunyanews.tv",
         "wdio.com"
       ],
       "tier1_outlets": [],
-      "corroboration": 3,
+      "corroboration": 5,
       "sources": [
         "wires-ai"
       ],
@@ -1321,11 +1338,12 @@
       "clock_skew": true,
       "breaking_at": "2026-11-21T07:38:53.509Z",
       "item_ids": [
+        "136525a3f07716a2",
         "39db0ca0282d535b",
         "68bfade460f38f75",
         "963bd251d83194ab",
-        "a91c18c5c7784cd6",
         "ab68c41facf3bccb",
+        "b23edbc6d1c4beaa",
         "e556a43e8cc87879"
       ],
       "sightings": [
@@ -1351,6 +1369,22 @@
           "title": "Nations agree to further talks on regulating AI 'killer robots and drones'",
           "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNbUxlUWdzcTMtN1V1YWNiZ0RBMWRHX1VmN0dJOHpXM2tXd2lnOFRoVWt6b1h4dG1LNlk1d0JCdHFIVWd2VVZHSFZTSVZGVkhzc044Zmt0bGh0ZTF5OGlCNE1UODFndThfVEtRQkxCZHBjWEN2T19zNkNqbmpkd0ZheHFxNWNxSi0tUGtmMUc0SXlRdXR0X3RWTE9Oc04tS3pCeDVoWFhkZzZXemxLeFNYVnNCSGI4QdIBtgFBVV95cUxNbUxlUWdzcTMtN1V1YWNiZ0RBMWRHX1VmN0dJOHpXM2tXd2lnOFRoVWt6b1h4dG1LNlk1d0JCdHFIVWd2VVZHSFZTSVZGVkhzc044Zmt0bGh0ZTF5OGlCNE1UODFndThfVEtRQkxCZHBjWEN2T19zNkNqbmpkd0ZheHFxNWNxSi0tUGtmMUc0SXlRdXR0X3RWTE9Oc04tS3pCeDVoWFhkZzZXemxLeFNYVnNCSGI4QQ?oc=5",
           "published_at": "2026-11-22T09:02:56.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "dailynewsegypt.com",
+          "title": "Killer robots: UN talks fail on binding rules, delay to 2028",
+          "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBvS0JXaEpTS0ctQk44NkV6Y29HNTFUYlFveG5UNEdqdk5YMm9rVXB6a2U4c3ZzQ3hrY3REUENJc0ExWldINjJibGg1cXp1SjUxR1RubFVLeVlULUhrcnVfU0NpeVhfQkpLVlE1MWVaYw?oc=5",
+          "published_at": "2026-11-22T11:23:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "aljazeera.com",
+          "title": "Why have UN efforts to regulate ‘killer robots’ stalled?",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQd1Via1pnekQ3RWRFamlRNjJjT3pmenZXSENBUUxzc3N6MnBYNjhuaXlFWk0zYUVtdFFlZkVYRGJkS3VYcFZHNHFDdUJ3bGI1ekNKQTFCRXRtYUU1RHdDSDFBaUJka0VSSG9FUkpfUUFmbTVUVy00VnN4THlqQllsZXZyWXVWZnFvYnRHRXhKTEpBT3lHSUxpdE14QdIBoAFBVV95cUxPcVlyVTB4ajhmNnBQbC1QWnFySmhIb0Qtc3E0bmNsdkVtaVdJSWNESkdCZUZYSUQ2RnpPNFc1ZnlPTGd2YlNPa2xXZU9udm9Ed2ZmdDdZMmhlNGw3Y1dWWHR1OWdxVG1yQ09NcjdFZy1IZHAxNThLZ3F2NXBkYnRnZWIxU2cxcERQU0lkYUJqVVZjWG1QaFNpZURMRlo4Yjhk?oc=5",
+          "published_at": "2026-11-22T11:48:45.000Z",
           "tier1": false
         }
       ],
@@ -1836,13 +1870,12 @@
       "outlets": [
         "the-decoder.com",
         "theguardian.com",
-        "theopenpress.in",
-        "turkiyetoday.com"
+        "theopenpress.in"
       ],
       "tier1_outlets": [
         "theguardian.com"
       ],
-      "corroboration": 4,
+      "corroboration": 3,
       "sources": [
         "gnews-ai",
         "guardian-ai",
@@ -1852,7 +1885,7 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-22T08:48:59.000Z",
+      "earliest_published_at": "2026-11-22T10:09:00.000Z",
       "first_seen_at": "2026-11-19T09:27:15.856Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -1877,18 +1910,9 @@
         "dc9c1d3cbe5e2874",
         "de9611f49edc28d7",
         "e8a360b40c65adc0",
-        "f5ed4811d668e004",
         "fba3ffd6aa42c368"
       ],
       "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "turkiyetoday.com",
-          "title": "Turkish researcher says Claude cracked math's biggest unsolved problem",
-          "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOSFI0V0VoYjVxaHZHQWVNNUx6NXlHenJuTmlhQlh6YUtvcFZGRVF2Z1ROY3UyUHBISFBmVE1oY1VLX2hFb3F4Y284aWFsblhCZFBBSG56S1lreXdzdmQtbXdtbEtVRXlCMmRLV0ZmX3pNR1lmdzV5UXhvbmZtOHFkQVFYTzd0ZDB2bmlEdUpsQmU5T3lFVHhRQUFWaTB2ZFlFT1lsQ0xTUkRsSWRSMnNQYTdEWVdLZVk?oc=5",
-          "published_at": "2026-11-22T08:48:59.000Z",
-          "tier1": false
-        },
         {
           "source": "gnews-ai",
           "outlet": "theopenpress.in",
