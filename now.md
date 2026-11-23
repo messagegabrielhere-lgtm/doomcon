@@ -26,31 +26,31 @@ Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](ht
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-23 08:07 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-23 08:20 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
 1. [OpenAI scientist proposes industry AI limits tied to model intelligence metric](https://news.google.com/rss/articles/CBMivAFBVV95cUxPa0ZQb0xtalJ5djRmZmkwQnhmdDBlMEtncDUtUEJsUFBtWmptbkdVQ3c5QjY2TzhKN0NFT2ZzYnZmenQxY1lrUWFFYjJsdS1KazdRUkJINEJRemQ1alh6TGtnNW1nRE92bTF3RW9FMTIyODB3UmpBaW5oSzFDWDFVT3FXdjZDVzQ0TVNVd29nQzZvY3ByWVpBLUlhRVg0bFZiRHUxVjhqclptLUMycDJlYVBsQXQ4a28tRnFnbQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-22 23:09 UTC · score 84.4 · attention
 2. [EXCLUSIVE: Like SpaceX, Anthropic ran an unusual IPO process, chafing some bankers](https://bsky.app/profile/reuters.com/post/3n2vhtqn7j42h) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-22 11:05 UTC · score 80.8 · compute
 3. [Anthropic mathematician claims to prove Riemann hypothesis, most famous problem in all of math](https://news.google.com/rss/articles/CBMi0wFBVV95cUxNcl9DRERIZlViX1BNaFBRYU1WbjI4ejNhb2x6b2d1aXJRenVWQ3NtUUttb1VvTnRYUWNvUE5pQy1vbkpvcEpXeHU4bldwVXpfM3pwdzVtMjJyT3BvcTdyU0lZQUdtdzJEN2xoa1AtR1prQkd3Q1FDakxiZi1XRWVnSmt5aHNYTzlvRDhWcXl3emNNd2NNTTNESWF5bnFiWk5kYWZVQkdiSHFtX2RVYjlrNElMOV9lQ1c5R0dLQnN5RlRqemlIR0huTGhzMjZMb1ZRNU5r?oc=5) — Google News — AI searches, last hour · 2026-11-20 14:00 UTC · score 77.6 · attention
-4. [California AG Bonta filed lawsuit against OpenAI over model security, public safety](https://news.google.com/rss/articles/CBMiuAFBVV95cUxOdmhmeEgxSkU1V2V3QmEtdlJ5RUR2U1FZVm5lajNFT1h3cUJnUW1XQUZRSUNLYnV6QkFFNWhMR0ZtbEtRSDRvQXJ3dThFRWFYMUlfbTNFUkFMN3JwTWVHbC11MjB5LUNia3JVMUxjWUtGV0dSa3V4V1JIMHNMdGpzd2JkOGotTnpRbmh5cHBSQ213NFhwOWs4MVZ4YzBKZ3FsUlRpVzFsMHNQS3VKTXVmRDRvS3dWWGhO?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 04:26 UTC · score 77.2 · governance
-5. [Alice Huang in touch with Chinese spy agency during affair with Nvidia CEO, NYT says](https://bsky.app/profile/reuters.com/post/3n2wzuxklcg2h) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-23 01:54 UTC · score 72.8 · attention
-6. [US approved sale of Nvidia and AMD chips to Chinese companies](https://news.google.com/rss/articles/CBMihAFBVV95cUxPLTZTNmxkcXpZN2hrOFVhQlFhR1dfVVQ3ZkRCdVFVVi1mWGZfTTBjdDJ2S1JtV19ISjBOdll0YlduVEtMODFHUDhlY1FDRzZVaWVjdWd5RnlpTlh5cXk1VjBENmJWNjRFMG5VX1B4NkVNYlFyY3p2cmZka3RHYjRlakRvYkk?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-20 00:42 UTC · score 70.3 · compute
-7. [Nasdaq erases all 2026 gains as AI sell-off dampens Anthropic’s second day](https://theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off) — Hacker News AI stories (72h) · 2026-11-20 13:29 UTC · score 69.0 · attention
-8. [Oracle says OpenAI infrastructure deal is fully funded after final capital raise](https://news.google.com/rss/articles/CBMiwwFBVV95cUxPSmpQQVdqRTFyNlZSVVFsZG8yNGJ5WWRaOU1ZRXJXQkJJM05GaXY5ZUpQTndMVVljNXNpYUJDUmF1T3hQcWkzNi1udWc4c3pMV3F6RFk1dUctcG5jOFlRcUJDMV9IM2hBdV9KbUJqSmJVa1lXS19LTUVJcUg3alFNWl9RREgwRUVrRU9LSkFoRGZJUWpxLVB1bzlldWE4VDRHRmczZVBMbXFiYlRVSHQ2S293M1JnZUNMSTdZdEVKTVpMXzA?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-20 22:11 UTC · score 66.8 · attention
+4. [Alice Huang in touch with Chinese spy agency during affair with Nvidia CEO, NYT says](https://bsky.app/profile/reuters.com/post/3n2wzuxklcg2h) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-23 01:54 UTC · score 72.8 · attention
+5. [US approved sale of Nvidia and AMD chips to Chinese companies](https://news.google.com/rss/articles/CBMihAFBVV95cUxPLTZTNmxkcXpZN2hrOFVhQlFhR1dfVVQ3ZkRCdVFVVi1mWGZfTTBjdDJ2S1JtV19ISjBOdll0YlduVEtMODFHUDhlY1FDRzZVaWVjdWd5RnlpTlh5cXk1VjBENmJWNjRFMG5VX1B4NkVNYlFyY3p2cmZka3RHYjRlakRvYkk?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-20 00:42 UTC · score 70.3 · compute
+6. [Nasdaq erases all 2026 gains as AI sell-off dampens Anthropic’s second day](https://theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off) — Hacker News AI stories (72h) · 2026-11-20 13:29 UTC · score 69.0 · attention
+7. [Oracle says OpenAI infrastructure deal is fully funded after final capital raise](https://news.google.com/rss/articles/CBMiwwFBVV95cUxPSmpQQVdqRTFyNlZSVVFsZG8yNGJ5WWRaOU1ZRXJXQkJJM05GaXY5ZUpQTndMVVljNXNpYUJDUmF1T3hQcWkzNi1udWc4c3pMV3F6RFk1dUctcG5jOFlRcUJDMV9IM2hBdV9KbUJqSmJVa1lXS19LTUVJcUg3alFNWl9RREgwRUVrRU9LSkFoRGZJUWpxLVB1bzlldWE4VDRHRmczZVBMbXFiYlRVSHQ2S293M1JnZUNMSTdZdEVKTVpMXzA?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-20 22:11 UTC · score 66.7 · attention
+8. [China’s Next AI Deals Clouded by Selloff After Anthropic IPO](https://news.google.com/rss/articles/CBMisAFBVV95cUxNMkp1VktEN3BMdFcyUi1nVWNEY2JLdExKaWhVZ2pBV2xOeUdVOGtJZ1B5N05DRXlXeHVFWTdOWHdUVnI2TGs2cG5EaEZWdnkyejVTanV1NUh2OEZ2N240dUxaT205Z0RmNlZtTEJuWjEwT1lST2laR3JDenRiVXd2VzM1T1pTZmlnZWxjZHc4aVFRMERaTmZHal8zemk5NDRqMlNhN0IzTkhpRzFrdzhILQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 07:05 UTC · score 66.3 · compute
 9. [OpenAI Chief Scientist Urges Industry Limits on AI Development](https://news.google.com/rss/articles/CBMiswFBVV95cUxQMjVTYVIwT3huVU8teHdXRHdnWGxOUTI5d1J6elZhWktVMVpSZDhhRmk5eV82c0JuRDBSUWNHdl84Z253WDJDbmd6SXhiNlFsdkxhM2gxWTVoTnY2ZkdrZ0dVam1OVXNSZWIwUnBQaTU4bEhJNTZValFSQ1Naam1xb1FkTklSZXI2Ums4d19sUjVheGtLNGhUWjFPcEVyd0ZIRmJlX0FqNXF5cHpCR2pjczF5WQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-22 19:40 UTC · score 62.5 · attention
-10. [Anthropic worker claims to have solved a Holy Grail of math problems with the help of AI](https://news.google.com/rss/articles/CBMimAFBVV95cUxOZl83aFlGaHFEUVczbnRQYTJCbmhiWUFic2RBN0JLeVJrUy1GOG5TZDRtSzVDQ3JzT1otb3dqZlQ0X1JXc0I3Wm1CMzB2Ul9MZGlGbFVvOHEyVlo4V1NxUU5sQ0FoMTNkTUJkaXlCSFYwcE5rZGtyb2hwTkNYcVNJcGtMSzdqRFlQejUzTjFuei1PX2ZPcU5ZRw?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-21 04:55 UTC · score 61.9 · attention
+10. [Anthropic worker claims to have solved a Holy Grail of math problems with the help of AI](https://news.google.com/rss/articles/CBMimAFBVV95cUxOZl83aFlGaHFEUVczbnRQYTJCbmhiWUFic2RBN0JLeVJrUy1GOG5TZDRtSzVDQ3JzT1otb3dqZlQ0X1JXc0I3Wm1CMzB2Ul9MZGlGbFVvOHEyVlo4V1NxUU5sQ0FoMTNkTUJkaXlCSFYwcE5rZGtyb2hwTkNYcVNJcGtMSzdqRFlQejUzTjFuei1PX2ZPcU5ZRw?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-21 04:55 UTC · score 61.8 · attention
 
 ## Leaders most covered this week
 
 Stories in the press naming each person over the last 7 days (Google News search). Coverage is not a statement by the person.
 
-- Dario Amodei (Anthropic): 580+ stories
-- Elon Musk (xAI): 491 stories
-- Jensen Huang (Nvidia): 381+ stories
-- Sam Altman (OpenAI): 366 stories
-- Satya Nadella (Microsoft): 259+ stories
-- Mark Zuckerberg (Meta): 162 stories
+- Dario Amodei (Anthropic): 579+ stories
+- Elon Musk (xAI): 490 stories
+- Jensen Huang (Nvidia): 384+ stories
+- Sam Altman (OpenAI): 367 stories
+- Satya Nadella (Microsoft): 260+ stories
+- Mark Zuckerberg (Meta): 161 stories
 - Greg Brockman (OpenAI): 103 stories
-- Sundar Pichai (Alphabet): 63 stories
+- Sundar Pichai (Alphabet): 68 stories
 - Demis Hassabis (Google DeepMind): 62 stories
 - Alex Karp (Palantir): 62 stories
 
