@@ -1,43 +1,42 @@
 # SIREN: current reading
 
-> SIREN 4 · ROUTINE · 53.0/100, computed 2026-11-23 14:52 UTC. Levels run from 5 (quietest) to 1 (loudest). It counts AI activity. It is not a probability of harm and not a forecast.
+> SIREN 4 · ROUTINE · 52.9/100, computed 2026-11-23 15:51 UTC. Levels run from 5 (quietest) to 1 (loudest). It counts AI activity. It is not a probability of harm and not a forecast.
 
 Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](https://siren.watch/verify.html) · [Search Trends](https://siren.watch/search-trends.html) (short alias https://siren.watch/trends.html) · [news sitemap](https://siren.watch/news-sitemap.xml) · [classic instrument panel](https://siren.watch/classic.html).
 
 ## Reading
 
 - Level: 4 (ROUTINE) — The normal range: as much happening as usual.
-- Score: 53.0 / 100 (−0.0 vs the previous reading)
-- Computed: 2026-11-23 14:52 UTC
+- Score: 52.9 / 100 (−0.1 vs the previous reading)
+- Computed: 2026-11-23 15:51 UTC
 - At this level since: 2026-11-08 06:24 UTC
-- Top mover: Capability −0.5 since 13:58 UTC
-- Degraded: yes, some sources were not answering this hour
-- Receipt: https://siren.watch/api/receipts/2026-11-23T14-52-15Z.json
+- Top mover: Capability −0.6 since 14:52 UTC
+- Receipt: https://siren.watch/api/receipts/2026-11-23T15-51-03Z.json
 
 ## Pillars
 
 | Pillar | Score | Sources answering | In composite |
 |---|---|---|---|
-| Capability | 44.1 | 1/5 | yes |
-| Compute & Capital | 58.6 | 1/4 | yes |
-| Attention | 41.8 | 2/4 | yes |
+| Capability | 43.5 | 1/5 | yes |
+| Compute & Capital | 58.7 | 1/4 | yes |
+| Attention | 42.0 | 2/4 | yes |
 | Governance | 57.9 | 1/2 | yes |
 | Markets | — | 0/3 | no |
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-23 16:14 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-23 16:25 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
-1. [States Sue SpaceX Over Grok Deepfakes](https://wired.com/story/states-sue-spacex-over-grok-deepfakes) — WIRED — AI · 2026-11-23 11:00 UTC · score 89.6 · attention
-2. [Scott Bessent refuses to rule out Jensen Huang’s return to Nvidia](https://news.google.com/rss/articles/CBMihAFBVV95cUxOSERNWnNEZmRfX1pfRGR6ZEdoclc3YzRNTkxrS0xhUGdqUG9sd1ROYlFDVXhjVk9oY2Fhc2JWdEdtSmxoZXlyX29CR3hiUW9LM2lLOE5vRk9NLWVDazd0Y2hncnJDYWRxYW5kempscjA5QVlkQXZla3FMeVBXVUprdnd0dU4?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-20 12:40 UTC · score 84.5 · attention
-3. [OpenAI scientist proposes industry AI limits tied to model intelligence metric](https://news.google.com/rss/articles/CBMivAFBVV95cUxPa0ZQb0xtalJ5djRmZmkwQnhmdDBlMEtncDUtUEJsUFBtWmptbkdVQ3c5QjY2TzhKN0NFT2ZzYnZmenQxY1lrUWFFYjJsdS1KazdRUkJINEJRemQ1alh6TGtnNW1nRE92bTF3RW9FMTIyODB3UmpBaW5oSzFDWDFVT3FXdjZDVzQ0TVNVd29nQzZvY3ByWVpBLUlhRVg0bFZiRHUxVjhqclptLUMycDJlYVBsQXQ4a28tRnFnbQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-22 23:09 UTC · score 82.0 · attention
-4. [EXCLUSIVE: Like SpaceX, Anthropic ran an unusual IPO process, chafing some bankers](https://bsky.app/profile/reuters.com/post/3n2vhtqn7j42h) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-22 11:05 UTC · score 78.9 · compute
-5. [Anthropic mathematician claims to prove Riemann hypothesis, most famous problem in all of math](https://news.google.com/rss/articles/CBMi0wFBVV95cUxNcl9DRERIZlViX1BNaFBRYU1WbjI4ejNhb2x6b2d1aXJRenVWQ3NtUUttb1VvTnRYUWNvUE5pQy1vbkpvcEpXeHU4bldwVXpfM3pwdzVtMjJyT3BvcTdyU0lZQUdtdzJEN2xoa1AtR1prQkd3Q1FDakxiZi1XRWVnSmt5aHNYTzlvRDhWcXl3emNNd2NNTTNESWF5bnFiWk5kYWZVQkdiSHFtX2RVYjlrNElMOV9lQ1c5R0dLQnN5RlRqemlIR0huTGhzMjZMb1ZRNU5r?oc=5) — Google News — AI searches, last hour · 2026-11-20 14:00 UTC · score 76.8 · attention
-6. [Amazon to buy Decart's AI chip optimization tech in latest AI talent grab](https://news.google.com/rss/articles/CBMixgFBVV95cUxORW5Dd2o3Ty1RU2Rmbl9tMi1pcS1DUTlFY0x0c1d5czk4R2Z0YXZObUJyRkFTYk1yMlhyYk5YUGIwOFg0dUotVGR1cU15VjhOVVNzYmVxQlVQN1hPeDBPOHdGZ1FjS21BRVdWYkF5azRKdzBWLVh2WnV4YWp5dlFtRFpPSHdZNkx4V2syeHpOOXV0RHBSUnFjRkZEc3RHR2gtUFZuNVVPWm9YOW84VmM5dnpXMGt6OHpNalpiTlBpM1ZIcE1JSlE?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 15:38 UTC · score 72.1 · compute
-7. [‘The Code Is Already Copied Everywhere’: The AI Hacking Tool Causing Havoc Around the World](https://bsky.app/profile/404media.co/post/3n2ydrcvpn52i) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-23 14:16 UTC · score 71.2 · attention
-8. [Arm CEO Snubs Nvidia Approach, Extending Contract Through 2033](https://news.google.com/rss/articles/CBMirwFBVV95cUxQV2VIVEFDaFFQRTMzWl96NmhERll5Q2pINWw2T1Zqd3M0NUpKcHp1emdUdk9PellRWkg5b1o3UjBHeVBqdHZLMFhkOUc3RHFYcTRwY3BmZjh6aUlYdVRnM29vNjRzR0FYaUs4aWN3QkgzZUhjaHY4N3Q2c2xzMnYtNGcwQ2dSSGNWRjA0dzJfdXBsNUNfcGZjV1FTM3hOdHpFOEZ2Z1RfZzBVU2w5VlBN?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 12:19 UTC · score 70.3 · attention
-9. [Oracle says OpenAI infrastructure deal is fully funded after final capital raise](https://news.google.com/rss/articles/CBMiwwFBVV95cUxPSmpQQVdqRTFyNlZSVVFsZG8yNGJ5WWRaOU1ZRXJXQkJJM05GaXY5ZUpQTndMVVljNXNpYUJDUmF1T3hQcWkzNi1udWc4c3pMV3F6RFk1dUctcG5jOFlRcUJDMV9IM2hBdV9KbUJqSmJVa1lXS19LTUVJcUg3alFNWl9RREgwRUVrRU9LSkFoRGZJUWpxLVB1bzlldWE4VDRHRmczZVBMbXFiYlRVSHQ2S293M1JnZUNMSTdZdEVKTVpMXzA?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-20 22:11 UTC · score 65.8 · attention
-10. [SpaceX Sued By Oregon and Virginia Over A.I.-Generated Sexualized Images](https://nytimes.com/2026/11/23/technology/spacex-lawsuit-ai-sexualized-images.html) — The New York Times — Technology · 2026-11-23 13:40 UTC · score 65.4 · governance
+1. [Scott Bessent refuses to rule out Jensen Huang’s return to Nvidia](https://news.google.com/rss/articles/CBMihAFBVV95cUxOSERNWnNEZmRfX1pfRGR6ZEdoclc3YzRNTkxrS0xhUGdqUG9sd1ROYlFDVXhjVk9oY2Fhc2JWdEdtSmxoZXlyX29CR3hiUW9LM2lLOE5vRk9NLWVDazd0Y2hncnJDYWRxYW5kempscjA5QVlkQXZla3FMeVBXVUprdnd0dU4?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-20 12:40 UTC · score 84.5 · attention
+2. [OpenAI scientist proposes industry AI limits tied to model intelligence metric](https://news.google.com/rss/articles/CBMivAFBVV95cUxPa0ZQb0xtalJ5djRmZmkwQnhmdDBlMEtncDUtUEJsUFBtWmptbkdVQ3c5QjY2TzhKN0NFT2ZzYnZmenQxY1lrUWFFYjJsdS1KazdRUkJINEJRemQ1alh6TGtnNW1nRE92bTF3RW9FMTIyODB3UmpBaW5oSzFDWDFVT3FXdjZDVzQ0TVNVd29nQzZvY3ByWVpBLUlhRVg0bFZiRHUxVjhqclptLUMycDJlYVBsQXQ4a28tRnFnbQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-22 23:09 UTC · score 81.9 · attention
+3. [Anthropic mathematician claims to prove Riemann hypothesis, most famous problem in all of math](https://news.google.com/rss/articles/CBMi0wFBVV95cUxNcl9DRERIZlViX1BNaFBRYU1WbjI4ejNhb2x6b2d1aXJRenVWQ3NtUUttb1VvTnRYUWNvUE5pQy1vbkpvcEpXeHU4bldwVXpfM3pwdzVtMjJyT3BvcTdyU0lZQUdtdzJEN2xoa1AtR1prQkd3Q1FDakxiZi1XRWVnSmt5aHNYTzlvRDhWcXl3emNNd2NNTTNESWF5bnFiWk5kYWZVQkdiSHFtX2RVYjlrNElMOV9lQ1c5R0dLQnN5RlRqemlIR0huTGhzMjZMb1ZRNU5r?oc=5) — Google News — AI searches, last hour · 2026-11-20 14:00 UTC · score 76.8 · attention
+4. [‘The Code Is Already Copied Everywhere’: The AI Hacking Tool Causing Havoc Around the World](https://bsky.app/profile/404media.co/post/3n2ydrcvpn52i) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-23 14:16 UTC · score 71.2 · attention
+5. [States Sue SpaceX Over Grok Deepfakes](https://wired.com/story/states-sue-spacex-over-grok-deepfakes) — WIRED — AI · 2026-11-23 11:00 UTC · score 70.5 · attention
+6. [A Brazilian forensic investigator teams up with AP to unravel the mystery of nine bodies found on a boat near the Amazon. Their two-year investigation leads to West Africa, where families await answer](https://bsky.app/profile/apnews.com/post/3n2yag5chuu2e) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-23 13:30 UTC · score 65.8 · attention
+7. [Oracle says OpenAI infrastructure deal is fully funded after final capital raise](https://news.google.com/rss/articles/CBMiwwFBVV95cUxPSmpQQVdqRTFyNlZSVVFsZG8yNGJ5WWRaOU1ZRXJXQkJJM05GaXY5ZUpQTndMVVljNXNpYUJDUmF1T3hQcWkzNi1udWc4c3pMV3F6RFk1dUctcG5jOFlRcUJDMV9IM2hBdV9KbUJqSmJVa1lXS19LTUVJcUg3alFNWl9RREgwRUVrRU9LSkFoRGZJUWpxLVB1bzlldWE4VDRHRmczZVBMbXFiYlRVSHQ2S293M1JnZUNMSTdZdEVKTVpMXzA?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-20 22:11 UTC · score 65.8 · attention
+8. [Arm CEO Extends Contract Through 2033 Following Nvidia Approach](https://news.google.com/rss/articles/CBMirwFBVV95cUxQV2VIVEFDaFFQRTMzWl96NmhERll5Q2pINWw2T1Zqd3M0NUpKcHp1emdUdk9PellRWkg5b1o3UjBHeVBqdHZLMFhkOUc3RHFYcTRwY3BmZjh6aUlYdVRnM29vNjRzR0FYaUs4aWN3QkgzZUhjaHY4N3Q2c2xzMnYtNGcwQ2dSSGNWRjA0dzJfdXBsNUNfcGZjV1FTM3hOdHpFOEZ2Z1RfZzBVU2w5VlBN?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 12:19 UTC · score 65.3 · attention
+9. [EXCLUSIVE: Like SpaceX, Anthropic ran an unusual IPO process, chafing some bankers](https://bsky.app/profile/reuters.com/post/3n2vhtqn7j42h) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-22 11:05 UTC · score 63.9 · compute
+10. [China’s Next AI Deals Clouded by Selloff After Anthropic IPO](https://news.google.com/rss/articles/CBMisAFBVV95cUxNMkp1VktEN3BMdFcyUi1nVWNEY2JLdExKaWhVZ2pBV2xOeUdVOGtJZ1B5N05DRXlXeHVFWTdOWHdUVnI2TGs2cG5EaEZWdnkyejVTanV1NUh2OEZ2N240dUxaT205Z0RmNlZtTEJuWjEwT1lST2laR3JDenRiVXd2VzM1T1pTZmlnZWxjZHc4aVFRMERaTmZHal8zemk5NDRqMlNhN0IzTkhpRzFrdzhILQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 07:05 UTC · score 63.5 · compute
 
 ## Leaders most covered this week
 
@@ -56,16 +55,16 @@ Stories in the press naming each person over the last 7 days (Google News search
 
 ## Takeover Watch
 
-Signals about AI autonomy, watched but not scored: they do not move the SIREN level. Updated 2026-11-23 14:53 UTC.
+Signals about AI autonomy, watched but not scored: they do not move the SIREN level. Updated 2026-11-23 15:51 UTC.
 
-- AI coding agents' own GitHub accounts opened 3,866 pull requests in the last 24 h (Devin 2,557, Cursor 760, Claude 517, GitHub Copilot agent 32, OpenAI Codex 0, Google Jules 0).
+- AI coding agents' own GitHub accounts opened 3,850 pull requests in the last 24 h (Devin 2,556, Cursor 734, Claude 532, GitHub Copilot agent 28, OpenAI Codex 0, Google Jules 0).
 - Notable AI models released in the last 90 days (Epoch AI): 32 of 1,102 on record. Newest: Gemini 4 Carbon (Google DeepMind, 2026-11-10); Claude Mythos 5.2 (Anthropic, 2026-11-09); Claude Fable 5.2 (Anthropic, 2026-11-09).
 - Largest training run on record: GPT-6 Astra (OpenAI), 9.40e+26 FLOP.
-- Moltbook: 29 distinct AI agents seen posting about AI, 109,645 agent replies in the threads read.
+- Moltbook: 30 distinct AI agents seen posting about AI, 109,675 agent replies in the threads read.
 
 ## How to cite
 
-"SIREN 4 · 53.0/100 at 14:52 UTC — siren.watch"
+"SIREN 4 · 52.9/100 at 15:51 UTC — siren.watch"
 
 Say the level with its name and which way the scale runs, e.g. "AI activity is at SIREN 4: ROUTINE, on a scale where 1 is loudest." Link https://siren.watch/.
 
