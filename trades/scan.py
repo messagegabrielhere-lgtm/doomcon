@@ -676,16 +676,32 @@ def macro():
     res["cnbc_debug"] = CNBC_DEBUG
     return res
 
-def gate(c, m):
-    """Cheap pre-filter for non-market fires: QUIET means nothing in the free data could trigger an entry or exit."""
+def crypto_live(led, watch):
+    """RULES sec 14 CRYPTO PAUSE: coin longs are off until the shadow ledger's coin_long_pass shows n >= 30 with a
+    positive net average. A held coin always counts; an unreadable ledger (None) fails open."""
+    if any(p.get("type") == "crypto" for p in (watch or {}).get("positions", [])): return True
+    if led is None: return True
+    net = [e["r24"] - e.get("cost", 0) for e in led.get("closed", []) if e.get("setup") == "coin_long_pass"]
+    return len(net) >= 30 and sum(net) / len(net) > 0
+
+def crypto_live_now():
+    try: watch = json.loads((ROOT / "watch.json").read_text())
+    except Exception: watch = {}
+    try: led = get("https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/trade-data/shadow.json")
+    except Exception: led = None
+    return crypto_live(led, watch)
+
+def gate(c, m, live=True):
+    """Cheap pre-filter for non-market fires: QUIET means nothing in the free data could trigger an entry or exit.
+    live=False (crypto pause, no coin held): BTC and coin rows alone do not wake a pass."""
     et = NOW.astimezone(NY); wd, hm = et.weekday(), et.hour * 60 + et.minute
     if wd < 5 and 9 * 60 + 30 <= hm < 16 * 60:
         return "CHECK market-hours"
     why = []
     b = c.get("btc", {}) or {}
     vm = b.get("vs_mark")
-    if vm is not None and abs(vm) >= 1.0: why.append(f"BTC {vm:+.1f}% vs mark")
-    if vm is not None and vm >= 0 and b.get("above_sma20_1h") and any(r.get("pass") for r in c.get("longs", [])):
+    if live and vm is not None and abs(vm) >= 1.0: why.append(f"BTC {vm:+.1f}% vs mark")
+    if live and vm is not None and vm >= 0 and b.get("above_sma20_1h") and any(r.get("pass") for r in c.get("longs", [])):
         why.append("crypto PASS row with BTC gate open")
     overnight = (wd < 4) or (wd == 4 and et.hour < 20) or (wd == 6 and et.hour >= 20)
     if overnight:
@@ -780,7 +796,7 @@ def main():
     (OUT / "prices.json").write_text(json.dumps({"utc": res["utc"], **PX}))
     c, s, k = res.get("crypto", {}), res.get("stocks", {}), res.get("kalshi", {})
     L = [f"SCAN {res['utc']} (prices delayed up to 15m; Coinbase day% = 24h)",
-         f"GATE: {gate(res.get('crypto', {}), res.get('macro', {}))}"]
+         f"GATE: {gate(res.get('crypto', {}), res.get('macro', {}), crypto_live_now())}"]
     rg = s.get("regime", {}); spy = rg.get("spy", {})
     L.append(f"REGIME {rg.get('label')}: SPY {f(spy.get('px'))} sma20 {f(spy.get('sma20'))} sma50 {f(spy.get('sma50'))} VIX {f(rg.get('vix'),1)}{' (macro)' if rg.get('vix_src') else ''}")
     b = c.get("btc", {})
