@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-22T23:23:55.003Z",
-  "news_generated_at": "2026-11-22T23:23:55.003Z",
+  "generated_at": "2026-11-23T00:20:08.179Z",
+  "news_generated_at": "2026-11-23T00:20:08.179Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,16 +18,16 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 300,
+    "headlines_naming_a_company": 301,
     "companies_on_roster": 10,
     "companies_with_headlines": 8,
-    "negative_pair_share": 0.08
+    "negative_pair_share": 0.083
   },
   "glance": {
     "leading": {
       "id": "anthropic",
       "name": "Anthropic",
-      "index": 4.7
+      "index": 4.9
     },
     "trailing": {
       "id": "microsoft",
@@ -37,7 +37,7 @@
     "most_discussed": {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 140
+      "headlines": 139
     }
   },
   "companies": [
@@ -53,7 +53,7 @@
           "title": "Apple Risks Losing the AI Agent War With an Outdated Playbook",
           "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQY0NlQ2FFZWVRd2FPTTJ4cjhKU3Vjb1hXdlZ2R1pfN2IxdlBxMDRZWmRMS1FyNXFSamtldk5GcVVPdnlxOFc2cmRsbS12TnFSdGhKeUx5NEF5dFJHUE12WDR2NGpZckk5cm5Ha3YzeXp0RkR2Y1BuTnhDWDczS18tTTlTWFplX0oyQy1SRDhFRS1jbzY3RnlIMWU1eHB1UktHWmpMT003MXV4d2l0bEg0QVp2bWJrWFUzQ3Rsdk5UbG9zNS1rLWlZV0pjejZQUQ?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-11-22T22:32:05.000Z",
+          "published_at": "2026-11-23T00:02:05.000Z",
           "score": -4,
           "positive": [],
           "negative": [
@@ -149,19 +149,32 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 25,
-      "index": 1.6,
-      "mean_headline": 0.2,
+      "headlines": 27,
+      "index": 0.3,
+      "mean_headline": 0,
       "sample": [
         {
-          "id": "7fcd5f24e23e623d",
-          "title": "OpenAI scientist proposes industry AI limits tied to model intelligence metric",
-          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPa0ZQb0xtalJ5djRmZmkwQnhmdDBlMEtncDUtUEJsUFBtWmptbkdVQ3c5QjY2TzhKN0NFT2ZzYnZmenQxY1lrUWFFYjJsdS1KazdRUkJINEJRemQ1alh6TGtnNW1nRE92bTF3RW9FMTIyODB3UmpBaW5oSzFDWDFVT3FXdjZDVzQ0TVNVd29nQzZvY3ByWVpBLUlhRVg0bFZiRHUxVjhqclptLUMycDJlYVBsQXQ4a28tRnFnbQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-22T23:09:59.000Z",
+          "id": "d9be35b373dc3814",
+          "title": "OpenAI top scientist sounds alarm over AI, calls for global limits on powerful models",
+          "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE84WDlhTWNFMVV4QVRoRWV1Y0FPSno1QjBsbUdJTGRENmJ3UktDZm1HMTJxMmlyRHNqRDFySDN0Vl9CZTBlTUQyUnpDb1VETU05WFNFMUU5X3o?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:56:35.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4dbd013acc1494f4",
+          "title": "OpenAI's Chief Scientist Proposes Industry Cap Tied to 'Perplexity' Metric, Warns AI Could Accelerate Itself by 2027",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9fT2M2TnpYZDE0anBaR2VoX3V5dkFJZ21TWkRHcWdZLUFmM3hreE9jZVFqd3FkTWt4S1FnNi1yQ29lYjVkcWVtSEo0OU5uSmpqNlhnUDJvd1RGZmF4YWhEenB3Z2V0MTZxaXhfZ3NuVE1vOGVGOHc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:55:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
           "clickbait": []
         },
         {
@@ -169,7 +182,18 @@
           "title": "OpenAI Wants AI Labs To Set Shared Limits",
           "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1DcWt4NlR2M0ExMGpTWFo4Y2ZhQkV6c3pwME0teG5rR2ZURVVZd0k1RWpJcXozZllmQUVGM2ZOUW9XNm03dGVjSVhVekdwd0ZUeGRTczBLWjU4S0cyNFdkOU5RaFdZdmhyekF0ZFMxeUpvS0FKZ1o4MjV3?oc=5",
           "source": "gnews-ai",
-          "published_at": "2026-11-22T23:07:55.000Z",
+          "published_at": "2026-11-22T23:36:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7fcd5f24e23e623d",
+          "title": "OpenAI scientist proposes industry AI limits tied to model intelligence metric",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPa0ZQb0xtalJ5djRmZmkwQnhmdDBlMEtncDUtUEJsUFBtWmptbkdVQ3c5QjY2TzhKN0NFT2ZzYnZmenQxY1lrUWFFYjJsdS1KazdRUkJINEJRemQ1alh6TGtnNW1nRE92bTF3RW9FMTIyODB3UmpBaW5oSzFDWDFVT3FXdjZDVzQ0TVNVd29nQzZvY3ByWVpBLUlhRVg0bFZiRHUxVjhqclptLUMycDJlYVBsQXQ4a28tRnFnbQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-22T23:09:59.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -220,40 +244,75 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "dd8934f44f2456b8",
-          "title": "OpenAI Calls For Leading AI Firms to Agree on AI Development Limits",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOYW54VV9PZDAxRGp2dTRzMTB5ZWRNOVhFcm92eFctNEFtdTYtaGdQQ0JxcFRXXzRndE41RXFpLV9GaUcwVzhxb041VVVMX3N2SDhIWjBHdVFtT3Y5cU9HejB0RUMxaEctMGdxZElLaGdZWmM0U3phcHNBeE5jb1BjSGVaaTdzMjVWRW52SWMtZU4tY3RueHZHS054TGpsYVk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T21:08:00.000Z",
-          "score": 3,
-          "positive": [
-            "leading"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "fba48480c8c549c0",
-          "title": "OpenAI proposes \"common limits\" for training, but...",
-          "url": "https://lesswrong.com/posts/TtiTdER4jvQDzuwj3/openai-proposes-common-limits-for-training-but",
-          "source": "lesswrong",
-          "published_at": "2026-11-22T19:49:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 66,
-      "index": -3,
+      "headlines": 65,
+      "index": -3.4,
       "mean_headline": -0.4,
       "sample": [
+        {
+          "id": "5961ac5eb18fd110",
+          "title": "Letter: Nvidia affair exposes Washington’s rigid idea of innovation",
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE4xMkc5OVF2ZFNMbmhqZWRWUEk1SUg4Y2JxOWZRcWZxS0VTRGF2SjN1MUt5dWJqQXFmWnhFVnh4czFtTHNSc2JRSGgtc0xjUXl1VGw2dy0tdklwQVJFcERwWWxOWU5HS1QyX0ptNTlESEk?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-23T00:12:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b61f7bbcfcdf23b5",
+          "title": "Nvidia Reports Faster Growth, Says Jensen Huang Won’t Return as CEO",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQOERUMkVEZEttRVd6TG92RVVFUzc4RU10anVtbFoxeV9RN1VneDJiUkc5NXpVWWNhM09PUWhGMHNHcmJNeTU0WTltdjA1TE5BbUtvOWx1QU4ySmJJc2lPWmoydVJld09sOER4Rk4xRE9QbXpKSVMzNE9ldENzQWZWVGZGRlY?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-23T00:11:52.000Z",
+          "score": 3,
+          "positive": [
+            "won"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b39e28b73d91cf7a",
+          "title": "NH Investment & Securities: \"KOSPI's Worst Case Is the High 3,000s\" — Warns of Further Decline as Nvidia Stumbles",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5hS3B5TlVocjZhcEV4ck9fZDhWWUwtVlpMMTNyam94d294YlNIdGF6NHY2T0VWVXJUMzlrMXZJMEdEVTFQUmJwX016NThFZkg4Wi1hOUNsOTR4eVJCV0tkQ2xOdElkSDNHTG9sMlJ0ZmFNdG05WUE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-23T00:05:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9be32444215c78e3",
+          "title": "NVIDIA Halved, Nasdaq Plunges 20%: Has AI Bubble Burst?",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNUERVMHJ0eF80YVFuR3NsOHpyYm92VXlKUFJ6cGxaUWlWU3hnUmRZek9IOUJ5c0lEWFpQY2JOUThsd0pYNUN5S1MtcHBQMUpJNWc4MkZXa0I3d0gyaWZLLU4ydHF3UzFLT2tfY1RPeFlfSEE4bGlTak56NUp3V01qRGJhRDRZY0RLdzB2dGl3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:57:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8ce5d7daec1a0272",
+          "title": "Nvidia leadership shake-up tests AI rack cadence, while Taiwan suppliers eye dual GPU-ASIC opportunities",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNZWplLWFUWkJOZTZOMmpKMk9lMEE2MXJmcTlGQi1YYTJfZ1UzSEpSdnIyQ054bS1Oa0hPVjFfblEwMm8tRTVBZ0lPMGtFdUZsdk1SOUgtYkctX2NEZFh5WEVQUXpTZEk0dFNYV2EtXzVOdDBtVGo2d0o1amZCWnNudDhXQ2l4R1JUdTJaRWhnRVNicUtuTl9nNk5HZVlDUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:47:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "2bcf2b80935e1865",
           "title": "AMD, NVIDIA, Intel and K-AI Companies Gather… Global Cooperation and Supply Chain Response Discussed",
@@ -288,71 +347,75 @@
             "probe"
           ],
           "clickbait": []
-        },
-        {
-          "id": "84669b04361855c5",
-          "title": "Exclusive | SEC Is Probing Nvidia Amid Departure of CEO Jensen Huang",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQbjl2b0tzT1ROT2plV1p5RHhQd3hXOEJKRFhOZ1ItZExOQV9oVGkzTU9tcEEyTXhjNHRKQVExRTNRdEtlY24zUFhmS0h0c21FUVVrVVh0NGF2SXFmdm1wcmVRLUlCcG5CMGRIZklSdVBkVElkS3lwRF9LaGg4YzU5b0dsZXlveWxSNzhGYzJlZmRSRkhvUWZRTHB3?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-22T22:41:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "15a7c83f69f4665e",
-          "title": "Nvidia to Continue Robotics Investments After Huang's Departure, Assures Portfolio Companies Directly Under Interim CEO",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1IbWJob3hvWTZuUDRrRXFpZ2phdjVSWllyTmpLN2VSMlR0MV9NaExQVjJ3cHdlVUQ0czI1Y09HM256ZWY4QVhUZ3VLbUFBSTN1RU1GLVdENTdIcmNvSzlibnluYTlHUFc3b2M1TGRWTjNTeXNNZmc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:35:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c263909a5ff2ce12",
-          "title": "ARK Sold $17M of Nvidia, Bought $58M of Anthropic on Day 2",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPM1pxdXlfZmdVdW9sWUNjVjVzcEFsMlRzV0RhalhqQnpzeEQ0aEZjV3lyRXJmVmZsSVU0WkU1Rk1ZODlOUmhGXzlQU0dxVzV0T0JOOC1QVUpYSE9pYnNaMXlHWjc1ZzJGa29NZlpuVGd1TS0wX01xc2ZYWlFoOXYybTQzWkI4V0FEejZF?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:18:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "800dfb7ce1168df0",
-          "title": "Nvidia, Coherent, and Dell report strong AI-dri...",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQZ21zOW9hNmxmWFl0bDBUQ0RuQWNvYXhMWk51V3NGMk13c1lMMU9YTEQtTThLSlZUUmJVUVNhUkdBal9YZWtpbk54MjhPc2hwakNNSmlZZGtBWnBENXliTzVBamFDeVJfcm95VmlFZGMydG43c25ETDMwVGtMVlJtRW85U05jOGpDSzJ4a2V2UVFZdzI4SW1mWm8wWWJTZ0FzNHc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:15:03.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "34228c257af9b404",
-          "title": "Sen. Kennedy urges scrutiny of Lutnick over China’s access to Nvidia chips",
-          "url": "https://bsky.app/profile/washingtonpost.com/post/3n2wnbjv4b42a",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-22T22:15:01.779Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 140,
-      "index": 4.7,
+      "headlines": 139,
+      "index": 4.9,
       "mean_headline": 0.6,
       "sample": [
+        {
+          "id": "2d7912bed9fcbdb6",
+          "title": "🇺🇸 An anti-AI protest in NYC came with a READY-MADE toolkit, COORDINATED slogans and 14 activist groups. The demonstration targeted Anthropic's Nasdaq debut, with protesters blocking entrances while others filmed and circulated the footage. Journali",
+          "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1QWlVidlJjb09iU1pZOFhEZGdYNDFQNlVTVXJhYm84c2pQdGRzMGJDd2lYNmdWaUFENHljSG1oT1lwWWwzb1RfWVNFd1Z2NDViVTJfc25Ya29vbDd6ZEg1WTF5eHYybUk2TlEtbQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-23T00:10:00.000Z",
+          "score": 3,
+          "positive": [
+            "debut"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1b022896c6ec4029",
+          "title": "Anthropic made Wall Street play by its rules during IPO, report says. Why are bankers unhappy?",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPRWk1dHdpN3VMQW0yZEc4YnB6Q3h4VllqaFgzTnJwY3ExWGl2UlpuQjVlX0pqZ1F3ZExnWTA0OEdaODIzdmxqZE1uWmM3T2JpVFlkNlRqM3lJVjdOYkVGYWh3eWdXNW8wSFdXbGE2MzJOVldkUHg5ajdVbklXb0o4bTd2Szk0V0Nrdm9OZHdkaGVIdnFFRzVRR0RYdzFnNS1ud1FPczZHd1I1Q2l5RXMxZXZNWkxMUdIBuwFBVV95cUxOU2lxV1NVYW9WMllfVFpHN3RSYVlvZS1fSDk3MlRxWVQ4cHI5X0JzQk1HdjVtVWUzUDJGVEdFa3JNb3Fwc1RfMHhXV1IyX3NEZWJockFoa3JyaTkxdmdyWEd5eGxqT1JjeU05WjRXd0N6NThhRFlPWE5KVmlUcFA2dUNCdFI0blg4NHMwSl82aGs3QWJnTTNrLV82RmdnV3R2ZGRSSUtPVEFXRFE3VnktbERiQlctOEpmcFdR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-23T00:07:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d92749946cdb7713",
+          "title": "Dario Amodei Courts Investors as Anthropic Weighs Its Next Moves",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQcTI0dEZEWDAyTTNlZEI1U1oxc1huRjNKRGJaTU1sNENLU0VzbDNfaW9LLWx0ZkN4M3J5RUVSWGV0bE5ESDlYaDdJQnRyZ29OZWdlTGl5d25hQk5sOEdrdUZxbWNxNkx3S1NxMl9wY1hXZzVnNEFRUE5RSWc5dXc0ZVhSc2pRVmpncFZnWVBxUzZfb2I5d0xlaA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-23T00:04:33.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b302a4c10c768acd",
+          "title": "Apac markets brace for volatility after Anthropic’s record IPO tests AI trade",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQZW5kYV9LN0czZERTUVY5NEhEX3dNLUFFei1xWWV6Rjg5b19XVXFDTExGRVBmNzhBU3VPTk9PVUtoRm9aM2o4bVZVUTMxM1RxQTNQckJGQ2QyOG5yRGNNeFBZUE5UN2ZoTUtVRi1YdG85ZHg1Nk5MR3VGajFGVXdhaFAtOGprR0E2TmdiZmZQWmhlRTk0X24yZGNKcTNWUEllT0d2Q0FQcmtUcU85Y1E2NkliamFCMXctWTd3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:51:19.000Z",
+          "score": 3,
+          "positive": [
+            "record"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1a8350e0c310d392",
+          "title": "Expert exposes who’s behind recent coordinated Anthropic protests",
+          "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1CRXlOZWotSEp3dWp3cmhCbjVzWkdadks4N0hEY0xDSEFJS3dvQjdWdjEwOGh2MVppVExQMlNTVmtvdzRaSVpyUFZXU2FPY3lzajJ6X3FR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:42:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "a2cba467c09cb192",
           "title": "How Dario Amodei built Anthropic's tightly knit culture with essays, Slack memos, and \"Vision Quest\" talks, as Anthropic seeds his ideas with opinion-makers (Nitasha Tiku/Washington Post)",
@@ -387,70 +450,15 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "56eeca0ff3d9ce2b",
-          "title": "Anthropic Lists on Nasdaq; 7 Co-Founders Also Hit the Jackpot [1-Minute Brief]",
-          "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE81NldWN29ncDduS0tndElmeWs3Z081ZGxEZVprcDlwNm9tb3hJNkxLcGpELXBPTmV0VTYwbWxybFdaUjRtaHVQdU5Wby1zQkNhVEpQQUlzTk9VZHVic2lQRWkzUnI?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T23:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e425d5592b77bedc",
-          "title": "Indian retail investors show strong interest in Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQTktNRGtrTFVXV1pJOVd5Q3Zqbmt3WDVBdzd4VzRZYzVaelM2WHRzV2VxMjZ0bHBFSkx5WEpKUWV3WUhDX2tpUFlUTFBaY1EzcTJpc1dzT2ZoWU9xa0ZoWGhobXozd0JkYl8zSTJXeDNZZVJWNnlOTk5sZnJiWDFaMFo3bFdYc3NwNVVrX0FLT2RBa2lKR1hFX3loVmlkTTZGek5GZmxmMVdTUlo1aXc4WERjalVqY3ZDdHJvajRvdDhEc1ZSNVdKcDZDbUpVNWFSUnpTNjlSWkpaV2PSAeABQVVfeXFMTVROX3VPVXF1WDh5OXJhR1VXZG1mU190dkhBNHBRQlU0QjMxWEhmRDNKUmZJMy04TXRnZWt6Mm5hVWpJNXEwbWs3MzdhcEgyMEtqYWtiR3llbUtqTm85ZF9MVEZ0NE1wYkF0d2dnMWVrVHBQZ0pNV0t2YzRleWlRd2laS29GNXdzckZyb0N6dDN5Vlh0S3oweW9nR3B4V0otS0tpdWlNOWtXNC14MkhreHI0VVliNEQ3TGJ1SmxZMmJFZ2ZZTHZXbFhlSVVseEZmUXpkUGpCTWRrWmxReGJZWGo?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:34:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c2e7ef6c316ff779",
-          "title": "Anthropic’s IPO Could Funnel $156 Billion to Effective Altruism, Leftist Causes",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOdDFCUUN4WTNzdWlDLWZaS3FQR1N3Z0w2cW9LSjRia3FJSFM2OE1nSmV4SUptblJoZm1ZdnZ0RFhacFBTWXI1NEpQMERGcXVoOWdDd3VHellSaXUweGNrX2tJc2J3OFZCam1wVTFsaUIwODVhaFVfWEJRT3VuM1BqZUQ2MVlESDYyQWh0RXU2MzRjM1otSlhvc1gtYTR2NkI0am1mVC1ZTVk1OEZjVnFFeG80UWszZHJiY3d3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:19:57.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c263909a5ff2ce12",
-          "title": "ARK Sold $17M of Nvidia, Bought $58M of Anthropic on Day 2",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPM1pxdXlfZmdVdW9sWUNjVjVzcEFsMlRzV0RhalhqQnpzeEQ0aEZjV3lyRXJmVmZsSVU0WkU1Rk1ZODlOUmhGXzlQU0dxVzV0T0JOOC1QVUpYSE9pYnNaMXlHWjc1ZzJGa29NZlpuVGd1TS0wX01xc2ZYWlFoOXYybTQzWkI4V0FEejZF?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:18:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "77ad36effbbe5d61",
-          "title": "SpaceX over Anthropic for local retail investors",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOV2lOWmV4UHluQUdHbThJOXpMT2FFWVdUWm9UanZMWWU1NFFCLUJTMUsxSGw2MGk5U3puXzJfbkp4LW1qV09jYlJwWWRjbWk1a25ZMjBab2dsM2o1ZTk4UXA4ZlY2cXNDeW51UWhsYlpYRUlmRUJsRmZyVGoxTEhKTUVZTmRpUzh1ZU5sdDlVNng?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:10:16.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 8,
-      "index": 3,
-      "mean_headline": 0.4,
+      "headlines": 9,
+      "index": 2.7,
+      "mean_headline": 0.3,
       "sample": [
         {
           "id": "b814ceb181f05af3",
@@ -458,6 +466,17 @@
           "url": "https://federalregister.gov/documents/2026/11/23/2026-23777/employee-or-independent-contractor-status-under-the-fair-labor-standards-act-family-and-medical",
           "source": "federal-register-ai",
           "published_at": "2026-11-23T05:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7d37424c0cf81f30",
+          "title": "A Man and His Muse AI Agent Sue Meta",
+          "url": "https://bsky.app/profile/404media.co/post/3n2wrigc73l2t",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-22T23:30:26.917Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -526,17 +545,6 @@
           "url": "https://bsky.app/profile/bloomberg.com/post/3n2p4qdnnzn2t",
           "source": "bluesky-ai",
           "published_at": "2026-11-19T22:30:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5c9b5a39f3060bcb",
-          "title": "Meta’s Muse Charm might cost $300",
-          "url": "https://theverge.com/tech/1038087/meta-muse-charm-ai-price",
-          "source": "verge-ai",
-          "published_at": "2026-11-19T20:22:17.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -868,10 +876,69 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 140,
-      "index": 4.7,
+      "headlines": 139,
+      "index": 4.9,
       "mean_headline": 0.6,
       "sample": [
+        {
+          "id": "2d7912bed9fcbdb6",
+          "title": "🇺🇸 An anti-AI protest in NYC came with a READY-MADE toolkit, COORDINATED slogans and 14 activist groups. The demonstration targeted Anthropic's Nasdaq debut, with protesters blocking entrances while others filmed and circulated the footage. Journali",
+          "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1QWlVidlJjb09iU1pZOFhEZGdYNDFQNlVTVXJhYm84c2pQdGRzMGJDd2lYNmdWaUFENHljSG1oT1lwWWwzb1RfWVNFd1Z2NDViVTJfc25Ya29vbDd6ZEg1WTF5eHYybUk2TlEtbQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-23T00:10:00.000Z",
+          "score": 3,
+          "positive": [
+            "debut"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1b022896c6ec4029",
+          "title": "Anthropic made Wall Street play by its rules during IPO, report says. Why are bankers unhappy?",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPRWk1dHdpN3VMQW0yZEc4YnB6Q3h4VllqaFgzTnJwY3ExWGl2UlpuQjVlX0pqZ1F3ZExnWTA0OEdaODIzdmxqZE1uWmM3T2JpVFlkNlRqM3lJVjdOYkVGYWh3eWdXNW8wSFdXbGE2MzJOVldkUHg5ajdVbklXb0o4bTd2Szk0V0Nrdm9OZHdkaGVIdnFFRzVRR0RYdzFnNS1ud1FPczZHd1I1Q2l5RXMxZXZNWkxMUdIBuwFBVV95cUxOU2lxV1NVYW9WMllfVFpHN3RSYVlvZS1fSDk3MlRxWVQ4cHI5X0JzQk1HdjVtVWUzUDJGVEdFa3JNb3Fwc1RfMHhXV1IyX3NEZWJockFoa3JyaTkxdmdyWEd5eGxqT1JjeU05WjRXd0N6NThhRFlPWE5KVmlUcFA2dUNCdFI0blg4NHMwSl82aGs3QWJnTTNrLV82RmdnV3R2ZGRSSUtPVEFXRFE3VnktbERiQlctOEpmcFdR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-23T00:07:15.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "d92749946cdb7713",
+          "title": "Dario Amodei Courts Investors as Anthropic Weighs Its Next Moves",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQcTI0dEZEWDAyTTNlZEI1U1oxc1huRjNKRGJaTU1sNENLU0VzbDNfaW9LLWx0ZkN4M3J5RUVSWGV0bE5ESDlYaDdJQnRyZ29OZWdlTGl5d25hQk5sOEdrdUZxbWNxNkx3S1NxMl9wY1hXZzVnNEFRUE5RSWc5dXc0ZVhSc2pRVmpncFZnWVBxUzZfb2I5d0xlaA?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-23T00:04:33.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b302a4c10c768acd",
+          "title": "Apac markets brace for volatility after Anthropic’s record IPO tests AI trade",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQZW5kYV9LN0czZERTUVY5NEhEX3dNLUFFei1xWWV6Rjg5b19XVXFDTExGRVBmNzhBU3VPTk9PVUtoRm9aM2o4bVZVUTMxM1RxQTNQckJGQ2QyOG5yRGNNeFBZUE5UN2ZoTUtVRi1YdG85ZHg1Nk5MR3VGajFGVXdhaFAtOGprR0E2TmdiZmZQWmhlRTk0X24yZGNKcTNWUEllT0d2Q0FQcmtUcU85Y1E2NkliamFCMXctWTd3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:51:19.000Z",
+          "score": 3,
+          "positive": [
+            "record"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "1a8350e0c310d392",
+          "title": "Expert exposes who’s behind recent coordinated Anthropic protests",
+          "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1CRXlOZWotSEp3dWp3cmhCbjVzWkdadks4N0hEY0xDSEFJS3dvQjdWdjEwOGh2MVppVExQMlNTVmtvdzRaSVpyUFZXU2FPY3lzajJ6X3FR?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:42:25.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "a2cba467c09cb192",
           "title": "How Dario Amodei built Anthropic's tightly knit culture with essays, Slack memos, and \"Vision Quest\" talks, as Anthropic seeds his ideas with opinion-makers (Nitasha Tiku/Washington Post)",
@@ -906,70 +973,15 @@
           ],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "56eeca0ff3d9ce2b",
-          "title": "Anthropic Lists on Nasdaq; 7 Co-Founders Also Hit the Jackpot [1-Minute Brief]",
-          "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE81NldWN29ncDduS0tndElmeWs3Z081ZGxEZVprcDlwNm9tb3hJNkxLcGpELXBPTmV0VTYwbWxybFdaUjRtaHVQdU5Wby1zQkNhVEpQQUlzTk9VZHVic2lQRWkzUnI?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T23:00:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "e425d5592b77bedc",
-          "title": "Indian retail investors show strong interest in Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQTktNRGtrTFVXV1pJOVd5Q3Zqbmt3WDVBdzd4VzRZYzVaelM2WHRzV2VxMjZ0bHBFSkx5WEpKUWV3WUhDX2tpUFlUTFBaY1EzcTJpc1dzT2ZoWU9xa0ZoWGhobXozd0JkYl8zSTJXeDNZZVJWNnlOTk5sZnJiWDFaMFo3bFdYc3NwNVVrX0FLT2RBa2lKR1hFX3loVmlkTTZGek5GZmxmMVdTUlo1aXc4WERjalVqY3ZDdHJvajRvdDhEc1ZSNVdKcDZDbUpVNWFSUnpTNjlSWkpaV2PSAeABQVVfeXFMTVROX3VPVXF1WDh5OXJhR1VXZG1mU190dkhBNHBRQlU0QjMxWEhmRDNKUmZJMy04TXRnZWt6Mm5hVWpJNXEwbWs3MzdhcEgyMEtqYWtiR3llbUtqTm85ZF9MVEZ0NE1wYkF0d2dnMWVrVHBQZ0pNV0t2YzRleWlRd2laS29GNXdzckZyb0N6dDN5Vlh0S3oweW9nR3B4V0otS0tpdWlNOWtXNC14MkhreHI0VVliNEQ3TGJ1SmxZMmJFZ2ZZTHZXbFhlSVVseEZmUXpkUGpCTWRrWmxReGJZWGo?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:34:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c2e7ef6c316ff779",
-          "title": "Anthropic’s IPO Could Funnel $156 Billion to Effective Altruism, Leftist Causes",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOdDFCUUN4WTNzdWlDLWZaS3FQR1N3Z0w2cW9LSjRia3FJSFM2OE1nSmV4SUptblJoZm1ZdnZ0RFhacFBTWXI1NEpQMERGcXVoOWdDd3VHellSaXUweGNrX2tJc2J3OFZCam1wVTFsaUIwODVhaFVfWEJRT3VuM1BqZUQ2MVlESDYyQWh0RXU2MzRjM1otSlhvc1gtYTR2NkI0am1mVC1ZTVk1OEZjVnFFeG80UWszZHJiY3d3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:19:57.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c263909a5ff2ce12",
-          "title": "ARK Sold $17M of Nvidia, Bought $58M of Anthropic on Day 2",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPM1pxdXlfZmdVdW9sWUNjVjVzcEFsMlRzV0RhalhqQnpzeEQ0aEZjV3lyRXJmVmZsSVU0WkU1Rk1ZODlOUmhGXzlQU0dxVzV0T0JOOC1QVUpYSE9pYnNaMXlHWjc1ZzJGa29NZlpuVGd1TS0wX01xc2ZYWlFoOXYybTQzWkI4V0FEejZF?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:18:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "77ad36effbbe5d61",
-          "title": "SpaceX over Anthropic for local retail investors",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOV2lOWmV4UHluQUdHbThJOXpMT2FFWVdUWm9UanZMWWU1NFFCLUJTMUsxSGw2MGk5U3puXzJfbkp4LW1qV09jYlJwWWRjbWk1a25ZMjBab2dsM2o1ZTk4UXA4ZlY2cXNDeW51UWhsYlpYRUlmRUJsRmZyVGoxTEhKTUVZTmRpUzh1ZU5sdDlVNng?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:10:16.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 8,
-      "index": 3,
-      "mean_headline": 0.4,
+      "headlines": 9,
+      "index": 2.7,
+      "mean_headline": 0.3,
       "sample": [
         {
           "id": "b814ceb181f05af3",
@@ -977,6 +989,17 @@
           "url": "https://federalregister.gov/documents/2026/11/23/2026-23777/employee-or-independent-contractor-status-under-the-fair-labor-standards-act-family-and-medical",
           "source": "federal-register-ai",
           "published_at": "2026-11-23T05:00:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7d37424c0cf81f30",
+          "title": "A Man and His Muse AI Agent Sue Meta",
+          "url": "https://bsky.app/profile/404media.co/post/3n2wrigc73l2t",
+          "source": "bluesky-ai",
+          "published_at": "2026-11-22T23:30:26.917Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1045,17 +1068,6 @@
           "url": "https://bsky.app/profile/bloomberg.com/post/3n2p4qdnnzn2t",
           "source": "bluesky-ai",
           "published_at": "2026-11-19T22:30:26.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5c9b5a39f3060bcb",
-          "title": "Meta’s Muse Charm might cost $300",
-          "url": "https://theverge.com/tech/1038087/meta-muse-charm-ai-price",
-          "source": "verge-ai",
-          "published_at": "2026-11-19T20:22:17.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1163,107 +1175,6 @@
       ]
     },
     {
-      "id": "openai",
-      "name": "OpenAI",
-      "headlines": 25,
-      "index": 1.6,
-      "mean_headline": 0.2,
-      "sample": [
-        {
-          "id": "7fcd5f24e23e623d",
-          "title": "OpenAI scientist proposes industry AI limits tied to model intelligence metric",
-          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPa0ZQb0xtalJ5djRmZmkwQnhmdDBlMEtncDUtUEJsUFBtWmptbkdVQ3c5QjY2TzhKN0NFT2ZzYnZmenQxY1lrUWFFYjJsdS1KazdRUkJINEJRemQ1alh6TGtnNW1nRE92bTF3RW9FMTIyODB3UmpBaW5oSzFDWDFVT3FXdjZDVzQ0TVNVd29nQzZvY3ByWVpBLUlhRVg0bFZiRHUxVjhqclptLUMycDJlYVBsQXQ4a28tRnFnbQ?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-22T23:09:59.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9736ea789d2134ee",
-          "title": "OpenAI Wants AI Labs To Set Shared Limits",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1DcWt4NlR2M0ExMGpTWFo4Y2ZhQkV6c3pwME0teG5rR2ZURVVZd0k1RWpJcXozZllmQUVGM2ZOUW9XNm03dGVjSVhVekdwd0ZUeGRTczBLWjU4S0cyNFdkOU5RaFdZdmhyekF0ZFMxeUpvS0FKZ1o4MjV3?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T23:07:55.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "98f924e4551c6eac",
-          "title": "AI Daily: OpenAI Shows Its Loss Curve and Asks for Limits",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE15VVdXdFh1TXJ5eVlSQWZhYUxEMWxFTmpfVTVYX0k3MFl2bTI3MUtGd3l4U2hxZlZfOVF1cndaTURRZG5XQTVMVzlWbFZ2bWd4djcxS3ZOaC1WQk9ZaW52LVdURGtMTzRoNGQ5SGVIWG1XV0hya1E?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:12:27.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "ad55e4e5f0117491",
-          "title": "OpenAI Introduces 'Standby Discount' for Voice AI, Cutting Fees 60% During Silent Periods on Calls",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5OcVRpU2NMdzNpcU9iRnk0ejZDZkhRWDYxQlE4U3ZyOHdVU05ILUg5NFFYOHY4azZrTEVkeFRQZkJKTGlmUjVoMEFXSDNzeHV3RS16OVhiM0hqNXNGM2pLTS1scDZzTURGSnFMaDg1RlVDUUFfRmc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T21:55:00.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "cutting"
-          ],
-          "clickbait": []
-        },
-        {
-          "id": "ca3b1088290b8a18",
-          "title": "OpenAI chief scientist says perplexity could help set limits on AI development",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQMWtVYmU2SHdYTFNIbk9qZjM2dXlNNU9rd3BxS0JoOEFxeGx2NGtWT0p2Ymk0R3BHNnB2SGtUV3ZKNFVHSU5WdEFsTkVzZWVBUnc0cFVzZlNvVXAwUkgzX2xyaXNIMmtkNjRycXhFTFpDWVB3ejFuV3Z3MFJjSGdHelhZZnlIYkJB?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T21:30:46.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "883b69d3f986860b",
-          "title": "OpenAI’s chief scientist has thoughts on how to limit AI development",
-          "url": "https://techcrunch.com/2026/11/22/openais-chief-scientist-has-thoughts-on-how-to-limit-ai-development",
-          "source": "techcrunch-ai",
-          "published_at": "2026-11-22T21:14:07.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "dd8934f44f2456b8",
-          "title": "OpenAI Calls For Leading AI Firms to Agree on AI Development Limits",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOYW54VV9PZDAxRGp2dTRzMTB5ZWRNOVhFcm92eFctNEFtdTYtaGdQQ0JxcFRXXzRndE41RXFpLV9GaUcwVzhxb041VVVMX3N2SDhIWjBHdVFtT3Y5cU9HejB0RUMxaEctMGdxZElLaGdZWmM0U3phcHNBeE5jb1BjSGVaaTdzMjVWRW52SWMtZU4tY3RueHZHS054TGpsYVk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T21:08:00.000Z",
-          "score": 3,
-          "positive": [
-            "leading"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "fba48480c8c549c0",
-          "title": "OpenAI proposes \"common limits\" for training, but...",
-          "url": "https://lesswrong.com/posts/TtiTdER4jvQDzuwj3/openai-proposes-common-limits-for-training-but",
-          "source": "lesswrong",
-          "published_at": "2026-11-22T19:49:58.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        }
-      ]
-    },
-    {
       "id": "google",
       "name": "Google",
       "headlines": 19,
@@ -1363,6 +1274,107 @@
       ]
     },
     {
+      "id": "openai",
+      "name": "OpenAI",
+      "headlines": 27,
+      "index": 0.3,
+      "mean_headline": 0,
+      "sample": [
+        {
+          "id": "d9be35b373dc3814",
+          "title": "OpenAI top scientist sounds alarm over AI, calls for global limits on powerful models",
+          "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE84WDlhTWNFMVV4QVRoRWV1Y0FPSno1QjBsbUdJTGRENmJ3UktDZm1HMTJxMmlyRHNqRDFySDN0Vl9CZTBlTUQyUnpDb1VETU05WFNFMUU5X3o?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:56:35.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "4dbd013acc1494f4",
+          "title": "OpenAI's Chief Scientist Proposes Industry Cap Tied to 'Perplexity' Metric, Warns AI Could Accelerate Itself by 2027",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9fT2M2TnpYZDE0anBaR2VoX3V5dkFJZ21TWkRHcWdZLUFmM3hreE9jZVFqd3FkTWt4S1FnNi1yQ29lYjVkcWVtSEo0OU5uSmpqNlhnUDJvd1RGZmF4YWhEenB3Z2V0MTZxaXhfZ3NuVE1vOGVGOHc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:55:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9736ea789d2134ee",
+          "title": "OpenAI Wants AI Labs To Set Shared Limits",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1DcWt4NlR2M0ExMGpTWFo4Y2ZhQkV6c3pwME0teG5rR2ZURVVZd0k1RWpJcXozZllmQUVGM2ZOUW9XNm03dGVjSVhVekdwd0ZUeGRTczBLWjU4S0cyNFdkOU5RaFdZdmhyekF0ZFMxeUpvS0FKZ1o4MjV3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:36:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7fcd5f24e23e623d",
+          "title": "OpenAI scientist proposes industry AI limits tied to model intelligence metric",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPa0ZQb0xtalJ5djRmZmkwQnhmdDBlMEtncDUtUEJsUFBtWmptbkdVQ3c5QjY2TzhKN0NFT2ZzYnZmenQxY1lrUWFFYjJsdS1KazdRUkJINEJRemQ1alh6TGtnNW1nRE92bTF3RW9FMTIyODB3UmpBaW5oSzFDWDFVT3FXdjZDVzQ0TVNVd29nQzZvY3ByWVpBLUlhRVg0bFZiRHUxVjhqclptLUMycDJlYVBsQXQ4a28tRnFnbQ?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-22T23:09:59.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "98f924e4551c6eac",
+          "title": "AI Daily: OpenAI Shows Its Loss Curve and Asks for Limits",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE15VVdXdFh1TXJ5eVlSQWZhYUxEMWxFTmpfVTVYX0k3MFl2bTI3MUtGd3l4U2hxZlZfOVF1cndaTURRZG5XQTVMVzlWbFZ2bWd4djcxS3ZOaC1WQk9ZaW52LVdURGtMTzRoNGQ5SGVIWG1XV0hya1E?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T22:12:27.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "ad55e4e5f0117491",
+          "title": "OpenAI Introduces 'Standby Discount' for Voice AI, Cutting Fees 60% During Silent Periods on Calls",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5OcVRpU2NMdzNpcU9iRnk0ejZDZkhRWDYxQlE4U3ZyOHdVU05ILUg5NFFYOHY4azZrTEVkeFRQZkJKTGlmUjVoMEFXSDNzeHV3RS16OVhiM0hqNXNGM2pLTS1scDZzTURGSnFMaDg1RlVDUUFfRmc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T21:55:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "cutting"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "ca3b1088290b8a18",
+          "title": "OpenAI chief scientist says perplexity could help set limits on AI development",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQMWtVYmU2SHdYTFNIbk9qZjM2dXlNNU9rd3BxS0JoOEFxeGx2NGtWT0p2Ymk0R3BHNnB2SGtUV3ZKNFVHSU5WdEFsTkVzZWVBUnc0cFVzZlNvVXAwUkgzX2xyaXNIMmtkNjRycXhFTFpDWVB3ejFuV3Z3MFJjSGdHelhZZnlIYkJB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T21:30:46.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "883b69d3f986860b",
+          "title": "OpenAI’s chief scientist has thoughts on how to limit AI development",
+          "url": "https://techcrunch.com/2026/11/22/openais-chief-scientist-has-thoughts-on-how-to-limit-ai-development",
+          "source": "techcrunch-ai",
+          "published_at": "2026-11-22T21:14:07.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "apple",
       "name": "Apple",
       "headlines": 10,
@@ -1374,7 +1386,7 @@
           "title": "Apple Risks Losing the AI Agent War With an Outdated Playbook",
           "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQY0NlQ2FFZWVRd2FPTTJ4cjhKU3Vjb1hXdlZ2R1pfN2IxdlBxMDRZWmRMS1FyNXFSamtldk5GcVVPdnlxOFc2cmRsbS12TnFSdGhKeUx5NEF5dFJHUE12WDR2NGpZckk5cm5Ha3YzeXp0RkR2Y1BuTnhDWDczS18tTTlTWFplX0oyQy1SRDhFRS1jbzY3RnlIMWU1eHB1UktHWmpMT003MXV4d2l0bEg0QVp2bWJrWFUzQ3Rsdk5UbG9zNS1rLWlZV0pjejZQUQ?oc=5",
           "source": "wires-ai",
-          "published_at": "2026-11-22T22:32:05.000Z",
+          "published_at": "2026-11-23T00:02:05.000Z",
           "score": -4,
           "positive": [],
           "negative": [
@@ -1470,10 +1482,69 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 66,
-      "index": -3,
+      "headlines": 65,
+      "index": -3.4,
       "mean_headline": -0.4,
       "sample": [
+        {
+          "id": "5961ac5eb18fd110",
+          "title": "Letter: Nvidia affair exposes Washington’s rigid idea of innovation",
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE4xMkc5OVF2ZFNMbmhqZWRWUEk1SUg4Y2JxOWZRcWZxS0VTRGF2SjN1MUt5dWJqQXFmWnhFVnh4czFtTHNSc2JRSGgtc0xjUXl1VGw2dy0tdklwQVJFcERwWWxOWU5HS1QyX0ptNTlESEk?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-23T00:12:10.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b61f7bbcfcdf23b5",
+          "title": "Nvidia Reports Faster Growth, Says Jensen Huang Won’t Return as CEO",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQOERUMkVEZEttRVd6TG92RVVFUzc4RU10anVtbFoxeV9RN1VneDJiUkc5NXpVWWNhM09PUWhGMHNHcmJNeTU0WTltdjA1TE5BbUtvOWx1QU4ySmJJc2lPWmoydVJld09sOER4Rk4xRE9QbXpKSVMzNE9ldENzQWZWVGZGRlY?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-23T00:11:52.000Z",
+          "score": 3,
+          "positive": [
+            "won"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "b39e28b73d91cf7a",
+          "title": "NH Investment & Securities: \"KOSPI's Worst Case Is the High 3,000s\" — Warns of Further Decline as Nvidia Stumbles",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5hS3B5TlVocjZhcEV4ck9fZDhWWUwtVlpMMTNyam94d294YlNIdGF6NHY2T0VWVXJUMzlrMXZJMEdEVTFQUmJwX016NThFZkg4Wi1hOUNsOTR4eVJCV0tkQ2xOdElkSDNHTG9sMlJ0ZmFNdG05WUE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-23T00:05:00.000Z",
+          "score": -4,
+          "positive": [],
+          "negative": [
+            "warns"
+          ],
+          "clickbait": []
+        },
+        {
+          "id": "9be32444215c78e3",
+          "title": "NVIDIA Halved, Nasdaq Plunges 20%: Has AI Bubble Burst?",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNUERVMHJ0eF80YVFuR3NsOHpyYm92VXlKUFJ6cGxaUWlWU3hnUmRZek9IOUJ5c0lEWFpQY2JOUThsd0pYNUN5S1MtcHBQMUpJNWc4MkZXa0I3d0gyaWZLLU4ydHF3UzFLT2tfY1RPeFlfSEE4bGlTak56NUp3V01qRGJhRDRZY0RLdzB2dGl3?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:57:03.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8ce5d7daec1a0272",
+          "title": "Nvidia leadership shake-up tests AI rack cadence, while Taiwan suppliers eye dual GPU-ASIC opportunities",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNZWplLWFUWkJOZTZOMmpKMk9lMEE2MXJmcTlGQi1YYTJfZ1UzSEpSdnIyQ054bS1Oa0hPVjFfblEwMm8tRTVBZ0lPMGtFdUZsdk1SOUgtYkctX2NEZFh5WEVQUXpTZEk0dFNYV2EtXzVOdDBtVGo2d0o1amZCWnNudDhXQ2l4R1JUdTJaRWhnRVNicUtuTl9nNk5HZVlDUQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-22T23:47:01.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "2bcf2b80935e1865",
           "title": "AMD, NVIDIA, Intel and K-AI Companies Gather… Global Cooperation and Supply Chain Response Discussed",
@@ -1507,61 +1578,6 @@
           "negative": [
             "probe"
           ],
-          "clickbait": []
-        },
-        {
-          "id": "84669b04361855c5",
-          "title": "Exclusive | SEC Is Probing Nvidia Amid Departure of CEO Jensen Huang",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQbjl2b0tzT1ROT2plV1p5RHhQd3hXOEJKRFhOZ1ItZExOQV9oVGkzTU9tcEEyTXhjNHRKQVExRTNRdEtlY24zUFhmS0h0c21FUVVrVVh0NGF2SXFmdm1wcmVRLUlCcG5CMGRIZklSdVBkVElkS3lwRF9LaGg4YzU5b0dsZXlveWxSNzhGYzJlZmRSRkhvUWZRTHB3?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-22T22:41:32.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "15a7c83f69f4665e",
-          "title": "Nvidia to Continue Robotics Investments After Huang's Departure, Assures Portfolio Companies Directly Under Interim CEO",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1IbWJob3hvWTZuUDRrRXFpZ2phdjVSWllyTmpLN2VSMlR0MV9NaExQVjJ3cHdlVUQ0czI1Y09HM256ZWY4QVhUZ3VLbUFBSTN1RU1GLVdENTdIcmNvSzlibnluYTlHUFc3b2M1TGRWTjNTeXNNZmc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:35:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c263909a5ff2ce12",
-          "title": "ARK Sold $17M of Nvidia, Bought $58M of Anthropic on Day 2",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPM1pxdXlfZmdVdW9sWUNjVjVzcEFsMlRzV0RhalhqQnpzeEQ0aEZjV3lyRXJmVmZsSVU0WkU1Rk1ZODlOUmhGXzlQU0dxVzV0T0JOOC1QVUpYSE9pYnNaMXlHWjc1ZzJGa29NZlpuVGd1TS0wX01xc2ZYWlFoOXYybTQzWkI4V0FEejZF?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:18:29.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "800dfb7ce1168df0",
-          "title": "Nvidia, Coherent, and Dell report strong AI-dri...",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQZ21zOW9hNmxmWFl0bDBUQ0RuQWNvYXhMWk51V3NGMk13c1lMMU9YTEQtTThLSlZUUmJVUVNhUkdBal9YZWtpbk54MjhPc2hwakNNSmlZZGtBWnBENXliTzVBamFDeVJfcm95VmlFZGMydG43c25ETDMwVGtMVlJtRW85U05jOGpDSzJ4a2V2UVFZdzI4SW1mWm8wWWJTZ0FzNHc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-22T22:15:03.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "34228c257af9b404",
-          "title": "Sen. Kennedy urges scrutiny of Lutnick over China’s access to Nvidia chips",
-          "url": "https://bsky.app/profile/washingtonpost.com/post/3n2wnbjv4b42a",
-          "source": "bluesky-ai",
-          "published_at": "2026-11-22T22:15:01.779Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
           "clickbait": []
         }
       ]
