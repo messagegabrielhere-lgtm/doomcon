@@ -453,8 +453,8 @@
     {
       "breaking_at": "2026-11-24T07:30:50.987Z",
       "clock_skew": true,
-      "corroboration": 18,
-      "earliest_published_at": "2026-11-24T06:00:13.000Z",
+      "corroboration": 17,
+      "earliest_published_at": "2026-11-24T06:14:40.000Z",
       "first_seen_at": "2026-11-22T19:41:48.349Z",
       "id": "be4118fd433bb",
       "item_ids": [
@@ -479,6 +479,7 @@
         "2a3d7234f43eab1e",
         "2bd93495398c7255",
         "2ca5c33bba801762",
+        "2e46ed7f550c8737",
         "2f33a4d8fd295fa4",
         "30213fbd7dcefc83",
         "31ef173353c3b9c9",
@@ -521,6 +522,7 @@
         "76a7186482d3dbd3",
         "76b72dfbff18bdc0",
         "78c8a3e0153d2d74",
+        "79e6be3727641647",
         "7fefb2ea2d24b077",
         "8058a04c72e87dcd",
         "83ec24c083c2ae44",
@@ -540,7 +542,6 @@
         "9ddc7e45b9ef4058",
         "a00188e5dc539576",
         "a0c9f0166ec7c53d",
-        "a2cba467c09cb192",
         "a3476bf23474339f",
         "a4b6605cb37d9740",
         "a716d15aacffadc0",
@@ -602,7 +603,6 @@
         "forbes.com",
         "forbesmiddleeast.com",
         "france24.com",
-        "kelo.com",
         "kucoin.com",
         "reuters.com",
         "scmp.com",
@@ -616,14 +616,6 @@
         "tier-one outlet plus one more"
       ],
       "sightings": [
-        {
-          "outlet": "bloomberg.com",
-          "published_at": "2026-11-24T06:00:13.000Z",
-          "source": "bluesky-ai",
-          "tier1": true,
-          "title": "Nvidia’s board already faced criticism for lacking the gravitas required to oversee the AI chip powerhouse – and that was before President Donald Trump chose to moonlight as a director. More here: blo",
-          "url": "https://bsky.app/profile/bloomberg.com/post/3n2zxqbzxra2c"
-        },
         {
           "outlet": "bloomberg.com",
           "published_at": "2026-11-24T06:14:40.000Z",
@@ -711,6 +703,14 @@
           "tier1": true,
           "title": "What Jensen Huang's Stunning Return Means for the AI Trade",
           "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNM2M1WjVja3FaWmtVZjVFZk1SWlVaeXhaWFoyc0FXSS15WXhOTXI5Q0xMSmNsVW5GdkNsMk1pc2s0dUlkSDRsVXlBR2pqbTRtVms0ZDhZSVREV1NWUTRvM3BtVXkzOEVfUURYY2Y0ZXhUV0FWNFBlOW9nb3B0TnpSQm9jMGJyV3N4RFZnV0xTbTc3VzZ1REludEQtRHViYjJpUjZGbEk0dzhlbFZGUVE?oc=5"
+        },
+        {
+          "outlet": "scmp.com",
+          "published_at": "2026-11-24T09:13:03.000Z",
+          "source": "scmp-tech",
+          "tier1": true,
+          "title": "China stocks miss out as Huang’s Nvidia return sparks AI rally",
+          "url": "https://scmp.com/plus/tech/tech-war/article/3375612/china-stocks-miss-out-huangs-nvidia-return-sparks-ai-rally"
         }
       ],
       "source": "wires-ai",
@@ -1878,7 +1878,7 @@
     }
   ],
   "fresh": "be1067cf81a08",
-  "generated_at": "2026-11-24T11:52:00.222Z",
+  "generated_at": "2026-11-24T12:03:00.184Z",
   "live": 3,
   "rules": {
     "keep": 30,
@@ -1937,8 +1937,8 @@
       },
       {
         "label": "Google News — AI searches, last hour",
-        "median_s": 945,
-        "n": 288,
+        "median_s": 936,
+        "n": 292,
         "source": "gnews-ai"
       },
       {
@@ -1967,8 +1967,8 @@
       },
       {
         "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
-        "median_s": 4522,
-        "n": 177,
+        "median_s": 4476,
+        "n": 181,
         "source": "wires-ai"
       },
       {
@@ -1976,6 +1976,12 @@
         "median_s": 5188,
         "n": 56,
         "source": "bloomberg-tech"
+      },
+      {
+        "label": "InfoQ — AI/ML",
+        "median_s": 5209,
+        "n": 8,
+        "source": "infoq-ai"
       },
       {
         "label": "GitHub releases (AI basket)",
@@ -1997,8 +2003,8 @@
       },
       {
         "label": "Techmeme front page (AI-filtered)",
-        "median_s": 8016,
-        "n": 31,
+        "median_s": 7669,
+        "n": 32,
         "source": "techmeme"
       },
       {
@@ -2006,12 +2012,6 @@
         "median_s": 8229,
         "n": 12,
         "source": "verge-ai"
-      },
-      {
-        "label": "InfoQ — AI/ML",
-        "median_s": 8702,
-        "n": 7,
-        "source": "infoq-ai"
       },
       {
         "label": "Google Research Blog",
@@ -2197,8 +2197,8 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 3550,
-      "n": 949
+      "median_s": 3499,
+      "n": 959
     },
     "window_hours": 24
   }
