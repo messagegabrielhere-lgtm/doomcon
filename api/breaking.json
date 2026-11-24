@@ -453,7 +453,7 @@
     {
       "breaking_at": "2026-11-24T07:30:50.987Z",
       "clock_skew": true,
-      "corroboration": 17,
+      "corroboration": 20,
       "earliest_published_at": "2026-11-24T06:14:40.000Z",
       "first_seen_at": "2026-11-22T19:41:48.349Z",
       "id": "be4118fd433bb",
@@ -544,7 +544,6 @@
         "a0c9f0166ec7c53d",
         "a3476bf23474339f",
         "a4b6605cb37d9740",
-        "a716d15aacffadc0",
         "ab6eb75ecdba85e9",
         "affb554213303069",
         "b251e0203bffe0b4",
@@ -596,6 +595,7 @@
         "barrons.com",
         "bloomberg.com",
         "bloomingbit.io",
+        "businessinsider.com",
         "cryptobriefing.com",
         "dealroom.co",
         "finimize.com",
@@ -603,11 +603,13 @@
         "forbes.com",
         "forbesmiddleeast.com",
         "france24.com",
+        "investing.com",
         "kucoin.com",
         "reuters.com",
         "scmp.com",
         "seekingalpha.com",
         "thedefiant.io",
+        "tradingview.com",
         "unite.ai",
         "wsj.com"
       ],
@@ -697,20 +699,20 @@
           "url": "https://bsky.app/profile/reuters.com/post/3n32iiz7wnk22"
         },
         {
-          "outlet": "bloomberg.com",
-          "published_at": "2026-11-24T09:00:11.000Z",
-          "source": "wires-ai",
-          "tier1": true,
-          "title": "What Jensen Huang's Stunning Return Means for the AI Trade",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNM2M1WjVja3FaWmtVZjVFZk1SWlVaeXhaWFoyc0FXSS15WXhOTXI5Q0xMSmNsVW5GdkNsMk1pc2s0dUlkSDRsVXlBR2pqbTRtVms0ZDhZSVREV1NWUTRvM3BtVXkzOEVfUURYY2Y0ZXhUV0FWNFBlOW9nb3B0TnpSQm9jMGJyV3N4RFZnV0xTbTc3VzZ1REludEQtRHViYjJpUjZGbEk0dzhlbFZGUVE?oc=5"
-        },
-        {
           "outlet": "scmp.com",
           "published_at": "2026-11-24T09:13:03.000Z",
           "source": "scmp-tech",
           "tier1": true,
           "title": "China stocks miss out as Huang’s Nvidia return sparks AI rally",
           "url": "https://scmp.com/plus/tech/tech-war/article/3375612/china-stocks-miss-out-huangs-nvidia-return-sparks-ai-rally"
+        },
+        {
+          "outlet": "bloomberg.com",
+          "published_at": "2026-11-24T09:13:10.000Z",
+          "source": "bloomberg-tech",
+          "tier1": true,
+          "title": "Ex-RBI Chief Rajan Sees Nvidia Governance Risk in Huang’s Return",
+          "url": "https://bloomberg.com/news/articles/2026-11-24/ex-rbi-chief-rajan-sees-nvidia-governance-risk-in-huang-s-return"
         }
       ],
       "source": "wires-ai",
@@ -1878,7 +1880,7 @@
     }
   ],
   "fresh": "be1067cf81a08",
-  "generated_at": "2026-11-24T12:03:00.184Z",
+  "generated_at": "2026-11-24T12:14:00.218Z",
   "live": 3,
   "rules": {
     "keep": 30,
@@ -1936,9 +1938,15 @@
         "source": "ai-snake-oil"
       },
       {
+        "label": "IEEE Spectrum — AI",
+        "median_s": 478,
+        "n": 1,
+        "source": "ieee-ai"
+      },
+      {
         "label": "Google News — AI searches, last hour",
-        "median_s": 936,
-        "n": 292,
+        "median_s": 882,
+        "n": 304,
         "source": "gnews-ai"
       },
       {
@@ -1955,26 +1963,26 @@
       },
       {
         "label": "Hacker News — newest AI submissions (2h)",
-        "median_s": 2812,
-        "n": 19,
+        "median_s": 2453,
+        "n": 21,
         "source": "hn-fresh-ai"
       },
       {
-        "label": "Bluesky — AI posts from vetted newsrooms and reporters",
-        "median_s": 4463,
-        "n": 79,
-        "source": "bluesky-ai"
-      },
-      {
         "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
-        "median_s": 4476,
-        "n": 181,
+        "median_s": 4322,
+        "n": 186,
         "source": "wires-ai"
       },
       {
+        "label": "Bluesky — AI posts from vetted newsrooms and reporters",
+        "median_s": 4387,
+        "n": 80,
+        "source": "bluesky-ai"
+      },
+      {
         "label": "Bloomberg Technology",
-        "median_s": 5188,
-        "n": 56,
+        "median_s": 5134,
+        "n": 58,
         "source": "bloomberg-tech"
       },
       {
@@ -2197,8 +2205,8 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 3499,
-      "n": 959
+      "median_s": 3348,
+      "n": 982
     },
     "window_hours": 24
   }
