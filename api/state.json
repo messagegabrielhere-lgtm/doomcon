@@ -4,21 +4,23 @@
   "_docs": "https://siren.watch/methodology.html",
   "_license": "CC BY 4.0",
   "dark_pillars": [],
-  "degraded": false,
-  "delta_from_previous": -0.2618,
+  "degraded": true,
+  "delta_from_previous": -0.1822,
   "engine_version": "1.0.0",
-  "failed_sources": [],
-  "generated_at": "2026-11-23T23:04:45.173Z",
+  "failed_sources": [
+    "intelligence-arena"
+  ],
+  "generated_at": "2026-11-23T23:52:05.421Z",
   "genesis_under_degradation": false,
   "health": {
-    "expected_next_run_utc": "2026-11-23T23:48:18.000Z",
+    "expected_next_run_utc": "2026-11-24T00:48:18.000Z",
     "pillars_dark": 0,
     "pillars_live": 4,
     "pillars_total": 5,
     "pillars_uncalibrated": 1,
     "schedule_cron": "7 * * * *",
-    "sources_failed": 0,
-    "sources_reporting": 18,
+    "sources_failed": 1,
+    "sources_reporting": 17,
     "sources_scored": 5,
     "sources_total": 18,
     "typical_lag_minutes": 41.3
@@ -32,8 +34,8 @@
       "id": "capability",
       "in_composite": true,
       "name": "Capability",
-      "percentile": 0.088021,
-      "score": 35.4308,
+      "percentile": 0.085056,
+      "score": 34.8008,
       "sources_ok": 1,
       "sources_total": 5,
       "uncalibrated": false,
@@ -44,8 +46,8 @@
       "id": "compute",
       "in_composite": true,
       "name": "Compute & Capital",
-      "percentile": 0.795146,
-      "score": 59.2459,
+      "percentile": 0.767819,
+      "score": 59.2678,
       "sources_ok": 1,
       "sources_total": 4,
       "uncalibrated": false,
@@ -56,8 +58,8 @@
       "id": "attention",
       "in_composite": true,
       "name": "Attention",
-      "percentile": 0.177768,
-      "score": 36.5466,
+      "percentile": 0.179455,
+      "score": 36.0759,
       "sources_ok": 2,
       "sources_total": 4,
       "uncalibrated": false,
@@ -92,13 +94,13 @@
     }
   ],
   "post_suppressed": false,
-  "prev_receipt_hash": "sha256:8c796c2c4c31cd6d3444bd3bdceb9e21741c1c3be4e89dbeb651a8e55b619f02",
+  "prev_receipt_hash": "sha256:fdeb5a2c169d14122f3b41f445bb49c5c73b1850f7ba7c3392b076647fa86eda",
   "previous_level": 3,
-  "receipt_hash": "sha256:fdeb5a2c169d14122f3b41f445bb49c5c73b1850f7ba7c3392b076647fa86eda",
-  "receipt_id": "2026-11-23T23-04-45Z",
+  "receipt_hash": "sha256:6bfeb8915f72e903c462f15089a10c8fc3456af5700e9afe6391525738097118",
+  "receipt_id": "2026-11-23T23-52-05Z",
   "rule_fired": "none",
   "schema": 1,
-  "score": 50.8616,
+  "score": 50.6794,
   "shadow": {
     "addenda_built_at": "2026-10-08T03:08:24.187Z",
     "addenda_hash": "sha256:6f85af30f82e79df9bfbdc1b71271264368468c4bb297ac6acd1c01c651d1225",
@@ -107,7 +109,7 @@
     ],
     "addenda_version": "1.0.0",
     "dark_pillars": [],
-    "delta_vs_official": 6.697,
+    "delta_vs_official": 6.6918,
     "level_estimate": 3,
     "level_name_estimate": "ELEVATED",
     "note": "SHADOW. Scored against data/reference.json (v1, frozen) plus data/reference-addenda.json. Not the official index: no receipt, no level change, level is the band the shadow score falls in. See docs/REFERENCE-VERSIONING.md for the promotion rule.",
@@ -115,19 +117,19 @@
       {
         "dark": false,
         "id": "capability",
-        "score": 35.4308,
+        "score": 34.8008,
         "uncalibrated": false
       },
       {
         "dark": false,
         "id": "compute",
-        "score": 73.3448,
+        "score": 73.3558,
         "uncalibrated": false
       },
       {
         "dark": false,
         "id": "attention",
-        "score": 36.5466,
+        "score": 36.0759,
         "uncalibrated": false
       },
       {
@@ -145,8 +147,14 @@
     ],
     "reference": "v1+addenda",
     "reference_v1_hash": "sha256:f91658b2dc572ae2b5a74ff21e869dd9aa6f814ff68f1b66462708b91dfaf6e7",
-    "score": 57.5586,
+    "score": 57.3712,
     "series": [
+      {
+        "sources": {
+          "stockanalysis": 87.4437
+        },
+        "t": "2026-11-23T23:52:05.421Z"
+      },
       {
         "sources": {
           "stockanalysis": 87.4437
@@ -212,12 +220,6 @@
           "stockanalysis": 87.4437
         },
         "t": "2026-11-23T13:58:16.888Z"
-      },
-      {
-        "sources": {
-          "stockanalysis": 87.4437
-        },
-        "t": "2026-11-23T12:33:30.945Z"
       }
     ],
     "sources": [
@@ -239,15 +241,15 @@
       "error": null,
       "id": "arxiv",
       "label": null,
-      "last_ok": "2026-11-23T23:04:45.192Z",
-      "observed_at": "2026-11-23T23:04:45.192Z",
+      "last_ok": "2026-11-23T23:52:05.445Z",
+      "observed_at": "2026-11-23T23:52:05.445Z",
       "ok": true,
-      "percentile": 0.088021,
+      "percentile": 0.085056,
       "pillar": "capability",
-      "score": 35.4308,
+      "score": 34.8008,
       "uncalibrated": false,
       "unit": "papers/7d",
-      "value": 1517
+      "value": 1509
     },
     {
       "age_seconds": 0,
@@ -255,7 +257,7 @@
       "id": "github-releases",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:45.196Z",
+      "observed_at": "2026-11-23T23:52:05.450Z",
       "ok": false,
       "percentile": null,
       "pillar": "capability",
@@ -270,14 +272,14 @@
       "id": "hf-datasets",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:45.197Z",
+      "observed_at": "2026-11-23T23:52:05.451Z",
       "ok": false,
       "percentile": null,
       "pillar": "capability",
       "score": null,
       "uncalibrated": true,
       "unit": "datasets/24h",
-      "value": 2235
+      "value": 2264
     },
     {
       "age_seconds": 0,
@@ -285,14 +287,14 @@
       "id": "huggingface",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:45.198Z",
+      "observed_at": "2026-11-23T23:52:05.452Z",
       "ok": false,
       "percentile": null,
       "pillar": "capability",
       "score": null,
       "uncalibrated": true,
       "unit": "models/24h",
-      "value": 7617
+      "value": 7673
     },
     {
       "age_seconds": 0,
@@ -300,7 +302,7 @@
       "id": "openrouter",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:45.198Z",
+      "observed_at": "2026-11-23T23:52:05.452Z",
       "ok": false,
       "percentile": null,
       "pillar": "capability",
@@ -315,7 +317,7 @@
       "id": "datacrunch",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:46.422Z",
+      "observed_at": "2026-11-23T23:52:06.542Z",
       "ok": false,
       "percentile": null,
       "pillar": "compute",
@@ -329,15 +331,15 @@
       "error": null,
       "id": "sec-fts",
       "label": null,
-      "last_ok": "2026-11-23T23:04:45.198Z",
-      "observed_at": "2026-11-23T23:04:45.198Z",
+      "last_ok": "2026-11-23T23:52:05.452Z",
+      "observed_at": "2026-11-23T23:52:05.452Z",
       "ok": true,
-      "percentile": 0.795146,
+      "percentile": 0.767819,
       "pillar": "compute",
-      "score": 59.2459,
+      "score": 59.2678,
       "uncalibrated": false,
       "unit": "filings/30d",
-      "value": 5926
+      "value": 5809
     },
     {
       "age_seconds": 0,
@@ -345,7 +347,7 @@
       "id": "stockanalysis",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:45.198Z",
+      "observed_at": "2026-11-23T23:52:05.453Z",
       "ok": false,
       "percentile": null,
       "pillar": "compute",
@@ -360,47 +362,47 @@
       "id": "vastai",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:45.684Z",
+      "observed_at": "2026-11-23T23:52:06.014Z",
       "ok": false,
       "percentile": null,
       "pillar": "compute",
       "score": null,
       "uncalibrated": true,
       "unit": "usd/gpu/hour",
-      "value": 0.45677777777777784
+      "value": 0.45611111111111113
     },
     {
       "age_seconds": 0,
       "error": null,
       "id": "hn",
       "label": null,
-      "last_ok": "2026-11-23T23:04:45.199Z",
-      "observed_at": "2026-11-23T23:04:45.199Z",
+      "last_ok": "2026-11-23T23:52:05.453Z",
+      "observed_at": "2026-11-23T23:52:05.453Z",
       "ok": true,
-      "percentile": 0.026385,
+      "percentile": 0.029759,
       "pillar": "attention",
-      "score": 28.6215,
+      "score": 27.68,
       "uncalibrated": false,
       "unit": "points/24h",
-      "value": 515
+      "value": 538
     },
     {
-      "age_seconds": 0,
-      "error": "uncalibrated: \"intelligence-arena\" has no entry in data/reference.json yet, so it is collected and published but not scored",
+      "age_seconds": null,
+      "error": "timeout after 15000ms: https://www.intelligencearena.ai/api/arena/latest",
       "id": "intelligence-arena",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:05:11.012Z",
+      "observed_at": null,
       "ok": false,
       "percentile": null,
       "pillar": "attention",
       "score": null,
-      "uncalibrated": true,
-      "unit": "mentions",
-      "value": 132759
+      "uncalibrated": false,
+      "unit": null,
+      "value": null
     },
     {
-      "age_seconds": 83085,
+      "age_seconds": 85925,
       "error": null,
       "id": "wikipedia",
       "label": null,
@@ -420,7 +422,7 @@
       "id": "wikipedia-zh",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:45.612Z",
+      "observed_at": "2026-11-23T23:52:05.802Z",
       "ok": false,
       "percentile": null,
       "pillar": "attention",
@@ -434,8 +436,8 @@
       "error": null,
       "id": "federal-register",
       "label": null,
-      "last_ok": "2026-11-23T23:04:45.199Z",
-      "observed_at": "2026-11-23T23:04:45.199Z",
+      "last_ok": "2026-11-23T23:52:05.454Z",
+      "observed_at": "2026-11-23T23:52:05.454Z",
       "ok": true,
       "percentile": 0.735,
       "pillar": "governance",
@@ -450,7 +452,7 @@
       "id": "govuk",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:45.200Z",
+      "observed_at": "2026-11-23T23:52:05.454Z",
       "ok": false,
       "percentile": null,
       "pillar": "governance",
@@ -468,14 +470,14 @@
       "id": "kalshi",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:55.303Z",
+      "observed_at": "2026-11-23T23:52:16.478Z",
       "ok": false,
       "percentile": null,
       "pillar": "markets",
       "score": null,
       "uncalibrated": true,
       "unit": "prob_points/day",
-      "value": 0.009382209536467276
+      "value": 0.011815305168601777
     },
     {
       "age_seconds": 0,
@@ -486,14 +488,14 @@
       "id": "manifold",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:46.584Z",
+      "observed_at": "2026-11-23T23:52:07.656Z",
       "ok": false,
       "percentile": null,
       "pillar": "markets",
       "score": null,
       "uncalibrated": true,
       "unit": "mana/24h",
-      "value": 22815.502591825407
+      "value": 24169.490563818243
     },
     {
       "age_seconds": 0,
@@ -504,14 +506,14 @@
       "id": "polymarket",
       "label": null,
       "last_ok": null,
-      "observed_at": "2026-11-23T23:04:50.635Z",
+      "observed_at": "2026-11-23T23:52:11.168Z",
       "ok": false,
       "percentile": null,
       "pillar": "markets",
       "score": null,
       "uncalibrated": true,
       "unit": "prob_points/day",
-      "value": 0.018993284121740346
+      "value": 0.016988842128612843
     }
   ],
   "uncalibrated_pillars": [
@@ -525,7 +527,6 @@
     "datacrunch",
     "stockanalysis",
     "vastai",
-    "intelligence-arena",
     "wikipedia-zh",
     "govuk",
     "kalshi",
