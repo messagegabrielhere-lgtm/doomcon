@@ -25,30 +25,30 @@ Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](ht
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-24 22:16 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-24 22:30 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
-1. [Nvidia’s Board Was No Match for Trump or Jensen Huang’s Backers](https://news.google.com/rss/articles/CBMitAFBVV95cUxOVVVzOFdOb2NreWVDbnpLSXNfYkEycmtjbVJkZTZHUjdhSkZXWDB3bXdJWE1xdWR1UE9SSHhYakRBcVllWFQxcUJIZTIxU0pxS3lDTmpCWW5NZE1WbWdHR3VNUXJaWlJSYmlJV0RQNHRveGxyNXo2RWNPVjctVFpjT21nRVJJSHRseDRzQlFWZEkyNDI0WUNaQlNQY2NMZnhrc1Z5NjVGX3RXdmFZSTVvYjJWMFM?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 00:30 UTC · score 84.0 · attention
-2. [Huawei Found Guilty of Stealing Trade Secrets in U.S. Trial](https://bsky.app/profile/nytimes.com/post/3n33iwppdyu2s) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-24 20:40 UTC · score 82.6 · governance
-3. [Sources: Anthropic and OpenAI employees warn that internal, unreleased models have achieved rapid advances in reasoning, making them unsafe to release publicly (Madison Mills/Axios)](https://techmeme.com/261124/p11) — Techmeme front page (AI-filtered) · 2026-11-24 11:20 UTC · score 78.2 · attention
-4. [EXCLUSIVE: Microsoft declares 'Code Red' after historic outage, internal memos show](https://news.google.com/rss/articles/CBMitAFBVV95cUxOZWlZRm9kdXdaMDkwUWdXZVZPM2NTakFfZTFDa3Iwcm5yNXh4enZZVWRpWjBuc2ZpVERzOElVc0h5NjY4eXZnb0w5YUZ4Wm1nRmUwd04xQmNKZDQxOFlQWk12N0FCd3hSQTVLVFFWZmJKbm01S0pCM1AwRXVRZklpdWJfdkJ1N0FDdS1EZGNqTzd4WjZoUy1qZ1QwNktXdUlMWlBDYW9jYlozNEVDV01DSGZlVVc?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 16:57 UTC · score 77.1 · attention
-5. [Tidal will ban fully AI-generated music on December 9](https://bsky.app/profile/arstechnica.com/post/3n336lhu3nf2q) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-24 17:35 UTC · score 74.5 · attention
+1. [Nvidia’s Board Was No Match for Trump or Jensen Huang’s Backers](https://news.google.com/rss/articles/CBMitAFBVV95cUxOVVVzOFdOb2NreWVDbnpLSXNfYkEycmtjbVJkZTZHUjdhSkZXWDB3bXdJWE1xdWR1UE9SSHhYakRBcVllWFQxcUJIZTIxU0pxS3lDTmpCWW5NZE1WbWdHR3VNUXJaWlJSYmlJV0RQNHRveGxyNXo2RWNPVjctVFpjT21nRVJJSHRseDRzQlFWZEkyNDI0WUNaQlNQY2NMZnhrc1Z5NjVGX3RXdmFZSTVvYjJWMFM?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 00:30 UTC · score 83.9 · attention
+2. [Huawei Found Guilty of Stealing Trade Secrets in U.S. Trial](https://bsky.app/profile/nytimes.com/post/3n33iwppdyu2s) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-24 20:40 UTC · score 82.5 · governance
+3. [Sources: Anthropic and OpenAI employees warn that internal, unreleased models have achieved rapid advances in reasoning, making them unsafe to release publicly (Madison Mills/Axios)](https://techmeme.com/261124/p11) — Techmeme front page (AI-filtered) · 2026-11-24 11:20 UTC · score 78.1 · attention
+4. [EXCLUSIVE: Microsoft declares 'Code Red' after historic outage, internal memos show](https://news.google.com/rss/articles/CBMitAFBVV95cUxOZWlZRm9kdXdaMDkwUWdXZVZPM2NTakFfZTFDa3Iwcm5yNXh4enZZVWRpWjBuc2ZpVERzOElVc0h5NjY4eXZnb0w5YUZ4Wm1nRmUwd04xQmNKZDQxOFlQWk12N0FCd3hSQTVLVFFWZmJKbm01S0pCM1AwRXVRZklpdWJfdkJ1N0FDdS1EZGNqTzd4WjZoUy1qZ1QwNktXdUlMWlBDYW9jYlozNEVDV01DSGZlVVc?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 16:57 UTC · score 77.0 · attention
+5. [Tidal will ban fully AI-generated music on December 9](https://bsky.app/profile/arstechnica.com/post/3n336lhu3nf2q) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-24 17:35 UTC · score 74.3 · attention
 6. [Amazon to buy Decart’s AI chip optimization tech in latest AI talent grab](https://news.google.com/rss/articles/CBMiqgFBVV95cUxQZndiYkg0MWw0RFpHdEQwOW9UOXFVR2ZGRmMtWXdZRXRwU1djWEZqenJDYzVtcU92a21fbWRERmljMF82UFJWREd6anJYY2VsWWRNRGtNZDdyWVZ6ZkFBYnhycDFFcTBoU2Z6a3Iwb0o5eEs5ZnJocTh1RlA2SHFRaWNUMlVCeGwyTnZFUXZRUW5TZmtjZV9idGVLNGwwcEFfZmFQNkRXejJFUQ?oc=5) — Google News — AI searches, last hour · 2026-11-23 15:17 UTC · score 72.2 · compute
 7. [OpenAI Staffer Likely Captured Secrets on Hidden Bug, US Says](https://news.google.com/rss/articles/CBMizwFBVV95cUxNZC1uVGhySjlaVEpDWFAyYmUxemxaWUxDSkczQWM0SjBuV0xhZHRwREk3T0JYS0RaMno1dzh3VnBRRFFqRW8waDdlbXBMSHlROVpWZlpRZHFpQTFSSXlFTzV1LUo1NUJvZ3BkV1JWZ0dlc1g0ZUlHQ2FEOHlRZnNHMS1mRzNPMGh4VmFqTVhYdUx3TlByTGk5Z2RRYWZQYURMMlgtMjI3Q1M2QTduMWZJaS1oenRCck5GOXhJY19XYVpRbFlrWkhZY0pMOWNoSzA?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 23:56 UTC · score 71.9 · attention
 8. [SpaceX, Tesla appoint five directors to guide merger talks, FT reports](https://news.google.com/rss/articles/CBMitwFBVV95cUxPQXlLNG9FZFJ0SjJ6YmxybS03UEdTTDZuMUpzQ1pHdmZQUG1WRVdMRktKZ3ptRVVCNXkxdm92eEVBZ0N5c0pDemw5M3NOLUpxWV9tZHdQRWtJM2NnQnZZZVljOEtaRjQzdlRDR2hjM2VIWU9MZS12QmkwbDkyUl9mNGxRRUk4WW5IVm1QVWJuQWhyYS1jN1FMQzBmOHdhLWhTMjRHUnJhOVplSnY4Nm9YMmNfUHdqbms?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 05:20 UTC · score 70.7 · compute
-9. [Trump Administration Imposes Sanctions on Megaspeed, Singaporean Firm at Center of Nvidia Scandal](https://nytimes.com/2026/11/23/technology/trump-administration-megaspeed-trade-blacklist-nvidia.html) — The New York Times — Technology · 2026-11-23 21:50 UTC · score 68.4 · governance
-10. [Anthropic launches Claude Ship to help developers ship code faster](https://news.google.com/rss/articles/CBMirAFBVV95cUxNVURIRFNoWllBMDkzLVhtNFloSkdUTFZ2ZmZWN2pMMm52ckI0N1dXT3pVX0VDa3NZYW1YNW5NMVlVdkJCSXVTTGJVc0RxVVNndnhCdTA2dDRIVFIyempCd0MxTEc4SzJoTHJsZGVNTTNDRUlmN1RWb0tzRWRzX2RBZzFkLTlFQkF3VllOUV9ReHg0VHQ4cWtld3psMWpiYTVDZER3UUJ0cXpseWpj?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 20:00 UTC · score 67.3 · attention
+9. [Nasdaq Resumes Selloff as Nvidia, Anthropic Shares Slump](https://news.google.com/rss/articles/CBMingFBVV95cUxOeEpzR3NLc2czaVQ0bUV4SzB6NTk3MjJtbWFoWXJVcjZxcDFNS1NYc1VSYkhDMTRXTUpHVktRQUQxb0c1VkVuTlBQOWF6TzA4N2pxZzdlSy1BczA3azhsX0N1dk9Td0R0d210ZVBfOGh3cXB1SkE1Yi1ZTnpKM0pFcnduQzlaV18wMGhlMUNfVW5OaVdPWGp6dDRLa2JMQQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 19:32 UTC · score 68.8 · attention
+10. [GPT-6 models demonstrate intrinsic protein-design capabilities](https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities) — OpenAI newsroom · 2026-11-24 13:00 UTC · score 68.3 · capability
 
 ## Leaders most covered this week
 
 Stories in the press naming each person over the last 7 days (Google News search). Coverage is not a statement by the person.
 
-- Dario Amodei (Anthropic): 684+ stories
-- Jensen Huang (Nvidia): 541+ stories
-- Elon Musk (xAI): 473+ stories
+- Dario Amodei (Anthropic): 685+ stories
+- Jensen Huang (Nvidia): 539+ stories
+- Elon Musk (xAI): 472+ stories
 - Sam Altman (OpenAI): 281 stories
-- Satya Nadella (Microsoft): 244 stories
-- Mark Zuckerberg (Meta): 177 stories
-- Greg Brockman (OpenAI): 119 stories
+- Satya Nadella (Microsoft): 241 stories
+- Mark Zuckerberg (Meta): 175 stories
+- Greg Brockman (OpenAI): 118 stories
 - Sundar Pichai (Alphabet): 79 stories
 - Alex Karp (Palantir): 69 stories
 - Geoffrey Hinton (University of Toronto): 49 stories
