@@ -3,7 +3,7 @@
     {
       "breaking_at": "2026-11-24T19:06:16.433Z",
       "clock_skew": true,
-      "corroboration": 2,
+      "corroboration": 3,
       "earliest_published_at": "2026-11-24T16:16:10.000Z",
       "first_seen_at": "2026-11-24T02:08:18.228Z",
       "id": "bf73fa451d7e2",
@@ -17,9 +17,11 @@
       "outlet": "arstechnica.com",
       "outlets": [
         "arstechnica.com",
-        "cnbc.com"
+        "cnbc.com",
+        "upi.com"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "sightings": [
@@ -38,6 +40,14 @@
           "tier1": true,
           "title": "FAA opens probe after Amazon delivery drone clips cable, crashes into garage",
           "url": "https://bsky.app/profile/arstechnica.com/post/3n33cntfxgb2x"
+        },
+        {
+          "outlet": "upi.com",
+          "published_at": "2026-11-24T19:06:16.433Z",
+          "source": "hn-fresh-ai",
+          "tier1": false,
+          "title": "Amazon delivery drone crashes into Michigan garage",
+          "url": "https://upi.com/Odd_News/2026/11/24/amazon-drone-crash-huntington-woods-michigan/2021795542107"
         }
       ],
       "source": "bluesky-ai",
@@ -187,6 +197,14 @@
           "tier1": true,
           "title": "Tidal to ban and remove millions of AI-generated tracks as AI slop inundates music streaming",
           "url": "https://techcrunch.com/2026/11/24/tidal-to-ban-and-remove-millions-of-ai-generated-tracks-as-ai-slop-inundates-music-streaming"
+        },
+        {
+          "outlet": "techcrunch.com",
+          "published_at": "2026-11-24T16:49:04.000Z",
+          "source": "bluesky-ai",
+          "tier1": true,
+          "title": "Tidal to ban and remove millions of AI-generated tracks as AI slop inundates music streaming",
+          "url": "https://bsky.app/profile/techcrunch.com/post/3n333yjukcu2a"
         },
         {
           "outlet": "theverge.com",
@@ -407,10 +425,12 @@
         "0296f9bfd8c2b9f9",
         "04d30a549d560867",
         "0505f80a65e18c55",
+        "06d7624d39b4aa7b",
         "097b606d130b20d8",
         "09ca3ca3951361ec",
         "0a4e6ae01d0ae3c3",
         "0ea7dc583bc774e3",
+        "121dc3849bbc034c",
         "146cfde1f80278ee",
         "18ef2236ed1fb5a3",
         "1d17987e73383f57",
@@ -471,6 +491,7 @@
         "75b545ba89feaf76",
         "76b72dfbff18bdc0",
         "78c8a3e0153d2d74",
+        "79a5b4e471b7af96",
         "79e6be3727641647",
         "7e7f32f380e021fa",
         "7f1649e7b779f6d3",
@@ -1912,7 +1933,7 @@
     }
   ],
   "fresh": null,
-  "generated_at": "2026-11-24T19:35:47.656Z",
+  "generated_at": "2026-11-24T19:46:47.017Z",
   "live": 7,
   "rules": {
     "keep": 30,
@@ -1989,8 +2010,8 @@
       },
       {
         "label": "Hacker News — newest AI submissions (2h)",
-        "median_s": 2339,
-        "n": 42,
+        "median_s": 2225,
+        "n": 43,
         "source": "hn-fresh-ai"
       },
       {
@@ -2007,8 +2028,8 @@
       },
       {
         "label": "Bluesky — AI posts from vetted newsrooms and reporters",
-        "median_s": 3655,
-        "n": 129,
+        "median_s": 3644,
+        "n": 130,
         "source": "bluesky-ai"
       },
       {
@@ -2025,8 +2046,8 @@
       },
       {
         "label": "Bloomberg Technology",
-        "median_s": 5148,
-        "n": 83,
+        "median_s": 5134,
+        "n": 84,
         "source": "bloomberg-tech"
       },
       {
@@ -2042,6 +2063,12 @@
         "source": "wires-ai"
       },
       {
+        "label": "Techmeme front page (AI-filtered)",
+        "median_s": 5745,
+        "n": 48,
+        "source": "techmeme"
+      },
+      {
         "label": "Ars Technica AI",
         "median_s": 5861,
         "n": 7,
@@ -2052,12 +2079,6 @@
         "median_s": 5908,
         "n": 2,
         "source": "mit-news-ai"
-      },
-      {
-        "label": "Techmeme front page (AI-filtered)",
-        "median_s": 6074,
-        "n": 47,
-        "source": "techmeme"
       },
       {
         "label": "Google AI blog (The Keyword)",
@@ -2085,8 +2106,8 @@
       },
       {
         "label": "LessWrong",
-        "median_s": 7336,
-        "n": 19,
+        "median_s": 7330,
+        "n": 20,
         "source": "lesswrong"
       },
       {
@@ -2193,8 +2214,8 @@
       },
       {
         "label": "Hacker News AI stories (72h)",
-        "median_s": 22231,
-        "n": 18,
+        "median_s": 21656,
+        "n": 19,
         "source": "hn-ai"
       },
       {
@@ -2237,8 +2258,8 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 3348,
-      "n": 1302
+      "median_s": 3308,
+      "n": 1308
     },
     "window_hours": 24
   }
