@@ -25,33 +25,33 @@ Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](ht
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-24 15:37 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-24 15:48 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
-1. [Anthropic falls below $83 IPO price in swift reversal after record listing](https://news.google.com/rss/articles/CBMiowFBVV95cUxNMHBNOVY5RDc1NmxUUjNnZkNhLWROQkhUOFZpVmQ0SEI0UG9aSUpTTjhpV3EydTNkdW8xYm1KOWF6OXg2Z3BMaUJCWTE3WnFCM0hCZGNuQ3ZKUklsYUROVWQzdExOamNKVlJLRTgwYWpoYVdOUjlDY0pxTmxZajlvckJ4cHc0TG1hbW1ZUkszaDZ2M2Rvd3RqTWRFaVRENXVWT0pr?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 12:54 UTC · score 92.3 · compute
-2. [Amazon to buy Decart’s AI chip optimization tech in latest AI talent grab](https://news.google.com/rss/articles/CBMiqgFBVV95cUxQZndiYkg0MWw0RFpHdEQwOW9UOXFVR2ZGRmMtWXdZRXRwU1djWEZqenJDYzVtcU92a21fbWRERmljMF82UFJWREd6anJYY2VsWWRNRGtNZDdyWVZ6ZkFBYnhycDFFcTBoU2Z6a3Iwb0o5eEs5ZnJocTh1RlA2SHFRaWNUMlVCeGwyTnZFUXZRUW5TZmtjZV9idGVLNGwwcEFfZmFQNkRXejJFUQ?oc=5) — Google News — AI searches, last hour · 2026-11-23 15:17 UTC · score 73.7 · compute
-3. [SpaceX, Tesla appoint five directors to guide merger talks, FT reports](https://news.google.com/rss/articles/CBMitwFBVV95cUxPQXlLNG9FZFJ0SjJ6YmxybS03UEdTTDZuMUpzQ1pHdmZQUG1WRVdMRktKZ3ptRVVCNXkxdm92eEVBZ0N5c0pDemw5M3NOLUpxWV9tZHdQRWtJM2NnQnZZZVljOEtaRjQzdlRDR2hjM2VIWU9MZS12QmkwbDkyUl9mNGxRRUk4WW5IVm1QVWJuQWhyYS1jN1FMQzBmOHdhLWhTMjRHUnJhOVplSnY4Nm9YMmNfUHdqbms?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 05:20 UTC · score 72.7 · compute
-4. [Why Jensen Huang’s Return Won’t Solve All of Nvidia’s Problems](https://news.google.com/rss/articles/CBMivwFBVV95cUxOanpnMmdoeGp3MHF3SHo4RFVnLWs4em9iT09GVEpvWGMxeFBOeHVnTjJyV1l5dFdfclFrR3BqQ3BUU25LZlIwUEdodEFCSTU0cVlYTnB4NU5EVm45ZEs4QVFIV0tLZUtTNDNRNnB3aUNHRm5mWjhaV1FPVnowdkRlSkcxOFJrenF6ajhHZXdESk5VNmYyYTRWQV80UVlNYmd5WlpIdS12dlQ0a28wcjhHMjF0ZHJRckc4OFJRZE5HWQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 04:28 UTC · score 71.7 · attention
-5. [Nvidia’s Board Was No Match for Trump or Jensen Huang’s Backers](https://news.google.com/rss/articles/CBMitAFBVV95cUxOVVVzOFdOb2NreWVDbnpLSXNfYkEycmtjbVJkZTZHUjdhSkZXWDB3bXdJWE1xdWR1UE9SSHhYakRBcVllWFQxcUJIZTIxU0pxS3lDTmpCWW5NZE1WbWdHR3VNUXJaWlJSYmlJV0RQNHRveGxyNXo2RWNPVjctVFpjT21nRVJJSHRseDRzQlFWZEkyNDI0WUNaQlNQY2NMZnhrc1Z5NjVGX3RXdmFZSTVvYjJWMFM?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 00:30 UTC · score 70.7 · attention
-6. [Trump Administration Imposes Sanctions on Megaspeed, Singaporean Firm at Center of Nvidia Scandal](https://nytimes.com/2026/11/23/technology/trump-administration-megaspeed-trade-blacklist-nvidia.html) — The New York Times — Technology · 2026-11-23 21:50 UTC · score 70.1 · governance
-7. [Anthropic launches Claude Ship to help developers ship code faster](https://news.google.com/rss/articles/CBMirAFBVV95cUxNVURIRFNoWllBMDkzLVhtNFloSkdUTFZ2ZmZWN2pMMm52ckI0N1dXT3pVX0VDa3NZYW1YNW5NMVlVdkJCSXVTTGJVc0RxVVNndnhCdTA2dDRIVFIyempCd0MxTEc4SzJoTHJsZGVNTTNDRUlmN1RWb0tzRWRzX2RBZzFkLTlFQkF3VllOUV9ReHg0VHQ4cWtld3psMWpiYTVDZER3UUJ0cXpseWpj?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 20:00 UTC · score 68.9 · attention
-8. [OpenAI Staffer Likely Captured Secrets on Hidden Bug, US Says](https://news.google.com/rss/articles/CBMizwFBVV95cUxNZC1uVGhySjlaVEpDWFAyYmUxemxaWUxDSkczQWM0SjBuV0xhZHRwREk3T0JYS0RaMno1dzh3VnBRRFFqRW8waDdlbXBMSHlROVpWZlpRZHFpQTFSSXlFTzV1LUo1NUJvZ3BkV1JWZ0dlc1g0ZUlHQ2FEOHlRZnNHMS1mRzNPMGh4VmFqTVhYdUx3TlByTGk5Z2RRYWZQYURMMlgtMjI3Q1M2QTduMWZJaS1oenRCck5GOXhJY19XYVpRbFlrWkhZY0pMOWNoSzA?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 23:56 UTC · score 68.7 · attention
-9. [US blacklists Megaspeed chip firm linked to Nvidia scandal](https://news.google.com/rss/articles/CBMisAFBVV95cUxPZ3ZUR1ZCZXpLTkNjVFA5cm1ueHd6VjlHUzZSZWUtNE40NndKNFNWQVJqV3k4WHA5SU5BQTBvWmw5dlN3S1RZZHQ5WG5LRGhWMDFxUk83RjdGV0dqWUtjU3c4RlVkdkFBVlhfbXdiVm1WWW44dEtpUXY0Yjk0ZndBN2w3MURmNkVJLUlvM3ZpSmRfV3RTeUJYNHQtS29HaUFwejF2SlVtR2lpY0NqX3BYMg?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 21:22 UTC · score 68.4 · compute
-10. [Amazon says hackers' AI agents found and exploited 0-day with little human input](https://arstechnica.com/security/2026/11/amazon-says-hackers-ai-agents-found-and-exploited-0-day-with-little-human-input) — Ars Technica AI · 2026-11-24 12:30 UTC · score 66.8 · attention
+1. [Nvidia board's Huang reversal raises doubts about independence, critics say](https://news.google.com/rss/articles/CBMiyAFBVV95cUxPc0s4b2VlR0lnRDlhYWpheHZuRHcwNmd3VWFzUFZTZkNfbjlYaG8ybDVjZ1d4VlFXS3JaZmFWTjhkTlpaeTBKVTN3aGV1eERkMFlmZGRxUzVsYzRaZFhNblp5S2d0czFZV3ZJZVpOc0c4YlJJazhiQzlYYkFJYUo5YnhfMklmdDVGVklQMHBCQkN6dVRLQkRHWEFGaDZQMFBDblJzam5wSTFxdWd5SUdNRXdpUVRSVzNFYmNOUFo0SkllU0FMSF9lbQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 13:35 UTC · score 89.7 · attention
+2. [Anthropic falls below $83 IPO price in swift reversal after record listing](https://news.google.com/rss/articles/CBMiowFBVV95cUxNMHBNOVY5RDc1NmxUUjNnZkNhLWROQkhUOFZpVmQ0SEI0UG9aSUpTTjhpV3EydTNkdW8xYm1KOWF6OXg2Z3BMaUJCWTE3WnFCM0hCZGNuQ3ZKUklsYUROVWQzdExOamNKVlJLRTgwYWpoYVdOUjlDY0pxTmxZajlvckJ4cHc0TG1hbW1ZUkszaDZ2M2Rvd3RqTWRFaVRENXVWT0pr?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 14:41 UTC · score 88.9 · compute
+3. [Amazon to buy Decart’s AI chip optimization tech in latest AI talent grab](https://news.google.com/rss/articles/CBMiqgFBVV95cUxQZndiYkg0MWw0RFpHdEQwOW9UOXFVR2ZGRmMtWXdZRXRwU1djWEZqenJDYzVtcU92a21fbWRERmljMF82UFJWREd6anJYY2VsWWRNRGtNZDdyWVZ6ZkFBYnhycDFFcTBoU2Z6a3Iwb0o5eEs5ZnJocTh1RlA2SHFRaWNUMlVCeGwyTnZFUXZRUW5TZmtjZV9idGVLNGwwcEFfZmFQNkRXejJFUQ?oc=5) — Google News — AI searches, last hour · 2026-11-23 15:17 UTC · score 73.7 · compute
+4. [SpaceX, Tesla appoint five directors to guide merger talks, FT reports](https://news.google.com/rss/articles/CBMitwFBVV95cUxPQXlLNG9FZFJ0SjJ6YmxybS03UEdTTDZuMUpzQ1pHdmZQUG1WRVdMRktKZ3ptRVVCNXkxdm92eEVBZ0N5c0pDemw5M3NOLUpxWV9tZHdQRWtJM2NnQnZZZVljOEtaRjQzdlRDR2hjM2VIWU9MZS12QmkwbDkyUl9mNGxRRUk4WW5IVm1QVWJuQWhyYS1jN1FMQzBmOHdhLWhTMjRHUnJhOVplSnY4Nm9YMmNfUHdqbms?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 05:20 UTC · score 72.6 · compute
+5. [States sue SpaceX to stop Grok from generating child sex images, revenge porn](https://arstechnica.com/tech-policy/2026/11/states-sue-spacex-to-stop-grok-from-generating-child-sex-images-revenge-porn) — Ars Technica AI · 2026-11-23 11:00 UTC · score 72.5 · attention
+6. [Amazon says hackers' AI agents found and exploited 0-day with little human input](https://arstechnica.com/security/2026/11/amazon-says-hackers-ai-agents-found-and-exploited-0-day-with-little-human-input) — Ars Technica AI · 2026-11-24 12:30 UTC · score 71.8 · attention
+7. [Why Jensen Huang’s Return Won’t Solve All of Nvidia’s Problems](https://news.google.com/rss/articles/CBMivwFBVV95cUxOanpnMmdoeGp3MHF3SHo4RFVnLWs4em9iT09GVEpvWGMxeFBOeHVnTjJyV1l5dFdfclFrR3BqQ3BUU25LZlIwUEdodEFCSTU0cVlYTnB4NU5EVm45ZEs4QVFIV0tLZUtTNDNRNnB3aUNHRm5mWjhaV1FPVnowdkRlSkcxOFJrenF6ajhHZXdESk5VNmYyYTRWQV80UVlNYmd5WlpIdS12dlQ0a28wcjhHMjF0ZHJRckc4OFJRZE5HWQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 04:28 UTC · score 71.6 · attention
+8. [Nvidia’s Board Was No Match for Trump or Jensen Huang’s Backers](https://news.google.com/rss/articles/CBMitAFBVV95cUxOVVVzOFdOb2NreWVDbnpLSXNfYkEycmtjbVJkZTZHUjdhSkZXWDB3bXdJWE1xdWR1UE9SSHhYakRBcVllWFQxcUJIZTIxU0pxS3lDTmpCWW5NZE1WbWdHR3VNUXJaWlJSYmlJV0RQNHRveGxyNXo2RWNPVjctVFpjT21nRVJJSHRseDRzQlFWZEkyNDI0WUNaQlNQY2NMZnhrc1Z5NjVGX3RXdmFZSTVvYjJWMFM?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 00:30 UTC · score 70.7 · attention
+9. [Trump Administration Imposes Sanctions on Megaspeed, Singaporean Firm at Center of Nvidia Scandal](https://nytimes.com/2026/11/23/technology/trump-administration-megaspeed-trade-blacklist-nvidia.html) — The New York Times — Technology · 2026-11-23 21:50 UTC · score 70.1 · governance
+10. [Anthropic launches Claude Ship to help developers ship code faster](https://news.google.com/rss/articles/CBMirAFBVV95cUxNVURIRFNoWllBMDkzLVhtNFloSkdUTFZ2ZmZWN2pMMm52ckI0N1dXT3pVX0VDa3NZYW1YNW5NMVlVdkJCSXVTTGJVc0RxVVNndnhCdTA2dDRIVFIyempCd0MxTEc4SzJoTHJsZGVNTTNDRUlmN1RWb0tzRWRzX2RBZzFkLTlFQkF3VllOUV9ReHg0VHQ4cWtld3psMWpiYTVDZER3UUJ0cXpseWpj?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-23 20:00 UTC · score 68.9 · attention
 
 ## Leaders most covered this week
 
 Stories in the press naming each person over the last 7 days (Google News search). Coverage is not a statement by the person.
 
-- Dario Amodei (Anthropic): 655+ stories
-- Jensen Huang (Nvidia): 562+ stories
+- Dario Amodei (Anthropic): 667+ stories
+- Jensen Huang (Nvidia): 573+ stories
 - Elon Musk (xAI): 478+ stories
-- Sam Altman (OpenAI): 286 stories
+- Sam Altman (OpenAI): 287 stories
 - Satya Nadella (Microsoft): 250+ stories
 - Mark Zuckerberg (Meta): 179 stories
-- Greg Brockman (OpenAI): 119 stories
+- Greg Brockman (OpenAI): 118 stories
 - Sundar Pichai (Alphabet): 76 stories
-- Alex Karp (Palantir): 69 stories
-- Demis Hassabis (Google DeepMind): 50 stories
+- Alex Karp (Palantir): 70 stories
+- Geoffrey Hinton (University of Toronto): 48 stories
 
 ## Takeover Watch
 
