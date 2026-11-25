@@ -25,33 +25,33 @@ Also: [free tools](https://siren.watch/free-tools.html) · [verify a reading](ht
 
 ## Top 10 scored stories
 
-Newsroom window as of 2026-11-25 20:04 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
+Newsroom window as of 2026-11-25 20:18 UTC. Story score is the newsroom's own 0-100 ranking, not a rating of the story's truth or importance.
 
-1. [Drops for Nvidia, Anthropic and other AI stocks drag the US market back down](https://news.google.com/rss/articles/CBMikwFBVV95cUxQbEdHU1ZWMjgzb1lYODBaTEJpdWNXUXVpUmlDTmVxSTBjUVlOYlBBWmZXSzVrMWR3SE9NYTg5cVNuemZFZHlJdU1PdGdybnh1NUFQVTVINkJUUk1Sb0hmNnI5YS1LQTl5SUJibWpWekVQU1BqR3NuQWhVeHZlUVJ3bDEtRmZZNmVHWVFFRTA2RUhFcTQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 21:16 UTC · score 83.7 · attention
+1. [Drops for Nvidia, Anthropic and other AI stocks drag the US market back down](https://news.google.com/rss/articles/CBMikwFBVV95cUxQbEdHU1ZWMjgzb1lYODBaTEJpdWNXUXVpUmlDTmVxSTBjUVlOYlBBWmZXSzVrMWR3SE9NYTg5cVNuemZFZHlJdU1PdGdybnh1NUFQVTVINkJUUk1Sb0hmNnI5YS1LQTl5SUJibWpWekVQU1BqR3NuQWhVeHZlUVJ3bDEtRmZZNmVHWVFFRTA2RUhFcTQ?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 21:16 UTC · score 83.6 · attention
 2. [Huawei Found Guilty of Stealing Trade Secrets in U.S. Trial](https://bsky.app/profile/nytimes.com/post/3n33iwppdyu2s) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-24 20:40 UTC · score 81.3 · governance
-3. [Anthropic’s Dario Amodei calls accusations of surrendering human control to AI ‘absurd’](https://techcrunch.com/2026/11/25/anthropics-dario-amodei-calls-accusations-of-surrendering-human-control-to-ai-absurd) — TechCrunch — AI · 2026-11-25 19:44 UTC · score 81.0 · attention
-4. [Amazon is reportedly in talks to end Muse AI shopping block](https://bsky.app/profile/theverge.com/post/3n35edlcpum2k) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-25 14:12 UTC · score 77.4 · compute
-5. [Sources: Anthropic and OpenAI employees warn that internal, unreleased models have achieved rapid advances in reasoning, making them unsafe to release publicly (Madison Mills/Axios)](https://techmeme.com/261124/p11) — Techmeme front page (AI-filtered) · 2026-11-24 11:20 UTC · score 73.3 · attention
-6. [EXCLUSIVE: Microsoft declares 'Code Red' after historic outage, internal memos show](https://news.google.com/rss/articles/CBMitAFBVV95cUxOZWlZRm9kdXdaMDkwUWdXZVZPM2NTakFfZTFDa3Iwcm5yNXh4enZZVWRpWjBuc2ZpVERzOElVc0h5NjY4eXZnb0w5YUZ4Wm1nRmUwd04xQmNKZDQxOFlQWk12N0FCd3hSQTVLVFFWZmJKbm01S0pCM1AwRXVRZklpdWJfdkJ1N0FDdS1EZGNqTzd4WjZoUy1qZ1QwNktXdUlMWlBDYW9jYlozNEVDV01DSGZlVVc?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 16:57 UTC · score 72.0 · attention
-7. [Tidal bans AI-generated music](https://variety.com/2026/music/news/tidal-bans-ai-generated-music-1236956924) — Hacker News AI stories (72h) · 2026-11-24 16:12 UTC · score 71.0 · attention
-8. [FCC signs off on SpaceX’s plan to put up to 1 million data center satellites into space](https://theverge.com/science/1042278/spacex-fcc-starmind-ai-space-data-centers) — The Verge — AI · 2026-11-25 17:44 UTC · score 70.7 · compute
-9. [OpenAI Staffer Charged With Planting Bug Released on Bond](https://news.google.com/rss/articles/CBMirAFBVV95cUxOc1FrUDc4UGJlRkxNYWJrMlNSUV9UdkJYUGZiUTh4dlFZZUlmT21oWVVNX2hmVHZkTXNzQlEwVUREYkRzSF9UU19Wdmpza095TFRWYjBOUXVhdTBjNEphbTVfcDNjTm1CMDFSTEtPNDNUODlYaFNsaEdyOHotTlVzbU81QVEzYW4zQmV0ZHp4V0laYU9CZGJHQlVQVnFlOFBoRDhGTHU2OVFuUW1P?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 22:50 UTC · score 68.4 · attention
-10. [Podcast: The AI Tool Hacking the Planet](https://404media.co/podcast-the-ai-tool-hacking-the-planet) — 404 Media · 2026-11-25 15:14 UTC · score 67.0 · compute
+3. [Amazon is reportedly in talks to end Muse AI shopping block](https://bsky.app/profile/theverge.com/post/3n35edlcpum2k) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-25 14:12 UTC · score 77.2 · compute
+4. [Sources: Anthropic and OpenAI employees warn that internal, unreleased models have achieved rapid advances in reasoning, making them unsafe to release publicly (Madison Mills/Axios)](https://techmeme.com/261124/p11) — Techmeme front page (AI-filtered) · 2026-11-24 11:20 UTC · score 73.3 · attention
+5. [FCC signs off on SpaceX’s plan to put up to 1 million data center satellites into space](https://bsky.app/profile/theverge.com/post/3n35pqeeufm24) — Bluesky — AI posts from vetted newsrooms and reporters · 2026-11-25 17:44 UTC · score 71.9 · compute
+6. [EXCLUSIVE: Microsoft declares 'Code Red' after historic outage, internal memos show](https://news.google.com/rss/articles/CBMitAFBVV95cUxOZWlZRm9kdXdaMDkwUWdXZVZPM2NTakFfZTFDa3Iwcm5yNXh4enZZVWRpWjBuc2ZpVERzOElVc0h5NjY4eXZnb0w5YUZ4Wm1nRmUwd04xQmNKZDQxOFlQWk12N0FCd3hSQTVLVFFWZmJKbm01S0pCM1AwRXVRZklpdWJfdkJ1N0FDdS1EZGNqTzd4WjZoUy1qZ1QwNktXdUlMWlBDYW9jYlozNEVDV01DSGZlVVc?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 16:57 UTC · score 71.9 · attention
+7. [Tidal bans AI-generated music](https://variety.com/2026/music/news/tidal-bans-ai-generated-music-1236956924) — Hacker News AI stories (72h) · 2026-11-24 16:12 UTC · score 70.9 · attention
+8. [OpenAI Staffer Charged With Planting Bug Released on Bond](https://news.google.com/rss/articles/CBMirAFBVV95cUxOc1FrUDc4UGJlRkxNYWJrMlNSUV9UdkJYUGZiUTh4dlFZZUlmT21oWVVNX2hmVHZkTXNzQlEwVUREYkRzSF9UU19Wdmpza095TFRWYjBOUXVhdTBjNEphbTVfcDNjTm1CMDFSTEtPNDNUODlYaFNsaEdyOHotTlVzbU81QVEzYW4zQmV0ZHp4V0laYU9CZGJHQlVQVnFlOFBoRDhGTHU2OVFuUW1P?oc=5) — Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News) · 2026-11-24 22:50 UTC · score 68.3 · attention
+9. [Podcast: The AI Tool Hacking the Planet](https://404media.co/podcast-the-ai-tool-hacking-the-planet) — 404 Media · 2026-11-25 15:14 UTC · score 66.9 · compute
+10. [Anthropic’s Dario Amodei calls accusations of surrendering human control to AI ‘absurd’](https://techcrunch.com/2026/11/25/anthropics-dario-amodei-calls-accusations-of-surrendering-human-control-to-ai-absurd) — TechCrunch — AI · 2026-11-25 19:44 UTC · score 65.9 · attention
 
 ## Leaders most covered this week
 
 Stories in the press naming each person over the last 7 days (Google News search). Coverage is not a statement by the person.
 
-- Dario Amodei (Anthropic): 690 stories
-- Jensen Huang (Nvidia): 530+ stories
-- Elon Musk (xAI): 468+ stories
-- Sam Altman (OpenAI): 241 stories
+- Dario Amodei (Anthropic): 691+ stories
+- Jensen Huang (Nvidia): 531+ stories
+- Elon Musk (xAI): 454+ stories
+- Sam Altman (OpenAI): 220 stories
 - Mark Zuckerberg (Meta): 189 stories
-- Satya Nadella (Microsoft): 185 stories
-- Greg Brockman (OpenAI): 91 stories
-- Sundar Pichai (Alphabet): 86 stories
-- Alex Karp (Palantir): 82 stories
-- Geoffrey Hinton (University of Toronto): 65 stories
+- Satya Nadella (Microsoft): 182 stories
+- Sundar Pichai (Alphabet): 85 stories
+- Greg Brockman (OpenAI): 82 stories
+- Alex Karp (Palantir): 77 stories
+- Geoffrey Hinton (University of Toronto): 61 stories
 
 ## Takeover Watch
 
