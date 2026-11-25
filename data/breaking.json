@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-24T23:55:52.268Z",
+  "generated_at": "2026-11-25T00:43:04.260Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,8 +47,8 @@
       "ycombinator.com"
     ]
   },
-  "live": 9,
-  "fresh": "b08703726e24a",
+  "live": 8,
+  "fresh": "b3e7f09bf3cbd",
   "clusters": [
     {
       "id": "b08703726e24a",
@@ -58,18 +58,21 @@
       "outlet": "reuters.com",
       "outlets": [
         "ft.com",
-        "reuters.com"
+        "reuters.com",
+        "wsj.com"
       ],
       "tier1_outlets": [
         "ft.com",
-        "reuters.com"
+        "reuters.com",
+        "wsj.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "bluesky-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-11-24T20:43:06.000Z",
@@ -102,6 +105,14 @@
           "outlet": "reuters.com",
           "title": "China's Huawei convicted in sprawling US criminal trial over Iran business",
           "url": "https://bsky.app/profile/reuters.com/post/3n33sxyxr3m23",
+          "published_at": "2026-11-24T22:14:09.935Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "wsj.com",
+          "title": "China’s Huawei Convicted of Fraud in U.S. Criminal Trial",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPbEdCYmowNkNwbExkSE9NeGFWWmVsV2F0d1pTUnlsblp2aGVFd1JxaFdIU1BpY0V3ZTl0S2tlUHRpZmNldFBpZ3IydkVGY0FWUFZ2VXVMY1JYUFk3TlNWNjRIdW5fYjRMZmkxNEViaHF5TGVzemk3blIzc1RKdzVqa1pjV2hRM1VMZHYydTNSQUFZU3FKUVVsd2czNURDSE1nT3c?oc=5",
           "published_at": "2026-11-24T22:14:09.935Z",
           "tier1": true
         }
@@ -148,6 +159,14 @@
           "outlet": "upi.com",
           "title": "South Korea's Hanwha to invest $7.4B in defense AI center",
           "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPWXNPUHdiZDB0VnNia3labkREcWdVZkZmc0F4X05IejBhdzRQaW9GY1d3Q0ctTHNFVzJWUjYyQmhOb1pmUXZhNk9IcGNKQkhyZmlHMUFaNXZYMXRscC02aWE5Z1RqUW12TnJybDBudll3cUlwaXVCZWIwYlJLZHJtYTBHblBpOEUxU2FvcTdpdW1DZndMWldNYXRNcDJGQQ?oc=5",
+          "published_at": "2026-11-24T23:00:02.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "upi.com",
+          "title": "South Korea's Hanwha to invest $7.4B in defense AI center",
+          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPWXNPUHdiZDB0VnNia3labkREcWdVZkZmc0F4X05IejBhdzRQaW9GY1d3Q0ctTHNFVzJWUjYyQmhOb1pmUXZhNk9IcGNKQkhyZmlHMUFaNXZYMXRscC02aWE5Z1RqUW12TnJybDBudll3cUlwaXVCZWIwYlJLZHJtYTBHblBpOEUxU2FvcTdpdW1DZndMWldNYXRNcDJGQdIBowFBVV95cUxOY1d5aUxlYnppMGt3ZDNyZ2tEOGpsTzRiTXFCOS0tNEMxdzVvUE9TcFozczltcDd0aVpObzRnMC03WVpxbW9JaFpYTndtb3l6MXJpQzdYTV9GYVlWcTMtSWVVZ254a04wTVg3dk1zQWdCMHFCUTdzaXV0SjdUS045STZTMGtUY2VVQ3ppYXlWSTNjbUdSSlNCcFExdElYRmg1TW5n?oc=5",
           "published_at": "2026-11-24T23:00:02.000Z",
           "tier1": false
         }
@@ -198,7 +217,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b841c4e20ce71",
@@ -257,17 +276,18 @@
       "outlet": "bloomberg.com",
       "outlets": [
         "bloomberg.com",
-        "businessinsider.com",
-        "cnbc.com",
-        "courthousenews.com"
+        "foxbusiness.com",
+        "ft.com",
+        "thenationalnews.com"
       ],
       "tier1_outlets": [
         "bloomberg.com",
-        "cnbc.com"
+        "ft.com"
       ],
       "corroboration": 4,
       "sources": [
         "bloomberg-tech",
+        "bluesky-ai",
         "gnews-ai",
         "techmeme",
         "wires-ai"
@@ -276,27 +296,21 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-24T20:15:00.000Z",
+      "earliest_published_at": "2026-11-24T20:17:37.000Z",
       "first_seen_at": "2026-11-24T01:03:32.791Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-11-24T21:29:27.420Z",
       "item_ids": [
         "2a1523a5faf76ac4",
+        "4199ff6faa911236",
         "927d82ff1cc1b5bb",
-        "9b7e030b935a80f5",
+        "a04d782f1a2b0eb1",
         "b3f10598c5cf484e",
+        "da9a6841504ce4e1",
         "f694f7a9b4f1ac4c"
       ],
       "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "businessinsider.com",
-          "title": "The Saudi engineer accused of bugging OpenAI is set to be released on a $1 million bond",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPdlJKWDZzbDcyXy1KbFdQNE5nWk1JSkF0YzY4cVJDc3ZraU1CTUlOeFlTd1RVRWRsOW9EZENmeW1IaTZiTVBFTDQyRDBuZ2xqb2IyTGU4ZzVPcEZHMUNSZmdBQ1pWZFdJNnNwbkZBeW9RNHNaX0hFV3VoZzBNRDBXUzN2cmNWX25jNFk1anZiM3BOWTJF?oc=5",
-          "published_at": "2026-11-24T20:15:00.000Z",
-          "tier1": false
-        },
         {
           "source": "wires-ai",
           "outlet": "bloomberg.com",
@@ -314,31 +328,47 @@
           "tier1": true
         },
         {
-          "source": "gnews-ai",
-          "outlet": "cnbc.com",
-          "title": "Saudi national charged in OpenAI bugging to be released on $1 million bond",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1pdXZBMHRlenptLXduWlZuVzlDS1VuRzgyc3RxVUZHQ254YmpVM21lOU1Pd0pJSU1HTDZ2YTdfRjBSUGFZSUFIYVc3RjlvTlhCcmpzaFloYmZQWDEyamd0OExnSTZSYWFqekJ0TFAzQ0pHY045MXJJWWx3WTU0QdIBgwFBVV95cUxPWl81RnJfSUhQMnBTLUhlUXZUMEI5NjE1ckRxTUZrcW5XckxsLWVCbktmSHd1M01QZjZKc2g2bHBYVW16NWlHRDNXd282eTh1TEhzaFNnS2V0SGUyYzEzNjY2QjJnUkduXzFvWjFkRWRTTXZyU21XaVFYZE5uN3pPTWk2MA?oc=5",
-          "published_at": "2026-11-24T20:31:08.206Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "courthousenews.com",
-          "title": "Engineer accused of bugging OpenAI HQ to be released on $1M bond",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOUEZLSzA1R0NiblRyWnNETnVvaHQ5Y0JSQlhkMi1laW5sbXA1djhvWFhxNmY3ejNjUFZ6Q19tb3NZeENEUWJrbkN5ZUxZMVF1aFd6cG9zM2pHLV84amJSaXBZclJWOVpuUHdlbTNmUm9yamg1eFZCQ1kzQXpZcm9CaFNPeFJFYS1OQndiRnBiVjRfcXhnN1pOSW9zMA?oc=5",
-          "published_at": "2026-11-24T20:31:08.206Z",
-          "tier1": false
-        },
-        {
           "source": "techmeme",
           "outlet": "techmeme.com",
           "title": "A judge orders the ex-OpenAI staffer charged with bugging an exec conference room released on $1M bond, finding prosecutors lack evidence to keep him in custody (Bloomberg)",
           "url": "https://techmeme.com/261124/p36",
           "published_at": "2026-11-24T21:01:44.000Z",
           "tier1": false
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "bloomberg.com",
+          "title": "OpenAI Staffer Charged With Planting Bug Released on Bond",
+          "url": "https://bsky.app/profile/bloomberg.com/post/3n33vrd7tpz2b",
+          "published_at": "2026-11-24T23:13:35.671Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "thenationalnews.com",
+          "title": "Saudi man suspected of spying on OpenAI released on bond",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQa3F4Zy04cEI5UkF6V3A4a1V6RTVCV1dQUXIxSjVKVGZ3NnlxaGNqNFU2bUlBcnlpb3VKM2czRXZHWFZ4bWJ1YnphMnU3b1VSWlpFb04tQTBsUXlOSFE4Qms2eDhsalpLS1BsY25HWVFTLWludUZBV3RMRnJVUFFaanowUnJBUW5OQ2hUMQ?oc=5",
+          "published_at": "2026-11-24T23:47:05.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "foxbusiness.com",
+          "title": "Saudi national accused of bugging OpenAI executive conference room to be freed on $1M bond: report",
+          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQN1RoT3BjdkE0bXMweGVnMUtGTi1WMmYyaXd4RjJNQTNNbEZ0aHROaExreGtOWDF3LXFGUFNCNWs4d1JmbEc5QXFpc2VFT1NLZXFmVHFuTDBuNkxueFcwSzJoTnZYcDNzTFZSY1FRb0lLaEJSd3Fxa0MzaUxzd2RzVllrS3BTdU51clpwYXdHd1hTd0xpSzhWcWdsb0VlN3N0cmtzWWpzNlQ5dlotRjJRTVRJQmNaZGVPZVFSWTlneXJfUWMy0gHKAUFVX3lxTE5uQjd5X1dFUW51aDVDd0o2T1pGSGxSVS1wSnNtaVM2dnJPTTQ2UktLNjBOTTJhZ0ZfSm5sMjdWTzdfaUVlQ3NwWWpOazF4RUpSNC1FUGFjUllyTnhSZnhPRGVxRUc4RFcycERmckljYnZTWlczZk1Kbm4zME1xbDdsT3BlUGlWYjRJYlpnb0ZmWjd3dm9MX1Q5S0hWbVFrNWsxQzNrUkxpTGYyX21QN3BlVzZKeGVMTjIxMVlGX1lBVm1BSnkyU3VsdFE?oc=5",
+          "published_at": "2026-11-25T00:11:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "ft.com",
+          "title": "Judge grants bail to OpenAI engineer accused of bugging start-up",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPVjQycnVkRUY1azh6dDI5Z1FRV1hubE5kU2xUN3hpd3dlUVI0a0dFWGxTQnBKYkYyV1Z0cXFlOVRrWGtQbDFWcWRFeHFyV2d3MVRaRHI1OGNSZjdqRzltbDN2QkNoRHVoVjU3RC15SmlBMTIzRlFFa0tYaUpMUFVaZzBIZXY?oc=5",
+          "published_at": "2026-11-25T00:15:45.000Z",
+          "tier1": true
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "b34d8c899b8e7",
@@ -408,14 +438,6 @@
         },
         {
           "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "Huawei Found Guilty of US Criminal Charges in Landmark Case",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOcXF1dllwcm1uOWZNWUZIVGMyeTVzTURuTl9aUy1lOUliTVhOZ0NqdzVjc2xYYmZCMjd1cU42V1R6T3MwRDhiVGtrMGs3OU1abS1Wb0hsLTBrZVZ1NlQzU2VaenhFcjR6ZzZQMFZGQWotejdiQ1Z3SUx4cF8xb1pJaFhna2JZa1JtVHdwUGFmZHJwQzJUR0pNN00yeEEtOVQ2RjE0N2c5R2w5dnZfTGJz?oc=5",
-          "published_at": "2026-11-24T21:05:49.000Z",
-          "tier1": true
-        },
-        {
-          "source": "wires-ai",
           "outlet": "apnews.com",
           "title": "Chinese tech giant Huawei is guilty of conspiracy to steal trade secrets, US jury finds",
           "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQZWtkSWZheUoxZG9WeXhxQmEtNFUySnZraXdadXdHQzRsaDdqbldkRUdOMXRZRngwT3VjMXFVYXBVU0lYZG8ySmRzelRsZzRKWFZNbDBzc2FOaVdFRDlfN2Y5b1NET0lLajYzTmVEWXVha29URkZLSGdiMGx1VXFtOU4yM3lpdWpVU3NqbjhkRGRobHNTdTdKLQ?oc=5",
@@ -439,6 +461,14 @@
           "tier1": true
         },
         {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "Huawei Found Guilty of US Criminal Charges in Landmark Case",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOcXF1dllwcm1uOWZNWUZIVGMyeTVzTURuTl9aUy1lOUliTVhOZ0NqdzVjc2xYYmZCMjd1cU42V1R6T3MwRDhiVGtrMGs3OU1abS1Wb0hsLTBrZVZ1NlQzU2VaenhFcjR6ZzZQMFZGQWotejdiQ1Z3SUx4cF8xb1pJaFhna2JZa1JtVHdwUGFmZHJwQzJUR0pNN00yeEEtOVQ2RjE0N2c5R2w5dnZfTGJz?oc=5",
+          "published_at": "2026-11-24T22:14:09.935Z",
+          "tier1": true
+        },
+        {
           "source": "bluesky-ai",
           "outlet": "bloomberg.com",
           "title": "Huawei Found Guilty of US Criminal Charges in Landmark Case",
@@ -457,16 +487,13 @@
       "outlet": "anthropic.com",
       "outlets": [
         "anthropic.com",
-        "the-decoder.com",
-        "theverge.com"
+        "the-decoder.com"
       ],
       "tier1_outlets": [
-        "anthropic.com",
-        "theverge.com"
+        "anthropic.com"
       ],
-      "corroboration": 3,
+      "corroboration": 2,
       "sources": [
-        "gnews-ai",
         "hn-fresh-ai",
         "techmeme",
         "the-decoder"
@@ -508,24 +535,16 @@
           "url": "https://techmeme.com/261124/p40",
           "published_at": "2026-11-24T22:05:01.000Z",
           "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "theverge.com",
-          "title": "Anthropic rolls out “Install as app” on Mac and PC for Claude’s mini-app Artifacts.",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNU0xZQzZCR0pyRUpraGZFLWVNWk5TOEc0R1pTNnZQNXBKWk9GRFBBTTFpQnhIUGFyWTZRVG00ZmVTU2RDZTloRFc2S000MWNFN2xCN0JHTDdfSV9NM0NFWEdjT3BWWHR3VnM3elJPc0dobnRMdnZ1UF9jRlA2VU50ak1TYkd2Q1JVbi1sc1lyQnRvai10NlBFV3FmWFp3eFVIclk0MWdn?oc=5",
-          "published_at": "2026-11-24T22:14:09.935Z",
-          "tier1": true
         }
       ],
       "live": true
     },
     {
       "id": "b631aa43303d6",
-      "title": "Dell Raises Annual Sales Forecast Again on AI Server Demand",
-      "url": "https://bloomberg.com/news/articles/2026-11-24/dell-ups-annual-sales-forecast-again-on-rising-ai-server-demand",
-      "source": "bloomberg-tech",
-      "outlet": "bloomberg.com",
+      "title": "Dell lifts annual forecasts after record quarter on surging AI server demand",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOZG1EVmJTYUpyMnJPVzlHNE9xZFZpYmZHdkZBOTgtSllCbnRLQnNuUWtLNktuYXJqZms4Tl85T2I2dU41UmEzTWpPY0Z6TU5uaVJJZWZxLXhVcWxSa0h6cUh5bkpSdk9VdDN5QlIzb3hSLUhRV0FaM2FrVzlkUDJoN2FaeUxKOEhlN2RsZ1VoUUUwNHdTcWp6cV9BNE90ejFEVWRTcWtnbW9XV1A0VEhnSDRhMWVhbkFia1E?oc=5",
+      "source": "wires-ai",
+      "outlet": "reuters.com",
       "outlets": [
         "bloomberg.com",
         "reuters.com"
@@ -537,6 +556,7 @@
       "corroboration": 2,
       "sources": [
         "bloomberg-tech",
+        "bluesky-ai",
         "wires-ai"
       ],
       "rule": [
@@ -561,14 +581,6 @@
           "tier1": true
         },
         {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "Dell lifts annual forecasts after record quarter on surging AI server demand",
-          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOZG1EVmJTYUpyMnJPVzlHNE9xZFZpYmZHdkZBOTgtSllCbnRLQnNuUWtLNktuYXJqZms4Tl85T2I2dU41UmEzTWpPY0Z6TU5uaVJJZWZxLXhVcWxSa0h6cUh5bkpSdk9VdDN5QlIzb3hSLUhRV0FaM2FrVzlkUDJoN2FaeUxKOEhlN2RsZ1VoUUUwNHdTcWp6cV9BNE90ejFEVWRTcWtnbW9XV1A0VEhnSDRhMWVhbkFia1E?oc=5",
-          "published_at": "2026-11-24T21:23:18.000Z",
-          "tier1": true
-        },
-        {
           "source": "bloomberg-tech",
           "outlet": "bloomberg.com",
           "title": "Dell Ups Annual Sales Forecast Again on Rising AI Server Demand",
@@ -579,8 +591,24 @@
         {
           "source": "wires-ai",
           "outlet": "bloomberg.com",
-          "title": "Dell Ups Annual Sales Forecast Again on Rising AI Server Demand",
+          "title": "Dell Raises Annual Sales Forecast Again on AI Server Demand",
           "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxONlktLXNFZFFZMnhsdFNfbU8wZnFzeGNPNkVyX0VQdHN6cGVqUmgxYkxXdHFta1NGMDgzU19FeXktakdNbWJTMWZLd04xaVZEZXdDTW1Kc0s5VEZtaC1pQWhFUXl4ZUlSWDdZQzJITFQ0SWw1c3Z4dFF4SEdxeGt6ZFotSnE5US0zZkJHWWphY1BBNnRUaDBycS12bFFKUmlhMGw5NDNIWXVFV0ZoOTdMTC1JYUE?oc=5",
+          "published_at": "2026-11-24T21:29:27.420Z",
+          "tier1": true
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "reuters.com",
+          "title": "Dell lifts annual forecasts after record quarter on surging AI server demand",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOZG1EVmJTYUpyMnJPVzlHNE9xZFZpYmZHdkZBOTgtSllCbnRLQnNuUWtLNktuYXJqZms4Tl85T2I2dU41UmEzTWpPY0Z6TU5uaVJJZWZxLXhVcWxSa0h6cUh5bkpSdk9VdDN5QlIzb3hSLUhRV0FaM2FrVzlkUDJoN2FaeUxKOEhlN2RsZ1VoUUUwNHdTcWp6cV9BNE90ejFEVWRTcWtnbW9XV1A0VEhnSDRhMWVhbkFia1E?oc=5",
+          "published_at": "2026-11-24T21:29:27.420Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "reuters.com",
+          "title": "Dell lifts annual forecasts after record quarter on surging AI server demand",
+          "url": "https://bsky.app/profile/reuters.com/post/3n33vzxre7o2y",
           "published_at": "2026-11-24T21:29:27.420Z",
           "tier1": true
         }
@@ -644,25 +672,21 @@
       "outlet": "reuters.com",
       "outlets": [
         "arstechnica.com",
-        "ctvnews.ca",
-        "cwibc.co.id",
-        "reuters.com"
+        "cwibc.co.id"
       ],
       "tier1_outlets": [
-        "arstechnica.com",
-        "reuters.com"
+        "arstechnica.com"
       ],
-      "corroboration": 4,
+      "corroboration": 2,
       "sources": [
         "bluesky-ai",
-        "gnews-ai",
-        "hn-fresh-ai"
+        "gnews-ai"
       ],
       "rule": [
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-24T18:06:52.182Z",
+      "earliest_published_at": "2026-11-24T22:26:00.000Z",
       "first_seen_at": "2026-11-24T17:05:56.668Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -674,22 +698,6 @@
         "d639955c39cfd6f8"
       ],
       "sightings": [
-        {
-          "source": "hn-fresh-ai",
-          "outlet": "ctvnews.ca",
-          "title": "Microsoft declares 'Code Red' after historic outage, internal memos show",
-          "url": "https://ctvnews.ca/sci-tech/article/microsoft-declares-code-red-after-historic-outage-internal-memos-show-reuters-exclusive",
-          "published_at": "2026-11-24T18:06:52.182Z",
-          "tier1": false
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "reuters.com",
-          "title": "EXCLUSIVE: Microsoft declares 'Code Red' after historic outage, internal memos show",
-          "url": "https://bsky.app/profile/reuters.com/post/3n33dly6jxn2r",
-          "published_at": "2026-11-24T18:06:52.182Z",
-          "tier1": true
-        },
         {
           "source": "gnews-ai",
           "outlet": "cwibc.co.id",
@@ -711,21 +719,20 @@
     },
     {
       "id": "b7157dd687831",
-      "title": "Nvidia’s Board Was No Match for Trump or Jensen Huang’s Backers",
-      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOVVVzOFdOb2NreWVDbnpLSXNfYkEycmtjbVJkZTZHUjdhSkZXWDB3bXdJWE1xdWR1UE9SSHhYakRBcVllWFQxcUJIZTIxU0pxS3lDTmpCWW5NZE1WbWdHR3VNUXJaWlJSYmlJV0RQNHRveGxyNXo2RWNPVjctVFpjT21nRVJJSHRseDRzQlFWZEkyNDI0WUNaQlNQY2NMZnhrc1Z5NjVGX3RXdmFZSTVvYjJWMFM?oc=5",
+      "title": "Huang's return to Nvidia brings open-weight AI debate to forefront in Washington",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQcE80eU84aDZfY24tLUhfMURrVFZHdkt3UHZuNjcxOXA3MUdWU0ZXUV9Od0d2QUJUWVFtZEN4X19BekxhdUFzcUNlVFYtZVdiMHgtTEFPQWtxU2xIS2NwUW1HVzJkUjNRS2tiMkJEa1ltcG42enk0czYyQXNjN0xibUd1SFNGU3pzd1diLWxDcFlmUVVqUmRoNVJ5VzVDNUVmMDJNRmxTY2dJSjJ3MGk4UUNhTk9DaGNLQ1E?oc=5",
       "source": "wires-ai",
-      "outlet": "bloomberg.com",
+      "outlet": "reuters.com",
       "outlets": [
         "aa.com.tr",
         "afp.com",
-        "barrons.com",
         "bloomberg.com",
         "briefs.co",
-        "cnbc.com",
-        "eurasiabusinessnews.com",
+        "businesstoday.com.my",
         "foxbusiness.com",
         "france24.com",
         "ft.com",
+        "kfgo.com",
         "newscord.org",
         "reuters.com",
         "scmp.com",
@@ -733,14 +740,12 @@
         "techcrunch.com",
         "techpolicy.press",
         "theverge.com",
-        "trefis.com",
         "washingtonpost.com",
         "wsj.com",
         "yahoo.com"
       ],
       "tier1_outlets": [
         "bloomberg.com",
-        "cnbc.com",
         "ft.com",
         "reuters.com",
         "scmp.com",
@@ -749,12 +754,13 @@
         "washingtonpost.com",
         "wsj.com"
       ],
-      "corroboration": 21,
+      "corroboration": 19,
       "sources": [
         "bloomberg-tech",
         "bluesky-ai",
         "ft-ai",
         "gnews-ai",
+        "hn-fresh-ai",
         "scmp-tech",
         "techcrunch-ai",
         "techmeme",
@@ -765,7 +771,7 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-24T18:01:27.000Z",
+      "earliest_published_at": "2026-11-24T19:35:01.000Z",
       "first_seen_at": "2026-11-23T11:47:15.851Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -784,6 +790,7 @@
         "171b94fafc685f0b",
         "18ef2236ed1fb5a3",
         "1906941791c1e36e",
+        "1c404edf3ad197d6",
         "1d17987e73383f57",
         "1d98275a9391db1c",
         "1dd0972389e1953d",
@@ -808,12 +815,14 @@
         "35803c25e59f2df7",
         "36253b620a9b53a2",
         "3d8982da48938aef",
+        "3ec0943809f7555d",
         "4059bd51eddd8af7",
         "42e09a8c83fc28cf",
         "4481f4a1928b7319",
         "44e90d153ad38c4c",
         "461080c3796966e7",
         "4748cee026f6d43f",
+        "48e506bc3a916feb",
         "491b60517bb158c2",
         "4a5799ecbf173607",
         "4a809ede709a2af9",
@@ -827,8 +836,8 @@
         "4f0896783bd34be2",
         "4fce3ec9ff71522a",
         "552c4c865509673f",
+        "56aba13d50d393d0",
         "56b1d0b96da7bb9e",
-        "577b8bc087753360",
         "5803491cdc7e0259",
         "58e44e73996c613e",
         "5a023463294599b9",
@@ -874,33 +883,34 @@
         "9601ca6537ac9ea9",
         "96717c1d773e7ae8",
         "97f21b1a1bb0ae2b",
-        "98b8cd7977f4860e",
         "9a0a5e31ca2b4709",
+        "9acce8b7258c3ddc",
         "9df267d773a7b221",
         "9fef410dcc55cf20",
         "a00188e5dc539576",
-        "a0f526b44fa6324c",
         "a66ef15106c14476",
         "a7d9b5cfcb04fdb9",
+        "a8e7d67bebaa7c3e",
         "aec090c9d8b858cf",
         "affb554213303069",
-        "b164a3ea427e7cea",
         "b251e0203bffe0b4",
         "b3356859abb78a55",
         "b3a01bee35e1a45e",
         "b490e23280f37d73",
         "b60131add0eb5906",
+        "b693ce3e1488ac17",
         "b6e9bcffff65a4e4",
         "b9c95a6a1cbf07e4",
         "baa424610fc3d5ed",
         "bb09c9119f4d6659",
         "bb8b0808f5c0d30c",
         "c16dddb934f7ac50",
-        "c1e77edeff803530",
+        "c5cbf6a971947db8",
         "c901148ead5bfd9d",
         "ca55a4081988a38a",
         "cbb907506afd8cad",
         "cbf02a8903a294d6",
+        "cdc074f26fc5ecfb",
         "ce9cc6ac3e4add9c",
         "d03ba134bc5fc18a",
         "d277eb561eaa03a7",
@@ -940,38 +950,6 @@
         "febcb3697ac15808"
       ],
       "sightings": [
-        {
-          "source": "techmeme",
-          "outlet": "techmeme.com",
-          "title": "In an all-hands, Jensen Huang apologized for violating Nvidia's code of conduct, saying he is in therapy after making \"very serious personal mistakes\" (Paresh Dave/Wired)",
-          "url": "https://techmeme.com/261124/p28",
-          "published_at": "2026-11-24T18:01:27.000Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "bloomberg.com",
-          "title": "Emerging Market Stocks Rally as Huang’s Return Revives AI Trade",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQbl9tOWRvMDhVMFR5RW1QeEhJMG1IOVhkNEdRUGdjYmtIbUpLbTV2dnltRXAwWEgxb2pObDRiRlJlLWx0d1VQdXNXdTc2MWFBeHBBTm9fTTVEOWVXcUJOcmRQQWN5Mk9iNXBPV19WcDI5R0FDZERHR25qSC1fc1lnOURmTmlvU1NRTUNSOWZFODhKZFFPLWZlY3JiTll1NVVQR0V4UzFSNS1hM28tWG5nN3Y3TGQ?oc=5",
-          "published_at": "2026-11-24T18:06:52.182Z",
-          "tier1": true
-        },
-        {
-          "source": "bloomberg-tech",
-          "outlet": "bloomberg.com",
-          "title": "Nvidia Bull Says Huang’s Return Restores Tech Leadership",
-          "url": "https://bloomberg.com/news/videos/2026-11-24/nvidia-bull-says-huang-s-return-restores-tech-leadership-video",
-          "published_at": "2026-11-24T18:15:38.000Z",
-          "tier1": true
-        },
-        {
-          "source": "techcrunch-ai",
-          "outlet": "techcrunch.com",
-          "title": "Anthropic shares fall below IPO price, a worrying sign for AI startups",
-          "url": "https://techcrunch.com/2026/11/24/anthropic-shares-fall-below-ipo-price-a-worrying-sign-for-ai-startups",
-          "published_at": "2026-11-24T18:30:42.000Z",
-          "tier1": true
-        },
         {
           "source": "techmeme",
           "outlet": "techmeme.com",
@@ -1034,6 +1012,38 @@
           "title": "Anthropic falls below $83 IPO price in swift reversal after record listing",
           "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBpUHN5MHdaRWtSbmVJbUgyR093UVRQWVVlSGtiRFNXaFAtZllmZG9tamRJTlNXaDNId0V0TklZTF8wSmxhRGJmZ09KamVCZk5RT0lWajY1TTZmdy16NE14QVkxUjlMQQ?oc=5",
           "published_at": "2026-11-24T19:52:33.000Z",
+          "tier1": true
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "washingtonpost.com",
+          "title": "Nvidia’s Jensen Huang and the two weeks that rocked U.S. capitalism",
+          "url": "https://bsky.app/profile/washingtonpost.com/post/3n33gogz4ce2t",
+          "published_at": "2026-11-24T20:00:17.466Z",
+          "tier1": true
+        },
+        {
+          "source": "verge-ai",
+          "outlet": "theverge.com",
+          "title": "Jensen Huang reportedly tells Nvidia staff it’s ‘not true’ Trump got him rehired",
+          "url": "https://theverge.com/tech/1041571/jensen-huang-all-hands-nvidia-apology",
+          "published_at": "2026-11-24T20:02:03.000Z",
+          "tier1": true
+        },
+        {
+          "source": "techmeme",
+          "outlet": "techmeme.com",
+          "title": "Sources: Jensen Huang said Nvidia doesn't need a succession plan because it operates a unique business model and such a plan would create unnecessary hierarchy (CNBC)",
+          "url": "https://techmeme.com/261124/p34",
+          "published_at": "2026-11-24T20:10:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "bloomberg-tech",
+          "outlet": "bloomberg.com",
+          "title": "Huang to Testify Publicly Before Senators Dec. 3",
+          "url": "https://bloomberg.com/news/videos/2026-11-24/huang-to-testify-publicly-before-senators-dec-3-video",
+          "published_at": "2026-11-24T20:10:24.000Z",
           "tier1": true
         }
       ],
@@ -1214,7 +1224,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b8efa4feaeb66",
