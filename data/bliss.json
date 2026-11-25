@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "index": "BLISS",
-  "generated_at": "2026-11-25T07:35:26.252Z",
+  "generated_at": "2026-11-25T08:30:25.192Z",
   "score": null,
   "level": null,
   "level_name": null,
@@ -9,19 +9,19 @@
   "level_since": "2026-09-24T03:08:24.487Z",
   "delta_from_previous": null,
   "posture": "awaiting-baseline",
-  "degraded": true,
+  "degraded": false,
   "awaiting_baseline": true,
   "reference_present": false,
-  "dark_pillars": [
-    "science"
-  ],
+  "dark_pillars": [],
   "uncalibrated_pillars": [
+    "science",
     "medicine",
     "access",
     "adoption",
     "openness"
   ],
   "uncalibrated_sources": [
+    "arxiv-science-ai",
     "openalex-ai-science",
     "clinicaltrials-ai",
     "pubmed-ai-clinical",
@@ -33,10 +33,8 @@
     "epoch-open-weights",
     "github-permissive-ai"
   ],
-  "failed_sources": [
-    "arxiv-science-ai"
-  ],
-  "sources_reporting": 10,
+  "failed_sources": [],
+  "sources_reporting": 11,
   "sources_total": 11,
   "rule_fired": "no_live_pillars",
   "decision": null,
@@ -105,8 +103,8 @@
       "percentile": null,
       "sources_ok": 0,
       "sources_total": 2,
-      "dark": true,
-      "uncalibrated": false,
+      "dark": false,
+      "uncalibrated": true,
       "blurb": "AI methods showing up in other people’s fields.",
       "description": "Papers outside computer science whose method is a model: structural biology, materials, chemistry, numerical analysis. Not the field talking about itself — the field being used by somebody solving a different problem."
     },
@@ -165,17 +163,38 @@
       "pillar": "science",
       "label": "arXiv AI-method papers outside cs.*",
       "ok": false,
-      "uncalibrated": false,
-      "error": "timeout after 40000ms: https://export.arxiv.org/api/query?search_query=(cat:q-bio.BM+OR+cat:q-bio.QM+OR+cat:q-bio.GN+OR+cat:cond-mat.mtrl-sci+OR+cat:physics.chem-ph+OR+cat:physics.med-ph+OR+cat:math.NA+OR+cat:astro-ph.IM)+AND+(abs:%22machine+learning%22+OR+abs:%22deep+learning%22+OR+abs:%22neural+network%22+OR+abs:%22foundation+model%22+OR+abs:%22language+model%22)+AND+submittedDate:[202611180735+TO+202611250735]&start=0&max_results=1",
-      "value": null,
-      "unit": null,
+      "uncalibrated": true,
+      "error": "awaiting_baseline: \"arxiv-science-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "value": 99,
+      "unit": "papers/7d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": null,
-      "age_seconds": null,
-      "last_ok": "2026-11-25T06:33:34.568Z",
-      "meta": {}
+      "observed_at": "2026-11-25T08:30:25.209Z",
+      "age_seconds": 0,
+      "last_ok": "2026-11-25T08:30:25.209Z",
+      "meta": {
+        "window_days": 7,
+        "window_from": "202611180830",
+        "window_to": "202611250830",
+        "categories": [
+          "q-bio.BM",
+          "q-bio.QM",
+          "q-bio.GN",
+          "cond-mat.mtrl-sci",
+          "physics.chem-ph",
+          "physics.med-ph",
+          "math.NA",
+          "astro-ph.IM"
+        ],
+        "phrases": [
+          "machine learning",
+          "deep learning",
+          "neural network",
+          "foundation model",
+          "language model"
+        ]
+      }
     },
     {
       "id": "openalex-ai-science",
@@ -189,9 +208,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-25T07:35:26.266Z",
+      "observed_at": "2026-11-25T08:30:25.214Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-25T07:35:26.266Z",
+      "last_ok": "2026-11-25T08:30:25.214Z",
       "meta": {
         "window_days": 30,
         "window_from": "2026-10-26",
@@ -212,9 +231,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-25T07:35:26.267Z",
+      "observed_at": "2026-11-25T08:30:25.215Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-25T07:35:26.267Z",
+      "last_ok": "2026-11-25T08:30:25.215Z",
       "meta": {
         "window_days": 180,
         "start_date_from": "2026-05-29",
@@ -238,9 +257,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-25T07:35:26.267Z",
+      "observed_at": "2026-11-25T08:30:25.215Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-25T07:35:26.267Z",
+      "last_ok": "2026-11-25T08:30:25.215Z",
       "meta": {
         "window_days": 30,
         "edat_from": "2026/10/26",
@@ -266,14 +285,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 4157,
+      "value": 4171,
       "unit": "models/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-25T07:35:26.267Z",
+      "observed_at": "2026-11-25T08:30:25.216Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-25T07:35:26.267Z",
+      "last_ok": "2026-11-25T08:30:25.216Z",
       "meta": {
         "window_hours": 24,
         "licences": [
@@ -282,7 +301,7 @@
         ],
         "per_licence": {
           "apache-2.0": 1038,
-          "mit": 3119
+          "mit": 3133
         },
         "pages_fetched": 6,
         "page_size": 1000
@@ -295,25 +314,25 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-share\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 0.632821,
+      "value": 0.632257,
       "unit": "share/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-25T07:35:26.267Z",
+      "observed_at": "2026-11-25T08:30:25.216Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-25T07:35:26.267Z",
+      "last_ok": "2026-11-25T08:30:25.216Z",
       "meta": {
         "window_hours": 24,
         "licences": [
           "apache-2.0",
           "mit"
         ],
-        "permissive_models": 4157,
-        "total_models": 6569,
+        "permissive_models": 4171,
+        "total_models": 6597,
         "per_licence": {
           "apache-2.0": 1038,
-          "mit": 3119
+          "mit": 3133
         },
         "pages_licence": 6,
         "pages_total": 7,
@@ -333,9 +352,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-25T07:35:26.267Z",
+      "observed_at": "2026-11-25T08:30:25.216Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-25T07:35:26.267Z",
+      "last_ok": "2026-11-25T08:30:25.216Z",
       "meta": {
         "percentile": 0.1,
         "usd_per_million_tokens": 0.1125,
@@ -359,14 +378,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-model-downloads\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 185532204,
+      "value": 185396433,
       "unit": "downloads/30d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-25T07:35:26.267Z",
+      "observed_at": "2026-11-25T08:30:25.216Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-25T07:35:26.267Z",
+      "last_ok": "2026-11-25T08:30:25.216Z",
       "meta": {
         "basket": [
           "sentence-transformers/all-MiniLM-L6-v2",
@@ -381,13 +400,13 @@
         "basket_size": 8,
         "per_model": {
           "sentence-transformers/all-MiniLM-L6-v2": 164730408,
-          "Qwen/Qwen2.5-7B-Instruct": 6559411,
-          "meta-llama/Llama-3.1-8B-Instruct": 3960085,
+          "Qwen/Qwen2.5-7B-Instruct": 6484444,
+          "meta-llama/Llama-3.1-8B-Instruct": 3888767,
           "openai/whisper-large-v3": 3181133,
           "stabilityai/stable-diffusion-xl-base-1.0": 4783288,
-          "mistralai/Mistral-7B-Instruct-v0.3": 1792848,
-          "google/gemma-2-9b-it": 203843,
-          "microsoft/Phi-3-mini-4k-instruct": 321188
+          "mistralai/Mistral-7B-Instruct-v0.3": 1786921,
+          "google/gemma-2-9b-it": 212520,
+          "microsoft/Phi-3-mini-4k-instruct": 328952
         },
         "field": "downloads (trailing 30d)"
       }
@@ -404,9 +423,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-25T07:35:26.267Z",
+      "observed_at": "2026-11-25T08:30:25.216Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-25T07:35:26.267Z",
+      "last_ok": "2026-11-25T08:30:25.216Z",
       "meta": {
         "basket": [
           "openai",
@@ -446,9 +465,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-25T07:35:26.267Z",
+      "observed_at": "2026-11-25T08:30:25.217Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-25T07:35:26.267Z",
+      "last_ok": "2026-11-25T08:30:25.217Z",
       "meta": {
         "window_days": 365,
         "open_weight_models": 45,
@@ -477,14 +496,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"github-permissive-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 239,
+      "value": 242,
       "unit": "repos/30d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-11-25T07:35:26.268Z",
+      "observed_at": "2026-11-25T08:30:25.217Z",
       "age_seconds": 0,
-      "last_ok": "2026-11-25T07:35:26.268Z",
+      "last_ok": "2026-11-25T08:30:25.217Z",
       "meta": {
         "window_days": 30,
         "created_from": "2026-10-26",
@@ -503,10 +522,10 @@
       "level_name": null
     },
     "doomcon": {
-      "score": 56.8404,
+      "score": 57.0789,
       "level": 4,
       "level_name": "ROUTINE",
-      "generated_at": "2026-11-25T07:24:01.294Z"
+      "generated_at": "2026-11-25T08:29:43.341Z"
     },
     "divergence": null,
     "divergence_band": 3,
