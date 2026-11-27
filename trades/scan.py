@@ -6,6 +6,7 @@ stooq/Yahoo daily history, CBOE delayed quotes, Kalshi public markets,
 Yahoo chart quotes (futures/global), Nasdaq economic + earnings calendars, public news RSS."""
 import json, time, csv, io, datetime, pathlib, urllib.request, urllib.parse, sys, re, email.utils
 import xml.etree.ElementTree as ET
+import session as cal
 from concurrent.futures import ThreadPoolExecutor
 try:
     from zoneinfo import ZoneInfo
@@ -152,7 +153,8 @@ def tech(sym, px=None, vol=None):
     s20, s50 = sma(cl[:-1], 20), sma(cl[:-1], 50)
     avgv = sma(vo[:-1], 20) or 0
     return {"sma20": s20, "sma50": s50, "rsi": rsi(cl), "volx": (vo[-1] / avgv) if avgv else None,
-            "above20": bool(s20 and cl[-1] > s20), "above50": bool(s50 and cl[-1] > s50), "px": cl[-1]}
+            "above20": bool(s20 and cl[-1] > s20), "above50": bool(s50 and cl[-1] > s50), "px": cl[-1],
+            "prev": cl[-2] if px and len(cl) > 1 else None}
 
 CBOE_UA = {"User-Agent": "Mozilla/5.0 (trade-watch)"}
 def cboe_px(sym):
@@ -314,6 +316,16 @@ def opt_screen(syms, trends, earn=(), budget=150, workers=6):
 def regime_label(spy, vix):
     return "RISK-OFF" if (not spy["above50"] or vix > 25) else ("MIXED" if not spy["above20"] else "RISK-ON")
 
+def gap_line(spy, watch):
+    """Live price vs the last regular close for the index pair and the overnight inverse ETFs (RULES sec 7 trigger)."""
+    rows = [(k, v) for k, v in (("SPY", spy or {}), ("QQQ", (watch or {}).get("QQQ") or {}), ("SQQQ", (watch or {}).get("SQQQ") or {}),
+                                ("SPXU", (watch or {}).get("SPXU") or {})) if v.get("px") and v.get("prev")]
+    if not rows: return None
+    g = {k: pct(v["px"], v["prev"]) for k, v in rows}
+    hit = [f"{k} {g[k]:+.1f}%" for k in ("SPY", "QQQ") if k in g and g[k] <= -1.0]
+    return ("GAP vs last regular close: " + "; ".join(f"{k} {g[k]:+.1f}%" for k, _ in rows) + " | sec 7 bear trigger (SPY or QQQ <= -1.0%): "
+            + (f"YES ({', '.join(hit)}), confirm still extending on live quotes" if hit else "no"))
+
 def vix_fallback(res):
     """CBOE's VIX feed fails at times (VIX 0 in the regime on 11/19 while CNBC/Yahoo had 28.44, which alone means
     RISK-OFF): take the macro-section VIX instead and recompute the regime label."""
@@ -322,6 +334,7 @@ def vix_fallback(res):
     if rg and rg.get("spy") and not rg.get("vix") and mv:
         rg["vix"], rg["vix_src"] = float(mv), "macro"
         rg["label"] = regime_label(rg["spy"], rg["vix"])
+        ERRS[:] = [e for e in ERRS if not e.startswith("vix ")]      # recovered from macro: not an error worth a line
 
 def stocks():
     out = {}
@@ -418,7 +431,7 @@ def stocks():
     def ev_watch(s):
         try:
             px = cboe_px(s); t = tech(s, px=px)
-            return s, {"px": px, "rsi": t["rsi"], "above20": t["above20"], "above50": t["above50"]}
+            return s, {"px": px, "rsi": t["rsi"], "above20": t["above20"], "above50": t["above50"], "prev": t.get("prev")}
         except Exception as e: return s, {"err": type(e).__name__}
     # Parallel (was sequential and hit the 240 s budget before finishing the put list); map() keeps candidate order.
     with ThreadPoolExecutor(max_workers=6) as ex:
@@ -695,7 +708,7 @@ def gate(c, m, live=True):
     """Cheap pre-filter for non-market fires: QUIET means nothing in the free data could trigger an entry or exit.
     live=False (crypto pause, no coin held): BTC and coin rows alone do not wake a pass."""
     et = NOW.astimezone(NY); wd, hm = et.weekday(), et.hour * 60 + et.minute
-    if wd < 5 and 9 * 60 + 30 <= hm < 16 * 60:
+    if cal.is_open(NOW):
         return "CHECK market-hours"
     why = []
     b = c.get("btc", {}) or {}
@@ -799,6 +812,10 @@ def main():
          f"GATE: {gate(res.get('crypto', {}), res.get('macro', {}), crypto_live_now())}"]
     rg = s.get("regime", {}); spy = rg.get("spy", {})
     L.append(f"REGIME {rg.get('label')}: SPY {f(spy.get('px'))} sma20 {f(spy.get('sma20'))} sma50 {f(spy.get('sma50'))} VIX {f(rg.get('vix'),1)}{' (macro)' if rg.get('vix_src') else ''}")
+    sn = cal.note(NOW.astimezone(NY).date())
+    if sn: L.append("SESSION " + sn)
+    gl = gap_line(spy, s.get("watch"))
+    if gl: L.append(gl)
     b = c.get("btc", {})
     L.append(f"BTC {f(b.get('px'),0)} vs midnight-ET mark {f(b.get('mark_midnight_et'),0)} ({f(b.get('vs_mark'))}%) 1h {f(b.get('h1'))}% {'ABOVE' if b.get('above_sma20_1h') else 'BELOW'} 1h-SMA20 {f(b.get('sma20_1h'),0)}")
     L.append(f"CRYPTO {c.get('n')} ok/{c.get('n_err')} miss. LONG 5-20% (PASS=1h<=8% rising): " + ("; ".join(f"{r['sym']} +{f(r['d'],1)}% spr {f(r['spr'],1)} 1h {f(r.get('h1'),1)}{' PASS' if r.get('pass') else ''}" for r in c.get("longs", [])[:6]) or "none"))

@@ -16,6 +16,8 @@ Limits, so a stuck signal can't spam Atlas (each wake costs a session):
 The first scan of each keeper run only sets the baseline, so a restart never wakes anyone.
 """
 import datetime, json, os, pathlib, sys, urllib.error, urllib.request
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import session
 
 ROOT = pathlib.Path(__file__).resolve().parent
 STATE = pathlib.Path(os.environ.get("FASTWAKE_STATE", "/tmp/fastwake_state.json"))
@@ -60,14 +62,7 @@ def fire(text):
 
 
 def market_open(now):
-    et = now.astimezone(datetime.timezone(datetime.timedelta(hours=-5)))  # EST; DST shifts the edge by 1 h
-    try:
-        from zoneinfo import ZoneInfo
-        et = now.astimezone(ZoneInfo("America/New_York"))
-    except Exception:
-        pass
-    hm = et.hour * 60 + et.minute
-    return et.weekday() < 5 and 9 * 60 + 30 <= hm < 16 * 60
+    return session.is_open(now)      # NYSE calendar: holidays and 13:00 ET early closes included
 
 
 def watch(s, ts):

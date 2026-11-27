@@ -14,6 +14,7 @@ threading.Thread(target=srv.serve_forever, daemon=True).start()
 
 tmp = pathlib.Path(tempfile.mkdtemp()); (tmp / "trades" / "out").mkdir(parents=True)
 shutil.copy(pathlib.Path(__file__).resolve().parents[1] / "fastwake.py", tmp / "trades" / "fastwake.py")
+shutil.copy(pathlib.Path(__file__).resolve().parents[1] / "session.py", tmp / "trades" / "session.py")
 os.environ.update(ATLAS_FIRE_URL=f"http://127.0.0.1:{srv.server_port}/fire", ATLAS_FIRE_TOKEN="sk-test",
                   FASTWAKE_STATE=str(tmp / "state.json"))
 spec = importlib.util.spec_from_file_location("fw", tmp / "trades" / "fastwake.py"); fw = importlib.util.module_from_spec(spec); spec.loader.exec_module(fw)

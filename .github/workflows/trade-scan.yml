@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v7
       - name: Offline tests (never blocks the scan)
         continue-on-error: true
-        run: python3 trades/tests/test_opt_screen.py && python3 trades/tests/test_check.py && python3 trades/tests/test_stocks_parallel.py && python3 trades/tests/test_shadow.py && python3 trades/tests/test_regime.py && python3 trades/tests/test_gate.py
+        run: python3 trades/tests/test_opt_screen.py && python3 trades/tests/test_check.py && python3 trades/tests/test_stocks_parallel.py && python3 trades/tests/test_shadow.py && python3 trades/tests/test_regime.py && python3 trades/tests/test_gate.py && python3 trades/tests/test_session.py
       - name: Scan crypto, stocks, Kalshi (free public data)
         run: python3 -u trades/scan.py
       - name: Shadow ledger (paper forward test of every scan row; never blocks the publish)
