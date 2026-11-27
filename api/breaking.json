@@ -73,7 +73,7 @@
         "e461690b677636ee"
       ],
       "latency_s": 0,
-      "live": true,
+      "live": false,
       "outlet": "techcrunch.com",
       "outlets": [
         "industryodisha.com",
@@ -173,7 +173,7 @@
         "a036c7b0b82e6387"
       ],
       "latency_s": 425,
-      "live": false,
+      "live": true,
       "outlet": "alignmentforum.org",
       "outlets": [
         "alignmentforum.org",
@@ -212,7 +212,7 @@
     {
       "breaking_at": "2026-11-27T12:46:04.006Z",
       "clock_skew": true,
-      "corroboration": 6,
+      "corroboration": 7,
       "earliest_published_at": "2026-11-27T12:14:40.402Z",
       "first_seen_at": "2026-11-26T16:34:19.707Z",
       "id": "b264aab4dc1a8",
@@ -221,6 +221,7 @@
         "47ad8b2d566fe89e",
         "54cdc5ea9266f997",
         "72bf80e1aa843141",
+        "7f7a4459ed81d691",
         "9fbbfece517c9aa0",
         "d369da93cb8beabc"
       ],
@@ -232,6 +233,7 @@
         "bloomberg.com",
         "fourweekmba.com",
         "globalbankingandfinance.com",
+        "reuters.com",
         "thedefiant.io",
         "tvpworld.com"
       ],
@@ -283,10 +285,18 @@
         {
           "outlet": "tvpworld.com",
           "published_at": "2026-11-27T12:49:00.000Z",
-          "source": "wires-ai",
+          "source": "gnews-ai",
           "tier1": false,
           "title": "Poland signs AI deal with ‘controversial’ US tech firm Palantir",
           "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOVWJJRjZZV2ctY0hTSC1oMjhfSDJ4cTJUR1BiQ1FQM2swemt6eFBaX3VodU5rQjUwcmI4S3dKTTNzdXRjTmhlU0tYRXJ4a1pHQ0lWcjY1RVk4TGdyZ2E0WUxFWHF0Z3NaUVFLdUxoWVpTaXFQQkx2X1dUNnZPZnZoczhSR2RmbVdHbUh0XzhvcDU4ejQwR2lMZnF5dERhcmgxQWNZbExHS0RMdw?oc=5"
+        },
+        {
+          "outlet": "reuters.com",
+          "published_at": "2026-11-27T13:09:45.000Z",
+          "source": "wires-ai",
+          "tier1": true,
+          "title": "Poland signs contract with Palantir worth $300 mln over 5 years",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPcE9acGJ4ZnNpRGhDSXVvN1lpUWNyQTlJalVfQ25acTN3Q0JuTW9ydHFPb3paNUx4MEQxQUhpSnVfV0xwaEVvblo3NG8xOGtMZHlLdEs0Qi1iSGVhM1RYcVg4ZlhjU0VfYW9ReFk2cU1DdXVWMzVweElzQjkyN0ZZUFZjTDNaZmk4TF9jTnhGZDVDRnRuVWxaaUhxckxQTEJQYVJmTERxRFlGaFpNSGc?oc=5"
         },
         {
           "outlet": "globalbankingandfinance.com",
@@ -304,7 +314,8 @@
         "wires-ai"
       ],
       "tier1_outlets": [
-        "bloomberg.com"
+        "bloomberg.com",
+        "reuters.com"
       ],
       "title": "Polish defence ministry to sign agreement with Palantir on Friday",
       "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOMVYxMVNENzdjcUtUSWdqcXBwVzVhNDNhRkRrdy1PbVZuWG1YYld1Z1dETUtqX01icTZkN1JBaUhDMmpRNE52T09tM0ZLSFFWal9XTnhwdGZId2xOSUhuZVdZVjdVQzNldlZrWEVRYnIyeGlXRVRjU1lmQmFyaDQyY2t3Zk12dzF5VmtQb3pnZjF3NlI5YkJkNml5cDB6R3M0aVBIdVZpVkhfdw?oc=5"
@@ -1845,7 +1856,7 @@
     }
   ],
   "fresh": "baec45a032396",
-  "generated_at": "2026-11-27T13:31:02.203Z",
+  "generated_at": "2026-11-27T13:42:03.234Z",
   "live": 8,
   "rules": {
     "keep": 30,
@@ -1904,9 +1915,15 @@
       },
       {
         "label": "Google News — AI searches, last hour",
-        "median_s": 1382,
-        "n": 279,
+        "median_s": 1349,
+        "n": 290,
         "source": "gnews-ai"
+      },
+      {
+        "label": "Bluesky — AI posts from vetted newsrooms and reporters",
+        "median_s": 3076,
+        "n": 47,
+        "source": "bluesky-ai"
       },
       {
         "label": "Hacker News — newest AI submissions (2h)",
@@ -1915,15 +1932,9 @@
         "source": "hn-fresh-ai"
       },
       {
-        "label": "Bluesky — AI posts from vetted newsrooms and reporters",
-        "median_s": 3821,
-        "n": 45,
-        "source": "bluesky-ai"
-      },
-      {
         "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
         "median_s": 4458,
-        "n": 96,
+        "n": 100,
         "source": "wires-ai"
       },
       {
@@ -2005,6 +2016,12 @@
         "source": "wired-ai"
       },
       {
+        "label": "Financial Times — AI",
+        "median_s": 21956,
+        "n": 8,
+        "source": "ft-ai"
+      },
+      {
         "label": "GOV.UK — AI",
         "median_s": 22256,
         "n": 2,
@@ -2033,12 +2050,6 @@
         "median_s": 29122,
         "n": 2,
         "source": "bbc-tech"
-      },
-      {
-        "label": "Financial Times — AI",
-        "median_s": 30463,
-        "n": 7,
-        "source": "ft-ai"
       },
       {
         "label": "Simon Willison",
@@ -2080,8 +2091,8 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 2969,
-      "n": 618
+      "median_s": 2938,
+      "n": 636
     },
     "window_hours": 24
   }
