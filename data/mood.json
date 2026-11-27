@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.0.0",
   "lexicon_version": "v1",
-  "generated_at": "2026-11-27T07:20:26.910Z",
-  "news_generated_at": "2026-11-27T07:20:26.910Z",
+  "generated_at": "2026-11-27T08:23:56.971Z",
+  "news_generated_at": "2026-11-27T08:23:56.971Z",
   "window_days": 7,
   "rule": {
     "statement": "Every headline naming a roster company is scanned for words on three fixed lists. Each of 51 positive terms adds 3; each of 69 negative terms subtracts 4; clickbait phrasing subtracts 12. One headline is capped at ±15. Those are averaged across the company's headlines and multiplied by 8, giving the -100 to 100 index.",
@@ -18,16 +18,16 @@
   },
   "totals": {
     "items_in_window": 800,
-    "headlines_naming_a_company": 150,
+    "headlines_naming_a_company": 148,
     "companies_on_roster": 10,
     "companies_with_headlines": 9,
-    "negative_pair_share": 0.124
+    "negative_pair_share": 0.114
   },
   "glance": {
     "leading": {
       "id": "deepseek",
       "name": "DeepSeek",
-      "index": 12
+      "index": 16
     },
     "trailing": {
       "id": "microsoft",
@@ -37,7 +37,7 @@
     "most_discussed": {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 61
+      "headlines": 57
     }
   },
   "companies": [
@@ -86,9 +86,9 @@
     {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 29,
-      "index": 0.3,
-      "mean_headline": 0,
+      "headlines": 27,
+      "index": 1.5,
+      "mean_headline": 0.2,
       "sample": [
         {
           "id": "be5bd63d3d6736f5",
@@ -159,24 +159,22 @@
           "clickbait": []
         },
         {
-          "id": "6f02badfa13c8ea8",
-          "title": "Did OpenAI or Anthropic Crack Encryption? Are Crypto Wallets at Risk?",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPNFZWT25sQkNMeEFOZ1h4cmY5Xy1VMnpQb2VHYVZiNktlb3otUzM5YmpzbVNqRktqakM1cnR2SHNnbXdTS2prcGtBWVFwNFFJNTJKLXVQQUxKbFJOUkMxTE9ZQWdzZEJaTmFEME5xbTJaY2xQU3dlbFNsd2xCU3JnNERlQ0hUQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T05:04:30.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "risk"
-          ],
-          "clickbait": []
-        },
-        {
           "id": "51ca60aa034ad13c",
           "title": "OpenAI’s IPO Countdown Clock Is Ticking",
           "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOV3Qxb0R3X0EydVhiOG9yX1ZCczV1eVBZaGdvYVlFWGdTNjBNS3dEYjI1dzZOS2lMQW1tTEZDc1h5cFNtWTFHcUFnSWxzcFJIcDNvLVdNOEZzQnRhNnNlYi1xMFJFUUI5Z3Z0b2xVTHB2NXBlV2RoUGpIVDJQbzZtNQ?oc=5",
           "source": "wires-ai",
           "published_at": "2026-11-27T05:01:21.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "23f32e968ad1e236",
+          "title": "Holidays to Test AI Shopping Bots From Google, Amazon, Meta and OpenAI",
+          "url": "https://bloomberg.com/news/features/2026-11-26/holidays-to-test-ai-shopping-bots-from-google-amazon-meta-and-openai",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-26T22:00:04.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -187,8 +185,8 @@
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 61,
-      "index": -5.5,
+      "headlines": 57,
+      "index": -5.9,
       "mean_headline": -0.7,
       "sample": [
         {
@@ -208,7 +206,7 @@
           "id": "a951495ce86cbc4e",
           "title": "Watch Will the Nvidia Saga Stunt Chinese AI?",
           "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNZGVnb1Q5QllweVA5WllCYXRSWTVLajZ5bmtSMENSQW1EcXhRdXMyN1ZFRHpyZ1JiUWZyenFUS2U1Vi1Ucm9lTlR2SGtNQ2d6eW1WbWp1blpUY3R2VF81V3psTnlOY1VPMFQydkp0RUtvX3kxYmJwcnBicS1uLU5FYWVOeTE5TDFtSGE5ZVd3?oc=5",
-          "source": "gnews-ai",
+          "source": "wires-ai",
           "published_at": "2026-11-27T06:23:27.000Z",
           "score": 0,
           "positive": [],
@@ -288,10 +286,67 @@
     {
       "id": "anthropic",
       "name": "Anthropic",
-      "headlines": 34,
-      "index": 0.2,
-      "mean_headline": 0,
+      "headlines": 35,
+      "index": 1.8,
+      "mean_headline": 0.2,
       "sample": [
+        {
+          "id": "5e092c875c2b7e8b",
+          "title": "Anthropic's customers are hiring less, not firing. UK case studies hint at the same effect",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPbHQ5cWtRcDM5eGhCTkREXzBCeldmOHhwekw4Rl8taFluWkl5cFRrZ2IwZHdXR3o5ZkpTVGU2cE9pOUhCUnc5S2R1R2tVc1N4MVJzdDNVeW40bFRlOENvM0xwOEZNWkpZRnZ0RzhlUWNLZXVWYXVFLXZSYXM1ZjBzTWtndHNRYXhHU01neU1PRnFfb09GUW9R?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T08:16:27.000Z",
+          "score": 3,
+          "positive": [
+            "hiring"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "43f8b741db892db1",
+          "title": "Anthropic stock may rise in December amid AI se...",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPNUFoV1Qwd3BwQzFBWDRmLWNQS2xnX3RRSzZ5eG5CZDBJaldXTWJhQzNnM25CN0JKSkJDRUJwNWNIV0l2NGVNMWR2UWJCVjdrSGZsalc4aXFSYXlVUFJ5TDh4dWJzaFJ6OWMxTHp3OHhBYnRwTjVRbUhjdnU1cWxUeQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T08:03:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7aa14cce46d48067",
+          "title": "Anthropic's Claude Gets Scheduled Cloud Tasks as Firms Weigh Agent Lock-In",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9tX3dGSUMzRmRWcU5EblNuU2RLaHhCaXlIdG16Ym5Pc2Jwcm5qSEpnaXYwMVVrMTI2ZVFOZHpfUWU4OXdWTzlmc1NYOWdoNXVDRzJWdHBXWks4RmZ1azFPeW1ibUdhZ001ZzFMNzFJd1R6N09reWc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:56:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e30ba18ede103351",
+          "title": "Monzo's Tom Blomfield exits Anthropic after under six months",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPem5PZWF3S2ZGd1B6MDA2LUI3UEJ4cVJSMGJTODJhY2gtOEFvdy1VNnlzU2F6TExBbUpVZk1OVzI3MV9oYVVweGhRN1NuM3NRemdwV2JiNExKQ2ctSy0zbE1ldlIxbWYwdkpjSHhiejlYWHhmeUpCVFZGYWdWT212ZVZBM01JMmpiX0tPMFhSUzc0ajdvVE8tS1RB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:43:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "69a32f5e44d6cd31",
+          "title": "Anthropic Shares Fall 29% as Lockup Expirations Add Supply Tests",
+          "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5OVWlhTk0yb1lHcmc5ZUJEd09CUnlFazVkTU0tRXVwVG1Za3UyUEVMandjTy01S0M4TFJKYlFUc25TY0U1alJzYWxrMldhYnRNdVBPNGNObUNzQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:31:47.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "2aa1e0ddf9b4eba6",
           "title": "Prediction: This Will Be Anthropic’s Stock Price by the End of 2026",
@@ -326,71 +381,27 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "6c8268ef424b351c",
-          "title": "Groupement Mousquetaires Taps Anthropic And AWS For AI Roll-Out",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNVHJQSzFhWEhSTHVxaUh3UWFpMVNSWGVXSWxrVzZabEZzTWNfMU5fdXAyZUo5b2VvcjR0c0N0enoyNEIyVjZ6YndIZmJ2SEpvMkJpMHNvOENCaTh6M2FTUjhGZVdCd3VhalFPa2JzN25GdXR1T0UwSzBFZVE1cFBDd3FlemtycVRUdHNsYkdtQzE3TmtYOHc5SW5ReFlWa3kzc3hEUDNxbl9vVXZFcHc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T06:42:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "65c91d5dd4a2596d",
-          "title": "Imperial BioHack x Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQb2w4TXBScEUzeVdvZ0tLUmpBTFhjcjlWNVBJT201LV96VkFJVm9tRnhHbVdLSUtheWQwYXFSTGNOTzNwdHdlZUhWTnJXalhDV2VndXppVjZ6OWFENkJQZ2tiaWVOQnhhZ3ZSOEhUTkJmTG0yT3B4UENWTEt5SUljX0FXSnhodklJUVNoMTE5TWQ0b1pyUjZNRjBmd3VINlBkcWc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T06:01:11.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9617114378429697",
-          "title": "Anthropic Siren honeypot test: What rates mean",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQYUtnLTRJb3BBODFUazVQQzdRYnJMbVZFSU5uSHhOZHh6VGFHOGV0M3ctRFN1UkYxd3FmaFFwN3FIMWluYW16TURsRXNDblNoSzZNTGxFSThHZmhNQUJlb2Zkd1VkUkpqdTBqVkRKUkhQY19MNXJIdnVkR1dCTWhfWEU2YW42Yk0yWWFUdQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T05:58:07.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c6f048cab604de5b",
-          "title": "Anthropic and OpenAI sketch plans to share their wealth ahead of IPOs",
-          "url": "https://news.google.com/rss/articles/CBMiiAJBVV95cUxNcjFOVHg1Q3U5MDNoTlFhTl9iUlJ4Mm9ETHdMTTd0Qnl3N1MzOUxYYmdiV0RvQUJKUHBoeFNGNGFMWEJHcTdLNEF0dEtDeERUOTgyQ0xIaUJSbVllM0lOdzZlNkRva1RBNE9HaUhWZ3hrT00xR1NTVmYwYkhjczhTeHZFeU1wem5MUXdlWGs2aHVZZXhHTk1kNmRWU2F2MkhPVG9wanNYRDdqT2FDTEQxbnNwUW5BNXBLWUZQVmh1amVmSjRYeXNndTdqOGxrWUxfU2NrbWVxRE9VN0pKeHg0d3g1QWxWbGpfSlR0S1JaUTRxU0dUaXBTTXQ3aE1sYTY0RjBiQ0FKcHQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T05:49:18.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5f128aa33b97add6",
-          "title": "Workers hoard AI knowledge to stay competitive, Anthropic report says",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPUTRpYks1T1hwaWo1SWRhVnpTdnJtNkFXdWQycmR1ZHVnZGZpMnV0d2hteTFORHhQOEtWS3MtMnZVZWNsN0l3NHJ0UUtHNUtxeGRscHVjX0NvenBCSFVXNmZPaVpVZ2ltUWpzTjZPbHRhVjJuYnBQcVdsbWZFUnViWlBUVW5wR1U4dzhrUFN2ZkkwUm4xTjdhRVR5YXgxWjhORUt6VzllZkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T05:05:09.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 11,
+      "headlines": 12,
       "index": -0.7,
       "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "57ff49b5d515a842",
+          "title": "China Hi-Tech Fair accelerates embodied AI industry collaboration",
+          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPNTE5VUgwQ2pjU1BOWDlOQXFEOWJheElGeFZFUDZIb3pnOC1ZdE13TC0wM1UyUE5GWGRmd1JDYlRDVFc2REZ4bWRsY2lYemttVm9ZS05sNW5BOXlmMk1oeFdYMkVJSWgyUU8wZGFLLXJEVlBsME51cEswRWNrRDNfckFiRVAwWFduRElaY05GdEMtbkhuVTk1WElXWTFyX2ZCWGhodVVFSV9ITldiclpVUGVBNi1CdG9v?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:47:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "e04c5cceb830e237",
           "title": "Distilling US AI models gets harder as Z.ai's GLM-5.5 slips and Moonshot turns to Google and Meta models, Reuters reports",
@@ -469,17 +480,6 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "3057c1692fc87eb1",
-          "title": "Amazon and Meta reportedly in talks to lift blockade on AI agent Muse",
-          "url": "https://techcrunch.com/2026/11/25/amazon-and-meta-reportedly-in-talks-to-lift-blockade-on-ai-agent-muse",
-          "source": "techcrunch-ai",
-          "published_at": "2026-11-25T14:10:18.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
@@ -498,6 +498,17 @@
       "index": -0.7,
       "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "6ec31a8ce7b2feb3",
+          "title": "Google DeepMind Researcher Voices AI Safety Concerns",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNMFNGYTk4Ui10bVBZeGt3elJQY1VSR1g2Y2NmWFMtTlZENWVZRXlQdlNqdE5NVWRFSXRUbFVrd2huTENiOUhWS2dtQmsyQU9XX0NKdHhYRlZzUDhYWC1GaEFwU0ZRaFk4YW5yY0dCMWJRX3h0ZUNycFVicS1tcDRNQ2k3ZS10MUZFQmN2Zw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:48:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "bce355c129093e2d",
           "title": "Google DeepMind AI Researcher Fears AI Could Go Out Of Control, Wants Family To Stay Away",
@@ -544,17 +555,6 @@
           "negative": [
             "cut"
           ],
-          "clickbait": []
-        },
-        {
-          "id": "d0cc864e1c626ba8",
-          "title": "Google is connecting Wallet to AI Mode in Search, and Drive and the Gemini app come next",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOOWNNN2pVaVY0UTZYQ3Y2aHVpQkd2X1ZGc2k3ZWtXR3JqZ0hJb2IzSGg3eUxmbVNnbXVIZzhLS2lYYVFFQmhLTHpuUzFrV09qeHRCQWk1X0hrdGxNaGYyNXJLUWdJdkc3MzJyZDhCN05Jbk1hTlNRYk0tRUlxOUsxZEJRNXJFdmFCTzJDZmJzbGZ4MUk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T04:37:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
           "clickbait": []
         },
         {
@@ -681,6 +681,19 @@
       "mean_headline": 0.3,
       "sample": [
         {
+          "id": "363e43e6a699f90f",
+          "title": "Amazon Autos Plans to Launch Services in U.K. in Early 2027",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOM2pVMDVTbmVZOHkwaGZ0d1dHVEVObExKaTJMaVFIb1dfdGZHQ0N5WWotVzNreXhoMWs4SWphNHlYT29zU3RIbHdnZF91SGswdTdlcUtUN20yRW1OZFk3Z2swZGgxYlF5eEwxVmEwbVVsRHVIV1lHdWt3ZzU5VjlXMkFFNW43MXVPcHRpVnJ1eldNUi00Y2wyZU14STQwQ2JsU0pRYg?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-27T07:34:06.000Z",
+          "score": 3,
+          "positive": [
+            "launch"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "6c8268ef424b351c",
           "title": "Groupement Mousquetaires Taps Anthropic And AWS For AI Roll-Out",
           "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNVHJQSzFhWEhSTHVxaUh3UWFpMVNSWGVXSWxrVzZabEZzTWNfMU5fdXAyZUo5b2VvcjR0c0N0enoyNEIyVjZ6YndIZmJ2SEpvMkJpMHNvOENCaTh6M2FTUjhGZVdCd3VhalFPa2JzN25GdXR1T0UwSzBFZVE1cFBDd3FlemtycVRUdHNsYkdtQzE3TmtYOHc5SW5ReFlWa3kzc3hEUDNxbl9vVXZFcHc?oc=5",
@@ -688,19 +701,6 @@
           "published_at": "2026-11-27T06:42:14.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "363e43e6a699f90f",
-          "title": "Amazon Autos Plans to Launch Services in U.K. in Early 2027",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOM2pVMDVTbmVZOHkwaGZ0d1dHVEVObExKaTJMaVFIb1dfdGZHQ0N5WWotVzNreXhoMWs4SWphNHlYT29zU3RIbHdnZF91SGswdTdlcUtUN20yRW1OZFk3Z2swZGgxYlF5eEwxVmEwbVVsRHVIV1lHdWt3ZzU5VjlXMkFFNW43MXVPcHRpVnJ1eldNUi00Y2wyZU14STQwQ2JsU0pRYg?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-27T06:04:06.000Z",
-          "score": 3,
-          "positive": [
-            "launch"
-          ],
           "negative": [],
           "clickbait": []
         },
@@ -779,10 +779,23 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 2,
-      "index": 12,
-      "mean_headline": 1.5,
+      "headlines": 3,
+      "index": 16,
+      "mean_headline": 2,
       "sample": [
+        {
+          "id": "76675306b7deae2c",
+          "title": "DeepSeek APP Sudden Billing System Update: Is the AI Platform Preparing to Launch Paid Services?",
+          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1EM3RkZGZjWmNnUGpDaWUtcWJ6Wk9GMmRGaG5vSVFVbWZPT2tJMjRUZk9qdVduZWx0azVfVUtOUnBXTVJBWWlzcTRYQ3dHM0FxRFJF?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:46:21.000Z",
+          "score": 3,
+          "positive": [
+            "launch"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "66c6a7b04fc2391a",
           "title": "DeepSeek Won't Sell You a Subscription. It's Installing a Meter.",
@@ -814,10 +827,23 @@
     {
       "id": "deepseek",
       "name": "DeepSeek",
-      "headlines": 2,
-      "index": 12,
-      "mean_headline": 1.5,
+      "headlines": 3,
+      "index": 16,
+      "mean_headline": 2,
       "sample": [
+        {
+          "id": "76675306b7deae2c",
+          "title": "DeepSeek APP Sudden Billing System Update: Is the AI Platform Preparing to Launch Paid Services?",
+          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1EM3RkZGZjWmNnUGpDaWUtcWJ6Wk9GMmRGaG5vSVFVbWZPT2tJMjRUZk9qdVduZWx0azVfVUtOUnBXTVJBWWlzcTRYQ3dHM0FxRFJF?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:46:21.000Z",
+          "score": 3,
+          "positive": [
+            "launch"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "66c6a7b04fc2391a",
           "title": "DeepSeek Won't Sell You a Subscription. It's Installing a Meter.",
@@ -852,6 +878,19 @@
       "mean_headline": 0.3,
       "sample": [
         {
+          "id": "363e43e6a699f90f",
+          "title": "Amazon Autos Plans to Launch Services in U.K. in Early 2027",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOM2pVMDVTbmVZOHkwaGZ0d1dHVEVObExKaTJMaVFIb1dfdGZHQ0N5WWotVzNreXhoMWs4SWphNHlYT29zU3RIbHdnZF91SGswdTdlcUtUN20yRW1OZFk3Z2swZGgxYlF5eEwxVmEwbVVsRHVIV1lHdWt3ZzU5VjlXMkFFNW43MXVPcHRpVnJ1eldNUi00Y2wyZU14STQwQ2JsU0pRYg?oc=5",
+          "source": "wires-ai",
+          "published_at": "2026-11-27T07:34:06.000Z",
+          "score": 3,
+          "positive": [
+            "launch"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "6c8268ef424b351c",
           "title": "Groupement Mousquetaires Taps Anthropic And AWS For AI Roll-Out",
           "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNVHJQSzFhWEhSTHVxaUh3UWFpMVNSWGVXSWxrVzZabEZzTWNfMU5fdXAyZUo5b2VvcjR0c0N0enoyNEIyVjZ6YndIZmJ2SEpvMkJpMHNvOENCaTh6M2FTUjhGZVdCd3VhalFPa2JzN25GdXR1T0UwSzBFZVE1cFBDd3FlemtycVRUdHNsYkdtQzE3TmtYOHc5SW5ReFlWa3kzc3hEUDNxbl9vVXZFcHc?oc=5",
@@ -859,19 +898,6 @@
           "published_at": "2026-11-27T06:42:14.000Z",
           "score": 0,
           "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "363e43e6a699f90f",
-          "title": "Amazon Autos Plans to Launch Services in U.K. in Early 2027",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOM2pVMDVTbmVZOHkwaGZ0d1dHVEVObExKaTJMaVFIb1dfdGZHQ0N5WWotVzNreXhoMWs4SWphNHlYT29zU3RIbHdnZF91SGswdTdlcUtUN20yRW1OZFk3Z2swZGgxYlF5eEwxVmEwbVVsRHVIV1lHdWt3ZzU5VjlXMkFFNW43MXVPcHRpVnJ1eldNUi00Y2wyZU14STQwQ2JsU0pRYg?oc=5",
-          "source": "wires-ai",
-          "published_at": "2026-11-27T06:04:06.000Z",
-          "score": 3,
-          "positive": [
-            "launch"
-          ],
           "negative": [],
           "clickbait": []
         },
@@ -948,11 +974,112 @@
       ]
     },
     {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "headlines": 35,
+      "index": 1.8,
+      "mean_headline": 0.2,
+      "sample": [
+        {
+          "id": "5e092c875c2b7e8b",
+          "title": "Anthropic's customers are hiring less, not firing. UK case studies hint at the same effect",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPbHQ5cWtRcDM5eGhCTkREXzBCeldmOHhwekw4Rl8taFluWkl5cFRrZ2IwZHdXR3o5ZkpTVGU2cE9pOUhCUnc5S2R1R2tVc1N4MVJzdDNVeW40bFRlOENvM0xwOEZNWkpZRnZ0RzhlUWNLZXVWYXVFLXZSYXM1ZjBzTWtndHNRYXhHU01neU1PRnFfb09GUW9R?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T08:16:27.000Z",
+          "score": 3,
+          "positive": [
+            "hiring"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "43f8b741db892db1",
+          "title": "Anthropic stock may rise in December amid AI se...",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPNUFoV1Qwd3BwQzFBWDRmLWNQS2xnX3RRSzZ5eG5CZDBJaldXTWJhQzNnM25CN0JKSkJDRUJwNWNIV0l2NGVNMWR2UWJCVjdrSGZsalc4aXFSYXlVUFJ5TDh4dWJzaFJ6OWMxTHp3OHhBYnRwTjVRbUhjdnU1cWxUeQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T08:03:58.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "7aa14cce46d48067",
+          "title": "Anthropic's Claude Gets Scheduled Cloud Tasks as Firms Weigh Agent Lock-In",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9tX3dGSUMzRmRWcU5EblNuU2RLaHhCaXlIdG16Ym5Pc2Jwcm5qSEpnaXYwMVVrMTI2ZVFOZHpfUWU4OXdWTzlmc1NYOWdoNXVDRzJWdHBXWks4RmZ1azFPeW1ibUdhZ001ZzFMNzFJd1R6N09reWc?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:56:00.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "e30ba18ede103351",
+          "title": "Monzo's Tom Blomfield exits Anthropic after under six months",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPem5PZWF3S2ZGd1B6MDA2LUI3UEJ4cVJSMGJTODJhY2gtOEFvdy1VNnlzU2F6TExBbUpVZk1OVzI3MV9oYVVweGhRN1NuM3NRemdwV2JiNExKQ2ctSy0zbE1ldlIxbWYwdkpjSHhiejlYWHhmeUpCVFZGYWdWT212ZVZBM01JMmpiX0tPMFhSUzc0ajdvVE8tS1RB?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:43:32.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "69a32f5e44d6cd31",
+          "title": "Anthropic Shares Fall 29% as Lockup Expirations Add Supply Tests",
+          "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5OVWlhTk0yb1lHcmc5ZUJEd09CUnlFazVkTU0tRXVwVG1Za3UyUEVMandjTy01S0M4TFJKYlFUc25TY0U1alJzYWxrMldhYnRNdVBPNGNObUNzQQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:31:47.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "2aa1e0ddf9b4eba6",
+          "title": "Prediction: This Will Be Anthropic’s Stock Price by the End of 2026",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPeVpTM1JFbFd4ajNxQjVDYkx3UmtpRHJjX0VCRl9CbHlDOTF3cE5zN2hjSmtSMEsxdE5Nc290dnhHS0lVLUVDZzlxV2ZMYkxsQm9mQmhaOFpVNmZzSXhMc0FBeUNLeXlhM1ExTF9Zd1NFN1g5QWtLdlhyMWg3ZlVBOS1xajhyR09iaFM5WDZUdHpWWG9rWGtMSmQyN2x5ejFuZi1NbHpTNGNLZDljWkE?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:03:02.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "8391abace2cc4592",
+          "title": "Anthropic explained how AI is changing the criteria for career growth and hiring programmers",
+          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNc1dhNUZpdm9GTzVTT2pSalBqUkpDLWd3SVFrUXktcF80OE5MZVFnYkJsZGVTYldRS2x3UGVDcW5BOGx2SGg5NFA1YWM5TTBpSDR3T2lZYkttU2FYU3BMd2JNRng1dS03ZEhpU3hTXzhPV1JiM2FsbUk5YUJfV2ZCMkJJSWo3RE1tOEdrOUZkQ3JuX0tiNUo3Vi1uOVVyMUhFX0xCdFVhUjB5SmhkTnAzNmZCZFZ2aVJTSDdMUGhhRjhpRkU?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:00:00.000Z",
+          "score": 3,
+          "positive": [
+            "hiring"
+          ],
+          "negative": [],
+          "clickbait": []
+        },
+        {
+          "id": "eef7ac23877d6f2b",
+          "title": "Anthropic Tests AI Agent Security",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQam9pRFJGR1RycmFaYy1zWDRXRVZaay16T2I0UUF2TnBGRWp1UU5zN01xQmRqMjFEdGdMbFY1aXp0ZVp2RnozVTAxRWkxRTRaT3M3WS01dXJLd1BkMDZfMzIyTGYtTVpjU1JsTGNjWDR5UmtPYkRMa2tkeHhqYkZQMEIyYTJpWDlfRlBNVkMyVQ?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T06:54:19.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        }
+      ]
+    },
+    {
       "id": "openai",
       "name": "OpenAI",
-      "headlines": 29,
-      "index": 0.3,
-      "mean_headline": 0,
+      "headlines": 27,
+      "index": 1.5,
+      "mean_headline": 0.2,
       "sample": [
         {
           "id": "be5bd63d3d6736f5",
@@ -1023,19 +1150,6 @@
           "clickbait": []
         },
         {
-          "id": "6f02badfa13c8ea8",
-          "title": "Did OpenAI or Anthropic Crack Encryption? Are Crypto Wallets at Risk?",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPNFZWT25sQkNMeEFOZ1h4cmY5Xy1VMnpQb2VHYVZiNktlb3otUzM5YmpzbVNqRktqakM1cnR2SHNnbXdTS2prcGtBWVFwNFFJNTJKLXVQQUxKbFJOUkMxTE9ZQWdzZEJaTmFEME5xbTJaY2xQU3dlbFNsd2xCU3JnNERlQ0hUQQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T05:04:30.000Z",
-          "score": -4,
-          "positive": [],
-          "negative": [
-            "risk"
-          ],
-          "clickbait": []
-        },
-        {
           "id": "51ca60aa034ad13c",
           "title": "OpenAI’s IPO Countdown Clock Is Ticking",
           "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOV3Qxb0R3X0EydVhiOG9yX1ZCczV1eVBZaGdvYVlFWGdTNjBNS3dEYjI1dzZOS2lMQW1tTEZDc1h5cFNtWTFHcUFnSWxzcFJIcDNvLVdNOEZzQnRhNnNlYi1xMFJFUUI5Z3Z0b2xVTHB2NXBlV2RoUGpIVDJQbzZtNQ?oc=5",
@@ -1045,101 +1159,13 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        }
-      ]
-    },
-    {
-      "id": "anthropic",
-      "name": "Anthropic",
-      "headlines": 34,
-      "index": 0.2,
-      "mean_headline": 0,
-      "sample": [
-        {
-          "id": "2aa1e0ddf9b4eba6",
-          "title": "Prediction: This Will Be Anthropic’s Stock Price by the End of 2026",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPeVpTM1JFbFd4ajNxQjVDYkx3UmtpRHJjX0VCRl9CbHlDOTF3cE5zN2hjSmtSMEsxdE5Nc290dnhHS0lVLUVDZzlxV2ZMYkxsQm9mQmhaOFpVNmZzSXhMc0FBeUNLeXlhM1ExTF9Zd1NFN1g5QWtLdlhyMWg3ZlVBOS1xajhyR09iaFM5WDZUdHpWWG9rWGtMSmQyN2x5ejFuZi1NbHpTNGNLZDljWkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T07:03:02.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         },
         {
-          "id": "8391abace2cc4592",
-          "title": "Anthropic explained how AI is changing the criteria for career growth and hiring programmers",
-          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNc1dhNUZpdm9GTzVTT2pSalBqUkpDLWd3SVFrUXktcF80OE5MZVFnYkJsZGVTYldRS2x3UGVDcW5BOGx2SGg5NFA1YWM5TTBpSDR3T2lZYkttU2FYU3BMd2JNRng1dS03ZEhpU3hTXzhPV1JiM2FsbUk5YUJfV2ZCMkJJSWo3RE1tOEdrOUZkQ3JuX0tiNUo3Vi1uOVVyMUhFX0xCdFVhUjB5SmhkTnAzNmZCZFZ2aVJTSDdMUGhhRjhpRkU?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T07:00:00.000Z",
-          "score": 3,
-          "positive": [
-            "hiring"
-          ],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "eef7ac23877d6f2b",
-          "title": "Anthropic Tests AI Agent Security",
-          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQam9pRFJGR1RycmFaYy1zWDRXRVZaay16T2I0UUF2TnBGRWp1UU5zN01xQmRqMjFEdGdMbFY1aXp0ZVp2RnozVTAxRWkxRTRaT3M3WS01dXJLd1BkMDZfMzIyTGYtTVpjU1JsTGNjWDR5UmtPYkRMa2tkeHhqYkZQMEIyYTJpWDlfRlBNVkMyVQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T06:54:19.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "6c8268ef424b351c",
-          "title": "Groupement Mousquetaires Taps Anthropic And AWS For AI Roll-Out",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNVHJQSzFhWEhSTHVxaUh3UWFpMVNSWGVXSWxrVzZabEZzTWNfMU5fdXAyZUo5b2VvcjR0c0N0enoyNEIyVjZ6YndIZmJ2SEpvMkJpMHNvOENCaTh6M2FTUjhGZVdCd3VhalFPa2JzN25GdXR1T0UwSzBFZVE1cFBDd3FlemtycVRUdHNsYkdtQzE3TmtYOHc5SW5ReFlWa3kzc3hEUDNxbl9vVXZFcHc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T06:42:14.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "65c91d5dd4a2596d",
-          "title": "Imperial BioHack x Anthropic",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQb2w4TXBScEUzeVdvZ0tLUmpBTFhjcjlWNVBJT201LV96VkFJVm9tRnhHbVdLSUtheWQwYXFSTGNOTzNwdHdlZUhWTnJXalhDV2VndXppVjZ6OWFENkJQZ2tiaWVOQnhhZ3ZSOEhUTkJmTG0yT3B4UENWTEt5SUljX0FXSnhodklJUVNoMTE5TWQ0b1pyUjZNRjBmd3VINlBkcWc?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T06:01:11.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "9617114378429697",
-          "title": "Anthropic Siren honeypot test: What rates mean",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQYUtnLTRJb3BBODFUazVQQzdRYnJMbVZFSU5uSHhOZHh6VGFHOGV0M3ctRFN1UkYxd3FmaFFwN3FIMWluYW16TURsRXNDblNoSzZNTGxFSThHZmhNQUJlb2Zkd1VkUkpqdTBqVkRKUkhQY19MNXJIdnVkR1dCTWhfWEU2YW42Yk0yWWFUdQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T05:58:07.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "c6f048cab604de5b",
-          "title": "Anthropic and OpenAI sketch plans to share their wealth ahead of IPOs",
-          "url": "https://news.google.com/rss/articles/CBMiiAJBVV95cUxNcjFOVHg1Q3U5MDNoTlFhTl9iUlJ4Mm9ETHdMTTd0Qnl3N1MzOUxYYmdiV0RvQUJKUHBoeFNGNGFMWEJHcTdLNEF0dEtDeERUOTgyQ0xIaUJSbVllM0lOdzZlNkRva1RBNE9HaUhWZ3hrT00xR1NTVmYwYkhjczhTeHZFeU1wem5MUXdlWGs2aHVZZXhHTk1kNmRWU2F2MkhPVG9wanNYRDdqT2FDTEQxbnNwUW5BNXBLWUZQVmh1amVmSjRYeXNndTdqOGxrWUxfU2NrbWVxRE9VN0pKeHg0d3g1QWxWbGpfSlR0S1JaUTRxU0dUaXBTTXQ3aE1sYTY0RjBiQ0FKcHQ?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T05:49:18.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
-          "id": "5f128aa33b97add6",
-          "title": "Workers hoard AI knowledge to stay competitive, Anthropic report says",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPUTRpYks1T1hwaWo1SWRhVnpTdnJtNkFXdWQycmR1ZHVnZGZpMnV0d2hteTFORHhQOEtWS3MtMnZVZWNsN0l3NHJ0UUtHNUtxeGRscHVjX0NvenBCSFVXNmZPaVpVZ2ltUWpzTjZPbHRhVjJuYnBQcVdsbWZFUnViWlBUVW5wR1U4dzhrUFN2ZkkwUm4xTjdhRVR5YXgxWjhORUt6VzllZkE?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T05:05:09.000Z",
+          "id": "23f32e968ad1e236",
+          "title": "Holidays to Test AI Shopping Bots From Google, Amazon, Meta and OpenAI",
+          "url": "https://bloomberg.com/news/features/2026-11-26/holidays-to-test-ai-shopping-bots-from-google-amazon-meta-and-openai",
+          "source": "bloomberg-tech",
+          "published_at": "2026-11-26T22:00:04.000Z",
           "score": 0,
           "positive": [],
           "negative": [],
@@ -1197,6 +1223,17 @@
       "mean_headline": -0.1,
       "sample": [
         {
+          "id": "6ec31a8ce7b2feb3",
+          "title": "Google DeepMind Researcher Voices AI Safety Concerns",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNMFNGYTk4Ui10bVBZeGt3elJQY1VSR1g2Y2NmWFMtTlZENWVZRXlQdlNqdE5NVWRFSXRUbFVrd2huTENiOUhWS2dtQmsyQU9XX0NKdHhYRlZzUDhYWC1GaEFwU0ZRaFk4YW5yY0dCMWJRX3h0ZUNycFVicS1tcDRNQ2k3ZS10MUZFQmN2Zw?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:48:20.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
+        {
           "id": "bce355c129093e2d",
           "title": "Google DeepMind AI Researcher Fears AI Could Go Out Of Control, Wants Family To Stay Away",
           "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxPdFFBaDktTUNpZFN5V1J6VXpuMFF0c3RESWtXeHc1bFlOUVJtOHd5U0t1VmlrOGE4WjhCOTVQWmczZTJ2WGd3ZWIxUEl0bDFrS2NkNmJUdlhuMjZKclkxdlNDRzF3WXJMQUp1Y0tzX21GVkVSQ1R0SWpTZkpHV2pURHAzdzl1ZDZnQ0R5aW13MUV6Qnd0dE5ObzJ1WDJZU1ZJczFvelEtaTUteEZhNVlUTVZQdHJCVjBpY1h5bDNoZzRGV2FUdTJsUG1lRTZ3V2JyWTRHZVBIVGpFR25HaG5MSGlnaC1nLTlvVlHSAe8BQVVfeXFMTVVxS0R1MzdNazZsb2NFUTdYN0xEdHYxbnNKal9RVmprZlFkaVJFcTdnMGN3QzdOYUxsQjBZODdQVTNfV3dfRlFIcWkzbVZVTmhxYXA2N3VfWkZ2ZFgzbWFMMEhrUUtKdFNIdXl6Q3d3d3N4NUtIa01qekJxRF8tRFEzWnFhbmRtMjdvTUxEdVdjS25sVjBKRzlqUVI0cW9Zc2lobXdTbTVjZlA1N2xpelJWNXdMXzNhVGt1dmVZNFRYeXdySHBVUXI5VXNCd2xrVE03Tk9lMUJmMVVRUGtHdjlBOGR3SllDV0ItWFN0ZDQ?oc=5",
@@ -1245,17 +1282,6 @@
           "clickbait": []
         },
         {
-          "id": "d0cc864e1c626ba8",
-          "title": "Google is connecting Wallet to AI Mode in Search, and Drive and the Gemini app come next",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOOWNNN2pVaVY0UTZYQ3Y2aHVpQkd2X1ZGc2k3ZWtXR3JqZ0hJb2IzSGg3eUxmbVNnbXVIZzhLS2lYYVFFQmhLTHpuUzFrV09qeHRCQWk1X0hrdGxNaGYyNXJLUWdJdkc3MzJyZDhCN05Jbk1hTlNRYk0tRUlxOUsxZEJRNXJFdmFCTzJDZmJzbGZ4MUk?oc=5",
-          "source": "gnews-ai",
-          "published_at": "2026-11-27T04:37:00.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
-        },
-        {
           "id": "305e62040e8a734e",
           "title": "AI agents now control part of DeepMind's compute for Gemini experiments",
           "url": "https://the-decoder.com/ai-agents-now-control-part-of-deepminds-compute-for-gemini-experiments-but-recursive-self-improvement-remains-distant",
@@ -1293,10 +1319,21 @@
     {
       "id": "meta",
       "name": "Meta",
-      "headlines": 11,
+      "headlines": 12,
       "index": -0.7,
       "mean_headline": -0.1,
       "sample": [
+        {
+          "id": "57ff49b5d515a842",
+          "title": "China Hi-Tech Fair accelerates embodied AI industry collaboration",
+          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPNTE5VUgwQ2pjU1BOWDlOQXFEOWJheElGeFZFUDZIb3pnOC1ZdE13TC0wM1UyUE5GWGRmd1JDYlRDVFc2REZ4bWRsY2lYemttVm9ZS05sNW5BOXlmMk1oeFdYMkVJSWgyUU8wZGFLLXJEVlBsME51cEswRWNrRDNfckFiRVAwWFduRElaY05GdEMtbkhuVTk1WElXWTFyX2ZCWGhodVVFSV9ITldiclpVUGVBNi1CdG9v?oc=5",
+          "source": "gnews-ai",
+          "published_at": "2026-11-27T07:47:16.000Z",
+          "score": 0,
+          "positive": [],
+          "negative": [],
+          "clickbait": []
+        },
         {
           "id": "e04c5cceb830e237",
           "title": "Distilling US AI models gets harder as Z.ai's GLM-5.5 slips and Moonshot turns to Google and Meta models, Reuters reports",
@@ -1375,25 +1412,14 @@
           "positive": [],
           "negative": [],
           "clickbait": []
-        },
-        {
-          "id": "3057c1692fc87eb1",
-          "title": "Amazon and Meta reportedly in talks to lift blockade on AI agent Muse",
-          "url": "https://techcrunch.com/2026/11/25/amazon-and-meta-reportedly-in-talks-to-lift-blockade-on-ai-agent-muse",
-          "source": "techcrunch-ai",
-          "published_at": "2026-11-25T14:10:18.000Z",
-          "score": 0,
-          "positive": [],
-          "negative": [],
-          "clickbait": []
         }
       ]
     },
     {
       "id": "nvidia",
       "name": "NVIDIA",
-      "headlines": 61,
-      "index": -5.5,
+      "headlines": 57,
+      "index": -5.9,
       "mean_headline": -0.7,
       "sample": [
         {
@@ -1413,7 +1439,7 @@
           "id": "a951495ce86cbc4e",
           "title": "Watch Will the Nvidia Saga Stunt Chinese AI?",
           "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNZGVnb1Q5QllweVA5WllCYXRSWTVLajZ5bmtSMENSQW1EcXhRdXMyN1ZFRHpyZ1JiUWZyenFUS2U1Vi1Ucm9lTlR2SGtNQ2d6eW1WbWp1blpUY3R2VF81V3psTnlOY1VPMFQydkp0RUtvX3kxYmJwcnBicS1uLU5FYWVOeTE5TDFtSGE5ZVd3?oc=5",
-          "source": "gnews-ai",
+          "source": "wires-ai",
           "published_at": "2026-11-27T06:23:27.000Z",
           "score": 0,
           "positive": [],
