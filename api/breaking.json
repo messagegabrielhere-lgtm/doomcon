@@ -10,7 +10,7 @@
         "42f7bf94f8d23642"
       ],
       "latency_s": 309,
-      "live": true,
+      "live": false,
       "outlet": "reuters.com",
       "outlets": [
         "marketscreener.com",
@@ -1712,9 +1712,9 @@
       "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPQ3A1ZVhPbzgxOW51QkY5U3UtLXNHV3dSQ1RaMUVBckhwQmtqbnNYWllwSi1EZ1RxbF8xOEptaHYwVGZUcEhWc2tLVmwtSEdPd2RUZ2JuTzNuaW1ISTAyUXl6cTlKTExhbFVNa1hOTmxkNDdZMC16ZUtILWs0YkdmOFhTb3NMVWhEUlUzV0ozbWpNTC10d1NMUGFPc3RTUQ?oc=5"
     }
   ],
-  "fresh": "b619c9abf81ce",
-  "generated_at": "2026-11-27T07:10:12.709Z",
-  "live": 7,
+  "fresh": "b69d86e163186",
+  "generated_at": "2026-11-27T07:27:52.300Z",
+  "live": 6,
   "rules": {
     "keep": 30,
     "pair_minutes": 20,
@@ -1766,15 +1766,9 @@
     "by_source": [
       {
         "label": "Google News — AI searches, last hour",
-        "median_s": 1461,
-        "n": 188,
+        "median_s": 1454,
+        "n": 189,
         "source": "gnews-ai"
-      },
-      {
-        "label": "Hacker News — newest AI submissions (2h)",
-        "median_s": 2654,
-        "n": 10,
-        "source": "hn-fresh-ai"
       },
       {
         "label": "Bluesky — AI posts from vetted newsrooms and reporters",
@@ -1789,9 +1783,15 @@
         "source": "lobsters-ai"
       },
       {
+        "label": "Hacker News — newest AI submissions (2h)",
+        "median_s": 3355,
+        "n": 8,
+        "source": "hn-fresh-ai"
+      },
+      {
         "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
-        "median_s": 4361,
-        "n": 51,
+        "median_s": 4316,
+        "n": 53,
         "source": "wires-ai"
       },
       {
@@ -1936,8 +1936,8 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 2938,
-      "n": 428
+      "median_s": 2952,
+      "n": 429
     },
     "window_hours": 24
   }
