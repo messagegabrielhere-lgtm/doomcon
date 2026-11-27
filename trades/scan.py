@@ -716,7 +716,7 @@ def gate(c, m, live=True):
     if live and vm is not None and abs(vm) >= 1.0: why.append(f"BTC {vm:+.1f}% vs mark")
     if live and vm is not None and vm >= 0 and b.get("above_sma20_1h") and any(r.get("pass") for r in c.get("longs", [])):
         why.append("crypto PASS row with BTC gate open")
-    overnight = (wd < 4) or (wd == 4 and et.hour < 20) or (wd == 6 and et.hour >= 20)
+    overnight = (wd < 4) or (wd == 4 and et.hour < 16) or (wd == 6 and et.hour >= 20)   # WEEKEND MODE from Fri 16:00 ET: crypto only
     if overnight:
         for k in ("ES", "NQ"):
             ch = ((m.get("q") or {}).get(k) or {}).get("chg")

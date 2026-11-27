@@ -37,6 +37,13 @@ def test_gate_respects_calendar():
     scan.NOW = utc(2026, 11, 27, 15, 0)
     assert scan.gate({}, {}, live=False) == "CHECK market-hours"
 
+def test_gate_weekend_mode_ignores_futures():
+    m = {"q": {"ES": {"chg": 1.6}, "NQ": {"chg": 2.5}}}
+    scan.NOW = utc(2026, 11, 27, 21, 14)                                 # Fri 16:14 ET: WEEKEND MODE, crypto only
+    assert scan.gate({}, m, live=False) == "QUIET"
+    scan.NOW = utc(2026, 11, 27, 20, 30)                                 # Fri 15:30 ET, after the early close: still a share fire
+    assert "NQ +2.5%" in scan.gate({}, m, live=False)
+
 def test_gap_line():
     w = {"QQQ": {"px": 649.58, "prev": 633.93}, "SQQQ": {"px": 46.03, "prev": 49.60}}
     spy = {"px": 729.84, "prev": 716.70}
