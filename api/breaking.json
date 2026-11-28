@@ -292,7 +292,7 @@
         {
           "outlet": "wsj.com",
           "published_at": "2026-11-28T05:13:16.000Z",
-          "source": "wires-ai",
+          "source": "gnews-ai",
           "tier1": true,
           "title": "Anthropic Lives Up to Wall Street Hype, but AI Doubts Linger",
           "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPdm15Q3c0OFltcEpTb25rNF9iWEZMa3gtcWh1UERHdV9Jb1NkZGplRGNwX1d5aWJBdEtkanhxU0l5MlhnOXowQWdQLTNfclhqRHVpTXNWNzZxc0R4MjJlN19DVXNuc3dOTkllQnNNMjdvempCMW5JbHVlTWx6ZnpjVWJDX25IUlNDSllYY0VrQmxWOUhJOWFpZXR3aFdEZ3VBUlFKa0FxRWFqUQ?oc=5"
@@ -300,8 +300,7 @@
       ],
       "source": "wires-ai",
       "sources": [
-        "gnews-ai",
-        "wires-ai"
+        "gnews-ai"
       ],
       "tier1_outlets": [
         "wsj.com"
@@ -1793,7 +1792,7 @@
     }
   ],
   "fresh": null,
-  "generated_at": "2026-11-28T05:41:23.567Z",
+  "generated_at": "2026-11-28T05:52:22.839Z",
   "live": 6,
   "rules": {
     "keep": 30,
@@ -1858,8 +1857,8 @@
       },
       {
         "label": "Google News — AI searches, last hour",
-        "median_s": 1468,
-        "n": 324,
+        "median_s": 1457,
+        "n": 329,
         "source": "gnews-ai"
       },
       {
@@ -1893,16 +1892,16 @@
         "source": "infoq-ai"
       },
       {
+        "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
+        "median_s": 4508,
+        "n": 129,
+        "source": "wires-ai"
+      },
+      {
         "label": "Financial Times — AI",
         "median_s": 4537,
         "n": 11,
         "source": "ft-ai"
-      },
-      {
-        "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
-        "median_s": 4537,
-        "n": 127,
-        "source": "wires-ai"
       },
       {
         "label": "WIRED — AI",
@@ -1917,16 +1916,16 @@
         "source": "anthropic-status"
       },
       {
+        "label": "Techmeme front page (AI-filtered)",
+        "median_s": 5319,
+        "n": 14,
+        "source": "techmeme"
+      },
+      {
         "label": "LessWrong",
         "median_s": 5597,
         "n": 13,
         "source": "lesswrong"
-      },
-      {
-        "label": "Techmeme front page (AI-filtered)",
-        "median_s": 5854,
-        "n": 13,
-        "source": "techmeme"
       },
       {
         "label": "Bluesky — AI posts from vetted newsrooms and reporters",
@@ -2016,8 +2015,8 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 2471,
-      "n": 637
+      "median_s": 2425,
+      "n": 645
     },
     "window_hours": 24
   }
