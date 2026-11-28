@@ -248,8 +248,8 @@
     {
       "breaking_at": "2026-11-27T22:17:34.783Z",
       "clock_skew": true,
-      "corroboration": 3,
-      "earliest_published_at": "2026-11-27T21:52:00.000Z",
+      "corroboration": 2,
+      "earliest_published_at": "2026-11-28T01:34:01.000Z",
       "first_seen_at": "2026-11-26T06:03:22.767Z",
       "id": "b239ef931ec80",
       "item_ids": [
@@ -266,22 +266,12 @@
       "outlet": "reuters.com",
       "outlets": [
         "astroawani.com",
-        "thailand-business-news.com",
-        "wsj.com"
+        "thailand-business-news.com"
       ],
       "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
+        "two outlets within 20 min"
       ],
       "sightings": [
-        {
-          "outlet": "wsj.com",
-          "published_at": "2026-11-27T21:52:00.000Z",
-          "source": "wires-ai",
-          "tier1": true,
-          "title": "Opinion | Nvidia and Failing U.S. Export Controls",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOcXdpX0ZyQWtaQVpUaDUzZ29JRWF6QV9odVlReExLZ1ZjLUw4by1ubnhabmx4c3pOU0J5aC16U3hyRFB4eURpeUgtOVpHWUZZYjNnSjdUcmxVWnlrTWlfaFhoanl2MEUtdUZFdDhpYlBiYkJxTDBGMndxNDdXN2xZWWtmOGthUXhrR20tc0RHZnY3QQ?oc=5"
-        },
         {
           "outlet": "astroawani.com",
           "published_at": "2026-11-28T01:34:01.000Z",
@@ -301,12 +291,9 @@
       ],
       "source": "wires-ai",
       "sources": [
-        "gnews-ai",
-        "wires-ai"
+        "gnews-ai"
       ],
-      "tier1_outlets": [
-        "wsj.com"
-      ],
+      "tier1_outlets": [],
       "title": "Nvidia halts server shipments to four Southeast Asian countries, FT reports",
       "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOM1ZtZ1FmQ3d0Nk9xZzFmaDNtd3ZURjZ1cm1sWkptUktqcm1aOUc3eWpIYjVpUGoxWGxWd2FjRTZiTzBGRGtaTTA3ZUFsTEJLNk5BV3VfV2VKNHJVbk1mTDJqYkZkdEFPQ09jdzVHRzBHazlKVko5bVp4WDZMSUpUaEpyZk5ZUUUxbm42MjBIRWJCaGZzVXRkNklKN2dfdDRES3RwazQ1UU55Q3Bf?oc=5"
     },
@@ -1813,7 +1800,7 @@
     }
   ],
   "fresh": "b37670209753c",
-  "generated_at": "2026-11-28T03:45:11.023Z",
+  "generated_at": "2026-11-28T03:55:10.871Z",
   "live": 7,
   "rules": {
     "keep": 30,
@@ -1878,9 +1865,15 @@
       },
       {
         "label": "Google News — AI searches, last hour",
-        "median_s": 1490,
-        "n": 351,
+        "median_s": 1428,
+        "n": 325,
         "source": "gnews-ai"
+      },
+      {
+        "label": "Bloomberg Technology",
+        "median_s": 2248,
+        "n": 18,
+        "source": "bloomberg-tech"
       },
       {
         "label": "SCMP — Tech",
@@ -1889,10 +1882,16 @@
         "source": "scmp-tech"
       },
       {
-        "label": "Bloomberg Technology",
-        "median_s": 3439,
-        "n": 22,
-        "source": "bloomberg-tech"
+        "label": "BBC News — Technology",
+        "median_s": 4169,
+        "n": 1,
+        "source": "bbc-tech"
+      },
+      {
+        "label": "Hacker News — newest AI submissions (2h)",
+        "median_s": 4196,
+        "n": 20,
+        "source": "hn-fresh-ai"
       },
       {
         "label": "InfoQ — AI/ML",
@@ -1902,15 +1901,15 @@
       },
       {
         "label": "Wires & business papers — Reuters, AP, AFP, WSJ, FT, Bloomberg, Telegraph (via Google News)",
-        "median_s": 4609,
-        "n": 132,
+        "median_s": 4574,
+        "n": 122,
         "source": "wires-ai"
       },
       {
-        "label": "Hacker News — newest AI submissions (2h)",
-        "median_s": 4662,
-        "n": 21,
-        "source": "hn-fresh-ai"
+        "label": "Techmeme front page (AI-filtered)",
+        "median_s": 4783,
+        "n": 13,
+        "source": "techmeme"
       },
       {
         "label": "WIRED — AI",
@@ -1925,12 +1924,6 @@
         "source": "anthropic-status"
       },
       {
-        "label": "Techmeme front page (AI-filtered)",
-        "median_s": 5363,
-        "n": 16,
-        "source": "techmeme"
-      },
-      {
         "label": "Financial Times — AI",
         "median_s": 5686,
         "n": 8,
@@ -1938,8 +1931,8 @@
       },
       {
         "label": "Bluesky — AI posts from vetted newsrooms and reporters",
-        "median_s": 5978,
-        "n": 51,
+        "median_s": 5933,
+        "n": 43,
         "source": "bluesky-ai"
       },
       {
@@ -1955,6 +1948,12 @@
         "source": "verge-ai"
       },
       {
+        "label": "LessWrong",
+        "median_s": 6069,
+        "n": 11,
+        "source": "lesswrong"
+      },
+      {
         "label": "The New York Times — Technology",
         "median_s": 6240,
         "n": 2,
@@ -1967,16 +1966,16 @@
         "source": "guardian-ai"
       },
       {
-        "label": "Lobsters — AI",
-        "median_s": 7089,
-        "n": 3,
-        "source": "lobsters-ai"
+        "label": "Latent Space (newsletter)",
+        "median_s": 7867,
+        "n": 2,
+        "source": "latent-space"
       },
       {
-        "label": "LessWrong",
-        "median_s": 8836,
-        "n": 15,
-        "source": "lesswrong"
+        "label": "Hacker News AI stories (72h)",
+        "median_s": 7996,
+        "n": 12,
+        "source": "hn-ai"
       },
       {
         "label": "Simon Willison",
@@ -1985,22 +1984,10 @@
         "source": "simon-willison"
       },
       {
-        "label": "BBC News — Technology",
-        "median_s": 10504,
-        "n": 2,
-        "source": "bbc-tech"
-      },
-      {
         "label": "GOV.UK — AI",
         "median_s": 12142,
         "n": 1,
         "source": "govuk-ai"
-      },
-      {
-        "label": "Hacker News AI stories (72h)",
-        "median_s": 13533,
-        "n": 17,
-        "source": "hn-ai"
       },
       {
         "label": "GitHub releases (AI basket)",
@@ -2009,10 +1996,10 @@
         "source": "github-releases"
       },
       {
-        "label": "Latent Space (newsletter)",
-        "median_s": 16412,
+        "label": "Lobsters — AI",
+        "median_s": 14100,
         "n": 2,
-        "source": "latent-space"
+        "source": "lobsters-ai"
       },
       {
         "label": "Hugging Face Daily Papers",
@@ -2031,19 +2018,13 @@
         "median_s": 44765,
         "n": 6,
         "source": "nature-ml"
-      },
-      {
-        "label": "Hugging Face trending models",
-        "median_s": 53270,
-        "n": 1,
-        "source": "hf-trending-models"
       }
     ],
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 2631,
-      "n": 705
+      "median_s": 2425,
+      "n": 641
     },
     "window_hours": 24
   }
