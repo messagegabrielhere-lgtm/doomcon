@@ -2,35 +2,29 @@
   "clusters": [
     {
       "breaking_at": "2026-11-28T09:27:10.396Z",
-      "corroboration": 3,
-      "earliest_published_at": "2026-11-28T09:13:42.000Z",
+      "corroboration": 4,
+      "earliest_published_at": "2026-11-28T09:19:43.000Z",
       "first_seen_at": "2026-11-28T09:27:10.396Z",
       "id": "b8b250aa61fa9",
       "item_ids": [
         "55e8726435699781",
-        "ad8883de35ac2062"
+        "ad8883de35ac2062",
+        "dd0bf43d5900a6ea"
       ],
-      "latency_s": 808,
+      "latency_s": 447,
       "live": true,
       "outlet": "reuters.com",
       "outlets": [
+        "businesstoday.com.my",
+        "kfgo.com",
         "reuters.com",
-        "tradersunion.com",
-        "twaslnews.com"
+        "tradersunion.com"
       ],
       "rule": [
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "sightings": [
-        {
-          "outlet": "twaslnews.com",
-          "published_at": "2026-11-28T09:13:42.000Z",
-          "source": "gnews-ai",
-          "tier1": false,
-          "title": "Musk Says Google Is Interested in Renting More Computing Capacity from SpaceX",
-          "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBaMF9rY1RvYlZTbWtuZkVQcEotS1pNNjJrQi16dnBpMlVtMjJJYk8tR3d0NHF3S2FoXzQtQzl0MjgtTmJtSkwxMlUwRjl5ZVc2RUpr?oc=5"
-        },
         {
           "outlet": "reuters.com",
           "published_at": "2026-11-28T09:19:43.000Z",
@@ -54,6 +48,22 @@
           "tier1": true,
           "title": "Musk says Google is interested in renting more computing capacity from SpaceX",
           "url": "https://bsky.app/profile/reuters.com/post/3n3ef2gngqt2k"
+        },
+        {
+          "outlet": "kfgo.com",
+          "published_at": "2026-11-28T09:27:10.396Z",
+          "source": "gnews-ai",
+          "tier1": false,
+          "title": "Musk says Google is interested in renting more computing capacity from SpaceX",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNM3U2NUxJRE9uaDdwQV9kVzdEVF96ZmZCTnpMdTlSWloyLTRsS3VHM1ZHYzNLVjQ4aV9pbEc3Z3UyMzczcTk2YVBMVmtqTy12S0pSbmRVeVM2Wm9sVngxOUJfQ1N3Tm40RmFNVGtCLURTc2hobGxBZnhicHNUVzhJNWEyNEFWU2ZlZHZZdVUxWkh3d2F0NlFSTzhzSEpkbXdBUjZzNlNPRGU3QQ?oc=5"
+        },
+        {
+          "outlet": "businesstoday.com.my",
+          "published_at": "2026-11-28T10:09:44.000Z",
+          "source": "gnews-ai",
+          "tier1": false,
+          "title": "Musk Signals Potential Expansion Of Google’s Computing Deal With SpaceX",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQY0JPcDhLYjhKS21rOG04OHdrVi1aRnE4N2NaX09lWTFSYThrZ29aWm9lcEcxa213S2tnTEZPTTJoYnhYdnNEc01xcmlxdHR3enhXYXNFN1FubEgtT3Zxd2phVV9vMWhET3AzUDZPRXVyTjhvZGJWQllRaGZVak9ZMmFReFlIV1RjVUF5V0NzR1dzLXozdEpmVHQ3MHFjZEd5M2hpYkRqaDhfcEhEVWd5RndIMHVQUQ?oc=5"
         }
       ],
       "source": "wires-ai",
@@ -1690,7 +1700,7 @@
     }
   ],
   "fresh": "b8b250aa61fa9",
-  "generated_at": "2026-11-28T10:03:00.519Z",
+  "generated_at": "2026-11-28T10:13:59.317Z",
   "live": 6,
   "rules": {
     "keep": 30,
@@ -1761,8 +1771,8 @@
       },
       {
         "label": "Google News — AI searches, last hour",
-        "median_s": 1220,
-        "n": 337,
+        "median_s": 1210,
+        "n": 346,
         "source": "gnews-ai"
       },
       {
@@ -1913,8 +1923,8 @@
     "definition": "Median time from the timestamp an outlet put on an item to the moment SIREN first saw it, per source, over the last 24 hours. It includes the outlet's own feed delay and SIREN's polling interval. It is not a comparison with any other service. Items more than 24 hours old when first seen, and everything from a source's first fetch, are left out. GDELT items are timed from GDELT's own crawl, not the outlet's; X items from the post id.",
     "ledger_started_at": "2026-10-09T21:32:46.106Z",
     "overall": {
-      "median_s": 2259,
-      "n": 620
+      "median_s": 2224,
+      "n": 629
     },
     "window_hours": 24
   }
