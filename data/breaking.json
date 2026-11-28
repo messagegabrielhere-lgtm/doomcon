@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-28T01:03:39.966Z",
+  "generated_at": "2026-11-28T01:57:21.836Z",
   "rules": {
     "version": "1.1.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 5,
+  "live": 6,
   "fresh": "b0f8f60a76bed",
   "clusters": [
     {
@@ -160,42 +160,37 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "reuters.com",
+        "astroawani.com",
+        "thailand-business-news.com",
         "wsj.com"
       ],
       "tier1_outlets": [
-        "reuters.com",
         "wsj.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
+        "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-27T16:40:47.000Z",
+      "earliest_published_at": "2026-11-27T21:52:00.000Z",
       "first_seen_at": "2026-11-26T06:03:22.767Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-11-27T22:17:34.783Z",
       "item_ids": [
-        "2f4c7d552b746a4c",
+        "23ec92e78e690e1f",
         "2ff23f75b633daba",
         "33b3d08d99aeb285",
         "50e0b480668e11bd",
+        "5202326d60b015f3",
         "62363c3d7a0bb3d0",
         "a1fa10b628e7cdaf"
       ],
       "sightings": [
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "Nvidia's server shipment halt amid uncertainty over U.S. export rules",
-          "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9jbElhcmxNZG14YndaTTZIMjA5TmttV1UzNk9oMU95bGZTVVRCQ0NIUmN6Z1lpRnRhb2FTclhQajg2b0FhWHFVMVNpNEZIX0VxaU5LYjAya2ZmX3dj?oc=5",
-          "published_at": "2026-11-27T16:40:47.000Z",
-          "tier1": true
-        },
         {
           "source": "wires-ai",
           "outlet": "wsj.com",
@@ -203,9 +198,25 @@
           "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOcXdpX0ZyQWtaQVpUaDUzZ29JRWF6QV9odVlReExLZ1ZjLUw4by1ubnhabmx4c3pOU0J5aC16U3hyRFB4eURpeUgtOVpHWUZZYjNnSjdUcmxVWnlrTWlfaFhoanl2MEUtdUZFdDhpYlBiYkJxTDBGMndxNDdXN2xZWWtmOGthUXhrR20tc0RHZnY3QQ?oc=5",
           "published_at": "2026-11-27T21:52:00.000Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "astroawani.com",
+          "title": "Nvidia's AI server shipment halt: ASEAN can no longer afford technological dependency",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNUWVib1czRE1ycjU1U0I1anlwTUJBQ0E4T1lYQnRvdHhwQ0cyT3FzdG9zaFdvZjd6cmpqc05OcEdXNU5fY1hJakV2d3FqUmM2ZFRnVG10aUlPUUM0NXY2emd1NF9OdWQwS2tCWHlIOE1TbzRIb1lFTk1nQ19XeTdqODhvWnFOQTRJUFJlTm9TQkxHODJpUEMtbi1WcUpNdUI4LUNuaUJKdU1idGxMS0NxeklocTA5SDdLQ1ZqNXRzYjlFV0k2ZVNTSlVqeVU?oc=5",
+          "published_at": "2026-11-28T01:34:01.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "thailand-business-news.com",
+          "title": "Nvidia Shipment Pause: When an Investment Boom Meets Geopolitical Constraints",
+          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPUTFHT09WdmtXSFBiVEI0S2l6Zmp1QUtiZmMwNHFNajFMb3lkQzdXY3p2b01jbVZGMHpiYVZsSF85NTdvekZacWt2SjNUbHUyVWY0X1hidERsbkN4eW5qSm02RUpHdndsQjdsUUtIRS1VMmxlRWVRejgxWFcyc3RsNDhvTF9DNEdCcHQ0Z1NuY1hkdnBGMzIwQkRzYzNhOGx4SlVHa28wekZhcTBwd2g2Z0wzZFFpa3A0d1JndnBRampZY3VOeVo5b1NVdw?oc=5",
+          "published_at": "2026-11-28T01:51:57.000Z",
+          "tier1": false
         }
       ],
-      "live": false
+      "live": true
     },
     {
       "id": "bc57b07199647",
@@ -214,43 +225,27 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
-        "aa.com.tr",
         "bgnes.com",
         "decrypt.co",
-        "ft.com",
-        "kitv.com",
         "kucoin.com",
-        "mlq.ai",
-        "pluang.com",
-        "reuters.com",
-        "the-decoder.com",
-        "themalaysianreserve.com",
-        "unite.ai",
-        "washingtonexaminer.com",
+        "malaymail.com",
         "zaobao.com.sg"
       ],
-      "tier1_outlets": [
-        "ft.com",
-        "reuters.com"
-      ],
-      "corroboration": 14,
+      "tier1_outlets": [],
+      "corroboration": 5,
       "sources": [
-        "ft-ai",
-        "gnews-ai",
-        "hn-fresh-ai",
-        "the-decoder",
-        "wires-ai"
+        "gnews-ai"
       ],
       "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
+        "two outlets within 20 min"
       ],
-      "earliest_published_at": "2026-11-27T19:05:05.000Z",
+      "earliest_published_at": "2026-11-27T21:46:03.000Z",
       "first_seen_at": "2026-11-26T14:11:04.709Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-11-27T19:24:07.525Z",
       "item_ids": [
+        "2b9e41fa8bba344f",
         "2c78d97e9402225e",
         "367f29c1a26750fa",
         "60600452e8cf4ab6",
@@ -261,98 +256,42 @@
       "sightings": [
         {
           "source": "gnews-ai",
-          "outlet": "unite.ai",
-          "title": "OpenAI Countersues Apple Over Alleged Hardware Trade-Secret Theft",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNMEVLYklpOTdqdlpqTmtoMWhTTFdpeXNDMUZEVXhnUml6TFJKaC11cEM0YmlMbUU4dlBVSWtDY1ZncHF1ZWR0NTdsb2RldWk4TF9Wcm8zVEJDbDhXTnpST2U4aUlwZkpPZ1RvN0xhWDNmOUVfMzRjd3E0Ul9xaWtNandkbHBITjdUaERFRzdSVUM?oc=5",
-          "published_at": "2026-11-27T19:05:05.000Z",
+          "outlet": "decrypt.co",
+          "title": "OpenAI Turns the Tables on Apple With Its Own Trade-Secret Theft Claims",
+          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxONk1vYzhDV09XM1F6bDRVLVBTZHMwazZaMkEwWS1CVkhHY3B3MUJ1NXNaLTFsTjhhYkE0SUg5Z1Q2dkw3dno1MnliUFZQU1FUenJNOFJ6Rjdyc3ZHUjUzbENTOXNSdklIVU1MaDFxUXNXVko2QXJBUno4MjEzN3QwdVRn?oc=5",
+          "published_at": "2026-11-27T21:46:03.000Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "aa.com.tr",
-          "title": "OpenAI countersues Apple over alleged trade secret theft, supplier pressure",
-          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQTFdlVEhybGpQYV9ReG1NbmVqd1ZjTnpRSU5NNGREOGhtc05VdENOcklpNzlBV2txbG1SM3MwWlpTLVB3Y2VpMml4Z25qU2dXeUo5VThqaG5RajRuSEVLYlhxZUNlOE1jdU1TOVRlMDdMb21SU2FmY216YkxYQ0FHLUpKXzRXRWFjbmJYelBMWTdhdU5FUmx0MmJQeDhZNG9GRl9JTHdRbEo2MFZRUTkwdmxNdkUxeW82XzJlNFVMV0d4Nzdm?oc=5",
-          "published_at": "2026-11-27T19:24:07.525Z",
-          "tier1": false
-        },
-        {
-          "source": "ft-ai",
-          "outlet": "ft.com",
-          "title": "OpenAI countersues Apple for stealing trade secrets",
-          "url": "https://ft.com/content/af599e07-d44c-4068-ab84-6ee3c85551d4?syn-25a6b1a6=1",
-          "published_at": "2026-11-27T19:24:07.525Z",
-          "tier1": true
-        },
-        {
-          "source": "hn-fresh-ai",
-          "outlet": "ft.com",
-          "title": "OpenAI countersues Apple for stealing trade secrets",
-          "url": "https://ft.com/content/af599e07-d44c-4068-ab84-6ee3c85551d4",
-          "published_at": "2026-11-27T19:24:07.525Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "kitv.com",
-          "title": "OpenAI countersues Apple in ongoing trade secrets fight",
-          "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNOGpjSGlMYlBndHZYM19nT3VRLWlzbnNKdlFmS0toVW9PcDRPRDhHUDZPYzNrNkNRVUZXLXcyYkctNlAzWXVaMGNFV1BlemRDckpWamdMbko1YjdDanR4S203WnpnRTdqWGpFdnZaVTR0UVUtS1g3cWlSdGlyOHB5MjZBcF9Fdy1fNW1QMTNYTm9pSUJpZ05ibW5wTUEtT1hEbDZtaEhNejl3c3NqYXJYYU1BYjNKR01NUzZDeWhtTDlIVWtKQjd2TW1HeTZxdFNFMkJndVI4RQ?oc=5",
-          "published_at": "2026-11-27T19:24:07.525Z",
+          "outlet": "zaobao.com.sg",
+          "title": "OpenAI countersues Apple over alleged theft of secrets as tech giants’ legal battle escalates",
+          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOQlpYYlplQklLVXNVUS1xU0VpdXBsU2QxSk5tN0dTQlAwdXl6N2VMckRaZWN4TXNpMFRHWHhLNTA2U2h0U1M4WDk2QW14ZW9uRDhEOGtEUjBxSy12dFpvbFppamY2NkM5SlJTQVNNM2R0eDFNYld2aWd3ZWVVTFUwdWZCekVaYjVQbXdnMlU0VVZQOVBUVHlkWl80dFNKeEJXN0g2MHRXbDUwZURtUDRJS1pwNzhMSGFNdC16SGRyYTZEYVRJ?oc=5",
+          "published_at": "2026-11-27T23:49:15.000Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "mlq.ai",
-          "title": "OpenAI countersues Apple, alleging trade-secret theft and supplier threats",
-          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNZEttTE1pQ0dZTUJqR2o3Z0xuWDNuR2RXMzJyUXZ0QWpJZzN6YjZvcFNIWlVyR0FjNkRuY05EZFlURzYwNkxheDk5anBHLTBET1Z6SlVQSWk3XzZEczVzYjFOQ2VFY1BLQVhRMDZjdXRWMG5MMDVQZlZMY1J4UjA5SnVwOEEzckNLOW5NRjFYbUQ2bHBVZ21qWDVR?oc=5",
-          "published_at": "2026-11-27T19:24:07.525Z",
+          "outlet": "kucoin.com",
+          "title": "OpenAI Files Countersuit Against Apple Over Trade-Secret Theft Allegations",
+          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQSTF1M1JEZ0gtbUt4aE14NUY4QVpBeUc3MnJlVGRRNVhuVFk1RmpXcEwta0RoMXhzTWtVeUxHbWxBR3d5N0ZnSjJ3dXZxZGhkM2J4UE9pa25rZUZaNG43WUVrTXFsVFVmaloxWC1VSUJyRnU1SzFWblhWb2JsV1pIU0J0NmY0bXlWOEc0VzloaWxZVFhyb3VRU01pUkl5ajBOSG1mUGpuOXlqcXdo?oc=5",
+          "published_at": "2026-11-28T00:36:42.000Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "pluang.com",
-          "title": "OpenAI sues Apple over alleged trade secret the...",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPWldmeGtFekRrVGtIeGhCVkVFQ3J1ei1kSUwyTkxfby1MclpsZ3N6akFYQ191QnNZVGJBaFhsMHI2TXZ0U2g4R01ENnZXU09YRDVzLW8tZThmcGNyS0lxTkdadk91YjU0SFVfYVJmMVpQU1BvMWFuTU0xcWIzN1NPQ29pR1NWWEVEQ3VxX1hKQ0h0aU9iT1UxbEJkUlo2TEJTWkt5cHZR?oc=5",
-          "published_at": "2026-11-27T19:24:07.525Z",
-          "tier1": false
-        },
-        {
-          "source": "wires-ai",
-          "outlet": "reuters.com",
-          "title": "OpenAI countersues Apple for stealing trade secrets",
-          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQa0FibW0xZFFBUlJ2MGJkd0NEcWZtRzkzUkdWcFl1VnlRN2dRMkpjWHpKVXlIekttSno1b1RMeWxJN2dtU0ZlS085Y1ZqTkpfM2Jaci13RUdMNFVPOWtqRldaazVrX25mMExUSkU0SmJRcHJsdnZxMWJXU05MNXFzc211YzlXNzMwRTVUM1k1MW5RQTdHbnRpU1p6Y2hQMFE0UnVBSk45eHg?oc=5",
-          "published_at": "2026-11-27T19:24:07.525Z",
-          "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "the-decoder.com",
-          "title": "OpenAI countersues Apple over trade secret theft and alleged coercion of shared suppliers",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNRG9nQl9TdkRvTE1uUDVQYWFSUUh6REFsNUh1dFJ0UXZuN2VEZHp3dlI2RVRPeUJPbk5HcGRMVHpEREJreXI5M3ppMTVRZWhCeEdKV3JmRDdLS2xmQTExUEJJN0QzNU1JT0hNN3lGMkxIX1ZreTV1eDNBTnBxeEwzUlJ0bmNMZ2JuNjR6YlBsZzBsakJrUHNQeFFYVE1EWXkwU19yd0Q2TmRNckIwNGdzcnpfZk8?oc=5",
-          "published_at": "2026-11-27T19:24:07.525Z",
-          "tier1": false
-        },
-        {
-          "source": "the-decoder",
-          "outlet": "the-decoder.com",
-          "title": "OpenAI countersues Apple over trade secret theft and alleged coercion of shared suppliers",
-          "url": "https://the-decoder.com/openai-countersues-apple-over-trade-secret-theft-and-alleged-coercion-of-shared-suppliers",
-          "published_at": "2026-11-27T19:24:07.525Z",
+          "outlet": "bgnes.com",
+          "title": "OpenAI files countersuit against Apple over alleged theft of trade secrets",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOTTA0VlV4aWR2QUgzcWF3NnA0WE5tRnA0QjJ0ZFBwd2dGNHh3X1VRLTAwZlJWRDN3N3BkdENoa0RIMC1jRkVrbWtEbTJpV1IxenM2WFh4MFZfak1hRlVkZUlfQTJQbHNFblZ4UkYtbEhibmh0azNGejlmY3hKZ0tvQnJvZzZUMTZWVHNhaUpmWmtZNVlPb2pjaWUxUGlXT3dZa2tPNmJJYjNSQQ?oc=5",
+          "published_at": "2026-11-28T01:00:58.000Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "themalaysianreserve.com",
-          "title": "OpenAI countersues Apple in row over trade secrets, suppliers",
-          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPNE5WcEcwelRsQWxkOHdsamJ2VGFnRjRac1I2cVd1a21jR1hSM1BLRGREMUxDa1FZX2Jfb0dwQy1UckJjdDBVdldzTzdrbVlxRmo5RHFGQzB3T2Zmc2ZBOXhxSnBrTndCcUxLdi0wLXBiNFB3S3Fubnd5N21EcGF0aHZZcUNXMDZiMWg5SWlwaEtoMm1MREVsZDNtV2VqX3JtX29UNEt5aw?oc=5",
-          "published_at": "2026-11-27T19:24:07.525Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "washingtonexaminer.com",
-          "title": "OpenAI countersues Apple for allegedly stealing trade secrets",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNTUNXU2dwWnc4dl90UmZoZV9tc3lLNk03WmRqclpmWms5Ul9QemV3V21FRTNubml0QnZteEo0LUNqNFZ3amtFbXBrYlhTaXIzSXFJWXZzQzZuYUluNUdfZlduTElla1FMRG5jWlNCbUdEclJBbFFsNnNnbXpxcUVZN0tnc0NEb2NqOUt4a2tieURMMjNEeGVDRm04U2VXeEd5MVpFcldlQzluTDNZNWFjbk1NWHJWUQ?oc=5",
-          "published_at": "2026-11-27T19:24:07.525Z",
+          "outlet": "malaymail.com",
+          "title": "OpenAI hits back at Apple with trade secrets countersuit",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNWWtQbi1YeW5fX3V5VnZMcURrUjhidEpDUnh0Z3BwYWFHX3h3dFI2YUduT1lyRUluaGcwWERYOXZYQjBITC1iZDVfc0t4OWhXSHU0cU9EV0tLVXFoREQ5X0tleDJJMC1ONm5pNmN2VnBIUWRhWF9MRG1rR0xzRk0wbjRsTE8xM2NlaVRLeUY5bXROOWg4dnF0QjVSeWRfdXBCWWZBazBibVBxaU52dDd5M9IBtgFBVV95cUxOUmRic0ZNNkZlMmJOVmdyX0FJWDJzMUJTclV4QVBobU1ydWpVdEN2UDRHUWpZM0tsU29jLUdqT1U3NHZIUFhnMW5WMUlyOEREYWNjSmRoZ08xaWdobE5nbE5hUmJTUmlhUnRwMnNSRWxmUmVudUlRT1EtOC1GZWFJVG1Xamw4ZVFucmxXMzFlX2IwdXJIOXdLcEFObElKSnBYX3VONXdBTm9McmVBTDRLMXBSYkYtQQ?oc=5",
+          "published_at": "2026-11-28T01:02:42.000Z",
           "tier1": false
         }
       ],
@@ -559,20 +498,18 @@
         "bloomberg.com",
         "businesspost.ie",
         "cryptobriefing.com",
-        "cryptonews.net",
         "fool.com",
         "housingwire.com",
         "pluang.com",
         "reuters.com",
         "simplywall.st",
-        "theglobeandmail.com",
-        "yahoo.com"
+        "theglobeandmail.com"
       ],
       "tier1_outlets": [
         "bloomberg.com",
         "reuters.com"
       ],
-      "corroboration": 12,
+      "corroboration": 10,
       "sources": [
         "gnews-ai",
         "wires-ai"
@@ -589,7 +526,6 @@
       "item_ids": [
         "0891c2397e8352c0",
         "0f2743bce141d442",
-        "1f9589b5f15517d1",
         "284fa348d4aaf675",
         "2da776364cfd8759",
         "3855de455bc4d356",
@@ -598,11 +534,9 @@
         "59750f80e8289552",
         "812e89be1abafe6a",
         "8d3e91d4a60dc9d0",
-        "9ca922208bb4ed64",
         "a57805887482cd8f",
         "bad6d6909d7c4dac",
-        "dc75c1a072fb8aa9",
-        "f49cb0e4cf8d4c1c"
+        "dc75c1a072fb8aa9"
       ],
       "sightings": [
         {
@@ -611,22 +545,6 @@
           "title": "Anthropic shares bounce back above IPO price after rocky first week",
           "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNLWN0b0s3dGZodnJobkZVNms1eVUzelBKR3Z5ZXptdktlVnlicWY1QnRsdzRNNXFTRy1HYnJLMXVzbWhqN2VselFjc2QtMEc5MEpzRUxSMllPenl6RjBQSGxDNWMzNzJ1SnZ4amdiX2NoVlBFa3FhQXdFSHFsSlRGODlGdkFNMVdxdmJsYW8yMVVrTTl5aVRxMnJLZ0tiMjNMOHpmTTFNWQ?oc=5",
           "published_at": "2026-11-27T20:27:35.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "fool.com",
-          "title": "Anthropic Stock Is Up 11% From Its IPO Price, and One Analyst Still Sees 63% Upside. Should You Buy?",
-          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxOQ1BzYXZzWHpwQkFqSTFVbnVYSEtrVldCbGh1MXo3ZXJaM3VvaU5IMWp2T2g0ZHJ3dkJjLWJaMU9lUGVGSGxxRnl0ajczb2t0WHVWT3Q0R1R2R1JuQzVHUEV5N3hmTHF0bG83VW5JODFKMlRPM0lsdXJUYmVFSS1vcEZxQm5uUy1TSko4NEFMWHFUbXhTRFNtZkJUYmhGZjFWUk9fak9OYURrc20xV2hPNmVPallnWW5Sd2x5LUxuamxQb3p5UnByNThpUWZDOHUwQ21IVQ?oc=5",
-          "published_at": "2026-11-27T21:03:36.000Z",
-          "tier1": false
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "cryptonews.net",
-          "title": "Bitcoin price drops below $59K as Anthropic joins tech stock rebound",
-          "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9KVjhqazUxdVl3cE40WEN4R0lNRUxNdTVfLTNLRVREM2FKVWxhekw5NzR5NkE2WWpTN3JaZmZKNE5MUEZpZEtIQk9lTW85WmdXTVZtWW5KMWs?oc=5",
-          "published_at": "2026-11-27T21:17:28.000Z",
           "tier1": false
         },
         {
@@ -652,14 +570,6 @@
           "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPeVhwM1d4VGtCX3pRUlBUcWljb2JSOENMbHhNcW9WRDFCNnBrd2I5MzdkLVdOSkViVWFXeHNPQ1lwN0Rwd1kwR19XdGs0Ykd2NzBlNUVoaUMyVW5GRHFWYTl5MHlPQ0dibURnUkc5al8xczVnMmluV1ptWUhDVkQtNm9VYl9RWU1VWnVtQll3a0ZMQjFERHQ0T3F4ek80MjE4bWZWcHE0MF9Eb1ZZSzVuZk9EVHNSUQ?oc=5",
           "published_at": "2026-11-27T21:21:04.759Z",
           "tier1": true
-        },
-        {
-          "source": "gnews-ai",
-          "outlet": "yahoo.com",
-          "title": "Anthropic Stock Is Up 11% From Its IPO Price, and One Analyst Still Sees 63% Upside. Should You Buy?",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNQnVRRktwajNYOURkR3lPSDhPbmJqcmJNN3RoaUlDR3FwNHk0U3hXbjFjcl9nWTBBSVZ6Qy1GTVFhUzUtb1ZGaUJhSlJsOXRvR3B1ay1XeFhHMG5rOVdMbll6elVrZlY1bnB1TWZEN2RFNk9kMU82bTZQZ09FdUJXb1lzN1YtbUFPa1NNQVhPaERXNXFqVUlUcQ?oc=5",
-          "published_at": "2026-11-27T21:21:04.759Z",
-          "tier1": false
         },
         {
           "source": "gnews-ai",
@@ -699,6 +609,30 @@
           "title": "Anthropic shares jump nearly 11% amid renewed A...",
           "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPM294UFBObzM3M2dxbTI0U1BQWUI3ZFVKOFlsRUZZTjZDdkZqS1ZXOUhrMWtwUHRtZkdVOTd0Y3V5d2ctUm9iRXhGVlJDcEFEZEFxUW91VkoxY2o1WkkxT0JiTlFBcFhmRllxakJzQ01kNTJHMW1YX1VKN1ktTm50U2MtclFQR1U1RXI0VUVrRnVOQQ?oc=5",
           "published_at": "2026-11-27T22:05:13.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "simplywall.st",
+          "title": "Anthropic Stock Sees IPO Swings As Institutional Buying Draws Focus",
+          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNX3FCbzlrcUozc0lCWXFCV280VXEyQklOMjMwWkpWTTNqU2VMSFoyZGFvVkFoc0lVdDBBRENuTHZUWEVMSDMtZWpqNjdVQjlFQWRVaEZpSGMwY0tmUTEyV1lXLVZYeThMX29hWlBCejItRVVWVVA1NDhxNjljbk1QdzBHc2lKY0prVnBHUGN3ZDNCaFlyN1VuTmJlQ3ZsTk9vdlFXTVlUOEw4ekxzMlhnc09GZjJPekhMS1pMMjQtRlVPNVppZTJsV1Jpa9IB0AFBVV95cUxNRDQ1WlFjSDZuY1hia25DZFY4NDJzQ3l1UGNFSTFvWW1GNWFRTmJQT2prd0V5MHJYWHN0VFh4X0lRZFFyaFJWMXU4U0tCTmNnOTkwZG40SUlJNlBxNEdleUdROG44NEJ5RV9nUVJ3WHlnczdOVEtJTTBjb1FGZmFjaFdXTkthdklZQTU0TzMtVF9sbkRWQ1UtTmlOOHlKaDY1aDZNc3haY0J2ZnVZTXF1V2taaXp0LWJ1OHRqQUIwMUduU1drVHpydjNxZElHYWR5?oc=5",
+          "published_at": "2026-11-27T22:10:42.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "reuters.com",
+          "title": "Wall Street ends higher as battered AI stocks gain in volatile week",
+          "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1RekZvVTFXTjA2S2ljYTJoWlVPRWEwSnA3d05uVG5fRGY0TXFGclhDUVFCZ2pWMS1QdENsb0VlaTdOWHhQQW9mZDhMemhhNG8zRDg1Vkl6YWlCb3Bodlg3M0ZDdUkxTk0?oc=5",
+          "published_at": "2026-11-27T22:12:12.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "theglobeandmail.com",
+          "title": "Stock Market Today, Nov. 27: Anthropic Jumps 11%, Reclaiming Its $83 IPO Price as Wall Street Rallies",
+          "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxQT25Fb3hZdXhWamtsWTR6QlVjX1o0cjhFSlRWU0J6YVB1QVBNVUJPOW9NNmlKUlBwdFFGTlZsaU5iSm40M3N0T09FVlFDUnlTWXZHc0tnVy13c1d2OWpsRm1ENFNsU3JlTldOTTRUMGpjTzhfdGtJN2xBUWZpRWQ5QjRVY3JBdDFGejVOTkJmVElNN1lqX1VXS1ExNS1PS2Z1dFFXbUdnMnAtakxRY01PZUMxOTJBNXVQY2w5NHJOZjFrcnRHTjF0WnZRLTZvV0Jvd1BFekN4Xzk1VEpKOFFDMnZuVDR5em41Znc1SGR6TU1EQ2hkN3k1MktCVk1YckRpX3NYRzgtbENGUm8y?oc=5",
+          "published_at": "2026-11-27T22:17:34.783Z",
           "tier1": false
         }
       ],
@@ -1796,23 +1730,21 @@
       "outlet": "reuters.com",
       "outlets": [
         "reuters.com",
-        "theverge.com",
-        "trendingtopics.eu"
+        "theverge.com"
       ],
       "tier1_outlets": [
         "reuters.com",
         "theverge.com"
       ],
-      "corroboration": 3,
+      "corroboration": 2,
       "sources": [
         "bluesky-ai",
-        "gnews-ai",
         "wires-ai"
       ],
       "rule": [
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-11-27T21:21:02.000Z",
+      "earliest_published_at": "2026-11-27T22:32:00.000Z",
       "first_seen_at": "2026-11-25T10:28:06.323Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -1823,7 +1755,6 @@
         "32078f1136ad77a2",
         "43d5afe1fee92b5d",
         "65c8b4af5de97d95",
-        "67e4ed6adaf55270",
         "7b2870dcb6a06f63",
         "83ff5b5f384b81a7",
         "a4e35a5f6aa93a48",
@@ -1832,14 +1763,6 @@
         "db1587fddf01a0c5"
       ],
       "sightings": [
-        {
-          "source": "gnews-ai",
-          "outlet": "trendingtopics.eu",
-          "title": "Black Friday Rally Lifts 64 of 65 AI Stocks",
-          "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1iQnR4eV9ydkJadlZleURmR2RTNVdGcFVZSUUxR2FlNHc0VDVxWmlIR1p2elBZaFpnQWZka1p2QXZ5QVhGc1llVHZNVW5nNWxhUmZ0ekhsYXNTMjBVMW9TWlVTdGVGUHh3ZWRJ?oc=5",
-          "published_at": "2026-11-27T21:21:02.000Z",
-          "tier1": false
-        },
         {
           "source": "wires-ai",
           "outlet": "reuters.com",
